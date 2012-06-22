@@ -1,7 +1,9 @@
 <?php
-// файл инициализации Yii
+// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Yii
 require_once(dirname(__FILE__).'/framework/yii.php');
 
-// создаем экземпляр приложения и запускаем его
-Yii::createWebApplication()->run();
+$config=dirname(__FILE__).'/protected/config/main.php';
+
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+Yii::createWebApplication($config)->run();
 ?>
