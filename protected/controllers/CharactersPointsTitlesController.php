@@ -19,8 +19,11 @@ class CharactersPointsTitlesController extends AjaxController{
         $page = Yii::app()->request->getParam('page', false);                   // номер страницы для отображения(начало с 1) 
         $sidx = Yii::app()->request->getParam('sidx', false);                   // ключ для сортировки, ORDER BY $sidx
         $sord = Yii::app()->request->getParam('sord', false);                   // ASC/DESC
-        $searchParams = Yii::app()->request->getParam('searchParams', false);   
+        //$searchParams = Yii::app()->request->getParam('searchParams', false);   
         
+        $searchParams = array(
+            'id', 'title'
+        );
         
         
         $limit = $page - 1;
@@ -29,6 +32,21 @@ class CharactersPointsTitlesController extends AjaxController{
         
         // Основаня выборка
         $sql = "select * from characters_points_titles ";
+        
+        // фильтрация
+        if ($search) {
+            $where = array();
+            foreach($searchParams as $paramName) {
+                $paramValue = Yii::app()->request->getParam($paramName, false); 
+                if ($paramValue) {
+                    $where[] =  $whereArr[]= $paramName.' LIKE "%'.$paramValue.'%"';
+                }
+            }
+            if (count($where)>0) {
+                $sql .= ' where '.implode(" AND ", $where);
+            }
+        }
+        
         if ($sidx) {
             $sql .= " order by $sidx $sord ";
         }
