@@ -32,7 +32,8 @@ class CharactersPointsTitlesController extends AjaxController{
         if ($sidx) {
             $sql .= " order by $sidx $sord ";
         }
-        $sql .= " limit {$limit}, {$rows}";
+        $offset = $limit*$rows;
+        $sql .= " limit {$rows} offset {$offset}";
         
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
