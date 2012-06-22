@@ -27,7 +27,12 @@ class CharactersPointsTitlesController extends AjaxController{
         
         //$limit = 0; $rows =10;
         
-        $sql = "select * from characters_points_titles limit {$limit}, {$rows}";
+        // Основаня выборка
+        $sql = "select * from characters_points_titles ";
+        if ($sidx) {
+            $sql .= " order by $sidx $sord ";
+        }
+        $sql .= " limit {$limit}, {$rows}";
         
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
