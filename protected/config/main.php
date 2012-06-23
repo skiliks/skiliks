@@ -1,6 +1,9 @@
 <?php
 
 return array(
+    'import'=>array(
+        'application.models.*'
+    ),
     'components'=>array(
         'db'=>array(
             'connectionString' => 'mysql:host=localhost;dbname=skiliks',
@@ -8,8 +11,22 @@ return array(
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8'
-        )    
-    )    
+        ),
+        
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning',
+                ),
+            ),
+        )
+    ),
+    
+    
+    'preload'=>array('log')
+    
 );    
 
 ?>

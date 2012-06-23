@@ -87,6 +87,25 @@ class CharactersPointsTitlesController extends AjaxController{
         
 	$this->_sendResponse(200, CJSON::encode($data));
     }
+    
+    public function actionEdit()
+    {
+        $oper = Yii::app()->request->getParam('oper', false);
+        
+        if ($oper == 'edit') {
+            $id = Yii::app()->request->getParam('id', false);
+            $title = Yii::app()->request->getParam('title', false);
+            
+            $model = CharactersPointsTitles::model()->findByPk($id);
+            $model->title = $title;
+            $model->save();
+            
+            //$address=$user->address;
+        }
+        
+        $data = array('result'=>1);
+        $this->_sendResponse(200, CJSON::encode($data));
+    }
 }
 
 ?>
