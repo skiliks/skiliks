@@ -204,7 +204,7 @@ class DialogsController extends DictionaryController{
                     cp.add_value
                 from characters_points as cp
                 left join characters_points_titles as cpt on (cpt.id = cp.point_id)
-                where cp.id={$id}";
+                where cp.dialog_id={$id}";
                 
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);       
@@ -213,7 +213,7 @@ class DialogsController extends DictionaryController{
         foreach($dataReader as $row) { 
             $values[$row['point_id']] = $row['add_value'];
         }
-        
+        //var_dump($values);
         $sql = "select * from characters_points_titles";
         $command = $connection->createCommand($sql);       
         $dataReader = $command->query();
