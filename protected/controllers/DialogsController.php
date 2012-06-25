@@ -194,6 +194,52 @@ class DialogsController extends DictionaryController{
                 left join dialog_branches as dnb on (db.id = d.next_branch)
         ";
     }
+    
+    public function actionGetPoints() {
+        $id = (int)Yii::app()->request->getParam('id', false);
+        $sql = "select 
+                    cp.id,
+                    cp.point_id,    
+                    cpt.title,
+                    cp.add_value
+                from characters_points as cp
+                left join characters_points_titles as cpt on (cpt.id = cp.point_id)
+                where cp.id={$id}";
+                
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);       
+        $dataReader = $command->query();
+        $values = array();
+        foreach($dataReader as $row) { 
+            $values[$row['point_id']] = $row['add_value'];
+        }
+        
+        $sql = "select * from characters_points_titles";
+        $command = $connection->createCommand($sql);       
+        $dataReader = $command->query();
+        $data = array();
+        foreach($dataReader as $row) { 
+            $item = array();
+            $item[] = $row['id'];
+            $item[] = $row['title'];
+            if (isset($values[$row['id']])) {
+                $item[] = 1;
+                $item[] = $values[$row['id']];
+            }
+            else {
+                $item[] = 0;
+                $item[] = '';
+            }
+            $data[] = $item;
+        }
+        
+        $data = array(
+            'result' => 1,
+            'data' => $data
+        );
+        
+	$this->_sendResponse(200, CJSON::encode($data));
+    }
 }
 
 ?>
