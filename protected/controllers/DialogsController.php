@@ -25,6 +25,12 @@ class DialogsController extends DictionaryController{
         return implode(';', $records);
     }
     
+    /**
+     * Отображение комбика в виде html
+     * @param type $tableName
+     * @param type $nameField
+     * @return string 
+     */
     protected function _getComboboxHtml($tableName, $nameField = 'title') {
         $sql = "select * from {$tableName} ";
         $connection = Yii::app()->db;
@@ -51,7 +57,7 @@ class DialogsController extends DictionaryController{
                 'dialog_types' => $this->_getComboboxData('dialog_types'),
                 'dialog_subtypes' => $this->_getComboboxData('dialog_subtypes'),
                 'dialog_branches' => $this->_getComboboxData('dialog_branches'),
-                'characters' => $this->_getComboboxData('characters', 'name'),
+                'characters' => $this->_getComboboxData('characters'),
                 'characters_states' => $this->_getComboboxData('characters_states'),
                 'events_results' => $this->_getComboboxData('events_results')
             )
@@ -89,6 +95,34 @@ class DialogsController extends DictionaryController{
     protected function _addHandler() {}
     
     protected function _delHandler() {}
+    
+    protected function _prepareSql() {
+        return "select 
+                    d.id,
+                    cf.title as ch_from,
+                    cfs.title as ch_from_state,
+                    ct.title as ch_to,
+                    cts.title as ch_to_state,
+                    ds.title as dialog_subtype,
+                    d.text,    
+                    d.duration,
+                    er.title as event_result,
+                    db.title as branch_id,
+                    dnb.title as next_branch
+
+                from dialogs as d
+                left join dialog_branches as db on (db.id = d.branch_id)
+                left join characters as cf on (cf.id = d.ch_from)
+                left join characters_states as cfs on (cfs.id = d.ch_from_state)
+                
+                left join characters as ct on (ct.id = d.ch_to)
+                left join characters_states as cts on (cts.id = d.ch_to_state)
+                
+                left join dialog_subtypes as ds on (ds.id = d.dialog_subtype)
+                left join events_results as er on (er.id = d.event_result)
+                left join dialog_branches as dnb on (db.id = d.next_branch)
+        ";
+    }
 }
 
 ?>
