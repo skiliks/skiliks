@@ -9,7 +9,19 @@ include_once('protected/controllers/DictionaryController.php');
  */
 class DialogsController extends DictionaryController{
     
-    
+    protected $_searchParams = array(
+        'id', 
+        'ch_from',
+        'ch_from_state',
+        'ch_to',
+        'ch_to_state',
+        'dialog_subtype',
+        'text',
+        'duration',
+        'event_result',
+        'branch_id',
+        'next_branch'
+    );
     
     protected function _getComboboxData($tableName, $nameField = 'title') {
         $sql = "select * from {$tableName} ";
