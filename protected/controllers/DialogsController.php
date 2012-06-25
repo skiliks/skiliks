@@ -32,6 +32,7 @@ class DialogsController extends DictionaryController{
         
         $dataReader = $command->query();
         $html = '<select>';
+        $html .= "<option value='-1'>Все</option>";
         foreach($dataReader as $row) { 
             $html .= "<option value='{$row['id']}'>{$row[$nameField]}</option>";
         }
