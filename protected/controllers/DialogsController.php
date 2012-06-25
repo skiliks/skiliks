@@ -102,11 +102,52 @@ class DialogsController extends DictionaryController{
         $this->_sendResponse(200, $this->_getComboboxHtml('events_results'), 'text/html');
     }
     
-    protected function _editHandler() {}
+    protected function _editHandler() {
+        $id = (int)Yii::app()->request->getParam('id', false);
+        
+        $model = Dialogs::model()->findByPk($id);
+        $model->ch_from = Yii::app()->request->getParam('ch_from', false);
+        $model->ch_from_state = Yii::app()->request->getParam('ch_from_state', false);
+        $model->ch_to = Yii::app()->request->getParam('ch_to', false);
+        $model->ch_to_state = Yii::app()->request->getParam('ch_to_state', false);
+        $model->dialog_subtype = Yii::app()->request->getParam('dialog_subtype', false);
+        $model->text = Yii::app()->request->getParam('text', false);
+        $model->duration = Yii::app()->request->getParam('duration', false);
+        $model->event_result = Yii::app()->request->getParam('event_result', false);
+        $model->branch_id = Yii::app()->request->getParam('branch_id', false);
+        $model->next_branch = Yii::app()->request->getParam('next_branch', false);
+        $model->save();
+        return 1;
+    }
     
-    protected function _addHandler() {}
+    protected function _addHandler() {
+
+        $model = new Dialogs();
+        $model->ch_from = Yii::app()->request->getParam('ch_from', false);
+        $model->ch_from_state = Yii::app()->request->getParam('ch_from_state', false);
+        $model->ch_to = Yii::app()->request->getParam('ch_to', false);
+        $model->ch_to_state = Yii::app()->request->getParam('ch_to_state', false);
+        $model->dialog_subtype = Yii::app()->request->getParam('dialog_subtype', false);
+        $model->text = Yii::app()->request->getParam('text', false);
+        $model->duration = Yii::app()->request->getParam('duration', false);
+        $model->event_result = Yii::app()->request->getParam('event_result', false);
+        $model->branch_id = Yii::app()->request->getParam('branch_id', false);
+        $model->next_branch = Yii::app()->request->getParam('next_branch', false);
+        $model->insert();
+        return 1;
+    }
     
-    protected function _delHandler() {}
+    /**
+     * Обработчик удаление записи
+     * @return int
+     */
+    protected function _delHandler() {
+        $id = (int)Yii::app()->request->getParam('id', false);
+
+        $model = Dialogs::model()->findByPk($id);
+        $model->delete();
+        return 1;
+    }
     
     protected function _prepareSql() {
         return "select 
