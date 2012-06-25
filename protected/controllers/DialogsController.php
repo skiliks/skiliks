@@ -79,7 +79,7 @@ class DialogsController extends DictionaryController{
     }
     
     public function actionGetCharactersHtml() {
-        $this->_sendResponse(200, $this->_getComboboxHtml('characters', 'name'), 'text/html');
+        $this->_sendResponse(200, $this->_getComboboxHtml('characters'), 'text/html');
     }
     
     public function actionGetCharactersStatesHtml() {
