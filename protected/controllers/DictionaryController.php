@@ -22,6 +22,18 @@ abstract class DictionaryController extends AjaxController{
     protected $_searchParams = array();
     
     /**
+     * Подготовка запроса на выборку записей для грида
+     * @return string
+     */
+    protected function _prepareSql() {
+        return "select * from {$this->_tableName} ";
+    }
+    
+    protected function _prepareCountSql() {
+        return "select count(*) as count from {$this->_tableName} ";
+    }
+    
+    /**
      * Формирование данных для отдачи гриду
      * 
      * @return array
@@ -53,7 +65,7 @@ abstract class DictionaryController extends AjaxController{
 
         
         // Основаня выборка
-        $sql = "select * from {$this->_tableName} ";
+        $sql = $this->_prepareSql();
         $whereSql = '';
         
         // фильтрация
@@ -95,7 +107,7 @@ abstract class DictionaryController extends AjaxController{
         }
 
         // получение общего колличества записей в рамках критерий фильтрации
-        $sql = "select count(*) as count from {$this->_tableName} ";
+        $sql = $this->_prepareCountSql();
         $sql .= $whereSql;
         $command = $connection->createCommand($sql);
         $row = $command->queryRow(); 
