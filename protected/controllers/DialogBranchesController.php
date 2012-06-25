@@ -3,17 +3,17 @@
 include_once('protected/controllers/DictionaryController.php');
 
 /**
- * Description of DialogBrenchesController
+ * Description of DialogBranchesController
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DialogBrenchesController extends DictionaryController{
+class DialogBranchesController extends DictionaryController{
     
     /**
      * Имя выбираемой таблицы
      * @var string
      */
-    protected $_tableName = 'dialog_brenches';
+    protected $_tableName = 'dialog_branches';
     
     /**
      * Поля, по которым можно осуществлять фильтрацию
