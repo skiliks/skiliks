@@ -173,7 +173,7 @@ class DialogsController extends DictionaryController{
                 
                 left join dialog_subtypes as ds on (ds.id = d.dialog_subtype)
                 left join events_results as er on (er.id = d.event_result)
-                left join dialog_branches as dnb on (db.id = d.next_branch)
+                left join dialog_branches as dnb on (dnb.id = d.next_branch)
         ";
     }
     
