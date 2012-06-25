@@ -52,7 +52,7 @@ class DialogsController extends DictionaryController{
                 'dialog_branches' => $this->_getComboboxData('dialog_branches'),
                 'characters' => $this->_getComboboxData('characters', 'name'),
                 'characters_states' => $this->_getComboboxData('characters_states'),
-                'events_results`' => $this->_getComboboxData('events_results`')
+                'events_results' => $this->_getComboboxData('events_results')
             )
         );
         
