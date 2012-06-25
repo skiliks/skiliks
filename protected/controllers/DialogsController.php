@@ -123,6 +123,24 @@ class DialogsController extends DictionaryController{
                 left join dialog_branches as dnb on (db.id = d.next_branch)
         ";
     }
+    
+    protected function _prepareCountSql() {
+        return "select 
+                    count(*) as count
+
+                from dialogs as d
+                left join dialog_branches as db on (db.id = d.branch_id)
+                left join characters as cf on (cf.id = d.ch_from)
+                left join characters_states as cfs on (cfs.id = d.ch_from_state)
+                
+                left join characters as ct on (ct.id = d.ch_to)
+                left join characters_states as cts on (cts.id = d.ch_to_state)
+                
+                left join dialog_subtypes as ds on (ds.id = d.dialog_subtype)
+                left join events_results as er on (er.id = d.event_result)
+                left join dialog_branches as dnb on (db.id = d.next_branch)
+        ";
+    }
 }
 
 ?>
