@@ -73,6 +73,8 @@ abstract class DictionaryController extends AjaxController{
             $where = array();
             foreach($this->_searchParams as $paramName) {
                 $paramValue = Yii::app()->request->getParam($paramName, false); 
+                if ($paramValue == -1) continue;
+                
                 if ($paramValue) {
                     $where[] =  $whereArr[]= $paramName.' LIKE "%'.$paramValue.'%"';
                 }
