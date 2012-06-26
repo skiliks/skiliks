@@ -240,6 +240,33 @@ class DialogsController extends DictionaryController{
         
 	$this->_sendResponse(200, CJSON::encode($data));
     }
+    
+    public function actionSavePoints() {
+        $dialogId = (int)Yii::app()->request->getParam('id', false);
+        $points = Yii::app()->request->getParam('points', false);
+        
+        $sql = "delete from characters_points where dialog_id={$dialogId}";
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);       
+        $command->execute();
+        
+        foreach($points as $pointId => $data) {
+            if ($data['flag'] == 1) {
+                $model = new CharactersPoints();
+                $model->dialog_id = $dialogId;
+                $model->point_id = $pointId;
+                $model->add_value = $data['value'];
+                $model->insert();
+            }
+        }
+        
+        $data = array(
+            'result' => 1
+        );
+        
+	$this->_sendResponse(200, CJSON::encode($data));
+    }
 }
 
 ?>
