@@ -151,6 +151,42 @@ abstract class DictionaryController extends AjaxController{
 
         $this->_sendResponse(200, CJSON::encode(array('result' => $result)));
     }
+    
+    protected function _getComboboxData($tableName, $nameField = 'title') {
+        $sql = "select * from {$tableName} ";
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        
+        $dataReader = $command->query();
+        $data = array();
+        foreach($dataReader as $row) { 
+            $records[] = $row['id'].':'.$row[$nameField];
+        }
+        
+        return implode(';', $records);
+    }
+    
+    /**
+     * Отображение комбика в виде html
+     * @param type $tableName
+     * @param type $nameField
+     * @return string 
+     */
+    protected function _getComboboxHtml($tableName, $nameField = 'title') {
+        $sql = "select * from {$tableName} ";
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        
+        $dataReader = $command->query();
+        $html = '<select>';
+        $html .= "<option value='-1'>Все</option>";
+        foreach($dataReader as $row) { 
+            $html .= "<option value='{$row['id']}'>{$row[$nameField]}</option>";
+        }
+        $html .= '</select>';
+        
+        return $html;
+    }
 }
 
 ?>
