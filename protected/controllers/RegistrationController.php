@@ -23,7 +23,7 @@ class RegistrationController extends AjaxController{
         
         $users = new Users();
         $users->login = $login;
-        $users->password = $password;
+        $users->password = md5($password);
         $users->email = $email;
         $r = $users->insert();
         
