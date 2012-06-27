@@ -14,6 +14,18 @@ class SimulationController extends AjaxController{
      */
     public function actionStart() {
         $uid = (int)Yii::app()->request->getParam('uid', false);
+        
+        $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+        if ($model) {
+            $model->delete();
+        }
+        
+        $model = new Simulations();
+        $model->user_id = $uid;
+        $model->status = 1;
+        $model->start = time();
+        $model->diffilculty = 1;
+        $model->insert();
     }
     
     /**
@@ -21,6 +33,13 @@ class SimulationController extends AjaxController{
      */
     public function actionStop() {
         $uid = (int)Yii::app()->request->getParam('uid', false);
+        
+        $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+        if ($model) {
+            $model->end = time();
+            $model->status = 0;
+            $model->save();
+        }
     }
 }
 
