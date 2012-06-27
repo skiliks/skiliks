@@ -9,6 +9,11 @@ include_once('protected/controllers/DictionaryController.php');
  */
 class EventsChoicesController extends DictionaryController{
     
+    protected $_searchParams = array(
+        'id', 'event_id', 'event_result', 'delay', 'dstEventId'
+    ); 
+    
+    
     /**
      * Отдает информацию по всем комбикам
      */
