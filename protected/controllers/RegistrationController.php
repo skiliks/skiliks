@@ -9,26 +9,27 @@ include_once('protected/controllers/AjaxController.php');
  * @author dorian
  */
 class RegistrationController extends AjaxController{
+    
+    /**
+     * Регистрация пользоваталя.
+     */
     public function actionSave()
     {
-        $login = $_POST['login'];
-        $password = $_POST['pass1'];
+        $login = Yii::app()->request->getParam('login', false);
+        $password = Yii::app()->request->getParam('pass1', false);
+        $email = Yii::app()->request->getParam('email', false);
         
-        $dsn = "mysql:host=localhost;dbname=skiliks";
-        $connection=new CDbConnection($dsn, 'root', '');
-        // устанавливаем соединение. Можно попробовать try…catch возможных исключений
-        $connection->active=true;
+        $connection = Yii::app()->db;
         
-        $sql = "insert into users (login, password) values (:login, :password)";
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":login", $login, PDO::PARAM_STR);
-        $command->bindParam(":password", $password, PDO::PARAM_STR);
-        $result = $command->execute();
-        
+        $users = new Users();
+        $users->login = $login;
+        $users->password = $password;
+        $users->email = $email;
+        $r = $users->insert();
         
 	$rows = array(
             'result' => 1,
-            'rows' => $result,
+            'rows' => $r,
             "login"=>$login
         );
         
