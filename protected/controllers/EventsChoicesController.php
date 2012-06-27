@@ -38,10 +38,17 @@ class EventsChoicesController extends DictionaryController{
      */
     protected function _editHandler() {
         $id = (int)Yii::app()->request->getParam('id', false);
-        $title = Yii::app()->request->getParam('title', false);
+        $event_id = Yii::app()->request->getParam('event_id', false);
+        $event_result = Yii::app()->request->getParam('event_result', false);
+        $delay = Yii::app()->request->getParam('delay', false);
+        $dstEventId = Yii::app()->request->getParam('dstEventId', false);
 
-        $model = EventsResults::model()->findByPk($id);
-        $model->title = $title;
+
+        $model = EventsChoices::model()->findByPk($id);
+        $model->event_id = $event_id;
+        $model->event_result = $event_result;
+        $model->delay = $delay;
+        $model->dstEventId = $dstEventId;
         $model->save();
         return 1;
     }
@@ -51,10 +58,16 @@ class EventsChoicesController extends DictionaryController{
      * @return int
      */
     protected function _addHandler() {
-        $title = Yii::app()->request->getParam('title', false);
+        $event_id = Yii::app()->request->getParam('event_id', false);
+        $event_result = Yii::app()->request->getParam('event_result', false);
+        $delay = Yii::app()->request->getParam('delay', false);
+        $dstEventId = Yii::app()->request->getParam('dstEventId', false);
 
-        $model = new EventsResults();
-        $model->title = $title;
+        $model = new EventsChoices();
+        $model->event_id = $event_id;
+        $model->event_result = $event_result;
+        $model->delay = $delay;
+        $model->dstEventId = $dstEventId;
         $model->insert();
         return 1;
     }
@@ -66,9 +79,34 @@ class EventsChoicesController extends DictionaryController{
     protected function _delHandler() {
         $id = (int)Yii::app()->request->getParam('id', false);
 
-        $model = EventsResults::model()->findByPk($id);
+        $model = EventsChoices::model()->findByPk($id);
         $model->delete();
         return 1;
+    }
+    
+    protected function _prepareSql() {
+        return "select 
+                    ec.id,
+                    es2.title as event_id,
+                    er.title as event_result,
+                    ec.delay,
+                    es.title as dstEventId
+                from events_choices as ec
+                left join events_samples as es on (es.id = ec.dstEventId)
+                left join events_samples as es2 on (es2.id = ec.event_id)
+                left join events_results as er on (er.id = ec.event_result)
+        ";
+    }
+    
+    protected function _prepareCountSql() {
+        return "select 
+                    count(*) as count
+
+                from events_choices as ec
+                left join events_samples as es on (es.id = ec.dstEventId)
+                left join events_samples as es2 on (es2.id = ec.event_id)
+                left join events_results as er on (er.id = ec.event_result)
+        ";
     }
 }
 
