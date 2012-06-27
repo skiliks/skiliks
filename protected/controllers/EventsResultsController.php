@@ -24,6 +24,30 @@ class EventsResultsController  extends DictionaryController{
     );
     
     
+    protected function _prepareSql() {
+        return "select 
+                    ec.id,
+                    es2.title as event_id,
+                    er.title as event_result,
+                    ec.delay,
+                    es.title as dstEventId
+                from events_choices as ec
+                left join events_samples as es on (es.id = ec.dstEventId)
+                left join events_samples as es2 on (es2.id = ec.event_id)
+                left join events_results as er on (er.id = ec.event_result)
+        ";
+    }
+    
+    protected function _prepareCountSql() {
+        return "select 
+                    count(*) as count
+
+                from events_choices as ec
+                left join events_samples as es on (es.id = ec.dstEventId)
+                left join events_samples as es2 on (es2.id = ec.event_id)
+                left join events_results as er on (er.id = ec.event_result)
+        ";
+    }
     
     /**
      * Обработчик изменения записи.
