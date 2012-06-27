@@ -2,7 +2,8 @@
 
 return array(
     'import'=>array(
-        'application.models.*'
+        'application.models.*',
+        'application.components.*'
     ),
     'components'=>array(
         'db'=>array(

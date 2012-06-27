@@ -1,6 +1,6 @@
 <?php
 
-include_once('protected/controllers/DictionaryController.php');
+
 
 /**
  * Description of EventsResults
