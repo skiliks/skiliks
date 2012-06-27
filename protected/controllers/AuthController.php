@@ -27,6 +27,7 @@ class AuthController extends AjaxController{
                 $result['message'] = 'wrong password';
             }
             else {
+                $result['result'] = 1;
                 $result['sid'] = $this->_startSession($user->id);
             }
         }
@@ -43,6 +44,9 @@ class AuthController extends AjaxController{
         $user->session_id = md5(time());
         $user->start_time = time();
         $user->insert();
+        
+        Yii::app()->session['sid'] = $user->session_id;
+        
         return $user->session_id;
     }
 }
