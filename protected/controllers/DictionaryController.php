@@ -91,6 +91,7 @@ abstract class DictionaryController extends AjaxController{
         $offset = $limit*$rows;
         $sql .= " limit {$rows} offset {$offset}";
         
+        //echo($sql);
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         
