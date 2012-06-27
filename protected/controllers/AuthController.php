@@ -1,6 +1,5 @@
 <?php
 
-include_once('protected/controllers/AjaxController.php');
 
 /**
  * Контроллер авторизации
