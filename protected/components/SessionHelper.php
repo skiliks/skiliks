@@ -19,6 +19,21 @@ class SessionHelper {
         if ($session) return $session->user_id;
         return false;
     }
+    
+    /**
+     * Получение модели пользователя по sid
+     * @param int $sid
+     * @return Users 
+     */
+    public static function getUserBySid($sid) {
+        $uid = self::getUidBySid($sid);
+        if (!$uid) throw new Exception('cant find user');
+        
+        $user = Users::model()->findByAttributes(array('id'=>$uid));
+        if (!$user) throw new Exception('cant find user');
+        
+        return $user;
+    }
 }
 
 ?>

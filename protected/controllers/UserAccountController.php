@@ -12,14 +12,7 @@ class UserAccountController extends AjaxController{
     protected function _getUser() {
         $sid = Yii::app()->request->getParam('sid', false);
         
-        $uid = SessionHelper::getUidBySid($sid);
-        if (!$uid) throw new Exception('cant find user');
-
-        
-        $user = Users::model()->findByAttributes(array('id'=>$uid));
-        if (!$user) throw new Exception('cant find user');
-        
-        return $user;
+        return SessionHelper::getUserBySid($sid);
     }
     
     public function actionChangeEmail() {
