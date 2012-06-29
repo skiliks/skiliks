@@ -44,22 +44,22 @@ class EventsController extends AjaxController{
         }
         
         // получить ближайшее событие
-        $events = EventsTriggers::model()->nearest($simulation->id)->findAll();
-        if (count($events) == 0) {
+        $triggers = EventsTriggers::model()->nearest($simulation->id)->findAll();
+        if (count($triggers) == 0) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
                 'message' => 'Нет ближайших событий',
                 'code' => 4
             )));
         }
-        $event = $events[0];
+        $trigger = $triggers[0];
         
         // получить диалог
-        $eventSample = EventsSamples::model()->findByAttributes(array('id'=>$event->id));
+        $eventSample = EventsSamples::model()->findByAttributes(array('id'=>$trigger->event_id));
         if (!$eventSample) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу определить конкретное событие',
+                'message' => 'Не могу определить конкретное событие for event '.$trigger->event_id,
                 'code' => 5
             )));
         }
@@ -73,7 +73,7 @@ class EventsController extends AjaxController{
         }
         
         // Удалить полученное событие
-        $event->delete();
+        $trigger->delete();
         
         // если диалог то загружаем диалог
         $dialog = Dialogs::model()->findByAttributes(array('id'=>$dialogId));
