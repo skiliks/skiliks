@@ -48,6 +48,22 @@ class AuthController extends AjaxController{
         
         return $user->session_id;
     }
+    
+    protected function _stopSession($sid) {
+        $session = UsersSessions::model()->findByAttributes(array('session_id'=>$sid));
+        if ($user) $session->delete();
+
+        Yii::app()->session['sid'] = false;
+        
+        return true;
+    }
+    
+    public function actionLogout() {
+        $sid = Yii::app()->request->getParam('sid', false);
+        $this->_sendResponse(200, CJSON::encode(array(
+            'result' => $this->_stopSession($sid)
+        )));
+    }
 }
 
 ?>
