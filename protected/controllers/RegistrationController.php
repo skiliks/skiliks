@@ -25,7 +25,15 @@ class RegistrationController extends AjaxController{
         $users->login = $login;
         $users->password = md5($password);
         $users->email = $email;
-        $r = $users->insert();
+        $r = (int)$users->insert();
+        if ($r == 0) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => 'cant insert user'
+            )));
+        }
+        
+        $this->_notifyUser($email, $login);
         
 	$rows = array(
             'result' => 1,
@@ -34,6 +42,10 @@ class RegistrationController extends AjaxController{
         );
         
 	$this->_sendResponse(200, CJSON::encode($rows));
+    }
+    
+    protected function _notifyUser($email, $login) {
+        
     }
 }
 
