@@ -9,26 +9,31 @@
  */
 class UserAccountController extends AjaxController{
     
-    public function actionChangeEmail() {
+    protected function _getUser() {
         $sid = Yii::app()->request->getParam('sid', false);
-        $email1 = Yii::app()->request->getParam('email1', false);
         
         $uid = SessionHelper::getUidBySid($sid);
-        if (!$uid) {
-            return $this->_sendResponse(200, CJSON::encode(array(
-                'result' => 0,
-                'message' => 'cant find user'
-            )));
-        }
+        if (!$uid) throw new Exception('cant find user');
+
         
         $user = Users::model()->findByAttributes(array('id'=>$uid));
-        if (!$user) {
+        if (!$user) throw new Exception('cant find user');
+        
+        return $user;
+    }
+    
+    public function actionChangeEmail() {
+        
+        $email1 = Yii::app()->request->getParam('email1', false);
+        try {
+            $user = $this->_getUser();
+        } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'cant find user'
+                'message' => $exc->getMessage()
             )));
         }
-        
+
         $user->email = $email1;
         
         
@@ -39,8 +44,22 @@ class UserAccountController extends AjaxController{
     }
     
     public function actionChangePassword() {
+        $pass1 = Yii::app()->request->getParam('pass1', false);
+        
+        try {
+            $user = $this->_getUser();
+        } catch (Exception $exc) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => $exc->getMessage()
+            )));
+        }
+
+        $user->password = md5($pass1);
+        
+        
         $result = array(
-            'result' => 1
+            'result' => (int)$user->save()
         );
         $this->_sendResponse(200, CJSON::encode($result));
     }
