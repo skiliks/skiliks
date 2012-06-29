@@ -1,9 +1,6 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * Description of EventsSamples
@@ -23,6 +20,15 @@ class EventsSamples extends CActiveRecord{
     public function tableName()
     {
             return 'events_samples';
+    }
+    
+    public function limit($limit = 5)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'limit' => $limit,
+            'offset' => 0
+        ));
+        return $this;
     }
 }
 

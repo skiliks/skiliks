@@ -21,19 +21,29 @@ class SimulationController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode($result));
         }
         
-        $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));
-        if ($model) {
-            $model->delete();
-        }
+        // Удаляем предыдущую симуляцию
+        $simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+        if ($simulation) $simulation->delete();
         
-        $model = new Simulations();
-        $model->user_id = $uid;
-        $model->status = 1;
-        $model->start = time();
-        $model->difficulty = 1;
-        $model->insert();
+        // Создаем новую симуляцию
+        $simulation = new Simulations();
+        $simulation->user_id = $uid;
+        $simulation->status = 1;
+        $simulation->start = time();
+        $simulation->difficulty = 1;
+        $simulation->insert();
+        
+        $simId = $simulation->id;
         
         // Сделать вставки в events triggers
+        $events = EventsSamples::model()->limit(2)->findAll();
+        foreach($events as $event) {
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id = $simId;
+            $eventsTriggers->event_id = $event->id;
+            $eventsTriggers->trigger_time = time() + rand(1*60, 5*60);
+            $eventsTriggers->save();
+        }
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
