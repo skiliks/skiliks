@@ -33,7 +33,12 @@ class RegistrationController extends AjaxController{
             )));
         }
         
-        $this->_notifyUser($email, $login);
+        // отправляем пользователю уведомление что все хорошо
+        $this->_notifyUser(array(
+            'email' => $users->email,
+            'login' => $users->login,
+            'password' => $password
+        ));
         
 	$rows = array(
             'result' => 1,
@@ -44,8 +49,10 @@ class RegistrationController extends AjaxController{
 	$this->_sendResponse(200, CJSON::encode($rows));
     }
     
-    protected function _notifyUser($email, $login) {
-        
+    protected function _notifyUser($params) {
+        $message = "Поздравляем {$params['login']}, вы успешно зарегистрированы и ваш пароль {$params['password']}";
+        return MailSender::send($params['email'], 'Регистрация завершена', $message, 
+                'skilks', 'info@skiliks.com');
     }
 }
 
