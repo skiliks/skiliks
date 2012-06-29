@@ -36,7 +36,7 @@ class SimulationController extends AjaxController{
         $simId = $simulation->id;
         
         // Сделать вставки в events triggers
-        $events = EventsSamples::model()->limit(2)->findAll();
+        $events = EventsSamples::model()->limit(1)->findAll();
         foreach($events as $event) {
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id = $simId;

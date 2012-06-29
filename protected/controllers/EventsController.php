@@ -18,7 +18,8 @@ class EventsController extends AjaxController{
         if (!$sid) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не задан sid'
+                'message' => 'Не задан sid',
+                'code' => 1
             )));
         }
         
@@ -27,7 +28,8 @@ class EventsController extends AjaxController{
         if (!$uid) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу определить пользователя'
+                'message' => 'Не могу определить пользователя',
+                'code' => 2
             )));
         }
         
@@ -36,7 +38,8 @@ class EventsController extends AjaxController{
         if (!$simulation) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу определить симуляцию'
+                'message' => 'Не могу определить симуляцию',
+                'code' => 3
             )));
         }
         
@@ -45,7 +48,8 @@ class EventsController extends AjaxController{
         if (count($events) == 0) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Нет ближайших событий'
+                'message' => 'Нет ближайших событий',
+                'code' => 4
             )));
         }
         $event = $events[0];
@@ -55,25 +59,29 @@ class EventsController extends AjaxController{
         if (!$eventSample) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу определить конкретное событие'
+                'message' => 'Не могу определить конкретное событие',
+                'code' => 5
             )));
         }
         $dialogId = $eventSample->dialog_id;
         if (!$dialogId) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу определить диалог'
+                'message' => 'Не могу определить диалог',
+                'code' => 6
             )));
         }
         
         // Удалить полученное событие
+        $event->delete();
         
         // если диалог то загружаем диалог
         $dialog = Dialogs::model()->findByAttributes(array('id'=>$dialogId));
         if (!$dialog) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу загрузить модель диалога'
+                'message' => 'Не могу загрузить модель диалога',
+                'code' => 7
             )));
         }
         
