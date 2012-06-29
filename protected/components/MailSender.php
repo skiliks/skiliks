@@ -17,6 +17,8 @@ class MailSender{
      */
     public static function send($to, $subject, $message, $fromName, $fromEmail)
     {
+        return mail($to, $subject, $message);
+        
         $mimeType = 'text/html';
         $charset = 'UTF-8';
         
