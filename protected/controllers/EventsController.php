@@ -76,44 +76,27 @@ class EventsController extends AjaxController{
         $trigger->delete();
         
         // если диалог то загружаем диалог
-        $dialog = Dialogs::model()->findByAttributes(array('id'=>$dialogId));
-        if (!$dialog) {
+        try {
+            $dialog = DialogService::get($dialogId);
+        } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Не могу загрузить модель диалога',
-                'code' => 7
+                'message' => $exc->getMessage(),
+                'code' => $exc->getCode()
             )));
         }
+        
         
         $data = array();
-        $data[] = array(
-            'id' => $dialog->id,
-            'ch_from' => $dialog->ch_from,
-            'ch_from_state' => $dialog->ch_from_state,
-            'ch_to' => $dialog->ch_to,
-            'ch_to_state' => $dialog->ch_to_state,
-            'dialog_subtype' => $dialog->dialog_subtype,
-            'text' => $dialog->text
-        );
+        $data[] = DialogService::dialogToArray($dialog);
         
         // загрузить те, где branch = next_branch
-        $dialogs = Dialogs::model()->findAllByAttributes(array('branch_id' => $dialog->next_branch));
+        $dialogs = Dialogs::model()->byBrench($dialog->next_branch)->findAll();
         foreach($dialogs as $dialog) {
-            $data[] = array(
-                'id' => $dialog->id,
-                'ch_from' => $dialog->ch_from,
-                'ch_from_state' => $dialog->ch_from_state,
-                'ch_to' => $dialog->ch_to,
-                'ch_to_state' => $dialog->ch_to_state,
-                'dialog_subtype' => $dialog->dialog_subtype,
-                'text' => $dialog->text
-            );
+            $data[] = DialogService::dialogToArray($dialog);
         }
         
-        $this->_sendResponse(200, CJSON::encode(array(
-                'result' => 1,
-                'data' => $data
-            )));
+        $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
     }
 }
 

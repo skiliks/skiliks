@@ -21,6 +21,14 @@ class Dialogs extends CActiveRecord{
     {
             return 'dialogs';
     }
+    
+    public function byBrench($brenchId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'brench_id = '.$brenchId
+        ));
+        return $this;
+    }
 }
 
 ?>
