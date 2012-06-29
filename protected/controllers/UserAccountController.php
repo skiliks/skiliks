@@ -25,6 +25,14 @@ class UserAccountController extends AjaxController{
     public function actionChangeEmail() {
         
         $email1 = Yii::app()->request->getParam('email1', false);
+        $email2 = Yii::app()->request->getParam('email2', false);
+        if ($email1 != $email2) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => 'Введенные емейлы не совпадают'
+            )));
+        }
+        
         try {
             $user = $this->_getUser();
         } catch (Exception $exc) {
@@ -45,6 +53,14 @@ class UserAccountController extends AjaxController{
     
     public function actionChangePassword() {
         $pass1 = Yii::app()->request->getParam('pass1', false);
+        $pass2 = Yii::app()->request->getParam('pass2', false);
+        
+        if ($pass1 != $pass2) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => 'Введенные пароли не совпадают'
+            )));
+        }
         
         try {
             $user = $this->_getUser();
