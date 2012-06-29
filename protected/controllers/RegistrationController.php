@@ -57,7 +57,7 @@ class RegistrationController extends AjaxController{
     protected function _notifyUser($params) {
         $message = "Поздравляем {$params['login']}, вы успешно зарегистрированы и ваш пароль {$params['password']}";
         return MailSender::send($params['email'], 'Регистрация завершена', $message, 
-                'www-data', 'www-data@skiliks.com');
+                'skiliks', 'info@skiliks.com');
     }
 }
 
