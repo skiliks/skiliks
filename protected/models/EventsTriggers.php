@@ -20,6 +20,19 @@ class EventsTriggers extends CActiveRecord{
     {
             return 'events_triggers';
     }
+    
+    /**
+     * Вернуть ближайшее событие
+     * @return EventsTriggers 
+     */
+    public function nearest($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'trigger_time <= '.time().' and sim_id='.$simId,
+            'limit' => 1,
+        ));
+        return $this;
+    }
 }
 
 ?>
