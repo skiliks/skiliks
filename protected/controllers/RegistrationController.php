@@ -34,11 +34,16 @@ class RegistrationController extends AjaxController{
         }
         
         // отправляем пользователю уведомление что все хорошо
-        $this->_notifyUser(array(
+        if (!$this->_notifyUser(array(
             'email' => $users->email,
             'login' => $users->login,
             'password' => $password
-        ));
+        ))) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => 'cant email user'
+            )));
+        }
         
 	$rows = array(
             'result' => 1,
