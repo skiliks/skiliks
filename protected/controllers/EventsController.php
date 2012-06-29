@@ -14,7 +14,7 @@ class EventsController extends AjaxController{
      * Опрос состояния событий
      */
     public function actionGetState() {
-        $simId = (int)Yii::app()->request->getParam('simId', false);
+        $simId = (int)Yii::app()->request->getParam('simId', false);  //sid
     }
 }
 
