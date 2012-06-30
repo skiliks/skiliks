@@ -16,18 +16,18 @@ class DialogController extends AjaxController{
     public function actionGet() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
-            if (!$sid) throw new Exception('Не задан sid');
+            if (!$sid) throw new Exception('Не задан sid', 1);
             
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
-            if (!$dialogId) throw new Exception('Не задан диалог');
+            if (!$dialogId) throw new Exception('Не задан диалог', 2);
             
             $dialog = DialogService::get($dialogId);
-            if (!$dialog) throw new Exception('Не могу загрузить диалог');
+            if (!$dialog) throw new Exception('Не могу загрузить диалог', 3);
             
             
             // @todo: загрузить диалог по nextBranch
             $dialog = DialogService::get($dialog->next_branch);
-            if (!$dialog) throw new Exception('Не могу загрузить диалог по ветке');
+            if (!$dialog) throw new Exception('Не могу загрузить диалог по ветке', 4);
             
             // @todo: загрузить варианта ответов
             $data = array();
@@ -35,7 +35,7 @@ class DialogController extends AjaxController{
 
             // загрузить те, где branch = next_branch
             $dialogs = Dialogs::model()->byBranch($dialog->next_branch)->findAll();
-            if (!$dialogs) throw new Exception('Не могу загрузить варианты ответов');
+            if (!$dialogs) throw new Exception('Не могу загрузить варианты ответов', 5);
             foreach($dialogs as $dialog) {
                 $data[] = DialogService::dialogToArray($dialog);
             }
