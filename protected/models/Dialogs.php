@@ -22,10 +22,10 @@ class Dialogs extends CActiveRecord{
             return 'dialogs';
     }
     
-    public function byBrench($brenchId)
+    public function byBranch($branchId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'brench_id = '.$brenchId
+            'condition' => 'branch_id = '.$branchId
         ));
         return $this;
     }

@@ -91,7 +91,7 @@ class EventsController extends AjaxController{
         $data[] = DialogService::dialogToArray($dialog);
         
         // загрузить те, где branch = next_branch
-        $dialogs = Dialogs::model()->byBrench($dialog->next_branch)->findAll();
+        $dialogs = Dialogs::model()->byBranch($dialog->next_branch)->findAll();
         foreach($dialogs as $dialog) {
             $data[] = DialogService::dialogToArray($dialog);
         }
