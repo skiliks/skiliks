@@ -41,7 +41,7 @@ class SimulationController extends AjaxController{
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id = $simId;
             $eventsTriggers->event_id = $event->id;
-            $eventsTriggers->trigger_time = time() + rand(1*60, 5*60);
+            $eventsTriggers->trigger_time = time() + 20; //rand(1*60, 5*60);
             $eventsTriggers->save();
         }
         
