@@ -24,6 +24,26 @@ class DialogController extends AjaxController{
             $dialog = DialogService::get($dialogId);
             if (!$dialog) throw new Exception('Не могу загрузить диалог', 3);
             
+            if ($dialog->event_result > 0) { // если данный вариант ответа должен сгенерировать событие
+                // смотрим что это может быть за событие
+                
+                // получаем uid
+                $uid = SessionHelper::getUidBySid($sid);
+                
+                // получаем идентификатор симуляции
+                $simId = SimulationService::get($uid);
+                
+                // получаем текущее событие в рамках данной симуляции
+                $currentEventId = EventService::getCurrent($simId);
+                
+                // получить информацию о последующем событии
+                $eventChoise = EventsChoices::model()->byEventAndResult($currentEventId, $dialog->event_result)->find();
+                if ($eventChoise) {
+                    // добавить в очередь новое событие
+                    EventService::addToQueue($simId, $eventChoise->dstEventId, time() + $eventChoise->delay);
+                }
+            }
+            
             
             // @todo: загрузить диалог по nextBranch
             $dialog = Dialogs::model()->byBranch($dialog->next_branch)->find();

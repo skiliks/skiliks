@@ -21,6 +21,14 @@ class Simulations extends CActiveRecord{
     {
             return 'simulations';
     }
+    
+    public function byUid($uid)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'user_id = '.(int)$uid
+        ));
+        return $this;
+    }
 }
 
 ?>

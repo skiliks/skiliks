@@ -24,6 +24,14 @@ class EventsStates extends CActiveRecord{
     {
             return 'events_states';
     }
+    
+    public function bySimulation($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'sim_id = '.(int)$simId
+        ));
+        return $this;
+    }
 }
 
 ?>

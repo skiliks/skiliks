@@ -24,6 +24,14 @@ class EventsChoices extends CActiveRecord{
     {
             return 'events_choices';
     }
+    
+    public function byEventAndResult($eventId, $eventResult)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " event_id = {$$eventId} and event_result = {$eventResult} "
+        ));
+        return $this;
+    }
 }
 
 ?>
