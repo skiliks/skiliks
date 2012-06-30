@@ -28,7 +28,9 @@ class EventsStates extends CActiveRecord{
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'sim_id = '.(int)$simId
+            'condition' => 'sim_id = '.(int)$simId,
+            'order' => 'id desc',
+            'limit' => 1
         ));
         return $this;
     }
