@@ -26,7 +26,7 @@ class DialogController extends AjaxController{
             
             
             // @todo: загрузить диалог по nextBranch
-            $dialog = DialogService::get($dialog->next_branch);
+            $dialog = Dialogs::model()->byBranch($dialog->next_branch)->find();
             if (!$dialog) throw new Exception('Не могу загрузить диалог по ветке', 4);
             
             // @todo: загрузить варианта ответов
@@ -34,10 +34,12 @@ class DialogController extends AjaxController{
             $data[] = DialogService::dialogToArray($dialog);
 
             // загрузить те, где branch = next_branch
-            $dialogs = Dialogs::model()->byBranch($dialog->next_branch)->findAll();
-            if (!$dialogs) throw new Exception('Не могу загрузить варианты ответов', 5);
-            foreach($dialogs as $dialog) {
-                $data[] = DialogService::dialogToArray($dialog);
+            if ($dialog->ch_to_state == 1) {  // если этот диалог это обращение к нам, то загружаем варианты ответов
+                $dialogs = Dialogs::model()->byBranch($dialog->next_branch)->findAll();
+                if (!$dialogs) throw new Exception('Не могу загрузить варианты ответов for '.$dialog->next_branch, 5);
+                foreach($dialogs as $dialog) {
+                    $data[] = DialogService::dialogToArray($dialog);
+                }
             }
 
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
