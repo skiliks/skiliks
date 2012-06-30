@@ -86,6 +86,20 @@ class EventsController extends AjaxController{
             )));
         }
         
+        // запоминаем текущее событие
+        $eventsStates = EventsStates::model()->findByAttributes(array(
+            'sim_id' => $simulation->id,
+            'event_id' => $eventSample->id
+        ));
+        if ($eventsStates) $eventsStates->delete();
+        
+        $eventsStates = new EventsStates();
+        $eventsStates->sim_id = $simulation->id;
+        $eventsStates->event_id = $eventSample->id;
+        $eventsStates->cur_dialog_id = $dialogId;
+        $eventsStates->result = 0;
+        $eventsStates->insert();
+        
         
         $data = array();
         $data[] = DialogService::dialogToArray($dialog);
