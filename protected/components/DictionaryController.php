@@ -125,12 +125,15 @@ abstract class DictionaryController extends AjaxController{
         $row = $command->queryRow(); 
         $totalRows = $row['count'];
         
+        $total = 0;
+        if ($rows > 0) $total = ceil($totalRows / $rows);
+        
         $data = array(
             'result' => 1,
             'rows' => $records,                 //  записи грида
             'records' => $totalRows,            //  кол-во записей в таблице
             'page' => $page,                    // номер страницы
-            'total' => ceil($totalRows / $rows) // всего страниц
+            'total' => $total                   // всего страниц
         );
         
 	$this->_sendResponse(200, CJSON::encode($data));
