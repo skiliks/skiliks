@@ -17,7 +17,15 @@ class RegistrationController extends AjaxController{
     {
         $login = Yii::app()->request->getParam('login', false);
         $password = Yii::app()->request->getParam('pass1', false);
+        $password2 = Yii::app()->request->getParam('pass2', false);
         $email = Yii::app()->request->getParam('email', false);
+        
+        if ($password != $password2) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => 'Введенные пароли не совпадают'
+            )));
+        }
         
         $connection = Yii::app()->db;
         
