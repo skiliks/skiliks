@@ -97,6 +97,16 @@ class CharactersPointsTitlesController extends DictionaryController{
             ), 'text/html');
     }
     
+    protected function _prepareSql() {
+        return "select 
+                    cpt.id, 
+                    cpt.title, 
+                    cpt.code, 
+                    cptp.title as parent_id, 
+                    cpt.scale
+                from {$this->_tableName} as cpt
+                left join {$this->_tableName} as cptp on (cptp.id = cpt.parent_id) ";
+    }
 }
 
 ?>
