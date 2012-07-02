@@ -64,6 +64,27 @@ class CharactersPointsTitlesController extends DictionaryController{
         return 1;
     }
     
+    /**
+     * Отдает информацию по всем комбикам
+     */
+    public function actionGetSelect() {
+        $result = array(
+            'result'=>1,
+            'data'=>array(
+                'characters_points_titles' => $this->_getComboboxData('characters_points_titles', 'title', ' WHERE parent_id is null ')
+            )
+        );
+        
+        $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
+    public function actionGetCharactersPointsTitlesHtml() {
+        $this->_sendResponse(200, $this->_getComboboxHtml(
+                'characters_points_titles',
+                'title', ' WHERE parent_id is null '
+            ), 'text/html');
+    }
+    
 }
 
 ?>
