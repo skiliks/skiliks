@@ -165,8 +165,8 @@ abstract class DictionaryController extends AjaxController{
         $this->_sendResponse(200, CJSON::encode(array('result' => $result)));
     }
     
-    protected function _getComboboxData($tableName, $nameField = 'title') {
-        $sql = "select * from {$tableName} ";
+    protected function _getComboboxData($tableName, $nameField = 'title', $condition='') {
+        $sql = "select * from {$tableName} ".$condition;
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         
@@ -185,8 +185,8 @@ abstract class DictionaryController extends AjaxController{
      * @param type $nameField
      * @return string 
      */
-    protected function _getComboboxHtml($tableName, $nameField = 'title') {
-        $sql = "select * from {$tableName} ";
+    protected function _getComboboxHtml($tableName, $nameField = 'title', $condition='') {
+        $sql = "select * from {$tableName} ".$condition;
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         
