@@ -20,7 +20,7 @@ class CharactersPointsTitlesController extends DictionaryController{
      * @var array
      */
     protected $_searchParams = array(
-        'id', 'title'
+        'id', 'title', 'code', 'parent_id', 'scale'
     );
     
     
@@ -32,9 +32,15 @@ class CharactersPointsTitlesController extends DictionaryController{
     protected function _editHandler() {
         $id = (int)Yii::app()->request->getParam('id', false);
         $title = Yii::app()->request->getParam('title', false);
-
+        $code = Yii::app()->request->getParam('code', false);
+        $parentId = (int)Yii::app()->request->getParam('parent_id', false);
+        $scale = (int)Yii::app()->request->getParam('scale', false);
+        
         $model = CharactersPointsTitles::model()->findByPk($id);
         $model->title = $title;
+        $model->code = $code;
+        $model->parent_id = $parentId;
+        $model->scale = $scale;
         $model->save();
         return 1;
     }
@@ -45,9 +51,15 @@ class CharactersPointsTitlesController extends DictionaryController{
      */
     protected function _addHandler() {
         $title = Yii::app()->request->getParam('title', false);
+        $code = Yii::app()->request->getParam('code', false);
+        $parentId = (int)Yii::app()->request->getParam('parent_id', false);
+        $scale = (int)Yii::app()->request->getParam('scale', false);
 
         $model = new CharactersPointsTitles();
         $model->title = $title;
+        $model->code = $code;
+        $model->parent_id = $parentId;
+        $model->scale = $scale;
         $model->insert();
         return 1;
     }
