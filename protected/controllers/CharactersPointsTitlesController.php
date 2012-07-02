@@ -100,9 +100,9 @@ class CharactersPointsTitlesController extends DictionaryController{
     protected function _prepareSql() {
         return "select 
                     cpt.id, 
-                    cpt.title, 
+                    cpt.title  as parent_id, 
                     cpt.code, 
-                    cptp.title as parent_id, 
+                    cptp.title, 
                     cpt.scale
                 from {$this->_tableName} as cpt
                 left join {$this->_tableName} as cptp on (cptp.id = cpt.parent_id) ";
