@@ -196,8 +196,8 @@ class DialogsController extends DictionaryController{
                     cpt.title,
                     cp.add_value
                 from characters_points as cp
-                left join characters_points_titles as cpt on (cpt.id = cp.point_id and cpt.parent_id is null)
-                where cp.dialog_id={$id} ";
+                left join characters_points_titles as cpt on (cpt.id = cp.point_id)
+                where cp.dialog_id={$id}  and cpt.parent_id > 0";
                 
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);       
