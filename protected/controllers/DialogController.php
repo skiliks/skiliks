@@ -24,14 +24,17 @@ class DialogController extends AjaxController{
             $dialog = DialogService::get($dialogId);
             if (!$dialog) throw new Exception('Не могу загрузить диалог', 3);
             
+            // получаем uid
+            $uid = SessionHelper::getUidBySid($sid);
+
+            // получаем идентификатор симуляции
+            $simId = SimulationService::get($uid);
+            
+            // рассчитываем оценку по данному диалогу
+            CalculationEstimateService::calculate($dialogId, $simId);
+            
             if ($dialog->event_result > 0) { // если данный вариант ответа должен сгенерировать событие
                 // смотрим что это может быть за событие
-                
-                // получаем uid
-                $uid = SessionHelper::getUidBySid($sid);
-                
-                // получаем идентификатор симуляции
-                $simId = SimulationService::get($uid);
                 
                 // получаем текущее событие в рамках данной симуляции
                 $currentEventId = EventService::getCurrent($simId);
