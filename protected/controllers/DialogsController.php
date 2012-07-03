@@ -165,6 +165,31 @@ class DialogsController extends DictionaryController{
     
     public function actionGetPoints() {
         $id = (int)Yii::app()->request->getParam('id', false);
+        
+        $data = array();
+        
+        $items = CharactersPointsTitles::model()->withoutParents()->findAll();
+        foreach($items as $item) {
+            $data['parents'][] = array(
+                'id' => $item->id,
+                'name' => $item->title,
+                'code' => $item->code
+            );
+        }
+        /*
+        $items = CharactersPointsTitles::model()->withParents()->findAll();
+        foreach($items as $item) {
+            $data['childs'][] = array(
+                'id' => $item->id,
+                'parent_id' => $item->parent_id,
+                'code' => $item->code,
+                'name' => $item->title,
+                
+            );
+        }
+        */
+        
+        
         $sql = "select 
                     cp.id,
                     cp.point_id,    
@@ -172,7 +197,7 @@ class DialogsController extends DictionaryController{
                     cp.add_value
                 from characters_points as cp
                 left join characters_points_titles as cpt on (cpt.id = cp.point_id)
-                where cp.dialog_id={$id}";
+                where cp.dialog_id={$id} and cp.parent_id is nul";
                 
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);       
@@ -185,7 +210,7 @@ class DialogsController extends DictionaryController{
         $sql = "select * from characters_points_titles";
         $command = $connection->createCommand($sql);       
         $dataReader = $command->query();
-        $data = array();
+        
         foreach($dataReader as $row) { 
             $item = array();
             $item[] = $row['id'];
@@ -198,7 +223,7 @@ class DialogsController extends DictionaryController{
                 $item[] = 0;
                 $item[] = '';
             }
-            $data[] = $item;
+            $data['childs'] = $item;
         }
         
         $data = array(

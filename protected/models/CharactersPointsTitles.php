@@ -1,9 +1,6 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
  * Description of CharactersPointsTitles
@@ -22,6 +19,26 @@ class CharactersPointsTitles extends CActiveRecord{
     public function tableName()
     {
             return 'characters_points_titles';
+    }
+    
+    /**
+     * Выбрать записи, у которых нет родителей
+     * @return CharactersPointsTitles 
+     */
+    public function withoutParents()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'parent_id is null'
+        ));
+        return $this;
+    }
+    
+    public function withParents()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'parent_id > 0'
+        ));
+        return $this;
     }
 }
 
