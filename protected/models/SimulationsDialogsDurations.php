@@ -1,13 +1,16 @@
 <?php
 
-
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
- * Модель диалогов
+ * Description of SimulationsDialogsDurations
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Dialogs extends CActiveRecord{
+class SimulationsDialogsDurations extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {
@@ -19,20 +22,14 @@ class Dialogs extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'dialogs';
+            return 'simulations_dialogs_durations';
     }
     
-    public function byBranch($branchId)
+    public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'branch_id = '.$branchId
+            'condition' => 'sim_id = '.(int)$simId
         ));
-        return $this;
-    }
-    
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array('condition' => 'id = '.$id));
         return $this;
     }
 }
