@@ -227,7 +227,7 @@ class DialogsController extends DictionaryController{
                 $item['flag'] = 0;
                 $item['add_value'] = '';
             }
-            $data['childs'] = $item;
+            $data['childs'][] = $item;
         }
         
         $data = array(
