@@ -207,7 +207,7 @@ class DialogsController extends DictionaryController{
             $values[$row['point_id']] = $row['add_value'];
         }
         //var_dump($values);
-        $sql = "select * from characters_points_titles";
+        $sql = "select * from characters_points_titles where parent_id > 0";
         $command = $connection->createCommand($sql);       
         $dataReader = $command->query();
         
