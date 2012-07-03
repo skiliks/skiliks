@@ -194,7 +194,9 @@ class DialogsController extends DictionaryController{
                     cp.id,
                     cp.point_id,    
                     cpt.title,
-                    cp.add_value
+                    cp.add_value,
+                    cpt.parent_id,
+                    cpt.code
                 from characters_points as cp
                 left join characters_points_titles as cpt on (cpt.id = cp.point_id)
                 where cp.dialog_id={$id}  and cpt.parent_id > 0";
@@ -213,15 +215,17 @@ class DialogsController extends DictionaryController{
         
         foreach($dataReader as $row) { 
             $item = array();
-            $item[] = $row['id'];
-            $item[] = $row['title'];
+            $item['id'] = $row['id'];
+            $item['parent_id'] = $row['parent_id'];
+            $item['code'] = $row['code'];
+            $item['name'] = $row['title'];
             if (isset($values[$row['id']])) {
-                $item[] = 1;
-                $item[] = $values[$row['id']];
+                $item['flag'] = 1;
+                $item['add_value'] = $values[$row['id']];
             }
             else {
-                $item[] = 0;
-                $item[] = '';
+                $item['flag'] = 0;
+                $item['add_value'] = '';
             }
             $data['childs'] = $item;
         }
