@@ -87,7 +87,9 @@ class DialogsController extends DictionaryController{
         $model->code = Yii::app()->request->getParam('code', false);
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
-        $model->next_event = Yii::app()->request->getParam('next_event', false);
+        $nextEvent = Yii::app()->request->getParam('next_event', false);
+        if ($nextEvent == 0) $nextEvent = null;
+        $model->next_event = $nextEvent; 
         $model->save();
         return 1;
     }
@@ -106,7 +108,9 @@ class DialogsController extends DictionaryController{
         $model->code = Yii::app()->request->getParam('code', false);
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
-        $model->next_event = Yii::app()->request->getParam('next_event', false);
+        $nextEvent = Yii::app()->request->getParam('next_event', false);
+        if ($nextEvent == 0) $nextEvent = null;
+        $model->next_event = $nextEvent; 
         $model->insert();
         return 1;
     }
