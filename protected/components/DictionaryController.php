@@ -171,7 +171,7 @@ abstract class DictionaryController extends AjaxController{
         $command = $connection->createCommand($sql);
         
         $dataReader = $command->query();
-        $data = array();
+        $records = array();
         foreach($dataReader as $row) { 
             $records[] = $row['id'].':'.$row[$nameField];
         }

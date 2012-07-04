@@ -32,7 +32,7 @@ class EventsSamplesController extends DictionaryController{
         $result = array(
             'result'=>1,
             'data'=>array(
-                'dialogs' => $this->_getComboboxData('dialogs', 'text'),
+                'dialogs' => $this->_getComboboxData('dialogs', 'text', ' where step_number=1 and replica_number=0 '),
                 'events_results' => $this->_getComboboxData('events_results'),
                 'events_on_hold_logic' => $this->_getComboboxData('events_on_hold_logic')
             )
@@ -42,7 +42,7 @@ class EventsSamplesController extends DictionaryController{
     }
     
     public function actionGetDialogsHtml() {
-        $this->_sendResponse(200, $this->_getComboboxHtml('dialogs', 'text'), 'text/html');
+        $this->_sendResponse(200, $this->_getComboboxHtml('dialogs', 'text'), 'text/html', ' where step_number=1 and replica_number=0 ');
     }
     
     public function actionGetEventsResultsHtml() {
