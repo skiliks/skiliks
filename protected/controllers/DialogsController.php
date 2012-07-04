@@ -135,6 +135,7 @@ class DialogsController extends DictionaryController{
     protected function _prepareSql() {
         return "select 
                     d.id,
+                    d.code,
                     cf.title as ch_from,
                     cfs.title as ch_from_state,
                     ct.title as ch_to,
@@ -143,7 +144,7 @@ class DialogsController extends DictionaryController{
                     d.text,    
                     d.duration,
                     er.title as event_result,
-                    d.code,
+                    
                     d.step_number,
                     d.replica_number,
                     es.title as next_event    
