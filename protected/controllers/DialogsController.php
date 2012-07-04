@@ -19,8 +19,10 @@ class DialogsController extends DictionaryController{
         'text',
         'duration',
         'event_result',
-        'branch_id',
-        'next_branch'
+        'code',
+        'step_number',
+        'replica_number',
+        'next_event'
     );
     
     
@@ -36,7 +38,7 @@ class DialogsController extends DictionaryController{
             'data'=>array(
                 'dialog_types' => $this->_getComboboxData('dialog_types'),
                 'dialog_subtypes' => $this->_getComboboxData('dialog_subtypes'),
-                'dialog_branches' => $this->_getComboboxData('dialog_branches'),
+                //'dialog_branches' => $this->_getComboboxData('dialog_branches'),
                 'characters' => $this->_getComboboxData('characters'),
                 'characters_states' => $this->_getComboboxData('characters_states'),
                 'events_results' => $this->_getComboboxData('events_results')
@@ -54,9 +56,9 @@ class DialogsController extends DictionaryController{
         $this->_sendResponse(200, $this->_getComboboxHtml('dialog_subtypes'), 'text/html');
     }
     
-    public function actionGetDialogBranchesHtml() {
+    /*public function actionGetDialogBranchesHtml() {
         $this->_sendResponse(200, $this->_getComboboxHtml('dialog_branches'), 'text/html');
-    }
+    }*/
     
     public function actionGetCharactersHtml() {
         $this->_sendResponse(200, $this->_getComboboxHtml('characters'), 'text/html');
@@ -82,8 +84,10 @@ class DialogsController extends DictionaryController{
         $model->text = Yii::app()->request->getParam('text', false);
         $model->duration = Yii::app()->request->getParam('duration', false);
         $model->event_result = Yii::app()->request->getParam('event_result', false);
-        $model->branch_id = Yii::app()->request->getParam('branch_id', false);
-        $model->next_branch = Yii::app()->request->getParam('next_branch', false);
+        $model->code = Yii::app()->request->getParam('code', false);
+        $model->step_number = Yii::app()->request->getParam('step_number', false);
+        $model->replica_number = Yii::app()->request->getParam('replica_number', false);
+        $model->next_event = Yii::app()->request->getParam('next_event', false);
         $model->save();
         return 1;
     }
@@ -99,8 +103,10 @@ class DialogsController extends DictionaryController{
         $model->text = Yii::app()->request->getParam('text', false);
         $model->duration = Yii::app()->request->getParam('duration', false);
         $model->event_result = Yii::app()->request->getParam('event_result', false);
-        $model->branch_id = Yii::app()->request->getParam('branch_id', false);
-        $model->next_branch = Yii::app()->request->getParam('next_branch', false);
+        $model->code = Yii::app()->request->getParam('code', false);
+        $model->step_number = Yii::app()->request->getParam('step_number', false);
+        $model->replica_number = Yii::app()->request->getParam('replica_number', false);
+        $model->next_event = Yii::app()->request->getParam('next_event', false);
         $model->insert();
         return 1;
     }
@@ -128,11 +134,11 @@ class DialogsController extends DictionaryController{
                     d.text,    
                     d.duration,
                     er.title as event_result,
-                    db.title as branch_id,
-                    dnb.title as next_branch
-
+                    d.step_number,
+                    d.replica_number,
+                    es.title as next_event    
                 from dialogs as d
-                left join dialog_branches as db on (db.id = d.branch_id)
+
                 left join characters as cf on (cf.id = d.ch_from)
                 left join characters_states as cfs on (cfs.id = d.ch_from_state)
                 
@@ -141,7 +147,7 @@ class DialogsController extends DictionaryController{
                 
                 left join dialog_subtypes as ds on (ds.id = d.dialog_subtype)
                 left join events_results as er on (er.id = d.event_result)
-                left join dialog_branches as dnb on (dnb.id = d.next_branch)
+                left join events_samples as es on (es.id = d.next_event)
         ";
     }
     
@@ -150,7 +156,7 @@ class DialogsController extends DictionaryController{
                     count(*) as count
 
                 from dialogs as d
-                left join dialog_branches as db on (db.id = d.branch_id)
+                
                 left join characters as cf on (cf.id = d.ch_from)
                 left join characters_states as cfs on (cfs.id = d.ch_from_state)
                 
@@ -159,7 +165,7 @@ class DialogsController extends DictionaryController{
                 
                 left join dialog_subtypes as ds on (ds.id = d.dialog_subtype)
                 left join events_results as er on (er.id = d.event_result)
-                left join dialog_branches as dnb on (db.id = d.next_branch)
+                left join events_samples as es on (es.id = d.next_event)
         ";
     }
     
