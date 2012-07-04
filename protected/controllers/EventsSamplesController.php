@@ -20,7 +20,8 @@ class EventsSamplesController extends DictionaryController{
             'fieldName' => 'es.dialog_id'
         ), 
         'on_ignore_result', 
-        'on_hold_logic'
+        'on_hold_logic',
+        'code'
     );
     
     
@@ -60,6 +61,7 @@ class EventsSamplesController extends DictionaryController{
         $model->dialog_id = (int)Yii::app()->request->getParam('dialog_id', false);
         $model->on_ignore_result = (int)Yii::app()->request->getParam('on_ignore_result', false);
         $model->on_hold_logic = (int)Yii::app()->request->getParam('on_hold_logic', false);
+        $model->code = (int)Yii::app()->request->getParam('code', false);
         $model->save();
         return 1;
     }
@@ -70,6 +72,7 @@ class EventsSamplesController extends DictionaryController{
         $model->dialog_id = (int)Yii::app()->request->getParam('dialog_id', false);
         $model->on_ignore_result = (int)Yii::app()->request->getParam('on_ignore_result', false);
         $model->on_hold_logic = (int)Yii::app()->request->getParam('on_hold_logic', false);
+        $model->code = (int)Yii::app()->request->getParam('code', false);
         $model->insert();
         return 1;
     }
@@ -85,6 +88,7 @@ class EventsSamplesController extends DictionaryController{
     protected function _prepareSql() {
         return "select 
                     es.id,
+                    es.code,
                     es.title,
                     d.text,
                     er.title as on_ignore_result,
