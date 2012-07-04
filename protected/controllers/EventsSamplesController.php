@@ -42,7 +42,7 @@ class EventsSamplesController extends DictionaryController{
     }
     
     public function actionGetDialogsHtml() {
-        $this->_sendResponse(200, $this->_getComboboxHtml('dialogs', 'text'), 'text/html', ' where step_number=1 and replica_number=0 ');
+        $this->_sendResponse(200, $this->_getComboboxHtml('dialogs', 'text', ' where step_number=1 and replica_number=0 '), 'text/html');
     }
     
     public function actionGetEventsResultsHtml() {
