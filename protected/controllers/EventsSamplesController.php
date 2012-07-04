@@ -61,7 +61,7 @@ class EventsSamplesController extends DictionaryController{
         $model->dialog_id = (int)Yii::app()->request->getParam('dialog_id', false);
         $model->on_ignore_result = (int)Yii::app()->request->getParam('on_ignore_result', false);
         $model->on_hold_logic = (int)Yii::app()->request->getParam('on_hold_logic', false);
-        $model->code = (int)Yii::app()->request->getParam('code', false);
+        $model->code = Yii::app()->request->getParam('code', false);
         $model->save();
         return 1;
     }
@@ -72,7 +72,7 @@ class EventsSamplesController extends DictionaryController{
         $model->dialog_id = (int)Yii::app()->request->getParam('dialog_id', false);
         $model->on_ignore_result = (int)Yii::app()->request->getParam('on_ignore_result', false);
         $model->on_hold_logic = (int)Yii::app()->request->getParam('on_hold_logic', false);
-        $model->code = (int)Yii::app()->request->getParam('code', false);
+        $model->code = Yii::app()->request->getParam('code', false);
         $model->insert();
         return 1;
     }
