@@ -41,7 +41,8 @@ class DialogsController extends DictionaryController{
                 //'dialog_branches' => $this->_getComboboxData('dialog_branches'),
                 'characters' => $this->_getComboboxData('characters'),
                 'characters_states' => $this->_getComboboxData('characters_states'),
-                'events_results' => $this->_getComboboxData('events_results')
+                'events_results' => $this->_getComboboxData('events_results'),
+                'events_samples' => $this->_getComboboxData('events_samples')
             )
         );
         
@@ -70,6 +71,10 @@ class DialogsController extends DictionaryController{
     
     public function actionGetEventsResultsHtml() {
         $this->_sendResponse(200, $this->_getComboboxHtml('events_results'), 'text/html');
+    }
+    
+    public function actionGetEventsSamplesHtml() {
+        $this->_sendResponse(200, $this->_getComboboxHtml('events_samples'), 'text/html');
     }
     
     protected function _editHandler() {
