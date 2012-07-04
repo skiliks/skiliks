@@ -22,7 +22,8 @@ class DialogsController extends DictionaryController{
         'code',
         'step_number',
         'replica_number',
-        'next_event'
+        'next_event',
+        'delay'
     );
     
     
@@ -95,6 +96,8 @@ class DialogsController extends DictionaryController{
         $nextEvent = Yii::app()->request->getParam('next_event', false);
         if ($nextEvent == 0) $nextEvent = null;
         $model->next_event = $nextEvent; 
+        
+        $model->delay = Yii::app()->request->getParam('delay', false);
         $model->save();
         return 1;
     }
@@ -116,6 +119,7 @@ class DialogsController extends DictionaryController{
         $nextEvent = Yii::app()->request->getParam('next_event', false);
         if ($nextEvent == 0) $nextEvent = null;
         $model->next_event = $nextEvent; 
+        $model->delay = Yii::app()->request->getParam('delay', false);
         $model->insert();
         return 1;
     }
@@ -147,7 +151,8 @@ class DialogsController extends DictionaryController{
                     
                     d.step_number,
                     d.replica_number,
-                    es.title as next_event    
+                    es.title as next_event,
+                    d.delay
                 from dialogs as d
 
                 left join characters as cf on (cf.id = d.ch_from)
