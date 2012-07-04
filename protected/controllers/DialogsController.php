@@ -134,6 +134,7 @@ class DialogsController extends DictionaryController{
                     d.text,    
                     d.duration,
                     er.title as event_result,
+                    d.code,
                     d.step_number,
                     d.replica_number,
                     es.title as next_event    
