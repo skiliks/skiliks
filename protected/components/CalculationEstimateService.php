@@ -38,6 +38,7 @@ class CalculationEstimateService {
             'step_number' => $dialog->step_number + 1,
             'replica_number' => 0
         ));
+        if (is_array($dialogs))
         foreach($dialogs as $curDialog) {
             $duration += (int)$curDialog->duration;
             
