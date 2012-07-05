@@ -12,7 +12,7 @@ class UploadHelper {
      * Осуществить загрузку файлов.
      */
     public static function upload($uploadDir = 'media/') {
-        
+        if (!is_dir('media')) mkdir ('media');
 
         $allowedExt = array('jpg', 'jpeg', 'png', 'gif');
         $maxFileSize = 10 * 1024 * 1024; //1 MB
