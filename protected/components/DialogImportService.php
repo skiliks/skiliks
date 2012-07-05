@@ -153,6 +153,8 @@ class DialogImportService {
         #######################################################
         // импорт
         $processed = 0;
+        
+        // В начале импортируем события
         foreach($columns as $index=>$row) {
             if (($row['I'] == 1) && ($row['J'] == 0)) {
                
@@ -163,8 +165,13 @@ class DialogImportService {
                 $event->on_ignore_result = 0;
                 $event->on_hold_logic = 1;
                 $event->insert();
+                $processed++;
             }
-            else {
+        }
+        
+        // теперь импортируем диалоги
+        foreach($columns as $index=>$row) {
+            if (($row['I'] != 1) && ($row['J'] != 0)) {
                 // Создаем диалог
                 $dialog = new Dialogs();
                 $characterName = $this->_convert($row['E']);
@@ -221,9 +228,10 @@ class DialogImportService {
                 
                 $dialog->delay = $delay;       
                 $dialog->insert();       
+                $processed++;
             }
             
-            $processed++;
+            
         }
         
         //var_dump($columns);
