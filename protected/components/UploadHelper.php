@@ -43,7 +43,7 @@ class UploadHelper {
             }
             move_uploaded_file($_FILES['Filedata']['tmp_name'], $fileName);
             //echo '<img src="'.$fileName.'" alt="'.$fileName.'" />';
-            return $_FILES['Filedata']['name'];
+            return $fileName;
         }
         
     }

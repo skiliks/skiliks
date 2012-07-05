@@ -107,13 +107,13 @@ class DialogImportService {
         return 0;
     }
     
-    public function import() {
+    public function import($fileName) {
         $this->_characters = $this->getCharacters();
         $this->_charactersStates = $this->getCharactersStates();
         $this->_dialogSubtypes = $this->getDialogSubtypes();
         
         
-        $fileName = "media/data.csv";
+        //$fileName = "media/data.csv";
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         
@@ -148,10 +148,11 @@ class DialogImportService {
                 $delays[$row[0]] = $row[2];
             }
         }
-        
+        fclose($handle);
         
         #######################################################
         // импорт
+        $processed = 0;
         foreach($columns as $index=>$row) {
             if (($row['I'] == 1) && ($row['J'] == 0)) {
                
@@ -221,12 +222,14 @@ class DialogImportService {
                 $dialog->delay = $delay;       
                 $dialog->insert();       
             }
+            
+            $processed++;
         }
         
         //var_dump($columns);
         
-        fclose($handle);
-        echo('Done');
+        
+        return $processed;
     }
 }
 
