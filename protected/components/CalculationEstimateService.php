@@ -33,13 +33,13 @@ class CalculationEstimateService {
         
         // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
         // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
-        $dialogs = Dialogs::model()->findByAttributes(array(
+        $dialogCollection = Dialogs::model()->findByAttributes(array(
             'code' => $dialog->code,
             'step_number' => $dialog->step_number + 1,
             'replica_number' => 0
         ));
-        if (is_array($dialogs))
-        foreach($dialogs as $curDialog) {
+        
+        foreach($dialogCollection as $curDialog) {
             $duration += (int)$curDialog->duration;
             
             $dialogs[] = $curDialog->id;
