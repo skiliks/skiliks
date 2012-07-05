@@ -15,7 +15,7 @@ class DialogService {
      * @return object
      */
     public static function get($dialogId) {
-        $dialog = Dialogs::model()->findByAttributes(array('id'=>$dialogId));
+        $dialog = Dialogs::model()->byId($dialogId)->find();
         if (!$dialog) throw new Exception('Не могу загрузить модель диалога', 7);
         return $dialog;    
     }
