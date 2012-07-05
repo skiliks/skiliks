@@ -30,14 +30,20 @@ class CalculationEstimateService {
         $dialogs = array();
         $dialogs[] = $dialogId;
         
-        // получить duration next_btanch
-        $dialog = Dialogs::model()->byBranch($dialog->next_branch)->find();
-        if ($dialog) {
-            // просуммировать их
-            $duration += (int)$dialog->duration;
+        
+        // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
+        // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
+        $dialogs = Dialogs::model()->findByAttributes(array(
+            'code' => $dialog->code,
+            'step_number' => $dialog->step_number + 1,
+            'replica_number' => 0
+        ));
+        foreach($dialogs as $curDialog) {
+            $duration += (int)$curDialog->duration;
             
-            $dialogs[] = $dialog->id;
+            $dialogs[] = $curDialog->id;
         }
+       
         
         // и добавить в simulations_dialogs_durations
         if ($dialogsDurations) {
