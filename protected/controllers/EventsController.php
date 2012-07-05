@@ -64,6 +64,8 @@ class EventsController extends AjaxController{
             )));
         }
         
+        
+        
         // выбираем code из events_samples
         $code = $eventSample->code;
         
@@ -76,7 +78,7 @@ class EventsController extends AjaxController{
         }
         
         // Убиваем обработанное событие
-        $eventSample->delete();
+        $trigger->delete();
         
         return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
         ##########################################3
