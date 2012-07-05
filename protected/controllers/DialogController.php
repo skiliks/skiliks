@@ -34,6 +34,7 @@ class DialogController extends AjaxController{
             // запускаем ф-цию расчета оценки -- 
             // 1) к записи, ид которой пришло с фронта
             CalculationEstimateService::calculate($dialogId, $simId);
+            /*
             // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
             // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
             $dialogs = Dialogs::model()->findByAttributes(array(
@@ -43,7 +44,7 @@ class DialogController extends AjaxController{
             ));
             foreach($dialogs as $dialog) {
                 CalculationEstimateService::calculate($dialog->id, $simId);
-            }
+            }*/
             // конец расчета оценки
             
             $data = array();
