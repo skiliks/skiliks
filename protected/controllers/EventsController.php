@@ -63,6 +63,22 @@ class EventsController extends AjaxController{
                 'code' => 5
             )));
         }
+        
+        // выбираем code из events_samples
+        $code = $eventSample->code;
+        
+        // выбираем записи из диалогов где code =code, step_number = 1
+        $dialogs = Dialogs::model()->byCodeAndStepNumber($code, 1)->findAll();
+        
+        $data = array();
+        foreach($dialogs as $dialog) {
+            $data[] = DialogService::dialogToArray($dialog);
+        }
+        
+        return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
+        ##########################################3
+        # OLD CODE
+        ###########################################
         $dialogId = $eventSample->dialog_id;
         if (!$dialogId) {
             return $this->_sendResponse(200, CJSON::encode(array(

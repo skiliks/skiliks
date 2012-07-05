@@ -35,6 +35,14 @@ class Dialogs extends CActiveRecord{
         $this->getDbCriteria()->mergeWith(array('condition' => 'id = '.$id));
         return $this;
     }
+    
+    public function byCodeAndStepNumber($code, $stepNumber)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code = '{$code}' and step_number = {$stepNumber}"
+        ));
+        return $this;
+    }
 }
 
 ?>
