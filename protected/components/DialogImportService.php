@@ -160,7 +160,7 @@ class DialogImportService {
                
                 // Создаем событие
                 $event = new EventsSamples();
-                $event->code = $row['A'];
+                $event->code = $this->_convert($row['A']);
                 $event->title = $this->_convert($row['B']);
                 $event->on_ignore_result = 0;
                 $event->on_hold_logic = 1;
@@ -171,68 +171,68 @@ class DialogImportService {
         
         // теперь импортируем диалоги
         foreach($columns as $index=>$row) {
-            if (($row['I'] != 1) && ($row['J'] != 0)) {
-                // Создаем диалог
-                $dialog = new Dialogs();
-                $characterName = $this->_convert($row['E']);
-                $dialog->ch_from = $this->_getCharacterIdByName($characterName);
+            
+            // Создаем диалог
+            $dialog = new Dialogs();
+            $characterName = $this->_convert($row['E']);
+            $dialog->ch_from = $this->_getCharacterIdByName($characterName);
 
-                
-                $characterState = $this->_convert($row['F']);
-                $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
-                if ($dialog->ch_from_state == null) {
-                    continue;
-                }
-                
-                $dialog->ch_to = $this->_getCharacterIdByName($this->_convert($row['G']));
-                $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
-                
-                if ($dialog->ch_to_state == null) {
-                    //echo($row['H']);
-                    continue;
-                }
-                
-                $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($this->_convert($row['O']));
-                
-                $dialog->text = $this->_convert($row['K']);
-                $dialog->duration = $row['D'];
-                $dialog->event_result = 0;
-                $dialog->code = $this->_convert($row['A']);
-                $dialog->step_number = $row['I'];
-                $dialog->replica_number = $row['J'];       
-                
-                $event = EventsSamples::model()->byCode($this->_convert($row['M']))->find();
-                if ($event)
-                    $dialog->next_event = $event->id;
-                else 
-                    $dialog->next_event = null;
-                
-                
-                $delay = $this->_timeToInt($row['C']);
-                //echo($row['A']);
-                //echo('start : '.$delay);
-                if ($delay > 0) {
-                    if (isset($delays[$row['M']])) {
-                        //echo('end '.$delays[$row['M']]);
-                        $delay2 = $this->_timeToInt($delays[$row['M']]);
-                        
-                        //echo("$delay - $delay2");
-                        $delay = abs($delay - $delay2);
-                    }
-                    else {
-                        $delay = 0;
-                    }
-                }
-                //var_dump($delay);
-                
-                
-                $dialog->delay = $delay;       
-                $dialog->insert();       
-                $processed++;
+
+            $characterState = $this->_convert($row['F']);
+            $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
+            if ($dialog->ch_from_state == null) {
+                continue;
             }
-            
-            
+
+            $dialog->ch_to = $this->_getCharacterIdByName($this->_convert($row['G']));
+            $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
+
+            if ($dialog->ch_to_state == null) {
+                //echo($row['H']);
+                continue;
+            }
+
+            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($this->_convert($row['O']));
+
+            $dialog->text = $this->_convert($row['K']);
+            $dialog->duration = $row['D'];
+            $dialog->event_result = 0;
+            $dialog->code = $this->_convert($row['A']);
+            $dialog->step_number = $row['I'];
+            $dialog->replica_number = $row['J'];       
+
+            $event = EventsSamples::model()->byCode($this->_convert($row['M']))->find();
+            if ($event)
+                $dialog->next_event = $event->id;
+            else 
+                $dialog->next_event = null;
+
+
+            $delay = $this->_timeToInt($row['C']);
+            //echo($row['A']);
+            //echo('start : '.$delay);
+            if ($delay > 0) {
+                if (isset($delays[$row['M']])) {
+                    //echo('end '.$delays[$row['M']]);
+                    $delay2 = $this->_timeToInt($delays[$row['M']]);
+
+                    //echo("$delay - $delay2");
+                    $delay = abs($delay - $delay2);
+                }
+                else {
+                    $delay = 0;
+                }
+            }
+            //var_dump($delay);
+
+
+            $dialog->delay = $delay;       
+            $dialog->insert();       
+            $processed++;
         }
+            
+            
+        
         
         //var_dump($columns);
         
