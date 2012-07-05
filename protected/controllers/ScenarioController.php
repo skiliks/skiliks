@@ -14,6 +14,7 @@ class ScenarioController extends AjaxController{
     
     public function actionUpload() {
         Logger::debug('i was called');
+        return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'message' => 'i was called')));
     }
 }
 
