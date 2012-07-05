@@ -14,11 +14,14 @@ class DialogController extends AjaxController{
      * @return type 
      */
     public function actionGet() {
-        try {
+        //try {
             $sid = Yii::app()->request->getParam('sid', false);  
             if (!$sid) throw new Exception('Не задан sid', 1);
             
+            
+            
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
+            Logger::debug('try to get dialog : '.  $dialogId);
             if (!$dialogId) throw new Exception('Не задан диалог', 2);
             
             // получаем uid
@@ -31,9 +34,11 @@ class DialogController extends AjaxController{
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
             
+            Logger::debug('before calculate');
             // запускаем ф-цию расчета оценки -- 
             // 1) к записи, ид которой пришло с фронта
             CalculationEstimateService::calculate($dialogId, $simId);
+            Logger::debug('after calculate');
             /*
             // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
             // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
@@ -50,19 +55,28 @@ class DialogController extends AjaxController{
             $data = array();
             // смотрим, есть ли у нее next_event, 
             if ($currentDialog->next_event > 0) {
+                Logger::debug('event > 0');
                 // если да, то смотрим на delay
                 if ($currentDialog->delay == 0) {
+                    Logger::debug('delay = 0');
                     // если delay==0 то сразу запускаем данное событие
                     // @todo: сделать запуск события
                     
                     
                     // получить событие по коду        
-                    $event = EventsSamples::model()->byId($currentDialog->next_event)->find();
-                    if ($event) {
-                        $dialogs = Dialogs::model()->findByAttributes(array(
-                            'code' => $event->code,
-                            'step_number' => 1
+                    Logger::debug('try to get event '.$currentDialog->next_event);
+                    //$event = EventsSamples::model()->byId($currentDialog->next_event)->find();
+                    
+                    $event = EventsSamples::model()->findByAttributes(array(
+                            'id' => $currentDialog->next_event
                         ));
+                    
+       //             Logger::debug('loaded event '.var_export($event, true));
+                    if ($event) {
+                        $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+
+                        
+         //               Logger::debug('dialogs : '.  var_export($dialogs, true));
                         foreach($dialogs as $dialog) {
                             $data[] = DialogService::dialogToArray($dialog);
                         }
@@ -70,6 +84,7 @@ class DialogController extends AjaxController{
                 }
                 
                 if ($currentDialog->delay > 0) {
+                    Logger::debug('delay >0 0');
                     // если delay>0 то добавляем событие в events_triggers
                     $trigger = new EventsTriggers();
                     $trigger->sim_id = $simId;
@@ -79,11 +94,15 @@ class DialogController extends AjaxController{
                 }
             }
             else {
+                
+                Logger::debug('event = 0');
+                
                 // если нет, то нам надо продолжить диалог
                 // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
                 $dialogs = Dialogs::model()->byCodeAndStepNumber(
                         $currentDialog->code, $currentDialog->step_number + 1
                 )->findAll();
+                //Logger::debug('dialogs2 : '.  var_export($dialogs, true));
                 foreach($dialogs as $dialog) {
                     $data[] = DialogService::dialogToArray($dialog);
                 }
@@ -142,13 +161,14 @@ class DialogController extends AjaxController{
 
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
             
-        } catch (Exception $exc) {
+        /*} catch (Exception $exc) {
+            Logger::debug('exception : '.  $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
             )));
-        }
+        }*/
     }
 }
 

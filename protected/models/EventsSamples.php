@@ -42,7 +42,7 @@ class EventsSamples extends CActiveRecord{
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id='$id'"
+            'condition' => "id=".(int)$id
         ));
         return $this;
     }
