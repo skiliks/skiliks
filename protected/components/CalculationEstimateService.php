@@ -39,11 +39,14 @@ class CalculationEstimateService {
             'replica_number' => 0
         ));
         
-        foreach($dialogCollection as $curDialog) {
-            $duration += (int)$curDialog->duration;
-            
-            $dialogs[] = $curDialog->id;
+        if (is_array($dialogCollection)) {
+            foreach($dialogCollection as $curDialog) {
+                $duration += (int)$curDialog->duration;
+
+                $dialogs[] = $curDialog->id;
+            }
         }
+        
        
         
         // и добавить в simulations_dialogs_durations
