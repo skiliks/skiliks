@@ -57,7 +57,7 @@ class DialogController extends AjaxController{
                     
                     
                     // получить событие по коду        
-                    $event = EventsSamples::model()->byCode($currentDialog->next_event)->find();
+                    $event = EventsSamples::model()->byId($currentDialog->next_event)->find();
                     if ($event) {
                         $dialogs = Dialogs::model()->findByAttributes(array(
                             'code' => $event->code,
