@@ -75,6 +75,9 @@ class EventsController extends AjaxController{
             $data[] = DialogService::dialogToArray($dialog);
         }
         
+        // Убиваем обработанное событие
+        $eventSample->delete();
+        
         return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
         ##########################################3
         # OLD CODE
