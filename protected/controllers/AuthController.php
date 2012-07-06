@@ -12,12 +12,12 @@ class AuthController extends AjaxController{
      * Авторизация пользователя
      */
     public function actionAuth() {
-        $login = Yii::app()->request->getParam('login', false);
+        $email = Yii::app()->request->getParam('email', false);
         $password = Yii::app()->request->getParam('pass', false);
         
         $result = array('result' => 0);
         
-        $user = Users::model()->findByAttributes(array('login'=>$login));
+        $user = Users::model()->findByAttributes(array('email'=>$email));
         if($user===null) {
             $result['message'] = 'no user found';
         }
