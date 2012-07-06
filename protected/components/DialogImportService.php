@@ -156,17 +156,22 @@ class DialogImportService {
         
         // В начале импортируем события
         foreach($columns as $index=>$row) {
-            if (($row['I'] == 1) && ($row['J'] == 0)) {
-               
+            $code = $this->_convert($row['A']);
+            
+            // Проверяем, а нету ли уже такое события
+            if (!EventsSamples::mode()->byCode($code)->find()) {
+                
                 // Создаем событие
                 $event = new EventsSamples();
-                $event->code = $this->_convert($row['A']);
+                $event->code = $code;
                 $event->title = $this->_convert($row['B']);
                 $event->on_ignore_result = 0;
                 $event->on_hold_logic = 1;
                 $event->insert();
                 $processed++;
             }
+            
+            // if (($row['I'] == 1) && ($row['J'] == 0)) {
         }
         
         // теперь импортируем диалоги
