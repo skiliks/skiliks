@@ -1,13 +1,12 @@
 <?php
 
 
-
 /**
- * Модель пользователей
+ * Description of UsersActivationCode
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Users extends CActiveRecord{
+class UsersActivationCode extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {
@@ -19,21 +18,13 @@ class Users extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'users';
+            return 'users_activation_code';
     }
     
-    public function byEmail($email)
+    public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "email = '{$email}'"
-        ));
-        return $this;
-    }
-    
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = '{$id}'"
+            'condition' => "code = '{$code}'"
         ));
         return $this;
     }
