@@ -127,6 +127,27 @@ class DialogImportService {
         $this->_charactersPoints = $this->getCharactersPoints();
         
         
+        // clean
+        $connection=Yii::app()->db;   
+
+        $sql = 'DELETE FROM `dialogs`';
+        $command = $connection->createCommand($sql);
+        $command->execute();
+        
+        $sql = 'DELETE FROM `events_samples`';
+        $command = $connection->createCommand($sql);
+        $command->execute();
+        
+        $sql = 'ALTER TABLE `dialogs` AUTO_INCREMENT =1';
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        $sql = 'ALTER TABLE `events_samples` AUTO_INCREMENT =1';
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        
+        
         //$fileName = "media/data.csv";
         
         //$arrLines = file($fileName);
@@ -141,7 +162,11 @@ class DialogImportService {
         /*foreach($arrLines as $line) {    
             $row = explode(';', $line);*/
             
-            //var_dump($row); die();
+            if ($index == 1) {
+                $index++;
+                continue;
+            }
+            
             if ($index == 2) {
                 // загрузим кодов
                 $columnIndex = 17;
@@ -149,12 +174,15 @@ class DialogImportService {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
                 }
+                
+                $index++;
+                continue;
             }
             
             //var_dump($row);
             
             $index++;
-            if ($index < 2) continue;
+            
             
             /*if (!isset($row[11])) {
                 echo($line);
@@ -194,9 +222,14 @@ class DialogImportService {
                 $codeIndex++;
             }
             
+            //if ($index > 2) 
+            
             $columns[] = $column;
         }
         fclose($handle);
+        
+        /*echo('<hr/>');
+        var_dump($columns); die();*/
         
         #######################################################
         // импорт
