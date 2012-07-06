@@ -265,7 +265,7 @@ class DialogImportService {
             if ($chFrom == 0)                continue;
             
             $dialog->ch_from = $chFrom;
-            //Logger::debug("ch_name=".$row['E']);
+            Logger::debug("ch_name=".$row['E']);
             //Logger::debug("ch_from=".$dialog->ch_from);
 
             $characterState = $this->_convert($row['F']);
