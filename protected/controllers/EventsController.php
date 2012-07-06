@@ -34,7 +34,7 @@ class EventsController extends AjaxController{
         }
         
         // получить симуляцию по uid
-        $simulation = Simulations::model()->findByAttributes(array('user_id' => $uid));
+        $simulation = Simulations::model()->byUid($uid)->find();
         if (!$simulation) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
@@ -149,6 +149,39 @@ class EventsController extends AjaxController{
         }
         
         $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
+    }
+    
+    /**
+     * Принудительный старт заданного события
+     */
+    public function actionStart() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        $id = Yii::app()->request->getParam('id', false);  
+        $delay = Yii::app()->request->getParam('delay', false);  
+        
+        try {
+            if (!$sid) throw new Exception('Не задан сид');
+            
+            $uid = SessionHelper::getUidBySid($sid);
+            if (!$uid) throw new Exception('Не могу определить пользователя');
+            
+            $simulation = Simulations::model()->byUid($uid)->find();
+            if (!$simulation) throw new Exception('Не могу определить симуляцию');
+            
+            // Добавляем событие
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id = $simulation->id;
+            $eventsTriggers->event_id = $id;
+            $eventsTriggers->trigger_time = time() + ($delay/4);
+            $eventsTriggers->insert();
+            
+            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            
+        } catch (Exception $exc) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0, 'message' => $exc->getMessage()
+            )));
+        }
     }
 }
 
