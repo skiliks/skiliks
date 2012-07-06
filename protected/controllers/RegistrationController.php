@@ -15,7 +15,7 @@ class RegistrationController extends AjaxController{
      */
     public function actionSave()
     {
-        $login = Yii::app()->request->getParam('login', false);
+        //$login = Yii::app()->request->getParam('login', false);
         $password = Yii::app()->request->getParam('pass1', false);
         $password2 = Yii::app()->request->getParam('pass2', false);
         $email = Yii::app()->request->getParam('email', false);
@@ -29,7 +29,7 @@ class RegistrationController extends AjaxController{
                 throw new Exception('Введенные пароли не совпадают');
             
             $users = new Users();
-            $users->login = $login;
+            //$users->login = $login;
             $users->password = md5($password);
             $users->email = $email;
             $r = (int)$users->insert();
@@ -39,7 +39,7 @@ class RegistrationController extends AjaxController{
             // отправляем пользователю уведомление что все хорошо
             if (!$this->_notifyUser(array(
                 'email' => $users->email,
-                'login' => $users->login,
+                //'login' => $users->login,
                 'password' => $password
             ))) 
                 throw new Exception("Немогу отправить емейл пользователю {$users->email}");
@@ -57,7 +57,7 @@ class RegistrationController extends AjaxController{
     }
     
     protected function _notifyUser($params) {
-        $message = "Поздравляем {$params['login']}, вы успешно зарегистрированы и ваш пароль {$params['password']}";
+        $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}";
         return MailSender::send($params['email'], 'Регистрация завершена', $message, 
                 'skiliks', 'info@skiliks.com');
     }
