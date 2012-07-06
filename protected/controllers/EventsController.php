@@ -133,6 +133,23 @@ class EventsController extends AjaxController{
         
         $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
     }
+    
+    /**
+     * Возврат списка доступных событий в системе
+     */
+    public function actionGetList() {
+        $eventsSamples = EventsSamples::model()->findAll();
+        $data = array();
+        foreach($eventsSamples as $event) {
+            $data[] = array(
+                'id' => $event->id,
+                'code' => $event->code,
+                'title' => $event->title
+            );
+        }
+        
+        $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
+    }
 }
 
 ?>
