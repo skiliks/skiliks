@@ -21,6 +21,14 @@ class Users extends CActiveRecord{
     {
             return 'users';
     }
+    
+    public function byEmail($email)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "email = '{$email}'"
+        ));
+        return $this;
+    }
 }
 
 ?>
