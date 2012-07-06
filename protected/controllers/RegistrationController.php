@@ -20,46 +20,40 @@ class RegistrationController extends AjaxController{
         $password2 = Yii::app()->request->getParam('pass2', false);
         $email = Yii::app()->request->getParam('email', false);
         
-        if ($password != $password2) {
+        try {
+            
+            if (Users::model()->byEmail($email)->find()) 
+                throw new Exception("Пользователь с емейлом {$email} уже существует");
+            
+            if ($password != $password2)                
+                throw new Exception('Введенные пароли не совпадают');
+            
+            $users = new Users();
+            $users->login = $login;
+            $users->password = md5($password);
+            $users->email = $email;
+            $r = (int)$users->insert();
+            if ($r == 0) 
+                throw new Exception('Немогу зарегистрировать пользователя');
+
+            // отправляем пользователю уведомление что все хорошо
+            if (!$this->_notifyUser(array(
+                'email' => $users->email,
+                'login' => $users->login,
+                'password' => $password
+            ))) 
+                throw new Exception("Немогу отправить емейл пользователю {$users->email}");
+
+            $rows = array('result' => 1, 'rows' => $r, "login"=>$login);
+            return $this->_sendResponse(200, CJSON::encode($rows));
+            
+        } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
-                'message' => 'Введенные пароли не совпадают'
+                'message' => $exc->getMessage()
             )));
         }
-        
-        $connection = Yii::app()->db;
-        
-        $users = new Users();
-        $users->login = $login;
-        $users->password = md5($password);
-        $users->email = $email;
-        $r = (int)$users->insert();
-        if ($r == 0) {
-            return $this->_sendResponse(200, CJSON::encode(array(
-                'result' => 0,
-                'message' => 'cant insert user'
-            )));
-        }
-        
-        // отправляем пользователю уведомление что все хорошо
-        if (!$this->_notifyUser(array(
-            'email' => $users->email,
-            'login' => $users->login,
-            'password' => $password
-        ))) {
-            return $this->_sendResponse(200, CJSON::encode(array(
-                'result' => 0,
-                'message' => 'cant email user'
-            )));
-        }
-        
-	$rows = array(
-            'result' => 1,
-            'rows' => $r,
-            "login"=>$login
-        );
-        
-	$this->_sendResponse(200, CJSON::encode($rows));
+
     }
     
     protected function _notifyUser($params) {
