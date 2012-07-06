@@ -1,6 +1,6 @@
 <?php
 
-
+set_time_limit(0);
 
 /**
  * Сервис импорта диалогов
@@ -32,6 +32,8 @@ class DialogImportService {
     protected $_charactersStates = array();
     
     protected $_dialogSubtypes = array();
+    
+    protected $_charactersPoints = array();
     
     protected function _convert($str) {
         return iconv("Windows-1251", "UTF-8", $str);
@@ -99,6 +101,17 @@ class DialogImportService {
         return $list;
     }
     
+    protected function getCharactersPoints() {
+        $charactersPoints = CharactersPointsTitles::model()->findAll();
+        
+        $list = array();
+        foreach($charactersPoints as $point) {
+            $list[$point->code] = $point->id;
+        }
+        
+        return $list;
+    }
+    
     protected function _timeToInt($time) {
         $arr = explode(':', $time);
         if (count($arr)>1) {
@@ -111,20 +124,44 @@ class DialogImportService {
         $this->_characters = $this->getCharacters();
         $this->_charactersStates = $this->getCharactersStates();
         $this->_dialogSubtypes = $this->getDialogSubtypes();
+        $this->_charactersPoints = $this->getCharactersPoints();
         
         
         //$fileName = "media/data.csv";
+        
+        //$arrLines = file($fileName);
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         
         $index = 1;
         $columns = array();
         $delays = array();
-        while (($row = fgetcsv($handle, 1000, ";")) !== FALSE) {
-            $index++;
-            if ($index < 6) continue;
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+        /*foreach($arrLines as $line) {    
+            $row = explode(';', $line);*/
             
-            $columns[] = array(
+            //var_dump($row); die();
+            if ($index == 2) {
+                // загрузим кодов
+                $columnIndex = 17;
+                while($row[$columnIndex] != '') {
+                    $pointsCodes[$columnIndex] = $row[$columnIndex];
+                    $columnIndex++;
+                }
+            }
+            
+            //var_dump($row);
+            
+            $index++;
+            if ($index < 2) continue;
+            
+            /*if (!isset($row[11])) {
+                echo($line);
+                var_dump($row); die();
+            }*/
+            
+            $column = array(
                 'A' => $row[0],
                 'B' => $row[1],
                 'C' => $row[2],
@@ -139,7 +176,9 @@ class DialogImportService {
                 'L' => $row[11],
                 'M' => $row[12],
                 'N' => $row[13],
-                'O' => $row[14]
+                'O' => $row[14],
+                'P' => $row[15],
+                'Q' => $row[16]
             );
             
             if ($row[0] != '')
@@ -147,6 +186,15 @@ class DialogImportService {
                 
                 $delays[$row[0]] = $row[2];
             }
+            
+            // загружаем кода
+            $codeIndex = 17;
+            while(isset($row[$codeIndex])) {
+                $column[$codeIndex] = $row[$codeIndex];
+                $codeIndex++;
+            }
+            
+            $columns[] = $column;
         }
         fclose($handle);
         
@@ -159,7 +207,7 @@ class DialogImportService {
             $code = $this->_convert($row['A']);
             
             // Проверяем, а нету ли уже такое события
-            if (!EventsSamples::mode()->byCode($code)->find()) {
+            if (!EventsSamples::model()->byCode($code)->find()) {
                 
                 // Создаем событие
                 $event = new EventsSamples();
@@ -180,8 +228,12 @@ class DialogImportService {
             // Создаем диалог
             $dialog = new Dialogs();
             $characterName = $this->_convert($row['E']);
-            $dialog->ch_from = $this->_getCharacterIdByName($characterName);
-
+            $chFrom = (int)$this->_getCharacterIdByName($characterName);
+            if ($chFrom == 0)                continue;
+            
+            $dialog->ch_from = $chFrom;
+            //Logger::debug("ch_name=".$row['E']);
+            //Logger::debug("ch_from=".$dialog->ch_from);
 
             $characterState = $this->_convert($row['F']);
             $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
@@ -189,6 +241,8 @@ class DialogImportService {
                 continue;
             }
 
+            
+            
             $dialog->ch_to = $this->_getCharacterIdByName($this->_convert($row['G']));
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
 
@@ -233,6 +287,29 @@ class DialogImportService {
 
             $dialog->delay = $delay;       
             $dialog->insert();       
+            
+            
+            // теперь загрузим оценки
+            foreach($pointsCodes as $pointIndex => $pointCode) {
+                Logger::debug("check code : $pointCode");
+                Logger::debug("value is : ".$row[$pointIndex]);
+                if ($row[$pointIndex] != '') {
+                    // сделать вставку в characters_points
+                    // если есть point с таким кодом
+                    if (isset($this->_charactersPoints[$pointCode])) {
+                        $pointId = $this->_charactersPoints[$pointCode];
+                        Logger::debug("found point : ".$pointId);
+                        
+                        $charactersPoints = new CharactersPoints();
+                        $charactersPoints->dialog_id = $dialog->id;
+                        $charactersPoints->point_id = $pointId;
+                        $charactersPoints->add_value = $row[$pointIndex];
+                        $charactersPoints->insert();
+                    }
+                    
+                }
+            }
+            
             $processed++;
         }
             
