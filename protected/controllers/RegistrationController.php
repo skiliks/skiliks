@@ -15,7 +15,6 @@ class RegistrationController extends AjaxController{
      */
     public function actionSave()
     {
-        //$login = Yii::app()->request->getParam('login', false);
         $password = Yii::app()->request->getParam('pass1', false);
         $password2 = Yii::app()->request->getParam('pass2', false);
         $email = Yii::app()->request->getParam('email', false);
@@ -29,18 +28,25 @@ class RegistrationController extends AjaxController{
                 throw new Exception('Введенные пароли не совпадают');
             
             $users = new Users();
-            //$users->login = $login;
             $users->password = md5($password);
             $users->email = $email;
+            $users->is_active = 0;
             $r = (int)$users->insert();
             if ($r == 0) 
                 throw new Exception('Немогу зарегистрировать пользователя');
+            
+            $activationCode = $this->_generateActivationCode();
+            $usersActivationCode = new UsersActivationCode();
+            $usersActivationCode->uid = $users->id;
+            $usersActivationCode->code = $activationCode;
+            $usersActivationCode->insert();
 
             // отправляем пользователю уведомление что все хорошо
             if (!$this->_notifyUser(array(
                 'email' => $users->email,
-                //'login' => $users->login,
-                'password' => $password
+                'password' => $password,
+                'uid' => $users->id,
+                'code' => $activationCode
             ))) 
                 throw new Exception("Немогу отправить емейл пользователю {$users->email}");
 
@@ -56,8 +62,45 @@ class RegistrationController extends AjaxController{
 
     }
     
+    /**
+     * Активация пользователя по коду
+     */
+    public function actionActivate() {
+        $code = Yii::app()->request->getParam('code', false);
+        
+        try {
+            $model = UsersActivationCode::model()->byCode($code)->find();
+            if (!$model) throw new Exception('Немогу найти пользователя по данному коду');
+            
+            $user = Users::model()->byId($model->uid)->find();
+            if (!$user) throw new Exception('Немогу найти пользователя');
+            
+            $user->is_active = 1;
+            $user->save();
+            
+            return $this->_sendResponse(200, 'Поздравляю, вы успешно активированы', 'text/html');
+            
+        } catch (Exception $exc) {
+            return $this->_sendResponse(200, $exc->getMessage(), 'text/html');
+        }
+
+        
+    }
+    
+    /**
+     * Генерация кода активации
+     * @return string
+     */
+    protected function _generateActivationCode() {
+        return md5(time() + rand(1, 1000000));
+    }
+    
     protected function _notifyUser($params) {
-        $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}";
+        
+        $url = "http://backend.skiliks.loc/index.php?r=registration/activate&code={$params['code']}";
+        
+        $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}. 
+        Для активации перейдите по <a href='{$url}'>ссылке</a>";
         return MailSender::send($params['email'], 'Регистрация завершена', $message, 
                 'skiliks', 'info@skiliks.com');
     }
