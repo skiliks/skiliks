@@ -15,23 +15,30 @@ class AuthController extends AjaxController{
         $email = Yii::app()->request->getParam('email', false);
         $password = Yii::app()->request->getParam('pass', false);
         
-        $result = array('result' => 0);
         
-        $user = Users::model()->findByAttributes(array('email'=>$email));
-        if($user===null) {
-            $result['message'] = 'no user found';
-        }
-        else {
-            if($user->password !== md5($password)) {
-                $result['message'] = 'wrong password';
-            }
-            else {
-                $result['result'] = 1;
-                $result['sid'] = $this->_startSession($user->id);
-            }
+        try {
+            $user = Users::model()->findByAttributes(array('email'=>$email));
+            if(!$user) throw new Exception('Пользователь не найден');
+            
+            
+            if ($user->is_active != 1) 
+                throw new Exception('Пользователь не активирован');
+
+            if($user->password !== md5($password)) 
+                throw new Exception('Неверный пароль');
+                
+            $result = array();
+            $result['result'] = 1;
+            $result['sid'] = $this->_startSession($user->id);
+            return $this->_sendResponse(200, CJSON::encode($result));
+
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
         }
         
-        $this->_sendResponse(200, CJSON::encode($result));
     }
     
     protected function _startSession($uid) {
