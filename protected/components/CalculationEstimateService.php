@@ -41,22 +41,32 @@ class CalculationEstimateService {
         // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
         
         Logger::debug("load collection for code ({$dialog->code}) and step_number ({$dialog->step_number})");
-        $dialogCollection = Dialogs::model()->findByAttributes(array(
-            'code' => $dialog->code,
+        /*$dialogCollection = Dialogs::model()->findAllByAttributes(array(
+            'code' => '"'.$dialog->code.'"',
             'step_number' => $dialog->step_number,  //+1
             'replica_number' => 0
-        ));
+        ));*/
         
+        $sql = "select * from dialogs where code='{$dialog->code}' and step_number={$dialog->step_number} and replica_number=0";
+        Logger::debug("sql : $sql");
+        $command = Yii::app()->db->createCommand($sql);
+        $dialogCollection = $command->queryAll();
+        
+        
+        /*$dialogCollection = $command->select('*')->from('dialogs')
+                ->where('code=":code and step_number=:step_number and replica_number=0"', 
+                        array(':code'=>$dialog->code, 'ste_number'=>$dialog->step_number))->queryAll();*/
         
         
         Logger::debug("loaded collection for diealog by code : {$dialog->code}");
+        Logger::debug('collection is : '.var_export($dialogCollection, true));
         //if (is_array($dialogCollection)) {
             foreach($dialogCollection as $curDialog) {
-                $duration += (int)$curDialog->duration;
-                Logger::debug("child dialog ({$curDialog->id}) duration is  : {$curDialog->duration}");
+                $duration += (int)$curDialog['duration'];
+                Logger::debug("child dialog ({$curDialog['id']}) duration is  : {$curDialog['duration']}");
                 Logger::debug("total duration incremented to : {$duration}");
 
-                $dialogs[] = $curDialog->id;
+                $dialogs[] = $curDialog['id'];
             }
         //}
         
