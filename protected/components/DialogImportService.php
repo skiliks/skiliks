@@ -147,6 +147,7 @@ class DialogImportService {
         $command->execute();
 
         
+        Logger::debug("started");
         
         //$fileName = "media/data.csv";
         
