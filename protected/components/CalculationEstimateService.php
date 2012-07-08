@@ -95,12 +95,15 @@ class CalculationEstimateService {
                 left join characters_points_titles as cpt on (cpt.id = cp.point_id)
                 where cp.dialog_id in ({$dialogsStr})";
                 
+        Logger::debug('case2 sql : '.$sql);        
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         
         $dataReader = $command->query();
         $data = array();
         foreach($dataReader as $row) { 
+            Logger::debug("fill for row ".var_export($row, true));
+            
             if (!isset($data[$row['point_id']])) {
                 $data[$row['point_id']] = array(
                     'value' => 0, 'count' => 0
@@ -113,20 +116,27 @@ class CalculationEstimateService {
             $data[$row['point_id']]['count']++;
         }        
         
+        Logger::debug("save data :  ".var_export($data, true));
+        
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
-            $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId);
+            Logger::debug("check exist simId {$simId} pointId {$pointId}");
+            $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
+            Logger::debug("exist : ".var_export($dialogsPoints, true));
             if ($dialogsPoints) {
+                Logger::debug("update for simId: $simId pointId: $pointId");
                 $dialogsPoints->value += $item['value'];
                 $dialogsPoints->count += $item['count'];
                 $dialogsPoints->save();
             }
             else {
+                Logger::debug("insert for simId: $simId pointId: $pointId value: {$item['value']} count: {$item['count']}");
                 $dialogsPoints = new SimulationsDialogsPoints();
                 $dialogsPoints->sim_id = $simId;
                 $dialogsPoints->point_id = $pointId;
                 $dialogsPoints->value = $item['value'];
                 $dialogsPoints->count = $item['count'];
+                
                 $dialogsPoints->insert();
             }
         }
