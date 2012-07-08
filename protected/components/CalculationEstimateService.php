@@ -121,13 +121,27 @@ class CalculationEstimateService {
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
             Logger::debug("check exist simId {$simId} pointId {$pointId}");
-            $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
-            Logger::debug("exist : ".var_export($dialogsPoints, true));
-            if ($dialogsPoints) {
+            
+            $sql = "select count(*) as count from simulations_dialogs_points where sim_id={$simId} and point_id={$pointId}";
+            Logger::debug("sql : $sql");
+            $command = $connection->createCommand($sql);
+            $row = $command->queryRow();
+            Logger::debug("row : ".var_export($row, true));
+            
+            //$dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
+            //Logger::debug("exist : ".var_export($dialogsPoints, true));
+            //if ($dialogsPoints) {
+            if ($row['count'] == 1) {
                 Logger::debug("update for simId: $simId pointId: $pointId");
+            
+                $sql = "update simulations_dialogs_points set value = value + {$item['value']}, count = count + {$item['count']} where sim_id={$simId} and point_id={$pointId}";
+                $command = $connection->createCommand($sql);
+                $command->execute();
+                
+                /*
                 $dialogsPoints->value += $item['value'];
                 $dialogsPoints->count += $item['count'];
-                $dialogsPoints->save();
+                $dialogsPoints->save();*/
             }
             else {
                 Logger::debug("insert for simId: $simId pointId: $pointId value: {$item['value']} count: {$item['count']}");
