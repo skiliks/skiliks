@@ -50,7 +50,7 @@ class CalculationEstimateService {
         
         
         Logger::debug("loaded collection for diealog by code : {$dialog->code}");
-        if (is_array($dialogCollection)) {
+        //if (is_array($dialogCollection)) {
             foreach($dialogCollection as $curDialog) {
                 $duration += (int)$curDialog->duration;
                 Logger::debug("child dialog ({$curDialog->id}) duration is  : {$curDialog->duration}");
@@ -58,7 +58,7 @@ class CalculationEstimateService {
 
                 $dialogs[] = $curDialog->id;
             }
-        }
+        //}
         
        
         
