@@ -41,7 +41,7 @@ class CalculationEstimateService {
         // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
         $dialogCollection = Dialogs::model()->findByAttributes(array(
             'code' => $dialog->code,
-            'step_number' => $dialog->step_number + 1,
+            'step_number' => $dialog->step_number,  //+1
             'replica_number' => 0
         ));
         
