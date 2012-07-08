@@ -39,11 +39,15 @@ class CalculationEstimateService {
         
         // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
         // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
+        
+        Logger::debug("load collection for code ({$dialog->code}) and step_number ({$dialog->step_number})");
         $dialogCollection = Dialogs::model()->findByAttributes(array(
             'code' => $dialog->code,
             'step_number' => $dialog->step_number,  //+1
             'replica_number' => 0
         ));
+        
+        
         
         Logger::debug("loaded collection for diealog by code : {$dialog->code}");
         if (is_array($dialogCollection)) {
