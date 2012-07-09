@@ -83,7 +83,7 @@ class CharactersPointsTitlesController extends DictionaryController{
         $result = array(
             'result'=>1,
             'data'=>array(
-                'characters_points_titles' => $this->_getComboboxData('characters_points_titles', 'title', ' WHERE parent_id is null ')
+                'characters_points_titles' => $this->_getComboboxData('characters_points_titles', 'title', ' WHERE parent_id is null ', 'Все')
             )
         );
         
