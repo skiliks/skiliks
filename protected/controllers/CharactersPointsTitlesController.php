@@ -36,6 +36,8 @@ class CharactersPointsTitlesController extends DictionaryController{
         $parentId = (int)Yii::app()->request->getParam('parent_id', false);
         $scale = (int)Yii::app()->request->getParam('scale', false);
         
+        if ($parentId == -1) $parentId = null;
+        
         $model = CharactersPointsTitles::model()->findByPk($id);
         $model->title = $title;
         $model->code = $code;
@@ -54,6 +56,7 @@ class CharactersPointsTitlesController extends DictionaryController{
         $code = Yii::app()->request->getParam('code', false);
         $parentId = (int)Yii::app()->request->getParam('parent_id', false);
         $scale = (int)Yii::app()->request->getParam('scale', false);
+        if ($parentId == -1) $parentId = null;
 
         $model = new CharactersPointsTitles();
         $model->title = $title;
