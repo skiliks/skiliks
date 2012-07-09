@@ -87,6 +87,7 @@ class CalculationEstimateService {
         $dialogsStr = implode(',', $dialogs);
         
         // Case 2
+        // расчет поинтов
         $sql = "select 
                     cp.point_id,
                     cp.add_value,

@@ -1,24 +1,25 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of Logger
+ * Механизм логирования
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Logger {
     
-    public static function debug($str) {
-        if (!is_dir('logs')) {
-            mkdir('logs', 0775);
-        }
+    /**
+     * Логирует строку
+     * 
+     * @param string $str что логируем
+     * @param string $fileName куда логируем 
+     */
+    public static function debug($str, $fileName = 'logs/debug.log') {
+        if (!is_dir('logs')) mkdir('logs', 0775);
 
         $str = '['.date("d.m.Y H:i").'] ip: '.$_SERVER['REMOTE_ADDR'].' '.$str;
-        $f = fopen('logs/debug.log', 'a+');
+        $f = fopen($fileName, 'a+');
         fwrite($f, $str."\n");
         fclose($f);
     }

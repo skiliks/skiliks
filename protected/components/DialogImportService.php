@@ -40,14 +40,14 @@ class DialogImportService {
         $str = iconv("Windows-1251", "UTF-8", $str);
         $str = trim($str);
         
-        echo($str.'<br/>');
+        //echo($str.'<br/>');
         /*$str = str_replace("&nbsp;", "", $str);
         $str = str_replace("\t", "", $str);
         $str = str_replace("  ", "", $str);
         */
         //$str = preg_replace("/^(\-\s+)/", "- ", $str);
         
-        echo($str.'<br/>');
+        //echo($str.'<br/>');
         
         return $str;
     }
