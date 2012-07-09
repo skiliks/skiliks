@@ -80,8 +80,8 @@ class SimulationController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             // определяем duration симуляции
-            $dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
-            //$dialogsDuration = SimulationsDialogsDurations::model()->findByAttributes(array('sim_id'=>$simulation->id));
+            //$dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
+            $dialogsDuration = SimulationsDialogsDurations::model()->findByAttributes(array('sim_id'=>$simulation->id));
             if ($dialogsDuration) {
                 $result['duration'] = $dialogsDuration->duration;    
             }

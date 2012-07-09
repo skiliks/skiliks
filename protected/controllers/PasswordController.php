@@ -28,7 +28,7 @@ class PasswordController extends AjaxController{
         $user->save();
         
         // отправляем нотификацию
-        $message = "{$user->login}, ваш новый пароль {$password}";
+        $message = "{$user->email}, ваш новый пароль {$password}";
         MailSender::send($email, 'Skiliks : восстановление пароля', $message, 
                 'skiliks', 'info@skiliks.com');
         
