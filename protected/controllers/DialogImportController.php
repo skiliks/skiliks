@@ -12,12 +12,12 @@ class DialogImportController extends AjaxController{
     public function actionImport() {
         // http://backend.skiliks.loc/index.php?r=dialogImport/import
         $service = new DialogImportService();
-        $data = $service->import('media/data2.csv');
+        $data = $service->import('media/tony.csv');
         
         $result = array(
             'data' => $data
         );
-        //$this->_sendResponse(200, var_export($data, true), 'text/html');
+        $this->_sendResponse(200, var_export($data, true), 'text/html');
     }
 }
 
