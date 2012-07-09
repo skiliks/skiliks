@@ -171,12 +171,20 @@ class EventsController extends AjaxController{
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
             
-            // Добавляем событие
-            $eventsTriggers = new EventsTriggers();
-            $eventsTriggers->sim_id = $simulation->id;
-            $eventsTriggers->event_id = $event->id;
-            $eventsTriggers->trigger_time = time() + ($delay/4);
-            $eventsTriggers->insert();
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId(
+                    $simulation->id, $event->id)->find();
+            if ($eventsTriggers) {
+                $eventsTriggers->trigger_time = time() + ($delay/4);
+                $eventsTriggers->save(); // обновляем существующее событие в очереди
+            }
+            else {
+                // Добавляем событие
+                $eventsTriggers = new EventsTriggers();
+                $eventsTriggers->sim_id = $simulation->id;
+                $eventsTriggers->event_id = $event->id;
+                $eventsTriggers->trigger_time = time() + ($delay/4);
+                $eventsTriggers->insert();
+            }
             
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
             
