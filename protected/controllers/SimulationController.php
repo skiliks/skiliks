@@ -13,7 +13,7 @@ class SimulationController extends AjaxController{
      * Старт симуляции
      */
     public function actionStart() {
-        $sid = (int)Yii::app()->request->getParam('sid', false);
+        $sid = Yii::app()->request->getParam('sid', false);
         
         $uid = SessionHelper::getUidBySid($sid);
         if (!$uid) {
