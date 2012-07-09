@@ -299,9 +299,11 @@ class DialogImportService {
             //Logger::debug("ch_from=".$dialog->ch_from);
 
             $characterState = $this->_convert($row['F']);
+            //if ($characterState == '') $characterState = 'уравновешенное';
+            
             $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
             if ($dialog->ch_from_state == null) {
-                continue;
+                $dialog->ch_from_state = 1; //continue;
             }
 
             //$row['G'] = strtolower($row['G']);
@@ -313,8 +315,9 @@ class DialogImportService {
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
 
             if ($dialog->ch_to_state == null) {
+                $dialog->ch_to_state = 1;
                 //echo($row['H']);
-                continue;
+                //continue;
             }
 
             $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($this->_convert($row['O']));
