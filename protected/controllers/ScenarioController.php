@@ -28,7 +28,10 @@ class ScenarioController extends AjaxController{
             $processed = $service->import($fileName);
             Logger::debug('processed records : '.$processed);
             
-            $result = 1;
+            $html = "<script language=\"javascript\" type=\"text/javascript\">
+                        window.top.window.scenario.stopUpload(1, {$processed});
+                    </script>";
+            return $this->_sendResponse(200, $html, 'text/html');
 
             //$result['message'] = "Обработано записей {$processed}";
         } catch (Exception $exc) {
