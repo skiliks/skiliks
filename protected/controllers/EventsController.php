@@ -156,7 +156,7 @@ class EventsController extends AjaxController{
      */
     public function actionStart() {
         $sid = Yii::app()->request->getParam('sid', false);  
-        $id = Yii::app()->request->getParam('id', false);  
+        $eventCode = Yii::app()->request->getParam('eventCode', false);  
         $delay = Yii::app()->request->getParam('delay', false);  
         
         try {
@@ -168,10 +168,13 @@ class EventsController extends AjaxController{
             $simulation = Simulations::model()->byUid($uid)->find();
             if (!$simulation) throw new Exception('Не могу определить симуляцию');
             
+            $event = EventsSamples::model()->byCode($eventCode)->find();
+            if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
+            
             // Добавляем событие
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id = $simulation->id;
-            $eventsTriggers->event_id = $id;
+            $eventsTriggers->event_id = $event->id;
             $eventsTriggers->trigger_time = time() + ($delay/4);
             $eventsTriggers->insert();
             
