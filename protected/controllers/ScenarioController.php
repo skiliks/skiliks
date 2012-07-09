@@ -17,7 +17,7 @@ class ScenarioController extends AjaxController{
         
         $result = 0; $processed = 0;
         try {
-            /*
+  
             // загружаем файл
             $fileName = UploadHelper::uploadSimple();
             Logger::debug('uploaded file : '.$fileName);
@@ -28,11 +28,9 @@ class ScenarioController extends AjaxController{
             $service = new DialogImportService();
             $processed = $service->import($fileName);
             Logger::debug('processed records : '.$processed);
-*/
+
             $html = "<script language=\"javascript\" type=\"text/javascript\">
-                        window.top.window.postMessage(\"test 123123!\");
-            
-                        //window.top.window.scenario.stopUpload(1, {$processed});
+                        alert('Импорт завершен. Обработано записей {$processed}');
                     </script>";
             return $this->_sendResponse(200, $html, 'text/html');
 
@@ -42,7 +40,7 @@ class ScenarioController extends AjaxController{
         }
 
         $html = "<script language=\"javascript\" type=\"text/javascript\">
-                        window.top.window.scenario.stopUpload({$result});
+                        alert('Что-то пошло не так');
                     </script>";
         
         return $this->_sendResponse(200, $html, 'text/html');
