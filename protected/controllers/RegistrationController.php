@@ -50,7 +50,7 @@ class RegistrationController extends AjaxController{
             ))) 
                 throw new Exception("Немогу отправить емейл пользователю {$users->email}");
 
-            $rows = array('result' => 1, 'rows' => $r, "login"=>$login);
+            $rows = array('result' => 1, 'rows' => $r, "login"=>$email);
             return $this->_sendResponse(200, CJSON::encode($rows));
             
         } catch (Exception $exc) {
