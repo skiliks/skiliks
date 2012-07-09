@@ -252,10 +252,10 @@ class DialogImportService {
         // В начале импортируем события
         foreach($columns as $index=>$row) {
             $code = $this->_convert($row['A']);
+            if ($code == '-' || $code == '') continue;
             
             // Проверяем, а нету ли уже такое события
             if (!EventsSamples::model()->byCode($code)->find()) {
-                
                 // Создаем событие
                 $event = new EventsSamples();
                 $event->code = $code;
@@ -265,9 +265,25 @@ class DialogImportService {
                 $event->insert();
                 $processed++;
             }
-            
-            // if (($row['I'] == 1) && ($row['J'] == 0)) {
         }
+        
+        // Это временный код - его задача создать события типа - М9 М10, D3, P3, T (без номера)
+        foreach($columns as $index=>$row) {
+            $code = $this->_convert($row['M']);
+            if ($code == '-' || $code == '') continue;
+            if (!EventsSamples::model()->byCode($code)->find()) {
+                // Создаем событие
+                $event = new EventsSamples();
+                $event->code = $code;
+                $event->title = "запуск события {$code}";
+                $event->on_ignore_result = 0;
+                $event->on_hold_logic = 1;
+                $event->insert();
+                $processed++;
+            }
+        }
+        ///////////////////////////////
+        
         
         // теперь импортируем диалоги
         foreach($columns as $index=>$row) {
