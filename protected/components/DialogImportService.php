@@ -36,7 +36,10 @@ class DialogImportService {
     protected $_charactersPoints = array();
     
     protected function _convert($str) {
+        $str = str_replace(chr(hexdec('A0')), " ", $str);
+        
         $str = preg_replace('/\s\s+/', ' ', $str);
+         
         
         /*$str = str_replace("&nbsp;", "", $str);
         $str = str_replace("\t", "", $str);
