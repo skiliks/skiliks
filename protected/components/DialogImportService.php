@@ -37,7 +37,11 @@ class DialogImportService {
     
     protected function _convert($str) {
         $str = preg_replace('/\s\s+/', ' ', $str);
-        $str = preg_replace('/\t+/', ' ', $str);
+        
+        $str = str_replace("&nbsp;", "", $str);
+        $str = str_replace("\t", "", $str);
+        $str = str_replace("  ", "", $str);
+        
         
         $str = iconv("Windows-1251", "UTF-8", $str);
         $str = trim($str);
