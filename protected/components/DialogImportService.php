@@ -36,7 +36,9 @@ class DialogImportService {
     protected $_charactersPoints = array();
     
     protected function _convert($str) {
-        return iconv("Windows-1251", "UTF-8", $str);
+        $str = iconv("Windows-1251", "UTF-8", $str);
+        $str = trim($str);
+        return $str;
     }
     
     /**

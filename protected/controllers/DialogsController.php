@@ -25,7 +25,13 @@ class DialogsController extends DictionaryController{
         ),
         'step_number',
         'replica_number',
-        'next_event',
+        
+        array(
+            'paramName' => 'next_event',
+            'fieldName' => 'es.code'
+        ),
+        
+        
         'delay'
     );
     
@@ -96,8 +102,16 @@ class DialogsController extends DictionaryController{
         $model->code = Yii::app()->request->getParam('code', false);
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
+        
+        // @todo: по коду опеределить событие next_event
         $nextEvent = Yii::app()->request->getParam('next_event', false);
-        if ($nextEvent == 0) $nextEvent = null;
+        if ($nextEvent != '') {
+            $event = EventsSamples::model()->byCode($nextEvent)->find();
+            $nextEvent = (int)$event->id;
+        }
+        else {
+            $nextEvent = null;
+        }
         $model->next_event = $nextEvent; 
         
         $model->delay = Yii::app()->request->getParam('delay', false);
@@ -120,7 +134,13 @@ class DialogsController extends DictionaryController{
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
         $nextEvent = Yii::app()->request->getParam('next_event', false);
-        if ($nextEvent == 0) $nextEvent = null;
+        if ($nextEvent != '') {
+            $event = EventsSamples::model()->byCode($nextEvent)->find();
+            $nextEvent = (int)$event->id;
+        }
+        else {
+            $nextEvent = null;
+        }
         $model->next_event = $nextEvent; 
         $model->delay = Yii::app()->request->getParam('delay', false);
         $model->insert();
@@ -154,7 +174,7 @@ class DialogsController extends DictionaryController{
                     
                     d.step_number,
                     d.replica_number,
-                    es.title as next_event,
+                    es.code as next_event,
                     d.delay
                 from dialogs as d
 
