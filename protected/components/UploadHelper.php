@@ -21,6 +21,9 @@ class UploadHelper {
             return false;  // нечего загружать
         }
         
+        //Logger::debug("files : ".var_export($_FILES, true));
+        //var_dump($_FILES); die();
+        
         //проверяем размер и тип файла
         //$ext = end(explode('.', strtolower($_FILES['Filedata']['name'])));
         $path_info = pathinfo(strtolower($_FILES['Filedata']['name']));

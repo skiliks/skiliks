@@ -30,6 +30,23 @@ class Users extends CActiveRecord{
         return $this;
     }
     
+    public function scopes()
+    {
+        return array(
+            'active'=>array(
+                'condition'=>'is_active=1',
+            )
+        );
+    }
+    
+    public function isActive()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "is_active=1"
+        ));
+        return $this;
+    }
+    
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

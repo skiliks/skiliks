@@ -21,7 +21,7 @@ class RegistrationController extends AjaxController{
         
         try {
             
-            if (Users::model()->byEmail($email)->find()) 
+            if (Users::model()->byEmail($email)->isActive()->find()) 
                 throw new Exception("Пользователь с емейлом {$email} уже существует");
             
             if ($password != $password2)                
