@@ -36,8 +36,19 @@ class DialogImportService {
     protected $_charactersPoints = array();
     
     protected function _convert($str) {
+        $str = preg_replace('/\s\s+/', ' ', $str);
         $str = iconv("Windows-1251", "UTF-8", $str);
         $str = trim($str);
+        
+        echo($str.'<br/>');
+        /*$str = str_replace("&nbsp;", "", $str);
+        $str = str_replace("\t", "", $str);
+        $str = str_replace("  ", "", $str);
+        */
+        //$str = preg_replace("/^(\-\s+)/", "- ", $str);
+        
+        echo($str.'<br/>');
+        
         return $str;
     }
     
@@ -173,7 +184,7 @@ class DialogImportService {
             if ($index == 2) {
                 // загрузим кодов
                 $columnIndex = 17;
-                while($row[$columnIndex] != '') {
+                while(isset($row[$columnIndex]) && $row[$columnIndex] != '') {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
                 }
@@ -277,9 +288,12 @@ class DialogImportService {
                 continue;
             }
 
-            
-            
-            $dialog->ch_to = $this->_getCharacterIdByName($this->_convert($row['G']));
+            //$row['G'] = strtolower($row['G']);
+            $characterToId = (int)$this->_getCharacterIdByName($this->_convert($row['G']));
+            if ($characterToId == 0) {
+                echo("character ".$row['G']); die();
+            }
+            $dialog->ch_to = $characterToId;
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
 
             if ($dialog->ch_to_state == null) {
