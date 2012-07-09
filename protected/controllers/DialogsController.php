@@ -19,7 +19,10 @@ class DialogsController extends DictionaryController{
         'text',
         'duration',
         'event_result',
-        'code',
+        array(
+            'paramName' => 'code',
+            'fieldName' => 'd.code'
+        ),
         'step_number',
         'replica_number',
         'next_event',
