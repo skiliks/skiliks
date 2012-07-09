@@ -13,31 +13,33 @@ class ScenarioController extends AjaxController{
      * @return type 
      */
     public function actionUpload() {
-        Logger::debug('i was called');
+        Logger::debug('scenario upload called');
         
-        // загружаем файл
-        $fileName = UploadHelper::upload();
-        
-        if (!$fileName) {
-            $result = array('result' => 0, 'message' => 'Не могу загрузить файл');
-            return $this->_sendResponse(200, CJSON::encode($result));
-        }
-        
-        // импорт файла
-        $result = array('result' => 0);
-        $service = new DialogImportService();
+        $result = 0;
         try {
+            // загружаем файл
+            $fileName = UploadHelper::uploadSimple();
+            Logger::debug('uploaded file : '.$fileName);
+
+            if (!$fileName) throw new Exception ('Не могу загрузить файл');
+
+            // импорт файла
+            $service = new DialogImportService();
             $processed = $service->import($fileName);
-            /*if ($processed == 0) {
-                
-            }*/
-            $result['result'] = 1;
-            $result['message'] = "Обработано записей {$processed}";
+            Logger::debug('processed records : '.$processed);
+            
+            $result = 1;
+
+            //$result['message'] = "Обработано записей {$processed}";
         } catch (Exception $exc) {
-            $result['message'] = $exc->getMessage();
+            $result = 0;
         }
 
+        $html = "<script language=\"javascript\" type=\"text/javascript\">
+                        window.top.window.scenario.stopUpload({$result});
+                    </script>";
         
+        return $this->_sendResponse(200, $html, 'text/html');
         
         //Logger::debug('file : '.$fileName);
         

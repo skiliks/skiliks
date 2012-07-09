@@ -110,56 +110,8 @@ class DialogController extends AjaxController{
             }
      
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
-                 
-                 
-      
 
-            
 
-            ########################################        
-            # OLD CODE
-            ######################################
-            
-            // рассчитываем оценку по данному диалогу
-            CalculationEstimateService::calculate($dialogId, $simId);
-            
-            
-            
-            
-            
-            if ($dialog->event_result > 0) { // если данный вариант ответа должен сгенерировать событие
-                // смотрим что это может быть за событие
-                
-                // получаем текущее событие в рамках данной симуляции
-                $currentEventId = EventService::getCurrent($simId);
-                
-                // получить информацию о последующем событии
-                $eventChoise = EventsChoices::model()->byEventAndResult($currentEventId, $dialog->event_result)->find();
-                if ($eventChoise) {
-                    // добавить в очередь новое событие
-                    EventService::addToQueue($simId, $eventChoise->dstEventId, time() + $eventChoise->delay);
-                }
-            }
-            
-            
-            // @todo: загрузить диалог по nextBranch
-            $dialog = Dialogs::model()->byBranch($dialog->next_branch)->find();
-            if (!$dialog) throw new Exception('Не могу загрузить диалог по ветке', 4);
-            
-            // @todo: загрузить варианта ответов
-            $data = array();
-            $data[] = DialogService::dialogToArray($dialog);
-
-            // загрузить те, где branch = next_branch
-            if ($dialog->ch_to_state == 1) {  // если этот диалог это обращение к нам, то загружаем варианты ответов
-                $dialogs = Dialogs::model()->byBranch($dialog->next_branch)->findAll();
-                if (!$dialogs) throw new Exception('Не могу загрузить варианты ответов for '.$dialog->next_branch, 5);
-                foreach($dialogs as $dialog) {
-                    $data[] = DialogService::dialogToArray($dialog);
-                }
-            }
-
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
             
         /*} catch (Exception $exc) {
             Logger::debug('exception : '.  $exc->getMessage());
