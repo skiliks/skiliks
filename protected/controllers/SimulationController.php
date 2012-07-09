@@ -65,6 +65,64 @@ class SimulationController extends AjaxController{
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
     }
+    
+    public function actionGetPoint() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if (!$sid) throw new Exception("empty sid");
+            
+            $uid = SessionHelper::getUidBySid($sid);
+            if (!$uid) throw new Exception("cant find user by sid {$sid}");
+
+            $simulation = Simulations::model()->byUid($uid)->find();
+            if (!$simulation) throw new Exception("cant find simulation for uid {$uid}");
+            
+            $result = array();
+            $result['result'] = 1;
+            // определяем duration симуляции
+            $dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
+            //$dialogsDuration = SimulationsDialogsDurations::model()->findByAttributes(array('sim_id'=>$simulation->id));
+            if ($dialogsDuration) {
+                $result['duration'] = $dialogsDuration->duration;    
+            }
+            else {
+                $result['duration'] = 0;
+            }
+            
+            
+            // загружаем поинты
+            $sql = "select 
+                        sdp.count,
+                        sdp.value,
+                        cpt.code,
+                        cpt.title
+                    from simulations_dialogs_points as sdp
+                    left join characters_points_titles as cpt on (cpt.id = sdp.point_id)
+                    where sdp.sim_id = {$simulation->id}";
+            
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+        
+            $dataReader = $command->query();
+        
+            foreach($dataReader as $row) { 
+                $result['points'][] = array(
+                    'code' => $row['code'],
+                    'title' => $row['title'],
+                    'count' => $row['count'],
+                    'value' => $row['value'],
+                    'avg' => $row['value'] / $row['count']
+                );
+            }        
+                    
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array('result' => 0, 'message' => $exc->getMessage());
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+
+        
+    }
 }
 
 ?>
