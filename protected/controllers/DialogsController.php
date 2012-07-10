@@ -11,6 +11,7 @@ class DialogsController extends DictionaryController{
     
     protected $_searchParams = array(
         'id', 
+        
         'ch_from',
         'ch_from_state',
         'ch_to',
@@ -28,7 +29,7 @@ class DialogsController extends DictionaryController{
         
         array(
             'paramName' => 'next_event',
-            'fieldName' => 'es.code'
+            'fieldName' => 'd.next_event',
         ),
         
         
@@ -89,6 +90,10 @@ class DialogsController extends DictionaryController{
     }
     
     public function actionGetEventsCodesHtml() {
+        $this->_sendResponse(200, $this->_getComboboxHtml('events_samples', 'code', '', 'code'), 'text/html');
+    }
+    
+    public function actionGetNextEventHtml() {
         $this->_sendResponse(200, $this->_getComboboxHtml('events_samples', 'code'), 'text/html');
     }
     
@@ -107,6 +112,8 @@ class DialogsController extends DictionaryController{
         $model->code = Yii::app()->request->getParam('code', false);
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
+        $model->is_final_replica = (int)Yii::app()->request->getParam('is_final_replica', false);
+        
         
         // @todo: по коду опеределить событие next_event
         $nextEvent = Yii::app()->request->getParam('next_event', false);
@@ -138,6 +145,7 @@ class DialogsController extends DictionaryController{
         $model->code = Yii::app()->request->getParam('code', false);
         $model->step_number = Yii::app()->request->getParam('step_number', false);
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
+        $model->is_final_replica = (int)Yii::app()->request->getParam('is_final_replica', false);
         $nextEvent = Yii::app()->request->getParam('next_event', false);
         if ($nextEvent != '') {
             $event = EventsSamples::model()->byCode($nextEvent)->find();
