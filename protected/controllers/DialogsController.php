@@ -39,6 +39,7 @@ class DialogsController extends DictionaryController{
     
     protected function _processListField($fieldName, $fieldValue) {
         if (($fieldName == 'is_final_replica') && ($fieldValue == 1)) return 'Да';
+        if (($fieldName == 'is_final_replica') && ($fieldValue == 0)) return 'Нет';
         return $fieldValue;
     }
     
