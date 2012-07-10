@@ -33,6 +33,10 @@ abstract class DictionaryController extends AjaxController{
         return "select count(*) as count from {$this->_tableName} ";
     }
     
+    protected function _processListField($fieldName, $fieldValue) {
+        return $fieldValue;
+    }
+    
     /**
      * Формирование данных для отдачи гриду
      * 
@@ -110,8 +114,12 @@ abstract class DictionaryController extends AjaxController{
         $records = array();
         foreach($dataReader as $row) { 
             $cell = array();
-            foreach($row as $f) {
-                $cell[] = $f;
+            foreach($row as $fieldName => $fieldValue) {
+                //Logger::debug("index: {$index} f: ".var_export($f, true));
+                
+                $fieldValue = $this->_processListField($fieldName, $fieldValue);
+                
+                $cell[] = $fieldValue;
             }
             
             $records[] = array(
@@ -167,7 +175,7 @@ abstract class DictionaryController extends AjaxController{
         $this->_sendResponse(200, CJSON::encode(array('result' => $result)));
     }
     
-    protected function _getComboboxData($tableName, $nameField = 'title', $condition='', $firstValue = false) {
+    protected function _getComboboxData($tableName, $nameField = 'title', $condition='', $firstValue = false, $idField = 'id') {
         $sql = "select * from {$tableName} ".$condition;
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
@@ -179,7 +187,7 @@ abstract class DictionaryController extends AjaxController{
         }
         
         foreach($dataReader as $row) { 
-            $records[] = $row['id'].':'.$row[$nameField];
+            $records[] = $row[$idField].':'.$row[$nameField];
         }
         
         return implode(';', $records);

@@ -37,6 +37,10 @@ class DialogsController extends DictionaryController{
     );
     
     
+    protected function _processListField($fieldName, $fieldValue) {
+        if ($fieldName == 'is_final_replica') return 'Да';
+        return $fieldValue;
+    }
     
     
     
@@ -54,7 +58,8 @@ class DialogsController extends DictionaryController{
                 'characters_states' => $this->_getComboboxData('characters_states'),
                 'events_results' => $this->_getComboboxData('events_results'),
                 'events_samples' => $this->_getComboboxData('events_samples'),
-                'events_codes' => $this->_getComboboxData('events_samples', 'code')
+                'code' => $this->_getComboboxData('events_samples', 'code', '', false, 'code'),
+                'next_event' => $this->_getComboboxData('events_samples', 'code')
             )
         );
         
@@ -117,13 +122,15 @@ class DialogsController extends DictionaryController{
         
         // @todo: по коду опеределить событие next_event
         $nextEvent = Yii::app()->request->getParam('next_event', false);
-        if ($nextEvent != '') {
+        /*if ($nextEvent != '') {
             $event = EventsSamples::model()->byCode($nextEvent)->find();
             $nextEvent = (int)$event->id;
         }
         else {
             $nextEvent = null;
-        }
+        }*/
+        if (!$nextEvent) $nextEvent = null;
+        
         $model->next_event = $nextEvent; 
         
         $model->delay = Yii::app()->request->getParam('delay', false);
@@ -147,13 +154,15 @@ class DialogsController extends DictionaryController{
         $model->replica_number = Yii::app()->request->getParam('replica_number', false);
         $model->is_final_replica = (int)Yii::app()->request->getParam('is_final_replica', false);
         $nextEvent = Yii::app()->request->getParam('next_event', false);
-        if ($nextEvent != '') {
+        /*if ($nextEvent != '') {
             $event = EventsSamples::model()->byCode($nextEvent)->find();
             $nextEvent = (int)$event->id;
         }
         else {
             $nextEvent = null;
-        }
+        }*/
+        if (!$nextEvent) $nextEvent = null;
+        
         $model->next_event = $nextEvent; 
         $model->delay = Yii::app()->request->getParam('delay', false);
         $model->insert();
@@ -188,7 +197,8 @@ class DialogsController extends DictionaryController{
                     d.step_number,
                     d.replica_number,
                     es.code as next_event,
-                    d.delay
+                    d.delay,
+                    d.is_final_replica
                 from dialogs as d
 
                 left join characters as cf on (cf.id = d.ch_from)
