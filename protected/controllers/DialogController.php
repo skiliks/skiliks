@@ -52,6 +52,11 @@ class DialogController extends AjaxController{
             }*/
             // конец расчета оценки
             
+            
+                
+            
+                
+            
             $data = array();
             // смотрим, есть ли у нее next_event, 
             if ($currentDialog->next_event > 0) {
@@ -62,23 +67,21 @@ class DialogController extends AjaxController{
                     // если delay==0 то сразу запускаем данное событие
                     // @todo: сделать запуск события
                     
+                    // проверяем а не последняя ли это реплика, если последняя, то не загружаем детей
+                    if ($currentDialog->is_final_replica != 1) {
                     
-                    // получить событие по коду        
-                    Logger::debug('try to get event '.$currentDialog->next_event);
-                    //$event = EventsSamples::model()->byId($currentDialog->next_event)->find();
                     
-                    $event = EventsSamples::model()->findByAttributes(array(
-                            'id' => $currentDialog->next_event
-                        ));
-                    
-       //             Logger::debug('loaded event '.var_export($event, true));
-                    if ($event) {
-                        $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+                        // получить событие по коду        
+                        Logger::debug('try to get event '.$currentDialog->next_event);
 
-                        
-         //               Logger::debug('dialogs : '.  var_export($dialogs, true));
-                        foreach($dialogs as $dialog) {
-                            $data[] = DialogService::dialogToArray($dialog);
+                        $event = EventsSamples::model()->findByAttributes(array('id' => $currentDialog->next_event));
+
+
+                        if ($event) {
+                            $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+                            foreach($dialogs as $dialog) {
+                                $data[] = DialogService::dialogToArray($dialog);
+                            }
                         }
                     }
                 }
@@ -97,16 +100,18 @@ class DialogController extends AjaxController{
                 
                 Logger::debug('event = 0');
                 
-                // если нет, то нам надо продолжить диалог
-                // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                $dialogs = Dialogs::model()->byCodeAndStepNumber(
-                        $currentDialog->code, $currentDialog->step_number + 1
-                )->findAll();
-                //Logger::debug('dialogs2 : '.  var_export($dialogs, true));
-                foreach($dialogs as $dialog) {
-                    $data[] = DialogService::dialogToArray($dialog);
+                if ($currentDialog->is_final_replica != 1) {
+                
+                    // если нет, то нам надо продолжить диалог
+                    // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber(
+                            $currentDialog->code, $currentDialog->step_number + 1
+                    )->findAll();
+                    //Logger::debug('dialogs2 : '.  var_export($dialogs, true));
+                    foreach($dialogs as $dialog) {
+                        $data[] = DialogService::dialogToArray($dialog);
+                    }
                 }
-                       
             }
      
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
