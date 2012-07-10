@@ -83,6 +83,8 @@ class EventsController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         $eventCode = Yii::app()->request->getParam('eventCode', false);  
         $delay = Yii::app()->request->getParam('delay', false);  
+        $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
+        $clearAssessment = Yii::app()->request->getParam('clearAssessment', false);  
         
         try {
             if (!$sid) throw new Exception('Не задан сид');
@@ -95,6 +97,16 @@ class EventsController extends AjaxController{
             
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
+            
+            // если надо очищаем очерель событий для текущей симуляции
+            if ($clearEvents) {
+                EventsTriggers::model()->deleteAll("sim_id={$simulation->id}");
+            }
+            
+            // если надо очищаем оценки  для текущей симуляции
+            if ($clearAssessment) {
+                SimulationsDialogsPoints::model()->deleteAll("sim_id={$simulation->id}");
+            }
             
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId(
                     $simulation->id, $event->id)->find();
