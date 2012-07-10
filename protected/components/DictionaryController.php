@@ -85,7 +85,7 @@ abstract class DictionaryController extends AjaxController{
                 if ($paramValue == -1) continue;
                 
                 if ($paramValue) {
-                    $where[] =  $whereArr[]= $fieldName.' LIKE "%'.$paramValue.'%"';
+                    $where[] = $fieldName.' LIKE "%'.$paramValue.'%"';
                 }
             }
             if (count($where)>0) {
@@ -99,6 +99,8 @@ abstract class DictionaryController extends AjaxController{
         }
         $offset = $limit*$rows;
         $sql .= " limit {$rows} offset {$offset}";
+        
+        Logger::debug("dictionary sql : $sql");
         
         //echo($sql);
         $connection = Yii::app()->db;
@@ -189,7 +191,7 @@ abstract class DictionaryController extends AjaxController{
      * @param type $nameField
      * @return string 
      */
-    protected function _getComboboxHtml($tableName, $nameField = 'title', $condition='') {
+    protected function _getComboboxHtml($tableName, $nameField = 'title', $condition='', $idField = 'id') {
         $sql = "select * from {$tableName} ".$condition;
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
@@ -198,7 +200,7 @@ abstract class DictionaryController extends AjaxController{
         $html = '<select>';
         $html .= "<option value='-1'>Все</option>";
         foreach($dataReader as $row) { 
-            $html .= "<option value='{$row['id']}'>{$row[$nameField]}</option>";
+            $html .= "<option value='{$row[$idField]}'>{$row[$nameField]}</option>";
         }
         $html .= '</select>';
         
