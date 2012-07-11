@@ -40,6 +40,8 @@ class RegistrationController extends AjaxController{
             $usersActivationCode->uid = $users->id;
             $usersActivationCode->code = $activationCode;
             $usersActivationCode->insert();
+            
+            Logger::debug("activation code : {$activationCode}");
 
             // отправляем пользователю уведомление что все хорошо
             if (!$this->_notifyUser(array(
@@ -75,8 +77,15 @@ class RegistrationController extends AjaxController{
             $user = Users::model()->byId($model->uid)->find();
             if (!$user) throw new Exception('Немогу найти пользователя');
             
+            // если пользователь уже активирован
+            if ($user->is_active == 1) {
+                return $this->_sendResponse(200, 'Аккаунт уже активирован', 'text/html');
+            }
+            
             $user->is_active = 1;
             $user->save();
+            
+            $this->redirect(Yii::app()->params['frontendUrl']);
             
             return $this->_sendResponse(200, 'Поздравляю, вы успешно активированы', 'text/html');
             
