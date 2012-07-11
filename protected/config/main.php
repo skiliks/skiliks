@@ -26,8 +26,13 @@ return array(
     ),
     
     
-    'preload'=>array('log')
+    'preload'=>array('log'),
     
+    // application-level parameters that can be accessed
+    // using Yii::app()->params['paramName']
+    'params'=>array(
+        'frontendUrl'=>'http://front.skiliks.loc/',
+    )
 );    
 
 ?>
