@@ -145,10 +145,47 @@ class DayPlanController extends AjaxController{
             if ($sid) throw new Exception("Не передан sid");
             $simId = $this->_getSimIdBySid($sid);
 
-            $taskId = Yii::app()->request->getParam('taskId', false);
+            $taskId = (int)Yii::app()->request->getParam('taskId', false);
 
             DayPlan::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
                     array(':simId' => $simId, ':taskId' => $taskId));
+            
+            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+        } catch (Exception $exc) {
+            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $this->_sendResponse(200, CJSON::encode($data));
+        }
+    }
+    
+    /**
+     * Добавление задачи в план дневной
+     */
+    public function actionAdd() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if ($sid) throw new Exception("Не передан sid");
+            $simId = $this->_getSimIdBySid($sid);
+            
+            $taskId = (int)Yii::app()->request->getParam('taskId', false);
+            $time = Yii::app()->request->getParam('time', false);
+            
+            // @todo: проверить подходит ли задача по времени
+
+            // проверяем есть ли у нас такая запись
+            $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId and time = :time',
+                    array(':simId'=>$simId, ':taskId'=>$taskId, ':time'=>$time));
+            if ($dayPlan)
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+                
+            $dayPlan = new DayPlan();
+            $dayPlan->sim_id = $simId;
+            $dayPlan->task_id = $task_id;
+            $dayPlan->date = $time;
+            $dayPlan->insert();
+            
+            // Убиваем задачу из todo
+            Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
+                    array(':simId'=>$simId, ':taskId'=>$taskId));
             
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
         } catch (Exception $exc) {
