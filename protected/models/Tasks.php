@@ -1,0 +1,35 @@
+<?php
+
+
+
+/**
+ * Модель задач
+ *
+ * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ */
+class Tasks extends CActiveRecord{
+    
+    public static function model($className=__CLASS__)
+    {
+            return parent::model($className);
+    }
+
+    /**
+     * @return string the associated database table name
+     */
+    public function tableName()
+    {
+            return 'tasks';
+    }
+    
+    public function byIds($ids)
+    {
+        $ids = implode(',', $ids);
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id in ({$ids})"
+        ));
+        return $this;
+    }
+}
+
+?>
