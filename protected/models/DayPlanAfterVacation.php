@@ -3,11 +3,11 @@
 
 
 /**
- * Модель дневного плана
+ * Description of DayPlanAfterVacation
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DayPlan extends CActiveRecord{
+class DayPlanAfterVacation extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {
@@ -19,15 +19,7 @@ class DayPlan extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'day_plan';
-    }
-    
-    public function byDate($from, $to)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "date >= $from and date <= $to"
-        ));
-        return $this;
+            return 'day_plan_after_vacation';
     }
     
     public function bySimulation($simId)
