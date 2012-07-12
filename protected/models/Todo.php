@@ -22,7 +22,13 @@ class Todo extends CActiveRecord{
             return 'todo';
     }
     
-    
+    public function bySimulation($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id={$simId})"
+        ));
+        return $this;
+    }
 }
 
 ?>
