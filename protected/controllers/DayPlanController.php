@@ -40,6 +40,18 @@ class DayPlanController extends AjaxController{
         return $tasks;
     }
     
+    protected function _getSimIdBySid($sid) {
+        // получаем uid
+        $uid = SessionHelper::getUidBySid($sid);
+        if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
+
+        // получаем идентификатор симуляции
+        $simId = SimulationService::get($uid);
+        if (!$simId) throw new Exception("Не определить сумуляцию по uid : {$uid}");
+        
+        return $simId;
+    }
+    
     /**
      * Получить список для плана дневной
      */
@@ -47,14 +59,8 @@ class DayPlanController extends AjaxController{
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if ($sid) throw new Exception("Не передан sid");
+            $simId = $this->_getSimIdBySid($sid);
             
-            // получаем uid
-            $uid = SessionHelper::getUidBySid($sid);
-            if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
-
-            // получаем идентификатор симуляции
-            $simId = SimulationService::get($uid);
-            if (!$simId) throw new Exception("Не определить сумуляцию по uid : {$uid}");
         
             $now = time();
             $date = explode('-', date('Y-m-d', $now));
@@ -124,6 +130,27 @@ class DayPlanController extends AjaxController{
 
             $data = array('result' => 1, 'date' => $list);
             $this->_sendResponse(200, CJSON::encode($data));
+        } catch (Exception $exc) {
+            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $this->_sendResponse(200, CJSON::encode($data));
+        }
+    }
+    
+    /**
+     * Удаление задачи из плана дневной
+     */
+    public function actionDelete() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if ($sid) throw new Exception("Не передан sid");
+            $simId = $this->_getSimIdBySid($sid);
+
+            $taskId = Yii::app()->request->getParam('taskId', false);
+
+            DayPlan::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
+                    array(':simId' => $simId, ':taskId' => $taskId));
+            
+            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
             $this->_sendResponse(200, CJSON::encode($data));
