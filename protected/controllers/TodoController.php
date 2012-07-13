@@ -13,7 +13,7 @@ class TodoController extends AjaxController{
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("Не передан sid");
-            $simId = $this->_getSimIdBySid($sid);
+            $simId = SessionHelper::getSimIdBySid($sid);
             
             $todoCollection = Todo::model()->bySimulation($simId)->findAll();
             
