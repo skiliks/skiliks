@@ -67,7 +67,7 @@ class DayPlanController extends AjaxController{
     public function actionGet() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
-            if ($sid) throw new Exception("Не передан sid");
+            if (!$sid) throw new Exception("Не передан sid");
             $simId = $this->_getSimIdBySid($sid);
             
         
