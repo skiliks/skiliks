@@ -21,6 +21,10 @@ class TodoController extends AjaxController{
             foreach($todoCollection as $item) {
                 $tasks[] = $item->task_id;
             }
+            if (count($tasks) == 0) {
+                $data = array('result' => 1, 'data' => array());
+                return $this->_sendResponse(200, CJSON::encode($data));
+            }
             
             $tasks = Tasks::model()->byIds($tasks)->findAll();
             $list = array();
