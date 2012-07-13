@@ -49,17 +49,7 @@ class DayPlanController extends AjaxController{
         return $tasks;
     }
     
-    protected function _getSimIdBySid($sid) {
-        // получаем uid
-        $uid = SessionHelper::getUidBySid($sid);
-        if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
-
-        // получаем идентификатор симуляции
-        $simId = SimulationService::get($uid);
-        if (!$simId) throw new Exception("Не определить сумуляцию по uid : {$uid}");
-        
-        return $simId;
-    }
+    
     
     /**
      * Получить список для плана дневной
@@ -68,7 +58,7 @@ class DayPlanController extends AjaxController{
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("Не передан sid");
-            $simId = $this->_getSimIdBySid($sid);
+            $simId = SessionHelper::getSimIdBySid($sid);
             
         
             $now = time();
