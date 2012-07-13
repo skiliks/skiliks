@@ -30,6 +30,15 @@ class Tasks extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byId($id)
+    {
+        $ids = implode(',', $ids);
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
 }
 
 ?>
