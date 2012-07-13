@@ -34,6 +34,18 @@ class SessionHelper {
         
         return $user;
     }
+    
+    public static function getSimIdBySid($sid) {
+        // получаем uid
+        $uid = SessionHelper::getUidBySid($sid);
+        if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
+
+        // получаем идентификатор симуляции
+        $simId = SimulationService::get($uid);
+        if (!$simId) throw new Exception("Не определить сумуляцию по uid : {$uid}");
+        
+        return $simId;
+    }
 }
 
 ?>
