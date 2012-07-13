@@ -26,6 +26,15 @@ class DayPlanController extends AjaxController{
     }
     
     /**
+     * Преобразует время в массив
+     * @param string $time 
+     * @return array
+     */
+    protected function _timeToArr($time) {
+         return explode(':', $time);
+    }
+    
+    /**
      *
      * @param array $ids
      * @return array
@@ -158,6 +167,35 @@ class DayPlanController extends AjaxController{
     }
     
     /**
+     * Проверяет подходит ли данная задача по времени
+     * @param type $taskId 
+     * @return boolean
+     */
+    protected function _canAddTask($taskId, $time) {
+        // получить длительность задачи
+        $task = Tasks::model()->byId($taskId)->find();
+        if (!$task) throw new Exception("cant find task by id {$taskId}");
+        
+        $start = $time;
+        $end = $time + $task->duration;
+        
+        $sql = "select count(*) as count from tasks 
+            where 
+                (start_time >= {$start} and start_time <= {$end}) or
+                (start_time + duration >= {$start} and start_time <= {$start}) or
+                (start_time >= {$start} and start_time + duration <= {$end} ) or
+                (start_time  <= {$start} and start_time + duration >= {$end})
+                ";
+                
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);       
+        $row = $command->queryRow();
+        
+        if ($row['count'] == 0) return true;
+        return false;
+    }
+    
+    /**
      * Добавление задачи в план дневной
      */
     public function actionAdd() {
@@ -169,7 +207,14 @@ class DayPlanController extends AjaxController{
             $taskId = (int)Yii::app()->request->getParam('taskId', false);
             $time = Yii::app()->request->getParam('time', false);
             
+            // преобразовать время в unixtime
+            $time = $this->_timeToArr($time);
+            $time = mktime($time[0], $time[1], 0, 0, 0, 0);
+            
             // @todo: проверить подходит ли задача по времени
+            if (!$this->_canAddTask($taskId, $time)) {
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 0)));
+            }
 
             // проверяем есть ли у нас такая запись
             $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId and time = :time',
