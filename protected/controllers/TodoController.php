@@ -10,6 +10,20 @@
 class TodoController extends AjaxController{
     
     public function actionGet() {
+        $tasks = Tasks::model()->findAll();
+            $list = array();
+            foreach($tasks as $task) {
+                $list[] = array(
+                    'id' => $task->id,
+                    'title' => $task->title,
+                    'duration' => $task->duration / 60
+                );
+            }
+            
+        $data = array('result' => 1, 'data' => $list);
+        return $this->_sendResponse(200, CJSON::encode($data));
+        //////////////////////////////////////////
+        
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("Не передан sid");
