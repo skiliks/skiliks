@@ -40,7 +40,7 @@ class DayPlanController extends AjaxController{
      * @return array
      */
     protected function _loadTasksTitle($ids) {
-        if (count($ids)) return false;
+        if (count($ids)==0) return false;
         
         $tasksCollection = Tasks::model()->byIds($ids)->findAll();
         $tasks = array();
@@ -74,6 +74,7 @@ class DayPlanController extends AjaxController{
             $data = array();
             $tasks = array();
             $plans = DayPlan::model()->bySimulation($simId)->findAll();  // byDate($fromTime, $toTime)->
+            
             foreach($plans as $plan) {
                 $tasks[] = $plan->task_id;
 
@@ -84,7 +85,7 @@ class DayPlanController extends AjaxController{
                     'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
                 );
             }
-
+            
             if (count($data)==0)  {
                 $data = array('result' => 1, 'data' => array());
                 return $this->_sendResponse(200, CJSON::encode($data));
@@ -94,10 +95,11 @@ class DayPlanController extends AjaxController{
                 $data = array('result' => 1, 'data' => array());
                 return $this->_sendResponse(200, CJSON::encode($data));
             }
-
+            
+            
             // загрузка названий задач
             $tasks = $this->_loadTasksTitle($tasks);
-
+            
             // Подготовка ответа (сегодня, завтра)
             $list = array();
             foreach($data as $item) {
