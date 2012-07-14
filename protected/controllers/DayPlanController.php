@@ -156,6 +156,18 @@ class DayPlanController extends AjaxController{
         }
     }
     
+    protected function _isAppropriateTime($simId, $time) {
+        $simulation = Simulations::model()->byId($simId)->find();
+        if (!$simulation) return false;
+        
+        $start = $simulation->start;
+        $duration = (time() - $start) / 4;
+        
+        // если время задачи меньше времени длительности
+        if ($time < $duration) return false;
+        return true;
+    }
+    
     /**
      * Проверяет подходит ли данная задача по времени
      * @param type $taskId 
@@ -191,8 +203,8 @@ class DayPlanController extends AjaxController{
     public function actionAdd() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
-            if ($sid) throw new Exception("Не передан sid");
-            $simId = $this->_getSimIdBySid($sid);
+            if (!$sid) throw new Exception("Не передан sid");
+            $simId = SessionHelper::getSimIdBySid($sid);
             
             $taskId = (int)Yii::app()->request->getParam('taskId', false);
             $time = Yii::app()->request->getParam('time', false);
@@ -200,6 +212,11 @@ class DayPlanController extends AjaxController{
             // преобразовать время в unixtime
             $time = $this->_timeToArr($time);
             $time = mktime($time[0], $time[1], 0, 0, 0, 0);
+            
+            // проверить не пытаемся ли мы добавить задачу раньше игрового времени
+            if (!$this->_isAppropriateTime($simId, $time)) {
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 0)));
+            }
             
             // @todo: проверить подходит ли задача по времени
             if (!$this->_canAddTask($taskId, $time)) {
