@@ -9,6 +9,11 @@
  */
 class DialogController extends AjaxController{
     
+    protected function _parsePlanCode($code) {
+        if (preg_match_all("/P(\d+)/", $code, $matches)) return false;
+        return $matches[1][0];
+    }
+    
     /**
      * Загрузка заданного диалога
      * @return type 
@@ -33,6 +38,23 @@ class DialogController extends AjaxController{
             
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
+            
+            ##############################
+            // проверим а не ссылается ли эта реплика на событие типа PN
+            $event = EventsSamples::model()->byId($currentDialog->next_event)->find();
+            if ($event) {
+                $code = $event->code;
+                $taskId = $this->_parsePlanCode($event->code); 
+                // Если это задача
+                if ($taskId) {
+                    // Добавим ее в туду
+                    $todo = new Todo();
+                    $todo->sim_id = $simId;
+                    $todo->task_id = $taskId;
+                    $todo->insert();
+                }
+            }
+            ########################
             
             Logger::debug('before calculate');
             // запускаем ф-цию расчета оценки -- 
