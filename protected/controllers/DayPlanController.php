@@ -148,7 +148,7 @@ class DayPlanController extends AjaxController{
             }
             //$list[] = $vacations;
 
-            $data = array('result' => 1, 'date' => $list);
+            $data = array('result' => 1, 'data' => $list);
             $this->_sendResponse(200, CJSON::encode($data));
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
