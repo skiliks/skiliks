@@ -64,6 +64,12 @@ class TodoController extends AjaxController{
             $this->_sendResponse(200, CJSON::encode($data));
         }    
     }
+    
+    public function actionAdd() {
+        $sid = Yii::app()->request->getParam('sid', false);
+        $data = array('result' => 1);
+        $this->_sendResponse(200, CJSON::encode($data));
+    }
 }
 
 ?>
