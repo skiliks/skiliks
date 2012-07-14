@@ -24,7 +24,9 @@ class Tasks extends CActiveRecord{
     
     public function byIds($ids)
     {
+        
         $ids = implode(',', $ids);
+        
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id in ({$ids})"
         ));
