@@ -35,7 +35,6 @@ class Tasks extends CActiveRecord{
     
     public function byId($id)
     {
-        $ids = implode(',', $ids);
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id = {$id}"
         ));
