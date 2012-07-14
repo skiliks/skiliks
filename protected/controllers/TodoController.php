@@ -9,14 +9,20 @@
  */
 class TodoController extends AjaxController{
     
+    protected function _roundTime($time) {
+        return  ceil($time / (30)) * 30;
+    }
+    
     public function actionGet() {
+        
+        
         $tasks = Tasks::model()->findAll();
             $list = array();
             foreach($tasks as $task) {
                 $list[] = array(
                     'id' => $task->id,
                     'title' => $task->title,
-                    'duration' => $task->duration / 60
+                    'duration' => $this->_roundTime($task->duration)
                 );
             }
             
