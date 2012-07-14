@@ -9,6 +9,26 @@
  */
 class SimulationController extends AjaxController{
     
+    protected function _fillDayPlan($simId) {
+        $tasks = array(1, 2, 3, 4, 5);
+        
+        $tasks = Tasks::model()->byIds($tasks)->findAll();
+        
+        foreach($tasks as $task) {
+            
+            $date = $task->start_time;
+            
+            $dayPlan = new DayPlan();
+            $dayPlan->sim_id = $simId;
+            $dayPlan->task_id = $task->id;
+            $dayPlan->date = $date;
+            $dayPlan->day = rand(1, 2);
+            $dayPlan->insert();
+                    
+            
+        }
+    }
+    
     protected function _fillTodo($simId) {
         $tasks = array(1, 2, 3, 4, 5);
         
@@ -58,6 +78,9 @@ class SimulationController extends AjaxController{
         
         // предустановка задач в todo!
         $this->_fillTodo($simId);
+        
+        // предустановка задач в план дневной
+        $this->_fillDayPlan($simId);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
