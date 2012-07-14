@@ -45,7 +45,10 @@ class DayPlanController extends AjaxController{
         $tasksCollection = Tasks::model()->byIds($ids)->findAll();
         $tasks = array();
         foreach($tasksCollection as $task) {
-            $tasks[$task->id] = $task->title;
+            $tasks[$task->id] = array(
+                'title' => $task->title,
+                'duration' => $task->duration
+            );
         }
         
         return $tasks;
@@ -83,6 +86,7 @@ class DayPlanController extends AjaxController{
                     'date' => $date[self::HOUR].':'.$date[self::MINUTE],  // дата в формате hh:mm
                     'task_id' => $plan->task_id,
                     'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
+                    
                 );
             }
             
@@ -103,8 +107,10 @@ class DayPlanController extends AjaxController{
             // Подготовка ответа (сегодня, завтра)
             $list = array();
             foreach($data as $item) {
-                if (isset($tasks[$item['task_id']]))
-                    $item['title'] = $tasks[$item['task_id']];
+                if (isset($tasks[$item['task_id']])) {
+                    $item['title'] = $tasks[$item['task_id']]['title'];
+                    $item['duration'] = $tasks[$item['task_id']]['duration'];
+                }    
                 $list[$item['day']][] = $item;
             }
             
@@ -130,7 +136,8 @@ class DayPlanController extends AjaxController{
             $vacations = array();
             foreach($vacationTasks as $item) {
                 if (isset($tasks[$item['task_id']]))
-                    $item['title'] = $tasks[$item['task_id']];
+                    $item['title'] = $tasks[$item['task_id']]['title'];
+                    $item['duration'] = $tasks[$item['task_id']]['duration'];
                 
                 $vacations[] = $item;
             }
