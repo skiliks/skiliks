@@ -66,9 +66,33 @@ class TodoController extends AjaxController{
     }
     
     public function actionAdd() {
-        $sid = Yii::app()->request->getParam('sid', false);
-        $data = array('result' => 1);
-        $this->_sendResponse(200, CJSON::encode($data));
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if (!$sid) throw new Exception ('wrong sid');
+            $taskId = (int)Yii::app()->request->getParam('taskId', false);
+            if ($taskId == 0) throw new Exception ('wrong task');
+
+            $simId = SessionHelper::getSimIdBySid($sid);
+            if (!$simId) throw new Exception ('cant find simulation');
+
+            $todo = Todo::model()->findByAttributes(array(
+                'sim_id' => $simId, 'task_id' => $taskId
+            ));
+            if ($todo) {
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            }
+            
+            $todo = new Todo();
+            $todo->sim_id = $simId;
+            $todo->task_id = $taskId;
+            $todo->insert();
+
+            $data = array('result' => 1);
+            $this->_sendResponse(200, CJSON::encode($data));
+        } catch (Exception $exc) {
+            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $this->_sendResponse(200, CJSON::encode($data));
+        }    
     }
 }
 
