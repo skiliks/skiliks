@@ -54,7 +54,11 @@ class DayPlanController extends AjaxController{
         return $tasks;
     }
     
-    
+    protected function _shell_numberFormat($digit, $width) {
+       while(strlen($digit) < $width)
+         $digit = '0' . $digit;
+         return $digit;
+    }
     
     /**
      * Получить список для плана дневной
@@ -82,8 +86,9 @@ class DayPlanController extends AjaxController{
                 $tasks[] = $plan->task_id;
 
                 $date = $this->dateToArr($plan->date);
+                $showDate = $date[self::HOUR].':'.$date[self::MINUTE];  // дата в формате hh:mm
                 $data[] = array(
-                    'date' => $date[self::HOUR].':'.$date[self::MINUTE],  // дата в формате hh:mm
+                    'date' => $this->_shell_numberFormat($showDate, 5),
                     'task_id' => $plan->task_id,
                     'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
                     
