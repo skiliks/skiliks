@@ -229,6 +229,11 @@ class DayPlanController extends AjaxController{
             $time = $this->_timeToArr($time);
             $time = mktime($time[0], $time[1], 0, 0, 0, 0);
             
+            // на всякий случай удалим из вакейшена
+            DayPlanAfterVacation::model()->deleteAllByAttributes(array(
+                'sim_id' => $simId, 'taskId' => $taskId
+            ));
+            
             if ($day == 3) {   // Добавление на после отпуска
                 $this->_addDayPlanAfterVacation($simId, $taskId);
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
@@ -243,10 +248,12 @@ class DayPlanController extends AjaxController{
             if (!$this->_canAddTask($taskId, $time)) {
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 0)));
             }
+            
+            
 
             // проверяем есть ли у нас такая запись
-            $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId and time = :time',
-                    array(':simId'=>$simId, ':taskId'=>$taskId, ':time'=>$time));
+            $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId',
+                    array(':simId'=>$simId, ':taskId'=>$taskId));
             if ($dayPlan)
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
                 
