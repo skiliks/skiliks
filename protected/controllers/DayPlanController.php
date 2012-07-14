@@ -116,7 +116,7 @@ class DayPlanController extends AjaxController{
                     $item['title'] = $tasks[$item['task_id']]['title'];
                     $item['duration'] = $tasks[$item['task_id']]['duration'];
                 }    
-                $list[$item['day']][] = $item;
+                $list[] = $item;  //[$item['day']]
             }
             
             ########################################################
@@ -144,9 +144,9 @@ class DayPlanController extends AjaxController{
                     $item['title'] = $tasks[$item['task_id']]['title'];
                     $item['duration'] = $tasks[$item['task_id']]['duration'];
                 
-                $vacations[] = $item;
+                $list[] = $item;
             }
-            $list[] = $vacations;
+            //$list[] = $vacations;
 
             $data = array('result' => 1, 'date' => $list);
             $this->_sendResponse(200, CJSON::encode($data));
