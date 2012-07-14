@@ -71,7 +71,7 @@ class DayPlanController extends AjaxController{
 
             $data = array();
             $tasks = array();
-            $plans = DayPlan::model()->byDate($fromTime, $toTime)->bySimulation($simId)->findAll();
+            $plans = DayPlan::model()->bySimulation($simId)->findAll();  // byDate($fromTime, $toTime)->
             foreach($plans as $plan) {
                 $tasks[] = $plan->task_id;
 
@@ -79,7 +79,7 @@ class DayPlanController extends AjaxController{
                 $data[] = array(
                     'date' => $date[self::HOUR].':'.$date[self::MINUTE],  // дата в формате hh:mm
                     'task_id' => $plan->task_id,
-                    'day' => $date[self::DAY]  // день, на когда идут задачи
+                    'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
                 );
             }
 
