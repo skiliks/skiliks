@@ -10,7 +10,7 @@
 class SimulationController extends AjaxController{
     
     protected function _fillDayPlan($simId) {
-        $tasks = array(1, 2, 3, 4, 5);
+        $tasks = array(14, 15, 19);
         
         $tasks = Tasks::model()->byIds($tasks)->findAll();
         
