@@ -197,10 +197,25 @@ class DayPlanController extends AjaxController{
         return false;
     }
     
+    protected function _addDayPlanAfterVacation($simId, $taskId) {
+        $dayPlanAfterVacation = new DayPlanAfterVacation();
+        $dayPlanAfterVacation->sim_id = $simId;
+        $dayPlanAfterVacation->task_id = $taskId;
+        $dayPlanAfterVacation->insert();
+        return true;
+    }
+    
     /**
      * Добавление задачи в план дневной
      */
     public function actionAdd() {
+        /* на вход : 
+         *  string sid, 
+         *  int taskId, 
+         *  hh:mm time, 
+         *  int day (1- сегодня, 2 - завтра 3- отпуск)
+        */
+    
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("Не передан sid");
@@ -208,10 +223,16 @@ class DayPlanController extends AjaxController{
             
             $taskId = (int)Yii::app()->request->getParam('taskId', false);
             $time = Yii::app()->request->getParam('time', false);
+            $day = (int)Yii::app()->request->getParam('day', false);
             
             // преобразовать время в unixtime
             $time = $this->_timeToArr($time);
             $time = mktime($time[0], $time[1], 0, 0, 0, 0);
+            
+            if ($day == 3) {   // Добавление на после отпуска
+                $this->_addDayPlanAfterVacation($simId, $taskId);
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            }
             
             // проверить не пытаемся ли мы добавить задачу раньше игрового времени
             if (!$this->_isAppropriateTime($simId, $time)) {
@@ -233,6 +254,7 @@ class DayPlanController extends AjaxController{
             $dayPlan->sim_id = $simId;
             $dayPlan->task_id = $task_id;
             $dayPlan->date = $time;
+            $dayPlan->day = $day;
             $dayPlan->insert();
             
             // Убиваем задачу из todo
@@ -247,10 +269,31 @@ class DayPlanController extends AjaxController{
     }
     
     public function actionUpdate() {
-        $sid = Yii::app()->request->getParam('sid', false);
-        
-        $data = array('result' => 1);
-        $this->_sendResponse(200, CJSON::encode($data));
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if (!$sid) throw new Exception("Не передан sid");
+                $simId = SessionHelper::getSimIdBySid($sid);
+
+            $taskId = (int)Yii::app()->request->getParam('taskId', false);
+            $time = Yii::app()->request->getParam('time', false);
+
+            $task = DayPlan::model()->findByAttributes(array(
+                'sim_id' => $simId, 'task_id' => $taskId
+            ));
+            if (!$task) throw new Exception("cant find task by id {$taskId}");
+ 
+            // преобразовать время в unixtime
+            $time = $this->_timeToArr($time);
+            $time = mktime($time[0], $time[1], 0, 0, 0, 0);
+
+
+
+            $data = array('result' => 1);
+            $this->_sendResponse(200, CJSON::encode($data));
+        } catch (Exception $exc) {
+            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $this->_sendResponse(200, CJSON::encode($data));
+        }
     }
 }
 
