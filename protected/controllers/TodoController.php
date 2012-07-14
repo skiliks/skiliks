@@ -75,9 +75,14 @@ class TodoController extends AjaxController{
             $simId = SessionHelper::getSimIdBySid($sid);
             if (!$simId) throw new Exception ('cant find simulation');
 
-            $todo = Todo::model()->findByAttributes(array(
-                'sim_id' => $simId, 'task_id' => $taskId
-            ));
+            $condition = array('sim_id' => $simId, 'task_id' => $taskId);
+            
+            // Удалить из дневного плана и отпуска
+            DayPlan::model()->deleteAllByAttributes($condition);
+            DayPlanAfterVacation::model()->deleteAllByAttributes($condition);
+            
+            
+            $todo = Todo::model()->findByAttributes($condition);
             if ($todo) {
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
             }
