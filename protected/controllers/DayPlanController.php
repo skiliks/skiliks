@@ -252,7 +252,7 @@ class DayPlanController extends AjaxController{
             
             // на всякий случай удалим из вакейшена
             DayPlanAfterVacation::model()->deleteAllByAttributes(array(
-                'sim_id' => $simId, 'taskId' => $taskId
+                'sim_id' => $simId, 'task_id' => $taskId
             ));
             
             if ($day == 3) {   // Добавление на после отпуска
