@@ -40,7 +40,9 @@ class DayPlanController extends AjaxController{
      * @return array
      */
     protected function _loadTasksTitle($ids) {
-        $tasksCollection = Tasks::model()->byIds($tasks)->findAll();
+        if (count($ids)) return false;
+        
+        $tasksCollection = Tasks::model()->byIds($ids)->findAll();
         $tasks = array();
         foreach($tasksCollection as $task) {
             $tasks[$task->id] = $task->title;
@@ -84,6 +86,11 @@ class DayPlanController extends AjaxController{
             }
 
             if (count($data)==0)  {
+                $data = array('result' => 1, 'data' => array());
+                return $this->_sendResponse(200, CJSON::encode($data));
+            }
+            
+            if (count($tasks) == 0) {
                 $data = array('result' => 1, 'data' => array());
                 return $this->_sendResponse(200, CJSON::encode($data));
             }
