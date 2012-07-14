@@ -9,6 +9,17 @@
  */
 class SimulationController extends AjaxController{
     
+    protected function _fillTodo($simId) {
+        $tasks = array(1, 2, 3, 4, 5);
+        
+        foreach($tasks as $taskId) {
+            $todo = new Todo();
+            $todo->sim_id = $simId;
+            $todo->task_id = $taskId;
+            $todo->insert();
+        }
+    }
+    
     /**
      * Старт симуляции
      */
@@ -44,6 +55,9 @@ class SimulationController extends AjaxController{
             $eventsTriggers->trigger_time = time() + 20; //rand(1*60, 5*60);
             $eventsTriggers->save();
         }
+        
+        // предустановка задач в todo!
+        $this->_fillTodo($simId);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
