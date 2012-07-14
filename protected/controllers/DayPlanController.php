@@ -280,7 +280,7 @@ class DayPlanController extends AjaxController{
                 
             $dayPlan = new DayPlan();
             $dayPlan->sim_id = $simId;
-            $dayPlan->task_id = $task_id;
+            $dayPlan->task_id = $taskId;
             $dayPlan->date = $time;
             $dayPlan->day = $day;
             $dayPlan->insert();
