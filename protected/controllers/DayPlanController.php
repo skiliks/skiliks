@@ -245,6 +245,13 @@ class DayPlanController extends AjaxController{
             $this->_sendResponse(200, CJSON::encode($data));
         }
     }
+    
+    public function actionUpdate() {
+        $sid = Yii::app()->request->getParam('sid', false);
+        
+        $data = array('result' => 1);
+        $this->_sendResponse(200, CJSON::encode($data));
+    }
 }
 
 ?>
