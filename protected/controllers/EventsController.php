@@ -25,6 +25,10 @@ class EventsController extends AjaxController{
             // получить симуляцию по uid
             $simulation = Simulations::model()->byUid($uid)->find();
             if (!$simulation) throw new Exception('Не могу определить симуляцию', 3);
+            
+            ###  определение событие типа todo
+            
+            ####
 
             // получить ближайшее событие
             $triggers = EventsTriggers::model()->nearest($simulation->id)->findAll();

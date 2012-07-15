@@ -9,6 +9,11 @@
  */
 class TodoController extends AjaxController{
     
+    /**
+     * Округляет время до 30 минут
+     * @param type $time
+     * @return type 
+     */
     protected function _roundTime($time) {
         return  ceil($time / (30)) * 30;
     }
@@ -16,7 +21,7 @@ class TodoController extends AjaxController{
     public function actionGet() {
         
         
-        $tasks = Tasks::model()->findAll();
+        /*$tasks = Tasks::model()->findAll();
             $list = array();
             foreach($tasks as $task) {
                 $list[] = array(
@@ -28,7 +33,7 @@ class TodoController extends AjaxController{
             }
             
         $data = array('result' => 1, 'data' => $list);
-        return $this->_sendResponse(200, CJSON::encode($data));
+        return $this->_sendResponse(200, CJSON::encode($data));*/
         //////////////////////////////////////////
         
         try {
