@@ -11,6 +11,9 @@ class DialogController extends AjaxController{
     
     protected function _parsePlanCode($code) {
         if (preg_match_all("/P(\d+)/", $code, $matches)) return false;
+        if (!isset($matches[1])) return false;
+        if (!isset($matches[1][0])) return false;
+        
         return $matches[1][0];
     }
     
