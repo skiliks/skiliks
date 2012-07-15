@@ -9,6 +9,23 @@
  */
 class EventsController extends AjaxController{
     
+    protected function _processTasks($simId) {
+        ###  определение событие типа todo
+        // получаем игровое время
+        $gameTime = SimulationService::getGameTime($$simId);
+        // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
+        $dayPlan = DayPlan::model()->nearest($gameTime, $gameTime + 5*60)->find();
+        if (!$dayPlan) return false;
+        
+        // загружаем таску
+        $task = Tasks::model()->byId($dayPlan->task_id)->find();
+        if (!$task) return false;
+        
+        return array(
+            'id' => $task->id,
+            'text' => $task->title
+        );
+    }
     
     /**
      * Опрос состояния событий
@@ -26,10 +43,14 @@ class EventsController extends AjaxController{
             $simulation = Simulations::model()->byUid($uid)->find();
             if (!$simulation) throw new Exception('Не могу определить симуляцию', 3);
             
-            ###  определение событие типа todo
+            ### обработка задач
+            $task = $this->_processTasks($simulation->id);
+            if ($task) {
+                $result = array('result' => 1, 'data' => $task, 'eventType' => 2);
+                return $this->_sendResponse(200, CJSON::encode($result));
+            }
+            ###################
             
-            ####
-
             // получить ближайшее событие
             $triggers = EventsTriggers::model()->nearest($simulation->id)->findAll();
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
@@ -53,7 +74,7 @@ class EventsController extends AjaxController{
             // Убиваем обработанное событие
             $trigger->delete();
 
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
+            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data, 'eventType' => 1)));
         } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,

@@ -19,6 +19,20 @@ class SimulationService {
         if (!$simulation) return false;
         return $simulation->id;
     }
+    
+    /**
+     * Определяет игровое время в рамках заданной симуляции
+     * @param int $simId 
+     * @return int игровое время
+     */
+    public static function getGameTime($simId) {
+        $simulation = Simulations::model()->byId($simId)->find();
+        if (!$simulation) throw new Exception('Не могу определить симуляцию');
+        $startTime = $simulation->start;
+        $simulationTime = time() - $startTime;  // сколько времени реально длится симуляция
+        
+        return $simulationTime / 4; // возвращаем игровое время
+    }
 }
 
 ?>

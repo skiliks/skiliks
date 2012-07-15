@@ -37,6 +37,14 @@ class DayPlan extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function nearest($from, $to)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "date > {$from} and date < {$to}"
+        ));
+        return $this;
+    }
 }
 
 ?>
