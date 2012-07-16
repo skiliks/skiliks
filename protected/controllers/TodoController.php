@@ -58,7 +58,7 @@ class TodoController extends AjaxController{
                 $list[] = array(
                     'id' => $task->id,
                     'title' => $task->title,
-                    'duration' => $task->duration / 60
+                    'duration' => $this->_roundTime($task->duration)
                 );
             }
             
