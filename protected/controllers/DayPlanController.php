@@ -115,6 +115,7 @@ class DayPlanController extends AjaxController{
                 if (isset($tasks[$item['task_id']])) {
                     $item['title'] = $tasks[$item['task_id']]['title'];
                     $item['duration'] = $tasks[$item['task_id']]['duration'];
+                    $item['type'] = $tasks[$item['task_id']]['type'];
                 }    
                 $list[] = $item;  //[$item['day']]
             }
