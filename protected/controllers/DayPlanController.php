@@ -47,7 +47,8 @@ class DayPlanController extends AjaxController{
         foreach($tasksCollection as $task) {
             $tasks[$task->id] = array(
                 'title' => $task->title,
-                'duration' => $task->duration
+                'duration' => $task->duration,
+                'type' => $task->type
             );
         }
         
