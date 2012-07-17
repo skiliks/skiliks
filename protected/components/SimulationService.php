@@ -31,7 +31,7 @@ class SimulationService {
         $startTime = $simulation->start;
         $simulationTime = time() - $startTime;  // сколько времени реально длится симуляция
         
-        return $simulationTime / 4; // возвращаем игровое время
+        return $simulationTime * 4; // возвращаем игровое время
     }
 }
 
