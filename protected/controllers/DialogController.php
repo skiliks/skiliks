@@ -10,7 +10,8 @@
 class DialogController extends AjaxController{
     
     protected function _parsePlanCode($code) {
-        if (preg_match_all("/P(\d+)/", $code, $matches)) return false;
+        preg_match_all("/P(\d+)/", $code, $matches);
+        //Logger::debug('matches : '.var_export($matches, true));
         if (!isset($matches[1])) return false;
         if (!isset($matches[1][0])) return false;
         
@@ -47,7 +48,9 @@ class DialogController extends AjaxController{
             $event = EventsSamples::model()->byId($currentDialog->next_event)->find();
             if ($event) {
                 $code = $event->code;
+                Logger::debug("check code : {$code}");
                 $taskId = $this->_parsePlanCode($event->code); 
+                Logger::debug("found task : {$taskId}");
                 // Если это задача
                 if ($taskId) {
                     // Добавим ее в туду
