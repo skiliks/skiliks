@@ -22,7 +22,7 @@ class SimulationController extends AjaxController{
             $dayPlan->sim_id = $simId;
             $dayPlan->task_id = $task->id;
             $dayPlan->date = $date;
-            $dayPlan->day = rand(1, 2);
+            $dayPlan->day = 1; //rand(1, 2);
             $dayPlan->insert();
                     
             
