@@ -12,15 +12,20 @@ class EventsController extends AjaxController{
     protected function _processTasks($simId) {
         ###  определение событие типа todo
         // получаем игровое время
-        $gameTime = SimulationService::getGameTime($simId);
+        $gameTime = SimulationService::getGameTime($simId) + 9*60*60;
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
-        $dayPlan = DayPlan::model()->nearest($gameTime, $gameTime + 5*60)->find();
+        
+        $toTime = $gameTime + 5*60;
+        
+        Logger::debug("try to find task from {$gameTime} to {$toTime}");
+        $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
         if (!$dayPlan) return false;
         
         // загружаем таску
         $task = Tasks::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
+        Logger::debug("found task {$task->id}");
         return array(
             'id' => $task->id,
             'text' => $task->title
