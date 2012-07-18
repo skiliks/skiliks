@@ -33,7 +33,7 @@ class ExcelDocumentController extends AjaxController{
             
             $cells = ExcelWorksheetTemplateCells::model()->byWorksheet($worksheetId)->findAll();
             $columns = array();
-            $strings = 0;
+            $strings = array();
             foreach($cells as $cell) {
                 $result['worksheetData'][] = array(
                     'id' => $cell->id,
@@ -48,10 +48,10 @@ class ExcelDocumentController extends AjaxController{
                 );
                 
                 $columns[$cell->column] = 1;
-                $strings++;
+                $strings[$cell->string] = 1;
             }
             
-            $result['strings'] = $strings;
+            $result['strings'] = count($strings);
             $result['columns'] = count($columns);
             
             return $this->_sendResponse(200, CJSON::encode($result));
