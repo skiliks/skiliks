@@ -103,9 +103,10 @@ class ExcelImporter {
                         $val = '';
                     }
                     
+                    
                     $params = array(
                         'worksheetId' => $worksheetId,
-                        'string' => $col,
+                        'string' => $row,
                         'column' => $columnName,
                         'value' => $val,
                         'readOnly' => 1,
@@ -113,6 +114,7 @@ class ExcelImporter {
                     );
                     $rowId = $this->_insertRow($params);
                     if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
+                     
 
                     echo '<td>' . $val . '<br>(Тип ' . $dataType . ')'.$columnName.'</td>';
                 }
