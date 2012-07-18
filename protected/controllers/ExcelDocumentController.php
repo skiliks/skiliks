@@ -32,6 +32,8 @@ class ExcelDocumentController extends AjaxController{
             $result['currentWorksheet'] = $worksheetId;
             
             $cells = ExcelWorksheetTemplateCells::model()->byWorksheet($worksheetId)->findAll();
+            $columns = array();
+            $strings = 0;
             foreach($cells as $cell) {
                 $result['worksheetData'][] = array(
                     'id' => $cell->id,
@@ -44,8 +46,13 @@ class ExcelDocumentController extends AjaxController{
                     'colspan' => $cell->colspan,
                     'rowspan' => $cell->rowspan
                 );
+                
+                $columns[$cell->column] = 1;
+                $strings++;
             }
             
+            $result['strings'] = $strings;
+            $result['columns'] = count($columns);
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
