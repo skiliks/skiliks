@@ -64,6 +64,13 @@ class ExcelDocumentController extends AjaxController{
         }
     }
     
+    public function actionCopy() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        if (!$sid) throw new Exception("Не передан sid");
+        $simId = SessionHelper::getSimIdBySid($sid);
+            
+        ExcelDocumentService::copy('Сводный бюджет', $simId);
+    }
     
 }
 

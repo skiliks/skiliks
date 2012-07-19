@@ -3,11 +3,11 @@
 
 
 /**
- * Description of ExcelWorksheetTemplateCells
+ * Модель шаблона документа Excel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelWorksheetTemplateCells extends CActiveRecord{
+class ExcelDocument extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {
@@ -19,26 +19,17 @@ class ExcelWorksheetTemplateCells extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'excel_worksheet_template_cells';
+            return 'excel_document';
     }
     
     /**
      * Вернуть ближайшее событие
      * @return ExcelDocumentTemplate 
      */
-    public function byWorksheet($worksheetId)
+    public function byName($name)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "worksheet_id = {$worksheetId}"
-        ));
-        return $this;
-    }
-    
-    public function byWorksheets($worksheets)
-    {
-        $worksheets = implode(',', $worksheets);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "worksheet_id in ({$worksheets})"
+            'condition' => "name = '{$name}'"
         ));
         return $this;
     }
