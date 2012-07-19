@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelWorksheetTemplateCells extends CActiveRecord{
+class ExcelWorksheetCells extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {
@@ -19,7 +19,7 @@ class ExcelWorksheetTemplateCells extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'excel_worksheet_template_cells';
+            return 'excel_worksheet_cells';
     }
     
     /**
@@ -30,15 +30,6 @@ class ExcelWorksheetTemplateCells extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "worksheet_id = {$worksheetId}"
-        ));
-        return $this;
-    }
-    
-    public function byWorksheets($worksheets)
-    {
-        $worksheets = implode(',', $worksheets);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "worksheet_id in ({$worksheets})"
         ));
         return $this;
     }
