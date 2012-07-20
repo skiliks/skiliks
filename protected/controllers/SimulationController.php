@@ -82,6 +82,9 @@ class SimulationController extends AjaxController{
         // предустановка задач в план дневной
         $this->_fillDayPlan($simId);
         
+        // Копируем игроку его документ в рамках его симуляции
+        ExcelDocumentService::copy('Сводный бюджет', $simId);
+        
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
     }

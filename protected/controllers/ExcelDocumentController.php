@@ -12,15 +12,20 @@ class ExcelDocumentController extends AjaxController{
     public function actionGet() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
+            if (!$sid) throw new Exception('wrong sid');
+            $simId = SessionHelper::getSimIdBySid($sid);
+            if (!$simId) throw new Exception("cant find simId by sid {$sid}");
         
-            $document = ExcelDocumentTemplate::model()->byName('Сводный бюджет')->find();
+            //$document = ExcelDocumentTemplate::model()->byName('Сводный бюджет')->find();
+            $document = ExcelDocument::model()->bySimulation($simId)->find();
             if (!$document) {
                 throw new Exception('cant find document');
             }
             
             $result = array();
             $result['result'] = 1;
-            $worksheets = ExcelWorksheetTemplate::model()->byDocument($document->id)->findAll();
+            //$worksheets = ExcelWorksheetTemplate::model()->byDocument($document->id)->findAll();
+            $worksheets = ExcelWorksheet::model()->byDocument($document->id)->findAll();
             foreach($worksheets as $worksheet) {
                 $result['worksheets'][] = array(
                     'id' => $worksheet->id,
@@ -31,7 +36,8 @@ class ExcelDocumentController extends AjaxController{
             $worksheetId = $result['worksheets'][0]['id'];
             $result['currentWorksheet'] = $worksheetId;
             
-            $cells = ExcelWorksheetTemplateCells::model()->byWorksheet($worksheetId)->findAll();
+            //$cells = ExcelWorksheetTemplateCells::model()->byWorksheet($worksheetId)->findAll();
+            $cells = ExcelWorksheetCells::model()->byWorksheet($worksheetId)->findAll();
             $columns = array();
             $strings = array();
             foreach($cells as $cell) {

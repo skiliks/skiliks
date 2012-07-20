@@ -3,7 +3,7 @@
 
 
 /**
- * Модель шаблона документа Excel
+ * Модель  документа Excel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -26,10 +26,10 @@ class ExcelDocument extends CActiveRecord{
      * Вернуть ближайшее событие
      * @return ExcelDocumentTemplate 
      */
-    public function byName($name)
+    public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "name = '{$name}'"
+            'condition' => "sim_id = {$simId}"
         ));
         return $this;
     }
