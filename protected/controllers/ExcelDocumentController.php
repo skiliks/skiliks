@@ -86,10 +86,13 @@ class ExcelDocumentController extends AjaxController{
         }
     }
     
+    /**
+     * Возврат конкретного worksheet'a
+     * @return type 
+     */
     public function actionGetWorksheet() {
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
         $worksheetData = $this->_getWorksheet($worksheetId);
-        var_dump($worksheetData);die();
         
         $result = array();
         $result['result'] = 1;
@@ -97,6 +100,47 @@ class ExcelDocumentController extends AjaxController{
         $result['strings'] = $worksheetData['strings'];
         $result['columns'] = $worksheetData['columns'];
         return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
+    /**
+     * Сохранение ячейки
+     * @return type 
+     */
+    public function actionSave() {
+        try {
+            $worksheetId = (int)Yii::app()->request->getParam('id', false);  
+            $string = (int)Yii::app()->request->getParam('string', false);  
+            $column = Yii::app()->request->getParam('column', false);  
+            $value = Yii::app()->request->getParam('value', false);  
+            $comment = Yii::app()->request->getParam('comment', false);  
+            $formula = Yii::app()->request->getParam('formula', false);  
+            $colspan = (int)Yii::app()->request->getParam('colspan', false);  
+            $rowspan = (int)Yii::app()->request->getParam('rowspan', false);  
+
+            $cell = ExcelWorksheetCells::model()->findByAttributes(array(
+                'worksheet_id' => $worksheetId,
+                'string' => $string,
+                'column' => $column
+            ));
+            
+            
+            if (!$cell) throw new Exception('cant get cell');
+            
+            $cell->value = $value;
+            $cell->comment = $comment;
+            $cell->formula = $formula;
+            $cell->colspan = $colspan;
+            $cell->rowspan = $rowspan;
+            $cell->save();
+            
+            return $this->_sendResponse(200, CJSON::encode(array('result'=>1)));
+        } catch (Exception $exc) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => $exc->getMessage(),
+                'code' => $exc->getCode()
+            )));
+        }
     }
     
     public function actionCopy() {
