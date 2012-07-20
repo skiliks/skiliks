@@ -107,6 +107,17 @@ class ExcelDocumentController extends AjaxController{
      * @return type 
      */
     public function actionSave() {
+        /*
+            на вход:
+                int     id          id worksheeta'a
+                int     string
+                string  column
+                string  value
+                string  comment
+                string  formula
+                int     colspan
+                int     rowspan
+        */
         try {
             $worksheetId = (int)Yii::app()->request->getParam('id', false);  
             $string = (int)Yii::app()->request->getParam('string', false);  
