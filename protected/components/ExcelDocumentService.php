@@ -13,6 +13,7 @@ class ExcelDocumentService {
      * Копирование документа
      * @param string $documentName наименование документа
      * @param int $simId идентификатор симуляции
+     * @return bool
      */
     public static function copy($documentName, $simId) {
         $connection = Yii::app()->db;
