@@ -15,6 +15,8 @@ class ExcelDocumentController extends AjaxController{
         $cells = ExcelWorksheetCells::model()->byWorksheet($worksheetId)->findAll();
         $columns = array();
         $strings = array();
+        
+        $data = array();
         foreach($cells as $cell) {
             $result['worksheetData'][] = array(
                 'id' => $cell->id,
@@ -28,6 +30,8 @@ class ExcelDocumentController extends AjaxController{
                 'rowspan' => $cell->rowspan
             );
 
+            $data[$cell->string][$cell->column] = $cell->value; 
+            
             $columns[$cell->column] = 1;
             $strings[$cell->string] = 1;
         }

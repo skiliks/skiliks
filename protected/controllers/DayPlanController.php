@@ -220,10 +220,11 @@ class DayPlanController extends AjaxController{
         return false;
     }
     
-    protected function _addDayPlanAfterVacation($simId, $taskId) {
+    protected function _addDayPlanAfterVacation($simId, $taskId, $date) {
         $dayPlanAfterVacation = new DayPlanAfterVacation();
         $dayPlanAfterVacation->sim_id = $simId;
         $dayPlanAfterVacation->task_id = $taskId;
+        $dayPlanAfterVacation->date = $date;
         $dayPlanAfterVacation->insert();
         return true;
     }
@@ -258,7 +259,7 @@ class DayPlanController extends AjaxController{
             ));
             
             if ($day == 3) {   // Добавление на после отпуска
-                $this->_addDayPlanAfterVacation($simId, $taskId);
+                $this->_addDayPlanAfterVacation($simId, $taskId, $time);
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
             }
             
