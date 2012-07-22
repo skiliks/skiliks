@@ -131,7 +131,7 @@ class DayPlanController extends AjaxController{
                 
                 $tasks[] = $item->task_id;
                 $vacationTasks[] = array(
-                    'date' => $this->_shell_numberFormat($date[self::HOUR].':'.$date[self::MINUTE]),  // дата в формате hh:mm
+                    'date' => $this->_shell_numberFormat($date[self::HOUR].':'.$date[self::MINUTE], 5),  // дата в формате hh:mm
                     'task_id' => $item->task_id
                 );
             }
