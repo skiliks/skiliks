@@ -142,9 +142,11 @@ class DayPlanController extends AjaxController{
             // Добавляем задачи после отпуска
             $vacations = array();
             foreach($vacationTasks as $item) {
-                if (isset($tasks[$item['task_id']]))
+                if (isset($tasks[$item['task_id']])) {
                     $item['title'] = $tasks[$item['task_id']]['title'];
                     $item['duration'] = $tasks[$item['task_id']]['duration'];
+                }
+                $item['day'] = 3;
                 
                 $list[] = $item;
             }
