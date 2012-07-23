@@ -24,7 +24,7 @@ class ExcelDocumentController extends AjaxController{
                 'column' => $cell->column,
                 'value' => $cell->value,
                 'read_only' => $cell->read_only,
-                'comment' => $cell->comment,
+                'comment' => (!is_null($cell->comment)) ? $cell->comment : '',
                 'formula' => $cell->formula,
                 'colspan' => $cell->colspan,
                 'rowspan' => $cell->rowspan
@@ -36,9 +36,11 @@ class ExcelDocumentController extends AjaxController{
             $strings[$cell->string] = 1;
         }
 
+        Logger::debug("strings : ".var_export($strings, true));
+        Logger::debug("columns : ".var_export($columns, true));
         $result['strings'] = count($strings);
         $result['columns'] = count($columns);
-        
+        //Logger::debug("_getWorksheet data : ".var_export($result, true));
         return $result;
     }
     
@@ -79,6 +81,9 @@ class ExcelDocumentController extends AjaxController{
             $result['worksheetData'] = $worksheetData['worksheetData'];
             $result['strings'] = $worksheetData['strings'];
             $result['columns'] = $worksheetData['columns'];
+            
+            Logger::debug("actionGet strings : ".var_export($result['strings'], true));
+            Logger::debug("actionGet columns : ".var_export($result['columns'], true));
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
