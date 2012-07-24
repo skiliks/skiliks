@@ -68,3 +68,16 @@ CREATE TABLE `excel_worksheet_cells` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Ячейки конкретного рабочго листа';
 
 
+
+
+
+
+
+CREATE TABLE `excel_clipboard` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `worksheet_id` int(11) NOT NULL comment 'ссылка на лист',
+    `range` varchar(16) comment 'диапазон, который надо копировать',
+    PRIMARY KEY (`id`),
+    CONSTRAINT `fk_excel_clipboard_worksheet_id` FOREIGN KEY (`worksheet_id`) 
+        REFERENCES `excel_worksheet` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Буффер обмена для Excel';
