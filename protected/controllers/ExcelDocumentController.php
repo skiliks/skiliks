@@ -18,6 +18,7 @@ class ExcelDocumentController extends AjaxController{
     
     protected function _getColumnIndex($column, $worksheetId=false) {
         if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+            Logger::debug('columns : '.var_export($this->_columns[$worksheetId], true));
         return $this->_columns[$worksheetId][$column];
     }
     
@@ -124,12 +125,11 @@ class ExcelDocumentController extends AjaxController{
         return $list;
     }
     
-    protected function _applySum($formulaInfo) {
-        $list = $this->_parsePair($formulaInfo);
-        if (count($list)>0) {
-            return $list[0] + $list[1];
-        }
-        
+    /**
+     * Рассчет астосуммы
+     * @param type $formulaInfo 
+     */
+    protected function _calcAutoSum($formulaInfo) {
         $rangeInfo = $this->_parseRange($formulaInfo);
 
         
@@ -186,6 +186,29 @@ class ExcelDocumentController extends AjaxController{
         }
         
         return $result;
+    }
+    
+    protected function _applySum($formulaInfo) {
+        $list = $this->_parsePair($formulaInfo);
+        if (count($list)>0) {
+            return $list[0] + $list[1];
+        }
+        
+        $rangeInfo = $this->_parseRange($formulaInfo);
+        //Logger::debug('range info : '.var_export($rangeInfo, true));
+        
+        $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
+        $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
+        
+        $sum = 0;
+        for($i=$rangeInfo['stringFrom'];$i<$stringTo; $i++ ) {
+            for($j=$rangeInfo['columnFromIndex'];$j<$columnTo; $j++ ) {
+                $columnName = $this->_getColumnByIndex($j);
+                $sum+=$this->_worksheets[$this->_activeWorksheet][$columnName][$i]['value'];
+            }
+        }
+        
+        return $sum;
     }
     
     protected function _applyAvg($formulaInfo) {
@@ -273,10 +296,13 @@ class ExcelDocumentController extends AjaxController{
             $columns[$cell->column] = 1;
             $strings[$cell->string] = 1;
             
-            $this->_columns[$worksheetId][$cell->column] = $columnIndex;
-            $this->_columnIndex[$worksheetId][$columnIndex] = $cell->column;
             
-            $columnIndex++;
+            if (!isset($this->_columns[$worksheetId][$cell->column])) {
+                $this->_columns[$worksheetId][$cell->column] = $columnIndex;
+                $this->_columnIndex[$worksheetId][$columnIndex] = $cell->column;
+            
+                $columnIndex++;
+            }
         }
         
         // запоминаем структуру рабочего листа
@@ -462,7 +488,11 @@ class ExcelDocumentController extends AjaxController{
         $simId = SessionHelper::getSimIdBySid($sid);*/
         //ExcelDocumentService::copy('Сводный бюджет', $simId);
     }
-    
+
+    /**
+     * Рассчет автосуммы
+     * @return type 
+     */
     public function actionSum() {
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
         $range = Yii::app()->request->getParam('range', false);  
@@ -477,51 +507,8 @@ class ExcelDocumentController extends AjaxController{
         $formulaType['formula'] = 'SUM';
         $formulaType['params'] = $range;
         
-        $items = $this->_applySum($formulaType);    
-        if (is_array($items)) {
-            return $this->_sendResponse(200, CJSON::encode($items));
-        }
         
-        $columnCount = count($items);
-        $stringCount = count($items[0]);
-        
-        $result['strings'] = $stringCount;
-        $result['columns'] = $columnCount;
-        $sum = 0;
-        if ($columnCount > $stringCount) {
-            // считаем по х
-            $sums = array();
-            for($j=0; $j<count($items[0]); $j++) {
-                $sums[$j] = 0;
-                for($i=0; $i<count($items); $i++) {
-                    $cellName = $items[$i][$j];
-                    Logger::debug("cellName : $cellName");
-                    $cellInfo = explode(':', $cellName);
-                    
-                    $sums[$j]+=(int)$this->_worksheets[$this->_activeWorksheet][$cellInfo[0]][$cellInfo[1]]['value'];
-                }
-                $result['sum'] = $sums;
-            }
-            
-        }
-        else {
-            // считаем по y
-            $sums = array();
-            for($i=0; $i<count($items); $i++) {
-                $sums[$i] = 0;
-                for($j=0; $j<count($items[0]); $j++) {
-                    $cellName = $items[$i][$j];
-                    Logger::debug("cellName : $cellName");
-                    $cellInfo = explode(':', $cellName);
-                    
-                    $sums[$i]+=(int)$this->_worksheets[$this->_activeWorksheet][$cellInfo[0]][$cellInfo[1]]['value'];
-                }
-                // проставим сумму
-                $result['sum'] = $sums;
-            }
-        }
-        
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaInfo)));
     }
 }
 
