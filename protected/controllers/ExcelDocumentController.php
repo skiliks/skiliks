@@ -188,11 +188,27 @@ class ExcelDocumentController extends AjaxController{
         return $result;
     }
     
+    protected function _parseExpr($formula) {
+        preg_match_all("/=(.*)/", $formula, $matches); 
+                //Logger::debug('expr : '.var_export($matches, true));
+        if (!isset($matches[1][0])) return false;
+        
+        
+        $expr = $matches[1][0];
+        $a=0;
+        eval ('$a='.$expr.';');
+        return $a;
+    }
+    
     protected function _applySum($formulaInfo) {
+        
+        
         $list = $this->_parsePair($formulaInfo);
         if (count($list)>0) {
             return $list[0] + $list[1];
         }
+        
+        
         
         $rangeInfo = $this->_parseRange($formulaInfo);
         //Logger::debug('range info : '.var_export($rangeInfo, true));
@@ -260,6 +276,8 @@ class ExcelDocumentController extends AjaxController{
                     break;
             }
         }
+        
+        return $this->_parseExpr($formula);
     }
     
     /**
@@ -508,7 +526,7 @@ class ExcelDocumentController extends AjaxController{
         $formulaType['params'] = $range;
         
         
-        return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaInfo)));
+        return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaType)));
     }
 }
 
