@@ -28,27 +28,28 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _applySum($formulaInfo) {
-        if (!preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $formulaInfo['params'], $matches)) 
-        return false;
+        $res = preg_match_all("/(\w)(\d+)\;(\w)(\d+)/", $formulaInfo['params'], $matches); 
+        Logger::debug("matches : ".var_export($matches, true));
+        if (!isset($matches[1][0])) return false;
         
         // у нас в формуле одинаковые строки
-        if ($matches[2][0] == $matches[4][0]) {
+        //if ($matches[2][0] == $matches[4][0]) {
             
             
             //Logger::debug("test worksheet : ".var_export($this->_worksheets[$this->_activeWorksheet][$matches[1][0]], true));
-            $column = $matches[1][0];
-            $string = (int)$matches[2][0];
+        $column = $matches[1][0];
+        $string = (int)$matches[2][0];
             
-            Logger::debug("try to find $column and $string");
-            $p1 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string];
-            
-            $column = $matches[3][0];
-            $string = (int)$matches[4][0];
-            $p2 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string];
-            
-            Logger::debug("sum : $p1 $p2");
-            return $p1 + $p2;
-        }
+        Logger::debug("try to find $column and $string");
+        $p1 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+
+        $column = $matches[3][0];
+        $string = (int)$matches[4][0];
+        $p2 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+
+        Logger::debug("sum : $p1 $p2");
+        return $p1 + $p2;
+        //}
     }
     
     protected function _applyAvg($formulaInfo) {
@@ -87,9 +88,11 @@ class ExcelDocumentController extends AjaxController{
         
         // определить тип формулы
         $formulaType = $this->_parseFormulaType($formula);
+        Logger::debug("formula type: ".var_export($formulaType, true));
         if ($formulaType) {
             switch ($formulaType['formula']) {
                 case 'SUM':
+                    Logger::debug('parse sum');
                     return $this->_applySum($formulaType);    
                     break;
 
@@ -114,7 +117,7 @@ class ExcelDocumentController extends AjaxController{
         
         $data = array();
         foreach($cells as $cell) {
-            $result['worksheetData'][] = array(
+            $cellInfo = array(
                 'id' => $cell->id,
                 'string' => $cell->string,
                 'column' => $cell->column,
@@ -125,8 +128,10 @@ class ExcelDocumentController extends AjaxController{
                 'colspan' => $cell->colspan,
                 'rowspan' => $cell->rowspan
             );
+            
+            $result['worksheetData'][] = $cellInfo;
 
-            $data[$cell->column][$cell->string] = $cell->value; 
+            $data[$cell->column][$cell->string] = $cellInfo; 
             
             $columns[$cell->column] = 1;
             $strings[$cell->string] = 1;
@@ -272,7 +277,15 @@ class ExcelDocumentController extends AjaxController{
             $cell->rowspan = $rowspan;*/
             $cell->save();
             
-            return $this->_sendResponse(200, CJSON::encode(array('result'=>1)));
+            $result = array();
+            $result['result'] = 1;
+            $data = array();
+            $cell = $this->_worksheets[$this->_activeWorksheet][$column][$string];
+            $cell['value'] = $value;
+            $data[] = $cell;
+            $result['worksheetData'] = $data;
+            
+            return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
