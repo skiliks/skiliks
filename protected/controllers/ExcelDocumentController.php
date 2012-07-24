@@ -13,6 +13,19 @@ class ExcelDocumentController extends AjaxController{
     
     protected $_activeWorksheet = false;
     
+    protected $_columns = array();
+    protected $_columnIndex = array();
+    
+    protected function _getColumnIndex($column, $worksheetId=false) {
+        if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+        return $this->_columns[$worksheetId][$column];
+    }
+    
+    protected function _getColumnByIndex($index, $worksheetId=false) {
+        if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+        return $this->_columnIndex[$worksheetId][$index];
+    }
+    
     /**
      * Определение типа формулы
      * @param string $formula 
@@ -27,29 +40,152 @@ class ExcelDocumentController extends AjaxController{
         return false;
     }
     
-    protected function _applySum($formulaInfo) {
+    protected function _parsePair($formulaInfo) {
         $res = preg_match_all("/(\w)(\d+)\;(\w)(\d+)/", $formulaInfo['params'], $matches); 
         Logger::debug("matches : ".var_export($matches, true));
-        if (!isset($matches[1][0])) return false;
-        
-        // у нас в формуле одинаковые строки
-        //if ($matches[2][0] == $matches[4][0]) {
-            
-            
-            //Logger::debug("test worksheet : ".var_export($this->_worksheets[$this->_activeWorksheet][$matches[1][0]], true));
+        if (!isset($matches[1][0])) return array();
+
         $column = $matches[1][0];
         $string = (int)$matches[2][0];
-            
-        Logger::debug("try to find $column and $string");
-        $p1 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
 
+        $list = array();
+        $a = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+        $list[] = $a;
+        
         $column = $matches[3][0];
         $string = (int)$matches[4][0];
-        $p2 = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+        $b = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+        $list[] = $b;
+        return $list;
+    }
+    
+    protected function _parseRange($formulaInfo) {
+        $res = preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $formulaInfo['params'], $matches); 
+        Logger::debug("matches : ".var_export($matches, true));
+        if (!isset($matches[1][0])) return false;
 
-        Logger::debug("sum : $p1 $p2");
-        return $p1 + $p2;
-        //}
+        $columnFrom = $matches[1][0];
+        $stringFrom = (int)$matches[2][0];
+        
+        $columnTo = $matches[3][0];
+        $stringTo = (int)$matches[4][0];
+        
+        //Logger::debug("ws : ".var_export($this->_worksheets[$this->_activeWorksheet], true));
+        // получаем индексы колонок
+        /*$index = 1;
+        $indexes = array();
+        $columns = array();
+        foreach($this->_worksheets[$this->_activeWorksheet] as $column=>$data) {
+            $indexes[$column] = $index;
+            $columns[$index] = $column;
+            $index++;
+        }*/
+        
+        $startIndex = $this->_getColumnIndex($columnFrom);
+        $endIndex = $this->_getColumnIndex($columnTo);
+        
+        //$startIndex = $indexes[$columnFrom];  // индекс колонки, с которой стартуем
+        //$endIndex = $indexes[$columnTo];  // индекс колонки, которой финишируем
+        
+        // определяем колличество колонок
+        $columnCount = $endIndex - $startIndex +1;
+        
+        // определяем колличество строк
+        $stringCount = $stringTo - $stringFrom + 1;
+        
+        Logger::debug("excel columnCount : $columnCount");
+        Logger::debug("excel stringCount : $stringCount");
+        return array(
+            'columnFrom' => $columnFrom,
+            'stringFrom' => $stringFrom,
+            'columnCount' => $columnCount,
+            'stringCount' => $stringCount,
+            'columnFromIndex' => $startIndex
+        );
+        
+        
+        if ($stringCount > $columnCount) {
+            
+        }
+        
+        // вернем список элементов в формате колонка/строка
+        $list = array();
+        for($columnIndex = $startIndex; $columnIndex <= $endIndex; $columnIndex++) {
+            $data = array();
+            for($stringIndex = $stringFrom; $stringIndex <= $stringTo; $stringIndex++) {
+                $data[] = $columns[$columnIndex].':'.$stringIndex;
+            }
+            $list[]=$data;
+        }
+        return $list;
+        
+        $b = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+        $list[] = $b;
+        return $list;
+    }
+    
+    protected function _applySum($formulaInfo) {
+        $list = $this->_parsePair($formulaInfo);
+        if (count($list)>0) {
+            return $list[0] + $list[1];
+        }
+        
+        $rangeInfo = $this->_parseRange($formulaInfo);
+
+        
+        $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
+        $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
+        
+        $result = array();
+        $result['result'] = 1;
+        $result['worksheetData'] = array();
+        // суммирование поколоночное
+        if ($rangeInfo['columnCount'] > $rangeInfo['stringCount']) {
+            for($i=$rangeInfo['stringFrom'];$i<$stringTo; $i++ ) {
+                $sum = 0;
+                for($j=$rangeInfo['columnFromIndex'];$j<$columnTo; $j++ ) {
+                    $columnName = $this->_getColumnByIndex($j);
+                    $sum+=$this->_worksheets[$this->_activeWorksheet][$columnName][$i]['value'];
+                }
+                // заносим сумму в след ячейку
+                $nextColumn = $this->_getColumnByIndex($columnTo);
+                $this->_worksheets[$this->_activeWorksheet][$nextColumn][$i]['value'] = $sum;
+                // сохраняем ячейку
+                $this->_updateCell(array(
+                    'worksheetId' => $this->_activeWorksheet,
+                    'column' => $nextColumn,
+                    'string' => $i,
+                    'value' => $sum
+                ));
+                // подготовить к отдаче не фронт ячейку
+                $result['worksheetData'][] = $this->_worksheets[$this->_activeWorksheet][$nextColumn][$i];
+            }
+        }
+        else {
+            // суммирование построчное
+            for($j=$rangeInfo['columnFromIndex'];$j<$columnTo; $j++ ) {
+                $sum = 0;
+                $columnName = $this->_getColumnByIndex($j);
+                for($i=$rangeInfo['stringFrom'];$i<$stringTo; $i++ ) {
+                    
+                    $sum+=$this->_worksheets[$this->_activeWorksheet][$columnName][$i]['value'];
+                }
+                // заносим сумму в след ячейку
+                
+                $this->_worksheets[$this->_activeWorksheet][$columnName][$stringTo]['value'] = $sum;
+                // сохраняем ячейку
+                $this->_updateCell(array(
+                    'worksheetId' => $this->_activeWorksheet,
+                    'column' => $columnName,
+                    'string' => $stringTo,
+                    'value' => $sum
+                ));
+                // подготовить к отдаче не фронт ячейку
+                $result['worksheetData'][] = $this->_worksheets[$this->_activeWorksheet][$columnName][$stringTo];
+            }
+        }
+        
+        return $result;
     }
     
     protected function _applyAvg($formulaInfo) {
@@ -116,6 +252,7 @@ class ExcelDocumentController extends AjaxController{
         $strings = array();
         
         $data = array();
+        $columnIndex = 1;
         foreach($cells as $cell) {
             $cellInfo = array(
                 'id' => $cell->id,
@@ -135,6 +272,11 @@ class ExcelDocumentController extends AjaxController{
             
             $columns[$cell->column] = 1;
             $strings[$cell->string] = 1;
+            
+            $this->_columns[$worksheetId][$cell->column] = $columnIndex;
+            $this->_columnIndex[$worksheetId][$columnIndex] = $cell->column;
+            
+            $columnIndex++;
         }
         
         // запоминаем структуру рабочего листа
@@ -228,6 +370,17 @@ class ExcelDocumentController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    protected function _updateCell($params) {
+        $cell = ExcelWorksheetCells::model()->findByAttributes(array(
+            'worksheet_id' => $params['worksheetId'],
+            'string' => $params['string'],
+            'column' => $params['column']
+        ));
+        
+        $cell->value = $params['value'];
+        $cell->save();
+    }
+    
     /**
      * Сохранение ячейки
      * @return type 
@@ -310,6 +463,66 @@ class ExcelDocumentController extends AjaxController{
         //ExcelDocumentService::copy('Сводный бюджет', $simId);
     }
     
+    public function actionSum() {
+        $worksheetId = (int)Yii::app()->request->getParam('id', false);  
+        $range = Yii::app()->request->getParam('range', false);  
+     
+        $this->_getWorksheet($worksheetId);
+        
+        $result = array();
+        $result['result'] = 1;
+        $result['range'] = $range;
+        
+        $formulaType = array();
+        $formulaType['formula'] = 'SUM';
+        $formulaType['params'] = $range;
+        
+        $items = $this->_applySum($formulaType);    
+        if (is_array($items)) {
+            return $this->_sendResponse(200, CJSON::encode($items));
+        }
+        
+        $columnCount = count($items);
+        $stringCount = count($items[0]);
+        
+        $result['strings'] = $stringCount;
+        $result['columns'] = $columnCount;
+        $sum = 0;
+        if ($columnCount > $stringCount) {
+            // считаем по х
+            $sums = array();
+            for($j=0; $j<count($items[0]); $j++) {
+                $sums[$j] = 0;
+                for($i=0; $i<count($items); $i++) {
+                    $cellName = $items[$i][$j];
+                    Logger::debug("cellName : $cellName");
+                    $cellInfo = explode(':', $cellName);
+                    
+                    $sums[$j]+=(int)$this->_worksheets[$this->_activeWorksheet][$cellInfo[0]][$cellInfo[1]]['value'];
+                }
+                $result['sum'] = $sums;
+            }
+            
+        }
+        else {
+            // считаем по y
+            $sums = array();
+            for($i=0; $i<count($items); $i++) {
+                $sums[$i] = 0;
+                for($j=0; $j<count($items[0]); $j++) {
+                    $cellName = $items[$i][$j];
+                    Logger::debug("cellName : $cellName");
+                    $cellInfo = explode(':', $cellName);
+                    
+                    $sums[$i]+=(int)$this->_worksheets[$this->_activeWorksheet][$cellInfo[0]][$cellInfo[1]]['value'];
+                }
+                // проставим сумму
+                $result['sum'] = $sums;
+            }
+        }
+        
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
 }
 
 ?>
