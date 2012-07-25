@@ -42,6 +42,17 @@ class ExcelDocumentController extends AjaxController{
         return false;
     }
     
+    protected function _explodeCellName($cellName) {
+        if (preg_match_all("/(\w)(\d+)/", $cellName, $matches)) {
+            $result = array(
+                'column' => $matches[1][0],
+                'string' => (int)$matches[2][0]
+            );
+            return $result;
+        } 
+        return false;    
+    }
+    
     protected function _parsePair($range) {
         if (!strstr($range, ';')) return false;
         $data = explode(';', $range);
@@ -49,9 +60,9 @@ class ExcelDocumentController extends AjaxController{
         
         $list = array();
         foreach($data as $cellName) {
-            preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
-            $column = $matches[1][0];
-            $string = (int)$matches[2][0];
+            $cellInfo = $this->_explodeCellName($cellName);
+            $column = $cellInfo['column'];
+            $string = $cellInfo['string'];
             
             $list[] = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
         }
@@ -209,6 +220,11 @@ class ExcelDocumentController extends AjaxController{
         return $result;
     }
     
+    protected function _getCell($column, $string, $worksheetId=false) {
+        if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+        return $this->_worksheets[$worksheetId][$column][$string];
+    }
+    
     protected function _getCellValue($cellName, $worksheetId=false) {
         preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
         if (!isset($matches[1][0])) return false;
@@ -229,6 +245,12 @@ class ExcelDocumentController extends AjaxController{
         return 1;
     }
     
+    protected function _exlodeFormulaVars($formula) {
+        preg_match_all("/([A-Z]+\d+)/", $formula, $matches); 
+        if (isset($matches[0][0])) return $matches[0];
+        return array();
+    }
+    
     protected function _parseExpr($formula) {
         preg_match_all("/=(.*)/", $formula, $matches); 
                 Logger::debug('expr : '.var_export($matches, true));
@@ -238,17 +260,17 @@ class ExcelDocumentController extends AjaxController{
         $expr = $matches[1][0];
         
         // заменим переменные в выражении
-        preg_match_all("/([A-Z]+\d+)/", $formula, $matches); 
-        Logger::debug('vars : '.var_export($matches, true));
+        $vars = $this->_exlodeFormulaVars($formula);
+        Logger::debug('vars : '.var_export($vars, true));
         // Если у нас есть переменные
-        if (isset($matches[0][0])) {
-            foreach($matches[0] as $varName) {
-                $value = $this->_getCellValue($varName);
-                //if ($value) {
-                    $expr = str_replace($varName, $value, $expr);
-                //}
-            }
+
+        foreach($vars as $varName) {
+            $value = $this->_getCellValue($varName);
+            //if ($value) {
+                $expr = str_replace($varName, $value, $expr);
+            //}
         }
+
         
         $expr = str_replace(',', '.', $expr);
         
@@ -705,6 +727,65 @@ class ExcelDocumentController extends AjaxController{
         
         
         return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
+    /**
+     * Протягивание
+     */
+    public function actionDrawing() {
+        try {
+            $worksheetId = (int)Yii::app()->request->getParam('id', false);  
+            $string = (int)Yii::app()->request->getParam('string', false);  
+            $column = Yii::app()->request->getParam('column', false);  
+            $target = Yii::app()->request->getParam('target', false);  
+
+            $targetInfo = $this->_explodeCellName($target);
+
+            $this->_getWorksheet($worksheetId);
+            
+            Logger::debug("get cell $column, $string");
+            $cell = $this->_getCell($column, $string);
+            if (!$cell) throw new Exception('cant find cell');
+            if ($cell['formula'] == '') throw new Exception('no formula to apply');
+            
+            $formula = $cell['formula'];
+            
+
+            $result = array();
+            $result['result'] = 1;
+            if ($targetInfo['column'] == $column) {
+                // вертикальное протягивание
+                for($i = $string; $i<=$targetInfo['string']; $i++) {
+                    // выбираем переменные из формулы
+                    $vars = $this->_exlodeFormulaVars($formula);
+                    $newFormula = $formula;
+                    foreach($vars as $varName) {
+                        $cellInfo = $this->_explodeCellName($varName);
+                        $cellInfo['string'] = $i;
+                        $newFormula = str_replace($varName, $cellInfo['column'].$cellInfo['string'], $newFormula);
+                    }
+                    $value = $this->_parseFormula($newFormula);
+                    
+                    Logger::debug("get cell $column, $i");
+                    $cell = $this->_getCell($column, $i);
+                    $cell['value'] = $value;
+                    $cell['formula'] = $newFormula;
+                    $result['worksheetData'][] = $cell;
+                }
+            }
+            else {
+                // горизонтальное
+            }
+
+            return $this->_sendResponse(200, CJSON::encode($result));
+        
+        } catch (Exception $exc) {
+            return $this->_sendResponse(200, CJSON::encode(array(
+                'result' => 0,
+                'message' => $exc->getMessage(),
+                'code' => $exc->getCode()
+            )));
+        }
     }
 }
 
