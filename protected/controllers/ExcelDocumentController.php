@@ -188,15 +188,51 @@ class ExcelDocumentController extends AjaxController{
         return $result;
     }
     
+    protected function _getCellValue($cellName, $worksheetId=false) {
+        preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
+        if (!isset($matches[1][0])) return false;
+        $column = $matches[1][0];
+        $string = (int)$matches[2][0];
+        
+        Logger::debug("column $column string $string");
+        
+        if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+        
+        if (isset($this->_worksheets[$worksheetId][$column][$string])) {
+            $value = $this->_worksheets[$worksheetId][$column][$string]['value'];
+            Logger::debug("found value $value");
+            return $value;
+        }
+        
+        Logger::debug("return 1");
+        return 1;
+    }
+    
     protected function _parseExpr($formula) {
         preg_match_all("/=(.*)/", $formula, $matches); 
-                //Logger::debug('expr : '.var_export($matches, true));
+                Logger::debug('expr : '.var_export($matches, true));
         if (!isset($matches[1][0])) return false;
         
         
         $expr = $matches[1][0];
+        
+        // заменим переменные в выражении
+        preg_match_all("/(\w\d+)/", $formula, $matches); 
+        Logger::debug('vars : '.var_export($matches, true));
+        // Если у нас есть переменные
+        if (isset($matches[0][0])) {
+            foreach($matches[0] as $varName) {
+                $value = $this->_getCellValue($varName);
+                //if ($value) {
+                    $expr = str_replace($varName, $value, $expr);
+                //}
+            }
+        }
+        
+        
         $a=0;
-        eval ('$a='.$expr.';');
+        Logger::debug("eval : $expr");
+        @eval ('$a='.$expr.';');
         return $a;
     }
     
@@ -527,6 +563,13 @@ class ExcelDocumentController extends AjaxController{
         
         
         return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaType)));
+    }
+    
+    public function actionPaste() {
+        
+        $result = array();
+        $result['result'] = 1;
+        return $this->_sendResponse(200, CJSON::encode($result));
     }
 }
 
