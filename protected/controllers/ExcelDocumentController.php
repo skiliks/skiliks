@@ -32,7 +32,8 @@ class ExcelDocumentController extends AjaxController{
      * @param string $formula 
      */
     protected function _parseFormulaType($formula) {
-        if (preg_match_all("/([A-Z]+)\((.*)\)/", $formula, $matches)) {
+        if (preg_match_all("/=([a-zа-я]+)\((.*)\)/u", $formula, $matches)) {
+        Logger::debug("_parseFormulaType : ".var_export($matches, true));
             return array(
                 'formula' => $matches[1][0],
                 'params' => $matches[2][0]
@@ -259,7 +260,7 @@ class ExcelDocumentController extends AjaxController{
     protected function _applySum($formulaInfo) {
         $list = $this->_parsePair($formulaInfo['params']);
         if (count($list)>0) {
-            return $list[0] + $list[1];
+            return array_sum($list); //$list[0] + $list[1];
         }
         
         
@@ -339,12 +340,12 @@ class ExcelDocumentController extends AjaxController{
         Logger::debug("formula type: ".var_export($formulaType, true));
         if ($formulaType) {
             switch ($formulaType['formula']) {
-                case 'SUM':
+                case 'сумма':
                     Logger::debug('parse sum');
                     return $this->_applySum($formulaType);    
                     break;
 
-                case 'AVG':
+                case 'среднее':
                     Logger::debug('parse avg');
                     return $this->_applyAvg($formulaType);    
                     break;
@@ -525,6 +526,8 @@ class ExcelDocumentController extends AjaxController{
             $formula = Yii::app()->request->getParam('formula', false);  
             $colspan = (int)Yii::app()->request->getParam('colspan', false);  
             $rowspan = (int)Yii::app()->request->getParam('rowspan', false);  
+            
+            //$formula = Strings::toUtf8($formula);
 
             $cell = ExcelWorksheetCells::model()->findByAttributes(array(
                 'worksheet_id' => $worksheetId,
