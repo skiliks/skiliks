@@ -446,6 +446,7 @@ class ExcelDocumentController extends AjaxController{
         ));
         
         $cell->value = $params['value'];
+        if (isset($params['formula']))  $cell->formula = $params['formula'];
         $cell->save();
     }
     
@@ -575,6 +576,10 @@ class ExcelDocumentController extends AjaxController{
         // загружаем воркшит
         $this->_getWorksheet($fromWorksheetId);
         
+        if ($worksheetId != $fromWorksheetId) {
+            $this->_getWorksheet($worksheetId);
+        }
+        
         $rangeInfo = $this->_parseRange($range);
         /*
         'columnFrom' => $columnFrom,
@@ -604,8 +609,6 @@ class ExcelDocumentController extends AjaxController{
         
         // Возврат результата
         $columnIndex = $this->_getColumnIndex($column);
-        //$columnCount = count($clipboard);
-        //$stringCount = count($clipboard[0]);
         
         $columnTo = $columnIndex + $rangeInfo['columnCount']; 
         $stringTo = $string + $rangeInfo['stringCount'];
@@ -628,6 +631,16 @@ class ExcelDocumentController extends AjaxController{
                 $cell['string'] = $stringIndex;
                 
                 $result['worksheetData'][] = $cell;
+                
+                // запомним результат
+                $params = array(
+                    'worksheetId' => $worksheetId,
+                    'column' => $columnName,
+                    'string' => $stringIndex,
+                    'value' => $cell['value'],
+                    'formula' => $cell['formula']
+                );
+                $this->_updateCell($params);
                 
                 $stringIndex++;
             }
