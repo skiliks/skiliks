@@ -41,8 +41,8 @@ class ExcelDocumentController extends AjaxController{
         return false;
     }
     
-    protected function _parsePair($formulaInfo) {
-        $res = preg_match_all("/(\w)(\d+)\;(\w)(\d+)/", $formulaInfo['params'], $matches); 
+    protected function _parsePair($range) {
+        $res = preg_match_all("/(\w)(\d+)\;(\w)(\d+)/", $range, $matches); 
         Logger::debug("matches : ".var_export($matches, true));
         if (!isset($matches[1][0])) return array();
 
@@ -225,9 +225,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _applySum($formulaInfo) {
-        
-        
-        $list = $this->_parsePair($formulaInfo);
+        $list = $this->_parsePair($formulaInfo['params']);
         if (count($list)>0) {
             return $list[0] + $list[1];
         }
@@ -251,7 +249,20 @@ class ExcelDocumentController extends AjaxController{
         return $sum;
     }
     
+    
+    
+    /**
+     * Расчет среднего значения
+     * @param type $formulaInfo
+     * @return type 
+     */
     protected function _applyAvg($formulaInfo) {
+        $list = $this->_parsePair($formulaInfo['params']);
+        if (count($list)>0) {
+            return Math::avg($list);
+        }
+        return false;
+        
         if (!preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $formulaInfo['params'], $matches)) 
         return false;
         
@@ -296,6 +307,7 @@ class ExcelDocumentController extends AjaxController{
                     break;
 
                 case 'AVG':
+                    Logger::debug('parse avg');
                     return $this->_applyAvg($formulaType);    
                     break;
             }
