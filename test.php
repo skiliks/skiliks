@@ -4,6 +4,10 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$a  = "(12 + 14 - 20*13)/23";
+preg_match_all("/([A-Z]+\d+)/", $a, $matches); 
+var_dump($matches); die();
+
 
 $str = "=сумма(C4;D4;B4)";
 preg_match_all("/=([а-я]+)\((.*)\)/u", $str, $matches);
