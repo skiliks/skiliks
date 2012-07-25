@@ -238,7 +238,7 @@ class ExcelDocumentController extends AjaxController{
         $expr = $matches[1][0];
         
         // заменим переменные в выражении
-        preg_match_all("/(\w\d+)/", $formula, $matches); 
+        preg_match_all("/([A-Z]+\d+)/", $formula, $matches); 
         Logger::debug('vars : '.var_export($matches, true));
         // Если у нас есть переменные
         if (isset($matches[0][0])) {
@@ -250,10 +250,12 @@ class ExcelDocumentController extends AjaxController{
             }
         }
         
+        $expr = str_replace(',', '.', $expr);
         
         $a=0;
         Logger::debug("eval : $expr");
         @eval ('$a='.$expr.';');
+        Logger::debug("a = $a");
         return $a;
     }
     
