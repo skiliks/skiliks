@@ -113,6 +113,23 @@ class ExcelDocumentController extends AjaxController{
         return $list;
     }
     
+    protected function _parseRangeToArray($range) {
+        $rangeInfo = $this->_parseRange($range);
+        
+        $list = array();
+        $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
+        $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
+        // бежим по колонкам
+        for($columnIndex = $rangeInfo['columnFromIndex']; $columnIndex < $columnTo; $columnIndex++) {
+            $columnName = $this->_getColumnByIndex($columnIndex);
+            for($stringIndex = $rangeInfo['stringFrom']; $stringIndex < $stringTo; $stringIndex++) {
+                $list[] = $this->_worksheets[$this->_activeWorksheet][$columnName][$stringIndex]['value'];
+            }
+        }
+        
+        return $list;
+    }
+    
     /**
      * Рассчет астосуммы
      * @param type $formulaInfo 
@@ -261,6 +278,11 @@ class ExcelDocumentController extends AjaxController{
         if (count($list)>0) {
             return Math::avg($list);
         }
+        
+        Logger::debug("avg  _parseRangeToArray");
+        $list = $this->_parseRangeToArray($formulaInfo['params']);
+        Logger::debug("list : ".var_export($list, true));
+        return Math::avg($list);
         return false;
         
         if (!preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $formulaInfo['params'], $matches)) 
