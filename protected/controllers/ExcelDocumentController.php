@@ -225,6 +225,11 @@ class ExcelDocumentController extends AjaxController{
         return $this->_worksheets[$worksheetId][$column][$string];
     }
     
+    protected function _setCell($column, $string, $cell, $worksheetId=false) {
+        if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
+        $this->_worksheets[$worksheetId][$column][$string] = $cell;
+    }
+    
     protected function _getCellValue($cellName, $worksheetId=false) {
         preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
         if (!isset($matches[1][0])) return false;
@@ -403,7 +408,8 @@ class ExcelDocumentController extends AjaxController{
                 'comment' => (!is_null($cell->comment)) ? $cell->comment : '',
                 'formula' => $cell->formula,
                 'colspan' => $cell->colspan,
-                'rowspan' => $cell->rowspan
+                'rowspan' => $cell->rowspan,
+                'worksheetId' => $worksheetId
             );
             
             $result['worksheetData'][] = $cellInfo;
@@ -761,8 +767,10 @@ class ExcelDocumentController extends AjaxController{
                     $newFormula = $formula;
                     foreach($vars as $varName) {
                         $cellInfo = $this->_explodeCellName($varName);
-                        $cellInfo['string'] = $i;
-                        $newFormula = str_replace($varName, $cellInfo['column'].$cellInfo['string'], $newFormula);
+                        $cellString = (int)$cellInfo['string'];
+                        $cellString++;
+                        //$cellInfo['string'] = $i;
+                        $newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
                     }
                     $value = $this->_parseFormula($newFormula);
                     
@@ -770,11 +778,60 @@ class ExcelDocumentController extends AjaxController{
                     $cell = $this->_getCell($column, $i);
                     $cell['value'] = $value;
                     $cell['formula'] = $newFormula;
+                    
+                    // изменим ячеку
+                    $this->_setCell($column, $i, $cell);
+                    $this->_updateCell($cell);
+                    
                     $result['worksheetData'][] = $cell;
                 }
             }
             else {
-                // горизонтальное
+                // горизонтальное протягивание
+                $columnFromIndex = $this->_getColumnIndex($column);
+                $columnToIndex = $this->_getColumnIndex($targetInfo['column']);
+                
+                // бежим по колонкам
+                $inc = 0;
+                for($i = $columnFromIndex; $i<=$columnToIndex; $i++) {
+                    // выбираем переменные из формулы
+                    $formulaInfo = $this->_parseFormulaType($formula);
+                    $vars = explode(';', $formulaInfo['params']);
+                    
+                    
+                    //$vars = $this->_exlodeFormulaVars($formula);
+                    //$newFormula = $formula;
+                    $newVars = array();
+                    foreach($vars as $varName) {
+                        $cellInfo = $this->_explodeCellName($varName);
+                        
+                        // сдвигаем колонку вправо
+                        $curColumnIndex = $this->_getColumnIndex($cellInfo['column']);
+                        $curColumnIndex = $curColumnIndex + $inc;
+                        $cellInfo['column'] = $this->_getColumnByIndex($curColumnIndex);
+                        
+                        $newVars[] = $cellInfo['column'].$cellInfo['string'];
+                        //$newFormula = str_replace($varName, $cellInfo['column'].$cellInfo['string'], $newFormula);
+                    }
+                    $newFormula = '='.$formulaInfo['formula'].'('.implode(';', $newVars).')';
+                    Logger::debug("new formula = $newFormula");
+                    
+                    $value = $this->_parseFormula($newFormula);
+                    
+                    Logger::debug("new formula : $newFormula");
+                    $column = $this->_getColumnByIndex($i);
+                    $cell = $this->_getCell($column, $string);
+                    $cell['value'] = $value;
+                    $cell['formula'] = $newFormula;
+                    
+                    // изменим ячеку
+                    $this->_setCell($column, $string, $cell);
+                    $this->_updateCell($cell);
+                    
+                    $result['worksheetData'][] = $cell;
+                    
+                    $inc++;
+                }
             }
 
             return $this->_sendResponse(200, CJSON::encode($result));
