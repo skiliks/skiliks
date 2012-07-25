@@ -60,8 +60,8 @@ class ExcelDocumentController extends AjaxController{
         return $list;
     }
     
-    protected function _parseRange($formulaInfo) {
-        $res = preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $formulaInfo['params'], $matches); 
+    protected function _parseRange($range) {
+        $res = preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $range, $matches); 
         Logger::debug("matches : ".var_export($matches, true));
         if (!isset($matches[1][0])) return false;
 
@@ -71,23 +71,11 @@ class ExcelDocumentController extends AjaxController{
         $columnTo = $matches[3][0];
         $stringTo = (int)$matches[4][0];
         
-        //Logger::debug("ws : ".var_export($this->_worksheets[$this->_activeWorksheet], true));
-        // получаем индексы колонок
-        /*$index = 1;
-        $indexes = array();
-        $columns = array();
-        foreach($this->_worksheets[$this->_activeWorksheet] as $column=>$data) {
-            $indexes[$column] = $index;
-            $columns[$index] = $column;
-            $index++;
-        }*/
         
-        $startIndex = $this->_getColumnIndex($columnFrom);
-        $endIndex = $this->_getColumnIndex($columnTo);
+        $startIndex = $this->_getColumnIndex($columnFrom); // индекс колонки, с которой стартуем
+        $endIndex = $this->_getColumnIndex($columnTo); // индекс колонки, которой финишируем
         
-        //$startIndex = $indexes[$columnFrom];  // индекс колонки, с которой стартуем
-        //$endIndex = $indexes[$columnTo];  // индекс колонки, которой финишируем
-        
+                
         // определяем колличество колонок
         $columnCount = $endIndex - $startIndex +1;
         
@@ -103,7 +91,7 @@ class ExcelDocumentController extends AjaxController{
             'stringCount' => $stringCount,
             'columnFromIndex' => $startIndex
         );
-        
+        #################################################
         
         if ($stringCount > $columnCount) {
             
@@ -130,7 +118,7 @@ class ExcelDocumentController extends AjaxController{
      * @param type $formulaInfo 
      */
     protected function _calcAutoSum($formulaInfo) {
-        $rangeInfo = $this->_parseRange($formulaInfo);
+        $rangeInfo = $this->_parseRange($formulaInfo['params']);
 
         
         $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
@@ -246,7 +234,7 @@ class ExcelDocumentController extends AjaxController{
         
         
         
-        $rangeInfo = $this->_parseRange($formulaInfo);
+        $rangeInfo = $this->_parseRange($formulaInfo['params']);
         //Logger::debug('range info : '.var_export($rangeInfo, true));
         
         $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
@@ -565,10 +553,89 @@ class ExcelDocumentController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaType)));
     }
     
+    /**
+     * Вставка из clipboard.
+     * @return type 
+     */
     public function actionPaste() {
+        // куда вставлять
+        $worksheetId = (int)Yii::app()->request->getParam('id', false);  
+        
+        // откуда вставлять
+        $fromWorksheetId = (int)Yii::app()->request->getParam('fromId', false);  
+        
+        
+        $string = (int)Yii::app()->request->getParam('string', false);  
+        
+        $column = Yii::app()->request->getParam('column', false);  
+        
+        // Диапазон, который мы копируем
+        $range = Yii::app()->request->getParam('range', false);  
+        
+        // загружаем воркшит
+        $this->_getWorksheet($fromWorksheetId);
+        
+        $rangeInfo = $this->_parseRange($range);
+        /*
+        'columnFrom' => $columnFrom,
+            'stringFrom' => $stringFrom,
+            'columnCount' => $columnCount,
+            'stringCount' => $stringCount,
+            'columnFromIndex' => $startIndex*/
+        
+        $clipboard = array();
+        // запомним состояние ячеек
+        $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount']; 
+        $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
+        
+        $columnIndex=0; $stringIndex = 0;
+        for($j = $rangeInfo['columnFromIndex']; $j<$columnTo; $j++) {
+            Logger::debug("get column name index $j ws $fromWorksheetId");
+            $columnName = $this->_getColumnByIndex($j, $fromWorksheetId);
+            
+            $stringIndex = 0;
+            for($i = $rangeInfo['stringFrom']; $i<$stringTo; $i++) {
+                $clipboard[$columnIndex][$stringIndex] = $this->_worksheets[$fromWorksheetId][$columnName][$i];
+                $stringIndex++;
+            }
+            
+            $columnIndex++;
+        }
+        
+        // Возврат результата
+        $columnIndex = $this->_getColumnIndex($column);
+        //$columnCount = count($clipboard);
+        //$stringCount = count($clipboard[0]);
+        
+        $columnTo = $columnIndex + $rangeInfo['columnCount']; 
+        $stringTo = $string + $rangeInfo['stringCount'];
+        
         
         $result = array();
         $result['result'] = 1;
+        $result['worksheetData'] = array();
+        
+        Logger::debug('clipboard : '.var_export($clipboard, true));
+        
+        $stringIndex = $string;
+        for($j=0; $j<$rangeInfo['columnCount'];$j++) {
+            
+            $columnName = $this->_getColumnByIndex($columnIndex, $worksheetId);
+            $stringIndex = $string;
+            for($i = 0; $i<$rangeInfo['stringCount']; $i++) {
+                $cell = $clipboard[$j][$i];
+                $cell['column'] = $columnName;
+                $cell['string'] = $stringIndex;
+                
+                $result['worksheetData'][] = $cell;
+                
+                $stringIndex++;
+            }
+            $columnIndex++;
+        }
+        
+        
+        
         return $this->_sendResponse(200, CJSON::encode($result));
     }
 }
