@@ -42,6 +42,21 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _parsePair($range) {
+        if (!strstr($range, ';')) return false;
+        $data = explode(';', $range);
+        if (count($data) == 0) return false;
+        
+        $list = array();
+        foreach($data as $cellName) {
+            preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
+            $column = $matches[1][0];
+            $string = (int)$matches[2][0];
+            
+            $list[] = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
+        }
+        
+        return $list;
+        
         $res = preg_match_all("/(\w)(\d+)\;(\w)(\d+)/", $range, $matches); 
         Logger::debug("matches : ".var_export($matches, true));
         if (!isset($matches[1][0])) return array();
@@ -275,6 +290,7 @@ class ExcelDocumentController extends AjaxController{
      */
     protected function _applyAvg($formulaInfo) {
         $list = $this->_parsePair($formulaInfo['params']);
+        Logger::debug("list : ".var_export($list, true));
         if (count($list)>0) {
             return Math::avg($list);
         }
