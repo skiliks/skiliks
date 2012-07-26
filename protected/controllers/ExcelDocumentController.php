@@ -369,7 +369,7 @@ class ExcelDocumentController extends AjaxController{
         Logger::debug("formula type: ".var_export($formulaType, true));
         if ($formulaType) {
             switch ($formulaType['formula']) {
-                case 'сумма':
+                case 'сумм':
                     Logger::debug('parse sum');
                     return $this->_applySum($formulaType);    
                     break;
