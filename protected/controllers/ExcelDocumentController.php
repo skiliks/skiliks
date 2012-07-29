@@ -323,7 +323,7 @@ class ExcelDocumentController extends AjaxController{
         Logger::debug('cell : '.var_export($cell, true));
         if ($cell['value']=='') {
             // смотрим формулу
-            if ($cell['formula']=='') {
+            if ($cell['formula']!='') {
                 return $this->_parseFormula($cell['formula']);
             }
         }
@@ -332,6 +332,23 @@ class ExcelDocumentController extends AjaxController{
         return 0;
     }
     
+    protected function _isNumber($value) {
+        return preg_match("/\d+/", $value);
+    }
+    
+    protected function _validateFormula($formula) {
+        $vars = $this->_explodeFormulaVars($formula);
+        foreach($vars as $var) {
+            Logger::debug("validate var : $var");
+            $value = $this->_getCellValueByName($var);
+            Logger::debug("value : $value");
+            if (!is_numeric($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
+            //if (!$this->_isNumber($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
+        }
+        return true;
+    }
+
+
     protected function _explodeFormulaVars($formula) {
         preg_match_all("/([A-Za-А-Яа-я!]+\d+)/", $formula, $matches); 
         if (isset($matches[0][0])) return $matches[0];
@@ -680,9 +697,15 @@ class ExcelDocumentController extends AjaxController{
             
             // поддержка вычисления формул
             if ($formula != '') {
+                
+                
+                
                 Logger::debug("found formula : $formula");
                 // загружаем рабочий лист
                 $this->_getWorksheet($worksheetId);
+                
+                $this->_validateFormula($formula);
+                
                 $value = $this->_parseFormula($formula);
                 if (is_null($value)) {
                     throw new Exception('Формула введена неправильно. Повторите ввод');
