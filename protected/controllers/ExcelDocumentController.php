@@ -78,6 +78,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _parseRange($range) {
+        Logger::debug("_parseRange : $range");
         $res = preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $range, $matches); 
         Logger::debug("matches : ".var_export($matches, true));
         if (!isset($matches[1][0])) return false;
@@ -348,7 +349,7 @@ class ExcelDocumentController extends AjaxController{
             return Math::avg($list);
         }
         
-        Logger::debug("avg  _parseRangeToArray");
+        Logger::debug("avg  _parseRangeToArray : ".$formulaInfo['params']);
         $list = $this->_parseRangeToArray($formulaInfo['params']);
         Logger::debug("list : ".var_export($list, true));
         return Math::avg($list);
@@ -380,10 +381,19 @@ class ExcelDocumentController extends AjaxController{
         
         if (($formulaType == 'среднее') || ($formulaType == 'average')) {
             Logger::debug('parse avg');
-            return $this->_applyAvg($formulaType);    
+            return $this->_applyAvg($formulaInfo);    
         }
         
         return 0;  // неизвестно как парсить
+    }
+    
+    protected function _processValue($value) {
+        if (is_numeric($value)) {
+            $showDecimals = false;
+            if (strstr($value, '.')) $showDecimals = true;
+            return Strings::formatThousend($value, $showDecimals);
+        }
+        return $value;
     }
     
     /**
@@ -448,14 +458,7 @@ class ExcelDocumentController extends AjaxController{
             }
             
             // постобработка
-            $value = $result['worksheetData'][$index]['value'];
-            //Logger::debug("postprocess : $value");
-            if (is_numeric($value)) {
-                $showDecimals = false;
-                if (strstr($value, '.')) $showDecimals = true;
-                //Logger::debug("postprocess passed");
-                $result['worksheetData'][$index]['value'] = Strings::formatThousend($value, $showDecimals);
-            }
+            $result['worksheetData'][$index]['value'] = $this->_processValue($result['worksheetData'][$index]['value']);
         }
 
         Logger::debug("strings : ".var_export($strings, true));
@@ -586,6 +589,7 @@ class ExcelDocumentController extends AjaxController{
                 $this->_getWorksheet($worksheetId);
                 $value = $this->_parseFormula($formula);
                 if (!$value) $value = $formula;
+                else $value = $this->_processValue($value);
             }
             
             $cell->value = $value;
