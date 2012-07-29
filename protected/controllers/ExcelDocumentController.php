@@ -399,6 +399,8 @@ class ExcelDocumentController extends AjaxController{
         $data = array();
         $columnIndex = 1;
         foreach($cells as $cell) {
+            
+            
             $cellInfo = array(
                 'id' => $cell->id,
                 'string' => $cell->string,
@@ -441,6 +443,17 @@ class ExcelDocumentController extends AjaxController{
                 if ($value) {
                     $result['worksheetData'][$index]['value'] = $value;
                 }
+            }
+            
+            // постобработка
+            $value = $result['worksheetData'][$index]['value'];
+            Logger::debug("postprocess : $value");
+            
+            if (is_numeric($value)) {
+                $showDecimals = false;
+                if (strstr($value, '.')) $showDecimals = true;
+                Logger::debug("postprocess passed");
+                $result['worksheetData'][$index]['value'] = Strings::formatThousend($value, $showDecimals);
             }
         }
 
