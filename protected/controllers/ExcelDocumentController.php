@@ -337,6 +337,10 @@ class ExcelDocumentController extends AjaxController{
         return array();
     }
     
+    protected function _hasLinkVar($expr) {
+        return preg_match_all("/([A-Za-А-Яа-я]+\!\w+\d+)/", $expr, $matches); 
+    }
+    
     protected function _parseExpr($expr) {
         Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
@@ -537,6 +541,10 @@ class ExcelDocumentController extends AjaxController{
                 }
             }
             
+            if ($this->_hasLinkVar($cell['formula'])) {
+                $result['worksheetData'][$index]['read_only'] = 1;
+            }
+            
             // постобработка
             $result['worksheetData'][$index]['value'] = $this->_processValue($result['worksheetData'][$index]['value']);
         }
@@ -673,6 +681,8 @@ class ExcelDocumentController extends AjaxController{
                 if (!$value) $value = $formula;
                 else $value = $this->_processValue($value);
                 Logger::debug("value after process value : $value");
+                
+                $cell->read_only = (int)(bool)$this->_hasLinkVar($formula);
             }
             
             $cell->value = $value;
@@ -686,9 +696,10 @@ class ExcelDocumentController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $data = array();
-            $cell = $this->_getCell($column, $string); //$this->_worksheets[$this->_activeWorksheet][$column][$string];
-            $cell['value'] = $value;
-            $data[] = $cell;
+            $cellItem = $this->_getCell($column, $string); //$this->_worksheets[$this->_activeWorksheet][$column][$string];
+            $cellItem['value'] = $value;
+            $cellItem['read_only'] = $cell->read_only;
+            $data[] = $cellItem;
             $result['worksheetData'] = $data;
             
             return $this->_sendResponse(200, CJSON::encode($result));

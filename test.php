@@ -4,6 +4,31 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+
+$val = "=Продажи!C611";
+
+$r = preg_match_all("/([A-Za-А-Яа-я]+\!\w+\d+)/", $val, $matches); 
+var_dump($r);
+die();
+
+$r = preg_match_all("/([+\-\*\/]+)/u", $val, $matches); 
+var_dump($r);
+var_dump($matches);
+die();
+
+$cellName = 'Логистика!L7'; //+Прочее!L7	
+preg_match_all("/(\w+)!(\w+)(\d+)/u", $cellName, $matches); 
+var_dump($matches);
+die();
+
+if (preg_match_all("/(\w+)(\d+)/", $cellName, $matches)) {
+            $result = array(
+                'column' => $matches[1][0],
+                'string' => (int)$matches[2][0]
+            );
+            return $result;
+        } 
+
 echo number_format ( '10000000.23' ,  2 , '.' , ' ' );
 die();
 
