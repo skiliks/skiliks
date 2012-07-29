@@ -103,6 +103,11 @@ class ExcelImporter {
                         $val = '';
                     }
                     
+                    $style = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row);
+                    var_dump($style); die();
+                    
+                    // getFont
+                    
                     // так мы можем вытащить цвет
                     $color = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFill()->getStartColor()->getARGB();
                     echo('color='.$color);
