@@ -1006,6 +1006,7 @@ class ExcelDocumentController extends AjaxController{
                 Logger::debug("vertical drawing");
                 Logger::debug("formula : $formula");
                 
+                $step = 0;
                 // вертикальное протягивание
                 for($i = $string; $i<=$targetInfo['string']; $i++) {
                     
@@ -1018,13 +1019,13 @@ class ExcelDocumentController extends AjaxController{
                     foreach($vars as $varName) {
                         $cellInfo = $this->_explodeCellName($varName);
                         $cellString = (int)$cellInfo['string'];
-                        $cellString=$i;
+                        $cellString+=$step;
                         //$cellInfo['string'] = $i;
                         
                         $newVars[$varName] = $cellInfo['column'].$cellString;
                         //$newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
                     }
-                    
+                    $step++;
                     $newFormula = $this->_replaceVars($formula, $newVars);
                     
                     Logger::debug("new vars : ".var_export($newVars, true));
