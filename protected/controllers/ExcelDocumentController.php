@@ -320,6 +320,7 @@ class ExcelDocumentController extends AjaxController{
         
         
         $cell = $this->_getCell($column, $string, $worksheetId);
+        Logger::debug('cell : '.var_export($cell, true));
         if ($cell['value']=='') {
             // смотрим формулу
             if ($cell['formula']=='') {
@@ -350,6 +351,7 @@ class ExcelDocumentController extends AjaxController{
 
         foreach($vars as $varName) {
             $value = $this->_getCellValueByName($varName);
+            if ($value=='') $value=0;
             //if ($value) {
                 $expr = str_replace($varName, $value, $expr);
             //}
@@ -678,8 +680,8 @@ class ExcelDocumentController extends AjaxController{
                 $this->_getWorksheet($worksheetId);
                 $value = $this->_parseFormula($formula);
                 Logger::debug("value after process formula : $value");
-                if (!$value) $value = $formula;
-                else $value = $this->_processValue($value);
+                //if (!$value) $value = $formula;
+                if ($value) $value = $this->_processValue($value);
                 Logger::debug("value after process value : $value");
                 
                 $cell->read_only = (int)(bool)$this->_hasLinkVar($formula);
