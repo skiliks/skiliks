@@ -71,13 +71,13 @@ class ExcelImporter {
     public function import($documentName) {
         $this->_phpExcel = PHPExcel_IOFactory::load("../media/test.xlsx");
         
-        $documentId = $this->_createDocument($documentName);
+        //++$documentId = $this->_createDocument($documentName);
 
         
         foreach ($this->_phpExcel->getWorksheetIterator() as $worksheet) {
             $worksheetTitle     = $worksheet->getTitle();
             
-            $worksheetId = $this->_createWorksheet($documentId, $worksheetTitle);
+            //++$worksheetId = $this->_createWorksheet($documentId, $worksheetTitle);
             
             $highestRow         = $worksheet->getHighestRow(); // например, 10
             $highestColumn      = $worksheet->getHighestColumn(); // например, 'F'
@@ -103,7 +103,14 @@ class ExcelImporter {
                         $val = '';
                     }
                     
+                    // так мы можем вытащить цвет
+                    $color = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFill()->getStartColor()->getARGB();
+                    echo('color='.$color);
+                    //$this->_phpExcel->getSheetByName('Sheet1')->getStyle("B13")->getFont()->getBold()
+                    $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
+                    echo('bold='.$bold);
                     
+                    /*++
                     $params = array(
                         'worksheetId' => $worksheetId,
                         'string' => $row,
@@ -113,7 +120,7 @@ class ExcelImporter {
                         'formula' => $formula
                     );
                     $rowId = $this->_insertRow($params);
-                    if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
+                    if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));*/
                      
 
                     echo '<td>' . $val . '<br>(Тип ' . $dataType . ')'.$columnName.'</td>';
