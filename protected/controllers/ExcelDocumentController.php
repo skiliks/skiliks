@@ -47,7 +47,7 @@ class ExcelDocumentController extends AjaxController{
     protected function _getColumnIndex($column, $worksheetId=false) {
         Logger::debug("_getColumnIndex : $column, $worksheetId");
         if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
-            Logger::debug('columns : '.var_export($this->_columns[$worksheetId], true));
+            //Logger::debug('columns : '.var_export($this->_columns[$worksheetId], true));
             if (!isset($this->_columns[$worksheetId][$column])) {
                // Logger::debug("cant find : $worksheetId, $column"); die();
             }
@@ -82,7 +82,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _explodeCellName($cellName) {
-        if (preg_match_all("/(\w+)(\d+)/", $cellName, $matches)) {
+        if (preg_match_all("/([A-Za-zА-Яа-я!]+)(\d+)/", $cellName, $matches)) {
             $result = array(
                 'column' => $matches[1][0],
                 'string' => (int)$matches[2][0]
@@ -453,6 +453,8 @@ class ExcelDocumentController extends AjaxController{
         
         // определить тип формулы
         $formulaInfo = $this->_parseFormulaType($formula);
+        if (!$formulaInfo) return $formula; // это просто значение
+        
         Logger::debug("formula type: ".var_export($formulaInfo, true));
         // если не удалось определить информацию о формуле
         if (isset($formulaInfo['expr'])) {
@@ -535,7 +537,7 @@ class ExcelDocumentController extends AjaxController{
         $this->_worksheets[$worksheetId] = $data;
         if ($activateWorksheet)$this->_activeWorksheet = $worksheetId;
         
-        Logger::debug("_getWorksheet data : ".var_export($data, true));
+        //Logger::debug("_getWorksheet data : ".var_export($data, true));
         
         // применим формулы
         foreach($result['worksheetData'] as $index=>$cell) {
@@ -554,8 +556,8 @@ class ExcelDocumentController extends AjaxController{
             $result['worksheetData'][$index]['value'] = $this->_processValue($result['worksheetData'][$index]['value']);
         }
 
-        Logger::debug("strings : ".var_export($strings, true));
-        Logger::debug("columns : ".var_export($columns, true));
+        //Logger::debug("strings : ".var_export($strings, true));
+        //Logger::debug("columns : ".var_export($columns, true));
         $result['strings'] = count($strings);
         $result['columns'] = count($columns);
         
@@ -907,18 +909,58 @@ class ExcelDocumentController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    protected function _replaceVars($expr, $newVars) {
+        $var='';
+        $str = '';
+        $exprLen = strlen($expr);
+        $i=0;
+        while($i<$exprLen) {
+            $s = $expr[$i];
+            if (!preg_match("/[=+\-\*\/\(\)\;\:]/", $s)) {
+                $var .= $s;
+                //echo"var = $var";
+                $i++;
+            }
+            else {
+                //$str .= $s;
+                //echo"var = $var";
+                if (isset($newVars[$var])) {
+                    $str.=$newVars[$var].$s;
+                    $i=$i+(strlen($var)-1);
+                    $var = '';
+                }
+                else {
+                    $i++;    
+                    $str.=$s;
+                }
+
+            }
+
+            //echo("str=$str<br>");
+        }
+        //echo("var=$var");
+        if (isset($newVars[$var])) {
+                    $str.=$newVars[$var];
+
+        }
+        return $str;
+    }
+    
     /**
      * Протягивание
      */
     public function actionDrawing() {
         try {
+            Logger::debug("actionDrawing");
             $worksheetId = (int)Yii::app()->request->getParam('id', false);  
             $string = (int)Yii::app()->request->getParam('string', false);  
             $column = Yii::app()->request->getParam('column', false);  
             $target = Yii::app()->request->getParam('target', false);  
 
+            Logger::debug("target : $target");
             $targetInfo = $this->_explodeCellName($target);
-
+            Logger::debug("targetInfo : ".var_export($targetInfo, true));
+            
             // загрузить рабочий лист
             $this->_getWorksheet($worksheetId);
             
@@ -932,19 +974,38 @@ class ExcelDocumentController extends AjaxController{
 
             $result = array();
             $result['result'] = 1;
+            Logger::debug("compare {$targetInfo['column']} with $column");
             if ($targetInfo['column'] == $column) {
+                Logger::debug("vertical drawing");
+                Logger::debug("formula : $formula");
+                
                 // вертикальное протягивание
                 for($i = $string; $i<=$targetInfo['string']; $i++) {
+                    
                     // выбираем переменные из формулы
                     $vars = $this->_explodeFormulaVars($formula);
+                    Logger::debug("vars : ".var_export($vars, true));
+                    
                     $newFormula = $formula;
+                    $newVars = array();
                     foreach($vars as $varName) {
                         $cellInfo = $this->_explodeCellName($varName);
                         $cellString = (int)$cellInfo['string'];
-                        $cellString++;
+                        $cellString=$i;
                         //$cellInfo['string'] = $i;
-                        $newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
+                        
+                        $newVars[$varName] = $cellInfo['column'].$cellString;
+                        //$newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
                     }
+                    
+                    $newFormula = $this->_replaceVars($formula, $newVars);
+                    
+                    Logger::debug("new vars : ".var_export($newVars, true));
+                    /*foreach($newVars as $oldVar=>$newVar) {
+                        $newFormula = str_replace($oldVar, $newVar, $newFormula);
+                    }*/
+                    
+                    
                     $value = $this->_parseFormula($newFormula);
                     
                     Logger::debug("get cell $column, $i");
@@ -960,17 +1021,23 @@ class ExcelDocumentController extends AjaxController{
                 }
             }
             else {
+                Logger::debug("horizontal drawing");
                 // горизонтальное протягивание
-                $columnFromIndex = $this->_getColumnIndex($column);
+                $columnFromIndex = $this->_getColumnIndex($column)+1;
                 $columnToIndex = $this->_getColumnIndex($targetInfo['column']);
                 
+                
+                // выбираем переменные из формулы
+                $formulaInfo = $this->_parseFormulaType($formula);
+                Logger::debug('formulaInfo : '.var_export($formulaInfo, true));
+                //$vars = explode(';', $formulaInfo['params']);
+                if (isset($formulaInfo['params'])) $formulaContent = $formulaInfo['params'];
+                if (isset($formulaInfo['expr'])) $formulaContent = $formulaInfo['expr'];
+                $vars = $this->_explodeFormulaVars($formulaContent);
+                
                 // бежим по колонкам
-                $inc = 0;
+                $inc = 1;
                 for($i = $columnFromIndex; $i<=$columnToIndex; $i++) {
-                    // выбираем переменные из формулы
-                    $formulaInfo = $this->_parseFormulaType($formula);
-                    $vars = explode(';', $formulaInfo['params']);
-                    
                     
                     //$vars = $this->_explodeFormulaVars($formula);
                     //$newFormula = $formula;
@@ -983,10 +1050,18 @@ class ExcelDocumentController extends AjaxController{
                         $curColumnIndex = $curColumnIndex + $inc;
                         $cellInfo['column'] = $this->_getColumnByIndex($curColumnIndex);
                         
-                        $newVars[] = $cellInfo['column'].$cellInfo['string'];
+                        $newVars[$varName] = $cellInfo['column'].$cellInfo['string'];
                         //$newFormula = str_replace($varName, $cellInfo['column'].$cellInfo['string'], $newFormula);
                     }
-                    $newFormula = '='.$formulaInfo['formula'].'('.implode(';', $newVars).')';
+                    Logger::debug("new vars : ".var_export($newVars, true));
+                    
+                    $newFormula = $this->_replaceVars($formula, $newVars);
+                    /*$newFormula = $formula;
+                    foreach($newVars as $oldVar=>$newVar) {
+                        $newFormula = str_replace($oldVar, $newVar, $newFormula);
+                    }*/
+                    //$newFormula = '='.$formulaInfo['formula'].'('.implode(';', $newVars).')';
+                    
                     Logger::debug("new formula = $newFormula");
                     
                     $value = $this->_parseFormula($newFormula);
