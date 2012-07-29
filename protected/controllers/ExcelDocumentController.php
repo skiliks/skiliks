@@ -343,6 +343,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _parseExpr($expr) {
+        $expression = $expr;
         Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
         $vars = $this->_explodeFormulaVars($expr);
@@ -363,10 +364,12 @@ class ExcelDocumentController extends AjaxController{
         // если нечего эвалить
         if (!$this->_isExpression($expr)) return $expr;
         
-        $a=0;
+        $a = null;
         Logger::debug("eval : $expr");
         @eval ('$a='.$expr.';');
         Logger::debug("a = $a");
+        
+        if (is_null($a)) return '='.$expression;
         return $a;
     }
     
