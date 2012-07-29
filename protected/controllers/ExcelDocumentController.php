@@ -354,11 +354,18 @@ class ExcelDocumentController extends AjaxController{
         
         $expr = str_replace(',', '.', $expr);
         
+        // если нечего эвалить
+        if (!$this->_isExpression($expr)) return $expr;
+        
         $a=0;
         Logger::debug("eval : $expr");
         @eval ('$a='.$expr.';');
         Logger::debug("a = $a");
         return $a;
+    }
+    
+    protected function _isExpression($expr) {
+        return preg_match_all("/([+\-\*\/]+)/u", $expr, $matches); 
     }
     
     /**
@@ -385,6 +392,7 @@ class ExcelDocumentController extends AjaxController{
         if (count($list)>0) return array_sum($list); 
         
         // если у нас диапазон
+        Logger::debug('parse range : '.$formulaInfo['params']);
         $rangeInfo = $this->_parseRange($formulaInfo['params']);
         Logger::debug('range info : '.var_export($rangeInfo, true));
 
@@ -657,11 +665,14 @@ class ExcelDocumentController extends AjaxController{
             
             // поддержка вычисления формул
             if ($formula != '') {
+                Logger::debug("found formula : $formula");
                 // загружаем рабочий лист
                 $this->_getWorksheet($worksheetId);
                 $value = $this->_parseFormula($formula);
+                Logger::debug("value after process formula : $value");
                 if (!$value) $value = $formula;
                 else $value = $this->_processValue($value);
+                Logger::debug("value after process value : $value");
             }
             
             $cell->value = $value;
