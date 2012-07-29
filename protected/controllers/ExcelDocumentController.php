@@ -16,9 +16,41 @@ class ExcelDocumentController extends AjaxController{
     protected $_columns = array();
     protected $_columnIndex = array();
     
+    /**
+     * Кеш имен воркшитов
+     * @var type 
+     */
+    protected $_wsNamesCache = array();
+    
+    /**
+     * Получение идентификатора воркшита по его имени
+     * @param string $worksheetName 
+     */
+    protected function _getWorksheetIdByName($worksheetName) {
+        if (isset($this->_wsNamesCache[$worksheetName])) {
+            return $this->_wsNamesCache[$worksheetName];
+        }
+        
+        $worksheet = ExcelWorksheet::model()->byName($worksheetName)->find();
+        if ($worksheet) {
+            $this->_wsNamesCache[$worksheetName] = $worksheet->id;
+            return $worksheet->id;
+        }
+    }
+    
+    protected function _loadWorksheetIfNeeded($worksheetId) {
+        if (!isset($this->_worksheets[$worksheetId])) {
+            $this->_getWorksheet($worksheetId, false);
+        }
+    }
+    
     protected function _getColumnIndex($column, $worksheetId=false) {
+        Logger::debug("_getColumnIndex : $column, $worksheetId");
         if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
             Logger::debug('columns : '.var_export($this->_columns[$worksheetId], true));
+            if (!isset($this->_columns[$worksheetId][$column])) {
+               // Logger::debug("cant find : $worksheetId, $column"); die();
+            }
         return $this->_columns[$worksheetId][$column];
     }
     
@@ -32,7 +64,7 @@ class ExcelDocumentController extends AjaxController{
      * @param string $formula 
      */
     protected function _parseFormulaType($formula) {
-        if (preg_match_all("/=([a-zа-я]+)\((.*)\)/u", $formula, $matches)) {
+        if (preg_match_all("/=(\w+)\((.*)\)/u", $formula, $matches)) {
             Logger::debug("_parseFormulaType : ".var_export($matches, true));
             return array(
                 'formula' => $matches[1][0],
@@ -40,7 +72,7 @@ class ExcelDocumentController extends AjaxController{
             );
         }
         
-        if (preg_match_all("/=(.*)/", $formula, $matches)) {
+        if (preg_match_all("/=(.*)/u", $formula, $matches)) {
             return array(
                 'expr' => $matches[1][0]
             );
@@ -243,33 +275,70 @@ class ExcelDocumentController extends AjaxController{
         $this->_worksheets[$worksheetId][$column][$string] = $cell;
     }
     
+    /**
+     * Получение значения переменной по ее имени
+     * @param string $cellName
+     * @param int $worksheetId
+     * @return mixed
+     */
     protected function _getCellValueByName($cellName, $worksheetId=false) {
-        preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
-        if (!isset($matches[1][0])) return false;
-        $column = $matches[1][0];
-        $string = (int)$matches[2][0];
+        $worksheetName = false;
         
-        Logger::debug("column $column string $string");
+        Logger::debug("_getCellValueByName : $cellName");
+        
+        if (!strstr($cellName, '!')) {
+            preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
+            if (!isset($matches[1][0])) return false;
+            $column = $matches[1][0];
+            $string = (int)$matches[2][0];
+        }
+        else {
+            if (preg_match_all("/(\w*)!(\w+)(\d+)/u", $cellName, $matches)) {
+                Logger::debug("matches : ".  var_export($matches, true));
+                
+                $worksheetName = $matches[1][0];
+                $column = $matches[2][0];
+                $string = (int)$matches[3][0];
+                
+                Logger::debug("wsName : $worksheetName");
+            }
+        }
         
         if (!$worksheetId) $worksheetId = $this->_activeWorksheet;
         
-        if (isset($this->_worksheets[$worksheetId][$column][$string])) {
-            $value = $this->_worksheets[$worksheetId][$column][$string]['value'];
-            Logger::debug("found value $value");
-            return $value;
+        // у нас ссылка на другой воркшит
+        if ($worksheetName) {
+            $worksheetId = $this->_getWorksheetIdByName($worksheetName);
+            if ($worksheetId) {
+                $this->_loadWorksheetIfNeeded($worksheetId);
+            }
+            Logger::debug("wsId : $worksheetId");
         }
         
-        Logger::debug("return 1");
-        return 1;
+        Logger::debug("column $column string $string");
+        
+        
+        
+        $cell = $this->_getCell($column, $string, $worksheetId);
+        if ($cell['value']=='') {
+            // смотрим формулу
+            if ($cell['formula']=='') {
+                return $this->_parseFormula($cell['formula']);
+            }
+        }
+        return $cell['value'];
+        //Logger::debug("found value ".var_dump($value, true));
+        return 0;
     }
     
     protected function _explodeFormulaVars($formula) {
-        preg_match_all("/([A-Z]+\d+)/", $formula, $matches); 
+        preg_match_all("/([A-Za-А-Яа-я!]+\d+)/", $formula, $matches); 
         if (isset($matches[0][0])) return $matches[0];
         return array();
     }
     
     protected function _parseExpr($expr) {
+        Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
         $vars = $this->_explodeFormulaVars($expr);
         Logger::debug('vars : '.var_export($vars, true));
@@ -369,12 +438,15 @@ class ExcelDocumentController extends AjaxController{
         $formulaInfo = $this->_parseFormulaType($formula);
         Logger::debug("formula type: ".var_export($formulaInfo, true));
         // если не удалось определить информацию о формуле
-        if (isset($formulaInfo['expr'])) return $this->_parseExpr($formulaInfo['expr']);
+        if (isset($formulaInfo['expr'])) {
+            Logger::debug("try to parse expr : ".$formulaInfo['expr']);
+            return $this->_parseExpr($formulaInfo['expr']);
+        }
         
         
         $formulaType = $formulaInfo['formula'];
         
-        if (($formulaType == 'сумм') || ($formulaType == 'sum')) {
+        if (($formulaType == 'сумм') || ($formulaType == 'sum') || ($formulaType == 'SUM')) {
             Logger::debug('parse sum');
             return $this->_applySum($formulaInfo);    
         }
@@ -401,7 +473,7 @@ class ExcelDocumentController extends AjaxController{
      * @param int $worksheetId
      * @return array
      */
-    protected function _getWorksheet($worksheetId) {
+    protected function _getWorksheet($worksheetId, $activateWorksheet = true) {
         $result = array();
         
         $cells = ExcelWorksheetCells::model()->byWorksheet($worksheetId)->findAll();
@@ -444,7 +516,7 @@ class ExcelDocumentController extends AjaxController{
         
         // запоминаем структуру рабочего листа
         $this->_worksheets[$worksheetId] = $data;
-        $this->_activeWorksheet = $worksheetId;
+        if ($activateWorksheet)$this->_activeWorksheet = $worksheetId;
         
         Logger::debug("_getWorksheet data : ".var_export($data, true));
         
