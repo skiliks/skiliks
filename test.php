@@ -6,6 +6,60 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 $a=null;
 
+$expr = "=D7+E7-C12";
+
+$newVars = array(
+    'D7'=>'E7',
+    'E7'=>'F7',
+    'C12' => 'M2'
+);
+
+$var='';
+$str = '';
+$exprLen = strlen($expr);
+$i=0;
+while($i<$exprLen) {
+    $s = $expr[$i];
+    if (!preg_match("/[=+\-\*\/\(\)\;\:]/", $s)) {
+        $var .= $s;
+        echo"var = $var";
+        $i++;
+    }
+    else {
+        //$str .= $s;
+        echo"var = $var";
+        if (isset($newVars[$var])) {
+            $str.=$newVars[$var].$s;
+            $i=$i+(strlen($var)-1);
+            $var = '';
+        }
+        else { $i++;
+            $str.=$s;
+        }
+        
+    }
+    
+    echo("str=$str<br>");
+}
+echo("var=$var");
+if (isset($newVars[$var])) {
+            $str.=$newVars[$var];
+         
+        }
+
+echo("exp=$str");
+die();
+
+$cellName = "E10";
+preg_match_all("/([A-Za-zА-Яа-я!]+)(\d+)/", $cellName, $matches); 
+var_dump($matches);
+die();
+
+$formula = "A1 + a!B3 + C7";
+preg_match_all("/([A-Za-А-Яа-я!]+\d+)/", $formula, $matches); 
+var_dump($matches);
+die();
+
 $expr = '$a=2+;';
 
 $b = @eval($expr);
