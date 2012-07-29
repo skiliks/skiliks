@@ -33,6 +33,14 @@ class ExcelWorksheet extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byName($name)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "name = '{$name}'"
+        ));
+        return $this;
+    }
 }
 
 ?>
