@@ -33,12 +33,19 @@ class ExcelDocumentController extends AjaxController{
      */
     protected function _parseFormulaType($formula) {
         if (preg_match_all("/=([a-zа-я]+)\((.*)\)/u", $formula, $matches)) {
-        Logger::debug("_parseFormulaType : ".var_export($matches, true));
+            Logger::debug("_parseFormulaType : ".var_export($matches, true));
             return array(
                 'formula' => $matches[1][0],
                 'params' => $matches[2][0]
             );
         }
+        
+        if (preg_match_all("/=(.*)/", $formula, $matches)) {
+            return array(
+                'expr' => $matches[1][0]
+            );
+        } 
+        
         return false;
     }
     
@@ -262,16 +269,9 @@ class ExcelDocumentController extends AjaxController{
         return array();
     }
     
-    protected function _parseExpr($formula) {
-        preg_match_all("/=(.*)/", $formula, $matches); 
-                Logger::debug('expr : '.var_export($matches, true));
-        if (!isset($matches[1][0])) return false;
-        
-        
-        $expr = $matches[1][0];
-        
+    protected function _parseExpr($expr) {
         // заменим переменные в выражении
-        $vars = $this->_explodeFormulaVars($formula);
+        $vars = $this->_explodeFormulaVars($expr);
         Logger::debug('vars : '.var_export($vars, true));
         // Если у нас есть переменные
 
@@ -369,7 +369,7 @@ class ExcelDocumentController extends AjaxController{
         $formulaInfo = $this->_parseFormulaType($formula);
         Logger::debug("formula type: ".var_export($formulaInfo, true));
         // если не удалось определить информацию о формуле
-        if (!$formulaInfo) return $this->_parseExpr($formula);
+        if (isset($formulaInfo['expr'])) return $this->_parseExpr($formulaInfo['expr']);
         
         
         $formulaType = $formulaInfo['formula'];
@@ -649,6 +649,62 @@ class ExcelDocumentController extends AjaxController{
     }
     
     /**
+     * Сдвигает переменные в формуле
+     * @param string $formula формула, которую надо обработать 
+     * @param string $column
+     * @param int $string
+     */
+    protected function _shiftFormulaVars($formula, $column, $string) {
+        $formulaInfo = $this->_parseFormulaType($formula);
+        
+        // пробуем получить переменные
+        $delimiter = false;
+        if (isset($formulaInfo['params'])) {
+            if (strstr($formulaInfo['params'], ':')) {
+                $vars = explode(':', $formulaInfo['params']);
+                $delimiter = ':';
+            }
+
+            if (strstr($formulaInfo['params'], ';')) {
+                $vars = explode(';', $formulaInfo['params']);
+                $delimiter = ';';
+            }
+        }
+        
+        // проверим а вдруг у нас просто ссылка на ячейку
+        if (isset($formulaInfo['expr'])) {
+            if (preg_match("/(\w+\d+)/", $formulaInfo['expr'])) {
+                $vars = array($formulaInfo['expr']);
+            }
+        }
+        
+        Logger::debug('vars :'.var_export($vars, true));
+        if (count($vars)==0) return $formula; // нечего сдвигать
+        
+        $columnIndex = $this->_getColumnIndex($column);
+        
+        foreach($vars as $index=>$var) {
+            $varInfo = $this->_explodeCellName($var);
+            $curColumn = $varInfo['column'];
+            $curString = $varInfo['string'];
+            $curColumnIndex = $this->_getColumnIndex($curColumn);
+            $curColumnIndex+=$columnIndex-1;
+            $curColumn = $this->_getColumnByIndex($curColumnIndex);
+            $curString+=$string-1;
+            
+            $vars[$index] = $curColumn.$curString;
+        }
+        
+        // собираем формулу
+        if ($delimiter)
+            return '='.$formulaInfo['formula'].'('.implode($delimiter, $vars).')';
+        
+        return '='.$vars[0];
+        
+        //$columnName = $this->_getColumnByIndex($columnIndex, $worksheetId);
+    }
+    
+    /**
      * Вставка из clipboard.
      * @return type 
      */
@@ -694,7 +750,7 @@ class ExcelDocumentController extends AjaxController{
             
             $stringIndex = 0;
             for($i = $rangeInfo['stringFrom']; $i<$stringTo; $i++) {
-                $clipboard[$columnIndex][$stringIndex] = $this->_worksheets[$fromWorksheetId][$columnName][$i];
+                $clipboard[$columnIndex][$stringIndex] = $this->_getCell($columnName, $i, $fromWorksheetId); //$this->_worksheets[$fromWorksheetId][$columnName][$i];
                 $stringIndex++;
             }
             
@@ -721,6 +777,12 @@ class ExcelDocumentController extends AjaxController{
             $stringIndex = $string;
             for($i = 0; $i<$rangeInfo['stringCount']; $i++) {
                 $cell = $clipboard[$j][$i];
+                
+                // обработать формулу
+                $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string);
+                // пересчитаем формулу
+                $cell['value'] = $this->_parseFormula($cell['formula']);
+                
                 $cell['column'] = $columnName;
                 $cell['string'] = $stringIndex;
                 
