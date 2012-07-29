@@ -369,7 +369,7 @@ class ExcelDocumentController extends AjaxController{
         @eval ('$a='.$expr.';');
         Logger::debug("a = $a");
         
-        if (is_null($a)) return '='.$expression;
+        if (is_null($a)) return null;//'='.$expression;
         return $a;
     }
     
@@ -475,7 +475,7 @@ class ExcelDocumentController extends AjaxController{
             return $this->_applyAvg($formulaInfo);    
         }
         
-        return 0;  // неизвестно как парсить
+        return null;  // неизвестно как парсить
     }
     
     protected function _processValue($value) {
@@ -684,6 +684,10 @@ class ExcelDocumentController extends AjaxController{
                 // загружаем рабочий лист
                 $this->_getWorksheet($worksheetId);
                 $value = $this->_parseFormula($formula);
+                if (is_null($value)) {
+                    throw new Exception('Формула введена неправильно. Повторите ввод');
+                }
+                
                 Logger::debug("value after process formula : $value");
                 //if (!$value) $value = $formula;
                 if ($value) $value = $this->_processValue($value);
