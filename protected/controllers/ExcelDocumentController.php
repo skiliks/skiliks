@@ -317,7 +317,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _isNumber($value) {
-        return preg_match("/\d+/", $value);
+        return preg_match_all("/\d+/", $value);
     }
     
     protected function _validateFormula($formula) {
