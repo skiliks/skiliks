@@ -4,6 +4,14 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$row = 1;
+$a=1;
+if ($a==2)
+$items[] = $row;
+
+var_dump($items);
+die();
+
 $a=null;
 
 $expr = "=D7+E7-C12";

@@ -808,10 +808,11 @@ class ExcelDocumentController extends AjaxController{
         
         $columnIndex = $this->_getColumnIndex($column);
         
+        
         foreach($vars as $index=>$var) {
             $varInfo = $this->_explodeCellName($var);
             $curColumn = $varInfo['column'];
-            $curString = $varInfo['string'];
+            $curString = $varInfo['string'] + 1;
             $curColumnIndex = $this->_getColumnIndex($curColumn);
             $curColumnIndex+=$columnIndex-1;
             $curColumn = $this->_getColumnByIndex($curColumnIndex);
