@@ -65,7 +65,7 @@ class ExcelDocumentController extends AjaxController{
      */
     protected function _parseFormulaType($formula) {
         if (preg_match_all("/=(\w+)\((.*)\)/u", $formula, $matches)) {
-            Logger::debug("_parseFormulaType : ".var_export($matches, true));
+            //Logger::debug("_parseFormulaType : ".var_export($matches, true));
             return array(
                 'formula' => $matches[1][0],
                 'params' => $matches[2][0]
@@ -117,9 +117,9 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _parseRange($range) {
-        Logger::debug("_parseRange : $range");
+        //Logger::debug("_parseRange : $range");
         $res = preg_match_all("/(\w)(\d+)\:(\w)(\d+)/", $range, $matches); 
-        Logger::debug("matches : ".var_export($matches, true));
+        //Logger::debug("matches : ".var_export($matches, true));
         if (!isset($matches[1][0])) return false;
 
         $columnFrom = $matches[1][0];
@@ -139,8 +139,8 @@ class ExcelDocumentController extends AjaxController{
             $stringCount = $stringTo - $stringFrom + 1;
         
         
-        Logger::debug("excel columnCount : $columnCount");
-        Logger::debug("excel stringCount : $stringCount");
+        //Logger::debug("excel columnCount : $columnCount");
+        //Logger::debug("excel stringCount : $stringCount");
         return array(
             'columnFrom' => $columnFrom,
             'stringFrom' => $stringFrom,
@@ -148,26 +148,6 @@ class ExcelDocumentController extends AjaxController{
             'stringCount' => $stringCount,
             'columnFromIndex' => $startIndex
         );
-        #################################################
-        
-        if ($stringCount > $columnCount) {
-            
-        }
-        
-        // вернем список элементов в формате колонка/строка
-        $list = array();
-        for($columnIndex = $startIndex; $columnIndex <= $endIndex; $columnIndex++) {
-            $data = array();
-            for($stringIndex = $stringFrom; $stringIndex <= $stringTo; $stringIndex++) {
-                $data[] = $columns[$columnIndex].':'.$stringIndex;
-            }
-            $list[]=$data;
-        }
-        return $list;
-        
-        $b = (int)$this->_worksheets[$this->_activeWorksheet][$column][$string]['value'];
-        $list[] = $b;
-        return $list;
     }
     
     protected function _parseRangeToArray($range) {
@@ -265,7 +245,7 @@ class ExcelDocumentController extends AjaxController{
     
     protected function _getCellValue($column, $string, $worksheetId=false) {
         $cell = $this->_getCell($column, $string, $worksheetId);
-        Logger::debug("_getCellValue cell : ".var_export($cell, true));
+        //Logger::debug("_getCellValue cell : ".var_export($cell, true));
         if (!$cell) return false;
         return $cell['value'];
     }
@@ -284,7 +264,7 @@ class ExcelDocumentController extends AjaxController{
     protected function _getCellValueByName($cellName, $worksheetId=false) {
         $worksheetName = false;
         
-        Logger::debug("_getCellValueByName : $cellName");
+        //Logger::debug("_getCellValueByName : $cellName");
         
         if (!strstr($cellName, '!')) {
             preg_match_all("/(\w)(\d+)/", $cellName, $matches); 
@@ -294,13 +274,13 @@ class ExcelDocumentController extends AjaxController{
         }
         else {
             if (preg_match_all("/(\w*)!(\w+)(\d+)/u", $cellName, $matches)) {
-                Logger::debug("matches : ".  var_export($matches, true));
+                //Logger::debug("matches : ".  var_export($matches, true));
                 
                 $worksheetName = $matches[1][0];
                 $column = $matches[2][0];
                 $string = (int)$matches[3][0];
                 
-                Logger::debug("wsName : $worksheetName");
+                //Logger::debug("wsName : $worksheetName");
             }
         }
         
@@ -312,15 +292,15 @@ class ExcelDocumentController extends AjaxController{
             if ($worksheetId) {
                 $this->_loadWorksheetIfNeeded($worksheetId);
             }
-            Logger::debug("wsId : $worksheetId");
+            //Logger::debug("wsId : $worksheetId");
         }
         
-        Logger::debug("column $column string $string");
+        //Logger::debug("column $column string $string");
         
         
         
         $cell = $this->_getCell($column, $string, $worksheetId);
-        Logger::debug('cell : '.var_export($cell, true));
+        //Logger::debug('cell : '.var_export($cell, true));
         if ($cell['value']=='') {
             // смотрим формулу
             if ($cell['formula']!='') {
@@ -361,10 +341,10 @@ class ExcelDocumentController extends AjaxController{
     
     protected function _parseExpr($expr) {
         $expression = $expr;
-        Logger::debug('_parseExpr : '.$expr);
+        //Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
         $vars = $this->_explodeFormulaVars($expr);
-        Logger::debug('vars : '.var_export($vars, true));
+        //Logger::debug('vars : '.var_export($vars, true));
         // Если у нас есть переменные
 
         foreach($vars as $varName) {
@@ -382,9 +362,9 @@ class ExcelDocumentController extends AjaxController{
         if (!$this->_isExpression($expr)) return $expr;
         
         $a = null;
-        Logger::debug("eval : $expr");
+        //Logger::debug("eval : $expr");
         @eval ('$a='.$expr.';');
-        Logger::debug("a = $a");
+        //Logger::debug("a = $a");
         
         if (is_null($a)) return null;//'='.$expression;
         return $a;
@@ -466,16 +446,16 @@ class ExcelDocumentController extends AjaxController{
      * @return mixed
      */
     protected function _parseFormula($formula) {
-        Logger::debug("parse formula : $formula");
+        //Logger::debug("parse formula : $formula");
         
         // определить тип формулы
         $formulaInfo = $this->_parseFormulaType($formula);
         if (!$formulaInfo) return $formula; // это просто значение
         
-        Logger::debug("formula type: ".var_export($formulaInfo, true));
+        //Logger::debug("formula type: ".var_export($formulaInfo, true));
         // если не удалось определить информацию о формуле
         if (isset($formulaInfo['expr'])) {
-            Logger::debug("try to parse expr : ".$formulaInfo['expr']);
+            //Logger::debug("try to parse expr : ".$formulaInfo['expr']);
             return $this->_parseExpr($formulaInfo['expr']);
         }
         
@@ -483,12 +463,12 @@ class ExcelDocumentController extends AjaxController{
         $formulaType = $formulaInfo['formula'];
         
         if (($formulaType == 'сумм') || ($formulaType == 'sum') || ($formulaType == 'SUM')) {
-            Logger::debug('parse sum');
+            //Logger::debug('parse sum');
             return $this->_applySum($formulaInfo);    
         }
         
         if (($formulaType == 'среднее') || ($formulaType == 'average')) {
-            Logger::debug('parse avg');
+            //Logger::debug('parse avg');
             return $this->_applyAvg($formulaInfo);    
         }
         
@@ -785,6 +765,8 @@ class ExcelDocumentController extends AjaxController{
     protected function _shiftFormulaVars($formula, $column, $string) {
         $formulaInfo = $this->_parseFormulaType($formula);
         
+        $vars = array();
+        
         // пробуем получить переменные
         $delimiter = false;
         if (isset($formulaInfo['params'])) {
@@ -837,6 +819,7 @@ class ExcelDocumentController extends AjaxController{
      * @return type 
      */
     public function actionPaste() {
+        Logger::debug("actionPaste");
         // куда вставлять
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
         
@@ -907,9 +890,12 @@ class ExcelDocumentController extends AjaxController{
                 $cell = $clipboard[$j][$i];
                 
                 // обработать формулу
-                $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string);
-                // пересчитаем формулу
-                $cell['value'] = $this->_parseFormula($cell['formula']);
+                if ($cell['formula']!='') {
+                    $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string);
+                    // пересчитаем формулу
+                    $cell['value'] = $this->_parseFormula($cell['formula']);
+                }
+                
                 
                 $cell['column'] = $columnName;
                 $cell['string'] = $stringIndex;
