@@ -300,6 +300,10 @@ class ExcelDocumentController extends AjaxController{
         
         
         $cell = $this->_getCell($column, $string, $worksheetId);
+        
+        // если такой ячейки не существует
+        if (!$cell) return null;
+        
         //Logger::debug('cell : '.var_export($cell, true));
         if ($cell['value']=='') {
             // смотрим формулу
@@ -321,8 +325,9 @@ class ExcelDocumentController extends AjaxController{
         foreach($vars as $var) {
             Logger::debug("validate var : $var");
             $value = $this->_getCellValueByName($var);
+            if (is_null($value)) return false;
             Logger::debug("value : $value");
-            if (!is_numeric($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
+            if (!is_numeric($value)) return false; //throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод".var_export($value, true));
             //if (!$this->_isNumber($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
         }
         return true;
@@ -666,6 +671,7 @@ class ExcelDocumentController extends AjaxController{
             $colspan = (int)Yii::app()->request->getParam('colspan', false);  
             $rowspan = (int)Yii::app()->request->getParam('rowspan', false);  
             
+            $message = false;
             //$formula = Strings::toUtf8($formula);
 
             $cell = ExcelWorksheetCells::model()->findByAttributes(array(
@@ -684,7 +690,10 @@ class ExcelDocumentController extends AjaxController{
                 // загружаем рабочий лист
                 $this->_getWorksheet($worksheetId);
                 
-                $this->_validateFormula($formula);
+                // проверяем формулу
+                if (!$this->_validateFormula($formula)) {
+                    $message = 'Формула введена неправильно. Повторите ввод';
+                }
                 
                 $value = $this->_parseFormula($formula);
                 if (is_null($value)) {
@@ -701,10 +710,6 @@ class ExcelDocumentController extends AjaxController{
             
             $cell->value = $value;
             $cell->formula = $formula;
-            
-            /*$cell->comment = $comment;
-            $cell->colspan = $colspan;
-            $cell->rowspan = $rowspan;*/
             $cell->save();
             
             $result = array();
@@ -712,9 +717,12 @@ class ExcelDocumentController extends AjaxController{
             $data = array();
             $cellItem = $this->_getCell($column, $string); //$this->_worksheets[$this->_activeWorksheet][$column][$string];
             $cellItem['value'] = $value;
+            $cellItem['formula'] = $formula;
             $cellItem['read_only'] = $cell->read_only;
             $data[] = $cellItem;
             $result['worksheetData'] = $data;
+            
+            if ($message) $result['message'] = $message;
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
