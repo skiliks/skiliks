@@ -328,9 +328,10 @@ class ExcelDocumentController extends AjaxController{
             if (is_null($value)) return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
             
             Logger::debug("value : $value");
-            if (!is_numeric($value)) return array(
+            //if (!is_numeric($value)) return array(
+            if ($this->_isNumber($value)) return array(    
                 'result' => false,
-                'message' => "В ячейке $var введено не текстовое значение. Повторите ввод"
+                'message' => "В ячейке $var введено текстовое значение. Повторите ввод"
             ); //throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод".);
             //if (!$this->_isNumber($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
         }
