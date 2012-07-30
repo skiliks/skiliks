@@ -325,12 +325,16 @@ class ExcelDocumentController extends AjaxController{
         foreach($vars as $var) {
             Logger::debug("validate var : $var");
             $value = $this->_getCellValueByName($var);
-            if (is_null($value)) return false;
+            if (is_null($value)) return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
+            
             Logger::debug("value : $value");
-            if (!is_numeric($value)) return false; //throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод".var_export($value, true));
+            if (!is_numeric($value)) return array(
+                'result' => false,
+                'message' => "В ячейке $var введено не текстовое значение. Повторите ввод"
+            ); //throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод".);
             //if (!$this->_isNumber($value)) throw new Exception("В ячейке $var введено не текстовое значение. Повторите ввод");
         }
-        return true;
+        return array('result'=>true);
     }
 
 
@@ -691,13 +695,16 @@ class ExcelDocumentController extends AjaxController{
                 $this->_getWorksheet($worksheetId);
                 
                 // проверяем формулу
-                if (!$this->_validateFormula($formula)) {
-                    $message = 'Формула введена неправильно. Повторите ввод';
+                $validationResult = $this->_validateFormula($formula);
+                if (isset($validationResult['message'])) {
+                    $message = $validationResult['message'];
                 }
+                    
+                
                 
                 $value = $this->_parseFormula($formula);
                 if (is_null($value)) {
-                    throw new Exception('Формула введена неправильно. Повторите ввод');
+                    //throw new Exception('Формула введена неправильно. Повторите ввод');
                 }
                 
                 Logger::debug("value after process formula : $value");
