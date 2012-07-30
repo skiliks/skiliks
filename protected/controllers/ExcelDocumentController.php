@@ -327,6 +327,8 @@ class ExcelDocumentController extends AjaxController{
             $value = $this->_getCellValueByName($var);
             if (is_null($value)) return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
             
+            if ($value=='')  return array('result'=>true, 'value'=>0);
+            
             Logger::debug("value : $value");
             if (!is_numeric($value)) return array(
             //if ($this->_isNumber($value)) return array(    
@@ -701,7 +703,9 @@ class ExcelDocumentController extends AjaxController{
                     $message = $validationResult['message'];
                 }
                     
-                
+                if (isset($validationResult['value'])) {
+                    $value = $validationResult['value'];
+                }
                 
                 $value = $this->_parseFormula($formula);
                 if (is_null($value)) {
