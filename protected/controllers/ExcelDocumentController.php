@@ -1,5 +1,5 @@
 <?php
-
+set_time_limit(0);
 function replaceVars2($formula, $vars ) {
         Logger::debug("_replaceVars2 vars : ".var_export($vars, true));
         function callback($str) {
@@ -258,6 +258,9 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _getCellValue($column, $string, $worksheetId=false) {
+        return $this->_getCellValueByName($column.$string, $worksheetId);
+        
+        
         $cell = $this->_getCell($column, $string, $worksheetId);
         //Logger::debug("_getCellValue cell : ".var_export($cell, true));
         if (!$cell) return false;
@@ -574,6 +577,9 @@ class ExcelDocumentController extends AjaxController{
         // применим формулы
         foreach($result['worksheetData'] as $index=>$cell) {
             if ($cell['formula'] != '') {
+                
+                Logger::debug("cell {$cell['column']} {$cell['string']} has formula {$cell['formula']}");
+                        
                 $value = $this->_parseFormula($cell['formula']);
                 if ($value) {
                     $result['worksheetData'][$index]['value'] = $value;
