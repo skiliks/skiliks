@@ -18,7 +18,7 @@ class Logger {
     public static function debug($str, $fileName = 'logs/debug.log') {
         if (!is_dir('logs')) mkdir('logs', 0775);
 
-        $str = '['.date("d.m.Y H:i").'] ip: '.$_SERVER['REMOTE_ADDR'].' '.$str;
+        $str = '['.date("d.m.Y H:i:s:u").'] ip: '.$_SERVER['REMOTE_ADDR'].' '.$str;
         $f = fopen($fileName, 'a+');
         fwrite($f, $str."\n");
         fclose($f);

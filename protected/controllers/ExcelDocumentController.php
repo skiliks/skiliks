@@ -404,7 +404,7 @@ class ExcelDocumentController extends AjaxController{
         
         if (is_null($a)) return null;//'='.$expression;
         
-        //return $a;
+        return $a;
         return Strings::format($a);
     }
     
@@ -720,8 +720,6 @@ class ExcelDocumentController extends AjaxController{
             // поддержка вычисления формул
             if ($formula != '') {
                 
-                
-                
                 Logger::debug("found formula : $formula");
                 // загружаем рабочий лист
                 $this->_getWorksheet($worksheetId);
@@ -757,7 +755,7 @@ class ExcelDocumentController extends AjaxController{
             $result['result'] = 1;
             $data = array();
             $cellItem = $this->_getCell($column, $string); //$this->_worksheets[$this->_activeWorksheet][$column][$string];
-            $cellItem['value'] = $value;
+            $cellItem['value'] = $value; //Strings::format($value);
             $cellItem['formula'] = $formula;
             $cellItem['read_only'] = $cell->read_only;
             $data[] = $cellItem;
