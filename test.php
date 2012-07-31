@@ -4,6 +4,25 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+
+$formula = "=СУММ(D11:D14)";
+$vars = array (
+  'D11' => 'F11',
+  'D14' => 'F14',
+);
+
+function replace($formula, $vars ) {
+    function callback($str) {
+        global $vars;
+        if (isset($vars[$str[1]]))
+            return $vars[$str[1]];
+        return '';
+    }
+    return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'callback', $formula);
+}
+
+echo  replace($formula, $vars);
+die();
 function replaceVars($expr, $newVars) {
         $var='';
         $str = '';
