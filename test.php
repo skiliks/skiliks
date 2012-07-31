@@ -11,15 +11,19 @@ $vars = array (
   'D14' => 'F14',
 );
 
-function replace($formula, $vars ) {
-    function callback($str) {
+function callback($str) {
         global $vars;
         if (isset($vars[$str[1]]))
             return $vars[$str[1]];
         return '';
     }
+
+function replace($formula, $vars ) {
+    
     return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'callback', $formula);
 }
+
+echo  replace($formula, $vars);
 
 echo  replace($formula, $vars);
 die();
