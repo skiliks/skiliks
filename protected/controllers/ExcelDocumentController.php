@@ -1,6 +1,16 @@
 <?php
 
-
+function replaceVars2($formula, $vars ) {
+        Logger::debug("_replaceVars2 vars : ".var_export($vars, true));
+        function callback($str) {
+            global $vars;
+            Logger::debug("callback vars : ".var_export($vars, true));
+            if (isset($vars[$str[1]]))
+                return $vars[$str[1]];
+            return '2';
+        }
+        return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'callback', $formula);
+    }
 
 /**
  * Контроллера документа Excel
@@ -21,6 +31,8 @@ class ExcelDocumentController extends AjaxController{
      * @var type 
      */
     protected $_wsNamesCache = array();
+    
+    public static $vars;
     
     /**
      * Получение идентификатора воркшита по его имени
@@ -794,7 +806,7 @@ class ExcelDocumentController extends AjaxController{
     protected function _shiftFormulaVars($formula, $column, $string, $range) {
         $formulaInfo = $this->_parseFormulaType($formula);
         
-        $vars = array();
+        $vars = $this->_explodeFormulaVars($formula);
         
         // смещение по строке
         $stringShift = $string - $range['stringFrom'];
@@ -803,7 +815,8 @@ class ExcelDocumentController extends AjaxController{
         $columnIndex = $this->_getColumnIndex($column);
         $columnShift = $columnIndex - $range['columnFromIndex'];
         
-        $formula = '';
+        
+        /**
         // пробуем получить переменные
         $delimiter = false;
         if (isset($formulaInfo['params'])) {
@@ -811,26 +824,15 @@ class ExcelDocumentController extends AjaxController{
                 $vars = explode(':', $formulaInfo['params']);
                 $delimiter = ':';
             }
-
             if (strstr($formulaInfo['params'], ';')) {
                 $vars = explode(';', $formulaInfo['params']);
                 $delimiter = ';';
             }
         }
-        
-        if (isset($formulaInfo['formula'])) {
-            $formula = $formulaInfo['formula'];
-        }
-        
         // проверим а вдруг у нас просто ссылка на ячейку
         if (isset($formulaInfo['expr'])) {
-            $formula = $formulaInfo['expr'];
             $vars = $this->_explodeFormulaVars($formulaInfo['expr']);
-            /*
-            if (preg_match("/(\w+\d+)$/", $formulaInfo['expr'])) {
-                $vars = array($formulaInfo['expr']);
-            }*/
-        }
+        }*/
         
         Logger::debug('vars :'.var_export($vars, true));
         if (count($vars)==0) return $formula; // нечего сдвигать
@@ -855,8 +857,8 @@ class ExcelDocumentController extends AjaxController{
         }
         
         Logger::debug('new vars :'.var_export($newVars, true));
-        
-        return $this->_replaceVars('='.$formula, $newVars);
+        Logger::debug("replace vars in formula : $formula");
+        return $this->_replaceVars2($formula, $newVars);
         
         // собираем формулу
         if ($delimiter)
@@ -945,6 +947,7 @@ class ExcelDocumentController extends AjaxController{
                 // обработать формулу
                 if ($cell['formula']!='') {
                     $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string, $rangeInfo);
+                    Logger::debug("formula after shifting : ".$cell['formula']);
                     // пересчитаем формулу
                     $cell['value'] = $this->_parseFormula($cell['formula']);
                 }
@@ -973,6 +976,19 @@ class ExcelDocumentController extends AjaxController{
         
         
         return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
+    protected function _replaceVars2($formula, $vars ) {
+        Logger::debug("_replaceVars2 vars : ".var_export($vars, true));
+        ExcelDocumentController::$vars = $vars;
+        function callback($str) {
+            //global $vars;
+            Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
+            if (isset(ExcelDocumentController::$vars[$str[1]]))
+                return ExcelDocumentController::$vars[$str[1]];
+            return '2';
+        }
+        return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'callback', $formula);
     }
     
     protected function _replaceVars($expr, $newVars) {
