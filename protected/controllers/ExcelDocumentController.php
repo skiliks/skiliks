@@ -321,6 +321,13 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _validateFormula($formula) {
+        $formulaInfo = $this->_parseFormulaType($formula);
+        if (isset($formulaInfo['expr'])) {
+            if (!preg_match_all("/\d+/u", $formulaInfo['expr'], $matches)) {
+                return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
+            }
+        }
+        
         $vars = $this->_explodeFormulaVars($formula);
         foreach($vars as $var) {
             Logger::debug("validate var : $var");
@@ -458,13 +465,13 @@ class ExcelDocumentController extends AjaxController{
      * @return mixed
      */
     protected function _parseFormula($formula) {
-        //Logger::debug("parse formula : $formula");
+        Logger::debug("parse formula : $formula");
         
         // определить тип формулы
         $formulaInfo = $this->_parseFormulaType($formula);
         if (!$formulaInfo) return $formula; // это просто значение
         
-        //Logger::debug("formula type: ".var_export($formulaInfo, true));
+        Logger::debug("formula type: ".var_export($formulaInfo, true));
         // если не удалось определить информацию о формуле
         if (isset($formulaInfo['expr'])) {
             //Logger::debug("try to parse expr : ".$formulaInfo['expr']);

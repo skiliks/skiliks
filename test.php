@@ -4,6 +4,11 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$formula = "=Тест!A3";
+preg_match_all("/=(\w+!)\((.*)\)/u", $formula, $matches);
+var_dump($matches);
+die();
+
 $row = 1;
 $a=1;
 if ($a==2)
