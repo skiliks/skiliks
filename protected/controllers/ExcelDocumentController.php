@@ -981,14 +981,8 @@ class ExcelDocumentController extends AjaxController{
     protected function _replaceVars2($formula, $vars ) {
         Logger::debug("_replaceVars2 vars : ".var_export($vars, true));
         ExcelDocumentController::$vars = $vars;
-        function callback($str) {
-            //global $vars;
-            Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
-            if (isset(ExcelDocumentController::$vars[$str[1]]))
-                return ExcelDocumentController::$vars[$str[1]];
-            return '2';
-        }
-        return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'callback', $formula);
+        
+        return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'replaceVarsCallback', $formula);
     }
     
     protected function _replaceVars($expr, $newVars) {
@@ -1048,7 +1042,8 @@ class ExcelDocumentController extends AjaxController{
             $this->_getWorksheet($worksheetId);
             
             Logger::debug("get cell $column, $string");
-            $cell = $this->_getCell($column, $string);
+            $cell = $this->_getCell($column, $string, $worksheetId);
+            Logger::debug("cell : ".var_export($cell, true));
             if (!$cell) throw new Exception('cant find cell');
             if ($cell['formula'] == '') throw new Exception('no formula to apply');
             
@@ -1082,9 +1077,10 @@ class ExcelDocumentController extends AjaxController{
                         //$newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
                     }
                     $step++;
+                    Logger::debug("new vars : ".var_export($newVars, true));
                     $newFormula = $this->_replaceVars($formula, $newVars);
                     
-                    Logger::debug("new vars : ".var_export($newVars, true));
+                    
                     /*foreach($newVars as $oldVar=>$newVar) {
                         $newFormula = str_replace($oldVar, $newVar, $newFormula);
                     }*/
@@ -1123,6 +1119,7 @@ class ExcelDocumentController extends AjaxController{
                 $inc = 1;
                 for($i = $columnFromIndex; $i<=$columnToIndex; $i++) {
                     
+                    Logger::debug("process column $i");
                     //$vars = $this->_explodeFormulaVars($formula);
                     //$newFormula = $formula;
                     $newVars = array();
@@ -1139,7 +1136,8 @@ class ExcelDocumentController extends AjaxController{
                     }
                     Logger::debug("new vars : ".var_export($newVars, true));
                     
-                    $newFormula = $this->_replaceVars($formula, $newVars);
+                    Logger::debug("before replace : $formula");
+                    $newFormula = $this->_replaceVars2($formula, $newVars);
                     /*$newFormula = $formula;
                     foreach($newVars as $oldVar=>$newVar) {
                         $newFormula = str_replace($oldVar, $newVar, $newFormula);
@@ -1148,9 +1146,10 @@ class ExcelDocumentController extends AjaxController{
                     
                     Logger::debug("new formula = $newFormula");
                     
+                    Logger::debug("before _parseFormula $newFormula");
                     $value = $this->_parseFormula($newFormula);
                     
-                    Logger::debug("new formula : $newFormula");
+                    Logger::debug("value = $value");
                     $column = $this->_getColumnByIndex($i);
                     $cell = $this->_getCell($column, $string);
                     $cell['value'] = $value;
@@ -1176,6 +1175,15 @@ class ExcelDocumentController extends AjaxController{
             )));
         }
     }
+}
+
+function replaceVarsCallback($str) {
+    Logger::debug("str : ".var_export($str, true));
+    //global $vars;
+    Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
+    if (isset(ExcelDocumentController::$vars[$str[1]]))
+        return ExcelDocumentController::$vars[$str[1]];
+    return '2';
 }
 
 ?>

@@ -60,6 +60,23 @@ class ExcelImporter {
     }
     
     protected function _insertRow($params) {
+        // проверим, а не существует ли такая ячейка
+        $sql = "select *
+                from excel_worksheet_template_cells 
+                where 
+                    worksheet_id = :worksheetId
+                    and string = :string
+                    and column = :column";
+        $stmt = $this->_db->prepare($sql);
+        $stmt->bindParam(':worksheetId', $params['worksheetId'], PDO::PARAM_INT);
+        $stmt->bindParam(':string', $params['string'], PDO::PARAM_INT);
+        $stmt->bindParam(':column', $params['column'], PDO::PARAM_STR);
+        $stmt->execute();
+        $f = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (isset($f['id'])) {
+            var_dump($f); die();
+        }
+        
         if (!$this->_rowStmt) {
             $sql = "insert into excel_worksheet_template_cells 
                     (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`) 
@@ -170,7 +187,7 @@ class ExcelImporter {
             // теперь добьем недостающие строки - если это надо
             if ($highestRow <26) {
                 $columnTo = count($this->_columns);
-                for ($row = $highestRow; $row <= 26; ++ $row)    {
+                for ($row = $highestRow+1; $row <= 26; ++ $row)    {
                     for ($i = 0; $i < $columnTo; $i++) {
                         $params = array(
                             'worksheetId' => $worksheetId,
