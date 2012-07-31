@@ -18,6 +18,8 @@ class ExcelImporter {
     
     protected $_rowStmt = false;
 
+    protected $_columns = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R');
+    
     function __construct() {
         $this->_db = new PDO('mysql:host=localhost;dbname=skiliks', 'root', '');
         $sql = "set character_set_client='utf8'";
@@ -100,8 +102,7 @@ class ExcelImporter {
             echo $nrColumns . ' колонок (A-' . $highestColumn . ') ';
             echo ' и ' . $highestRow . ' строк.';
             echo '<br>Данные: <table border="1"><tr>';
-            for ($row = 1; $row <= $highestRow; ++ $row)
-            {
+            for ($row = 1; $row <= $highestRow; ++ $row)    {
                 echo '<tr>';
                 for ($col = 0; $col < $highestColumnIndex; ++ $col)  {
                     $cell = $worksheet->getCellByColumnAndRow($col, $row);
@@ -146,8 +147,50 @@ class ExcelImporter {
                 echo '</tr>';
             }
             echo '</table>';
+            
+            
+            // Добивка недостающих колонок
+            if ($highestColumnIndex < count($this->_columns)) {
+                $columnTo = count($this->_columns);
+                for ($i = $highestColumnIndex; $i < $columnTo; $i++) {
+                    for ($row = 1; $row <= $highestRow; ++ $row)    {
+                        $params = array(
+                            'worksheetId' => $worksheetId,
+                            'string' => $row,
+                            'column' => $this->_columns[$i],
+                            'value' => '',
+                            'readOnly' => 0,
+                            'formula' => ''
+                        );
+                        $rowId = $this->_insertRow($params);
+                        if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
+                    }
+                }
+            }
+            // теперь добьем недостающие строки - если это надо
+            if ($highestRow <26) {
+                $columnTo = count($this->_columns);
+                for ($row = $highestRow; $row <= 26; ++ $row)    {
+                    for ($i = 0; $i < $columnTo; $i++) {
+                        $params = array(
+                            'worksheetId' => $worksheetId,
+                            'string' => $row,
+                            'column' => $this->_columns[$i],
+                            'value' => '',
+                            'readOnly' => 0,
+                            'formula' => ''
+                        );
+                        $rowId = $this->_insertRow($params);
+                        if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
+                    }
+                }
+                
+            }
         }
-    }
+        
+        
+        
+    }  // of import
 }
 
 try {

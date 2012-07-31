@@ -481,7 +481,7 @@ class ExcelDocumentController extends AjaxController{
         
         $formulaType = $formulaInfo['formula'];
         
-        if (($formulaType == 'сумм') || ($formulaType == 'sum') || ($formulaType == 'SUM')) {
+        if (($formulaType == 'сумм') || ($formulaType == 'sum') || ($formulaType == 'SUM') || ($formulaType == 'СУММ')) {
             //Logger::debug('parse sum');
             return $this->_applySum($formulaInfo);    
         }
@@ -789,10 +789,17 @@ class ExcelDocumentController extends AjaxController{
      * @param string $column
      * @param int $string
      */
-    protected function _shiftFormulaVars($formula, $column, $string) {
+    protected function _shiftFormulaVars($formula, $column, $string, $range) {
         $formulaInfo = $this->_parseFormulaType($formula);
         
         $vars = array();
+        
+        // смещение по строке
+        $stringShift = $string - $range['stringFrom'];
+        
+        // смещение по столбцу
+        $columnIndex = $this->_getColumnIndex($column);
+        $columnShift = $columnIndex - $range['columnFromIndex'];
         
         // пробуем получить переменные
         $delimiter = false;
@@ -824,11 +831,14 @@ class ExcelDocumentController extends AjaxController{
         foreach($vars as $index=>$var) {
             $varInfo = $this->_explodeCellName($var);
             $curColumn = $varInfo['column'];
-            $curString = $varInfo['string'] + 1;
+            $curString = $varInfo['string'];
             $curColumnIndex = $this->_getColumnIndex($curColumn);
-            $curColumnIndex+=$columnIndex-1;
+            
+            $curColumnIndex = $curColumnIndex + $columnShift;
+            
             $curColumn = $this->_getColumnByIndex($curColumnIndex);
-            $curString+=$string-1;
+            
+                $curString = $curString + $stringShift;
             
             $vars[$index] = $curColumn.$curString;
         }
@@ -919,7 +929,7 @@ class ExcelDocumentController extends AjaxController{
                 
                 // обработать формулу
                 if ($cell['formula']!='') {
-                    $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string);
+                    $cell['formula'] = $this->_shiftFormulaVars($cell['formula'], $column, $string, $rangeInfo);
                     // пересчитаем формулу
                     $cell['value'] = $this->_parseFormula($cell['formula']);
                 }
