@@ -110,7 +110,8 @@ class ExcelDocumentController extends AjaxController{
             $column = $cellInfo['column'];
             $string = $cellInfo['string'];
             
-            $list[] = (int)$this->_getCellValue($column, $string);
+            $value = $this->_getCellValue($column, $string);
+            if ($value != '') $list[] = $value;
         }
         
         return $list;
@@ -160,7 +161,8 @@ class ExcelDocumentController extends AjaxController{
         for($columnIndex = $rangeInfo['columnFromIndex']; $columnIndex < $columnTo; $columnIndex++) {
             $columnName = $this->_getColumnByIndex($columnIndex);
             for($stringIndex = $rangeInfo['stringFrom']; $stringIndex < $stringTo; $stringIndex++) {
-                $list[] = $this->_worksheets[$this->_activeWorksheet][$columnName][$stringIndex]['value'];
+                $value = $this->_getCellValue($columnName, $stringIndex);
+                if ($value != '') $list[] = $value;
             }
         }
         
@@ -386,7 +388,7 @@ class ExcelDocumentController extends AjaxController{
         //Logger::debug("a = $a");
         
         if (is_null($a)) return null;//'='.$expression;
-        return $a;
+        return Strings::formatThousend($a);
     }
     
     protected function _isExpression($expr) {
@@ -486,7 +488,7 @@ class ExcelDocumentController extends AjaxController{
             return $this->_applySum($formulaInfo);    
         }
         
-        if (($formulaType == 'среднее') || ($formulaType == 'average')) {
+        if (($formulaType == 'среднее') || ($formulaType == 'average') || ($formulaType == 'СРЗНАЧ')) {
             //Logger::debug('parse avg');
             return $this->_applyAvg($formulaInfo);    
         }
@@ -801,6 +803,7 @@ class ExcelDocumentController extends AjaxController{
         $columnIndex = $this->_getColumnIndex($column);
         $columnShift = $columnIndex - $range['columnFromIndex'];
         
+        $formula = '';
         // пробуем получить переменные
         $delimiter = false;
         if (isset($formulaInfo['params'])) {
@@ -815,11 +818,18 @@ class ExcelDocumentController extends AjaxController{
             }
         }
         
+        if (isset($formulaInfo['formula'])) {
+            $formula = $formulaInfo['formula'];
+        }
+        
         // проверим а вдруг у нас просто ссылка на ячейку
         if (isset($formulaInfo['expr'])) {
-            if (preg_match("/(\w+\d+)/", $formulaInfo['expr'])) {
+            $formula = $formulaInfo['expr'];
+            $vars = $this->_explodeFormulaVars($formulaInfo['expr']);
+            /*
+            if (preg_match("/(\w+\d+)$/", $formulaInfo['expr'])) {
                 $vars = array($formulaInfo['expr']);
-            }
+            }*/
         }
         
         Logger::debug('vars :'.var_export($vars, true));
@@ -827,7 +837,7 @@ class ExcelDocumentController extends AjaxController{
         
         $columnIndex = $this->_getColumnIndex($column);
         
-        
+        $newVars = array();
         foreach($vars as $index=>$var) {
             $varInfo = $this->_explodeCellName($var);
             $curColumn = $varInfo['column'];
@@ -840,8 +850,13 @@ class ExcelDocumentController extends AjaxController{
             
                 $curString = $curString + $stringShift;
             
-            $vars[$index] = $curColumn.$curString;
+            //++$vars[$index] = $curColumn.$curString;
+            $newVars[$var] = $curColumn.$curString;
         }
+        
+        Logger::debug('new vars :'.var_export($newVars, true));
+        
+        return $this->_replaceVars('='.$formula, $newVars);
         
         // собираем формулу
         if ($delimiter)
@@ -979,6 +994,7 @@ class ExcelDocumentController extends AjaxController{
                     $str.=$newVars[$var].$s;
                     $i=$i+(strlen($var)-1);
                     $var = '';
+                    $i--;
                 }
                 else {
                     $i++;    

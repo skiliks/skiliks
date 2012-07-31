@@ -4,6 +4,57 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+function replaceVars($expr, $newVars) {
+        $var='';
+        $str = '';
+        $exprLen = strlen($expr);
+        $i=0;
+        while($i<$exprLen) {
+            $s = $expr[$i];
+            if (!preg_match("/[=\+\-\*\/\(\)\;\:]/", $s)) {
+                $var .= $s;
+                //echo"var = $var";
+                $i++;
+            }
+            else {
+                //$str .= $s;
+                echo"var = $var<br/>";
+                if (isset($newVars[$var])) {
+                    $str.=$newVars[$var].$s;
+                    $i=$i+(strlen($var)-1);
+                    $var = '';
+                    $i--;
+                }
+                else {
+                    $i++;    
+                    $str.=$s;
+                }
+
+            }
+
+            //echo("str=$str<br>");
+        }
+        //echo("var=$var");
+        if (isset($newVars[$var])) {
+                    $str.=$newVars[$var];
+
+        }
+        return $str;
+    }
+
+$expr = "=(D14+E13-G11/G14)*C14/J14";
+
+$vars = array (
+  'D14' => 'F13',
+  'E13' => 'G12',
+  'G11' => 'I10',
+  'G14' => 'I13',
+  'C14' => 'E13',
+  'J14' => 'L13',
+);                 
+
+$r = replaceVars($expr, $vars);
+echo($r); die();
 
 $cellName = 'Продажи!B12';
 if (preg_match_all("/(\w*)!([A-Z]+)(\d+)/u", $cellName, $matches)) {
