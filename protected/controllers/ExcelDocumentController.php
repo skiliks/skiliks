@@ -374,6 +374,11 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _parseExpr($expr) {
+        if (strstr($expr, 'SUM')) {
+            Logger::debug('AHTUNG!');
+            return 0;
+        }    
+        
         $expression = $expr;
         Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
@@ -387,6 +392,8 @@ class ExcelDocumentController extends AjaxController{
             Logger::debug("value : ".var_export($value, true));
             if ($value=='') $value=0;
             //if ($value) {
+            
+            Logger::debug("before replace expr : $expr vaName $varName value $value");
                 $expr = str_replace($varName, $value, $expr);
             //}
         }
@@ -514,6 +521,8 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _processValue($value) {
+        return $value;
+        
         if (is_numeric($value)) {
             $showDecimals = false;
             if (strstr($value, '.')) $showDecimals = true;
@@ -576,11 +585,13 @@ class ExcelDocumentController extends AjaxController{
         
         // применим формулы
         foreach($result['worksheetData'] as $index=>$cell) {
+            Logger::debug("check cell {$cell['column']}{$cell['string']}");
             if ($cell['formula'] != '') {
                 
                 Logger::debug("cell {$cell['column']} {$cell['string']} has formula {$cell['formula']}");
                         
                 $value = $this->_parseFormula($cell['formula']);
+                Logger::debug('received value : '.$value);
                 if ($value) {
                     $result['worksheetData'][$index]['value'] = $value;
                 }
@@ -591,6 +602,7 @@ class ExcelDocumentController extends AjaxController{
             }
             
             // постобработка
+            Logger::debug('preprocess value : '.$result['worksheetData'][$index]['value']);
             $result['worksheetData'][$index]['value'] = $this->_processValue($result['worksheetData'][$index]['value']);
         }
 
