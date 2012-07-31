@@ -273,7 +273,7 @@ class ExcelDocumentController extends AjaxController{
             $string = (int)$matches[2][0];
         }
         else {
-            if (preg_match_all("/(\w*)!(\w+)(\d+)/u", $cellName, $matches)) {
+            if (preg_match_all("/(\w*)!([A-Z]+)(\d+)/u", $cellName, $matches)) {
                 //Logger::debug("matches : ".  var_export($matches, true));
                 
                 $worksheetName = $matches[1][0];
@@ -292,19 +292,17 @@ class ExcelDocumentController extends AjaxController{
             if ($worksheetId) {
                 $this->_loadWorksheetIfNeeded($worksheetId);
             }
-            //Logger::debug("wsId : $worksheetId");
+            Logger::debug("wsId : $worksheetId");
         }
         
-        //Logger::debug("column $column string $string");
-        
-        
-        
+        Logger::debug("column $column string $string wsId $worksheetId wsName $worksheetName");
         $cell = $this->_getCell($column, $string, $worksheetId);
+        Logger::debug('cell : '.var_export($cell, true));
         
         // если такой ячейки не существует
         if (!$cell) return null;
         
-        //Logger::debug('cell : '.var_export($cell, true));
+        
         if ($cell['value']=='') {
             // смотрим формулу
             if ($cell['formula']!='') {
@@ -360,14 +358,16 @@ class ExcelDocumentController extends AjaxController{
     
     protected function _parseExpr($expr) {
         $expression = $expr;
-        //Logger::debug('_parseExpr : '.$expr);
+        Logger::debug('_parseExpr : '.$expr);
         // заменим переменные в выражении
         $vars = $this->_explodeFormulaVars($expr);
-        //Logger::debug('vars : '.var_export($vars, true));
+        Logger::debug('vars : '.var_export($vars, true));
         // Если у нас есть переменные
 
         foreach($vars as $varName) {
+            Logger::debug("_getCellValueByName : $varName");
             $value = $this->_getCellValueByName($varName);
+            Logger::debug("value : ".var_export($value, true));
             if ($value=='') $value=0;
             //if ($value) {
                 $expr = str_replace($varName, $value, $expr);
@@ -381,7 +381,7 @@ class ExcelDocumentController extends AjaxController{
         if (!$this->_isExpression($expr)) return $expr;
         
         $a = null;
-        //Logger::debug("eval : $expr");
+        Logger::debug("eval : $expr");
         @eval ('$a='.$expr.';');
         //Logger::debug("a = $a");
         

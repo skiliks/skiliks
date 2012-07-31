@@ -26,6 +26,18 @@ class ExcelImporter {
         $this->_db->query($sql);
         $sql = "set collation_connection='utf8_general_ci'";
         $this->_db->query($sql);
+        
+        $this->_clearTables();
+    }
+    
+    protected function _clearTables() {
+        $tables = array('excel_document_template', 'excel_worksheet_template', 'excel_worksheet_template_cells');
+        
+        foreach($tables as $tableName) {
+            $sql = "delete from {$tableName}";
+            $stm = $this->_db->prepare($sql);
+            $stm->execute();
+        }
     }
     
     protected function _createDocument($documentName) {
@@ -69,15 +81,16 @@ class ExcelImporter {
     }
     
     public function import($documentName) {
-        $this->_phpExcel = PHPExcel_IOFactory::load("../media/test.xlsx");
+        $this->_phpExcel = PHPExcel_IOFactory::load("../media/test2.xlsx");
         
-        //++$documentId = $this->_createDocument($documentName);
+        $documentId = $this->_createDocument($documentName);
+        if (!$documentId) throw new Exception("cant get documentId for $documentName");
 
         
         foreach ($this->_phpExcel->getWorksheetIterator() as $worksheet) {
             $worksheetTitle     = $worksheet->getTitle();
             
-            //++$worksheetId = $this->_createWorksheet($documentId, $worksheetTitle);
+            $worksheetId = $this->_createWorksheet($documentId, $worksheetTitle);
             
             $highestRow         = $worksheet->getHighestRow(); // например, 10
             $highestColumn      = $worksheet->getHighestColumn(); // например, 'F'
@@ -104,7 +117,7 @@ class ExcelImporter {
                     }
                     
                     $style = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row);
-                    var_dump($style); die();
+                    //var_dump($style); die();
                     
                     // getFont
                     
@@ -115,7 +128,7 @@ class ExcelImporter {
                     $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
                     echo('bold='.$bold);
                     
-                    /*++
+             
                     $params = array(
                         'worksheetId' => $worksheetId,
                         'string' => $row,
@@ -125,7 +138,7 @@ class ExcelImporter {
                         'formula' => $formula
                     );
                     $rowId = $this->_insertRow($params);
-                    if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));*/
+                    if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
                      
 
                     echo '<td>' . $val . '<br>(Тип ' . $dataType . ')'.$columnName.'</td>';
