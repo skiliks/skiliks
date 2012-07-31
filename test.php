@@ -4,8 +4,16 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+
+$cellName = 'Продажи!B12';
+if (preg_match_all("/(\w*)!([A-Z]+)(\d+)/u", $cellName, $matches)) {
+    
+}
+var_dump($matches);
+die();
+
 $formula = "=Тест!A3";
-preg_match_all("/=(\w+!)\((.*)\)/u", $formula, $matches);
+preg_match_all("/=(\w+)\((.*)\)/u", $formula, $matches);
 var_dump($matches);
 die();
 
