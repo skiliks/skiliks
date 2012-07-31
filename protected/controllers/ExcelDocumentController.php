@@ -400,7 +400,9 @@ class ExcelDocumentController extends AjaxController{
         //Logger::debug("a = $a");
         
         if (is_null($a)) return null;//'='.$expression;
-        return Strings::formatThousend($a);
+        
+        //return $a;
+        return Strings::format($a);
     }
     
     protected function _isExpression($expr) {

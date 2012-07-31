@@ -17,6 +17,10 @@ class Strings {
         if ($showDecimals) $decimals = 2; else $decimals = 0;
         return number_format( $number,  $decimals, '.', ' ' );
     }
+    
+    public static function format($number) {
+        return sprintf("%01.2f", $number);
+    }
 }
 
 ?>
