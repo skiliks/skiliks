@@ -4,6 +4,9 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$a='$b=0+0+18 000+2 000';
+
+
 
 $formula = "=СУММ(D11:D14)";
 $vars = array (

@@ -1096,7 +1096,7 @@ class ExcelDocumentController extends AjaxController{
                     }
                     $step++;
                     Logger::debug("new vars : ".var_export($newVars, true));
-                    $newFormula = $this->_replaceVars($formula, $newVars);
+                    $newFormula = $this->_replaceVars2($formula, $newVars);
                     
                     
                     /*foreach($newVars as $oldVar=>$newVar) {
