@@ -7,7 +7,21 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SessionHelper {
+final class SessionHelper {
+    
+    /**
+     *
+     * @var string
+     */
+    private static $_sid;
+    
+    public static function setSid($sid) {
+        self::$_sid = $sid;
+    }
+    
+    public static function getSid() {
+        return self::$_sid;
+    }
     
     /**
      * Получить uid по sid.
