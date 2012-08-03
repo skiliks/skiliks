@@ -95,11 +95,16 @@ class ExcelWorksheet {
     
     public function getValueByName($cellName) {
         Logger::debug("ws {$this->id} getValueByName $cellName");
-        if (is_numeric($cellName)) return $cellName;
+        Logger::debug('name : '.var_export($cellName, true));
+        if (is_numeric($cellName)) {
+            Logger::debug('is number');
+            return $cellName;
+        }
         
         $worksheetName = false;
         if (!strstr($cellName, '!')) {
             preg_match_all("/([A-Z]+)(\d+)/", $cellName, $matches); 
+            Logger::debug("matches : ".var_export($matches, true));
             if (!isset($matches[1][0])) return false;
             $column = $matches[1][0];
             $string = (int)$matches[2][0];
@@ -132,6 +137,7 @@ class ExcelWorksheet {
             // смотрим формулу
             if ($cell['formula']!='') {
                 $formula = new ExcelFormula();
+                $formula->setWorksheet($this);
                 $value = $formula->parse($cell['formula']);
                 Logger::debug("return value $value");
                 return $value;

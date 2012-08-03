@@ -11,6 +11,17 @@ class ExcelFormula {
     
     private $_vars;
     
+    private $_worksheet = false;
+    
+    private function _getWorksheet() {
+        if ($this->_worksheet) return $this->_worksheet;
+        return ExcelFactory::getDocument()->getActiveWorksheet();
+    }
+    
+    public function setWorksheet($worksheet) {
+        $this->_worksheet = $worksheet;
+    }
+    
     public function callback($matches) {
         
         $formula = $matches[1];
@@ -45,7 +56,7 @@ class ExcelFormula {
             return ExcelFactory::getDocument()->getWorksheetByName($data[0])->getValueByName($data[1]);
         }
         
-        return ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($varName);
+        return $this->_getWorksheet()->getValueByName($varName);
         //Logger::debug("str : ".var_export($str, true));
         //Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
         
@@ -62,6 +73,8 @@ class ExcelFormula {
     }
     
     public function parse($formula) {
+        if (is_numeric($formula)) return $formula;
+        
         Logger::debug("parse formula : $formula");
         $formula = str_replace('сумм', 'SUM', $formula);
         $formula = str_replace('СУММ', 'SUM', $formula);
@@ -103,7 +116,7 @@ class ExcelFormula {
         $vars = $this->explodeFormulaVars($formula);
         foreach($vars as $var) {
             Logger::debug("validate var : $var");
-            $value = ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($var);
+            $value = $this->_getWorksheet()->getValueByName($var);
             if (is_null($value)) return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
             
             if ($value=='')  return array('result'=>true, 'value'=>0);
