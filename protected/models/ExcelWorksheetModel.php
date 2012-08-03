@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelWorksheet extends CActiveRecord{
+class ExcelWorksheetModel extends CActiveRecord{
     
     public static function model($className=__CLASS__)
     {

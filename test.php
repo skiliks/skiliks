@@ -6,9 +6,29 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 $a='$b=0+0+18 000+2 000';
 
+class Calc {
+    
+    private $t=666;
+    
+    function callback2($str) {
+        echo("{$this->t} callback2 : ".var_export($str, true).'<br>');
+    }
+    
+    function run() {
+        $formula = "=SUM(H13:H14)-AVG(I13;I14)";
+
+        echo("<hr/>");
+        echo preg_replace_callback("/([A-Z]+)\(([A-Z0-9\:\;]+)\)/u", 'self::callback2', $formula);
+    }
+}
+
+$calc = new Calc();
+$calc->run();
+die();
 
 
-$formula = "=СУММ(D11:D14)";
+
+
 $vars = array (
   'D11' => 'F11',
   'D14' => 'F14',

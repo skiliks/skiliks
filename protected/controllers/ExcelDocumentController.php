@@ -42,8 +42,10 @@ class ExcelDocumentController extends AjaxController{
         if (isset($this->_wsNamesCache[$worksheetName])) {
             return $this->_wsNamesCache[$worksheetName];
         }
-        
+
+        //echo("_getWorksheetIdByName : $worksheetName <br/>");
         $worksheet = ExcelWorksheet::model()->byName($worksheetName)->find();
+        //var_dump($worksheet);
         if ($worksheet) {
             $this->_wsNamesCache[$worksheetName] = $worksheet->id;
             return $worksheet->id;
@@ -709,47 +711,7 @@ class ExcelDocumentController extends AjaxController{
             $simId = SessionHelper::getSimIdBySid($sid);
             if (!$simId) throw new Exception("cant find simId by sid {$sid}");
 
-            $document = ExcelDocument::model()->bySimulation($simId)->find();
-            if (!$document) throw new Exception('cant find document');
-            
-            
-            $result = array();
-            $result['result'] = 1;
-            $worksheets = ExcelWorksheet::model()->byDocument($document->id)->findAll();
-            foreach($worksheets as $worksheet) {
-                $result['worksheets'][] = array(
-                    'id' => $worksheet->id,
-                    'title' => $worksheet->name
-                );
-            }
-            $worksheetId = $result['worksheets'][0]['id'];
-            $result['currentWorksheet'] = $worksheetId;
-            
-            // загружаем рабочий лист
-            $this->_activeWorksheet = $worksheetId;
-            
-            $profiler = new Profiler();
-            $profiler->startTimer();
-            $worksheet = $this->_loadWorksheetIfNeeded($worksheetId);
-            $t = $profiler->endTimer();
-            Logger::debug("_loadWorksheetIfNeeded : $t");
-            
-            $profiler->startTimer();
-            $frontendData = $this->_populateFrontendResult($worksheet);
-            $t = $profiler->endTimer();
-            Logger::debug("_populateFrontendResult : $t");
-            
-            $result['worksheetData'] = $frontendData['worksheetData'];
-            $result['strings'] = $frontendData['strings'];
-            $result['columns'] = $frontendData['columns'];
-
-            /*$worksheetData = $this->_getWorksheet($worksheetId);
-            $result['worksheetData'] = $worksheetData['worksheetData'];
-            $result['strings'] = $worksheetData['strings'];
-            $result['columns'] = $worksheetData['columns'];*/
-            
-            //Logger::debug("actionGet strings : ".var_export($result['strings'], true));
-            //Logger::debug("actionGet columns : ".var_export($result['columns'], true));
+            $result = ExcelFactory::getDocument()->loadDefault($simId)->populateFrontendResult();
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
@@ -767,34 +729,10 @@ class ExcelDocumentController extends AjaxController{
      */
     public function actionGetWorksheet() {
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
-        
         $sid = Yii::app()->request->getParam('sid', false);  
         SessionHelper::setSid($sid);
         
-        $this->_activeWorksheet = $worksheetId;
-            
-        $profiler = new Profiler();
-        $profiler->startTimer();
-        $worksheet = $this->_loadWorksheetIfNeeded($worksheetId);
-        $t = $profiler->endTimer();
-        Logger::debug("_loadWorksheetIfNeeded : $t");
-
-        $profiler->startTimer();
-        $frontendData = $this->_populateFrontendResult($worksheet);
-        $t = $profiler->endTimer();
-        Logger::debug("_populateFrontendResult : $t");
-
-        $result = array();
-        $result['result'] = 1;
-        $result['worksheetData'] = $frontendData['worksheetData'];
-        $result['strings'] = $frontendData['strings'];
-        $result['columns'] = $frontendData['columns'];
-        
-        /*
-        $worksheetData = $this->_getWorksheet($worksheetId);
-        $result['worksheetData'] = $worksheetData['worksheetData'];
-        $result['strings'] = $worksheetData['strings'];
-        $result['columns'] = $worksheetData['columns'];*/
+        $result = ExcelFactory::getDocument()->loadWorksheet($worksheetId)->populateFrontendResult();
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
@@ -841,8 +779,42 @@ class ExcelDocumentController extends AjaxController{
             SessionHelper::setSid($sid);
             
             $message = false;
+            ###### new code
+            ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+            if ($formula != '') {
+                $excelFormula = new ExcelFormula();
+                $validationResult = $excelFormula->validate($formula);
+                
+                if (isset($validationResult['message'])) {
+                    $message = $validationResult['message'];
+                }
+                    
+                if (isset($validationResult['value'])) {
+                    $value = $validationResult['value'];
+                }
+                $value = $excelFormula->parse($formula);
+                $read_only = (int)(bool)$excelFormula->hasLinkVar($formula);
+            }
             
-
+            $cell = ExcelFactory::getDocument()->getWorksheet($worksheetId)->getCell($column, $string);
+            $cell['value'] = $value;
+            $cell['formula'] = $formula;
+            $cell['read_only'] = $read_only;
+            ExcelFactory::getDocument()->getWorksheet($worksheetId)->replaceCell($cell);
+            ExcelFactory::getDocument()->getWorksheet($worksheetId)->updateCellDb($cell);
+            ExcelFactory::getDocument()->getWorksheet($worksheetId)->saveToCache();
+            
+            if ($cell['value'] == '') $cell['value']= $cell['formula'];
+            
+            $result = array();
+            $result['result'] = 1;
+            $result['worksheetData'] = array($cell);
+            if ($message) $result['message'] = $message;
+            
+            return $this->_sendResponse(200, CJSON::encode($result));
+            
+            
+            ###### old code    
             $cell = ExcelWorksheetCells::model()->findByAttributes(array(
                 'worksheet_id' => $worksheetId,
                 'string' => $string,
@@ -871,9 +843,6 @@ class ExcelDocumentController extends AjaxController{
                 }
                 
                 $value = $this->_parseFormula($formula);
-                if (is_null($value)) {
-                    //throw new Exception('Формула введена неправильно. Повторите ввод');
-                }
                 
                 Logger::debug("value after process formula : $value");
                 //if (!$value) $value = $formula;
@@ -919,8 +888,8 @@ class ExcelDocumentController extends AjaxController{
      * Копирование в clipboard
      */
     public function actionCopy() {
-        $worksheetId = (int)Yii::app()->request->getParam('id', false);  
-        $range = Yii::app()->request->getParam('range', false);  
+        /*$worksheetId = (int)Yii::app()->request->getParam('id', false);  
+        $range = Yii::app()->request->getParam('range', false);  */
     }
 
     /**
@@ -965,24 +934,6 @@ class ExcelDocumentController extends AjaxController{
         $columnShift = $columnIndex - $range['columnFromIndex'];
         
         
-        /**
-        // пробуем получить переменные
-        $delimiter = false;
-        if (isset($formulaInfo['params'])) {
-            if (strstr($formulaInfo['params'], ':')) {
-                $vars = explode(':', $formulaInfo['params']);
-                $delimiter = ':';
-            }
-            if (strstr($formulaInfo['params'], ';')) {
-                $vars = explode(';', $formulaInfo['params']);
-                $delimiter = ';';
-            }
-        }
-        // проверим а вдруг у нас просто ссылка на ячейку
-        if (isset($formulaInfo['expr'])) {
-            $vars = $this->_explodeFormulaVars($formulaInfo['expr']);
-        }*/
-        
         Logger::debug('vars :'.var_export($vars, true));
         if (count($vars)==0) return $formula; // нечего сдвигать
         
@@ -999,23 +950,15 @@ class ExcelDocumentController extends AjaxController{
             
             $curColumn = $this->_getColumnByIndex($curColumnIndex);
             
-                $curString = $curString + $stringShift;
+            $curString = $curString + $stringShift;
             
-            //++$vars[$index] = $curColumn.$curString;
+
             $newVars[$var] = $curColumn.$curString;
         }
         
         Logger::debug('new vars :'.var_export($newVars, true));
         Logger::debug("replace vars in formula : $formula");
         return $this->_replaceVars2($formula, $newVars);
-        
-        // собираем формулу
-        if ($delimiter)
-            return '='.$formulaInfo['formula'].'('.implode($delimiter, $vars).')';
-        
-        return '='.$vars[0];
-        
-        //$columnName = $this->_getColumnByIndex($columnIndex, $worksheetId);
     }
     
     /**
@@ -1024,19 +967,26 @@ class ExcelDocumentController extends AjaxController{
      */
     public function actionPaste() {
         Logger::debug("actionPaste");
+        $sid = Yii::app()->request->getParam('sid', false);  
+        if (!$sid) throw new Exception('wrong sid');
+        SessionHelper::setSid($sid);
+        
         // куда вставлять
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
-        
         // откуда вставлять
         $fromWorksheetId = (int)Yii::app()->request->getParam('fromId', false);  
-        
-        
         $string = (int)Yii::app()->request->getParam('string', false);  
-        
         $column = Yii::app()->request->getParam('column', false);  
-        
         // Диапазон, который мы копируем
         $range = Yii::app()->request->getParam('range', false);  
+        
+        
+        ExcelFactory::getDocument()->loadWorksheet($fromWorksheetId);
+        ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+        $result = ExcelClipboard::paste($fromWorksheetId, $worksheetId, $column, $string, $range);
+        return $this->_sendResponse(200, CJSON::encode($result));
+        ####################################################################
+        
         
         // загружаем воркшит
         $this->_getWorksheet($fromWorksheetId);
@@ -1178,10 +1128,18 @@ class ExcelDocumentController extends AjaxController{
     public function actionDrawing() {
         try {
             Logger::debug("actionDrawing");
+            
+            $sid = Yii::app()->request->getParam('sid', false);  
+            if (!$sid) throw new Exception('wrong sid');
+            SessionHelper::setSid($sid);
+            
             $worksheetId = (int)Yii::app()->request->getParam('id', false);  
             $string = (int)Yii::app()->request->getParam('string', false);  
             $column = Yii::app()->request->getParam('column', false);  
             $target = Yii::app()->request->getParam('target', false);  
+            
+            $result = ExcelDrawing::apply($worksheetId, $column, $string, $target);
+            return $this->_sendResponse(200, CJSON::encode($result));
 
             Logger::debug("target : $target");
             $targetInfo = $this->_explodeCellName($target);
@@ -1325,6 +1283,24 @@ class ExcelDocumentController extends AjaxController{
                 'code' => $exc->getCode()
             )));
         }
+    }
+    
+    public function actionDebug() {
+        $sid = 'a4ce14e9b667bcb767a7f16c996a918f';
+        SessionHelper::setSid($sid);
+        ExcelFactory::getDocument()->loadWorksheet(465);
+        
+        $formula = "=СУММ(B4;C4)-СУММ(D4;E4)";
+        
+        $excel = new ExcelFormula();
+        echo $excel->parse($formula);
+        return;
+        
+        $this->_activeWorksheet = 464;
+        $worksheet = $this->_loadWorksheetIfNeeded(464);
+        
+        $value = $this->_parseFormula($formula);
+        var_dump($value);
     }
 }
 

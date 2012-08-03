@@ -100,7 +100,7 @@ class ExcelImporter {
     }
     
     public function import($documentName) {
-        $this->_phpExcel = PHPExcel_IOFactory::load("../media/test2.xlsx");
+        $this->_phpExcel = PHPExcel_IOFactory::load("../media/test3.xlsx");
         
         $documentId = $this->_createDocument($documentName);
         if (!$documentId) throw new Exception("cant get documentId for $documentName");
@@ -132,6 +132,8 @@ class ExcelImporter {
                     if ($dataType == 'f') {
                         $formula = $val;   
                         $val = '';
+                        //echo"formula = $formula";
+                        $formula = str_replace(',', ';', $formula);
                     }
                     
                     $style = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row);
