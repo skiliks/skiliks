@@ -37,7 +37,7 @@ class ExcelFormula {
     }
     
     public function explodeFormulaVars($formula) {
-        preg_match_all("/([A-Za-А-Яа-я!]+\d+)/u", $formula, $matches); 
+        preg_match_all("/([A-Za-zА-Яа-я\!]+\d+)/u", $formula, $matches); 
         if (isset($matches[0][0])) return $matches[0];
         return array();
     }
