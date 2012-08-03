@@ -27,7 +27,7 @@ class ExcelDocumentService {
             $templateId = $template->id;
 
             // создаем документ
-            $document = new ExcelDocument();
+            $document = new ExcelDocumentModel();
             $document->document_id = $templateId;
             $document->sim_id = $simId;
             $document->insert();
@@ -38,7 +38,8 @@ class ExcelDocumentService {
             $worksheetCollection = array();  // рабочие листы, которые нужно скопировать
             $worksheetMap = array();
             foreach($woksheets as $worksheet) {
-                $newWorksheet = new ExcelWorksheet();
+                Logger::debug("load ws : ".$worksheet->name);
+                $newWorksheet = new ExcelWorksheetModel();
                 $newWorksheet->document_id = $documentId;
                 $newWorksheet->name = $worksheet->name;
                 $newWorksheet->insert();
