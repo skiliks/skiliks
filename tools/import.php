@@ -155,6 +155,9 @@ class ExcelImporter {
                     $fontSize = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getSize();
                     $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
                     
+                    $readOnly = false;
+                    if ($color != '' && $color != '000000') $readOnly = true;
+                    
                     //var_dump($this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders());die();
                     //$border = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders()->getBorderStyle();
                     
@@ -170,7 +173,7 @@ class ExcelImporter {
                         'string' => $row,
                         'column' => $columnName,
                         'value' => $val,
-                        'readOnly' => 1,
+                        'readOnly' => $readOnly,
                         'formula' => $formula,
                         'bold' => $bold,
                         'color' => $color,

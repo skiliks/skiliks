@@ -94,3 +94,34 @@ alter table excel_worksheet_cells add column bold tinyint(1);
 alter table excel_worksheet_cells add column color varchar(16);
 alter table excel_worksheet_cells add column font varchar(32);
 alter table excel_worksheet_cells add column fontSize tinyint(3);
+
+alter table `tasks` add column `sim_id` int(11);
+
+delete from `tasks`;
+
+alter table `tasks` add CONSTRAINT `fk_tasks_sim_id` FOREIGN KEY (`sim_id`) 
+        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+INSERT INTO `tasks` (`id`, `title`, `start_time`, `duration`, `type`, `sim_id`) VALUES
+(1, 'Поставить задачи сотрудникам на время моего отпуска', 0, 90, 1, null),
+(2, 'Проверить работу Аналитика 2 по ценовой политике', 0, 20, 1, null),
+(3, 'Согласовать с производственным отделом новую отчетную форму', 0, 20, 1, null),
+(4, 'Запустить сбор информации по продажам 3 квартала', 0, 30, 1, null),
+(5, 'Позвонить в АХО про работу батарей - плохо работают', 0, 5, 1, null),
+(6, 'Подготовить итоговый отчет "Прибыли и убытки" для Генерального директора по 1 полугодию (жду протоко', 0, 90, 1, null),
+(7, 'Ответить на запрос HR по новой системе мотивации', 0, 90, 1, null),
+(8, 'Доклад ГД на конференции в декабре', 34200, 180, 1, null),
+(9, 'Рассказать моим сотрудникам о новой системе премирования с 4 кв. ', 0, 30, 1, null),
+(10, 'Посмотреть договор от юристов (уже третий раз присылают)', 0, 60, 1, null),
+(11, 'Проверить, что сделал аналитик 1 по задаче логистического отдела.  Трудякин просил сегодня.', 0, 20, 1, null),
+(12, 'Встретиться с аналитиком 3 по результатам испытательного срока', 0, 60, 1, null),
+(13, 'Срочно доделать сводный бюджет', 0, 180, 1, null),
+(14, 'Проверить презентацию для ГД в четверг. Крутько обещала в 15.30', 55800, 30, 1, null),
+(15, 'Встреча с клиентом по автоматизации данных, предварительно четверг около часа ', 46800, 60, 1, null),
+(16, 'Совещание " О старте годовой аттестации", 17.00', 0, 90, 1, null),
+(17, 'Встреча с ГД в 16.00 по презентации', 57600, 30, 2, null),
+(18, 'Обед', 0, 30, 1, null),
+(19, 'Уйти с работы на день рождения тещи (заехать за цветами)', 64800, 60, 1, null);
+
+alter table `tasks` add CONSTRAINT `fk_tasks_sim_id` FOREIGN KEY (`sim_id`) 
+        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

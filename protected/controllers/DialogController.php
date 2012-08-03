@@ -53,10 +53,18 @@ class DialogController extends AjaxController{
                 Logger::debug("found task : {$taskId}");
                 // Если это задача
                 if ($taskId) {
+                    // Создать задачу
+                    $tasks = new Tasks();
+                    $tasks->title = $currentDialog->text;
+                    $tasks->duration = 60;
+                    $tasks->type = 1;
+                    $tasks->sim_id = $simId;
+                    $tasks->insert();
+                    
                     // Добавим ее в туду
                     $todo = new Todo();
                     $todo->sim_id = $simId;
-                    $todo->task_id = $taskId;
+                    $todo->task_id = $tasks->id; // $taskId;
                     $todo->insert();
                 }
             }
