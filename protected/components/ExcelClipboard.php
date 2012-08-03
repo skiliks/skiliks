@@ -74,6 +74,7 @@ class ExcelClipboard {
                     Logger::debug("formula after shifting : ".$cell['formula']);
                     // пересчитаем формулу
                     $cell['value'] = $excelFormula->parse($cell['formula']);
+                    if ($cell['value'] == '') $cell['value'] = $cell['formula'];
                 }
                 
                 
