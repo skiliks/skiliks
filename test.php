@@ -6,6 +6,10 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 $a='$b=0+0+18 000+2 000';
 
+$formula = "=L7-D7";
+preg_match_all("/([A-Za-zА-Яа-я\!]+\d+)/u", $formula, $matches); 
+var_dump($matches);die();
+
 class Calc {
     
     private $t=666;

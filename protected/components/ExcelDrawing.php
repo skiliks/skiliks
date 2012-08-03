@@ -63,7 +63,7 @@ class ExcelDrawing {
                     $step++;
                     Logger::debug("new vars : ".var_export($newVars, true));
                     $newFormula = $excelFormula->replaceVars($formula, $newVars);
-                    
+                    Logger::debug("newFormula : $newFormula");
                     
                     $value = $excelFormula->parse($newFormula);
                     
@@ -98,7 +98,7 @@ class ExcelDrawing {
                 // выбираем переменные из формулы
                 
                 $vars = $excelFormula->explodeFormulaVars($formula);
-                
+                Logger::debug("vars : ".var_export($vars, true));
                 // бежим по колонкам
                 $inc = 1;
                 for($i = $columnFromIndex; $i<=$columnToIndex; $i++) {
@@ -123,7 +123,7 @@ class ExcelDrawing {
                     $newFormula = $excelFormula->replaceVars($formula, $newVars);
                     
                     
-                    Logger::debug("new formula = $newFormula");
+                    Logger::debug("newFormula = $newFormula");
                     
                     Logger::debug("before _parseFormula $newFormula");
                     $value = $excelFormula->parse($newFormula);
