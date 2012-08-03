@@ -81,3 +81,16 @@ CREATE TABLE `excel_clipboard` (
     CONSTRAINT `fk_excel_clipboard_worksheet_id` FOREIGN KEY (`worksheet_id`) 
         REFERENCES `excel_worksheet` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Буффер обмена для Excel';
+
+-----------------------
+
+alter table excel_worksheet_template_cells add column bold tinyint(1);
+alter table excel_worksheet_template_cells add column color varchar(16);
+alter table excel_worksheet_template_cells add column font varchar(32);
+alter table excel_worksheet_template_cells add column fontSize tinyint(3);
+
+
+alter table excel_worksheet_cells add column bold tinyint(1);
+alter table excel_worksheet_cells add column color varchar(16);
+alter table excel_worksheet_cells add column font varchar(32);
+alter table excel_worksheet_cells add column fontSize tinyint(3);

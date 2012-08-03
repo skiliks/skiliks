@@ -65,7 +65,11 @@ class ExcelWorksheet {
                     'formula' => $cell->formula,
                     'colspan' => $cell->colspan,
                     'rowspan' => $cell->rowspan,
-                    'worksheetId' => $worksheetId
+                    'worksheetId' => $worksheetId,
+                    'bold' => $cell->bold,
+                    'color' => $cell->color,
+                    'font' => $cell->font,
+                    'fontSize' => $cell->fontSize,
                 );
                 $data[$cell->column][$cell->string] = $cellInfo; 
             }

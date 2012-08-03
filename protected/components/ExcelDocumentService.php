@@ -51,8 +51,18 @@ class ExcelDocumentService {
             // копируем ячейки
 
             $sql = "insert into excel_worksheet_cells 
-                    (worksheet_id, `string`, `column`, `value`, read_only, `comment`, formula, colspan, rowspan)
-                    select :newWorksheetId, `string`, `column`, t.value, t.read_only, t.comment, t.formula, t.colspan, t.rowspan
+                    (worksheet_id, `string`, `column`, `value`, read_only, `comment`, formula, colspan, rowspan, `bold`, `color`, `font`, `fontSize`)
+                    select 
+                        :newWorksheetId, 
+                        `string`, 
+                        `column`, 
+                        t.value, 
+                        t.read_only, 
+                        t.comment, 
+                        t.formula, 
+                        t.colspan, 
+                        t.rowspan,
+                        t.bold, t.color, t.font, t.fontSize
                     from excel_worksheet_template_cells as t
                     where t.worksheet_id = :oldWorksheetId";
             $command = $connection->createCommand($sql);       
