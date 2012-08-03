@@ -79,8 +79,8 @@ class ExcelImporter {
         
         if (!$this->_rowStmt) {
             $sql = "insert into excel_worksheet_template_cells 
-                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`) 
-                    values (:worksheetId, :string, :column, :value, :readOnly, :formula)";
+                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`) 
+                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize)";
             $this->_rowStmt = $this->_db->prepare($sql);
         }
         
@@ -90,6 +90,10 @@ class ExcelImporter {
         $this->_rowStmt->bindParam(':value', $params['value'], PDO::PARAM_STR);
         $this->_rowStmt->bindParam(':readOnly', $params['readOnly'], PDO::PARAM_INT);
         $this->_rowStmt->bindParam(':formula', $params['formula'], PDO::PARAM_STR);
+        $this->_rowStmt->bindParam(':bold', $params['bold'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':color', $params['color'], PDO::PARAM_STR);
+        $this->_rowStmt->bindParam(':font', $params['font'], PDO::PARAM_STR);
+        $this->_rowStmt->bindParam(':fontSize', $params['fontSize'], PDO::PARAM_INT);
         if (!$this->_rowStmt->execute()) {
             
             throw new Exception(var_export($this->_rowStmt->errorInfo(), true));
@@ -142,10 +146,22 @@ class ExcelImporter {
                     // getFont
                     
                     // так мы можем вытащить цвет
-                    $color = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFill()->getStartColor()->getARGB();
+                    
+                    
+                    
+                    
+                    $color = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFill()->getStartColor()->getRGB();
+                    $font = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getName();
+                    $fontSize = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getSize();
+                    $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
+                    
+                    //var_dump($this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders());die();
+                    //$border = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders()->getBorderStyle();
+                    
+                    
                     echo('color='.$color);
                     //$this->_phpExcel->getSheetByName('Sheet1')->getStyle("B13")->getFont()->getBold()
-                    $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
+                    
                     echo('bold='.$bold);
                     
              
@@ -155,7 +171,11 @@ class ExcelImporter {
                         'column' => $columnName,
                         'value' => $val,
                         'readOnly' => 1,
-                        'formula' => $formula
+                        'formula' => $formula,
+                        'bold' => $bold,
+                        'color' => $color,
+                        'font' => $font,
+                        'fontSize' => $fontSize
                     );
                     $rowId = $this->_insertRow($params);
                     if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
