@@ -780,7 +780,9 @@ class ExcelDocumentController extends AjaxController{
             
             $message = false;
             ###### new code
+            
             ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+            $cell = ExcelFactory::getDocument()->getWorksheet($worksheetId)->getCell($column, $string);
             if ($formula != '') {
                 $excelFormula = new ExcelFormula();
                 $validationResult = $excelFormula->validate($formula);
@@ -795,12 +797,13 @@ class ExcelDocumentController extends AjaxController{
                 $excelFormula->setWorksheet(ExcelFactory::getDocument()->getWorksheet($worksheetId));
                 $value = $excelFormula->parse($formula);
                 $read_only = (int)(bool)$excelFormula->hasLinkVar($formula);
+                $cell['read_only'] = $read_only;
             }
             
-            $cell = ExcelFactory::getDocument()->getWorksheet($worksheetId)->getCell($column, $string);
+            
             $cell['value'] = $value;
             $cell['formula'] = $formula;
-            $cell['read_only'] = $read_only;
+            
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->replaceCell($cell);
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->updateCellDb($cell);
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->saveToCache();
