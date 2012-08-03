@@ -103,19 +103,19 @@ class ExcelWorksheet {
         
         $worksheetName = false;
         if (!strstr($cellName, '!')) {
-            preg_match_all("/([A-Z]+)(\d+)/", $cellName, $matches); 
+            preg_match_all("/([a-zA-Z]+)(\d+)/", $cellName, $matches); 
             Logger::debug("matches : ".var_export($matches, true));
             if (!isset($matches[1][0])) return false;
-            $column = $matches[1][0];
+            $column = strtoupper($matches[1][0]);
             $string = (int)$matches[2][0];
         }
         else {
             Logger::debug("match : $cellName");
-            if (preg_match_all("/(\w*)!([A-Z]+)(\d+)/u", $cellName, $matches)) {
+            if (preg_match_all("/(\w*)!([a-zA-Z]+)(\d+)/u", $cellName, $matches)) {
                 Logger::debug("matches : ".var_export($matches, true));
                 
                 $worksheetName = $matches[1][0];
-                $column = $matches[2][0];
+                $column = strtoupper($matches[2][0]);
                 $string = (int)$matches[3][0];
             }
         }
@@ -130,6 +130,8 @@ class ExcelWorksheet {
         if(!isset($this->_data[$column][$string])) {
             Logger::debug("fuck $column $string");
         }
+        
+        Logger::debug("get cell $column $string");
         $cell = $this->_data[$column][$string];
         
         
