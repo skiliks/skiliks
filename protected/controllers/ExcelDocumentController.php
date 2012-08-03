@@ -792,6 +792,7 @@ class ExcelDocumentController extends AjaxController{
                 if (isset($validationResult['value'])) {
                     $value = $validationResult['value'];
                 }
+                $excelFormula->setWorksheet(ExcelFactory::getDocument()->getWorksheet($worksheetId));
                 $value = $excelFormula->parse($formula);
                 $read_only = (int)(bool)$excelFormula->hasLinkVar($formula);
             }
@@ -897,9 +898,16 @@ class ExcelDocumentController extends AjaxController{
      * @return type 
      */
     public function actionSum() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        if (!$sid) throw new Exception('wrong sid');
+        SessionHelper::setSid($sid);
+        
         $worksheetId = (int)Yii::app()->request->getParam('id', false);  
         $range = Yii::app()->request->getParam('range', false);  
      
+        ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+        
+        
         //$this->_getWorksheet($worksheetId);
         $this->_loadWorksheetIfNeeded($worksheetId);
         
