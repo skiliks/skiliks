@@ -55,7 +55,7 @@ class DialogController extends AjaxController{
                 if ($taskId) {
                     // Создать задачу
                     $tasks = new Tasks();
-                    $tasks->title = $currentDialog->text;
+                    $tasks->title = 'Срочно проверить презентацию для ГД'; //$currentDialog->text;
                     $tasks->duration = 60;
                     $tasks->type = 1;
                     $tasks->sim_id = $simId;
