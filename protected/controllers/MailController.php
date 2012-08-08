@@ -13,7 +13,7 @@ class MailController extends AjaxController{
      * Отдачи состава папок
      */
     public function actionGetFolders() {
-        $sid = (int)Yii::app()->request->getParam('sid', false);  
+        $sid = Yii::app()->request->getParam('sid', false);  
         $receiverId = SessionHelper::getUidBySid($sid);
         
         $service = new MailBoxService();
@@ -22,7 +22,10 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['folders'] = $folders;
-        $result['messages'] = $service->getMessages($folders[0]['id'], $receiverId);
+        $result['messages'] = $service->getMessages(array(
+            'folderId' => $folders[0]['id'],
+            'receiverId' => $receiverId
+        ));
         
         return $this->_sendResponse(200, CJSON::encode($result));
     }
@@ -31,8 +34,10 @@ class MailController extends AjaxController{
      * Получение списка сообщений
      */
     public function actionGetMessages() {
-        $sid = (int)Yii::app()->request->getParam('sid', false);  
+        $sid = Yii::app()->request->getParam('sid', false);  
         $folderId = (int)Yii::app()->request->getParam('folderId', false);  
+        $order = Yii::app()->request->getParam('order', false);  
+        $orderType = (int)Yii::app()->request->getParam('orderType', false);  
         
         $receiverId = SessionHelper::getUidBySid($sid);
         
@@ -40,7 +45,12 @@ class MailController extends AjaxController{
         
         $result = array();
         $result['result'] = 1;
-        $result['messages'] = $service->getMessages($folderId, $receiverId);
+        $result['messages'] = $service->getMessages(array(
+            'folderId' => $folderId,
+            'receiverId' => $receiverId,
+            'order' => $order,
+            'orderType' => $orderType
+        ));
         
         return $this->_sendResponse(200, CJSON::encode($result));
     }

@@ -46,6 +46,14 @@ class MailBoxModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function orderBy($fieldName, $direction)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "$fieldName $direction"
+        ));
+        return $this;
+    }
 }
 
 ?>

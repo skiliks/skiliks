@@ -32,10 +32,22 @@ class MailBoxService {
      * @param int $receiverId
      * @return array
      */
-    public function getMessages($folderId, $receiverId) {
+    public function getMessages($params) {
         
-        $messages = MailBoxModel::model()->byReceiver($receiverId)
-                ->byFolder($folderId)->findAll();
+        $folderId = $params['folderId'];
+        $receiverId = $params['receiverId'];
+        $order = (isset($params['order'])) ? $params['order'] : false;
+        if ($order == 'sender') $order = 'sender_id';
+        if ($order == 'time') $order = 'receiving_date';
+        
+        $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
+        if ($orderType == 0) $orderType = 'ASC';
+        else $orderType = 'DESC';
+        
+        $model = MailBoxModel::model();
+        $model->byReceiver($receiverId)->byFolder($folderId);
+        if ($order) $model->orderBy($order, $orderType);
+        $messages = $model->findAll();
         
        
         $users = array();
