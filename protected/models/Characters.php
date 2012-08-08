@@ -8,6 +8,11 @@
  */
 class Characters extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return Characters
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -19,6 +24,15 @@ class Characters extends CActiveRecord{
     public function tableName()
     {
             return 'characters';
+    }
+    
+    public function byIds($ids)
+    {
+        $list = implode(',', $ids);
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id in ({$list})"
+        ));
+        return $this;
     }
 }
 
