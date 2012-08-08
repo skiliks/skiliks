@@ -13,16 +13,17 @@ class MailController extends AjaxController{
      * Отдачи состава папок
      */
     public function actionGetFolders() {
-        $folders = MailFoldersModel::model()->findAll();
+        $sid = (int)Yii::app()->request->getParam('sid', false);  
+        $receiverId = SessionHelper::getUidBySid($sid);
+        
+        $service = new MailBoxService();
+        $folders = $service->getFolders();
         
         $result = array();
         $result['result'] = 1;
-        foreach($folders as $folder) {
-            $result['data'][] = array(
-                'id' => $folder->id,
-                'name' => $folder->name
-            );
-        }
+        $result['folders'] = $folders;
+        $result['messages'] = $service->getMessages($folders[0]['id'], $receiverId);
+        
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
@@ -30,29 +31,17 @@ class MailController extends AjaxController{
      * Получение списка сообщений
      */
     public function actionGetMessages() {
+        $sid = (int)Yii::app()->request->getParam('sid', false);  
         $folderId = (int)Yii::app()->request->getParam('folderId', false);  
-        $receiverId = (int)Yii::app()->request->getParam('receiverId', false);  
         
-        $messages = MailBoxModel::model()->byReceiver($receiverId)->byFolder($folderId)->findAll();
+        $receiverId = SessionHelper::getUidBySid($sid);
+        
+        $service = new MailBoxService();
         
         $result = array();
         $result['result'] = 1;
+        $result['messages'] = $service->getMessages($folderId, $receiverId);
         
-        $list = array();
-        foreach($messages as $message) {
-            $list[] = array(
-                'id' => $message->id,
-                'subject' => $message->subject,
-                'message' => $message->message,
-                'sendingDate' => $message->sending_date,
-                'receivingDate' => $message->receiving_date,
-                'sender' => $message->sender_id,
-                'receiver' => $message->receiver_id
-            );
-            
-        }
-        
-        $result['data'] = $list;
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     

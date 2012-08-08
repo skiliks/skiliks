@@ -1,3 +1,18 @@
+alter table characters add column `fio` varchar(64);
+alter table characters add column `email` varchar(64);
+
+update characters set fio='Клинт Иствуд', email='clint@eastvood.com' where id=1;
+update characters set fio='Джон Гекко', email='gekko@jhon.com' where id=2;
+update characters set fio='Миллка Красотка', email='girl@free.com' where id=3;
+update characters set fio='Иван Васильевич', email='ivan@mail.com' where id=4;
+update characters set fio='Роман Рабинович', email='romka@business.com' where id=5;
+update characters set fio='Билл Гейтс', email='it@gay.com' where id=6;
+update characters set fio='Стив Джобс', email='steeve@apple.com' where id=7;
+update characters set fio='Маша Распутина', email='mashka@free.com' where id=8;
+update characters set fio='Иван Барыгин', email='barigin@torgash.com' where id=9;
+
+
+
 CREATE TABLE `mail_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(128) default 'название группы',
@@ -8,7 +23,6 @@ insert into mail_group (`name`) values ('Входящие');
 insert into mail_group (`name`) values ('Черновики');
 insert into mail_group (`name`) values ('Исходящие');
 insert into mail_group (`name`) values ('Корзина');
-
 
 
 CREATE TABLE `mail_box` (
@@ -25,11 +39,16 @@ CREATE TABLE `mail_box` (
         REFERENCES `mail_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `fk_mail_box_sender_id` FOREIGN KEY (`sender_id`) 
-        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `fk_mail_box_receiver_id` FOREIGN KEY (`receiver_id`) 
-        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE            
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE            
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовый ящик';
+
+insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject', 'message');
+insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
+insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
+
 
 CREATE TABLE `mail_copies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,9 +59,6 @@ CREATE TABLE `mail_copies` (
         REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `fk_mail_copies_receiver_id` FOREIGN KEY (`receiver_id`) 
-        REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Копии';
 
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject', 'message');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
