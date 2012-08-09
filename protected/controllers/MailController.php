@@ -68,7 +68,12 @@ class MailController extends AjaxController{
     }
     
     public function actionGetReceivers() {
+        $service = new MailBoxService();
         
+        $result = array();
+        $result['result'] = 1;
+        $result['data'] = $service->getCharacters();
+        return $this->_sendResponse(200, CJSON::encode($result));
     }
     
     public function actionSave() {
