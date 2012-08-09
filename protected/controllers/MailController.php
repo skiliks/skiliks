@@ -76,8 +76,28 @@ class MailController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
-    public function actionSave() {
+    public function actionSendMessage() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        $senderId = SessionHelper::getUidBySid($sid);
         
+        $folder = (int)Yii::app()->request->getParam('folder', false);  
+        $receiver = (int)Yii::app()->request->getParam('receiver', false);  
+        $receivers = Yii::app()->request->getParam('receivers', false);  
+        $subject = Yii::app()->request->getParam('subject', false);  
+        $message = Yii::app()->request->getParam('message', false);  
+        
+        $service = new MailBoxService();
+        $service->sendMessage(array(
+            'group' => $folder,
+            'sender' => $senderId,
+            'receiver' => $receiver,
+            'subject' => $subject,
+            'message' => $message
+        ));
+        
+        $result = array();
+        $result['result'] = 1;
+        return $this->_sendResponse(200, CJSON::encode($result));
     }
 }
 

@@ -120,6 +120,17 @@ class MailBoxService {
         
         return $message;
     }
+    
+    public function sendMessage($params) {
+        $model = new MailBoxModel();
+        $model->group_id = $params['group'];
+        $model->sender_id = $params['sender'];
+        $model->receiver_id = $params['receiver'];
+        $model->subject = $params['subject'];
+        $model->message = $params['message'];
+        $model->sending_date = time();
+        $model->insert();
+    }
 }
 
 ?>
