@@ -62,3 +62,13 @@ CREATE TABLE `mail_copies` (
         REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Копии';
 
+CREATE TABLE `mail_phrases` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Фразы для сообщения';
+
+insert into mail_phrases (`name`) values ('Привет');
+insert into mail_phrases (`name`) values ('Как дела');
+insert into mail_phrases (`name`) values ('Что нового');
+insert into mail_phrases (`name`) values ('Айда в кино!');

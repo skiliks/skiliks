@@ -73,6 +73,7 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = $service->getCharacters();
+        $result['phrases'] = $service->getMailPhrases();
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
