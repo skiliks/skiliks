@@ -127,13 +127,28 @@ class MailBoxService {
         $model->sender_id = $params['sender'];
         $model->receiver_id = $params['receiver'];
         $model->subject = $params['subject'];
-        $model->message = $params['message'];
+        //$model->message = $params['message'];
         $model->sending_date = time();
         $model->insert();
         
+        $mailId = $model->id;
+        
         if (isset($params['receivers'])) {
-            $this->saveCopies($params['receivers'], $model->id);
+            $this->saveCopies($params['receivers'], $mailId);
         }
+        
+        if (isset($params['message'])) {
+            $phrases = explode(',', $params['message']);
+            foreach($phrases as $phraseId) {
+                $model = new MailMessagesModel();
+                $model->mail_id = $mailId;
+                $model->phrase_id = $phraseId;        
+                $model->insert();
+            }
+        }
+        
+        
+        //MailPhrasesModel
     }
     
     public function saveCopies($receivers, $mailId) {
