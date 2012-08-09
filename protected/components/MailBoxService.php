@@ -145,6 +145,17 @@ class MailBoxService {
             $model->insert();
         }
     }
+    
+    public function getMailPhrases() {
+        $phrases = MailPhrasesModel::model()->findAll();
+        
+        $list = array();
+        foreach($phrases as $model) {
+            $list[$model->id] = $model->name;
+        }
+        
+        return $list;
+    }
 }
 
 ?>
