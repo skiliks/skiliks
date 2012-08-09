@@ -130,6 +130,20 @@ class MailBoxService {
         $model->message = $params['message'];
         $model->sending_date = time();
         $model->insert();
+        
+        if (isset($params['receivers'])) {
+            $this->saveCopies($params['receivers'], $model->id);
+        }
+    }
+    
+    public function saveCopies($receivers, $mailId) {
+        $receivers = explode(',', $receivers);
+        foreach($receivers as $receiverId) {
+            $model = new MailCopiesModel();
+            $model->mail_id = $mailId;
+            $model->receiver_id = $receiverId;
+            $model->insert();
+        }
     }
 }
 
