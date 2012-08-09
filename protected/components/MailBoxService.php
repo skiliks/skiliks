@@ -27,6 +27,24 @@ class MailBoxService {
     }
     
     /**
+     * Загрузка персонажей
+     * @param array $ids 
+     * @return array
+     */
+    public function getCharacters($ids=array()) {
+        $model = Characters::model();
+        if (count($ids)>0) $model->byIds($ids);
+        $charactersCollection = $model->findAll();
+        
+        $characters = array();
+        foreach($charactersCollection as $characterModel) {
+            $characters[$characterModel->id] = $characterModel->fio.' <'.$characterModel->email.'>';
+        }
+        
+        return $characters;
+    }
+    
+    /**
      * Получение списка собщений
      * @param int $folderId
      * @param int $receiverId
@@ -70,11 +88,7 @@ class MailBoxService {
             
         }
         
-        $charactersCollection = Characters::model()->byIds($users)->findAll();
-        $characters = array();
-        foreach($charactersCollection as $characterModel) {
-            $characters[$characterModel->id] = $characterModel->fio.' <'.$characterModel->email.'>';
-        }
+        $characters = $this->getCharacters($users);
 
         foreach($list as $index=>$item) {
             $list[$index]['sender'] = $characters[$list[$index]['sender']];
@@ -82,6 +96,29 @@ class MailBoxService {
         }
         
         return $list;
+    }
+    
+    /**
+     * Загрузка одиночного сообщения
+     * @param type $id 
+     */
+    public function getMessage($id) {
+        $model = MailBoxModel::model()->byId($id)->find();
+        $message = array(
+            'id' => $model->id,
+            'subject' => $model->subject,
+            'message' => $model->message,
+            'sendingDate' => DateHelper::toString($model->sending_date),
+            'receivingDate' => DateHelper::toString($model->receiving_date),
+            'sender' => $model->sender_id,
+            'receiver' => $model->receiver_id
+        );
+        
+        $characters = $this->getCharacters(array($model->sender_id, $model->receiver_id));
+        $message['sender'] = $characters[$message['sender']];
+        $message['receiver'] = $characters[$message['receiver']];
+        
+        return $message;
     }
 }
 
