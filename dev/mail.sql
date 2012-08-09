@@ -72,3 +72,18 @@ insert into mail_phrases (`name`) values ('Привет');
 insert into mail_phrases (`name`) values ('Как дела');
 insert into mail_phrases (`name`) values ('Что нового');
 insert into mail_phrases (`name`) values ('Айда в кино!');
+
+
+
+
+CREATE TABLE `mail_messages` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `phrase_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_messages_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_messages_phrase_id` FOREIGN KEY (`phrase_id`) 
+        REFERENCES `mail_phrases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовые сообщения';
