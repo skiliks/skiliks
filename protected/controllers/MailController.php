@@ -67,6 +67,10 @@ class MailController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    /**
+     * Получение списка получателей.
+     * @return type 
+     */
     public function actionGetReceivers() {
         $service = new MailBoxService();
         

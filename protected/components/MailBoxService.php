@@ -55,6 +55,10 @@ class MailBoxService {
         $folderId = $params['folderId'];
         $receiverId = $params['receiverId'];
         $order = (isset($params['order'])) ? $params['order'] : false;
+        if ($order == -1) {
+            $order = false;
+        }
+        
         if ($order == 'sender') $order = 'sender_id';
         if ($order == 'time') $order = 'receiving_date';
         
