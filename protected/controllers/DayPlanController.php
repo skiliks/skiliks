@@ -223,6 +223,13 @@ class DayPlanController extends AjaxController{
     }
     
     protected function _addDayPlanAfterVacation($simId, $taskId, $date) {
+        Logger::debug("_addDayPlanAfterVacation : $simId $taskId $date");
+        // Удалить задачу из дневного плана
+        DayPlan::model()->deleteAllByAttributes(array(
+            'sim_id' => $simId,
+            'task_id' => $taskId
+        ));
+        
         $dayPlanAfterVacation = new DayPlanAfterVacation();
         $dayPlanAfterVacation->sim_id = $simId;
         $dayPlanAfterVacation->task_id = $taskId;
