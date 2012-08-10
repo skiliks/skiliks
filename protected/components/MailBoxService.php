@@ -108,6 +108,8 @@ class MailBoxService {
      */
     public function getMessage($id) {
         $model = MailBoxModel::model()->byId($id)->find();
+        if (!$model) return array();
+        
         $message = array(
             'id' => $model->id,
             'subject' => $model->subject,

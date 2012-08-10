@@ -97,3 +97,18 @@ CREATE TABLE `mail_settings` (
   CONSTRAINT `fk_mail_settings_sim_id` FOREIGN KEY (`sim_id`) 
     REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Настройки почты';
+
+delete from characters;
+CREATE TABLE `mail_themes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `character_id` int(11),  
+  `name` varchar(128),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_themes_character_id` FOREIGN KEY (`character_id`) 
+    REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE  
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Темы писем';
+
+insert into mail_themes (`character_id`, `name`) values (1, 'Скоро собрание');
+insert into mail_phrases (`name`) values ('Как дела');
+insert into mail_phrases (`name`) values ('Что нового');
+insert into mail_phrases (`name`) values ('Айда в кино!');
