@@ -156,6 +156,20 @@ class MailController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode($result));
         }    
     }
+    
+    /**
+     * Получение тем
+     */
+    public function actionGetThemes() {
+        $receivers = Yii::app()->request->getParam('receivers', false);  
+        
+        $service = new MailBoxService();
+        
+        $result = array();
+        $result['result'] = 1;
+        $result['data'] = $service->getThemes($receivers);
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
 }
 
 ?>
