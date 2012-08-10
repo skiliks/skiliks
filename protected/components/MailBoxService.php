@@ -111,7 +111,7 @@ class MailBoxService {
         $message = array(
             'id' => $model->id,
             'subject' => $model->subject,
-            'message' => $model->message,
+            //'message' => $model->message,
             'sendingDate' => DateHelper::toString($model->sending_date),
             'receivingDate' => DateHelper::toString($model->receiving_date),
             'sender' => $model->sender_id,
@@ -121,6 +121,9 @@ class MailBoxService {
         $characters = $this->getCharacters(array($model->sender_id, $model->receiver_id));
         $message['sender'] = $characters[$message['sender']];
         $message['receiver'] = $characters[$message['receiver']];
+        
+        // Собираем сообщение
+        $message['message'] = $this->buildMessage($model->id);
         
         return $message;
     }
@@ -184,6 +187,31 @@ class MailBoxService {
         $model = new MailSettingsModel();
         $model->sim_id = $simId;
         $model->insert();
+    }
+    
+    /**
+     * Сборка сообщения
+     * @param int $mailId 
+     * @return string
+     */
+    public function buildMessage($mailId) {
+        $models = MailMessagesModel::model()->byMail($mailId)->findAll();
+        
+        $phrases = array();
+        foreach($models as $model) {
+            $phrases[] = $model->phrase_id;
+        }
+        
+        // получение набора фраз
+        $phrasesCollection = MailPhrasesModel::model()->byIds($phrases)->findAll();
+        
+        $phrases = array();
+        foreach($phrasesCollection as $phraseModel) {
+            $phrases[] = $phraseModel->name;
+        }
+        
+        // склейка фраз
+        return implode(' ', $phrases);
     }
 }
 
