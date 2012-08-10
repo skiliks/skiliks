@@ -816,69 +816,6 @@ class ExcelDocumentController extends AjaxController{
             if ($message) $result['message'] = $message;
             
             return $this->_sendResponse(200, CJSON::encode($result));
-            
-            
-            ###### old code    
-            $cell = ExcelWorksheetCells::model()->findByAttributes(array(
-                'worksheet_id' => $worksheetId,
-                'string' => $string,
-                'column' => $column
-            ));
-            if (!$cell) throw new Exception('cant get cell');
-            
-            $worksheet = false;
-            // поддержка вычисления формул
-            if ($formula != '') {
-                
-                Logger::debug("found formula : $formula");
-                // загружаем рабочий лист
-                //$this->_getWorksheet($worksheetId);
-                $this->_activeWorksheet = $worksheetId;
-                $worksheet = $this->_loadWorksheetIfNeeded($worksheetId);
-                
-                // проверяем формулу
-                $validationResult = $this->_validateFormula($formula);
-                if (isset($validationResult['message'])) {
-                    $message = $validationResult['message'];
-                }
-                    
-                if (isset($validationResult['value'])) {
-                    $value = $validationResult['value'];
-                }
-                
-                $value = $this->_parseFormula($formula);
-                
-                Logger::debug("value after process formula : $value");
-                //if (!$value) $value = $formula;
-                if ($value) $value = $this->_processValue($value);
-                Logger::debug("value after process value : $value");
-                
-                $cell->read_only = (int)(bool)$this->_hasLinkVar($formula);
-            }
-            
-            $cell->value = $value;
-            $cell->formula = $formula;
-            $cell->save();
-            
-            $result = array();
-            $result['result'] = 1;
-            $data = array();
-            $cellItem = $this->_getCell($column, $string); //$this->_worksheets[$this->_activeWorksheet][$column][$string];
-            $cellItem['value'] = $value; //Strings::format($value);
-            $cellItem['formula'] = $formula;
-            $cellItem['read_only'] = $cell->read_only;
-            $data[] = $cellItem;
-            $result['worksheetData'] = $data;
-            
-            // сохраним информацию в кеше
-            $worksheet[$column][$string]['value'] = $value;
-            $worksheet[$column][$string]['formula'] = $formula;
-            $worksheet[$column][$string]['read_only'] = $cell->read_only;
-            Cache::put('ws'.$worksheetId, $worksheet);
-            
-            if ($message) $result['message'] = $message;
-            
-            return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,

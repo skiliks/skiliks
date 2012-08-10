@@ -108,6 +108,9 @@ class ExcelFormula {
     }
     
     public function validate($formula) {
+        // если начало не с = значит это не формула
+        if ($formula[0] != '=') return array('result'=>true);
+        
         // проверим а не строка ли это у нас
         if (!preg_match_all("/\d+/u", $formula, $matches)) {
             return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
