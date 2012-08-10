@@ -83,7 +83,7 @@ class MailBoxService {
             $list[] = array(
                 'id' => $message->id,
                 'subject' => $message->subject,
-                'message' => $message->message,
+                //'message' => $message->message,
                 'sendingDate' => DateHelper::toString($message->sending_date),
                 'receivingDate' => DateHelper::toString($message->receiving_date),
                 'sender' => $senderId,
@@ -174,6 +174,16 @@ class MailBoxService {
         }
         
         return $list;
+    }
+    
+    /**
+     * Установка дефолтовых значений при старте симуляции
+     * @param type $simId 
+     */
+    public static function initDefaultSettings($simId) {
+        $model = new MailSettingsModel();
+        $model->sim_id = $simId;
+        $model->insert();
     }
 }
 

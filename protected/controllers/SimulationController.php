@@ -85,6 +85,9 @@ class SimulationController extends AjaxController{
         // Копируем игроку его документ в рамках его симуляции
         ExcelDocumentService::copy('Сводный бюджет', $simId);
         
+        // Установим дефолтовые значения для почтовика
+        MailBoxService::initDefaultSettings($simId);
+        
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
     }
