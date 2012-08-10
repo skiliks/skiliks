@@ -262,6 +262,8 @@ class DayPlanController extends AjaxController{
             $time = $this->_timeToArr($time);
             $time = mktime($time[0], $time[1], 0, 0, 0, 0);
             
+            Logger::debug("add : $simId, $taskId, $time");
+            
             // на всякий случай удалим из вакейшена
             DayPlanAfterVacation::model()->deleteAllByAttributes(array(
                 'sim_id' => $simId, 'task_id' => $taskId
@@ -287,15 +289,16 @@ class DayPlanController extends AjaxController{
             // проверяем есть ли у нас такая запись
             $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId',
                     array(':simId'=>$simId, ':taskId'=>$taskId));
-            if ($dayPlan)
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            /*if ($dayPlan)
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));*/
+            if (!$dayPlan) $dayPlan = new DayPlan();
                 
-            $dayPlan = new DayPlan();
+            
             $dayPlan->sim_id = $simId;
             $dayPlan->task_id = $taskId;
             $dayPlan->date = $time;
             $dayPlan->day = $day;
-            $dayPlan->insert();
+            $dayPlan->save();
             
             // Убиваем задачу из todo
             Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
