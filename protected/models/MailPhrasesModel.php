@@ -30,13 +30,7 @@ class MailPhrasesModel extends CActiveRecord{
             return 'mail_phrases';
     }
     
-    public function byMail($mailId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
+    
     
     public function byIds($ids)
     {
