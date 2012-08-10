@@ -85,7 +85,7 @@ class ExcelFormula {
         $formula = str_replace('срзнач', 'AVERAGE', $formula);
         //$formula = strtoupper($formula);
         
-        $formula = preg_replace_callback("/([A-Z]+)\(([A-Z0-9\:\;]+)\)/u", 'self::callback', $formula);
+        $formula = preg_replace_callback("/([A-Z]+)\(([A-Za-z0-9\:\;]+)\)/u", 'self::callback', $formula);
         
         //$vars = $this->explodeFormulaVars($formula);
         /*$newVars = array();
