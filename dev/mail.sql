@@ -62,16 +62,6 @@ CREATE TABLE `mail_copies` (
         REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Копии';
 
-CREATE TABLE `mail_phrases` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(128),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Фразы для сообщения';
-
-insert into mail_phrases (`name`) values ('Привет');
-insert into mail_phrases (`name`) values ('Как дела');
-insert into mail_phrases (`name`) values ('Что нового');
-insert into mail_phrases (`name`) values ('Айда в кино!');
 
 
 
@@ -147,26 +137,26 @@ CREATE TABLE `mail_character_themes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Темы писем для персонажей';
 
 delete from `mail_character_themes`;
-insert into `mail_character_themes` (character_id, theme_id) values (2, 1);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 2);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 3);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 4);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 5);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 6);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 7);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 8);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 9);
-insert into `mail_character_themes` (character_id, theme_id) values (2, 10);
+insert into `mail_character_themes` (id, character_id, theme_id) values (1, 2, 1);
+insert into `mail_character_themes` (id, character_id, theme_id) values (2, 2, 2);
+insert into `mail_character_themes` (id, character_id, theme_id) values (3, 2, 3);
+insert into `mail_character_themes` (id, character_id, theme_id) values (4, 2, 4);  --
+insert into `mail_character_themes` (id, character_id, theme_id) values (5, 2, 5);
+insert into `mail_character_themes` (id, character_id, theme_id) values (6, 2, 6);
+insert into `mail_character_themes` (id, character_id, theme_id) values (7, 2, 7);
+insert into `mail_character_themes` (id, character_id, theme_id) values (8, 2, 8);
+insert into `mail_character_themes` (id, character_id, theme_id) values (9, 2, 9);  --
+insert into `mail_character_themes` (id, character_id, theme_id) values (10, 2, 10);
 
-insert into `mail_character_themes` (character_id, theme_id) values (3, 9);
-insert into `mail_character_themes` (character_id, theme_id) values (3, 11);
-insert into `mail_character_themes` (character_id, theme_id) values (3, 12);
-insert into `mail_character_themes` (character_id, theme_id) values (3, 13);
+insert into `mail_character_themes` (id, character_id, theme_id) values (11, 3, 9);
+insert into `mail_character_themes` (id, character_id, theme_id) values (12, 3, 11);
+insert into `mail_character_themes` (id, character_id, theme_id) values (13, 3, 12);
+insert into `mail_character_themes` (id, character_id, theme_id) values (14, 3, 13);
 
-insert into `mail_character_themes` (character_id, theme_id) values (5, 14);
-insert into `mail_character_themes` (character_id, theme_id) values (5, 15);
-insert into `mail_character_themes` (character_id, theme_id) values (5, 16);
-insert into `mail_character_themes` (character_id, theme_id) values (5, 9);
+insert into `mail_character_themes` (id, character_id, theme_id) values (15, 5, 14);
+insert into `mail_character_themes` (id, character_id, theme_id) values (16, 5, 15); --
+insert into `mail_character_themes` (id, character_id, theme_id) values (17, 5, 16);
+insert into `mail_character_themes` (id, character_id, theme_id) values (18, 5, 9);
 
 CREATE TABLE `mail_receivers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -179,3 +169,67 @@ CREATE TABLE `mail_receivers` (
   CONSTRAINT `fk_mail_receivers_receiver_id` FOREIGN KEY (`receiver_id`) 
         REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Получатели писем';
+
+
+drop table `mail_phrases`;
+CREATE TABLE `mail_phrases` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `character_theme_id` int(11),
+  `name` varchar(128),
+  PRIMARY KEY (`id`),
+
+  CONSTRAINT `fk_mail_phrases_character_theme_id` FOREIGN KEY (`character_theme_id`) 
+        REFERENCES `mail_character_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Фразы для сообщения';
+
+insert into mail_phrases (character_theme_id, `name`) values (4, '(заключение прилагаю)');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'аналитический отдел');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'ближайшие дни');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'буду в отпуске');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'в');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'в бюджете');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'в связи с');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'выделить');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'денег');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'Денежной Р.Р.');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'для');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'для аналитического отдела');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'достаточно места');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'других');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'жаловался ни раз');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'замену сервера');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'и');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'имеющийся сервер');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'исчерпана');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'ИТ подразделения');
+insert into mail_phrases (character_theme_id, `name`) values (4, 'к сожалению');
+
+insert into mail_phrases (character_theme_id, `name`) values (9, 'к сожалению');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'имеющийся сервер');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'исчерпана');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'ИТ подразделения');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'к сожалению');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'компании');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'компания останется без информации');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'которым');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'купить');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'модели EX5');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'на');
+insert into mail_phrases (character_theme_id, `name`) values (9, 'на приобретение сервера');
+
+insert into mail_phrases (character_theme_id, `name`) values (16, 'на приобретение сервера');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'начальника аналитического отдела');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'не');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'не предусмотрено');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'не прошел');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'нет');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'от');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'отдела');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'положительное решение');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'пользуется');
+insert into mail_phrases (character_theme_id, `name`) values (16, 'принять');
+
+   
+
+
+

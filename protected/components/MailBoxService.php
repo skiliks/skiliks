@@ -173,8 +173,8 @@ class MailBoxService {
         }
     }
     
-    public function getMailPhrases() {
-        $phrases = MailPhrasesModel::model()->findAll();
+    public function getMailPhrases($ids) {
+        $phrases = MailPhrasesModel::model()->byCharacterThemes($ids)->findAll();
         
         $list = array();
         foreach($phrases as $model) {
