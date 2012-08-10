@@ -8,7 +8,12 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DayPlan extends CActiveRecord{
-    
+
+    /**
+     *
+     * @param type $className
+     * @return DayPlan 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);

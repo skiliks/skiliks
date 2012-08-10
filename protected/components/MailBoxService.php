@@ -139,11 +139,12 @@ class MailBoxService {
         $model->insert();
         
         $mailId = $model->id;
-        
+
+        // сохранение копий
         if (isset($params['receivers'])) {
             $this->saveCopies($params['receivers'], $mailId);
         }
-        
+        // Сохранение фраз
         if (isset($params['message'])) {
             $phrases = explode(',', $params['message']);
             foreach($phrases as $phraseId) {
@@ -153,9 +154,6 @@ class MailBoxService {
                 $model->insert();
             }
         }
-        
-        
-        //MailPhrasesModel
     }
     
     public function saveCopies($receivers, $mailId) {
