@@ -29,6 +29,14 @@ class MailMessagesModel extends CActiveRecord{
     {
             return 'mail_messages';
     }
+    
+    public function byMail($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
 }
 
 ?>
