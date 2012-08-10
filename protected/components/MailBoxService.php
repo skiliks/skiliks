@@ -91,7 +91,7 @@ class MailBoxService {
             );
             
         }
-        
+        // @todo: только фио
         $characters = $this->getCharacters($users);
 
         foreach($list as $index=>$item) {
