@@ -42,6 +42,14 @@ class MailPhrasesModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byCharacterThemes($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "character_theme_id = {$id}"
+        ));
+        return $this;
+    }
 }
 
 ?>

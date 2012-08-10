@@ -72,12 +72,14 @@ class MailController extends AjaxController{
      * @return type 
      */
     public function actionGetReceivers() {
+        $id = (int)Yii::app()->request->getParam('id', false);  
+        
         $service = new MailBoxService();
         
         $result = array();
         $result['result'] = 1;
         $result['data'] = $service->getCharacters();
-        $result['phrases'] = $service->getMailPhrases();
+        $result['phrases'] = $service->getMailPhrases($id);
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
