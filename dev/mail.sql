@@ -99,16 +99,83 @@ CREATE TABLE `mail_settings` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Настройки почты';
 
 delete from characters;
+
+drop table `mail_themes`;
 CREATE TABLE `mail_themes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `character_id` int(11),  
   `name` varchar(128),
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_mail_themes_character_id` FOREIGN KEY (`character_id`) 
-    REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE  
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Темы писем';
 
-insert into mail_themes (`character_id`, `name`) values (1, 'Скоро собрание');
-insert into mail_phrases (`name`) values ('Как дела');
-insert into mail_phrases (`name`) values ('Что нового');
-insert into mail_phrases (`name`) values ('Айда в кино!');
+delete from mail_themes;
+insert into mail_themes (`id`, `name`) values (1, 'Сервер');
+insert into mail_themes (`id`, `name`) values (2, 'Нужна замена сервера');
+insert into mail_themes (`id`, `name`) values (3, 'Срочно приобретите сервер');
+insert into mail_themes (`id`, `name`) values (4, 'Служебная записка');
+insert into mail_themes (`id`, `name`) values (5, 'Отчет для Правления');
+insert into mail_themes (`id`, `name`) values (6, 'Прошу выделить деньги');
+insert into mail_themes (`id`, `name`) values (7, 'Срочная замена сервера аналитического отдела');
+insert into mail_themes (`id`, `name`) values (8, 'СРОЧНО! СЗ деньги на замену сервера аналитического отдела');
+insert into mail_themes (`id`, `name`) values (9, 'Сводный бюджет');
+insert into mail_themes (`id`, `name`) values (10, 'Нужны деньги');
+
+insert into mail_themes (`id`, `name`) values (11, 'Отчет для Правления');
+insert into mail_themes (`id`, `name`) values (12, 'Календарный план');
+insert into mail_themes (`id`, `name`) values (13, 'Re: Задача на завтра');
+
+insert into mail_themes (`id`, `name`) values (14, 'Да пошел ты в жопу, директор!');
+insert into mail_themes (`id`, `name`) values (15, 'Заявление об увольнении');
+insert into mail_themes (`id`, `name`) values (16, 'Презентация');
+
+
+
+
+
+
+
+CREATE TABLE `mail_character_themes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `character_id` int(11),  
+  `theme_id` int(11),
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_character_themes_character_id` FOREIGN KEY (`character_id`) 
+    REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,  
+
+  CONSTRAINT `fk_mail_character_themes_theme_id` FOREIGN KEY (`theme_id`) 
+    REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Темы писем для персонажей';
+
+delete from `mail_character_themes`;
+insert into `mail_character_themes` (character_id, theme_id) values (2, 1);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 2);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 3);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 4);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 5);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 6);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 7);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 8);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 9);
+insert into `mail_character_themes` (character_id, theme_id) values (2, 10);
+
+insert into `mail_character_themes` (character_id, theme_id) values (3, 9);
+insert into `mail_character_themes` (character_id, theme_id) values (3, 11);
+insert into `mail_character_themes` (character_id, theme_id) values (3, 12);
+insert into `mail_character_themes` (character_id, theme_id) values (3, 13);
+
+insert into `mail_character_themes` (character_id, theme_id) values (5, 14);
+insert into `mail_character_themes` (character_id, theme_id) values (5, 15);
+insert into `mail_character_themes` (character_id, theme_id) values (5, 16);
+insert into `mail_character_themes` (character_id, theme_id) values (5, 9);
+
+CREATE TABLE `mail_receivers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `receiver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_receivers_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_receivers_receiver_id` FOREIGN KEY (`receiver_id`) 
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Получатели писем';

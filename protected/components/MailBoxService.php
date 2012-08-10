@@ -143,9 +143,14 @@ class MailBoxService {
         $mailId = $model->id;
 
         // сохранение копий
-        if (isset($params['receivers'])) {
+        if (isset($params['copies'])) {
             $this->saveCopies($params['receivers'], $mailId);
         }
+        
+        if (isset($params['receivers'])) {
+            $this->saveReceivers($params['receivers'], $mailId);
+        }
+        
         // Сохранение фраз
         if (isset($params['message'])) {
             $phrases = explode(',', $params['message']);
@@ -212,6 +217,79 @@ class MailBoxService {
         
         // склейка фраз
         return implode(' ', $phrases);
+    }
+    
+    /**
+     * Сохранить получателей сообщения
+     * @param string $receivers 
+     */
+    public function saveReceivers($receivers, $mailId) {
+        $receivers = explode(',', $receivers);
+        if (count($receivers) == 0) return false;
+        foreach($receivers as $receiverId) {
+            $model = new MailReceiversModel();
+            $model->mail_id = $mailId;
+            $model->receiver_id = $receiverId;
+            $model->insert();
+        }
+    }
+    
+    /**
+     * Получение списка тем
+     * @param string $receivers 
+     */
+    public function getThemes($receivers) {
+        $receivers = explode(',', $receivers);
+        
+        $themes = array();
+        if (count($receivers) == 1) {
+            // загрузка тем по одному персонажу
+            $models = MailCharacterThemesModel::model()->byCharacter($receivers[0])->findAll();
+            
+            foreach($models as $model) {
+                $themes[(int)$model->id] = (int)$model->theme_id;
+            }
+        }
+        
+        // если у нас более одного получателя
+        if (count($receivers) > 1) {
+            $models = MailCharacterThemesModel::model()->findAll();
+            $collection = array();
+            foreach($models as $model) {
+                $collection[] = array(
+                    'id' => (int)$model->id,
+                    'theme_id' => (int)$model->theme_id
+                );
+            }
+            
+            $processedItems = 0;
+            while($processedItems < 10) {
+                $index = rand(0, 10);
+                
+                if (!isset($themes[$collection[$index]['id']])) {
+                    $themes[$collection[$index]['id']] = $collection[$index]['theme_id'];
+                    $processedItems++;
+                }
+            }
+        }
+        
+        //var_dump($themes);die();
+        
+        // загрузка тем
+        $themeCollection = MailThemesModel::model()->byIds($themes)->findAll();
+        $captions = array();
+        foreach($themeCollection as $themeModel) {
+            $captions[(int)$themeModel->id] = $themeModel->name;
+        }
+        //var_dump($captions);die();
+        
+        foreach($themes as $id=>$themeId) {
+            //var_dump($themes[$id]);
+            $themes[$id] = $captions[$themeId];
+        }
+        
+        //var_dump($themes);die();
+        return $themes;
     }
 }
 
