@@ -240,6 +240,7 @@ class MailBoxService {
      */
     public function getThemes($receivers) {
         $receivers = explode(',', $receivers);
+        if (count($receivers) == 2 && isset($receivers[1]) && $receivers[1]=='') unset($receivers[1]);
         
         $themes = array();
         if (count($receivers) == 1) {

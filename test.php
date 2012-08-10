@@ -4,6 +4,26 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$str = "re:re:re:testre:re:";
+if (preg_match_all("/^(re:)*/u", $str, $matches)) {
+    $re = $matches[0][0];
+    $re = explode(':', $re);
+    $count = count($re) - 1;
+    var_dump($count);
+}
+
+$messages = array();
+$messages[1] = 'Тест4';
+$messages[2] = 'Тест2';
+$messages[3] = 'Тест3';
+$messages[4] = 'Тест';
+
+sort($messages);
+var_dump($messages);
+
+die();
+
+
 $a='$b=0+0+18 000+2 000';
 
 $formula = "=L7-D7";
