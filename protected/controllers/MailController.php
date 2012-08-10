@@ -127,9 +127,34 @@ class MailController extends AjaxController{
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
             return $this->_sendResponse(200, CJSON::encode($result));
-        }
+        }    
+    }
+    
+    /**
+     * Сохранение настроек почты
+     * @return type 
+     */
+    public function actionSaveSettings() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            $messageArriveSound = (int)Yii::app()->request->getParam('messageArriveSound', false);  
 
-        
+            $model = MailSettingsModel::model()->bySimulation($simId)->find();
+            $model->messageArriveSound = $messageArriveSound;
+            $model->update();
+            
+            //var_dump($model);die();
+            $result = array();
+            $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }    
     }
 }
 
