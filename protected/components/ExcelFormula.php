@@ -76,6 +76,7 @@ class ExcelFormula {
         if (is_numeric($formula)) return $formula;
         
         Logger::debug("parse formula : $formula");
+        $formula = str_replace('sum', 'SUM', $formula);
         $formula = str_replace('сумм', 'SUM', $formula);
         $formula = str_replace('СУММ', 'SUM', $formula);
         $formula = str_replace('среднее', 'AVERAGE', $formula);
