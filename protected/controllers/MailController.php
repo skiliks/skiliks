@@ -191,6 +191,16 @@ class MailController extends AjaxController{
         $result['result'] = 1;
         return $this->_sendResponse(200, CJSON::encode($result));
     }
+    
+    public function actionMarkRead() {
+        $id = (int)Yii::app()->request->getParam('id', false);  
+        $service = new MailBoxService();
+        $service->setAsReaded($id);
+        
+        $result = array();
+        $result['result'] = 1;
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
 }
 
 ?>
