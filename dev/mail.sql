@@ -81,6 +81,10 @@ CREATE TABLE `mail_box` (
             
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовый ящик';
 
+alter table mail_box add column subject_id int(11);
+alter table mail_box add CONSTRAINT `fk_mail_box_subject_id` FOREIGN KEY (`subject_id`) 
+        REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;                  
+
 CREATE TABLE `mail_copies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail_id` int(11),
