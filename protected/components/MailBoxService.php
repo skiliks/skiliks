@@ -150,8 +150,9 @@ class MailBoxService {
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
-        $model->receiver_id = $params['receiver'];
-        $model->subject = $params['subject'];
+        $model->subject_id = $params['subject'];
+        //$model->receiver_id = $params['receiver'];
+        //$model->subject = $params['subject'];
         //$model->message = $params['message'];
         $model->sending_date = time();
         $model->insert();
@@ -160,7 +161,7 @@ class MailBoxService {
 
         // сохранение копий
         if (isset($params['copies'])) {
-            $this->saveCopies($params['receivers'], $mailId);
+            $this->saveCopies($params['copies'], $mailId);
         }
         
         if (isset($params['receivers'])) {
@@ -168,7 +169,7 @@ class MailBoxService {
         }
         
         // Сохранение фраз
-        if (isset($params['message'])) {
+        if (isset($params['phrases'])) {
             $phrases = explode(',', $params['message']);
             foreach($phrases as $phraseId) {
                 $model = new MailMessagesModel();

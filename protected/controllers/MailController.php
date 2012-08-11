@@ -97,18 +97,22 @@ class MailController extends AjaxController{
         $senderId = SessionHelper::getUidBySid($sid);
         
         $folder = (int)Yii::app()->request->getParam('folder', false);  
-        $receiver = (int)Yii::app()->request->getParam('receiver', false);  
+        //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
-        $subject = Yii::app()->request->getParam('subject', false);  
-        $message = Yii::app()->request->getParam('message', false);  
+        $copies = Yii::app()->request->getParam('copies', false);  
+        $subject = (int)Yii::app()->request->getParam('subject', false);  
+        $phrases = Yii::app()->request->getParam('phrases', false);  
+        
+        //$message = Yii::app()->request->getParam('message', false);  
         
         $service = new MailBoxService();
         $service->sendMessage(array(
             'group' => $folder,
             'sender' => $senderId,
-            'receiver' => $receiver,
+            'receivers' => $receivers,
+            'copies' => $copies,
             'subject' => $subject,
-            'message' => $message
+            'phrases' => $phrases
         ));
         
         $result = array();
