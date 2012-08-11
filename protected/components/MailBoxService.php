@@ -147,27 +147,36 @@ class MailBoxService {
     }
     
     public function sendMessage($params) {
-        
+        Logger::debug("sendMessage");
         // определение темы
         $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
         if (!$model)  throw new Exception("cant get model by id {$params['subject']}");
+        
         $subject_id = $model->theme_id;
+        
+        $receivers = explode(',', $params['receivers']);
+        $receiverId = (int)$receivers[0];
+        
+        Logger::debug("simId : {$params['simId']} group_id : {$params['group']} sender_id : {$params['sender']} subject_id : $subject_id");
         
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
         $model->subject_id = $subject_id;
-        //$model->receiver_id = $params['receiver'];
+        $model->receiver_id = $receiverId;
         //$model->subject = $params['subject'];
         //$model->message = $params['message'];
         $model->sending_date = time();
+        $model->readed = 0;
+        $model->sim_id = $params['simId'];
         $model->insert();
         
         $mailId = $model->id;
 
         // сохранение копий
         if (isset($params['copies'])) {
-            $this->saveCopies($params['copies'], $mailId);
+            if ($params['copies'] != '')
+                $this->saveCopies($params['copies'], $mailId);
         }
         
         if (isset($params['receivers'])) {
@@ -176,7 +185,8 @@ class MailBoxService {
         
         // Сохранение фраз
         if (isset($params['phrases'])) {
-            $phrases = explode(',', $params['message']);
+            $phrases = explode(',', $params['phrases']);
+            if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
             foreach($phrases as $phraseId) {
                 $model = new MailMessagesModel();
                 $model->mail_id = $mailId;
@@ -250,7 +260,11 @@ class MailBoxService {
      */
     public function saveReceivers($receivers, $mailId) {
         $receivers = explode(',', $receivers);
+        Logger::debug("receivers ".var_export($receivers, true));
         if (count($receivers) == 0) return false;
+        
+        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
+        
         foreach($receivers as $receiverId) {
             $model = new MailReceiversModel();
             $model->mail_id = $mailId;
