@@ -96,7 +96,7 @@ class MailController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         $senderId = SessionHelper::getUidBySid($sid);
         
-        $folder = (int)Yii::app()->request->getParam('folder', false);  
+        $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
