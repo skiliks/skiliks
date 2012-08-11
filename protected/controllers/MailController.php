@@ -180,6 +180,16 @@ class MailController extends AjaxController{
         $result['data'] = $service->getThemes($receivers);
         return $this->_sendResponse(200, CJSON::encode($result));
     }
+    
+    public function actionDelete() {
+        $id = (int)Yii::app()->request->getParam('id', false);  
+        $service = new MailBoxService();
+        $service->delete($id);
+        
+        $result = array();
+        $result['result'] = 1;
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
 }
 
 ?>

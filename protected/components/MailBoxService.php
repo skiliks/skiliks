@@ -292,6 +292,12 @@ class MailBoxService {
         //var_dump($themes);die();
         return $themes;
     }
+    
+    public function delete($id) {
+        $model = MailBoxModel::model()->byId($id)->find();
+        $model->group_id = 4;
+        $model->save();
+    }
 }
 
 ?>
