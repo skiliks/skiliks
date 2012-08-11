@@ -121,9 +121,22 @@ class MailBoxService {
             'receiver' => $model->receiver_id
         );
         
-        $characters = $this->getCharacters(array($model->sender_id, $model->receiver_id));
+        // array($model->sender_id, $model->receiver_id)
+        // Получим всех персонажей
+        $characters = $this->getCharacters();
+        
+        // загрузим ка получателей
+        $receivers = MailReceiversModel::model()->byMailId($id)->findAll();
+        
+        $receiversCollection = array();
+        $receiversCollection[] = $characters[$message['receiver']];
+        foreach($receivers as $receiver) {
+            $receiversCollection[] = $characters[$receiver->receiver_id];
+        }
+        $message['receiver'] = implode(',', $receiversCollection);
+        
         $message['sender'] = $characters[$message['sender']];
-        $message['receiver'] = $characters[$message['receiver']];
+        //$message['receiver'] = $characters[$message['receiver']];
         
         // Собираем сообщение
         if ($message['message'] == '') {
