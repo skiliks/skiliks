@@ -60,7 +60,7 @@ class MailController extends AjaxController{
         
         $service = new MailBoxService();
         $message = $service->getMessage($id);
-        $service->setAsReaded($id);
+        //$service->setAsReaded($id);
         //var_dump($message);
         $result = array();
         $result['result'] = 1;
