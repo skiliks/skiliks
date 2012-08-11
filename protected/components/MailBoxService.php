@@ -194,6 +194,8 @@ class MailBoxService {
         $model = new MailSettingsModel();
         $model->sim_id = $simId;
         $model->insert();
+        
+        self::copyTemplates($simId);
     }
     
     /**
@@ -302,6 +304,23 @@ class MailBoxService {
         $model = MailBoxModel::model()->byId($id)->find();
         $model->group_id = 4;
         $model->save();
+    }
+    
+    /**
+     * Копирование шаблонов писем в рамках заданной симуляции
+     * @param int $simId 
+     */
+    public static function copyTemplates($simId) {
+        Logger::debug("copyTemplates : $simId");
+        $connection = Yii::app()->db;
+        $sql = "insert into mail_box 
+            (sim_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message)
+            select :simId, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message
+            from mail_template";
+        
+        $command = $connection->createCommand($sql);     
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->execute();
     }
 }
 
