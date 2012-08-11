@@ -147,10 +147,16 @@ class MailBoxService {
     }
     
     public function sendMessage($params) {
+        
+        // определение темы
+        $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
+        if (!$model)  throw new Exception("cant get model by id {$params['subject']}");
+        $subject_id = $model->theme_id;
+        
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
-        $model->subject_id = $params['subject'];
+        $model->subject_id = $subject_id;
         //$model->receiver_id = $params['receiver'];
         //$model->subject = $params['subject'];
         //$model->message = $params['message'];
