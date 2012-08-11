@@ -239,8 +239,11 @@ class MailBoxService {
      * @param string $receivers 
      */
     public function getThemes($receivers) {
+        
+        
         $receivers = explode(',', $receivers);
-        if (count($receivers) == 2 && isset($receivers[1]) && $receivers[1]=='') unset($receivers[1]);
+        if ($receivers[count($receivers)-1] == ',') unset($receivers[count($receivers)-1]);
+        //if (count($receivers) == 2 && isset($receivers[1]) && $receivers[1]=='') unset($receivers[1]);
         
         $themes = array();
         if (count($receivers) == 1) {
