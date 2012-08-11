@@ -87,7 +87,8 @@ class MailBoxService {
                 'sendingDate' => DateHelper::toString($message->sending_date),
                 'receivingDate' => DateHelper::toString($message->receiving_date),
                 'sender' => $senderId,
-                'receiver' => $message->receiver_id
+                'receiver' => $message->receiver_id,
+                'readed' => $message->readed
             );
             
         }
@@ -321,6 +322,13 @@ class MailBoxService {
         $command = $connection->createCommand($sql);     
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
         $command->execute();
+    }
+    
+    public function setAsReaded($id) {
+        $model = MailBoxModel::model()->byId($id)->find();
+        if (!$model) return false;
+        $model->readed = 1;
+        $model->save();
     }
 }
 
