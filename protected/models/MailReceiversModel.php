@@ -29,6 +29,14 @@ class MailReceiversModel extends CActiveRecord{
     {
             return 'mail_receivers';
     }
+    
+    public function byMailId($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$id}"
+        ));
+        return $this;
+    }
 }
 
 ?>
