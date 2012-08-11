@@ -113,7 +113,7 @@ class MailBoxService {
         $message = array(
             'id' => $model->id,
             'subject' => $model->subject,
-            //'message' => $model->message,
+            'message' => $model->message,
             'sendingDate' => DateHelper::toString($model->sending_date),
             'receivingDate' => DateHelper::toString($model->receiving_date),
             'sender' => $model->sender_id,
@@ -125,7 +125,9 @@ class MailBoxService {
         $message['receiver'] = $characters[$message['receiver']];
         
         // Собираем сообщение
-        $message['message'] = $this->buildMessage($model->id);
+        if ($message['message'] == '') {
+            $message['message'] = $this->buildMessage($model->id);
+        }
         
         return $message;
     }
