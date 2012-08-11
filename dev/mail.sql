@@ -24,8 +24,15 @@ insert into mail_group (`name`) values ('Черновики');
 insert into mail_group (`name`) values ('Исходящие');
 insert into mail_group (`name`) values ('Корзина');
 
+-------------------------
 
-CREATE TABLE `mail_box` (
+drop table if exists mail_copies;
+drop table if exists mail_messages;
+drop table if exists mail_receivers;
+drop table if exists mail_template;
+drop table if exists mail_box;
+
+CREATE TABLE `mail_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11),
   `sender_id` int(11) NOT NULL,
@@ -35,6 +42,31 @@ CREATE TABLE `mail_box` (
   `receiving_date` int(11),  
   `message` text,
   PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_template_group_id` FOREIGN KEY (`group_id`) 
+        REFERENCES `mail_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_template_sender_id` FOREIGN KEY (`sender_id`) 
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_template_receiver_id` FOREIGN KEY (`receiver_id`) 
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+
+            
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Шаблоны писем';
+
+
+CREATE TABLE `mail_box` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sim_id` int(11),
+  `group_id` int(11),
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `subject` varchar(255),
+  `sending_date` int(11),
+  `receiving_date` int(11),  
+  `message` text,
+  `readed` tinyint(1) default 0,
+  PRIMARY KEY (`id`),
   CONSTRAINT `fk_mail_box_group_id` FOREIGN KEY (`group_id`) 
         REFERENCES `mail_group` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
@@ -42,62 +74,12 @@ CREATE TABLE `mail_box` (
         REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `fk_mail_box_receiver_id` FOREIGN KEY (`receiver_id`) 
-        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE            
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_box_sim_id` FOREIGN KEY (`sim_id`) 
+        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+            
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовый ящик';
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject', 'message');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'По ценовой политике', 'Добрый день! 
-
-Я немного с опережением сделала работу по ценовой политике (вчера выдался свободный вечер). Мне кажется, что я отразила все мысли, которые мы обсуждали на установочной встрече. Будет время в отпуске - посмотрите. 
-
-С уважением, Марина Крутько  
-Аналитик Отдела аналитики');
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Форма отчетности для производства', 'Доброго вам времени суток! 
-Производственный отдел просит вас рассмотреть возможность внесения изменеий в текущую форму отчетности по объемам производства и производственным мощностям. На текущий момент в отчетности не достает развернутого анализа остатков на всех наших складах, включая торговые. Это приводит к тому, что мы периодически производим товар, который уже есть в регионах. Логисты говорят, что вполне могли бы обеспечить перебросу товара из одного региона в другой. Таким образом, нам удалось бы сэкономить на производственных издержках без снижения объемов продаж. Прошу вас оценить сроки, тродоемкость и наличие возможности добавить в производственный отчет данные по складским остаткам.
-Заранее благодарю, Бобр В.,  
-Нач. производственного отдела.');
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 2222', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 3333333333', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 44444444', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 5555', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 66666666666', 'message3');
-
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun2', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun3', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun4', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun5', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun6', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun7', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun8', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun9', 'message3');
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать2', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать3', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать4', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать5', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать6', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать8', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать9', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать0', 'message3');
-
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies2', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies3', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies4', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies564654', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesfdgfd', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesfdgfdg', 'message3');
-insert into mail_box (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesdfgfdgfdgfd', 'message3');
-
 
 CREATE TABLE `mail_copies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -126,6 +108,75 @@ CREATE TABLE `mail_messages` (
   CONSTRAINT `fk_mail_messages_phrase_id` FOREIGN KEY (`phrase_id`) 
         REFERENCES `mail_phrases` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовые сообщения';
+
+
+CREATE TABLE `mail_receivers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `receiver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_receivers_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_receivers_receiver_id` FOREIGN KEY (`receiver_id`) 
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Получатели писем';
+
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject', 'message');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'По ценовой политике', 'Добрый день! 
+
+Я немного с опережением сделала работу по ценовой политике (вчера выдался свободный вечер). Мне кажется, что я отразила все мысли, которые мы обсуждали на установочной встрече. Будет время в отпуске - посмотрите. 
+
+С уважением, Марина Крутько  
+Аналитик Отдела аналитики');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Форма отчетности для производства', 'Доброго вам времени суток! 
+Производственный отдел просит вас рассмотреть возможность внесения изменеий в текущую форму отчетности по объемам производства и производственным мощностям. На текущий момент в отчетности не достает развернутого анализа остатков на всех наших складах, включая торговые. Это приводит к тому, что мы периодически производим товар, который уже есть в регионах. Логисты говорят, что вполне могли бы обеспечить перебросу товара из одного региона в другой. Таким образом, нам удалось бы сэкономить на производственных издержках без снижения объемов продаж. Прошу вас оценить сроки, тродоемкость и наличие возможности добавить в производственный отчет данные по складским остаткам.
+Заранее благодарю, Бобр В.,  
+Нач. производственного отдела.');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 2222', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 3333333333', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 44444444', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 5555', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'Новая система мотивации 66666666666', 'message3');
+
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun2', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun3', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun4', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun5', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun6', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun7', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun8', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (2, 1, 1, 'test new folder just for fun9', 'message3');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать2', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать3', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать4', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать5', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать6', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать8', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать9', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (3, 1, 1, 'что же делать  когда не знааешь что еще ссказать0', 'message3');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies2', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies3', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies4', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more lies564654', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesfdgfd', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesfdgfdg', 'message3');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesdfgfdgfdgfd', 'message3');
+
+
 
 drop table `mail_settings`;
 CREATE TABLE `mail_settings` (
@@ -207,17 +258,6 @@ insert into `mail_character_themes` (id, character_id, theme_id) values (16, 5, 
 insert into `mail_character_themes` (id, character_id, theme_id) values (17, 5, 16);
 insert into `mail_character_themes` (id, character_id, theme_id) values (18, 5, 9);
 
-CREATE TABLE `mail_receivers` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mail_id` int(11),
-  `receiver_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `fk_mail_receivers_mail_id` FOREIGN KEY (`mail_id`) 
-        REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-
-  CONSTRAINT `fk_mail_receivers_receiver_id` FOREIGN KEY (`receiver_id`) 
-        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Получатели писем';
 
 
 drop table `mail_phrases`;
