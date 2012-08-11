@@ -95,6 +95,7 @@ class MailController extends AjaxController{
     public function actionSendMessage() {
         $sid = Yii::app()->request->getParam('sid', false);  
         $senderId = SessionHelper::getUidBySid($sid);
+        $simId = SessionHelper::getSimIdBySid($sid);
         
         $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
@@ -112,7 +113,8 @@ class MailController extends AjaxController{
             'receivers' => $receivers,
             'copies' => $copies,
             'subject' => $subject,
-            'phrases' => $phrases
+            'phrases' => $phrases,
+            'simId' => $simId
         ));
         
         $result = array();
