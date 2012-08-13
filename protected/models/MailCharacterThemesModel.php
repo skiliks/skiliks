@@ -33,6 +33,15 @@ class MailCharacterThemesModel extends CActiveRecord{
         return $this;
     }
     
+    public function byTheme($themeId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "theme_id = {$themeId}"
+        ));
+        return $this;
+    }
+    
+    
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
