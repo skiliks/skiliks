@@ -22,21 +22,11 @@ class MailController extends AjaxController{
         
         
         // добавляем информацию о колличестве непрочитанных сообщений в подпапках
-        $sql = "SELECT COUNT( * ) AS count, group_id
-                FROM  `mail_box` 
-                WHERE sim_id = :simId AND readed = 0
-                GROUP BY group_id";
-        
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
-        $data = $command->queryAll();
-
-        foreach($data as $row) { 
-            $folders[$row['group_id']]['unreaded'] = $row['count'];
+        $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
+        foreach($unreadInfo as $folderId => $count) {
+            $folders[$folderId]['unreaded'] = $count;
         }
         
-        //var_dump($folders);  die();
         
         $result = array();
         $result['result'] = 1;
@@ -248,6 +238,7 @@ class MailController extends AjaxController{
         
         $result = MailBoxService::getUnreadInfo($id, $simId);
         $result['result'] = 1;        
+        $result['folders'] = MailBoxService::getFoldersUnreadCount($simId);
         
         return $this->_sendResponse(200, CJSON::encode($result));
     }
@@ -262,7 +253,8 @@ class MailController extends AjaxController{
         
         $result = MailBoxService::getUnreadInfo($id, $simId);
         $result['result'] = 1;        
-                
+        $result['folders'] = MailBoxService::getFoldersUnreadCount($simId);        
+        
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
