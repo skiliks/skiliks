@@ -15,15 +15,34 @@ class MailController extends AjaxController{
     public function actionGetFolders() {
         $sid = Yii::app()->request->getParam('sid', false);  
         $receiverId = SessionHelper::getUidBySid($sid);
+        $simId = SessionHelper::getSimIdBySid($sid);
         
         $service = new MailBoxService();
         $folders = $service->getFolders();
+        
+        
+        // добавляем информацию о колличестве непрочитанных сообщений в подпапках
+        $sql = "SELECT COUNT( * ) AS count, group_id
+                FROM  `mail_box` 
+                WHERE sim_id = :simId AND readed = 0
+                GROUP BY group_id";
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $data = $command->queryAll();
+
+        foreach($data as $row) { 
+            $folders[$row['group_id']]['unreaded'] = $row['count'];
+        }
+        
+        //var_dump($folders);  die();
         
         $result = array();
         $result['result'] = 1;
         $result['folders'] = $folders;
         $result['messages'] = $service->getMessages(array(
-            'folderId' => $folders[0]['id'],
+            'folderId' => $folders[1]['id'],
             'receiverId' => $receiverId
         ));
         
