@@ -207,6 +207,34 @@ class MailController extends AjaxController{
         $result['result'] = 1;
         return $this->_sendResponse(200, CJSON::encode($result));
     }
+    
+    /**
+     * Перенести письмо в другую папку
+     */
+    public function actionMove() {
+        try {
+            $messageId = (int)Yii::app()->request->getParam('messageId', false);  
+            $folderId = (int)Yii::app()->request->getParam('folderId', false);  
+        
+            $model = MailBoxModel::model()->byId($messageId)->find();
+            if (!$model) {
+                throw new Exception("cant find model by id : {$messageId}");
+            }
+            $model->group_id = $folderId;
+            $model->save();
+            
+            $result = array();
+            $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+
+        
+    }
 }
 
 ?>
