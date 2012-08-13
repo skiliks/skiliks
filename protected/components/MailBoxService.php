@@ -230,7 +230,12 @@ class MailBoxService {
         if (isset($params['phrases'])) {
             $phrases = explode(',', $params['phrases']);
             if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
+            
+            //Logger::debug("phrases : ".var_export($params['phrases'], true));
+            
             foreach($phrases as $phraseId) {
+                //Logger::debug("insert : mailId $mailId phraseId $phraseId");
+                
                 $model = new MailMessagesModel();
                 $model->mail_id = $mailId;
                 $model->phrase_id = $phraseId;        
@@ -287,16 +292,23 @@ class MailBoxService {
             $phrases[] = $model->phrase_id;
         }
         
+        Logger::debug("phrases : ".var_export($phrases, true));
         // получение набора фраз
         $phrasesCollection = MailPhrasesModel::model()->byIds($phrases)->findAll();
         
-        $phrases = array();
+        $phrasesDictionary = array();
         foreach($phrasesCollection as $phraseModel) {
-            $phrases[] = $phraseModel->name;
+            $phrasesDictionary[$phraseModel->id] = $phraseModel->name;
+        }
+        Logger::debug("phrasesDictionary : ".var_export($phrasesDictionary, true));
+        
+        $collection = array();
+        foreach($phrases as $index => $phraseId) {
+            $collection[] = $phrasesDictionary[$phraseId];
         }
         
         // склейка фраз
-        return implode(' ', $phrases);
+        return implode(' ', $collection);
     }
     
     /**
