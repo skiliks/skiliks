@@ -359,6 +359,7 @@ class MailController extends AjaxController{
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
             if ($subjectModel) {
                 $subjectId = $subjectModel->id;
+                $result['subjectId'] = $subjectId;
                 
                 $characterThemeModel = MailCharacterThemesModel::model()
                         ->byCharacter($model->sender_id)
