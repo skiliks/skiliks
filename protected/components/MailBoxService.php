@@ -466,6 +466,9 @@ class MailBoxService {
             $folders[$row['group_id']] = $row['count'];
         }
         
+        $folders[2] = 0;
+        $folders[3] = 0;
+        
         return $folders;
     }
 }
