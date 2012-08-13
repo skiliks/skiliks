@@ -432,6 +432,26 @@ class MailBoxService {
         
         return $result;
     }
+    
+    public static function getFoldersUnreadCount($simId) {
+        // добавляем информацию о колличестве непрочитанных сообщений в подпапках
+        $sql = "SELECT COUNT( * ) AS count, group_id
+                FROM  `mail_box` 
+                WHERE sim_id = :simId AND readed = 0
+                GROUP BY group_id";
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $data = $command->queryAll();
+
+        $folders = array();
+        foreach($data as $row) { 
+            $folders[$row['group_id']] = $row['count'];
+        }
+        
+        return $folders;
+    }
 }
 
 ?>
