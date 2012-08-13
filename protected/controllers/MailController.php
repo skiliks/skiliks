@@ -352,11 +352,26 @@ class MailController extends AjaxController{
                 }
             }
             
-            
             $result = array();
             $result['result'] = 1;
+            
+            $subject = 'Re:'.$subject;
+            $subjectModel = MailThemesModel::model()->byName($subject)->find();
+            if ($subjectModel) {
+                $subjectId = $subjectModel->id;
+                
+                $characterThemeModel = MailCharacterThemesModel::model()
+                        ->byCharacter($model->sender_id)
+                        ->byTheme($subjectId)->find();
+                if ($characterThemeModel) {
+                    $characterThemeId = $characterThemeModel->id;
+                    $result['phrases'] = $service->getMailPhrases($characterThemeId);
+                }
+            }
+            
+            
             $result['receiver'] = $characters[$model->sender_id];
-            $result['subject'] = 'Re:'.$subject;
+            $result['subject'] = $subject;
                   
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
