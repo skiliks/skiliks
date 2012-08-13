@@ -132,9 +132,19 @@ class MailBoxService {
         $model = MailBoxModel::model()->byId($id)->find();
         if (!$model) return array();
         
+        $subject = $model->subject;
+        if ($subject == '') {
+            if ($model->subject_id > 0) {
+                $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
+                if ($subjectModel) {
+                    $subject = $subjectModel->name;
+                }
+            }
+        }
+        
         $message = array(
             'id' => $model->id,
-            'subject' => $model->subject,
+            'subject' => $subject,
             'message' => $model->message,
             'sendingDate' => DateHelper::toString($model->sending_date),
             'receivingDate' => DateHelper::toString($model->receiving_date),
