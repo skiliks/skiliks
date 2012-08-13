@@ -359,7 +359,7 @@ class MailController extends AjaxController{
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
             if ($subjectModel) {
                 $subjectId = $subjectModel->id;
-                $result['subjectId'] = $subjectId;
+                
                 
                 $characterThemeModel = MailCharacterThemesModel::model()
                         ->byCharacter($model->sender_id)
@@ -367,6 +367,7 @@ class MailController extends AjaxController{
                 if ($characterThemeModel) {
                     $characterThemeId = $characterThemeModel->id;
                     $result['phrases'] = $service->getMailPhrases($characterThemeId);
+                    $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
             
