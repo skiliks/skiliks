@@ -259,6 +259,12 @@ class MailController extends AjaxController{
                     return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
                 }
             }
+            if ($model->group_id == 4) {
+                // из корзины можно перемещать только во входящие
+                if ($folderId != 1) {
+                    return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                }
+            }
             
             $model->group_id = $folderId;
             $model->save();
