@@ -168,6 +168,15 @@ class MailBoxService {
         }
         $message['receiver'] = implode(',', $receiversCollection);
         
+        // загрузим копии
+        $copies = MailCopiesModel::model()->byMailId($id)->findAll();
+        $copiesCollection = array();
+        foreach($copies as $copy) {
+            $copiesCollection[] = $characters[$copy->receiver_id];
+        }
+        $message['copies'] = implode(',', $copiesCollection);
+        
+        
         $message['sender'] = $characters[$message['sender']];
         //$message['receiver'] = $characters[$message['receiver']];
         

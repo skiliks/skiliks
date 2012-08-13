@@ -12,7 +12,7 @@ class MailCopiesModel extends CActiveRecord{
     /**
      *
      * @param type $className
-     * @return MailBoxModel 
+     * @return MailCopiesModel 
      */
     public static function model($className=__CLASS__)
     {
@@ -27,6 +27,13 @@ class MailCopiesModel extends CActiveRecord{
             return 'mail_copies';
     }
     
+    public function byMailId($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
 }
 
 ?>
