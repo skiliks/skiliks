@@ -250,11 +250,36 @@ class MailController extends AjaxController{
     
     public function actionMarkRead() {
         $id = (int)Yii::app()->request->getParam('id', false);  
+        $sid = Yii::app()->request->getParam('sid', false);  
+        $simId = SessionHelper::getSimIdBySid($sid);
+        
         $service = new MailBoxService();
         $service->setAsReaded($id);
         
+        // получить колличество непрочитанных сообщений
+        $model = MailBoxModel::model()->byId($id)->find();
+        $folderId = (int)$model->group_id;
+        
+        
+        // добавляем информацию о колличестве непрочитанных сообщений в подпапках
+        $sql = "SELECT COUNT( * ) AS count
+                FROM  `mail_box` 
+                WHERE sim_id = :simId AND readed = 0 and group_id = :groupId";
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->bindParam(":groupId", $folderId, PDO::PARAM_INT);
+        $row = $command->queryRow();
+        
+        //var_dump($row); die();
+        
+        
         $result = array();
         $result['result'] = 1;
+        $result['folderId'] = $folderId;
+        $result['unreaded'] = $row['count'];
+        
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
