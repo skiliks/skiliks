@@ -353,7 +353,7 @@ class MailController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['receiver'] = $characters[$model->sender_id];
-            $result['subject'] = $subject;
+            $result['subject'] = 'Re:'.$subject;
                   
             
         } catch (Exception $exc) {
