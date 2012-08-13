@@ -325,8 +325,43 @@ class MailController extends AjaxController{
             $result['message'] = $exc->getMessage();
             return $this->_sendResponse(200, CJSON::encode($result));
         }
-
-        
+    }
+    
+    public function actionReply() {
+        try {
+            $messageId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('id', false);  
+            $model = MailBoxModel::model()->byId($messageId)->find();
+            if ($model->group_id != 1 || $model->group_id != 4) {
+                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+            };
+            
+            $service = new MailBoxService();
+            $characters = $service->getCharacters();
+            
+            $subject = $model->subject;
+            if ($subject == '') {
+                if ($model->subject_id > 0) {
+                    $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
+                    if ($subjectModel) {
+                        $subject = $subjectModel->name;
+                    }
+                }
+            }
+            
+            
+            $result = array();
+            $result['result'] = 1;
+            $result['receiver'] = $characters[$model->sender_id];
+            $result['subject'] = $subject;
+                  
+            
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
     }
 }
 
