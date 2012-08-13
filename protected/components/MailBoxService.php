@@ -222,7 +222,8 @@ class MailBoxService {
         }
         
         if (isset($params['receivers'])) {
-            $this->saveReceivers($params['receivers'], $mailId);
+            if (count($params['receivers'])>1)
+                $this->saveReceivers($params['receivers'], $mailId);
         }
         
         // Сохранение фраз
