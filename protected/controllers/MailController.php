@@ -122,6 +122,36 @@ class MailController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    public function actionSaveDraft() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        $senderId = SessionHelper::getUidBySid($sid);
+        $simId = SessionHelper::getSimIdBySid($sid);
+        
+        $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
+        //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
+        $receivers = Yii::app()->request->getParam('receivers', false);  
+        $copies = Yii::app()->request->getParam('copies', false);  
+        $subject = (int)Yii::app()->request->getParam('subject', false);  
+        $phrases = Yii::app()->request->getParam('phrases', false);  
+        
+        //$message = Yii::app()->request->getParam('message', false);  
+        
+        $service = new MailBoxService();
+        $service->sendMessage(array(
+            'group' => $folder,
+            'sender' => $senderId,
+            'receivers' => $receivers,
+            'copies' => $copies,
+            'subject' => $subject,
+            'phrases' => $phrases,
+            'simId' => $simId
+        ));
+        
+        $result = array();
+        $result['result'] = 1;
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
     /**
      * Возвращает настройки почты
      * @return type 
