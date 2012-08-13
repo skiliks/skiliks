@@ -18,8 +18,9 @@ class MailBoxService {
         
         $list = array();
         foreach($folders as $folder) {
-            $list[] = array(
-                'id' => $folder->id,
+            $id = (int)$folder->id;
+            $list[$id] = array(
+                'id' => $id,
                 'name' => $folder->name
             );
         }
