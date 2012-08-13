@@ -259,15 +259,23 @@ class MailController extends AjaxController{
         $service->setAsReaded($id);
         
         //$result = MailBoxService::getUnreadInfo($id, $simId);
+        $service = new MailBoxService();
+        $foldersInfo = $service->getFolders();
+        $folders = array();
+        foreach($foldersInfo as $folderId=>$item) {
+            $folders[$folderId] = array(
+                'folderId' => $folderId,
+                'unreaded' => 0
+            );
+        }
+        
         $result = array();
         $result['result'] = 1;        
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
         foreach($unreadInfo as $folderId => $count) {
-            $result['folders'][] = array(
-                'folderId' => $folderId,
-                'unreaded' => $count
-            );
+            $folders[$folderId]['unreaded'] = $count;
         }
+        $result['folders'] = $folders;        
         
         return $this->_sendResponse(200, CJSON::encode($result));
     }
