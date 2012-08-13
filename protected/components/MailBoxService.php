@@ -122,6 +122,9 @@ class MailBoxService {
             $list[$index]['sender'] = $characters[$list[$index]['sender']];
             $list[$index]['receiver'] = $characters[$list[$index]['receiver']];
         }
+        
+        
+        
         //var_dump($list); die();
         return $list;
     }
