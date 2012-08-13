@@ -372,6 +372,7 @@ class MailController extends AjaxController{
             
             
             $result['receiver'] = $characters[$model->sender_id];
+            $result['receiverId'] = $model->sender_id;
             $result['subject'] = $subject;
                   
             return $this->_sendResponse(200, CJSON::encode($result));
