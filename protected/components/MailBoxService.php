@@ -21,7 +21,8 @@ class MailBoxService {
             $id = (int)$folder->id;
             $list[$id] = array(
                 'id' => $id,
-                'name' => $folder->name
+                'name' => $folder->name,
+                'unreaded' => 0
             );
         }
         return $list;
