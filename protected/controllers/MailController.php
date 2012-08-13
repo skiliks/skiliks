@@ -306,7 +306,10 @@ class MailController extends AjaxController{
         try {
             $messageId = (int)Yii::app()->request->getParam('messageId', false);  
             $folderId = (int)Yii::app()->request->getParam('folderId', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
         
+            
             $model = MailBoxModel::model()->byId($messageId)->find();
             if (!$model) {
                 throw new Exception("cant find model by id : {$messageId}");
@@ -329,8 +332,24 @@ class MailController extends AjaxController{
             $model->group_id = $folderId;
             $model->save();
             
+            $service = new MailBoxService();
+            $foldersInfo = $service->getFolders();
+            $folders = array();
+            foreach($foldersInfo as $folderId=>$item) {
+                $folders[$folderId] = array(
+                    'folderId' => $folderId,
+                    'unreaded' => 0
+                );
+            }
+
             $result = array();
-            $result['result'] = 1;
+            $result['result'] = 1;        
+            $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
+            foreach($unreadInfo as $folderId => $count) {
+                $folders[$folderId]['unreaded'] = $count;
+            }
+            $result['folders'] = $folders;        
+        
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array();
