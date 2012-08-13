@@ -332,7 +332,10 @@ class MailController extends AjaxController{
             $messageId = (int)Yii::app()->request->getParam('id', false);  
             $sid = Yii::app()->request->getParam('id', false);  
             $model = MailBoxModel::model()->byId($messageId)->find();
-            if ($model->group_id != 1 || $model->group_id != 4) {
+            
+            $groupId = (int)$model->group_id;
+            
+            if (($groupId > 1) && ($groupId < 4)) {
                 return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
             };
             
@@ -355,7 +358,7 @@ class MailController extends AjaxController{
             $result['receiver'] = $characters[$model->sender_id];
             $result['subject'] = 'Re:'.$subject;
                   
-            
+            return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
