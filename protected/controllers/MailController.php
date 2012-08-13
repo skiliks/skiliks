@@ -245,7 +245,6 @@ class MailController extends AjaxController{
                 'folderId' => $folderId,
                 'unreaded' => $count
             );
-            //$folders[$folderId]['unreaded'] = $count;
         }
         
         return $this->_sendResponse(200, CJSON::encode($result));
@@ -259,9 +258,16 @@ class MailController extends AjaxController{
         $service = new MailBoxService();
         $service->setAsReaded($id);
         
-        $result = MailBoxService::getUnreadInfo($id, $simId);
+        //$result = MailBoxService::getUnreadInfo($id, $simId);
+        $result = array();
         $result['result'] = 1;        
-        $result['folders'] = MailBoxService::getFoldersUnreadCount($simId);        
+        $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
+        foreach($unreadInfo as $folderId => $count) {
+            $result['folders'][] = array(
+                'folderId' => $folderId,
+                'unreaded' => $count
+            );
+        }
         
         return $this->_sendResponse(200, CJSON::encode($result));
     }
