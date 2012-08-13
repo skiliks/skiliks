@@ -62,6 +62,19 @@ class MailController extends AjaxController{
             'uid' => $receiverId
         ));
         
+        if ($folderId == 1) {
+            $result['type'] = 'inbox';
+        }
+        elseif ($folderId == 2) {
+            $result['type'] = 'outbox';
+        }
+        elseif ($folderId == 3) {
+            $result['type'] = 'outbox';
+        }
+        elseif ($folderId == 4) {
+            $result['type'] = 'inbox';
+        }
+        
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
