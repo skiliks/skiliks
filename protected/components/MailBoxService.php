@@ -408,6 +408,30 @@ class MailBoxService {
         $model->readed = 1;
         $model->save();
     }
+    
+    public static function getUnreadInfo($mailId, $simId) {
+        // получить колличество непрочитанных сообщений
+        $model = MailBoxModel::model()->byId($mailId)->find();
+        $folderId = (int)$model->group_id;
+        
+        
+        // добавляем информацию о колличестве непрочитанных сообщений в подпапках
+        $sql = "SELECT COUNT( * ) AS count
+                FROM  `mail_box` 
+                WHERE sim_id = :simId AND readed = 0 and group_id = :groupId";
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->bindParam(":groupId", $folderId, PDO::PARAM_INT);
+        $row = $command->queryRow();
+        
+        $result = array();
+        $result['folderId'] = $folderId;
+        $result['unreaded'] = $row['count'];
+        
+        return $result;
+    }
 }
 
 ?>
