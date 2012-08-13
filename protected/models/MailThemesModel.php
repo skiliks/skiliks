@@ -34,6 +34,14 @@ class MailThemesModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byId($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
 }
 
 ?>

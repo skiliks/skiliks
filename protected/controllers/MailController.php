@@ -49,7 +49,8 @@ class MailController extends AjaxController{
             'folderId' => $folderId,
             'receiverId' => $receiverId,
             'order' => $order,
-            'orderType' => $orderType
+            'orderType' => $orderType,
+            'uid' => $receiverId
         ));
         
         return $this->_sendResponse(200, CJSON::encode($result));
@@ -127,7 +128,7 @@ class MailController extends AjaxController{
         $senderId = SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
         
-        $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
+        $folder = 2; 
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
