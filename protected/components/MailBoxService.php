@@ -67,22 +67,43 @@ class MailBoxService {
         else $orderType = 'DESC';
         
         $model = MailBoxModel::model();
-        $model->byReceiver($receiverId)->byFolder($folderId);
+        if ($folderId == 3) { // исходящие
+            $model->bySender($params['uid']);
+        }
+        else {
+            $model->byReceiver($receiverId);
+        }
+        
+        $model->byFolder($folderId);
         if ($order) $model->orderBy($order, $orderType);
         $messages = $model->findAll();
-        
+       
+        //var_dump($messages); die();
+        //Logger::debug("message : ".var_export($messages, true));
        
         $users = array();
         $list = array();
         foreach($messages as $message) {
+            
+            
             $senderId = (int)$message->sender_id;
             $receiverId = (int)$message->receiver_id;
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
             
+            $subject = $message->subject;
+            if ($subject == '') {
+                if ($message->subject_id > 0) {
+                    $subjectModel = MailThemesModel::model()->byId($message->subject_id)->find();
+                    if ($subjectModel) {
+                        $subject = $subjectModel->name;
+                    }
+                }
+            }
+            
             $list[] = array(
                 'id' => $message->id,
-                'subject' => $message->subject,
+                'subject' => $subject,
                 //'message' => $message->message,
                 'sendingDate' => DateHelper::toString($message->sending_date),
                 'receivingDate' => DateHelper::toString($message->receiving_date),
@@ -94,12 +115,12 @@ class MailBoxService {
         }
         // @todo: только фио
         $characters = $this->getCharacters($users);
-
+        
         foreach($list as $index=>$item) {
             $list[$index]['sender'] = $characters[$list[$index]['sender']];
             $list[$index]['receiver'] = $characters[$list[$index]['receiver']];
         }
-        
+        //var_dump($list); die();
         return $list;
     }
     
@@ -198,6 +219,8 @@ class MailBoxService {
     
     public function saveCopies($receivers, $mailId) {
         $receivers = explode(',', $receivers);
+        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
+        
         foreach($receivers as $receiverId) {
             $model = new MailCopiesModel();
             $model->mail_id = $mailId;

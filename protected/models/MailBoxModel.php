@@ -47,6 +47,14 @@ class MailBoxModel extends CActiveRecord{
         return $this;
     }
     
+    public function bySender($senderId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sender_id = {$senderId}"
+        ));
+        return $this;
+    }
+    
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
