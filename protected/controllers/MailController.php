@@ -33,7 +33,8 @@ class MailController extends AjaxController{
         $result['folders'] = $folders;
         $result['messages'] = $service->getMessages(array(
             'folderId' => $folders[1]['id'],
-            'receiverId' => $receiverId
+            'receiverId' => $receiverId,
+            'simId' => $simId
         ));
         
         return $this->_sendResponse(200, CJSON::encode($result));
@@ -49,6 +50,7 @@ class MailController extends AjaxController{
         $orderType = (int)Yii::app()->request->getParam('orderType', false);  
         
         $receiverId = SessionHelper::getUidBySid($sid);
+        $simId = SessionHelper::getSimIdBySid($sid);
         
         $service = new MailBoxService();
         
@@ -59,7 +61,8 @@ class MailController extends AjaxController{
             'receiverId' => $receiverId,
             'order' => $order,
             'orderType' => $orderType,
-            'uid' => $receiverId
+            'uid' => $receiverId,
+            'simId' => $simId
         ));
         
         if ($folderId == 1) {

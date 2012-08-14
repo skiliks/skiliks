@@ -323,6 +323,7 @@ class CDbCommand extends CComponent
 		}
 		else
 			$par='';
+                
 		Yii::trace('Executing SQL: '.$this->getText().$par,'system.db.CDbCommand');
 		try
 		{
@@ -469,7 +470,7 @@ class CDbCommand extends CComponent
 		}
 		else
 			$par='';
-
+                        //Logger::debug('sql : '.$this->getText(), 'sql.log'); 
 		Yii::trace('Querying SQL: '.$this->getText().$par,'system.db.CDbCommand');
 
 		if($this->_connection->queryCachingCount>0 && $method!==''

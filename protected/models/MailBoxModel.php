@@ -47,6 +47,14 @@ class MailBoxModel extends CActiveRecord{
         return $this;
     }
     
+    public function bySimulation($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
     public function bySender($senderId)
     {
         $this->getDbCriteria()->mergeWith(array(
