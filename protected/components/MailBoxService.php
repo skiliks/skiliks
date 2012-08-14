@@ -409,9 +409,11 @@ class MailBoxService {
         Logger::debug("copyTemplates : $simId");
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message)
-            select :simId, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message
             from mail_template";
+        
+        
         
         $command = $connection->createCommand($sql);     
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
@@ -470,6 +472,29 @@ class MailBoxService {
         $folders[3] = 0;
         
         return $folders;
+    }
+    
+    /**
+     * Определить идентификатор шаблона письма, на основании которого создано письмо
+     * @param int $mailId 
+     */
+    public static function getTemplateId($mailId) {
+        $model = MailBoxModel::model()->byId($mailId)->find();
+        return $model->template_id; 
+    }
+    
+    public static function getTasks($templateId) {
+        $collection = MailTasksModel::model()->byMailId($templateId)->findAll();
+        
+        $tasks = array();
+        foreach($collection as $task) {
+            $tasks[] = array(
+                'id' => $task->id,
+                'name' => $task->name
+            );
+        }
+        
+        return $tasks; 
     }
 }
 

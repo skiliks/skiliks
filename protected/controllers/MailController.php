@@ -362,7 +362,7 @@ class MailController extends AjaxController{
     public function actionReply() {
         try {
             $messageId = (int)Yii::app()->request->getParam('id', false);  
-            $sid = Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
             $model = MailBoxModel::model()->byId($messageId)->find();
             
             $groupId = (int)$model->group_id;
@@ -415,6 +415,35 @@ class MailController extends AjaxController{
             $result['message'] = $exc->getMessage();
             return $this->_sendResponse(200, CJSON::encode($result));
         }
+    }
+    
+    /**
+     * Получение списка потенциальных задач для добавления в план
+     */
+    public function actionToPlan() {
+        try {
+            $messageId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            
+            // определить идентификатор шаблона письма
+            $templateId = (int)MailBoxService::getTemplateId($messageId);
+            if ($templateId == 0) throw new Exception("cant get template for id : $mailId");
+            
+            // получить список задач для шаблона письма
+            $tasks = MailBoxService::getTasks($templateId);
+            //var_dump($tasks);
+            
+            // вернуть результат
+            $result = array();
+            $result['result'] = 1;
+            $result['data'] = $tasks;
+        return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }    
     }
 }
 

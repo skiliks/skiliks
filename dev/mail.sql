@@ -29,8 +29,11 @@ insert into mail_group (`name`) values ('Корзина');
 drop table if exists mail_copies;
 drop table if exists mail_messages;
 drop table if exists mail_receivers;
-drop table if exists mail_template;
+drop table if exists mail_tasks;
 drop table if exists mail_box;
+drop table if exists mail_template;
+
+
 
 CREATE TABLE `mail_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -54,9 +57,20 @@ CREATE TABLE `mail_template` (
             
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Шаблоны писем';
 
+CREATE TABLE `mail_tasks` (
+    `id`        int(11) NOT NULL AUTO_INCREMENT,
+    `mail_id`   int(11),
+    `name`      varchar(255),
+    PRIMARY KEY (`id`),
+    
+    CONSTRAINT `fk_mail_tasks_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 
+    comment 'Задачи, которые можно создать на основании письма';
 
 CREATE TABLE `mail_box` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) comment 'шаблон, на основании которого создано письмо',  
   `sim_id` int(11),
   `group_id` int(11),
   `sender_id` int(11) NOT NULL,
@@ -77,7 +91,10 @@ CREATE TABLE `mail_box` (
         REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
 
   CONSTRAINT `fk_mail_box_sim_id` FOREIGN KEY (`sim_id`) 
-        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_box_template_id` FOREIGN KEY (`template_id`) 
+        REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                                  
             
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Почтовый ящик';
 
@@ -127,7 +144,9 @@ CREATE TABLE `mail_receivers` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Получатели писем';
 
 
-insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject', 'message');
+ALTER TABLE mail_template AUTO_INCREMENT = 0;
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'we have tasks', 'message');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
 
@@ -180,7 +199,12 @@ insert into mail_template (`group_id`, sender_id, receiver_id, subject, message)
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesfdgfdg', 'message3');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (4, 1, 1, 'no more liesdfgfdgfdgfd', 'message3');
 
+insert into mail_tasks (`mail_id`, `name`) values (1, 'task1 from mail');
+insert into mail_tasks (`mail_id`, `name`) values (1, 'task2 from mail');
+insert into mail_tasks (`mail_id`, `name`) values (1, 'task3 from mail');
+insert into mail_tasks (`mail_id`, `name`) values (1, 'task4 from mail');
 
+------------------------------------------------------------------------------
 
 drop table `mail_settings`;
 CREATE TABLE `mail_settings` (
