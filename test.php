@@ -5,12 +5,21 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
 $str = "re:re:re:testre:re:";
+
+$str = preg_replace("/^(re:)*/u", '', $str);
+echo($str); die();
+
 if (preg_match_all("/^(re:)*/u", $str, $matches)) {
+    
+    var_dump($matches);
+    
     $re = $matches[0][0];
     $re = explode(':', $re);
     $count = count($re) - 1;
     var_dump($count);
 }
+
+
 
 $messages = array();
 $messages[1] = 'Тест4';
