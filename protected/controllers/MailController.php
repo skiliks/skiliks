@@ -66,7 +66,7 @@ class MailController extends AjaxController{
             $result['type'] = 'inbox';
         }
         elseif ($folderId == 2) {
-            $result['type'] = 'outbox';
+            $result['type'] = 'drafts';
         }
         elseif ($folderId == 3) {
             $result['type'] = 'outbox';
