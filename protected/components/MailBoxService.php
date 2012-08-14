@@ -46,6 +46,20 @@ class MailBoxService {
         return $characters;
     }
     
+    protected function processSubject($subject) {
+        if (preg_match_all("/^(re:)*/u", $subject, $matches)) {
+            $re = $matches[0][0];
+            $re = explode(':', $re);
+            $count = count($re) - 1;
+            
+            // уберем решки впереди
+            $subject = preg_replace("/^(re:)*/u", '', $subject);
+            return $subject.$count;
+        }
+        return $subject;
+    }
+
+
     /**
      * Получение списка собщений
      * @param int $folderId
@@ -110,7 +124,9 @@ class MailBoxService {
                 }
             }
             
-            $list[] = array(
+            
+            
+            $item = array(
                 'id' => $message->id,
                 'subject' => $subject,
                 //'message' => $message->message,
@@ -120,9 +136,31 @@ class MailBoxService {
                 'receiver' => $message->receiver_id,
                 'readed' => $message->readed
             );
+            if ($order == 'subject') {
+                $item['subjectSort'] = $this->processSubject($subject);
+            }
             
+            $list[] = $item;
         }
-        // @todo: только фио
+        
+        if ($order == 'subject') {
+            // учтем сортировку по теме
+            foreach ($list as $key => $row) {
+               $subjects[$key]  = $row['subjectSort'];
+                //$edition[$key] = $row['edition'];
+            }
+            
+            if ($orderType == 'ASC') 
+                array_multisort($subjects, SORT_ASC,  $list);
+            else     
+                array_multisort($subjects, SORT_DESC,  $list);
+        }
+        
+        //ksort($list);
+        //var_dump($list); die();
+        
+        
+        
         $characters = $this->getCharacters($users);
         
         foreach($list as $index=>$item) {
