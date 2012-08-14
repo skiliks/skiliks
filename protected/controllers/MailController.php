@@ -470,6 +470,7 @@ class MailController extends AjaxController{
             
             $result = array();
             $result['result'] = 1;
+            $result['taskId'] = $task->id;
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array();
