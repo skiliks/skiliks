@@ -54,6 +54,7 @@ class MailBoxService {
      */
     public function getMessages($params) {
         
+        //var_dump($params);
         $folderId = $params['folderId'];
         $receiverId = $params['receiverId'];
         $order = (isset($params['order'])) ? $params['order'] : false;
@@ -69,18 +70,24 @@ class MailBoxService {
         else $orderType = 'DESC';
         
         $model = MailBoxModel::model();
+        $model->bySimulation($params['simId']);
+        
         if ($folderId == 3) { // исходящие
-            $model->bySender($params['uid']);
+            //$model->bySender($params['uid']);
         }
         else {
-            $model->byReceiver($receiverId);
+            //$model->byReceiver($receiverId);
         }
         
         $model->byFolder($folderId);
         if ($order) $model->orderBy($order, $orderType);
         $messages = $model->findAll();
+        
+        
        
-        //var_dump($messages); die();
+        //var_dump($model->getCommandBuilder()); die();
+        
+        
         //Logger::debug("message : ".var_export($messages, true));
        
         $users = array();

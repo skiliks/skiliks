@@ -33,6 +33,7 @@ set_error_handler("WorkError");
 //define('YII_ENABLE_EXCEPTION_HANDLER', true);
 
 // ������� ��������� ���������� � ��������� ���
+//defined('YII_DEBUG') or define('YII_DEBUG',true);
 
     Yii::createWebApplication($config)->run();
 

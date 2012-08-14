@@ -11,7 +11,8 @@ return array(
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '',
-            'charset' => 'utf8'
+            'charset' => 'utf8',
+            
         ),
         
         'log'=>array(
@@ -19,8 +20,12 @@ return array(
             'routes'=>array(
                 array(
                     'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning',
+                    'levels'=>'error, warning, info, trace, log',
+                    
+                     
+                    
                 ),
+                
             ),
         )
     ),
