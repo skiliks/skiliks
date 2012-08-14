@@ -445,6 +445,39 @@ class MailController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode($result));
         }    
     }
+    
+    /**
+     * Добавление задачи в план
+     */
+    public function actionAddToPlan() {
+        try {
+            $taskId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            // пределить название задачи
+            $model = MailTasksModel::model()->byId($taskId)->find();
+            if (!$model) throw new Exception("cant get model by taskId $taskId");
+            $name = $model->name;
+            
+            // Добавить новую задачу в план
+            $task = new Task();
+            $task->simulation = $simId;
+            $task->title = $name;
+            TodoService::createTask($task);
+            
+            TodoService::add($simId, $task->id);
+            
+            $result = array();
+            $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }        
+    }
 }
 
 ?>
