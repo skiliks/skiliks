@@ -478,6 +478,31 @@ class MailController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode($result));
         }        
     }
+    
+    /**
+     *  Отправить из черновиков
+     */
+    public function actionSendDraft() {
+        try {
+            $mailId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            $model = MailBoxModel::model()->byId($mailId)->find();
+            if (!$model) throw new Exception("cant get model by id $mailId");
+            $model->group_id = 3;
+            $model->save();
+            
+            $result = array();
+            $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }   
+    }
 }
 
 ?>
