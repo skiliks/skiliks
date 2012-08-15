@@ -238,11 +238,22 @@ class MailBoxService {
     
     public function sendMessage($params) {
         Logger::debug("sendMessage");
-        // определение темы
-        $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
-        if (!$model)  throw new Exception("cant get model by id {$params['subject']}");
         
-        $subject_id = $model->theme_id;
+        $letterType = false;
+        if (isset($params['letterType'])) $letterType = $params['letterType'];
+        
+        if ($letterType == 'forward') {
+            $subject_id = $params['subject']; // костыль!
+        }
+        else {
+            // определение темы
+            $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
+            if (!$model) throw new Exception("cant get model by id {$params['subject']}");
+            $subject_id = $model->theme_id;
+        }
+        
+        
+        
         
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
@@ -313,6 +324,12 @@ class MailBoxService {
         }
         
         return $list;
+    }
+    
+    public function getMailPhrasesByCharacterAndTheme($characterId, $themeId) {
+        $model = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($themeId)->find();
+        if (!$model) return false;
+        return $this->getMailPhrases($model->id);
     }
     
     /**
@@ -454,8 +471,8 @@ class MailBoxService {
         Logger::debug("copyTemplates : $simId");
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id
             from mail_template";
         
         
@@ -540,6 +557,34 @@ class MailBoxService {
         }
         
         return $tasks; 
+    }
+    
+    /**
+     * Определить тему по ее идентификатору
+     * @param int $subjectId
+     * @return string
+     */
+    public static function getSubjectById($subjectId) {
+        $subjectModel = MailThemesModel::model()->byId($subjectId)->find();
+        if ($subjectModel) {
+            return $subjectModel->name;
+        }
+        
+        return false;
+    }
+    
+    public static function createSubject($subject, $simId) {
+        $subjectModel = new MailThemesModel();
+        $subjectModel->name = $subject;
+        $subjectModel->sim_id = $simId;
+        $subjectModel->insert();
+        return $subjectModel->id;
+    }
+    
+    public static function getSubjectIdByName($subject) {
+        $model = MailThemesModel::model()->byName($subject)->find();
+        if (!$model) return false;
+        return $model->id;
     }
 }
 

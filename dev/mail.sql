@@ -57,6 +57,11 @@ CREATE TABLE `mail_template` (
             
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Шаблоны писем';
 
+alter table mail_template add column subject_id int(11);
+alter table mail_template add CONSTRAINT `fk_mail_template_subject_id` FOREIGN KEY (`subject_id`) 
+        REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;                  
+
+
 CREATE TABLE `mail_tasks` (
     `id`        int(11) NOT NULL AUTO_INCREMENT,
     `mail_id`   int(11),
@@ -146,6 +151,12 @@ CREATE TABLE `mail_receivers` (
 
 ALTER TABLE mail_template AUTO_INCREMENT = 0;
 
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 1, 1, 1, 'message');
+insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 2, 1, 1, 'message');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 2, 1, 4, 'message');
+
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'we have tasks', 'message');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject3', 'message3');
@@ -224,6 +235,11 @@ CREATE TABLE `mail_themes` (
   `name` varchar(128),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Темы писем';
+
+alter table `mail_themes` add column sim_id int(11) default null;
+alter table `mail_themes` add CONSTRAINT `fk_mail_themes_sim_id` FOREIGN KEY (`sim_id`) 
+    REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
 
 delete from mail_themes;
 insert into mail_themes (`id`, `name`) values (1, 'Сервер');
