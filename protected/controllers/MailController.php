@@ -130,6 +130,8 @@ class MailController extends AjaxController{
         $subject = (int)Yii::app()->request->getParam('subject', false);  
         $phrases = Yii::app()->request->getParam('phrases', false);  
         
+        $letterType = Yii::app()->request->getParam('letterType', false);  
+        
         //$message = Yii::app()->request->getParam('message', false);  
         
         $service = new MailBoxService();
@@ -140,7 +142,8 @@ class MailController extends AjaxController{
             'copies' => $copies,
             'subject' => $subject,
             'phrases' => $phrases,
-            'simId' => $simId
+            'simId' => $simId,
+            'letterType' => $letterType
         ));
         
         $result = array();
@@ -499,6 +502,54 @@ class MailController extends AjaxController{
             
             $result = array();
             $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }   
+    }
+    
+    /**
+     * Переслать письмо
+     * @return type 
+     */
+    public function actionForward() {
+        try {
+            $mailId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            // получить тему письма
+            $model = MailBoxModel::model()->byId($mailId)->find();
+            if (!$model) throw new Exception("cant get model by id $mailId");
+            $subject = $model->subject;
+            $subjectId = $model->subject_id;
+            $sender = $model->sender_id;
+            
+            if ($subjectId > 0) {
+                $subject = MailBoxService::getSubjectById($subjectId);
+            }
+            else {
+                $subjectId = MailBoxService::getSubjectIdByName($subject);
+            }
+            //var_dump($subject); die();
+            // изменить тему и создать новую
+            $subject = 'Fwd:'.$subject;
+            $newSubjectId = MailBoxService::createSubject($subject, $simId);
+            
+            // загрузить фразы по старой теме
+            $service = new MailBoxService();
+            $phrases = $service->getMailPhrasesByCharacterAndTheme($sender, $subjectId);  //$subjectId
+            
+            $result = array();
+            $result['result'] = 1;
+            $result['subject'] = $subject;
+            $result['subjectId'] = $newSubjectId;
+            $result['phrases'] = $phrases;
+            
+            
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array();
