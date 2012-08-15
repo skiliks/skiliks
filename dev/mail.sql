@@ -107,6 +107,20 @@ alter table mail_box add column subject_id int(11);
 alter table mail_box add CONSTRAINT `fk_mail_box_subject_id` FOREIGN KEY (`subject_id`) 
         REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;                  
 
+CREATE TABLE `mail_copies_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `receiver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_copies_template_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_copies_template_receiver_id` FOREIGN KEY (`receiver_id`) 
+        REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE                  
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Копии шаблонов писем';
+
+
+
 CREATE TABLE `mail_copies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail_id` int(11),
@@ -156,6 +170,8 @@ insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, messa
 insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 2, 1, 1, 'message');
 
 insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 2, 1, 4, 'message');
+
+insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, message) values (1, 2, 1, 5, 'message');
 
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'we have tasks', 'message');
 insert into mail_template (`group_id`, sender_id, receiver_id, subject, message) values (1, 1, 1, 'subject2', 'message2');

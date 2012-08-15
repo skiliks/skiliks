@@ -208,9 +208,12 @@ class MailBoxService {
         
         // загрузим ка получателей
         $receivers = MailReceiversModel::model()->byMailId($id)->findAll();
-        
+        //var_dump($receivers);
         $receiversCollection = array();
-        $receiversCollection[] = $characters[$message['receiver']];
+        
+        if (count($receivers) == 0)
+            $receiversCollection[] = $characters[$message['receiver']];
+        
         foreach($receivers as $receiver) {
             $receiversCollection[] = $characters[$receiver->receiver_id];
         }
@@ -281,8 +284,8 @@ class MailBoxService {
         }
         
         if (isset($params['receivers'])) {
-            if (count($params['receivers'])>1)
-                $this->saveReceivers($params['receivers'], $mailId);
+            if (count($receivers)>1)
+                $this->saveReceivers($receivers, $mailId);
         }
         
         // Сохранение фраз
@@ -381,7 +384,7 @@ class MailBoxService {
      * @param string $receivers 
      */
     public function saveReceivers($receivers, $mailId) {
-        $receivers = explode(',', $receivers);
+        //$receivers = explode(',', $receivers);
         Logger::debug("receivers ".var_export($receivers, true));
         if (count($receivers) == 0) return false;
         
@@ -474,8 +477,6 @@ class MailBoxService {
             (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id)
             select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id
             from mail_template";
-        
-        
         
         $command = $connection->createCommand($sql);     
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
