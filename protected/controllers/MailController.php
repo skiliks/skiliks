@@ -423,6 +423,80 @@ class MailController extends AjaxController{
         }
     }
     
+    public function actionReplyAll() {
+        try {
+            $messageId = (int)Yii::app()->request->getParam('id', false);  
+            $sid = Yii::app()->request->getParam('sid', false);  
+            $model = MailBoxModel::model()->byId($messageId)->find();
+            
+            $groupId = (int)$model->group_id;
+            
+            if (($groupId > 1) && ($groupId < 4)) {
+                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+            };
+            
+            $service = new MailBoxService();
+            $characters = $service->getCharacters();
+            
+            $subject = $model->subject;
+            if ($subject == '') {
+                if ($model->subject_id > 0) {
+                    $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
+                    if ($subjectModel) {
+                        $subject = $subjectModel->name;
+                    }
+                }
+            }
+            
+            $result = array();
+            $result['result'] = 1;
+            
+            $subject = 'Re:'.$subject;
+            $subjectModel = MailThemesModel::model()->byName($subject)->find();
+            if ($subjectModel) {
+                $subjectId = $subjectModel->id;
+                
+                
+                $characterThemeModel = MailCharacterThemesModel::model()
+                        ->byCharacter($model->sender_id)
+                        ->byTheme($subjectId)->find();
+                if ($characterThemeModel) {
+                    $characterThemeId = $characterThemeModel->id;
+                    $result['phrases'] = $service->getMailPhrases($characterThemeId);
+                    $result['subjectId'] = $characterThemeId; //$subjectId;
+                }
+            }
+            
+            
+            $result['receiver'] = $characters[$model->sender_id];
+            $result['receiverId'] = $model->sender_id;
+            $result['subject'] = $subject;
+            
+            // добавим копии
+            $copiesIds = array();
+            $collection = MailCopiesModel::model()->byMailId($messageId)->findAll();
+            foreach($collection as $model) {
+                $copiesIds[] = $model->receiver_id;
+            }
+            
+            if (count($copiesIds) > 0) {
+                $result['copies'] = $service->getCharacters($copiesIds);
+            }
+            else {
+                $result['copies'] = '';
+            }
+            $result['copiesId'] = implode(',', $copiesIds);
+            
+                  
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+    }
+    
     /**
      * Получение списка потенциальных задач для добавления в план
      */
