@@ -156,12 +156,14 @@ class MailBoxService {
         
         
         // подготовка для сортировки на уровне php
+        $receivers = array();
         foreach ($list as $key => $row) {
            $subjects[$key]  = $row['subjectSort'];
            $senders[$key] = $row['sender'];
+           $receivers[$key] = $row['receiver'];
         }
 
-        Logger::debug("senders : ".var_export($senders, true));
+        Logger::debug("receivers : ".var_export($receivers, true));
         
         if ($order == 'subject') {
             array_multisort($subjects, $ordeFlag,  $list);
@@ -169,7 +171,12 @@ class MailBoxService {
         
         if ($order == 'sender') {
             array_multisort($senders, $ordeFlag,  $list);
-            Logger::debug("after sortinf senders : ".var_export($senders, true));
+            //Logger::debug("after sortinf senders : ".var_export($senders, true));
+        }
+        
+        if ($order == 'receiver') {
+            array_multisort($receivers, $ordeFlag,  $list);
+            Logger::debug("after sortinf receivers : ".var_export($receivers, true));
         }
         
         //ksort($list);
