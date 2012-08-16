@@ -76,8 +76,9 @@ class MailBoxService {
             $order = false;
         }
         
-        if ($order == 'sender') $order = 'sender_id';
-        if ($order == 'time') $order = 'receiving_date';
+        $orderField = false;
+        if ($order == 'sender') $orderField = 'sender_id';
+        if ($order == 'time') $orderField = 'receiving_date';
         
         $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
         if ($orderType == 0) $orderType = 'ASC';
@@ -94,7 +95,7 @@ class MailBoxService {
         }
         
         $model->byFolder($folderId);
-        if ($order) $model->orderBy($order, $orderType);
+        if ($orderField) $model->orderBy($orderField, $orderType);
         $messages = $model->findAll();
         
         
@@ -136,40 +137,42 @@ class MailBoxService {
                 'receiver' => $message->receiver_id,
                 'readed' => $message->readed
             );
-            if ($order == 'subject') {
+            //if ($order == 'subject') {
                 $item['subjectSort'] = $this->processSubject($subject);
-            }
+            //}
             
             $list[] = $item;
         }
         
-        if ($order == 'subject') {
-            // учтем сортировку по теме
-            foreach ($list as $key => $row) {
-               $subjects[$key]  = $row['subjectSort'];
-                //$edition[$key] = $row['edition'];
-            }
-            
-            if ($orderType == 'ASC') 
-                array_multisort($subjects, SORT_ASC,  $list);
-            else     
-                array_multisort($subjects, SORT_DESC,  $list);
-        }
-        
-        //ksort($list);
-        //var_dump($list); die();
-        
-        
-        
+        // проставляем имена персонажей
         $characters = $this->getCharacters($users);
-        
         foreach($list as $index=>$item) {
             $list[$index]['sender'] = $characters[$list[$index]['sender']];
             $list[$index]['receiver'] = $characters[$list[$index]['receiver']];
         }
         
+        if ($orderType == 'ASC') $ordeFlag = SORT_ASC;
+        else $ordeFlag = SORT_DESC;
         
         
+        // подготовка для сортировки на уровне php
+        foreach ($list as $key => $row) {
+           $subjects[$key]  = $row['subjectSort'];
+           $senders[$key] = $row['sender'];
+        }
+
+        Logger::debug("senders : ".var_export($senders, true));
+        
+        if ($order == 'subject') {
+            array_multisort($subjects, $ordeFlag,  $list);
+        }
+        
+        if ($order == 'sender') {
+            array_multisort($senders, $ordeFlag,  $list);
+            Logger::debug("after sortinf senders : ".var_export($senders, true));
+        }
+        
+        //ksort($list);
         //var_dump($list); die();
         return $list;
     }
