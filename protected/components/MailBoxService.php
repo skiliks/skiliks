@@ -252,6 +252,8 @@ class MailBoxService {
     public function sendMessage($params) {
         Logger::debug("sendMessage");
         
+        $subject_id = $params['subject'];
+        
         $letterType = false;
         if (isset($params['letterType'])) $letterType = $params['letterType'];
         
@@ -261,8 +263,9 @@ class MailBoxService {
         else {
             // определение темы
             $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
-            if (!$model) throw new Exception("cant get model by id {$params['subject']}");
-            $subject_id = $model->theme_id;
+            //if (!$model) throw new Exception("cant get model by id {$params['subject']}");
+            if ($model)
+                $subject_id = $model->theme_id;
         }
         
         
