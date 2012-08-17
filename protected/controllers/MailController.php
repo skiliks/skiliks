@@ -128,6 +128,7 @@ class MailController extends AjaxController{
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
         $subject = (int)Yii::app()->request->getParam('subject', false);  
+        
         $phrases = Yii::app()->request->getParam('phrases', false);  
         
         $letterType = Yii::app()->request->getParam('letterType', false);  
