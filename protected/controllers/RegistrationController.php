@@ -85,7 +85,7 @@ class RegistrationController extends AjaxController{
             $user->is_active = 1;
             $user->save();
             
-            $url = Yii::app()->params['frontendUrl'].'index.html?message='.rawurlencode('Поздравляю, вы успешно активированы').'&t=3';
+            $url = Yii::app()->params['frontendUrl'].'index.html?message=Поздравляю, вы успешно активированы';
             $this->redirect($url);
             
             return $this->_sendResponse(200, 'Поздравляю, вы успешно активированы', 'text/html');
