@@ -44,7 +44,25 @@ insert into mail_themes (`id`, `name`) values (14, 'Да пошел ты в жо
 insert into mail_themes (`id`, `name`) values (15, 'Заявление об увольнении');
 insert into mail_themes (`id`, `name`) values (16, 'Презентация');
 
-
+-- тестовые темы
+insert into mail_themes (`id`, `name`) values (17, 'Отчет');
+insert into mail_themes (`id`, `name`) values (18, 'Отчет с копией');
+insert into mail_themes (`id`, `name`) values (19, 'Re: Отчет с копией с пробелом');
+insert into mail_themes (`id`, `name`) values (20, 'Re: Отчет с пробелом');
+insert into mail_themes (`id`, `name`) values (21, 'Re:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (22, 'Re:Атчет без пробела');
+insert into mail_themes (`id`, `name`) values (23, 'Fwd: Отчет с копией и пробелом');
+insert into mail_themes (`id`, `name`) values (24, 'Fwd: Отчет с пробелом');
+insert into mail_themes (`id`, `name`) values (25, 'Fwd:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (26, 'Fwd:Атчет без пробела');
+insert into mail_themes (`id`, `name`) values (27, 'Fwd:Fwd:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (28, 'Fwd:Re:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (29, 'Re:Fwd:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (30, 'Re:Re:Атчет с копией без пробела');
+insert into mail_themes (`id`, `name`) values (31, 'Fwd:Fwd: Отчет с копией с пробелом');
+insert into mail_themes (`id`, `name`) values (32, 'Fwd:Re: Отчет с копией с пробелом');
+insert into mail_themes (`id`, `name`) values (33, 'Re:Fwd: Отчет с копией с пробелом');
+insert into mail_themes (`id`, `name`) values (34, 'Re:Re: Отчет с копией с пробелом');
 
 
 drop table if exists `mail_group`;
@@ -202,33 +220,161 @@ delete from mail_template;
 ALTER TABLE mail_template AUTO_INCREMENT = 0;
 
 -- входящие
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 1, 1, 1, UNIX_TIMESTAMP());
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 2, 1, 2, UNIX_TIMESTAMP()+10);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 3, 1, 3, UNIX_TIMESTAMP()+20);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 4, 1, 4, UNIX_TIMESTAMP()+30);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 5, 1, 5, UNIX_TIMESTAMP()+40);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (1, 1, 1, 1, 1, UNIX_TIMESTAMP());
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (2, 1, 2, 1, 2, UNIX_TIMESTAMP()+10);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (3, 1, 3, 1, 3, UNIX_TIMESTAMP()+20);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (4, 1, 4, 1, 4, UNIX_TIMESTAMP()+30);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (5, 1, 5, 1, 5, UNIX_TIMESTAMP()+40);
 
 -- черновики
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id) values (2, 6, 1, 6);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id) values (2, 7, 1, 7);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id) values (2, 8, 1, 8);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id) values (2, 9, 1, 9);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id) values (6, 2, 6, 1, 6);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id) values (7, 2, 7, 1, 7);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id) values (8, 2, 8, 1, 8);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id) values (9, 2, 9, 1, 9);
 
 -- исходящие
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, sending_date) values (3, 1, 1, 10, UNIX_TIMESTAMP()+50);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, sending_date) values (3, 1, 2, 11, UNIX_TIMESTAMP()+60);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, sending_date) values (3, 1, 3, 12, UNIX_TIMESTAMP()+70);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, sending_date) values (3, 1, 4, 13, UNIX_TIMESTAMP()+80);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, sending_date) values (10, 3, 1, 1, 10, UNIX_TIMESTAMP()+50);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, sending_date) values (11, 3, 1, 2, 11, UNIX_TIMESTAMP()+60);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, sending_date) values (12, 3, 1, 3, 12, UNIX_TIMESTAMP()+70);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, sending_date) values (13, 3, 1, 4, 13, UNIX_TIMESTAMP()+80);
 
 -- корзина
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (4, 2, 1, 14, UNIX_TIMESTAMP()+90);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (4, 3, 1, 15, UNIX_TIMESTAMP()+100);
-insert into mail_template (`group_id`, sender_id, receiver_id, subject_id, receiving_date) values (4, 4, 1, 16, UNIX_TIMESTAMP()+110);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (14, 4, 2, 1, 14, UNIX_TIMESTAMP()+90);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (15, 4, 3, 1, 15, UNIX_TIMESTAMP()+100);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (16, 4, 4, 1, 16, UNIX_TIMESTAMP()+110);
 
 insert into mail_tasks (`mail_id`, `name`) values (1, 'task1 from mail');
 insert into mail_tasks (`mail_id`, `name`) values (1, 'task2 from mail');
 insert into mail_tasks (`mail_id`, `name`) values (1, 'task3 from mail');
 insert into mail_tasks (`mail_id`, `name`) values (1, 'task4 from mail');
+
+
+-- тестовые письма
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (17, 1, 4, 1, 17, UNIX_TIMESTAMP()+90);
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (18, 1, 4, 1, 18, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 2);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (18, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (19, 1, 2, 1, 19, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (19, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (20, 1, 2, 1, 20, UNIX_TIMESTAMP()+90);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (21, 1, 2, 1, 21, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (21, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (22, 1, 2, 1, 22, UNIX_TIMESTAMP()+90);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (23, 1, 2, 1, 23, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (23, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (24, 1, 2, 1, 24, UNIX_TIMESTAMP()+90);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (25, 1, 2, 1, 25, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (25, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (26, 1, 2, 1, 26, UNIX_TIMESTAMP()+90);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (27, 1, 2, 1, 27, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (27, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (28, 1, 2, 1, 28, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (28, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (29, 1, 2, 1, 29, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (29, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (30, 1, 2, 1, 30, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (30, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (31, 1, 2, 1, 31, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (31, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (32, 1, 2, 1, 32, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (32, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (33, 1, 2, 1, 33, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (33, 9);
+
+insert into mail_template (`id`, `group_id`, sender_id, receiver_id, subject_id, receiving_date) values (34, 1, 2, 1, 34, UNIX_TIMESTAMP()+90);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 3);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 4);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 5);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 6);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 7);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 8);
+insert into mail_copies_template (mail_id, receiver_id) values (34, 9);
 
 ------------------------------------------------------------------------------
 
