@@ -493,7 +493,8 @@ class MailController extends AjaxController{
             }
             
             if (count($copiesIds) > 0) {
-                $result['copies'] = $service->getCharacters($copiesIds);
+                $copies = $service->getCharacters($copiesIds);
+                $result['copies'] = implode(',', $copies);
             }
             else {
                 $result['copies'] = '';
