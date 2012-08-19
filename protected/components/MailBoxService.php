@@ -274,7 +274,8 @@ class MailBoxService {
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
         
-        Logger::debug("simId : {$params['simId']} group_id : {$params['group']} sender_id : {$params['sender']} subject_id : $subject_id");
+        Logger::debug("insert mail : ".var_export($params));
+        Logger::debug("insert mail : subject = $subject_id receiver = $receiverId");
         
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
