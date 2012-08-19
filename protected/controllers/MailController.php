@@ -440,6 +440,8 @@ class MailController extends AjaxController{
         try {
             $messageId = (int)Yii::app()->request->getParam('id', false);  
             $sid = Yii::app()->request->getParam('sid', false);  
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
             $model = MailBoxModel::model()->byId($messageId)->find();
             
             $groupId = (int)$model->group_id;
@@ -466,6 +468,11 @@ class MailController extends AjaxController{
             
             $subject = 'Re:'.$subject;
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
+            if (!$subjectModel) {
+                // у нас нет такой темы, значит создадим ее
+                $subjectId = MailBoxService::createSubject($subject, $simId);
+            }
+            
             if ($subjectModel) {
                 $subjectId = $subjectModel->id;
                 
@@ -476,10 +483,11 @@ class MailController extends AjaxController{
                 if ($characterThemeModel) {
                     $characterThemeId = $characterThemeModel->id;
                     $result['phrases'] = $service->getMailPhrases($characterThemeId);
-                    $result['subjectId'] = $characterThemeId; //$subjectId;
+                    //$result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
             
+            $result['subjectId'] = $subjectId;
             
             $result['receiver'] = $characters[$model->sender_id];
             $result['receiverId'] = $model->sender_id;

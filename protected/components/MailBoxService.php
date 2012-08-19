@@ -601,6 +601,13 @@ class MailBoxService {
         return false;
     }
     
+    /**
+     * Создает тему
+     * 
+     * @param string $subject
+     * @param int $simId
+     * @return int
+     */
     public static function createSubject($subject, $simId) {
         $subjectModel = new MailThemesModel();
         $subjectModel->name = $subject;
