@@ -322,6 +322,17 @@ class MailController extends AjaxController{
                 throw new Exception("cant find model by id : {$messageId}");
             }
             
+            
+            
+            if ($model->group_id > 1 && $model->group_id < 4) {
+                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+            }
+            
+            if ($folderId > 1 && $folderId < 4) {
+                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+            }
+            
+            /*
             // проверка, а можем ли мы это письмо перемещать
             if ($model->group_id == 1) {
                 // из входящих можно перемещать только в корзину
@@ -334,7 +345,7 @@ class MailController extends AjaxController{
                 if ($folderId != 1) {
                     return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
                 }
-            }
+            }*/
             
             $model->group_id = $folderId;
             $model->save();
