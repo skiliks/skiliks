@@ -494,6 +494,19 @@ class MailBoxService {
         $command = $connection->createCommand($sql);     
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
         $command->execute();
+        
+        // теперь скопируем информацию о копиях писем
+        $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
+        foreach($mailCollection as $mail) {
+            $id = $mail->id;
+            $templateId = $mail->template_id;
+            // выберем копии из шаблона
+            $sql = "insert into mail_copies (mail_id, receiver_id) select :mailId, receiver_id from mail_copies_template where mail_id=:templateId";
+            $command = $connection->createCommand($sql);     
+            $command->bindParam(":mailId", $id, PDO::PARAM_INT);
+            $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
+            $command->execute();
+        }
     }
     
     public function setAsReaded($id) {
