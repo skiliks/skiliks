@@ -796,6 +796,11 @@ class ExcelDocumentController extends AjaxController{
                 }
                 $excelFormula->setWorksheet(ExcelFactory::getDocument()->getWorksheet($worksheetId));
                 $value = $excelFormula->parse($formula);
+                
+                if (is_null($value)) {
+                    $message = 'Формула введена неправильно. Повторите ввод';
+                }
+                
                 $read_only = (int)(bool)$excelFormula->hasLinkVar($formula);
                 $cell['read_only'] = $read_only;
             }
