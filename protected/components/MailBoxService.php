@@ -421,7 +421,10 @@ class MailBoxService {
         
         $receivers = explode(',', $receivers);
         if ($receivers[count($receivers)-1] == ',') unset($receivers[count($receivers)-1]);
+        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
         //if (count($receivers) == 2 && isset($receivers[1]) && $receivers[1]=='') unset($receivers[1]);
+        
+        Logger::debug("receivers : ".var_export($receivers, true));
         
         $themes = array();
         if (count($receivers) == 1) {

@@ -378,6 +378,8 @@ insert into mail_copies_template (mail_id, receiver_id) values (34, 9);
 
 ------------------------------------------------------------------------------
 
+
+
 drop table `mail_settings`;
 CREATE TABLE `mail_settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -432,7 +434,9 @@ insert into `mail_character_themes` (id, character_id, theme_id) values (16, 5, 
 insert into `mail_character_themes` (id, character_id, theme_id) values (17, 5, 16);
 insert into `mail_character_themes` (id, character_id, theme_id) values (18, 5, 9);
 
-
+-- вставка тестовых фраз
+insert into `mail_character_themes` (id, character_id, theme_id) values (19, 2, 17);
+insert into `mail_character_themes` (id, character_id, theme_id) values (20, 2, 18);
 
 drop table `mail_phrases`;
 CREATE TABLE `mail_phrases` (
@@ -492,6 +496,18 @@ insert into mail_phrases (character_theme_id, `name`) values (16, 'положи�
 insert into mail_phrases (character_theme_id, `name`) values (16, 'пользуется');
 insert into mail_phrases (character_theme_id, `name`) values (16, 'принять');
 
+--------
+insert into mail_phrases (character_theme_id, `name`) values (19, 'раз');
+insert into mail_phrases (character_theme_id, `name`) values (19, 'два');
+insert into mail_phrases (character_theme_id, `name`) values (19, 'три');
+insert into mail_phrases (character_theme_id, `name`) values (19, 'четыре');
+insert into mail_phrases (character_theme_id, `name`) values (19, 'пять');
+
+insert into mail_phrases (character_theme_id, `name`) values (20, 'сколько');
+insert into mail_phrases (character_theme_id, `name`) values (20, 'волка');
+insert into mail_phrases (character_theme_id, `name`) values (20, 'не');
+insert into mail_phrases (character_theme_id, `name`) values (20, 'корми');
+insert into mail_phrases (character_theme_id, `name`) values (20, 'он');
    
 
 
