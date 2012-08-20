@@ -42,6 +42,8 @@ class ExcelDocumentService {
                 $newWorksheet = new ExcelWorksheetModel();
                 $newWorksheet->document_id = $documentId;
                 $newWorksheet->name = $worksheet->name;
+                $newWorksheet->cellWidth = $worksheet->cellWidth;
+                $newWorksheet->cellHeight = $worksheet->cellHeight;
                 $newWorksheet->insert();
 
                 $worksheetCollection[] = $worksheet->id;
@@ -51,7 +53,9 @@ class ExcelDocumentService {
             // копируем ячейки
 
             $sql = "insert into excel_worksheet_cells 
-                    (worksheet_id, `string`, `column`, `value`, read_only, `comment`, formula, colspan, rowspan, `bold`, `color`, `font`, `fontSize`)
+                    (worksheet_id, `string`, `column`, `value`, read_only, 
+                    `comment`, formula, colspan, rowspan, `bold`, `color`, 
+                    `font`, `fontSize`, `borderTop`, `borderBottom`, `borderLeft`, `borderRight`)
                     select 
                         :newWorksheetId, 
                         `string`, 
@@ -62,7 +66,14 @@ class ExcelDocumentService {
                         t.formula, 
                         t.colspan, 
                         t.rowspan,
-                        t.bold, t.color, t.font, t.fontSize
+                        t.bold, 
+                        t.color, 
+                        t.font, 
+                        t.fontSize,
+                        t.borderTop, 
+                        t.borderBottom,
+                        t.borderLeft,
+                        t.borderRight
                     from excel_worksheet_template_cells as t
                     where t.worksheet_id = :oldWorksheetId";
             $command = $connection->createCommand($sql);       

@@ -180,6 +180,13 @@ final class ExcelDocument {
         $result['worksheetData'] = $worksheetData;
         $result['strings'] = count($cells['A']);
         $result['columns'] = count($cells);
+        
+        // вернуть информацию о ширине ячейки
+        Logger::debug("get ws cell width : {$worksheet->id}");
+        $worksheetModel = ExcelWorksheetModel::model()->byId($worksheet->id)->find();
+        $result['cellHeight'] = $worksheetModel->cellHeight;
+        $result['cellWidht'] = $worksheetModel->cellWidth;
+        
         return $result;
     }
 }

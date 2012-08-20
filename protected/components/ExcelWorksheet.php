@@ -70,6 +70,10 @@ class ExcelWorksheet {
                     'color' => $cell->color,
                     'font' => $cell->font,
                     'fontSize' => $cell->fontSize,
+                    'borderTop' => $cell->borderTop,
+                    'borderBottom' => $cell->borderBottom,
+                    'borderLeft' => $cell->borderLeft,
+                    'borderRight' => $cell->borderRight
                 );
                 $data[$cell->column][$cell->string] = $cellInfo; 
             }

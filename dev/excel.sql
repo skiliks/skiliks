@@ -13,6 +13,7 @@ CREATE TABLE `excel_worksheet_template` (
         REFERENCES `excel_document_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Рабочий лист документа-шаблона';
 
+
 CREATE TABLE `excel_worksheet_template_cells` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `worksheet_id` int(11) NOT NULL comment 'ссылка на лист',
@@ -28,6 +29,9 @@ CREATE TABLE `excel_worksheet_template_cells` (
     CONSTRAINT `fk_worksheet_template_cells_worksheet_id` FOREIGN KEY (`worksheet_id`) 
         REFERENCES `excel_worksheet_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Ячейки рабочего листа шаблона';
+
+
+
 
 
 CREATE TABLE `excel_document` (
@@ -125,3 +129,23 @@ INSERT INTO `tasks` (`id`, `title`, `start_time`, `duration`, `type`, `sim_id`) 
 
 alter table `tasks` add CONSTRAINT `fk_tasks_sim_id` FOREIGN KEY (`sim_id`) 
         REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+---- alter
+alter table `excel_worksheet_template_cells` add column `borderTop`     tinyint(1);
+alter table `excel_worksheet_template_cells` add column `borderBottom`  tinyint(1);
+alter table `excel_worksheet_template_cells` add column `borderLeft`    tinyint(1);
+alter table `excel_worksheet_template_cells` add column `borderRight`   tinyint(1);
+
+alter table `excel_worksheet_cells` add column `borderTop`     tinyint(1);
+alter table `excel_worksheet_cells` add column `borderBottom`  tinyint(1);
+alter table `excel_worksheet_cells` add column `borderLeft`    tinyint(1);
+alter table `excel_worksheet_cells` add column `borderRight`   tinyint(1);
+
+
+alter table `excel_worksheet_template` add column `cellHeight` int(4);
+alter table `excel_worksheet_template` add column `cellWidth` int(4);
+
+alter table `excel_worksheet` add column `cellHeight` int(4);
+alter table `excel_worksheet` add column `cellWidth` int(4);
