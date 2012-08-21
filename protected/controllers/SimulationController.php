@@ -88,6 +88,9 @@ class SimulationController extends AjaxController{
         // Установим дефолтовые значения для почтовика
         MailBoxService::initDefaultSettings($simId);
         
+        // скопируем документы
+        MyDocumentsService::init($simId);
+        
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
     }
