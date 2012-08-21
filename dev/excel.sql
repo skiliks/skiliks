@@ -149,3 +149,9 @@ alter table `excel_worksheet_template` add column `cellWidth` int(4);
 
 alter table `excel_worksheet` add column `cellHeight` int(4);
 alter table `excel_worksheet` add column `cellWidth` int(4);
+
+-- alter2
+update excel_worksheet_template_cells set `colspan`=16 where `worksheet_id`=126 and `column`='B' and `string`=1;
+update excel_worksheet_template_cells set `colspan`=12 where `worksheet_id`=126 and `column`='B' and `string`=3;
+update excel_worksheet_template_cells set `colspan`=4 where `worksheet_id`=126 and `column`='N' and `string`=3;
+b1 16
