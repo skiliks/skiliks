@@ -185,7 +185,7 @@ final class ExcelDocument {
         Logger::debug("get ws cell width : {$worksheet->id}");
         $worksheetModel = ExcelWorksheetModel::model()->byId($worksheet->id)->find();
         $result['cellHeight'] = $worksheetModel->cellHeight;
-        $result['cellWidht'] = $worksheetModel->cellWidth;
+        $result['cellWidth'] = $worksheetModel->cellWidth;
         
         return $result;
     }
