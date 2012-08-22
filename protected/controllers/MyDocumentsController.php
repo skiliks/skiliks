@@ -22,7 +22,10 @@ class MyDocumentsController extends AjaxController{
             $documents = MyDocumentsModel::model()->bySimulation($simId)->findAll();
             $list = array();
             foreach($documents as $document) {
-                $list[] = $document->fileName;
+                $list[] = array(
+                    'id' => $document->id,
+                    'name' => $document->fileName
+                );
             }
             
             $result = array();
