@@ -11,25 +11,33 @@ class ExcelDocumentService {
     
     /**
      * Копирование документа
+     * 
      * @param string $documentName наименование документа
      * @param int $simId идентификатор симуляции
-     * @return bool
+     * @return int идентификатор скопированного документа
      */
-    public static function copy($documentName, $simId) {
+    public static function copy($documentTemplateId, $simId) {
         $connection = Yii::app()->db;
         $transaction = $connection->beginTransaction();
         try
         {
         
-            $template = ExcelDocumentTemplate::model()->byName($documentName)->find();
-            if (!$template) throw new Exception("cant find document template by name $documentName");
+            $template = ExcelDocumentTemplate::model()->byId($documentTemplateId)->find();
+            if (!$template) throw new Exception("cant find document template by id $documentTemplateId");
 
+            
+            
             $templateId = $template->id;
+            $fileTemplateId = $template->file_id;
+            
+            // определить идентификатор файла в симуляции
+            $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId($fileTemplateId)->find();
 
             // создаем документ
             $document = new ExcelDocumentModel();
             $document->document_id = $templateId;
             $document->sim_id = $simId;
+            $document->file_id = $file->id;
             $document->insert();
             $documentId = $document->id;
 
@@ -90,23 +98,8 @@ class ExcelDocumentService {
             $transaction->rollBack();
         }
         
-        /*
-        $cells = ExcelWorksheetTemplateCells::model()->byWorksheets($worksheetCollection)->findAll();
-        foreach($cells as $cell) {
-            $newCell = new ExcelWorksheetCells();
-            $newCell->worksheet_id = $worksheetMap[$cell->worksheet_id];
-            $newCell->string = $cell->string;
-            $newCell->column = $cell->column;
-            $newCell->value = $cell->value;
-            $newCell->read_only = $cell->read_only;
-            $newCell->comment = $cell->comment;
-            $newCell->formula = $cell->formula;
-            $newCell->colspan = $cell->colspan;
-            $newCell->rowspan = $cell->rowspan;
-            $newCell->insert();
-        }*/
         
-        return true;
+        return $documentId;
     }
 }
 

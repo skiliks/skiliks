@@ -33,6 +33,30 @@ class MyDocumentsModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byId($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
+    
+    public function byFileName($fileName)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "fileName = '{$fileName}'"
+        ));
+        return $this;
+    }
+    
+    public function byTemplateId($templateId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "template_id = {$templateId}"
+        ));
+        return $this;
+    }
 }
 
 ?>

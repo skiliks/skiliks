@@ -32,6 +32,22 @@ class ExcelImporter {
         $this->_clearTables();
     }
     
+    protected function _createFile($fileName) {
+        $sql = "select id from my_documents_template where fileName = :fileName";
+        $stm = $this->_db->prepare($sql);
+        $stm->bindParam(':fileName', $fileName, PDO::PARAM_STR);
+        $stm->execute();
+        $f = $stm->fetch(PDO::FETCH_ASSOC);
+        if (isset($f['id'])) return (int)$f['id'];
+        
+        // создаем новый файл
+        $sql = "insert into my_documents_template (fileName) values (:fileName)";
+        $stm = $this->_db->prepare($sql);
+        $stm->bindParam(':fileName', $fileName, PDO::PARAM_STR);
+        $stm->execute();
+        return (int)$this->_db->lastInsertId();
+    }
+    
     protected function _clearTables() {
         $tables = array('excel_document_template', 'excel_worksheet_template', 'excel_worksheet_template_cells');
         
@@ -42,10 +58,11 @@ class ExcelImporter {
         }
     }
     
-    protected function _createDocument($documentName) {
-        $sql = "insert into excel_document_template (name) values (:name)";
+    protected function _createDocument($documentName, $fileId) {
+        $sql = "insert into excel_document_template (name, file_id) values (:name, :fileId)";
         $stm = $this->_db->prepare($sql);
         $stm->bindParam(':name', $documentName, PDO::PARAM_STR);
+        $stm->bindParam(':fileId', $fileId, PDO::PARAM_INT);
         $stm->execute();
         return (int)$this->_db->lastInsertId();
     }
@@ -103,10 +120,14 @@ class ExcelImporter {
         return (int)$this->_db->lastInsertId();
     }
     
-    public function import($documentName) {
-        $this->_phpExcel = PHPExcel_IOFactory::load("../media/test3.xlsx");
+    public function import($documentName, $fileName, $dstFileName) {
+        if (!file_exists($fileName)) throw new Exception("cant find file : $fileName");
+            
+        $fileId = $this->_createFile($dstFileName);
+                
+        $this->_phpExcel = PHPExcel_IOFactory::load($fileName);
         
-        $documentId = $this->_createDocument($documentName);
+        $documentId = $this->_createDocument($documentName, $fileId);
         if (!$documentId) throw new Exception("cant get documentId for $documentName");
 
         
@@ -237,7 +258,7 @@ class ExcelImporter {
 
 try {
     $import = new ExcelImporter();
-    $import->import('Сводный бюджет');
+    $import->import('Сводный бюджет', "../media/xls/example_1.xlsx", 'Сводный бюджет.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }
