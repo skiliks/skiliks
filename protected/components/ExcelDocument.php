@@ -31,13 +31,14 @@ final class ExcelDocument {
         $sid = SessionHelper::getSid();
         $simId = SessionHelper::getSimIdBySid($sid);
         
+        /*
         $document = ExcelDocumentModel::model()->bySimulation($simId)->find();
         if (!$document) throw new Exception('cant find document');
         $this->_id = $document->id;
 
         Logger::debug("ExcelDocument construct");
         // загрузим рабочие листы
-        $this->_loadWorksheets($document->id);
+        $this->_loadWorksheets($document->id);*/
     }
     
     /**
@@ -97,11 +98,10 @@ final class ExcelDocument {
         Logger::debug('loaded _worksheetMap : '.var_export($this->_worksheetMap, true));
     }
     
+    // deprecated!
     public function loadDefault($simId) {
         $document = ExcelDocumentModel::model()->bySimulation($simId)->find();
         if (!$document) throw new Exception('cant find document');
-
-        
         
         
         $worksheetId = $this->_defaultWorksheetId;
@@ -116,21 +116,41 @@ final class ExcelDocument {
         $profiler->startTimer();
         
         $this->_setWorksheet($worksheetId, $this->getWorksheet($worksheetId));
-        
-        return $this;
-        
         $t = $profiler->endTimer();
         Logger::debug("_loadWorksheetIfNeeded : $t");
-
-        $profiler->startTimer();
-        $frontendData = $this->_populateFrontendResult($worksheet);
-        $t = $profiler->endTimer();
-        Logger::debug("_populateFrontendResult : $t");
         
-        $result['worksheetData'] = $frontendData['worksheetData'];
-        $result['strings'] = $frontendData['strings'];
-        $result['columns'] = $frontendData['columns'];
-        return $result;
+        return $this;
+    }
+    
+    public function loadByFile($simId, $fileId) {
+        // проверить есть ли такой файл
+        $file = MyDocumentsService::existsInSim($simId, $fileId);
+        if (!$file) throw new Exception("Для вашей симуляции отсутствует файл");
+        
+        // проверить есть ли у нас такой документ
+        $document = ExcelDocumentModel::model()->bySimulation($simId)->byFile($fileId)->find();
+        if (!$document) {
+            // пока документа нет, значит надо его залить в симуляцию
+            $templateId = $file->template_id;
+            // получим документ из шаблонов
+            $documentTemplate = ExcelDocumentTemplate::model()->byFile($templateId)->find();
+            if (!$documentTemplate) throw new Exception("Немогу загрузить шаблон докмента для $templateId");
+            
+            // скопируем пользователю документ
+            $documentId = ExcelDocumentService::copy($documentTemplate->id, $simId);
+            if (!$documentId) throw new Exception("Неудалось скопировать документ");
+        }
+        else {
+            $documentId = $document->id;
+        }
+        
+        // получить первый  воркшит
+        $this->_loadWorksheets($documentId);
+        $this->_activeWorksheet = $this->_defaultWorksheetId;
+        
+        // загрузить worksheet
+        $this->_setWorksheet($this->_defaultWorksheetId, $this->getWorksheet($this->_defaultWorksheetId));
+        return $this;
     }
     
     public function populateFrontendResult($worksheet=false) {
@@ -153,7 +173,7 @@ final class ExcelDocument {
         
         $worksheetData = array();
         $cells = $worksheet->getCells();
-        //Logger::debug('cells : '.var_export($cells, true));
+        Logger::debug('cells : '.var_export($cells, true));
         
         $excelFormula = new ExcelFormula();
         foreach($cells as $column=>$strings) {

@@ -708,10 +708,17 @@ class ExcelDocumentController extends AjaxController{
             if (!$sid) throw new Exception('wrong sid');
             SessionHelper::setSid($sid);
             
+            $fileId = (int)Yii::app()->request->getParam('fileId', false);  
+            
             $simId = SessionHelper::getSimIdBySid($sid);
             if (!$simId) throw new Exception("cant find simId by sid {$sid}");
+            
+            if ($fileId == 0) {
+                $file = MyDocumentsModel::model()->bySimulation($simId)->byFileName('example_1.xls')->find();
+                $fileId = $file->id;
+            }
 
-            $result = ExcelFactory::getDocument()->loadDefault($simId)->populateFrontendResult();
+            $result = ExcelFactory::getDocument()->loadByFile($simId, $fileId)->populateFrontendResult();
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {

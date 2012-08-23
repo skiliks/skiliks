@@ -4,6 +4,13 @@ CREATE TABLE `excel_document_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Excel Документ-шаблон';
 
+
+alter table `excel_document_template` add  column `file_id` int(11);
+
+alter table `excel_document_template` add CONSTRAINT `fk_excel_document_template_file_id` FOREIGN KEY (`file_id`) 
+        REFERENCES `my_documents_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
 CREATE TABLE `excel_worksheet_template` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `document_id` int(11) NOT NULL,
@@ -44,6 +51,10 @@ CREATE TABLE `excel_document` (
   CONSTRAINT `fk_excel_document_document_id` FOREIGN KEY (`document_id`) 
         REFERENCES `excel_document_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Excel Документ';
+
+alter table `excel_document` add  column `file_id` int(11) comment 'с каким файлом связан документ';
+alter table `excel_document` add CONSTRAINT `fk_excel_document_file_id` FOREIGN KEY (`file_id`) 
+        REFERENCES `my_documents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 CREATE TABLE `excel_worksheet` (

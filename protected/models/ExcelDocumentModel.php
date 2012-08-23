@@ -9,6 +9,11 @@
  */
 class ExcelDocumentModel extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return ExcelDocumentModel 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -30,6 +35,14 @@ class ExcelDocumentModel extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
+    public function byFile($fileId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "file_id = {$fileId}"
         ));
         return $this;
     }
