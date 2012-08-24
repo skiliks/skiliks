@@ -29,7 +29,7 @@ class ExcelImporter {
         $sql = "set collation_connection='utf8_general_ci'";
         $this->_db->query($sql);
         
-        $this->_clearTables();
+        //$this->_clearTables();
     }
     
     protected function _createFile($fileName) {
@@ -256,9 +256,12 @@ class ExcelImporter {
     }  // of import
 }
 
+// 1 - логистика
+// 2 - бюджет логистики
+// 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('Сводный бюджет', "../media/xls/example_1.xlsx", 'Сводный бюджет.xls');
+    $import->import('Сводный бюджет', "../media/xls/example_3.xlsx", 'example_3.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }

@@ -425,6 +425,7 @@ class MailBoxService {
         //if (count($receivers) == 2 && isset($receivers[1]) && $receivers[1]=='') unset($receivers[1]);
         
         Logger::debug("receivers : ".var_export($receivers, true));
+        Logger::debug("count receivers : ".count($receivers));
         
         $themes = array();
         if (count($receivers) == 1) {
@@ -457,6 +458,8 @@ class MailBoxService {
                 }
             }
         }
+        
+        if (count($themes) == 0) return array();
         
         //var_dump($themes);die();
         
