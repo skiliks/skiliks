@@ -4,9 +4,19 @@ CREATE TABLE `my_documents_template` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Шаблон моих документов';
 
-insert into my_documents_template (id, fileName) values (1, 'test.xls');
-insert into my_documents_template (id, fileName) values (2, 'some.doc');
-insert into my_documents_template (id, fileName) values (3, 'present.ppt');
+delete from my_documents_template;
+insert into my_documents_template (id, fileName) values (1, 'test_1.doc');
+insert into my_documents_template (id, fileName) values (2, 'test_2.doc');
+insert into my_documents_template (id, fileName) values (3, 'test_3.doc');
+insert into my_documents_template (id, fileName) values (4, 'test_4.doc');
+insert into my_documents_template (id, fileName) values (5, 'test_5.doc');
+insert into my_documents_template (id, fileName) values (6, 'test_6.doc');
+insert into my_documents_template (id, fileName) values (7, 'test_1.ppt');
+insert into my_documents_template (id, fileName) values (8, 'test_2.ppt');
+insert into my_documents_template (id, fileName) values (9, 'test_3.ppt');
+insert into my_documents_template (id, fileName) values (10, 'test_4.ppt');
+insert into my_documents_template (id, fileName) values (11, 'test_5.ppt');
+insert into my_documents_template (id, fileName) values (12, 'test_6.ppt');
 
 drop table if exists `my_documents`;
 CREATE TABLE `my_documents` (
