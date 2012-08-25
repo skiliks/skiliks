@@ -107,8 +107,9 @@ class MailBoxService {
        
         $users = array();
         $list = array();
+        $mailIds = array();
         foreach($messages as $message) {
-            
+            $mailIds[] = (int)$message->id;
             
             $senderId = (int)$message->sender_id;
             $receiverId = (int)$message->receiver_id;
@@ -138,13 +139,14 @@ class MailBoxService {
                 'receivingDate' => DateHelper::toString($message->receiving_date),
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
-                'readed' => $readed
+                'readed' => $readed,
+                'attachments' => 0
             );
             //if ($order == 'subject') {
                 $item['subjectSort'] = $this->processSubject($subject);
             //}
             
-            $list[] = $item;
+            $list[(int)$message->id] = $item;
         }
         
         // проставляем имена персонажей
@@ -156,6 +158,16 @@ class MailBoxService {
         
         if ($orderType == 'ASC') $ordeFlag = SORT_ASC;
         else $ordeFlag = SORT_DESC;
+        
+        // Добавим информацию о вложениях
+        if (count($mailIds) > 0) {
+            $attachments = MailAttachmentsModel::model()->byMailIds($mailIds)->findAll();
+            foreach($attachments as $attachment) {
+                if (isset($list[$attachment->mail_id])) {
+                    $list[$attachment->mail_id]['attachments'] = 1;
+                }
+            }
+        }
         
         
         // подготовка для сортировки на уровне php
@@ -181,6 +193,8 @@ class MailBoxService {
             array_multisort($receivers, $ordeFlag,  $list);
             Logger::debug("after sortinf receivers : ".var_export($receivers, true));
         }
+        
+        
         
         //ksort($list);
         //var_dump($list); die();
