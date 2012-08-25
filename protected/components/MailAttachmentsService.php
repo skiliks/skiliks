@@ -35,6 +35,25 @@ class MailAttachmentsService {
         $model->file_id = $fileId;
         return $model->insert();
     }
+    
+    /**
+     * Получение информации о вложениях
+     * @param int $mailId 
+     */
+    public static function get($mailId) {
+        $model = MailAttachmentsModel::model()->byMailId($mailId)->find();
+        if (!$model) return false;
+        
+        $fileId = $model->file_id;
+        
+        $file = MyDocumentsModel::model()->byId($fileId)->find();
+        if (!$file) return false;
+        
+        return array(
+            'id' => $fileId,
+            'name' => $file->fileName
+        );
+    }
 }
 
 ?>
