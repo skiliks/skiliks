@@ -126,6 +126,9 @@ class MailBoxService {
             }
             
             
+            $readed = $message->readed;
+            // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
+            if ($folderId == 2 || $folderId == 3) $readed = 1;
             
             $item = array(
                 'id' => $message->id,
@@ -135,7 +138,7 @@ class MailBoxService {
                 'receivingDate' => DateHelper::toString($message->receiving_date),
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
-                'readed' => $message->readed
+                'readed' => $readed
             );
             //if ($order == 'subject') {
                 $item['subjectSort'] = $this->processSubject($subject);
