@@ -139,7 +139,7 @@ class MailController extends AjaxController{
         $service = new MailBoxService();
         $service->sendMessage(array(
             'group' => $folder,
-            'sender' => $senderId,
+            'sender' => 1, //$senderId, //- отправитель теперь всегда герой
             'receivers' => $receivers,
             'copies' => $copies,
             'subject' => $subject,
