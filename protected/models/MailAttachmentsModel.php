@@ -38,6 +38,16 @@ class MailAttachmentsModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byMailIds($mailIds)
+    {
+        $ids = implode(',', $mailIds);
+        
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id in ({$ids})"
+        ));
+        return $this;
+    }
 }
 
 ?>
