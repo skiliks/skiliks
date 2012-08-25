@@ -607,6 +607,7 @@ class MailController extends AjaxController{
             $model = MailBoxModel::model()->byId($mailId)->find();
             if (!$model) throw new Exception("cant get model by id $mailId");
             $model->group_id = 3;
+            $model->sending_date = time();
             $model->save();
             
             $result = array();
