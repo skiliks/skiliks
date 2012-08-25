@@ -246,6 +246,8 @@ class MailBoxService {
             $message['message'] = $this->buildMessage($model->id);
         }
         
+        $message['attachments'] = MailAttachmentsService::get($model->id);
+        
         return $message;
     }
     
