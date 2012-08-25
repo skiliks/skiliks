@@ -132,6 +132,7 @@ class MailController extends AjaxController{
         $phrases = Yii::app()->request->getParam('phrases', false);  
         
         $letterType = Yii::app()->request->getParam('letterType', false);  
+        $fileId = (int)Yii::app()->request->getParam('fileId', false);  
         
         //$message = Yii::app()->request->getParam('message', false);  
         
@@ -144,7 +145,8 @@ class MailController extends AjaxController{
             'subject' => $subject,
             'phrases' => $phrases,
             'simId' => $simId,
-            'letterType' => $letterType
+            'letterType' => $letterType,
+            'fileId' => $fileId
         ));
         
         $result = array();

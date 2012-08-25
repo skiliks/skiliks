@@ -160,6 +160,21 @@ alter table mail_box add column subject_id int(11);
 alter table mail_box add CONSTRAINT `fk_mail_box_subject_id` FOREIGN KEY (`subject_id`) 
         REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;                  
 
+
+CREATE TABLE `mail_attachments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `file_id` int(11),  
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_attachments_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_attachments_file_id` FOREIGN KEY (`file_id`) 
+        REFERENCES `my_documents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE    
+
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Вложения писем';        
+
+
 CREATE TABLE `mail_copies_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail_id` int(11),
