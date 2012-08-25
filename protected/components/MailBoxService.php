@@ -302,6 +302,11 @@ class MailBoxService {
                 $this->saveReceivers($receivers, $mailId);
         }
         
+        // учтем аттачмена
+        if (isset($params['fileId'])) {
+            MailAttachmentsService::refresh($mailId, $params['fileId']);
+        }
+        
         // Сохранение фраз
         if (isset($params['phrases'])) {
             $phrases = explode(',', $params['phrases']);
