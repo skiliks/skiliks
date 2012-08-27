@@ -537,7 +537,28 @@ class MailBoxService {
             $command->bindParam(":mailId", $id, PDO::PARAM_INT);
             $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
             $command->execute();
+            
+            // учесть вложение
+            $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
+            //Logger::debug("sql = $sql mail_id = $templateId");
+            $command = $connection->createCommand($sql);     
+            $command->bindParam(":mailId", $templateId, PDO::PARAM_INT);
+            $row = $command->queryRow();
+            //Logger::debug("row = ".var_export($row, true));
+            if (isset($row['file_id'])) {
+                // определить file_id в симуляции
+                $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
+                //Logger::debug("file = ".var_export($file, true));
+                if ($file) {
+                    $attachment = new MailAttachmentsModel();
+                    $attachment->mail_id = $id;
+                    $attachment->file_id = $file->id;
+                    $attachment->insert();
+                }
+            }
+            
         }
+        
     }
     
     public function setAsReaded($id) {
