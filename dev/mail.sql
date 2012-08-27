@@ -175,6 +175,22 @@ CREATE TABLE `mail_attachments` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Вложения писем';        
 
 
+CREATE TABLE `mail_attachments_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11),
+  `file_id` int(11),  
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_mail_attachments_template_mail_id` FOREIGN KEY (`mail_id`) 
+        REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+
+  CONSTRAINT `fk_mail_attachments_template_file_id` FOREIGN KEY (`file_id`) 
+        REFERENCES `my_documents_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE    
+
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'Шаблоны вложений писем';        
+
+insert into `mail_attachments_template` (mail_id, file_id) values (1,1);
+
+
 CREATE TABLE `mail_copies_template` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mail_id` int(11),
