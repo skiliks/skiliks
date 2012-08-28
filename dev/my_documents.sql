@@ -32,3 +32,10 @@ alter table `my_documents` add CONSTRAINT `fk_my_documents_sim_id` FOREIGN KEY (
 
 alter table `my_documents` add CONSTRAINT `fk_my_documents_template_id` FOREIGN KEY (`template_id`) 
     REFERENCES `my_documents_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- alter
+alter table `my_documents` add column `hidden` tinyint(1) default 0;
+alter table `my_documents_template` add column `hidden` tinyint(1) default 0;
+
+insert into my_documents_template (fileName, hidden) values ('attach.ppt', 1);
+UPDATE  `mail_attachments_template` SET  `file_id` =  '17' WHERE  `mail_attachments_template`.`id` =1;
