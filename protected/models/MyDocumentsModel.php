@@ -57,6 +57,14 @@ class MyDocumentsModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function visible()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "hidden = 0"
+        ));
+        return $this;
+    }
 }
 
 ?>

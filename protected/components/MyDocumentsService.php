@@ -13,8 +13,8 @@ class MyDocumentsService {
      * @param type $simId 
      */
     public static function init($simId) {
-        $sql = "insert into my_documents (sim_id, fileName, template_id)
-            select :simId, fileName, id from my_documents_template";
+        $sql = "insert into my_documents (sim_id, fileName, template_id, hidden)
+            select :simId, fileName, id, hidden from my_documents_template";
         
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);       
