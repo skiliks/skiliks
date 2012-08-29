@@ -136,7 +136,9 @@ class MailBoxService {
                 'subject' => $subject,
                 //'message' => $message->message,
                 'sendingDate' => DateHelper::toString($message->sending_date),
+                'sendingDateInt' => $message->sending_date,
                 'receivingDate' => DateHelper::toString($message->receiving_date),
+                'receivingDateInt' => $message->receiving_date,
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
                 'readed' => $readed,
@@ -176,6 +178,9 @@ class MailBoxService {
            $subjects[$key]  = $row['subjectSort'];
            $senders[$key] = $row['sender'];
            $receivers[$key] = $row['receiver'];
+           
+           $receivingDate[$key] = $row['receivingDateInt'];
+           $sendingDate[$key] = $row['sendingDateInt'];
         }
 
         Logger::debug("receivers : ".var_export($receivers, true));
@@ -194,6 +199,13 @@ class MailBoxService {
             Logger::debug("after sortinf receivers : ".var_export($receivers, true));
         }
         
+        if ($order == 'time') {
+            if ($folderId == 3) {  //исходящие
+                array_multisort($sendingDate, $ordeFlag,  $list);
+            }
+            else 
+                array_multisort($receivingDate, $ordeFlag,  $list);
+        }
         
         
         //ksort($list);
