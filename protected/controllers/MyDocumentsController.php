@@ -19,7 +19,7 @@ class MyDocumentsController extends AjaxController{
             
             $simId = SessionHelper::getSimIdBySid($sid);
             
-            $documents = MyDocumentsModel::model()->bySimulation($simId)->visible()->findAll();
+            $documents = MyDocumentsModel::model()->bySimulation($simId)->visible()->orderByFileName()->findAll();
             $list = array();
             foreach($documents as $document) {
                 $list[] = array(
