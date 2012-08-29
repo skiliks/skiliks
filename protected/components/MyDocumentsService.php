@@ -2,7 +2,7 @@
 
 
 /**
- * Description of MyDocumentsService
+ * Сервис моих документов
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -30,6 +30,17 @@ class MyDocumentsService {
      */
     public static function existsInSim($simId, $fileId) {
         return MyDocumentsModel::model()->bySimulation($simId)->byId($fileId)->find();
+    }
+    
+    /**
+     * Получить шаблон файла по его id
+     * @param int $id 
+     * @return int
+     */
+    public static function getTemplate($id) {
+        $document = MyDocumentsModel::model()->byId($id)->find();
+        if (!$document) return false;
+        return $document->template_id;
     }
 }
 
