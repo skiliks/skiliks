@@ -47,6 +47,12 @@ class MailBoxService {
     }
     
     protected function processSubject($subject) {
+        // новая сортировка
+        $subject = mb_strtolower ($subject, 'UTF8');
+        $subject = preg_replace("/^(re:)*/u", '', $subject);
+        $subject = preg_replace("/^(fwd:)*/u", '', $subject);
+        return $subject;
+        
         if (preg_match_all("/^(re:)*/u", $subject, $matches)) {
             $re = $matches[0][0];
             $re = explode(':', $re);
