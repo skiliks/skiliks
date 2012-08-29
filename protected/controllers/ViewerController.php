@@ -17,7 +17,7 @@ class ViewerController extends AjaxController{
             $fileId = (int)Yii::app()->request->getParam('fileId', false);
             
             // получить шаблон файла
-            $templateId = MyDocumentsService::getTemplate($fileId)->find();
+            $templateId = MyDocumentsService::getTemplate($fileId);
             if (!$templateId)  throw new Exception("немогу определить шаблон для файла {$fileId}");
             
             $items = ViewerTemplateModel::model()->byFile($templateId)->findAll();
