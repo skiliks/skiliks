@@ -50,6 +50,14 @@ class MyDocumentsModel extends CActiveRecord{
         return $this;
     }
     
+    public function orderByFileName()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "fileName asc"
+        ));
+        return $this;
+    }
+    
     public function byTemplateId($templateId)
     {
         $this->getDbCriteria()->mergeWith(array(
