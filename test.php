@@ -1,10 +1,24 @@
 <?php
+
+//setlocale(LC_ALL, 'ru_RU.UTF-8'); 
 header("HTTP/1.0 200 OK");
 header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
-$str = "re:re:re:testre:re:";
+
+
+$subject = "Re:Re: Отчет с копией с пробелом";
+//$subject = strtolower($subject);
+
+$subject = mb_strtolower ($subject, 'UTF8');
+
+$subject = preg_replace("/^(re:)*/u", '', $subject);
+$subject = preg_replace("/^(fwd:)*/u", '', $subject);
+
+var_dump($subject);
+die();
+
 
 $str = preg_replace("/^(re:)*/u", '', $str);
 echo($str); die();
