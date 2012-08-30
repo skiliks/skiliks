@@ -63,7 +63,7 @@ class ExcelDocumentService {
             $sql = "insert into excel_worksheet_cells 
                     (worksheet_id, `string`, `column`, `value`, read_only, 
                     `comment`, formula, colspan, rowspan, `bold`, `color`, 
-                    `font`, `fontSize`, `borderTop`, `borderBottom`, `borderLeft`, `borderRight`)
+                    `font`, `fontSize`, `borderTop`, `borderBottom`, `borderLeft`, `borderRight`, `width`)
                     select 
                         :newWorksheetId, 
                         `string`, 
@@ -81,7 +81,8 @@ class ExcelDocumentService {
                         t.borderTop, 
                         t.borderBottom,
                         t.borderLeft,
-                        t.borderRight
+                        t.borderRight,
+                        t.width
                     from excel_worksheet_template_cells as t
                     where t.worksheet_id = :oldWorksheetId";
             $command = $connection->createCommand($sql);       

@@ -73,7 +73,8 @@ class ExcelWorksheet {
                     'borderTop' => $cell->borderTop,
                     'borderBottom' => $cell->borderBottom,
                     'borderLeft' => $cell->borderLeft,
-                    'borderRight' => $cell->borderRight
+                    'borderRight' => $cell->borderRight,
+                    'width' => $cell->width
                 );
                 $data[$cell->column][$cell->string] = $cellInfo; 
             }

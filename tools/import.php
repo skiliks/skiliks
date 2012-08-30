@@ -29,7 +29,7 @@ class ExcelImporter {
         $sql = "set collation_connection='utf8_general_ci'";
         $this->_db->query($sql);
         
-        //$this->_clearTables();
+        $this->_clearTables();
     }
     
     protected function _createFile($fileName) {
@@ -96,10 +96,13 @@ class ExcelImporter {
         
         if (!$this->_rowStmt) {
             $sql = "insert into excel_worksheet_template_cells 
-                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`) 
-                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize)";
+                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`, `width`) 
+                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize, :width)";
             $this->_rowStmt = $this->_db->prepare($sql);
         }
+        
+        //echo($sql);
+        //var_dump($params);
         
         $this->_rowStmt->bindParam(':worksheetId', $params['worksheetId'], PDO::PARAM_INT);
         $this->_rowStmt->bindParam(':string', $params['string'], PDO::PARAM_INT);
@@ -111,6 +114,7 @@ class ExcelImporter {
         $this->_rowStmt->bindParam(':color', $params['color'], PDO::PARAM_STR);
         $this->_rowStmt->bindParam(':font', $params['font'], PDO::PARAM_STR);
         $this->_rowStmt->bindParam(':fontSize', $params['fontSize'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':width', $params['width'], PDO::PARAM_STR);
         if (!$this->_rowStmt->execute()) {
             
             throw new Exception(var_export($this->_rowStmt->errorInfo(), true));
@@ -132,6 +136,17 @@ class ExcelImporter {
 
         
         foreach ($this->_phpExcel->getWorksheetIterator() as $worksheet) {
+            
+            
+            // получим инфу по объединенным ячейкам
+            $mergedCellsRange = $worksheet->getMergeCells();
+            foreach($mergedCellsRange as $range) {
+                 $currMergedCellsArray = PHPExcel_Cell::splitRange($range);
+                 //var_dump($currMergedCellsArray);
+            }
+            //var_dump($mergedCellsRange); die();
+            
+            
             $worksheetTitle     = $worksheet->getTitle();
             
             $worksheetId = $this->_createWorksheet($documentId, $worksheetTitle);
@@ -149,6 +164,20 @@ class ExcelImporter {
                 for ($col = 0; $col < $highestColumnIndex; ++ $col)  {
                     $cell = $worksheet->getCellByColumnAndRow($col, $row);
                         $columnName = $cell->stringFromColumnIndex($col);
+                        
+                        
+                        
+                        $columnWidth = $worksheet->getColumnDimensionByColumn($col)->getWidth();  //getColumnDimension
+                        $columnWidth = $columnWidth - 0.71;  // fix value
+                        
+                        
+                        
+                        
+                        //$border = $worksheet->getStyle($columnName.$row)->getBorders()->getTop();
+                        //var_dump($border); die();
+                        echo "$columnName width $columnWidth <br/>"; //die();
+                        
+                        
                     $val = $cell->getValue();
                     $dataType = PHPExcel_Cell_DataType::dataTypeForValue($val);
                     
@@ -199,7 +228,8 @@ class ExcelImporter {
                         'bold' => $bold,
                         'color' => $color,
                         'font' => $font,
-                        'fontSize' => $fontSize
+                        'fontSize' => $fontSize,
+                        'width' => $columnWidth
                     );
                     $rowId = $this->_insertRow($params);
                     if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
@@ -207,6 +237,7 @@ class ExcelImporter {
 
                     echo '<td>' . $val . '<br>(Тип ' . $dataType . ')'.$columnName.'</td>';
                 }
+                
                 echo '</tr>';
             }
             echo '</table>';
@@ -261,7 +292,7 @@ class ExcelImporter {
 // 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('Сводный бюджет', "../media/xls/example_3.xlsx", 'example_3.xls');
+    $import->import('Сводный бюджет', "../media/xls/example_1.xlsx", 'example_1.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }
