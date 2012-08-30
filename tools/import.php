@@ -103,8 +103,12 @@ class ExcelImporter {
         
         if (!$this->_rowStmt) {
             $sql = "insert into excel_worksheet_template_cells 
-                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`, `width`, `colspan`) 
-                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize, :width, :colspan)";
+                    (worksheet_id, `string`, `column`, `value`, `read_only`, 
+                    `formula`, `bold`, `color`, `font`, `fontSize`, `width`, 
+                    `colspan`, borderTop, borderBottom, borderLeft, borderRight) 
+                    values (:worksheetId, :string, :column, :value, :readOnly, 
+                    :formula, :bold, :color, :font, :fontSize, :width, 
+                    :colspan, :borderTop, :borderBottom, :borderLeft, :borderRight)";
             $this->_rowStmt = $this->_db->prepare($sql);
         }
         
@@ -123,6 +127,10 @@ class ExcelImporter {
         $this->_rowStmt->bindParam(':fontSize', $params['fontSize'], PDO::PARAM_INT);
         $this->_rowStmt->bindParam(':width', $params['width'], PDO::PARAM_STR);
         $this->_rowStmt->bindParam(':colspan', $params['colspan'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':borderTop', $params['borderTop'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':borderBottom', $params['borderBottom'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':borderLeft', $params['borderLeft'], PDO::PARAM_INT);
+        $this->_rowStmt->bindParam(':borderRight', $params['borderRight'], PDO::PARAM_INT);
         if (!$this->_rowStmt->execute()) {
             
             throw new Exception(var_export($this->_rowStmt->errorInfo(), true));
@@ -185,9 +193,17 @@ class ExcelImporter {
                         
                         
                         
-                    //$border = $worksheet->getStyle($columnName.$row)->getBorders()->getTop();
-                    //var_dump($border); die();
+                    $borderTop = $worksheet->getStyle($columnName.$row)->getBorders()->getTop()->getBorderStyle();
+                    if ($borderTop == 'medium') $borderTop = 2; else $borderTop = 0;
+                    
+                    $borderBottom = $worksheet->getStyle($columnName.$row)->getBorders()->getBottom()->getBorderStyle();
+                    if ($borderBottom == 'medium') $borderBottom = 2; else $borderBottom = 0;
 
+                    $borderLeft = $worksheet->getStyle($columnName.$row)->getBorders()->getLeft()->getBorderStyle();
+                    if ($borderLeft == 'medium') $borderLeft = 2; else $borderLeft = 0;
+                    
+                    $borderRight = $worksheet->getStyle($columnName.$row)->getBorders()->getRight()->getBorderStyle();
+                    if ($borderRight == 'medium') $borderRight = 2; else $borderRight = 0;
 
 
                     $val = $cell->getValue();
@@ -244,7 +260,11 @@ class ExcelImporter {
                         'font' => $font,
                         'fontSize' => $fontSize,
                         'width' => $columnWidth,
-                        'colspan' => $colspan
+                        'colspan' => $colspan,
+                        'borderTop' => $borderTop,
+                        'borderBottom' => $borderBottom,
+                        'borderLeft' => $borderLeft,
+                        'borderRight' => $borderRight
                     );
                     $rowId = $this->_insertRow($params);
                     if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
