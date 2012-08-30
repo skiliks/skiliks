@@ -32,6 +32,13 @@ class ExcelImporter {
         $this->_clearTables();
     }
     
+    protected function _extractCellName($cellName) {
+        if (preg_match_all("/(\w+)\d+/", $cellName, $matches)) {
+            return $matches[1][0];
+        } 
+        return false;
+    }
+    
     protected function _createFile($fileName) {
         $sql = "select id from my_documents_template where fileName = :fileName";
         $stm = $this->_db->prepare($sql);
@@ -96,8 +103,8 @@ class ExcelImporter {
         
         if (!$this->_rowStmt) {
             $sql = "insert into excel_worksheet_template_cells 
-                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`, `width`) 
-                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize, :width)";
+                    (worksheet_id, `string`, `column`, `value`, `read_only`, `formula`, `bold`, `color`, `font`, `fontSize`, `width`, `colspan`) 
+                    values (:worksheetId, :string, :column, :value, :readOnly, :formula, :bold, :color, :font, :fontSize, :width, :colspan)";
             $this->_rowStmt = $this->_db->prepare($sql);
         }
         
@@ -115,6 +122,7 @@ class ExcelImporter {
         $this->_rowStmt->bindParam(':font', $params['font'], PDO::PARAM_STR);
         $this->_rowStmt->bindParam(':fontSize', $params['fontSize'], PDO::PARAM_INT);
         $this->_rowStmt->bindParam(':width', $params['width'], PDO::PARAM_STR);
+        $this->_rowStmt->bindParam(':colspan', $params['colspan'], PDO::PARAM_INT);
         if (!$this->_rowStmt->execute()) {
             
             throw new Exception(var_export($this->_rowStmt->errorInfo(), true));
@@ -134,16 +142,19 @@ class ExcelImporter {
         $documentId = $this->_createDocument($documentName, $fileId);
         if (!$documentId) throw new Exception("cant get documentId for $documentName");
 
-        
+        // бежим по рабочим листам
         foreach ($this->_phpExcel->getWorksheetIterator() as $worksheet) {
             
             
             // получим инфу по объединенным ячейкам
             $mergedCellsRange = $worksheet->getMergeCells();
+            $mergedCells = array();
             foreach($mergedCellsRange as $range) {
                  $currMergedCellsArray = PHPExcel_Cell::splitRange($range);
-                 //var_dump($currMergedCellsArray);
+                 
+                 $mergedCells[$currMergedCellsArray[0][0]] = $currMergedCellsArray[0];
             }
+            
             //var_dump($mergedCellsRange); die();
             
             
@@ -163,24 +174,25 @@ class ExcelImporter {
                 echo '<tr>';
                 for ($col = 0; $col < $highestColumnIndex; ++ $col)  {
                     $cell = $worksheet->getCellByColumnAndRow($col, $row);
-                        $columnName = $cell->stringFromColumnIndex($col);
+                    $columnName = $cell->stringFromColumnIndex($col);
+
+                    
+                    
+                    // получем ширину ячейки                        
+                    $columnWidth = $worksheet->getColumnDimensionByColumn($col)->getWidth();  //getColumnDimension
+                    $columnWidth = $columnWidth - 0.71;  // fix value
+                    echo "$columnName width $columnWidth <br/>"; //die();
                         
                         
                         
-                        $columnWidth = $worksheet->getColumnDimensionByColumn($col)->getWidth();  //getColumnDimension
-                        $columnWidth = $columnWidth - 0.71;  // fix value
-                        
-                        
-                        
-                        
-                        //$border = $worksheet->getStyle($columnName.$row)->getBorders()->getTop();
-                        //var_dump($border); die();
-                        echo "$columnName width $columnWidth <br/>"; //die();
-                        
-                        
+                    //$border = $worksheet->getStyle($columnName.$row)->getBorders()->getTop();
+                    //var_dump($border); die();
+
+
+
                     $val = $cell->getValue();
                     $dataType = PHPExcel_Cell_DataType::dataTypeForValue($val);
-                    
+
                     if (is_null($val)) $val = '';
                     $formula = '';
                     if ($dataType == 'f') {
@@ -189,33 +201,35 @@ class ExcelImporter {
                         //echo"formula = $formula";
                         $formula = str_replace(',', ';', $formula);
                     }
-                    
+
                     $style = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row);
-                    //var_dump($style); die();
-                    
-                    // getFont
-                    
-                    // так мы можем вытащить цвет
-                    
-                    
-                    
-                    
+
+
+
                     $color = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFill()->getStartColor()->getRGB();
                     $font = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getName();
                     $fontSize = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getSize();
                     $bold = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getFont()->getBold();
-                    
+
                     $readOnly = false;
                     if ($color != '' && $color != '000000') $readOnly = true;
                     
+                    // обработка colspan-ов
+                    $colspan = 0;
+                    if (isset($mergedCells[$columnName.$row])) {
+                        $colFrom = $mergedCells[$columnName.$row][0];
+                        $colTo = $mergedCells[$columnName.$row][1];
+                        $colFromName = $this->_extractCellName($colFrom);
+                        $colToName = $this->_extractCellName($colTo);
+                        
+                        $colToIndex = PHPExcel_Cell::columnIndexFromString($colToName);
+                        $colFromIndex = PHPExcel_Cell::columnIndexFromString($colFromName);
+                        $colspan = $colToIndex - $colFromIndex + 1;
+                        
+                    }
+                    
                     //var_dump($this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders());die();
                     //$border = $this->_phpExcel->getActiveSheet()->getStyle($columnName.$row)->getBorders()->getAllBorders()->getBorderStyle();
-                    
-                    
-                    echo('color='.$color);
-                    //$this->_phpExcel->getSheetByName('Sheet1')->getStyle("B13")->getFont()->getBold()
-                    
-                    echo('bold='.$bold);
                     
              
                     $params = array(
@@ -229,7 +243,8 @@ class ExcelImporter {
                         'color' => $color,
                         'font' => $font,
                         'fontSize' => $fontSize,
-                        'width' => $columnWidth
+                        'width' => $columnWidth,
+                        'colspan' => $colspan
                     );
                     $rowId = $this->_insertRow($params);
                     if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
@@ -278,7 +293,6 @@ class ExcelImporter {
                         if ($rowId == 0) throw new Exception('cant insert : '.var_export($params, true));
                     }
                 }
-                
             }
         }
         
