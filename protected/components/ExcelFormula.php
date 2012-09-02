@@ -170,8 +170,6 @@ class ExcelFormula {
             $curColumn = $worksheet->getColumnNameByIndex($curColumnIndex); 
             
             $curString = $curString + $stringShift;
-            
-
             $newVars[$var] = $curColumn.$curString;
         }
         
