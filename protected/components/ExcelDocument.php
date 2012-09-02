@@ -176,9 +176,11 @@ final class ExcelDocument {
         Logger::debug('cells : '.var_export($cells, true));
         
         $excelFormula = new ExcelFormula();
+        $columnIndex = 1;
         foreach($cells as $column=>$strings) {
             Logger::debug("column : $column");
             foreach($strings as $string=>$cell) {
+                $cell['columnIndex'] = $columnIndex;
                 Logger::debug("string : $string");
                 // обрабатываем формулы
                 if ($cell['formula'] != '') {
@@ -196,6 +198,8 @@ final class ExcelDocument {
 
                 $worksheetData[] = $cell;
             }
+            
+            $columnIndex++;
         }
         $result['worksheetData'] = $worksheetData;
         $result['strings'] = count($cells['A']);
