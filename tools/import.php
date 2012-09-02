@@ -29,7 +29,7 @@ class ExcelImporter {
         $sql = "set collation_connection='utf8_general_ci'";
         $this->_db->query($sql);
         
-        $this->_clearTables();
+        //$this->_clearTables();
     }
     
     protected function _extractCellName($cellName) {
@@ -39,6 +39,11 @@ class ExcelImporter {
         return false;
     }
     
+    /**
+     * Создает файл. Если файл существует возвращает его id.
+     * @param string $fileName
+     * @return int
+     */
     protected function _createFile($fileName) {
         $sql = "select id from my_documents_template where fileName = :fileName";
         $stm = $this->_db->prepare($sql);
@@ -326,7 +331,7 @@ class ExcelImporter {
 // 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('Сводный бюджет', "../media/xls/example_1.xlsx", 'example_1.xls');
+    $import->import('example2', "../media/xls/example_2.xlsx", 'example_2.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }

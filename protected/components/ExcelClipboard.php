@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of ExcelClipboard
+ * Клипбоард
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -29,14 +26,18 @@ class ExcelClipboard {
         $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount']; 
         $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
         
+        $fromWorksheet = new ExcelWorksheet();
+        $fromWorksheet->load($fromWorksheetId);
+        //ExcelFactory::getDocument()->getWorksheet($fromWorksheetId)
+        
         $columnIndex=0; $stringIndex = 0;
         for($j = $rangeInfo['columnFromIndex']; $j<$columnTo; $j++) {
             //Logger::debug("get column name index $j ws $fromWorksheetId");
-            $columnName = ExcelFactory::getDocument()->getWorksheet($fromWorksheetId)->getColumnNameByIndex($j);
+            $columnName = $fromWorksheet->getColumnNameByIndex($j);
             
             $stringIndex = 0;
             for($i = $rangeInfo['stringFrom']; $i<$stringTo; $i++) {
-                $clipboard[$columnIndex][$stringIndex] = ExcelFactory::getDocument()->getWorksheet($fromWorksheetId)->getCell($columnName, $i);
+                $clipboard[$columnIndex][$stringIndex] = $fromWorksheet->getCell($columnName, $i);
                 $stringIndex++;
             }
             
@@ -44,7 +45,11 @@ class ExcelClipboard {
         }
         
         // Возврат результата
-        $columnIndex = ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->getColumnIndex($column);
+        $toWorksheet = new ExcelWorksheet();
+        $toWorksheet->load($toWorksheetId);
+        //ExcelFactory::getDocument()->getWorksheet($toWorksheetId)
+        
+        $columnIndex = $toWorksheet->getColumnIndex($column);
         
         $columnTo = $columnIndex + $rangeInfo['columnCount']; 
         $stringTo = $string + $rangeInfo['stringCount'];
@@ -60,7 +65,7 @@ class ExcelClipboard {
         $stringIndex = $string;
         for($j=0; $j<$rangeInfo['columnCount'];$j++) {
             
-            $columnName = ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->getColumnNameByIndex($columnIndex);
+            $columnName = $toWorksheet->getColumnNameByIndex($columnIndex);
             
             $stringIndex = $string;
             for($i = 0; $i<$rangeInfo['stringCount']; $i++) {
@@ -69,7 +74,7 @@ class ExcelClipboard {
                 // обработать формулу
                 if ($cell['formula']!='') {
                     $cell['formula'] = $excelFormula->shiftVars($cell['formula'], $column, $string, $rangeInfo,
-                            ExcelFactory::getDocument()->getWorksheet($toWorksheetId));
+                            $toWorksheet);
                     
                     Logger::debug("formula after shifting : ".$cell['formula']);
                     // пересчитаем формулу
@@ -84,12 +89,12 @@ class ExcelClipboard {
                 $result['worksheetData'][] = $cell;
                 
                 // запомним результат
-                $curCell = ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->getCell($columnName, $stringIndex);
+                $curCell = $toWorksheet->getCell($columnName, $stringIndex);
                 $curCell['value'] = $cell['value'];
                 $curCell['formula'] = $cell['formula'];
-                ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->replaceCell($curCell);
-                ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->updateCellDb($curCell);
-                ExcelFactory::getDocument()->getWorksheet($toWorksheetId)->saveToCache();
+                $toWorksheet->replaceCell($curCell);
+                $toWorksheet->updateCellDb($curCell);
+                $toWorksheet->saveToCache();
                 /*
                 $params = array(
                     'worksheetId' => $worksheetId,
