@@ -331,7 +331,7 @@ class ExcelImporter {
 // 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('example2', "../media/xls/example_2.xlsx", 'example_2.xls');
+    $import->import('Сводный бюджет', "../media/xls/svodniy.xlsx", 'Сводный бюджет.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }

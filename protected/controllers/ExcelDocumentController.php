@@ -739,7 +739,14 @@ class ExcelDocumentController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         SessionHelper::setSid($sid);
         
-        $result = ExcelFactory::getDocument()->loadWorksheet($worksheetId)->populateFrontendResult();
+        $documentId = (int)ExcelDocumentService::getDocumentIdByWorksheetId($worksheetId);
+        if ($documentId == 0) throw new Exception("cant get document by worksheet $worksheetId");
+        
+        $document = ExcelFactory::getDocument($documentId);
+        
+        $result = $document->loadWorksheet($worksheetId)->populateFrontendResult();
+        
+        //$result = ExcelFactory::getDocument()->loadWorksheet($worksheetId)->populateFrontendResult();
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     

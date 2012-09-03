@@ -27,7 +27,7 @@ final class ExcelDocument {
      */
     protected $_worksheetMap = array();
     
-    function __construct() {
+    function __construct($documentId = false) {
         $sid = SessionHelper::getSid();
         $simId = SessionHelper::getSimIdBySid($sid);
         
@@ -36,9 +36,11 @@ final class ExcelDocument {
         if (!$document) throw new Exception('cant find document');
         $this->_id = $document->id;
 
-        Logger::debug("ExcelDocument construct");
-        // загрузим рабочие листы
-        $this->_loadWorksheets($document->id);*/
+        Logger::debug("ExcelDocument construct");*/
+        if ($documentId) {
+            // загрузим рабочие листы
+            $this->_loadWorksheets($documentId);
+        }
     }
     
     /**
@@ -59,6 +61,7 @@ final class ExcelDocument {
             return $this->_worksheets[$worksheetId];
         }
         
+        Logger::debug("getWorksheet : load worksheet $worksheetId");
         // загружаем рабочий лист
         $worksheet = new ExcelWorksheet();
         $worksheet->load($worksheetId);
@@ -72,9 +75,16 @@ final class ExcelDocument {
     }
     
     public function getWorksheetByName($name) {
+        Logger::debug("map : ".var_export($this->_worksheetMap, true));    
+        
         if (!isset($this->_worksheetMap[$name])) return false;
-            
-        return $this->getWorksheet($this->_worksheetMap[$name]);
+        Logger::debug("getWorksheetByName : $name");    
+        
+        Logger::debug("map : ".var_export($this->_worksheetMap, true));    
+        $worksheetId = $this->_worksheetMap[$name];
+        Logger::debug("worksheetId : $worksheetId");    
+        
+        return $this->getWorksheet($worksheetId);
     }
     
     public function loadWorksheet($worksheetId) {

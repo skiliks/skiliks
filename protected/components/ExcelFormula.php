@@ -53,7 +53,14 @@ class ExcelFormula {
         if (strstr($varName, '!')) {
             $data = explode('!', $varName);
             Logger::debug("foreign : ".var_export($data, true));
-            return ExcelFactory::getDocument()->getWorksheetByName($data[0])->getValueByName($data[1]);
+            Logger::debug("getWorksheetByName : {$data[0]}");
+            
+            //var_dump($data[0]); die();
+            $worksheet = ExcelFactory::getDocument()->getWorksheetByName($data[0]);
+            
+            if (!$worksheet) throw new Exception("cant get worksheet {$data[0]}");
+            
+            return $worksheet->getValueByName($data[1]);
         }
         
         return $this->_getWorksheet()->getValueByName($varName);
