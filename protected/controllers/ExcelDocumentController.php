@@ -795,7 +795,10 @@ class ExcelDocumentController extends AjaxController{
             $message = false;
             ###### new code
             
-            ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+            $documentId = (int)ExcelDocumentService::getDocumentIdByWorksheetId($worksheetId);
+            if ($documentId == 0) throw new Exception("cant get document by worksheet $worksheetId");
+                
+            ExcelFactory::getDocument($documentId)->loadWorksheet($worksheetId);
             $cell = ExcelFactory::getDocument()->getWorksheet($worksheetId)->getCell($column, $string);
             if ($formula != '') {
                 $excelFormula = new ExcelFormula();
