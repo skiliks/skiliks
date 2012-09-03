@@ -15,10 +15,10 @@ final class ExcelFactory {
      *
      * @return ExcelDocument
      */
-    public static function getDocument() {
+    public static function getDocument($documentId = false) {
         //Logger::debug("getDocument : ".var_export(self::$_doc, true));
         if (is_null(self::$_doc)) {
-            self::$_doc = new ExcelDocument();
+            self::$_doc = new ExcelDocument($documentId);
         }
         
         return self::$_doc;

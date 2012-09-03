@@ -102,6 +102,16 @@ class ExcelDocumentService {
         
         return $documentId;
     }
+    
+    /**
+     * Получение идентификатора документа по идентификатору рабочего листа
+     * @param int $worksheetId 
+     */
+    public static function getDocumentIdByWorksheetId($worksheetId) {
+        $worksheet = ExcelWorksheetModel::model()->byId($worksheetId)->find();
+        if (!$worksheet) return false;
+        return $worksheet->document_id;
+    }
 }
 
 ?>
