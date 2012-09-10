@@ -28,8 +28,12 @@ class DialogService {
             'ch_to' => $dialog->ch_to,
             'ch_to_state' => $dialog->ch_to_state,
             'dialog_subtype' => $dialog->dialog_subtype,
-            'text' => $dialog->text
+            'text' => $dialog->text,
+            'sound' => $dialog->sound,
+            'duration' => $dialog->duration
         );
+        
+        // duration, sound
     }
 }
 

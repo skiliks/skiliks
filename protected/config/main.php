@@ -13,6 +13,8 @@ return array(
             'password' => '',
             'charset' => 'utf8',
             
+             'enableParamLogging'=>true,
+            'enableProfiling'=>true
         ),
         
         'log'=>array(

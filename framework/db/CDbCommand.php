@@ -329,12 +329,17 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+                        
+                        
+                                //Logger::debug('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 
 			$this->prepare();
 			if($params===array())
 				$this->_statement->execute();
-			else
+			else {
+                            //Logger::debug("sql params : ".var_export($params, true));
 				$this->_statement->execute($params);
+                        }
 			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
@@ -352,7 +357,7 @@ class CDbCommand extends CComponent
 				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             if(YII_DEBUG)
             	$message .= '. The SQL statement executed was: '.$this->getText().$par;
-			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
+			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error} params : '.var_export($params, true),
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}

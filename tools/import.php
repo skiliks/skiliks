@@ -199,16 +199,26 @@ class ExcelImporter {
                         
                         
                     $borderTop = $worksheet->getStyle($columnName.$row)->getBorders()->getTop()->getBorderStyle();
-                    if ($borderTop == 'medium') $borderTop = 2; else $borderTop = 0;
+                    //echo("border : ");
+                    //var_dump($borderTop);
+                    if ($borderTop == 'medium') $borderTop = 2;
+                    elseif ($borderTop == 'thin') $borderTop = 1;
+                    else $borderTop = 0;
                     
                     $borderBottom = $worksheet->getStyle($columnName.$row)->getBorders()->getBottom()->getBorderStyle();
-                    if ($borderBottom == 'medium') $borderBottom = 2; else $borderBottom = 0;
+                    if ($borderBottom == 'medium') $borderBottom = 2; 
+                    elseif ($borderBottom == 'thin') $borderBottom = 1;
+                    else $borderBottom = 0;
 
                     $borderLeft = $worksheet->getStyle($columnName.$row)->getBorders()->getLeft()->getBorderStyle();
-                    if ($borderLeft == 'medium') $borderLeft = 2; else $borderLeft = 0;
+                    if ($borderLeft == 'medium') $borderLeft = 2; 
+                    elseif ($borderLeft == 'thin') $borderLeft = 1;
+                    else $borderLeft = 0;
                     
                     $borderRight = $worksheet->getStyle($columnName.$row)->getBorders()->getRight()->getBorderStyle();
-                    if ($borderRight == 'medium') $borderRight = 2; else $borderRight = 0;
+                    if ($borderRight == 'medium') $borderRight = 2; 
+                    elseif ($borderRight == 'thin') $borderRight = 1;
+                    else $borderRight = 0;
 
 
                     $val = $cell->getValue();
@@ -331,7 +341,7 @@ class ExcelImporter {
 // 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('Сводный бюджет', "../media/xls/svodniy.xlsx", 'Сводный бюджет.xls');
+    $import->import('example_3', "../media/xls/example_3.xlsx", 'example_3.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }
