@@ -142,14 +142,7 @@ class DialogImportService {
         return 0;
     }
     
-    public function import($fileName) {
-        $this->_characters = $this->getCharacters();
-        $this->_charactersStates = $this->getCharactersStates();
-        $this->_dialogSubtypes = $this->getDialogSubtypes();
-        $this->_charactersPoints = $this->getCharactersPoints();
-        
-        
-        // clean
+    protected function _cleanData() {
         $connection=Yii::app()->db;   
 
         $sql = 'DELETE FROM `dialogs`';
@@ -167,6 +160,24 @@ class DialogImportService {
         $sql = 'ALTER TABLE `events_samples` AUTO_INCREMENT =1';
         $command = $connection->createCommand($sql);
         $command->execute();
+    }
+    
+    /**
+     * Импорт Диалогов
+     * @param type $fileName
+     * @return int 
+     */
+    public function import($fileName) {
+        $this->_characters = $this->getCharacters();
+        $this->_charactersStates = $this->getCharactersStates();
+        $this->_dialogSubtypes = $this->getDialogSubtypes();
+        $this->_charactersPoints = $this->getCharactersPoints();
+        
+        
+        // clean
+        $connection=Yii::app()->db;   
+
+        $this->_cleanData();
 
         
         Logger::debug("started");
@@ -192,7 +203,7 @@ class DialogImportService {
             
             if ($index == 2) {
                 // загрузим кодов
-                $columnIndex = 17;
+                $columnIndex = 19;
                 while(isset($row[$columnIndex]) && $row[$columnIndex] != '') {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
@@ -202,7 +213,7 @@ class DialogImportService {
                 continue;
             }
             
-            //var_dump($row);
+            //var_dump($row);die();
             
             $index++;
             
@@ -211,6 +222,11 @@ class DialogImportService {
                 echo($line);
                 var_dump($row); die();
             }*/
+            
+            if (!isset($row[1])) {
+                //var_dump($row); die();
+                continue;
+            }
             
             $column = array(
                 'A' => $row[0],
@@ -229,7 +245,9 @@ class DialogImportService {
                 'N' => $row[13],
                 'O' => $row[14],
                 'P' => $row[15],
-                'Q' => $row[16]
+                'Q' => $row[16],
+                'R' => $row[17],
+                'S' => $row[18]
             );
             
             if ($row[0] != '')
@@ -239,7 +257,7 @@ class DialogImportService {
             }
             
             // загружаем кода
-            $codeIndex = 17;
+            $codeIndex = 19;
             while(isset($row[$codeIndex])) {
                 $column[$codeIndex] = $row[$codeIndex];
                 $codeIndex++;
@@ -260,7 +278,7 @@ class DialogImportService {
         
         // В начале импортируем события
         foreach($columns as $index=>$row) {
-            $code = $this->_convert($row['A']);
+            $code = $this->_convert($row['B']);
             if ($code == '-' || $code == '') continue;
             
             // Проверяем, а нету ли уже такое события
@@ -268,7 +286,7 @@ class DialogImportService {
                 // Создаем событие
                 $event = new EventsSamples();
                 $event->code = $code;
-                $event->title = $this->_convert($row['B']);
+                $event->title = $this->_convert($row['C']);
                 $event->on_ignore_result = 0;
                 $event->on_hold_logic = 1;
                 $event->insert();
@@ -299,15 +317,15 @@ class DialogImportService {
             
             // Создаем диалог
             $dialog = new Dialogs();
-            $characterName = $this->_convert($row['E']);
+            $characterName = $this->_convert($row['F']);
             $chFrom = (int)$this->_getCharacterIdByName($characterName);
             if ($chFrom == 0)                continue;
             
             $dialog->ch_from = $chFrom;
-            Logger::debug("ch_name=".$row['E']);
+            Logger::debug("ch_name=".$row['F']);
             //Logger::debug("ch_from=".$dialog->ch_from);
 
-            $characterState = $this->_convert($row['F']);
+            $characterState = $this->_convert($row['G']);
             //if ($characterState == '') $characterState = 'уравновешенное';
             
             $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
@@ -316,12 +334,15 @@ class DialogImportService {
             }
 
             //$row['G'] = strtolower($row['G']);
-            $characterToId = (int)$this->_getCharacterIdByName($this->_convert($row['G']));
+            $characterToId = (int)$this->_getCharacterIdByName($this->_convert($row['H']));
             if ($characterToId == 0) {
-                echo("character ".$row['G']); die();
+                $characterToId = null;
+                //echo("character ".$row['H']); die();
             }
-            $dialog->ch_to = $characterToId;
-            $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['H']));
+            if ($characterToId > 0)
+                $dialog->ch_to = $characterToId;
+            
+            $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['I']));
 
             if ($dialog->ch_to_state == null) {
                 $dialog->ch_to_state = 1;
@@ -329,29 +350,38 @@ class DialogImportService {
                 //continue;
             }
 
-            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($this->_convert($row['O']));
+            if (!isset($row['R'])) {
+                var_dump($row); die();
+            }
+            
+            $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['R']));
+            if ($dialogSubtype == 0) {
+                var_dump($this->_convert($row['R'])); die();
+            }
+            
+            $dialog->dialog_subtype = $dialogSubtype;
 
-            $dialog->text = $this->_convert($row['K']);
-            $dialog->duration = $row['D'];
+            $dialog->text = $this->_convert($row['L']);
+            $dialog->duration = $row['E'];
             $dialog->event_result = 0;
-            $dialog->code = $this->_convert($row['A']);
-            $dialog->step_number = $row['I'];
-            $dialog->replica_number = $row['J'];       
+            $dialog->code = $this->_convert($row['B']);
+            $dialog->step_number = $row['J'];
+            $dialog->replica_number = $row['K'];       
 
-            $event = EventsSamples::model()->byCode($this->_convert($row['M']))->find();
+            $event = EventsSamples::model()->byCode($this->_convert($row['N']))->find();
             if ($event)
                 $dialog->next_event = $event->id;
             else 
                 $dialog->next_event = null;
 
 
-            $delay = $this->_timeToInt($row['C']);
+            $delay = $this->_timeToInt($row['D']);
             //echo($row['A']);
             //echo('start : '.$delay);
             if ($delay > 0) {
-                if (isset($delays[$row['M']])) {
+                if (isset($delays[$row['N']])) {
                     //echo('end '.$delays[$row['M']]);
-                    $delay2 = $this->_timeToInt($delays[$row['M']]);
+                    $delay2 = $this->_timeToInt($delays[$row['N']]);
 
                     //echo("$delay - $delay2");
                     $delay = abs($delay - $delay2);
@@ -364,6 +394,7 @@ class DialogImportService {
 
 
             $dialog->delay = $delay;       
+            $dialog->sound = $row['O'];       
             $dialog->insert();       
             
             
