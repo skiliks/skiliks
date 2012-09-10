@@ -203,12 +203,12 @@ class DialogImportService {
             
             if ($index == 2) {
                 // загрузим кодов
-                $columnIndex = 19;
+                $columnIndex = 22;
                 while(isset($row[$columnIndex]) && $row[$columnIndex] != '') {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
                 }
-                
+                    //var_dump($pointsCodes); die();
                 $index++;
                 continue;
             }
@@ -399,6 +399,7 @@ class DialogImportService {
             
             
             // теперь загрузим оценки
+            //var_dump($pointsCodes);
             foreach($pointsCodes as $pointIndex => $pointCode) {
                 Logger::debug("check code : $pointCode");
                 Logger::debug("value is : ".$row[$pointIndex]);

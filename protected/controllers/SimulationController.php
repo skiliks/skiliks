@@ -142,6 +142,9 @@ class SimulationController extends AjaxController{
             $sql = "select 
                         sdp.count,
                         sdp.value,
+                        sdp.count6x,
+                        sdp.value6x,
+            
                         cpt.code,
                         cpt.title
                     from simulations_dialogs_points as sdp
@@ -154,12 +157,24 @@ class SimulationController extends AjaxController{
             $dataReader = $command->query();
         
             foreach($dataReader as $row) { 
+                
+                $avg = 0;
+                if ($row['count'] > 0) $avg = $row['value'] / $row['count'];
+                
+                $avg6x = 0;
+                if ($row['count6x'] > 0) $avg6x = $row['value6x'] / $row['count6x'];
+                
                 $result['points'][] = array(
                     'code' => $row['code'],
                     'title' => $row['title'],
+                    
                     'count' => $row['count'],
                     'value' => $row['value'],
-                    'avg' => $row['value'] / $row['count']
+                    'avg' => $avg,
+                    
+                    'count6x' => $row['count6x'],
+                    'value6x' => $row['value6x'],
+                    'avg6x' => $avg6x
                 );
             }        
                     

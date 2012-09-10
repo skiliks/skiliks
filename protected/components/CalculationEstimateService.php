@@ -91,7 +91,8 @@ class CalculationEstimateService {
         $sql = "select 
                     cp.point_id,
                     cp.add_value,
-                    cpt.scale    
+                    cpt.scale,
+                    cpt.code    
                 from characters_points as cp
                 left join characters_points_titles as cpt on (cpt.id = cp.point_id)
                 where cp.dialog_id in ({$dialogsStr})";
@@ -105,16 +106,26 @@ class CalculationEstimateService {
         foreach($dataReader as $row) { 
             Logger::debug("fill for row ".var_export($row, true));
             
-            if (!isset($data[$row['point_id']])) {
-                $data[$row['point_id']] = array(
-                    'value' => 0, 'count' => 0
-                );
+            $pointId = $row['point_id'];
+            $code = (int)$row['code'][0];
+            Logger::debug("code : $code");
+            
+            if (!isset($data[$pointId])) {
+                $data[$pointId] = array('value' => 0, 'count' => 0, 'value6x' => 0, 'count6x' => 0);
             }
             // пробег по каждому поинту
             // value+= add_value*scale
             // count++
-            $data[$row['point_id']]['value'] +=  $row['add_value']*$row['scale'];
-            $data[$row['point_id']]['count']++;
+            
+            if ($code <=5) {
+                $data[$pointId]['value'] +=  $row['add_value']*$row['scale'];
+                $data[$pointId]['count']++;
+            }
+            
+            if ($code >=6) {
+                $data[$pointId]['value6x'] +=  $row['add_value']*$row['scale'];
+                $data[$pointId]['count6x']++;
+            }
         }        
         
         Logger::debug("save data :  ".var_export($data, true));
@@ -135,7 +146,16 @@ class CalculationEstimateService {
             if ($row['count'] == 1) {
                 Logger::debug("update for simId: $simId pointId: $pointId");
             
-                $sql = "update simulations_dialogs_points set value = value + {$item['value']}, count = count + {$item['count']} where sim_id={$simId} and point_id={$pointId}";
+                $sql = "update 
+                            simulations_dialogs_points 
+                        set 
+                            value = value + {$item['value']}, 
+                            count = count + {$item['count']},
+                
+                            value6x = value6x + {$item['value6x']}, 
+                            count6x = count6x + {$item['count6x']} 
+                
+                  where sim_id={$simId} and point_id={$pointId}";
                 $command = $connection->createCommand($sql);
                 $command->execute();
                 
