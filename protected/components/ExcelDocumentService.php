@@ -112,6 +112,22 @@ class ExcelDocumentService {
         if (!$worksheet) return false;
         return $worksheet->document_id;
     }
+    
+    /**
+     * Получение идентификатора документа по его имени
+     * @param string $documentName 
+     */
+    public static function getIdByName($documentName, $simId) {
+        $documentTemplate = ExcelDocumentTemplate::model()->byName($documentName)->find();
+        if (!$documentTemplate) return false;
+        
+        $templateId = $documentTemplate->id;
+        
+        $document = ExcelDocumentModel::model()->bySimulation($simId)->byDocument($templateId)->find();
+        if (!$document) return false;
+        
+        return $document->id;
+    }
 }
 
 ?>

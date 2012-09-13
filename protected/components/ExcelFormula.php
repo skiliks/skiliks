@@ -63,6 +63,16 @@ class ExcelFormula {
             return $worksheet->getValueByName($data[1]);
         }
         
+
+        // BAD hack!!!!!
+        if (!method_exists($this->_getWorksheet(), 'getValueByName')) {
+            if (is_a($this->_worksheet, 'ExcelDocument')) {
+                $this->_worksheet = $this->_worksheet->getActiveWorksheet();
+            }
+            //var_dump($this->_worksheet);die();
+            //var_dump($this->_getWorksheet()); die();
+        }
+        
         return $this->_getWorksheet()->getValueByName($varName);
         //Logger::debug("str : ".var_export($str, true));
         //Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));

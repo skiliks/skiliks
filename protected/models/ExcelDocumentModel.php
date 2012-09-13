@@ -28,13 +28,25 @@ class ExcelDocumentModel extends CActiveRecord{
     }
     
     /**
-     * Вернуть ближайшее событие
-     * @return ExcelDocumentTemplate 
+     * 
+     * @return ExcelDocumentModel 
      */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return ExcelDocumentModel 
+     */
+    public function byDocument($documentId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "document_id = {$documentId}"
         ));
         return $this;
     }

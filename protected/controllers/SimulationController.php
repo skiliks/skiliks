@@ -101,6 +101,14 @@ class SimulationController extends AjaxController{
      * Остановка симуляции
      */
     public function actionStop() {
+        /* valid code!!!!
+         * $sid = Yii::app()->request->getParam('sid', false);
+            SessionHelper::setSid($sid);
+        
+        $simId = SessionHelper::getSimIdBySid($sid);
+        SimulationService::calcPoints($simId);
+        return;*/
+        
         $uid = (int)Yii::app()->request->getParam('uid', false);
         
         $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));

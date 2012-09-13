@@ -194,13 +194,13 @@ class ExcelImporter {
                     // получем ширину ячейки                        
                     $columnWidth = $worksheet->getColumnDimensionByColumn($col)->getWidth();  //getColumnDimension
                     $columnWidth = $columnWidth - 0.71;  // fix value
-                    echo "$columnName width $columnWidth <br/>"; //die();
+                    echo "$columnName.$row width $columnWidth <br/>"; //die();
                         
                         
                         
                     $borderTop = $worksheet->getStyle($columnName.$row)->getBorders()->getTop()->getBorderStyle();
-                    //echo("border : ");
-                    //var_dump($borderTop);
+                    echo("border : ");
+                    var_dump($borderTop);
                     if ($borderTop == 'medium') $borderTop = 2;
                     elseif ($borderTop == 'thin') $borderTop = 1;
                     else $borderTop = 0;
@@ -342,6 +342,7 @@ class ExcelImporter {
 try {
     $import = new ExcelImporter();
     $import->import('example_3', "../media/xls/example_3.xlsx", 'example_3.xls');
+    //$import->import('Сводный бюджет', "../media/xls/svodniy.xlsx", 'Сводный бюджет.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
 }
