@@ -49,14 +49,47 @@ class SimulationService {
         $excelFormula = new ExcelFormula();
         $excelFormula->setWorksheet($worksheet);
         
-        //$formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
-        //$formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(N8:Q8)-SUM(N15:Q15)';
-        $formula = '=SUM(R6:R7)+SUM(R10:R14)';
-        //$formula = '=SUM(R6:R7)+SUM(R10:R14)-R8-R15';
-        //$formula = '=SUM(B4;C4)';
-        $value = $excelFormula->parse($formula);
+        // загрузим очки пользователя
+        $points = 0;
+        $model = SimulationsExcelPoints::model()->bySimulation($simId)->find();
+        if ($model) {
+            $points = $model->value;
+        }
         
-        var_dump($value);
+        Logger::debug("start excel check");
+        $formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
+        $value = $excelFormula->parse($formula);
+        if ($value == 13707993) {
+            $points++;
+        }
+        
+        
+        $formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(N8:Q8)-SUM(N15:Q15)';
+        $value = $excelFormula->parse($formula);
+        if ($value == 0) {
+            $points++;
+        }
+        
+        $formula = '=SUM(R6:R7)+SUM(R10:R14)';
+        $value = $excelFormula->parse($formula);
+        if ($value == 13707993) {
+            $points++;
+        }
+        
+        $formula = '=SUM(R6:R7)+SUM(R10:R14)-R8-R15';
+        $value = $excelFormula->parse($formula);  //0
+        if ($value == 0) {
+            $points++;
+        }
+        
+        
+        // сохраняем
+        if (!$model) {
+            $model = new SimulationsExcelPoints();
+            $model->sim_id = $simId;
+        }    
+        $model->value = $points;
+        $model->save();
     }
 }
 
