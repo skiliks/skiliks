@@ -319,7 +319,9 @@ class DialogImportService {
             $dialog = new Dialogs();
             $characterName = $this->_convert($row['F']);
             $chFrom = (int)$this->_getCharacterIdByName($characterName);
-            if ($chFrom == 0)                continue;
+            if ($chFrom == 0)  {
+                echo("cant find character by name $characterName"); die();
+            }              
             
             $dialog->ch_from = $chFrom;
             Logger::debug("ch_name=".$row['F']);
@@ -351,7 +353,7 @@ class DialogImportService {
             }
 
             if (!isset($row['R'])) {
-                var_dump($row); die();
+                //var_dump($row); die();
             }
             
             $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['R']));
@@ -395,7 +397,11 @@ class DialogImportService {
 
             $dialog->delay = $delay;       
             $dialog->sound = $row['O'];       
-            $dialog->insert();       
+            $dialog->excel_id = $row['A'];       
+            if (!$dialog->insert()) {
+                echo("cant insert dialog");
+                var_dump($row); die();
+            }       
             
             
             // теперь загрузим оценки

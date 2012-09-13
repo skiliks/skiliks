@@ -87,6 +87,11 @@ final class ExcelDocument {
         return $this->getWorksheet($worksheetId);
     }
     
+    public function getWorksheetIdByName($name) {
+        if (isset($this->_worksheetMap[$name])) return $this->_worksheetMap[$name];
+        return false;
+    }
+    
     public function loadWorksheet($worksheetId) {
         $this->getWorksheet($worksheetId);
         $this->_activeWorksheet = $worksheetId;

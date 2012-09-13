@@ -14,3 +14,5 @@ VALUES (
 );
 
 ALTER TABLE  `dialogs` add column `sound` varchar(32);
+
+ALTER TABLE  `dialogs` add column `excel_id` int(11);

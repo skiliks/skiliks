@@ -33,6 +33,31 @@ class SimulationService {
         
         return $simulationTime * 4; // возвращаем игровое время
     }
+    
+    /**
+     * Рассчет оценки по окончании симуляции
+     */
+    public static function calcPoints($simId) {
+        $documentId = ExcelDocumentService::getIdByName('Сводный бюджет', $simId);
+        if (!$documentId) return false;
+        
+        $document = ExcelFactory::getDocument($documentId);
+        if (!$document) return false;
+        $worksheetId = $document->getWorksheetIdByName('Сводный');
+        $worksheet = $document->loadWorksheet($worksheetId);
+        
+        $excelFormula = new ExcelFormula();
+        $excelFormula->setWorksheet($worksheet);
+        
+        //$formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
+        //$formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(N8:Q8)-SUM(N15:Q15)';
+        $formula = '=SUM(R6:R7)+SUM(R10:R14)';
+        //$formula = '=SUM(R6:R7)+SUM(R10:R14)-R8-R15';
+        //$formula = '=SUM(B4;C4)';
+        $value = $excelFormula->parse($formula);
+        
+        var_dump($value);
+    }
 }
 
 ?>
