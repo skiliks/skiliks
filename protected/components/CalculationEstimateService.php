@@ -123,6 +123,7 @@ class CalculationEstimateService {
             }
             
             if ($code >=6) {
+                Logger::debug("calc 6x: value : {$row['add_value']} scale : {$row['scale']} ");
                 $data[$pointId]['value6x'] +=  $row['add_value']*$row['scale'];
                 $data[$pointId]['count6x']++;
             }
@@ -171,6 +172,8 @@ class CalculationEstimateService {
                 $dialogsPoints->point_id = $pointId;
                 $dialogsPoints->value = $item['value'];
                 $dialogsPoints->count = $item['count'];
+                $dialogsPoints->value6x = $item['value6x'];
+                $dialogsPoints->count6x = $item['count6x'];
                 
                 $dialogsPoints->insert();
             }

@@ -8,6 +8,12 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CharactersPointsTitles extends CActiveRecord{
+    
+    /**
+     *
+     * @param type $className
+     * @return CharactersPointsTitles 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -37,6 +43,14 @@ class CharactersPointsTitles extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => 'parent_id > 0'
+        ));
+        return $this;
+    }
+    
+    public function byCode($code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code = '$code'"
         ));
         return $this;
     }
