@@ -24,7 +24,8 @@ class MailController extends AjaxController{
         // добавляем информацию о колличестве непрочитанных сообщений в подпапках
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
         foreach($unreadInfo as $folderId => $count) {
-            $folders[$folderId]['unreaded'] = $count;
+            if ($folderId > 0)
+                $folders[$folderId]['unreaded'] = $count;
         }
         
         

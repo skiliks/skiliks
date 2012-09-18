@@ -17,6 +17,7 @@ class MailBoxService {
         $folders = MailFoldersModel::model()->findAll();
         
         $list = array();
+        $index = 1;
         foreach($folders as $folder) {
             $id = (int)$folder->id;
             $list[$id] = array(
@@ -24,6 +25,7 @@ class MailBoxService {
                 'name' => $folder->name,
                 'unreaded' => 0
             );
+            $index++;
         }
         return $list;
     }
