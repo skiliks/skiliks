@@ -375,7 +375,23 @@ class MailBoxService {
     }
     
     public function getMailPhrases($ids) {
-        $phrases = MailPhrasesModel::model()->byCharacterThemes($ids)->findAll();
+        if ($ids == 1) {
+            $phrases = MailPhrasesModel::model()->byCharacterThemes($ids)->findAll();
+        }
+        else {
+            $phrases = MailPhrasesModel::model()->byType(2)->findAll();
+        }
+        
+        $list = array();
+        foreach($phrases as $model) {
+            $list[$model->id] = $model->name;
+        }
+        
+        return $list;
+    }
+    
+    public function getSigns() {
+        $phrases = MailPhrasesModel::model()->byType(1)->findAll();
         
         $list = array();
         foreach($phrases as $model) {
@@ -556,6 +572,13 @@ class MailBoxService {
             $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
             $command->execute();
             
+            // учтем множественных получателей
+            $sql = "insert into mail_receivers (mail_id, receiver_id) select :mailId, receiver_id from mail_receivers_template where mail_id=:templateId";
+            $command = $connection->createCommand($sql);     
+            $command->bindParam(":mailId", $id, PDO::PARAM_INT);
+            $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
+            $command->execute();
+            
             // учесть вложение
             $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
             //Logger::debug("sql = $sql mail_id = $templateId");
@@ -649,7 +672,8 @@ class MailBoxService {
         foreach($collection as $task) {
             $tasks[] = array(
                 'id' => $task->id,
-                'name' => $task->name
+                'name' => $task->name,
+                'duration' => $task->duration,
             );
         }
         

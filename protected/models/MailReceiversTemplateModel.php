@@ -1,17 +1,21 @@
 <?php
 
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
- * Модель персонажей
+ * Description of MailReceiversTemplateModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Characters extends CActiveRecord{
+class MailReceiversTemplateModel extends CActiveRecord{
     
     /**
      *
      * @param type $className
-     * @return Characters
+     * @return MailReceiversModel 
      */
     public static function model($className=__CLASS__)
     {
@@ -23,22 +27,21 @@ class Characters extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'characters';
+            return 'mail_receivers_template';
     }
     
-    public function byIds($ids)
+    public function byMailId($id)
     {
-        $list = implode(',', $ids);
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$list})"
+            'condition' => "mail_id = {$id}"
         ));
         return $this;
     }
     
-    public function byCode($code)
+    public function byReceiverId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
+            'condition' => "receiver_id = {$id}"
         ));
         return $this;
     }

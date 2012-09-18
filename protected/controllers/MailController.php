@@ -115,6 +115,7 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = $service->getMailPhrases($id);
+        $result['addData'] = $service->getSigns();
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
