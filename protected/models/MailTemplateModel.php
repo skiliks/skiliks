@@ -1,17 +1,18 @@
 <?php
 
 
+
 /**
- * Модель персонажей
+ * Description of MailTemplateModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Characters extends CActiveRecord{
+class MailTemplateModel extends CActiveRecord{
     
     /**
      *
      * @param type $className
-     * @return Characters
+     * @return MailTemplateModel
      */
     public static function model($className=__CLASS__)
     {
@@ -23,16 +24,7 @@ class Characters extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'characters';
-    }
-    
-    public function byIds($ids)
-    {
-        $list = implode(',', $ids);
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id in ({$list})"
-        ));
-        return $this;
+            return 'mail_template';
     }
     
     public function byCode($code)

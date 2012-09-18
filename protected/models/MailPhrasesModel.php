@@ -50,6 +50,14 @@ class MailPhrasesModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byType($type)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "phrase_type = {$type}"
+        ));
+        return $this;
+    }
 }
 
 ?>

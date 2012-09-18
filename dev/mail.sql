@@ -540,6 +540,25 @@ insert into mail_phrases (character_theme_id, `name`) values (20, 'не');
 insert into mail_phrases (character_theme_id, `name`) values (20, 'корми');
 insert into mail_phrases (character_theme_id, `name`) values (20, 'он');
    
+-------------------
+alter table mail_template add column code varchar(5);
+alter table mail_box add column code varchar(5);
+
+alter table mail_tasks add column duration tinyint(3);
 
 
+INSERT INTO `mail_character_themes` (`id`, `character_id`, `theme_id`) VALUES (NULL, '2', '3');
 
+alter table mail_phrases add column phrase_type tinyint(1);
+
+
+CREATE TABLE `mail_receivers_template` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id` int(11) DEFAULT NULL,
+  `receiver_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_mail_receivers_template_mail_id` (`mail_id`),
+  KEY `fk_mail_receivers_template_receiver_id` (`receiver_id`),
+  CONSTRAINT `fk_mail_receivers_template_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_mail_receivers_template_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Шаблоны получателей писем';

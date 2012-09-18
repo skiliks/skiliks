@@ -19,6 +19,13 @@ class CharactersPointsTitleImportController extends AjaxController{
             if ($index == 1) {
                 continue;
             }
+            
+            if ($index == 116) {
+                echo("All done"); 
+                fclose($handle);
+                die();
+            }
+            
             //var_dump($row);
             $code = $row[0];
             $scale = $row[4];
@@ -41,6 +48,7 @@ class CharactersPointsTitleImportController extends AjaxController{
             else {
                 $model->scale = $scale;
                 $model->update();
+                echo("update code : $scale <br/>");
             }
         }
         fclose($handle);
