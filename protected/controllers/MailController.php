@@ -539,7 +539,10 @@ class MailController extends AjaxController{
     public function actionToPlan() {
         try {
             $messageId = (int)Yii::app()->request->getParam('id', false);  
+            if ($messageId == 0) throw new Exception("wrong messageId");
+                
             $sid = Yii::app()->request->getParam('sid', false);  
+            if (!$sid) throw new Exception("wrong sid");
             
             // определить идентификатор шаблона письма
             $templateId = (int)MailBoxService::getTemplateId($messageId);

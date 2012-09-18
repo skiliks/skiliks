@@ -662,6 +662,7 @@ class MailBoxService {
      */
     public static function getTemplateId($mailId) {
         $model = MailBoxModel::model()->byId($mailId)->find();
+        if (!$model) throw new Exception("cant find mail by id = $mailId");
         return $model->template_id; 
     }
     
