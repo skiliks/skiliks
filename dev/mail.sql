@@ -562,3 +562,15 @@ CREATE TABLE `mail_receivers_template` (
   CONSTRAINT `fk_mail_receivers_template_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_receivers_template_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Шаблоны получателей писем';
+
+CREATE TABLE `mail_points` (
+  `id`          int(11) NOT NULL AUTO_INCREMENT,
+  `mail_id`     int(11) NOT NULL,
+  `point_id`    int(11) NOT NULL,
+  `add_value`   int(11) NOT NULL COMMENT 'добавочное кол-во очков за данный ответ',
+  PRIMARY KEY (`id`),
+  KEY `fk_mail_points_mail_id` (`mail_id`),
+  KEY `fk_mail_points_point_id` (`point_id`),
+  CONSTRAINT `fk_mail_points_dialog_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_mail_points_point_id` FOREIGN KEY (`point_id`) REFERENCES `characters_points_titles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Очки для почты';

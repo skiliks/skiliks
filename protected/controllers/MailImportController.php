@@ -1,32 +1,51 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailImportController
+ * Импорт почты
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailImportController extends AjaxController{
     
     public function actionImport() {
-        $fileName = 'media/xls/mail.csv';
+        $fileName = 'media/xls/mail2.csv';
         
         $characters = array();
         $charactersList = Characters::model()->findAll();
         foreach($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
+        
+        // загрузим информацию о поинтах
+        $pointsTitles = CharactersPointsTitles::model()->findAll();
+        $pointsInfo = array();
+        foreach($pointsTitles as $item) {
+            $pointsInfo[$item->code] = $item->id;
+        }
+        
         //var_dump($characters); die();
         
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         $index = 0;
+        $pointsCodes = array();
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
+            
+            if ($index == 2) {
+                // загрузим кодов
+                $columnIndex = 19;
+                while(isset($row[$columnIndex]) && $row[$columnIndex] != '' &&  $columnIndex<=126) {
+                    $pointsCodes[$columnIndex] = $row[$columnIndex];
+                    $columnIndex++;
+                }
+                    //var_dump($pointsCodes); die();
+                $index++;
+                continue;
+            }
+            
             if ($index <= 2) {
                 continue;
             }
@@ -137,6 +156,36 @@ class MailImportController extends AjaxController{
                 $model->update();
             }
             
+            // учтем поинты
+            $columnIndex = 19;
+            while($columnIndex<=126) {
+                $value = $row[$columnIndex];
+                if ($value == '') {
+                    $columnIndex++;
+                    continue;
+                }
+                
+                $pointCode = $pointsCodes[$columnIndex];
+                if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
+                $pointId = $pointsInfo[$pointCode];
+                
+                $pointModel = MailPointsModel::model()->byMailId($model->id)->byPointId($pointId)->find();
+                if (!$pointModel) {
+                    $pointModel = new MailPointsModel();
+                    $pointModel->mail_id = $model->id;
+                    $pointModel->point_id = $pointId;
+                    $pointModel->add_value = $value;
+                    $pointModel->insert();
+                }
+                else {
+                    $pointModel->point_id = $pointId;
+                    $pointModel->add_value = $value;
+                    $pointModel->update();
+                }
+                
+
+                $columnIndex++;
+            }
             
             foreach($receivers as $index => $receiverCode) {
                 if (!isset($characters[$receiverCode])) {
