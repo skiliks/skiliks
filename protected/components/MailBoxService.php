@@ -512,10 +512,12 @@ class MailBoxService {
             while($processedItems < 10) {
                 $index = rand(0, 10);
                 
+                if (isset($collection[$index]))
                 if (!isset($themes[$collection[$index]['id']])) {
                     $themes[$collection[$index]['id']] = $collection[$index]['theme_id'];
-                    $processedItems++;
+                    
                 }
+                $processedItems++;
             }
         }
         
