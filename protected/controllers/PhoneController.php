@@ -35,7 +35,7 @@ class PhoneController extends AjaxController{
     
     public function actionCall() {
         try {
-            $sid = Yii::app()->request->getParam('id', false);  // персонаж
+            $sid = Yii::app()->request->getParam('sid', false);  // персонаж
             if (!$sid) throw new Exception("empty sid");
             $id = (int)Yii::app()->request->getParam('id', false);  // персонаж
 
