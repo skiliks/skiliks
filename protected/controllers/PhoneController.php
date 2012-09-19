@@ -19,7 +19,10 @@ class PhoneController extends AjaxController{
         $list = array();
         foreach($characters as $character) {
             $list[] = array(
-                'name' => $character->fio
+                'id' => $character->id,
+                'name' => $character->fio,
+                'title' => $character->title,
+                'phone' => $character->phone
             );
         }
         
