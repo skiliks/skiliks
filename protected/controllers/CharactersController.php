@@ -16,6 +16,19 @@ class CharactersController extends AjaxController{
         $fileName = 'media/xls/characters.csv';
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
+        
+        // Добавим героя
+        $code = 0;
+        $title = 'герой';
+        $fio = 'Клинт Иствуд'; 
+        
+            $model = new Characters();
+            $model->code = $code;
+            $model->title = $title;
+            $model->fio = $fio;
+            $model->insert();
+        
+        
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;

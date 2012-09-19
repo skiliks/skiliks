@@ -10,11 +10,18 @@
 class DialogImportController extends AjaxController{
     
     public function actionImport() {
+        
         // http://backend.skiliks.loc/index.php?r=dialogImport/import
-        $service = new DialogImportService();
-        $data = $service->import('media/xls/scenario.csv');  // 'media/import.csv'
-        var_dump($data);
-        die();
+        try {
+            $service = new DialogImportService();
+            $data = $service->import('media/xls/scenario.csv');  // 'media/import.csv'
+            var_dump($data);
+            die();
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+
+        
         
         $result = array(
             'data' => $data
