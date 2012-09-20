@@ -574,3 +574,15 @@ CREATE TABLE `mail_points` (
   CONSTRAINT `fk_mail_points_dialog_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_points_point_id` FOREIGN KEY (`point_id`) REFERENCES `characters_points_titles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Очки для почты';
+
+
+-----------------
+alter table mail_tasks add column code varchar(5);
+alter table mail_tasks add column wr char(1);
+alter table mail_tasks add column category tinyint(1);
+
+alter table mail_character_themes add column letter_number varchar(5);
+alter table mail_character_themes add column wr char(1);
+alter table mail_character_themes add column constructor_number varchar(5);
+
+alter table mail_phrases add column code varchar(5);

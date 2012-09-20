@@ -377,12 +377,21 @@ class MailBoxService {
     }
     
     public function getMailPhrases($ids) {
+        // получить код набора фраз
+        $mailCharacterTheme = MailCharacterThemesModel::model()->byId($ids)->find();
+        if (!$mailCharacterTheme) throw new Exception("cant get charater theme");
+        $constructorNumber = $mailCharacterTheme->constructor_number;
+        
+        // получить фразы по коду
+        $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
+        
+        /* old code
         if ($ids == 1) {
             $phrases = MailPhrasesModel::model()->byCharacterThemes($ids)->findAll();
         }
         else {
             $phrases = MailPhrasesModel::model()->byType(2)->findAll();
-        }
+        }*/
         
         $list = array();
         foreach($phrases as $model) {
@@ -393,7 +402,7 @@ class MailBoxService {
     }
     
     public function getSigns() {
-        $phrases = MailPhrasesModel::model()->byType(1)->findAll();
+        $phrases = MailPhrasesModel::model()->byCode('SYS')->findAll();
         
         $list = array();
         foreach($phrases as $model) {
