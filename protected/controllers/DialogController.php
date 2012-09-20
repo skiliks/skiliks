@@ -166,6 +166,18 @@ class DialogController extends AjaxController{
                     }
                 }
             }
+            
+            if (isset($data[0]['ch_from'])) {
+                $characterId = $data[0]['ch_from'];
+                $character = Characters::model()->byId($characterId)->find();
+                if ($character) {
+                    $data[0]['title'] = $character->title;
+                    $data[0]['name'] = $character->fio;
+                }
+            }
+            
+            
+            
      
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
 
