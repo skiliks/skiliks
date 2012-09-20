@@ -225,6 +225,9 @@ class MailImportController extends AjaxController{
         echo("Done");
     }
     
+    /**
+     * Импорт задач для писем
+     */
     public function actionImportTasks() {
         $fileName = 'media/xls/mail_tasks.csv';
         
@@ -234,42 +237,44 @@ class MailImportController extends AjaxController{
             $characters[$characterItem->code] = $characterItem->id;
         }
         
-        
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
-            if ($index <= 2) {
-                continue;
-            }
+            if ($index <= 2) continue;
             
-            if ($index > 88) {
+            if ($index > 102) {
                 echo('all done'); die();
             }
             
-            //var_dump($row);
-            $code = $row[0];
-            $task = iconv("Windows-1251", "UTF-8", $row[1]);
-            $duration = $row[2];
-            
+            $code       = $row[0];
+            $task       = iconv("Windows-1251", "UTF-8", $row[1]);
+            $duration   = $row[2];
+            $wr         = $row[3];
+            $category   = $row[4];
             
             $mail = MailTemplateModel::model()->byCode($code)->find();
             if (!$mail) {
                 echo("cant find mail by code $code"); die();
             }
             
-            
             $model = new MailTasksModel();
             $model->mail_id = $mail->id;
             $model->name = $task;
             $model->duration = $duration;
+            $model->code = $code;
+            $model->wr = $wr;
+            $model->category = $category;
             $model->insert();
         }
         fclose($handle);
         echo("Done");
     }
     
+    /**
+     * Импорт фраз для писем
+     */
     public function actionImportPhrases() {
         $fileName = 'media/xls/mail_phrases.csv';
         
@@ -289,7 +294,9 @@ class MailImportController extends AjaxController{
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
-            if ($index <= 1) {
+            if ($index == 1) {
+                $code1 = 'В1'; //$row[0];
+                $code2 = $row[1];
                 continue;
             }
             
@@ -299,14 +306,24 @@ class MailImportController extends AjaxController{
             
             //var_dump($row);
             if ($row[0] != '') {
-                $special[] = iconv("Windows-1251", "UTF-8", $row[0]);
+                $name1 = iconv("Windows-1251", "UTF-8", $row[0]);
             }
             
             if (isset($row[1]) &&  $row[1]!='') {
-                $standart[] = iconv("Windows-1251", "UTF-8", $row[1]);
+                $name2 = iconv("Windows-1251", "UTF-8", $row[1]);
             }
             
+            $model = new MailPhrasesModel();
+            $model->character_theme_id = null;
+            $model->name = $name1;
+            $model->code = $code1;
+            $model->insert();
             
+            $model = new MailPhrasesModel();
+            $model->character_theme_id = null;
+            $model->name = $name2;
+            $model->code = $code2;
+            $model->insert();
             
             /*$mail = MailTemplateModel::model()->byCode($code)->find();
             if (!$mail) {
@@ -322,7 +339,7 @@ class MailImportController extends AjaxController{
         }
         fclose($handle);
         
-        foreach($special as $phrase) {
+        /*foreach($special as $phrase) {
             $model = new MailPhrasesModel();
             $model->character_theme_id = 1;
             $model->name = $phrase;
@@ -335,18 +352,97 @@ class MailImportController extends AjaxController{
             $model->name = $phrase;
             $model->phrase_type = 2;
             $model->insert();
-        }
+        }*/
         
         foreach($system as $phrase) {
             $model = new MailPhrasesModel();
             $model->character_theme_id = null;
             $model->name = $phrase;
-            $model->phrase_type = 1;
+            $model->code = 'SYS';
             $model->insert();
         }
         
         
         echo("Done");
+    }
+    
+    /**
+     * Импорт тем для писем
+     */
+    public function actionImportThemes() {
+        $fileName = 'media/xls/mail_themes.csv';
+        
+        $characters = array();
+        $charactersList = Characters::model()->findAll();
+        foreach($charactersList as $characterItem) {
+            $characters[$characterItem->code] = $characterItem->id;
+        }
+        
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            if ($index > 81) {
+                echo('all done'); die();
+            }
+            
+            $characterCode = $row[0];
+            if (!isset($characters[$characterCode])) {
+                throw new Exception("cant find character by code $characterCode");
+            }
+            $characterId = $characters[$characterCode];
+            
+            $subject = iconv("Windows-1251", "UTF-8", $row[2]);
+            $mailCode = $row[3];
+            $wr = $row[4];
+            $constructorNumber = $row[5];
+            
+            // определить код темы
+            $subjectModel = MailThemesModel::model()->byName($subject)->find();
+            if (!$subjectModel) {
+                $subjectModel = new MailThemesModel();
+                $subjectModel->name = $subject;
+                $subjectModel->insert();
+            }
+            $subjectId = $subjectModel->id;
+            
+            $mailCharacterTheme = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($subjectId)->find();
+            if (!$mailCharacterTheme) {
+                $mailCharacterTheme = new MailCharacterThemesModel();
+                $mailCharacterTheme->character_id = $characterId;
+                $mailCharacterTheme->theme_id = $subjectId;
+                $mailCharacterTheme->letter_number = $mailCode;
+                $mailCharacterTheme->wr = $wr;
+                $mailCharacterTheme->constructor_number = $constructorNumber;
+                $mailCharacterTheme->insert();
+            }
+            else {
+                $mailCharacterTheme->letter_number = $mailCode;
+                $mailCharacterTheme->wr = $wr;
+                $mailCharacterTheme->constructor_number = $constructorNumber;
+                $mailCharacterTheme->update();
+            }
+            
+            
+            /*$mail = MailTemplateModel::model()->byCode($code)->find();
+            if (!$mail) {
+                echo("cant find mail by code $code"); die();
+            }
+            
+            
+            $model = new MailTasksModel();
+            $model->mail_id = $mail->id;
+            $model->name = $task;
+            $model->duration = $duration;
+            $model->insert();*/
+        }
+        fclose($handle);
+        echo("All done!");
     }
 }
 
