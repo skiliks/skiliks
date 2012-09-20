@@ -71,11 +71,16 @@ class DialogController extends AjaxController{
             ########################
             
             // проверка а не звонок ли это чтобы залогировать входящий вызов
-            if ($currentDialog->dialog_subtype == 1 && $currentDialog->step_number == 1 && $currentDialog->replica_number == 0) {
+            if ($currentDialog->dialog_subtype == 1 && $currentDialog->step_number == 1) {
+                
+                if ($currentDialog->replica_number == 1) $callType = 0; // входящее
+                if ($currentDialog->replica_number == 2) $callType = 2; // пропущенные
+                
+                        
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
                 $phoneCalls->call_date = time();
-                $phoneCalls->call_type = 0;
+                $phoneCalls->call_type = $callType;
                 $phoneCalls->from_id = $currentDialog->ch_from;
                 $phoneCalls->to_id = 1;
                 $phoneCalls->insert();

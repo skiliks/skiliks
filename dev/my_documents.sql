@@ -39,3 +39,8 @@ alter table `my_documents_template` add column `hidden` tinyint(1) default 0;
 
 insert into my_documents_template (fileName, hidden) values ('attach.ppt', 1);
 UPDATE  `mail_attachments_template` SET  `file_id` =  '17' WHERE  `mail_attachments_template`.`id` =1;
+
+---------------------------------
+alter table my_documents_template add column code varchar(5);
+alter table my_documents_template add column srcFile varchar(32);
+alter table my_documents_template add column format varchar(5);

@@ -89,7 +89,7 @@ class PhoneController extends AjaxController{
                 $list[] = array(
                     'name' => $characters[$characterId],
                     'date' => date('d.m.Y | G:i', $item->call_date),
-                    'type' => $item->call_type
+                    'type' => $item->call_type  // 2 = miss
                 );
             }
             
