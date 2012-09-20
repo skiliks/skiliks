@@ -1,0 +1,1 @@
+alter table events_samples add column `trigger_time` int(11) NOT NULL;
