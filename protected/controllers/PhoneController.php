@@ -60,6 +60,51 @@ class PhoneController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode($result));
         }
     }
+
+    
+    public function actionGetList() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);  // персонаж
+            if (!$sid) throw new Exception("empty sid");
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            $charactersList = Characters::model()->findAll();
+            $characters = array();
+            foreach($charactersList as $character) {
+                $characters[$character->id] = $character->fio;
+            }
+            
+            $items = PhoneCallsModel::model()->bySimulation($simId)->findAll();
+            $list = array();
+            foreach($items as $item) {
+                // входящие
+                if ($item->call_type == 0) {
+                    $characterId = $item->from_id;
+                }
+                else {
+                    // исходящие
+                    $characterId = $item->to_id;
+                }
+                
+                $list[] = array(
+                    'name' => $characters[$characterId],
+                    'date' => date('d.m.Y | G:i', $item->call_date),
+                    'type' => $item->call_type
+                );
+            }
+            
+            
+            $result = array();
+            $result['result'] = 1;
+            $result['data'] = $list;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+    }
 }
 
 ?>
