@@ -70,6 +70,18 @@ class DialogController extends AjaxController{
             }
             ########################
             
+            // проверка а не звонок ли это чтобы залогировать входящий вызов
+            if ($currentDialog->dialog_subtype == 1 && $currentDialog->step_number == 1 && $currentDialog->replica_number == 0) {
+                $phoneCalls = new PhoneCallsModel();
+                $phoneCalls->sim_id = $simId;
+                $phoneCalls->call_date = time();
+                $phoneCalls->call_type = 0;
+                $phoneCalls->from_id = $currentDialog->ch_from;
+                $phoneCalls->to_id = 1;
+                $phoneCalls->insert();
+            }
+            ############################################################
+            
             Logger::debug('before calculate');
             // запускаем ф-цию расчета оценки -- 
             // 1) к записи, ид которой пришло с фронта
