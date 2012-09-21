@@ -169,7 +169,9 @@ class DialogController extends AjaxController{
             
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
+                //Logger::debug("get character title : $characterId");
                 $character = Characters::model()->byId($characterId)->find();
+                //Logger::debug("found character : ".var_export($character));
                 if ($character) {
                     $data[0]['title'] = $character->title;
                     $data[0]['name'] = $character->fio;
