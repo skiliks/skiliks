@@ -558,6 +558,72 @@ class MailBoxService {
     }
     
     /**
+     * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
+     * @param type $simId
+     * @param type $code 
+     */
+    public static function copyMessageFromTemplateByCode($simId, $code) {
+        // проверим есть ли такоо сообщение вообще
+        $mail = MailTemplateModel::model()->byCode($code)->find();
+        if (!$mail) return false; // нечего копировать
+        
+        // копируем само письмо
+        $connection = Yii::app()->db;
+        $sql = "insert into mail_box 
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code
+            from mail_template
+            where mail_template.code = '{$code}'";
+        
+        $command = $connection->createCommand($sql);     
+        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->execute();
+        
+        $mailModel = MailBoxModel::model()->byCode($code)->find();
+        if (!$mailModel) return false; // что-то пошло не так - письмо не скопировалось в симуляцию
+        
+        return self::_copyMessageSructure($mailModel);
+    }
+    
+    protected static function _copyMessageSructure($mail) {
+        $id = $mail->id;
+        $templateId = $mail->template_id;
+        // выберем копии из шаблона
+        $sql = "insert into mail_copies (mail_id, receiver_id) select :mailId, receiver_id from mail_copies_template where mail_id=:templateId";
+        $command = $connection->createCommand($sql);     
+        $command->bindParam(":mailId", $id, PDO::PARAM_INT);
+        $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
+        $command->execute();
+
+        // учтем множественных получателей
+        $sql = "insert into mail_receivers (mail_id, receiver_id) select :mailId, receiver_id from mail_receivers_template where mail_id=:templateId";
+        $command = $connection->createCommand($sql);     
+        $command->bindParam(":mailId", $id, PDO::PARAM_INT);
+        $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
+        $command->execute();
+
+        // учесть вложение
+        $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
+        //Logger::debug("sql = $sql mail_id = $templateId");
+        $command = $connection->createCommand($sql);     
+        $command->bindParam(":mailId", $templateId, PDO::PARAM_INT);
+        $row = $command->queryRow();
+        //Logger::debug("row = ".var_export($row, true));
+        if (isset($row['file_id'])) {
+            // определить file_id в симуляции
+            $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
+            //Logger::debug("file = ".var_export($file, true));
+            if ($file) {
+                $attachment = new MailAttachmentsModel();
+                $attachment->mail_id = $id;
+                $attachment->file_id = $file->id;
+                $attachment->insert();
+            }
+        }
+        return true;
+    }
+    
+    /**
      * Копирование шаблонов писем в рамках заданной симуляции
      * @param int $simId 
      */
@@ -565,8 +631,8 @@ class MailBoxService {
         Logger::debug("copyTemplates : $simId");
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code
             from mail_template";
         
         $command = $connection->createCommand($sql);     
@@ -576,43 +642,8 @@ class MailBoxService {
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
         foreach($mailCollection as $mail) {
-            $id = $mail->id;
-            $templateId = $mail->template_id;
-            // выберем копии из шаблона
-            $sql = "insert into mail_copies (mail_id, receiver_id) select :mailId, receiver_id from mail_copies_template where mail_id=:templateId";
-            $command = $connection->createCommand($sql);     
-            $command->bindParam(":mailId", $id, PDO::PARAM_INT);
-            $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
-            $command->execute();
-            
-            // учтем множественных получателей
-            $sql = "insert into mail_receivers (mail_id, receiver_id) select :mailId, receiver_id from mail_receivers_template where mail_id=:templateId";
-            $command = $connection->createCommand($sql);     
-            $command->bindParam(":mailId", $id, PDO::PARAM_INT);
-            $command->bindParam(":templateId", $templateId, PDO::PARAM_INT);
-            $command->execute();
-            
-            // учесть вложение
-            $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
-            //Logger::debug("sql = $sql mail_id = $templateId");
-            $command = $connection->createCommand($sql);     
-            $command->bindParam(":mailId", $templateId, PDO::PARAM_INT);
-            $row = $command->queryRow();
-            //Logger::debug("row = ".var_export($row, true));
-            if (isset($row['file_id'])) {
-                // определить file_id в симуляции
-                $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
-                //Logger::debug("file = ".var_export($file, true));
-                if ($file) {
-                    $attachment = new MailAttachmentsModel();
-                    $attachment->mail_id = $id;
-                    $attachment->file_id = $file->id;
-                    $attachment->insert();
-                }
-            }
-            
+            self::_copyMessageSructure($mail);
         }
-        
     }
     
     public function setAsReaded($id) {

@@ -71,6 +71,14 @@ class MailBoxModel extends CActiveRecord{
         return $this;
     }
     
+    public function byCode($code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code = '{$code}'"
+        ));
+        return $this;
+    }
+    
     public function orderBy($fieldName, $direction)
     {
         $this->getDbCriteria()->mergeWith(array(

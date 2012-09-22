@@ -9,6 +9,11 @@
  */
 class Todo extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return Todo 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -26,6 +31,14 @@ class Todo extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "sim_id={$simId}"
+        ));
+        return $this;
+    }
+    
+    public function byTask($taskId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "task_id={$taskId}"
         ));
         return $this;
     }

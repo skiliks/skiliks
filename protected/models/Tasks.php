@@ -9,6 +9,11 @@
  */
 class Tasks extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return Tasks 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -37,6 +42,14 @@ class Tasks extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
+    
+    public function byCode($code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code = '{$code}'"
         ));
         return $this;
     }
