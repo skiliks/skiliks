@@ -586,6 +586,7 @@ class MailBoxService {
     }
     
     protected static function _copyMessageSructure($mail) {
+        $connection = Yii::app()->db;
         $id = $mail->id;
         $templateId = $mail->template_id;
         // выберем копии из шаблона
