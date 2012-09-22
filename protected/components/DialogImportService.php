@@ -328,7 +328,7 @@ class DialogImportService {
         }
         
         // Это временный код - его задача создать события типа - М9 М10, D3, P3, T (без номера)
-        foreach($columns as $index=>$row) {
+        /*foreach($columns as $index=>$row) {
             $code = $this->_convert($row['M']);
             if ($code == '-' || $code == '') continue;
             if (!EventsSamples::model()->byCode($code)->find()) {
@@ -341,7 +341,7 @@ class DialogImportService {
                 $event->insert();
                 $processed++;
             }
-        }
+        }*/
         ///////////////////////////////
         
         
@@ -400,7 +400,9 @@ class DialogImportService {
             $dialog->step_number = $row['K'];
             $dialog->replica_number = $row['L'];       
 
-            $event = EventsSamples::model()->byCode($this->_convert($row['O']))->find();
+            $nextEventCode = $row['O'];
+            $dialog->next_event_code = $nextEventCode;
+            $event = EventsSamples::model()->byCode($nextEventCode)->find();
             if ($event)
                 $dialog->next_event = $event->id;
             else 

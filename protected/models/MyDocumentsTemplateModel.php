@@ -29,6 +29,14 @@ class MyDocumentsTemplateModel extends CActiveRecord{
     {
             return 'my_documents_template';
     }
+    
+    public function byCode($code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code = '{$code}'"
+        ));
+        return $this;
+    }
 }
 
 ?>

@@ -14,7 +14,6 @@ class EventsController extends AjaxController{
         // получаем игровое время
         $gameTime = SimulationService::getGameTime($simId) + 9*60*60;
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
-        
         $toTime = $gameTime + 5*60;
         
         Logger::debug("try to find task from {$gameTime} to {$toTime}");
@@ -30,6 +29,113 @@ class EventsController extends AjaxController{
             'id' => $task->id,
             'text' => $task->title
         );
+    }
+    
+    /**
+     * Обработка связанных сущностей типа почты, плана...
+     * @param type $dialog
+     * @return type 
+     */
+    protected function _processLinkedEntities($dialog, $simId) {
+        // анализ писем
+        $code = false;
+        $type = false;
+        
+        if (preg_match_all("/MY(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'MY'; // Message Yesterday
+        }
+        
+        if (preg_match_all("/M(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'M'; // входящие письма
+        }
+        
+        if (preg_match_all("/MSY(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'MSY'; // входящие письма
+        }
+        
+        if (preg_match_all("/MS(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'MS'; // входящие письма
+        }
+        
+        if (preg_match_all("/D(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'D'; // документ
+        }
+        
+        if (preg_match_all("/P(\d+)/", $dialog->next_event_code, $matches)) {
+            $code= $dialog->next_event_code;
+            $type = 'P'; // задача в плане
+        }
+        
+        if (!$code) return false; // у нас нет связанных сущностей
+        
+        $result = false;
+        if ($type == 'MY') {
+            // отдать письмо по коду
+            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            if ($mailModel) {
+                // если входящее письмо УЖЕ пришло (кодировка MY - Message Yesterday)
+                //  - то в списке писем должно быть выделено именно это письмо
+                return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
+            }
+        }
+        
+        if ($type == 'M') {
+            // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
+            MailBoxService::copyMessageFromTemplateByCode($simId, $code);
+            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            if ($mailModel) {
+                return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
+            }
+        }
+        
+        if ($type == 'MSY') {
+            // отдать письмо по коду
+            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            if ($mailModel) {
+                // если исходящее письмо уже отправлено  (кодировка MSY - Message Sent Yesterday)
+                //  - то в списке писем должно быть выделено именно это письмо
+                return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
+            }
+        }
+        
+        if ($type == 'MS') {
+            // если исходящее письмо не отправлено  (кодировка MS - Message Sent) - то должно открыться окно написания нового письма
+            return array('result' => 1, 'eventType' => $type);
+        }
+        
+        if ($type == 'D') {
+            // определить документ по коду
+            $documentTemplateModel = MyDocumentsTemplateModel::model()->byCode($code)->find();
+            if (!$documentTemplateModel) return false;
+            $templateId = $documentTemplateModel->id;
+            
+            $document = MyDocumentsModel::model()->byTemplateId($templateId)->bySimulation($simId)->find();
+            if (!$document) return false;
+            
+            return array('result' => 1, 'eventType' => $type, 'id' => $document->id);
+        }
+        
+        if ($type == 'P') {
+            $task = Tasks::model()->byCode($code)->find();
+            if (!$task) return false;
+            // проверим есть ли такая задача у нас в туду
+            $todo = Todo::model()->bySimulation($simId)->byTask($task->id)->find();
+            if (!$todo) {
+                $todo = new Todo();
+                $todo->sim_id = $simId;
+                $todo->task_id = $task->id;
+                $todo->insert();
+            }
+            
+            return array('result' => 1, 'eventType' => $type, 'id' => $todo->id);
+        }
+        
+        return $result;
     }
     
     /**
@@ -51,7 +157,7 @@ class EventsController extends AjaxController{
             ### обработка задач
             $task = $this->_processTasks($simulation->id);
             if ($task) {
-                $result = array('result' => 1, 'data' => $task, 'eventType' => 2);
+                $result = array('result' => 1, 'data' => $task, 'eventType' => 'task');
                 return $this->_sendResponse(200, CJSON::encode($result));
             }
             ###################
@@ -71,8 +177,18 @@ class EventsController extends AjaxController{
             // выбираем записи из диалогов где code = code, step_number = 1
             $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
 
+            // Убиваем обработанное событие
+            $trigger->delete();
+            
             $data = array();
             foreach($dialogs as $dialog) {
+                
+                // обработка внешних сущностей
+                $result = $this->_processLinkedEntities($dialog, $simulation->id);
+                if ($result) {
+                    return $this->_sendResponse(200, CJSON::encode($result));
+                }
+                
                 $data[] = DialogService::dialogToArray($dialog);
             }
             
@@ -87,8 +203,7 @@ class EventsController extends AjaxController{
                 }
             }
 
-            // Убиваем обработанное событие
-            $trigger->delete();
+            
 
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data, 'eventType' => 1)));
         } catch (Exception $exc) {
