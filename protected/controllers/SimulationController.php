@@ -191,8 +191,37 @@ class SimulationController extends AjaxController{
             $result = array('result' => 0, 'message' => $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode($result));
         }
+    }
+    
+    /**
+     * Изменение времени симуляции
+     */
+    public function actionChangeTime() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if (!$sid) throw new Exception("empty sid");
 
-        
+            $uid = SessionHelper::getUidBySid($sid);
+            if (!$uid) throw new Exception("cant find user by sid {$sid}");
+
+            $simulation = Simulations::model()->byUid($uid)->find();
+            if (!$simulation) throw new Exception("cant find simulation for uid {$uid}");
+           
+            $hour = (int)Yii::app()->request->getParam('hour', false);
+            $min = (int)Yii::app()->request->getParam('min', false);
+            
+            $data = date('Y-m-d', time());
+            $data = explode('-', $data);
+            
+            $simulation->start = mktime($hour, $min, 0, $data[1], $data[0], $data[2]); 
+            $simulation->save();
+            
+            $result = array('result' => 1);
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array('result' => 0, 'message' => $exc->getMessage());
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
     }
 }
 
