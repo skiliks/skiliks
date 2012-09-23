@@ -91,6 +91,7 @@ class SimulationController extends AjaxController{
         // временно добавим тестовые ивенты
         $this->_createEventByCode('MS21', $simId);
         $this->_createEventByCode('M11', $simId);
+        $this->_createEventByCode('P6', $simId);
         
         #################################################
         
