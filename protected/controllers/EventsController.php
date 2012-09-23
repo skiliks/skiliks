@@ -36,39 +36,39 @@ class EventsController extends AjaxController{
      * @param type $dialog
      * @return type 
      */
-    protected function _processLinkedEntities($dialog, $simId) {
+    protected function _processLinkedEntities($eventCode, $simId) {
         // анализ писем
         $code = false;
         $type = false;
         
-        Logger::debug("_processLinkedEntities : code : {$dialog->next_event_code}");
-        if (preg_match_all("/MY(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        Logger::debug("_processLinkedEntities : code : {$eventCode}");
+        if (preg_match_all("/MY(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'MY'; // Message Yesterday
         }
         
-        if (preg_match_all("/M(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        if (preg_match_all("/M(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'M'; // входящие письма
         }
         
-        if (preg_match_all("/MSY(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        if (preg_match_all("/MSY(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'MSY'; // входящие письма
         }
         
-        if (preg_match_all("/MS(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        if (preg_match_all("/MS(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'MS'; // входящие письма
         }
         
-        if (preg_match_all("/D(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        if (preg_match_all("/D(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'D'; // документ
         }
         
-        if (preg_match_all("/P(\d+)/", $dialog->next_event_code, $matches)) {
-            $code= $dialog->next_event_code;
+        if (preg_match_all("/P(\d+)/", $eventCode, $matches)) {
+            $code= $eventCode;
             $type = 'P'; // задача в плане
         }
         
@@ -166,6 +166,7 @@ class EventsController extends AjaxController{
             
             ###############################
             $gameTime = SimulationService::getGameTime($simulation->id);
+            /*$gameTime = SimulationService::getGameTime($simulation->id);
             $toTime = $gameTime + 5*60;
             Logger::debug("try to fine event : {$gameTime} to {$toTime}");
             // проверим а нет ли ближ события
@@ -173,21 +174,29 @@ class EventsController extends AjaxController{
             if ($event) {
                 Logger::debug("found event : {$event->code}");
             }
-            if (!$event) {
+            if (!$event) {*/
             ##########################################
             
             // получить ближайшее событие
-            $triggers = EventsTriggers::model()->nearest($simulation->id)->findAll();
+            Logger::debug("try to find trigger for time $gameTime sim {$simulation->id}");
+            $triggers = EventsTriggers::model()->nearest($simulation->id, $gameTime)->findAll();
+            //var_dump($triggers); die();
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
 
             $trigger = $triggers[0];  // получаем актуальное событие для заданной симуляции
-
+            Logger::debug("found trigger : {$trigger->event_id}");
+            
             // получить диалог
             $event = EventsSamples::model()->findByAttributes(array('id'=>$trigger->event_id));
             if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
-            } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //} //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-            Logger::debug("get event : {$event->code}", 'logs/events.log');
+            Logger::debug("found event : {$event->code}");
+            
+            $result = $this->_processLinkedEntities($event->code, $simulation->id);
+            if ($result) {
+                return $this->_sendResponse(200, CJSON::encode($result));
+            }
 
             // выбираем записи из диалогов где code = code, step_number = 1
             //$dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
@@ -201,9 +210,10 @@ class EventsController extends AjaxController{
             $data = array();
             foreach($dialogs as $dialog) {
                 Logger::debug("check dialog code : {$dialog->code} next {$dialog->next_event_code}");
+                if ($dialog->next_event_code == '-')  continue;
                 
                 // обработка внешних сущностей
-                $result = $this->_processLinkedEntities($dialog, $simulation->id);
+                $result = $this->_processLinkedEntities($dialog->next_event_code, $simulation->id);
                 if ($result) {
                     return $this->_sendResponse(200, CJSON::encode($result));
                 }
