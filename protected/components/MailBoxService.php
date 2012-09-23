@@ -621,7 +621,7 @@ class MailBoxService {
                 $attachment->insert();
             }
         }
-        return true;
+        return $mail;
     }
     
     /**

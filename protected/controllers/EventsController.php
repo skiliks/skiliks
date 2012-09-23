@@ -87,9 +87,11 @@ class EventsController extends AjaxController{
         
         if ($type == 'M') {
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
-            MailBoxService::copyMessageFromTemplateByCode($simId, $code);
-            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            $mailModel = MailBoxService::copyMessageFromTemplateByCode($simId, $code);
+            //$mailModel = MailBoxModel::model()->byCode($code)->find();
             if ($mailModel) {
+                $mailModel->group_id = 1; //входящие
+                $mailModel->save();
                 return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
             }
         }
