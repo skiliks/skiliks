@@ -28,6 +28,16 @@ class DialogImportController extends AjaxController{
         );
         $this->_sendResponse(200, var_export($data, true), 'text/html');
     }
+    
+    public function actionImportEvents() {
+        try {
+            $service = new DialogImportService();
+            $service->importEvents('media/xls/scenario.csv');  
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
 }
 
 ?>

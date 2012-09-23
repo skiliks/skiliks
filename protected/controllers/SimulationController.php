@@ -40,6 +40,17 @@ class SimulationController extends AjaxController{
         }
     }
     
+    protected function _createEventByCode($code, $simId) {
+        $event = EventsSamples::model()->byCode($code)->find();
+        if ($event) {
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id         = $simId;
+            $eventsTriggers->event_id       = $event->id;
+            $eventsTriggers->trigger_time   = $event->trigger_time; 
+            $eventsTriggers->save();
+        }
+    }
+    
     /**
      * Старт симуляции
      */
@@ -70,11 +81,18 @@ class SimulationController extends AjaxController{
         $events = EventsSamples::model()->limit(1)->findAll();
         foreach($events as $event) {
             $eventsTriggers = new EventsTriggers();
-            $eventsTriggers->sim_id = $simId;
-            $eventsTriggers->event_id = $event->id;
-            $eventsTriggers->trigger_time = $event->trigger_time; // time() + 20; //rand(1*60, 5*60);
+            $eventsTriggers->sim_id         = $simId;
+            $eventsTriggers->event_id       = $event->id;
+            $eventsTriggers->trigger_time   = $event->trigger_time; 
             $eventsTriggers->save();
         }
+        
+        #######################
+        // временно добавим тестовые ивенты
+        $this->_createEventByCode('MS21', $simId);
+        $this->_createEventByCode('M11', $simId);
+        
+        #################################################
         
         // предустановка задач в todo!
         $this->_fillTodo($simId);

@@ -469,6 +469,54 @@ class DialogImportService {
         
         return $processed;
     }
+    
+    public function importEvents($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 802) {
+                die();
+            }
+            
+            //var_dump($row);
+            $eventCode = $row[$this->_columns['O']];
+            if ($eventCode == '-') continue;
+            
+            // определим event time
+            /*if (!isset($row['E'])) {
+                var_dump($row); die();
+            }*/
+            $eventTimeStr = $row[$this->_columns['E']];
+            Logger::debug("eventTime : $eventTimeStr");
+            $eventTime = 0;
+            if (strstr($eventTimeStr, ':')) {
+                $eventTimeData = explode(':', $eventTimeStr);
+                if (isset($eventTimeData[1])) {
+                    $eventTime = $eventTimeData[0] * 60 + $eventTimeData[1];
+                }
+            }
+            
+            // проверим а есть ли такое событие
+            $event = EventsSamples::model()->byCode($eventCode)->find();
+            if (!$event) {
+                $event = new EventsSamples();
+                $event->code = $eventCode;
+                $event->trigger_time = $eventTime;
+                $event->on_ignore_result = 0;
+                $event->on_hold_logic = 1;
+                $event->insert();
+                
+                echo("insert event $eventCode <br/>");
+            }
+            
+            
+        }
+        fclose($handle);
+    }
 }
 
 ?>
