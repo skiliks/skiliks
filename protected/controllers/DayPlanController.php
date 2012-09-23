@@ -86,10 +86,16 @@ class DayPlanController extends AjaxController{
             foreach($plans as $plan) {
                 $tasks[] = $plan->task_id;
 
+                /*
                 $date = $this->dateToArr($plan->date);
                 $showDate = $date[self::HOUR].':'.$date[self::MINUTE];  // дата в формате hh:mm
+                 * 
+                 */
+                
+                $showDate = DateHelper::timestampTimeToArr($plan->date);
+                //$showDate = $showDate['h'].':'.$showDate['m'];
                 $data[] = array(
-                    'date' => $this->_shell_numberFormat($showDate, 5),
+                    'date' => $this->_shell_numberFormat($showDate['h'], 2).':'.$this->_shell_numberFormat($showDate['m'], 2),
                     'task_id' => $plan->task_id,
                     'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
                     

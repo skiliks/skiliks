@@ -135,7 +135,7 @@ class EventsController extends AjaxController{
                 $todo->insert();
             }
             
-            return array('result' => 1, 'eventType' => $type, 'id' => $todo->id);
+            return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
         }
         
         return $result;
