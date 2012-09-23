@@ -29,7 +29,20 @@ class SimulationService {
         $simulation = Simulations::model()->byId($simId)->find();
         if (!$simulation) throw new Exception('Не могу определить симуляцию');
         $startTime = $simulation->start;
+        
+        #########3
+        $variance = time() - $simulation->start;
+            $variance = $variance*4;
+
+            $unixtimeMins = round($variance/60) + 9*60;
+            return $unixtimeMins;
+        ########################
+        
+        $time = time();
+        Logger::debug("getGameTime : startTime $startTime");
+        Logger::debug("getGameTime : time $time");
         $simulationTime = time() - $startTime;  // сколько времени реально длится симуляция
+        Logger::debug("getGameTime : simulationTime $simulationTime");
         
         return $simulationTime * 4; // возвращаем игровое время
     }

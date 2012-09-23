@@ -210,10 +210,30 @@ class SimulationController extends AjaxController{
             $hour = (int)Yii::app()->request->getParam('hour', false);
             $min = (int)Yii::app()->request->getParam('min', false);
             
-            $data = date('Y-m-d', time());
-            $data = explode('-', $data);
+            #################
+            $variance = time() - $simulation->start;
+            $variance = $variance*4;
+
+            $unixtimeMins = round($variance/60);
+            $clockH = round($unixtimeMins/60);
+            $clockM = $unixtimeMins-($clockH*60);
+            $clockH = $clockH + 9;
+
+            $simulation->start = ($simulation->start - (($hour-$clockH)*60*60/4)-(($min-$clockM)*60/4));
+            //Logger::debug($str)
             
-            $simulation->start = mktime($hour, $min, 0, $data[1], $data[0], $data[2]); 
+            ###################
+            /*$data = date('Y-m-d', time());
+            Logger::debug("set date: ".var_export($data, true));
+            $data = explode('-', $data);
+            $year = $data[0];
+            $month = $data[1];
+            $day = $data[2];
+            
+            $time = $hour * 60 + $min;
+            $time = $time / 4;
+            
+            $simulation->start = mktime(0, 0, 0, $month, $day, $year) + $time; */
             $simulation->save();
             
             $result = array('result' => 1);

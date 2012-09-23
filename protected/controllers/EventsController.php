@@ -162,6 +162,19 @@ class EventsController extends AjaxController{
             }
             ###################
             
+            
+            ###############################
+            $gameTime = SimulationService::getGameTime($simulation->id);
+            $toTime = $gameTime + 5*60;
+            Logger::debug("try to fine event : {$gameTime} to {$toTime}");
+            // проверим а нет ли ближ события
+            $event = EventsSamples::model()->nearest($gameTime, $toTime)->find();
+            if ($event) {
+                Logger::debug("found event : {$event->code}");
+            }
+            if (!$event) {
+            ##########################################
+            
             // получить ближайшее событие
             $triggers = EventsTriggers::model()->nearest($simulation->id)->findAll();
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
@@ -171,17 +184,21 @@ class EventsController extends AjaxController{
             // получить диалог
             $event = EventsSamples::model()->findByAttributes(array('id'=>$trigger->event_id));
             if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
+            } //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
             Logger::debug("get event : {$event->code}", 'logs/events.log');
 
             // выбираем записи из диалогов где code = code, step_number = 1
             $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
-
+            //Logger::debug("found dialogs for event : {$event->code} " .var_export);
+            
             // Убиваем обработанное событие
+            if (isset($trigger))
             $trigger->delete();
             
             $data = array();
             foreach($dialogs as $dialog) {
+                Logger::debug("check dialog code : {$dialog->code} next {$dialog->next_event_code}");
                 
                 // обработка внешних сущностей
                 $result = $this->_processLinkedEntities($dialog, $simulation->id);
