@@ -9,6 +9,11 @@
  */
 class EventsSamples extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return EventsSamples 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -43,6 +48,14 @@ class EventsSamples extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id=".(int)$id
+        ));
+        return $this;
+    }
+    
+    public function nearest($fromTime, $toTime)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "trigger_time >= $fromTime and trigger_time <= $toTime"
         ));
         return $this;
     }
