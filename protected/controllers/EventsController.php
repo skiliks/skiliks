@@ -191,6 +191,9 @@ class EventsController extends AjaxController{
             if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
             //} //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+            // Убиваем обработанное событие
+            $trigger->delete();
+            
             Logger::debug("found event : {$event->code}");
             
             $result = $this->_processLinkedEntities($event->code, $simulation->id);
@@ -204,8 +207,8 @@ class EventsController extends AjaxController{
             //Logger::debug("found dialogs for event : {$event->code} " .var_export);
             
             // Убиваем обработанное событие
-            if (isset($trigger))
-            $trigger->delete();
+            //if (isset($trigger))
+            //$trigger->delete();
             
             $data = array();
             foreach($dialogs as $dialog) {
