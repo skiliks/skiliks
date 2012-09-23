@@ -217,11 +217,24 @@ class EventsController extends AjaxController{
                 Logger::debug("check dialog code : {$dialog->code} next {$dialog->next_event_code}");
                 if ($dialog->next_event_code == '-')  continue;
                 
+                if ($dialog->next_event_code != '' && $dialog->next_event_code != '-') {
+                // проверить есть ли событие по такому коду и если есть то создать его
+                    $event = EventsSamples::model()->byCode($dialog->next_event_code)->find();
+                    if ($event) {
+                        $eventsTriggers = new EventsTriggers();
+                        $eventsTriggers->sim_id         = $simulation->id;
+                        $eventsTriggers->event_id       = $event->id;
+                        $eventsTriggers->trigger_time   = $event->trigger_time; 
+                        $eventsTriggers->save();
+                    }
+                }
+                
+                /* old
                 // обработка внешних сущностей
                 $result = $this->_processLinkedEntities($dialog->next_event_code, $simulation->id);
                 if ($result) {
                     return $this->_sendResponse(200, CJSON::encode($result));
-                }
+                }*/
                 
                 $data[] = DialogService::dialogToArray($dialog);
             }
