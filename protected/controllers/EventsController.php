@@ -41,6 +41,7 @@ class EventsController extends AjaxController{
         $code = false;
         $type = false;
         
+        Logger::debug("_processLinkedEntities : code : {$dialog->next_event_code}");
         if (preg_match_all("/MY(\d+)/", $dialog->next_event_code, $matches)) {
             $code= $dialog->next_event_code;
             $type = 'MY'; // Message Yesterday
@@ -189,7 +190,8 @@ class EventsController extends AjaxController{
             Logger::debug("get event : {$event->code}", 'logs/events.log');
 
             // выбираем записи из диалогов где code = code, step_number = 1
-            $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+            //$dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+            $dialogs = Dialogs::model()->byCode($event->code)->findAll();
             //Logger::debug("found dialogs for event : {$event->code} " .var_export);
             
             // Убиваем обработанное событие
