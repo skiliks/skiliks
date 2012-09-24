@@ -9,6 +9,11 @@
  */
 class Dialogs extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return Dialogs 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -56,6 +61,14 @@ class Dialogs extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "code = '{$code}'"
+        ));
+        return $this;
+    }
+    
+    public function byExcelId($excelId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "excel_id = '{$excelId}'"
         ));
         return $this;
     }

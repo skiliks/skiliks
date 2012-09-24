@@ -42,16 +42,18 @@ class EventService {
      * @param int $simId
      * @return type 
      */
-    public static function addByCode($code, $simId) {
+    public static function addByCode($code, $simId, $eventTime = false) {
         if ( ($code == '') || ($code == '-') ) return false;
         
         // проверить есть ли событие по такому коду и если есть то создать его
         $event = EventsSamples::model()->byCode($code)->find();
         if ($event) {
+            if (!$eventTime) $eventTime = $event->trigger_time;
+            
             // проверим а есть ли такой триггер
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
-                $eventsTriggers->trigger_time   = $event->trigger_time; 
+                $eventsTriggers->trigger_time = $eventTime; 
                 $eventsTriggers->save();
                 return true;
             }
@@ -59,7 +61,7 @@ class EventService {
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id         = $simId;
             $eventsTriggers->event_id       = $event->id;
-            $eventsTriggers->trigger_time   = $event->trigger_time; 
+            $eventsTriggers->trigger_time   = $eventTime; 
             $eventsTriggers->save();
         }
     }
