@@ -289,8 +289,8 @@ class EventsController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         $eventCode = Yii::app()->request->getParam('eventCode', false);  
         $delay = (int)Yii::app()->request->getParam('delay', false);  
-        $clearEvents = (int)Yii::app()->request->getParam('clearEvents', false);  
-        $clearAssessment = (int)Yii::app()->request->getParam('clearAssessment', false);  
+        $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
+        $clearAssessment = Yii::app()->request->getParam('clearAssessment', false);  
         
         try {
             if (!$sid) throw new Exception('Не задан сид');
@@ -320,10 +320,13 @@ class EventsController extends AjaxController{
             
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             if ($eventsTriggers) {
+                Logger::debug("update event : {$event->code}");
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
             }
             else {
+                Logger::debug("create event : {$event->code}");
+                
                 // Добавляем событие
                 $eventsTriggers = new EventsTriggers();
                 $eventsTriggers->sim_id = $simulation->id;

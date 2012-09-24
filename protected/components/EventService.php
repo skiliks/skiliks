@@ -48,6 +48,14 @@ class EventService {
         // проверить есть ли событие по такому коду и если есть то создать его
         $event = EventsSamples::model()->byCode($code)->find();
         if ($event) {
+            // проверим а есть ли такой триггер
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+            if ($eventsTriggers) {
+                $eventsTriggers->trigger_time   = $event->trigger_time; 
+                $eventsTriggers->save();
+                return true;
+            }
+            
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id         = $simId;
             $eventsTriggers->event_id       = $event->id;
