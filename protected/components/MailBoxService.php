@@ -384,6 +384,7 @@ class MailBoxService {
         
         // получить фразы по коду
         $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
+        if (count($phrases)==0) $phrases = MailPhrasesModel::model()->byCode('W1')->findAll();
         
         /* old code
         if ($ids == 1) {
