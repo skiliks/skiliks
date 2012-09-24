@@ -631,9 +631,10 @@ class MailBoxService {
     public static function copyTemplates($simId) {
         Logger::debug("copyTemplates : $simId");
         $connection = Yii::app()->db;
+        $receivingDate = time();
         $sql = "insert into mail_box 
             (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code
             from mail_template";
         
         $command = $connection->createCommand($sql);     
