@@ -287,9 +287,9 @@ class EventsController extends AjaxController{
     public function actionStart() {
         $sid = Yii::app()->request->getParam('sid', false);  
         $eventCode = Yii::app()->request->getParam('eventCode', false);  
-        $delay = Yii::app()->request->getParam('delay', false);  
-        $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
-        $clearAssessment = Yii::app()->request->getParam('clearAssessment', false);  
+        $delay = (int)Yii::app()->request->getParam('delay', false);  
+        $clearEvents = (int)Yii::app()->request->getParam('clearEvents', false);  
+        $clearAssessment = (int)Yii::app()->request->getParam('clearAssessment', false);  
         
         try {
             if (!$sid) throw new Exception('Не задан сид');
@@ -313,10 +313,13 @@ class EventsController extends AjaxController{
                 SimulationsDialogsPoints::model()->deleteAll("sim_id={$simulation->id}");
             }
             
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId(
-                    $simulation->id, $event->id)->find();
+            $gameTime = SimulationService::getGameTime($simulation->id);
+            $gameTime = $gameTime + $delay;  //time() + ($delay/4);
+            
+            
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             if ($eventsTriggers) {
-                $eventsTriggers->trigger_time = time() + ($delay/4);
+                $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
             }
             else {
@@ -324,7 +327,7 @@ class EventsController extends AjaxController{
                 $eventsTriggers = new EventsTriggers();
                 $eventsTriggers->sim_id = $simulation->id;
                 $eventsTriggers->event_id = $event->id;
-                $eventsTriggers->trigger_time = time() + ($delay/4);
+                $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->insert();
             }
             

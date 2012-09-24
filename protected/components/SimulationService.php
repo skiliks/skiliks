@@ -32,10 +32,10 @@ class SimulationService {
         
         #########3
         $variance = time() - $simulation->start;
-            $variance = $variance*4;
+        $variance = $variance*4;
 
-            $unixtimeMins = round($variance/60) + 9*60;
-            return $unixtimeMins;
+        $unixtimeMins = round($variance/60) + 9*60;
+        return $unixtimeMins;
         ########################
         
         $time = time();
