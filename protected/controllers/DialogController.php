@@ -66,7 +66,7 @@ class DialogController extends AjaxController{
             if ($canCreateEvent) {
                 Logger::debug("try to create event by code : {$currentDialog->next_event_code}");
                 $gameTime = SimulationService::getGameTime($simId);
-                $gameTime = $gameTime + 1;
+                //$gameTime = $gameTime + 1;
                 EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
             }    
             
