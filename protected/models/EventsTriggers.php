@@ -8,6 +8,11 @@
  */
 class EventsTriggers extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return EventsTriggers 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
@@ -37,7 +42,7 @@ class EventsTriggers extends CActiveRecord{
     public function bySimIdAndEventId($simId, $eventId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'trigger_time <= '.time().' and sim_id='.$simId,
+            'condition' => "sim_id = $simId and event_id = $eventId",
             'limit' => 1,
         ));
         return $this;
