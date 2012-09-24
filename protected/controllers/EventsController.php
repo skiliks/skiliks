@@ -207,7 +207,7 @@ class EventsController extends AjaxController{
             //$dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
             
             Logger::debug("get dialogs by code : {$event->code}");
-            $dialogs = Dialogs::model()->byCode($event->code)->findAll();
+            $dialogs = Dialogs::model()->byCode($event->code)->byStepNumber(1)->findAll();
             //Logger::debug("found dialogs for event : {$event->code} " .var_export);
             
             // Убиваем обработанное событие
