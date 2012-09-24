@@ -23,12 +23,12 @@ class DialogController extends AjaxController{
      * @return type 
      */
     public function actionGet() {
-        //try {
+        try {
             $sid = Yii::app()->request->getParam('sid', false);  
             if (!$sid) throw new Exception('Не задан sid', 1);
             
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
-            Logger::debug('try to get dialog : '.  $dialogId);
+            Logger::debug('try to get dialog by id : '.$dialogId);
             if (!$dialogId) throw new Exception('Не задан диалог', 2);
             
             // получаем uid
@@ -65,7 +65,9 @@ class DialogController extends AjaxController{
             // добавим событие в очередь для выбранного диалога
             if ($canCreateEvent) {
                 Logger::debug("try to create event by code : {$currentDialog->next_event_code}");
-                EventService::addByCode($currentDialog->next_event_code, $simId);
+                $gameTime = SimulationService::getGameTime($simId);
+                $gameTime = $gameTime + 1;
+                EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
             }    
             
             ##############################
@@ -206,14 +208,14 @@ class DialogController extends AjaxController{
 
 
             
-        /*} catch (Exception $exc) {
+        } catch (Exception $exc) {
             Logger::debug('exception : '.  $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
             )));
-        }*/
+        }
     }
 }
 

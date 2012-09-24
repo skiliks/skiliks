@@ -38,6 +38,16 @@ class DialogImportController extends AjaxController{
             echo $exc->getMessage();
         }
     }
+    
+    public function actionImportReplica() {
+        try {
+            $service = new DialogImportService();
+            $service->importReplica('media/xls/scenario.csv');  
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
 }
 
 ?>

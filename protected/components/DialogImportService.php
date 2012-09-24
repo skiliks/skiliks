@@ -169,24 +169,18 @@ class DialogImportService {
      * @return int 
      */
     public function import($fileName) {
-        $this->_characters = $this->getCharacters();
-        
-        $this->_charactersStates = $this->getCharactersStates();
-        $this->_dialogSubtypes = $this->getDialogSubtypes();
-        $this->_charactersPoints = $this->getCharactersPoints();
+        $this->_characters          = $this->getCharacters();
+        $this->_charactersStates    = $this->getCharactersStates();
+        $this->_dialogSubtypes      = $this->getDialogSubtypes();
+        $this->_charactersPoints    = $this->getCharactersPoints();
         
         
         // clean
         $connection=Yii::app()->db;   
-
         $this->_cleanData();
 
         
-        Logger::debug("started");
-        
-        //$fileName = "media/data.csv";
-        
-        //$arrLines = file($fileName);
+        Logger::debug("dialog import started");
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         
@@ -195,8 +189,6 @@ class DialogImportService {
         $delays = array();
         $pointsCodes = array();
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-        /*foreach($arrLines as $line) {    
-            $row = explode(';', $line);*/
             
             Logger::debug("index : $index");
             Logger::debug("row : ".var_export($row, true));
@@ -213,28 +205,18 @@ class DialogImportService {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
                 }
-                    //var_dump($pointsCodes); die();
                 $index++;
                 continue;
             }
             if ($index > 802) break;
             
-            //var_dump($row);die();
+
             
             $index++;
             
-            
-            /*if (!isset($row[11])) {
-                echo($line);
-                var_dump($row); die();
-            }*/
-            
             if (!isset($row[1])) {
-                //var_dump($row); die();
                 continue;
             }
-            
-            
             
             $column = array(
                 'A' => $row[0],
@@ -514,6 +496,36 @@ class DialogImportService {
             }
             
             
+        }
+        fclose($handle);
+    }
+    
+    public function importReplica($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        $columns = array();
+        $delays = array();
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 802) {
+                die();
+            }
+            
+            
+            $isFinalReplica = $this->_convert($row[$this->_columns['N']]);
+            if ($isFinalReplica == 'да') {
+                $excelId = $row[$this->_columns['A']];
+                $dialog = Dialogs::model()->byExcelId($excelId)->find();
+                if ($dialog) {
+                    $dialog->is_final_replica = 1;
+                    $dialog->save();
+                    var_dump($dialog->excel_id); echo('<br>');
+                }
+            }
         }
         fclose($handle);
     }
