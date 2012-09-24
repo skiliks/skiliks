@@ -27,8 +27,6 @@ class DialogController extends AjaxController{
             $sid = Yii::app()->request->getParam('sid', false);  
             if (!$sid) throw new Exception('Не задан sid', 1);
             
-            
-            
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
             Logger::debug('try to get dialog : '.  $dialogId);
             if (!$dialogId) throw new Exception('Не задан диалог', 2);
@@ -43,9 +41,12 @@ class DialogController extends AjaxController{
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
             
+            // добавим событие в очередь для выбранного диалога
+            EventService::addByCode($currentDialog->next_event_code, $simId);
+            
             ##############################
             // проверим а не ссылается ли эта реплика на событие типа PN
-            $event = EventsSamples::model()->byId($currentDialog->next_event)->find();
+            /*$event = EventsSamples::model()->byId($currentDialog->next_event)->find();
             if ($event) {
                 $code = $event->code;
                 Logger::debug("check code : {$code}");
@@ -67,7 +68,7 @@ class DialogController extends AjaxController{
                     $todo->task_id = $tasks->id; // $taskId;
                     $todo->insert();
                 }
-            }
+            }*/
             ########################
             
             // проверка а не звонок ли это чтобы залогировать входящий вызов
@@ -122,14 +123,10 @@ class DialogController extends AjaxController{
                     
                     // проверяем а не последняя ли это реплика, если последняя, то не загружаем детей
                     if ($currentDialog->is_final_replica != 1) {
-                    
-                    
                         // получить событие по коду        
                         Logger::debug('try to get event '.$currentDialog->next_event);
 
                         $event = EventsSamples::model()->findByAttributes(array('id' => $currentDialog->next_event));
-
-
                         if ($event) {
                             $dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
                             foreach($dialogs as $dialog) {

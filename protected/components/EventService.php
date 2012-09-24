@@ -35,6 +35,26 @@ class EventService {
         $eventTriggers->trigger_time = $triggerTime;
         $eventTriggers->insert();
     }
+    
+    /**
+     * Добавить событие в симуляцию по коду
+     * @param string $code
+     * @param int $simId
+     * @return type 
+     */
+    public static function addByCode($code, $simId) {
+        if ( ($code == '') || ($code == '-') ) return false;
+        
+        // проверить есть ли событие по такому коду и если есть то создать его
+        $event = EventsSamples::model()->byCode($code)->find();
+        if ($event) {
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id         = $simId;
+            $eventsTriggers->event_id       = $event->id;
+            $eventsTriggers->trigger_time   = $event->trigger_time; 
+            $eventsTriggers->save();
+        }
+    }
 }
 
 ?>

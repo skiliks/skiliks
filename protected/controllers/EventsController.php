@@ -205,6 +205,8 @@ class EventsController extends AjaxController{
 
             // выбираем записи из диалогов где code = code, step_number = 1
             //$dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+            
+            Logger::debug("get dialogs by code : {$event->code}");
             $dialogs = Dialogs::model()->byCode($event->code)->findAll();
             //Logger::debug("found dialogs for event : {$event->code} " .var_export);
             
@@ -214,7 +216,7 @@ class EventsController extends AjaxController{
             
             $data = array();
             foreach($dialogs as $dialog) {
-                Logger::debug("check dialog code : {$dialog->code} next {$dialog->next_event_code}");
+                /*Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
                 if ($dialog->next_event_code == '-')  continue;
                 
                 if ($dialog->next_event_code != '' && $dialog->next_event_code != '-') {
@@ -227,7 +229,7 @@ class EventsController extends AjaxController{
                         $eventsTriggers->trigger_time   = $event->trigger_time; 
                         $eventsTriggers->save();
                     }
-                }
+                }*/
                 
                 /* old
                 // обработка внешних сущностей
