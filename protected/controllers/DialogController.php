@@ -41,8 +41,30 @@ class DialogController extends AjaxController{
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
             
+            Logger::debug("curr dialog : {$currentDialog->code} next event :  {$currentDialog->next_event_code}");
+            
+            
+            
+            // проверим а не диалог ли это и не совпадает ли оно по времени с текущим
+            $canCreateEvent = true;
+            $nextEventDialog = Dialogs::model()->byCode($currentDialog->next_event_code)->find();
+            if ($nextEventDialog) {
+                $nextEvent = EventsSamples::model()->byCode($currentDialog->next_event_code)->find();
+                if ($nextEvent) {
+                    
+                    $curEvent = EventsSamples::model()->byCode($currentDialog->code)->find();
+                    if ($curEvent) {
+                        // проверим не совпадает ли оно по времени с нашим текущим диалогом
+                        if ($curEvent->trigger_time == $nextEvent->trigger_time) $canCreateEvent = FALSE;
+                    }
+                    
+                }
+                
+            }
+            
             // добавим событие в очередь для выбранного диалога
-            EventService::addByCode($currentDialog->next_event_code, $simId);
+            if ($canCreateEvent)
+                EventService::addByCode($currentDialog->next_event_code, $simId);
             
             ##############################
             // проверим а не ссылается ли эта реплика на событие типа PN

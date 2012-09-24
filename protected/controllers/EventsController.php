@@ -216,8 +216,9 @@ class EventsController extends AjaxController{
             
             $data = array();
             foreach($dialogs as $dialog) {
-                /*Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
-                if ($dialog->next_event_code == '-')  continue;
+                Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
+                
+                /*if ($dialog->next_event_code == '-')  continue;
                 
                 if ($dialog->next_event_code != '' && $dialog->next_event_code != '-') {
                 // проверить есть ли событие по такому коду и если есть то создать его
