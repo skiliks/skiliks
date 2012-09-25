@@ -29,14 +29,32 @@ class SimulationController extends AjaxController{
         }
     }
     
+    /**
+     * Предустановка задач в симуляции
+     * @param type $simId 
+     */
     protected function _fillTodo($simId) {
-        $tasks = array(1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 16, 18);
+        //$tasks = array(1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 12, 13, 16, 18);
         
-        foreach($tasks as $taskId) {
-            $todo = new Todo();
-            $todo->sim_id = $simId;
-            $todo->task_id = $taskId;
-            $todo->insert();
+        $tasks = Tasks::model()->byStartType('start')->findAll();
+        
+        foreach($tasks as $task) {
+            if ($task->code != 'P017') {
+                Logger::debug("add todo task : {$task->code}");
+                $todo = new Todo();
+                $todo->sim_id = $simId;
+                $todo->task_id = $task->id;
+                $todo->insert();
+            }
+            else {
+                Logger::debug("add day plan task : {$task->code}");
+                $dayPlan = new DayPlan();
+                $dayPlan->sim_id    = $simId;	
+                $dayPlan->date      = $task->start_time;	
+                $dayPlan->day       = 1;	
+                $dayPlan->task_id   = $task->id;
+                $dayPlan->insert();
+            }
         }
     }
     
@@ -99,7 +117,7 @@ class SimulationController extends AjaxController{
         $this->_fillTodo($simId);
         
         // предустановка задач в план дневной
-        $this->_fillDayPlan($simId);
+        //++$this->_fillDayPlan($simId);
         
         // Копируем игроку его документ в рамках его симуляции
         //ExcelDocumentService::copy('Сводный бюджет', $simId);
