@@ -14,7 +14,7 @@ class MailController extends AjaxController{
      */
     public function actionGetFolders() {
         $sid = Yii::app()->request->getParam('sid', false);  
-        $receiverId = SessionHelper::getUidBySid($sid);
+        $receiverId = 1; // герой SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
         
         $service = new MailBoxService();
