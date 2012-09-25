@@ -47,6 +47,15 @@ class EventsTriggers extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byEvent($eventId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "event_id = $eventId",
+            'limit' => 1,
+        ));
+        return $this;
+    }
 }
 
 ?>

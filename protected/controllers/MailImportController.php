@@ -444,6 +444,46 @@ class MailImportController extends AjaxController{
         fclose($handle);
         echo("All done!");
     }
+    
+    /**
+     * Импорт событий из писем
+     */
+    public function actionImportEvents() {
+        $fileName = 'media/xls/mail2.csv';
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $events = EventService::getAllCodesList();
+        
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            if ($index > 88) {
+                echo('all done'); die();
+            }
+            
+            $code = $row[0];
+            $time = DateHelper::timeToTimstamp($row[2]);
+            
+            // проверим а нет ли уже такого события
+            if (!isset($events[$code])) {
+                $event = new EventsSamples();
+                $event->code = $code;
+                $event->on_ignore_result = 0;	
+                $event->on_hold_logic = 1;
+                $event->trigger_time = $time; 
+                $event->insert();
+                echo("added event : $code <br/>");
+            }
+            
+        }
+        fclose($handle);
+        echo("All done!");    
+    }
 }
 
 ?>

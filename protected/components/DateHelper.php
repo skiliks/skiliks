@@ -18,6 +18,21 @@ class DateHelper {
         $clockM = $unixtimeMins-($clockH*60);
         return array('h' => $clockH, 'm' => $clockM);
     }
+    
+    /**
+     * Преобразование времени в timestamp
+     * @param string $time 12:24
+     * @return false;
+     */
+    public static function timeToTimstamp($time) {
+        if (!strstr($time, ':')) return false;
+            
+        $eventTimeData = explode(':', $time);
+        if (isset($eventTimeData[1])) {
+            return $eventTimeData[0] * 60 + $eventTimeData[1];
+        }
+        return false;    
+    }
 }
 
 ?>
