@@ -53,6 +53,14 @@ class Tasks extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byStartType($startType)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "start_type = '{$startType}'"
+        ));
+        return $this;
+    }
 }
 
 ?>
