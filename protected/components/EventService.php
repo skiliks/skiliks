@@ -67,6 +67,16 @@ class EventService {
         }
     }
     
+    public static function deleteByCode($code, $simId) {
+        $event = EventsSamples::model()->byCode($code)->find();
+        if (!$event) return false; // нет у нас такого события
+        
+        $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+        if (!$eventsTriggers) return false;
+        $eventsTriggers->delete();
+        return true;
+    }
+    
     public static function isDialog($code) {
         return preg_match_all("/E(.*)+/", $code, $matches);
     }
@@ -184,6 +194,19 @@ class EventService {
         }
         
         return $result;
+    }
+    
+    /**
+     * Получение кодов всех событий
+     */
+    public static function getAllCodesList() {
+        $events = EventsSamples::model()->findAll();
+        $list = array();
+        foreach($events as $event) {
+            $list[$event->code] = $event->id;
+        }
+        
+        return $list;
     }
 }
 

@@ -429,6 +429,16 @@ class MailBoxService {
         $model->insert();
         
         self::copyTemplates($simId);
+        
+        // copy mail tasks
+        $events = EventsSamples::model()->likeCode('M%')->findAll(); 
+        foreach($events as $event) {
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id         = $simId;
+            $eventsTriggers->event_id       = $event->id;
+            $eventsTriggers->trigger_time   = $event->trigger_time; 
+            $eventsTriggers->save();
+        }
     }
     
     /**
