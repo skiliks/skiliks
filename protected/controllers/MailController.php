@@ -437,6 +437,7 @@ class MailController extends AjaxController{
                 }
             }
             
+            if (!isset($result['phrases'])) $result['phrases'] = $service->getMailPhrases();  // берем дефолтные
             
             $result['receiver'] = $characters[$model->sender_id];
             $result['receiverId'] = $model->sender_id;
