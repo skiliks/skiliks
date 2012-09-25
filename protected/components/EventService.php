@@ -129,7 +129,11 @@ class EventService {
             Logger::debug("Send message by code : $code");
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
             $mailModel = MailBoxService::copyMessageFromTemplateByCode($simId, $code);
-            //$mailModel = MailBoxModel::model()->byCode($code)->find();
+            if (!$mailModel) {
+                Logger::debug("cant copy mail by code $code");
+                throw new Exception("cant copy mail by code $code");
+            }
+            
             if ($mailModel) {
                 $mailModel->group_id = 1; //входящие
                 $mailModel->save();

@@ -146,15 +146,8 @@ class DialogController extends AjaxController{
                     }
                 }
                 else {
-                    // надо сгенерить событие
-                    if ($currentDialog->replica_number == 0) {
-                        Logger::debug("replica number 0 dialog : {$currentDialog->code} create event {$currentDialog->next_event_code}");
-                        EventService::addByCode($currentDialog->next_event_code, $simId, SimulationService::getGameTime($simId));
-                    }    
-                    else {
-                        $result = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
-                        if ($result) return $this->_sendResponse(200, CJSON::encode($result));
-                    }
+                    $result = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
+                    if ($result) return $this->_sendResponse(200, CJSON::encode($result));
                 }
             }
             else {
@@ -164,6 +157,12 @@ class DialogController extends AjaxController{
                     // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->findAll();
                     foreach($dialogs as $dialog) {
+                        
+                        if ((int)$dialog->replica_number == 0) {
+                            Logger::debug("replica number 0 dialog : {$dialog->code} create event {$dialog->next_event_code}");
+                            EventService::addByCode($dialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                        }    
+                        
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }

@@ -564,6 +564,11 @@ class MailBoxService {
      * @param type $code 
      */
     public static function copyMessageFromTemplateByCode($simId, $code) {
+        // проверим а вдруг у нас уже есть такое сообщение
+        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
+        if ($mailModel) return $mailModel; // сообщение уже есть у нас
+        
+        
         // проверим есть ли такоо сообщение вообще
         $mail = MailTemplateModel::model()->byCode($code)->find();
         if (!$mail) return false; // нечего копировать
@@ -580,7 +585,7 @@ class MailBoxService {
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
         $command->execute();
         
-        $mailModel = MailBoxModel::model()->byCode($code)->find();
+        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
         if (!$mailModel) return false; // что-то пошло не так - письмо не скопировалось в симуляцию
         
         return self::_copyMessageSructure($mailModel);
