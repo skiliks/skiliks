@@ -432,12 +432,14 @@ class MailController extends AjaxController{
                         ->byTheme($subjectId)->find();
                 if ($characterThemeModel) {
                     $characterThemeId = $characterThemeModel->id;
-                    $result['phrases'] = $service->getMailPhrases($characterThemeId);
+                    $result['data'] = $service->getMailPhrases($characterThemeId);
                     $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
             
-            if (!isset($result['phrases'])) $result['phrases'] = $service->getMailPhrases();  // берем дефолтные
+            if (!isset($result['data'])) $result['data'] = $service->getMailPhrases();  // берем дефолтные
+            
+            $result['addData'] = $service->getSigns();
             
             $result['receiver'] = $characters[$model->sender_id];
             $result['receiverId'] = $model->sender_id;
