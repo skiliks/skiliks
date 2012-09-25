@@ -225,7 +225,7 @@ class DayPlanController extends AjaxController{
         $row = $command->queryRow();
         
         if ($row['count'] == 0) return true;
-        return false;
+        return true;
     }
     
     protected function _addDayPlanAfterVacation($simId, $taskId, $date) {
@@ -265,8 +265,11 @@ class DayPlanController extends AjaxController{
             $day = (int)Yii::app()->request->getParam('day', false);
             
             // преобразовать время в unixtime
-            $time = $this->_timeToArr($time);
-            $time = mktime($time[0], $time[1], 0, 0, 0, 0);
+            //$time = $this->_timeToArr($time);
+            //$time = mktime($time[0], $time[1], 0, 0, 0, 0);
+            
+            $date = explode(':', $time);
+            $time = $date[0]*60 + $date[1];
             
             Logger::debug("add : $simId, $taskId, $time");
             
@@ -282,12 +285,12 @@ class DayPlanController extends AjaxController{
             
             // проверить не пытаемся ли мы добавить задачу раньше игрового времени
             if (!$this->_isAppropriateTime($simId, $time)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 0)));
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 0, 'code' => 1)));
             }
             
             // @todo: проверить подходит ли задача по времени
             if (!$this->_canAddTask($taskId, $time)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 0)));
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 0, 'code' => 2)));
             }
             
             
@@ -312,7 +315,7 @@ class DayPlanController extends AjaxController{
             
             return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
         } catch (Exception $exc) {
-            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $data = array('result' => 0, 'message' => $exc->getMessage(), 'code' => $exc->getCode());
             $this->_sendResponse(200, CJSON::encode($data));
         }
     }
