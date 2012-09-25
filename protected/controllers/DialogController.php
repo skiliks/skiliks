@@ -41,7 +41,7 @@ class DialogController extends AjaxController{
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
             
-            Logger::debug("curr dialog : {$currentDialog->code} next event :  {$currentDialog->next_event_code}");
+            Logger::debug("curr dialog : {$currentDialog->code} next event :  {$currentDialog->next_event_code} replica number : {$currentDialog->replica_number}");
             
             
             
@@ -56,7 +56,7 @@ class DialogController extends AjaxController{
                         // проверим не совпадает ли оно по времени с нашим текущим диалогом
                         if ($curEvent->trigger_time == $nextEvent->trigger_time) {
                             Logger::debug("event {$currentDialog->next_event_code} was denied!");
-                            $canCreateEvent = FALSE;
+                            //$canCreateEvent = FALSE;
                         }    
                     }
                 }
@@ -67,7 +67,7 @@ class DialogController extends AjaxController{
                 Logger::debug("try to create event by code : {$currentDialog->next_event_code}");
                 $gameTime = SimulationService::getGameTime($simId);
                 //$gameTime = $gameTime + 1;
-                EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
+                /////////EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
             }    
             
             ##############################
@@ -114,11 +114,11 @@ class DialogController extends AjaxController{
             }
             ############################################################
             
-            Logger::debug('before calculate');
+            
             // запускаем ф-цию расчета оценки -- 
             // 1) к записи, ид которой пришло с фронта
             CalculationEstimateService::calculate($dialogId, $simId);
-            Logger::debug('after calculate');
+            
             /*
             // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
             // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
@@ -133,11 +133,46 @@ class DialogController extends AjaxController{
             // конец расчета оценки
             
             
-                
-            
-                
-            
+            ## new code
             $data = array();
+            if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
+                // смотрим а не является ли следующее событие у нас диалогом
+                if (EventService::isDialog($currentDialog->next_event_code)) {
+                    
+                    // сразу же отдадим реплики по этому событию - моментально
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->findAll();
+                    foreach($dialogs as $dialog) {
+                        $data[] = DialogService::dialogToArray($dialog);
+                    }
+                }
+                else {
+                    // надо сгенерить событие
+                    if ($currentDialog->replica_number == 0) {
+                        Logger::debug("replica number 0 dialog : {$currentDialog->code} create event {$currentDialog->next_event_code}");
+                        EventService::addByCode($currentDialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                    }    
+                    else {
+                        $result = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
+                        if ($result) return $this->_sendResponse(200, CJSON::encode($result));
+                    }
+                }
+            }
+            else {
+                // пробуем загрузить реплики
+                if ($currentDialog->is_final_replica != 1) {
+                    // если нет, то нам надо продолжить диалог
+                    // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->findAll();
+                    foreach($dialogs as $dialog) {
+                        $data[] = DialogService::dialogToArray($dialog);
+                    }
+                }
+            }
+                
+            
+                
+            ### old code
+            /*$data = array();
             // смотрим, есть ли у нее next_event, 
             if ($currentDialog->next_event > 0) {
                 Logger::debug('event > 0');
@@ -180,15 +215,12 @@ class DialogController extends AjaxController{
                 
                     // если нет, то нам надо продолжить диалог
                     // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                    $dialogs = Dialogs::model()->byCodeAndStepNumber(
-                            $currentDialog->code, $currentDialog->step_number + 1
-                    )->findAll();
-                    //Logger::debug('dialogs2 : '.  var_export($dialogs, true));
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->findAll();
                     foreach($dialogs as $dialog) {
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
-            }
+            }*/
             
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
