@@ -181,14 +181,8 @@ class EventService {
         if ($type == 'P') {
             $task = Tasks::model()->byCode($code)->find();
             if (!$task) return false;
-            // проверим есть ли такая задача у нас в туду
-            $todo = Todo::model()->bySimulation($simId)->byTask($task->id)->find();
-            if (!$todo) {
-                $todo = new Todo();
-                $todo->sim_id = $simId;
-                $todo->task_id = $task->id;
-                $todo->insert();
-            }
+            
+            TodoService::add($simId, $task->id);
             
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
         }

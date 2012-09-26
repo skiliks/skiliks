@@ -54,6 +54,8 @@ class Tasks extends CActiveRecord{
         return $this;
     }
     
+    
+    
     public function byStartType($startType)
     {
         $this->getDbCriteria()->mergeWith(array(

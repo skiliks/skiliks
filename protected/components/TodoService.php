@@ -30,10 +30,15 @@ class TodoService {
      * @param int $taskId 
      */
     public static function add($simId, $taskId) {
-        $todo = new Todo();
-        $todo->sim_id = $simId;
-        $todo->task_id = $taskId;
-        $todo->insert();
+        // проверим есть ли такая задача у нас в туду
+        $todo = Todo::model()->bySimulation($simId)->byTask($taskId)->find();
+        if (!$todo) {
+            $todo = new Todo();
+            $todo->sim_id = $simId;
+            $todo->task_id = $taskId;
+            $todo->adding_date = time();
+            $todo->insert();
+        }
     }
 }
 

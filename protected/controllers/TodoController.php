@@ -19,33 +19,20 @@ class TodoController extends AjaxController{
     }
     
     public function actionGet() {
-        
-        
-        /*$tasks = Tasks::model()->findAll();
-            $list = array();
-            foreach($tasks as $task) {
-                $list[] = array(
-                    'id' => $task->id,
-                    'title' => $task->title,
-                    'duration' => $this->_roundTime($task->duration),
-                    'type' => $task->type
-                );
-            }
-            
-        $data = array('result' => 1, 'data' => $list);
-        return $this->_sendResponse(200, CJSON::encode($data));*/
-        //////////////////////////////////////////
-        
         try {
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("Не передан sid");
             $simId = SessionHelper::getSimIdBySid($sid);
             
-            $todoCollection = Todo::model()->bySimulation($simId)->findAll();
+            $todoCollection = Todo::model()->bySimulation($simId)->byLatestAddingDate()->findAll();
             
             $tasks = array();
+            $taskOrder = array();
+            $order = 0;
             foreach($todoCollection as $item) {
                 $tasks[] = $item->task_id;
+                $taskOrder[$item->task_id] = $order;
+                $order++;
             }
             if (count($tasks) == 0) {
                 $data = array('result' => 1, 'data' => array());
@@ -55,7 +42,7 @@ class TodoController extends AjaxController{
             $tasks = Tasks::model()->byIds($tasks)->findAll();
             $list = array();
             foreach($tasks as $task) {
-                $list[] = array(
+                $list[$taskOrder[$task->id]] = array(
                     'id' => $task->id,
                     'title' => $task->title,
                     'duration' => $this->_roundTime($task->duration)

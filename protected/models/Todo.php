@@ -42,6 +42,14 @@ class Todo extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byLatestAddingDate()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "adding_date desc"
+        ));
+        return $this;
+    }
 }
 
 ?>
