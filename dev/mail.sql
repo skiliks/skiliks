@@ -594,3 +594,9 @@ alter table mail_template add column sending_time_str varchar(5);
 alter table mail_template add column sending_date_str varchar(10);
 
 alter table mail_box add column sending_time int(11);
+
+
+alter table mail_character_themes add column phone tinyint(1);
+alter table mail_character_themes add column phone_wr char(1);
+alter table mail_character_themes add column phone_dialog_number varchar(12);
+alter table mail_character_themes add column mail tinyint(1);

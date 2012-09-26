@@ -17,6 +17,7 @@ class CharactersController extends AjaxController{
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         
+        /*
         // Добавим героя
         $code = 0;
         $title = 'герой';
@@ -26,7 +27,7 @@ class CharactersController extends AjaxController{
             $model->code = $code;
             $model->title = $title;
             $model->fio = $fio;
-            $model->insert();
+            $model->insert();*/
         
         
         $index = 0;

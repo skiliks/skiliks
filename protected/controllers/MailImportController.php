@@ -383,24 +383,22 @@ class MailImportController extends AjaxController{
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
-            if ($index <= 1) {
-                continue;
-            }
+            if ($index <= 1) continue;
             
-            if ($index > 81) {
-                echo('all done'); die();
-            }
+            if ($index > 115) { echo('all done'); die(); }
             
             $characterCode = $row[0];
-            if (!isset($characters[$characterCode])) {
-                throw new Exception("cant find character by code $characterCode");
-            }
-            $characterId = $characters[$characterCode];
-            
-            $subject = iconv("Windows-1251", "UTF-8", $row[2]);
-            $mailCode = $row[3];
-            $wr = $row[4];
-            $constructorNumber = $row[5];
+            if (!isset($characters[$characterCode])) throw new Exception("cant find character by code $characterCode");
+
+            $characterId        = $characters[$characterCode];
+            $subject            = iconv("Windows-1251", "UTF-8", $row[2]);
+            $phone              = $row[3];
+            $phoneWr            = $row[4];
+            $phoneDialogNumber  = $row[5];
+            $mail               = $row[6];
+            $mailCode           = $row[7];
+            $wr                 = $row[8];
+            $constructorNumber  = $row[9];
             
             // определить код темы
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
@@ -411,35 +409,34 @@ class MailImportController extends AjaxController{
             }
             $subjectId = $subjectModel->id;
             
+           
+            
+            
             $mailCharacterTheme = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($subjectId)->find();
             if (!$mailCharacterTheme) {
                 $mailCharacterTheme = new MailCharacterThemesModel();
-                $mailCharacterTheme->character_id = $characterId;
-                $mailCharacterTheme->theme_id = $subjectId;
-                $mailCharacterTheme->letter_number = $mailCode;
-                $mailCharacterTheme->wr = $wr;
-                $mailCharacterTheme->constructor_number = $constructorNumber;
+                $mailCharacterTheme->character_id           = $characterId;
+                $mailCharacterTheme->theme_id               = $subjectId;
+                $mailCharacterTheme->letter_number          = $mailCode;
+                $mailCharacterTheme->wr                     = $wr;
+                $mailCharacterTheme->constructor_number     = $constructorNumber;
+                $mailCharacterTheme->phone                  = $phone;
+                $mailCharacterTheme->phone_wr               = $phoneWr;
+                $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
+                $mailCharacterTheme->mail                   = $mail;
                 $mailCharacterTheme->insert();
             }
             else {
                 $mailCharacterTheme->letter_number = $mailCode;
                 $mailCharacterTheme->wr = $wr;
                 $mailCharacterTheme->constructor_number = $constructorNumber;
+                $mailCharacterTheme->phone                  = $phone;
+                $mailCharacterTheme->phone_wr               = $phoneWr;
+                $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
+                $mailCharacterTheme->mail                   = $mail;
                 $mailCharacterTheme->update();
             }
             
-            
-            /*$mail = MailTemplateModel::model()->byCode($code)->find();
-            if (!$mail) {
-                echo("cant find mail by code $code"); die();
-            }
-            
-            
-            $model = new MailTasksModel();
-            $model->mail_id = $mail->id;
-            $model->name = $task;
-            $model->duration = $duration;
-            $model->insert();*/
         }
         fclose($handle);
         echo("All done!");
