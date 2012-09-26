@@ -586,3 +586,9 @@ alter table mail_character_themes add column wr char(1);
 alter table mail_character_themes add column constructor_number varchar(5);
 
 alter table mail_phrases add column code varchar(5);
+
+------------------
+alter table mail_template add column sending_time int(11);
+alter table mail_template add column sending_time_str varchar(5);
+
+alter table mail_template add column sending_date_str varchar(10);

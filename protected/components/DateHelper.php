@@ -13,6 +13,16 @@ class DateHelper {
         return date('d.m.Y G:i', $date);
     }
     
+    public static function dateStringToTimestamp($date) {
+        if (!strstr($date, '.')) return false;
+        
+        $data = explode('.', $date);
+        $day = $data[0];
+        $mon = $data[1];
+        $year = $data[2];
+        return mktime(0, 0, 0, $mon, $day, $year);
+    }
+    
     public static function timestampTimeToArr($unixtimeMins) {
         $clockH = floor($unixtimeMins/60);
         $clockM = $unixtimeMins-($clockH*60);

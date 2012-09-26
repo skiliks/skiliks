@@ -48,6 +48,15 @@ class EventsTriggers extends CActiveRecord{
         return $this;
     }
     
+    public function bySimIdAndEventCode($simId, $eventCode)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = $simId and code = '$eventCode'",
+            'limit' => 1,
+        ));
+        return $this;
+    }
+    
     public function byEvent($eventId)
     {
         $this->getDbCriteria()->mergeWith(array(
