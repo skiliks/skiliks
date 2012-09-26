@@ -382,22 +382,23 @@ class MailBoxService {
         if ($id) {
             // получить код набора фраз
             $mailCharacterTheme = MailCharacterThemesModel::model()->byId($id)->find();
-            if (!$mailCharacterTheme) throw new Exception("cant get charater theme");
-            $constructorNumber = $mailCharacterTheme->constructor_number;
-            // получить фразы по коду
-            $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
+            // Если у нас прописан какой-то конструктор
+            if ($mailCharacterTheme) {
+                $constructorNumber = $mailCharacterTheme->constructor_number;
+                // получить фразы по коду
+                Logger::debug("get mail phrases by code: $constructorNumber");
+                $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
+
+                $list = array();
+                foreach($phrases as $model) {
+                    $list[$model->id] = $model->name;
+                }
+                return $list;
+            }
         }
-        
-        if (count($phrases)==0) $phrases = MailPhrasesModel::model()->byCode('W1')->findAll();
-        
-        /* old code
-        if ($ids == 1) {
-            $phrases = MailPhrasesModel::model()->byCharacterThemes($ids)->findAll();
-        }
-        else {
-            $phrases = MailPhrasesModel::model()->byType(2)->findAll();
-        }*/
-        
+
+        // конструтор не прописан - вернем дефолтовый 
+        if (count($phrases)==0) $phrases = MailPhrasesModel::model()->byCode('B1')->findAll();
         $list = array();
         foreach($phrases as $model) {
             $list[$model->id] = $model->name;
