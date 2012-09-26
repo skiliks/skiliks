@@ -74,16 +74,46 @@ class EventsController extends AjaxController{
             // получить ближайшее событие
             Logger::debug("try to find trigger for time $gameTime sim {$simulation->id}");
             $triggers = EventsTriggers::model()->nearest($simulation->id, $gameTime)->findAll();
-            //var_dump($triggers); die();
+            
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
 
+            $eventCode = false;
+            if (count($triggers)>0) {  // если у нас много событий
+                
+                $index = 0;
+                Logger::debug("process triggers");
+                foreach($triggers as $trigger) {
+                    
+                    $event = EventsSamples::model()->byId($trigger->event_id)->find();
+                    if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
+                    
+                    Logger::debug("found event by code {$event->code}");
+                    
+                    // Убиваем обработанное событие
+                    $trigger->delete();
+                    $result = EventService::processLinkedEntities($event->code, $simulation->id);
+                    if ($index == 0) {
+                        if ($result) return $this->_sendResponse(200, CJSON::encode($result));
+                        
+                        $eventCode = $event->code;
+                    }
+                    
+                    $index++;
+                }
+            }
+            
+            if (!$eventCode) {
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
+            }
+            
+            /**********************
             $trigger = $triggers[0];  // получаем актуальное событие для заданной симуляции
             Logger::debug("found trigger : {$trigger->event_id}");
             
             // получить диалог
-            $event = EventsSamples::model()->findByAttributes(array('id'=>$trigger->event_id));
+            $event = EventsSamples::model()->byId($trigger->event_id);
             if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
-            //} //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            
 
             // Убиваем обработанное событие
             $trigger->delete();
@@ -94,17 +124,10 @@ class EventsController extends AjaxController{
             if ($result) {
                 return $this->_sendResponse(200, CJSON::encode($result));
             }
-
-            // выбираем записи из диалогов где code = code, step_number = 1
-            //$dialogs = Dialogs::model()->byCodeAndStepNumber($event->code, 1)->findAll();
+            *************************************/
             
-            Logger::debug("get dialogs by code : {$event->code}");
-            $dialogs = Dialogs::model()->byCode($event->code)->byStepNumber(1)->findAll();
-            //Logger::debug("found dialogs for event : {$event->code} " .var_export);
-            
-            // Убиваем обработанное событие
-            //if (isset($trigger))
-            //$trigger->delete();
+            Logger::debug("get dialogs by code : {$eventCode}");
+            $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->findAll();
             
             $data = array();
             foreach($dialogs as $dialog) {
@@ -118,36 +141,12 @@ class EventsController extends AjaxController{
                         EventService::addByCode($dialog->next_event_code, $simulation->id, SimulationService::getGameTime($simulation->id));
                     }
                 }
-                
-                /*if ($dialog->next_event_code == '-')  continue;
-                
-                if ($dialog->next_event_code != '' && $dialog->next_event_code != '-') {
-                // проверить есть ли событие по такому коду и если есть то создать его
-                    $event = EventsSamples::model()->byCode($dialog->next_event_code)->find();
-                    if ($event) {
-                        $eventsTriggers = new EventsTriggers();
-                        $eventsTriggers->sim_id         = $simulation->id;
-                        $eventsTriggers->event_id       = $event->id;
-                        $eventsTriggers->trigger_time   = $event->trigger_time; 
-                        $eventsTriggers->save();
-                    }
-                }*/
-                
-                /* old
-                // обработка внешних сущностей
-                $result = $this->_processLinkedEntities($dialog->next_event_code, $simulation->id);
-                if ($result) {
-                    return $this->_sendResponse(200, CJSON::encode($result));
-                }*/
-                
                 $data[] = DialogService::dialogToArray($dialog);
             }
             
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
-                //Logger::debug("get character title : $characterId");
                 $character = Characters::model()->byId($characterId)->find();
-                //Logger::debug("found character : ".var_export($character));
                 if ($character) {
                     $data[0]['title'] = $character->title;
                     $data[0]['name'] = $character->fio;
