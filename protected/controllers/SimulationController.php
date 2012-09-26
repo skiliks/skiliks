@@ -41,10 +41,7 @@ class SimulationController extends AjaxController{
         foreach($tasks as $task) {
             if ($task->code != 'P017') {
                 Logger::debug("add todo task : {$task->code}");
-                $todo = new Todo();
-                $todo->sim_id = $simId;
-                $todo->task_id = $task->id;
-                $todo->insert();
+                TodoService::add($simId, $task->id);
             }
             else {
                 Logger::debug("add day plan task : {$task->code}");
