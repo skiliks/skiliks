@@ -592,3 +592,5 @@ alter table mail_template add column sending_time int(11);
 alter table mail_template add column sending_time_str varchar(5);
 
 alter table mail_template add column sending_date_str varchar(10);
+
+alter table mail_box add column sending_time int(11);

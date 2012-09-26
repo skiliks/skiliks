@@ -143,10 +143,10 @@ class MailBoxService {
                 'id' => $message->id,
                 'subject' => $subject,
                 //'message' => $message->message,
-                'sendingDate' => DateHelper::toString($message->sending_date),
+                'sendingDate' => DateHelper::toString($message->sending_date + $message->sending_time*60),
                 'sendingDateInt' => $message->sending_date,
-                'receivingDate' => DateHelper::toString($message->receiving_date),
-                'receivingDateInt' => $message->receiving_date,
+                'receivingDate' => DateHelper::toString($message->sending_date + $message->sending_time*60), //DateHelper::toString($message->receiving_date),
+                'receivingDateInt' => $message->sending_date, //$message->receiving_date,
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
                 'readed' => $readed,
@@ -669,8 +669,8 @@ class MailBoxService {
         $connection = Yii::app()->db;
         $receivingDate = time();
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, sending_time)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code, sending_time
             from mail_template";
         
         $command = $connection->createCommand($sql);     
