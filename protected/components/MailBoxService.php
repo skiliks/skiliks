@@ -449,8 +449,8 @@ class MailBoxService {
         foreach($events as $event) {
             Logger::debug("check mail event : ".var_export($event, true));
             
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventCode($simId, $event['id']);
-            if (count($eventsTriggers)==0) continue; // у нас уже есть такое событие
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event['id'])->find();
+            if ($eventsTriggers) continue; // у нас уже есть такое событие
             
             Logger::debug("create mail event : {$event['code']}");
             $eventsTriggers = new EventsTriggers();

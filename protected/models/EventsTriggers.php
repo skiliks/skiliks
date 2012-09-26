@@ -34,6 +34,7 @@ class EventsTriggers extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "trigger_time <= {$triggerTime} and sim_id={$simId}",
+            'order' => "trigger_time asc",       
             //'limit' => 1,
         ));
         return $this;
