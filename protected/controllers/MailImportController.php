@@ -237,12 +237,19 @@ class MailImportController extends AjaxController{
             $characters[$characterItem->code] = $characterItem->id;
         }
         
+        $connection=Yii::app()->db;   
+
+        
+        $sql = 'ALTER TABLE `mail_tasks` AUTO_INCREMENT =1';
+        $command = $connection->createCommand($sql);
+        $command->execute();
+        
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
-            if ($index <= 2) continue;
+            if ($index <= 1) continue;
             
             if ($index > 102) {
                 echo('all done'); die();
@@ -256,7 +263,7 @@ class MailImportController extends AjaxController{
             
             $mail = MailTemplateModel::model()->byCode($code)->find();
             if (!$mail) {
-                echo("cant find mail by code $code"); die();
+                throw new Exception("cant find mail by code $code");
             }
             
             $model = new MailTasksModel();
@@ -266,7 +273,8 @@ class MailImportController extends AjaxController{
             $model->code = $code;
             $model->wr = $wr;
             $model->category = $category;
-            $model->insert();
+            if (!$model->insert()) throw new Exception("cant create $code $duration");
+            
         }
         fclose($handle);
         echo("Done");
