@@ -435,15 +435,30 @@ class MailBoxService {
         self::copyTemplates($simId);
         
         // copy mail tasks
-        /*$sql = 'SELECT code , code REGEXP "^M[[:digit:]]+$"  as code2 FROM `events_samples`  where code REGEXP "^M[[:digit:]]+$"  =1 and trigger_time>0';
-        $events = EventsSamples::model()->likeCode('M%')->findAll(); 
+        $sql = 'SELECT e.id, e.trigger_time,
+                e.code , e.code REGEXP "^M[[:digit:]]+$"  as code2, m.sending_date_str, m.sending_time_str
+            FROM `events_samples` as e  
+            inner join mail_template as m on (m.code = e.code and m.sending_date=1349308800 and sending_time>0)
+            where e.code REGEXP "^M[[:digit:]]+$" =1 and e.trigger_time>0 order by sending_time_str';
+        
+        $command = Yii::app()->db->createCommand($sql);
+        $events = $command->queryAll();
+        
+        
+        //$events = EventsSamples::model()->likeCode('M%')->findAll(); 
         foreach($events as $event) {
+            Logger::debug("check mail event : ".var_export($event, true));
+            
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventCode($simId, $event['id']);
+            if (count($eventsTriggers)==0) continue; // у нас уже есть такое событие
+            
+            Logger::debug("create mail event : {$event['code']}");
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id         = $simId;
-            $eventsTriggers->event_id       = $event->id;
-            $eventsTriggers->trigger_time   = $event->trigger_time; 
+            $eventsTriggers->event_id       = $event['id'];
+            $eventsTriggers->trigger_time   = $event['trigger_time']; 
             $eventsTriggers->save();
-        }*/
+        }
     }
     
     /**

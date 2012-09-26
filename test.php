@@ -6,6 +6,19 @@ header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
+$a['tm_mday'] = 3;
+$a['tm_mon'] = 10;
+$a['tm_year'] = 2012;
+
+//1349308800
+//1349222400
+ $time = mktime(0, 0, 0, $a['tm_mon'], $a['tm_mday'], $a['tm_year']);
+ $d = date("m.d.y", $time);  
+ $d2 = date("m.d.y", '1349308800');  
+ var_dump($d2);
+ var_dump($d);
+ var_dump($time);
+ die();
 
 $date = 1348402200;
 echo date('d.m.Y G:i', $date);

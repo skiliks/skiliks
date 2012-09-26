@@ -484,6 +484,42 @@ class MailImportController extends AjaxController{
         fclose($handle);
         echo("All done!");    
     }
+    
+    public function actionImportTime() {
+        $fileName = 'media/xls/mail2.csv';
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $events = EventService::getAllCodesList();
+        
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            if ($index > 88) {
+                echo('all done'); die();
+            }
+            
+            $code = $row[0];
+            $date = DateHelper::dateStringToTimestamp($row[1]);
+            $time = DateHelper::timeToTimstamp($row[2]);
+            
+            $mail = MailTemplateModel::model()->byCode($code)->find();
+            if ($mail) {
+                $mail->sending_date = $date;
+                $mail->sending_date_str = $row[1];
+                $mail->sending_time = $time;
+                $mail->sending_time_str = $row[2];
+                $mail->save();
+            }
+            
+        }
+        fclose($handle);
+        echo("All done!");    
+    }
 }
 
 ?>
