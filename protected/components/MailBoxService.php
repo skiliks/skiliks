@@ -619,10 +619,10 @@ class MailBoxService {
         $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
         if (!$mailModel) return false; // что-то пошло не так - письмо не скопировалось в симуляцию
         
-        return self::_copyMessageSructure($mailModel);
+        return self::_copyMessageSructure($mailModel, $simId);
     }
     
-    protected static function _copyMessageSructure($mail) {
+    protected static function _copyMessageSructure($mail, $simId) {
         $connection = Yii::app()->db;
         $id = $mail->id;
         $templateId = $mail->template_id;
@@ -681,7 +681,7 @@ class MailBoxService {
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
         foreach($mailCollection as $mail) {
-            self::_copyMessageSructure($mail);
+            self::_copyMessageSructure($mail, $simId);
         }
     }
     

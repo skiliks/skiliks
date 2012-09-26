@@ -517,6 +517,50 @@ class MailImportController extends AjaxController{
         fclose($handle);
         echo("All done!");    
     }
+    
+    public function actionImportAttache() {
+        $fileName = 'media/xls/mail2.csv';
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $documents = MyDocumentsService::getAllCodes();
+        //var_dump($documents); die();
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            if ($index > 88) {
+                echo('all done'); die();
+            }
+            
+            $code = $row[0];
+            $attache = $row[11];
+            
+            if ($attache == '' || $attache =='-') continue; // нет аттачей
+                
+            $mail = MailTemplateModel::model()->byCode($code)->find();
+            if ($mail) {
+                if (isset($documents[$attache])) {
+                    $fileId = $documents[$attache];
+                    
+                    $attacheModel = MailAttachmentsTemplateModel::model()->byMailId($mail->id)->byFileId($fileId)->find();
+                    if (!$attacheModel) {
+                        $attacheModel = new MailAttachmentsTemplateModel();
+                        $attacheModel->mail_id = $mail->id;
+                        $attacheModel->file_id = $fileId;
+                        $attacheModel->insert();
+                        echo("insert attache : $attache <br/>");
+                    }
+                }
+            }
+            
+        }
+        fclose($handle);
+        echo("All done!");    
+    }
 }
 
 ?>

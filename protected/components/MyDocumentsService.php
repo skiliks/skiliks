@@ -42,6 +42,16 @@ class MyDocumentsService {
         if (!$document) return false;
         return $document->template_id;
     }
+    
+    public static function getAllCodes() {
+        $documents = MyDocumentsTemplateModel::model()->findAll();
+        
+        $list = array();
+        foreach($documents as $document) {
+            $list[$document->code] = $document->id;
+        }
+        return $list;
+    }
 }
 
 ?>
