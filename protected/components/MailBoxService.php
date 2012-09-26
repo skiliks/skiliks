@@ -435,6 +435,7 @@ class MailBoxService {
         self::copyTemplates($simId);
         
         // copy mail tasks
+        /*$sql = 'SELECT code , code REGEXP "^M[[:digit:]]+$"  as code2 FROM `events_samples`  where code REGEXP "^M[[:digit:]]+$"  =1 and trigger_time>0';
         $events = EventsSamples::model()->likeCode('M%')->findAll(); 
         foreach($events as $event) {
             $eventsTriggers = new EventsTriggers();
@@ -442,7 +443,7 @@ class MailBoxService {
             $eventsTriggers->event_id       = $event->id;
             $eventsTriggers->trigger_time   = $event->trigger_time; 
             $eventsTriggers->save();
-        }
+        }*/
     }
     
     /**
