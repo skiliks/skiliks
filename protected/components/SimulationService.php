@@ -104,6 +104,22 @@ class SimulationService {
         $model->value = $points;
         $model->save();
     }
+    
+    /**
+     * Установка флага в рамках симуляции
+     * @param int $simId
+     * @param string $flag 
+     */
+    public static function setFlag($simId, $flag) {
+        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
+        if ($model) return true; // флаг уже установлен
+        
+        $model = new SimulationFlagsModel();
+        $model->sim_id = $simId;
+        $model->flag = $flag;
+        $model->value = 1;
+        $model->insert();
+    }
 }
 
 ?>

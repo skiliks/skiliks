@@ -20,3 +20,16 @@ ALTER TABLE  `dialogs` add column `excel_id` int(11);
 
 -------
 ALTER TABLE  `dialogs` add column `next_event_code` varchar(5);
+----------------
+ALTER TABLE  `dialogs` add column `flag` varchar(5);
+
+CREATE TABLE `simulation_flags` (
+  `id`      int(11) NOT NULL AUTO_INCREMENT,
+  `sim_id`  int(11),
+  `flag`    varchar(5) comment 'название флага',
+  `value`   tinyint(1) default null,  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'флаги симуляции';
+
+alter table `simulation_flags` add CONSTRAINT `fk_simulation_flags_sim_id` FOREIGN KEY (`sim_id`) 
+        REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

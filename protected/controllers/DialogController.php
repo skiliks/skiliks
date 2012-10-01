@@ -44,6 +44,12 @@ class DialogController extends AjaxController{
             Logger::debug("curr dialog : {$currentDialog->code} next event :  {$currentDialog->next_event_code} replica number : {$currentDialog->replica_number}");
             
             
+            // проверим флаги
+            if ($currentDialog->flag != '') {
+                // если для данной реплики установлен флаг
+                // установим флаг в рамках симуляции
+                SimulationService::setFlag($simId, $currentDialog->flag);
+            }
             
             // проверим а не диалог ли это и не совпадает ли оно по времени с текущим
             /*$canCreateEvent = true;
