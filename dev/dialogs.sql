@@ -34,8 +34,25 @@ CREATE TABLE `simulation_flags` (
 alter table `simulation_flags` add CONSTRAINT `fk_simulation_flags_sim_id` FOREIGN KEY (`sim_id`) 
         REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+
+
 CREATE TABLE `flags_rules` (
   `id`          int(11) NOT NULL AUTO_INCREMENT,
   `rule_name`   varchar(32) comment 'имя правила',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'правила на основании флагов';
+
+alter table `flags_rules` add column rec_id         int(11);
+alter table `flags_rules` add column step_number    tinyint(2);
+alter table `flags_rules` add column replica_number tinyint(2);
+
+CREATE TABLE `flags_rules_content` (
+  `id`          int(11) NOT NULL AUTO_INCREMENT,
+  `rule_id`     int(11),
+  `flag`        varchar(5) comment 'название флага',
+  `value`       tinyint(1) default null,  
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'состав прав на основании флагов';
+
+alter table `flags_rules_content` add CONSTRAINT `fk_flags_rules_content_rule_id` FOREIGN KEY (`rule_id`) 
+        REFERENCES `flags_rules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
