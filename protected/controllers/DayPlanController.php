@@ -133,11 +133,12 @@ class DayPlanController extends AjaxController{
             $vacationTasks = array();
             $vacationsCollection = DayPlanAfterVacation::model()->bySimulation($simId)->findAll();
             foreach($vacationsCollection as $item) {
-                $date = $this->dateToArr($item->date);
+                //$date = $this->dateToArr($item->date);
+                $date = DateHelper::timestampTimeToArr($item->date);
                 
                 $tasks[] = $item->task_id;
                 $vacationTasks[] = array(
-                    'date' => $this->_shell_numberFormat($date[self::HOUR].':'.$date[self::MINUTE], 5),  // дата в формате hh:mm
+                    'date' => $this->_shell_numberFormat($date['h'], 2).':'.$this->_shell_numberFormat($date['m'], 2),  // дата в формате hh:mm
                     'task_id' => $item->task_id
                 );
             }
