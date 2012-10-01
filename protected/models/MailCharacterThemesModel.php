@@ -49,6 +49,14 @@ class MailCharacterThemesModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byPhone()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "phone = 1"
+        ));
+        return $this;
+    }
 }
 
 ?>

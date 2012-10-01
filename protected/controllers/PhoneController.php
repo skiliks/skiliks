@@ -33,6 +33,36 @@ class PhoneController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    /**
+     * Получение списка тем
+     */
+    public function actionGetThemes() {
+        $id = (int)Yii::app()->request->getParam('id', false);  // персонаж
+        
+        
+        $themes = MailCharacterThemesModel::model()->byCharacter($id)->byPhone()->findAll();
+        $themeIds = array();
+        foreach($themes as $theme) {
+            $themeIds[] = $theme->theme_id;
+        }
+        
+        $result = array();
+        $result['result'] = 1;
+        if (count($themeIds) == 0) {
+            $result['data'] = array();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+        
+        $themes = MailThemesModel::model()->byIds($themeIds)->findAll();
+        $list = array();
+        foreach($themes as $theme) {
+            $list[$theme->id] = $theme->name;
+        }
+        
+        $result['data'] = $list;
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
     public function actionCall() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);  // персонаж
