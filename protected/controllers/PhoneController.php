@@ -38,34 +38,16 @@ class PhoneController extends AjaxController{
      */
     public function actionGetThemes() {
         $id = (int)Yii::app()->request->getParam('id', false);  // персонаж
-        
-        
-        $themes = MailCharacterThemesModel::model()->byCharacter($id)->byPhone()->findAll();
-        $themeIds = array();
-        foreach($themes as $theme) {
-            $themeIds[] = $theme->theme_id;
-        }
-        
+
         $result = array();
         $result['result'] = 1;
-        if (count($themeIds) == 0) {
-            $result['data'] = array();
-            return $this->_sendResponse(200, CJSON::encode($result));
-        }
-        
-        $themes = MailThemesModel::model()->byIds($themeIds)->findAll();
-        $list = array();
-        foreach($themes as $theme) {
-            $list[$theme->id] = $theme->name;
-        }
-        
-        $result['data'] = $list;
+        $result['data'] = PhoneService::getThemes($id);
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
     public function actionCall() {
         try {
-            $sid = Yii::app()->request->getParam('sid', false);  // персонаж
+            $sid = Yii::app()->request->getParam('sid', false);     
             if (!$sid) throw new Exception("empty sid");
             $id = (int)Yii::app()->request->getParam('id', false);  // персонаж
 
@@ -80,8 +62,26 @@ class PhoneController extends AjaxController{
             $model->to_id = $id; // какому персонажу мы звоним
             $model->insert();
 
+            // подготовим список тем
+            $themes = PhoneService::getThemes($id);
+            $data = array();
+            foreach($themes as $themeId=>$themeName) {
+                $data[$themeId] = array(
+                    'id'                => $themeId,
+                    'ch_from'           => 1,
+                    'ch_from_state'     => 1,
+                    'ch_to'             => $id,
+                    'ch_to_state'       => 1,
+                    'dialog_subtype'    => 2,
+                    'text'              => $themeName,
+                    'sound'             => '#',
+                    'duration'          => 5
+                );
+            }
+            
             $result = array();
             $result['result'] = 1;
+            $result['data'] = $data;
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array();

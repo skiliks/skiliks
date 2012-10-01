@@ -24,7 +24,12 @@ class DialogImportService {
         'L' => 11,
         'M' => 12,
         'N' => 13,
-        'O' => 14
+        'O' => 14,
+        'P' => 15,
+        'Q' => 16,
+        'R' => 17,
+        'S' => 18,
+        'T' => 19
     );
     
     protected $_characters = array();
@@ -528,6 +533,41 @@ class DialogImportService {
             }
         }
         fclose($handle);
+    }
+    
+    public function importFlags($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        $columns = array();
+        $delays = array();
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 802) {
+                die();
+            }
+            
+            $flag = $row[$this->_columns['T']];
+            if ($flag == '') continue;
+            if (!preg_match('/^F\d+$/', $flag)) continue;
+            var_dump($flag);
+            
+            $excelId = $row[$this->_columns['A']];
+            
+            $dialog = Dialogs::model()->byExcelId($excelId)->find();
+            if ($dialog) {
+                $dialog->flag = $flag;
+                $dialog->save();
+                echo("saved flag : $flag");
+                //var_dump($dialog->excel_id); echo('<br>');
+            }
+            
+        }
+        fclose($handle);
+        echo("Done");
     }
 }
 
