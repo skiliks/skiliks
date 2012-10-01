@@ -120,6 +120,22 @@ class SimulationService {
         $model->value = 1;
         $model->insert();
     }
+    
+    /**
+     * Получить список флагов в рамках симуляции
+     * @param int $simId
+     * @return array
+     */
+    public static function getFlags($simId) {
+        $flags = SimulationFlagsModel::model()->bySimulation($simId)->findAll();
+        
+        $list = array();
+        foreach($flags as $flag) {
+            $list[$flag->flag] = $flag->value;
+        }
+        
+        return $list;
+    }
 }
 
 ?>

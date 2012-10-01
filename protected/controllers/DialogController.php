@@ -173,6 +173,19 @@ class DialogController extends AjaxController{
                             EventService::addByCode($dialog->next_event_code, $simId, SimulationService::getGameTime($simId));
                         }    
                         
+                        // попробуем учесть симуляцию
+                        Logger::debug("check flags");
+                        $flagInfo = FlagsService::checkRule($dialog->code, $simId);
+                        Logger::debug("flag info : ".var_export($flagInfo, true));
+                        if ($flagInfo) {
+                            if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
+                                if ($flagInfo['recId'] != $dialog->excel_id) {
+                                    Logger::debug("skipped replica : {$dialog->excel_id}");
+                                    continue; // эта реплика не пойдет в выборку
+                                }    
+                            }
+                        }
+                        
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
