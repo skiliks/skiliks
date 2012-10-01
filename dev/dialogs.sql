@@ -33,3 +33,9 @@ CREATE TABLE `simulation_flags` (
 
 alter table `simulation_flags` add CONSTRAINT `fk_simulation_flags_sim_id` FOREIGN KEY (`sim_id`) 
         REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE TABLE `flags_rules` (
+  `id`          int(11) NOT NULL AUTO_INCREMENT,
+  `rule_name`   varchar(32) comment 'имя правила',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 comment 'правила на основании флагов';
