@@ -66,7 +66,7 @@ class PhoneController extends AjaxController{
             $themes = PhoneService::getThemes($id);
             $data = array();
             foreach($themes as $themeId=>$themeName) {
-                $data[$themeId] = array(
+                $data[] = array(
                     'id'                => $themeId,
                     'ch_from'           => 1,
                     'ch_from_state'     => 1,
