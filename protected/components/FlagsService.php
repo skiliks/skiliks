@@ -9,9 +9,18 @@
  */
 class FlagsService {
     
-    public static function getRules($rule) {
+    /*public static function getRules($rule) {
         $ruleModel = FlagsRulesModel::model()->byName($rule)->find();
         if (!$ruleModel) return false;
+    }*/
+    
+    /**
+     * Определяет правило по заданному коду события
+     * @param string $code
+     * @return FlagsRulesModel 
+     */
+    public static function getRuleByCode($code) {
+        return FlagsRulesModel::model()->byName($code)->find();
     }
     
     public static function getFlags($ruleId) {
@@ -41,12 +50,13 @@ class FlagsService {
 
     /**
      * Проверяет выполняются ли правила для данного кода диалога
-     * @param string $code 
+     * @param string $code код события
+     * @param int $simId идентификатор симуляции
      * @return bool || array
      */
     public static function checkRule($code, $simId) {
         // определим код правила
-        $ruleModel = FlagsRulesModel::model()->byName($code)->find();
+        $ruleModel = self::getRuleByCode($code);
         if (!$ruleModel) return false; // для данного диалога не задано правила
         
         // получим флаги для этого правила

@@ -58,18 +58,7 @@ class EventsController extends AjaxController{
             ###################
             
             
-            ###############################
             $gameTime = SimulationService::getGameTime($simulation->id);
-            /*$gameTime = SimulationService::getGameTime($simulation->id);
-            $toTime = $gameTime + 5*60;
-            Logger::debug("try to fine event : {$gameTime} to {$toTime}");
-            // проверим а нет ли ближ события
-            $event = EventsSamples::model()->nearest($gameTime, $toTime)->find();
-            if ($event) {
-                Logger::debug("found event : {$event->code}");
-            }
-            if (!$event) {*/
-            ##########################################
             
             // получить ближайшее событие
             Logger::debug("try to find trigger for time $gameTime sim {$simulation->id}");
@@ -91,6 +80,15 @@ class EventsController extends AjaxController{
                     
                     // Убиваем обработанное событие
                     $trigger->delete();
+                    
+                    ###################
+                    // проверим событие на флаги
+                    if (!$this->_allowToRunEvent($event->code, $simulation->id)) {
+                        // событие не проходит по флагам -  не пускаем его
+                        return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
+                    }
+                    #####################################
+                    
                     $result = EventService::processLinkedEntities($event->code, $simulation->id);
                     if ($index == 0) {
                         if ($result) return $this->_sendResponse(200, CJSON::encode($result));
@@ -125,6 +123,9 @@ class EventsController extends AjaxController{
                 return $this->_sendResponse(200, CJSON::encode($result));
             }
             *************************************/
+            
+            // У нас одно событие
+            
             
             Logger::debug("get dialogs by code : {$eventCode}");
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->findAll();
@@ -163,6 +164,27 @@ class EventsController extends AjaxController{
                 'code' => $exc->getCode()
             )));
         }
+    }
+    
+    /**
+     * Проверяет а можем ли мы запускать это событие
+     * @param string $code 
+     * @return true
+     */
+    protected function _allowToRunEvent($code, $simId) {
+        $ruleModel = FlagsService::getRuleByCode($code);
+        if (!$ruleModel) return true; // нет правил для данного события
+        
+        // получим флаги для этого правила
+        $flags = FlagsService::getFlags($ruleModel->id);
+        if (count($flags) == 0) return true; // для данного кода нет правил
+        
+        // получить флаги в рамках симуляции
+        $simulationFlags = SimulationService::getFlags($simId);
+        if (count($simulationFlags)==0) return false; // у нас пока нет установленных флагов - не чего сравнивать
+        
+        // проверить на совпадение флагов с теми что есть в симуляции
+        return FlagsService::compareFlags($simulationFlags, $flags);
     }
     
     /**
