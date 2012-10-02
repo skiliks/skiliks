@@ -2,7 +2,7 @@
 
 
 /**
- * Description of PhoneService
+ * Сервис по работе с телефоном
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -29,6 +29,21 @@ class PhoneService {
         }
         
         return $list;
+    }
+    
+    /**
+     * Регистрация исходящих вызовов
+     * @param int $simId
+     * @param int $characterId 
+     */
+    public static function registerOutgoing($simId, $characterId) {
+        $model = new PhoneCallsModel();
+        $model->sim_id      = $simId;
+        $model->call_date   = time();
+        $model->call_type   = 1;
+        $model->from_id     = 1;
+        $model->to_id       = $characterId; // какому персонажу мы звоним
+        $model->insert();
     }
 }
 

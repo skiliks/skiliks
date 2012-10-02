@@ -45,22 +45,58 @@ class PhoneController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    /**
+     * Вызов телефона
+     * @return type 
+     */
     public function actionCall() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);     
             if (!$sid) throw new Exception("empty sid");
             $id = (int)Yii::app()->request->getParam('id', false);  // персонаж
 
-
+            $themeId = (int)Yii::app()->request->getParam('themeId', false);  // идентификатор темы
+            
             $simId = SessionHelper::getSimIdBySid($sid);
+            
+            // нам передана тема
+            if ($themeId > 0) {
+                $mailThemeModel = MailCharacterThemesModel::model()->byCharacter($id)->byTheme($themeId)->find();
+                if ($mailThemeModel) {
+                    $eventCode = $mailThemeModel->phone_dialog_number;
+                    if ($eventCode == '' || $eventCode == 'AUTO') {
+                        // выдаем автоответчик
+                        $data = array();
+                        $data[] = array(
+                            'id'                => 0,
+                            'ch_from'           => 1,
+                            'ch_from_state'     => 1,
+                            'ch_to'             => $id,
+                            'ch_to_state'       => 1,
+                            'dialog_subtype'    => 2,
+                            'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
+                            'sound'             => '#',
+                            'duration'          => 5
+                        );
+                        $result = array();
+                        $result['result'] = 1;
+                        $result['data'] = $data;
+                        return $this->_sendResponse(200, CJSON::encode($result));
+                    }
+                    else {
+                        // у нас есть событие
+                        // сгенерируем событие
+                        EventService::addByCode($eventCode, $simId, SimulationService::getGameTime($simId));
+                        $result = array();
+                        $result['result'] = 1;
+                        $result['data'] = array();
+                        return $this->_sendResponse(200, CJSON::encode($result));
+                    }
+                }
+            }
 
-            $model = new PhoneCallsModel();
-            $model->sim_id = $simId;
-            $model->call_date = time();
-            $model->call_type = 1;
-            $model->from_id = 1;
-            $model->to_id = $id; // какому персонажу мы звоним
-            $model->insert();
+            // регистрируем исходящий вызов
+            PhoneService::registerOutgoing($simId, $id);
 
             // подготовим список тем
             $themes = PhoneService::getThemes($id);
