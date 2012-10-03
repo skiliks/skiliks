@@ -202,6 +202,36 @@ class EventService {
         
         return $list;
     }
+    
+    public static function getReplicaByCode($eventCode, $simId) {
+        $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+            
+        $data = array();
+        foreach($dialogs as $dialog) {
+            Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
+
+            // Если у нас реплика к герою
+            if ($dialog->replica_number == 0) {
+                // События типа диалог мы не создаем
+                if (!EventService::isDialog($dialog->next_event_code)) {
+                    // создадим событие
+                    EventService::addByCode($dialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                }
+            }
+            $data[] = DialogService::dialogToArray($dialog);
+        }
+
+        if (isset($data[0]['ch_from'])) {
+            $characterId = $data[0]['ch_from'];
+            $character = Characters::model()->byId($characterId)->find();
+            if ($character) {
+                $data[0]['title'] = $character->title;
+                $data[0]['name'] = $character->fio;
+            }
+        }
+        
+        return $data;
+    }
 }
 
 ?>
