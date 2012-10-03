@@ -86,10 +86,12 @@ class PhoneController extends AjaxController{
                     else {
                         // у нас есть событие
                         // сгенерируем событие
-                        EventService::addByCode($eventCode, $simId, SimulationService::getGameTime($simId));
+                        //EventService::addByCode($eventCode, $simId, SimulationService::getGameTime($simId));
+                        
+                        $data = EventService::getReplicaByCode($eventCode, $simId);
                         $result = array();
                         $result['result'] = 1;
-                        $result['data'] = array();
+                        $result['data'] = $data;
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }
                 }
