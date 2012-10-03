@@ -83,7 +83,7 @@ class EventsController extends AjaxController{
                     
                     ###################
                     // проверим событие на флаги
-                    if (!$this->_allowToRunEvent($event->code, $simulation->id)) {
+                    if (!EventService::allowToRun($event->code, $simulation->id)) {
                         // событие не проходит по флагам -  не пускаем его
                         return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
                     }
@@ -166,26 +166,7 @@ class EventsController extends AjaxController{
         }
     }
     
-    /**
-     * Проверяет а можем ли мы запускать это событие
-     * @param string $code 
-     * @return true
-     */
-    protected function _allowToRunEvent($code, $simId) {
-        $ruleModel = FlagsService::getRuleByCode($code);
-        if (!$ruleModel) return true; // нет правил для данного события
-        
-        // получим флаги для этого правила
-        $flags = FlagsService::getFlags($ruleModel->id);
-        if (count($flags) == 0) return true; // для данного кода нет правил
-        
-        // получить флаги в рамках симуляции
-        $simulationFlags = SimulationService::getFlags($simId);
-        if (count($simulationFlags)==0) return false; // у нас пока нет установленных флагов - не чего сравнивать
-        
-        // проверить на совпадение флагов с теми что есть в симуляции
-        return FlagsService::compareFlags($simulationFlags, $flags);
-    }
+    
     
     /**
      * Возврат списка доступных событий в системе
@@ -247,7 +228,7 @@ class EventsController extends AjaxController{
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
             }
             else {
-                Logger::debug("create event : {$event->code}");
+                Logger::debug("create event : code : {$event->code} id : {$event->id} sim : {$simulation->id} time {$gameTime}");
                 
                 // Добавляем событие
                 $eventsTriggers = new EventsTriggers();
