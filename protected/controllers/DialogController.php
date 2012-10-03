@@ -51,6 +51,15 @@ class DialogController extends AjaxController{
                 SimulationService::setFlag($simId, $currentDialog->flag);
             }
             
+            // проверим а можно ли выполнять это событие (тип события - диалог)
+            // проверим событие на флаги
+            Logger::debug("check flags for dialog  : {$currentDialog->code}");
+            if (!EventService::allowToRun($currentDialog->code, $simId)) {
+                // событие не проходит по флагам -  не пускаем его
+                return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array())));
+            }
+            
+            
             // проверим а не диалог ли это и не совпадает ли оно по времени с текущим
             /*$canCreateEvent = true;
             $nextEventDialog = Dialogs::model()->byCode($currentDialog->next_event_code)->find();
