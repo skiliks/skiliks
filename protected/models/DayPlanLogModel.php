@@ -3,16 +3,16 @@
 
 
 /**
- * Модель симуляции.
+ * Description of DayPlanLogModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Simulations extends CActiveRecord{
+class DayPlanLogModel extends CActiveRecord{
     
     /**
      *
      * @param type $className
-     * @return Simulations 
+     * @return DayPlanLogModel 
      */
     public static function model($className=__CLASS__)
     {
@@ -24,21 +24,13 @@ class Simulations extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'simulations';
+            return 'day_plan_log';
     }
     
-    public function byUid($uid)
+    public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'user_id = '.(int)$uid
-        ));
-        return $this;
-    }
-    
-    public function byId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'id = '.(int)$id
+            'condition' => "sim_id = {$simId}"
         ));
         return $this;
     }
