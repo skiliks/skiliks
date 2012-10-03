@@ -93,8 +93,9 @@ class SimulationController extends AjaxController{
         $simId = $simulation->id;
         
         // Сделать вставки в events triggers
-        $events = EventsSamples::model()->limit(1)->findAll();
+        $events = EventsSamples::model()->limit(1)->findAll();  
         foreach($events as $event) {
+            Logger::debug("create trigger : {$event->code}");
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id         = $simId;
             $eventsTriggers->event_id       = $event->id;
@@ -104,8 +105,8 @@ class SimulationController extends AjaxController{
         
         #######################
         // временно добавим тестовые ивенты
-        /*$this->_createEventByCode('MS21', $simId);
-        $this->_createEventByCode('M11', $simId);
+        $this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
+        /*$this->_createEventByCode('M11', $simId);
         $this->_createEventByCode('P6', $simId);*/
         
         #################################################
@@ -141,7 +142,7 @@ class SimulationController extends AjaxController{
         
         $simId = SessionHelper::getSimIdBySid($sid);
         SimulationService::calcPoints($simId);
-        return;
+        //return;
         
         $uid = (int)Yii::app()->request->getParam('uid', false);
         
@@ -151,6 +152,9 @@ class SimulationController extends AjaxController{
             $model->status = 0;
             $model->save();
         }
+        
+        // залогируем состояние плана
+        DayPlanLogger::log($simId, 2);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));

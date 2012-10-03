@@ -43,6 +43,14 @@ class DateHelper {
         }
         return false;    
     }
+    
+    /**
+     *
+     * @return int
+     */
+    public static function getCurrentTimestampDate() {
+        return mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+    }
 }
 
 ?>
