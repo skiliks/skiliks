@@ -232,6 +232,36 @@ class EventService {
         
         return $data;
     }
+    
+    /**
+     * Проверяет а можем ли мы запускать это событие
+     * @param string $code 
+     * @return true
+     */
+    public static function allowToRun($code, $simId) {
+        $ruleModel = FlagsService::getRuleByCode($code);
+        if (!$ruleModel) {
+            Logger::debug("no rules for event : $code");
+            return true; // нет правил для данного события
+        }    
+        
+        // получим флаги для этого правила
+        $flags = FlagsService::getFlags($ruleModel->id);
+        if (count($flags) == 0) {
+            Logger::debug("no flags for rule");
+            return true; // для данного кода нет правил
+        }    
+        
+        // получить флаги в рамках симуляции
+        $simulationFlags = SimulationService::getFlags($simId);
+        if (count($simulationFlags)==0) {
+            Logger::debug("no simulation flags");
+            return false; // у нас пока нет установленных флагов - не чего сравнивать
+        }    
+        
+        // проверить на совпадение флагов с теми что есть в симуляции
+        return FlagsService::compareFlags($simulationFlags, $flags);
+    }
 }
 
 ?>
