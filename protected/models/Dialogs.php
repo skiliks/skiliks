@@ -57,6 +57,14 @@ class Dialogs extends CActiveRecord{
         return $this;
     }
     
+    public function byReplicaNumber($replicaNumber)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "replica_number = {$replicaNumber}"
+        ));
+        return $this;
+    }
+    
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(

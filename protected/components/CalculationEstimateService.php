@@ -10,7 +10,7 @@ class CalculationEstimateService {
     
     
     /**
-     *
+     * Расчет оценки для диалога
      * @param int $dialogId идентификатор диалога
      * @param int $simId идентификатор симуляции
      */
@@ -38,37 +38,17 @@ class CalculationEstimateService {
         
         
         // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
-        // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
         
-        //Logger::debug("load collection for code ({$dialog->code}) and step_number ({$dialog->step_number})");
-        /*$dialogCollection = Dialogs::model()->findAllByAttributes(array(
-            'code' => '"'.$dialog->code.'"',
-            'step_number' => $dialog->step_number,  //+1
-            'replica_number' => 0
-        ));*/
-        
-        $sql = "select * from dialogs where code='{$dialog->code}' and step_number={$dialog->step_number} and replica_number=0";
-        //Logger::debug("sql : $sql");
+        /*$sql = "select * from dialogs where code='{$dialog->code}' and step_number={$dialog->step_number} and replica_number=0";
         $command = Yii::app()->db->createCommand($sql);
-        $dialogCollection = $command->queryAll();
+        $dialogCollection = $command->queryAll();*/
         
+        $dialogCollection = Dialogs::model()->byCode($dialog->code)->byStepNumber($dialog->step_number)->byReplicaNumber(0)->findAll();
+        foreach($dialogCollection as $curDialog) {
+            $duration += (int)$curDialog['duration'];
+            $dialogs[] = $curDialog['id'];
+        }
         
-        /*$dialogCollection = $command->select('*')->from('dialogs')
-                ->where('code=":code and step_number=:step_number and replica_number=0"', 
-                        array(':code'=>$dialog->code, 'ste_number'=>$dialog->step_number))->queryAll();*/
-        
-        
-        //Logger::debug("loaded collection for diealog by code : {$dialog->code}");
-        //Logger::debug('collection is : '.var_export($dialogCollection, true));
-        //if (is_array($dialogCollection)) {
-            foreach($dialogCollection as $curDialog) {
-                $duration += (int)$curDialog['duration'];
-                //Logger::debug("child dialog ({$curDialog['id']}) duration is  : {$curDialog['duration']}");
-                //Logger::debug("total duration incremented to : {$duration}");
-
-                $dialogs[] = $curDialog['id'];
-            }
-        //}
         
        
         
@@ -111,17 +91,30 @@ class CalculationEstimateService {
             //Logger::debug("code : $code");
             
             if (!isset($data[$pointId])) {
-                $data[$pointId] = array('value' => 0, 'count' => 0, 'value6x' => 0, 'count6x' => 0);
+                $data[$pointId] = array(
+                    'value'             => 0, 
+                    'count'             => 0, 
+                    'value_negative'    => 0, 
+                    'count_negative'    => 0, 
+                    'value6x'           => 0, 
+                    'count6x'           => 0
+                );
             }
-            // пробег по каждому поинту
-            // value+= add_value*scale
-            // count++
             
+            // 1X-5X
             if ($code <=5) {
-                $data[$pointId]['value'] +=  $row['add_value']*$row['scale'];
-                $data[$pointId]['count']++;
+                $value = $row['add_value'] * $row['scale'];
+                if ($value > 0) {
+                    $data[$pointId]['value'] +=  $value;
+                    $data[$pointId]['count']++;
+                }
+                else {  // отдельо считаем отрицательную шкалу
+                    $data[$pointId]['value_negative'] +=  $value;
+                    $data[$pointId]['count_negative']++;
+                }
             }
             
+            // 6x-8x
             if ($code >=6) {
                 //Logger::debug("calc 6x: value : {$row['add_value']} scale : {$row['scale']} ");
                 $data[$pointId]['value6x'] +=  $row['add_value']*$row['scale'];
@@ -129,11 +122,11 @@ class CalculationEstimateService {
             }
         }        
         
-        //Logger::debug("save data :  ".var_export($data, true));
+        
         
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
-            //Logger::debug("check exist simId {$simId} pointId {$pointId}");
+        
             
             $sql = "select count(*) as count from simulations_dialogs_points where sim_id={$simId} and point_id={$pointId}";
             //Logger::debug("sql : $sql");
@@ -152,6 +145,9 @@ class CalculationEstimateService {
                         set 
                             value = value + {$item['value']}, 
                             count = count + {$item['count']},
+                            
+                            value_negative = value_negative + {$item['value_negative']}, 
+                            count_negative = count_negative + {$item['count_negative']},
                 
                             value6x = value6x + {$item['value6x']}, 
                             count6x = count6x + {$item['count6x']} 
@@ -168,12 +164,16 @@ class CalculationEstimateService {
             else {
                 //Logger::debug("insert for simId: $simId pointId: $pointId value: {$item['value']} count: {$item['count']}");
                 $dialogsPoints = new SimulationsDialogsPoints();
-                $dialogsPoints->sim_id = $simId;
-                $dialogsPoints->point_id = $pointId;
-                $dialogsPoints->value = $item['value'];
-                $dialogsPoints->count = $item['count'];
-                $dialogsPoints->value6x = $item['value6x'];
-                $dialogsPoints->count6x = $item['count6x'];
+                $dialogsPoints->sim_id      = $simId;
+                $dialogsPoints->point_id    = $pointId;
+                $dialogsPoints->value       = $item['value'];
+                $dialogsPoints->count       = $item['count'];
+                
+                $dialogsPoints->value_negative       = $item['value_negative'];
+                $dialogsPoints->count_negative       = $item['count_negative'];
+                
+                $dialogsPoints->value6x     = $item['value6x'];
+                $dialogsPoints->count6x     = $item['count6x'];
                 
                 $dialogsPoints->insert();
             }
