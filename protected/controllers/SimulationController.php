@@ -188,6 +188,10 @@ class SimulationController extends AjaxController{
             $sql = "select 
                         sdp.count,
                         sdp.value,
+            
+                        sdp.count_negative,
+                        sdp.value_negative,    
+            
                         sdp.count6x,
                         sdp.value6x,
             
@@ -207,6 +211,9 @@ class SimulationController extends AjaxController{
                 $avg = 0;
                 if ($row['count'] > 0) $avg = $row['value'] / $row['count'];
                 
+                $avgNegative = 0;
+                if ($row['count_negative'] > 0) $avgNegative = $row['value_negative'] / $row['count_negative'];
+                
                 $avg6x = 0;
                 if ($row['count6x'] > 0) $avg6x = $row['value6x'] / $row['count6x'];
                 
@@ -217,6 +224,10 @@ class SimulationController extends AjaxController{
                     'count' => $row['count'],
                     'value' => $row['value'],
                     'avg' => $avg,
+                    
+                    'countNegative' => $row['count_negative'],
+                    'valueNegative' => $row['value_negative'],
+                    'avgNegative' => $avgNegative,
                     
                     'count6x' => $row['count6x'],
                     'value6x' => $row['value6x'],
