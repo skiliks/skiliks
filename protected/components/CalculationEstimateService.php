@@ -93,51 +93,46 @@ class CalculationEstimateService {
                 );
             }
             
+            Logger::debug("row: ".var_export($row, true));
             // 1X-5X
             if ($code <=5) {
                 $value = $row['add_value'] * $row['scale'];
+                Logger::debug("value: $value");
                 if ($value > 0) {
                     $data[$pointId]['value'] +=  $value;
-                    $data[$pointId]['count']++;
+                    //$data[$pointId]['count']++;
                 }
                 else {  // отдельо считаем отрицательную шкалу
                     $data[$pointId]['value_negative'] +=  $value;
-                    $data[$pointId]['count_negative']++;
+                    //$data[$pointId]['count_negative']++;
                 }
             }
             
             // 6x-8x
             if ($code >=6) {
                 $data[$pointId]['value6x'] +=  $row['add_value']*$row['scale'];
-                $data[$pointId]['count6x']++;
+                //$data[$pointId]['count6x']++;
             }
         }        
         
+        Logger::debug("before save data: ".var_export($data, true));
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
             $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
-            if ($dialogsPoints) {
-                $dialogsPoints->value       = $item['value'];
-                $dialogsPoints->count       = $item['count'];
-                $dialogsPoints->value_negative       = $item['value_negative'];
-                $dialogsPoints->count_negative       = $item['count_negative'];
-                $dialogsPoints->value6x     = $item['value6x'];
-                $dialogsPoints->count6x     = $item['count6x'];
-                $dialogsPoints->save();
-            }
-            else {
+            if (!$dialogsPoints) {
                 $dialogsPoints = new SimulationsDialogsPoints();
                 $dialogsPoints->sim_id      = $simId;
                 $dialogsPoints->point_id    = $pointId;
-                
-                $dialogsPoints->value       = $item['value'];
-                $dialogsPoints->count       = $item['count'];
-                $dialogsPoints->value_negative       = $item['value_negative'];
-                $dialogsPoints->count_negative       = $item['count_negative'];
-                $dialogsPoints->value6x     = $item['value6x'];
-                $dialogsPoints->count6x     = $item['count6x'];
-                $dialogsPoints->insert();
             }
+            
+            $dialogsPoints->value       += $item['value'];
+            $dialogsPoints->count       += 1; //$item['count'];
+            $dialogsPoints->value_negative       += $item['value_negative'];
+            $dialogsPoints->count_negative       += 1; //$item['count_negative'];
+            $dialogsPoints->value6x     += $item['value6x'];
+            $dialogsPoints->count6x     += 1; //$item['count6x'];
+            $dialogsPoints->save();
+            
         }
         
         return true;
