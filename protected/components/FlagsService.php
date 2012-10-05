@@ -21,8 +21,14 @@ class FlagsService {
      * @param int $replicaNumber
      * @return FlagsRulesModel 
      */
-    public static function getRuleByCode($code, $stepNumber = 1, $replicaNumber = 0) {
-        return FlagsRulesModel::model()->byName($code)->byStepNumber($stepNumber)->byReplicaNumber($replicaNumber)->find();
+    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false) {
+        if ($stepNumber!==false && $replicaNumber!==false) {
+            Logger::debug("get rule by code $code stepNumber $stepNumber replicaNumber $replicaNumber");
+            return FlagsRulesModel::model()->byName($code)->byStepNumber($stepNumber)->byReplicaNumber($replicaNumber)->find();
+        }
+        
+        Logger::debug("get rule by code $code");
+        return FlagsRulesModel::model()->byName($code)->find();
     }
     
     public static function getFlags($ruleId) {
