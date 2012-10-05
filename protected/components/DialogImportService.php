@@ -535,6 +535,37 @@ class DialogImportService {
         fclose($handle);
     }
     
+    public function importText($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        $columns = array();
+        $delays = array();
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 802) {
+                die();
+            }
+            
+            
+            $text = $this->_convert($row[$this->_columns['M']]);
+            $nextEventCode = $row[$this->_columns['O']];
+            $excelId = $row[$this->_columns['A']];
+            $dialog = Dialogs::model()->byExcelId($excelId)->find();
+            if ($dialog) {
+                $dialog->text = $text;
+                $dialog->next_event_code = $nextEventCode;
+                $dialog->save();
+                var_dump($dialog->excel_id); echo('<br>');
+            }
+            
+        }
+        fclose($handle);
+    }
+    
     public function importFlags($fileName) {
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
