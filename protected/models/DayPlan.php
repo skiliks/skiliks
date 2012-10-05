@@ -43,6 +43,14 @@ class DayPlan extends CActiveRecord{
         return $this;
     }
     
+    public function byTask($taskId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "task_id={$taskId}"
+        ));
+        return $this;
+    }
+    
     public function nearest($from, $to)
     {
         $this->getDbCriteria()->mergeWith(array(

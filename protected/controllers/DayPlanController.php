@@ -229,21 +229,7 @@ class DayPlanController extends AjaxController{
         return true;
     }
     
-    protected function _addDayPlanAfterVacation($simId, $taskId, $date) {
-        Logger::debug("_addDayPlanAfterVacation : $simId $taskId $date");
-        // Удалить задачу из дневного плана
-        DayPlan::model()->deleteAllByAttributes(array(
-            'sim_id' => $simId,
-            'task_id' => $taskId
-        ));
-        
-        $dayPlanAfterVacation = new DayPlanAfterVacation();
-        $dayPlanAfterVacation->sim_id = $simId;
-        $dayPlanAfterVacation->task_id = $taskId;
-        $dayPlanAfterVacation->date = $date;
-        $dayPlanAfterVacation->insert();
-        return true;
-    }
+    
     
     /**
      * Добавление задачи в план дневной
@@ -265,9 +251,6 @@ class DayPlanController extends AjaxController{
             $time = Yii::app()->request->getParam('time', false);
             $day = (int)Yii::app()->request->getParam('day', false);
             
-            // преобразовать время в unixtime
-            //$time = $this->_timeToArr($time);
-            //$time = mktime($time[0], $time[1], 0, 0, 0, 0);
             
             $date = explode(':', $time);
             $time = $date[0]*60 + $date[1];
@@ -279,8 +262,10 @@ class DayPlanController extends AjaxController{
                 'sim_id' => $simId, 'task_id' => $taskId
             ));
             
+            $service = new DayPlanService();
+            
             if ($day == 3) {   // Добавление на после отпуска
-                $this->_addDayPlanAfterVacation($simId, $taskId, $time);
+                $service->addAfterVacation($simId, $taskId, $time);
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
             }
             
@@ -294,21 +279,7 @@ class DayPlanController extends AjaxController{
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 0, 'code' => 2)));
             }
             
-            
-
-            // проверяем есть ли у нас такая запись
-            $dayPlan = DayPlan::model()->find('sim_id = :simId and task_id = :taskId',
-                    array(':simId'=>$simId, ':taskId'=>$taskId));
-            /*if ($dayPlan)
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));*/
-            if (!$dayPlan) $dayPlan = new DayPlan();
-                
-            
-            $dayPlan->sim_id = $simId;
-            $dayPlan->task_id = $taskId;
-            $dayPlan->date = $time;
-            $dayPlan->day = $day;
-            $dayPlan->save();
+            $service->add($simId, $taskId, $day, $time);
             
             // Убиваем задачу из todo
             Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
