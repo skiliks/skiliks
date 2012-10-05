@@ -54,7 +54,7 @@ class DialogController extends AjaxController{
             // проверим а можно ли выполнять это событие (тип события - диалог)
             // проверим событие на флаги
             Logger::debug("check flags for dialog  : {$currentDialog->code}");
-            if (!EventService::allowToRun($currentDialog->code, $simId)) {
+            if (!EventService::allowToRun($currentDialog->code, $simId, $currentDialog->step_number + 1, $currentDialog->replica_number)) {
                 // событие не проходит по флагам -  не пускаем его
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array())));
             }
@@ -183,10 +183,10 @@ class DialogController extends AjaxController{
                         }    
                         
                         // попробуем учесть симуляцию
-                        Logger::debug("check flags");
-                        $flagInfo = FlagsService::checkRule($dialog->code, $simId);
+                        Logger::debug("check flags for dialog : {$dialog->code} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
+                        $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
                         Logger::debug("flag info : ".var_export($flagInfo, true));
-                        if ($flagInfo) {
+                        if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
                             if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
                                 if ($flagInfo['recId'] != $dialog->excel_id) {
                                     Logger::debug("skipped replica : {$dialog->excel_id}");
