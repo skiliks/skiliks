@@ -1,18 +1,21 @@
 <?php
 
-
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
 /**
- * Модель правил флагов
+ * Description of SimulationsMailPointsModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class FlagsRulesModel extends CActiveRecord{
+class SimulationsMailPointsModel extends CActiveRecord{
     
     /**
      *
      * @param type $className
-     * @return FlagsRulesModel 
+     * @return SimulationsMailPointsModel 
      */
     public static function model($className=__CLASS__)
     {
@@ -24,30 +27,30 @@ class FlagsRulesModel extends CActiveRecord{
      */
     public function tableName()
     {
-            return 'flags_rules';
+            return 'simulations_mail_points';
     }
     
-    
-    public function byName($name)
+    public function bySimulation($simId)
     {
+        $simId = (int)$simId;
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "rule_name = '{$name}'"
+            'condition' => "sim_id = {$simId}"
         ));
         return $this;
     }
     
-    public function byStepNumber($stepNumber)
+    public function byMail($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "step_number = {$stepNumber}"
+            'condition' => "mail_id = {$mailId}"
         ));
         return $this;
     }
     
-    public function byReplicaNumber($replicaNumber)
+    public function byPoint($pointId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "replica_number = {$replicaNumber}"
+            'condition' => "point_id = {$pointId}"
         ));
         return $this;
     }

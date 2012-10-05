@@ -1,9 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * Description of SimulationsDialogsPoints
@@ -12,6 +8,11 @@
  */
 class SimulationsDialogsPoints extends CActiveRecord{
     
+    /**
+     *
+     * @param type $className
+     * @return SimulationsDialogsPoints 
+     */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);

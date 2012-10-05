@@ -600,3 +600,14 @@ alter table mail_character_themes add column phone tinyint(1);
 alter table mail_character_themes add column phone_wr char(1);
 alter table mail_character_themes add column phone_dialog_number varchar(12);
 alter table mail_character_themes add column mail tinyint(1);
+
+----
+CREATE TABLE `simulations_mail_points` (
+  `id`          int(11) NOT NULL AUTO_INCREMENT,
+  `sim_id`      int(11) NOT NULL COMMENT 'идентификатор симуляции',
+  `point_id`    int(11) NOT NULL COMMENT 'поинт',  
+  `value`       float(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_simulations_mail_points_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_simulations_mail_point_id` FOREIGN KEY (`point_id`) REFERENCES `characters_points_titles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='Баллы, набранные в почтовике';
