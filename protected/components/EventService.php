@@ -245,7 +245,7 @@ class EventService {
      * @param string $code 
      * @return true
      */
-    public static function allowToRun($code, $simId, $stepNumber = 1, $replicaNumber = 0) {
+    public static function allowToRun($code, $simId, $stepNumber = false, $replicaNumber = false) {
         Logger::debug("try to get flags rules for code : $code stepNumber: $stepNumber replicaNumber $replicaNumber");
         $ruleModel = FlagsService::getRuleByCode($code, $stepNumber, $replicaNumber);
         if (!$ruleModel) {
@@ -271,7 +271,7 @@ class EventService {
         // проверить на совпадение флагов с теми что есть в симуляции
         $result = FlagsService::compareFlags($simulationFlags, $flags);
         Logger::debug("compare result : ".var_export($result, true));
-        return $result['compareResult'];
+        return $result;
     }
 }
 
