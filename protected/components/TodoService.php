@@ -3,7 +3,7 @@
 
 
 /**
- * Description of TodoService
+ * Управление списком todo.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -39,6 +39,19 @@ class TodoService {
             $todo->adding_date = time();
             $todo->insert();
         }
+    }
+    
+    /**
+     * Удалаени задачи из списка todo в рамках заданной симуляции
+     * @param int $simId
+     * @param int $taskId 
+     */
+    public static function delete($simId, $taskId) {
+        //Todo::model()->bySimulation($simId)->byTask($taskId)->delete();
+        Todo::model()->deleteAllByAttributes(array(
+            'sim_id' => $simId,
+            'task_id' => $taskId
+        ));
     }
 }
 
