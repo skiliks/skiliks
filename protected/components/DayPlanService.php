@@ -23,6 +23,9 @@ class DayPlanService {
         $dayPlanAfterVacation->task_id = $taskId;
         $dayPlanAfterVacation->date = $date;
         $dayPlanAfterVacation->insert();
+        
+        // Убрать задачу из todo
+        TodoService::delete($simId, $taskId);
         return true;
     }
     
@@ -47,6 +50,9 @@ class DayPlanService {
         $dayPlan->date = $time;
         $dayPlan->day = $day;
         $dayPlan->save();
+        
+        // Убрать задачу из todo
+        TodoService::delete($simId, $taskId);
     }
     
     public function removeFromAfterVacation($simId, $taskId) {
