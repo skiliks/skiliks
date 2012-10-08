@@ -66,7 +66,10 @@ class FlagsService {
     public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0) {
         // определим код правила
         $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber);
-        if (!$ruleModel) return false; // для данного диалога не задано правила
+        if (!$ruleModel) {
+            Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
+            return false; // для данного диалога не задано правила
+        }    
         
         $result = array();
         $result['ruleExists']       = true;
@@ -77,7 +80,10 @@ class FlagsService {
         
         // получим флаги для этого правила
         $flags = FlagsService::getFlags($ruleModel->id);
-        if (count($flags) == 0) return $result; // для данного кода нет правил
+        if (count($flags) == 0) {
+            Logger::debug("no flags for this rule");
+            return $result; // для данного кода нет правил
+        }    
         
         // получить флаги в рамках симуляции
         $simulationFlags = SimulationService::getFlags($simId);
@@ -89,6 +95,27 @@ class FlagsService {
         }
         
         return $result;
+    }
+    
+    public static function setFlag($simId, $flag, $value) {
+        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
+        if (!$model) {
+            $model = new SimulationFlagsModel();
+            $model->sim_id = $simId;
+        }
+        $model->flag = $flag;
+        $model->value = $value;
+        $model->save();
+    }
+    
+    /**
+     * Установка первоначальных значений флагов в рамках симуляции.
+     * @param int $simId 
+     */
+    public static function initDefaultValues($simId) {
+        for ($index = 1; $index <= 20; $index++) {
+            self::setFlag($simId, 'F'.$index, 0);
+        }
     }
 }
 
