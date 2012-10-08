@@ -267,7 +267,7 @@ class EventService {
             return false; // у нас пока нет установленных флагов - не чего сравнивать
         }    
         
-        Logger::debug("start compare flags : ".var_export($simulationFlags, true));
+        Logger::debug("start compare flags  s: ".var_export($simulationFlags, true).' r :'.var_export($flags, true));
         // проверить на совпадение флагов с теми что есть в симуляции
         $result = FlagsService::compareFlags($simulationFlags, $flags);
         Logger::debug("compare result : ".var_export($result, true));

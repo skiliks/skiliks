@@ -54,7 +54,7 @@ class DialogController extends AjaxController{
             // проверим а можно ли выполнять это событие (тип события - диалог)
             // проверим событие на флаги
             Logger::debug("check flags for dialog  : {$currentDialog->code}");
-            $eventRunResult = EventService::allowToRun($currentDialog->code, $simId, $currentDialog->step_number + 1, $currentDialog->replica_number);
+            $eventRunResult = EventService::allowToRun($currentDialog->code, $simId, $currentDialog->step_number, $currentDialog->replica_number);
             if ($eventRunResult['compareResult'] === false) {
                 // событие не проходит по флагам -  не пускаем его
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array())));
@@ -179,15 +179,24 @@ class DialogController extends AjaxController{
                     foreach($dialogs as $dialog) {
                         
                         // попробуем учесть симуляцию
-                        Logger::debug("check flags for dialog : {$dialog->code} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
+                        Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
                         $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
                         Logger::debug("flag info : ".var_export($flagInfo, true));
                         if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
                             if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
-                                if ($flagInfo['recId'] != $dialog->excel_id) {
-                                    Logger::debug("skipped replica excelId : {$dialog->excel_id}");
-                                    continue; // эта реплика не пойдет в выборку
-                                }    
+                                if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
+                                    if ($flagInfo['recId'] != $dialog->excel_id) {
+                                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                                        continue; // эта реплика не пойдет в выборку
+                                    }    
+                                }
+                                else {
+                                    // условие сравнение не выполняется
+                                    if ($flagInfo['recId'] == $dialog->excel_id) {
+                                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                                        continue; // эта реплика не пойдет в выборку
+                                    }    
+                                }
                             }
                         }
                         
