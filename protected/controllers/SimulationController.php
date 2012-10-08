@@ -126,7 +126,8 @@ class SimulationController extends AjaxController{
         // Установим дефолтовые значения для почтовика
         MailBoxService::initDefaultSettings($simId);
         
-        
+        // проставим дефолтовые значени флагов для симуляции пользователя
+        FlagsService::initDefaultValues($simId);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
