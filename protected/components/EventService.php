@@ -264,7 +264,7 @@ class EventService {
         $simulationFlags = SimulationService::getFlags($simId);
         if (count($simulationFlags)==0) {
             Logger::debug("no simulation flags");
-            return true; // у нас пока нет установленных флагов - не чего сравнивать
+            return false; // у нас пока нет установленных флагов - не чего сравнивать
         }    
         
         Logger::debug("start compare flags : ".var_export($simulationFlags, true));

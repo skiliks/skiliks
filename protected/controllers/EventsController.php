@@ -83,6 +83,7 @@ class EventsController extends AjaxController{
                     
                     ###################
                     // проверим событие на флаги
+                    Logger::debug("check flags event by code {$event->code}");
                     if (!EventService::allowToRun($event->code, $simulation->id, 1, 0)) {
                         // событие не проходит по флагам -  не пускаем его
                         return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
