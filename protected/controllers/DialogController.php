@@ -48,6 +48,7 @@ class DialogController extends AjaxController{
             if ($currentDialog->flag != '') {
                 // если для данной реплики установлен флаг
                 // установим флаг в рамках симуляции
+                Logger::debug("set flag : {$currentDialog->flag}");
                 SimulationService::setFlag($simId, $currentDialog->flag);
             }
             
@@ -148,6 +149,7 @@ class DialogController extends AjaxController{
             }*/
             // конец расчета оценки
             
+             Logger::debug("check next event : {$currentDialog->next_event_code}");
             
             ## new code
             $data = array();

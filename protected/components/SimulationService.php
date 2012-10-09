@@ -108,13 +108,14 @@ class SimulationService {
      */
     public static function setFlag($simId, $flag) {
         $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
-        if ($model) return true; // флаг уже установлен
+        if (!$model) {
+            $model = new SimulationFlagsModel();
+            $model->sim_id = $simId;
+            $model->flag = $flag;
+        }
         
-        $model = new SimulationFlagsModel();
-        $model->sim_id = $simId;
-        $model->flag = $flag;
         $model->value = 1;
-        $model->insert();
+        $model->save();
     }
     
     /**
