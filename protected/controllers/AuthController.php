@@ -26,10 +26,13 @@ class AuthController extends AjaxController{
 
             if($user->password !== md5($password)) 
                 throw new Exception('Неверный пароль');
-                
+            
+            
+            
             $result = array();
-            $result['result'] = 1;
-            $result['sid'] = $this->_startSession($user->id);
+            $result['result']       = 1;
+            $result['sid']          = $this->_startSession($user->id);
+            $result['simulations']  = UserService::getGroups($user->id);
             return $this->_sendResponse(200, CJSON::encode($result));
 
         } catch (Exception $exc) {
