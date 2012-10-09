@@ -35,6 +35,16 @@ class UserService {
         
         return $groups;
     }
+    
+    /**
+     * Проверяет является ли пользователь членом заданной группы
+     * @param int $uid
+     * @param int $gid
+     * @return bool
+     */
+    public static function isMemberOfGroup($uid, $gid) {
+        return UserGroupsModel::model()->byUser($uid)->byGroup($gid)->find();
+    }
 }
 
 ?>
