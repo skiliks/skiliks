@@ -70,67 +70,76 @@ class SimulationController extends AjaxController{
      * Старт симуляции
      */
     public function actionStart() {
-        $sid = Yii::app()->request->getParam('sid', false);
-        
-        $uid = SessionHelper::getUidBySid($sid);
-        if (!$uid) {
-            $result = array('result' => 0, 'message' => 'cant find user');
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            $stype = (int)Yii::app()->request->getParam('stype', false); // тип симуляции
+
+            $uid = SessionHelper::getUidBySid($sid);
+            if (!$uid) throw new Exception('Не могу найти такого пользователя');
+
+            // Удаляем предыдущую симуляцию
+            $simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+            if ($simulation) $simulation->delete();
+
+            // @todo: проверить а имеет ли право пользователь на эту симуляцию
+            if (!UserService::isMemberOfGroup($uid, $stype)) {
+                throw new Exception('У вас нет прав для старта этой симуляции');
+            }
+
+            // Создаем новую симуляцию
+            $simulation = new Simulations();
+            $simulation->user_id    = $uid;
+            $simulation->status     = 1;
+            $simulation->start      = time();
+            $simulation->difficulty = 1;
+            $simulation->type       = $stype;
+            $simulation->insert();
+
+            $simId = $simulation->id;
+
+            // Сделать вставки в events triggers
+            $events = EventsSamples::model()->limit(1)->findAll();  
+            foreach($events as $event) {
+                Logger::debug("create trigger : {$event->code}");
+                $eventsTriggers = new EventsTriggers();
+                $eventsTriggers->sim_id         = $simId;
+                $eventsTriggers->event_id       = $event->id;
+                $eventsTriggers->trigger_time   = $event->trigger_time; 
+                $eventsTriggers->save();
+            }
+
+            #######################
+            // временно добавим тестовые ивенты
+            $this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
+            /*$this->_createEventByCode('M11', $simId);
+            $this->_createEventByCode('P6', $simId);*/
+
+            #################################################
+
+            // предустановка задач в todo!
+            $this->_fillTodo($simId);
+
+            // предустановка задач в план дневной
+            //++$this->_fillDayPlan($simId);
+
+            // Копируем игроку его документ в рамках его симуляции
+            //ExcelDocumentService::copy('Сводный бюджет', $simId);
+
+            // скопируем документы
+            MyDocumentsService::init($simId);
+
+            // Установим дефолтовые значения для почтовика
+            MailBoxService::initDefaultSettings($simId);
+
+            // проставим дефолтовые значени флагов для симуляции пользователя
+            FlagsService::initDefaultValues($simId);
+
+            $result = array('result' => 1);
+            $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array('result' => 0, 'message' => $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode($result));
         }
-        
-        // Удаляем предыдущую симуляцию
-        $simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
-        if ($simulation) $simulation->delete();
-        
-        // Создаем новую симуляцию
-        $simulation = new Simulations();
-        $simulation->user_id = $uid;
-        $simulation->status = 1;
-        $simulation->start = time();
-        $simulation->difficulty = 1;
-        $simulation->insert();
-        
-        $simId = $simulation->id;
-        
-        // Сделать вставки в events triggers
-        $events = EventsSamples::model()->limit(1)->findAll();  
-        foreach($events as $event) {
-            Logger::debug("create trigger : {$event->code}");
-            $eventsTriggers = new EventsTriggers();
-            $eventsTriggers->sim_id         = $simId;
-            $eventsTriggers->event_id       = $event->id;
-            $eventsTriggers->trigger_time   = $event->trigger_time; 
-            $eventsTriggers->save();
-        }
-        
-        #######################
-        // временно добавим тестовые ивенты
-        $this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
-        /*$this->_createEventByCode('M11', $simId);
-        $this->_createEventByCode('P6', $simId);*/
-        
-        #################################################
-        
-        // предустановка задач в todo!
-        $this->_fillTodo($simId);
-        
-        // предустановка задач в план дневной
-        //++$this->_fillDayPlan($simId);
-        
-        // Копируем игроку его документ в рамках его симуляции
-        //ExcelDocumentService::copy('Сводный бюджет', $simId);
-        
-        // скопируем документы
-        MyDocumentsService::init($simId);
-        
-        // Установим дефолтовые значения для почтовика
-        MailBoxService::initDefaultSettings($simId);
-        
-        // проставим дефолтовые значени флагов для симуляции пользователя
-        FlagsService::initDefaultValues($simId);
-        
-        $result = array('result' => 1);
-        $this->_sendResponse(200, CJSON::encode($result));
     }
     
     /**
