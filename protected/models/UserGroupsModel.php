@@ -30,7 +30,15 @@ class UserGroupsModel extends CActiveRecord{
     public function byUser($uid)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "uid = '{$uid}'"
+            'condition' => "uid = {$uid}"
+        ));
+        return $this;
+    }
+    
+    public function byGroup($gid)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "gid = {$gid}"
         ));
         return $this;
     }

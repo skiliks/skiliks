@@ -19,3 +19,5 @@ CREATE TABLE `user_groups` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 comment 'Группы пользователей';
 
 insert into `user_groups` (uid, gid) values (1, 2);
+
+alter table `simulations` add column `type` tinyint(1);
