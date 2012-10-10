@@ -33,12 +33,19 @@ class MyDocumentsImportController extends AjaxController{
             $srcFile    = $row[3];
             $format     = $row[4];
             
-            $document = new MyDocumentsTemplateModel();
+            if ($type == '-') continue;
+            
+            $document = MyDocumentsTemplateModel::model()->byCode($code)->find();
+            if (!$document) {
+                $document = new MyDocumentsTemplateModel();
+                $document->code         = $code;
+            }
+            
             $document->fileName     = $fileName.'.'.$format;
-            $document->code         = $code;
             $document->srcFile      = $srcFile;
             $document->format       = $format;
-            $document->insert();
+            $document->type         = $type;
+            $document->save();
         }
         fclose($handle);
         echo("Done");
