@@ -45,6 +45,18 @@ class PhoneService {
         $model->to_id       = $characterId; // какому персонажу мы звоним
         $model->insert();
     }
+    
+    public static function registerMissed($simId, $characterId) {
+        $model = new PhoneCallsModel();
+        $model->sim_id      = $simId;
+        $model->call_date   = time();
+        $model->call_type   = 2;
+        $model->from_id     = $characterId;
+        $model->to_id       = 1; // какому персонажу мы звоним
+        $model->insert();
+    }
+    
+    // 2 miss
 }
 
 ?>
