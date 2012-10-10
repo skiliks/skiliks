@@ -28,9 +28,10 @@ class MyDocumentsImportController extends AjaxController{
             }
             
             $code       = $row[0];
-            $fileName   = iconv("Windows-1251", "UTF-8", $row[1]);
-            $srcFile    = $row[2];
-            $format     = $row[3];
+            $type       = $row[1];
+            $fileName   = iconv("Windows-1251", "UTF-8", $row[2]);
+            $srcFile    = $row[3];
+            $format     = $row[4];
             
             $document = new MyDocumentsTemplateModel();
             $document->fileName     = $fileName.'.'.$format;
