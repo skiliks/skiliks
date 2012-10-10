@@ -44,3 +44,6 @@ UPDATE  `mail_attachments_template` SET  `file_id` =  '17' WHERE  `mail_attachme
 alter table my_documents_template add column code varchar(5);
 alter table my_documents_template add column srcFile varchar(32);
 alter table my_documents_template add column format varchar(5);
+
+-----------------
+alter table my_documents_template add column `type` varchar(5);

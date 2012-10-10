@@ -45,6 +45,32 @@ class PhoneController extends AjaxController{
         return $this->_sendResponse(200, CJSON::encode($result));
     }
     
+    public function actionIgnore() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);     
+            if (!$sid) throw new Exception("empty sid");
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+            $dialogId = (int)Yii::app()->request->getParam('dialogId', false);     
+            
+            // определить персонажа по диалогу
+            $dialog = Dialogs::model()->byId($dialogId)->find();
+            if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
+            
+            PhoneService::registerMissed($simId, $dialog->ch_from);
+            
+            $result = array();
+            $result['result'] = 1;
+            return $this->_sendResponse(200, CJSON::encode($result));
+        } catch (Exception $exc) {
+            $result = array();
+            $result['result'] = 0;
+            $result['message'] = $exc->getMessage();
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+        
+    }
+    
     /**
      * Вызов телефона
      * @return type 
