@@ -175,9 +175,14 @@ class PhoneController extends AjaxController{
                 if ($item->call_type == 0) {
                     $characterId = $item->from_id;
                 }
-                else {
+                
+                if ($item->call_type == 1) {
                     // исходящие
                     $characterId = $item->to_id;
+                }
+                
+                if ($item->call_type == 2) {
+                    $characterId = $item->from_id;
                 }
                 
                 $list[] = array(
