@@ -160,6 +160,7 @@ class DialogController extends AjaxController{
                     // сразу же отдадим реплики по этому событию - моментально
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->findAll();
                     foreach($dialogs as $dialog) {
+                        Logger::debug("draw replica for : {$dialog->excel_id}");
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
@@ -180,6 +181,9 @@ class DialogController extends AjaxController{
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->findAll();
                     foreach($dialogs as $dialog) {
                         
+                        
+                        if (FlagsService::skipReplica($dialog, $simId)) continue;
+                        /*
                         // попробуем учесть симуляцию
                         Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
                         $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
@@ -200,7 +204,7 @@ class DialogController extends AjaxController{
                                     }    
                                 }
                             }
-                        }
+                        }*/
                         
                         if ((int)$dialog->replica_number == 0) {
                             Logger::debug("replica number 0 dialog : {$dialog->code} create event {$dialog->next_event_code}");

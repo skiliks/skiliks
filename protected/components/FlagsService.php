@@ -117,6 +117,31 @@ class FlagsService {
             self::setFlag($simId, 'F'.$index, 0);
         }
     }
+    
+    public static function skipReplica($dialog, $simId) {
+        Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
+        $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
+        Logger::debug("flag info : ".var_export($flagInfo, true));
+        if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
+            if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
+                if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
+                    if ($flagInfo['recId'] != $dialog->excel_id) {
+                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                        return true; // эта реплика не пойдет в выборку
+                    }    
+                }
+                else {
+                    // условие сравнение не выполняется
+                    if ($flagInfo['recId'] == $dialog->excel_id) {
+                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                        return true; // эта реплика не пойдет в выборку
+                    }    
+                }
+            }
+        }
+        
+        return false;
+    }
 }
 
 ?>
