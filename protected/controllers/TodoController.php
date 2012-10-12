@@ -18,6 +18,21 @@ class TodoController extends AjaxController{
         return  ceil($time / (30)) * 30;
     }
     
+    public function actionGetCount() {
+        try {
+            $sid = Yii::app()->request->getParam('sid', false);
+            if (!$sid) throw new Exception("Не передан sid");
+            $simId = SessionHelper::getSimIdBySid($sid);
+            
+
+            $data = array('result' => 1, 'data' => Todo::model()->bySimulation($simId)->count());
+            return $this->_sendResponse(200, CJSON::encode($data));
+        } catch (Exception $exc) {
+            $data = array('result' => 0, 'message' => $exc->getMessage());
+            $this->_sendResponse(200, CJSON::encode($data));
+        }       
+    }
+    
     public function actionGet() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
