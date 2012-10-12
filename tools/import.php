@@ -70,6 +70,11 @@ class ExcelImporter {
         }
     }
     
+    /**
+     *  Создает excel-документ
+     *  @param string $documentName имя документа
+     *  @param int $fileId идентификатор файла
+     */
     protected function _createDocument($documentName, $fileId) {
         $sql = "insert into excel_document_template (name, file_id) values (:name, :fileId)";
         $stm = $this->_db->prepare($sql);
@@ -145,6 +150,12 @@ class ExcelImporter {
         return (int)$this->_db->lastInsertId();
     }
     
+    /**
+     *
+     * @param string $documentName имя документа
+     * @param string $fileName имя файла, которые мы будем импортировать
+     * @param string $dstFileName  имя файла
+     */
     public function import($documentName, $fileName, $dstFileName) {
         if (!file_exists($fileName)) throw new Exception("cant find file : $fileName");
             
@@ -341,7 +352,20 @@ class ExcelImporter {
 // 3 - пиу
 try {
     $import = new ExcelImporter();
-    $import->import('example_3', "../media/xls/example_3.xlsx", 'example_3.xls');
+    //$import->import('example_3', "../media/xls/example_3.xlsx", 'example_3.xls');
+    
+    //$import->import('Бюджет логистики_02_итог.xls', "../media/xls/logistic.xlsx", 'Бюджет логистики_02_итог.xls');
+    //$import->import('Бюджет производства_01_итог.xls', "../media/xls/budget.xlsx", 'Бюджет производства_01_итог.xls');
+    //$import->import('Бюджет производства_02_исправленный.xls', "../media/xls/d7.xlsx", 'Бюджет производства_02_исправленный.xls');
+    //$import->import('ПиУ для Правления.xls', "../media/xls/d9.xlsx", 'ПиУ для Правления.xls');
+    //$import->import('Сводный бюджет_01_итог.xls', "../media/xls/d25.xlsx", 'Сводный бюджет_01_итог.xls');
+    $import->import('Сводный бюджет_02_v23.xls', "../media/xls/d1.xlsx", 'Сводный бюджет_02_v23.xls');
+    
+    
+    
+    
+    
+    
     //$import->import('Сводный бюджет', "../media/xls/svodniy.xlsx", 'Сводный бюджет.xls');
 } catch (Exception $exc) {
     echo 'Exception : '.$exc->getMessage();
