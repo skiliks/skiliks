@@ -37,6 +37,17 @@ class MyDocumentsTemplateModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byIds($ids)
+    {
+        if (count($ids) == 0) return $this;
+        $ids = implode(',', $ids);
+        
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id in ({$ids})"
+        ));
+        return $this;
+    }
 }
 
 ?>
