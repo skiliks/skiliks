@@ -161,6 +161,10 @@ class DialogController extends AjaxController{
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->findAll();
                     foreach($dialogs as $dialog) {
                         Logger::debug("draw replica for : {$dialog->excel_id}");
+                        if (FlagsService::skipReplica($dialog, $simId)) {
+                            Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                            continue;
+                        }    
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
