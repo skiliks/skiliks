@@ -38,6 +38,14 @@ class MyDocumentsTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    public function byId($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
+    
     public function byIds($ids)
     {
         if (count($ids) == 0) return $this;
