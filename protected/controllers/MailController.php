@@ -42,6 +42,24 @@ class MailController extends AjaxController{
     }
     
     /**
+     * Возвращает колличество непрочитанных писем во входящих
+     */
+    public function actionGetInboxUnreadedCount() {
+        $sid = Yii::app()->request->getParam('sid', false);  
+        $simId = SessionHelper::getSimIdBySid($sid);
+        $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
+        
+        $result = array();
+        $result['result'] = 0;
+        if (isset($unreadInfo[1])) {
+            $result['result'] = 1;
+            $result['unreaded'] = $unreadInfo[1];
+            return $this->_sendResponse(200, CJSON::encode($result));
+        }
+        return $this->_sendResponse(200, CJSON::encode($result));
+    }
+    
+    /**
      * Получение списка сообщений
      */
     public function actionGetMessages() {

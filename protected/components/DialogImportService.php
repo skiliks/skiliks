@@ -600,6 +600,42 @@ class DialogImportService {
         fclose($handle);
         echo("Done");
     }
+    
+    public function updateFiles($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        $columns = array();
+        $delays = array();
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 802) {
+                die();
+            }
+            
+            $excelId    = $row[$this->_columns['A']];
+            $code       = $row[$this->_columns['C']];
+            $file       = $this->_convert($row[$this->_columns['P']]);
+            if ($file == 'N/A' || $file == '-') $file = '';
+            
+            $dialog = Dialogs::model()->byExcelId($excelId)->find();
+            if ($dialog) {
+                $dialog->code   = $code;
+                $dialog->sound  = $file;
+                $dialog->save();
+                echo("updated : $excelId sound : $file <br/>");
+            }
+            else {
+                echo("cant find $excelId <br/>");
+            }
+            
+        }
+        fclose($handle);
+        echo("Done");
+    }
 }
 
 ?>
