@@ -22,8 +22,16 @@ class ViewerController extends AjaxController{
             
             $items = ViewerTemplateModel::model()->byFile($templateId)->findAll();
             $list = array();
+            $files = array();
             foreach($items as $item) {
-                $list[] = $item->filePath;
+                $files[] = $item->file_id;
+                $list[$item->file_id] = $item->filePath;
+            }
+            
+            // получим кода файлов
+            $fileColection = MyDocumentsTemplateModel::model()->byIds($files)->findAll();
+            foreach($fileColection as $file) {
+                $list[$file->id] = $file->code.'/'.$list[$file->id];
             }
             
             $result = array();
