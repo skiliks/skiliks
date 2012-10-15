@@ -72,7 +72,7 @@ class SimulationController extends AjaxController{
     public function actionStart() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
-            $stype = (int)Yii::app()->request->getParam('stype', false); // тип симуляции
+            $stype = (int)Yii::app()->request->getParam('stype', false); // тип симуляции 1 - promo, 2 - dev
 
             $uid = SessionHelper::getUidBySid($sid);
             if (!$uid) throw new Exception('Не могу найти такого пользователя');

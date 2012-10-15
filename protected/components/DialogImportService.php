@@ -182,7 +182,7 @@ class DialogImportService {
         
         // clean
         $connection=Yii::app()->db;   
-        $this->_cleanData();
+        //$this->_cleanData();
 
         
         Logger::debug("dialog import started");
@@ -242,7 +242,8 @@ class DialogImportService {
                 'P' => $row[15],
                 'Q' => $row[16],
                 'R' => $row[17],
-                'S' => $row[18]
+                'S' => $row[18],
+                'T' => $row[19]
             );
             
             if ($row[0] != '')
@@ -287,31 +288,19 @@ class DialogImportService {
             }
             
             
-                
-            
-            
             // Проверяем, а нету ли уже такое события
             $event = EventsSamples::model()->byCode($code)->find();
             if (!$event) {
                 // Создаем событие
                 $event = new EventsSamples();
                 $event->code = $code;
-                $event->title = $this->_convert($row['D']);
-                $event->on_ignore_result = 0;
-                $event->on_hold_logic = 1;
-                $event->trigger_time = $eventTime;
-                $event->insert();
-                $processed++;
             }
-            else {
-                $event->code = $code;
-                $event->title = $this->_convert($row['D']);
-                $event->on_ignore_result = 0;
-                $event->on_hold_logic = 1;
-                $event->trigger_time = $eventTime;
-                $event->update();
-                $processed++;
-            }
+            $event->title = $this->_convert($row['D']);
+            $event->on_ignore_result = 0;
+            $event->on_hold_logic = 1;
+            $event->trigger_time = $eventTime;
+            $event->save();
+            $processed++;
         }
         
         // Это временный код - его задача создать события типа - М9 М10, D3, P3, T (без номера)
@@ -331,12 +320,24 @@ class DialogImportService {
         }*/
         ///////////////////////////////
         
-        
+        /////////////////////////////////////////////
         // теперь импортируем диалоги
+        /////////////////////////////////////////////
         foreach($columns as $index=>$row) {
             
-            // Создаем диалог
-            $dialog = new Dialogs();
+            $code = $row['C'];
+            $excelId = $row['A'];       
+            
+            $dialog = Dialogs::model()->byExcelId($excelId)->find();
+            if (!$dialog) {
+                // Создаем диалог
+                $dialog = new Dialogs();
+                $dialog->excel_id = $excelId;
+                echo("insert new dialog with code : {$code} <br/>");
+            }
+            
+            $dialog->code = $code;
+            
             //$characterName = $this->_convert($row['F']);
             $chFrom = (int)$this->_getCharacterIdByName($row['G']);
             if ($chFrom == 0)  {
@@ -366,11 +367,7 @@ class DialogImportService {
             
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['J']));
 
-            if ($dialog->ch_to_state == null) {
-                $dialog->ch_to_state = 1;
-
-            }
-
+            if ($dialog->ch_to_state == null) $dialog->ch_to_state = 1;
             
             
             $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['S']));
@@ -383,7 +380,7 @@ class DialogImportService {
             $dialog->text = $this->_convert($row['M']);
             $dialog->duration = $row['F'];
             $dialog->event_result = 0;
-            $dialog->code = $this->_convert($row['C']);
+            
             $dialog->step_number = $row['K'];
             $dialog->replica_number = $row['L'];       
 
@@ -413,14 +410,15 @@ class DialogImportService {
             }
             //var_dump($delay);
 
+            $file = $row['P'];
+            if ($file == 'N/A' || $file == '-') $file = '';    
 
             $dialog->delay = $delay;       
-            $dialog->sound = $row['P'];       
-            $dialog->excel_id = $row['A'];       
-            if (!$dialog->insert()) {
-                echo("cant insert dialog");
-                var_dump($row); die();
-            }       
+            $dialog->sound = $file;       
+            $dialog->excel_id = $excelId;       
+            $dialog->flag = $row['T'];
+            $dialog->save();
+            echo("saved dialog by code : {$code}");
             
             
             // теперь загрузим оценки
@@ -447,12 +445,6 @@ class DialogImportService {
             
             $processed++;
         }
-            
-            
-        
-        
-        //var_dump($columns);
-        
         
         return $processed;
     }
@@ -631,6 +623,42 @@ class DialogImportService {
             else {
                 echo("cant find $excelId <br/>");
             }
+            
+        }
+        fclose($handle);
+        echo("Done");
+    }
+    
+    public function updateDemo($fileName) {
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        $index = 0;
+        $columns = array();
+        $delays = array();
+        $pointsCodes = array();
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            if ($index > 816) {
+                die();
+            }
+            
+            $excelId    = $row[$this->_columns['A']];
+            $demo       = $this->_convert($row[$this->_columns['D']]);
+            if ($demo == 'да') {
+                $dialog = Dialogs::model()->byExcelId($excelId)->find();
+                if ($dialog) {
+                    $dialog->demo = 1;
+                    $dialog->save();
+                    echo("updated : $excelId <br/>");
+                }
+                else {
+                    echo("cant find $excelId <br/>");
+                }
+            }
+            
+            
             
         }
         fclose($handle);

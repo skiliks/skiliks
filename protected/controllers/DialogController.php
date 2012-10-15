@@ -37,6 +37,8 @@ class DialogController extends AjaxController{
             // получаем идентификатор симуляции
             $simId = SimulationService::get($uid);
             
+            // определим тип симуляции
+            $simType = SimulationService::getType($simId);
             
             // получаем ид текущего диалога, выбираем запись
             $currentDialog = DialogService::get($dialogId);
@@ -158,7 +160,7 @@ class DialogController extends AjaxController{
                 if (EventService::isDialog($currentDialog->next_event_code)) {
                     
                     // сразу же отдадим реплики по этому событию - моментально
-                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->findAll();
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
                         Logger::debug("draw replica for : {$dialog->excel_id}");
                         if (FlagsService::skipReplica($dialog, $simId)) {
@@ -182,9 +184,8 @@ class DialogController extends AjaxController{
                 if ($currentDialog->is_final_replica != 1) {
                     // если нет, то нам надо продолжить диалог
                     // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->findAll();
+                    $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
-                        
                         
                         if (FlagsService::skipReplica($dialog, $simId)) continue;
                         /*

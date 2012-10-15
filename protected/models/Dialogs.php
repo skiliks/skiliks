@@ -80,6 +80,16 @@ class Dialogs extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byDemo($simulationType)
+    {
+        if ($simulationType == 1) {  //
+            $this->getDbCriteria()->mergeWith(array(
+                'condition' => "demo = 1"
+            ));
+        }    
+        return $this;
+    }
 }
 
 ?>
