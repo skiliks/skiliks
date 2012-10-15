@@ -951,8 +951,12 @@ class ExcelDocumentController extends AjaxController{
         $range = Yii::app()->request->getParam('range', false);  
         
         
-        ExcelFactory::getDocument()->loadWorksheet($fromWorksheetId);
-        ExcelFactory::getDocument()->loadWorksheet($worksheetId);
+        // определим идентификатор документа с которым нам надо будет работать
+        $documentId = (int)ExcelDocumentService::getDocumentIdByWorksheetId($worksheetId);
+        if ($documentId == 0) throw new Exception("немогу определить документ");
+        
+        ExcelFactory::getDocument($documentId)->loadWorksheet($fromWorksheetId);
+        ExcelFactory::getDocument($documentId)->loadWorksheet($worksheetId);
         $result = ExcelClipboard::paste($fromWorksheetId, $worksheetId, $column, $string, $range);
         return $this->_sendResponse(200, CJSON::encode($result));
         ####################################################################
