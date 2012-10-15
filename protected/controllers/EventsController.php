@@ -49,6 +49,9 @@ class EventsController extends AjaxController{
             $simulation = Simulations::model()->byUid($uid)->find();
             if (!$simulation) throw new Exception('Не могу определить симуляцию', 3);
             
+            // определим тип симуляции
+            $simType = SimulationService::getType($simulation->id);
+            
             ### обработка задач
             $task = $this->_processTasks($simulation->id);
             if ($task) {
@@ -129,7 +132,7 @@ class EventsController extends AjaxController{
             
             
             Logger::debug("get dialogs by code : {$eventCode}");
-            $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+            $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
             
             $data = array();
             foreach($dialogs as $dialog) {

@@ -20,6 +20,17 @@ class SimulationService {
         return $simulation->id;
     }
     
+    /**
+     * Определение типа симуляции
+     * @param int $sid
+     * @return int
+     */
+    public static function getType($simId) {
+        $simulation = Simulations::model()->byId($simId)->find();
+        if (!$simulation) return false;
+        return $simulation->type;
+    }
+    
     public static function getUid($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
         if (!$simulation) return false;
