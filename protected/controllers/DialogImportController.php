@@ -76,6 +76,15 @@ class DialogImportController extends AjaxController{
             echo $exc->getMessage();
         }
     }
+    
+    public function actionUpdateDemo() {
+        try {
+            $service = new DialogImportService();
+            $service->updateDemo('media/xls/dialogs_demo.csv');  
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
 }
 
 ?>
