@@ -62,6 +62,7 @@ class ExcelClipboard {
         Logger::debug('clipboard : '.var_export($clipboard, true));
         
         $excelFormula = new ExcelFormula();
+        //$excelFormula->setDocument($document)
         $stringIndex = $string;
         for($j=0; $j<$rangeInfo['columnCount'];$j++) {
             

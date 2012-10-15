@@ -13,6 +13,8 @@ class ExcelFormula {
     
     private $_worksheet = false;
     
+    private $_document = false;
+    
     private function _getWorksheet() {
         if ($this->_worksheet) return $this->_worksheet;
         return ExcelFactory::getDocument()->getActiveWorksheet();
@@ -20,6 +22,15 @@ class ExcelFormula {
     
     public function setWorksheet($worksheet) {
         $this->_worksheet = $worksheet;
+    }
+    
+    private function _getDocument() {
+        if ($this->_document) return $this->_document;
+        return ExcelFactory::getDocument();
+    }
+    
+    public function setDocument($document) {
+        $this->_document = $document;
     }
     
     public function callback($matches) {
@@ -56,9 +67,12 @@ class ExcelFormula {
             Logger::debug("getWorksheetByName : {$data[0]}");
             
             //var_dump($data[0]); die();
-            $worksheet = ExcelFactory::getDocument()->getWorksheetByName($data[0]);
+            $worksheet = $this->_getDocument()->getWorksheetByName($data[0]);
+            if (!$worksheet) {
+                $worksheet = $this->_getDocument()->getWorksheetByName($data[0]);
+            }
             
-            if (!$worksheet) throw new Exception("cant get worksheet {$data[0]}");
+            if (!$worksheet) throw new Exception("replaceVarsCallback: cant get worksheet {$data[0]}");
             
             return $worksheet->getValueByName($data[1]);
         }
