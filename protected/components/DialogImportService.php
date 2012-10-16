@@ -155,17 +155,17 @@ class DialogImportService {
         $command = $connection->createCommand($sql);
         $command->execute();
         
-        $sql = 'DELETE FROM `events_samples`';
+        $sql = 'ALTER TABLE `dialogs` AUTO_INCREMENT =1';
         $command = $connection->createCommand($sql);
         $command->execute();
         
-        $sql = 'ALTER TABLE `dialogs` AUTO_INCREMENT =1';
+        /**$sql = 'DELETE FROM `events_samples`';
         $command = $connection->createCommand($sql);
         $command->execute();
 
         $sql = 'ALTER TABLE `events_samples` AUTO_INCREMENT =1';
         $command = $connection->createCommand($sql);
-        $command->execute();
+        $command->execute();*/
     }
     
     /**
@@ -182,7 +182,7 @@ class DialogImportService {
         
         // clean
         $connection=Yii::app()->db;   
-        //$this->_cleanData();
+        $this->_cleanData();
 
         
         Logger::debug("dialog import started");
@@ -213,7 +213,7 @@ class DialogImportService {
                 $index++;
                 continue;
             }
-            if ($index > 802) break;
+            if ($index > 816) break;
             
 
             
@@ -320,13 +320,18 @@ class DialogImportService {
         }*/
         ///////////////////////////////
         
+        $processed = 0;
         /////////////////////////////////////////////
         // теперь импортируем диалоги
         /////////////////////////////////////////////
         foreach($columns as $index=>$row) {
-            
             $code = $row['C'];
-            $excelId = $row['A'];       
+            $excelId = (int)$row['A'];       
+            
+            Logger::debug("import dialog index $index");
+            if ($excelId == 0) {
+                //Logger::debug("row: ".var_export($row, true));
+            }
             
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
             if (!$dialog) {
@@ -341,7 +346,7 @@ class DialogImportService {
             //$characterName = $this->_convert($row['F']);
             $chFrom = (int)$this->_getCharacterIdByName($row['G']);
             if ($chFrom == 0)  {
-                echo("cant find character from by name {$row['G']}"); die();
+                //echo("cant find character from by name {$row['G']} excelId $excelId"); die();
             }              
             
             $dialog->ch_from = $chFrom;
@@ -372,7 +377,7 @@ class DialogImportService {
             
             $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['S']));
             if ($dialogSubtype == 0) {
-                var_dump($this->_convert($row['R'])); die();
+                ///var_dump($this->_convert($row['R'])); die();
             }
             
             $dialog->dialog_subtype = $dialogSubtype;
@@ -422,7 +427,7 @@ class DialogImportService {
             
             
             // теперь загрузим оценки
-            //var_dump($pointsCodes);
+            
             foreach($pointsCodes as $pointIndex => $pointCode) {
                 Logger::debug("check code : $pointCode");
                 Logger::debug("value is : ".$row[$pointIndex]);
@@ -433,11 +438,15 @@ class DialogImportService {
                         $pointId = $this->_charactersPoints[$pointCode];
                         Logger::debug("found point : ".$pointId);
                         
-                        $charactersPoints = new CharactersPoints();
-                        $charactersPoints->dialog_id = $dialog->id;
-                        $charactersPoints->point_id = $pointId;
+                        // проверим а вдруг есть такая оценка
+                        $charactersPoints = CharactersPoints::model()->byDialog($dialog->id)->byPoint($pointId)->find();
+                        if (!$charactersPoints) {
+                            $charactersPoints = new CharactersPoints();
+                            $charactersPoints->dialog_id = $dialog->id;
+                            $charactersPoints->point_id = $pointId;
+                        }
                         $charactersPoints->add_value = $row[$pointIndex];
-                        $charactersPoints->insert();
+                        $charactersPoints->save();
                     }
                     
                 }
