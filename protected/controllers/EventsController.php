@@ -68,6 +68,8 @@ class EventsController extends AjaxController{
             $triggers = EventsTriggers::model()->nearest($simulation->id, $gameTime)->findAll();
             
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
+            
+            $result = array('result' => 1);
 
             $eventCode = false;
             if (count($triggers)>0) {  // если у нас много событий
@@ -89,24 +91,28 @@ class EventsController extends AjaxController{
                     Logger::debug("check flags event by code {$event->code}");
                     if (!EventService::allowToRun($event->code, $simulation->id, 1, 0)) {
                         // событие не проходит по флагам -  не пускаем его
-                        return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
+                        //return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
+                        continue; // обрабатываем другие события
                     }
                     #####################################
                     
-                    $result = EventService::processLinkedEntities($event->code, $simulation->id);
-                    if ($index == 0) {
+                    $res = EventService::processLinkedEntities($event->code, $simulation->id);
+                    if ($res) {
+                        $result['events'][] = $res;
+                    }
+                    /*if ($index == 0) {
                         if ($result) return $this->_sendResponse(200, CJSON::encode($result));
                         
                         $eventCode = $event->code;
-                    }
+                    }*/
                     
                     $index++;
                 }
             }
             
-            if (!$eventCode) {
+            /*if (!$eventCode) {
                 return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
-            }
+            }*/
             
             /**********************
             $trigger = $triggers[0];  // получаем актуальное событие для заданной симуляции
@@ -160,9 +166,10 @@ class EventsController extends AjaxController{
                 }
             }
 
+            $result['data'] = $data;
+            $result['eventType'] = 1;
             
-
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data, 'eventType' => 1)));
+            return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
