@@ -100,6 +100,8 @@ class SimulationController extends AjaxController{
             // Сделать вставки в events triggers
             $events = EventsSamples::model()->findAll();  // limit(1)->
             foreach($events as $event) {
+                
+                if (EventService::isPlan($event->code)) continue;
                 Logger::debug("create trigger : {$event->code}");
                 $eventsTriggers = new EventsTriggers();
                 $eventsTriggers->sim_id         = $simId;
