@@ -273,6 +273,10 @@ class EventService {
         Logger::debug("compare result : ".var_export($result, true));
         return $result;
     }
+    
+    public static function isPlan($eventCode) {
+        return preg_match("/P(\d+)/", $eventCode);
+    }
 }
 
 ?>
