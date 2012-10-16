@@ -7,7 +7,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 
 
-ini_set('date.timezone', 'Ukraine/Kiev');
+ini_set('date.timezone', 'Europe/Kiev');
 
 $date = 1349222400 + 632*60;
 $date = 1349308800 + 828*60;
