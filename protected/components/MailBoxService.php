@@ -656,6 +656,12 @@ class MailBoxService {
             }
             else  {
                 $fileId = $file->id;
+                
+                $file = MyDocumentsModel::model()->byId($fileId)->find();
+                if ($file) {
+                    $file->hidden = 1; // поскольку это аттач - спрячем его
+                    $file->save();
+                }
             }
             
             //Logger::debug("file = ".var_export($file, true));
