@@ -106,7 +106,8 @@ class PhoneController extends AjaxController{
                         );
                         $result = array();
                         $result['result'] = 1;
-                        $result['data'] = $data;
+                        //$result['data'] = $data;
+                        $result['events'][] = $data;
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }
                     else {
@@ -117,7 +118,8 @@ class PhoneController extends AjaxController{
                         $data = EventService::getReplicaByCode($eventCode, $simId);
                         $result = array();
                         $result['result'] = 1;
-                        $result['data'] = $data;
+                        //$result['data'] = $data;
+                        $result['events'][] = $data;
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }
                 }
