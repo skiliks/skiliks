@@ -11,6 +11,8 @@ require_once(dirname(__FILE__).'/framework/yii.php');
 
 $config=dirname(__FILE__).'/protected/config/main.php';
 
+ini_set('date.timezone', 'Etc/GMT');
+set_time_limit(300); 
 /*
 function WorkError($code, $msg, $file, $line){
   // Пишем лог
