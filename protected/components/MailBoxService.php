@@ -441,10 +441,10 @@ class MailBoxService {
             FROM `events_samples` as e  
             inner join mail_template as m on (m.code = e.code and m.sending_date=1349308800 and sending_time>0)
             where e.code REGEXP "^M[[:digit:]]+$" =1 and e.trigger_time>0 order by sending_time_str';
-        
         $command = Yii::app()->db->createCommand($sql);
         $events = $command->queryAll();
         
+        // скопируем аттачменты
         
         //$events = EventsSamples::model()->likeCode('M%')->findAll(); 
         foreach($events as $event) {
@@ -642,19 +642,27 @@ class MailBoxService {
 
         // учесть вложение
         $sql = "select file_id from mail_attachments_template where mail_id = :mailId";
-        //Logger::debug("sql = $sql mail_id = $templateId");
+        Logger::debug("try to add attachment for mail:  $templateId");
         $command = $connection->createCommand($sql);     
         $command->bindParam(":mailId", $templateId, PDO::PARAM_INT);
         $row = $command->queryRow();
-        //Logger::debug("row = ".var_export($row, true));
+        Logger::debug("row = ".var_export($row, true));
         if (isset($row['file_id'])) {
             // определить file_id в симуляции
             $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
+            if (!$file) {
+                // документа еще нет в симуляции
+                $fileId = MyDocumentsService::copyToSimulation($simId, $row['file_id']);
+            }
+            else  {
+                $fileId = $file->id;
+            }
+            
             //Logger::debug("file = ".var_export($file, true));
-            if ($file) {
+            if ($fileId > 0) {
                 $attachment = new MailAttachmentsModel();
                 $attachment->mail_id = $id;
-                $attachment->file_id = $file->id;
+                $attachment->file_id = $fileId;
                 $attachment->insert();
             }
         }
