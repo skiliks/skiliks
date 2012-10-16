@@ -86,6 +86,11 @@ class EventsController extends AjaxController{
                     // Убиваем обработанное событие
                     $trigger->delete();
                     
+                    if ($index == 0) {
+                        //if ($result) return $this->_sendResponse(200, CJSON::encode($result));
+                        $eventCode = $event->code;
+                    }
+                    
                     ###################
                     // проверим событие на флаги
                     Logger::debug("check flags event by code {$event->code}");
@@ -101,38 +106,10 @@ class EventsController extends AjaxController{
                         $result['events'][] = $res;
                     }
                     
-                    if ($index == 0) {
-                        //if ($result) return $this->_sendResponse(200, CJSON::encode($result));
-                        $eventCode = $event->code;
-                    }
-                    
                     $index++;
                 }
             }
             
-            /*if (!$eventCode) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
-            }*/
-            
-            /**********************
-            $trigger = $triggers[0];  // получаем актуальное событие для заданной симуляции
-            Logger::debug("found trigger : {$trigger->event_id}");
-            
-            // получить диалог
-            $event = EventsSamples::model()->byId($trigger->event_id);
-            if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
-            
-
-            // Убиваем обработанное событие
-            $trigger->delete();
-            
-            Logger::debug("found event : {$event->code}");
-            
-            $result = EventService::processLinkedEntities($event->code, $simulation->id);
-            if ($result) {
-                return $this->_sendResponse(200, CJSON::encode($result));
-            }
-            *************************************/
             
             // У нас одно событие
             
@@ -166,8 +143,16 @@ class EventsController extends AjaxController{
                 }
             }
 
-            $result['data'] = $data;
-            $result['eventType'] = 1;
+            $result['events'][] = array(
+                    'result' => 1,
+                    'eventType' => 1,
+                    'data' => $data
+                );
+            
+            //$result['data'] = $data;
+            //$result['eventType'] = 1;
+            
+            Logger::debug("result : ".var_export($result, true));
             
             return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
