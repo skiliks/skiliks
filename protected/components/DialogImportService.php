@@ -615,7 +615,7 @@ class DialogImportService {
             
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
             if ($dialog) {
-                $dialog->code   = $code;
+                //$dialog->code   = $code;
                 $dialog->sound  = $file;
                 $dialog->save();
                 echo("updated : $excelId sound : $file <br/>");
