@@ -71,7 +71,7 @@ class DialogImportController extends AjaxController{
     public function actionUpdateFiles() {
         try {
             $service = new DialogImportService();
-            $service->updateFiles('media/xls/scenario.csv');  
+            $service->updateFiles('media/xls/scenario4.csv');  
         } catch (Exception $exc) {
             echo $exc->getMessage();
         }
