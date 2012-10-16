@@ -656,12 +656,6 @@ class MailBoxService {
             }
             else  {
                 $fileId = $file->id;
-                
-                $file = MyDocumentsModel::model()->byId($fileId)->find();
-                if ($file) {
-                    $file->hidden = 1; // поскольку это аттач - спрячем его
-                    $file->save();
-                }
             }
             
             //Logger::debug("file = ".var_export($file, true));
@@ -670,7 +664,19 @@ class MailBoxService {
                 $attachment->mail_id = $id;
                 $attachment->file_id = $fileId;
                 $attachment->insert();
+                
+                // проверим тип документа
+                $fileTemplate = MyDocumentsTemplateModel::model()->byId($row['file_id'])->find();
+                if ($fileTemplate->type != 'start') {
+                    $file = MyDocumentsModel::model()->byId($fileId)->find();
+                    if ($file) {
+                        $file->hidden = 1; // поскольку это аттач - спрячем его
+                        $file->save();
+                    }
+                }
             }
+            
+            
         }
         return $mail;
     }
