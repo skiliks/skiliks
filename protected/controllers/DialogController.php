@@ -177,6 +177,11 @@ class DialogController extends AjaxController{
                         EventService::deleteByCode($currentDialog->next_event_code, $simId);
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }    
+                    else {
+                        // нет особых правил для этого события - запускаем его
+                        Logger::debug("no special rules - replica number 0 dialog : {$currentDialog->code} create event {$currentDialog->next_event_code}");
+                        EventService::addByCode($currentDialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                    }
                 }
             }
             else {
