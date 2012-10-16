@@ -182,7 +182,7 @@ class DialogImportService {
         
         // clean
         $connection=Yii::app()->db;   
-        $this->_cleanData();
+        //$this->_cleanData();
 
         
         Logger::debug("dialog import started");
@@ -415,7 +415,7 @@ class DialogImportService {
             }
             //var_dump($delay);
 
-            $file = $row['P'];
+            $file = $this->_convert($row['P']);
             if ($file == 'N/A' || $file == '-') $file = '';    
 
             $dialog->delay = $delay;       
@@ -613,7 +613,7 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 802) {
+            if ($index > 816) {
                 die();
             }
             
