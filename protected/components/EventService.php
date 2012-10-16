@@ -277,6 +277,11 @@ class EventService {
     public static function isPlan($eventCode) {
         return preg_match("/P(\d+)/", $eventCode);
     }
+    
+    public static function isDocument($eventCode) {
+        return preg_match("/D(\d+)/", $eventCode);
+    }
+    
 }
 
 ?>
