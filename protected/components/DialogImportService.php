@@ -277,32 +277,38 @@ class DialogImportService {
             $code = $this->_convert($row['C']);
             if ($code == '-' || $code == '') continue;
             
-            $eventTimeStr = $row['E'];
-            Logger::debug("eventTime : $eventTimeStr");
-            $eventTime = 0;
-            if (strstr($eventTimeStr, ':')) {
-                $eventTimeData = explode(':', $eventTimeStr);
-                if (isset($eventTimeData[1])) {
-                    $eventTime = $eventTimeData[0] * 60 + $eventTimeData[1];
+            $step_number = (int)$row['K'];
+            $replica_number = (int)$row['L'];       
+            
+            if ($step_number == 1 && $replica_number == 0) {
+                $eventTimeStr = $row['E'];
+                Logger::debug("eventTime : $eventTimeStr");
+                $eventTime = 0;
+                if (strstr($eventTimeStr, ':')) {
+                    $eventTimeData = explode(':', $eventTimeStr);
+                    if (isset($eventTimeData[1])) {
+                        $eventTime = $eventTimeData[0] * 60 + $eventTimeData[1];
+                    }
                 }
+
+
+                // Проверяем, а нету ли уже такое события
+                $event = EventsSamples::model()->byCode($code)->find();
+                if (!$event) {
+                    // Создаем событие
+                    $event = new EventsSamples();
+                    $event->code = $code;
+                }
+                $event->title = $this->_convert($row['D']);
+                $event->on_ignore_result = 0;
+                $event->on_hold_logic = 1;
+                $event->trigger_time = $eventTime;
+                $event->save();
+                echo("saved event : $code time :  $eventTime <br/>");
+                $processed++;
             }
-            
-            
-            // Проверяем, а нету ли уже такое события
-            $event = EventsSamples::model()->byCode($code)->find();
-            if (!$event) {
-                // Создаем событие
-                $event = new EventsSamples();
-                $event->code = $code;
-            }
-            $event->title = $this->_convert($row['D']);
-            $event->on_ignore_result = 0;
-            $event->on_hold_logic = 1;
-            $event->trigger_time = $eventTime;
-            $event->save();
-            $processed++;
         }
-        
+        die();
         // Это временный код - его задача создать события типа - М9 М10, D3, P3, T (без номера)
         /*foreach($columns as $index=>$row) {
             $code = $this->_convert($row['M']);

@@ -5,6 +5,7 @@ header("HTTP/1.0 200 OK");
 header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
+header('Access-Control-Allow-Origin: *');
 
 require_once(dirname(__FILE__).'/framework/yii.php');
 
