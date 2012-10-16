@@ -100,11 +100,11 @@ class EventsController extends AjaxController{
                     if ($res) {
                         $result['events'][] = $res;
                     }
-                    /*if ($index == 0) {
-                        if ($result) return $this->_sendResponse(200, CJSON::encode($result));
-                        
+                    
+                    if ($index == 0) {
+                        //if ($result) return $this->_sendResponse(200, CJSON::encode($result));
                         $eventCode = $event->code;
-                    }*/
+                    }
                     
                     $index++;
                 }
