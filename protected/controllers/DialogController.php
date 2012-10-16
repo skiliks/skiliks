@@ -237,12 +237,15 @@ class DialogController extends AjaxController{
                     $data[0]['name'] = $character->fio;
                 }
             }
-     
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'events' => array(
+            
+            $events = array();
+            $events[] = array(
                 'result' => 1,
                 'data' => $data,
                 'eventType' => 1
-            ))));
+            );
+     
+            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'events' =>$events)));
         } catch (Exception $exc) {
             Logger::debug('exception : '.  $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode(array(
