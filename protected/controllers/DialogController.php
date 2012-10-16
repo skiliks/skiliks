@@ -153,6 +153,10 @@ class DialogController extends AjaxController{
             
              Logger::debug("check next event : {$currentDialog->next_event_code}");
             
+            $result = array();
+            $result['result'] = 1;
+            $result['events'] = array();
+             
             ## new code
             $data = array();
             if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
@@ -171,11 +175,11 @@ class DialogController extends AjaxController{
                     }
                 }
                 else {
-                    $result = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
-                    if ($result) {
+                    $res = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
+                    if ($res) {
                         // убьем такое событие чтобы оно не произошло позже
                         EventService::deleteByCode($currentDialog->next_event_code, $simId);
-                        return $this->_sendResponse(200, CJSON::encode($result));
+                        $result['events'][] = $res;
                     }    
                     else {
                         // нет особых правил для этого события - запускаем его
@@ -238,14 +242,14 @@ class DialogController extends AjaxController{
                 }
             }
             
-            $events = array();
-            $events[] = array(
+            
+            $result['events'][] = array(
                 'result' => 1,
                 'data' => $data,
                 'eventType' => 1
             );
      
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'events' =>$events)));
+            return $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             Logger::debug('exception : '.  $exc->getMessage());
             return $this->_sendResponse(200, CJSON::encode(array(
