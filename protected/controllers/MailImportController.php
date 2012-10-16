@@ -474,16 +474,18 @@ class MailImportController extends AjaxController{
             $code = $row[0];
             $time = DateHelper::timeToTimstamp($row[2]);
             
-            // проверим а нет ли уже такого события
-            if (!isset($events[$code])) {
+            $event = EventsSamples::model()->byCode($code)->find();
+            if (!$event) {
                 $event = new EventsSamples();
                 $event->code = $code;
-                $event->on_ignore_result = 0;	
-                $event->on_hold_logic = 1;
-                $event->trigger_time = $time; 
-                $event->insert();
-                echo("added event : $code <br/>");
             }
+                
+            $event->on_ignore_result = 0;	
+            $event->on_hold_logic = 1;
+            $event->trigger_time = $time; 
+            $event->save();
+            echo("update event : $code <br/>");
+            
             
         }
         fclose($handle);
