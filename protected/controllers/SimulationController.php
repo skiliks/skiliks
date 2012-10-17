@@ -138,7 +138,7 @@ class SimulationController extends AjaxController{
             // проставим дефолтовые значени флагов для симуляции пользователя
             FlagsService::initDefaultValues($simId);
 
-            $result = array('result' => 1);
+            $result = array('result' => 1, 'speedFactor' => SKILIKS_SPEED_FACTOR);
             $this->_sendResponse(200, CJSON::encode($result));
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
