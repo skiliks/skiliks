@@ -29,7 +29,18 @@ class DialogController extends AjaxController{
             
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
             Logger::debug('try to get dialog by id : '.$dialogId);
-            if (!$dialogId) throw new Exception('Не задан диалог', 2);
+            //if (!$dialogId) throw new Exception('Не задан диалог', 2);
+            if ($dialogId == 0) {
+                $result = array();
+                $result['result'] = 1;
+                $result['events'][] = array(
+                    'result' => 1,
+                    'data' => array(),
+                    'eventType' => 1
+                );
+                return $this->_sendResponse(200, CJSON::encode($result));
+            }
+            
             
             // получаем uid
             $uid = SessionHelper::getUidBySid($sid);
