@@ -107,7 +107,11 @@ class PhoneController extends AjaxController{
                         $result = array();
                         $result['result'] = 1;
                         //$result['data'] = $data;
-                        $result['events'][] = $data;
+                        $result['events'][] = array(
+                            'result' => 1,
+                            'data' => $data,
+                            'eventType' => 1
+                        );
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }
                     else {
@@ -119,7 +123,11 @@ class PhoneController extends AjaxController{
                         $result = array();
                         $result['result'] = 1;
                         //$result['data'] = $data;
-                        $result['events'][] = $data;
+                        $result['events'][] = array(
+                            'result' => 1,
+                            'data' => $data,
+                            'eventType' => 1
+                        );
                         return $this->_sendResponse(200, CJSON::encode($result));
                     }
                 }
