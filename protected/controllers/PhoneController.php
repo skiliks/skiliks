@@ -95,9 +95,9 @@ class PhoneController extends AjaxController{
                         $data = array();
                         $data[] = array(
                             'id'                => 0,
-                            'ch_from'           => 1,
+                            'ch_from'           => $id,
                             'ch_from_state'     => 1,
-                            'ch_to'             => $id,
+                            'ch_to'             => 1,
                             'ch_to_state'       => 1,
                             'dialog_subtype'    => 2,
                             'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
