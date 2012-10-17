@@ -48,7 +48,7 @@ class SimulationService {
         $startTime = $simulation->start;
         
         $variance = time() - $simulation->start;
-        $variance = $variance*4;
+        $variance = $variance*8;
 
         $unixtimeMins = round($variance/60) + 9*60;
         return $unixtimeMins;
