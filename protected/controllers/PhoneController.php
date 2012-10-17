@@ -91,6 +91,9 @@ class PhoneController extends AjaxController{
                 if ($mailThemeModel) {
                     $eventCode = $mailThemeModel->phone_dialog_number;
                     if ($eventCode == '' || $eventCode == 'AUTO') {
+                        
+                        
+                        
                         // выдаем автоответчик
                         $data = array();
                         $data[] = array(
@@ -104,6 +107,13 @@ class PhoneController extends AjaxController{
                             'sound'             => '#',
                             'duration'          => 5
                         );
+                        $character = Characters::model()->byId($id)->find();
+                        //Logger::debug("found character : ".var_export($character));
+                        if ($character) {
+                            $data[0]['title'] = $character->title;
+                            $data[0]['name'] = $character->fio;
+                        }
+                        
                         $result = array();
                         $result['result'] = 1;
                         //$result['data'] = $data;
