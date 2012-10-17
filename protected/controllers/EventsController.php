@@ -146,7 +146,8 @@ class EventsController extends AjaxController{
             $result['events'][] = array(
                     'result' => 1,
                     'eventType' => 1,
-                    'data' => $data
+                    'data' => $data,
+                    'serverTime' => $gameTime
                 );
             
             //$result['data'] = $data;
