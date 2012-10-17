@@ -28,9 +28,9 @@ class RegistrationController extends AjaxController{
                 throw new Exception('Введенные пароли не совпадают');
             
             $users = new Users();
-            $users->password = md5($password);
-            $users->email = $email;
-            $users->is_active = 0;
+            $users->password    = md5($password);
+            $users->email       = $email;
+            $users->is_active   = 1;
             $r = (int)$users->insert();
             if ($r == 0) 
                 throw new Exception('Немогу зарегистрировать пользователя');
@@ -40,6 +40,11 @@ class RegistrationController extends AjaxController{
             $usersActivationCode->uid = $users->id;
             $usersActivationCode->code = $activationCode;
             $usersActivationCode->insert();
+            
+            // Добавить группы пользователей
+            UserService::addGroupToUser($users->id, 1);
+            //UserService::addGroupToUser($users->id, 2);
+            
             
             Logger::debug("activation code : {$activationCode}");
 

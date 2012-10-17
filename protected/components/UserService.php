@@ -36,6 +36,13 @@ class UserService {
         return $groups;
     }
     
+    public static function addGroupToUser($uid, $gid) {
+        $userGroups = new UserGroupsModel();
+        $userGroups->uid = $uid;
+        $userGroups->gid = $gid;
+        $userGroups->insert();
+    }
+    
     /**
      * Проверяет является ли пользователь членом заданной группы
      * @param int $uid
