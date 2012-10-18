@@ -65,7 +65,6 @@ class FlagsService {
      */
     public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0) {
         $result = array();
-        //$result['ruleExists']       = true;
         
         // определим код правила
         $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber);
@@ -122,6 +121,7 @@ class FlagsService {
         }
     }
     
+    ## will broken
     public static function skipReplica($dialog, $simId) {
         Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
         $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);

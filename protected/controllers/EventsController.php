@@ -49,6 +49,7 @@ class EventsController extends AjaxController{
             // получить симуляцию по uid
             $simulation = Simulations::model()->byUid($uid)->find();
             if (!$simulation) throw new Exception('Не могу определить симуляцию', 3);
+            $simId = $simulation->id;
             
             // определим тип симуляции
             $simType = SimulationService::getType($simulation->id);
@@ -67,8 +68,8 @@ class EventsController extends AjaxController{
             
             
             // получить ближайшее событие
-            Logger::debug("try to find trigger for time $gameTime sim {$simulation->id}");
-            $triggers = EventsTriggers::model()->nearest($simulation->id, $gameTime)->findAll();
+            Logger::debug("try to find trigger for time $gameTime sim {$simId}");
+            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll();
             
             if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
             
@@ -117,27 +118,52 @@ class EventsController extends AjaxController{
             Logger::debug("get dialogs by code : {$eventCode}");
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
             
+            $gameTime = SimulationService::getGameTime($simId);
+            
             $data = array();
             foreach($dialogs as $dialog) {
-                Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
-                
-                $flagsInfo = FlagsService::skipReplica($dialog, $simulation->id);
-                if (isset($flagsInfo['action'])) {
-                    if ($flagsInfo['action'] == 'skip') continue;   // если реплика не проходи по флагам
-                    if ($flagsInfo['action'] == 'break') break;     // этот диалог вообще нельзя отображать по флагам
-                }
-                
-                
-                
-                // Если у нас реплика к герою
-                if ($dialog->replica_number == 0) {
-                    // События типа диалог мы не создаем
-                    if (!EventService::isDialog($dialog->next_event_code)) {
-                        // создадим событие
-                        EventService::addByCode($dialog->next_event_code, $simulation->id, SimulationService::getGameTime($simulation->id));
+                $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
+            }
+            
+            Logger::debug("src dialogs : ".var_export($data, true));
+            
+            // теперь подчистим список
+            $resultList = $data;
+            foreach ($data as $dialogId => $dialog) {
+                //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
+                $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
+                //Logger::debug("flag info : ".var_export($flagInfo, true));
+                if ($flagInfo['ruleExists']) {  // у нас есть такое правило
+                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
+                        // правило не выполняется для определнной записи - убьем ее
+                        if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
+                        continue;
+                    }
+                    
+                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
+                        //у нас не выполняется все событие полностью
+                        $resultList = array();
+                        break;
                     }
                 }
-                $data[] = DialogService::dialogToArray($dialog);
+            }
+            
+            $data = array();
+            // а теперь пройдемся по тем кто выжил и позапускаем события
+            foreach($resultList as $index=>$dialog) {
+                // Если у нас реплика к герою
+                if ($dialog['replica_number'] == 0) {
+                    // События типа диалог мы не создаем
+                    if (!EventService::isDialog($dialog['next_event_code'])) {
+                        // создадим событие
+                        EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
+                    }
+                }
+                unset($resultList[$index]['step_number']);
+                unset($resultList[$index]['replica_number']);
+                unset($resultList[$index]['next_event_code']);
+                unset($resultList[$index]['code']);
+                $data[] = $resultList[$index];
             }
             
             if (isset($data[0]['ch_from'])) {
@@ -150,16 +176,10 @@ class EventsController extends AjaxController{
             }
 
             $result['serverTime'] = $gameTime;
-            if (count($data) > 0) {
-                $result['events'][] = array(
-                        'result' => 1,
-                        'eventType' => 1,
-                        'data' => $data
-                    );
+            if (count($resultList) > 0) {
+                $result['events'][] = array('result' => 1, 'eventType' => 1, 'data' => $data);
             }
-            
-            //$result['data'] = $data;
-            //$result['eventType'] = 1;
+           
             
             Logger::debug("result : ".var_export($result, true));
             
