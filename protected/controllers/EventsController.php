@@ -52,16 +52,18 @@ class EventsController extends AjaxController{
             // определим тип симуляции
             $simType = SimulationService::getType($simulation->id);
             
+            $gameTime = SimulationService::getGameTime($simulation->id);
+            
             ### обработка задач
             $task = $this->_processTasks($simulation->id);
             if ($task) {
-                $result = array('result' => 1, 'data' => $task, 'eventType' => 'task');
+                $result = array('result' => 1, 'data' => $task, 'eventType' => 'task', 'serverTime' => $gameTime);
                 return $this->_sendResponse(200, CJSON::encode($result));
             }
             ###################
             
             
-            $gameTime = SimulationService::getGameTime($simulation->id);
+            
             
             // получить ближайшее событие
             Logger::debug("try to find trigger for time $gameTime sim {$simulation->id}");
@@ -160,7 +162,8 @@ class EventsController extends AjaxController{
             return $this->_sendResponse(200, CJSON::encode(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
-                'code' => $exc->getCode()
+                'code' => $exc->getCode(),
+                'serverTime' => $gameTime
             )));
         }
     }
