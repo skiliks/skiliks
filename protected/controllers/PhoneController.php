@@ -129,6 +129,16 @@ class PhoneController extends AjaxController{
                         // сгенерируем событие
                         //EventService::addByCode($eventCode, $simId, SimulationService::getGameTime($simId));
                         
+                        Logger::debug("check event in phone : $eventCode");
+                        // проверим а позволяют ли флаги нам запускать реплику
+                        $eventRunResult = EventService::allowToRun($eventCode, $simId, 1, 0);
+                        Logger::debug("eventRunResult : ".var_export($eventRunResult, true));
+                        if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
+                            // событие не проходит по флагам -  не пускаем его
+                            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'events' => array())));
+                        }
+                        
+                        
                         $data = EventService::getReplicaByCode($eventCode, $simId);
                         $result = array();
                         $result['result'] = 1;

@@ -210,7 +210,10 @@ class DialogController extends AjaxController{
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
                         
-                        if (FlagsService::skipReplica($dialog, $simId)) continue;
+                        $flagsInfo = FlagsService::skipReplica($dialog, $simId);
+                        if ($flagsInfo['action'] == 'skip') continue;   // если реплика не проходи по флагам
+                        if ($flagsInfo['action'] == 'break') break;     // этот диалог вообще нельзя отображать по флагам
+
                         /*
                         // попробуем учесть симуляцию
                         Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
