@@ -275,14 +275,14 @@ class SimulationController extends AjaxController{
             
             #################
             $variance = time() - $simulation->start;
-            $variance = $variance*4;
+            $variance = $variance*SKILIKS_SPEED_FACTOR;
 
             $unixtimeMins = round($variance/60);
             $clockH = round($unixtimeMins/60);
             $clockM = $unixtimeMins-($clockH*60);
             $clockH = $clockH + 9;
 
-            $simulation->start = ($simulation->start - (($hour-$clockH)*60*60/4)-(($min-$clockM)*60/4));
+            $simulation->start = ($simulation->start - (($hour-$clockH)*60*60/SKILIKS_SPEED_FACTOR)-(($min-$clockM)*60/SKILIKS_SPEED_FACTOR));
             //Logger::debug($str)
             
             ###################
