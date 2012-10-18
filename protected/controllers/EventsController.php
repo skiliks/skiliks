@@ -37,6 +37,7 @@ class EventsController extends AjaxController{
      * Опрос состояния событий
      */
     public function actionGetState() {
+        $gameTime = 0;
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
             if (!$sid) throw new Exception('Не задан sid', 1);
