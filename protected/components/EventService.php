@@ -282,6 +282,11 @@ class EventService {
         return preg_match("/D(\d+)/", $eventCode);
     }
     
+    public static function isAnyMail($eventCode) {
+        return preg_match("/M(.*)/", $eventCode);
+    }
+    
+    
 }
 
 ?>

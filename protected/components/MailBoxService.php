@@ -435,6 +435,8 @@ class MailBoxService {
         
         self::copyTemplates($simId);
         
+        return true;
+        
         // copy mail tasks
         $sql = 'SELECT e.id, e.trigger_time,
                 e.code , e.code REGEXP "^M[[:digit:]]+$"  as code2, m.sending_date_str, m.sending_time_str
@@ -444,9 +446,6 @@ class MailBoxService {
         $command = Yii::app()->db->createCommand($sql);
         $events = $command->queryAll();
         
-        // скопируем аттачменты
-        
-        //$events = EventsSamples::model()->likeCode('M%')->findAll(); 
         foreach($events as $event) {
             Logger::debug("check mail event : ".var_export($event, true));
             
