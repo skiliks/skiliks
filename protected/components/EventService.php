@@ -215,6 +215,8 @@ class EventService {
             
         $data = array();
         foreach($dialogs as $dialog) {
+            
+            
             Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
 
             // Если у нас реплика к герою

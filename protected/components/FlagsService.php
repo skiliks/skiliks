@@ -64,11 +64,15 @@ class FlagsService {
      * @return array
      */
     public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0) {
+        $result = array();
+        //$result['ruleExists']       = true;
+        
         // определим код правила
         $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber);
         if (!$ruleModel) {
             Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
-            return false; // для данного диалога не задано правила
+            $result['ruleExists'] = false;
+            return $result; // для данного диалога не задано правила
         }    
         
         $result = array();
@@ -121,8 +125,10 @@ class FlagsService {
     public static function skipReplica($dialog, $simId) {
         Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
         $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
+        
         Logger::debug("flag info : ".var_export($flagInfo, true));
         
+        if ($flagInfo['ruleExists'] === false) return true; // нет правил
         
         
         if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
