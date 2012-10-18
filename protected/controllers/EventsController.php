@@ -83,23 +83,20 @@ class EventsController extends AjaxController{
                     
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
                     if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
-                    
                     Logger::debug("found event by code {$event->code}");
                     
                     // Убиваем обработанное событие
                     $trigger->delete();
                     
-                    if ($index == 0) {
-                        //if ($result) return $this->_sendResponse(200, CJSON::encode($result));
-                        $eventCode = $event->code;
-                    }
+                    if ($index == 0) $eventCode = $event->code;
+                    
                     
                     ###################
                     // проверим событие на флаги
-                    Logger::debug("check flags event by code {$event->code}");
+                    Logger::debug("check flags for event by code {$event->code}");
                     if (!EventService::allowToRun($event->code, $simulation->id, 1, 0)) {
                         // событие не проходит по флагам -  не пускаем его
-                        //return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array(), 'eventType' => 1)));
+                        Logger::debug("event {$event->code} was restricted by flags");
                         continue; // обрабатываем другие события
                     }
                     #####################################
