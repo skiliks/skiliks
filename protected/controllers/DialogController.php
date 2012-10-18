@@ -29,15 +29,11 @@ class DialogController extends AjaxController{
             
             $dialogId = (int)Yii::app()->request->getParam('dialogId', false);  
             Logger::debug('try to get dialog by id : '.$dialogId);
-            //if (!$dialogId) throw new Exception('Не задан диалог', 2);
+
             if ($dialogId == 0) {
                 $result = array();
                 $result['result'] = 1;
-                $result['events'][] = array(
-                    'result' => 1,
-                    'data' => array(),
-                    'eventType' => 1
-                );
+                $result['events'][] = array('result' => 1, 'data' => array(), 'eventType' => 1);
                 return $this->_sendResponse(200, CJSON::encode($result));
             }
             
@@ -47,6 +43,8 @@ class DialogController extends AjaxController{
 
             // получаем идентификатор симуляции
             $simId = SimulationService::get($uid);
+            
+            $gameTime = SimulationService::getGameTime($simId);
             
             // определим тип симуляции
             $simType = SimulationService::getType($simId);
@@ -75,64 +73,11 @@ class DialogController extends AjaxController{
             }
             
             
-            // проверим а не диалог ли это и не совпадает ли оно по времени с текущим
-            /*$canCreateEvent = true;
-            $nextEventDialog = Dialogs::model()->byCode($currentDialog->next_event_code)->find();
-            if ($nextEventDialog) {
-                $nextEvent = EventsSamples::model()->byCode($currentDialog->next_event_code)->find();
-                if ($nextEvent) {
-                    $curEvent = EventsSamples::model()->byCode($currentDialog->code)->find();
-                    if ($curEvent) {
-                        // проверим не совпадает ли оно по времени с нашим текущим диалогом
-                        if ($curEvent->trigger_time == $nextEvent->trigger_time) {
-                            Logger::debug("event {$currentDialog->next_event_code} was denied!");
-                            //$canCreateEvent = FALSE;
-                        }    
-                    }
-                }
-            }*/
-            
-            // добавим событие в очередь для выбранного диалога
-            /*if ($canCreateEvent) {
-                Logger::debug("try to create event by code : {$currentDialog->next_event_code}");
-                $gameTime = SimulationService::getGameTime($simId);
-                //$gameTime = $gameTime + 1;
-                /////////EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
-            } */   
-            
-            ##############################
-            // проверим а не ссылается ли эта реплика на событие типа PN
-            /*$event = EventsSamples::model()->byId($currentDialog->next_event)->find();
-            if ($event) {
-                $code = $event->code;
-                Logger::debug("check code : {$code}");
-                $taskId = $this->_parsePlanCode($event->code); 
-                Logger::debug("found task : {$taskId}");
-                // Если это задача
-                if ($taskId) {
-                    // Создать задачу
-                    $tasks = new Tasks();
-                    $tasks->title = 'Срочно проверить презентацию для ГД'; //$currentDialog->text;
-                    $tasks->duration = 60;
-                    $tasks->type = 1;
-                    $tasks->sim_id = $simId;
-                    $tasks->insert();
-                    
-                    // Добавим ее в туду
-                    $todo = new Todo();
-                    $todo->sim_id = $simId;
-                    $todo->task_id = $tasks->id; // $taskId;
-                    $todo->insert();
-                }
-            }*/
-            ########################
-            
             // проверка а не звонок ли это чтобы залогировать входящий вызов
             if ($currentDialog->dialog_subtype == 1 && $currentDialog->step_number == 1) {
                 
                 if ($currentDialog->replica_number == 1) $callType = 0; // входящее
                 if ($currentDialog->replica_number == 2) $callType = 2; // пропущенные
-                
                         
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
@@ -149,17 +94,6 @@ class DialogController extends AjaxController{
             // 1) к записи, ид которой пришло с фронта
             CalculationEstimateService::calculate($dialogId, $simId);
             
-            /*
-            // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
-            // step_number = (step_number записи, полученной с фронта  + 1), replica_number=0
-            $dialogs = Dialogs::model()->findByAttributes(array(
-                'code' => $currentDialog->code,
-                'step_number' => $currentDialog->step_number + 1,
-                'replica_number' => 0
-            ));
-            foreach($dialogs as $dialog) {
-                CalculationEstimateService::calculate($dialog->id, $simId);
-            }*/
             // конец расчета оценки
             
              Logger::debug("check next event : {$currentDialog->next_event_code}");
@@ -177,15 +111,7 @@ class DialogController extends AjaxController{
                     // сразу же отдадим реплики по этому событию - моментально
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
-                        Logger::debug("draw replica for : {$dialog->excel_id}");
-                        
-                        $flagsInfo = FlagsService::skipReplica($dialog, $simId);
-                        if ($flagsInfo['action'] == 'skip') continue;   // если реплика не проходи по флагам
-                        if ($flagsInfo['action'] == 'break') break;     // этот диалог вообще нельзя отображать по флагам
-                        
-                        
-                        
-                        $data[] = DialogService::dialogToArray($dialog);
+                        $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                     }
                 }
                 else {
@@ -198,7 +124,7 @@ class DialogController extends AjaxController{
                     else {
                         // нет особых правил для этого события - запускаем его
                         Logger::debug("no special rules - replica number 0 dialog : {$currentDialog->code} create event {$currentDialog->next_event_code}");
-                        EventService::addByCode($currentDialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                        EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
                     }
                 }
             }
@@ -209,50 +135,61 @@ class DialogController extends AjaxController{
                     // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
-                        
-                        $flagsInfo = FlagsService::skipReplica($dialog, $simId);
-                        if ($flagsInfo['action'] == 'skip') continue;   // если реплика не проходи по флагам
-                        if ($flagsInfo['action'] == 'break') break;     // этот диалог вообще нельзя отображать по флагам
-
-                        /*
-                        // попробуем учесть симуляцию
-                        Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
-                        $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
-                        Logger::debug("flag info : ".var_export($flagInfo, true));
-                        if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
-                            if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
-                                if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
-                                    if ($flagInfo['recId'] != $dialog->excel_id) {
-                                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
-                                        continue; // эта реплика не пойдет в выборку
-                                    }    
-                                }
-                                else {
-                                    // условие сравнение не выполняется
-                                    if ($flagInfo['recId'] == $dialog->excel_id) {
-                                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
-                                        continue; // эта реплика не пойдет в выборку
-                                    }    
-                                }
-                            }
-                        }*/
+                        $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                         
                         if ((int)$dialog->replica_number == 0) {
                             Logger::debug("replica number 0 dialog : {$dialog->code} create event {$dialog->next_event_code}");
-                            EventService::addByCode($dialog->next_event_code, $simId, SimulationService::getGameTime($simId));
+                            EventService::addByCode($dialog->next_event_code, $simId, $gameTime);
                         }    
-                        
-                        $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
             }
             
             
+            ###################
+            // теперь подчистим список
+            $resultList = $data;
+            foreach ($data as $dialogId => $dialog) {
+                //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
+                $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
+                //Logger::debug("flag info : ".var_export($flagInfo, true));
+                if ($flagInfo['ruleExists']) {  // у нас есть такое правило
+                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
+                        // правило не выполняется для определнной записи - убьем ее
+                        if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
+                        continue;
+                    }
+                    
+                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
+                        //у нас не выполняется все событие полностью
+                        $resultList = array();
+                        break;
+                    }
+                }
+            }
+            
+            $data = array();
+            // а теперь пройдемся по тем кто выжил и позапускаем события
+            foreach($resultList as $index=>$dialog) {
+                // Если у нас реплика к герою
+                if ($dialog['replica_number'] == 0) {
+                    /*// События типа диалог мы не создаем
+                    if (!EventService::isDialog($dialog['next_event_code'])) {
+                        // создадим событие
+                        EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
+                    }*/
+                }
+                unset($resultList[$index]['step_number']);
+                unset($resultList[$index]['replica_number']);
+                unset($resultList[$index]['next_event_code']);
+                unset($resultList[$index]['code']);
+                $data[] = $resultList[$index];
+            }
+            
+            ###################
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
-                //Logger::debug("get character title : $characterId");
                 $character = Characters::model()->byId($characterId)->find();
-                //Logger::debug("found character : ".var_export($character));
                 if ($character) {
                     $data[0]['title'] = $character->title;
                     $data[0]['name'] = $character->fio;
