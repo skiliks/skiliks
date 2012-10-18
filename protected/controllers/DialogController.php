@@ -178,10 +178,13 @@ class DialogController extends AjaxController{
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
                         Logger::debug("draw replica for : {$dialog->excel_id}");
-                        if (FlagsService::skipReplica($dialog, $simId)) {
-                            Logger::debug("skipped replica excelId : {$dialog->excel_id}");
-                            continue;
-                        }    
+                        
+                        $flagsInfo = FlagsService::skipReplica($dialog, $simId);
+                        if ($flagsInfo['action'] == 'skip') continue;   // если реплика не проходи по флагам
+                        if ($flagsInfo['action'] == 'break') break;     // этот диалог вообще нельзя отображать по флагам
+                        
+                        
+                        
                         $data[] = DialogService::dialogToArray($dialog);
                     }
                 }
