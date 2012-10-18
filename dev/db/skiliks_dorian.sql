@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2012-10-16 23:53:06
+Date: 2012-10-18 13:23:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1327,13 +1327,13 @@ CREATE TABLE `day_plan` (
   KEY `fk_day_plan_sim_id` (`sim_id`),
   CONSTRAINT `fk_day_plan_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_day_plan_task_id` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3046 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3063 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of day_plan
 -- ----------------------------
 INSERT INTO `day_plan` VALUES ('2861', '823', '960', '1', '17');
-INSERT INTO `day_plan` VALUES ('3045', '981', '1020', '1', '17');
+INSERT INTO `day_plan` VALUES ('3062', '997', '1020', '1', '17');
 
 -- ----------------------------
 -- Table structure for `day_plan_after_vacation`
@@ -1372,7 +1372,7 @@ CREATE TABLE `day_plan_log` (
   KEY `fk_day_plan_log_task_id` (`task_id`),
   CONSTRAINT `fk_day_plan_log_task_id` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_day_plan_log_uid` FOREIGN KEY (`uid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COMMENT='Логирование состояние плана';
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8 COMMENT='Логирование состояние плана';
 
 -- ----------------------------
 -- Records of day_plan_log
@@ -1418,6 +1418,37 @@ INSERT INTO `day_plan_log` VALUES ('41', '1', '1350345600', '1020', '1', '17', '
 INSERT INTO `day_plan_log` VALUES ('42', '1', '1350345600', '1020', '1', '17', '1');
 INSERT INTO `day_plan_log` VALUES ('43', '1', '1350345600', '1020', '1', '17', '1');
 INSERT INTO `day_plan_log` VALUES ('44', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('45', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('46', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('47', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('48', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('49', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('50', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('51', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('52', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('53', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('54', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('55', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('56', '1', '1350345600', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('57', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('58', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('59', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('60', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('61', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('62', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('63', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('64', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('65', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('66', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('67', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('68', '1', '1350432000', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('69', '1', '1350432000', '1020', '1', '17', '2');
+INSERT INTO `day_plan_log` VALUES ('70', '1', '1350518400', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('71', '1', '1350518400', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('72', '1', '1350518400', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('73', '1', '1350518400', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('74', '1', '1350518400', '1020', '1', '17', '1');
+INSERT INTO `day_plan_log` VALUES ('75', '1', '1350518400', '1020', '1', '17', '1');
 
 -- ----------------------------
 -- Table structure for `dialogs`
@@ -2085,7 +2116,7 @@ INSERT INTO `dialogs` VALUES ('616', '12', '1', '1', '1', '2', '- Слушаю, 
 INSERT INTO `dialogs` VALUES ('617', '1', '1', '12', '1', '2', '- Егор, ты посмотрел файл по твоему заданию? Трутнев тебе отправил.', '0', '0', 'T7.5', '1', '1', null, '0', '0', '', '603', '-', '', '0');
 INSERT INTO `dialogs` VALUES ('618', '1', '1', '12', '1', '2', '- Егор, я тебе переслал готовый по твоему заданию файл. Видел?', '0', '0', 'T7.5', '1', '2', null, '0', '0', '', '604', '-', '', '0');
 INSERT INTO `dialogs` VALUES ('619', '12', '1', '1', '1', '2', '- Уже сделали? Здорово! Спасибо! Помог! Я обязательно посмотрю, но пока занят. Я позвоню тебе, если что не так. Спасибо, еще раз!', '0', '0', 'T7.5', '2', '0', '107', '0', '0', 'T7.5_2.wav', '605', 'T', '', '0');
-INSERT INTO `dialogs` VALUES ('620', '36', '1', '1', '1', '1', 'звук телефонного звонка', '0', '0', 'RST1', '1', '0', null, '0', '0', '', '606', '-', '', '0');
+INSERT INTO `dialogs` VALUES ('620', '36', '1', '1', '1', '1', 'звук телефонного звонка', '0', '0', 'RST1', '1', '0', null, '0', '0', '', '606', '-', '', '1');
 INSERT INTO `dialogs` VALUES ('621', '1', '1', '36', '1', '1', 'Ответить', '0', '0', 'RST1', '1', '1', '76', '0', '0', '', '607', 'RS1', '', '0');
 INSERT INTO `dialogs` VALUES ('622', '1', '1', '36', '1', '1', 'Не ответить', '0', '0', 'RST1', '1', '2', '107', '0', '0', '', '608', 'T', '', '0');
 INSERT INTO `dialogs` VALUES ('623', '36', '1', '1', '1', '2', '- Але, это кто?', '0', '0', 'RS1', '1', '0', null, '0', '0', 'RS1_1.wav', '609', '-', '', '0');
@@ -2646,197 +2677,204 @@ CREATE TABLE `events_triggers` (
   KEY `fk_events_triggers_sim_id` (`sim_id`),
   CONSTRAINT `fk_events_triggers_event_id` FOREIGN KEY (`event_id`) REFERENCES `events_samples` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_events_triggers_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4820 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8275 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of events_triggers
 -- ----------------------------
-INSERT INTO `events_triggers` VALUES ('4591', '981', '2', '0');
-INSERT INTO `events_triggers` VALUES ('4592', '981', '3', '0');
-INSERT INTO `events_triggers` VALUES ('4593', '981', '4', '0');
-INSERT INTO `events_triggers` VALUES ('4594', '981', '5', '0');
-INSERT INTO `events_triggers` VALUES ('4595', '981', '6', '0');
-INSERT INTO `events_triggers` VALUES ('4597', '981', '8', '0');
-INSERT INTO `events_triggers` VALUES ('4598', '981', '9', '0');
-INSERT INTO `events_triggers` VALUES ('4600', '981', '11', '0');
-INSERT INTO `events_triggers` VALUES ('4601', '981', '12', '0');
-INSERT INTO `events_triggers` VALUES ('4602', '981', '13', '0');
-INSERT INTO `events_triggers` VALUES ('4603', '981', '14', '0');
-INSERT INTO `events_triggers` VALUES ('4605', '981', '16', '0');
-INSERT INTO `events_triggers` VALUES ('4606', '981', '17', '0');
-INSERT INTO `events_triggers` VALUES ('4607', '981', '18', '0');
-INSERT INTO `events_triggers` VALUES ('4608', '981', '19', '0');
-INSERT INTO `events_triggers` VALUES ('4609', '981', '20', '0');
-INSERT INTO `events_triggers` VALUES ('4610', '981', '21', '0');
-INSERT INTO `events_triggers` VALUES ('4611', '981', '22', '0');
-INSERT INTO `events_triggers` VALUES ('4612', '981', '23', '0');
-INSERT INTO `events_triggers` VALUES ('4613', '981', '24', '0');
-INSERT INTO `events_triggers` VALUES ('4614', '981', '25', '0');
-INSERT INTO `events_triggers` VALUES ('4616', '981', '27', '0');
-INSERT INTO `events_triggers` VALUES ('4617', '981', '28', '0');
-INSERT INTO `events_triggers` VALUES ('4621', '981', '32', '870');
-INSERT INTO `events_triggers` VALUES ('4622', '981', '33', '870');
-INSERT INTO `events_triggers` VALUES ('4623', '981', '34', '0');
-INSERT INTO `events_triggers` VALUES ('4624', '981', '35', '875');
-INSERT INTO `events_triggers` VALUES ('4625', '981', '36', '880');
-INSERT INTO `events_triggers` VALUES ('4626', '981', '37', '880');
-INSERT INTO `events_triggers` VALUES ('4627', '981', '38', '900');
-INSERT INTO `events_triggers` VALUES ('4628', '981', '39', '905');
-INSERT INTO `events_triggers` VALUES ('4629', '981', '40', '0');
-INSERT INTO `events_triggers` VALUES ('4631', '981', '42', '0');
-INSERT INTO `events_triggers` VALUES ('4632', '981', '43', '935');
-INSERT INTO `events_triggers` VALUES ('4633', '981', '44', '935');
-INSERT INTO `events_triggers` VALUES ('4634', '981', '45', '950');
-INSERT INTO `events_triggers` VALUES ('4635', '981', '46', '0');
-INSERT INTO `events_triggers` VALUES ('4636', '981', '47', '0');
-INSERT INTO `events_triggers` VALUES ('4637', '981', '48', '0');
-INSERT INTO `events_triggers` VALUES ('4638', '981', '49', '0');
-INSERT INTO `events_triggers` VALUES ('4639', '981', '50', '0');
-INSERT INTO `events_triggers` VALUES ('4640', '981', '51', '0');
-INSERT INTO `events_triggers` VALUES ('4641', '981', '52', '0');
-INSERT INTO `events_triggers` VALUES ('4642', '981', '53', '0');
-INSERT INTO `events_triggers` VALUES ('4643', '981', '54', '0');
-INSERT INTO `events_triggers` VALUES ('4644', '981', '55', '0');
-INSERT INTO `events_triggers` VALUES ('4645', '981', '56', '1010');
-INSERT INTO `events_triggers` VALUES ('4646', '981', '57', '990');
-INSERT INTO `events_triggers` VALUES ('4647', '981', '58', '1050');
-INSERT INTO `events_triggers` VALUES ('4648', '981', '59', '1050');
-INSERT INTO `events_triggers` VALUES ('4649', '981', '60', '1050');
-INSERT INTO `events_triggers` VALUES ('4650', '981', '61', '1050');
-INSERT INTO `events_triggers` VALUES ('4651', '981', '62', '0');
-INSERT INTO `events_triggers` VALUES ('4652', '981', '63', '0');
-INSERT INTO `events_triggers` VALUES ('4653', '981', '64', '0');
-INSERT INTO `events_triggers` VALUES ('4654', '981', '65', '0');
-INSERT INTO `events_triggers` VALUES ('4655', '981', '66', '0');
-INSERT INTO `events_triggers` VALUES ('4656', '981', '67', '0');
-INSERT INTO `events_triggers` VALUES ('4657', '981', '68', '0');
-INSERT INTO `events_triggers` VALUES ('4658', '981', '69', '0');
-INSERT INTO `events_triggers` VALUES ('4659', '981', '70', '0');
-INSERT INTO `events_triggers` VALUES ('4660', '981', '71', '0');
-INSERT INTO `events_triggers` VALUES ('4661', '981', '72', '0');
-INSERT INTO `events_triggers` VALUES ('4662', '981', '73', '0');
-INSERT INTO `events_triggers` VALUES ('4663', '981', '74', '0');
-INSERT INTO `events_triggers` VALUES ('4665', '981', '76', '0');
-INSERT INTO `events_triggers` VALUES ('4666', '981', '77', '0');
-INSERT INTO `events_triggers` VALUES ('4667', '981', '78', '0');
-INSERT INTO `events_triggers` VALUES ('4668', '981', '79', '0');
-INSERT INTO `events_triggers` VALUES ('4670', '981', '81', '0');
-INSERT INTO `events_triggers` VALUES ('4675', '981', '86', '870');
-INSERT INTO `events_triggers` VALUES ('4676', '981', '87', '0');
-INSERT INTO `events_triggers` VALUES ('4677', '981', '88', '890');
-INSERT INTO `events_triggers` VALUES ('4678', '981', '89', '890');
-INSERT INTO `events_triggers` VALUES ('4679', '981', '90', '925');
-INSERT INTO `events_triggers` VALUES ('4680', '981', '91', '0');
-INSERT INTO `events_triggers` VALUES ('4681', '981', '92', '995');
-INSERT INTO `events_triggers` VALUES ('4682', '981', '93', '995');
-INSERT INTO `events_triggers` VALUES ('4683', '981', '94', '0');
-INSERT INTO `events_triggers` VALUES ('4684', '981', '95', '1025');
-INSERT INTO `events_triggers` VALUES ('4685', '981', '96', '1025');
-INSERT INTO `events_triggers` VALUES ('4686', '981', '97', '1050');
-INSERT INTO `events_triggers` VALUES ('4687', '981', '98', '1050');
-INSERT INTO `events_triggers` VALUES ('4689', '981', '100', '0');
-INSERT INTO `events_triggers` VALUES ('4690', '981', '101', '0');
-INSERT INTO `events_triggers` VALUES ('4691', '981', '102', '0');
-INSERT INTO `events_triggers` VALUES ('4693', '981', '105', '0');
-INSERT INTO `events_triggers` VALUES ('4694', '981', '106', '0');
-INSERT INTO `events_triggers` VALUES ('4696', '981', '108', '0');
-INSERT INTO `events_triggers` VALUES ('4698', '981', '110', '0');
-INSERT INTO `events_triggers` VALUES ('4699', '981', '111', '930');
-INSERT INTO `events_triggers` VALUES ('4700', '981', '112', '0');
-INSERT INTO `events_triggers` VALUES ('4705', '981', '117', '870');
-INSERT INTO `events_triggers` VALUES ('4706', '981', '118', '0');
-INSERT INTO `events_triggers` VALUES ('4707', '981', '119', '880');
-INSERT INTO `events_triggers` VALUES ('4708', '981', '120', '0');
-INSERT INTO `events_triggers` VALUES ('4709', '981', '121', '905');
-INSERT INTO `events_triggers` VALUES ('4710', '981', '122', '0');
-INSERT INTO `events_triggers` VALUES ('4711', '981', '123', '905');
-INSERT INTO `events_triggers` VALUES ('4712', '981', '124', '0');
-INSERT INTO `events_triggers` VALUES ('4713', '981', '125', '0');
-INSERT INTO `events_triggers` VALUES ('4714', '981', '126', '0');
-INSERT INTO `events_triggers` VALUES ('4715', '981', '127', '935');
-INSERT INTO `events_triggers` VALUES ('4716', '981', '128', '935');
-INSERT INTO `events_triggers` VALUES ('4717', '981', '129', '935');
-INSERT INTO `events_triggers` VALUES ('4718', '981', '130', '990');
-INSERT INTO `events_triggers` VALUES ('4719', '981', '131', '1050');
-INSERT INTO `events_triggers` VALUES ('4720', '981', '132', '0');
-INSERT INTO `events_triggers` VALUES ('4721', '981', '133', '0');
-INSERT INTO `events_triggers` VALUES ('4722', '981', '134', '0');
-INSERT INTO `events_triggers` VALUES ('4726', '981', '138', '0');
-INSERT INTO `events_triggers` VALUES ('4727', '981', '139', '995');
-INSERT INTO `events_triggers` VALUES ('4728', '981', '140', '995');
-INSERT INTO `events_triggers` VALUES ('4729', '981', '141', '0');
-INSERT INTO `events_triggers` VALUES ('4733', '981', '146', '1125');
-INSERT INTO `events_triggers` VALUES ('4734', '981', '147', '990');
-INSERT INTO `events_triggers` VALUES ('4735', '981', '148', '930');
-INSERT INTO `events_triggers` VALUES ('4736', '981', '149', '845');
-INSERT INTO `events_triggers` VALUES ('4743', '981', '156', '0');
-INSERT INTO `events_triggers` VALUES ('4744', '981', '157', '0');
-INSERT INTO `events_triggers` VALUES ('4745', '981', '158', '0');
-INSERT INTO `events_triggers` VALUES ('4747', '981', '160', '961');
-INSERT INTO `events_triggers` VALUES ('4748', '981', '161', '1005');
-INSERT INTO `events_triggers` VALUES ('4749', '981', '162', '1023');
-INSERT INTO `events_triggers` VALUES ('4750', '981', '163', '1037');
-INSERT INTO `events_triggers` VALUES ('4751', '981', '164', '970');
-INSERT INTO `events_triggers` VALUES ('4752', '981', '165', '1043');
-INSERT INTO `events_triggers` VALUES ('4753', '981', '166', '903');
-INSERT INTO `events_triggers` VALUES ('4754', '981', '167', '977');
-INSERT INTO `events_triggers` VALUES ('4755', '981', '168', '1005');
-INSERT INTO `events_triggers` VALUES ('4756', '981', '169', '1068');
-INSERT INTO `events_triggers` VALUES ('4757', '981', '170', '955');
-INSERT INTO `events_triggers` VALUES ('4761', '981', '174', '900');
-INSERT INTO `events_triggers` VALUES ('4762', '981', '175', '1037');
-INSERT INTO `events_triggers` VALUES ('4765', '981', '178', '980');
-INSERT INTO `events_triggers` VALUES ('4766', '981', '179', '0');
-INSERT INTO `events_triggers` VALUES ('4767', '981', '180', '0');
-INSERT INTO `events_triggers` VALUES ('4768', '981', '181', '0');
-INSERT INTO `events_triggers` VALUES ('4769', '981', '182', '0');
-INSERT INTO `events_triggers` VALUES ('4770', '981', '183', '0');
-INSERT INTO `events_triggers` VALUES ('4771', '981', '184', '0');
-INSERT INTO `events_triggers` VALUES ('4772', '981', '185', '0');
-INSERT INTO `events_triggers` VALUES ('4773', '981', '186', '0');
-INSERT INTO `events_triggers` VALUES ('4774', '981', '187', '0');
-INSERT INTO `events_triggers` VALUES ('4775', '981', '188', '0');
-INSERT INTO `events_triggers` VALUES ('4776', '981', '189', '0');
-INSERT INTO `events_triggers` VALUES ('4777', '981', '190', '0');
-INSERT INTO `events_triggers` VALUES ('4778', '981', '191', '0');
-INSERT INTO `events_triggers` VALUES ('4779', '981', '192', '0');
-INSERT INTO `events_triggers` VALUES ('4780', '981', '193', '0');
-INSERT INTO `events_triggers` VALUES ('4781', '981', '194', '0');
-INSERT INTO `events_triggers` VALUES ('4782', '981', '195', '0');
-INSERT INTO `events_triggers` VALUES ('4783', '981', '196', '0');
-INSERT INTO `events_triggers` VALUES ('4784', '981', '197', '0');
-INSERT INTO `events_triggers` VALUES ('4785', '981', '198', '0');
-INSERT INTO `events_triggers` VALUES ('4786', '981', '199', '0');
-INSERT INTO `events_triggers` VALUES ('4787', '981', '200', '0');
-INSERT INTO `events_triggers` VALUES ('4788', '981', '201', '0');
-INSERT INTO `events_triggers` VALUES ('4789', '981', '202', '0');
-INSERT INTO `events_triggers` VALUES ('4790', '981', '203', '0');
-INSERT INTO `events_triggers` VALUES ('4791', '981', '204', '0');
-INSERT INTO `events_triggers` VALUES ('4792', '981', '205', '0');
-INSERT INTO `events_triggers` VALUES ('4793', '981', '206', '0');
-INSERT INTO `events_triggers` VALUES ('4794', '981', '207', '0');
-INSERT INTO `events_triggers` VALUES ('4795', '981', '208', '0');
-INSERT INTO `events_triggers` VALUES ('4796', '981', '209', '0');
-INSERT INTO `events_triggers` VALUES ('4797', '981', '210', '0');
-INSERT INTO `events_triggers` VALUES ('4798', '981', '211', '0');
-INSERT INTO `events_triggers` VALUES ('4799', '981', '212', '0');
-INSERT INTO `events_triggers` VALUES ('4802', '981', '216', '0');
-INSERT INTO `events_triggers` VALUES ('4803', '981', '217', '0');
-INSERT INTO `events_triggers` VALUES ('4804', '981', '218', '0');
-INSERT INTO `events_triggers` VALUES ('4805', '981', '219', '0');
-INSERT INTO `events_triggers` VALUES ('4806', '981', '220', '0');
-INSERT INTO `events_triggers` VALUES ('4807', '981', '221', '0');
-INSERT INTO `events_triggers` VALUES ('4808', '981', '222', '0');
-INSERT INTO `events_triggers` VALUES ('4809', '981', '223', '0');
-INSERT INTO `events_triggers` VALUES ('4810', '981', '224', '0');
-INSERT INTO `events_triggers` VALUES ('4811', '981', '225', '0');
-INSERT INTO `events_triggers` VALUES ('4812', '981', '226', '0');
-INSERT INTO `events_triggers` VALUES ('4813', '981', '227', '0');
-INSERT INTO `events_triggers` VALUES ('4814', '981', '228', '0');
-INSERT INTO `events_triggers` VALUES ('4815', '981', '229', '0');
-INSERT INTO `events_triggers` VALUES ('4816', '981', '230', '0');
-INSERT INTO `events_triggers` VALUES ('4817', '981', '231', '0');
-INSERT INTO `events_triggers` VALUES ('4818', '981', '232', '0');
+INSERT INTO `events_triggers` VALUES ('8064', '997', '2', '0');
+INSERT INTO `events_triggers` VALUES ('8065', '997', '3', '0');
+INSERT INTO `events_triggers` VALUES ('8066', '997', '4', '0');
+INSERT INTO `events_triggers` VALUES ('8067', '997', '5', '0');
+INSERT INTO `events_triggers` VALUES ('8068', '997', '6', '0');
+INSERT INTO `events_triggers` VALUES ('8070', '997', '8', '0');
+INSERT INTO `events_triggers` VALUES ('8071', '997', '9', '0');
+INSERT INTO `events_triggers` VALUES ('8072', '997', '10', '735');
+INSERT INTO `events_triggers` VALUES ('8073', '997', '11', '0');
+INSERT INTO `events_triggers` VALUES ('8074', '997', '12', '0');
+INSERT INTO `events_triggers` VALUES ('8075', '997', '13', '0');
+INSERT INTO `events_triggers` VALUES ('8076', '997', '14', '0');
+INSERT INTO `events_triggers` VALUES ('8077', '997', '15', '720');
+INSERT INTO `events_triggers` VALUES ('8078', '997', '16', '0');
+INSERT INTO `events_triggers` VALUES ('8079', '997', '17', '0');
+INSERT INTO `events_triggers` VALUES ('8080', '997', '18', '0');
+INSERT INTO `events_triggers` VALUES ('8081', '997', '19', '0');
+INSERT INTO `events_triggers` VALUES ('8082', '997', '20', '0');
+INSERT INTO `events_triggers` VALUES ('8083', '997', '21', '0');
+INSERT INTO `events_triggers` VALUES ('8084', '997', '22', '0');
+INSERT INTO `events_triggers` VALUES ('8085', '997', '23', '0');
+INSERT INTO `events_triggers` VALUES ('8086', '997', '24', '0');
+INSERT INTO `events_triggers` VALUES ('8087', '997', '25', '0');
+INSERT INTO `events_triggers` VALUES ('8088', '997', '26', '805');
+INSERT INTO `events_triggers` VALUES ('8089', '997', '27', '0');
+INSERT INTO `events_triggers` VALUES ('8090', '997', '28', '0');
+INSERT INTO `events_triggers` VALUES ('8091', '997', '29', '825');
+INSERT INTO `events_triggers` VALUES ('8092', '997', '30', '830');
+INSERT INTO `events_triggers` VALUES ('8093', '997', '31', '830');
+INSERT INTO `events_triggers` VALUES ('8094', '997', '32', '870');
+INSERT INTO `events_triggers` VALUES ('8095', '997', '33', '870');
+INSERT INTO `events_triggers` VALUES ('8096', '997', '34', '0');
+INSERT INTO `events_triggers` VALUES ('8097', '997', '35', '875');
+INSERT INTO `events_triggers` VALUES ('8098', '997', '36', '880');
+INSERT INTO `events_triggers` VALUES ('8099', '997', '37', '880');
+INSERT INTO `events_triggers` VALUES ('8100', '997', '38', '900');
+INSERT INTO `events_triggers` VALUES ('8101', '997', '39', '905');
+INSERT INTO `events_triggers` VALUES ('8102', '997', '40', '0');
+INSERT INTO `events_triggers` VALUES ('8104', '997', '42', '0');
+INSERT INTO `events_triggers` VALUES ('8105', '997', '43', '935');
+INSERT INTO `events_triggers` VALUES ('8106', '997', '44', '935');
+INSERT INTO `events_triggers` VALUES ('8107', '997', '45', '950');
+INSERT INTO `events_triggers` VALUES ('8108', '997', '46', '0');
+INSERT INTO `events_triggers` VALUES ('8109', '997', '47', '0');
+INSERT INTO `events_triggers` VALUES ('8110', '997', '48', '0');
+INSERT INTO `events_triggers` VALUES ('8111', '997', '49', '0');
+INSERT INTO `events_triggers` VALUES ('8112', '997', '50', '0');
+INSERT INTO `events_triggers` VALUES ('8113', '997', '51', '0');
+INSERT INTO `events_triggers` VALUES ('8114', '997', '52', '0');
+INSERT INTO `events_triggers` VALUES ('8115', '997', '53', '0');
+INSERT INTO `events_triggers` VALUES ('8116', '997', '54', '0');
+INSERT INTO `events_triggers` VALUES ('8117', '997', '55', '0');
+INSERT INTO `events_triggers` VALUES ('8118', '997', '56', '1010');
+INSERT INTO `events_triggers` VALUES ('8119', '997', '57', '990');
+INSERT INTO `events_triggers` VALUES ('8120', '997', '58', '1050');
+INSERT INTO `events_triggers` VALUES ('8121', '997', '59', '1050');
+INSERT INTO `events_triggers` VALUES ('8122', '997', '60', '1050');
+INSERT INTO `events_triggers` VALUES ('8123', '997', '61', '1050');
+INSERT INTO `events_triggers` VALUES ('8124', '997', '62', '0');
+INSERT INTO `events_triggers` VALUES ('8125', '997', '63', '0');
+INSERT INTO `events_triggers` VALUES ('8126', '997', '64', '0');
+INSERT INTO `events_triggers` VALUES ('8127', '997', '65', '0');
+INSERT INTO `events_triggers` VALUES ('8128', '997', '66', '0');
+INSERT INTO `events_triggers` VALUES ('8129', '997', '67', '0');
+INSERT INTO `events_triggers` VALUES ('8130', '997', '68', '0');
+INSERT INTO `events_triggers` VALUES ('8131', '997', '69', '0');
+INSERT INTO `events_triggers` VALUES ('8132', '997', '70', '0');
+INSERT INTO `events_triggers` VALUES ('8133', '997', '71', '0');
+INSERT INTO `events_triggers` VALUES ('8134', '997', '72', '0');
+INSERT INTO `events_triggers` VALUES ('8135', '997', '73', '0');
+INSERT INTO `events_triggers` VALUES ('8136', '997', '74', '0');
+INSERT INTO `events_triggers` VALUES ('8138', '997', '76', '0');
+INSERT INTO `events_triggers` VALUES ('8139', '997', '77', '0');
+INSERT INTO `events_triggers` VALUES ('8140', '997', '78', '0');
+INSERT INTO `events_triggers` VALUES ('8141', '997', '79', '0');
+INSERT INTO `events_triggers` VALUES ('8143', '997', '81', '0');
+INSERT INTO `events_triggers` VALUES ('8146', '997', '84', '750');
+INSERT INTO `events_triggers` VALUES ('8147', '997', '85', '750');
+INSERT INTO `events_triggers` VALUES ('8148', '997', '86', '870');
+INSERT INTO `events_triggers` VALUES ('8149', '997', '87', '0');
+INSERT INTO `events_triggers` VALUES ('8150', '997', '88', '890');
+INSERT INTO `events_triggers` VALUES ('8151', '997', '89', '890');
+INSERT INTO `events_triggers` VALUES ('8152', '997', '90', '925');
+INSERT INTO `events_triggers` VALUES ('8153', '997', '91', '0');
+INSERT INTO `events_triggers` VALUES ('8154', '997', '92', '995');
+INSERT INTO `events_triggers` VALUES ('8155', '997', '93', '995');
+INSERT INTO `events_triggers` VALUES ('8156', '997', '94', '0');
+INSERT INTO `events_triggers` VALUES ('8157', '997', '95', '1025');
+INSERT INTO `events_triggers` VALUES ('8158', '997', '96', '1025');
+INSERT INTO `events_triggers` VALUES ('8159', '997', '97', '1050');
+INSERT INTO `events_triggers` VALUES ('8160', '997', '98', '1050');
+INSERT INTO `events_triggers` VALUES ('8162', '997', '100', '0');
+INSERT INTO `events_triggers` VALUES ('8163', '997', '101', '0');
+INSERT INTO `events_triggers` VALUES ('8164', '997', '102', '0');
+INSERT INTO `events_triggers` VALUES ('8165', '997', '105', '0');
+INSERT INTO `events_triggers` VALUES ('8166', '997', '106', '0');
+INSERT INTO `events_triggers` VALUES ('8168', '997', '108', '0');
+INSERT INTO `events_triggers` VALUES ('8169', '997', '110', '0');
+INSERT INTO `events_triggers` VALUES ('8170', '997', '111', '930');
+INSERT INTO `events_triggers` VALUES ('8171', '997', '112', '0');
+INSERT INTO `events_triggers` VALUES ('8172', '997', '118', '0');
+INSERT INTO `events_triggers` VALUES ('8173', '997', '120', '0');
+INSERT INTO `events_triggers` VALUES ('8174', '997', '121', '905');
+INSERT INTO `events_triggers` VALUES ('8175', '997', '122', '0');
+INSERT INTO `events_triggers` VALUES ('8176', '997', '124', '0');
+INSERT INTO `events_triggers` VALUES ('8177', '997', '125', '0');
+INSERT INTO `events_triggers` VALUES ('8178', '997', '126', '0');
+INSERT INTO `events_triggers` VALUES ('8179', '997', '128', '935');
+INSERT INTO `events_triggers` VALUES ('8180', '997', '131', '1050');
+INSERT INTO `events_triggers` VALUES ('8181', '997', '132', '0');
+INSERT INTO `events_triggers` VALUES ('8182', '997', '133', '0');
+INSERT INTO `events_triggers` VALUES ('8183', '997', '134', '0');
+INSERT INTO `events_triggers` VALUES ('8184', '997', '138', '0');
+INSERT INTO `events_triggers` VALUES ('8188', '997', '146', '1125');
+INSERT INTO `events_triggers` VALUES ('8189', '997', '147', '990');
+INSERT INTO `events_triggers` VALUES ('8190', '997', '148', '930');
+INSERT INTO `events_triggers` VALUES ('8191', '997', '149', '845');
+INSERT INTO `events_triggers` VALUES ('8192', '997', '150', '810');
+INSERT INTO `events_triggers` VALUES ('8193', '997', '151', '721');
+INSERT INTO `events_triggers` VALUES ('8194', '997', '152', '770');
+INSERT INTO `events_triggers` VALUES ('8198', '997', '156', '0');
+INSERT INTO `events_triggers` VALUES ('8199', '997', '157', '0');
+INSERT INTO `events_triggers` VALUES ('8200', '997', '158', '0');
+INSERT INTO `events_triggers` VALUES ('8202', '997', '160', '961');
+INSERT INTO `events_triggers` VALUES ('8203', '997', '161', '1005');
+INSERT INTO `events_triggers` VALUES ('8204', '997', '162', '1023');
+INSERT INTO `events_triggers` VALUES ('8205', '997', '163', '1037');
+INSERT INTO `events_triggers` VALUES ('8206', '997', '164', '970');
+INSERT INTO `events_triggers` VALUES ('8207', '997', '165', '1043');
+INSERT INTO `events_triggers` VALUES ('8208', '997', '166', '903');
+INSERT INTO `events_triggers` VALUES ('8209', '997', '167', '977');
+INSERT INTO `events_triggers` VALUES ('8210', '997', '168', '1005');
+INSERT INTO `events_triggers` VALUES ('8211', '997', '169', '1068');
+INSERT INTO `events_triggers` VALUES ('8212', '997', '170', '955');
+INSERT INTO `events_triggers` VALUES ('8213', '997', '171', '783');
+INSERT INTO `events_triggers` VALUES ('8214', '997', '172', '843');
+INSERT INTO `events_triggers` VALUES ('8216', '997', '174', '900');
+INSERT INTO `events_triggers` VALUES ('8217', '997', '175', '1037');
+INSERT INTO `events_triggers` VALUES ('8218', '997', '176', '743');
+INSERT INTO `events_triggers` VALUES ('8219', '997', '177', '828');
+INSERT INTO `events_triggers` VALUES ('8220', '997', '178', '980');
+INSERT INTO `events_triggers` VALUES ('8221', '997', '179', '0');
+INSERT INTO `events_triggers` VALUES ('8222', '997', '180', '0');
+INSERT INTO `events_triggers` VALUES ('8223', '997', '181', '0');
+INSERT INTO `events_triggers` VALUES ('8224', '997', '182', '0');
+INSERT INTO `events_triggers` VALUES ('8225', '997', '183', '0');
+INSERT INTO `events_triggers` VALUES ('8226', '997', '184', '0');
+INSERT INTO `events_triggers` VALUES ('8227', '997', '185', '0');
+INSERT INTO `events_triggers` VALUES ('8228', '997', '186', '0');
+INSERT INTO `events_triggers` VALUES ('8229', '997', '187', '0');
+INSERT INTO `events_triggers` VALUES ('8230', '997', '188', '0');
+INSERT INTO `events_triggers` VALUES ('8231', '997', '189', '0');
+INSERT INTO `events_triggers` VALUES ('8232', '997', '190', '0');
+INSERT INTO `events_triggers` VALUES ('8233', '997', '191', '0');
+INSERT INTO `events_triggers` VALUES ('8234', '997', '192', '0');
+INSERT INTO `events_triggers` VALUES ('8235', '997', '193', '0');
+INSERT INTO `events_triggers` VALUES ('8236', '997', '194', '0');
+INSERT INTO `events_triggers` VALUES ('8237', '997', '195', '0');
+INSERT INTO `events_triggers` VALUES ('8238', '997', '196', '0');
+INSERT INTO `events_triggers` VALUES ('8239', '997', '197', '0');
+INSERT INTO `events_triggers` VALUES ('8240', '997', '198', '0');
+INSERT INTO `events_triggers` VALUES ('8241', '997', '199', '0');
+INSERT INTO `events_triggers` VALUES ('8242', '997', '200', '0');
+INSERT INTO `events_triggers` VALUES ('8243', '997', '201', '0');
+INSERT INTO `events_triggers` VALUES ('8244', '997', '202', '0');
+INSERT INTO `events_triggers` VALUES ('8245', '997', '203', '0');
+INSERT INTO `events_triggers` VALUES ('8246', '997', '204', '0');
+INSERT INTO `events_triggers` VALUES ('8247', '997', '205', '0');
+INSERT INTO `events_triggers` VALUES ('8248', '997', '206', '0');
+INSERT INTO `events_triggers` VALUES ('8249', '997', '207', '0');
+INSERT INTO `events_triggers` VALUES ('8250', '997', '208', '0');
+INSERT INTO `events_triggers` VALUES ('8251', '997', '209', '0');
+INSERT INTO `events_triggers` VALUES ('8252', '997', '210', '0');
+INSERT INTO `events_triggers` VALUES ('8253', '997', '211', '0');
+INSERT INTO `events_triggers` VALUES ('8254', '997', '212', '0');
+INSERT INTO `events_triggers` VALUES ('8256', '997', '215', '810');
+INSERT INTO `events_triggers` VALUES ('8257', '997', '216', '0');
+INSERT INTO `events_triggers` VALUES ('8258', '997', '217', '0');
+INSERT INTO `events_triggers` VALUES ('8259', '997', '218', '0');
+INSERT INTO `events_triggers` VALUES ('8260', '997', '219', '0');
+INSERT INTO `events_triggers` VALUES ('8261', '997', '220', '0');
+INSERT INTO `events_triggers` VALUES ('8262', '997', '221', '0');
+INSERT INTO `events_triggers` VALUES ('8263', '997', '222', '0');
+INSERT INTO `events_triggers` VALUES ('8264', '997', '223', '0');
+INSERT INTO `events_triggers` VALUES ('8265', '997', '224', '0');
+INSERT INTO `events_triggers` VALUES ('8266', '997', '225', '0');
+INSERT INTO `events_triggers` VALUES ('8267', '997', '226', '0');
+INSERT INTO `events_triggers` VALUES ('8268', '997', '227', '0');
+INSERT INTO `events_triggers` VALUES ('8269', '997', '228', '0');
+INSERT INTO `events_triggers` VALUES ('8270', '997', '229', '0');
+INSERT INTO `events_triggers` VALUES ('8271', '997', '230', '0');
+INSERT INTO `events_triggers` VALUES ('8272', '997', '231', '0');
+INSERT INTO `events_triggers` VALUES ('8273', '997', '232', '0');
 
 -- ----------------------------
 -- Table structure for `excel_clipboard`
@@ -15347,7 +15385,7 @@ CREATE TABLE `flags_rules` (
   `step_number` tinyint(2) DEFAULT NULL,
   `replica_number` tinyint(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='правила на основании флагов';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='правила на основании флагов';
 
 -- ----------------------------
 -- Records of flags_rules
@@ -15363,6 +15401,8 @@ INSERT INTO `flags_rules` VALUES ('11', 'E2', '142', '3', '1');
 INSERT INTO `flags_rules` VALUES ('12', 'ET12.1', '405', '1', '2');
 INSERT INTO `flags_rules` VALUES ('13', 'ET12.2', '409', '1', '2');
 INSERT INTO `flags_rules` VALUES ('14', 'ET12.2', '411', '1', '3');
+INSERT INTO `flags_rules` VALUES ('15', 'S2', '810', '1', '1');
+INSERT INTO `flags_rules` VALUES ('16', 'S2', '811', '1', '2');
 
 -- ----------------------------
 -- Table structure for `flags_rules_content`
@@ -15376,7 +15416,7 @@ CREATE TABLE `flags_rules_content` (
   PRIMARY KEY (`id`),
   KEY `fk_flags_rules_content_rule_id` (`rule_id`),
   CONSTRAINT `fk_flags_rules_content_rule_id` FOREIGN KEY (`rule_id`) REFERENCES `flags_rules` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='состав прав на основании флагов';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='состав прав на основании флагов';
 
 -- ----------------------------
 -- Records of flags_rules_content
@@ -15395,6 +15435,8 @@ INSERT INTO `flags_rules_content` VALUES ('16', '3', 'F4', '1');
 INSERT INTO `flags_rules_content` VALUES ('17', '12', 'F14', '1');
 INSERT INTO `flags_rules_content` VALUES ('18', '13', 'F14', '1');
 INSERT INTO `flags_rules_content` VALUES ('19', '14', 'F14', '1');
+INSERT INTO `flags_rules_content` VALUES ('20', '15', 'F1', '1');
+INSERT INTO `flags_rules_content` VALUES ('21', '16', 'F1', '1');
 
 -- ----------------------------
 -- Table structure for `groups`
@@ -15425,36 +15467,36 @@ CREATE TABLE `mail_attachments` (
   KEY `fk_mail_attachments_file_id` (`file_id`),
   CONSTRAINT `fk_mail_attachments_file_id` FOREIGN KEY (`file_id`) REFERENCES `my_documents` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_attachments_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2881 DEFAULT CHARSET=utf8 COMMENT='Вложения писем';
+) ENGINE=InnoDB AUTO_INCREMENT=3281 DEFAULT CHARSET=utf8 COMMENT='Вложения писем';
 
 -- ----------------------------
 -- Records of mail_attachments
 -- ----------------------------
-INSERT INTO `mail_attachments` VALUES ('2856', '33850', '10965');
-INSERT INTO `mail_attachments` VALUES ('2857', '33852', '10966');
-INSERT INTO `mail_attachments` VALUES ('2858', '33853', '10967');
-INSERT INTO `mail_attachments` VALUES ('2859', '33862', '10968');
-INSERT INTO `mail_attachments` VALUES ('2860', '33863', '10969');
-INSERT INTO `mail_attachments` VALUES ('2861', '33864', '10970');
-INSERT INTO `mail_attachments` VALUES ('2862', '33868', '10971');
-INSERT INTO `mail_attachments` VALUES ('2863', '33869', '10972');
-INSERT INTO `mail_attachments` VALUES ('2864', '33870', '10973');
-INSERT INTO `mail_attachments` VALUES ('2865', '33871', '10973');
-INSERT INTO `mail_attachments` VALUES ('2866', '33873', '10974');
-INSERT INTO `mail_attachments` VALUES ('2867', '33892', '10975');
-INSERT INTO `mail_attachments` VALUES ('2868', '33893', '10976');
-INSERT INTO `mail_attachments` VALUES ('2869', '33895', '10952');
-INSERT INTO `mail_attachments` VALUES ('2870', '33896', '10952');
-INSERT INTO `mail_attachments` VALUES ('2871', '33897', '10950');
-INSERT INTO `mail_attachments` VALUES ('2872', '33898', '10970');
-INSERT INTO `mail_attachments` VALUES ('2873', '33900', '10951');
-INSERT INTO `mail_attachments` VALUES ('2874', '33904', '10977');
-INSERT INTO `mail_attachments` VALUES ('2875', '33905', '10978');
-INSERT INTO `mail_attachments` VALUES ('2876', '33911', '10972');
-INSERT INTO `mail_attachments` VALUES ('2877', '33912', '10973');
-INSERT INTO `mail_attachments` VALUES ('2878', '33922', '10979');
-INSERT INTO `mail_attachments` VALUES ('2879', '33927', '10953');
-INSERT INTO `mail_attachments` VALUES ('2880', '33932', '10954');
+INSERT INTO `mail_attachments` VALUES ('3256', '35882', '11445');
+INSERT INTO `mail_attachments` VALUES ('3257', '35884', '11446');
+INSERT INTO `mail_attachments` VALUES ('3258', '35885', '11447');
+INSERT INTO `mail_attachments` VALUES ('3259', '35894', '11448');
+INSERT INTO `mail_attachments` VALUES ('3260', '35895', '11449');
+INSERT INTO `mail_attachments` VALUES ('3261', '35896', '11450');
+INSERT INTO `mail_attachments` VALUES ('3262', '35900', '11451');
+INSERT INTO `mail_attachments` VALUES ('3263', '35901', '11452');
+INSERT INTO `mail_attachments` VALUES ('3264', '35902', '11453');
+INSERT INTO `mail_attachments` VALUES ('3265', '35903', '11453');
+INSERT INTO `mail_attachments` VALUES ('3266', '35905', '11454');
+INSERT INTO `mail_attachments` VALUES ('3267', '35924', '11455');
+INSERT INTO `mail_attachments` VALUES ('3268', '35925', '11456');
+INSERT INTO `mail_attachments` VALUES ('3269', '35927', '11432');
+INSERT INTO `mail_attachments` VALUES ('3270', '35928', '11432');
+INSERT INTO `mail_attachments` VALUES ('3271', '35929', '11430');
+INSERT INTO `mail_attachments` VALUES ('3272', '35930', '11450');
+INSERT INTO `mail_attachments` VALUES ('3273', '35932', '11431');
+INSERT INTO `mail_attachments` VALUES ('3274', '35936', '11457');
+INSERT INTO `mail_attachments` VALUES ('3275', '35937', '11458');
+INSERT INTO `mail_attachments` VALUES ('3276', '35943', '11452');
+INSERT INTO `mail_attachments` VALUES ('3277', '35944', '11453');
+INSERT INTO `mail_attachments` VALUES ('3278', '35954', '11459');
+INSERT INTO `mail_attachments` VALUES ('3279', '35959', '11433');
+INSERT INTO `mail_attachments` VALUES ('3280', '35964', '11434');
 
 -- ----------------------------
 -- Table structure for `mail_attachments_template`
@@ -15534,7 +15576,7 @@ CREATE TABLE `mail_box` (
   CONSTRAINT `fk_mail_box_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_box_subject_id` FOREIGN KEY (`subject_id`) REFERENCES `mail_themes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_box_template_id` FOREIGN KEY (`template_id`) REFERENCES `mail_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=33977 DEFAULT CHARSET=utf8 COMMENT='Почтовый ящик';
+) ENGINE=InnoDB AUTO_INCREMENT=36009 DEFAULT CHARSET=utf8 COMMENT='Почтовый ящик';
 
 -- ----------------------------
 -- Records of mail_box
@@ -15627,90 +15669,90 @@ INSERT INTO `mail_box` VALUES ('14162', null, '823', '3', '1', '3', null, '13486
 INSERT INTO `mail_box` VALUES ('14163', null, '823', '2', '2', '5', null, '1348608268', null, null, '0', '106', null, null);
 INSERT INTO `mail_box` VALUES ('14164', null, '823', '3', '1', '6', null, '1348608353', null, null, '0', '111', null, null);
 INSERT INTO `mail_box` VALUES ('14165', null, '823', '2', '1', '4', null, '1348608364', null, null, '1', '101', null, null);
-INSERT INTO `mail_box` VALUES ('33850', '1', '981', '1', '4', '1', 'По ценовой политике', '1349222400', '1350420713', 'Добрый день! \n\nЯ немного с опережением сделала работу по ценовой политике (вчера выдался свободный вечер). Мне кажется, что я отразила все мысли, которые мы обсуждали на установочной встрече. Будет время в отпуске - посмотрите. \n\nС уважением, Марина Крутько  \nАналитик Отдела аналитики', '0', null, 'MY1', '632');
-INSERT INTO `mail_box` VALUES ('33851', '2', '981', '1', '11', '1', 'Форма отчетности для производства', '1349222400', '1350420713', 'Доброго вам времени суток! \nПроизводственный отдел просит вас рассмотреть возможность внесения изменеий в текущую форму отчетности по объемам производства и производственным мощностям. На текущий момент в отчетности не достает развернутого анализа остатков на всех наших складах, включая торговые. Это приводит к тому, что мы периодически производим товар, который уже есть в регионах. Логисты говорят, что вполне могли бы обеспечить перебросу товара из одного региона в другой. Таким образом, нам удалось бы сэкономить на производственных издержках без снижения объемов продаж. Прошу вас оценить сроки, тродоемкость и наличие возможности добавить в производственный отчет данные по складским остаткам.\nЗаранее благодарю, Бобр В.,  \nНач. производственного отдела.', '0', null, 'MY2', '662');
-INSERT INTO `mail_box` VALUES ('33852', '3', '981', '1', '13', '1', 'Новая система мотивации', '1348790400', '1350420713', 'Коллеги, добрый день!        \nПосле нескольких продуктивных совещаний с вами (отдельное спасибо Федорову А. за регулярное участие!) мы подготовили итоговую версию системы мотивации для менеджеров первого и второго уровня. Мы планируем вводить ее в действие с начала 02 года (именно она и будет забюджетирована). Ждем ваших окончательных комментариев и корректировок. Если не участвуете в обсуждении - потом не сетуйте на то, что система была принята без вашего весомого голоса! Благодарю за оперативность! \nС наилучшими пожеланиями, Людовкина С.', '0', null, 'MY3', '1125');
-INSERT INTO `mail_box` VALUES ('33853', '4', '981', '1', '18', '1', 'Трудовой договор', '1349049600', '1350420713', 'Коллеги! В связи с изменениями трудового законодательства юридический отдел вынужден внести в трудовой договор, действующий в данный момент в компании как основной, ряд корректив. Просим вас ознакомиться с ними и донести до своих сотрудников, что с 01 января 02 года будет запущена кампания по подписанию такого варианта трудового договора со всеми актуальными и вновь пришедшими сотрудниками компании. Просим отнестить к этой работе со всей ответственностью и должным вниманием. \nС уважением, Адвокатов Ю.', '0', null, 'MY4', '990');
-INSERT INTO `mail_box` VALUES ('33854', '5', '981', null, '9', '1', 'срочно! Отчетность', '1349308800', '1350420713', 'Добрый день, коллеги! \nЯ, как всегда, по срочному вопросу. Ни у кого ведь нет сомнений, что продажи крайне важны для компании?! Судя по тому, как у нас работает аналитически отдел - этот приоритет ему не ясен. Дело в том, что у нас регулярно запаздвает отчетность, я так работать не могу - данные приходят тогда, когдя я уже все продала, и планировать поздно. Таким образом, я и мои люди постоянно действуем вслепую!  И это по трем тысячам клиентов!  Какие у вас есть мнения, что с этим делать. ', '0', null, 'M1', '930');
-INSERT INTO `mail_box` VALUES ('33855', '6', '981', null, '9', '1', 'срочно! Требования клиентов', '1349308800', '1350420713', 'Без комментариев - читайте сами!  Прошу ответ срочно!\nДиректор по продажам Скоробей А.М.     \n\nFwd:\n Уважаемая Алевтина Михайловна! Несколько раз обращался к вашим менеджерам, но воз и ныне там.  Нам очень не удобно работать с вашим текущим прайс-листом! Формат, выбранный вами, не позволяет закачивать цены автоматически и все приходится вбивать вручную. Это серьезно замедляет приемку товара и постановку его в продажи! Хочу отметить, что у всех ваших конкурентов прайс-листы сделаны современым способом и не требуют от нас таких трудозатрат. \n\nПрошу вас решить эту проблему как можно скорее, иначе со следующего месяца нам придется выставлять вам счет за работу людей, вбивающих ваши цены в нашу систему. \n\nС уважением, Горбатюк Е.Д. \nДиректор ООО \"Луч\"', '0', null, 'M2', '845');
-INSERT INTO `mail_box` VALUES ('33856', '7', '981', '1', '13', '1', 'твои аналитики', '1349308800', '1350420713', 'Алексей! \nЯ засекла всех твоих аналитиков на ресурсе по поиску работы. Даже новенького. Ну он еще пока может и не снимал своего объявления - ждет окончания испытательного срока, но вот другие… Что ты с ними делаешь? Бьешь что-ли? Тебе надо с ними поговорить. Я тебе трех аналитиков за 2 дня не найду!  \nВсего доброго, Людовкина С.', '0', null, 'M3', '810');
-INSERT INTO `mail_box` VALUES ('33857', '8', '981', '1', '8', '1', 'предложения', '1349308800', '1350420713', 'Привет, Леша! У нас началась подготовка к годовой стратегической сессии. Ты вечно не доволен форматом нашей презентации, которую заполняют все подразделения для отчета и планов. Шли свои предложения заранее, чтобы ничего не переделывать в пожарном режиме. Удачи, Олег', '0', null, 'M4', '721');
-INSERT INTO `mail_box` VALUES ('33858', '9', '981', '1', '16', '37', 'график отпусков срочно!', '1349308800', '1350420713', 'Срочно! Подготовить и переслать график отпусков на следующий год. Кто не шлет - в отпуск не идет!  \nОтдел кадров.', '0', null, 'M5', '770');
-INSERT INTO `mail_box` VALUES ('33859', '10', '981', '1', '7', '37', 'консультанты и новый проект', '1349308800', '1350420713', 'Внимание! Важно!\n \nУ нас начали работу консультанты по стратегии. Проект большой и важный, требует участия каждого! Просьба всем, как можно скорее, согласовать свои встречи с консультантами! \n\nЭто просьба Генерального Директора. \n\nС уважением, ассистент ГД Долгова Н.Т.', '0', null, 'M6', '662');
-INSERT INTO `mail_box` VALUES ('33860', '11', '981', '1', '14', '37', 'пришлите срочно пожелания!', '1349308800', '1350420713', 'Коллеги! \nТретий раз прошу всех переслать свои пожелания по закупке офисной мебели и планы по ремонту, я из-за вас не могу бюджет сдать нормальный. Всем, кто уже прислал - спасибо! Жду до конца сегодняшнего дня.  \nС уваженим, Хозин.', '0', null, 'M7', '700');
-INSERT INTO `mail_box` VALUES ('33861', '12', '981', '1', '10', '1', '!проблема с сервером!', '1349308800', '1350420713', 'Алексей, срочный вопрос! \n\nМы протестировали ваш сервер на предмет восстановления и ап-грейда. Ребята возились с ним почти неделю, к сожалению, восстановлению и ремонту он не подлежит! Нужно менять срочно! \n\nВ нашем бюджете денег на смену сервера не предусмотрено. Я так понимаю, ты тоже такого форс-мажора не предвидел?!\n\nПиши служебку на деньги. Надо ХХ тыс. на ЕХ5 сервер (менее мощный покупать бессмысслено). \n\nПротянешь - будем разгребать проблемы с потерей информации. Мне ваши объемы информации хранить негде. \n\nВсего, Семен', '0', null, 'M8', '661');
-INSERT INTO `mail_box` VALUES ('33862', '13', '981', null, '4', '1', 'Презентация для ГД_рабочая версия', '1349308800', '1350420713', 'Добрый день! \n\nПересылаю пока сырую презентацию для ГД.  Что делать дальше мне ясно. Устраивает ли вас структура? Все данные для ее заполнения у меня готовы. Постараюсь завершить работу к 15.30. \n\nС уважением, Марина Крутько \nАналитик Отдела аналитики.', '0', null, 'M9', '0');
-INSERT INTO `mail_box` VALUES ('33863', '14', '981', null, '4', '1', 'Презентация для ГД_итог', '1349308800', '1350420713', 'Алексей, пересылаю итоговую версию презентации для ГД. Я бы еще поработала над оформлением, но суть уже закончена и можно показывать. Жду обратной связи. С уважением, Марина Крутько Аналитик Отдела аналитики.', '0', null, 'M10', '930');
-INSERT INTO `mail_box` VALUES ('33864', '15', '981', null, '4', '1', 'Презентация для ГД_драфт версия', '1349308800', '1350420713', 'Отправляю все, что есть. Версия черновая. \n\nС уважением, Марина Крутько Аналитик Отдела аналитики.', '0', null, 'M11', '0');
-INSERT INTO `mail_box` VALUES ('33865', '16', '981', null, '2', '1', 'Звонок нач.производства Бобра В.', '1349308800', '1350420713', 'Прошу не отвлекать меня от работы по вопросам, относящимся к твоей зоне ответственности.  Спроси у меня еще как цифры в excel поменять! \nДенежная Р.Р.', '0', null, 'M12', '0');
-INSERT INTO `mail_box` VALUES ('33866', '17', '981', null, '12', '1', 're: бюджет от логистики', '1349308800', '1350420713', 'Привет, Алексей! Проверяю. Как будет готов - перешлю. \nУдачи, Трудякин', '0', null, 'M31', '0');
-INSERT INTO `mail_box` VALUES ('33867', '18', '981', null, '12', '1', 're:re:re: бюджет от логистики', '1349308800', '1350420713', 'Прекрати отвлекать от работы! \nТрудякин.', '0', null, 'M33', '0');
-INSERT INTO `mail_box` VALUES ('33868', '19', '981', null, '12', '1', 'бюджет логистики', '1349308800', '1350420713', 'Алексей! Пересылаю бюджет логистики на 02 год. \nС уважением, Трудякин.', '0', null, 'M34', '0');
-INSERT INTO `mail_box` VALUES ('33869', '20', '981', null, '12', '1', 'форма по задаче от логистики, срочно!', '1349308800', '1350420713', 'Алексей, прикрепляю форму для выгрузки данных. \nСделайте точно в этом разрезе по прошедшим девяти месяцам 01 года. \nСпасибо за помощь! \nТрудякин.', '0', null, 'M41', '0');
-INSERT INTO `mail_box` VALUES ('33870', '21', '981', null, '3', '12', 'выгрузка для логистов', '1349308800', '1350420713', 'Добрый день! Заполнил вашу форму. Есть ли вопросы? \nВсего доброго, Трутнев С.', '0', null, 'M43', '0');
-INSERT INTO `mail_box` VALUES ('33871', '22', '981', null, '3', '1', 'выгрузка для логистов', '1349308800', '1350420713', 'Вот, сделал. Смотрите. \nС уваженим, Трутнев С.', '0', null, 'M44', '0');
-INSERT INTO `mail_box` VALUES ('33872', '23', '981', '1', '25', '1', 'данные по рынку, срочно нужна помощь!', '1349308800', '1350420713', 'Привет, Алексей! \n\nУ меня просьба, срочная! \nПришли, пожалуйста, данные по динамике рынка за 00 - 01 год (рост объемов продаж). Даже если вы исследований не делаете, то у вас процентов 50% всего рынка представлено в закупках. Легко можно экстраполировать на весь рынок. \n\nБез этих данных я не могу проверить корректность нашего бюджета. У меня на все осталось пять дней. \n\nОчень нужно, не подведи! \n\nЗаранее благодарю, Иван Доброхотов \nНач.отдела аналитики ОАО \"Терминал\"', '0', null, 'M47', '675');
-INSERT INTO `mail_box` VALUES ('33873', '24', '981', null, '11', '1', 'новый бюджет по производству', '1349308800', '1350420713', 'Уважаемый Алексей! \nПриношу извинения еще раз! Как я сказал по телефону, здесь нет нашей прямой вины. Очень постараемся не допускать такого в будущем году. Прошу Вас рассмотреть и включить новую версию в сводный бюджет. \nС глубочайшим уважением, Бобр В.', '0', null, 'M56', '905');
-INSERT INTO `mail_box` VALUES ('33874', '25', '981', null, '19', '1', 'обновление информации', '1349308800', '1350420713', 'Коллеги!         \nПросим всех сотрудников обновить информацию о номерах своих пенсионных свидетельтв. Часть из вас не сдала свидетельства еще с прошлого года!\nОбращаем ваше внимание, что следующая зп не будет начислена, если данные не будут представлены или обновлены.  \nБухгалтерия.\n', '0', null, 'M60', '961');
-INSERT INTO `mail_box` VALUES ('33875', '26', '981', null, '24', '1', 're:обновление информации', '1349308800', '1350420713', 'Уважаемая бухгалтерия!  \nЯ передал вам информацию дважды, и вы все время ее теряете! Больше давать данные не стану - это дело принципа! Каждый должен выполнять свою работу: моя работа - заниматься производством, ваша - хранить данные!\nСерков А.Т.', '0', null, 'M61', '1005');
-INSERT INTO `mail_box` VALUES ('33876', '27', '981', null, '19', '1', 're:re:обновление информации', '1349308800', '1350420713', 'Уважаемый Г-н Серков! \nВаши данные у нас есть. Можете не предоставлять. Однако не все в офисе столь же сознательные и ответственные. А данные ваша были утрачены не по вине бухгалтерии, а по причине отвратительно организованного переезда в новый офис. \nБухгалтерия.', '0', null, 'M62', '1023');
-INSERT INTO `mail_box` VALUES ('33877', '28', '981', null, '14', '1', 're:re:re:обновление информации', '1349308800', '1350420713', 'Уважаемая бухгалтерия! \nДавайте не поднимать давно забытый скандал! Вы же даже сами тогда извинялись за свои необоснованные претензии. Для того, чтобы сохранить важные данные, их надо складывать в отведенные для этого места! \nНач.АХО, Хозин.', '0', null, 'M63', '1037');
-INSERT INTO `mail_box` VALUES ('33878', '29', '981', null, '29', '1', 'есть лишний билет ', '1349308800', '1350420713', 'Леша, здорово!\nЕсть лишний билет на матч Лиги чемпионов Спартак-Барселона в сектор С. Поедешь с нами? Давно не виделись. Ответь срочно! \nОлег \n', '0', null, 'M64', '970');
-INSERT INTO `mail_box` VALUES ('33879', '30', '981', null, '17', '1', 'вакцинация! ', '1349308800', '1350420713', 'Уважаемые коллеги, \nв понедельник в офисе будет проведена вакцинация. Время вакцинации вашего отдела с 10 до 12 в большой переговорной. Стоимость вакцинации включена в вашу страховку. Всем, кто не пройдет вакцинацию, больничный оплачиваться не будет.  \nОтдел персонала ', '0', null, 'M65', '1043');
-INSERT INTO `mail_box` VALUES ('33880', '31', '981', null, '17', '1', 'новый сотрудник ', '1349308800', '1350420713', 'Уважаемые коллеги, \nк нашей компании присоединился новый сотрудник - - главный экономист - Сергей Иванович. Сергей Иванович работал в компании “LTD” более 10 лет. Прошу вас найти время и встретиться с ним, чтобы познакомиться и помочь войти в курс дела. \nОтдел  персонала', '0', null, 'M66', '903');
-INSERT INTO `mail_box` VALUES ('33881', '32', '981', null, '30', '1', 'ДР отца', '1349308800', '1350420713', 'Леха, привет, братан!  Ты не забыл, что отцу 60 в конце этого месяца? Надо придумать подарок и организовать ресторан. Ты дернешь в отпуск - а я все буду делать один? Так не пойдет! Подарок я куплю, а ресторан бери на себя! Нам надо разместить человек двадцать, лучше без музыки и рядом с домом родителей - чтобы пешком. Найдешь - пиши адрес, я всех приглашу, так уж и быть!  \nСерый. \nP.S.Как думаешь, дядю Андрея приглашать? Он же брат, только вот они с отцом не очень...', '0', null, 'M67', '977');
-INSERT INTO `mail_box` VALUES ('33882', '33', '981', null, '19', '1', 'срок действия карты', '1349308800', '1350420713', 'Коллеги,  просим вас проверить дату истечения ваших кредитных карт. Сообщите нам, если ваша карта истекает в этом месяце, чтобы мы могли во время заняться перевыпуском. Напоминаем, если данные от вас не поступают, мы считаем, что ваша карта не нуждается в перевыпуске! \nБухгалтерия', '0', null, 'M68', '1005');
-INSERT INTO `mail_box` VALUES ('33883', '34', '981', null, '31', '1', 'вакансия ', '1349308800', '1350420713', 'Алексей, приветствую.\n\nМы не знакомы лично. Ваш адрес мне дал наш общий знакомый с самыми лучшими рекомендациями вашего профессионализма.\n \nЯ руковожу фирмой “Легкий полет”, мы ищем опытного аналитика и менеджера для нашего планового отдела из 5 человек. \n\nБыло бы вам интересно обсудить возможность другой работы? \n\nС уважением,\nСтепанов Сергей ', '0', null, 'M69', '1068');
-INSERT INTO `mail_box` VALUES ('33884', '35', '981', null, '32', '1', 'встреча выпускников в эту пятницу ', '1349308800', '1350420713', 'Дорогие мои, \nнадо чаще встречаться, как говорится в слогане известного пива. В эту пятницу будет 5 лет со дня нашего выпуска. Вы, конечно, все очень серьезные и занятые люди, но отказать мне не имеете права. Жду всех (я имею в виду всех, и тебя Леша, и тебя Ксюша) в 19.00 в Парке Культуры возле Бурана. Я подготовла для вас сюрприз. \nТолько немного намекну... “Он капитан, и родина его Марсель...” Помните?! \nВсех целую,\nваша вечная староста, \nМарина ', '0', null, 'M70', '955');
-INSERT INTO `mail_box` VALUES ('33885', '36', '981', '1', '13', '1', 'короткая просьба', '1349308800', '1350420713', 'Алексей, \nперешли мне. плз., описание позиции \"Аналитик\", по которому мы Лошадкина искали. Что-то не могу его у себя в компе найти, удалила что-ли...\nНадеюсь, за твой отпуск продвинемся и к твоему возвращению будет у тебя несколько кандидатов на встречу. Время сейчас хорошее.\nУдачи,\nЛюдовкина С.', '0', null, 'M71', '783');
-INSERT INTO `mail_box` VALUES ('33886', '37', '981', '1', '15', '1', 'отчет срочно!', '1349308800', '1350420713', 'Алексей, добрый день! \n\nМы проводим комплексный анализ работы подразделения в регионе С. В том числе нас интересует складской остаток на 01 число каждого месяца за весь текущий год. \n\nОгромная просьба подготовить этот отчет в ближайшие дни. Моя командировка закончится в понедельник, а мне еще надо провести инвентаризацию на базе данных, которые будут в этом отчете.\n\nСпасибо за помощь,\nАндрей Точных\nНач.службы внутреннего аудита', '0', null, 'M72', '843');
-INSERT INTO `mail_box` VALUES ('33887', '38', '981', '1', '20', '1', 'обучение регионального аналитика', '1349308800', '1350420713', 'Алексей, приветствую!\nЯ взял на работу регионального аналитика, как мы и договаривались. Надеюсь, что теперь у нас будут значительно быстрее проводится все операции. Вы мне обещали его натаскать и задать корпоративный стандарт работы. Он весь ваш!\nС уважением,\nКаменский В.П.\nИсполнительный директор регионального подразделения Д', '0', null, 'M73', '695');
-INSERT INTO `mail_box` VALUES ('33888', '39', '981', null, '23', '1', 'запрос Крутько', '1349308800', '1350420713', 'Добрый день,\n\nВаша сотрудница М.Крутько прислана нам запрос на закупку нескольких фото файлов. Говорит, что нужны для презентации. Мы так не работаем. Нам нужен запрос от руководителя отдела и вообще-то это оформляется через служебку. Вы подтверждаете, что ей нужны файлы?\n\nОтдел рекламы и оформления\nПетрашевич И.', '0', null, 'M74', '900');
-INSERT INTO `mail_box` VALUES ('33889', '40', '981', null, '12', '1', 'адрес клиента', '1349308800', '1350420713', 'Алексей,\nа дай-ка мне адресок какого-нибудь положительного клиента. Хочу ему пару вопросов задач, чтобы представить весь объем моих работ по проекту.\n\nСпасибо,\nТрудякин', '0', null, 'M75', '1037');
-INSERT INTO `mail_box` VALUES ('33890', '41', '981', '1', '22', '1', 'привет', '1349308800', '1350420713', 'Алексей, привет!\nТы меня спрашивал несколько дней назад когда я смогу тебе показать работу аналитической надстройки, что прислали наши подрядчики. Могу сегодня. Тебе в 4-5 дня подойдет?\n\nМягков Юра', '0', null, 'M76', '743');
-INSERT INTO `mail_box` VALUES ('33891', '42', '981', '1', '33', '1', 'по вашей заявке', '1349308800', '1350420713', 'Уважаемый Алексей!\n\nВы направляли в адрес нашей конференции заявку на участие в роли спикера. \n\nЗаявленная вами тема показалась оргкомитету актуальной и заслуживающей внимания.\n\nПросим вас подготовить тезисы вашего выступления и переслать их в наш адрес не позднее 30 октября.\n\nБлагодарим за ваше участие, \nОрганизационный комитет конференции \"Аналитика и бизнес\"\nИванова О.И.', '0', null, 'M77', '828');
-INSERT INTO `mail_box` VALUES ('33892', '43', '981', '3', '1', '2', 'Отчет для Правления', '1349222400', '1350420713', 'Раиса Романовна, добрый вечер!\n\nВо вложении файл с отчетом для Правления. Дайте знать, пожалуйста, есть ли замечания, постараюсь внести коррективы к дате встречи Правления. \n\nС уважением,\nФедоров А.', '0', null, 'MSY10', '980');
-INSERT INTO `mail_box` VALUES ('33893', '44', '981', null, '1', '2', 'Отчет для Правления - исправленный', '1349308800', '1350420713', 'Раиса Романовна, \n\nВо вложении скорректированный файл с отчетом для Правления.  \n\nС уважением,\nФедоров А.', '0', null, 'MS10', '0');
-INSERT INTO `mail_box` VALUES ('33894', '45', '981', null, '1', '2', 'служебная записка по серверу. Срочно!', '1349308800', '1350420713', 'Служебная записка', '0', null, 'MS20', '0');
-INSERT INTO `mail_box` VALUES ('33895', '46', '981', null, '1', '4', 'Сводный бюджет', '1349308800', '1350420713', 'Марина,\n\nво вложении - файл Сводного бюджета. Как мы и говорили, задача срочная. У нас есть всего три часа. Будут вопросы - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS21', '0');
-INSERT INTO `mail_box` VALUES ('33896', '47', '981', null, '1', '3', 'Сводный бюджет', '1349308800', '1350420713', 'Сергей,\n\nво вложении - файл Сводного бюджета. Как мы и говорили, задача срочная. У нас есть всего три часа. Будут вопросы - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS22', '0');
-INSERT INTO `mail_box` VALUES ('33897', '48', '981', null, '1', '3', 'Методика формирования сводного бюджета', '1349308800', '1350420713', 'Сергей,\n\nво вложении - Методика формирования сводного бюджета. Думаю, она поможет ответить на все твои вопросы. Если что не понятно - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS23', '0');
-INSERT INTO `mail_box` VALUES ('33898', '49', '981', null, '1', '6', 'Презентация на выставку', '1349308800', '1350420713', 'Уважаемый Валерий Семенович,\n\nво вложении - Презентация на выставку. \n\nГотов ответить на Ваши вопросы и дать комментарии!\n\nС уважением,\nА.Федоров', '0', null, 'MS25', '0');
-INSERT INTO `mail_box` VALUES ('33899', '50', '981', null, '1', '3', 'Fwd: Проблема с сервером!', '1349308800', '1350420713', 'Сергей! \nПрочти сообщение ниже и срочно подготовь служебку на получение денег для сервера на имя Денежной. \n\nС уважением,\nФедоров А.\n\n', '0', null, 'MS27', '0');
-INSERT INTO `mail_box` VALUES ('33900', '51', '981', null, '1', '11', 'бюджет производства прошлого года', '1349308800', '1350420713', 'Уважаемый Василий,\n\nя нашел для вас последнюю итоговую версию бюджета производства прошлого года. Она во вложении.\n\nВсего доброго,\nФедоров А.', '0', null, 'MS28', '0');
-INSERT INTO `mail_box` VALUES ('33901', '52', '981', null, '1', '3', 'задача: бюджет производства прошлого года', '1349308800', '1350420713', 'Сергей,\n\nпрошу тебя найти последнюю итоговую версию бюджета производства на 01 год и переслать ее Начальнику производственного отдела  Василию Бобру. Поставь меня в копию, пожалуйста.\n\nС уважением,\nФедоров А.', '0', null, 'MS29', '0');
-INSERT INTO `mail_box` VALUES ('33902', '53', '981', null, '1', '12', 'бюджет логистики', '1349308800', '1350420713', 'Егор, приветствую!\n\nНесмотря на прошедший срок сдачи, так и не получил от вас бюджет логистики на 02 год. Надеюсь, что ты понимаешь, что отсутствие вашего бюджета задерживает весь процесс бюджетирования и формирования сводного. От меня требуется подготовить и сдать сводный бюджет в течение трех часов. Срочно жду от тебя бюджет логистики! \n\nС уважением,\nФедоров А.', '0', null, 'MS30', '0');
-INSERT INTO `mail_box` VALUES ('33903', '54', '981', null, '1', '12', 're:re: бюджет от логистики', '1349308800', '1350420713', 'Егор, \n\nвсе возможные сроки реакции на мою просьбу уже прошли! Я требую немедленно предоставить бюджет логистики или мне придется информировать Генерального директора о несоблюдении регламента. \n\nС уважением,\nФедоров А.', '0', null, 'MS32', '0');
-INSERT INTO `mail_box` VALUES ('33904', '55', '981', null, '1', '2', 'Сводный бюджет', '1349308800', '1350420713', 'Вот сводный бюджет. Файл прикреплен', '0', null, 'MS35', '0');
-INSERT INTO `mail_box` VALUES ('33905', '56', '981', null, '1', '2', 'Сводный бюджет: итоговые корректировки', '1349308800', '1350420713', 'Вот новый сводный бюджет. Изменения следующие….Файл прикреплен', '0', null, 'MS36', '0');
-INSERT INTO `mail_box` VALUES ('33906', '57', '981', null, '1', '4', 're: преза для ГД, наброски', '1349308800', '1350420713', 'Марина,\n\nя посмотрел наброски к презентации. Все в порядке, продолжай! Жду итоговый вариант к 15.30.\n\nС уважением,\nФедоров А.', '0', null, 'MS57', '0');
-INSERT INTO `mail_box` VALUES ('33907', '58', '981', null, '1', '4', 're: Преза для ГД, итог', '1349308800', '1350420713', 'хорошо, продолжай, о результатах встречи расскажу', '0', null, 'MS37', '0');
-INSERT INTO `mail_box` VALUES ('33908', '59', '981', null, '1', '4', 'итог встречи по презентации для ГД', '1349308800', '1350420713', 'все хорошо, Босс доволен, ты - молодец', '0', null, 'MS38', '0');
-INSERT INTO `mail_box` VALUES ('33909', '60', '981', null, '1', '4', 'Презентация для ГД: распечатать', '1349308800', '1350420713', 'Распечатай столько-то к такому-то числу, в цвете. ', '0', null, 'MS39', '0');
-INSERT INTO `mail_box` VALUES ('33910', '61', '981', null, '1', '3', 'Задача отдела логистики', '1349308800', '1350420713', 'Сергей,\n\nнесколько дней назад логисты просили сделать для них выгрузку. Мы обсуждали с тобой эту задачу и сроки ее исполнения. Сегодня - срок сдачи работы. Перешли мне то, что у тебя получилось в ближайшие тридцать минут, пожалуйста. \n\nС уважением,\nФедоров А.', '0', null, 'MS58', '0');
-INSERT INTO `mail_box` VALUES ('33911', '62', '981', null, '1', '3', 'Fwd: форма по задаче от логистики, срочно!', '1349308800', '1350420713', 'Логисты хотят получить данные в приложенной форме. За последние 9 месяцев. Сделай срочно! Думаю, что пару часов тебе хватит. Вложен пример формы.', '0', null, 'MS42', '0');
-INSERT INTO `mail_box` VALUES ('33912', '63', '981', null, '1', '12', 're: форма по задаче от логистики, срочно!', '1349308800', '1350420713', 'Егор,\n\nво вложении - форма о твоему запросу. \n\nМы сделали срочно, как ты и просил.\n\nСообщи, пожалуйста, все ли вас устраивает и не осталось ли вопросов по этому заданию.\n\nС уважением,\nФедоров А.', '0', null, 'MS45', '0');
-INSERT INTO `mail_box` VALUES ('33913', '64', '981', null, '1', '3', 'Fwd: данные по рынку, срочно нужна помощь!', '1349308800', '1350420713', 'По задаче ТЕ3.2 Подготовь отчет по данным от наших клиентов - по всему рынку. В нем должно быть отражено…..  И отправь Ивану Доброхотову - я в копии.', '0', null, 'MS46', '0');
-INSERT INTO `mail_box` VALUES ('33914', '65', '981', null, '1', '2', 'Динамика производственных затрат', '1349308800', '1350420713', 'По задаче ТRC6 (o доле производственных затрат). Должен написать точно тему, хорошо струткурировать письмо. Сдлеть эту работу срочно после звонка.', '0', null, 'MS48', '0');
-INSERT INTO `mail_box` VALUES ('33915', '66', '981', null, '1', '9', 'Бюджетирование в дирекции продаж', '1349308800', '1350420713', 'Давайте встретимся. У меня есть информация по процессу вашего бюджета. Есть что обсудить.ИЛИ  Разговаривал с вашим нач.отдела продаж региона А. Он рассказал о вашей системе планирования. Это безобразие! Это не верный метод. Вы таким образом ставите под угрозу бюджет всей компании. Дайте мне слово, что все поменяете, иначе я буду жаловаться ФД!', '0', null, 'MS49', '0');
-INSERT INTO `mail_box` VALUES ('33916', '67', '981', null, '1', '2', 'Жалоба', '1349308800', '1350420713', 'Жалоба на ОК. Эти козлы время не согласовывают, а потом меня еще пугают!', '0', null, 'MS50', '0');
-INSERT INTO `mail_box` VALUES ('33917', '68', '981', null, '1', '7', 'Данные по распечатке презентаций', '1349308800', '1350420713', 'Наталья Тимофеевна,\n\nБосс просил уточнить у вас следующую информацию относительно его презентации на выставке:\n1. Сколько копий нам надо распечатать.\n2. Кому передать распечатанные копии.\n3. Когда они должны быть переданы.\n\nСпасибо за информацию,\nФедоров А.', '0', null, 'MS51', '0');
-INSERT INTO `mail_box` VALUES ('33918', '69', '981', null, '1', '3', 'Отчет по 3 кварталу', '1349308800', '1350420713', 'Стандартная работа по подготовке отчета по 3 кв. Начинай с продаж. К моему возвращению отчет должен быть у меня на проверку.', '0', null, 'MS54', '0');
-INSERT INTO `mail_box` VALUES ('33919', '70', '981', null, '1', '39', 'Приглашение: новая система премирования', '1349308800', '1350420713', 'Коллеги,\n\nзавтра, в 12.00, приглашаю вас в мой кабинет для презентации новой системы премирования на 4 квартал.\n\nС уважением,\nФедоров А.', '0', null, 'MS55', '0');
-INSERT INTO `mail_box` VALUES ('33920', '71', '981', null, '1', '9', 're:срочно! Отчетность', '1349308800', '1350420713', 'ответить всем и предложить встретиться для обсуждения этого вопроса, в неправильной версии - разъяснения, что аналитика понимает важность продаж, что отчетность сейчас собирается долго т.к. Не автоматизирован процесс сбора данных с клиентов, а мы этим сейчас занимаемся...', '0', null, 'MS40', '0');
-INSERT INTO `mail_box` VALUES ('33921', '72', '981', null, '1', '9', 're:срочно! Требования клиентов', '1349308800', '1350420713', 'предложить директору по продажам выяснить у других клиентов - так ли это у всех, если да, то выносить на общее обсуждение с участием наших ИТ-ков', '0', null, 'MS52', '0');
-INSERT INTO `mail_box` VALUES ('33922', '73', '981', null, '1', '2', 'план на завтра', '1349308800', '1350420713', 'Раиса Романовна\n\nПрикрепляю мой план на завтра. Завтра я должен уйти в 16.00, как я уже говорил вам ранее.\n\nС уважением,\nФедоров А.', '0', null, 'MS53', '0');
-INSERT INTO `mail_box` VALUES ('33923', '74', '981', null, '1', '39', 'Fwd: вакцинация! ', '1349308800', '1350420713', 'Коллеги, вам нужно пройти вакцинацию в понедельник. Запланируйте в своих календарях, пожалуйста.\n\nС уваженим,\nФедоров А.\n', '0', null, 'MS65', '0');
-INSERT INTO `mail_box` VALUES ('33924', '75', '981', null, '1', '15', 're: отчет срочно!', '1349308800', '1350420713', 'Аркадий, приветствую!\n\nОтчет сделаем. Данные будут у тебя завтра во второй половине дня.\n\nУдачи,\nФедоров А.', '0', null, 'MS66', '0');
-INSERT INTO `mail_box` VALUES ('33925', '76', '981', null, '1', '3', 'Fwd: отчет срочно!', '1349308800', '1350420713', 'Сергей, \n\nвключи это задание в свой план работ, пожалуйста. Тебе необходимо выгрузить складской остаток в регионе С на 01 число каждого месяца с января по октябрь этого года. \n\nПрошу выполнить задание до двух дня, чтобы я мог его посмотреть перед отправкой. \n\nСпасибо,\nФедоров А.', '0', null, 'MS67', '0');
-INSERT INTO `mail_box` VALUES ('33926', '77', '981', null, '1', '20', 're: обучение регионального аналитика', '1349308800', '1350420713', 'Добрый день, Виктор Петрович!\n\nОчень рад, что вы нашли аналитика!\n\nНепременно помогу вам с его обучением и адаптацией. Завтра с четрех я в отпуске, а потому, запланирую разговор с ним на первые дни недели после отпуска. ', '0', null, 'MS62', '0');
-INSERT INTO `mail_box` VALUES ('33927', '78', '981', null, '1', '13', 're: короткая просьба', '1349308800', '1350420713', 'Хорошо, лови.', '0', null, 'MS63', '0');
-INSERT INTO `mail_box` VALUES ('33928', '79', '981', null, '1', '23', 're: запрос Крутько', '1349308800', '1350420713', 'Да, сделайте. Подтверждаю.', '0', null, 'MS64', '0');
-INSERT INTO `mail_box` VALUES ('33929', '80', '981', null, '1', '12', 're: адрес клиента', '1349308800', '1350420713', 'Адрес ниже.', '0', null, 'MS60', '0');
-INSERT INTO `mail_box` VALUES ('33930', '81', '981', null, '1', '22', 're: привет', '1349308800', '1350420713', 'Привет, Юра! Сегодня и завтра, к сожалению, не могу. Давай запланируем после отпуска.', '0', null, 'MS61', '0');
-INSERT INTO `mail_box` VALUES ('33931', '82', '981', null, '1', '4', 'встреча с ГД по презентации', '1349308800', '1350420713', 'Марина,\n\nБосс сегодня встречаться не смог, а завтра он на выезде. Потому прошу тебя встретиться с ним в понедельник в 10.00 для пояснений по презентации. Презентацию ему я уже отправил.\n\nНе волнуйся, я уверен, что ты справишься.\n\nСпасибо,\nФедоров А.', '0', null, 'MS68', '0');
-INSERT INTO `mail_box` VALUES ('33932', '83', '981', null, '1', '12', 'квартальный план', '1349308800', '1350420713', 'Егор, во вложении моя версия квартального плана.\n\nС уважениям,\nФедоров А.', '0', null, 'MS69', '0');
-INSERT INTO `mail_box` VALUES ('33933', '84', '981', null, '1', '3', 'ошибка в отчете для правления', '1349308800', '1350420713', 'Сергей,\n\nты сделал ошибку в отчете для Правления, а я ее проустил. Опять получил сегодня выговор от Денежной. Исправь немедленно и пришли мне новую версию отчета.\n\nФедоров А.', '0', null, 'MS70', '0');
+INSERT INTO `mail_box` VALUES ('35882', '1', '997', '1', '4', '1', 'По ценовой политике', '1349222400', '1350554517', 'Добрый день! \n\nЯ немного с опережением сделала работу по ценовой политике (вчера выдался свободный вечер). Мне кажется, что я отразила все мысли, которые мы обсуждали на установочной встрече. Будет время в отпуске - посмотрите. \n\nС уважением, Марина Крутько  \nАналитик Отдела аналитики', '0', null, 'MY1', '632');
+INSERT INTO `mail_box` VALUES ('35883', '2', '997', '1', '11', '1', 'Форма отчетности для производства', '1349222400', '1350554517', 'Доброго вам времени суток! \nПроизводственный отдел просит вас рассмотреть возможность внесения изменеий в текущую форму отчетности по объемам производства и производственным мощностям. На текущий момент в отчетности не достает развернутого анализа остатков на всех наших складах, включая торговые. Это приводит к тому, что мы периодически производим товар, который уже есть в регионах. Логисты говорят, что вполне могли бы обеспечить перебросу товара из одного региона в другой. Таким образом, нам удалось бы сэкономить на производственных издержках без снижения объемов продаж. Прошу вас оценить сроки, тродоемкость и наличие возможности добавить в производственный отчет данные по складским остаткам.\nЗаранее благодарю, Бобр В.,  \nНач. производственного отдела.', '0', null, 'MY2', '662');
+INSERT INTO `mail_box` VALUES ('35884', '3', '997', '1', '13', '1', 'Новая система мотивации', '1348790400', '1350554517', 'Коллеги, добрый день!        \nПосле нескольких продуктивных совещаний с вами (отдельное спасибо Федорову А. за регулярное участие!) мы подготовили итоговую версию системы мотивации для менеджеров первого и второго уровня. Мы планируем вводить ее в действие с начала 02 года (именно она и будет забюджетирована). Ждем ваших окончательных комментариев и корректировок. Если не участвуете в обсуждении - потом не сетуйте на то, что система была принята без вашего весомого голоса! Благодарю за оперативность! \nС наилучшими пожеланиями, Людовкина С.', '0', null, 'MY3', '1125');
+INSERT INTO `mail_box` VALUES ('35885', '4', '997', '1', '18', '1', 'Трудовой договор', '1349049600', '1350554517', 'Коллеги! В связи с изменениями трудового законодательства юридический отдел вынужден внести в трудовой договор, действующий в данный момент в компании как основной, ряд корректив. Просим вас ознакомиться с ними и донести до своих сотрудников, что с 01 января 02 года будет запущена кампания по подписанию такого варианта трудового договора со всеми актуальными и вновь пришедшими сотрудниками компании. Просим отнестить к этой работе со всей ответственностью и должным вниманием. \nС уважением, Адвокатов Ю.', '0', null, 'MY4', '990');
+INSERT INTO `mail_box` VALUES ('35886', '5', '997', null, '9', '1', 'срочно! Отчетность', '1349308800', '1350554517', 'Добрый день, коллеги! \nЯ, как всегда, по срочному вопросу. Ни у кого ведь нет сомнений, что продажи крайне важны для компании?! Судя по тому, как у нас работает аналитически отдел - этот приоритет ему не ясен. Дело в том, что у нас регулярно запаздвает отчетность, я так работать не могу - данные приходят тогда, когдя я уже все продала, и планировать поздно. Таким образом, я и мои люди постоянно действуем вслепую!  И это по трем тысячам клиентов!  Какие у вас есть мнения, что с этим делать. ', '0', null, 'M1', '930');
+INSERT INTO `mail_box` VALUES ('35887', '6', '997', null, '9', '1', 'срочно! Требования клиентов', '1349308800', '1350554517', 'Без комментариев - читайте сами!  Прошу ответ срочно!\nДиректор по продажам Скоробей А.М.     \n\nFwd:\n Уважаемая Алевтина Михайловна! Несколько раз обращался к вашим менеджерам, но воз и ныне там.  Нам очень не удобно работать с вашим текущим прайс-листом! Формат, выбранный вами, не позволяет закачивать цены автоматически и все приходится вбивать вручную. Это серьезно замедляет приемку товара и постановку его в продажи! Хочу отметить, что у всех ваших конкурентов прайс-листы сделаны современым способом и не требуют от нас таких трудозатрат. \n\nПрошу вас решить эту проблему как можно скорее, иначе со следующего месяца нам придется выставлять вам счет за работу людей, вбивающих ваши цены в нашу систему. \n\nС уважением, Горбатюк Е.Д. \nДиректор ООО \"Луч\"', '0', null, 'M2', '845');
+INSERT INTO `mail_box` VALUES ('35888', '7', '997', null, '13', '1', 'твои аналитики', '1349308800', '1350554517', 'Алексей! \nЯ засекла всех твоих аналитиков на ресурсе по поиску работы. Даже новенького. Ну он еще пока может и не снимал своего объявления - ждет окончания испытательного срока, но вот другие… Что ты с ними делаешь? Бьешь что-ли? Тебе надо с ними поговорить. Я тебе трех аналитиков за 2 дня не найду!  \nВсего доброго, Людовкина С.', '0', null, 'M3', '810');
+INSERT INTO `mail_box` VALUES ('35889', '8', '997', null, '8', '1', 'предложения', '1349308800', '1350554517', 'Привет, Леша! У нас началась подготовка к годовой стратегической сессии. Ты вечно не доволен форматом нашей презентации, которую заполняют все подразделения для отчета и планов. Шли свои предложения заранее, чтобы ничего не переделывать в пожарном режиме. Удачи, Олег', '0', null, 'M4', '721');
+INSERT INTO `mail_box` VALUES ('35890', '9', '997', null, '16', '37', 'график отпусков срочно!', '1349308800', '1350554517', 'Срочно! Подготовить и переслать график отпусков на следующий год. Кто не шлет - в отпуск не идет!  \nОтдел кадров.', '0', null, 'M5', '770');
+INSERT INTO `mail_box` VALUES ('35891', '10', '997', '1', '7', '37', 'консультанты и новый проект', '1349308800', '1350554517', 'Внимание! Важно!\n \nУ нас начали работу консультанты по стратегии. Проект большой и важный, требует участия каждого! Просьба всем, как можно скорее, согласовать свои встречи с консультантами! \n\nЭто просьба Генерального Директора. \n\nС уважением, ассистент ГД Долгова Н.Т.', '0', null, 'M6', '662');
+INSERT INTO `mail_box` VALUES ('35892', '11', '997', '1', '14', '37', 'пришлите срочно пожелания!', '1349308800', '1350554517', 'Коллеги! \nТретий раз прошу всех переслать свои пожелания по закупке офисной мебели и планы по ремонту, я из-за вас не могу бюджет сдать нормальный. Всем, кто уже прислал - спасибо! Жду до конца сегодняшнего дня.  \nС уваженим, Хозин.', '0', null, 'M7', '700');
+INSERT INTO `mail_box` VALUES ('35893', '12', '997', '1', '10', '1', '!проблема с сервером!', '1349308800', '1350554517', 'Алексей, срочный вопрос! \n\nМы протестировали ваш сервер на предмет восстановления и ап-грейда. Ребята возились с ним почти неделю, к сожалению, восстановлению и ремонту он не подлежит! Нужно менять срочно! \n\nВ нашем бюджете денег на смену сервера не предусмотрено. Я так понимаю, ты тоже такого форс-мажора не предвидел?!\n\nПиши служебку на деньги. Надо ХХ тыс. на ЕХ5 сервер (менее мощный покупать бессмысслено). \n\nПротянешь - будем разгребать проблемы с потерей информации. Мне ваши объемы информации хранить негде. \n\nВсего, Семен', '0', null, 'M8', '661');
+INSERT INTO `mail_box` VALUES ('35894', '13', '997', null, '4', '1', 'Презентация для ГД_рабочая версия', '1349308800', '1350554517', 'Добрый день! \n\nПересылаю пока сырую презентацию для ГД.  Что делать дальше мне ясно. Устраивает ли вас структура? Все данные для ее заполнения у меня готовы. Постараюсь завершить работу к 15.30. \n\nС уважением, Марина Крутько \nАналитик Отдела аналитики.', '0', null, 'M9', '0');
+INSERT INTO `mail_box` VALUES ('35895', '14', '997', null, '4', '1', 'Презентация для ГД_итог', '1349308800', '1350554517', 'Алексей, пересылаю итоговую версию презентации для ГД. Я бы еще поработала над оформлением, но суть уже закончена и можно показывать. Жду обратной связи. С уважением, Марина Крутько Аналитик Отдела аналитики.', '0', null, 'M10', '930');
+INSERT INTO `mail_box` VALUES ('35896', '15', '997', null, '4', '1', 'Презентация для ГД_драфт версия', '1349308800', '1350554517', 'Отправляю все, что есть. Версия черновая. \n\nС уважением, Марина Крутько Аналитик Отдела аналитики.', '0', null, 'M11', '0');
+INSERT INTO `mail_box` VALUES ('35897', '16', '997', null, '2', '1', 'Звонок нач.производства Бобра В.', '1349308800', '1350554517', 'Прошу не отвлекать меня от работы по вопросам, относящимся к твоей зоне ответственности.  Спроси у меня еще как цифры в excel поменять! \nДенежная Р.Р.', '0', null, 'M12', '0');
+INSERT INTO `mail_box` VALUES ('35898', '17', '997', null, '12', '1', 're: бюджет от логистики', '1349308800', '1350554517', 'Привет, Алексей! Проверяю. Как будет готов - перешлю. \nУдачи, Трудякин', '0', null, 'M31', '0');
+INSERT INTO `mail_box` VALUES ('35899', '18', '997', null, '12', '1', 're:re:re: бюджет от логистики', '1349308800', '1350554517', 'Прекрати отвлекать от работы! \nТрудякин.', '0', null, 'M33', '0');
+INSERT INTO `mail_box` VALUES ('35900', '19', '997', null, '12', '1', 'бюджет логистики', '1349308800', '1350554517', 'Алексей! Пересылаю бюджет логистики на 02 год. \nС уважением, Трудякин.', '0', null, 'M34', '0');
+INSERT INTO `mail_box` VALUES ('35901', '20', '997', null, '12', '1', 'форма по задаче от логистики, срочно!', '1349308800', '1350554517', 'Алексей, прикрепляю форму для выгрузки данных. \nСделайте точно в этом разрезе по прошедшим девяти месяцам 01 года. \nСпасибо за помощь! \nТрудякин.', '0', null, 'M41', '0');
+INSERT INTO `mail_box` VALUES ('35902', '21', '997', null, '3', '12', 'выгрузка для логистов', '1349308800', '1350554517', 'Добрый день! Заполнил вашу форму. Есть ли вопросы? \nВсего доброго, Трутнев С.', '0', null, 'M43', '0');
+INSERT INTO `mail_box` VALUES ('35903', '22', '997', null, '3', '1', 'выгрузка для логистов', '1349308800', '1350554517', 'Вот, сделал. Смотрите. \nС уваженим, Трутнев С.', '0', null, 'M44', '0');
+INSERT INTO `mail_box` VALUES ('35904', '23', '997', '1', '25', '1', 'данные по рынку, срочно нужна помощь!', '1349308800', '1350554517', 'Привет, Алексей! \n\nУ меня просьба, срочная! \nПришли, пожалуйста, данные по динамике рынка за 00 - 01 год (рост объемов продаж). Даже если вы исследований не делаете, то у вас процентов 50% всего рынка представлено в закупках. Легко можно экстраполировать на весь рынок. \n\nБез этих данных я не могу проверить корректность нашего бюджета. У меня на все осталось пять дней. \n\nОчень нужно, не подведи! \n\nЗаранее благодарю, Иван Доброхотов \nНач.отдела аналитики ОАО \"Терминал\"', '0', null, 'M47', '675');
+INSERT INTO `mail_box` VALUES ('35905', '24', '997', null, '11', '1', 'новый бюджет по производству', '1349308800', '1350554517', 'Уважаемый Алексей! \nПриношу извинения еще раз! Как я сказал по телефону, здесь нет нашей прямой вины. Очень постараемся не допускать такого в будущем году. Прошу Вас рассмотреть и включить новую версию в сводный бюджет. \nС глубочайшим уважением, Бобр В.', '0', null, 'M56', '905');
+INSERT INTO `mail_box` VALUES ('35906', '25', '997', null, '19', '1', 'обновление информации', '1349308800', '1350554517', 'Коллеги!         \nПросим всех сотрудников обновить информацию о номерах своих пенсионных свидетельтв. Часть из вас не сдала свидетельства еще с прошлого года!\nОбращаем ваше внимание, что следующая зп не будет начислена, если данные не будут представлены или обновлены.  \nБухгалтерия.\n', '0', null, 'M60', '961');
+INSERT INTO `mail_box` VALUES ('35907', '26', '997', null, '24', '1', 're:обновление информации', '1349308800', '1350554517', 'Уважаемая бухгалтерия!  \nЯ передал вам информацию дважды, и вы все время ее теряете! Больше давать данные не стану - это дело принципа! Каждый должен выполнять свою работу: моя работа - заниматься производством, ваша - хранить данные!\nСерков А.Т.', '0', null, 'M61', '1005');
+INSERT INTO `mail_box` VALUES ('35908', '27', '997', null, '19', '1', 're:re:обновление информации', '1349308800', '1350554517', 'Уважаемый Г-н Серков! \nВаши данные у нас есть. Можете не предоставлять. Однако не все в офисе столь же сознательные и ответственные. А данные ваша были утрачены не по вине бухгалтерии, а по причине отвратительно организованного переезда в новый офис. \nБухгалтерия.', '0', null, 'M62', '1023');
+INSERT INTO `mail_box` VALUES ('35909', '28', '997', null, '14', '1', 're:re:re:обновление информации', '1349308800', '1350554517', 'Уважаемая бухгалтерия! \nДавайте не поднимать давно забытый скандал! Вы же даже сами тогда извинялись за свои необоснованные претензии. Для того, чтобы сохранить важные данные, их надо складывать в отведенные для этого места! \nНач.АХО, Хозин.', '0', null, 'M63', '1037');
+INSERT INTO `mail_box` VALUES ('35910', '29', '997', null, '29', '1', 'есть лишний билет ', '1349308800', '1350554517', 'Леша, здорово!\nЕсть лишний билет на матч Лиги чемпионов Спартак-Барселона в сектор С. Поедешь с нами? Давно не виделись. Ответь срочно! \nОлег \n', '0', null, 'M64', '970');
+INSERT INTO `mail_box` VALUES ('35911', '30', '997', null, '17', '1', 'вакцинация! ', '1349308800', '1350554517', 'Уважаемые коллеги, \nв понедельник в офисе будет проведена вакцинация. Время вакцинации вашего отдела с 10 до 12 в большой переговорной. Стоимость вакцинации включена в вашу страховку. Всем, кто не пройдет вакцинацию, больничный оплачиваться не будет.  \nОтдел персонала ', '0', null, 'M65', '1043');
+INSERT INTO `mail_box` VALUES ('35912', '31', '997', null, '17', '1', 'новый сотрудник ', '1349308800', '1350554517', 'Уважаемые коллеги, \nк нашей компании присоединился новый сотрудник - - главный экономист - Сергей Иванович. Сергей Иванович работал в компании “LTD” более 10 лет. Прошу вас найти время и встретиться с ним, чтобы познакомиться и помочь войти в курс дела. \nОтдел  персонала', '0', null, 'M66', '903');
+INSERT INTO `mail_box` VALUES ('35913', '32', '997', null, '30', '1', 'ДР отца', '1349308800', '1350554517', 'Леха, привет, братан!  Ты не забыл, что отцу 60 в конце этого месяца? Надо придумать подарок и организовать ресторан. Ты дернешь в отпуск - а я все буду делать один? Так не пойдет! Подарок я куплю, а ресторан бери на себя! Нам надо разместить человек двадцать, лучше без музыки и рядом с домом родителей - чтобы пешком. Найдешь - пиши адрес, я всех приглашу, так уж и быть!  \nСерый. \nP.S.Как думаешь, дядю Андрея приглашать? Он же брат, только вот они с отцом не очень...', '0', null, 'M67', '977');
+INSERT INTO `mail_box` VALUES ('35914', '33', '997', null, '19', '1', 'срок действия карты', '1349308800', '1350554517', 'Коллеги,  просим вас проверить дату истечения ваших кредитных карт. Сообщите нам, если ваша карта истекает в этом месяце, чтобы мы могли во время заняться перевыпуском. Напоминаем, если данные от вас не поступают, мы считаем, что ваша карта не нуждается в перевыпуске! \nБухгалтерия', '0', null, 'M68', '1005');
+INSERT INTO `mail_box` VALUES ('35915', '34', '997', null, '31', '1', 'вакансия ', '1349308800', '1350554517', 'Алексей, приветствую.\n\nМы не знакомы лично. Ваш адрес мне дал наш общий знакомый с самыми лучшими рекомендациями вашего профессионализма.\n \nЯ руковожу фирмой “Легкий полет”, мы ищем опытного аналитика и менеджера для нашего планового отдела из 5 человек. \n\nБыло бы вам интересно обсудить возможность другой работы? \n\nС уважением,\nСтепанов Сергей ', '0', null, 'M69', '1068');
+INSERT INTO `mail_box` VALUES ('35916', '35', '997', null, '32', '1', 'встреча выпускников в эту пятницу ', '1349308800', '1350554517', 'Дорогие мои, \nнадо чаще встречаться, как говорится в слогане известного пива. В эту пятницу будет 5 лет со дня нашего выпуска. Вы, конечно, все очень серьезные и занятые люди, но отказать мне не имеете права. Жду всех (я имею в виду всех, и тебя Леша, и тебя Ксюша) в 19.00 в Парке Культуры возле Бурана. Я подготовла для вас сюрприз. \nТолько немного намекну... “Он капитан, и родина его Марсель...” Помните?! \nВсех целую,\nваша вечная староста, \nМарина ', '0', null, 'M70', '955');
+INSERT INTO `mail_box` VALUES ('35917', '36', '997', null, '13', '1', 'короткая просьба', '1349308800', '1350554517', 'Алексей, \nперешли мне. плз., описание позиции \"Аналитик\", по которому мы Лошадкина искали. Что-то не могу его у себя в компе найти, удалила что-ли...\nНадеюсь, за твой отпуск продвинемся и к твоему возвращению будет у тебя несколько кандидатов на встречу. Время сейчас хорошее.\nУдачи,\nЛюдовкина С.', '0', null, 'M71', '783');
+INSERT INTO `mail_box` VALUES ('35918', '37', '997', null, '15', '1', 'отчет срочно!', '1349308800', '1350554517', 'Алексей, добрый день! \n\nМы проводим комплексный анализ работы подразделения в регионе С. В том числе нас интересует складской остаток на 01 число каждого месяца за весь текущий год. \n\nОгромная просьба подготовить этот отчет в ближайшие дни. Моя командировка закончится в понедельник, а мне еще надо провести инвентаризацию на базе данных, которые будут в этом отчете.\n\nСпасибо за помощь,\nАндрей Точных\nНач.службы внутреннего аудита', '0', null, 'M72', '843');
+INSERT INTO `mail_box` VALUES ('35919', '38', '997', '1', '20', '1', 'обучение регионального аналитика', '1349308800', '1350554517', 'Алексей, приветствую!\nЯ взял на работу регионального аналитика, как мы и договаривались. Надеюсь, что теперь у нас будут значительно быстрее проводится все операции. Вы мне обещали его натаскать и задать корпоративный стандарт работы. Он весь ваш!\nС уважением,\nКаменский В.П.\nИсполнительный директор регионального подразделения Д', '0', null, 'M73', '695');
+INSERT INTO `mail_box` VALUES ('35920', '39', '997', null, '23', '1', 'запрос Крутько', '1349308800', '1350554517', 'Добрый день,\n\nВаша сотрудница М.Крутько прислана нам запрос на закупку нескольких фото файлов. Говорит, что нужны для презентации. Мы так не работаем. Нам нужен запрос от руководителя отдела и вообще-то это оформляется через служебку. Вы подтверждаете, что ей нужны файлы?\n\nОтдел рекламы и оформления\nПетрашевич И.', '0', null, 'M74', '900');
+INSERT INTO `mail_box` VALUES ('35921', '40', '997', null, '12', '1', 'адрес клиента', '1349308800', '1350554517', 'Алексей,\nа дай-ка мне адресок какого-нибудь положительного клиента. Хочу ему пару вопросов задач, чтобы представить весь объем моих работ по проекту.\n\nСпасибо,\nТрудякин', '0', null, 'M75', '1037');
+INSERT INTO `mail_box` VALUES ('35922', '41', '997', null, '22', '1', 'привет', '1349308800', '1350554517', 'Алексей, привет!\nТы меня спрашивал несколько дней назад когда я смогу тебе показать работу аналитической надстройки, что прислали наши подрядчики. Могу сегодня. Тебе в 4-5 дня подойдет?\n\nМягков Юра', '0', null, 'M76', '743');
+INSERT INTO `mail_box` VALUES ('35923', '42', '997', null, '33', '1', 'по вашей заявке', '1349308800', '1350554517', 'Уважаемый Алексей!\n\nВы направляли в адрес нашей конференции заявку на участие в роли спикера. \n\nЗаявленная вами тема показалась оргкомитету актуальной и заслуживающей внимания.\n\nПросим вас подготовить тезисы вашего выступления и переслать их в наш адрес не позднее 30 октября.\n\nБлагодарим за ваше участие, \nОрганизационный комитет конференции \"Аналитика и бизнес\"\nИванова О.И.', '0', null, 'M77', '828');
+INSERT INTO `mail_box` VALUES ('35924', '43', '997', '3', '1', '2', 'Отчет для Правления', '1349222400', '1350554517', 'Раиса Романовна, добрый вечер!\n\nВо вложении файл с отчетом для Правления. Дайте знать, пожалуйста, есть ли замечания, постараюсь внести коррективы к дате встречи Правления. \n\nС уважением,\nФедоров А.', '0', null, 'MSY10', '980');
+INSERT INTO `mail_box` VALUES ('35925', '44', '997', null, '1', '2', 'Отчет для Правления - исправленный', '1349308800', '1350554517', 'Раиса Романовна, \n\nВо вложении скорректированный файл с отчетом для Правления.  \n\nС уважением,\nФедоров А.', '0', null, 'MS10', '0');
+INSERT INTO `mail_box` VALUES ('35926', '45', '997', null, '1', '2', 'служебная записка по серверу. Срочно!', '1349308800', '1350554517', 'Служебная записка', '0', null, 'MS20', '0');
+INSERT INTO `mail_box` VALUES ('35927', '46', '997', null, '1', '4', 'Сводный бюджет', '1349308800', '1350554517', 'Марина,\n\nво вложении - файл Сводного бюджета. Как мы и говорили, задача срочная. У нас есть всего три часа. Будут вопросы - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS21', '0');
+INSERT INTO `mail_box` VALUES ('35928', '47', '997', null, '1', '3', 'Сводный бюджет', '1349308800', '1350554517', 'Сергей,\n\nво вложении - файл Сводного бюджета. Как мы и говорили, задача срочная. У нас есть всего три часа. Будут вопросы - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS22', '0');
+INSERT INTO `mail_box` VALUES ('35929', '48', '997', null, '1', '3', 'Методика формирования сводного бюджета', '1349308800', '1350554517', 'Сергей,\n\nво вложении - Методика формирования сводного бюджета. Думаю, она поможет ответить на все твои вопросы. Если что не понятно - обращайся!\n\nС уважением,\nА.Федоров', '0', null, 'MS23', '0');
+INSERT INTO `mail_box` VALUES ('35930', '49', '997', null, '1', '6', 'Презентация на выставку', '1349308800', '1350554517', 'Уважаемый Валерий Семенович,\n\nво вложении - Презентация на выставку. \n\nГотов ответить на Ваши вопросы и дать комментарии!\n\nС уважением,\nА.Федоров', '0', null, 'MS25', '0');
+INSERT INTO `mail_box` VALUES ('35931', '50', '997', null, '1', '3', 'Fwd: Проблема с сервером!', '1349308800', '1350554517', 'Сергей! \nПрочти сообщение ниже и срочно подготовь служебку на получение денег для сервера на имя Денежной. \n\nС уважением,\nФедоров А.\n\n', '0', null, 'MS27', '0');
+INSERT INTO `mail_box` VALUES ('35932', '51', '997', null, '1', '11', 'бюджет производства прошлого года', '1349308800', '1350554517', 'Уважаемый Василий,\n\nя нашел для вас последнюю итоговую версию бюджета производства прошлого года. Она во вложении.\n\nВсего доброго,\nФедоров А.', '0', null, 'MS28', '0');
+INSERT INTO `mail_box` VALUES ('35933', '52', '997', null, '1', '3', 'задача: бюджет производства прошлого года', '1349308800', '1350554517', 'Сергей,\n\nпрошу тебя найти последнюю итоговую версию бюджета производства на 01 год и переслать ее Начальнику производственного отдела  Василию Бобру. Поставь меня в копию, пожалуйста.\n\nС уважением,\nФедоров А.', '0', null, 'MS29', '0');
+INSERT INTO `mail_box` VALUES ('35934', '53', '997', null, '1', '12', 'бюджет логистики', '1349308800', '1350554517', 'Егор, приветствую!\n\nНесмотря на прошедший срок сдачи, так и не получил от вас бюджет логистики на 02 год. Надеюсь, что ты понимаешь, что отсутствие вашего бюджета задерживает весь процесс бюджетирования и формирования сводного. От меня требуется подготовить и сдать сводный бюджет в течение трех часов. Срочно жду от тебя бюджет логистики! \n\nС уважением,\nФедоров А.', '0', null, 'MS30', '0');
+INSERT INTO `mail_box` VALUES ('35935', '54', '997', null, '1', '12', 're:re: бюджет от логистики', '1349308800', '1350554517', 'Егор, \n\nвсе возможные сроки реакции на мою просьбу уже прошли! Я требую немедленно предоставить бюджет логистики или мне придется информировать Генерального директора о несоблюдении регламента. \n\nС уважением,\nФедоров А.', '0', null, 'MS32', '0');
+INSERT INTO `mail_box` VALUES ('35936', '55', '997', null, '1', '2', 'Сводный бюджет', '1349308800', '1350554517', 'Вот сводный бюджет. Файл прикреплен', '0', null, 'MS35', '0');
+INSERT INTO `mail_box` VALUES ('35937', '56', '997', null, '1', '2', 'Сводный бюджет: итоговые корректировки', '1349308800', '1350554517', 'Вот новый сводный бюджет. Изменения следующие….Файл прикреплен', '0', null, 'MS36', '0');
+INSERT INTO `mail_box` VALUES ('35938', '57', '997', null, '1', '4', 're: преза для ГД, наброски', '1349308800', '1350554517', 'Марина,\n\nя посмотрел наброски к презентации. Все в порядке, продолжай! Жду итоговый вариант к 15.30.\n\nС уважением,\nФедоров А.', '0', null, 'MS57', '0');
+INSERT INTO `mail_box` VALUES ('35939', '58', '997', null, '1', '4', 're: Преза для ГД, итог', '1349308800', '1350554517', 'хорошо, продолжай, о результатах встречи расскажу', '0', null, 'MS37', '0');
+INSERT INTO `mail_box` VALUES ('35940', '59', '997', null, '1', '4', 'итог встречи по презентации для ГД', '1349308800', '1350554517', 'все хорошо, Босс доволен, ты - молодец', '0', null, 'MS38', '0');
+INSERT INTO `mail_box` VALUES ('35941', '60', '997', null, '1', '4', 'Презентация для ГД: распечатать', '1349308800', '1350554517', 'Распечатай столько-то к такому-то числу, в цвете. ', '0', null, 'MS39', '0');
+INSERT INTO `mail_box` VALUES ('35942', '61', '997', null, '1', '3', 'Задача отдела логистики', '1349308800', '1350554517', 'Сергей,\n\nнесколько дней назад логисты просили сделать для них выгрузку. Мы обсуждали с тобой эту задачу и сроки ее исполнения. Сегодня - срок сдачи работы. Перешли мне то, что у тебя получилось в ближайшие тридцать минут, пожалуйста. \n\nС уважением,\nФедоров А.', '0', null, 'MS58', '0');
+INSERT INTO `mail_box` VALUES ('35943', '62', '997', null, '1', '3', 'Fwd: форма по задаче от логистики, срочно!', '1349308800', '1350554517', 'Логисты хотят получить данные в приложенной форме. За последние 9 месяцев. Сделай срочно! Думаю, что пару часов тебе хватит. Вложен пример формы.', '0', null, 'MS42', '0');
+INSERT INTO `mail_box` VALUES ('35944', '63', '997', null, '1', '12', 're: форма по задаче от логистики, срочно!', '1349308800', '1350554517', 'Егор,\n\nво вложении - форма о твоему запросу. \n\nМы сделали срочно, как ты и просил.\n\nСообщи, пожалуйста, все ли вас устраивает и не осталось ли вопросов по этому заданию.\n\nС уважением,\nФедоров А.', '0', null, 'MS45', '0');
+INSERT INTO `mail_box` VALUES ('35945', '64', '997', null, '1', '3', 'Fwd: данные по рынку, срочно нужна помощь!', '1349308800', '1350554517', 'По задаче ТЕ3.2 Подготовь отчет по данным от наших клиентов - по всему рынку. В нем должно быть отражено…..  И отправь Ивану Доброхотову - я в копии.', '0', null, 'MS46', '0');
+INSERT INTO `mail_box` VALUES ('35946', '65', '997', null, '1', '2', 'Динамика производственных затрат', '1349308800', '1350554517', 'По задаче ТRC6 (o доле производственных затрат). Должен написать точно тему, хорошо струткурировать письмо. Сдлеть эту работу срочно после звонка.', '0', null, 'MS48', '0');
+INSERT INTO `mail_box` VALUES ('35947', '66', '997', null, '1', '9', 'Бюджетирование в дирекции продаж', '1349308800', '1350554517', 'Давайте встретимся. У меня есть информация по процессу вашего бюджета. Есть что обсудить.ИЛИ  Разговаривал с вашим нач.отдела продаж региона А. Он рассказал о вашей системе планирования. Это безобразие! Это не верный метод. Вы таким образом ставите под угрозу бюджет всей компании. Дайте мне слово, что все поменяете, иначе я буду жаловаться ФД!', '0', null, 'MS49', '0');
+INSERT INTO `mail_box` VALUES ('35948', '67', '997', null, '1', '2', 'Жалоба', '1349308800', '1350554517', 'Жалоба на ОК. Эти козлы время не согласовывают, а потом меня еще пугают!', '0', null, 'MS50', '0');
+INSERT INTO `mail_box` VALUES ('35949', '68', '997', null, '1', '7', 'Данные по распечатке презентаций', '1349308800', '1350554517', 'Наталья Тимофеевна,\n\nБосс просил уточнить у вас следующую информацию относительно его презентации на выставке:\n1. Сколько копий нам надо распечатать.\n2. Кому передать распечатанные копии.\n3. Когда они должны быть переданы.\n\nСпасибо за информацию,\nФедоров А.', '0', null, 'MS51', '0');
+INSERT INTO `mail_box` VALUES ('35950', '69', '997', null, '1', '3', 'Отчет по 3 кварталу', '1349308800', '1350554517', 'Стандартная работа по подготовке отчета по 3 кв. Начинай с продаж. К моему возвращению отчет должен быть у меня на проверку.', '0', null, 'MS54', '0');
+INSERT INTO `mail_box` VALUES ('35951', '70', '997', null, '1', '39', 'Приглашение: новая система премирования', '1349308800', '1350554517', 'Коллеги,\n\nзавтра, в 12.00, приглашаю вас в мой кабинет для презентации новой системы премирования на 4 квартал.\n\nС уважением,\nФедоров А.', '0', null, 'MS55', '0');
+INSERT INTO `mail_box` VALUES ('35952', '71', '997', null, '1', '9', 're:срочно! Отчетность', '1349308800', '1350554517', 'ответить всем и предложить встретиться для обсуждения этого вопроса, в неправильной версии - разъяснения, что аналитика понимает важность продаж, что отчетность сейчас собирается долго т.к. Не автоматизирован процесс сбора данных с клиентов, а мы этим сейчас занимаемся...', '0', null, 'MS40', '0');
+INSERT INTO `mail_box` VALUES ('35953', '72', '997', null, '1', '9', 're:срочно! Требования клиентов', '1349308800', '1350554517', 'предложить директору по продажам выяснить у других клиентов - так ли это у всех, если да, то выносить на общее обсуждение с участием наших ИТ-ков', '0', null, 'MS52', '0');
+INSERT INTO `mail_box` VALUES ('35954', '73', '997', null, '1', '2', 'план на завтра', '1349308800', '1350554517', 'Раиса Романовна\n\nПрикрепляю мой план на завтра. Завтра я должен уйти в 16.00, как я уже говорил вам ранее.\n\nС уважением,\nФедоров А.', '0', null, 'MS53', '0');
+INSERT INTO `mail_box` VALUES ('35955', '74', '997', null, '1', '39', 'Fwd: вакцинация! ', '1349308800', '1350554517', 'Коллеги, вам нужно пройти вакцинацию в понедельник. Запланируйте в своих календарях, пожалуйста.\n\nС уваженим,\nФедоров А.\n', '0', null, 'MS65', '0');
+INSERT INTO `mail_box` VALUES ('35956', '75', '997', null, '1', '15', 're: отчет срочно!', '1349308800', '1350554517', 'Аркадий, приветствую!\n\nОтчет сделаем. Данные будут у тебя завтра во второй половине дня.\n\nУдачи,\nФедоров А.', '0', null, 'MS66', '0');
+INSERT INTO `mail_box` VALUES ('35957', '76', '997', null, '1', '3', 'Fwd: отчет срочно!', '1349308800', '1350554517', 'Сергей, \n\nвключи это задание в свой план работ, пожалуйста. Тебе необходимо выгрузить складской остаток в регионе С на 01 число каждого месяца с января по октябрь этого года. \n\nПрошу выполнить задание до двух дня, чтобы я мог его посмотреть перед отправкой. \n\nСпасибо,\nФедоров А.', '0', null, 'MS67', '0');
+INSERT INTO `mail_box` VALUES ('35958', '77', '997', null, '1', '20', 're: обучение регионального аналитика', '1349308800', '1350554517', 'Добрый день, Виктор Петрович!\n\nОчень рад, что вы нашли аналитика!\n\nНепременно помогу вам с его обучением и адаптацией. Завтра с четрех я в отпуске, а потому, запланирую разговор с ним на первые дни недели после отпуска. ', '0', null, 'MS62', '0');
+INSERT INTO `mail_box` VALUES ('35959', '78', '997', null, '1', '13', 're: короткая просьба', '1349308800', '1350554517', 'Хорошо, лови.', '0', null, 'MS63', '0');
+INSERT INTO `mail_box` VALUES ('35960', '79', '997', null, '1', '23', 're: запрос Крутько', '1349308800', '1350554517', 'Да, сделайте. Подтверждаю.', '0', null, 'MS64', '0');
+INSERT INTO `mail_box` VALUES ('35961', '80', '997', null, '1', '12', 're: адрес клиента', '1349308800', '1350554517', 'Адрес ниже.', '0', null, 'MS60', '0');
+INSERT INTO `mail_box` VALUES ('35962', '81', '997', null, '1', '22', 're: привет', '1349308800', '1350554517', 'Привет, Юра! Сегодня и завтра, к сожалению, не могу. Давай запланируем после отпуска.', '0', null, 'MS61', '0');
+INSERT INTO `mail_box` VALUES ('35963', '82', '997', null, '1', '4', 'встреча с ГД по презентации', '1349308800', '1350554517', 'Марина,\n\nБосс сегодня встречаться не смог, а завтра он на выезде. Потому прошу тебя встретиться с ним в понедельник в 10.00 для пояснений по презентации. Презентацию ему я уже отправил.\n\nНе волнуйся, я уверен, что ты справишься.\n\nСпасибо,\nФедоров А.', '0', null, 'MS68', '0');
+INSERT INTO `mail_box` VALUES ('35964', '83', '997', null, '1', '12', 'квартальный план', '1349308800', '1350554517', 'Егор, во вложении моя версия квартального плана.\n\nС уважениям,\nФедоров А.', '0', null, 'MS69', '0');
+INSERT INTO `mail_box` VALUES ('35965', '84', '997', null, '1', '3', 'ошибка в отчете для правления', '1349308800', '1350554517', 'Сергей,\n\nты сделал ошибку в отчете для Правления, а я ее проустил. Опять получил сегодня выговор от Денежной. Исправь немедленно и пришли мне новую версию отчета.\n\nФедоров А.', '0', null, 'MS70', '0');
 
 -- ----------------------------
 -- Table structure for `mail_character_themes`
@@ -15877,7 +15919,7 @@ CREATE TABLE `mail_copies` (
   KEY `fk_mail_copies_receiver_id` (`receiver_id`),
   CONSTRAINT `fk_mail_copies_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_copies_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2641 DEFAULT CHARSET=utf8 COMMENT='Копии';
+) ENGINE=InnoDB AUTO_INCREMENT=2801 DEFAULT CHARSET=utf8 COMMENT='Копии';
 
 -- ----------------------------
 -- Records of mail_copies
@@ -15889,13 +15931,13 @@ INSERT INTO `mail_copies` VALUES ('1092', '14106', '2');
 INSERT INTO `mail_copies` VALUES ('1093', '14106', '11');
 INSERT INTO `mail_copies` VALUES ('1094', '14106', '12');
 INSERT INTO `mail_copies` VALUES ('1095', '14106', '10');
-INSERT INTO `mail_copies` VALUES ('2631', '33920', '2');
-INSERT INTO `mail_copies` VALUES ('2632', '33920', '11');
-INSERT INTO `mail_copies` VALUES ('2633', '33920', '12');
-INSERT INTO `mail_copies` VALUES ('2634', '33921', '2');
-INSERT INTO `mail_copies` VALUES ('2635', '33921', '11');
-INSERT INTO `mail_copies` VALUES ('2636', '33921', '12');
-INSERT INTO `mail_copies` VALUES ('2637', '33921', '10');
+INSERT INTO `mail_copies` VALUES ('2791', '35952', '2');
+INSERT INTO `mail_copies` VALUES ('2792', '35952', '11');
+INSERT INTO `mail_copies` VALUES ('2793', '35952', '12');
+INSERT INTO `mail_copies` VALUES ('2794', '35953', '2');
+INSERT INTO `mail_copies` VALUES ('2795', '35953', '11');
+INSERT INTO `mail_copies` VALUES ('2796', '35953', '12');
+INSERT INTO `mail_copies` VALUES ('2797', '35953', '10');
 
 -- ----------------------------
 -- Table structure for `mail_copies_template`
@@ -16273,7 +16315,7 @@ CREATE TABLE `mail_receivers` (
   KEY `fk_mail_receivers_receiver_id` (`receiver_id`),
   CONSTRAINT `fk_mail_receivers_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_mail_receivers_receiver_id` FOREIGN KEY (`receiver_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3719 DEFAULT CHARSET=utf8 COMMENT='Получатели писем';
+) ENGINE=InnoDB AUTO_INCREMENT=3943 DEFAULT CHARSET=utf8 COMMENT='Получатели писем';
 
 -- ----------------------------
 -- Records of mail_receivers
@@ -16291,14 +16333,14 @@ INSERT INTO `mail_receivers` VALUES ('1545', '14163', '5');
 INSERT INTO `mail_receivers` VALUES ('1546', '14163', '3');
 INSERT INTO `mail_receivers` VALUES ('1547', '14164', '6');
 INSERT INTO `mail_receivers` VALUES ('1548', '14165', '4');
-INSERT INTO `mail_receivers` VALUES ('3705', '33854', '1');
-INSERT INTO `mail_receivers` VALUES ('3706', '33854', '2');
-INSERT INTO `mail_receivers` VALUES ('3707', '33854', '11');
-INSERT INTO `mail_receivers` VALUES ('3708', '33854', '12');
-INSERT INTO `mail_receivers` VALUES ('3712', '33855', '1');
-INSERT INTO `mail_receivers` VALUES ('3713', '33855', '2');
-INSERT INTO `mail_receivers` VALUES ('3714', '33855', '11');
-INSERT INTO `mail_receivers` VALUES ('3715', '33855', '12');
+INSERT INTO `mail_receivers` VALUES ('3929', '35886', '1');
+INSERT INTO `mail_receivers` VALUES ('3930', '35886', '2');
+INSERT INTO `mail_receivers` VALUES ('3931', '35886', '11');
+INSERT INTO `mail_receivers` VALUES ('3932', '35886', '12');
+INSERT INTO `mail_receivers` VALUES ('3936', '35887', '1');
+INSERT INTO `mail_receivers` VALUES ('3937', '35887', '2');
+INSERT INTO `mail_receivers` VALUES ('3938', '35887', '11');
+INSERT INTO `mail_receivers` VALUES ('3939', '35887', '12');
 
 -- ----------------------------
 -- Table structure for `mail_receivers_template`
@@ -16338,13 +16380,13 @@ CREATE TABLE `mail_settings` (
   PRIMARY KEY (`id`),
   KEY `fk_mail_settings_sim_id` (`sim_id`),
   CONSTRAINT `fk_mail_settings_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=488 DEFAULT CHARSET=utf8 COMMENT='Настройки почты';
+) ENGINE=InnoDB AUTO_INCREMENT=504 DEFAULT CHARSET=utf8 COMMENT='Настройки почты';
 
 -- ----------------------------
 -- Records of mail_settings
 -- ----------------------------
 INSERT INTO `mail_settings` VALUES ('329', '823', '1');
-INSERT INTO `mail_settings` VALUES ('487', '981', '1');
+INSERT INTO `mail_settings` VALUES ('503', '997', '1');
 
 -- ----------------------------
 -- Table structure for `mail_tasks`
@@ -16709,7 +16751,7 @@ CREATE TABLE `my_documents` (
   KEY `fk_my_documents_template_id` (`template_id`),
   CONSTRAINT `fk_my_documents_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_my_documents_template_id` FOREIGN KEY (`template_id`) REFERENCES `my_documents_template` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=10980 DEFAULT CHARSET=utf8 COMMENT='Мои документы';
+) ENGINE=InnoDB AUTO_INCREMENT=11460 DEFAULT CHARSET=utf8 COMMENT='Мои документы';
 
 -- ----------------------------
 -- Records of my_documents
@@ -16740,30 +16782,30 @@ INSERT INTO `my_documents` VALUES ('6618', '823', '41', 'Преза ГД про�
 INSERT INTO `my_documents` VALUES ('6619', '823', '42', 'Бюджет 01 года.xls', '0');
 INSERT INTO `my_documents` VALUES ('6620', '823', '43', 'План-факт 01 года.xls', '0');
 INSERT INTO `my_documents` VALUES ('6621', '823', '44', 'Бюджет подразделения АО (нет денег на сервер) .xls', '0');
-INSERT INTO `my_documents` VALUES ('10950', '981', '26', 'Методика формирования сводного бюджета.doc', '0');
-INSERT INTO `my_documents` VALUES ('10951', '981', '32', 'Бюджет производства_01_итог.xls', '0');
-INSERT INTO `my_documents` VALUES ('10952', '981', '33', 'Сводный бюджет_02_v23.xls', '0');
-INSERT INTO `my_documents` VALUES ('10953', '981', '36', 'Описание позиции - Аналитик.doc', '0');
-INSERT INTO `my_documents` VALUES ('10954', '981', '38', 'Квартальный план_01_Q4.ppt', '0');
-INSERT INTO `my_documents` VALUES ('10955', '981', '39', 'Цели и показатели подразделения.ppt', '0');
-INSERT INTO `my_documents` VALUES ('10956', '981', '40', 'Орг_структура компании.ppt', '0');
-INSERT INTO `my_documents` VALUES ('10957', '981', '41', 'Презентация_ ГД_00_комментарии ГД.ppt', '0');
-INSERT INTO `my_documents` VALUES ('10958', '981', '42', 'Сводный бюджет_01_итог.xls', '0');
-INSERT INTO `my_documents` VALUES ('10965', '981', '19', 'Ценовая политика.xls', '1');
-INSERT INTO `my_documents` VALUES ('10966', '981', '22', 'Новая система мотивации.doc', '1');
-INSERT INTO `my_documents` VALUES ('10967', '981', '23', 'Трудовой договор.doc', '1');
-INSERT INTO `my_documents` VALUES ('10968', '981', '28', 'Презентация_ ГД_01_рабочая версия.ppt', '1');
-INSERT INTO `my_documents` VALUES ('10969', '981', '27', 'Презентация_ ГД_01_итог.ppt', '1');
-INSERT INTO `my_documents` VALUES ('10970', '981', '29', 'Презентация_ ГД_01_драфт версия.ppt', '1');
-INSERT INTO `my_documents` VALUES ('10971', '981', '31', 'Бюджет логистики_02_итог.xls', '1');
-INSERT INTO `my_documents` VALUES ('10972', '981', '24', 'Форма для выгрузки данных для логистов_чистая.xls', '1');
-INSERT INTO `my_documents` VALUES ('10973', '981', '25', 'Форма для выгрузки данных для логистов_заполненная.xls', '1');
-INSERT INTO `my_documents` VALUES ('10974', '981', '30', 'Бюджет производства_02_исправленный.xls', '1');
-INSERT INTO `my_documents` VALUES ('10975', '981', '20', 'ПиУ для Правления.xls', '1');
-INSERT INTO `my_documents` VALUES ('10976', '981', '21', 'Отчет о прибылях и убытках для Правления_исправленный.xls', '1');
-INSERT INTO `my_documents` VALUES ('10977', '981', '34', 'Сводный бюджет_1.xls', '1');
-INSERT INTO `my_documents` VALUES ('10978', '981', '35', 'Сводный бюджет_2.xls', '1');
-INSERT INTO `my_documents` VALUES ('10979', '981', '37', 'План на завтра.xls', '1');
+INSERT INTO `my_documents` VALUES ('11430', '997', '26', 'Методика формирования сводного бюджета.doc', '0');
+INSERT INTO `my_documents` VALUES ('11431', '997', '32', 'Бюджет производства_01_итог.xls', '0');
+INSERT INTO `my_documents` VALUES ('11432', '997', '33', 'Сводный бюджет_02_v23.xls', '0');
+INSERT INTO `my_documents` VALUES ('11433', '997', '36', 'Описание позиции - Аналитик.doc', '0');
+INSERT INTO `my_documents` VALUES ('11434', '997', '38', 'Квартальный план_01_Q4.ppt', '0');
+INSERT INTO `my_documents` VALUES ('11435', '997', '39', 'Цели и показатели подразделения.ppt', '0');
+INSERT INTO `my_documents` VALUES ('11436', '997', '40', 'Орг_структура компании.ppt', '0');
+INSERT INTO `my_documents` VALUES ('11437', '997', '41', 'Презентация_ ГД_00_комментарии ГД.ppt', '0');
+INSERT INTO `my_documents` VALUES ('11438', '997', '42', 'Сводный бюджет_01_итог.xls', '0');
+INSERT INTO `my_documents` VALUES ('11445', '997', '19', 'Ценовая политика.xls', '1');
+INSERT INTO `my_documents` VALUES ('11446', '997', '22', 'Новая система мотивации.doc', '1');
+INSERT INTO `my_documents` VALUES ('11447', '997', '23', 'Трудовой договор.doc', '1');
+INSERT INTO `my_documents` VALUES ('11448', '997', '28', 'Презентация_ ГД_01_рабочая версия.ppt', '1');
+INSERT INTO `my_documents` VALUES ('11449', '997', '27', 'Презентация_ ГД_01_итог.ppt', '1');
+INSERT INTO `my_documents` VALUES ('11450', '997', '29', 'Презентация_ ГД_01_драфт версия.ppt', '1');
+INSERT INTO `my_documents` VALUES ('11451', '997', '31', 'Бюджет логистики_02_итог.xls', '1');
+INSERT INTO `my_documents` VALUES ('11452', '997', '24', 'Форма для выгрузки данных для логистов_чистая.xls', '1');
+INSERT INTO `my_documents` VALUES ('11453', '997', '25', 'Форма для выгрузки данных для логистов_заполненная.xls', '1');
+INSERT INTO `my_documents` VALUES ('11454', '997', '30', 'Бюджет производства_02_исправленный.xls', '1');
+INSERT INTO `my_documents` VALUES ('11455', '997', '20', 'ПиУ для Правления.xls', '1');
+INSERT INTO `my_documents` VALUES ('11456', '997', '21', 'Отчет о прибылях и убытках для Правления_исправленный.xls', '1');
+INSERT INTO `my_documents` VALUES ('11457', '997', '34', 'Сводный бюджет_1.xls', '1');
+INSERT INTO `my_documents` VALUES ('11458', '997', '35', 'Сводный бюджет_2.xls', '1');
+INSERT INTO `my_documents` VALUES ('11459', '997', '37', 'План на завтра.xls', '1');
 
 -- ----------------------------
 -- Table structure for `my_documents_template`
@@ -16828,11 +16870,13 @@ CREATE TABLE `phone_calls` (
   CONSTRAINT `fk_phone_calls_from_id` FOREIGN KEY (`from_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_phone_calls_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_phone_calls_to_id` FOREIGN KEY (`to_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COMMENT='История звонков';
+) ENGINE=InnoDB AUTO_INCREMENT=154 DEFAULT CHARSET=utf8 COMMENT='История звонков';
 
 -- ----------------------------
 -- Records of phone_calls
 -- ----------------------------
+INSERT INTO `phone_calls` VALUES ('152', '997', '1350554977', '2', '36', '1');
+INSERT INTO `phone_calls` VALUES ('153', '997', '1350555433', '2', '2', '1');
 
 -- ----------------------------
 -- Table structure for `simulations`
@@ -16849,13 +16893,13 @@ CREATE TABLE `simulations` (
   PRIMARY KEY (`id`),
   KEY `fk_simulations_user_id` (`user_id`),
   CONSTRAINT `fk_simulations_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=982 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=998 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of simulations
 -- ----------------------------
 INSERT INTO `simulations` VALUES ('823', '2', '1', '1348608179', '0', '1', null);
-INSERT INTO `simulations` VALUES ('981', '1', '1', '1350416223', '0', '1', '2');
+INSERT INTO `simulations` VALUES ('997', '1', '1', '1350554499', '0', '1', '1');
 
 -- ----------------------------
 -- Table structure for `simulations_dialogs_durations`
@@ -16868,7 +16912,7 @@ CREATE TABLE `simulations_dialogs_durations` (
   PRIMARY KEY (`id`),
   KEY `fk_simulations_dialogs_durations_sim_id` (`sim_id`),
   CONSTRAINT `fk_simulations_dialogs_durations_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of simulations_dialogs_durations
@@ -16893,7 +16937,7 @@ CREATE TABLE `simulations_dialogs_points` (
   KEY `fk_simulations_dialogs_points_point_id` (`point_id`),
   CONSTRAINT `fk_simulations_dialogs_points_point_id` FOREIGN KEY (`point_id`) REFERENCES `characters_points_titles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_simulations_dialogs_points_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of simulations_dialogs_points
@@ -16948,31 +16992,31 @@ CREATE TABLE `simulation_flags` (
   PRIMARY KEY (`id`),
   KEY `fk_simulation_flags_sim_id` (`sim_id`),
   CONSTRAINT `fk_simulation_flags_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1402 DEFAULT CHARSET=utf8 COMMENT='флаги симуляции';
+) ENGINE=InnoDB AUTO_INCREMENT=1722 DEFAULT CHARSET=utf8 COMMENT='флаги симуляции';
 
 -- ----------------------------
 -- Records of simulation_flags
 -- ----------------------------
-INSERT INTO `simulation_flags` VALUES ('1382', '981', 'F1', '0');
-INSERT INTO `simulation_flags` VALUES ('1383', '981', 'F2', '0');
-INSERT INTO `simulation_flags` VALUES ('1384', '981', 'F3', '0');
-INSERT INTO `simulation_flags` VALUES ('1385', '981', 'F4', '0');
-INSERT INTO `simulation_flags` VALUES ('1386', '981', 'F5', '0');
-INSERT INTO `simulation_flags` VALUES ('1387', '981', 'F6', '0');
-INSERT INTO `simulation_flags` VALUES ('1388', '981', 'F7', '0');
-INSERT INTO `simulation_flags` VALUES ('1389', '981', 'F8', '0');
-INSERT INTO `simulation_flags` VALUES ('1390', '981', 'F9', '0');
-INSERT INTO `simulation_flags` VALUES ('1391', '981', 'F10', '0');
-INSERT INTO `simulation_flags` VALUES ('1392', '981', 'F11', '0');
-INSERT INTO `simulation_flags` VALUES ('1393', '981', 'F12', '0');
-INSERT INTO `simulation_flags` VALUES ('1394', '981', 'F13', '0');
-INSERT INTO `simulation_flags` VALUES ('1395', '981', 'F14', '0');
-INSERT INTO `simulation_flags` VALUES ('1396', '981', 'F15', '0');
-INSERT INTO `simulation_flags` VALUES ('1397', '981', 'F16', '0');
-INSERT INTO `simulation_flags` VALUES ('1398', '981', 'F17', '0');
-INSERT INTO `simulation_flags` VALUES ('1399', '981', 'F18', '0');
-INSERT INTO `simulation_flags` VALUES ('1400', '981', 'F19', '0');
-INSERT INTO `simulation_flags` VALUES ('1401', '981', 'F20', '0');
+INSERT INTO `simulation_flags` VALUES ('1702', '997', 'F1', '0');
+INSERT INTO `simulation_flags` VALUES ('1703', '997', 'F2', '0');
+INSERT INTO `simulation_flags` VALUES ('1704', '997', 'F3', '0');
+INSERT INTO `simulation_flags` VALUES ('1705', '997', 'F4', '0');
+INSERT INTO `simulation_flags` VALUES ('1706', '997', 'F5', '0');
+INSERT INTO `simulation_flags` VALUES ('1707', '997', 'F6', '0');
+INSERT INTO `simulation_flags` VALUES ('1708', '997', 'F7', '0');
+INSERT INTO `simulation_flags` VALUES ('1709', '997', 'F8', '0');
+INSERT INTO `simulation_flags` VALUES ('1710', '997', 'F9', '0');
+INSERT INTO `simulation_flags` VALUES ('1711', '997', 'F10', '0');
+INSERT INTO `simulation_flags` VALUES ('1712', '997', 'F11', '0');
+INSERT INTO `simulation_flags` VALUES ('1713', '997', 'F12', '0');
+INSERT INTO `simulation_flags` VALUES ('1714', '997', 'F13', '0');
+INSERT INTO `simulation_flags` VALUES ('1715', '997', 'F14', '0');
+INSERT INTO `simulation_flags` VALUES ('1716', '997', 'F15', '0');
+INSERT INTO `simulation_flags` VALUES ('1717', '997', 'F16', '0');
+INSERT INTO `simulation_flags` VALUES ('1718', '997', 'F17', '0');
+INSERT INTO `simulation_flags` VALUES ('1719', '997', 'F18', '0');
+INSERT INTO `simulation_flags` VALUES ('1720', '997', 'F19', '0');
+INSERT INTO `simulation_flags` VALUES ('1721', '997', 'F20', '0');
 
 -- ----------------------------
 -- Table structure for `tasks`
@@ -17050,7 +17094,7 @@ CREATE TABLE `todo` (
   KEY `fk_todo_task_id` (`task_id`),
   CONSTRAINT `fk_todo_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_todo_task_id` FOREIGN KEY (`task_id`) REFERENCES `tasks` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11412 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11734 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of todo
@@ -17073,30 +17117,24 @@ INSERT INTO `todo` VALUES ('8512', '823', '15', null);
 INSERT INTO `todo` VALUES ('8513', '823', '16', null);
 INSERT INTO `todo` VALUES ('8514', '823', '18', null);
 INSERT INTO `todo` VALUES ('8515', '823', '19', null);
-INSERT INTO `todo` VALUES ('11388', '981', '1', '1350420711');
-INSERT INTO `todo` VALUES ('11389', '981', '2', '1350420711');
-INSERT INTO `todo` VALUES ('11390', '981', '3', '1350420711');
-INSERT INTO `todo` VALUES ('11391', '981', '4', '1350420712');
-INSERT INTO `todo` VALUES ('11392', '981', '5', '1350420712');
-INSERT INTO `todo` VALUES ('11393', '981', '6', '1350420712');
-INSERT INTO `todo` VALUES ('11394', '981', '7', '1350420712');
-INSERT INTO `todo` VALUES ('11395', '981', '8', '1350420712');
-INSERT INTO `todo` VALUES ('11396', '981', '9', '1350420712');
-INSERT INTO `todo` VALUES ('11397', '981', '10', '1350420712');
-INSERT INTO `todo` VALUES ('11398', '981', '11', '1350420712');
-INSERT INTO `todo` VALUES ('11399', '981', '12', '1350420712');
-INSERT INTO `todo` VALUES ('11400', '981', '13', '1350420712');
-INSERT INTO `todo` VALUES ('11401', '981', '14', '1350420712');
-INSERT INTO `todo` VALUES ('11402', '981', '15', '1350420712');
-INSERT INTO `todo` VALUES ('11403', '981', '16', '1350420712');
-INSERT INTO `todo` VALUES ('11404', '981', '18', '1350420713');
-INSERT INTO `todo` VALUES ('11405', '981', '19', '1350420713');
-INSERT INTO `todo` VALUES ('11406', '981', '30', '1350420737');
-INSERT INTO `todo` VALUES ('11407', '981', '31', '1350420738');
-INSERT INTO `todo` VALUES ('11408', '981', '21', '1350420741');
-INSERT INTO `todo` VALUES ('11409', '981', '20', '1350420741');
-INSERT INTO `todo` VALUES ('11410', '981', '22', '1350420741');
-INSERT INTO `todo` VALUES ('11411', '981', '23', '1350420742');
+INSERT INTO `todo` VALUES ('11716', '997', '1', '1350554516');
+INSERT INTO `todo` VALUES ('11717', '997', '2', '1350554516');
+INSERT INTO `todo` VALUES ('11718', '997', '3', '1350554516');
+INSERT INTO `todo` VALUES ('11719', '997', '4', '1350554516');
+INSERT INTO `todo` VALUES ('11720', '997', '5', '1350554516');
+INSERT INTO `todo` VALUES ('11721', '997', '6', '1350554516');
+INSERT INTO `todo` VALUES ('11722', '997', '7', '1350554516');
+INSERT INTO `todo` VALUES ('11723', '997', '8', '1350554516');
+INSERT INTO `todo` VALUES ('11724', '997', '9', '1350554516');
+INSERT INTO `todo` VALUES ('11725', '997', '10', '1350554516');
+INSERT INTO `todo` VALUES ('11726', '997', '11', '1350554516');
+INSERT INTO `todo` VALUES ('11727', '997', '12', '1350554516');
+INSERT INTO `todo` VALUES ('11728', '997', '13', '1350554517');
+INSERT INTO `todo` VALUES ('11729', '997', '14', '1350554517');
+INSERT INTO `todo` VALUES ('11730', '997', '15', '1350554517');
+INSERT INTO `todo` VALUES ('11731', '997', '16', '1350554517');
+INSERT INTO `todo` VALUES ('11732', '997', '18', '1350554517');
+INSERT INTO `todo` VALUES ('11733', '997', '19', '1350554517');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -17108,7 +17146,7 @@ CREATE TABLE `users` (
   `email` varchar(50) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
@@ -17116,7 +17154,13 @@ CREATE TABLE `users` (
 INSERT INTO `users` VALUES ('1', '202cb962ac59075b964b07152d234b70', 'asd', '1');
 INSERT INTO `users` VALUES ('2', '202cb962ac59075b964b07152d234b70', 'dorian', '1');
 INSERT INTO `users` VALUES ('3', '202cb962ac59075b964b07152d234b70', 'tony_acm@ukr.net', '1');
-INSERT INTO `users` VALUES ('4', 'c20ad4d76fe97759aa27a0c99bff6710', 'mpak.rip@gmail.com', '1');
+INSERT INTO `users` VALUES ('5', '0e169a21c8c70b6ef485a28c77cb5631', 'vika.marquez@gmail.com', '0');
+INSERT INTO `users` VALUES ('6', 'b959d09adbc2d9f4cc5ac5105b82a3df', 'a.levina@gmail.com', '1');
+INSERT INTO `users` VALUES ('8', '098f6bcd4621d373cade4e832627b4f6', 'andrey@kostenko.name', '1');
+INSERT INTO `users` VALUES ('9', '202cb962ac59075b964b07152d234b70', 'doriangray@ukr.net', '1');
+INSERT INTO `users` VALUES ('10', '098f6bcd4621d373cade4e832627b4f6', 'andrey1@kostenko.name', '1');
+INSERT INTO `users` VALUES ('11', '202cb962ac59075b964b07152d234b70', 'tony_perfectus@mail.ru', '1');
+INSERT INTO `users` VALUES ('12', '202cb962ac59075b964b07152d234b70', 'tonypr1982@gmail.com', '1');
 
 -- ----------------------------
 -- Table structure for `users_activation_code`
@@ -17129,12 +17173,19 @@ CREATE TABLE `users_activation_code` (
   PRIMARY KEY (`id`),
   KEY `fk_users_activation_code_uid` (`uid`),
   CONSTRAINT `fk_users_activation_code_uid` FOREIGN KEY (`uid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_activation_code
 -- ----------------------------
 INSERT INTO `users_activation_code` VALUES ('1', '2', '4ac1e5bef49efd642fac8325790561d7');
+INSERT INTO `users_activation_code` VALUES ('2', '5', '19db70951611a9a1b465fbdd775c51ff');
+INSERT INTO `users_activation_code` VALUES ('3', '6', 'fb578af11eb4d5bcfe088a940c49c48a');
+INSERT INTO `users_activation_code` VALUES ('5', '8', '4ff19622c68af3d0590590f7bc400cc7');
+INSERT INTO `users_activation_code` VALUES ('6', '9', '807579f9481f0f56c14aac28dcb44f06');
+INSERT INTO `users_activation_code` VALUES ('7', '10', '1d7301f605cb1c602599eb715e77ee05');
+INSERT INTO `users_activation_code` VALUES ('8', '11', 'aa22bc8497e3f3a4fca9578659ce7be6');
+INSERT INTO `users_activation_code` VALUES ('9', '12', '8224d287b72b04bc20853ad60c59d7fe');
 
 -- ----------------------------
 -- Table structure for `users_sessions`
@@ -17148,12 +17199,12 @@ CREATE TABLE `users_sessions` (
   PRIMARY KEY (`id`),
   KEY `fk_users_sessions_user_id` (`user_id`),
   CONSTRAINT `fk_users_sessions_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1057 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1076 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users_sessions
 -- ----------------------------
-INSERT INTO `users_sessions` VALUES ('1056', '1', '98e5fd258d392777e826ee9e067edf7a', '1350420691');
+INSERT INTO `users_sessions` VALUES ('1075', '1', '253cedbf46e3a2af1c22930c8ff49b59', '1350554497');
 
 -- ----------------------------
 -- Table structure for `user_groups`
@@ -17168,18 +17219,20 @@ CREATE TABLE `user_groups` (
   KEY `fk_user_groups_gid` (`gid`),
   CONSTRAINT `fk_user_groups_gid` FOREIGN KEY (`gid`) REFERENCES `groups` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_user_groups_uid` FOREIGN KEY (`uid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='Группы пользователей';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Группы пользователей';
 
 -- ----------------------------
 -- Records of user_groups
 -- ----------------------------
 INSERT INTO `user_groups` VALUES ('1', '1', '2');
 INSERT INTO `user_groups` VALUES ('2', '3', '2');
-INSERT INTO `user_groups` VALUES ('3', '4', '2');
 INSERT INTO `user_groups` VALUES ('4', '1', '1');
 INSERT INTO `user_groups` VALUES ('5', '2', '1');
 INSERT INTO `user_groups` VALUES ('6', '3', '1');
-INSERT INTO `user_groups` VALUES ('7', '4', '1');
+INSERT INTO `user_groups` VALUES ('8', '9', '1');
+INSERT INTO `user_groups` VALUES ('9', '10', '1');
+INSERT INTO `user_groups` VALUES ('10', '11', '1');
+INSERT INTO `user_groups` VALUES ('11', '12', '1');
 
 -- ----------------------------
 -- Table structure for `viewer_template`
