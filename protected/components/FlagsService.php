@@ -74,8 +74,8 @@ class FlagsService {
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }    
-        
-        $result = array();
+       
+
         $result['ruleExists']       = true;
         $result['recId']            = $ruleModel->rec_id;
         $result['stepNumber']       = $ruleModel->step_number;
@@ -128,7 +128,7 @@ class FlagsService {
         
         Logger::debug("flag info : ".var_export($flagInfo, true));
         
-        if ($flagInfo['ruleExists'] === false) return true; // нет правил
+        if ($flagInfo['ruleExists'] === false) return false; // нет правил
         
         
         if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
