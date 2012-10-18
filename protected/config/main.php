@@ -1,6 +1,6 @@
 <?php
 
-define('SKILIKS_SPEED_FACTOR', 30);
+define('SKILIKS_SPEED_FACTOR', 8);
 
 return array(
     'import'=>array(
