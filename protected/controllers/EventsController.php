@@ -124,7 +124,7 @@ class EventsController extends AjaxController{
             foreach($dialogs as $dialog) {
                 Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
                 
-                if (FlagsService::skipReplica($dialog, $simulation->id)) continue;  // если реплика не проходи по флагам
+                if (FlagsService::skipReplica($dialog, $simulation->id)) break;  // если реплика не проходи по флагам
                 
                 // Если у нас реплика к герою
                 if ($dialog->replica_number == 0) {
