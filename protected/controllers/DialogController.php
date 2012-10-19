@@ -107,7 +107,7 @@ class DialogController extends AjaxController{
             if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
                 // смотрим а не является ли следующее событие у нас диалогом
                 if (EventService::isDialog($currentDialog->next_event_code)) {
-                    
+                    Logger::debug("get dialog for replica {$currentDialog->next_event_code}");
                     // сразу же отдадим реплики по этому событию - моментально
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
@@ -150,14 +150,22 @@ class DialogController extends AjaxController{
             // теперь подчистим список
             $resultList = $data;
             foreach ($data as $dialogId => $dialog) {
-                //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
+                Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
                 $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
-                //Logger::debug("flag info : ".var_export($flagInfo, true));
-                if ($flagInfo['ruleExists']) {  // у нас есть такое правило
+                Logger::debug("flag info : ".var_export($flagInfo, true));
+                if ($flagInfo['ruleExists']===true) {  // у нас есть такое правило
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
                         // правило не выполняется для определнной записи - убьем ее
                         if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
                         continue;
+                    }
+                    else {
+                        // правило выполняется но нужно удалить ненужную реплику
+                        foreach($resultList as $key=>$val) {
+                            if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
+                                unset($resultList[$key]); break;
+                            }
+                        }
                     }
                     
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
@@ -196,6 +204,7 @@ class DialogController extends AjaxController{
                 }
             }
             
+            Logger::debug("data : ".var_export($data, true));
             
             $result['events'][] = array(
                 'result' => 1,
