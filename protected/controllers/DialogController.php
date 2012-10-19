@@ -150,9 +150,17 @@ class DialogController extends AjaxController{
             // теперь подчистим список
             $resultList = $data;
             foreach ($data as $dialogId => $dialog) {
+                
                 Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
                 $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
                 Logger::debug("flag info : ".var_export($flagInfo, true));
+                
+                if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
+                    // нечего чистиить все выполняется
+                    break;
+                }
+                
+                
                 if ($flagInfo['ruleExists']===true) {  // у нас есть такое правило
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
                         // правило не выполняется для определнной записи - убьем ее
