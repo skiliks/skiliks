@@ -139,6 +139,14 @@ class EventsController extends AjaxController{
                         if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
                         continue;
                     }
+                    else {
+                        // правило выполняется но нужно удалить ненужную реплику
+                        foreach($resultList as $key=>$val) {
+                            if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
+                                unset($resultList[$key]); break;
+                            }
+                        }
+                    }
                     
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
                         //у нас не выполняется все событие полностью
