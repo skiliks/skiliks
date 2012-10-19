@@ -132,6 +132,12 @@ class EventsController extends AjaxController{
             foreach ($data as $dialogId => $dialog) {
                 //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
                 $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
+                
+                if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
+                    // нечего чистиить все выполняется
+                    break;
+                }
+                
                 //Logger::debug("flag info : ".var_export($flagInfo, true));
                 if ($flagInfo['ruleExists']) {  // у нас есть такое правило
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
