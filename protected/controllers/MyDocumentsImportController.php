@@ -27,13 +27,13 @@ class MyDocumentsImportController extends AjaxController{
                 echo('all done'); die();
             }
             
-            $code       = $row[0];
-            $type       = $row[1];
-            $fileName   = iconv("Windows-1251", "UTF-8", $row[2]);
-            $srcFile    = $row[3];
-            $format     = $row[4];
+            $code       = $row[0]; // A
+            $type       = $row[1]; // B
+            $fileName   = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            $srcFile    = iconv("Windows-1251", "UTF-8", $row[3]); // D
+            $format     = $row[4]; // E
             
-            if ($type == '-') continue;
+            //if ($type == '-') continue;
             
             $document = MyDocumentsTemplateModel::model()->byCode($code)->find();
             if (!$document) {

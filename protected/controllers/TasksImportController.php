@@ -42,16 +42,20 @@ class TasksImportController extends AjaxController{
             $category   = $row[4];
             $duration   = $row[5];
             
-            $task = new Tasks();
+            $task = Tasks::model()->byCode($code)->find();
+            if (!$task) {
+                $task = new Tasks();
+                $task->code = $code;
+            }
+            
             $task->title = $name;
             $task->start_time = $startTime;
             $task->duration = $duration;
             if ($startTime > 0) $task->type = 2;
             else $task->type = 1;
-            $task->code = $code;
             $task->start_type = $startType;
             $task->category = $category;
-            $task->insert();
+            $task->save();
         }
         fclose($handle);
         echo("Done");
