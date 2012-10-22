@@ -56,6 +56,24 @@ class MyDocumentsService {
         return $document->template_id;
     }
     
+    public static function getFileIdByTemplateId($simId, $templateId) {
+        $document = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId($templateId)->find();
+        if (!$document) return false;
+        return $document->id;
+    }
+    
+    /**
+     * Определение айди документа по его коду
+     * @param string $code
+     * @return int
+     */
+    public static function getTemplateIdByCode($code) {
+        $document = MyDocumentsTemplateModel::model()->byCode($code)->find();
+        
+        if (!$document) return false;
+        return $document->id;
+    }
+    
     public static function getAllCodes() {
         $documents = MyDocumentsTemplateModel::model()->findAll();
         

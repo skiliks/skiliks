@@ -38,6 +38,14 @@ class SimulationsExcelPoints extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function byFormula($formulaId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "formula_id = {$formulaId}"
+        ));
+        return $this;
+    }
 }
 
 ?>
