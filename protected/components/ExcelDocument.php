@@ -87,6 +87,12 @@ final class ExcelDocument {
         return $this->getWorksheet($worksheetId);
     }
     
+    public function activateWorksheetByName($name) {
+        $worksheetId = (int)$this->getWorksheetIdByName($name);
+        if ($worksheetId == 0) throw new Exception("cant get worksheet by name : $name");
+        return $this->loadWorksheet($worksheetId);
+    }
+    
     public function getWorksheetIdByName($name) {
         if (isset($this->_worksheetMap[$name])) return $this->_worksheetMap[$name];
         return false;
