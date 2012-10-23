@@ -115,7 +115,9 @@ class DialogController extends AjaxController{
                     }
                 }
                 else {
+                    Logger::debug("try to process Entities for : {$currentDialog->next_event_code}");
                     $res = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
+                    Logger::debug("res : ".var_export($res, true));
                     if ($res) {
                         // убьем такое событие чтобы оно не произошло позже
                         EventService::deleteByCode($currentDialog->next_event_code, $simId);

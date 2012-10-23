@@ -45,11 +45,24 @@ class EventService {
     public static function addByCode($code, $simId, $eventTime = false) {
         if ( ($code == '') || ($code == '-') ) return false;
         
-        Logger::debug("add event : code {$code} time : {$eventTime}");
+        
         // проверить есть ли событие по такому коду и если есть то создать его
         $event = EventsSamples::model()->byCode($code)->find();
         if ($event) {
+            // попробуем вытащить delay из диалога
+            if ($eventTime) {
+                $dialog = DialogService::getByCode($code);
+                if ($dialog) {
+                    if ($dialog->duration > 0) {
+                        $eventTime+=$dialog->duration;
+                    }
+                }
+            }
+            
+            
             if (!$eventTime) $eventTime = $event->trigger_time;
+            
+            Logger::debug("add event : code {$code} time : {$eventTime}");
             
             // проверим а есть ли такой триггер
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();

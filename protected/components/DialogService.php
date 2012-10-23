@@ -12,10 +12,21 @@ class DialogService {
     /**
      * Получение модели диалога
      * @param int $dialogId
-     * @return object
+     * @return Dialogs
      */
     public static function get($dialogId) {
         $dialog = Dialogs::model()->byId($dialogId)->find();
+        if (!$dialog) throw new Exception('Не могу загрузить модель диалога', 7);
+        return $dialog;    
+    }
+    
+    /**
+     * Загрузить диалог по коду
+     * @param string $code
+     * @return Dialogs
+     */
+    public static function getByCode($code) {
+        $dialog = Dialogs::model()->byCode($code)->find();
         if (!$dialog) throw new Exception('Не могу загрузить модель диалога', 7);
         return $dialog;    
     }
