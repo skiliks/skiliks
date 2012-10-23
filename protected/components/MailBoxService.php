@@ -145,7 +145,7 @@ class MailBoxService {
                 //'message' => $message->message,
                 'sendingDate' => DateHelper::toString($message->sending_date + $message->sending_time*60),
                 'sendingDateInt' => $message->sending_date,
-                'receivingDate' => DateHelper::toString($message->sending_date + $message->sending_time*60), //DateHelper::toString($message->receiving_date),
+                'receivingDate' => DateHelper::toString($message->sending_date), //DateHelper::toString($message->receiving_date),
                 'receivingDateInt' => $message->sending_date, //$message->receiving_date,
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
