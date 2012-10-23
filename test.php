@@ -9,14 +9,17 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 ini_set('date.timezone', 'Etc/GMT');
 
-$eventCode = 'P007';
+/*$eventCode = 'P007';
 $r = preg_match("/P(\d+)/", $eventCode);
 var_dump($r);
 die();
 
 
 $date = 1349222400 + 632*60;
-$date = 1349308800 + 828*60;
+$date = 1349308800 + 828*60;*/
+
+
+$date = 1350956881;
 echo date('d.m.Y G:i', $date);
 die();
 
