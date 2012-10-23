@@ -106,12 +106,15 @@ class SimulationController extends AjaxController{
                 if (EventService::isSendedMail($event->code)) continue;
                 if (EventService::isMessageYesterday($event->code)) continue;
                 
-                Logger::debug("create trigger : {$event->code}");
-                $eventsTriggers = new EventsTriggers();
-                $eventsTriggers->sim_id         = $simId;
-                $eventsTriggers->event_id       = $event->id;
-                $eventsTriggers->trigger_time   = $event->trigger_time; 
-                $eventsTriggers->save();
+                // событие создаем только если для него задано время
+                if ($event->trigger_time > 0) {
+                    Logger::debug("create trigger : {$event->code}");
+                    $eventsTriggers = new EventsTriggers();
+                    $eventsTriggers->sim_id         = $simId;
+                    $eventsTriggers->event_id       = $event->id;
+                    $eventsTriggers->trigger_time   = $event->trigger_time; 
+                    $eventsTriggers->save();
+                }
             }
 
             #######################

@@ -137,10 +137,10 @@ class DialogController extends AjaxController{
                     foreach($dialogs as $dialog) {
                         $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                         
-                        if ((int)$dialog->replica_number == 0) {
+                        /*if ((int)$dialog->replica_number == 0) {
                             Logger::debug("replica number 0 dialog : {$dialog->code} create event {$dialog->next_event_code}");
                             EventService::addByCode($dialog->next_event_code, $simId, $gameTime);
-                        }    
+                        }*/    
                     }
                 }
             }
@@ -189,11 +189,12 @@ class DialogController extends AjaxController{
             foreach($resultList as $index=>$dialog) {
                 // Если у нас реплика к герою
                 if ($dialog['replica_number'] == 0) {
-                    /*// События типа диалог мы не создаем
+                    // События типа диалог мы не создаем
                     if (!EventService::isDialog($dialog['next_event_code'])) {
                         // создадим событие
-                        EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
-                    }*/
+                        if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-')
+                            EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
+                    }
                 }
                 unset($resultList[$index]['step_number']);
                 unset($resultList[$index]['replica_number']);
