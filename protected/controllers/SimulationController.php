@@ -103,7 +103,8 @@ class SimulationController extends AjaxController{
                 
                 if (EventService::isPlan($event->code)) continue;
                 if (EventService::isDocument($event->code)) continue;
-                if (EventService::isAnyMail($event->code)) continue;
+                if (EventService::isSendedMail($event->code)) continue;
+                if (EventService::isMessageYesterday($event->code)) continue;
                 
                 Logger::debug("create trigger : {$event->code}");
                 $eventsTriggers = new EventsTriggers();

@@ -288,7 +288,13 @@ class EventService {
         return preg_match("/M(.*)/", $eventCode);
     }
     
+    public static function isSendedMail($eventCode) {
+        return preg_match("/MS(\d+)/", $eventCode);
+    }
     
+    public static function isMessageYesterday($eventCode) {
+        return preg_match("/MY(\d+)/", $eventCode);
+    }
 }
 
 ?>
