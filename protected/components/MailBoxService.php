@@ -442,7 +442,9 @@ class MailBoxService {
                 e.code , e.code REGEXP "^M[[:digit:]]+$"  as code2, m.sending_date_str, m.sending_time_str
             FROM `events_samples` as e  
             inner join mail_template as m on (m.code = e.code and m.sending_date=1349308800 and sending_time>0)
-            where e.code REGEXP "^M[[:digit:]]+$" =1 and e.trigger_time>0 order by sending_time_str';
+            where e.code REGEXP "^M[[:digit:]]+$" =1 
+            and e.trigger_time>0 
+            order by sending_time_str';
         $command = Yii::app()->db->createCommand($sql);
         $events = $command->queryAll();
         
