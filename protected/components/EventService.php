@@ -51,10 +51,12 @@ class EventService {
         if ($event) {
             // попробуем вытащить delay из диалога
             if ($eventTime) {
-                $dialog = DialogService::getByCode($code);
-                if ($dialog) {
-                    if ($dialog->duration > 0) {
-                        $eventTime+=$dialog->duration;
+                if (EventService::isDialog($code)) {
+                    $dialog = DialogService::getByCode($code);
+                    if ($dialog) {
+                        if ($dialog->duration > 0) {
+                            $eventTime+=$dialog->duration;
+                        }
                     }
                 }
             }

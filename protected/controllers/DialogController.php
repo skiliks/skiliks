@@ -188,6 +188,7 @@ class DialogController extends AjaxController{
             
             $data = array();
             // а теперь пройдемся по тем кто выжил и позапускаем события
+            Logger::debug("try to run events : ");
             foreach($resultList as $index=>$dialog) {
                 // Если у нас реплика к герою
                 if ($dialog['replica_number'] == 0) {
