@@ -116,7 +116,7 @@ class FlagsService {
      * @param int $simId 
      */
     public static function initDefaultValues($simId) {
-        for ($index = 1; $index <= 20; $index++) {
+        for ($index = 1; $index <= 22; $index++) {
             self::setFlag($simId, 'F'.$index, 0);
         }
     }
