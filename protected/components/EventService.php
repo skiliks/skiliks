@@ -142,6 +142,11 @@ class EventService {
             $type = 'P'; // задача в плане
         }
         
+        if (preg_match_all("/^T$/", $eventCode, $matches)) {
+            $code= $eventCode;
+            $type = 'T'; // окончательная реплика
+        }
+        
         if (!$code) return false; // у нас нет связанных сущностей
         
         $result = false;
@@ -205,6 +210,10 @@ class EventService {
             TodoService::add($simId, $task->id);
             
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
+        }
+        
+        if ($type == 'T') {
+            return array('result' => 1, 'eventType' => 1);
         }
         
         return $result;
