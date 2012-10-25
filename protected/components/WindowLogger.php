@@ -9,7 +9,7 @@
  */
 class WindowLogger {
     
-    public $screens = array(
+    public static $screens = array(
         'mainScreen', //0
         'dialogController', //1,
         'dayPlan', //:2,
