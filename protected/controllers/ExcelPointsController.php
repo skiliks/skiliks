@@ -18,24 +18,27 @@ class ExcelPointsController extends AjaxController{
         $formulaCollection = ExcelPointsFormulaModel::model()->findAll();
         $formulaList = array();
         foreach($formulaCollection as $formulaModel) {
-            $formulaList[$formulaModel->id] = $formulaModel->formula;
+            $formulaList[$formulaModel->id] = array('formula' => $formulaModel->formula, 'value'=>0);
         }
         
         $excelPoints = SimulationsExcelPoints::model()->bySimulation($simId)->findAll();
         $list = array();
         foreach($excelPoints as $excelPoint) {
+            
             if (!isset($formulaList[$excelPoint->formula_id])) continue;
             
-            $formula = $formulaList[$excelPoint->formula_id];
+            $formulaList[$excelPoint->formula_id]['value'] = $excelPoint->value;
+            
+            /*$formula = $formulaList[$excelPoint->formula_id]['formula'];
             $list[] = array(
                 'formula' => $formula,
                 'value' => $excelPoint->value
-            );
+            );*/
         }
         
         $result = array();
         $result['result'] = 1;
-        $result['data'] = $list;
+        $result['data'] = $formulaList;
 
         return $this->_sendResponse(200, CJSON::encode($result));
     }
