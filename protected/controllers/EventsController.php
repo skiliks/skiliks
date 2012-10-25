@@ -52,9 +52,11 @@ class EventsController extends AjaxController{
             $simId = $simulation->id;
             
             // данные для логирования
-            $logs = Yii::app()->request->getParam('logs', false);  
+            $logs = (array)Yii::app()->request->getParam('logs', false);  
             $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
             //[screensCode,screensActionsCode,time
+            // залогируем окна
+            WindowLogger::log($simId, $logs, $windowActive);
             
             
             
