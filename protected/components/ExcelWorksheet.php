@@ -137,6 +137,7 @@ class ExcelWorksheet {
         }
         
         Logger::debug("get cell $column $string");
+        if (!isset($this->_data[$column])) throw new Exception("Немогу найти ячейку $column $string");
         $cell = $this->_data[$column][$string];
         
         

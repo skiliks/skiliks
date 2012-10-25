@@ -82,7 +82,7 @@ class SimulationService {
         $pointsMap = array();
         
         Logger::debug("start excel check");
-        $formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
+        /**$formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
         $value = $excelFormula->parse($formula);
         if ($value == 13707993) {
             $points++;
@@ -91,8 +91,6 @@ class SimulationService {
         else {
             $pointsMap[1] = 0;
         }
-        
-        
         
         $formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(N8:Q8)-SUM(N15:Q15)';
         $value = $excelFormula->parse($formula);
@@ -122,7 +120,7 @@ class SimulationService {
         }
         else {
             $pointsMap[4] = 0;
-        }
+        }*/
         
         // новые 
         $document->activateWorksheetByName('Логистика');
@@ -131,10 +129,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 876264) {
             $points++;
-            $pointsMap[5] = 1;
+            $pointsMap[1] = 1;
         }
         else {
-            $pointsMap[5] = 0;
+            $pointsMap[1] = 0;
         }
         
         $document->activateWorksheetByName('Производство');
@@ -143,10 +141,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 876264) {
             $points++;
-            $pointsMap[6] = 1;
+            $pointsMap[2] = 1;
         }
         else {
-            $pointsMap[6] = 0;
+            $pointsMap[2] = 0;
         }
         
         $document->activateWorksheetByName('Сводный');
@@ -155,10 +153,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0) {
             $points++;
-            $pointsMap[7] = 1;
+            $pointsMap[3] = 1;
         }
         else {
-            $pointsMap[7] = 0;
+            $pointsMap[3] = 0;
         }
         
         $formula = '=SUM(R6:R7)+SUM(R10:R14)-SUM(B6:M7)-SUM(B10:M14)';
@@ -166,10 +164,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0) {
             $points++;
-            $pointsMap[8] = 1;
+            $pointsMap[4] = 1;
         }
         else {
-            $pointsMap[8] = 0;
+            $pointsMap[4] = 0;
         }
         
         $formula = '=SUM(N16:Q16)-(SUM(B8:M8)-SUM(B15:M15))';
@@ -177,10 +175,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0) {
             $points++;
-            $pointsMap[9] = 1;
+            $pointsMap[5] = 1;
         }
         else {
-            $pointsMap[9] = 0;
+            $pointsMap[5] = 0;
         }
         
         
@@ -189,10 +187,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0) {
             $points++;
-            $pointsMap[10] = 1;
+            $pointsMap[6] = 1;
         } 
         else {
-            $pointsMap[10] = 0;
+            $pointsMap[6] = 0;
         }
         
         $formula = '=R18';
@@ -200,10 +198,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0.597951) {
             $points++;
-            $pointsMap[11] = 1;
+            $pointsMap[7] = 1;
         }    
         else {
-            $pointsMap[11] = 0;
+            $pointsMap[7] = 0;
         }
         
         $formula = '=SUM(N19:Q19)';
@@ -211,10 +209,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 1.547943) {
             $points++;
-            $pointsMap[12] = 1;
+            $pointsMap[8] = 1;
         }    
         else {
-            $pointsMap[12] = 0;
+            $pointsMap[8] = 0;
         }
         
         
@@ -223,10 +221,10 @@ class SimulationService {
         //echo("value = $value <br/>");
         if ($value == 0.676173) {
             $points++;
-            $pointsMap[13] = 1;
+            $pointsMap[9] = 1;
         }        
         else {
-            $pointsMap[13] = 0;
+            $pointsMap[9] = 0;
         }
         
         foreach($pointsMap as $formulaId=>$point) {
