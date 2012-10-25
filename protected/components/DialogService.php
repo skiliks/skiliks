@@ -31,6 +31,20 @@ class DialogService {
         return $dialog;    
     }
     
+    public static function getFirstReplicaByCode($code) {
+        $dialog = Dialogs::model()->byCode($code)->byStepNumber(1)->byReplicaNumber(0)->find();
+        if (!$dialog) throw new Exception("Не могу загрузить модель диалога code : $code", 701);
+        return $dialog;    
+    }
+    
+    /**
+     * Проверяет есть ли событие с таким кодом
+     * @param type $code 
+     */
+    public static function existByCode($code) {
+        return (bool)self::getByCode($code);
+    }
+    
     /**
      * Переводит диалог в массив
      * @param type $dialog
