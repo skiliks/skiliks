@@ -35,8 +35,8 @@ class WindowLogger {
         Logger::debug("log : ".var_export($logs, true));
         
         foreach($logs as $index=>$log) {
-            $screenCode         = $log[0];
-            $screenActionsCode  = $log[1];
+            $screenCode         = (int)$log[0];
+            $screenActionsCode  = (int)$log[1];
             $time               = DateHelper::timeToTimstamp($log[2]);
             
             if ($screenActionsCode == 1) { // open
