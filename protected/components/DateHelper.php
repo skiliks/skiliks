@@ -29,6 +29,12 @@ class DateHelper {
         return array('h' => $clockH, 'm' => $clockM);
     }
     
+    public static function timestampTimeToString($unixtimeMins) {
+        $data = self::timestampTimeToArr($unixtimeMins);
+        return $data['h'].':'.$data['m'];
+    }
+
+
     /**
      * Преобразование времени в timestamp
      * @param string $time 12:24
