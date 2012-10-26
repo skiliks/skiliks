@@ -61,7 +61,7 @@ final class ExcelDocument {
             return $this->_worksheets[$worksheetId];
         }
         
-        Logger::debug("getWorksheet : load worksheet $worksheetId");
+        //Logger::debug("getWorksheet : load worksheet $worksheetId");
         // загружаем рабочий лист
         $worksheet = new ExcelWorksheet();
         $worksheet->load($worksheetId);
@@ -75,14 +75,14 @@ final class ExcelDocument {
     }
     
     public function getWorksheetByName($name) {
-        Logger::debug("map : ".var_export($this->_worksheetMap, true));    
+        //Logger::debug("map : ".var_export($this->_worksheetMap, true));    
         
         if (!isset($this->_worksheetMap[$name])) return false;
-        Logger::debug("getWorksheetByName : $name");    
+        //Logger::debug("getWorksheetByName : $name");    
         
-        Logger::debug("map : ".var_export($this->_worksheetMap, true));    
+        //Logger::debug("map : ".var_export($this->_worksheetMap, true));    
         $worksheetId = $this->_worksheetMap[$name];
-        Logger::debug("worksheetId : $worksheetId");    
+        //Logger::debug("worksheetId : $worksheetId");    
         
         return $this->getWorksheet($worksheetId);
     }
@@ -109,14 +109,14 @@ final class ExcelDocument {
      * @param type $documentId 
      */
     protected function _loadWorksheets($documentId) {
-        Logger::debug("_loadWorksheets $documentId");
+        //Logger::debug("_loadWorksheets $documentId");
         $worksheets = ExcelWorksheetModel::model()->byDocument($documentId)->findAll();
         //Logger::debug('list : '.var_export($worksheets));
         foreach($worksheets as $worksheet) {
             if (!$this->_defaultWorksheetId) $this->_defaultWorksheetId = $worksheet->id;
             $this->_worksheetMap[$worksheet->name] = $worksheet->id;
         }
-        Logger::debug('loaded _worksheetMap : '.var_export($this->_worksheetMap, true));
+        //Logger::debug('loaded _worksheetMap : '.var_export($this->_worksheetMap, true));
     }
     
     // deprecated!
@@ -128,7 +128,7 @@ final class ExcelDocument {
         $worksheetId = $this->_defaultWorksheetId;
         
 
-        Logger::debug('$worksheetId : '.var_export($worksheetId, true));
+        //Logger::debug('$worksheetId : '.var_export($worksheetId, true));
         
         // загружаем рабочий лист
         $this->_activeWorksheet = $worksheetId;
@@ -138,7 +138,7 @@ final class ExcelDocument {
         
         $this->_setWorksheet($worksheetId, $this->getWorksheet($worksheetId));
         $t = $profiler->endTimer();
-        Logger::debug("_loadWorksheetIfNeeded : $t");
+        //Logger::debug("_loadWorksheetIfNeeded : $t");
         
         return $this;
     }
@@ -194,15 +194,15 @@ final class ExcelDocument {
         
         $worksheetData = array();
         $cells = $worksheet->getCells();
-        Logger::debug('cells : '.var_export($cells, true));
+        //Logger::debug('cells : '.var_export($cells, true));
         
         $excelFormula = new ExcelFormula();
         $columnIndex = 1;
         foreach($cells as $column=>$strings) {
-            Logger::debug("column : $column");
+            //Logger::debug("column : $column");
             foreach($strings as $string=>$cell) {
                 $cell['columnIndex'] = $columnIndex;
-                Logger::debug("string : $string");
+                //Logger::debug("string : $string");
                 // обрабатываем формулы
                 if ($cell['formula'] != '') {
                     $value = $excelFormula->parse($cell['formula']);
@@ -227,7 +227,7 @@ final class ExcelDocument {
         $result['columns'] = count($cells);
         
         // вернуть информацию о ширине ячейки
-        Logger::debug("get ws cell width : {$worksheet->id}");
+        //Logger::debug("get ws cell width : {$worksheet->id}");
         $worksheetModel = ExcelWorksheetModel::model()->byId($worksheet->id)->find();
         $result['cellHeight'] = $worksheetModel->cellHeight;
         $result['cellWidth'] = $worksheetModel->cellWidth;

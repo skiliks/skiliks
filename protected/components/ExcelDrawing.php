@@ -18,19 +18,19 @@ class ExcelDrawing {
         $documentId = (int)ExcelDocumentService::getDocumentIdByWorksheetId($worksheetId);
         if ($documentId == 0) throw new Exception("немогу определить документ");
         
-        Logger::debug("actionDrawing");
+        //Logger::debug("actionDrawing");
         ExcelFactory::getDocument($documentId)->loadWorksheet($worksheetId);
         $worksheet = ExcelFactory::getDocument()->getWorksheet($worksheetId);
 
-        Logger::debug("target : $target");
+        //Logger::debug("target : $target");
         $targetInfo = $worksheet->explodeCellName($target);
-        Logger::debug("targetInfo : ".var_export($targetInfo, true));
+        //Logger::debug("targetInfo : ".var_export($targetInfo, true));
 
 
 
-        Logger::debug("get cell $column, $string");
+        //Logger::debug("get cell $column, $string");
         $cell = $worksheet->getCell($column, $string); 
-        Logger::debug("cell : ".var_export($cell, true));
+        //Logger::debug("cell : ".var_export($cell, true));
         if (!$cell) throw new Exception('cant find cell');
         if ($cell['formula'] == '') throw new Exception('no formula to apply');
 
@@ -40,10 +40,10 @@ class ExcelDrawing {
 
         $result = array();
         $result['result'] = 1;
-        Logger::debug("compare {$targetInfo['column']} with $column");
+        //Logger::debug("compare {$targetInfo['column']} with $column");
         if ($targetInfo['column'] == $column) {
-            Logger::debug("vertical drawing");
-            Logger::debug("formula : $formula");
+            //Logger::debug("vertical drawing");
+            //Logger::debug("formula : $formula");
 
             $step = 0;
             // вертикальное протягивание
@@ -51,7 +51,7 @@ class ExcelDrawing {
 
                 // выбираем переменные из формулы
                 $vars = $excelFormula->explodeFormulaVars($formula);
-                Logger::debug("vars : ".var_export($vars, true));
+                //Logger::debug("vars : ".var_export($vars, true));
 
                 $newFormula = $formula;
                 $newVars = array();
@@ -65,9 +65,9 @@ class ExcelDrawing {
                     //$newFormula = str_replace($varName, $cellInfo['column'].$cellString, $newFormula);
                 }
                 $step++;
-                Logger::debug("new vars : ".var_export($newVars, true));
+                //Logger::debug("new vars : ".var_export($newVars, true));
                 $newFormula = $excelFormula->replaceVars($formula, $newVars);
-                Logger::debug("newFormula : $newFormula");
+                //Logger::debug("newFormula : $newFormula");
 
                 $value = $excelFormula->parse($newFormula);
 
@@ -93,7 +93,7 @@ class ExcelDrawing {
             }
         }
         else {
-            Logger::debug("horizontal drawing");
+            //Logger::debug("horizontal drawing");
             // горизонтальное протягивание
             $columnFromIndex = $worksheet->getColumnIndex($column)+1;
             $columnToIndex = $worksheet->getColumnIndex($targetInfo['column']);
@@ -102,12 +102,12 @@ class ExcelDrawing {
             // выбираем переменные из формулы
 
             $vars = $excelFormula->explodeFormulaVars($formula);
-            Logger::debug("vars : ".var_export($vars, true));
+            //Logger::debug("vars : ".var_export($vars, true));
             // бежим по колонкам
             $inc = 1;
             for($i = $columnFromIndex; $i<=$columnToIndex; $i++) {
 
-                Logger::debug("process column $i");
+                //Logger::debug("process column $i");
                 //$vars = $this->_explodeFormulaVars($formula);
                 //$newFormula = $formula;
                 $newVars = array();
@@ -121,19 +121,19 @@ class ExcelDrawing {
 
                     $newVars[$varName] = $cellInfo['column'].$cellInfo['string'];
                 }
-                Logger::debug("new vars : ".var_export($newVars, true));
+                //Logger::debug("new vars : ".var_export($newVars, true));
 
-                Logger::debug("before replace : $formula");
+                //Logger::debug("before replace : $formula");
                 $newFormula = $excelFormula->replaceVars($formula, $newVars);
 
 
-                Logger::debug("newFormula = $newFormula");
+                //Logger::debug("newFormula = $newFormula");
 
-                Logger::debug("before _parseFormula $newFormula");
+                //Logger::debug("before _parseFormula $newFormula");
                 $value = $excelFormula->parse($newFormula);
                 //$value = $newFormula;
 
-                Logger::debug("value = $value");
+                //Logger::debug("value = $value");
                 $column = $worksheet->getColumnNameByIndex($i);
 
 
