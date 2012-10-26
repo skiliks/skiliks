@@ -9,6 +9,11 @@
  */
 class DateHelper {
     
+    /**
+     *
+     * @param int $date
+     * @return string
+     */
     public static function toString($date) {
         return date('d.m.Y G:i', $date);
     }
