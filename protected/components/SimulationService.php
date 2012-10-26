@@ -138,8 +138,9 @@ class SimulationService {
         $document->activateWorksheetByName('Производство');
         $formula = '=SUM(B6:M7)+SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
+        Logger::debug("$formula = $value");
         //echo("value = $value <br/>");
-        if ($value == 876264) {
+        if ((int)$value == 3303417) {
             $points++;
             $pointsMap[2] = 1;
         }
@@ -150,7 +151,7 @@ class SimulationService {
         $document->activateWorksheetByName('Сводный');
         $formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(B6:M7)-SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+        Logger::debug("$formula = $value");
         if ($value == 0) {
             $points++;
             $pointsMap[3] = 1;

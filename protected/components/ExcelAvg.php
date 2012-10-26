@@ -17,14 +17,14 @@ class ExcelAvg {
             if (!$cells) return $expr; // нечего парсить
         }
         
-        Logger::debug("avg cells : ".var_export($cells, true));
+        //Logger::debug("avg cells : ".var_export($cells, true));
         $values = array();
         foreach($cells as $cellName) {
             $value = ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($cellName);
             //if ($value >0) 
                 $values[] = $value;
         }
-        Logger::debug("avg values : ".var_export($values, true));
+        //Logger::debug("avg values : ".var_export($values, true));
         if (count($values)>0) {
             return Math::avg($values);
         }

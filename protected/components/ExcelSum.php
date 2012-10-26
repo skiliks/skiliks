@@ -16,7 +16,7 @@ class ExcelSum {
             $cells = ExcelRange::toArray($expr);
             if (!$cells) return $expr; // нечего парсить
         }
-        Logger::debug("range ".var_export($cells, true));
+        //Logger::debug("range ".var_export($cells, true));
         $values = array();
         foreach($cells as $cellName) {
             $value = ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($cellName);
