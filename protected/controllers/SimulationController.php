@@ -173,7 +173,7 @@ class SimulationController extends AjaxController{
         }
         
         // залогируем состояние плана
-        DayPlanLogger::log($simId, 2);
+        DayPlanLogger::log($simId, DayPlanLogger::STOP);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
