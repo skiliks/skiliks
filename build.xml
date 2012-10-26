@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="backend" default="build">
+    <property environment="env"/>
+    <property name="stage" override="true" value="devel" />
+    <target name="build">
+        <echo msg="Copying config..."/>
+        <if>
+            <equals arg1="${stage}" arg2="devel"/>
+            <then>
+                <if>
+                    <available file="./protected/config/users/${env.USER}.php" type="file"/>
+                    <then>
+                        <copy file="./protected/config/users/${env.USER}.php" tofile="./protected/config/main.php"/>
+                    </then>
+                    <else>
+                        <copy file="./protected/config/stages/${stage}.php" tofile="./protected/config/main.php"/>
+                    </else>
+                </if>
+            </then>
+
+        </if>
+    </target>
+</project>
