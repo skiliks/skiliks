@@ -24,10 +24,10 @@ class ExcelRange {
         $columnTo = $matches[3][0];
         $stringTo = (int)$matches[4][0];
         
-        Logger::debug("ws id : ".ExcelFactory::getDocument()->getActiveWorksheet()->id);
-        Logger::debug("get startIndex : $columnFrom");
+        //Logger::debug("ws id : ".ExcelFactory::getDocument()->getActiveWorksheet()->id);
+        //Logger::debug("get startIndex : $columnFrom");
         $startIndex = ExcelFactory::getDocument()->getActiveWorksheet()->getColumnIndex($columnFrom); // индекс колонки, с которой стартуем
-        Logger::debug("res : $startIndex");
+        //Logger::debug("res : $startIndex");
         $endIndex = ExcelFactory::getDocument()->getActiveWorksheet()->getColumnIndex($columnTo); // индекс колонки, которой финишируем
         
         
@@ -50,16 +50,16 @@ class ExcelRange {
     
     public static function toArray($range) {
         $rangeInfo = self::parse($range);
-        Logger::debug("rangeInfo : ".var_export($rangeInfo, true));
+        //Logger::debug("rangeInfo : ".var_export($rangeInfo, true));
         
         $list = array();
         $columnTo = $rangeInfo['columnFromIndex'] + $rangeInfo['columnCount'];
         $stringTo = $rangeInfo['stringFrom'] + $rangeInfo['stringCount'];
         // бежим по колонкам
         for($columnIndex = $rangeInfo['columnFromIndex']; $columnIndex < $columnTo; $columnIndex++) {
-            Logger::debug("getColumnNameByIndex : $columnIndex");
+            //Logger::debug("getColumnNameByIndex : $columnIndex");
             $columnName = ExcelFactory::getDocument()->getActiveWorksheet()->getColumnNameByIndex($columnIndex);
-            Logger::debug("found column : ".var_export($columnName, true));
+            //Logger::debug("found column : ".var_export($columnName, true));
             for($stringIndex = $rangeInfo['stringFrom']; $stringIndex < $stringTo; $stringIndex++) {
                 $list[] = $columnName.$stringIndex;
                 

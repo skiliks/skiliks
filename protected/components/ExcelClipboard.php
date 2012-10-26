@@ -59,7 +59,7 @@ class ExcelClipboard {
         $result['result'] = 1;
         $result['worksheetData'] = array();
         
-        Logger::debug('clipboard : '.var_export($clipboard, true));
+        //Logger::debug('clipboard : '.var_export($clipboard, true));
         
         $excelFormula = new ExcelFormula();
         //$excelFormula->setDocument($document)
@@ -77,7 +77,7 @@ class ExcelClipboard {
                     $cell['formula'] = $excelFormula->shiftVars($cell['formula'], $column, $string, $rangeInfo,
                             $toWorksheet);
                     
-                    Logger::debug("formula after shifting : ".$cell['formula']);
+                    //Logger::debug("formula after shifting : ".$cell['formula']);
                     // пересчитаем формулу
                     $cell['value'] = $excelFormula->parse($cell['formula']);
                     if ($cell['value'] == '') $cell['value'] = $cell['formula'];

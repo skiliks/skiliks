@@ -46,7 +46,7 @@ class ExcelWorksheet {
     }
     
     public function load($worksheetId) {
-        Logger::debug("load ws : $worksheetId");
+        //Logger::debug("load ws : $worksheetId");
         $this->id = $worksheetId;
         
         $data = Cache::get('ws'.$worksheetId);
@@ -91,16 +91,16 @@ class ExcelWorksheet {
             $this->_columnIndex[$columnIndex] = $column;
             $columnIndex++;
         }
-        Logger::debug("ws columns : ".var_export($this->_columns, true));
-        Logger::debug("ws index : ".var_export($this->_columnIndex, true));
+        //Logger::debug("ws columns : ".var_export($this->_columns, true));
+        //Logger::debug("ws index : ".var_export($this->_columnIndex, true));
         $this->_data = $data;
         
         return $data;
     }
     
     public function getValueByName($cellName) {
-        Logger::debug("ws {$this->id} getValueByName $cellName");
-        Logger::debug('name : '.var_export($cellName, true));
+        //Logger::debug("ws {$this->id} getValueByName $cellName");
+        //Logger::debug('name : '.var_export($cellName, true));
         if (is_numeric($cellName)) {
             Logger::debug('is number');
             return $cellName;
@@ -109,15 +109,15 @@ class ExcelWorksheet {
         $worksheetName = false;
         if (!strstr($cellName, '!')) {
             preg_match_all("/([a-zA-Z]+)(\d+)/", $cellName, $matches); 
-            Logger::debug("matches : ".var_export($matches, true));
+            //Logger::debug("matches : ".var_export($matches, true));
             if (!isset($matches[1][0])) return false;
             $column = strtoupper($matches[1][0]);
             $string = (int)$matches[2][0];
         }
         else {
-            Logger::debug("match : $cellName");
+            //Logger::debug("match : $cellName");
             if (preg_match_all("/(\w*)!([a-zA-Z]+)(\d+)/u", $cellName, $matches)) {
-                Logger::debug("matches : ".var_export($matches, true));
+                //Logger::debug("matches : ".var_export($matches, true));
                 
                 $worksheetName = $matches[1][0];
                 $column = strtoupper($matches[2][0]);
@@ -126,17 +126,17 @@ class ExcelWorksheet {
         }
         
 
-        Logger::debug("ws name : $worksheetName");
+        //Logger::debug("ws name : $worksheetName");
         // у нас ссылка на другой воркшит
         if ($worksheetName) {
             return ExcelFactory::getDocument()->getWorksheetByName($worksheetName)->getValueByName($column.$string);
         }
       
         if(!isset($this->_data[$column][$string])) {
-            Logger::debug("fuck $column $string");
+           // Logger::debug("fuck $column $string");
         }
         
-        Logger::debug("get cell $column $string");
+        //Logger::debug("get cell $column $string");
         if (!isset($this->_data[$column])) throw new Exception("Немогу найти ячейку $column $string");
         $cell = $this->_data[$column][$string];
         
@@ -147,12 +147,12 @@ class ExcelWorksheet {
                 $formula = new ExcelFormula();
                 $formula->setWorksheet($this);
                 $value = $formula->parse($cell['formula']);
-                Logger::debug("return value $value");
+                //Logger::debug("return value $value");
                 return $value;
             }
         }
         
-        Logger::debug("return value {$cell['value']}");
+        //Logger::debug("return value {$cell['value']}");
         if ($cell['value'] == '') return 0;
         return $cell['value'];
     }

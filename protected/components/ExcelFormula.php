@@ -54,7 +54,7 @@ class ExcelFormula {
     }
     
     function replaceVarsCallback($str) {
-        Logger::debug("str : ".var_export($str, true));
+        //Logger::debug("str : ".var_export($str, true));
         $varName = $str[1];
         if (is_numeric($varName)) return $varName;
         
@@ -63,8 +63,8 @@ class ExcelFormula {
         
         if (strstr($varName, '!')) {
             $data = explode('!', $varName);
-            Logger::debug("foreign : ".var_export($data, true));
-            Logger::debug("getWorksheetByName : {$data[0]}");
+            //Logger::debug("foreign : ".var_export($data, true));
+            //Logger::debug("getWorksheetByName : {$data[0]}");
             
             //var_dump($data[0]); die();
             $worksheet = $this->_getDocument()->getWorksheetByName($data[0]);
@@ -97,7 +97,7 @@ class ExcelFormula {
     }
     
     public function replaceVars($formula, $vars=false ) {
-        Logger::debug("_replaceVars2 $formula  ");
+        //Logger::debug("_replaceVars2 $formula  ");
         $this->_vars = $vars;
         
         return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'self::replaceVarsCallback', $formula);
@@ -106,7 +106,7 @@ class ExcelFormula {
     public function parse($formula) {
         if (is_numeric($formula)) return $formula;
         
-        Logger::debug("parse formula : $formula");
+        //Logger::debug("parse formula : $formula");
         $formula = str_replace('sum', 'SUM', $formula);
         $formula = str_replace('сумм', 'SUM', $formula);
         $formula = str_replace('СУММ', 'SUM', $formula);
@@ -124,7 +124,7 @@ class ExcelFormula {
             $newVars[$varName] = ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($varName);
         }*/
         $formula = $this->replaceVars($formula);
-        Logger::debug("after replace vars : $formula");
+        //Logger::debug("after replace vars : $formula");
         
         // теперь надо обработать выражение
         $a = null;
@@ -150,13 +150,13 @@ class ExcelFormula {
         
         $vars = $this->explodeFormulaVars($formula);
         foreach($vars as $var) {
-            Logger::debug("validate var : $var");
+            //Logger::debug("validate var : $var");
             $value = $this->_getWorksheet()->getValueByName($var);
             if (is_null($value)) return array('result'=>false, 'message'=>'Формула введена неправильно. Повторите ввод');
             
             if ($value=='')  return array('result'=>true, 'value'=>0);
             
-            Logger::debug("value : $value");
+            //Logger::debug("value : $value");
             if (!is_numeric($value)) return array(
                 'result' => false,
                 'message' => "В ячейке $var введено текстовое значение. Повторите ввод"
@@ -184,7 +184,7 @@ class ExcelFormula {
         $columnShift = $columnIndex - $range['columnFromIndex'];
         
         
-        Logger::debug('vars :'.var_export($vars, true));
+        //Logger::debug('vars :'.var_export($vars, true));
         if (count($vars)==0) return $formula; // нечего сдвигать
         
         
