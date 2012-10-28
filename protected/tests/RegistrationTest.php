@@ -1,12 +1,11 @@
 <?php
-require_once('test/CWebTestCase.php');
 
 class RegistrationTest extends CWebTestCase
 {
     protected function setUp()
     {
         $this->setBrowser('*firefox');
-        $this->setBrowserUrl('http://live.skiliks.com/');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
         parent::setUp();
     }
 
