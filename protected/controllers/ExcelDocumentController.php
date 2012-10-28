@@ -813,7 +813,7 @@ class ExcelDocumentController extends AjaxController{
                 }
                 $excelFormula->setWorksheet(ExcelFactory::getDocument()->getWorksheet($worksheetId));
                 $value = $excelFormula->parse($formula);
-                
+                //Logger::debug("formula : $formula value : $value");
                 if (is_null($value)) {
                     $message = 'Формула введена неправильно. Повторите ввод';
                 }
@@ -826,11 +826,14 @@ class ExcelDocumentController extends AjaxController{
             $cell['value'] = $value;
             $cell['formula'] = $formula;
             
+            
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->replaceCell($cell);
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->updateCellDb($cell);
             ExcelFactory::getDocument()->getWorksheet($worksheetId)->saveToCache();
             
-            if ($cell['value'] == '') $cell['value']= $cell['formula'];
+            if ($cell['value'] === '') $cell['value']= $cell['formula'];
+            
+            //Logger::debug("cell : ".var_export($cell, true));
             
             $result = array();
             $result['result'] = 1;
