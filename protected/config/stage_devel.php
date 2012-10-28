@@ -1,6 +1,6 @@
 <?php
 return CMap::mergeArray(
-    require(dirname(__FILE__) . '/main.php'),
+    require(dirname(__FILE__) . '/base.php'),
     array('components' => array(
         'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=skiliks',
