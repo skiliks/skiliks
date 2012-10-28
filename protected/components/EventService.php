@@ -44,6 +44,7 @@ class EventService {
      */
     public static function addByCode($code, $simId, $eventTime = false) {
         if ( ($code == '') || ($code == '-') ) return false;
+        if ($code == 'T') return false; // финальная реплика
         
         //Logger::debug("add event by code : $code time : $eventTime");
         // проверить есть ли событие по такому коду и если есть то создать его
