@@ -54,7 +54,7 @@ class ExcelFormula {
     }
     
     function replaceVarsCallback($str) {
-        //Logger::debug("str : ".var_export($str, true));
+        //Logger::debug("replaceVarsCallback: str : ".var_export($str, true));
         $varName = $str[1];
         if (is_numeric($varName)) return $varName;
         
@@ -118,17 +118,14 @@ class ExcelFormula {
         
         $formula = preg_replace_callback("/([A-Z]+)\(([A-Za-z0-9\:\;]+)\)/u", 'self::callback', $formula);
         
-        //$vars = $this->explodeFormulaVars($formula);
-        /*$newVars = array();
-        foreach($vars as $varName) {
-            $newVars[$varName] = ExcelFactory::getDocument()->getActiveWorksheet()->getValueByName($varName);
-        }*/
+        
         $formula = $this->replaceVars($formula);
-        //Logger::debug("after replace vars : $formula");
+        Logger::debug("after replace vars : $formula");
         
         // теперь надо обработать выражение
         $a = null;
         $expr = '$a'.$formula.';';
+        Logger::debug("eval : $expr");
         @eval($expr);
         if (is_null($a)) return null;
         return $a;
