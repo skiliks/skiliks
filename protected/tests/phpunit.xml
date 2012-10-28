@@ -1,0 +1,8 @@
+<phpunit printerClass="PHPUnit_Extensions_TeamCity_TestListener" bootstrap="./bootstrap.php">
+    <php>
+        <includePath>../../framework</includePath>
+    </php>
+    <testSuite>
+        <directory>./</directory>
+    </testSuite>
+</phpunit>
