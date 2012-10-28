@@ -33,7 +33,7 @@ class DialogService {
     
     public static function getFirstReplicaByCode($code) {
         $dialog = Dialogs::model()->byCode($code)->byStepNumber(1)->byReplicaNumber(0)->find();
-        if (!$dialog) throw new Exception("Не могу загрузить модель диалога code : $code", 701);
+        if (!$dialog) return false; //throw new Exception("Не могу загрузить модель диалога code : $code", 701);
         return $dialog;    
     }
     
