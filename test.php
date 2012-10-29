@@ -21,7 +21,11 @@ $date = 1349308800 + 828*60;*/
 
 $date = 1350956881;
 $date = 1349364600;
-echo date('d.m.Y G:i', $date);
+
+$date = 1351522170; //mktime();
+echo "before : $date";
+
+echo ' after : '.date('d.m.Y G:i', $date);
 die();
 
 
