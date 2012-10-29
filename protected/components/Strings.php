@@ -13,6 +13,10 @@ class Strings {
         return iconv("Windows-1251", "UTF-8", $str);
     }
     
+    public static function toWin($str) {
+        return iconv("UTF-8", "Windows-1251", $str);
+    }
+    
     public static function formatThousend($number, $showDecimals=false) {
         if ($showDecimals) $decimals = 2; else $decimals = 0;
         return number_format( $number,  $decimals, '.', ' ' );
