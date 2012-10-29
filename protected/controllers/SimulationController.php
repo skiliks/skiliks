@@ -78,8 +78,8 @@ class SimulationController extends AjaxController{
             if (!$uid) throw new Exception('Не могу найти такого пользователя');
 
             // Удаляем предыдущую симуляцию
-            $simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
-            if ($simulation) $simulation->delete();
+            //$simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+            //if ($simulation) $simulation->delete();
 
             // @todo: проверить а имеет ли право пользователь на эту симуляцию
             if (!UserService::isMemberOfGroup($uid, $stype)) {

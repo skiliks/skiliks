@@ -49,8 +49,8 @@ class LogManagerController extends AjaxController{
             if ($row['end'] > 0)
                 $row['end'] = DateHelper::toString($row['end']);
             
-            $row['timeStart'] = DateHelper::timestampTimeToString($row['timeStart']);
-            $row['timeEnd'] = DateHelper::timestampTimeToString($row['timeEnd']);
+            $row['timeStart'] = DateHelper::timestampFullTimeToString($row['timeStart']);
+            $row['timeEnd'] = DateHelper::timestampFullTimeToString($row['timeEnd']);
             
             if (isset(WindowLogger::$screens[$row['activeWindow']]))
                 $row['activeWindow'] = WindowLogger::$screens[$row['activeWindow']];

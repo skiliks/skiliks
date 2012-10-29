@@ -38,6 +38,24 @@ class DateHelper {
         $data = self::timestampTimeToArr($unixtimeMins);
         return $data['h'].':'.$data['m'];
     }
+    
+    public static function timestampFullTimeToArray($variance) {
+        $unixtimeMins = floor($variance/60);
+        $clockH = floor($unixtimeMins/60);
+        $clockM = $unixtimeMins-($clockH*60);
+        $clockS = $variance-($unixtimeMins*60);
+        
+        return array(
+            'h' => $clockH,
+            'm' => $clockM,
+            's' => $clockS
+        );
+    }
+    
+    public static function timestampFullTimeToString($variance) {
+        $data = self::timestampFullTimeToArray($variance);
+        return $data['h'].':'.$data['m'].':'.$data['s'];
+    }
 
 
     /**
