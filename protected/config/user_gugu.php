@@ -2,8 +2,6 @@
 
 /* GuGu's personal config, copyright mopyright */
 
-define('SKILIKS_SPEED_FACTOR', 8);
-
 return array(
     'import' => array(
         'application.models.*',

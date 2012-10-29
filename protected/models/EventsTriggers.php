@@ -7,11 +7,11 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class EventsTriggers extends CActiveRecord{
-    
+
     /**
      *
      * @param type $className
-     * @return EventsTriggers 
+     * @return EventsTriggers
      */
     public static function model($className=__CLASS__)
     {
@@ -25,10 +25,12 @@ class EventsTriggers extends CActiveRecord{
     {
             return 'events_triggers';
     }
-    
+
     /**
      * Вернуть ближайшее событие
-     * @return EventsTriggers 
+     * @param $simId
+     * @param $triggerTime
+     * @return EventsTriggers
      */
     public function nearest($simId, $triggerTime)
     {
