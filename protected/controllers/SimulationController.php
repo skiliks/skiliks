@@ -266,6 +266,7 @@ class SimulationController extends AjaxController{
      */
     public function actionChangeTime() {
         try {
+            Logger::debug("actionChangeTime :");
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("empty sid");
 
@@ -278,7 +279,7 @@ class SimulationController extends AjaxController{
             $hour = (int)Yii::app()->request->getParam('hour', false);
             $min = (int)Yii::app()->request->getParam('min', false);
             
-            Logger::debug("actionChangeTime : {$hour}:{$min}");
+            
             
             #################
             $variance = time() - $simulation->start;
