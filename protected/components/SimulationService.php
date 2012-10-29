@@ -15,7 +15,7 @@ class SimulationService {
      * @return int
      */
     public static function get($uid) {
-        $simulation = Simulations::model()->byUid($uid)->find();
+        $simulation = Simulations::model()->byUid($uid)->nearest()->find();
         if (!$simulation) return false;
         return $simulation->id;
     }
@@ -173,7 +173,7 @@ class SimulationService {
         
         $formula = '=SUM(N16:Q16)-(SUM(B8:M8)-SUM(B15:M15))';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+        Logger::debug("5: $formula = $value");
         if ($value == 0) {
             $points++;
             $pointsMap[5] = 1;

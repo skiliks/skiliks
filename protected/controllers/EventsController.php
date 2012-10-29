@@ -47,9 +47,8 @@ class EventsController extends AjaxController{
             if (!$uid) throw new Exception('Не могу определить пользователя', 2);
 
             // получить симуляцию по uid
-            $simulation = Simulations::model()->byUid($uid)->find();
-            if (!$simulation) throw new Exception('Не могу определить симуляцию', 3);
-            $simId = $simulation->id;
+            $simId = SimulationService::get($uid);
+            if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
             // данные для логирования
             $logs = (array)Yii::app()->request->getParam('logs', false);  
@@ -61,12 +60,12 @@ class EventsController extends AjaxController{
             
             
             // определим тип симуляции
-            $simType = SimulationService::getType($simulation->id);
+            $simType = SimulationService::getType($simId);
             
-            $gameTime = SimulationService::getGameTime($simulation->id);
+            $gameTime = SimulationService::getGameTime($simId);
             
             ### обработка задач
-            $task = $this->_processTasks($simulation->id);
+            $task = $this->_processTasks($simId);
             if ($task) {
                 $result = array('result' => 1, 'data' => $task, 'eventType' => 'task', 'serverTime' => $gameTime);
                 return $this->_sendResponse(200, CJSON::encode($result));
@@ -104,14 +103,14 @@ class EventsController extends AjaxController{
                     ###################
                     // проверим событие на флаги
                     Logger::debug("check flags for event by code {$event->code}");
-                    if (!EventService::allowToRun($event->code, $simulation->id, 1, 0)) {
+                    if (!EventService::allowToRun($event->code, $simId, 1, 0)) {
                         // событие не проходит по флагам -  не пускаем его
                         Logger::debug("event {$event->code} was restricted by flags");
                         continue; // обрабатываем другие события
                     }
                     #####################################
                     
-                    $res = EventService::processLinkedEntities($event->code, $simulation->id);
+                    $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
                         $result['events'][] = $res;
                     }

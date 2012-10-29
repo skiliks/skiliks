@@ -35,6 +35,15 @@ class Simulations extends CActiveRecord{
         return $this;
     }
     
+    public function nearest()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => 'start DESC',
+            'limit' => 1
+        ));
+        return $this;
+    }
+    
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

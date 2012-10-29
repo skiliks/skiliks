@@ -1,6 +1,6 @@
 <?php
 
-define('SKILIKS_SPEED_FACTOR', 8);
+//define('SKILIKS_SPEED_FACTOR', 8);
 
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     'components' => array(
