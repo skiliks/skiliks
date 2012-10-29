@@ -10,14 +10,14 @@
 class WindowLogger {
     
     public static $screens = array(
-        'mainScreen', //0
-        'dialogController', //1,
-        'dayPlan', //:2,
-        'excel', //:3,
-        'mailEmulator', //:4,
-        'documents', //:5,
-        'viewer', //:6,
-        'phone' //:7
+        1 => 'mainScreen', //0
+        2 => 'dialog', //1,
+        3 => 'dayPlan', //:2,
+        4 => 'excel', //:3,
+        5 => 'mailEmulator', //:4,
+        6 => 'documents', //:5,
+        7 => 'viewer', //:6,
+        8 => 'phone' //:7
     );
     
     public $screensActions = array(
@@ -37,7 +37,7 @@ class WindowLogger {
         foreach($logs as $index=>$log) {
             $screenCode         = (int)$log[0];
             $screenActionsCode  = (int)$log[1];
-            $time               = DateHelper::timeToTimstamp($log[2]);
+            $time               = $log[2]; //DateHelper::timeToTimstamp($log[2]);
             
             if ($screenActionsCode == 1) { // open
                 $subWindow = 0;
