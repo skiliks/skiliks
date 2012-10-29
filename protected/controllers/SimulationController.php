@@ -272,7 +272,7 @@ class SimulationController extends AjaxController{
             $uid = SessionHelper::getUidBySid($sid);
             if (!$uid) throw new Exception("cant find user by sid {$sid}");
 
-            $simulation = Simulations::model()->byUid($uid)->find();
+            $simulation = Simulations::model()->byUid($uid)->nearest()->find();
             if (!$simulation) throw new Exception("cant find simulation for uid {$uid}");
            
             $hour = (int)Yii::app()->request->getParam('hour', false);
@@ -288,7 +288,7 @@ class SimulationController extends AjaxController{
             $clockH = $clockH + 9;
 
             $simulation->start = ($simulation->start - (($hour-$clockH)*60*60/SKILIKS_SPEED_FACTOR)-(($min-$clockM)*60/SKILIKS_SPEED_FACTOR));
-            //Logger::debug($str)
+            Logger::debug("changed time for simulation : {$simulation->id}");
             
             ###################
             /*$data = date('Y-m-d', time());
