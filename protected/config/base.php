@@ -3,9 +3,6 @@
  * Base app config
  */
 
-
-define('SKILIKS_SPEED_FACTOR', 8);
-
 return array(
     'import'=>array(
         'application.models.*',
@@ -18,14 +15,13 @@ return array(
                 array(
                     'class'=>'CFileLogRoute',
                     'levels'=>'error, warning, info, trace, log',
-
-
-
                 ),
 
             ),
         )
     ),
+
+    'basePath' => dirname(__FILE__) . '/..',
 
 
     'preload'=>array('log'),
@@ -34,6 +30,7 @@ return array(
     // using Yii::app()->params['paramName']
     'params'=>array(
         'frontendUrl'=>'http://front.skiliks.loc/',
+        'skiliksSpeedFactor' => 8
     )
 );
 

@@ -1,46 +1,17 @@
 <?php
-
-/* GuGu's personal config, copyright mopyright */
-
-return array(
-    'import' => array(
-        'application.models.*',
-        'application.components.*'
-    ),
-    'components' => array(
+return CMap::mergeArray(
+    require(dirname(__FILE__) . '/base.php'),
+    array('components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=skiliks',
+            'connectionString' => 'mysql:unix_socket=/tmp/mysql.sock;dbname=skiliks',
             'emulatePrepare' => true,
-            'username' => 'root',
-            'password' => '',
+            'username' => 'skiliks',
+            'password' => 'skiliks123',
             'charset' => 'utf8',
 
             'enableParamLogging' => true,
             'enableProfiling' => true
-        ),
-
-        'log' => array(
-            'class' => 'CLogRouter',
-            'routes' => array(
-                array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, info, trace, log',
-
-
-                ),
-
-            ),
         )
-    ),
-
-
-    'preload' => array('log'),
-
-    // application-level parameters that can be accessed
-    // using Yii::app()->params['paramName']
-    'params' => array(
-        'frontendUrl' => 'http://front.skiliks.loc/',
+    )
     )
 );
-
-?>
