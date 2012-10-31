@@ -251,38 +251,37 @@ class EventsController extends AjaxController{
             $uid = SessionHelper::getUidBySid($sid);
             if (!$uid) throw new Exception('Не могу определить пользователя');
             
-            $simulation = Simulations::model()->byUid($uid)->find();
-            if (!$simulation) throw new Exception('Не могу определить симуляцию');
-            
+            $simId = SimulationService::get($uid);
+                        
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
             
             // если надо очищаем очерель событий для текущей симуляции
             if ($clearEvents) {
-                EventsTriggers::model()->deleteAll("sim_id={$simulation->id}");
+                EventsTriggers::model()->deleteAll("sim_id={$simId}");
             }
             
             // если надо очищаем оценки  для текущей симуляции
             if ($clearAssessment) {
-                SimulationsDialogsPoints::model()->deleteAll("sim_id={$simulation->id}");
+                SimulationsDialogsPoints::model()->deleteAll("sim_id={$simId}");
             }
             
-            $gameTime = SimulationService::getGameTime($simulation->id);
+            $gameTime = SimulationService::getGameTime($simId);
             $gameTime = $gameTime + $delay;  //time() + ($delay/4);
             
             
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
-                Logger::debug("update event : {$event->code}");
+                Logger::debug("update event : {$event->code} set time : $gameTime id : {$event->id}");
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
             }
             else {
-                Logger::debug("create event : code : {$event->code} id : {$event->id} sim : {$simulation->id} time {$gameTime}");
+                Logger::debug("create event : code : {$event->code} id : {$event->id} sim : {$simId} time {$gameTime}");
                 
                 // Добавляем событие
                 $eventsTriggers = new EventsTriggers();
-                $eventsTriggers->sim_id = $simulation->id;
+                $eventsTriggers->sim_id = $simId;
                 $eventsTriggers->event_id = $event->id;
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->insert();
