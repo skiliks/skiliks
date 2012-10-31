@@ -34,7 +34,7 @@ class ExcelFormula {
     }
     
     public function callback($matches) {
-        
+        Logger::debug("callback: matches : ".var_export($matches, true));
         $formula = $matches[1];
         $params = $matches[2];
         
@@ -54,7 +54,7 @@ class ExcelFormula {
     }
     
     function replaceVarsCallback($str) {
-        //Logger::debug("replaceVarsCallback: str : ".var_export($str, true));
+        Logger::debug("replaceVarsCallback: str : ".var_export($str, true));
         $varName = $str[1];
         if (is_numeric($varName)) return $varName;
         
@@ -63,8 +63,8 @@ class ExcelFormula {
         
         if (strstr($varName, '!')) {
             $data = explode('!', $varName);
-            //Logger::debug("foreign : ".var_export($data, true));
-            //Logger::debug("getWorksheetByName : {$data[0]}");
+            Logger::debug("foreign : ".var_export($data, true));
+            Logger::debug("getWorksheetByName : {$data[0]}");
             
             //var_dump($data[0]); die();
             $worksheet = $this->_getDocument()->getWorksheetByName($data[0]);
@@ -97,16 +97,21 @@ class ExcelFormula {
     }
     
     public function replaceVars($formula, $vars=false ) {
-        //Logger::debug("_replaceVars2 $formula  ");
+        Logger::debug("replaceVars: $formula  ");
         $this->_vars = $vars;
         
         return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'self::replaceVarsCallback', $formula);
     }
     
+    /**
+     * Выполнение формулы.
+     * @param string $formula
+     * @return string 
+     */
     public function parse($formula) {
         if (is_numeric($formula)) return $formula;
         
-        //Logger::debug("parse formula : $formula");
+        Logger::debug("parse formula : $formula");
         $formula = str_replace('sum', 'SUM', $formula);
         $formula = str_replace('сумм', 'SUM', $formula);
         $formula = str_replace('СУММ', 'SUM', $formula);
@@ -116,6 +121,7 @@ class ExcelFormula {
         $formula = str_replace('срзнач', 'AVERAGE', $formula);
         //$formula = strtoupper($formula);
         
+        Logger::debug("before callback : $formula");
         $formula = preg_replace_callback("/([A-Z]+)\(([A-Za-z0-9\:\;]+)\)/u", 'self::callback', $formula);
         
         
