@@ -2,7 +2,6 @@
 class SimulationTest extends CDbTestCase {
     function testSimulationStart() {
         Yii::import('application.controllers.*');
-        ob_start();
         $user = Users::model()->findByPk(1);
         $session = new UsersSessions();
         $session->user_id = 2;
@@ -11,7 +10,9 @@ class SimulationTest extends CDbTestCase {
         $_POST['sid'] = $session->session_id;
         $_POST['stype'] = 1;
         $controller = new SimulationController("simulation");
+        ob_start();
         $controller->actionStart();
-        echo ob_get_contents();
+        $this->assertEquals(ob_get_contents(), '{"result":1,"speedFactor":8}');
+        ob_clean();
     }
 }
