@@ -115,9 +115,9 @@ class ExcelWorksheet {
             $string = (int)$matches[2][0];
         }
         else {
-            //Logger::debug("match : $cellName");
+            Logger::debug("match : $cellName");
             if (preg_match_all("/(\w*)!([a-zA-Z]+)(\d+)/u", $cellName, $matches)) {
-                //Logger::debug("matches : ".var_export($matches, true));
+                Logger::debug("matches : ".var_export($matches, true));
                 
                 $worksheetName = $matches[1][0];
                 $column = strtoupper($matches[2][0]);
