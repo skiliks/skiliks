@@ -140,9 +140,10 @@ class ExcelWorksheet {
         if (!isset($this->_data[$column])) throw new Exception("Немогу найти ячейку $column $string");
         $cell = $this->_data[$column][$string];
         
+        Logger::debug("cell : ".var_export($cell, true));
         
-        if ($cell['value']=='') {
-            // смотрим формулу
+        //if ($cell['value']=='') {
+            // смотрим формулу - если есть - пересчитаем ее
             if ($cell['formula']!='') {
                 $formula = new ExcelFormula();
                 $formula->setWorksheet($this);
@@ -150,7 +151,7 @@ class ExcelWorksheet {
                 //Logger::debug("return value $value");
                 return $value;
             }
-        }
+        //}
         
         //Logger::debug("return value {$cell['value']}");
         if ($cell['value'] == '') return 0;
