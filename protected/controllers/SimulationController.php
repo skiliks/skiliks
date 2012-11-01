@@ -119,7 +119,7 @@ class SimulationController extends AjaxController{
 
             #######################
             // временно добавим тестовые ивенты
-            $this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
+            //$this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
             /*$this->_createEventByCode('M11', $simId);
             $this->_createEventByCode('P6', $simId);*/
 
