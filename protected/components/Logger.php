@@ -16,12 +16,7 @@ class Logger {
      * @param string $fileName куда логируем 
      */
     public static function debug($str, $fileName = 'logs/debug.log') {
-        if (!is_dir('logs')) mkdir('logs', 0775);
-
-        $str = '['.date("d.m.Y H:i:s:u").'] ip: '. (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '-' ).' '.$str;
-        $f = fopen($fileName, 'a+');
-        fwrite($f, $str."\n");
-        fclose($f);
+        Yii::log($str, 'debug');
     }
 }
 

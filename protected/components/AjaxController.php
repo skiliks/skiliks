@@ -11,6 +11,8 @@
  * @author dorian
  */
 class AjaxController extends CController{
+
+    public $is_test = false;
     
     protected function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
     {
@@ -21,8 +23,10 @@ class AjaxController extends CController{
         header("Access-Control-Allow-Origin: *");
 
 
-	echo $body;
-	Yii::app()->end();
+	    echo $body;
+
+        if (!$this->is_test)
+	        Yii::app()->end();
     }
 }
 
