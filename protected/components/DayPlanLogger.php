@@ -22,6 +22,8 @@ class DayPlanLogger {
         $uid = SimulationService::getUid($simId);
         $today = DateHelper::getCurrentTimestampDate();
         
+        Logger::debug("DayPlanLogger:log for sim: $simId ");
+        
         /*$models = DayPlan::model()->bySimulation($simId)->findAll();
         foreach($models as $model) {
             
@@ -39,8 +41,8 @@ class DayPlanLogger {
         $command->execute();
         
         // логируем после отпуска
-        $sql = "insert into day_plan_log (uid, snapshot_date, date, day, task_id, snapshot_time)
-            select $uid, $today, date, 3, task_id, $type  
+        $sql = "insert into day_plan_log (uid, snapshot_date, date, day, task_id, snapshot_time, todo_count, sim_id)
+            select $uid, $today, date, 3, task_id, $type, $todoCount, $simId  
             from day_plan_after_vacation as p where p.sim_id = $simId";
         
         $connection = Yii::app()->db;
