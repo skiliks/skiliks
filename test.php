@@ -9,6 +9,29 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 
 ini_set('date.timezone', 'Etc/GMT');
 
+function isMore6Signs($a) {
+    if (preg_match_all("/(\d+)\.(\d+)/", $a, $matches)) {
+        if (isset($matches[2][0])) {
+            $signs = $matches[2][0];
+            if (strlen($signs) > 6) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+$a = '0.59795122';
+
+
+
+//is_numeric($var)
+var_dump(is_numeric($a));
+//$a = round($a, 6);
+//var_dump($a);
+die();
+
 /*$eventCode = 'P007';
 $r = preg_match("/P(\d+)/", $eventCode);
 var_dump($r);

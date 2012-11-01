@@ -56,10 +56,20 @@ class ExcelFormula {
     function replaceVarsCallback($str) {
         Logger::debug("replaceVarsCallback: str : ".var_export($str, true));
         $varName = $str[1];
-        if (is_numeric($varName)) return $varName;
+        if (is_numeric($varName)) {
+            // проверим знаки
+            if (Math::isMore6SignsFloat($varName)) {
+                Logger::debug("replaceVarsCallback: round cell : $varName");
+                return round($varName, 6);
+            }
+            
+            return $varName;
+        }
         
-        if (is_array($this->_vars) && isset($this->_vars[$str[1]]))
+        if (is_array($this->_vars) && isset($this->_vars[$str[1]])) {
+            Logger::debug("return var");
             return $this->_vars[$str[1]];
+        }    
         
         if (strstr($varName, '!')) {
             $data = explode('!', $varName);
@@ -88,12 +98,6 @@ class ExcelFormula {
         }
         
         return $this->_getWorksheet()->getValueByName($varName);
-        //Logger::debug("str : ".var_export($str, true));
-        //Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
-        
-        if (isset($this->_vars[$str[1]]))
-            return $this->_vars[$str[1]];
-        return '66';
     }
     
     public function replaceVars($formula, $vars=false ) {
@@ -109,7 +113,12 @@ class ExcelFormula {
      * @return string 
      */
     public function parse($formula) {
-        if (is_numeric($formula)) return $formula;
+        if (is_numeric($formula)) {
+            if (Math::isMore6SignsFloat($formula)) {
+                return round($formula, 6);
+            }
+            return $formula;
+        }    
         
         Logger::debug("parse formula : $formula");
         $formula = str_replace('sum', 'SUM', $formula);

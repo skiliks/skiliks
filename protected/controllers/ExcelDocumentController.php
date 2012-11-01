@@ -793,7 +793,6 @@ class ExcelDocumentController extends AjaxController{
             SessionHelper::setSid($sid);
             
             $message = false;
-            ###### new code
             
             $documentId = (int)ExcelDocumentService::getDocumentIdByWorksheetId($worksheetId);
             if ($documentId == 0) throw new Exception("cant get document by worksheet $worksheetId");
@@ -813,7 +812,7 @@ class ExcelDocumentController extends AjaxController{
                 }
                 $excelFormula->setWorksheet(ExcelFactory::getDocument()->getWorksheet($worksheetId));
                 $value = $excelFormula->parse($formula);
-                //Logger::debug("formula : $formula value : $value");
+
                 if (is_null($value)) {
                     $message = 'Формула введена неправильно. Повторите ввод';
                 }
@@ -822,6 +821,8 @@ class ExcelDocumentController extends AjaxController{
                 $cell['read_only'] = $read_only;
             }
             
+            
+            if (Math::isMore6SignsFloat($value)) $value = round($value, 6);
             
             $cell['value'] = $value;
             $cell['formula'] = $formula;
@@ -833,7 +834,6 @@ class ExcelDocumentController extends AjaxController{
             
             if ($cell['value'] === '') $cell['value']= $cell['formula'];
             
-            //Logger::debug("cell : ".var_export($cell, true));
             
             $result = array();
             $result['result'] = 1;
