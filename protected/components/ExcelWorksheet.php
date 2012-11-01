@@ -99,48 +99,36 @@ class ExcelWorksheet {
     }
     
     public function getValueByName($cellName) {
-        //Logger::debug("ws {$this->id} getValueByName $cellName");
-        //Logger::debug('name : '.var_export($cellName, true));
         if (is_numeric($cellName)) {
-            Logger::debug('is number');
+            if (Math::isMore6SignsFloat($cellName)) return round($cellName, 6);
             return $cellName;
         }
         
         $worksheetName = false;
         if (!strstr($cellName, '!')) {
             preg_match_all("/([a-zA-Z]+)(\d+)/", $cellName, $matches); 
-            //Logger::debug("matches : ".var_export($matches, true));
+
             if (!isset($matches[1][0])) return false;
             $column = strtoupper($matches[1][0]);
             $string = (int)$matches[2][0];
         }
         else {
-            Logger::debug("match : $cellName");
             if (preg_match_all("/(\w*)!([a-zA-Z]+)(\d+)/u", $cellName, $matches)) {
-                Logger::debug("matches : ".var_export($matches, true));
-                
                 $worksheetName = $matches[1][0];
                 $column = strtoupper($matches[2][0]);
                 $string = (int)$matches[3][0];
             }
         }
-        
 
-        //Logger::debug("ws name : $worksheetName");
+
         // у нас ссылка на другой воркшит
         if ($worksheetName) {
             return ExcelFactory::getDocument()->getWorksheetByName($worksheetName)->getValueByName($column.$string);
         }
-      
-        if(!isset($this->_data[$column][$string])) {
-           // Logger::debug("fuck $column $string");
-        }
         
-        //Logger::debug("get cell $column $string");
         if (!isset($this->_data[$column])) throw new Exception("Немогу найти ячейку $column $string");
         $cell = $this->_data[$column][$string];
         
-        Logger::debug("cell : ".var_export($cell, true));
         
         //if ($cell['value']=='') {
             // смотрим формулу - если есть - пересчитаем ее
@@ -152,8 +140,7 @@ class ExcelWorksheet {
                 return $value;
             }
         //}
-        
-        //Logger::debug("return value {$cell['value']}");
+
         if ($cell['value'] == '') return 0;
         return $cell['value'];
     }
