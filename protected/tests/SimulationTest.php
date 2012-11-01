@@ -10,6 +10,7 @@ class SimulationTest extends CDbTestCase {
         $_POST['sid'] = $session->session_id;
         $_POST['stype'] = 1;
         $controller = new SimulationController("simulation");
+        $controller->is_test = true;
         ob_start();
         $controller->actionStart();
         $this->assertEquals(ob_get_contents(), '{"result":1,"speedFactor":8}');
