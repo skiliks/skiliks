@@ -291,7 +291,7 @@ class SimulationController extends AjaxController{
             $clockH = $clockH + 9;
 
             $simulation->start = ($simulation->start - (($hour-$clockH)*60*60 / Yii::app()->params['skiliksSpeedFactor'])
-                + (($min-$clockM)*60 / Yii::app()->params['skiliksSpeedFactor']));
+                - (($min-$clockM)*60 / Yii::app()->params['skiliksSpeedFactor']));
             Logger::debug("changed time for simulation : {$simulation->id} time: {$simulation->start}");
             
             
