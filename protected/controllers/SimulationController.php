@@ -279,9 +279,7 @@ class SimulationController extends AjaxController{
             $hour = (int)Yii::app()->request->getParam('hour', false);
             $min = (int)Yii::app()->request->getParam('min', false);
             
-            
-            
-            #################
+
             $variance = time() - $simulation->start;
             $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
 
