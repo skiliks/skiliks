@@ -821,8 +821,11 @@ class ExcelDocumentController extends AjaxController{
                 $cell['read_only'] = $read_only;
             }
             
-            
-            if (Math::isMore6SignsFloat($value)) $value = round($value, 6);
+            Logger::debug("check value : $value");
+            if (Math::isMore6SignsFloat($value)) {
+                Logger::debug("round value : $value");
+                $value = round($value, 6);
+            }
             
             $cell['value'] = $value;
             $cell['formula'] = $formula;
