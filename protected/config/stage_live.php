@@ -12,6 +12,16 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'enableParamLogging'=>true,
             'enableProfiling'=>true
         ),
+        'log'=>array(
+            'class'=>'CLogRouter',
+            'routes'=>array(
+                array(
+                    'class'=>'CFileLogRoute',
+                    'levels'=>'error, warning, info, trace, log, debug',
+                ),
+
+            ),
+        )
     ),
     'params'=>array(
         'frontendUrl'=>'http://live.skiliks.com/',
