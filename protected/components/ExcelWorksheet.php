@@ -100,6 +100,7 @@ class ExcelWorksheet {
     
     public function getValueByName($cellName) {
         if (is_numeric($cellName)) {
+            Logger::debug("is number: $cellName");
             if (Math::isMore6SignsFloat($cellName)) return round($cellName, 6);
             return $cellName;
         }
