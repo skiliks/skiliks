@@ -144,7 +144,7 @@ class ExcelWorksheet {
             }
         //}
 
-        Logger::debug("cell value: {$cell['value']}");    
+        Logger::debug("return cell : ".var_export($cell, true));    
             
         if ($cell['value'] == '') return 0;
         return $cell['value'];
