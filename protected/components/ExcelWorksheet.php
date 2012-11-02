@@ -99,6 +99,8 @@ class ExcelWorksheet {
     }
     
     public function getValueByName($cellName) {
+        Logger::debug("getValueByName: $cellName");
+        
         if (is_numeric($cellName)) {
             Logger::debug("is number: $cellName");
             if (Math::isMore6SignsFloat($cellName)) return round($cellName, 6);
@@ -142,6 +144,8 @@ class ExcelWorksheet {
             }
         //}
 
+        Logger::debug("cell value: {$cell['value']}");    
+            
         if ($cell['value'] == '') return 0;
         return $cell['value'];
     }
