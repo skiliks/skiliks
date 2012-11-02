@@ -136,7 +136,7 @@ class ExcelWorksheet {
                 $formula = new ExcelFormula();
                 $formula->setWorksheet($this);
                 $value = $formula->parse($cell['formula']);
-                //Logger::debug("return value $value");
+                Logger::debug("return value $value");
                 return $value;
             }
         //}
