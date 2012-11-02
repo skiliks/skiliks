@@ -44,6 +44,7 @@ class SimulationService {
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
+        Logger::debug("getGameTime : sim {$simulation->id}");
         if (!$simulation) throw new Exception('Не могу определить симуляцию');
         $startTime = $simulation->start;
         
@@ -195,8 +196,10 @@ class SimulationService {
         }
         
         $formula = '=R18';
+        Logger::debug("check formula : $formula");
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+        Logger::debug("value : $value");
+
         if ($value == 0.597951) {
             $points++;
             $pointsMap[7] = 1;
