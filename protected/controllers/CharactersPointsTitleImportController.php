@@ -152,7 +152,7 @@ class CharactersPointsTitleImportController extends AjaxController {
 	    	//var_dump($keys);
 	    	//echo '</pre>';
 	    	//exit();
-	    	$type_scale = array('positive'=>'0', 'negative'=>'1', 'personal'=>'2');
+	    	$type_scale = array('positive'=>'1', 'negative'=>'2', 'personal'=>'3');
 	    	foreach ($titles as $k1 => $title) {
 	    		
 	    		$found = false;
@@ -231,7 +231,7 @@ class CharactersPointsTitleImportController extends AjaxController {
     	}
     	echo "Добавлено {$count_add_title} наименованиий требуемого поведения <br>";
     	if($array_add_title != array()){
-    		echo "Cреди них : ".implode(" , ", $array_add_title)." <br>";
+    		echo "Cреди них : ".implode(" ,", $array_add_title)." <br>";
     	}
     	echo "Лишних наименований целей обучения в бд ".count($db_parent).'<br>';
     	if($db_parent != array()){
@@ -252,6 +252,10 @@ class CharactersPointsTitleImportController extends AjaxController {
     //echo '<pre>';
     //var_dump($db_parent);
     //echo '</pre>';
-}
 
+    }
+	public function actionLogdialog() {
+		LogHelper::getDialogCSV();
+	}
+    
 }
