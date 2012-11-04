@@ -96,6 +96,10 @@ class DialogController extends AjaxController{
             
             // конец расчета оценки
             
+            //Логирование диалога
+            //LogHelper::getLogDoialog($dialogId, $simId);
+            //
+            
              Logger::debug("check next event : {$currentDialog->next_event_code}");
             
             $result = array();
