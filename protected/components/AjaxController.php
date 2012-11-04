@@ -28,6 +28,10 @@ class AjaxController extends CController{
         if (!$this->is_test)
 	        Yii::app()->end();
     }
+
+    protected function sendJSON($data, $status = 200) {
+        $this->_sendResponse($status, CJSON::encode($data));
+    }
 }
 
 ?>
