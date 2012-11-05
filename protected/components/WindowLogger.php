@@ -146,6 +146,7 @@ class WindowLogger {
             }
         }
         
+        if ($activeWindow == 0) return;
         $model = new WindowLogModel();
         $model->sim_id          = $simId;
         $model->activeWindow    = $activeWindow;
