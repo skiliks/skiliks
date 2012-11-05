@@ -28,20 +28,24 @@ class WindowLogger {
         3 => 'plan', 
         4 => 'excel', 
         6 => 'documents', 
-        7 => 'viewer', 
+        7 => 'documents files', 
         10 => 'mail',
-        12 => 'mailPreview',
-        13 => 'mailNew',
-        14 => 'mailPlan',
+        11 => 'mail main',
+        12 => 'mail preview',
+        13 => 'mail new',
+        14 => 'mail plan',
         20 => 'phone',
         21 => 'phone main', //'phoneHistory',
         22 => 'phoneContacts',
-        23 => 'phone call',
-        24 => 'phoneCallIncome',
         
-        30 => 'dialog', 
-        31 => 'visitorEntrance',
-        32 => 'visitorTalk'
+        23 => 'phone talk',
+        24 => 'phone call',
+        25 => 'phone main',
+        
+        30 => 'visitor', 
+        
+        31 => 'visitor entrance',
+        32 => 'visitor talk'
     );
     
     public $screensActions = array(
