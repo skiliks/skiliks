@@ -195,14 +195,14 @@ class SimulationController extends AjaxController{
             $uid = SessionHelper::getUidBySid($sid);
             if (!$uid) throw new Exception("cant find user by sid {$sid}");
 
-            $simulation = Simulations::model()->byUid($uid)->find();
-            if (!$simulation) throw new Exception("cant find simulation for uid {$uid}");
+            $simId = SessionHelper::getSimIdBySid($sid);
+            if (!$simId) throw new Exception("cant find simulation for sid {$sid}");
             
             $result = array();
             $result['result'] = 1;
             // определяем duration симуляции
             //$dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
-            $dialogsDuration = SimulationsDialogsDurations::model()->findByAttributes(array('sim_id'=>$simulation->id));
+            $dialogsDuration = SimulationsDialogsDurations::model()->findByAttributes(array('sim_id'=>$simId));
             if ($dialogsDuration) {
                 $result['duration'] = $dialogsDuration->duration;    
             }
@@ -226,7 +226,7 @@ class SimulationController extends AjaxController{
                         cpt.title
                     from simulations_dialogs_points as sdp
                     left join characters_points_titles as cpt on (cpt.id = sdp.point_id)
-                    where sdp.sim_id = {$simulation->id}";
+                    where sdp.sim_id = {$simId}";
             
             $connection = Yii::app()->db;
             $command = $connection->createCommand($sql);
