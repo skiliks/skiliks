@@ -10,16 +10,15 @@ class LogHelper {
 		
 		$comand = Yii::app()->db->createCommand();
 		$comand->insert("log_dialog", array(
-										'sim_id'=>$simId, 
-										'dialog_id'=>$dialogId,
-										'point_id' =>$pointId
-										));
+                        'sim_id'=>$simId, 
+                        'dialog_id'=>$dialogId,
+                        'point_id' =>$pointId
+                        ));
 	}
 	
 	public static function getLogDataDoialog() {
 	
-		$sql = "
-				SELECT
+		$sql = "            SELECT
 				      `log_dialog`.`sim_id`
 					 , `ceil`.`code` AS `p_code`
 				     , `ceil`.`title` AS `p_title`
@@ -77,8 +76,50 @@ class LogHelper {
 		));
 		$content = $csv->toCSV();
 		$filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv", false);
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
         
 	}
+        
+        public static function getDataDialogAvg() {
+            
+            $sql = "
+                    SELECT 
+				`log_dialog`.`sim_id`
+                                ,`points`.`code`
+				,`type_scale`.`value` AS `type_scale`
+				, round(avg(`characters_points`.`add_value`)*`points`.scale, 2) as avg
+                                FROM
+                                log_dialog
+                                LEFT JOIN characters_points ON log_dialog.dialog_id = characters_points.dialog_id
+                                LEFT JOIN characters_points_titles AS points ON  characters_points.point_id = points.id
+                                LEFT JOIN type_scale ON points.type_scale = type_scale.id 
+                                GROUP BY sim_id, `code` ORDER BY `code`
+				";
+		$connection = Yii::app()->db;
+		$command = $connection->createCommand( $sql );
+		$rows = $command->queryAll();
+                
+		return $rows;
+            
+        }
+        
+        public static function getDialogAvgCSV() {
+                $data = self::getDataDialogAvg();
+                //var_dump($data);
+                //exit("Exit");
+		foreach ($data as  $k=>$row) {
+			$data[$k]['avg'] = Strings::toWin(str_replace('.', ',', $data[$k]['avg']));
+		}
+		$csv = new ECSVExport($data, true, true, ';');
+		$csv->setHeaders(array(
+				'sim_id'        => Strings::toWin('id_симуляции'),
+                                'code' => Strings::toWin('Номер поведения'),
+                                'type_scale'         => Strings::toWin('Тип поведения'),
+                    		'agv' => Strings::toWin('Номер поведения')				
+		));
+		$content = $csv->toCSV();
+		$filename = 'data.csv';
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        }
 	
 }
