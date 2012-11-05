@@ -110,6 +110,10 @@ class WindowLogger {
                     }
                 }
                 
+                if ($subScreenCode == 0 && $screenCode > 1) {
+                    $subScreenCode = 1; // mainScreen
+                }
+                
                 // проверим а не ли у нас уже такой записи
                 if (!self::hasSameNotClosedWindow($simId, $screenCode, $subScreenCode)) {
                     $model = new WindowLogModel();
