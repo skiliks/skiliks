@@ -161,9 +161,11 @@ class SimulationController extends AjaxController{
         
         $simId = SessionHelper::getSimIdBySid($sid);
         SimulationService::calcPoints($simId);
-        //return;
         
-        $uid = (int)Yii::app()->request->getParam('uid', false);
+        
+        $uid = SessionHelper::getUidBySid($sid);
+        if (!$uid) throw new Exception('Не могу найти такого пользователя');
+        
         
         $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));
         if ($model) {
@@ -174,6 +176,12 @@ class SimulationController extends AjaxController{
         
         // залогируем состояние плана
         DayPlanLogger::log($simId, DayPlanLogger::STOP);
+        
+        // данные для логирования
+        $logs = (array)Yii::app()->request->getParam('logs', false);  
+        $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
+        // залогируем окна
+        WindowLogger::log($simId, $logs, $windowActive);
         
         $result = array('result' => 1);
         $this->_sendResponse(200, CJSON::encode($result));
