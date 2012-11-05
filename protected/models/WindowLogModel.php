@@ -51,6 +51,14 @@ class WindowLogModel extends CActiveRecord{
         return $this;
     }
     
+    public function byActiveSubWindow($subWindow)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "activeSubWindow = {$subWindow}"
+        ));
+        return $this;
+    }
+    
     public function notActiveWindow($activeWindow)
     {
         $this->getDbCriteria()->mergeWith(array(
