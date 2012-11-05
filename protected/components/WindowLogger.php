@@ -95,7 +95,21 @@ class WindowLogger {
                 $screenCode = $screenActionsCode;
             }*/
             
+            
+            
             if ($screenActionsCode == self::ACTION_OPEN || $screenActionsCode == self::ACTION_SWITCH) { // open
+            
+                if ($screenActionsCode == self::ACTION_SWITCH) {
+                    // найти уже открытое окно
+                    $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
+                    if ($model) {
+                        // закроем его
+                        $model->timeEnd = $time;
+                        $model->save();
+                    }
+                }
+                
+                
                 // учтем еще момен - а не было ли предыдущее окно у нас mainScreen
                 if ($index == 0) {
                     $model = self::getNearestNotClosedWindow($simId, self::mainScreen);
