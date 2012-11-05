@@ -78,6 +78,8 @@ class WindowLogger {
     public static function log($simId, $logs, $activeWindow) {
         Logger::debug("log : ".var_export($logs, true));
         
+        Logger::debug("sim : $simId");
+        
         if (count($logs) == 0) {
             return false; // нечего логировать
         }
@@ -142,11 +144,24 @@ class WindowLogger {
             if ($screenActionsCode == self::ACTION_CLOSE) { // close
                 // закроем окно
                 Logger::debug("close window : $activeWindow");
-                $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)->nearest()->find();
+                $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)->nearest()->isNotClosed()->find();
                 if ($model) {
                     Logger::debug("find model id : {$model->id}");
                     $model->timeEnd = $time;
                     $model->save();
+                    continue;
+                }
+                
+                // такое обычно посылается при окончании симуляции
+                if ($screenCode == 1 && $subScreenCode == 1) {
+                    $model = new WindowLogModel();
+                    $model->sim_id          = $simId;
+                    $model->activeWindow    = 1;
+                    $model->activeSubWindow = 1;
+                    $model->timeStart       = $time;
+                    $model->timeEnd         = $time;
+                    $model->insert();
+                    continue;
                 }
             }
         }
