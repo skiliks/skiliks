@@ -11,15 +11,37 @@ class WindowLogger {
     
     const mainScreen = 1;
     
+    const ACTION_CLOSE = 0;
+    
+    const ACTION_OPEN = 1;
+    
+    const ACTION_SWITCH = 2;
+    
+    const ACTION_MAIL_PREVIEW = 102;
+    
+    const ACTION_MAIL_NEW = 103;
+    
+
     public static $screens = array(
-        1 => 'mainScreen', //0
-        2 => 'dialog', //1,
-        3 => 'dayPlan', //:2,
-        4 => 'excel', //:3,
-        5 => 'mailEmulator', //:4,
-        6 => 'documents', //:5,
-        7 => 'viewer', //:6,
-        8 => 'phone' //:7
+        1 => 'mainScreen', 
+        
+        3 => 'dayPlan', 
+        4 => 'excel', 
+        6 => 'documents', 
+        7 => 'viewer', 
+        10 => 'mail',
+        12 => 'mailPreview',
+        13 => 'mailNew',
+        14 => 'mailPlan',
+        20 => 'phone',
+        21 => 'phoneHistory',
+        22 => 'phoneContacts',
+        23 => 'phoneCall',
+        24 => 'phoneCallIncome',
+        
+        30 => 'dialog', 
+        31 => 'visitorEntrance',
+        32 => 'visitorTalk'
     );
     
     public $screensActions = array(
@@ -38,6 +60,11 @@ class WindowLogger {
         return WindowLogModel::model()->bySimulation($simId)->nearest()->byActiveWindow($screenCode)->isNotClosed()->find();
     }
     
+    public static function hasSameNotClosedWindow($simId, $screenCode, $subScreenCode) {
+        return (bool)WindowLogModel::model()->bySimulation($simId)->nearest()
+                ->byActiveWindow($screenCode)->byActiveSubWindow($subScreenCode)->isNotClosed()->find();
+    }
+    
     /**
      * Логирует активные окна
      * @param int $simId
@@ -54,10 +81,15 @@ class WindowLogger {
         $time = 0;
         foreach($logs as $index=>$log) {
             $screenCode         = (int)$log[0];
-            $screenActionsCode  = (int)$log[1];
-            $time               = $log[2]; //DateHelper::timeToTimstamp($log[2]);
+            $subScreenCode      = (int)$log[1];
+            $screenActionsCode  = (int)$log[2];
+            $time               = $log[3]; //DateHelper::timeToTimstamp($log[2]);
             
-            if ($screenActionsCode == 1) { // open
+            /*if ($screenActionsCode > 1) {
+                $screenCode = $screenActionsCode;
+            }*/
+            
+            if ($screenActionsCode == self::ACTION_OPEN || $screenActionsCode == self::ACTION_SWITCH) { // open
                 // учтем еще момен - а не было ли предыдущее окно у нас mainScreen
                 if ($index == 0) {
                     $model = self::getNearestNotClosedWindow($simId, self::mainScreen);
@@ -68,25 +100,28 @@ class WindowLogger {
                     }
                 }
                 
-                $subWindow = 0;
-                // проверим а нет ли под нами незакрытого окна - если есть то оно станет подокном
-                $model = WindowLogModel::model()->bySimulation($simId)->nearest()->notActiveWindow($screenCode)->isNotClosed()->find();
-                if ($model) {
-                    // определим подокно
-                    $subWindow = $model->activeWindow;
+                
+                if ($subScreenCode == 1) {
+                    // проверим а нет ли под нами незакрытого окна - если есть то оно станет подокном
+                    $model = WindowLogModel::model()->bySimulation($simId)->nearest()->notActiveWindow($screenCode)->isNotClosed()->find();
+                    if ($model) {
+                        // определим подокно
+                        $subScreenCode = $model->activeWindow;
+                    }
                 }
                 
-                $model = new WindowLogModel();
-                $model->sim_id          = $simId;
-                $model->activeWindow    = $screenCode;
-                $model->activeSubWindow = $subWindow;
-                $model->timeStart       = $time;
-                $model->insert();
-                
-                
+                // проверим а не ли у нас уже такой записи
+                if (!self::hasSameNotClosedWindow($simId, $screenCode, $subScreenCode)) {
+                    $model = new WindowLogModel();
+                    $model->sim_id          = $simId;
+                    $model->activeWindow    = $screenCode;
+                    $model->activeSubWindow = $subScreenCode;
+                    $model->timeStart       = $time;
+                    $model->insert();
+                }
             }
             
-            if ($screenActionsCode == 0) { // close
+            if ($screenActionsCode == self::ACTION_CLOSE) { // close
                 // закроем окно
                 Logger::debug("close window : $activeWindow");
                 $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)->nearest()->find();
@@ -95,8 +130,6 @@ class WindowLogger {
                     $model->timeEnd = $time;
                     $model->save();
                 }
-                
-                
             }
         }
         
@@ -105,6 +138,13 @@ class WindowLogger {
         if ($model && $model->activeWindow == $activeWindow) {
             return;
         }    
+        
+        // учтем что у нас может быть открыто какое-то другое окно в это время
+        if ($model && $model->activeWindow != $activeWindow) {
+            if ($model->timeEnd == 0) {  // окно еще не закрыто
+                return; // нельзя логировать mainScreen
+            }
+        }
         
         $model = new WindowLogModel();
         $model->sim_id          = $simId;
