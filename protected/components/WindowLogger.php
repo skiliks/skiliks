@@ -23,9 +23,9 @@ class WindowLogger {
     
 
     public static $screens = array(
-        1 => 'mainScreen', 
+        1 => 'main screen', 
         
-        3 => 'dayPlan', 
+        3 => 'plan', 
         4 => 'excel', 
         6 => 'documents', 
         7 => 'viewer', 
@@ -34,9 +34,9 @@ class WindowLogger {
         13 => 'mailNew',
         14 => 'mailPlan',
         20 => 'phone',
-        21 => 'phoneHistory',
+        21 => 'phone main', //'phoneHistory',
         22 => 'phoneContacts',
-        23 => 'phoneCall',
+        23 => 'phone call',
         24 => 'phoneCallIncome',
         
         30 => 'dialog', 
@@ -112,6 +112,16 @@ class WindowLogger {
                 
                 if ($subScreenCode == 0 && $screenCode > 1) {
                     $subScreenCode = 1; // mainScreen
+                }
+                
+                
+                // надо бы закрыть родительское окно
+                if ($subScreenCode > 1) {
+                    $model = WindowLogModel::model()->bySimulation($simId)->nearest()->notActiveWindow($screenCode)->isNotClosed()->find();
+                    if ($model) {
+                        $model->timeEnd = $time;
+                        $model->save();
+                    }
                 }
                 
                 // проверим а не ли у нас уже такой записи
