@@ -46,14 +46,17 @@ class DayPlanLogReportController extends AjaxController{
             switch ($row['day']) {
                 case 1:
                     $row['day'] = 'today';    
+                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
                     break;
 
                 case 2:
                     $row['day'] = 'tomorrow';    
+                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
                     break;
                 
                 case 3:
                     $row['day'] = 'after vacation';    
+                    $row['date'] = 'any';
                     break;
             }
             
@@ -61,7 +64,7 @@ class DayPlanLogReportController extends AjaxController{
             if ($row['snapshot_time'] == 1) $row['snapshot_time'] = '11:00';
             else $row['snapshot_time'] = 'end';
             
-            $row['date'] = DateHelper::timestampTimeToString($row['date']);
+            
             $row['title'] = Strings::toWin($row['title']);
             
             $row['is_done'] = 'no';
