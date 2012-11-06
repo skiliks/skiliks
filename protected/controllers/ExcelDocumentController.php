@@ -720,13 +720,13 @@ class ExcelDocumentController extends AjaxController{
 
             $result = ExcelFactory::getDocument()->loadByFile($simId, $fileId)->populateFrontendResult();
             
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
-            )));
+            ));
         }
     }
     
@@ -747,7 +747,7 @@ class ExcelDocumentController extends AjaxController{
         $result = $document->loadWorksheet($worksheetId)->populateFrontendResult();
         
         //$result = ExcelFactory::getDocument()->loadWorksheet($worksheetId)->populateFrontendResult();
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     protected function _updateCell($params) {
@@ -843,13 +843,13 @@ class ExcelDocumentController extends AjaxController{
             $result['worksheetData'] = array($cell);
             if ($message) $result['message'] = $message;
             
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
-            )));
+            ));
         }
     }
     
@@ -888,7 +888,7 @@ class ExcelDocumentController extends AjaxController{
         $formulaType['params'] = $range;
         
         
-        return $this->_sendResponse(200, CJSON::encode($this->_calcAutoSum($formulaType)));
+        return $this->sendJSON($this->_calcAutoSum($formulaType));
     }
     
     /**
@@ -964,7 +964,7 @@ class ExcelDocumentController extends AjaxController{
         ExcelFactory::getDocument($documentId)->loadWorksheet($fromWorksheetId);
         ExcelFactory::getDocument($documentId)->loadWorksheet($worksheetId);
         $result = ExcelClipboard::paste($fromWorksheetId, $worksheetId, $column, $string, $range);
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
         ####################################################################
         
         
@@ -1054,7 +1054,7 @@ class ExcelDocumentController extends AjaxController{
         
         
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     protected function _replaceVars2($formula, $vars ) {
@@ -1119,7 +1119,7 @@ class ExcelDocumentController extends AjaxController{
             $target = Yii::app()->request->getParam('target', false);  
             
             $result = ExcelDrawing::apply($worksheetId, $column, $string, $target);
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
 
             Logger::debug("target : $target");
             $targetInfo = $this->_explodeCellName($target);
@@ -1254,15 +1254,16 @@ class ExcelDocumentController extends AjaxController{
                 }
             }
 
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
-            )));
+            ));
         }
+        return;
     }
     
     public function actionDebug() {

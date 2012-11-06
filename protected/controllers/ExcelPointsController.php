@@ -40,7 +40,7 @@ class ExcelPointsController extends AjaxController{
         $result['result'] = 1;
         $result['data'] = $formulaList;
 
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
 }
 

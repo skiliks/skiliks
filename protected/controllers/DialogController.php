@@ -34,7 +34,7 @@ class DialogController extends AjaxController{
                 $result = array();
                 $result['result'] = 1;
                 $result['events'][] = array('result' => 1, 'data' => array(), 'eventType' => 1);
-                return $this->_sendResponse(200, CJSON::encode($result));
+                return $this->sendJSON($result);
             }
             
             
@@ -69,7 +69,7 @@ class DialogController extends AjaxController{
             $eventRunResult = EventService::allowToRun($currentDialog->code, $simId, $currentDialog->step_number, $currentDialog->replica_number);
             if ($eventRunResult['compareResult'] === false) {
                 // событие не проходит по флагам -  не пускаем его
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => array())));
+                return $this->sendJSON(array('result' => 1, 'data' => array()));
             }
             
             
@@ -229,15 +229,16 @@ class DialogController extends AjaxController{
                 'eventType' => 1
             );
      
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
             Logger::debug('exception : '.  $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
-            )));
+            ));
         }
+        return;
     }
 }
 

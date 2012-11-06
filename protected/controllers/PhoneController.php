@@ -30,7 +30,7 @@ class PhoneController extends AjaxController{
         $result['result'] = 1;
         $result['data'] = $list;
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -42,7 +42,7 @@ class PhoneController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = PhoneService::getThemes($id);
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionIgnore() {
@@ -61,12 +61,12 @@ class PhoneController extends AjaxController{
             
             $result = array();
             $result['result'] = 1;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
         
     }
@@ -122,7 +122,7 @@ class PhoneController extends AjaxController{
                             'data' => $data,
                             'eventType' => 1
                         );
-                        return $this->_sendResponse(200, CJSON::encode($result));
+                        return $this->sendJSON($result);
                     }
                     else {
                         // у нас есть событие
@@ -135,7 +135,7 @@ class PhoneController extends AjaxController{
                         Logger::debug("eventRunResult : ".var_export($eventRunResult, true));
                         if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
                             // событие не проходит по флагам -  не пускаем его
-                            return $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'events' => array())));
+                            return $this->sendJSON(array('result' => 1, 'events' => array()));
                         }
                         
                         
@@ -148,7 +148,7 @@ class PhoneController extends AjaxController{
                             'data' => $data,
                             'eventType' => 1
                         );
-                        return $this->_sendResponse(200, CJSON::encode($result));
+                        return $this->sendJSON($result);
                     }
                 }
             }
@@ -176,12 +176,12 @@ class PhoneController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['data'] = $data;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
 
@@ -226,12 +226,12 @@ class PhoneController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['data'] = $list;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
 }

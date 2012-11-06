@@ -146,7 +146,7 @@ abstract class DictionaryController extends AjaxController{
             'total' => $total                   // всего страниц
         );
         
-	$this->_sendResponse(200, CJSON::encode($data));
+	$this->sendJSON($data);
     }
     
     abstract protected function _editHandler();
@@ -172,7 +172,7 @@ abstract class DictionaryController extends AjaxController{
             $result = $this->_delHandler();
         }
 
-        $this->_sendResponse(200, CJSON::encode(array('result' => $result)));
+        $this->sendJSON(array('result' => $result));
     }
     
     protected function _getComboboxData($tableName, $nameField = 'title', $condition='', $firstValue = false, $idField = 'id') {
