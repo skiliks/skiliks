@@ -64,7 +64,7 @@ class DialogsController extends DictionaryController{
             )
         );
         
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
     
     public function actionGetDialogTypesHtml() {
@@ -304,7 +304,7 @@ class DialogsController extends DictionaryController{
             'data' => $data
         );
         
-	$this->_sendResponse(200, CJSON::encode($data));
+	$this->sendJSON($data);
     }
     
     public function actionSavePoints() {
@@ -331,7 +331,7 @@ class DialogsController extends DictionaryController{
             'result' => 1
         );
         
-	$this->_sendResponse(200, CJSON::encode($data));
+	$this->sendJSON($data);
     }
 }
 

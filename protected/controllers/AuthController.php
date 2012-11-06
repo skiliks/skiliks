@@ -33,15 +33,15 @@ class AuthController extends AjaxController{
             $result['result']       = 1;
             $result['sid']          = $this->_startSession($user->id);
             $result['simulations']  = UserService::getGroups($user->id);
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
 
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         }
-        
+        return;
     }
     
     protected function _startSession($uid) {
@@ -70,9 +70,9 @@ class AuthController extends AjaxController{
     
     public function actionLogout() {
         $sid = Yii::app()->request->getParam('sid', false);
-        $this->_sendResponse(200, CJSON::encode(array(
+        $this->sendJSON(array(
             'result' => (int)$this->_stopSession($sid)
-        )));
+        ));
     }
 }
 

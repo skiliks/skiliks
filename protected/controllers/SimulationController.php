@@ -144,11 +144,12 @@ class SimulationController extends AjaxController{
             FlagsService::initDefaultValues($simId);
 
             $result = array('result' => 1, 'speedFactor' => Yii::app()->params['skiliksSpeedFactor']);
-            $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         }
+        return;
     }
     
     /**
@@ -184,7 +185,7 @@ class SimulationController extends AjaxController{
         WindowLogger::log($simId, $logs, $windowActive);
         
         $result = array('result' => 1);
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
     
     public function actionGetPoint() {
@@ -262,10 +263,10 @@ class SimulationController extends AjaxController{
                 );
             }        
                     
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
     
@@ -304,10 +305,10 @@ class SimulationController extends AjaxController{
             $simulation->save();
             
             $result = array('result' => 1);
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         }
     }
 }

@@ -20,10 +20,10 @@ class DebugController extends AjaxController{
             $simId = SessionHelper::getSimIdBySid($sid);
             
             $result = array('result' => (int)SimulationService::calcPoints($simId));
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }    
     }
 }

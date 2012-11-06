@@ -48,7 +48,7 @@ class ScenarioController extends AjaxController{
         //Logger::debug('file : '.$fileName);
         
         //$result = array('result' => 1, 'message' => 'file : '.$fileName);
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
 }
 

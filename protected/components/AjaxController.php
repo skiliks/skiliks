@@ -30,6 +30,7 @@ class AjaxController extends CController{
 	        Yii::app()->end();
     }
 
+    /** @method void sendJSON Writes JSON to output */
     protected function sendJSON($data, $status = 200) {
         $this->_sendResponse($status, CJSON::encode($data));
     }

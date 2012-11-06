@@ -20,19 +20,21 @@ class UserAccountController extends AjaxController{
         $email1 = Yii::app()->request->getParam('email1', false);
         $email2 = Yii::app()->request->getParam('email2', false);
         if ($email1 != $email2) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => 'Введенные емейлы не совпадают'
-            )));
+            ));
+            return;
         }
         
         try {
             $user = $this->_getUser();
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage()
-            )));
+            ));
+            return;
         }
 
         $user->email = $email1;
@@ -41,7 +43,7 @@ class UserAccountController extends AjaxController{
         $result = array(
             'result' => (int)$user->save()
         );
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
     
     public function actionChangePassword() {
@@ -49,19 +51,21 @@ class UserAccountController extends AjaxController{
         $pass2 = Yii::app()->request->getParam('pass2', false);
         
         if ($pass1 != $pass2) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => 'Введенные пароли не совпадают'
-            )));
+            ));
+            return;
         }
         
         try {
             $user = $this->_getUser();
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage()
-            )));
+            ));
+            return;
         }
 
         $user->password = md5($pass1);
@@ -70,7 +74,7 @@ class UserAccountController extends AjaxController{
         $result = array(
             'result' => (int)$user->save()
         );
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
 }
 

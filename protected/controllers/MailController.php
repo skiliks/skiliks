@@ -38,7 +38,7 @@ class MailController extends AjaxController{
             'simId' => $simId
         ));
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -54,9 +54,9 @@ class MailController extends AjaxController{
         if (isset($unreadInfo[1])) {
             $result['result'] = 1;
             $result['unreaded'] = $unreadInfo[1];
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -97,7 +97,7 @@ class MailController extends AjaxController{
             $result['type'] = 'inbox';
         }
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionGetMessage() {
@@ -110,7 +110,7 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = $message;
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -123,7 +123,7 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = $service->getCharacters();
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionGetPhrases() {
@@ -135,7 +135,7 @@ class MailController extends AjaxController{
         $result['result'] = 1;
         $result['data'] = $service->getMailPhrases($id);
         $result['addData'] = $service->getSigns();
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionSendMessage() {
@@ -171,7 +171,7 @@ class MailController extends AjaxController{
         
         $result = array();
         $result['result'] = 1;
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionSaveDraft() {
@@ -201,7 +201,7 @@ class MailController extends AjaxController{
         
         $result = array();
         $result['result'] = 1;
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -220,12 +220,12 @@ class MailController extends AjaxController{
             $result['data'] = array(
                 'messageArriveSound' => $model->messageArriveSound
             );
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }    
     }
     
@@ -247,12 +247,12 @@ class MailController extends AjaxController{
             //var_dump($model);die();
             $result = array();
             $result['result'] = 1;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }    
     }
     
@@ -267,7 +267,7 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         $result['data'] = $service->getThemes($receivers);
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionDelete() {
@@ -296,7 +296,7 @@ class MailController extends AjaxController{
         }
         $result['folders'] = $folders;        
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     public function actionMarkRead() {
@@ -325,7 +325,7 @@ class MailController extends AjaxController{
         }
         $result['folders'] = $folders;        
         
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
     }
     
     /**
@@ -347,11 +347,11 @@ class MailController extends AjaxController{
             
             
             if ($model->group_id > 1 && $model->group_id < 4) {
-                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                return $this->sendJSON(array('result'=>0));
             }
             
             if ($folderId > 1 && $folderId < 4) {
-                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                return $this->sendJSON(array('result'=>0));
             }
             
             /*
@@ -359,13 +359,13 @@ class MailController extends AjaxController{
             if ($model->group_id == 1) {
                 // из входящих можно перемещать только в корзину
                 if ($folderId != 4) {
-                    return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                    return $this->sendJSON(array('result'=>0));
                 }
             }
             if ($model->group_id == 4) {
                 // из корзины можно перемещать только во входящие
                 if ($folderId != 1) {
-                    return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                    return $this->sendJSON(array('result'=>0));
                 }
             }*/
             
@@ -390,12 +390,12 @@ class MailController extends AjaxController{
             }
             $result['folders'] = $folders;        
         
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
     
@@ -410,7 +410,7 @@ class MailController extends AjaxController{
             $groupId = (int)$model->group_id;
             
             if (($groupId > 1) && ($groupId < 4)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                return $this->sendJSON(array('result'=>0));
             };
             
             $service = new MailBoxService();
@@ -462,12 +462,12 @@ class MailController extends AjaxController{
             $result['receiverId'] = $model->sender_id;
             $result['subject'] = $subject;
                   
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
     
@@ -482,7 +482,7 @@ class MailController extends AjaxController{
             $groupId = (int)$model->group_id;
             
             if (($groupId > 1) && ($groupId < 4)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result'=>0)));
+                return $this->sendJSON(array('result'=>0));
             };
             
             $service = new MailBoxService();
@@ -548,12 +548,12 @@ class MailController extends AjaxController{
             $result['copiesId'] = implode(',', $copiesIds);
             
                   
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
     
@@ -580,12 +580,12 @@ class MailController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['data'] = $tasks;
-        return $this->_sendResponse(200, CJSON::encode($result));
+        return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }    
     }
     
@@ -615,12 +615,12 @@ class MailController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['taskId'] = $task->id;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }        
     }
     
@@ -641,12 +641,12 @@ class MailController extends AjaxController{
             
             $result = array();
             $result['result'] = 1;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }   
     }
     
@@ -708,12 +708,12 @@ class MailController extends AjaxController{
             //$result['phrases'] = $phrases;
             
             
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }   
     }
 }

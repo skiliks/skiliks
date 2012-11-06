@@ -38,7 +38,7 @@ class EventsSamplesController extends DictionaryController{
             )
         );
         
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
     
     public function actionGetDialogsHtml() {

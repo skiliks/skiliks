@@ -16,10 +16,11 @@ class PasswordController extends AjaxController{
         
         $user = Users::model()->findByAttributes(array('email'=>$email));
         if (!$user) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => 'Не могу найти пользователя с заданным емейл'
-            )));
+            ));
+            return;
         }
         
         $password = md5(time());
@@ -35,7 +36,7 @@ class PasswordController extends AjaxController{
         $result = array(
             'result' => 1
         );
-        $this->_sendResponse(200, CJSON::encode($result));
+        $this->sendJSON($result);
     }
 }
 
