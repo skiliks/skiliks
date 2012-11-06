@@ -93,7 +93,7 @@ class LogHelper {
                                 LEFT JOIN characters_points ON log_dialog.dialog_id = characters_points.dialog_id
                                 LEFT JOIN characters_points_titles AS points ON  characters_points.point_id = points.id
                                 LEFT JOIN type_scale ON points.type_scale = type_scale.id 
-                                GROUP BY sim_id, `code` ORDER BY `code`
+                                GROUP BY `log_dialog`.`sim_id`, `code` ORDER BY `log_dialog`.`sim_id`
 				";
 		$connection = Yii::app()->db;
 		$command = $connection->createCommand( $sql );
