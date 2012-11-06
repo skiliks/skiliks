@@ -38,10 +38,10 @@ class ViewerController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             $result['data'] = $list;
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array('result' => 0, 'message' => $exc->getMessage());
-            return $this->_sendResponse(200, CJSON::encode($result));
+            return $this->sendJSON($result);
         }
     }
 }

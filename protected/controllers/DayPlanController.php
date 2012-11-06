@@ -61,9 +61,7 @@ class DayPlanController extends AjaxController{
          return $digit;
     }
     
-    /**
-     * Получить список для плана дневной
-     */
+    /** @method void actionGet Получить список для плана дневной */
     public function actionGet() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
@@ -104,12 +102,13 @@ class DayPlanController extends AjaxController{
             
             if (count($data)==0)  {
                 $data = array('result' => 1, 'data' => array());
-                return $this->_sendResponse(200, CJSON::encode($data));
+                return $this->sendJSON($data);
             }
             
             if (count($tasks) == 0) {
                 $data = array('result' => 1, 'data' => array());
-                return $this->_sendResponse(200, CJSON::encode($data));
+                $this->sendJSON($data);
+                return;
             }
             
             
@@ -160,10 +159,10 @@ class DayPlanController extends AjaxController{
             //$list[] = $vacations;
 
             $data = array('result' => 1, 'data' => $list);
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }
     }
     
@@ -181,11 +180,12 @@ class DayPlanController extends AjaxController{
             DayPlan::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
                     array(':simId' => $simId, ':taskId' => $taskId));
             
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            $this->sendJSON(array('result' => 1));
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }
+        return;
     }
     
     protected function _isAppropriateTime($simId, $time) {
@@ -266,17 +266,20 @@ class DayPlanController extends AjaxController{
             
             if ($day == 3) {   // Добавление на после отпуска
                 $service->addAfterVacation($simId, $taskId, $time);
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+                $this->sendJSON(array('result' => 1));
+                return;
             }
             
             // проверить не пытаемся ли мы добавить задачу раньше игрового времени
             if (!$this->_isAppropriateTime($simId, $time)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 0, 'code' => 1)));
+                $this->sendJSON(array('result' => 0, 'code' => 1));
+                return;
             }
             
             // @todo: проверить подходит ли задача по времени
             if (!$this->_canAddTask($taskId, $time)) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 0, 'code' => 2)));
+                $this->sendJSON(array('result' => 0, 'code' => 2));
+                return;
             }
             
             $service->add($simId, $taskId, $day, $time);
@@ -285,10 +288,11 @@ class DayPlanController extends AjaxController{
             Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
                     array(':simId'=>$simId, ':taskId'=>$taskId));
             
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            $this->sendJSON(array('result' => 1));
+            return;
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage(), 'code' => $exc->getCode());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }
     }
     
@@ -313,10 +317,10 @@ class DayPlanController extends AjaxController{
 
 
             $data = array('result' => 1);
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }
     }
 }

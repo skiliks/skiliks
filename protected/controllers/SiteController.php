@@ -11,7 +11,7 @@ class SiteController extends CController
     public function actionIndex()
     {
 	$rows = array("1"=>"2");
-	$this->_sendResponse(200, CJSON::encode($rows));
+	$this->sendJSON($rows);
         //echo 'Hello World';
     }
 

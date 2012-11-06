@@ -68,7 +68,8 @@ class EventsController extends AjaxController{
             $task = $this->_processTasks($simId);
             if ($task) {
                 $result = array('result' => 1, 'data' => $task, 'eventType' => 'task', 'serverTime' => $gameTime);
-                return $this->_sendResponse(200, CJSON::encode($result));
+                $this->sendJSON($result);
+                return;
             }
             ###################
             
@@ -205,15 +206,16 @@ class EventsController extends AjaxController{
             
             Logger::debug("result : ".var_export($result, true));
             
-            return $this->_sendResponse(200, CJSON::encode($result));
+            $this->sendJSON($result);
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode(),
                 'serverTime' => $gameTime
-            )));
+            ));
         }
+        return;
     }
     
     
@@ -232,7 +234,7 @@ class EventsController extends AjaxController{
             );
         }
         
-        $this->_sendResponse(200, CJSON::encode(array('result' => 1, 'data' => $data)));
+        $this->sendJSON(array('result' => 1, 'data' => $data));
     }
     
     /**
@@ -287,13 +289,14 @@ class EventsController extends AjaxController{
                 $eventsTriggers->insert();
             }
             
-            return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+            $this->sendJSON(array('result' => 1));
             
         } catch (Exception $exc) {
-            return $this->_sendResponse(200, CJSON::encode(array(
+            $this->sendJSON(array(
                 'result' => 0, 'message' => $exc->getMessage()
-            )));
+            ));
         }
+        return;
     }
 }
 

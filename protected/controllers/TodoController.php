@@ -26,10 +26,10 @@ class TodoController extends AjaxController{
             
 
             $data = array('result' => 1, 'data' => Todo::model()->bySimulation($simId)->count());
-            return $this->_sendResponse(200, CJSON::encode($data));
+            return $this->sendJSON($data);
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }       
     }
     
@@ -51,7 +51,7 @@ class TodoController extends AjaxController{
             }
             if (count($tasks) == 0) {
                 $data = array('result' => 1, 'data' => array());
-                return $this->_sendResponse(200, CJSON::encode($data));
+                return $this->sendJSON($data);
             }
             
             $tasks = Tasks::model()->byIds($tasks)->findAll();
@@ -65,10 +65,10 @@ class TodoController extends AjaxController{
             }
             
             $data = array('result' => 1, 'data' => $list);
-            return $this->_sendResponse(200, CJSON::encode($data));
+            return $this->sendJSON($data);
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }    
     }
     
@@ -91,7 +91,7 @@ class TodoController extends AjaxController{
             
             $todo = Todo::model()->findByAttributes($condition);
             if ($todo) {
-                return $this->_sendResponse(200, CJSON::encode(array('result' => 1)));
+                return $this->sendJSON(array('result' => 1));
             }
             
             $todo = new Todo();
@@ -100,10 +100,10 @@ class TodoController extends AjaxController{
             $todo->insert();
 
             $data = array('result' => 1);
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         } catch (Exception $exc) {
             $data = array('result' => 0, 'message' => $exc->getMessage());
-            $this->_sendResponse(200, CJSON::encode($data));
+            $this->sendJSON($data);
         }    
     }
 }
