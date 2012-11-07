@@ -258,23 +258,26 @@ class CharactersPointsTitleImportController extends AjaxController {
 		LogHelper::getDialogCSV();
 	}
         
-        public function actionTest() {
+    public function actionTest() {
             
-            $num = "0.48765440";
+    $a = 30;
+
+    $b = $a + 90;
             
-            if (Math::isMore6SignsFloat($num)) {
-              //  Logger::debug("replaceVarsCallback: round cell : $varName");
-                echo round($num, 6);
-            }
-            
-            //echo  $num;
+    echo  $b;
             
 	}
         
-        public function actionLogDialogAvg() {
+    public function actionLogDialogAvg() {
             
-            LogHelper::getDialogAvgCSV();
+       LogHelper::getDialogAvgCSV();
             
-        }
+    }
+    
+    public function actionLogDocuments() {
+            
+        LogHelper::getDocumentsCSV();
+            
+    }
     
 }
