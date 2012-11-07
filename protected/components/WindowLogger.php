@@ -126,15 +126,22 @@ class WindowLogger {
                 // найти предыдущее окно
                 $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
                 if ($model) {
-                    // закроем его
-                    $model->timeEnd = $time;
-                    $model->save();
+                    // самого себя мы закрывать не будем 
+                    if ($model->activeWindow != $screenCode && $model->activeSubWindow != $subScreenCode) {
+                        // закроем его
+                        $model->timeEnd = $time;
+                        $model->save();
+                    }
+                    else continue; // у нас скорее всего ситуация типа phone phonemain
                 }
                 
+                /*
                 // проверим а вдруг у нас уже есть такое окно незакрытое пример - phone phoneMain
                 $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)
                         ->byActiveSubWindow($subScreenCode)->nearest()->isNotClosed()->find();
                 if ($model) continue; // у нас есть уже такое окно и оно не закрыто
+                 * 
+                 */
                 
                 // открыть окно
                 // проверим а не ли у нас уже такой записи
