@@ -121,10 +121,7 @@ class WindowLogger {
             }
             
             if ($screenActionsCode == self::ACTION_SWITCH) {
-                // проверим а вдруг у нас уже есть такое окно незакрытое пример - phone phoneMain
-                $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)
-                        ->byActiveSubWindow($subScreenCode)->nearest()->isNotClosed()->find();
-                if ($model) continue; // у нас есть уже такое окно и оно не закрыто
+                
                 
                 // найти предыдущее окно
                 $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
@@ -133,6 +130,11 @@ class WindowLogger {
                     $model->timeEnd = $time;
                     $model->save();
                 }
+                
+                // проверим а вдруг у нас уже есть такое окно незакрытое пример - phone phoneMain
+                $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)
+                        ->byActiveSubWindow($subScreenCode)->nearest()->isNotClosed()->find();
+                if ($model) continue; // у нас есть уже такое окно и оно не закрыто
                 
                 // открыть окно
                 // проверим а не ли у нас уже такой записи
