@@ -5,6 +5,10 @@
 /**
  * Модель дневного плана
  *
+ * @property int sim_id
+ * @property int task_id
+ * @property string date
+ * @property int day
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DayPlan extends CActiveRecord{
