@@ -30,7 +30,7 @@ class LogHelper {
 	
 	public static function getLogDataDoialog() {
 	
-		$sql = "  SELECT
+		/*$sql = "  SELECT
 				      `log_dialog`.`sim_id`
 					 , `ceil`.`code` AS `p_code`
 				     , `ceil`.`title` AS `p_title`
@@ -57,10 +57,36 @@ class LogHelper {
 				ON `type_scale`.id = `points`.`type_scale`
 				  GROUP BY `log_dialog`.id
 				";
+
 		$connection=Yii::app()->db;
 		$command=$connection->createCommand($sql);
 		$rows=$command->queryAll();
 		return $rows;
+		*/
+
+        $data = Yii::app()->db->createCommand()
+            ->select('l.sim_id
+					 , p2.code as p_code
+				     , p2.title AS p_title
+				     , p.code
+				     , p.title
+				     , t.value as type_scale
+				     , p.scale
+					 , c.add_value
+					 , l.dialog_id
+				     , d.code AS dialog_code
+				     , d.step_number
+				     , d.replica_number')
+            ->from('log_dialog l')
+            ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
+            ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
+            ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
+            ->join('characters_points_titles p2', 'p2.id = p.parent_id')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->order('l.id')
+            ->queryAll();
+
+        return $data;
 	}
 	
 	public static function getDialogCSV() {
