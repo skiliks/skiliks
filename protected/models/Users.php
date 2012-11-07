@@ -5,6 +5,9 @@
 /**
  * Модель пользователей
  *
+ * @property mixed email
+ * @property mixed password
+ * @property mixed is_active
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Users extends CActiveRecord{
