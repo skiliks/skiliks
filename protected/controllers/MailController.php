@@ -171,7 +171,8 @@ class MailController extends AjaxController{
         
         $result = array();
         $result['result'] = 1;
-        return $this->sendJSON($result);
+        $this->sendJSON($result);
+        return;
     }
     
     public function actionSaveDraft() {
@@ -570,7 +571,7 @@ class MailController extends AjaxController{
             
             // определить идентификатор шаблона письма
             $templateId = (int)MailBoxService::getTemplateId($messageId);
-            if ($templateId == 0) throw new Exception("cant get template for id : $mailId");
+            if ($templateId == 0) throw new Exception("cant get template for id : $messageId");
             
             // получить список задач для шаблона письма
             $tasks = MailBoxService::getTasks($templateId);

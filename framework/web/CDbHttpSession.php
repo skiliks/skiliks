@@ -111,7 +111,7 @@ class CDbHttpSession extends CHttpSession
 			else
 			{
 				$row['id']=$newID;
-				$db->createCommand()->insert($this->sessionTableName, $row);
+                $db->createCommand()->insert($this->sessionTableName, $row);
 			}
 		}
 		else

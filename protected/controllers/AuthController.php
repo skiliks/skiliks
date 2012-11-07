@@ -45,24 +45,13 @@ class AuthController extends AjaxController{
     }
     
     protected function _startSession($uid) {
-        $user = UsersSessions::model()->findByAttributes(array('user_id'=>$uid));
-        if ($user) $user->delete();
+        Yii::app()->session['sid'] = Yii::app()->session->sessionID;
         
-        $user = new UsersSessions();
-        $user->user_id = $uid;
-        $user->session_id = md5(time());
-        $user->start_time = time();
-        $user->insert();
-        
-        Yii::app()->session['sid'] = $user->session_id;
-        
-        return $user->session_id;
+        return Yii::app()->session->sessionID;
     }
     
     protected function _stopSession($sid) {
-        $session = UsersSessions::model()->findByAttributes(array('session_id'=>$sid));
-        if ($session) $session->delete();
-
+        unset(Yii::app()->session);
         Yii::app()->session['sid'] = false;
         
         return true;

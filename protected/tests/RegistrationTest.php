@@ -2,9 +2,23 @@
 
 class RegistrationTest extends CWebTestCase
 {
+    public static $browsers = array(
+        array(
+            'name'    => 'Firefox',
+            'browser' => '*firefox',
+            'port'    => 4444,
+            'timeout' => 50000,
+        ),
+        array(
+            'name'    => 'Chrome',
+            'browser' => '*googlechrome',
+            'port'    => 4444,
+            'timeout' => 50000,
+        )
+    );
     protected function setUp()
     {
-        $this->setBrowser('*firefox');
+
         $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
         parent::setUp();
     }

@@ -8,6 +8,7 @@
 /**
  * Description of EventsResults
  *
+ * @property string title
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class EventsResults extends CActiveRecord{
