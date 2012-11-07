@@ -4,6 +4,9 @@
 /**
  * Description of EventsTriggers
  *
+ * @property int sim_id
+ * @property mixed event_id
+ * @property mixed trigger_time
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class EventsTriggers extends CActiveRecord{
