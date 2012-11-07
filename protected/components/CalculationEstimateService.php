@@ -118,7 +118,7 @@ class CalculationEstimateService {
         Logger::debug("before save data: ".var_export($data, true));
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
-        	LogHelper::getLogDoialog($dialogId, $simId, $pointId);
+            LogHelper::setLogDoialog($dialogId, $simId, $pointId);
             $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
             if (!$dialogsPoints) {
                 $dialogsPoints = new SimulationsDialogsPoints();
