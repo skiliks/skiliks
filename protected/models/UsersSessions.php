@@ -5,6 +5,8 @@
 /**
  * Description of UsersSessions
  *
+ * @property int user_id
+ * @property string session_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class UsersSessions extends CActiveRecord{
