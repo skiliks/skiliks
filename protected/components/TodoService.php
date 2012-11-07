@@ -20,6 +20,7 @@ class TodoService {
         $tasks->duration = $task->duration;
         $tasks->type = $task->type;
         $tasks->sim_id = $task->simulation;
+        $tasks->category = $task->category;
         $tasks->insert();
         $task->id = $tasks->id;
     }
