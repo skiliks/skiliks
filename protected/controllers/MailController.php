@@ -605,9 +605,10 @@ class MailController extends AjaxController{
             
             // Добавить новую задачу в план
             $task = new Task();
-            $task->simulation = $simId;
-            $task->title = $name;
-            $task->duration = $model->duration;
+            $task->simulation   = $simId;
+            $task->title        = $name;
+            $task->duration     = $model->duration;
+            $task->category     = $model->category;
             TodoService::createTask($task);
             
             TodoService::add($simId, $task->id);
