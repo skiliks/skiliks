@@ -18,6 +18,12 @@ return array(
                 ),
 
             ),
+        ),
+        'session' => array(
+            'class' => 'CDbHttpSession',
+            'autoCreateSessionTable' => false,
+            'connectionID' => 'db',
+
         )
     ),
 
