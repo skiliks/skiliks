@@ -93,11 +93,11 @@ class DialogController extends AjaxController{
             // запускаем ф-цию расчета оценки -- 
             // 1) к записи, ид которой пришло с фронта
             CalculationEstimateService::calculate($dialogId, $simId);
-            
+
             // конец расчета оценки
             
             //Логирование диалога
-            //LogHelper::getLogDoialog($dialogId, $simId);
+            //LogHelper::setLogDoialog($dialogId, $simId);
             //
             
              Logger::debug("check next event : {$currentDialog->next_event_code}");

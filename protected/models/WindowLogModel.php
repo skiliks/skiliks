@@ -30,7 +30,7 @@ class WindowLogModel extends CActiveRecord{
     public function byId($fileId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "id = {$id}"
+            'condition' => "id = {$fileId}"
         ));
         return $this;
     }
