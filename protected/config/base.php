@@ -23,6 +23,7 @@ return array(
             'class' => 'CDbHttpSession',
             'autoCreateSessionTable' => false,
             'connectionID' => 'db',
+            'sessionName' => 'sid'
 
         )
     ),

@@ -46,6 +46,7 @@ class AuthController extends AjaxController{
     
     protected function _startSession($uid) {
         Yii::app()->session['sid'] = Yii::app()->session->sessionID;
+        Yii::app()->session['uid'] = $uid;
         
         return Yii::app()->session->sessionID;
     }

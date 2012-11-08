@@ -28,9 +28,9 @@ final class SessionHelper {
      * @param string $sid
      * @return int
      */
-    public static function getUidBySid($sid) {
-        $session = UsersSessions::model()->findByAttributes(array('session_id'=>$sid));
-        if ($session) return $session->user_id;
+    public static function getUidBySid() {
+        if (isset(Yii::app()->session['uid']))
+            return Yii::app()->session['uid'];
         return false;
     }
     
@@ -39,8 +39,8 @@ final class SessionHelper {
      * @param int $sid
      * @return Users 
      */
-    public static function getUserBySid($sid) {
-        $uid = self::getUidBySid($sid);
+    public static function getUserBySid() {
+        $uid = self::getUidBySid();
         if (!$uid) throw new Exception('cant find user');
         
         $user = Users::model()->findByAttributes(array('id'=>$uid));
@@ -51,7 +51,7 @@ final class SessionHelper {
     
     public static function getSimIdBySid($sid) {
         // получаем uid
-        $uid = SessionHelper::getUidBySid($sid);
+        $uid = SessionHelper::getUidBySid();
         if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
 
         // получаем идентификатор симуляции
