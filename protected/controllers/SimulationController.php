@@ -74,7 +74,7 @@ class SimulationController extends AjaxController{
             $sid = Yii::app()->request->getParam('sid', false);
             $stype = (int)Yii::app()->request->getParam('stype', false); // тип симуляции 1 - promo, 2 - dev
 
-            $uid = SessionHelper::getUidBySid($sid);
+            $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception('Не могу найти такого пользователя');
 
             // Удаляем предыдущую симуляцию
@@ -164,7 +164,7 @@ class SimulationController extends AjaxController{
         SimulationService::calcPoints($simId);
         
         
-        $uid = SessionHelper::getUidBySid($sid);
+        $uid = SessionHelper::getUidBySid();
         if (!$uid) throw new Exception('Не могу найти такого пользователя');
         
         
@@ -193,7 +193,7 @@ class SimulationController extends AjaxController{
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("empty sid");
             
-            $uid = SessionHelper::getUidBySid($sid);
+            $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception("cant find user by sid {$sid}");
 
             $simId = SessionHelper::getSimIdBySid($sid);
@@ -279,7 +279,7 @@ class SimulationController extends AjaxController{
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("empty sid");
 
-            $uid = SessionHelper::getUidBySid($sid);
+            $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception("cant find user by sid {$sid}");
 
             $simulation = Simulations::model()->byUid($uid)->nearest()->find();

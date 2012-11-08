@@ -4,11 +4,11 @@ class SimulationTest extends ControllerTestCase
 {
     function testSimulationStart()
     {
-        $session = new UsersSessions();
-        $session->user_id = 2;
-        $session->session_id = '123';
-        $session->save();
-        $_POST['sid'] = $session->session_id;
+        $_POST['commandId'] = 2;
+        $_POST['email'] = 'asd';
+        $_POST['pass']  = '123';
+        $result = $this->callJSONAction('AuthController', 'actionAuth');
+        $_POST['sid'] = $result['sid'];
         $_POST['stype'] = 1;
         $result = $this->callJSONAction('SimulationController', 'actionStart');
 

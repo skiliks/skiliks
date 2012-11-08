@@ -12,7 +12,7 @@ class UserAccountController extends AjaxController{
     protected function _getUser() {
         $sid = Yii::app()->request->getParam('sid', false);
         
-        return SessionHelper::getUserBySid($sid);
+        return SessionHelper::getUserBySid();
     }
     
     public function actionChangeEmail() {
