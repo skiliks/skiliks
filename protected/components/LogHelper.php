@@ -73,7 +73,7 @@ class LogHelper {
 				     , t.value as type_scale
 				     , p.scale
 					 , c.add_value
-					 , d.id as dialog_id
+					 , d.excel_id as dialog_id
 				     , d.code AS dialog_code
 				     , d.step_number
 				     , d.replica_number')
