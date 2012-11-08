@@ -55,13 +55,12 @@ class LogManagerController extends AjaxController{
             if (isset(WindowLogger::$screens[$row['activeWindow']]))
                 $row['activeWindow'] = WindowLogger::$screens[$row['activeWindow']];
             
-            if (isset(WindowLogger::$screens[$row['activeSubWindow']]))
-                $row['activeSubWindow'] = WindowLogger::$screens[$row['activeSubWindow']];
+            if (isset(WindowLogger::$subScreens[$row['activeSubWindow']]))
+                $row['activeSubWindow'] = WindowLogger::$subScreens[$row['activeSubWindow']];
             
-            //$screens
             return $row;
         });
-        $content = $csv->toCSV(); // returns string by default
+        $content = $csv->toCSV(); 
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv", false);
         exit();
