@@ -4,17 +4,17 @@
  */
 
 return array(
-    'import'=>array(
+    'import' => array(
         'application.models.*',
         'application.components.*'
     ),
-    'components'=>array(
-        'log'=>array(
-            'class'=>'CLogRouter',
-            'routes'=>array(
+    'components' => array(
+        'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, info, trace, log',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, info, trace, log',
                 ),
 
             ),
@@ -26,16 +26,17 @@ return array(
 
         )
     ),
-
+    'commandMap' => array(
+        'migrate' => array('interactive' => false)),
     'basePath' => dirname(__FILE__) . '/..',
 
 
-    'preload'=>array('log'),
+    'preload' => array('log'),
 
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
-    'params'=>array(
-        'frontendUrl'=>'http://front.skiliks.loc/',
+    'params' => array(
+        'frontendUrl' => 'http://front.skiliks.loc/',
         'skiliksSpeedFactor' => 8
     )
 );
