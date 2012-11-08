@@ -55,7 +55,8 @@ class EventsController extends AjaxController{
             $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
             //[screensCode,screensActionsCode,time
             // залогируем окна
-            WindowLogger::log($simId, $logs, $windowActive);
+            $windowLogger = new WindowLogger();
+            $windowLogger->log($simId, $logs, $windowActive);
 
             //Пишем логирование открытия и закрытия документов
             LogHelper::setDocumentsLog($simId, $logs);
