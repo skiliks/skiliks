@@ -11,6 +11,7 @@ class AuthTest extends ControllerTestCase {
         $_POST['email'] = $user->email;
         $_POST['pass']  = 'test';
         $result = $this->callJSONAction('AuthController', 'actionAuth');
+        print_r($result);
         $sid = $result['sid'];
         unset($result['sid']);
         $this->assertEquals(array(
