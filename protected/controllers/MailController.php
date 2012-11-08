@@ -68,7 +68,7 @@ class MailController extends AjaxController{
         $order = Yii::app()->request->getParam('order', false);  
         $orderType = (int)Yii::app()->request->getParam('order_type', false);  
         
-        $receiverId = SessionHelper::getUidBySid($sid);
+        $receiverId = SessionHelper::getUidBySid();
         $simId = SessionHelper::getSimIdBySid($sid);
         
         $service = new MailBoxService();
