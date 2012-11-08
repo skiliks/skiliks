@@ -260,11 +260,8 @@ class CharactersPointsTitleImportController extends AjaxController {
         
     public function actionTest() {
             
-    $a = 30;
-
-    $b = $a + 90;
             
-    echo  $b;
+        phpinfo();
             
 	}
         
