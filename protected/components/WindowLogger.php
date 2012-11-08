@@ -26,29 +26,29 @@ class WindowLogger {
 
     public static $screens = array(
         1 => 'main screen', 
-        
         3 => 'plan', 
-        4 => 'excel', 
-        6 => 'documents', 
-        7 => 'documents files', 
         10 => 'mail',
-        11 => 'mail main',
-        12 => 'mail preview',
-        13 => 'mail new',
-        14 => 'mail plan',
         20 => 'phone',
-        21 => 'phone main', //'phoneHistory',
-        22 => 'phoneContacts',
-        
-        23 => 'phone talk',
-        24 => 'phone call',
-        25 => 'phone main',
-        
         30 => 'visitor', 
-        
-        31 => 'visitor entrance',
-        32 => 'visitor talk'
+        40 => 'documents'
     );
+    
+    public static $subScreens = array(
+        1 => 'mainScreen',
+        3 => 'plan',
+        11 => 'mailMain',
+        12 => 'mailPreview',
+        13 => 'mailNew',
+        14 => 'mailPlan',
+        21 => 'phoneMain',
+        23 => 'phoneTalk',
+        24 => 'phoneCall',
+        31 => 'visitorEntrance',
+        32 => 'visitorTalk',
+        41 => 'documents',
+        42 => 'documentsFiles'
+    );
+    
     
     public $screensActions = array(
         'close', //:0,
@@ -62,31 +62,16 @@ class WindowLogger {
      * @param int $screenCode
      * @return WindowLogModel 
      */
-    public static function getNearestNotClosedWindow($simId, $screenCode) {
+    public function getNearestNotClosedWindow($simId, $screenCode) {
         return WindowLogModel::model()->bySimulation($simId)->nearest()->byActiveWindow($screenCode)->isNotClosed()->find();
     }
     
-    public static function hasSameNotClosedWindow($simId, $screenCode, $subScreenCode) {
+    public function hasSameNotClosedWindow($simId, $screenCode, $subScreenCode) {
         return (bool)WindowLogModel::model()->bySimulation($simId)->nearest()
                 ->byActiveWindow($screenCode)->byActiveSubWindow($subScreenCode)->isNotClosed()->find();
     }
     
-    /**
-     * Логирует активные окна
-     * @param int $simId
-     * @param array $logs
-     * @param int $activeWindow 
-     */
-    public static function log($simId, $logs, $activeWindow) {
-        Logger::debug("window log : ".var_export($logs, true));
-        
-        Logger::debug("sim : $simId");
-        
-        if (count($logs) == 0) {
-            return false; // нечего логировать
-        }
-        
-        $time = 0;
+    protected function _processLogs($simId, $logs) {
         foreach($logs as $index=>$log) {
             $screenCode         = (int)$log[0];  // активное окно
             $subScreenCode      = (int)$log[1];  // активное подокно
@@ -94,8 +79,8 @@ class WindowLogger {
             $time               = $log[3]; //DateHelper::timeToTimstamp($log[2]);
             
             // исключение - добавлены согласно постановке от Антона
-            if ($screenCode == self::plan) $subScreenCode = self::plan;
-            if ($screenCode == self::mainScreen) $subScreenCode = self::mainScreen;
+            /*if ($screenCode == self::plan) $subScreenCode = self::plan;
+            if ($screenCode == self::mainScreen) $subScreenCode = self::mainScreen;*/
             
             if ($screenActionsCode == self::ACTION_OPEN) {
                 // закрыть предыдущее окно
@@ -109,7 +94,7 @@ class WindowLogger {
                 
                 // открыть окно
                 // проверим а не ли у нас уже такой записи
-                if (!self::hasSameNotClosedWindow($simId, $screenCode, $subScreenCode)) {
+                if (!$this->hasSameNotClosedWindow($simId, $screenCode, $subScreenCode)) {
                     $model = new WindowLogModel();
                     $model->sim_id          = $simId;
                     $model->activeWindow    = $screenCode;
@@ -120,41 +105,7 @@ class WindowLogger {
                 continue;
             }
             
-            if ($screenActionsCode == self::ACTION_SWITCH) {
-                
-                
-                // найти предыдущее окно
-                $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
-                if ($model) {
-                    // самого себя мы закрывать не будем 
-                    if ($model->activeWindow != $screenCode && $model->activeSubWindow != $subScreenCode) {
-                        // закроем его
-                        $model->timeEnd = $time;
-                        $model->save();
-                    }
-                    else continue; // у нас скорее всего ситуация типа phone phonemain
-                }
-                
-                /*
-                // проверим а вдруг у нас уже есть такое окно незакрытое пример - phone phoneMain
-                $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)
-                        ->byActiveSubWindow($subScreenCode)->nearest()->isNotClosed()->find();
-                if ($model) continue; // у нас есть уже такое окно и оно не закрыто
-                 * 
-                 */
-                
-                // открыть окно
-                // проверим а не ли у нас уже такой записи
-                if (!self::hasSameNotClosedWindow($simId, $screenCode, $subScreenCode)) {
-                    $model = new WindowLogModel();
-                    $model->sim_id          = $simId;
-                    $model->activeWindow    = $screenCode;
-                    $model->activeSubWindow = $subScreenCode;
-                    $model->timeStart       = $time;
-                    $model->insert();
-                }
-                continue;
-            }
+            
             
             if ($screenActionsCode == self::ACTION_CLOSE) {
                 $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)->nearest()->isNotClosed()->find();
@@ -177,7 +128,25 @@ class WindowLogger {
             }
             
         } // of foreach
+    }
+    
+    /**
+     * Логирует активные окна
+     * @param int $simId
+     * @param array $logs
+     * @param int $activeWindow 
+     */
+    public function log($simId, $logs, $activeWindow) {
+        Logger::debug("window log : ".var_export($logs, true));
         
+        Logger::debug("sim : $simId");
+                
+        
+        $time = 0;
+        if (count($logs)>0) {
+            return $this->_processLogs($simId, $logs);
+        }
+        return;
         
         
         // учтем activeWindow - это надо для случая когда закрыли окно и активно какое-то окно
