@@ -6,7 +6,7 @@ class LogHelper {
 
     const ACTION_OPEN = 1;
 
-    protected static $codes = array(4,6,7);
+    protected static $codes = array(40,41,42);
 
 	public function __construct() {
 		
