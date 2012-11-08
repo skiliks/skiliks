@@ -26,11 +26,6 @@ return array(
 
         )
     ),
-    'commandMap' => array(
-        'migrate' => array(
-            'class'=>'system.cli.commands.MigrateCommand',
-            'interactive' => false
-        )),
     'basePath' => dirname(__FILE__) . '/..',
 
 
