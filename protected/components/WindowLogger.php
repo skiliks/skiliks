@@ -135,8 +135,9 @@ class WindowLogger {
      * @param int $simId
      * @param array $logs
      * @param int $activeWindow 
+     * @param int $timeString
      */
-    public function log($simId, $logs, $activeWindow) {
+    public function log($simId, $logs, $activeWindow, $timeString) {
         Logger::debug("window log : ".var_export($logs, true));
         
         Logger::debug("sim : $simId");
@@ -146,9 +147,7 @@ class WindowLogger {
         if (count($logs)>0) {
             return $this->_processLogs($simId, $logs);
         }
-        return;
-        
-        
+                
         // учтем activeWindow - это надо для случая когда закрыли окно и активно какое-то окно
         $model = WindowLogModel::model()->bySimulation($simId)->nearest()->find();
         if ($model && $model->activeWindow == $activeWindow) {
@@ -158,15 +157,17 @@ class WindowLogger {
         // учтем что у нас может быть открыто какое-то другое окно в это время
         if ($model && $model->activeWindow != $activeWindow) {
             if ($model->timeEnd == 0) {  // окно еще не закрыто
-                return; // нельзя логировать mainScreen
+                // закроем его
+                $model->timeEnd = $timeString;
+                $model->save();
             }
         }
         
-        if ($activeWindow == 0) return;
+        if ($activeWindow == 0) return; // нечего логировать
         
         // пробуем определить активное подокно
         if ($activeWindow == 1) $subScreenCode = 1;
-        else {
+        /*else {
             // пробуем определить подокно
             // проверим а нет ли под нами незакрытого окна - если есть то оно станет подокном
             $model = WindowLogModel::model()->bySimulation($simId)->nearest()->notActiveWindow($screenCode)->isNotClosed()->find();
@@ -174,13 +175,13 @@ class WindowLogger {
                 // определим подокно
                 $subScreenCode = $model->activeWindow;
             }
-        }
+        }*/
         
         $model = new WindowLogModel();
         $model->sim_id          = $simId;
         $model->activeWindow    = $activeWindow;
         $model->activeSubWindow = $subScreenCode;
-        $model->timeStart       = $time;
+        $model->timeStart       = $timeString;
         $model->insert();
     }
 }

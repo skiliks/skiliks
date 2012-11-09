@@ -53,10 +53,12 @@ class EventsController extends AjaxController{
             // данные для логирования
             $logs = (array)Yii::app()->request->getParam('logs', false);  
             $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
-            //[screensCode,screensActionsCode,time
+            $timeString = Yii::app()->request->getParam('timeString', false);  
+            
+            
             // залогируем окна
             $windowLogger = new WindowLogger();
-            $windowLogger->log($simId, $logs, $windowActive);
+            $windowLogger->log($simId, $logs, $windowActive, $timeString);
 
             //Пишем логирование открытия и закрытия документов
             LogHelper::setDocumentsLog($simId, $logs);
