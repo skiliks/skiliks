@@ -74,7 +74,7 @@ class WindowLogModel extends CActiveRecord{
     public function isNotClosed()
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "timeEnd = 0"
+            'condition' => "timeEnd = 0 or timeEnd is null"
         ));
         return $this;
     }

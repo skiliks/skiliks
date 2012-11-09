@@ -181,9 +181,10 @@ class SimulationController extends AjaxController{
         // данные для логирования
         $logs = (array)Yii::app()->request->getParam('logs', false);  
         $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
+        $timeString = Yii::app()->request->getParam('timeString', false);  
         // залогируем окна
         $windowLogger = new WindowLogger();
-        $windowLogger->log($simId, $logs, $windowActive);
+        $windowLogger->log($simId, $logs, $windowActive, $timeString);
         
         $result = array('result' => 1);
         $this->sendJSON($result);
