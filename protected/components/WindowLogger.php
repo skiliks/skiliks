@@ -144,14 +144,15 @@ class WindowLogger {
                 
         
         $time = 0;
-        if (count($logs)>0) {
+        if (is_array($logs) && count($logs)>0) {
             return $this->_processLogs($simId, $logs);
         }
                 
         // учтем activeWindow - это надо для случая когда закрыли окно и активно какое-то окно
         $model = WindowLogModel::model()->bySimulation($simId)->nearest()->find();
-        if ($model && $model->activeWindow == $activeWindow) {
-            return;
+        if ($model) {
+            Logger::debug("cur : {$model->activeWindow} new : $activeWindow");
+            if ($model->activeWindow == $activeWindow) return;
         }    
         
         // учтем что у нас может быть открыто какое-то другое окно в это время
