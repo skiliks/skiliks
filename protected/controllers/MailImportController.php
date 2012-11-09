@@ -281,8 +281,10 @@ class MailImportController extends AjaxController{
                 throw new Exception("cant find mail by code $code");
             }
             
-            $model = MailTasksModel::model()->model()->byMailId($mail->id)->find();
+            //$model = MailTasksModel::model()->model()->byMailId($mail->id)->find();
+            $model = MailTasksModel::model()->model()->byId($index-1)->find();
             if (!$model) {
+                throw new Exception("cant find model by index $index");
                 $model = new MailTasksModel();
                 $model->mail_id = $mail->id;
             }
@@ -292,6 +294,9 @@ class MailImportController extends AjaxController{
             $model->wr          = $wr;
             $model->category    = $category;
             $model->save();
+            
+            echo("save : id {$mail->id} task $task duration $duration code $code wr $wr category $category <br/>");
+            
             //if (!$model->insert()) throw new Exception("cant create $code $duration");
             
         }
