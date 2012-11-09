@@ -177,7 +177,7 @@ class LogHelper {
         }
 
     public static function setDocumentsLog($simId, $logs){
-
+        if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
             //var_dump($log);
             //exit;
