@@ -9,6 +9,10 @@
  */
 class ExcelWorksheet {
     
+    /**
+     * Идентификатор рабочего листа.
+     * @var int
+     */
     public $id;
     
     /**
@@ -19,6 +23,11 @@ class ExcelWorksheet {
     
     protected $_columnIndex = array();
     
+    
+    /**
+     * Содержимое рабочего листа.
+     * @var type 
+     */        
     protected $_data;
     
     /**
@@ -46,7 +55,6 @@ class ExcelWorksheet {
     }
     
     public function load($worksheetId) {
-        //Logger::debug("load ws : $worksheetId");
         $this->id = $worksheetId;
         
         $data = Cache::get('ws'.$worksheetId);
@@ -82,7 +90,6 @@ class ExcelWorksheet {
             Cache::put('ws'.$worksheetId, $data);
         }
         
-        //Logger::debug("ws data: ".var_export($data, true));
         
         // создать соотв индексов
         $columnIndex = 1;
@@ -91,18 +98,15 @@ class ExcelWorksheet {
             $this->_columnIndex[$columnIndex] = $column;
             $columnIndex++;
         }
-        //Logger::debug("ws columns : ".var_export($this->_columns, true));
-        //Logger::debug("ws index : ".var_export($this->_columnIndex, true));
+
         $this->_data = $data;
         
         return $data;
     }
     
     public function getValueByName($cellName) {
-        Logger::debug("getValueByName: $cellName");
         
         if (is_numeric($cellName)) {
-            Logger::debug("is number: $cellName");
             if (Math::isMore6SignsFloat($cellName)) return round($cellName, 6);
             return $cellName;
         }
@@ -133,18 +137,15 @@ class ExcelWorksheet {
         $cell = $this->_data[$column][$string];
         
         
-        //if ($cell['value']=='') {
-            // смотрим формулу - если есть - пересчитаем ее
-            if ($cell['formula']!='') {
-                $formula = new ExcelFormula();
-                $formula->setWorksheet($this);
-                $value = $formula->parse($cell['formula']);
-                Logger::debug("return value $value");
-                return $value;
-            }
-        //}
+        // смотрим формулу - если есть - пересчитаем ее
+        if ($cell['formula']!='') {
+            $formula = new ExcelFormula();
+            $formula->setWorksheet($this);
+            $value = $formula->parse($cell['formula']);
+            return $value;
+        }
 
-        Logger::debug("return cell : ".var_export($cell, true));    
+
             
         if ($cell['value'] == '') return 0;
         return $cell['value'];
