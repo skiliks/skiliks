@@ -18,7 +18,7 @@ class LogHelper {
      * @param int $simId ID - Симуляции
      * @param int $pointId ID - Поинта с таблицы `characters_points_titles`
      */
-    public static function setLogDoialog($dialogId, $simId, $pointId) {
+    public static function setLogDoialog( $dialogId, $simId, $pointId ) {
 
 		$comand = Yii::app()->db->createCommand();
 		$comand->insert( "log_dialog" , array(
@@ -30,40 +30,6 @@ class LogHelper {
 	
 	public static function getLogDataDoialog() {
 	
-		/*$sql = "  SELECT
-				      `log_dialog`.`sim_id`
-					 , `ceil`.`code` AS `p_code`
-				     , `ceil`.`title` AS `p_title`
-				     , `points`.`code`
-				     , `points`.`title`
-				     , `type_scale`.`value` AS `type_scale`
-				     , `points`.`scale`
-					 , `characters_points`.add_value
-					 , `log_dialog`.`dialog_id`
-				     , `dialogs`.`code` AS `dialog_code`
-				     , `dialogs`.`step_number`
-				     , `dialogs`.`replica_number`
-				FROM
-				  `log_dialog`
-				JOIN `dialogs`
-				ON `log_dialog`.dialog_id = `dialogs`.id
-				JOIN `characters_points_titles` AS `points`
-				ON `points`.id = `log_dialog`.point_id
-				JOIN `characters_points`
-				ON `log_dialog`.`dialog_id` = `characters_points`.`dialog_id`
-				LEFT JOIN `characters_points_titles` AS `ceil`
-				ON `points`.`parent_id` = `ceil`.id
-				LEFT JOIN `type_scale`
-				ON `type_scale`.id = `points`.`type_scale`
-				  GROUP BY `log_dialog`.id
-				";
-
-		$connection=Yii::app()->db;
-		$command=$connection->createCommand($sql);
-		$rows=$command->queryAll();
-		return $rows;
-		*/
-
         $data = Yii::app()->db->createCommand()
             ->select('l.sim_id
 					 , p2.code as p_code
@@ -119,28 +85,7 @@ class LogHelper {
 	}
         
         public static function getDataDialogAvg() {
-            
-           /*     $sql = "
-                        SELECT
-                    `log_dialog`.`sim_id`
-                                    ,`points`.`code`
-                    ,`type_scale`.`value` AS `type_scale`
-                    , round(avg(`characters_points`.`add_value`)*`points`.scale, 2) as avg
-                                    FROM
-                                    log_dialog
-                                    LEFT JOIN characters_points ON log_dialog.dialog_id = characters_points.dialog_id
-                                    LEFT JOIN characters_points_titles AS points ON  characters_points.point_id = points.id
-                                    LEFT JOIN type_scale ON points.type_scale = type_scale.id
-                                    GROUP BY `log_dialog`.`sim_id`, `code` ORDER BY `log_dialog`.`sim_id`
-                    ";
-            $connection = Yii::app()->db;
-            $command = $connection->createCommand( $sql );
-            $rows = $command->queryAll();
 
-            return $rows;
-            * 
-            */
-            
             $data = Yii::app()->db->createCommand()
             ->select('l.sim_id,
                       p.code,
@@ -152,7 +97,7 @@ class LogHelper {
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
             ->group("l.sim_id, p.code")
             ->order("l.sim_id")        
-	    ->queryAll();
+            ->queryAll();
             
             return $data;
         }
@@ -176,21 +121,17 @@ class LogHelper {
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
         }
 
-    public static function setDocumentsLog($simId, $logs){
+    public static function setDocumentsLog( $simId, $logs ) {
+        
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
-            //var_dump($log);
-            //exit;
-            if( in_array($log[0], self::$codes) || in_array($log[1], self::$codes)) {
-                //var_dump($log);
-                //var_dump($log[4]['fileId']);
-                //var_dump($log[4]);
-                //exit;
+
+            if( in_array( $log[0], self::$codes ) || in_array( $log[1], self::$codes ) ) {
+
                 if(!isset($log[4]['fileId'])) continue;
-                //var_dump(self::ACTION_OPEN);
-                //var_dump($log[2]);
+                
                 if( self::ACTION_OPEN == $log[2] ){
-                    //var_dump($log[4]['fileId']);
+
                     $comand = Yii::app()->db->createCommand();
                     $comand->insert( "log_documents" , array(
                         'sim_id'    => $simId,
@@ -198,61 +139,38 @@ class LogHelper {
                         'start_time'  => date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == $log[2] ) {
-                    /*$start_time_id  = Yii::app()->db->createCommand()
-                        ->select( 'id ' )
-                        ->from( 'log_documents' )
-                        ->where( ' end_time is null ' )
-                        ->queryRow();
-                    */
+
                     $comand = Yii::app()->db->createCommand();
 
                     $comand->update( "log_documents" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`file_id` = {$log[4]['fileId']} AND
                         `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
-                    var_dump($comand->pdoStatement);
-                    var_dump($comand->params);
                 } else {
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
             }
         }
 
-
+        return true;
     }
     
     public static function getDocumentsLog() {
         
-        /*$sql = "
-                 SELECT `l`.`sim_id`
-			, `t`.`code`
-			, `t`.`fileName`
-			, `l`.start_time
-			, `l`.end_time
-                        FROM `log_documents` as l
-                        JOIN `my_documents` as d 
-                        ON `l`.`file_id` = `d`.`id`
-                        JOIN `my_documents_template` as t
-                        ON `d`.`template_id` = `t`.`id`
-                ";
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand( $sql );
-        $rows = $command->queryAll();
-
-        return $rows;
-         * 
-         */
-        $data = Yii::app()->db->createCommand()
-            ->select('l.sim_id,
-                      t.code,
-                      t.fileName, 
-                      l.start_time,
-                      l.end_time')
-            ->from('log_documents l')
-            ->join('my_documents d', 'l.file_id = d.id')
-            ->join('my_documents_template t', 'd.template_id = t.id')    
-	    ->queryAll();
-        return $data;
+        $data = Yii::app()
+                ->db
+                ->createCommand()
+                ->select('l.sim_id,
+                          t.code,
+                          t.fileName, 
+                          l.start_time,
+                          l.end_time')
+                ->from('log_documents l')
+                ->join('my_documents d', 'l.file_id = d.id')
+                ->join('my_documents_template t', 'd.template_id = t.id')    
+                ->queryAll();
+        
+                return $data;
     }
     
     public static function getDocumentsCSV() {
@@ -275,5 +193,69 @@ class LogHelper {
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
         
     }
+    
+    public static function setMailLog( $simId, $logs ) {
+        
+        if (!is_array($logs)) return false;
+        foreach( $logs as $log ) {
+
+            if( in_array( $log[0], self::$codes ) || in_array( $log[1], self::$codes ) ) {
+
+                if(!isset($log[4]['fileId'])) continue;
+                
+                if( self::ACTION_OPEN == $log[2] ){
+
+                    $comand = Yii::app()->db->createCommand();
+                    $comand->insert( "log_documents" , array(
+                        'sim_id'    => $simId,
+                        'file_id' => $log[4]['fileId'],
+                        'start_time'  => date("H:i:s", $log[3])
+                    ));
+                } elseif( self::ACTION_CLOSE == $log[2] ) {
+
+                    $comand = Yii::app()->db->createCommand();
+
+                    $comand->update( "log_documents" , array(
+                        'end_time'  => date("H:i:s", $log[3])
+                        ), "`file_id` = {$log[4]['fileId']} AND
+                        `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                } else {
+                    throw new Exception("Ошибка");//TODO:Описание доделать
+                }
+            }
+        }
+        return true;
+    }
 	
+    public static function getMailInBoxLog() {
+        
+    }
+    
+    public static function getMailInBoxCSV() {
+        
+    }
+    
+    public static function getMailInBoxAVG() {
+        
+    }
+    
+    public static function getMailInBoxAvgCSV() {
+        
+    }
+    
+    public static function getMailOutBoxLog() {
+        
+    }
+    
+    public static function getMailOutBoxCSV() {
+        
+    }
+    
+    public static function getMailOutBoxAVG() {
+        
+    }
+    
+    public static function getMailOutBoxAvgCSV() {
+        
+    }
 }
