@@ -34,19 +34,19 @@ class WindowLogger {
     );
     
     public static $subScreens = array(
-        1 => 'mainScreen',
+        1 => 'main screen',
         3 => 'plan',
-        11 => 'mailMain',
-        12 => 'mailPreview',
-        13 => 'mailNew',
-        14 => 'mailPlan',
-        21 => 'phoneMain',
-        23 => 'phoneTalk',
-        24 => 'phoneCall',
-        31 => 'visitorEntrance',
-        32 => 'visitorTalk',
+        11 => 'mail main',
+        12 => 'mail preview',
+        13 => 'mail new',
+        14 => 'mail plan',
+        21 => 'phone main',
+        23 => 'phone talk',
+        24 => 'phone call',
+        31 => 'visitor entrance',
+        32 => 'visitor nalk',
         41 => 'documents',
-        42 => 'documentsFiles'
+        42 => 'documents files'
     );
     
     
