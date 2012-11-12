@@ -45,7 +45,7 @@ class WindowLogger {
         24 => 'phone call',
         31 => 'visitor entrance',
         32 => 'visitor nalk',
-        41 => 'documents',
+        41 => 'documents main',
         42 => 'documents files'
     );
     
