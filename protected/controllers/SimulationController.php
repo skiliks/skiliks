@@ -179,7 +179,8 @@ class SimulationController extends AjaxController{
         DayPlanLogger::log($simId, DayPlanLogger::STOP);
         
         // данные для логирования
-        $logs = Yii::app()->request->getParam('logs', false);  
+        $logs = Yii::app()->request->getParam('logs', false);
+        LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
         $timeString = Yii::app()->request->getParam('timeString', false);  
         // залогируем окна

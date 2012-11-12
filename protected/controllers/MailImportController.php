@@ -10,7 +10,7 @@
 class MailImportController extends AjaxController{
     
     public function actionImport() {
-        $fileName = 'media/xls/mail2.csv';
+        $fileName = 'media/mail.csv';
         
         $characters = array();
         $charactersList = Characters::model()->findAll();
