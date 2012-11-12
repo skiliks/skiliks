@@ -6,7 +6,9 @@ class LogHelper {
 
     const ACTION_OPEN = 1;
 
-    protected static $codes = array(40,41,42);
+    protected static $codes_documents = array(40,41,42);
+
+    protected static $codes_mail = array(1,3,10,11,12,13,14);
 
 	public function __construct() {
 		
@@ -126,7 +128,7 @@ class LogHelper {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
 
-            if( in_array( $log[0], self::$codes ) || in_array( $log[1], self::$codes ) ) {
+            if( in_array( $log[0], self::$codes_documents ) || in_array( $log[1], self::$codes_documents ) ) {
 
                 if(!isset($log[4]['fileId'])) continue;
                 
@@ -139,7 +141,7 @@ class LogHelper {
                         'start_time'  => date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == $log[2] ) {
-
+                    //Yii::log(var_export($log, true), 'info');
                     $comand = Yii::app()->db->createCommand();
 
                     $comand->update( "log_documents" , array(
@@ -199,27 +201,29 @@ class LogHelper {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
 
-            if( in_array( $log[0], self::$codes ) || in_array( $log[1], self::$codes ) ) {
+            if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
 
-                if(!isset($log[4]['fileId'])) continue;
+                if(!isset($log[4]['mailId'])) continue;
                 
                 if( self::ACTION_OPEN == $log[2] ){
-
+                    //Yii::log(var_export($log, true), 'info');
                     $comand = Yii::app()->db->createCommand();
-                    $comand->insert( "log_documents" , array(
+                    $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
-                        'file_id' => $log[4]['fileId'],
+                        'mail_id'   => $log[4]['mailId'],
                         'start_time'  => date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == $log[2] ) {
-
+                    /*
                     $comand = Yii::app()->db->createCommand();
 
                     $comand->update( "log_documents" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`file_id` = {$log[4]['fileId']} AND
                         `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                    */
                 } else {
+                    Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
             }

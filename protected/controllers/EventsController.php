@@ -62,7 +62,8 @@ class EventsController extends AjaxController{
 
             //Пишем логирование открытия и закрытия документов
             LogHelper::setDocumentsLog($simId, $logs);
-            
+            //LogHelper::setMailLog($simId, $logs);
+            //Yii::log($logs);
             // определим тип симуляции
             $simType = SimulationService::getType($simId);
             
