@@ -296,9 +296,9 @@ class LogManagerController extends AjaxController{
         
         fclose($fp);
         
-        //$content = file_get_contents('media/test.csv');
-        //Yii::app()->getRequest()->sendFile('media/test.csv', $content, "text/csv", false);
-        //exit();
+        $content = file_get_contents('media/test.csv');
+        Yii::app()->getRequest()->sendFile('media/test.csv', $content, "text/csv", false);
+        exit();
     }
 }
 
