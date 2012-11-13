@@ -13,7 +13,7 @@ class LogManagerController extends AjaxController{
         return iconv("UTF-8","Windows-1251", $str);
     }
     
-    public function actionGetWindows() {
+    public function actionGetWindowsold() {
         $sql = "SELECT 
                     s.user_id,
                     u.email,
@@ -198,7 +198,7 @@ class LogManagerController extends AjaxController{
         return $existing;
     }
     
-    public function actionGetWindows2() {
+    public function actionGetWindows() {
         $sql = "SELECT 
                     s.user_id,
                     u.email,
