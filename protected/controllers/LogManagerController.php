@@ -233,23 +233,22 @@ class LogManagerController extends AjaxController{
         fputcsv($fp, $fields, ';');
         
         foreach($dataReader as $row) { 
+            echo("process row");
+            var_dump($row);
             
             $activeSimId = $row['id'];
             $timeStart = $row['timeStart'];
             $timeEnd = $row['timeEnd'];
             
-            if ($simStart == 0) $simStart = $timeStart;
-            if ($timeStart < $simStart) $simStart = $timeStart;
             
-            if ($timeEnd > $simEnd) $simEnd = $timeEnd;
             
             if (isset(WindowLogger::$screens[$row['activeWindow']]))
                 $row['name'] = WindowLogger::$screens[$row['activeWindow']];
             
-            /*if (isset(WindowLogger::$subScreens[$row['activeSubWindow']]))
-                $row['activeSubWindow'] = WindowLogger::$subScreens[$row['activeSubWindow']];*/
-            
-            if ($row['activeWindow'] == 1) {
+            if ($row['activeWindow'] != 1) {
+                $data[$row['timeStart']]=$row;  
+            }
+            else {
                 $dataMain = $row;
             }
             
@@ -257,6 +256,11 @@ class LogManagerController extends AjaxController{
                 // тут делаем выгрузку и обработку
                 
                 if (count($data) > 0) {
+                    echo("<hr>");
+                    echo("data");
+                    var_dump($data);
+                    echo("dataMain");
+                    var_dump($dataMain);
                     
                     $data = $this->parseSkiliksLogs($data, $dataMain);
                     
@@ -277,10 +281,8 @@ class LogManagerController extends AjaxController{
                 
                 $data = array();
                 $dataMain = array();
-                $dataMain = $row;
                 $simId = $activeSimId;
-            }
-            else {
+                
                 if ($row['activeWindow'] != 1) {
                     $data[$row['timeStart']]=$row;  
                 }
@@ -289,13 +291,14 @@ class LogManagerController extends AjaxController{
                 }
             }
             
+            
         }
         
         fclose($fp);
         
-        $content = file_get_contents('media/test.csv');
-        Yii::app()->getRequest()->sendFile('media/test.csv', $content, "text/csv", false);
-        exit();
+        //$content = file_get_contents('media/test.csv');
+        //Yii::app()->getRequest()->sendFile('media/test.csv', $content, "text/csv", false);
+        //exit();
     }
 }
 
