@@ -52,9 +52,9 @@ class AuthController extends AjaxController{
     }
     
     protected function _stopSession($sid) {
-        unset(Yii::app()->session);
-        Yii::app()->session['sid'] = false;
-        
+        Yii::app()->session->clear();
+        Yii::app()->session->destroy();
+
         return true;
     }
     
