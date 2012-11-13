@@ -75,22 +75,18 @@ class WindowLogger {
         foreach($logs as $index=>$log) {
             $screenCode         = (int)$log[0];  // активное окно
             $subScreenCode      = (int)$log[1];  // активное подокно
-            $screenActionsCode  = (int)$log[2];  // дествие open||close||switch
-            $time               = $log[3]; //DateHelper::timeToTimstamp($log[2]);
-            
-            // исключение - добавлены согласно постановке от Антона
-            /*if ($screenCode == self::plan) $subScreenCode = self::plan;
-            if ($screenCode == self::mainScreen) $subScreenCode = self::mainScreen;*/
+            $screenActionsCode  = (int)$log[2];  // дествие open||close
+            $time               = $log[3]; 
             
             if ($screenActionsCode == self::ACTION_OPEN) {
                 // закрыть предыдущее окно
                 // найти уже открытое окно
-                $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
+                /*$model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
                 if ($model) {
                     // закроем его
                     $model->timeEnd = $time;
                     $model->save();
-                }
+                }*/
                 
                 // открыть окно
                 // проверим а не ли у нас уже такой записи
@@ -104,9 +100,7 @@ class WindowLogger {
                 }
                 continue;
             }
-            
-            
-            
+           
             if ($screenActionsCode == self::ACTION_CLOSE) {
                 $model = WindowLogModel::model()->bySimulation($simId)->byActiveWindow($screenCode)->nearest()->isNotClosed()->find();
                 if ($model) {
@@ -115,7 +109,7 @@ class WindowLogger {
                     $model->save();
                     continue;
                 }
-                else {
+                /*else {
                     // по какой-то причине у нас нет такого лога - найдем ближайшее незакрытое и закроем его
                     $model = WindowLogModel::model()->bySimulation($simId)->nearest()->isNotClosed()->find();
                     if ($model) {
@@ -124,7 +118,7 @@ class WindowLogger {
                         $model->save();
                         continue;
                     }
-                }
+                }*/
             }
             
         } // of foreach
