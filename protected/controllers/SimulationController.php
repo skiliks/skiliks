@@ -168,7 +168,7 @@ class SimulationController extends AjaxController{
         if (!$uid) throw new Exception('Не могу найти такого пользователя');
         
         
-        $model = Simulations::model()->findByAttributes(array('user_id'=>$uid));
+        $model = Simulations::model()->byId($simId)->find();
         if ($model) {
             $model->end = time();
             $model->status = 0;
