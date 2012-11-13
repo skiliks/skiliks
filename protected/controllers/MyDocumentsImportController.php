@@ -27,10 +27,15 @@ class MyDocumentsImportController extends AjaxController{
                 echo('all done'); die();
             }
             
+            // Определим код документа
             $code       = $row[0]; // A
+            // Определим тип документа
             $type       = $row[1]; // B
+            // Имя файла в системе
             $fileName   = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            // Исходный файл
             $srcFile    = iconv("Windows-1251", "UTF-8", $row[3]); // D
+            // Расширение файла
             $format     = $row[4]; // E
             
             //if ($type == '-') continue;
