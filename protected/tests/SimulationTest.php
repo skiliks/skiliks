@@ -71,6 +71,7 @@ class SimulationTest extends ControllerTestCase
         $result = $this->callJSONAction('DialogController', 'actionGet');
         $this->assertEquals(array('result' => 1, 'events' => array(array('result' => 1, 'data' => array(), 'eventType' => 1))), $result);
         $result = $this->callJSONAction('EventsController', 'actionGetState');
+        $this->callJSONAction('AuthController', 'actionLogout');
     }
 
     function testSimulatorFail()
