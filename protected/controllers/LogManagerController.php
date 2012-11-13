@@ -149,6 +149,10 @@ class LogManagerController extends AjaxController{
         $rightK = -1;
         $right = array();
         foreach ($existing as $key => $value) {
+            /*if (!isset($value['timeStart'])) {
+                var_dump($value); die();
+            }*/
+            
             //определяем ближайшую точку слева
             if( ($leftStemp < $value['timeStart']) && ($value['timeStart'] < $new['timeStart']) ){
                 $leftStemp = $value['timeStart'];
@@ -233,19 +237,19 @@ class LogManagerController extends AjaxController{
         fputcsv($fp, $fields, ';');
         
         foreach($dataReader as $row) { 
-            echo("process row");
-            var_dump($row);
+            /*echo("process row");
+            var_dump($row);*/
             
             $activeSimId = $row['id'];
             $timeStart = $row['timeStart'];
             $timeEnd = $row['timeEnd'];
             
-            
+            if ($simId == 0) $simId = $activeSimId;
             
             if (isset(WindowLogger::$screens[$row['activeWindow']]))
                 $row['name'] = WindowLogger::$screens[$row['activeWindow']];
             
-            if ($row['activeWindow'] != 1) {
+            if ((int)$row['activeWindow'] != 1) {
                 $data[$row['timeStart']]=$row;  
             }
             else {
@@ -256,11 +260,11 @@ class LogManagerController extends AjaxController{
                 // тут делаем выгрузку и обработку
                 
                 if (count($data) > 0) {
-                    echo("<hr>");
+                    /*echo("<hr>");
                     echo("data");
                     var_dump($data);
                     echo("dataMain");
-                    var_dump($dataMain);
+                    var_dump($dataMain);*/
                     
                     $data = $this->parseSkiliksLogs($data, $dataMain);
                     
@@ -293,6 +297,28 @@ class LogManagerController extends AjaxController{
             
             
         }
+        
+        // учтем последний элемент
+        if (count($data) > 0) {
+                    /*echo("<hr>");
+                    echo("data");
+                    var_dump($data);
+                    echo("dataMain");
+                    var_dump($dataMain);*/
+                    
+                    $data = $this->parseSkiliksLogs($data, $dataMain);
+                    
+                    foreach ($data as $fields) {
+                        $fields['timeStart'] = DateHelper::timestampFullTimeToString($fields['timeStart']);
+                        $fields['timeEnd'] = DateHelper::timestampFullTimeToString($fields['timeEnd']);
+                        $fields['start'] = DateHelper::toString($fields['start']);
+                        $fields['end'] = DateHelper::toString($fields['end']);
+                        $fields['activeWindow'] = WindowLogger::$screens[$fields['activeWindow']];
+                        $fields['activeSubWindow'] = WindowLogger::$subScreens[$fields['activeSubWindow']];
+                        unset($fields['name']);
+                        fputcsv($fp, $fields, ';');
+                    }
+                }
         
         fclose($fp);
         
