@@ -273,8 +273,10 @@ class LogManagerController extends AjaxController{
                         $fields['timeEnd'] = DateHelper::timestampFullTimeToString($fields['timeEnd']);
                         $fields['start'] = DateHelper::toString($fields['start']);
                         $fields['end'] = DateHelper::toString($fields['end']);
-                        $fields['activeWindow'] = WindowLogger::$screens[$fields['activeWindow']];
-                        $fields['activeSubWindow'] = WindowLogger::$subScreens[$fields['activeSubWindow']];
+                        if (isset(WindowLogger::$screens[$fields['activeWindow']]))
+                            $fields['activeWindow'] = WindowLogger::$screens[$fields['activeWindow']];
+                        if (isset(WindowLogger::$subScreens[$fields['activeSubWindow']]))
+                            $fields['activeSubWindow'] = WindowLogger::$subScreens[$fields['activeSubWindow']];
                         unset($fields['name']);
                         fputcsv($fp, $fields, ';');
                     }
