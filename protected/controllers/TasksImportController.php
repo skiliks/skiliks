@@ -26,10 +26,14 @@ class TasksImportController extends AjaxController{
                 echo('all done'); die();
             }
             
-            $code       = $row[0];
-            $startType  = $row[1];
-            $name       = iconv("Windows-1251", "UTF-8", $row[2]);
-            $startTime  = $row[3];
+            // Код
+            $code       = $row[0]; // A
+            // Тип старта задачи
+            $startType  = $row[1]; // B
+            // Список дел в to-do-list
+            $name       = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            // Жесткая
+            $startTime  = $row[3]; // D
             if ($startTime != '') {
                 if (strstr($startTime, ':')) {
                     $timeData = explode(':', $startTime);
@@ -39,8 +43,10 @@ class TasksImportController extends AjaxController{
                 }
             }
             
-            $category   = $row[4];
-            $duration   = $row[5];
+            // Категория
+            $category   = $row[4];  // E
+            // Мин.
+            $duration   = $row[5];  // F
             
             $task = Tasks::model()->byCode($code)->find();
             if (!$task) {

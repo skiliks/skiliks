@@ -43,8 +43,6 @@ class MailImportController extends AjaxController{
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
                 }
-                    //var_dump($pointsCodes); die();
-                //$index++;
                 continue;
             }
             
@@ -56,17 +54,25 @@ class MailImportController extends AjaxController{
                 var_dump($exists);
                 echo('all done'); die();
             }
-            //var_dump($row);
-            //var_dump($row);
-            $code = $row[0];
-            $sendingDate = $row[1];
-            $sendingTime = $row[2];
-            $fromCode = $row[3];
-            $toCode = $row[5];
-            $copies = $row[7];
-            $subject = iconv("Windows-1251", "UTF-8", $row[9]);
-            $message = iconv("Windows-1251", "UTF-8", $row[10]);
-            $attachment = $row[11];
+            
+            // Код письма
+            $code = $row[0];  // A
+            // дата отправки
+            $sendingDate = $row[1]; // B
+            // время отправки
+            $sendingTime = $row[2]; // C
+            // От кого (код)
+            $fromCode = $row[3]; // D
+            // Кому (код)
+            $toCode = $row[5];  // F
+            // Копия (код)
+            $copies = $row[7]; // H
+            // тема
+            $subject = iconv("Windows-1251", "UTF-8", $row[9]);  // J
+            // Письмо
+            $message = iconv("Windows-1251", "UTF-8", $row[10]); // K
+            // Вложение
+            $attachment = $row[11];  // L
             
             if (!isset($exists[$code])) {
                 $exists[$code] = 1;
@@ -76,7 +82,7 @@ class MailImportController extends AjaxController{
             }
             
             $group = null;
-            // Анализ кода, определение группы
+            // определение группы по коду
             if (preg_match("/MY\d+/", $code)) {
                 $group = 1;
             }
@@ -209,7 +215,7 @@ class MailImportController extends AjaxController{
                 $receiverId = $characters[$receiverCode];
                 echo("r = $receiverId  id: {$model->id} <br/>");
                 
-                
+                // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
                 $dmo = MailReceiversTemplateModel::model()->byMailId($model->id)->byReceiverId($receiverId)->find();
                 if (!$dmo) {
                     $dmo = new MailReceiversTemplateModel();
@@ -270,10 +276,15 @@ class MailImportController extends AjaxController{
                 echo('all done'); die();
             }
             
+            // Mail code
             $code       = $row[0];  // A
+            // Task
             $task       = iconv("Windows-1251", "UTF-8", $row[1]); // B
+            // Duration
             $duration   = $row[2]; // C
+            // Task W/R
             $wr         = $row[3]; // D
+            // Category
             $category   = $row[4]; // E
             
             $mail = MailTemplateModel::model()->byCode($code)->find();
@@ -422,17 +433,26 @@ class MailImportController extends AjaxController{
                 echo('all done'); die(); 
             }
             
+            // Определение кода персонажа
             $characterCode = $row[0]; // A
             if (!isset($characters[$characterCode])) throw new Exception("cant find character by code $characterCode");
 
             $characterId        = $characters[$characterCode];  
+            // Определим тему письма
             $subject            = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            // Phone
             $phone              = $row[3]; // D
+            // Phone W/R
             $phoneWr            = $row[4]; // E
+            // Phone dialogue number
             $phoneDialogNumber  = $row[5]; // F
+            // Mail
             $mail               = $row[6]; // G
+            // Mail letter number
             $mailCode           = $row[7]; // H
+            // Mail W/R
             $wr                 = $row[8]; // I
+            // Mail constructor number
             $constructorNumber  = $row[9]; // J
             
             // определить код темы
