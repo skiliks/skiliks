@@ -357,17 +357,16 @@ class DialogImportService {
             
             $dialog->ch_from = $chFrom;
             Logger::debug("ch_name=".$row['F']);
-            //Logger::debug("ch_from=".$dialog->ch_from);
 
+            // Определим состояние персонажа:    
             $characterState = $this->_convert($row['H']);
-            //if ($characterState == '') $characterState = 'уравновешенное';
             
             $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
             if ($dialog->ch_from_state == null) {
                 $dialog->ch_from_state = 1; //continue;
             }
 
-            //$row['G'] = strtolower($row['G']);
+            // Определим персонажа "кому":
             $characterToId = (int)$this->_getCharacterIdByName($row['I']);
             if ($characterToId == 0) {
                 $characterToId = null;
@@ -376,11 +375,12 @@ class DialogImportService {
             if ($characterToId > 0)
                 $dialog->ch_to = $characterToId;
             
+            // Определим состояние персонажа "кому":
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['J']));
 
             if ($dialog->ch_to_state == null) $dialog->ch_to_state = 1;
             
-            
+            // определим подтип диалога:
             $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['S']));
             if ($dialogSubtype == 0) {
                 ///var_dump($this->_convert($row['R'])); die();
@@ -388,13 +388,19 @@ class DialogImportService {
             
             $dialog->dialog_subtype = $dialogSubtype;
 
+            // Определи текст диалога
             $dialog->text = $this->_convert($row['M']);
+            
+            // Определим длительность
             $dialog->duration = $row['F'];
             $dialog->event_result = 0;
             
+            // Номер шага
             $dialog->step_number = $row['K'];
+            // Номер реплики
             $dialog->replica_number = $row['L'];       
 
+            // Код следующего события
             $nextEventCode = $row['O'];
             $dialog->next_event_code = $nextEventCode;
             $event = EventsSamples::model()->byCode($nextEventCode)->find();
@@ -421,6 +427,7 @@ class DialogImportService {
             }
             //var_dump($delay);
 
+            // Имя файла с видео или звуком
             $file = $this->_convert($row['P']);
             if ($file == 'N/A' || $file == '-') $file = '';    
 
@@ -588,8 +595,10 @@ class DialogImportService {
                 die();
             }
             
+            // Определяем флаг
             $flag = $row[$this->_columns['T']];
             if ($flag == '') continue;
+            // Убеждаемся что поле имеет нужный нам формат
             if (!preg_match('/^F\d+$/', $flag)) continue;
             var_dump($flag);
             
@@ -597,6 +606,7 @@ class DialogImportService {
             
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
             if ($dialog) {
+                // Записываем флаг в модель диалога
                 $dialog->flag = $flag;
                 $dialog->save();
                 echo("saved flag : $flag");
