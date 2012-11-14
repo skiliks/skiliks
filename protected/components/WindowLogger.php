@@ -179,6 +179,14 @@ class WindowLogger {
         $model->timeStart       = $timeString;
         $model->insert();
     }
+    
+    public function stop($simId, $timeString) {
+        $connection=Yii::app()->db;   
+
+        $sql = "update window_log set timeEnd = {$timeString} where sim_id=$simId and timeEnd = 0";
+        $command = $connection->createCommand($sql);
+        $command->execute();
+    }
 }
 
 ?>
