@@ -276,5 +276,11 @@ class CharactersPointsTitleImportController extends AjaxController {
         LogHelper::getDocumentsCSV();
             
     }
+
+    public function actionMailInBox() {
+
+        LogHelper::getMailInBoxCSV();
+
+    }
     
 }

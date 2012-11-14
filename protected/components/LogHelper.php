@@ -6,6 +6,8 @@ class LogHelper {
 
     const ACTION_OPEN = 1;
 
+    const ACTION_SWITCH = 2;
+
     protected static $codes_documents = array(40,41,42);
 
     protected static $codes_mail = array(1,3,10,11,12,13,14);
@@ -211,19 +213,35 @@ class LogHelper {
                     $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => $log[4]['mailId'],
+                        'window'   => $log[1],
                         'start_time'  => date("H:i:s", $log[3])
                     ));
-                } elseif( self::ACTION_CLOSE == $log[2] ) {
-                    /*
+                } elseif( self::ACTION_CLOSE == $log[2]) {
+
                     $comand = Yii::app()->db->createCommand();
 
-                    $comand->update( "log_documents" , array(
+                    $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
-                        ), "`file_id` = {$log[4]['fileId']} AND
+                        ), "`mail_id` = {$log[4]['mailId']} AND
                         `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
-                    */
+                    //Yii::log(var_export($res, true), 'info');
+                }elseif($log[2] == self::ACTION_SWITCH){
+                    $comand = Yii::app()->db->createCommand();
+
+                    $res = $comand->update( "log_mail" , array(
+                        'end_time'  => date("H:i:s", $log[3])
+                    ), "`end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                    //Yii::log(var_export($res, true), 'info');
+                    //if($res =! 1){
+                        $comand->insert( "log_mail" , array(
+                            'sim_id'    => $simId,
+                            'mail_id'   => $log[4]['mailId'],
+                            'window'   => $log[1],
+                            'start_time'  => date("H:i:s", $log[3])
+                        ));
+                    //}
                 } else {
-                    Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
+                    //Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
             }
@@ -232,11 +250,42 @@ class LogHelper {
     }
 	
     public static function getMailInBoxLog() {
-        
+
+        $data = Yii::app()
+            ->db
+            ->createCommand()
+            ->select('l.sim_id,
+                        m.code,
+                      l.window,
+                  l.start_time,
+                    l.end_time')
+            ->from('log_mail l')
+            ->join('mail_box m', 'l.mail_id = m.id')
+            ->where('l.window != 13')
+            ->queryAll();
+
+        return $data;
     }
     
     public static function getMailInBoxCSV() {
-        
+
+        $data = self::getMailInBoxLog();
+
+        foreach ($data as  $k=>$row) {
+            $data[$k]['window'] = WindowLogger::$subScreens[$data[$k]['window']];
+        }
+        $csv = new ECSVExport($data, true, true, ';');
+        $csv->setHeaders(array(
+            'sim_id'     => Strings::toWin('id_симуляции'),
+            'code'       => Strings::toWin('Код входящего письма'),
+            'window'     => Strings::toWin('Тип просмотра'),
+            'start_time' => Strings::toWin('Игровое время - start'),
+            'end_time'   => Strings::toWin('Игровое время - end')
+        ));
+        $content = $csv->toCSV();
+        $filename = 'data.csv';
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+
     }
     
     public static function getMailInBoxAVG() {
