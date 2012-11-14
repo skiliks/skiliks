@@ -3,7 +3,7 @@
 
 
 /**
- * Description of DayPlanLogModel
+ * Используется для логирования состояния плана.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

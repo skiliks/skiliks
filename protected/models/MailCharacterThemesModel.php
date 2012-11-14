@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Description of MailCharacterThemesModel
+ * Содержит соотношения - какому персонажу какой набор тем писем
+ * соответствует
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

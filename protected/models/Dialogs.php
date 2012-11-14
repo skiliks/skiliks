@@ -3,7 +3,7 @@
 
 
 /**
- * Модель диалогов
+ * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

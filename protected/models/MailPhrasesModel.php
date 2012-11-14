@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailPhrases
+ * Содержит набор фраз, которые соответствуют конкретному персонажу
+ * Также есть связь по коду конструктора писем. Поле code например B1 W1
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

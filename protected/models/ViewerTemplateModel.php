@@ -3,7 +3,7 @@
 
 
 /**
- * Description of ViewerTemplateModel
+ * Шаблон соответствий имен файлов для конкретного файл в системе.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of SimulationsMailPointsModel
+ * Оценки, набранные за использование почтой в рамках конкретной симуляции
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

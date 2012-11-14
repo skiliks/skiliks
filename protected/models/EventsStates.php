@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of EventsStates
+ * Вроде как устаревший функционал.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

@@ -3,7 +3,7 @@
 
 
 /**
- * Description of EventsSamples
+ * Содержит список событий, которые есть в системе.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

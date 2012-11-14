@@ -2,7 +2,7 @@
 
 
 /**
- * Description of SimulationFlagsModel
+ * состояние флагов пользователя в рамках конкретной симуляции
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

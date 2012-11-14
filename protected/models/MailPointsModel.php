@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailPointsModel
+ * Содержит значения оценки для конкретного письма. 
+ * Наполняется из импорта оценок по письму
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

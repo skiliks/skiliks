@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailBoxModel
+ * Собственно сам почтовый ящик в рамках конкретной симуляции. Все что сюда
+ * попадает то и видит пользователь в своей симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

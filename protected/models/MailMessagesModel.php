@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailMessagesModel
+ * Содержит набор фраз, которые образуют конкретное письмо, которое было 
+ * отправлено польщователем в симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

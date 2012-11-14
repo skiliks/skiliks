@@ -3,7 +3,7 @@
 
 
 /**
- * Description of Todo
+ * Список сделать в рамках конкретной симуляции
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
