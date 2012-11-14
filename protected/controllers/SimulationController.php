@@ -186,6 +186,7 @@ class SimulationController extends AjaxController{
         // залогируем окна
         $windowLogger = new WindowLogger();
         $windowLogger->log($simId, $logs, $windowActive, $timeString);
+        $windowLogger->stop($simId, $timeString);
         
         $result = array('result' => 1);
         $this->sendJSON($result);
