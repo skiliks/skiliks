@@ -5,6 +5,8 @@
 /**
  * Шаблоны вложений писем.
  *
+ * Связана с моделями: MyDocumentsTemplateModel, MailTemplateModel.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailAttachmentsTemplateModel extends CActiveRecord{
@@ -28,6 +30,11 @@ class MailAttachmentsTemplateModel extends CActiveRecord{
     }
     
     
+    /**
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailAttachmentsTemplateModel 
+     */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +43,11 @@ class MailAttachmentsTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданому файлу
+     * @param int $fileId
+     * @return MailAttachmentsTemplateModel 
+     */
     public function byFileId($fileId)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -5,6 +5,8 @@
 /**
  * Шаблон соответствий имен файлов для конкретного файл в системе.
  *
+ * Связана с моделями: MyDocumentsTemplateModel.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class ViewerTemplateModel extends CActiveRecord{
@@ -27,7 +29,11 @@ class ViewerTemplateModel extends CActiveRecord{
             return 'viewer_template';
     }
     
-    
+    /**
+     * Выбрать по заданному файлу
+     * @param int $fileId
+     * @return ViewerTemplateModel 
+     */
     public function byFile($fileId)
     {
         $this->getDbCriteria()->mergeWith(array(

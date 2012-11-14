@@ -5,6 +5,8 @@
 /**
  * Вложения писем в рамках конкретной симуляции.
  *
+ * Связана с моделями: MyDocumentsModel, MailBoxModel.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailAttachmentsModel extends CActiveRecord{
@@ -27,7 +29,11 @@ class MailAttachmentsModel extends CActiveRecord{
             return 'mail_attachments';
     }
     
-    
+    /**
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailAttachmentsModel 
+     */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +42,11 @@ class MailAttachmentsModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному набору писем
+     * @param array $mailIds
+     * @return MailAttachmentsModel 
+     */
     public function byMailIds($mailIds)
     {
         $ids = implode(',', $mailIds);

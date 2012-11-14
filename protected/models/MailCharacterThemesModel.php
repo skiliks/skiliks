@@ -3,6 +3,8 @@
 /**
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
+ * 
+ * Связана с моделями: Characters, MailThemesModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -26,6 +28,11 @@ class MailCharacterThemesModel extends CActiveRecord{
             return 'mail_character_themes';
     }
     
+    /**
+     * Выбрать по заданному персонажу
+     * @param int $characterId
+     * @return MailCharacterThemesModel 
+     */
     public function byCharacter($characterId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -34,6 +41,11 @@ class MailCharacterThemesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданной теме
+     * @param int $themeId
+     * @return MailCharacterThemesModel 
+     */
     public function byTheme($themeId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -42,7 +54,11 @@ class MailCharacterThemesModel extends CActiveRecord{
         return $this;
     }
     
-    
+    /**
+     * Выбрать по идентификатору записи
+     * @param int $id
+     * @return MailCharacterThemesModel 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -51,6 +67,10 @@ class MailCharacterThemesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать с признаком "телефон"
+     * @return MailCharacterThemesModel 
+     */
     public function byPhone()
     {
         $this->getDbCriteria()->mergeWith(array(

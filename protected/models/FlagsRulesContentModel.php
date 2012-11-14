@@ -5,6 +5,8 @@
 /**
  * Содержит флаги, связанный с конкретными правилами флагов 
  * а также значения флагов для этих правил.
+ * 
+ * Связана с моделями: FlagsRulesModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,7 +30,11 @@ class FlagsRulesContentModel extends CActiveRecord{
             return 'flags_rules_content';
     }
     
-    
+    /**
+     * Выбрать по конкретному правилу
+     * @param int $ruleId
+     * @return FlagsRulesContentModel 
+     */
     public function byRule($ruleId)
     {
         $this->getDbCriteria()->mergeWith(array(

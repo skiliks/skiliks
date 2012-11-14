@@ -3,6 +3,8 @@
 
 /**
  * Оценки, набранные в ходе выбора диалоговых реплик в рамках конкретной симуляции
+ * 
+ * Связана с моделями:  Simulations, CharactersPointsTitles
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -26,6 +28,12 @@ class SimulationsDialogsPoints extends CActiveRecord{
             return 'simulations_dialogs_points';
     }
     
+    /**
+     * Выбрать согласно заданной симуляции и оценке
+     * @param int $simId
+     * @param int $pointId
+     * @return SimulationsDialogsPoints 
+     */
     public function bySimulationAndPoint($simId, $pointId)
     {
         $simId = (int)$simId;

@@ -5,6 +5,8 @@
 /**
  * Содержит значения оценки для конкретного письма. 
  * Наполняется из импорта оценок по письму
+ * 
+ * Связана с моделями: MailTemplateModel, CharactersPointsTitles.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,6 +30,11 @@ class MailPointsModel extends CActiveRecord{
             return 'mail_points';
     }
     
+    /**
+     * По заданному письму
+     * @param int $id
+     * @return MailPointsModel 
+     */
     public function byMailId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +43,11 @@ class MailPointsModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * По заданной оценке
+     * @param int $pointId
+     * @return MailPointsModel 
+     */
     public function byPointId($pointId)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -4,6 +4,8 @@
 
 /**
  * Модель шаблона документа Excel
+ * 
+ * Связана с моделями:  MyDocumentsTemplateModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,7 +30,8 @@ class ExcelDocumentTemplate extends CActiveRecord{
     }
     
     /**
-     * Вернуть ближайшее событие
+     * Вернуть документ по имени
+     * @param string $name
      * @return ExcelDocumentTemplate 
      */
     public function byName($name)
@@ -39,6 +42,11 @@ class ExcelDocumentTemplate extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по идентификатору файла
+     * @param int $fileId
+     * @return ExcelDocumentTemplate 
+     */
     public function byFile($fileId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -47,6 +55,11 @@ class ExcelDocumentTemplate extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по идентификатору
+     * @param int $id
+     * @return ExcelDocumentTemplate 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

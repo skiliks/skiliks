@@ -5,6 +5,8 @@
 /**
  * Оценки набранные за Excel в результате проверки конктрольных формул
  * в рамках конкретной симуляции
+ * 
+ * Связана с моделями:  Simulations, ExcelPointsFormulaModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,6 +30,11 @@ class SimulationsExcelPoints extends CActiveRecord{
             return 'simulations_excel_points';
     }
     
+    /**
+     * Выбрать по заданной симуляции
+     * @param int $simId
+     * @return SimulationsExcelPoints 
+     */
     public function bySimulation($simId)
     {
         $simId = (int)$simId;
@@ -37,6 +44,11 @@ class SimulationsExcelPoints extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданной формуле
+     * @param int $formulaId
+     * @return SimulationsExcelPoints 
+     */
     public function byFormula($formulaId)
     {
         $this->getDbCriteria()->mergeWith(array(

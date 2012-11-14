@@ -4,6 +4,8 @@
 
 /**
  * Хранит значение оценки поведения для конкретного диалога.
+ * 
+ * Связана с моделями: CharactersPointsTitles, Dialogs
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class CharactersPoints extends CActiveRecord{
             return 'characters_points';
     }
     
+    /**
+     * Выборка оценки по конкретному диалогу
+     * @param int $dialogId идентификатор диалога
+     * @return CharactersPoints 
+     */
     public function byDialog($dialogId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,11 @@ class CharactersPoints extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выборка по идентификатору оценки
+     * @param int $pointId
+     * @return CharactersPoints 
+     */
     public function byPoint($pointId)
     {
         $this->getDbCriteria()->mergeWith(array(

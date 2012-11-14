@@ -3,6 +3,8 @@
 
 /**
  * Набор тем для писем
+ * 
+ * Связана с моделями:  Simulations.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -26,6 +28,11 @@ class MailThemesModel extends CActiveRecord{
             return 'mail_themes';
     }
     
+    /**
+     * Выборка по набору тем
+     * @param array $ids
+     * @return MailThemesModel 
+     */
     public function byIds($ids)
     {
         $ids = implode(',', $ids);
@@ -35,6 +42,11 @@ class MailThemesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по имени темы
+     * @param string $name
+     * @return MailThemesModel 
+     */
     public function byName($name)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -43,6 +55,11 @@ class MailThemesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по идентификатору темы
+     * @param int $id
+     * @return MailThemesModel 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

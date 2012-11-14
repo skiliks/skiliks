@@ -4,6 +4,8 @@
 /**
  * Модель кодов активации для конкретного пользователя
  *
+ * Связана с моделями: Users.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class UsersActivationCode extends CActiveRecord{
@@ -21,6 +23,11 @@ class UsersActivationCode extends CActiveRecord{
             return 'users_activation_code';
     }
     
+    /**
+     * Выбрать по коду
+     * @param string $code
+     * @return UsersActivationCode 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
