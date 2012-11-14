@@ -175,7 +175,7 @@ class WindowLogger {
         $model = new WindowLogModel();
         $model->sim_id          = $simId;
         $model->activeWindow    = $activeWindow;
-        $model->activeSubWindow = $subScreenCode;
+        $model->activeSubWindow = $activeWindow;
         $model->timeStart       = $timeString;
         $model->insert();
     }
