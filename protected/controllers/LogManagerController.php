@@ -149,9 +149,9 @@ class LogManagerController extends AjaxController{
         $rightK = -1;
         $right = array();
         foreach ($existing as $key => $value) {
-            /*if (!isset($value['timeStart'])) {
-                var_dump($value); die();
-            }*/
+            if (!isset($value['timeStart'])) {
+                continue;
+            }
             
             //определяем ближайшую точку слева
             if( ($leftStemp < $value['timeStart']) && ($value['timeStart'] < $new['timeStart']) ){
