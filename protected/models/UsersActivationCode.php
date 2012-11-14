@@ -2,7 +2,7 @@
 
 
 /**
- * Description of UsersActivationCode
+ * Модель кодов активации для конкретного пользователя
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

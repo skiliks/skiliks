@@ -3,7 +3,7 @@
 
 
 /**
- * Description of ExcelWorksheetTemplateCells
+ * Содержит состав рабочего листа Excel в рамках конкретной симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

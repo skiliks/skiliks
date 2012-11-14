@@ -2,7 +2,7 @@
 
 
 /**
- * Description of MailThemesModel
+ * Набор тем для писем
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

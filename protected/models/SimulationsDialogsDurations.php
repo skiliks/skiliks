@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of SimulationsDialogsDurations
+ * Длительность диалогов в рамках конкретной симуляции. Используется при расчете оценки.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

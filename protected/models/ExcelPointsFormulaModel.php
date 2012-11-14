@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of ExcelPointsFormulaModel
+ * Содержит набор формул для расчета оценки по Excel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

@@ -3,7 +3,8 @@
 
 
 /**
- * Description of ExcelWorksheetTemplateCells
+ * Шаблон соства конкретного рабочего листа документа. Содержит набор
+ * ячеек, образующих лист а также их свойства.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

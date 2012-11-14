@@ -2,7 +2,7 @@
 
 
 /**
- * Description of SimulationsDialogsPoints
+ * Оценки, набранные в ходе выбора диалоговых реплик в рамках конкретной симуляции
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

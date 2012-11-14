@@ -3,7 +3,7 @@
 
 
 /**
- * Description of UserGroupsModel
+ * Модель групп польщзователя
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

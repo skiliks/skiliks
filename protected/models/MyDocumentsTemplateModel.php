@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MyDocumentsTemplateModel
+ * Шаблон документов. Потом нужные документы отсюда копируются в рамках симуляции 
+ * в таблицу my_documents
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

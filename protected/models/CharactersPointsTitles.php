@@ -3,7 +3,7 @@
 
 
 /**
- * Description of CharactersPointsTitles
+ * По сути справочник целей поведения. Хранит код, название, scale.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

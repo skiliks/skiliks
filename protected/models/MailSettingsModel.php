@@ -2,7 +2,7 @@
 
 
 /**
- * Модель настроек почты
+ * Модель настроек почты в рамках симуляции
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

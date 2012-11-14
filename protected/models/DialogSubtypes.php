@@ -2,7 +2,7 @@
 
 
 /**
- * Description of DialogSubtypes
+ * Содержит типы диалогов.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
