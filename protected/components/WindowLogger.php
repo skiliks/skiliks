@@ -44,7 +44,7 @@ class WindowLogger {
         23 => 'phone talk',
         24 => 'phone call',
         31 => 'visitor entrance',
-        32 => 'visitor nalk',
+        32 => 'visitor talk',
         41 => 'documents main',
         42 => 'documents files'
     );
@@ -172,12 +172,14 @@ class WindowLogger {
             }
         }*/
         
+        if ($activeWindow == 1) {
         $model = new WindowLogModel();
         $model->sim_id          = $simId;
         $model->activeWindow    = $activeWindow;
         $model->activeSubWindow = $activeWindow;
         $model->timeStart       = $timeString;
         $model->insert();
+        }
     }
     
     public function stop($simId, $timeString) {
