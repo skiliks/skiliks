@@ -5,6 +5,8 @@
 /**
  * Модель правил флагов
  *
+ * Связана с моделями: Dialogs.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class FlagsRulesModel extends CActiveRecord{
@@ -27,7 +29,11 @@ class FlagsRulesModel extends CActiveRecord{
             return 'flags_rules';
     }
     
-    
+    /**
+     * Выбрать по именим правила
+     * @param string $name
+     * @return FlagsRulesModel 
+     */
     public function byName($name)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +42,11 @@ class FlagsRulesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по номеру шага
+     * @param int $stepNumber
+     * @return FlagsRulesModel 
+     */
     public function byStepNumber($stepNumber)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -44,6 +55,11 @@ class FlagsRulesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по номеру реплики
+     * @param int $replicaNumber
+     * @return FlagsRulesModel 
+     */
     public function byReplicaNumber($replicaNumber)
     {
         $this->getDbCriteria()->mergeWith(array(

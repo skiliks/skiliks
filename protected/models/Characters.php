@@ -26,6 +26,11 @@ class Characters extends CActiveRecord{
             return 'characters';
     }
     
+    /**
+     * Ограничивает выборку па заданному набору персонажей
+     * @param array $ids набор персонажей
+     * @return Characters 
+     */
     public function byIds($ids)
     {
         $list = implode(',', $ids);
@@ -35,6 +40,11 @@ class Characters extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Ограничивает выборку по коду персонажа
+     * @param string $code
+     * @return Characters 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -43,6 +53,11 @@ class Characters extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выборка по конкретному коду персонажа.
+     * @param int $id идентификатор персонажа
+     * @return Characters 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

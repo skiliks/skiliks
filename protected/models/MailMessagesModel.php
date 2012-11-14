@@ -5,6 +5,8 @@
 /**
  * Содержит набор фраз, которые образуют конкретное письмо, которое было 
  * отправлено польщователем в симуляции.
+ * 
+ * Связана с моделями: MailBoxModel, MailPhrasesModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,6 +30,11 @@ class MailMessagesModel extends CActiveRecord{
             return 'mail_messages';
     }
     
+    /**
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailMessagesModel 
+     */
     public function byMail($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(

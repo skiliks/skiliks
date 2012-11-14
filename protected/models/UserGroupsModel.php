@@ -5,6 +5,8 @@
 /**
  * Модель групп польщзователя
  *
+ * Связана с моделями:  Groups, Users.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class UserGroupsModel extends CActiveRecord{
@@ -27,6 +29,11 @@ class UserGroupsModel extends CActiveRecord{
             return 'user_groups';
     }
     
+    /**
+     * Выбрать по заданному пользователю
+     * @param int $uid
+     * @return UserGroupsModel 
+     */
     public function byUser($uid)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,11 @@ class UserGroupsModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданной группе
+     * @param int $gid
+     * @return UserGroupsModel 
+     */
     public function byGroup($gid)
     {
         $this->getDbCriteria()->mergeWith(array(

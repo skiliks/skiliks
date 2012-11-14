@@ -4,6 +4,8 @@
 /**
  * Модель настроек почты в рамках симуляции
  *
+ * Связана с моделями:  Simulations.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailSettingsModel extends CActiveRecord{
@@ -26,6 +28,11 @@ class MailSettingsModel extends CActiveRecord{
             return 'mail_settings';
     }
     
+    /**
+     * Выбрать по заданной симуляции
+     * @param int $simId
+     * @return MailSettingsModel 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(

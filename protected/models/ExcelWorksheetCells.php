@@ -5,6 +5,8 @@
 /**
  * Содержит состав рабочего листа Excel в рамках конкретной симуляции.
  *
+ * Связана с моделями:  ExcelWorksheetModel.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class ExcelWorksheetCells extends CActiveRecord{
@@ -23,7 +25,8 @@ class ExcelWorksheetCells extends CActiveRecord{
     }
     
     /**
-     * Вернуть ближайшее событие
+     * Вернуть по заданному рабочему листу
+     * @param int $worksheetId
      * @return ExcelDocumentTemplate 
      */
     public function byWorksheet($worksheetId)

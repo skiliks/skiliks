@@ -6,6 +6,8 @@
  * Именно здесь хранится информация какое событие и когда должно произойти в 
  * рамках конкретной симуляции.
  *
+ * Связана с моделями: Simulations, EventsSamples.
+ * 
  * @property int sim_id
  * @property mixed event_id
  * @property mixed trigger_time
@@ -47,6 +49,12 @@ class EventsTriggers extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать заданное событие в рамках заданной симуляции
+     * @param int $simId
+     * @param int $eventId
+     * @return EventsTriggers 
+     */
     public function bySimIdAndEventId($simId, $eventId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -56,6 +64,12 @@ class EventsTriggers extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать событие заданное по коду в рамках симуляции
+     * @param int $simId
+     * @param string $eventCode
+     * @return EventsTriggers 
+     */
     public function bySimIdAndEventCode($simId, $eventCode)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -65,6 +79,11 @@ class EventsTriggers extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по идентификатору события
+     * @param int $eventId
+     * @return EventsTriggers 
+     */
     public function byEvent($eventId)
     {
         $this->getDbCriteria()->mergeWith(array(

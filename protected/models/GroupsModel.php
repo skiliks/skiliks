@@ -27,6 +27,11 @@ class GroupsModel extends CActiveRecord{
             return 'groups';
     }
     
+    /**
+     * Выбрать по набору групп
+     * @param array $ids массив идентификаторов групп
+     * @return GroupsModel 
+     */
     public function byIds($ids)
     {
         $ids = implode(',', $ids);
