@@ -39,6 +39,10 @@ class CharactersPointsTitles extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать цель, у которой есть родители
+     * @return CharactersPointsTitles 
+     */
     public function withParents()
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -47,6 +51,11 @@ class CharactersPointsTitles extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выборка цели по коду.
+     * @param string $code
+     * @return CharactersPointsTitles 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(

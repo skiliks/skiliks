@@ -5,6 +5,8 @@
 /**
  * Шаблон персонажей, которые идут копией к конкретному письму.
  *
+ * Связана с моделями: Characters, MailTemplateModel.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailCopiesTemplateModel extends CActiveRecord{
@@ -27,6 +29,11 @@ class MailCopiesTemplateModel extends CActiveRecord{
             return 'mail_copies_template';
     }
     
+    /**
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailCopiesTemplateModel 
+     */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,11 @@ class MailCopiesTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по получателю
+     * @param int $receiverId
+     * @return MailCopiesTemplateModel 
+     */
     public function byReceiverId($receiverId)
     {
         $this->getDbCriteria()->mergeWith(array(

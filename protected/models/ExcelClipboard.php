@@ -4,6 +4,8 @@
 
 /**
  * Клипбоард Экселя
+ * 
+ * Связана с моделями: ExcelWorksheetModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

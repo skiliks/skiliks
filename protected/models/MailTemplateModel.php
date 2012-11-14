@@ -5,6 +5,8 @@
 /**
  * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
+ * Связана с моделями:  MailThemesModel, Characters.
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTemplateModel extends CActiveRecord{
@@ -27,6 +29,11 @@ class MailTemplateModel extends CActiveRecord{
             return 'mail_template';
     }
     
+    /**
+     * Выбрать письмо с заданным кодом
+     * @param string $code
+     * @return MailTemplateModel 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -4,6 +4,8 @@
 
 /**
  * Модель  документа Excel
+ * 
+ * Связана с моделями: ExcelDocumentTemplate, MyDocumentsModel, Simulations.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -28,7 +30,8 @@ class ExcelDocumentModel extends CActiveRecord{
     }
     
     /**
-     * 
+     * Выбрать для заданной симуляции 
+     * @param int $simId
      * @return ExcelDocumentModel 
      */
     public function bySimulation($simId)
@@ -40,7 +43,8 @@ class ExcelDocumentModel extends CActiveRecord{
     }
     
     /**
-     * 
+     * Выбрать для заданного документа
+     * @param int $documentId 
      * @return ExcelDocumentModel 
      */
     public function byDocument($documentId)
@@ -51,6 +55,11 @@ class ExcelDocumentModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать для заданного файла
+     * @param int $fileId
+     * @return ExcelDocumentModel 
+     */
     public function byFile($fileId)
     {
         $this->getDbCriteria()->mergeWith(array(

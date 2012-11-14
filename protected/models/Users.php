@@ -30,6 +30,11 @@ class Users extends CActiveRecord{
             return 'users';
     }
     
+    /**
+     * Выбрать по емейлу
+     * @param string $email
+     * @return Users 
+     */
     public function byEmail($email)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -38,6 +43,7 @@ class Users extends CActiveRecord{
         return $this;
     }
     
+    // не используется
     public function scopes()
     {
         return array(
@@ -47,6 +53,10 @@ class Users extends CActiveRecord{
         );
     }
     
+    /**
+     * Выбрать активных пользователей
+     * @return Users 
+     */
     public function isActive()
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -55,6 +65,11 @@ class Users extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать конкретного пользователя
+     * @param int $id
+     * @return Users 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -63,6 +78,11 @@ class Users extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать набор пользователей
+     * @param array $ids
+     * @return Users 
+     */
     public function byIds($ids)
     {
         $list = implode(',', $ids);

@@ -4,6 +4,8 @@
 /**
  * состояние флагов пользователя в рамках конкретной симуляции
  *
+ * Связана с моделями:  Simulations
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class SimulationFlagsModel extends CActiveRecord{
@@ -26,6 +28,11 @@ class SimulationFlagsModel extends CActiveRecord{
             return 'simulation_flags';
     }
     
+    /**
+     * Выбрать согласно заданной симуляции
+     * @param int $simId
+     * @return SimulationFlagsModel 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -34,6 +41,11 @@ class SimulationFlagsModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному флагу
+     * @param string $flag
+     * @return SimulationFlagsModel 
+     */
     public function byFlag($flag)
     {
         $this->getDbCriteria()->mergeWith(array(

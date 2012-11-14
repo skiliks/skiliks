@@ -4,6 +4,8 @@
 
 /**
  * Модель задач
+ * 
+ * Связана с моделями:  Simulations
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class Tasks extends CActiveRecord{
             return 'tasks';
     }
     
+    /**
+     * Выбрать согласно набору задач
+     * @param array $ids
+     * @return Tasks 
+     */
     public function byIds($ids)
     {
         
@@ -38,6 +45,11 @@ class Tasks extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать конкретную задачу
+     * @param int $id
+     * @return Tasks 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -46,6 +58,11 @@ class Tasks extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по коду задачи
+     * @param int $code
+     * @return Tasks 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(

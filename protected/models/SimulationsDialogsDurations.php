@@ -5,6 +5,8 @@
 /**
  * Длительность диалогов в рамках конкретной симуляции. Используется при расчете оценки.
  *
+ * Связана с моделями:  Simulations
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class SimulationsDialogsDurations extends CActiveRecord{
@@ -22,6 +24,11 @@ class SimulationsDialogsDurations extends CActiveRecord{
             return 'simulations_dialogs_durations';
     }
     
+    /**
+     * Выбрать согласно заданной симуляции
+     * @param int $simId
+     * @return SimulationsDialogsDurations 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(

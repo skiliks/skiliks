@@ -5,6 +5,8 @@
 /**
  * Модель рабочих листов шаблона excel документа
  * Содержит листы в рамках документа Excel.
+ * 
+ * Связана с моделями:  ExcelDocument.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -29,7 +31,8 @@ class ExcelWorksheetModel extends CActiveRecord{
     }
     
     /**
-     * Вернуть ближайшее событие
+     * Выбрать по заданному документу
+     * @param int $documentId
      * @return ExcelDocumentTemplate 
      */
     public function byDocument($documentId)
@@ -40,6 +43,11 @@ class ExcelWorksheetModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по иднетификатору
+     * @param int $id
+     * @return ExcelWorksheetModel 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -48,6 +56,11 @@ class ExcelWorksheetModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по имени рабочего листа
+     * @param string $name
+     * @return ExcelWorksheetModel 
+     */
     public function byName($name)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -5,6 +5,8 @@
 /**
  * Содержит набор фраз, которые соответствуют конкретному персонажу
  * Также есть связь по коду конструктора писем. Поле code например B1 W1
+ * 
+ * Связана с моделями: MailCharacterThemesModel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -29,7 +31,11 @@ class MailPhrasesModel extends CActiveRecord{
     }
     
     
-    
+    /**
+     * Выбрать фразы по заданному набору
+     * @param array $ids
+     * @return MailPhrasesModel 
+     */
     public function byIds($ids)
     {
         if (count($ids) == 0) return $this;
@@ -41,6 +47,11 @@ class MailPhrasesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному соответствию персонаж - тема
+     * @param int $id
+     * @return MailPhrasesModel 
+     */
     public function byCharacterThemes($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -49,6 +60,11 @@ class MailPhrasesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по типу фразы
+     * @param int $type
+     * @return MailPhrasesModel 
+     */
     public function byType($type)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -57,6 +73,11 @@ class MailPhrasesModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать фразу по коду
+     * @param string $code
+     * @return MailPhrasesModel 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(

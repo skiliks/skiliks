@@ -4,6 +4,8 @@
 /**
  * Набор задач для писем.
  *
+ * Связана с моделями:  MailTemplateModel
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTasksModel extends CActiveRecord{
@@ -26,6 +28,11 @@ class MailTasksModel extends CActiveRecord{
             return 'mail_tasks';
     }
     
+    /**
+     * Выбрать по заданному письму
+     * @param type $mailId
+     * @return MailTasksModel 
+     */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -34,6 +41,11 @@ class MailTasksModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному идентификатору
+     * @param int $id
+     * @return MailTasksModel 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

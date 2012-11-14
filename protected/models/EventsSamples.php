@@ -27,6 +27,11 @@ class EventsSamples extends CActiveRecord{
             return 'events_samples';
     }
     
+    /**
+     * Ограничить выборку записей
+     * @param int $limit
+     * @return EventsSamples 
+     */
     public function limit($limit = 5)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +41,11 @@ class EventsSamples extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать события по коду
+     * @param string $code
+     * @return EventsSamples 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -44,6 +54,11 @@ class EventsSamples extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать событие по коду с учетом like.
+     * @param string $code
+     * @return EventsSamples 
+     */
     public function likeCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -52,6 +67,11 @@ class EventsSamples extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать событие по id
+     * @param int $id
+     * @return EventsSamples 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -60,6 +80,12 @@ class EventsSamples extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать событие, попадающее в заданный интервал времени
+     * @param int $fromTime от
+     * @param int $toTime до
+     * @return EventsSamples 
+     */
     public function nearest($fromTime, $toTime)
     {
         $this->getDbCriteria()->mergeWith(array(

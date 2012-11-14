@@ -4,6 +4,8 @@
 
 /**
  * Шаблон набора получателей к письмам
+ * 
+ * Связана с моделями:  MailTemplateModel, Characters.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class MailReceiversTemplateModel extends CActiveRecord{
             return 'mail_receivers_template';
     }
     
+    /**
+     * Выбрать по заданному письму
+     * @param int $id
+     * @return MailReceiversTemplateModel 
+     */
     public function byMailId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,11 @@ class MailReceiversTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному получателю
+     * @param int $id
+     * @return MailReceiversTemplateModel 
+     */
     public function byReceiverId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

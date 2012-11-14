@@ -4,6 +4,8 @@
 
 /**
  * Какие звонки и когда были совершены в рамках симуляции
+ * 
+ * Связана с моделями:  Simulations, Characters.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class PhoneCallsModel extends CActiveRecord{
             return 'phone_calls';
     }
     
+    /**
+     * Выбрать согласно заданной симуляции
+     * @param int $simId
+     * @return PhoneCallsModel 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(

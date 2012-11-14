@@ -4,6 +4,8 @@
 
 /**
  * Модель дневного плана. Хранит состояние дневного плана для каждой симуляии пользователя.
+ * 
+ * Связана с моделями: Simulations, Tasks.
  *
  * @property int sim_id
  * @property int task_id
@@ -31,6 +33,12 @@ class DayPlan extends CActiveRecord{
             return 'day_plan';
     }
     
+    /**
+     * Выбрать по диапазону дат от и до
+     * @param int $from
+     * @param int $to
+     * @return DayPlan 
+     */
     public function byDate($from, $to)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -39,6 +47,11 @@ class DayPlan extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать для заданной симуляции
+     * @param int $simId
+     * @return DayPlan 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -47,6 +60,11 @@ class DayPlan extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданной задачи
+     * @param int $taskId
+     * @return DayPlan 
+     */
     public function byTask($taskId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -55,6 +73,12 @@ class DayPlan extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать ближайшую запись по дате от и до
+     * @param int $from
+     * @param int $to
+     * @return DayPlan 
+     */
     public function nearest($from, $to)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -4,6 +4,8 @@
 
 /**
  * Модель симуляции.
+ * 
+ * Связана с моделями: Users.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class Simulations extends CActiveRecord{
             return 'simulations';
     }
     
+    /**
+     * Выбрать по заданному пользователю.
+     * @param int $uid
+     * @return Simulations 
+     */
     public function byUid($uid)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,10 @@ class Simulations extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать ближайшую симуляцию
+     * @return Simulations 
+     */
     public function nearest()
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -44,6 +55,11 @@ class Simulations extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по идентификатору
+     * @param int $id
+     * @return Simulations 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(

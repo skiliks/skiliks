@@ -28,6 +28,11 @@ class MyDocumentsTemplateModel extends CActiveRecord{
             return 'my_documents_template';
     }
     
+    /**
+     * Выбрать документ по коду
+     * @param string $code
+     * @return MyDocumentsTemplateModel 
+     */
     public function byCode($code)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -36,6 +41,11 @@ class MyDocumentsTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать заданный документ
+     * @param int $id
+     * @return MyDocumentsTemplateModel 
+     */
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -44,6 +54,11 @@ class MyDocumentsTemplateModel extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданному набору шаблонов документов
+     * @param array $ids
+     * @return MyDocumentsTemplateModel 
+     */
     public function byIds($ids)
     {
         if (count($ids) == 0) return $this;

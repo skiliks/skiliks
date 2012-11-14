@@ -4,6 +4,8 @@
 
 /**
  * Используется для логирования состояния плана.
+ * 
+ * Связана с моделями: Simulations, Tasks, Users.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,12 @@ class DayPlanLogModel extends CActiveRecord{
             return 'day_plan_log';
     }
     
+    /**
+     * Выборка по симуляции
+     * 
+     * @param int $simId
+     * @return DayPlanLogModel 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(

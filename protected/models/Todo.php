@@ -4,6 +4,8 @@
 
 /**
  * Список сделать в рамках конкретной симуляции
+ * 
+ * Связана с моделями:  Simulations, Tasks.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +29,11 @@ class Todo extends CActiveRecord{
             return 'todo';
     }
     
+    /**
+     * Выбрать в рамках заданной симуляции
+     * @param int $simId
+     * @return Todo 
+     */
     public function bySimulation($simId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -35,6 +42,11 @@ class Todo extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать по заданной задаче
+     * @param int $taskId
+     * @return Todo 
+     */
     public function byTask($taskId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -43,6 +55,10 @@ class Todo extends CActiveRecord{
         return $this;
     }
     
+    /**
+     * Выбрать самую свежую задачу
+     * @return Todo 
+     */
     public function byLatestAddingDate()
     {
         $this->getDbCriteria()->mergeWith(array(
