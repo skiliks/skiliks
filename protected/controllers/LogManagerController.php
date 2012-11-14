@@ -131,6 +131,7 @@ class LogManagerController extends AjaxController{
         //последующая обработка и сортировка массива
         $output = array();
         foreach ($newArray as $value){
+            if (isset($value['timeStart']))
             $output[$value['timeStart']] = $value;
         }
 
