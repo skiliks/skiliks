@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of GroupsModel
+ * Содержит группы пользователей, используемые в системе.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

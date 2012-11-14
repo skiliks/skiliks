@@ -1,12 +1,10 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of FlagsRulesContentModel
+ * Содержит флаги, связанный с конкретными правилами флагов 
+ * а также значения флагов для этих правил.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

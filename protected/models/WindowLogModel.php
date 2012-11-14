@@ -2,7 +2,7 @@
 
 
 /**
- * Description of WindowLogModel
+ * Модель логирования открытых окон в рамках симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

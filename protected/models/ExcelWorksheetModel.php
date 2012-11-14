@@ -4,6 +4,7 @@
 
 /**
  * Модель рабочих листов шаблона excel документа
+ * Содержит листы в рамках документа Excel.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

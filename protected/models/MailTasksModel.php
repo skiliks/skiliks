@@ -2,7 +2,7 @@
 
 
 /**
- * Description of MailTasksModel
+ * Набор задач для писем.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

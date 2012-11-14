@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailCopiesTemplateModel
+ * Шаблон персонажей, которые идут копией к конкретному письму.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

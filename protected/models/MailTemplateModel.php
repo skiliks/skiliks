@@ -3,7 +3,7 @@
 
 
 /**
- * Description of MailTemplateModel
+ * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

@@ -2,7 +2,7 @@
 
 
 /**
- * Модель персонажей
+ * Модель персонажей. Хранит информацию о персонажах.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

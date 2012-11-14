@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of MailReceiversTemplateModel
+ * Шаблон набора получателей к письмам
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

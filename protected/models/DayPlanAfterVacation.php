@@ -3,7 +3,7 @@
 
 
 /**
- * Description of DayPlanAfterVacation
+ * Хранит состояние после отпуска для каждой симуляции.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

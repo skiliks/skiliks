@@ -1,12 +1,9 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 /**
- * Description of EventsResults
+ * Возможно устаревшее. В моей логике оно не используется сейчас.
  *
  * @property string title
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
