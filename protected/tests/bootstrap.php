@@ -1,7 +1,6 @@
 <?php
 define('YII_DEBUG', true);
-$yiit=dirname(__FILE__) . '/../../framework/yiit.php';
-$config=dirname(__FILE__).'/../config/main.php';
-require_once($yiit);
+$config = __DIR__ . '/../config/main.php';
+require_once(__DIR__ . '/../../framework/yiit.php');
 Yii::createWebApplication($config);
-Yii::import('application.tests.ControllerTestCase');
+Yii::import('application.tests.base.*');
