@@ -14,7 +14,7 @@ class MailBoxService {
      * @return type 
      */
     public function getFolders() {
-        $folders = MailFoldersModel::model()->findAll();
+        $folders = MailFoldersModel::model()->findAll(array('limit'=>4));
         
         $list = array();
         $index = 1;
