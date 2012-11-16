@@ -10,7 +10,7 @@ class LogHelper {
 
     protected static $codes_documents = array(40,41,42);
 
-    protected static $codes_mail = array(1,3,10,11,12,13,14);
+    protected static $codes_mail = array(10,11,12,13,14);
 
 	public function __construct() {
 		
@@ -139,8 +139,8 @@ class LogHelper {
                     $comand = Yii::app()->db->createCommand();
                     $comand->insert( "log_documents" , array(
                         'sim_id'    => $simId,
-                        'file_id' => $log[4]['fileId'],
-                        'start_time'  => date("H:i:s", $log[3])
+                        'file_id'   => $log[4]['fileId'],
+                        'start_time'=> date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == $log[2] ) {
                     //Yii::log(var_export($log, true), 'info');
@@ -199,14 +199,14 @@ class LogHelper {
     }
     
     public static function setMailLog( $simId, $logs ) {
-        
+        //Yii::log(var_export($logs, true), 'info');
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
-
+            
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
 
-                if(!isset($log[4]['mailId'])) continue;
-                
+                //if(!isset($log[4]['mailId'])) continue;
+                //Yii::log(var_export($log, true), 'info');
                 if( self::ACTION_OPEN == $log[2] ){
                     //Yii::log(var_export($log, true), 'info');
                     $comand = Yii::app()->db->createCommand();
@@ -225,11 +225,12 @@ class LogHelper {
                         ), "`mail_id` = {$log[4]['mailId']} AND
                         `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
                     //Yii::log(var_export($res, true), 'info');
-                }elseif($log[2] == self::ACTION_SWITCH){
+                } elseif( $log[2] == self::ACTION_SWITCH ) {
+                    
                     $comand = Yii::app()->db->createCommand();
 
                     $res = $comand->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3])
+                        'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
                     //Yii::log(var_export($res, true), 'info');
                     //if($res =! 1){
