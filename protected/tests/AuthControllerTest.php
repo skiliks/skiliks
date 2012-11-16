@@ -1,6 +1,6 @@
 <?php
 
-class AuthTest extends ControllerTestCase {
+class AuthControllerTest extends ControllerTestCase {
     function testSimulationStart() {
         $user = new Users();
         $user->email = 'andrey' . time() . '@kostenko.name';
