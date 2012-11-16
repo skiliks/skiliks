@@ -290,11 +290,49 @@ class LogHelper {
     }
     
     public static function getMailInBoxAVG() {
-        
+
+        $data = Yii::app()
+            ->db
+            ->createCommand()
+            ->select("m.sim_id
+                    , m.code
+                    , g.name
+                    , if(m.readed = 0, 'Нет', 'Да') AS readed
+                    , if(m.plan = 0, 'Нет', 'Да') AS plan
+                    , if(m.reply = 0, 'Нет', 'Да') AS reply")
+            ->from('mail_box m')
+            ->join('mail_group g', 'm.group_id = g.id')
+            ->where('type = 1 or type = 3')
+            ->order('m.id')
+            ->queryAll();
+
+        return $data;
+
     }
     
     public static function getMailInBoxAvgCSV() {
-        
+
+        $data = self::getMailInBoxAVG();
+
+        foreach ($data as  $k=>$row) {
+            $data[$k]['name'] = Strings::toWin($data[$k]['name']);
+            $data[$k]['readed'] = Strings::toWin($data[$k]['readed']);
+            $data[$k]['plan'] = Strings::toWin($data[$k]['plan']);
+            $data[$k]['reply'] = Strings::toWin($data[$k]['reply']);
+        }
+        $csv = new ECSVExport($data, true, true, ';');
+        $csv->setHeaders(array(
+            'sim_id'     => Strings::toWin('id_симуляции'),
+            'code'       => Strings::toWin('Код входящего письма'),
+            'name'     => Strings::toWin('Папка мейл-клиента'),
+            'readed' => Strings::toWin('Письмо прочтено (да/нет)'),
+            'plan'   => Strings::toWin('Письмо запланировано (да/нет)'),
+            'reply'   => Strings::toWin('На письмо отправлен ответ')
+        ));
+        $content = $csv->toCSV();
+        $filename = 'data.csv';
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+
     }
     
     public static function getMailOutBoxLog() {

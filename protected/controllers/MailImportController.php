@@ -10,7 +10,8 @@
 class MailImportController extends AjaxController{
     
     public function actionImport() {
-        $fileName = 'media/mail.csv';
+        
+        $fileName = __DIR__.'/../../media/mail.csv';
         
         $characters = array();
         $charactersList = Characters::model()->findAll();
@@ -81,18 +82,21 @@ class MailImportController extends AjaxController{
                 $exists[$code]++;
             }
             
-            $group = null;
+            $group = 5;
+            $type = 0;
             // определение группы по коду
-            if (preg_match("/MY\d+/", $code)) {
+            if ( preg_match("/MY\d+/", $code) ) {
                 $group = 1;
-            }
-            
-            if (preg_match("/M\d+/", $code)) {
-                //$group = 1;
-            }
-            
-            if (preg_match("/MSY\d+/", $code)) {
+                $type = 3;
+            } else if( preg_match("/M\d+/", $code) ) {
+                $type = 1;
+            } else if( preg_match("/MSY\d+/", $code) ) {
                 $group = 3;
+                $type = 4;
+            } else if( preg_match("/MS\d+/", $code) ){
+                $type = 2;
+            } else {
+                throw new Exception("Ошибка"); //TODO: Дописать описание
             }
             
             if (!isset($characters[$fromCode])) {
@@ -160,7 +164,7 @@ class MailImportController extends AjaxController{
                 $model->message = $message;
                 $model->sending_date = $sendingDate;
                 $model->code = $code;
-                
+                $model->type = $type;
 
                 $model->insert();
                 echo("insert code: $code index $index <br/>");
@@ -172,6 +176,7 @@ class MailImportController extends AjaxController{
                 $model->subject = $subject;
                 $model->message = $message;
                 $model->sending_date = $sendingDate;
+                $model->type = $type;
                 $model->update();
                 
                 echo("updated code: $code index $index <br/>");
