@@ -20,6 +20,7 @@ class m121107_115729_update_points_and_create_type_scale extends CDbMigration
             'point_id' => 'INT(11) NOT NULL',
             'dialog_id' => 'INT(11) NOT NULL'
         ));
+        Helper::callAction( 'CharactersPointsTitleImportController', 'actionImport' );
 	}
 
 	public function down()
@@ -29,14 +30,4 @@ class m121107_115729_update_points_and_create_type_scale extends CDbMigration
         $this->dropTable('log_dialog');
 	}
 
-	/*
-	// Use safeUp/safeDown to do migration with transaction
-	public function safeUp()
-	{
-	}
-
-	public function safeDown()
-	{
-	}
-	*/
 }

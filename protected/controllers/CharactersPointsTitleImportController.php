@@ -33,7 +33,7 @@ class CharactersPointsTitleImportController extends AjaxController {
     	
     	$temp = array();
     	    	    	
-    	$filename = './media/Forma1_new_170912_v3.xlsx';
+    	$filename = __DIR__.'/../../media/Forma1_new_170912_v3.xlsx';
     	
     	if( file_exists( $filename ) ) {
     		
@@ -249,9 +249,6 @@ class CharactersPointsTitleImportController extends AjaxController {
     		echo "Cреди них : ".implode(" , ", $temp)." <br>";
     	}
     	echo "</h3>";
-    //echo '<pre>';
-    //var_dump($db_parent);
-    //echo '</pre>';
 
     }
 	public function actionLogdialog() {
@@ -261,7 +258,8 @@ class CharactersPointsTitleImportController extends AjaxController {
     public function actionTest() {
             
             
-        phpinfo();
+        Helper::callAction(__CLASS__, "actionImport");
+   
             
 	}
         
@@ -280,6 +278,12 @@ class CharactersPointsTitleImportController extends AjaxController {
     public function actionMailInBox() {
 
         LogHelper::getMailInBoxCSV();
+
+    }
+
+    public function actionMailInBoxAVG() {
+
+        LogHelper::getMailInBoxAvgCSV();
 
     }
     

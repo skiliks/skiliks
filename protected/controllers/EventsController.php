@@ -51,7 +51,7 @@ class EventsController extends AjaxController{
             if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
             // данные для логирования
-            $logs = Yii::app()->request->getParam('logs', false);  
+            $logs = Yii::app()->request->getParam('logs', false);
             $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
             $timeString = Yii::app()->request->getParam('timeString', false);  
             
