@@ -13,6 +13,7 @@ class MailController extends AjaxController{
      * Отдачи состава папок
      */
     public function actionGetFolders() {
+        
         $sid = Yii::app()->request->getParam('sid', false);  
         $receiverId = 1; // герой SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
@@ -45,6 +46,7 @@ class MailController extends AjaxController{
      * Возвращает колличество непрочитанных писем во входящих
      */
     public function actionGetInboxUnreadedCount() {
+        
         $sid = Yii::app()->request->getParam('sid', false);  
         $simId = SessionHelper::getSimIdBySid($sid);
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
@@ -63,6 +65,7 @@ class MailController extends AjaxController{
      * Получение списка сообщений
      */
     public function actionGetMessages() {
+        
         $sid = Yii::app()->request->getParam('sid', false);  
         $folderId = (int)Yii::app()->request->getParam('folderId', false);  
         $order = Yii::app()->request->getParam('order', false);  
@@ -101,6 +104,7 @@ class MailController extends AjaxController{
     }
     
     public function actionGetMessage() {
+        
         $id = (int)Yii::app()->request->getParam('id', false);  
         
         $service = new MailBoxService();
@@ -118,6 +122,7 @@ class MailController extends AjaxController{
      * @return type 
      */
     public function actionGetReceivers() {
+        
         $service = new MailBoxService();
         
         $result = array();
@@ -455,6 +460,9 @@ class MailController extends AjaxController{
                     $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
+            //Изменяем запись в бд: SK - 708
+            $model->reply = 1;//1 - значит что на сообщение отправлен ответ
+            $model->update();//столбиц `mail_box`.`reply`
             
             if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
@@ -547,7 +555,9 @@ class MailController extends AjaxController{
                 $result['copies'] = '';
             }
             $result['copiesId'] = implode(',', $copiesIds);
-            
+            //Изменяем запись в бд: SK - 708
+            $model->reply = 1;//1 - значит что на сообщение отправлен ответ
+            $model->update();//столбиц `mail_box`.`reply` 
                   
             return $this->sendJSON($result);
         } catch (Exception $exc) {
@@ -576,7 +586,9 @@ class MailController extends AjaxController{
             // получить список задач для шаблона письма
             $tasks = MailBoxService::getTasks($templateId);
             //var_dump($tasks);
-            
+            $model = MailBoxModel::model()->byId($messageId)->find();
+            $model->plan = 1;
+            $model->update();
             // вернуть результат
             $result = array();
             $result['result'] = 1;

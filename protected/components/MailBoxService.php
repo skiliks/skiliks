@@ -608,8 +608,8 @@ class MailBoxService {
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, type)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, type
             from mail_template
             where mail_template.code = '{$code}'";
         
@@ -691,8 +691,8 @@ class MailBoxService {
         $connection = Yii::app()->db;
         $receivingDate = time();
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, sending_time)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code, sending_time
+            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, sending_time, type)
+            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code, sending_time, type
             from mail_template";
         
         $command = $connection->createCommand($sql);     
