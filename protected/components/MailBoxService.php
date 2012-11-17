@@ -287,7 +287,12 @@ class MailBoxService {
         
         return $message;
     }
-    
+
+    /**
+     * Sends message in the internal mail client
+     *
+     * @param array $params dictionary with elements letterType, subject
+     */
     public function sendMessage($params) {
         Logger::debug("sendMessage");
         
@@ -319,7 +324,8 @@ class MailBoxService {
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
-        $model->subject_id = $subject_id;
+        $subject = MailThemesModel::model()->findByPk($subject_id);
+        $model->subject_id = isset($subject) ? $subject->primaryKey : null;
         $model->receiver_id = $receiverId;
         //$model->subject = $params['subject'];
         //$model->message = $params['message'];
