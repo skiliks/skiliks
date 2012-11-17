@@ -54,7 +54,11 @@ class YiiBase
 	{
 		return new $class($config);
 	}
-	public static function app()
+
+    /**
+     * @return CApplication
+     */
+    public static function app()
 	{
 		return self::$_app;
 	}

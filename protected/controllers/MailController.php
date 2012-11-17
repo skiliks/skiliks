@@ -207,7 +207,7 @@ class MailController extends AjaxController{
         
         $result = array();
         $result['result'] = 1;
-        return $this->sendJSON($result);
+        $this->sendJSON($result);
     }
     
     /**
@@ -226,12 +226,12 @@ class MailController extends AjaxController{
             $result['data'] = array(
                 'messageArriveSound' => $model->messageArriveSound
             );
-            return $this->sendJSON($result);
+            $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->sendJSON($result);
+            $this->sendJSON($result);
         }    
     }
     

@@ -52,7 +52,7 @@ class EventsController extends AjaxController{
             
             // данные для логирования
             $logs = Yii::app()->request->getParam('logs', false);
-            $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
+            $windowActive = (int)Yii::app()->request->getParam('windowActive', false);
             $timeString = Yii::app()->request->getParam('timeString', false);  
             
             
