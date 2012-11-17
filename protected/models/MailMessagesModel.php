@@ -8,6 +8,7 @@
  * 
  * Связана с моделями: MailBoxModel, MailPhrasesModel.
  *
+ * @property int mail_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailMessagesModel extends CActiveRecord{

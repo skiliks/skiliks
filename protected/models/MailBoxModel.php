@@ -8,18 +8,31 @@
  * 
  * Связана с моделями: Characters, Simulations, MailTemplateModel.
  *
+ * @property mixed group_id
+ * @property mixed sender_id
+ * @property mixed subject_id
+ * @property int receiver_id
+ * @property mixed sending_date
+ * @property int readed
+ * @property mixed sim_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxModel extends CActiveRecord{
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return MailBoxModel 
      */
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
+    }
+
+    public function relations() {
+        return array(
+            'subject' => array(self::BELONGS_TO, 'User', 'subject_id')
+        );
     }
 
     /**
