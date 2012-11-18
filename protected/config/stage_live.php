@@ -17,7 +17,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
             'routes'=>array(
                 array(
                     'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, info, trace, log, debug',
+                    'levels'=>'error, warning, info, trace, log',
                 ),
 
             ),
