@@ -181,6 +181,7 @@ class MailController extends AjaxController{
     }
     
     public function actionSaveDraft() {
+
         $sid = Yii::app()->request->getParam('sid', false);  
         $senderId = 1; // герой SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
