@@ -3,6 +3,9 @@
 <project name="backend" default="build">
     <property environment="env"/>
     <property name="stage" override="true" value="devel" />
+    <property name="basedir" value="protected" description="Base dir" />
+    <property name="artifactsDir" value="${basedir}/tests/artifacts" description="Base dir for all output of build commands" />
+
     <target name="build">
         <!--
             1. In stage != devel it copies config stage_${stage}.php to main.php
@@ -28,5 +31,19 @@
             </else>
 
         </if>
+    </target>
+    <target name="prepare_test">
+        <delete includeemptydirs="true" description="Clear artifacts dir">
+            <fileset dir="${artifactsDir}" includes="**/*" />
+        </delete>
+
+        <mkdir dir="${artifactsDir}/" />
+    </target>
+    <target name="phpunit" depends="prepare_test">
+        <mkdir dir="${artifactsDir}/phpunit/" description="Make sure that artifacts directory exists" />
+
+        <exec dir="${basedir}" executable="phpunit" output="${artifactsDir}/phpunit.log" >
+            <arg line="--configuration ${basedir}/tests/phpunit.xml" />
+        </exec>
     </target>
 </project>
