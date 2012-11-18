@@ -294,8 +294,7 @@ class MailBoxService {
      * @param array $params dictionary with elements letterType, subject
      */
     public function sendMessage($params) {
-        Logger::debug("sendMessage");
-        
+
         $subject_id = $params['subject'];
         
         $letterType = false;
@@ -317,10 +316,7 @@ class MailBoxService {
         
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
-        
-        Logger::debug("insert mail : ".var_export($params));
-        Logger::debug("insert mail : subject = $subject_id receiver = $receiverId");
-        
+
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];

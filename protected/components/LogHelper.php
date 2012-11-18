@@ -212,7 +212,7 @@ class LogHelper {
                     $comand = Yii::app()->db->createCommand();
                     $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
-                        'mail_id'   => $log[4]['mailId'],
+                        'mail_id'   => isset($log[4]['mailId'])?$log[4]['mailId']:null,
                         'window'   => $log[1],
                         'start_time'  => date("H:i:s", $log[3])
                     ));
