@@ -1,4 +1,13 @@
-<phpunit bootstrap="./bootstrap.php">
+<phpunit bootstrap="bootstrap.php" backupGlobals="false"
+         backupStaticAttributes="true"  colors="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="true"
+         syntaxCheck="false"
+         verbose="true"
+         strict="true">
     <php>
         <includePath>../../framework</includePath>
     </php>
@@ -6,8 +15,8 @@
         <directory>./</directory>
     </testSuite>
     <logging>
-        <log type="coverage-clover" target="tests/artifacts/phpunit/coverage.xml" />
-        <log type="junit" target="tests/artifacts/phpunit/phpunit.xml" logIncompleteSkipped="true" />
+        <log type="coverage-clover" target="artifacts/phpunit/coverage.xml" />
+        <log type="junit" target="artifacts/phpunit/phpunit.xml" logIncompleteSkipped="true" />
         <log type="testdox-html" target="./logs/testdox.html" />
     </logging>
 </phpunit>
