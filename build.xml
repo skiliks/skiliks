@@ -3,6 +3,7 @@
 <project name="backend" default="build">
     <property environment="env"/>
     <property name="stage" override="true" value="devel" />
+    <property name="user" override="true" value="${env.USER}" />
     <property name="basedir" value="protected" description="Base dir" />
     <property name="artifactsDir" value="${basedir}/tests/artifacts" description="Base dir for all output of build commands" />
 
@@ -17,9 +18,10 @@
             <equals arg1="${stage}" arg2="devel"/>
             <then>
                 <if>
-                    <available file="./protected/config/user_${env.USER}.php" type="file"/>
+                    <available file="./protected/config/user_${user}.php" type="file"/>
                     <then>
-                        <copy overwrite="true" file="./protected/config/user_${env.USER}.php" tofile="./protected/config/main.php"/>
+                        <echo message="Copying config for user ${user}" />
+                        <copy overwrite="true" file="./protected/config/user_${user}.php" tofile="./protected/config/main.php"/>
                     </then>
                     <else>
                         <copy overwrite="true" file="./protected/config/stage_${stage}.php" tofile="./protected/config/main.php"/>
