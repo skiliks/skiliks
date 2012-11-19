@@ -263,6 +263,7 @@ class LogHelper {
             ->from('log_mail l')
             ->join('mail_box m', 'l.mail_id = m.id')
             ->where('l.window != 13')
+            ->order('l.id')
             ->queryAll();
 
         return $data;

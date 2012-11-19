@@ -587,9 +587,7 @@ class MailController extends AjaxController{
             // получить список задач для шаблона письма
             $tasks = MailBoxService::getTasks($templateId);
             //var_dump($tasks);
-            $model = MailBoxModel::model()->byId($messageId)->find();
-            $model->plan = 1;
-            $model->update();
+
             // вернуть результат
             $result = array();
             $result['result'] = 1;
@@ -608,7 +606,8 @@ class MailController extends AjaxController{
      */
     public function actionAddToPlan() {
         try {
-            $taskId = (int)Yii::app()->request->getParam('id', false);  
+            $taskId = (int)Yii::app()->request->getParam('id', false);
+            $messageId = (int)Yii::app()->request->getParam('messageId', false);
             $sid = Yii::app()->request->getParam('sid', false);  
             $simId = SessionHelper::getSimIdBySid($sid);
             
@@ -616,7 +615,13 @@ class MailController extends AjaxController{
             $model = MailTasksModel::model()->byId($taskId)->find();
             if (!$model) throw new Exception("cant get model by taskId $taskId");
             $name = $model->name;
-            
+            if(!empty($messageId)){
+                $model = MailBoxModel::model()->byId($messageId)->find();
+                $model->plan = 1;
+                $model->update();
+            }else{
+                throw new Exception('messageId не передан или пустой!');
+            }
             // Добавить новую задачу в план
             $task = new Task();
             $task->simulation   = $simId;
