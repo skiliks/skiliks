@@ -230,7 +230,6 @@ class MailImportController extends AjaxController{
                 }
             }
             
-            
             // а теперь учтем копии
             foreach($copiesArr as $ind => $characterCode) {
                 if (!isset($characters[$characterCode])) {
