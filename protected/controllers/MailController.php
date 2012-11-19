@@ -616,9 +616,9 @@ class MailController extends AjaxController{
             if (!$model) throw new Exception("cant get model by taskId $taskId");
             $name = $model->name;
             if(!empty($messageId)){
-                $model = MailBoxModel::model()->byId($messageId)->find();
-                $model->plan = 1;
-                $model->update();
+                $message = MailBoxModel::model()->byId($messageId)->find();
+                $message->plan = 1;
+                $message->update();
             }else{
                 throw new Exception('messageId не передан или пустой!');
             }
