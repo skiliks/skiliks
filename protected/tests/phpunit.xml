@@ -4,7 +4,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
          syntaxCheck="false"
          verbose="true"
          strict="true">
@@ -12,7 +12,7 @@
         <includePath>../../framework</includePath>
     </php>
     <testSuite>
-        <directory>./</directory>
+        <directory>.</directory>
     </testSuite>
     <logging>
         <log type="coverage-clover" target="artifacts/phpunit/coverage.xml" />
