@@ -12,7 +12,7 @@ class LogHelper {
 
     protected static $codes_mail = array(10,11,12,13,14);
 
-	public function __construct() {
+	private function __construct() {
 		
 	}
 
@@ -171,7 +171,8 @@ class LogHelper {
                           l.end_time')
                 ->from('log_documents l')
                 ->join('my_documents d', 'l.file_id = d.id')
-                ->join('my_documents_template t', 'd.template_id = t.id')    
+                ->join('my_documents_template t', 'd.template_id = t.id')
+                ->order('l.id')
                 ->queryAll();
         
                 return $data;
@@ -337,7 +338,27 @@ class LogHelper {
     }
     
     public static function getMailOutBoxLog() {
-        
+
+        $data = Yii::app()
+            ->db
+            ->createCommand("
+            SET @n := 0;
+            SET @s := 0;
+            SELECT l.sim_id
+                 , if(@s = l.sim_id, @n := @n + 1, @n :=1) AS new_id
+                 , @s := l.sim_id AS temp
+                 , l.start_time
+                 , l.end_time
+            FROM
+              log_mail AS l
+
+            WHERE
+              l.window = 13
+            ")
+            ->queryAll();
+
+        return $data;
+
     }
     
     public static function getMailOutBoxCSV() {
