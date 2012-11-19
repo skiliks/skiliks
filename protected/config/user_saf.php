@@ -6,7 +6,7 @@ return CMap::mergeArray(
             'connectionString' => 'mysql:dbname=skiliks',
             'emulatePrepare' => true,
             'username' => 'skiliks',
-            'password' => '',
+            'password' => 'skiliks123',
             'charset' => 'utf8',
 
             'enableParamLogging' => true,

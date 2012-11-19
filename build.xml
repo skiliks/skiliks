@@ -13,7 +13,8 @@
             2. In stage == devel it tries to find user_${env.USER}.php and copies it if found
             3. Otherwise it copies stage_devel.php to main.php
         -->
-        <echo msg="Copying config..."/>
+        <echo msg="Copying config for user ${env.USER}..."/>
+        <echo msg="${user.name}"/>
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
