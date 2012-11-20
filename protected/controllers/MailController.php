@@ -147,7 +147,7 @@ class MailController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         $senderId = SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
-        
+        $messageId = Yii::app()->request->getParam('messageId', false);
         $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
@@ -157,9 +157,19 @@ class MailController extends AjaxController{
         $phrases = Yii::app()->request->getParam('phrases', false);  
         
         $letterType = Yii::app()->request->getParam('letterType', false);  
-        $fileId = (int)Yii::app()->request->getParam('fileId', false);  
-        
-        //$message = Yii::app()->request->getParam('message', false);  
+        $fileId = (int)Yii::app()->request->getParam('fileId', false);
+        if($letterType == 'reply' OR $letterType == 'replyAll'){
+            if(!empty($messageId)){
+                //Изменяем запись в бд: SK - 708
+                $message = MailBoxModel::model()->byId($messageId)->find();
+                $message->reply = 1;//1 - значит что на сообщение отправлен ответ
+                $message->update();
+            }else{
+                throw new Exception("Ошибка, не указан messageId для ответить или ответить всем");
+            }
+        }
+
+        //$message = Yii::app()->request->getParam('message', false);
         
         $service = new MailBoxService();
         $service->sendMessage(array(
@@ -461,10 +471,7 @@ class MailController extends AjaxController{
                     $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
-            //Изменяем запись в бд: SK - 708
-            $model->reply = 1;//1 - значит что на сообщение отправлен ответ
-            $model->update();//столбиц `mail_box`.`reply`
-            
+
             if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
             
@@ -556,9 +563,6 @@ class MailController extends AjaxController{
                 $result['copies'] = '';
             }
             $result['copiesId'] = implode(',', $copiesIds);
-            //Изменяем запись в бд: SK - 708
-            $model->reply = 1;//1 - значит что на сообщение отправлен ответ
-            $model->update();//столбиц `mail_box`.`reply` 
                   
             return $this->sendJSON($result);
         } catch (Exception $exc) {
