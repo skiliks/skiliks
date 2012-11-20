@@ -200,6 +200,7 @@ class LogHelper {
     }
     
     public static function setMailLog( $simId, $logs ) {
+
         //Yii::log(var_export($logs, true), 'info');
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
