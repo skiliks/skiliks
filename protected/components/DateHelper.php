@@ -25,7 +25,7 @@ class DateHelper {
         $day = $data[0];
         $mon = $data[1];
         $year = $data[2];
-        return mktime(0, 0, 0, $mon, $day, $year);
+        return gmmktime(0, 0, 0, $mon, $day, $year);
     }
     
     public static function timestampTimeToArr($unixtimeMins) {
@@ -78,7 +78,7 @@ class DateHelper {
      * @return int
      */
     public static function getCurrentTimestampDate() {
-        return mktime();
+        return gmmktime();
         //return mktime(0, 0, 0, date('m'), date('d'), date('Y'));
     }
 }
