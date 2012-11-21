@@ -331,7 +331,9 @@ class MailBoxService {
         $model->insert();
         
         $mailId = $model->id;
-
+        //Создаем лог в ручную
+        $logs = array(array(10,13,0,$params['timeString'], array('mailId'=>$mailId)));
+        LogHelper::setMailLog($params['simId'], $logs);
         // сохранение копий
         if (isset($params['copies'])) {
             if ($params['copies'] != '')
