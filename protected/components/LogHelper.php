@@ -206,31 +206,50 @@ class LogHelper {
         foreach( $logs as $log ) {
             
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
-
+                $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
                 //Yii::log(var_export($log, true), 'info');
-                if( self::ACTION_OPEN == $log[2] ){
-                    //Yii::log(var_export($log, true), 'info');
-                    $comand = Yii::app()->db->createCommand();
+                if( self::ACTION_OPEN == $log[2] ) {
+
                     $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
-                        'mail_id'   => isset($log[4]['mailId'])?$log[4]['mailId']:null,
+                        'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
                         'window'   => $log[1],
                         'start_time'  => date("H:i:s", $log[3])
                     ));
+                    continue;
+                    /*
+                    Yii::log("INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3])."');", 'info');
+                    //Yii::log(var_export($comand->params, true), 'info');
+                     * 
+                     */
+                    //$queries.= "INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3]).";\r\n";
                 } elseif( self::ACTION_CLOSE == $log[2]) {
+                    
+                    if($log[1] != 13) {
 
-                    $comand = Yii::app()->db->createCommand();
-
-                    $comand->update( "log_mail" , array(
+                        $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
-                        ), "`mail_id` = {$log[4]['mailId']} AND
-                        `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                        ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                        continue;
+                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1 ;", 'info');
+                        //Yii::log(var_export($comand->params, true), 'info');
+                        
+                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n";
+                    } else {
+                        
+                        $comand->update( "log_mail" , array(
+                        'end_time'  => date("H:i:s", $log[3])
+                        ), "`mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                        continue;
+                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1", 'info');
+                        //Yii::log(var_export($comand->params, true), 'info');
+                        
+                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n"; 
+                    }
                     //Yii::log(var_export($res, true), 'info');
                 } elseif( $log[2] == self::ACTION_SWITCH ) {
-                    
-                    $comand = Yii::app()->db->createCommand();
-
+                    //Yii::log(var_export("SWITCH", true), 'info');
                     $res = $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
@@ -249,6 +268,8 @@ class LogHelper {
                 }
             }
         }
+        //Yii::app()->db->createCommand($queries)->execute();
+        //Yii::log(var_export($queries, true), 'info');
         return true;
     }
 	
