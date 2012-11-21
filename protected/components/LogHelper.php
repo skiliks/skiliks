@@ -239,7 +239,8 @@ class LogHelper {
                     } else {
                         
                         $comand->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3])
+                        'end_time'  => date("H:i:s", $log[3]),
+                        'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
                         ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1", 'info');

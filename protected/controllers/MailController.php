@@ -148,6 +148,7 @@ class MailController extends AjaxController{
         $senderId = SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
         $messageId = Yii::app()->request->getParam('messageId', false);
+        $timeString = Yii::app()->request->getParam('timeString', false);
         $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
@@ -181,7 +182,8 @@ class MailController extends AjaxController{
             'phrases' => $phrases,
             'simId' => $simId,
             'letterType' => $letterType,
-            'fileId' => $fileId
+            'fileId' => $fileId,
+            'timeString'=>$timeString
         ));
         
         $result = array();

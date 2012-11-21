@@ -148,7 +148,7 @@ class MailImportController extends AjaxController{
             
             $sendingDate = null;
             if (isset($date[1])) {
-                $sendingDate = mktime($time[0], $time[1], 0, $date[1], $date[0], $date[2]);
+                $sendingDate = gmmktime($time[0], $time[1], 0, $date[1], $date[0], $date[2]);
             }
             
             
