@@ -230,7 +230,7 @@ class LogHelper {
 
                         $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
-                        ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                        ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1 ;", 'info');
                         //Yii::log(var_export($comand->params, true), 'info');
@@ -240,7 +240,7 @@ class LogHelper {
                         
                         $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
-                        ), "`mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                        ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1", 'info');
                         //Yii::log(var_export($comand->params, true), 'info');
@@ -252,7 +252,7 @@ class LogHelper {
                     //Yii::log(var_export("SWITCH", true), 'info');
                     $res = $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
-                    ), "`end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                    ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     //Yii::log(var_export($res, true), 'info');
                     //if($res =! 1){
                         $comand->insert( "log_mail" , array(
