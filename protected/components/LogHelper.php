@@ -364,20 +364,16 @@ class LogHelper {
 
         $data = Yii::app()
             ->db
-            ->createCommand("
-            SET @n := 0;
-            SET @s := 0;
-            SELECT l.sim_id
-                 , if(@s = l.sim_id, @n := @n + 1, @n :=1) AS new_id
-                 , @s := l.sim_id AS temp
-                 , l.start_time
-                 , l.end_time
-            FROM
-              log_mail AS l
-
-            WHERE
-              l.window = 13
-            ")
+            ->createCommand()
+            ->select("l.sim_id
+                     , ifnull(l.mail_id, '-') AS mail_id
+                     , if(m.group_id = 3, 'Да', 'Нет') AS send
+                     , l.start_time
+                     , l.end_time")
+            ->from('log_mail l')
+            ->leftJoin('mail_box m', 'l.mail_id = m.id')
+            ->where('l.window = 13')
+            ->order('l.id')
             ->queryAll();
 
         return $data;
@@ -386,6 +382,22 @@ class LogHelper {
     
     public static function getMailOutBoxCSV() {
         
+        $data = self::getMailOutBoxLog();
+
+        foreach ($data as  $k=>$row) {
+            $data[$k]['send'] = Strings::toWin($data[$k]['send']);
+        }
+        $csv = new ECSVExport($data, true, true, ';');
+        $csv->setHeaders(array(
+            'sim_id'     => Strings::toWin('id_симуляции'),
+            'mail_id'       => Strings::toWin('id_исходящего письма'),
+            'send'     => Strings::toWin('Отправлено'),
+            'start_time' => Strings::toWin('Игровое время - start'),
+            'end_time'   => Strings::toWin('Игровое время - end')
+        ));
+        $content = $csv->toCSV();
+        $filename = 'data.csv';
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
     }
     
     public static function getMailOutBoxAVG() {
