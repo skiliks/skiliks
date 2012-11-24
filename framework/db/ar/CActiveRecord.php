@@ -636,7 +636,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getTableSchema()
 	{
-		return $this->getMetaData()->tableSchema;
+        return $this->getMetaData()->tableSchema;
 	}
 
 	/**

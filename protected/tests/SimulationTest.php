@@ -2,6 +2,9 @@
 
 class SimulationTest extends ControllerTestCase
 {
+    /**
+     * @medium
+     */
     function testSimulationStart()
     {
         $_POST['commandId'] = 2;
@@ -18,7 +21,9 @@ class SimulationTest extends ControllerTestCase
         $result = $this->callJSONAction('TodoController', 'actionGetCount');
         $this->assertEquals(array('result' => 1, 'data' => 18), $result);
         $result = $this->callJSONAction('EventsController', 'actionGetState');
-        $this->assertEquals(array('result' => 0, 'code' => 4, 'serverTime' => 540, 'message' => 'Нет ближайших событий'), $result);
+        $this->assertEquals(540, $result['serverTime'], 10);
+        unset($result['serverTime']);
+        $this->assertEquals(array('result' => 0, 'code' => 4, 'message' => 'Нет ближайших событий'), $result);
         $_POST['hour'] = 10;
         $_POST['minute'] = 0;
         $result = $this->callJSONAction('SimulationController', 'actionChangeTime');
@@ -74,6 +79,9 @@ class SimulationTest extends ControllerTestCase
         $this->callJSONAction('AuthController', 'actionLogout');
     }
 
+    /**
+     * @medium
+     */
     function testSimulatorFail()
     {
         $_POST['sid'] = 'non-existent';

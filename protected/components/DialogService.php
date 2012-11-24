@@ -47,7 +47,7 @@ class DialogService {
     
     /**
      * Переводит диалог в массив
-     * @param type $dialog
+     * @param Dialogs $dialog
      * @return array
      */
     public static function dialogToArray($dialog) {
@@ -61,11 +61,11 @@ class DialogService {
             'text'              => $dialog->text,
             'sound'             => $dialog->sound,
             'duration'          => $dialog->duration,
-            
+
             'step_number'       => $dialog->step_number,
             'replica_number'    => $dialog->replica_number,
             'next_event_code'   => $dialog->next_event_code,
-            'code'              => $dialog->code    
+            'code'              => $dialog->code
         );
     }
 }
