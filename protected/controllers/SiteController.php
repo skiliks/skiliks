@@ -15,6 +15,15 @@ class SiteController extends CController
         //echo 'Hello World';
     }
 
+    public function actionError()
+    {
+        $error=Yii::app()->errorHandler->error;
+        $result = array();
+        $result['result'] = 0;
+        $result['message'] = $error;
+        $this->_sendResponse(200, CJSON::encode($result), 'application/json');
+    }
+
     protected function _sendResponse($status = 200, $body = '', $content_type = 'text/html')
     {
         // set the status

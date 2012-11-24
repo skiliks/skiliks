@@ -2,23 +2,29 @@
 
 class RegistrationTest extends SeleniumTestCase
 {
+
+    /**
+     * @large
+     */
     public function testRegistration() {
-        $this->open('/');
-        $this->waitForXpathCount("//input[@value='Регистрация']", 1);
-        $this->click("//input[@value='Регистрация']");
+        $session = $this->webdriver->session('firefox');
+        $session->open($this->browser_url);
+        $element = $this->waitForElement($session, 'xpath', "//input[@value='Регистрация']");
+
+        $element->click("");
         $login = 'andrey' . time() . '@kostenko.name';
-        $this->type('id=email', $login);
-        $this->type('id=pass1', 'test');
-        $this->type('id=pass2', 'test');
-        $this->click('css=input.btn');
-        $this->open('/');
-        $this->waitForXpathCount("//input[@value='Вход']", 1);
-        $this->type('id=login', $login);
-        $this->type('id=pass', 'test');
-        $this->click("css=input.btn");
-        $this->waitForXpathCount("//input[@value='Начать симуляцию promo']", 1);
-        $this->click("//input[@value='Начать симуляцию promo']");
-        $this->waitForXpathCount('//a[@id="icons_phone"]', 1);
+        $this->waitForElement($session, 'id', 'email')->value(array('value' => str_split($login)));
+        $session->element('id','pass1')->value(array('value' => str_split('test')));
+        $session->element('id','pass2')->value(array('value' => str_split('test')));
+        $session->element('xpath','//input[@class="btn"]')->click();
+        $session->open($this->browser_url);
+        $this->waitForElement($session, 'xpath', "//input[@value='Вход']");
+        $session->element('id','login')->value(array('value' => str_split($login)));
+        $session->element('id','pass')->value(array('value' => str_split('test')));
+        $session->element('xpath','//input[@value="Вход"]')->click();
+        $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию promo']")->click();
+        $this->assertNotNull($this->waitForElement($session, 'xpath', '//a[@id="icons_phone"]'));
+        $session->close();
     }
 
 }

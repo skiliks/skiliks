@@ -430,7 +430,8 @@ class MailController extends AjaxController{
             $groupId = (int)$model->group_id;
             
             if (($groupId > 1) && ($groupId < 4)) {
-                return $this->sendJSON(array('result'=>0));
+                $this->sendJSON(array('result'=>0));
+                return;
             };
             
             $service = new MailBoxService();

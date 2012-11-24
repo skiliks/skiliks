@@ -49,4 +49,7 @@
             <arg line="--configuration ${basedir}/tests/phpunit.xml" />
         </exec>
     </target>
+    <target name="deploy">
+        <ssh username="gugu" host="skiliks.com" />
+    </target>
 </project>
