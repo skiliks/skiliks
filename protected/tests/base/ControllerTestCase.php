@@ -4,6 +4,7 @@
  * Date: 03.11.12
  * Time: 13:23
  */
+
 class ControllerTestCase extends CDbTestCase
 {
     protected function setUp()
