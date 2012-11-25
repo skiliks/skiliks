@@ -1,6 +1,4 @@
 <?php
-
-
 /**
  * Контроллер авторизации
  *
@@ -14,27 +12,46 @@ class AuthController extends AjaxController
      */
     public function actionAuth()
     {
-        $email = Yii::app()->request->getParam('email', false);
-        $password = Yii::app()->request->getParam('pass', false);
+        $email      = Yii::app()->request->getParam('email');
+        $password   = Yii::app()->request->getParam('pass');        
+        $isByCookie = Yii::app()->request->getParam('is_by_cookie', false);  
+        
+        $result = array(
+            'result'  => 0,
+            'message' => 'Неизвестная ошибка.'
+        );
+        
+        try {
+            $user = Users::model()->findByAttributes(array('email' => $email));
+            if(null === $user) throw new Exception('Пользователь не найден');
+            
+            
+            if ($user->is_active == 0) {
+                throw new Exception('Пользователь не активирован');
+            }
+            
+            $identity = new BackendUserIdentity($email, $password, $isByCookie);
+            if($identity->authenticate()) {
+                Yii::app()->user->login($identity, 3600*12);
+            } else {
+                throw new Exception('Неправильное имя пользователя или пароль.');
+            }
+            
+            $result = array(
+                'result'      => 1,
+                'sid'         => $this->_startSession($user->id),
+                'simulations' => UserService::getGroups($user->id),
+                'user-email'  => $user->email
+             );
 
-        $user = Users::model()->findByAttributes(array('email' => $email));
-        if (!$user) throw new Exception('Пользователь не найден');
-
-
-        if ($user->is_active != 1)
-            throw new Exception('Пользователь не активирован');
-
-        if ($user->password !== md5($password))
-            throw new Exception('Неверный пароль');
-
-
-        $result = array();
-        $result['result'] = 1;
-        $result['sid'] = $this->_startSession($user->id);
-        $result['simulations'] = UserService::getGroups($user->id);
+        } catch (Exception $exc) {
+            $result = array(
+                'message' => $exc->getMessage()
+            );            
+        }
+        
         $this->sendJSON($result);
-
-
+        
         return;
     }
 
@@ -62,5 +79,3 @@ class AuthController extends AjaxController
         ));
     }
 }
-
-?>
