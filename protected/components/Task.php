@@ -4,6 +4,7 @@
 /**
  * Модель задачи
  *
+ * @todo: move to models
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Task {
