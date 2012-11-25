@@ -6,7 +6,21 @@
 return array(
     'import' => array(
         'application.models.*',
-        'application.components.*'
+        /*'application.models.Characters.*',
+        'application.models.DayPlan.*',
+        'application.models.Dialog.*',
+        'application.models.Events.*',
+        'application.models.Excel*',
+        'application.models.FlagsRules.*',
+        'application.models.Mail.*',
+        'application.models.MyDocuments.*',
+        'application.models.Simulation.*',
+        'application.models.User.*',*/
+        'application.components.*',
+        /*'application.components.DayPlan.*',
+        'application.components.Dialog.*',
+        'application.components.Excel.*',
+        'application.components.Mail.*',*/
     ),
     'components' => array(
         'log' => array(
@@ -25,10 +39,13 @@ return array(
             'connectionID' => 'db',
             'sessionName' => 'sid'
 
-        )
+        ),
+        'user' => array(
+            'allowAutoLogin' => true,
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
-
+    
 
     'preload' => array('log'),
 

@@ -28,7 +28,7 @@ class RegistrationController extends AjaxController{
                 throw new Exception('Введенные пароли не совпадают');
             
             $users = new Users();
-            $users->password    = md5($password);
+            $users->password    = $user->encryptPassword($password);
             $users->email       = $email;
             $users->is_active   = 1;
             $r = (int)$users->insert();

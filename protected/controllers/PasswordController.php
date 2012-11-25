@@ -25,7 +25,7 @@ class PasswordController extends AjaxController{
         
         $password = md5(time());
         
-        $user->password = md5($password);
+        $user->password = $user->encryptPassword($password);
         $user->save();
         
         // отправляем нотификацию

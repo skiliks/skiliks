@@ -91,6 +91,11 @@ class Users extends CActiveRecord{
         ));
         return $this;
     }
+    
+    public function encryptPassword($password)
+    {
+        return md5($password);
+    }
 }
 
 ?>
