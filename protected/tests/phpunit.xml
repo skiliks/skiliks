@@ -11,8 +11,6 @@
         <directory>./</directory>
     </testSuite>
     <logging>
-        <log type="coverage-clover" target="artifacts/phpunit/coverage.xml" />
         <log type="junit" target="artifacts/phpunit/phpunit.xml" logIncompleteSkipped="true" />
-        <log type="testdox-html" target="./logs/testdox.html" />
     </logging>
 </phpunit>

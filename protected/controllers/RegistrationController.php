@@ -28,7 +28,7 @@ class RegistrationController extends AjaxController{
                 throw new Exception('Введенные пароли не совпадают');
             
             $users = new Users();
-            $users->password    = $user->encryptPassword($password);
+            $users->password    = $users->encryptPassword($password);
             $users->email       = $email;
             $users->is_active   = 1;
             $r = (int)$users->insert();
@@ -80,7 +80,7 @@ class RegistrationController extends AjaxController{
             if (!$model) throw new Exception('Немогу найти пользователя по данному коду');
             
             $user = Users::model()->byId($model->uid)->find();
-            if (!$user) throw new Exception('Немогу найти пользователя');
+            if (!$user) throw new Exception('Не могу найти пользователя');
             
             // если пользователь уже активирован
             if ($user->is_active == 1) {

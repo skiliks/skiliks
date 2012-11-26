@@ -12,47 +12,60 @@ class AuthController extends AjaxController
      */
     public function actionAuth()
     {
-        $email      = Yii::app()->request->getParam('email');
-        $password   = Yii::app()->request->getParam('pass');        
-        $isByCookie = Yii::app()->request->getParam('is_by_cookie', false);  
-        
+        $email = Yii::app()->request->getParam('email');
+        $password = Yii::app()->request->getParam('pass');
+
         $result = array(
-            'result'  => 0,
+            'result' => 0,
             'message' => 'Неизвестная ошибка.'
         );
-        
+
         try {
             $user = Users::model()->findByAttributes(array('email' => $email));
-            if(null === $user) throw new Exception('Пользователь не найден');
-            
-            
+            if (null === $user) throw new Exception('Пользователь не найден');
+
+
             if ($user->is_active == 0) {
                 throw new Exception('Пользователь не активирован');
             }
-            
-            $identity = new BackendUserIdentity($email, $password, $isByCookie);
-            if($identity->authenticate()) {
-                Yii::app()->user->login($identity, 3600*12);
+
+            $identity = new BackendUserIdentity($email, $password);
+            if ($identity->authenticate()) {
+                Yii::app()->user->login($identity, 3600 * 12);
             } else {
                 throw new Exception('Неправильное имя пользователя или пароль.');
             }
-            
+
             $result = array(
-                'result'      => 1,
-                'sid'         => $this->_startSession($user->id),
+                'result' => 1,
+                'sid' => $this->_startSession($user->id),
                 'simulations' => UserService::getGroups($user->id),
-                'user-email'  => $user->email
-             );
+            );
 
         } catch (Exception $exc) {
             $result = array(
                 'message' => $exc->getMessage()
-            );            
+            );
         }
-        
+
         $this->sendJSON($result);
-        
+
         return;
+    }
+
+    public function actionCheckSession()
+    {
+        $user_id = SessionHelper::getUidBySid(Yii::app()->request->getParam('sid'));
+        $user = Users::model()->findByPk($user_id);
+        if (null === $user) {
+            $this->sendJSON(array('result' => 0, 'message' => 'User not found'));
+            return;
+        }
+        $this->sendJSON(array(
+            'result' => 1,
+            'sid' => Yii::app()->session->sessionID,
+            'simulations' => UserService::getGroups($user->id),
+        ));
     }
 
     protected function _startSession($uid)
@@ -65,6 +78,7 @@ class AuthController extends AjaxController
 
     protected function _stopSession($sid)
     {
+        session_id(Yii::app()->request->getParam('sid', false));
         Yii::app()->session->clear();
         Yii::app()->session->destroy();
 
