@@ -22,8 +22,9 @@ class PasswordController extends AjaxController{
             ));
             return;
         }
-        
-        $password = md5(time());
+
+        // Shit, but better than md5(time)
+        $password = md5(time() + rand(1, 1000000));
         
         $user->password = $user->encryptPassword($password);
         $user->save();
