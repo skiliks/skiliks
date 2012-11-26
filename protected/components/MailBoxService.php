@@ -302,18 +302,12 @@ class MailBoxService {
         $letterType = false;
         if (isset($params['letterType'])) $letterType = $params['letterType'];
         
-        if ($letterType == 'forward') {
-            $subject_id = $params['subject']; // костыль!
-        }
+        $emailSubject = MailThemesModel::model()->findByPk($subject_id);
         
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
         
         $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
-        
-        if (null === $subject_id && null === $subject) {
-            $subject = MailThemesModel::model()->getSubject($message_id);
-        }
 
         $model = new MailBoxModel();
         $model->group_id = $params['group'];

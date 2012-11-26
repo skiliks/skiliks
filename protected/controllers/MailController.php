@@ -204,6 +204,7 @@ class MailController extends AjaxController{
         
         list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
         
+       
         $service = new MailBoxService();
         $service->sendMessage(array(
             'message_id' => $messageId,
