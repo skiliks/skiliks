@@ -153,7 +153,7 @@ class MailController extends AjaxController{
         //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
-        $subject = (int)Yii::app()->request->getParam('subject', false);  
+        $subject_id = (int)Yii::app()->request->getParam('subject', false);  
         
         $phrases = Yii::app()->request->getParam('phrases', false);  
         
@@ -178,7 +178,7 @@ class MailController extends AjaxController{
             'sender' => 1, //$senderId, //- отправитель теперь всегда герой
             'receivers' => $receivers,
             'copies' => $copies,
-            'subject' => $subject,
+            'subject' => $subject_id,
             'phrases' => $phrases,
             'simId' => $simId,
             'letterType' => $letterType,
