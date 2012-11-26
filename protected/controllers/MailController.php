@@ -143,22 +143,21 @@ class MailController extends AjaxController{
         return $this->sendJSON($result);
     }
     
-    public function actionSendMessage() {
-        $sid = Yii::app()->request->getParam('sid', false);  
+    public function actionSendMessage() 
+    {
+        $sid = Yii::app()->request->getParam('sid', false);
+        
         $senderId = SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
+        
         $messageId = Yii::app()->request->getParam('messageId', false);
-        $timeString = Yii::app()->request->getParam('timeString', false);
-        $folder = 3; //(int)Yii::app()->request->getParam('folder', false);  
-        //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
+        $timeString = Yii::app()->request->getParam('timeString', false); 
         $receivers = Yii::app()->request->getParam('receivers', false);  
-        $copies = Yii::app()->request->getParam('copies', false);  
-        $subject_id = (int)Yii::app()->request->getParam('subject', false);  
-        
-        $phrases = Yii::app()->request->getParam('phrases', false);  
-        
+        $copies = Yii::app()->request->getParam('copies', false);           
+        $phrases = Yii::app()->request->getParam('phrases', false);          
         $letterType = Yii::app()->request->getParam('letterType', false);  
         $fileId = (int)Yii::app()->request->getParam('fileId', false);
+        
         if($letterType == 'reply' OR $letterType == 'replyAll'){
             if(!empty($messageId)){
                 //Изменяем запись в бд: SK - 708
@@ -169,16 +168,18 @@ class MailController extends AjaxController{
                 throw new Exception("Ошибка, не указан messageId для ответить или ответить всем");
             }
         }
-
-        //$message = Yii::app()->request->getParam('message', false);
+        
+        list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
         
         $service = new MailBoxService();
         $service->sendMessage(array(
-            'group' => $folder,
+            'message_id' => $messageId,
+            'group' => 3, // outbox
             'sender' => 1, //$senderId, //- отправитель теперь всегда герой
             'receivers' => $receivers,
             'copies' => $copies,
-            'subject' => $subject_id,
+            'subject' => $subject,
+            'subject_id' => $subject_id,
             'phrases' => $phrases,
             'simId' => $simId,
             'letterType' => $letterType,
@@ -186,44 +187,59 @@ class MailController extends AjaxController{
             'timeString'=>$timeString
         ));
         
-        $result = array();
-        $result['result'] = 1;
-        $this->sendJSON($result);
-        return;
+        $this->sendJSON(array('result' => 1));
     }
     
-    public function actionSaveDraft() {
-
+    public function actionSaveDraft() 
+    {
         $sid = Yii::app()->request->getParam('sid', false);  
-        $senderId = 1; // герой SessionHelper::getUidBySid($sid);
         $simId = SessionHelper::getSimIdBySid($sid);
-        $timeString = Yii::app()->request->getParam('timeString', false);
-        $folder = 2; 
-        //$receiver = (int)Yii::app()->request->getParam('receiver', false);  
+        
+        $messageId = Yii::app()->request->getParam('messageId', false);
+        $timeString = Yii::app()->request->getParam('timeString', false); 
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
-        $subject = (int)Yii::app()->request->getParam('subject', false);  
         $phrases = Yii::app()->request->getParam('phrases', false);  
+        $letterType = Yii::app()->request->getParam('letterType', false); 
         
-        //$message = Yii::app()->request->getParam('message', false);  
+        list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
         
         $service = new MailBoxService();
         $service->sendMessage(array(
-            'group' => $folder,
-            'sender' => $senderId,
+            'message_id' => $messageId,
+            'group' => 2,
+            'sender' => 1, // черновики писать может только главгый герой
             'receivers' => $receivers,
             'copies' => $copies,
             'subject' => $subject,
+            'subject_id' => $subject_id,
             'phrases' => $phrases,
             'simId' => $simId,
             'timeString'=>$timeString
         ));
         
-        $result = array();
-        $result['result'] = 1;
-        $this->sendJSON($result);
+        // @todo: what is in error case?
+        $this->sendJSON(array('result' => 1));
     }
     
+    /**
+     * @param string $emailType, 'new','forward','reply','replyAll', etc.
+     * 
+     * @return array 
+     */
+    private function checkSubject($emailType, $subjectFromRequest) 
+    {
+        if ('new' === $emailType) {
+            $subject_id = null;
+            $subject = $subjectFromRequest;
+        } else {
+            $subject_id = (int)$subjectFromRequest;
+            $subject = null;
+        }
+        
+        return array($subject_id, $subject);
+    }
+
     /**
      * Возвращает настройки почты
      * @return type 
