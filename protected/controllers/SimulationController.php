@@ -182,6 +182,7 @@ class SimulationController extends AjaxController{
         $logs = Yii::app()->request->getParam('logs', false);
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
+        LogHelper::setWindowsLog($simId, $logs);
         $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
         $timeString = Yii::app()->request->getParam('timeString', false);  
         // залогируем окна
