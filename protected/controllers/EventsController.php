@@ -59,7 +59,7 @@ class EventsController extends AjaxController{
             // залогируем окна
             $windowLogger = new WindowLogger();
             $windowLogger->log($simId, $logs, $windowActive, $timeString);
-
+            LogHelper::setWindowsLog($simId, $logs);
             //Пишем логирование открытия и закрытия документов
             LogHelper::setDocumentsLog($simId, $logs);
             LogHelper::setMailLog($simId, $logs);

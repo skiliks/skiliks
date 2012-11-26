@@ -252,7 +252,7 @@ class CharactersPointsTitleImportController extends AjaxController {
 
     }
 	public function actionLogdialog() {
-		LogHelper::getDialogCSV();
+		LogHelper::getDialogDetail(LogHelper::RETURN_CSV);
 	}
         
     public function actionTest() {
@@ -265,31 +265,43 @@ class CharactersPointsTitleImportController extends AjaxController {
         
     public function actionLogDialogAvg() {
             
-       LogHelper::getDialogAvgCSV();
+       LogHelper::getDialogAggregate(LogHelper::RETURN_CSV);
             
     }
     
     public function actionLogDocuments() {
             
-        LogHelper::getDocumentsCSV();
+        LogHelper::getDocuments(LogHelper::RETURN_CSV);
             
     }
 
     public function actionMailInBox() {
 
-        LogHelper::getMailInBoxCSV();
+        LogHelper::getMailInDetail(LogHelper::RETURN_CSV);
 
     }
 
     public function actionMailInBoxAVG() {
 
-        LogHelper::getMailInBoxAvgCSV();
+        LogHelper::getMailInAggregate(LogHelper::RETURN_CSV);
 
     }
     
     public function actionMailOutBox() {
 
-        LogHelper::getMailOutBoxCSV();
+        LogHelper::getMailOutDetail(LogHelper::RETURN_CSV);
+
+    }
+
+    public function actionMailOutAVG() {
+
+        LogHelper::getMailOutAggregate(LogHelper::RETURN_CSV);
+
+    }
+    
+    public function actionWindowsLog() {
+
+        LogHelper::getWindows(LogHelper::RETURN_CSV);
 
     }
     
