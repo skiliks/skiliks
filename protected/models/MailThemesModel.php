@@ -67,6 +67,17 @@ class MailThemesModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    /**
+     * @param int $id, mail_themes_id
+     * 
+     * @return string od null
+     */
+    public function getSubject($id)
+    {
+        $emailSubject = $this->findByPk($id);
+        return isset($emailSubject) ? $emailSubject->name : null;
+    }
 }
 
 ?>
