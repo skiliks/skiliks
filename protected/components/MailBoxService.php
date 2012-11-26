@@ -295,7 +295,9 @@ class MailBoxService {
      */
     public function sendMessage($params) {
 
-        $subject_id = $params['subject'];
+        $subject_id = $params['subject_id'];
+        $subject = $params['subject'];
+        $message_id = $params['message_id'];
         
         $letterType = false;
         if (isset($params['letterType'])) $letterType = $params['letterType'];
@@ -303,24 +305,21 @@ class MailBoxService {
         if ($letterType == 'forward') {
             $subject_id = $params['subject']; // костыль!
         }
-        // @todo: разобраться с моделью MailCharacterThemesMode:
-        //    1. Она важнее subject?
-        //   2. Где она исользуется
-        /*else {
-            // определение темы
-            $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
-            //if (!$model) throw new Exception("cant get model by id {$params['subject']}");
-            if ($model)
-                $subject_id = $model->theme_id;
-        }*/
         
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
+        
+        $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
+        
+        if (null === $subject_id && null === $subject) {
+            $subject = MailThemesModel::model()->getSubject($message_id);
+        }
 
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
-        $model->subject = MailThemesModel::model()->getSubject($subject_id);
+        $model->subject_id = $subject_id;
+        $model->subject = $subject;
         $model->receiver_id = $receiverId;
         $model->sending_date = time();
         $model->readed = 0;
@@ -364,6 +363,8 @@ class MailBoxService {
             }
         }
     }
+    
+    
     
     public function saveCopies($receivers, $mailId) {
         $receivers = explode(',', $receivers);

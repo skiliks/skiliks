@@ -73,10 +73,36 @@ class MailThemesModel extends CActiveRecord{
      * 
      * @return string od null
      */
-    public function getSubject($id)
+    public function getSubjectId($id, $messageId)
     {
         $emailSubject = $this->findByPk($id);
-        return isset($emailSubject) ? $emailSubject->name : null;
+        $id = isset($emailSubject) ? $emailSubject->id : null;
+        
+        if (null === $id) {
+            $MailBoxModel = new MailBoxModel();
+            $forvarderEmail = $MailBoxModel->findByPk($messageId);
+            if (null !== $forvarderEmail) {
+                $id = (null === $forvarderEmail->subject_id) ? null : $forvarderEmail->subject_id;
+            }
+        }
+        
+        return $id;
+    }
+    
+    /**
+     * @param int $id, mail_themes_id
+     * 
+     * @return string od null
+     */
+    public function getSubject($messageId)
+    {
+        $MailBoxModel = new MailBoxModel();
+        $forvarderEmail = $MailBoxModel->findByPk($messageId);
+        if (null !== $forvarderEmail) {
+            return (null === $forvarderEmail->subject_id) ? $forvarderEmail->subject : null;
+        }
+        
+        return null;
     }
 }
 
