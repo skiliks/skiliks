@@ -19,5 +19,7 @@ class AuthControllerTest extends ControllerTestCase {
                 '1' => 'promo'
             )
         ), $result);
+        $result = $this->callJSONAction('AuthController', 'actionCheckSession', array('sid' => $sid));
+        $this->assertEquals(1, $result['result']);
     }
 }
