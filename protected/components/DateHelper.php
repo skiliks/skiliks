@@ -78,7 +78,8 @@ class DateHelper {
      * @return int
      */
     public static function getCurrentTimestampDate() {
-        return gmmktime();
+        return gmmktime(0, 0, 0, date('m'), date('d'), date('Y'));
+        //return time();
         //return mktime(0, 0, 0, date('m'), date('d'), date('Y'));
     }
 }
