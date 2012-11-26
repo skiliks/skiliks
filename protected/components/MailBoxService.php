@@ -303,16 +303,16 @@ class MailBoxService {
         if ($letterType == 'forward') {
             $subject_id = $params['subject']; // костыль!
         }
-        else {
+        // @todo: разобраться с моделью MailCharacterThemesMode:
+        //    1. Она важнее subject?
+        //   2. Где она исользуется
+        /*else {
             // определение темы
             $model = MailCharacterThemesModel::model()->byId($params['subject'])->find();
             //if (!$model) throw new Exception("cant get model by id {$params['subject']}");
             if ($model)
                 $subject_id = $model->theme_id;
-        }
-        
-        
-        
+        }*/
         
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
@@ -320,11 +320,8 @@ class MailBoxService {
         $model = new MailBoxModel();
         $model->group_id = $params['group'];
         $model->sender_id = $params['sender'];
-        $subject = MailThemesModel::model()->findByPk($subject_id);
-        $model->subject_id = isset($subject) ? $subject->primaryKey : null;
+        $model->subject = MailThemesModel::model()->getSubject($subject_id);
         $model->receiver_id = $receiverId;
-        //$model->subject = $params['subject'];
-        //$model->message = $params['message'];
         $model->sending_date = time();
         $model->readed = 0;
         $model->sim_id = $params['simId'];
