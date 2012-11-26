@@ -27,7 +27,6 @@ class BackendUserIdentity extends CUserIdentity
         $this->username   = $email;
         $this->email      = $email;
         $this->password   = $password;
-        $this->isByCookie = $isByCookie;
     }
     
     public function authenticate()
@@ -36,8 +35,7 @@ class BackendUserIdentity extends CUserIdentity
         
         if($record === null) {
             $this->errorCode=self::ERROR_USERNAME_INVALID;
-        } else if($record->password !== $record->encryptPassword($this->password) 
-            && false === $this->isByCookie) {
+        } else if($record->password !== $record->encryptPassword($this->password)) {
             $this->errorCode=self::ERROR_PASSWORD_INVALID;
         } else {
             $this->_id = $record->id;

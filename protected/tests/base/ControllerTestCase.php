@@ -23,8 +23,24 @@ class ControllerTestCase extends CDbTestCase
         return $result;
     }
 
-    protected  function callJSONAction($controller_class, $action)
+    /**
+     * Calls action and deserializes JSON
+     *
+     * @param string $controller_class
+     * @param string $action
+     * @param array $post
+     * @return mixed
+     */
+    protected  function callJSONAction($controller_class, $action, $post = null)
     {
+        if ($post !== null) {
+            foreach (array_keys($_POST) as $k) {
+                unset($_POST[$k]);
+            }
+            foreach (array_keys($post) as $k) {
+                $_POST[$k] = $post[$k];
+            }
+        }
         return CJSON::decode($this->callAction($controller_class, $action));
     }
 }
