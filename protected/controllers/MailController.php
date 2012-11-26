@@ -203,7 +203,6 @@ class MailController extends AjaxController{
         $letterType = Yii::app()->request->getParam('letterType', false); 
         
         list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
-        
        
         $service = new MailBoxService();
         $service->sendMessage(array(
@@ -230,9 +229,18 @@ class MailController extends AjaxController{
      */
     private function checkSubject($emailType, $subjectFromRequest) 
     {
-        if ('new' === $emailType) {
-            $subject_id = null;
-            $subject = $subjectFromRequest;
+        if ('new' === $emailType) {    
+            // check is this id of predefined subjects (table 'mail_character_themes')
+            $emailToCharacterSubject = MailCharacterThemesModel::model()->findByPk((int)$subjectFromRequest);
+            if (null !== $emailToCharacterSubject) {
+                // get real subject id (id for nable 'mail_themes')              
+                $subject_id = $emailToCharacterSubject->theme_id;
+                $subject = null;
+            } else {
+                // this is TEXT subject
+                $subject_id = null;
+                $subject = $subjectFromRequest;
+            }
         } else {
             $subject_id = (int)$subjectFromRequest;
             $subject = null;
