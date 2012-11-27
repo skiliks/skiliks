@@ -12,15 +12,15 @@ class LogHelper {
     
     const ACTION_DEACTIVATED = "deactivated"; //Деактивация окна
 
-    const RETURN_DATA = 'json';
+    const RETURN_DATA = 'json'; //Тип возвращаемого значения JSON
 
-    const RETURN_CSV = 'csv';
+    const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
 
     protected static $codes_documents = array(40,41,42);
 
     protected static $codes_mail = array(10,11,12,13,14);
     
-    public static $screens = array(
+    protected static $screens = array(
         1 => 'main screen', 
         3 => 'plan', 
         10 => 'mail',
@@ -29,7 +29,7 @@ class LogHelper {
         40 => 'documents'
     );
     
-    public static $subScreens = array(
+    protected static $subScreens = array(
         1 => 'main screen',
         3 => 'plan',
         11 => 'mail main',
