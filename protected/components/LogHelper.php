@@ -2,11 +2,15 @@
 
 class LogHelper {
 
-    const ACTION_CLOSE = 0;
+    const ACTION_CLOSE = 0; //Закрытие окна
 
-    const ACTION_OPEN = 1;
+    const ACTION_OPEN = 1; //Открытие окна
 
-    const ACTION_SWITCH = 2;
+    const ACTION_SWITCH = 2; //Переход в рамках окна
+    
+    const ACTION_ACTIVATED = "activated"; //Активация окна
+    
+    const ACTION_DEACTIVATED = "deactivated"; //Деактивация окна
 
     const RETURN_DATA = 'json';
 
