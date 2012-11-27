@@ -269,12 +269,7 @@ class LogHelper {
                         'start_time'  => date("H:i:s", $log[3])
                     ));
                     continue;
-                    /*
-                    Yii::log("INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3])."');", 'info');
-                    //Yii::log(var_export($comand->params, true), 'info');
-                     * 
-                     */
-                    //$queries.= "INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3]).";\r\n";
+                    
                 } elseif( self::ACTION_CLOSE == $log[2]) {
                     
                     if($log[1] != 13) {
@@ -283,10 +278,7 @@ class LogHelper {
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
-                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1 ;", 'info');
-                        //Yii::log(var_export($comand->params, true), 'info');
                         
-                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n";
                     } else {
                         
                         $comand->update( "log_mail" , array(
@@ -294,34 +286,29 @@ class LogHelper {
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
                         ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
-                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1", 'info');
-                        //Yii::log(var_export($comand->params, true), 'info');
-                        
-                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n"; 
+                         
                     }
-                    //Yii::log(var_export($res, true), 'info');
+                    
                 } elseif( $log[2] == self::ACTION_SWITCH ) {
-                    //Yii::log(var_export("SWITCH", true), 'info');
+                    
                     $res = $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
-                    //Yii::log(var_export($res, true), 'info');
-                    //if($res =! 1){
+                    
                         $comand->insert( "log_mail" , array(
                             'sim_id'    => $simId,
                             'mail_id'   => $log[4]['mailId'],
                             'window'   => $log[1],
                             'start_time'  => date("H:i:s", $log[3])
                         ));
-                    //}
+                    
                 } else {
                     //Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
             }
         }
-        //Yii::app()->db->createCommand($queries)->execute();
-        //Yii::log(var_export($queries, true), 'info');
+        
         return true;
     }
 
@@ -525,39 +512,18 @@ class LogHelper {
                         'start_time'  => date("H:i:s", $log[3])
                     ));
                     continue;
-                    /*
-                    Yii::log("INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3])."');", 'info');
-                    //Yii::log(var_export($comand->params, true), 'info');
-                     * 
-                     */
-                    //$queries.= "INSERT INTO `log_mail` (`sim_id`, `mail_id`, `window`, `start_time`) VALUES ({$simId}, {$mailId}, {$log[1]}, '".date("H:i:s", $log[3]).";\r\n";
+                    
                 } elseif( self::ACTION_CLOSE == $log[2]) {
 
                         $comand->update( "log_windows" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} AND `window` = {$log[0]} AND `sub_window` = {$log[1]} ORDER BY `id` DESC LIMIT 1");
                         continue;
-                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1 ;", 'info');
-                        //Yii::log(var_export($comand->params, true), 'info');
                         
-                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n";
-                        /*
-                        $comand->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3]),
-                        'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
-                        ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
-                        continue;
-                         * 
-                         */
-                        //Yii::log("UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1", 'info');
-                        //Yii::log(var_export($comand->params, true), 'info');
-                        
-                        //$queries.= "UPDATE `log_mail` SET `end_time` = '".date("H:i:s", $log[3])."' WHERE `mail_id` is null AND `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1;\r\n"; 
-                    //Yii::log(var_export($res, true), 'info');
                 } elseif( $log[2] == self::ACTION_SWITCH ) {
                     
                 } else {
-                    //Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
+                    
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
             }
