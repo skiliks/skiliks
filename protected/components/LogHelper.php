@@ -48,6 +48,19 @@ class LogHelper {
 	private function __construct() {
 		
 	}
+    
+    private static function order($order_col, $columns, $order_type = "asc") {
+        if(is_array($columns)){
+            
+        } else {
+            throw new Exception('Параметр $columns не задан!');
+        }
+        if (in_array($order_type, array('asc', 'desc'))) {
+            return "{$order_col} {$order_type}";
+        }else{
+            throw new Exception("Тип сортировки '$order_type' неизвестен!");
+        }
+    }
 
     /**
      * Пишет лог для Логирование расчета оценки - детально
@@ -99,7 +112,7 @@ class LogHelper {
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id')
+            ->order($order)
             ->queryAll();
 
         foreach ($data as  $k=>$row) {
