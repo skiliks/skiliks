@@ -61,7 +61,7 @@ class LogHelper {
                         ));
 	}
 
-	public static function getDialogDetail($return, $params) {
+	public static function getDialogDetail($return, $params=array()) {
         $col = array(
             'sim_id'=>'l.sim_id',
             'p_code'=>'p2.code',
@@ -460,13 +460,16 @@ class LogHelper {
                     , if(m.group_id = 3, 'Да', 'Нет') AS send
                     , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
                     , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
-                    , ifnull(m.subject, '-') AS subject
-                    , ifnull(d.code, '-') AS code")
+                    , ifnull(s.name, '-') AS subject
+                    , ifnull(t.code, '-') AS code")
             ->from('log_mail l')
             ->leftJoin('mail_box m', 'l.mail_id = m.id')
             ->leftJoin('mail_receivers r', 'l.mail_id = r.mail_id')
             ->leftJoin('mail_copies c', 'l.mail_id = c.mail_id')
-            ->leftJoin('my_documents_template d', 'm.template_id = d.id')
+            ->leftJoin('mail_attachments a', 'm.id = a.mail_id')
+            ->leftJoin('my_documents d', 'a.file_id = d.id')
+            ->leftJoin('my_documents_template t', 'd.template_id = t.id')
+            ->leftJoin('mail_themes s', 'm.subject_id = s.id')    
             ->where('l.window = 13 AND l.mail_id IS NOT NULL')
             ->group('l.mail_id')
             ->order('l.id')
