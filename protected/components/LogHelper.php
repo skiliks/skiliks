@@ -513,11 +513,11 @@ class LogHelper {
             
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                Yii::log(var_export($log, true), 'info');
-                if( self::ACTION_OPEN == $log[2] ) {
-                    $comand->update( "log_windows" , array(
-                        'end_time'  => date("H:i:s", $log[3])
-                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                //Yii::log(var_export($log, true), 'info');
+                if( self::ACTION_OPEN == $log[2] || self::ACTION_ACTIVATED == $log[2]) {
+//                    $comand->update( "log_windows" , array(
+//                        'end_time'  => date("H:i:s", $log[3])
+//                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     $comand->insert( "log_windows" , array(
                         'sim_id'    => $simId,
                         'window'   => $log[0],
@@ -526,7 +526,7 @@ class LogHelper {
                     ));
                     continue;
                     
-                } elseif( self::ACTION_CLOSE == $log[2]) {
+                } elseif( self::ACTION_CLOSE == $log[2] || self::ACTION_DEACTIVATED == $log[2] ) {
 
                         $comand->update( "log_windows" , array(
                         'end_time'  => date("H:i:s", $log[3])
@@ -534,7 +534,7 @@ class LogHelper {
                         continue;
                         
                 } elseif( $log[2] == self::ACTION_SWITCH ) {
-                    
+                    throw new Exception("Ошибка");
                 } else {
                     
                     throw new Exception("Ошибка");//TODO:Описание доделать
