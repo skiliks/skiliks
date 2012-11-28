@@ -190,13 +190,14 @@ class LogHelper {
     public static function setDocumentsLog( $simId, $logs ) {
         
         if (!is_array($logs)) return false;
+        //Yii::log(var_export($logs, true), 'info');
         foreach( $logs as $log ) {
-
+                
             if( in_array( $log[0], self::$codes_documents ) || in_array( $log[1], self::$codes_documents ) ) {
 
                 if(!isset($log[4]['fileId'])) continue;
                 
-                if( self::ACTION_OPEN == $log[2] ){
+                if( self::ACTION_OPEN == $log[2] OR self::ACTION_ACTIVATED == $log[2]){
 
                     $comand = Yii::app()->db->createCommand();
                     $comand->insert( "log_documents" , array(
@@ -272,8 +273,8 @@ class LogHelper {
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                Yii::log(var_export($log, true), 'info');
-                if( self::ACTION_OPEN == $log[2] ) {
+                //Yii::log(var_export($log, true), 'info');
+                if( self::ACTION_OPEN == $log[2] OR self::ACTION_ACTIVATED == $log[2] ) {
 
                     $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
@@ -283,7 +284,7 @@ class LogHelper {
                     ));
                     continue;
                     
-                } elseif( self::ACTION_CLOSE == $log[2]) {
+                } elseif( self::ACTION_CLOSE == $log[2] OR self::ACTION_DEACTIVATED == $log[2] ) {
                     
                     if($log[1] != 13) {
 
@@ -302,9 +303,9 @@ class LogHelper {
                          
                     }
                     
-                } elseif( $log[2] == self::ACTION_SWITCH ) {
+                } elseif( self::ACTION_SWITCH == $log[2] ) {
                     
-                    $res = $comand->update( "log_mail" , array(
+                    $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     
@@ -533,8 +534,6 @@ class LogHelper {
                         ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} AND `window` = {$log[0]} AND `sub_window` = {$log[1]} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         
-                } elseif( $log[2] == self::ACTION_SWITCH ) {
-                    throw new Exception("Ошибка");
                 } else {
                     
                     throw new Exception("Ошибка");//TODO:Описание доделать
