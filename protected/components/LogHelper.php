@@ -205,7 +205,7 @@ class LogHelper {
                         'file_id'   => $log[4]['fileId'],
                         'start_time'=> date("H:i:s", $log[3])
                     ));
-                } elseif( self::ACTION_CLOSE == $log[2] ) {
+                } elseif( self::ACTION_CLOSE == $log[2] OR self::ACTION_DEACTIVATED == $log[2]) {
                     //Yii::log(var_export($log, true), 'info');
                     $comand = Yii::app()->db->createCommand();
 
@@ -265,7 +265,7 @@ class LogHelper {
     }
     
     public static function setMailLog( $simId, $logs ) {
-
+            
         //Yii::log(var_export($logs, true), 'info');
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
@@ -273,7 +273,7 @@ class LogHelper {
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                //Yii::log(var_export($log, true), 'info');
+                
                 if( self::ACTION_OPEN == $log[2] OR self::ACTION_ACTIVATED == $log[2] ) {
 
                     $comand->insert( "log_mail" , array(
@@ -304,7 +304,7 @@ class LogHelper {
                     }
                     
                 } elseif( self::ACTION_SWITCH == $log[2] ) {
-                    
+                    //Yii::log($log, 'info');
                     $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
@@ -531,12 +531,15 @@ class LogHelper {
 
                         $comand->update( "log_windows" , array(
                         'end_time'  => date("H:i:s", $log[3])
-                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} AND `window` = {$log[0]} AND `sub_window` = {$log[1]} ORDER BY `id` DESC LIMIT 1");
+                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
-                        
+                } elseif (self::ACTION_SWITCH == $log[2]) { 
+                
+                    continue;
+                    
                 } else {
                     
-                    throw new Exception("Ошибка");//TODO:Описание доделать
+                    throw new CException("Ошибка");//TODO:Описание доделать
                 }
             }
             
