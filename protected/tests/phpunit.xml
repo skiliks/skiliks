@@ -10,7 +10,4 @@
     <testSuite>
         <directory>./</directory>
     </testSuite>
-    <logging>
-        <log type="junit" target="artifacts/phpunit/phpunit.xml" logIncompleteSkipped="true" />
-    </logging>
 </phpunit>
