@@ -569,6 +569,8 @@ class LogHelper {
         foreach ($data as  $k=>$row) {
             $data[$k]['start'] = date("d.m.Y H:i:s", $data[$k]['start']);
             $data[$k]['end'] = date("d.m.Y H:i:s", $data[$k]['end']);
+            $data[$k]['window'] = self::$screens[$data[$k]['window']];
+            $data[$k]['sub_window'] = self::$subScreens[$data[$k]['sub_window']];
         }
         if(self::RETURN_DATA == $return){
             return $data;
