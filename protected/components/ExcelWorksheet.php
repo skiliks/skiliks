@@ -57,7 +57,7 @@ class ExcelWorksheet {
     public function load($worksheetId) {
         $this->id = $worksheetId;
         
-        $data = Cache::get('ws'.$worksheetId);
+        $data = Yii::app()->cache->get('ws'.$worksheetId);
         if (!$data) {
             // у нас пока ничего не закешировано - значит придется загрузить
             $cells = ExcelWorksheetCells::model()->byWorksheet($worksheetId)->findAll();
@@ -87,7 +87,7 @@ class ExcelWorksheet {
                 $data[$cell->column][$cell->string] = $cellInfo; 
             }
             // запомним в кеше
-            Cache::put('ws'.$worksheetId, $data);
+            Yii::app()->cache->set('ws'.$worksheetId, $data);
         }
         
         
@@ -153,7 +153,7 @@ class ExcelWorksheet {
     
     public function saveToCache() {
         // сохраним информацию в кеше
-        Cache::put('ws'.$this->id, $this->_data);
+        Yii::app()->cache->set('ws'.$this->id, $this->_data);
     }
     
     public function updateCellDb($cell) {

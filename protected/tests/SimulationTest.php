@@ -11,6 +11,7 @@ class SimulationTest extends ControllerTestCase
         $_POST['email'] = 'asd';
         $_POST['pass']  = '123';
         $result = $this->callJSONAction('AuthController', 'actionAuth');
+        $sid = $result['sid'];
         $_POST['sid'] = $result['sid'];
         $_POST['stype'] = 1;
         $result = $this->callJSONAction('SimulationController', 'actionStart');
