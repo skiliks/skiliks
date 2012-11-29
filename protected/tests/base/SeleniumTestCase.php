@@ -14,13 +14,13 @@ require_once('PHPWebDriver/WebDriverWait.php');
 class SeleniumTestCase extends CDbTestCase
 {
     /**
-     * @var \WebDriver\WebDriver
+     * @var PHPWebDriver_WebDriver
      */
     protected $webdriver;
     protected $browser_url;
 
     /**
-     * @var \WebDriver\Session session
+     * @var PHPWebDriver_WebDriverSession session
      */
     protected $session;
 

@@ -2,7 +2,8 @@
 /**
  * Base app config
  */
-
+defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', true);
+defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER', true);
 return array(
     'import' => array(
         'application.models.*',
@@ -32,6 +33,11 @@ return array(
                 ),
 
             ),
+        ),
+        'cache' => array(
+            'class' => 'CDbCache',
+            'connectionID' => 'db',
+            'autoCreateCacheTable' => false
         ),
         'session' => array(
             'class' => 'CDbHttpSession',
