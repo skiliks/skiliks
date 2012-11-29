@@ -51,18 +51,13 @@ class EventsController extends AjaxController{
             if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
             // данные для логирования
-            $logs = Yii::app()->request->getParam('logs', false);
-            $windowActive = (int)Yii::app()->request->getParam('windowActive', false);
-            $timeString = Yii::app()->request->getParam('timeString', false);  
-            
-            
-            // залогируем окна
-            $windowLogger = new WindowLogger();
-            $windowLogger->log($simId, $logs, $windowActive, $timeString);
-                LogHelper::setWindowsLog($simId, $logs);
-                //Пишем логирование открытия и закрытия документов
-                LogHelper::setDocumentsLog($simId, $logs);
-                LogHelper::setMailLog($simId, $logs);
+            $logs_src = Yii::app()->request->getParam('logs', false); 
+            $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
+            //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
+            LogHelper::setWindowsLog($simId, $logs);
+            //Пишем логирование открытия и закрытия документов
+            LogHelper::setDocumentsLog($simId, $logs);
+            LogHelper::setMailLog($simId, $logs);
             //Yii::log($logs);
             // определим тип симуляции
             $simType = SimulationService::getType($simId);
