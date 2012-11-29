@@ -49,6 +49,26 @@ class LogHelper {
 		
 	}
     
+    public static function logFilter($logs) {
+        
+        if(!is_array($logs)) return false;
+        
+        foreach ($logs as $key => $value) {
+            if(isset($logs[$key-1])){
+                if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
+                    unset($logs[$key]);
+                    unset($logs[$key-1]);
+                } else {
+                    continue;
+                }
+            }else{
+                continue;
+            }
+        }
+        
+        return $logs;
+    }
+
     private static function order($order_col, $columns, $order_type = "asc") {
         if(is_array($columns)){
             
