@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="." tests="5" assertions="1" failures="0" errors="4" time="35.869545">
+    <testsuite name="AuthControllerTest" file="D:\WORKQA\skiliks\backend\protected\tests\AuthControllerTest.php" tests="1" assertions="0" failures="0" errors="1" time="1.169545">
+      <testcase name="testSimulationStart" class="AuthControllerTest" file="D:\WORKQA\skiliks\backend\protected\tests\AuthControllerTest.php" line="4" assertions="0" time="1.169545">
+        <error type="PHPUnit_Framework_Error_Notice">AuthControllerTest::testSimulationStart
+Undefined index: sid
+
+D:\WORKQA\skiliks\backend\protected\tests\AuthControllerTest.php:14
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="PasswordTest" file="D:\WORKQA\skiliks\backend\protected\tests\PasswordTest.php" tests="1" assertions="0" failures="0" errors="1" time="15.806348">
+      <testcase name="testPasswordRecovery" class="PasswordTest" file="D:\WORKQA\skiliks\backend\protected\tests\PasswordTest.php" line="9" assertions="0" time="15.806348">
+        <error type="PHPWebDriver_TimeOutWebDriverError">PasswordTest::testPasswordRecovery
+PHPWebDriver_TimeOutWebDriverError: Element wait timed out after 10
+
+
+
+C:\Program Files (x86)\PHP\PEAR\PHPWebDriver\WebDriverWait.php:40
+D:\WORKQA\skiliks\backend\protected\tests\base\SeleniumTestCase.php:58
+D:\WORKQA\skiliks\backend\protected\tests\PasswordTest.php:12
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="RegistrationTest" file="D:\WORKQA\skiliks\backend\protected\tests\RegistrationTest.php" tests="1" assertions="0" failures="0" errors="1" time="18.857503">
+      <testcase name="testRegistration" class="RegistrationTest" file="D:\WORKQA\skiliks\backend\protected\tests\RegistrationTest.php" line="9" assertions="0" time="18.857503">
+        <error type="PHPWebDriver_TimeOutWebDriverError">RegistrationTest::testRegistration
+PHPWebDriver_TimeOutWebDriverError: Element wait timed out after 10
+
+
+
+C:\Program Files (x86)\PHP\PEAR\PHPWebDriver\WebDriverWait.php:40
+D:\WORKQA\skiliks\backend\protected\tests\base\SeleniumTestCase.php:58
+D:\WORKQA\skiliks\backend\protected\tests\RegistrationTest.php:12
+</error>
+      </testcase>
+    </testsuite>
+    <testsuite name="SimulationTest" file="D:\WORKQA\skiliks\backend\protected\tests\SimulationTest.php" tests="2" assertions="1" failures="0" errors="1" time="0.036149">
+      <testcase name="testSimulationStart" class="SimulationTest" file="D:\WORKQA\skiliks\backend\protected\tests\SimulationTest.php" line="8" assertions="0" time="0.008363">
+        <error type="PHPUnit_Framework_Error_Notice">SimulationTest::testSimulationStart
+Undefined index: sid
+
+D:\WORKQA\skiliks\backend\protected\tests\SimulationTest.php:15
+</error>
+      </testcase>
+      <testcase name="testSimulatorFail" class="SimulationTest" file="D:\WORKQA\skiliks\backend\protected\tests\SimulationTest.php" line="86" assertions="1" time="0.027786"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
