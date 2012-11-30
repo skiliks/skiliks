@@ -77,10 +77,10 @@ class RegistrationController extends AjaxController{
         
         try {
             $model = UsersActivationCode::model()->byCode($code)->find();
-            if (!$model) throw new Exception('Немогу найти пользователя по данному коду');
+            if (!$model) throw new CException('Немогу найти пользователя по данному коду');
             
             $user = Users::model()->byId($model->uid)->find();
-            if (!$user) throw new Exception('Не могу найти пользователя');
+            if (!$user) throw new CException('Не могу найти пользователя');
             
             // если пользователь уже активирован
             if ($user->is_active == 1) {
@@ -95,7 +95,7 @@ class RegistrationController extends AjaxController{
             
             return $this->_sendResponse(200, 'Поздравляю, вы успешно активированы', 'text/html');
             
-        } catch (Exception $exc) {
+        } catch (CException $exc) {
             return $this->_sendResponse(200, $exc->getMessage(), 'text/html');
         }
 
