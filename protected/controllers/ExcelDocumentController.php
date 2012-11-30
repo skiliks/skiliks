@@ -539,7 +539,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     protected function _loadWorksheet($worksheetId) {
-        $data = Cache::get('ws'.$worksheetId);
+        $data = Yii::app()->cache->get('ws'.$worksheetId);
         if (!$data) {
             // у нас пока ничего не закешировано - значит придется загрузить
             $cells = ExcelWorksheetCells::model()->byWorksheet($worksheetId)->findAll();
@@ -560,7 +560,7 @@ class ExcelDocumentController extends AjaxController{
                 $data[$cell->column][$cell->string] = $cellInfo; 
             }
             // запомним в кеше
-            Cache::put('ws'.$worksheetId, $data);
+            Yii::app()->cache->set('ws'.$worksheetId, $data);
         }
         
         // создать соотв индексов
@@ -628,7 +628,7 @@ class ExcelDocumentController extends AjaxController{
                 $columnIndex++;
             }
         }
-        Cache::put('ws'.$worksheetId, $data);
+        Yii::app()->cache->set('ws'.$worksheetId, $data);
         
         // запоминаем структуру рабочего листа
         $this->_worksheets[$worksheetId] = $data;
