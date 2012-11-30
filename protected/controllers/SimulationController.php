@@ -108,7 +108,7 @@ class SimulationController extends AjaxController{
 
                 // событие создаем только если для него задано время
                 if ($event->trigger_time > 0) {
-                    Logger::debug("create trigger : {$event->code}");
+                    Logger::debug("<create trigger>, code : {$event->code}, trigger time: {$event->trigger_time}");
                     $eventsTriggers = new EventsTriggers();
                     $eventsTriggers->sim_id         = $simId;
                     $eventsTriggers->event_id       = $event->id;
@@ -179,17 +179,13 @@ class SimulationController extends AjaxController{
         DayPlanLogger::log($simId, DayPlanLogger::STOP);
         
         // данные для логирования
-        $logs = Yii::app()->request->getParam('logs', false);
+        $logs_src = Yii::app()->request->getParam('logs', false); 
+        $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
+        LogHelper::setLog($logs);
+        //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
-        LogHelper::setWindowsLog($simId, $logs);
-        $windowActive = (int)Yii::app()->request->getParam('windowActive', false);  
-        $timeString = Yii::app()->request->getParam('timeString', false);  
-        // залогируем окна
-        $windowLogger = new WindowLogger();
-        $windowLogger->log($simId, $logs, $windowActive, $timeString);
-        $windowLogger->stop($simId, $timeString);
-        
+        LogHelper::setWindowsLog($simId, $logs);        
         $result = array('result' => 1);
         $this->sendJSON($result);
     }
