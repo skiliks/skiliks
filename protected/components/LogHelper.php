@@ -2,11 +2,11 @@
 
 class LogHelper {
 
-    const ACTION_CLOSE = 0; //Закрытие окна
+    const ACTION_CLOSE = "0"; //Закрытие окна
 
-    const ACTION_OPEN = 1; //Открытие окна
+    const ACTION_OPEN = "1"; //Открытие окна
 
-    const ACTION_SWITCH = 2; //Переход в рамках окна
+    const ACTION_SWITCH = "2"; //Переход в рамках окна
     
     const ACTION_ACTIVATED = "activated"; //Активация окна
     
@@ -248,7 +248,7 @@ class LogHelper {
 
                 if(!isset($log[4]['fileId'])) continue;
                 
-                if( self::ACTION_OPEN == $log[2] OR self::ACTION_ACTIVATED == $log[2]){
+                if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]){
 
                     $comand = Yii::app()->db->createCommand();
                     $comand->insert( "log_documents" , array(
@@ -256,7 +256,7 @@ class LogHelper {
                         'file_id'   => $log[4]['fileId'],
                         'start_time'=> date("H:i:s", $log[3])
                     ));
-                } elseif( self::ACTION_CLOSE == $log[2] OR self::ACTION_DEACTIVATED == $log[2]) {
+                } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
                     //Yii::log(var_export($log, true), 'info');
                     $comand = Yii::app()->db->createCommand();
 
@@ -325,8 +325,9 @@ class LogHelper {
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
                 
-                if( self::ACTION_OPEN == $log[2] OR self::ACTION_ACTIVATED == $log[2] ) {
-
+                if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
+                    Yii::log(var_export($log, true), 'info');
+                    Yii::log(var_export($log[2], true), 'info');
                     $comand->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
@@ -335,17 +336,17 @@ class LogHelper {
                     ));
                     continue;
                     
-                } elseif( self::ACTION_CLOSE == $log[2] OR self::ACTION_DEACTIVATED == $log[2] ) {
+                } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     
                     if($log[1] != 13) {
-
+                        //Yii::log(var_export($log, true), 'info');
                         $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         
                     } else {
-                        Yii::log(var_export($log, true), 'info');
+                        //Yii::log(var_export($log, true), 'info');
                         $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3]),
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
@@ -354,7 +355,7 @@ class LogHelper {
                          
                     }
                     
-                } elseif( self::ACTION_SWITCH == $log[2] ) {
+                } elseif( self::ACTION_SWITCH == (string)$log[2] ) {
                     //Yii::log($log, 'info');
                     $comand->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
@@ -566,7 +567,7 @@ class LogHelper {
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
                 //Yii::log(var_export($log, true), 'info');
-                if( self::ACTION_OPEN == $log[2] || self::ACTION_ACTIVATED == $log[2]) {
+                if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 //                    $comand->update( "log_windows" , array(
 //                        'end_time'  => date("H:i:s", $log[3])
 //                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
@@ -578,13 +579,13 @@ class LogHelper {
                     ));
                     continue;
                     
-                } elseif( self::ACTION_CLOSE == $log[2] || self::ACTION_DEACTIVATED == $log[2] ) {
+                } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
 
                         $comand->update( "log_windows" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
-                } elseif (self::ACTION_SWITCH == $log[2]) { 
+                } elseif (self::ACTION_SWITCH == (string)$log[2]) { 
                 
                     continue;
                     
