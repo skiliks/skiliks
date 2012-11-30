@@ -12,44 +12,40 @@ class ScenarioController extends AjaxController{
      * Загрузка сценария
      * @return type 
      */
-    public function actionUpload() {
-        Logger::debug('scenario upload called');
-        
-        $result = 0; $processed = 0;
+    public function actionUpload() 
+    {
         try {
-  
-            // загружаем файл
-            $fileName = UploadHelper::uploadSimple();
-            Logger::debug('uploaded file : '.$fileName);
+            $fileName = UploadHelper::uploadSimple(); // загружаем файл
 
             if (!$fileName) throw new Exception ('Не могу загрузить файл');
 
-            // импорт файла
+            // импорт файла {
             $service = new DialogImportService();
-            $processed = $service->import($fileName);
-            Logger::debug('processed records : '.$processed);
+            $results = $service->import($fileName);
+            // импорт файла }
 
-            $html = "<script language=\"javascript\" type=\"text/javascript\">
-                        alert('Импорт завершен. Обработано записей {$processed}');
-                    </script>";
-            return $this->_sendResponse(200, $html, 'text/html');
-
-            //$result['message'] = "Обработано записей {$processed}";
+            // success message
+            $html = sprintf(
+                '<script language="javascript" type="text/javascript">
+                    alert("Импорт завершен. Обработано событий %s (новых: %s, существующих: %s). Обработано реплик %s. Обработано типов оценок %s. Добавлено оценок \"1\" %s, \"0\" %s. ");                    
+                </script>',
+                $results['events'],
+                $results['events-new'],
+                $results['events-updated'],
+                $results['replics'],
+                $results['pointCodes'],
+                $results['ones'],
+                $results['zeros']
+            );
         } catch (Exception $exc) {
-            $result = 0;
-        }
-
-        $html = "<script language=\"javascript\" type=\"text/javascript\">
-                        alert('Что-то пошло не так');
-                    </script>";
+            $html = sprintf(
+                '<script language="javascript" type="text/javascript">
+                    alert("Ошибка: %s.");                    
+                </script>',
+                str_replace(array("'", '"', '`', "\n"), array('','','', ' '), $exc->getMessage())
+            );
+        }   
         
         return $this->_sendResponse(200, $html, 'text/html');
-        
-        //Logger::debug('file : '.$fileName);
-        
-        //$result = array('result' => 1, 'message' => 'file : '.$fileName);
-        return $this->sendJSON($result);
     }
 }
-
-?>
