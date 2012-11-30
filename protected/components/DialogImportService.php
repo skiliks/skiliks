@@ -9,67 +9,71 @@ set_time_limit(0);
  */
 class DialogImportService {
     
-    protected $_columns = array(
-        'A' => 0,
-        'B' => 1,
-        'C' => 2,
-        'D' => 3,
-        'E' => 4,
-        'F' => 5,
-        'G' => 6,
-        'H' => 7,
-        'I' => 8,
-        'J' => 9,
-        'K' => 10,
-        'L' => 11,
-        'M' => 12,
-        'N' => 13,
-        'O' => 14,
-        'P' => 15,
-        'Q' => 16,
-        'R' => 17,
-        'S' => 18,
-        'T' => 19
-    );
-    
-    protected $_characters = array();
-    
-    protected $_charactersStates = array();
-    
-    protected $_dialogSubtypes = array();
-    
+        
+    protected $_characters = array();    
+    protected $_charactersStates = array();    
+    protected $_dialogSubtypes = array();    
     protected $_charactersPoints = array();
     
-    protected function _convert($str) {
-        $str = str_replace(chr(hexdec('A0')), " ", $str);
+    protected $countZeros = 0;
+    protected $countOnes = 0; 
+    protected $countMarks = 0; 
+    protected $processedEvents = 0;
+    protected $processedEventNew = 0;
+    protected $processedEventUpdated = 0;
+    
+    protected $alreadyImportedEvents = array();
+    protected $eventT = null; // event with code 'T'
+    protected $lines = array();
+    protected $markCodes = array();
+    protected $dialogs = array(); // indexed by excel_id
+
+    public function __construct() 
+    {
+        $this->_characters          = $this->getCharacters();
+        $this->_charactersStates    = $this->getCharactersStates();
+        $this->_dialogSubtypes      = $this->getDialogSubtypes();
+        $this->_charactersPoints    = $this->getCharactersPoints(); 
+        $this->_columnAlias = array(
+            'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7,
+            'I' => 8, 'J' => 9, 'K' => 10, 'L' => 11, 'M' => 12, 'N' => 13, 'O' => 14,
+            'P' => 15, 'Q' => 16, 'R' => 17, 'S' => 18, 'T' => 19, 
+        );
+        $this->eventT = EventsSamples::model()->byCode('T')->find();
+    }
+
+    private function resetCounters()
+    {
+        $this->countOnes  = 0;
+        $this->countZeros = 0;
+        $this->countMarks = 0;
+        $this->processedEvents = 0;
+        $this->processedEventNew = 0;
+        $this->processedEventUpdated = 0;
         
-        $str = preg_replace('/\s\s+/', ' ', $str);
-         
-        
-        /*$str = str_replace("&nbsp;", "", $str);
-        $str = str_replace("\t", "", $str);
-        $str = str_replace("  ", "", $str);*/
-        
-        
-        $str = iconv("Windows-1251", "UTF-8", $str);
+        $this->alreadyImportedEvents = array();
+    }
+
+    /**
+     * Just clean-up Excel cell value
+     * 
+     * @param string $str
+     * @return string
+     */
+    protected function _convert($str) 
+    {
         $str = trim($str);
-        
-        //echo($str.'<br/>');
-        /*$str = str_replace("&nbsp;", "", $str);
-        $str = str_replace("\t", "", $str);
-        $str = str_replace("  ", "", $str);
-        */
-        //$str = preg_replace("/^(\-\s+)/", "- ", $str);
-        
-        //echo($str.'<br/>');
         
         return $str;
     }
     
     /**
      * Загрузка всех персонажей
+     * 
+     * @return array of Character
      */
-    protected function getCharacters() {
+    protected function getCharacters() 
+    {
         $characters = Characters::model()->findAll();
         
         $list = array();
@@ -81,7 +85,11 @@ class DialogImportService {
         return $list;
     }
     
-    protected function getDialogSubtypes() {
+    /**
+     * @return array of DialogSubtype
+     */
+    protected function getDialogSubtypes()
+    {      
         $subtypes = DialogSubtypes::model()->findAll();
         
         $list = array();
@@ -92,29 +100,24 @@ class DialogImportService {
         return $list;
     }
     
-    
-    
     protected function _getCharacterIdByName($characterName) {
         if (isset($this->_characters[$characterName])) {
-            return $this->_characters[$characterName];
+            return (int)$this->_characters[$characterName];
         }
-        //var_dump($characterName);
         return null;
     }
 
     protected function _getCharacterStateIdByName($name) {
         if (isset($this->_charactersStates[$name])) {
-            return $this->_charactersStates[$name];
+            return (int)$this->_charactersStates[$name];
         }
-        //var_dump($characterName);
-        return null;
+        return 1; // todo: investigate why 1 instead of NULL
     }
     
     protected function _getDialogSubtypeIdByName($name) {
         if (isset($this->_dialogSubtypes[$name])) {
-            return $this->_dialogSubtypes[$name];
+            return (int)$this->_dialogSubtypes[$name];
         }
-        //var_dump($characterName);
         return null;
     }
 
@@ -140,337 +143,337 @@ class DialogImportService {
         return $list;
     }
     
-    protected function _timeToInt($time) {
-        $arr = explode(':', $time);
-        if (count($arr)>1) {
-            return mktime($arr[0], $arr[1]);
+    /**
+     * 
+     * @param string $time
+     * @return integer
+     */
+    private function timeToInt($time) 
+    {
+        if (strstr($time, ':')) {
+            $explodedTime = explode(':', $time);
+            if (isset($explodedTime[1])) {
+                return $explodedTime[0] * 60 + $explodedTime[1];
+            } else {
+                return (int)$time;
+            }                    
+        }
+    }
+    
+    private function importEventsFromLines()
+    {
+        // remove all events, exept exists in our import file {
+        $keys = array();
+        foreach($this->lines as $row) {
+            $keys[] = $this->_convert($row['C']);
+        }       
+        
+        // also T, D, P and M events willn`t be removed.
+        // @todo: update inport to import Documents, PlanerEvents, eMails 
+        // and check is T(terminator) task exist
+        $isSimpleEvent = isset($event->code[0]) && false === in_array($event->code[0], array('T', 'E', 'D', 'P'));
+        
+        foreach(EventsSamples::model()->findAll() as $event) {
+            if ($isSimpleEvent) {
+                $event->delete();
+            }
+        }         
+        // remove all events, exept exists in our import file }
+        
+        foreach($this->lines as $lineNo => $row) 
+        {
+            $code = $row['C'];
+            
+            $isFirstRecordAboutEvent = (
+                $code != '-' &&                                          // code
+                $code != '' &&                                           // code
+                (int)$row['K'] == 1 &&                                   // step_number, 1 - first step in dialog
+                (int)$row['L'] == 0 &&                                   // replica_number, 0 - first replica in dialog
+                false === in_array($code, $this->alreadyImportedEvents)  // processed at first during current import
+            );
+            
+            if (false === $isFirstRecordAboutEvent) {
+                continue; // ignore this line
+            }
+            
+            // Проверяем, а нету ли уже такого события
+            $event = EventsSamples::model()->byCode($code)->find();
+            if (!$event) {
+                $event = new EventsSamples(); // Создаем событие
+                $event->code = $code;
+                $this->processedEventNew++;
+            } else {
+                $this->processedEventUpdated++;
+            }
+            
+            $event->title = $this->_convert($row['D']);
+            $event->on_ignore_result = 7; // ничего
+            $event->on_hold_logic = 1; // ничего
+            $event->trigger_time = $this->timeToInt($row['E']);
+            
+            $this->wrappedSave($event, $row, $lineNo);
+            
+            $this->processedEvents++;
+            
+            // events with wisitors has two items with step_number == 1 && $replica_number == 0
+            // but all rows in excel sorted in right (for dialogs phrases)  way
+            // so we can store event id in array, and check has it been alredy imported or not
+            $this->alreadyImportedEvents[] = $code;         
         }    
-        return 0;
+    }
+
+    /**
+     * @param string $code
+     * 
+     * @return integer
+     */
+    private function getNextEventId($code)
+    {
+        $event = EventsSamples::model()->byCode($code)->find();
+        if (null === $event) {
+            return ('0' === $code) ? null : $this->eventT->id;
+        } else {
+            return $event->id;
+        }
     }
     
-    protected function _cleanData() {
-        $connection=Yii::app()->db;   
-
-        $sql = 'DELETE FROM `dialogs`';
-        $command = $connection->createCommand($sql);
-        $command->execute();
-        
-        $sql = 'ALTER TABLE `dialogs` AUTO_INCREMENT =1';
-        $command = $connection->createCommand($sql);
-        $command->execute();
-        
-        /**$sql = 'DELETE FROM `events_samples`';
-        $command = $connection->createCommand($sql);
-        $command->execute();
-
-        $sql = 'ALTER TABLE `events_samples` AUTO_INCREMENT =1';
-        $command = $connection->createCommand($sql);
-        $command->execute();*/
+    private function importDialogsFromLines()
+    {
+        foreach($this->lines as $lineNo => $row) {            
+            $code = $row['C'];
+            $excelId = (int)$row['A'];  
+            
+            $dialog = Dialogs::model()->byExcelId($excelId)->find();
+            if (null === $dialog) {
+                // Создаем диалог
+                $dialog = new Dialogs();
+                $dialog->excel_id = $excelId;
+            }
+            
+            $dialog->code = $code;
+            $dialog->excel_id = $excelId;
+            $dialog->event_result = 7; // ничего
+            
+            $dialog->ch_from = $this->_getCharacterIdByName($row['G']);
+            $dialog->ch_from_state = $this->_getCharacterStateIdByName($row['H']);
+            $dialog->ch_to = $this->_getCharacterIdByName($row['I']);
+            $dialog->ch_to_state = $this->_getCharacterStateIdByName($row['J']);
+            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($row['S']);            
+            $dialog->next_event = $this->getNextEventId($row['O']);
+            
+            $dialog->next_event_code = ('0' === $row['O']) ? '-' : $row['O'];
+            $dialog->text = $row['M'];
+            $dialog->duration = $row['F']; // Определим длительность            
+            $dialog->step_number = $row['K']; // Номер шага
+            $dialog->replica_number = $row['L'];    // Номер реплики  
+            $dialog->delay = $row['F'];
+            $dialog->flag = $row['T']; 
+            
+            $dialog->demo = ('да' == $row['EJ']) ? 1 : 0;                   
+            $dialog->sound = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];       
+                   
+            $this->wrappedSave($dialog, $row, $lineNo);
+            
+            $this->dialogs[$excelId] = $dialog;
+        }    
     }
     
+    private function importMarksFromLines()
+    {
+        foreach($this->lines as $lineNo => $row) {
+            foreach($this->markCodes as $key => $code) {
+                $exceld = (int)$row['A'];
+                if ('' != $row[$key] && isset($this->dialogs[$exceld])) {
+                    $dialogId = $this->dialogs[$exceld]->id;
+                    // сделать вставку в characters_points
+                    // если есть point с таким кодом
+                    if (isset($this->_charactersPoints[$code])) {
+                        $markId = $this->_charactersPoints[$code];
+                        
+                        // проверим а вдруг есть такая оценка
+                        $charactersPoints = CharactersPoints::model()->byDialog($dialogId)->byPoint($markId)->find();
+                        if (null === $charactersPoints) {
+                            $charactersPoints = new CharactersPoints();
+                            $charactersPoints->dialog_id = $dialogId;
+                            $charactersPoints->point_id = $markId;
+                        }
+                        $charactersPoints->add_value = $row[$key];
+                        
+                        $this->wrappedSave($charactersPoints, $row, $lineNo);
+                        
+                        if (1 == $charactersPoints->add_value) {
+                            $this->countOnes++;
+                        } else {
+                            $this->countZeros++;
+                        }
+                        $this->countMarks++;
+                    }
+                    
+                }
+            }
+        }    
+    }
+
     /**
      * Импорт Диалогов
      * @param type $fileName
      * @return int 
      */
-    public function import($fileName) {
-        $this->_characters          = $this->getCharacters();
-        $this->_charactersStates    = $this->getCharactersStates();
-        $this->_dialogSubtypes      = $this->getDialogSubtypes();
-        $this->_charactersPoints    = $this->getCharactersPoints();
+    public function import($fileName) 
+    {
+        $this->resetCounters();
         
-        
-        // clean
-        $connection=Yii::app()->db;   
-        //$this->_cleanData();
+        $this->getRowsFromCsv($fileName);
+        $this->getMarkCodesFromCsv($fileName);        
 
+        $this->importEventsFromLines(); // импортируем события
+        $this->importDialogsFromLines(); // импортируем диалоги
+        $this->importMarksFromLines(); // загрузим оценки 
         
-        Logger::debug("dialog import started");
+        return array(
+            'replics'        => count($this->lines),
+            'events'         => $this->processedEvents,
+            'events-new'     => $this->processedEventNew,
+            'events-updated' => $this->processedEventUpdated,
+            'ones'           => $this->countOnes,
+            'zeros'          => $this->countZeros,
+            'marks'          => $this->countMarks,
+            'pointCodes'     => count($this->markCodes),
+        );
+    }
+    
+    /**
+     * Used to display detailed error with line number
+     * 
+     * @param mixedObject $entity
+     * @param array of strings $row
+     * @param integer $lineNo
+     * 
+     * @throws Exception
+     */
+    protected function wrappedSave($entity, $row, $lineNo) 
+    {
+        try {
+            $entity->save();
+        } catch (Exception $e) {
+            throw new Exception(sprintf(
+                'Строка: %s. Ошибка: %s. Данные из строки: %s.',
+                $lineNo,
+                $e->getMessage(),
+                str_replace(array('"',"'"), array('\"', "\'"), implode(', ', $row))
+            ));
+        }
+    }
+
+
+    /**
+     * Explode Excel file to colums
+     * 
+     * @param string $fileName
+     * 
+     * @return array
+     * 
+     * @throws Exception
+     */
+    private function getRowsFromCsv($fileName)
+    {
+        $this->lines = array();
+        
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
         
-        $index = 1;
-        $columns = array();
-        $delays = array();
-        $pointsCodes = array();
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            
-            Logger::debug("index : $index");
-            Logger::debug("row : ".var_export($row, true));
-            
-            if ($index == 1) {
-                $index++;
-                continue;
-            }
-            
-            if ($index == 2) {
-                // загрузим кодов
-                $columnIndex = 22;
-                while(isset($row[$columnIndex]) && $row[$columnIndex] != '') {
-                    $pointsCodes[$columnIndex] = $row[$columnIndex];
-                    $columnIndex++;
-                }
-                $index++;
-                continue;
-            }
-            if ($index > 816) break;
-            
-
-            
-            $index++;
-            
+        if (!$handle) {
+            throw new Exception(sprintf(
+                "Не могу открыть файл %s.",
+                $fileName
+            ));
+        }
+        
+        fgetcsv($handle, 5000, ";"); // skip first line
+        fgetcsv($handle, 5000, ";"); // skip second line
+        
+        while (FALSE !== ($row = fgetcsv($handle, 5000, ";")) ) 
+        {            
             if (!isset($row[1])) {
                 continue;
             }
-            
-            $column = array(
-                'A' => $row[0],
-                'B' => $row[1],
-                'C' => $row[2],
-                'D' => $row[3],
-                'E' => $row[4],
-                'F' => $row[5],
-                'G' => $row[6],
-                'H' => $row[7],
-                'I' => $row[8],
-                'J' => $row[9],
-                'K' => $row[10],
-                'L' => $row[11],
-                'M' => $row[12],
-                'N' => $row[13],
-                'O' => $row[14],
-                'P' => $row[15],
-                'Q' => $row[16],
-                'R' => $row[17],
-                'S' => $row[18],
-                'T' => $row[19]
-            );
-            
-            if ($row[0] != '')
-            if (!isset($delays[$row[0]])) {
-                
-                $delays[$row[0]] = $row[2];
-            }
-            
-            // загружаем кода
-            $codeIndex = 19;
-            while(isset($row[$codeIndex])) {
-                $column[$codeIndex] = $row[$codeIndex];
-                $codeIndex++;
-            }
-            
-            //if ($index > 2) 
-            
-            $columns[] = $column;
+            $this->lines[] = $this->makeNamedRowData($row);
         }
+        
         fclose($handle);
         
-        /*echo('<hr/>');
-        var_dump($columns); die();*/
-        
-        #######################################################
-        // импорт
-        $processed = 0;
-        
-        // В начале импортируем события
-        foreach($columns as $index=>$row) {
-            $code = $this->_convert($row['C']);
-            if ($code == '-' || $code == '') continue;
-            
-            $step_number = (int)$row['K'];
-            $replica_number = (int)$row['L'];       
-            
-            if ($step_number == 1 && $replica_number == 0) {
-                $eventTimeStr = $row['E'];
-                Logger::debug("eventTime : $eventTimeStr");
-                $eventTime = 0;
-                if (strstr($eventTimeStr, ':')) {
-                    $eventTimeData = explode(':', $eventTimeStr);
-                    if (isset($eventTimeData[1])) {
-                        $eventTime = $eventTimeData[0] * 60 + $eventTimeData[1];
-                    }
-                }
-
-
-                // Проверяем, а нету ли уже такое события
-                $event = EventsSamples::model()->byCode($code)->find();
-                if (!$event) {
-                    // Создаем событие
-                    $event = new EventsSamples();
-                    $event->code = $code;
-                }
-                $event->title = $this->_convert($row['D']);
-                $event->on_ignore_result = 0;
-                $event->on_hold_logic = 1;
-                $event->trigger_time = $eventTime;
-                $event->save();
-                echo("saved event : $code time :  $eventTime <br/>");
-                $processed++;
-            }
-        }
-        die();
-        // Это временный код - его задача создать события типа - М9 М10, D3, P3, T (без номера)
-        /*foreach($columns as $index=>$row) {
-            $code = $this->_convert($row['M']);
-            if ($code == '-' || $code == '') continue;
-            if (!EventsSamples::model()->byCode($code)->find()) {
-                // Создаем событие
-                $event = new EventsSamples();
-                $event->code = $code;
-                $event->title = "запуск события {$code}";
-                $event->on_ignore_result = 0;
-                $event->on_hold_logic = 1;
-                $event->insert();
-                $processed++;
-            }
-        }*/
-        ///////////////////////////////
-        
-        $processed = 0;
-        /////////////////////////////////////////////
-        // теперь импортируем диалоги
-        /////////////////////////////////////////////
-        foreach($columns as $index=>$row) {
-            $code = $row['C'];
-            $excelId = (int)$row['A'];       
-            
-            Logger::debug("import dialog index $index");
-            if ($excelId == 0) {
-                //Logger::debug("row: ".var_export($row, true));
-            }
-            
-            $dialog = Dialogs::model()->byExcelId($excelId)->find();
-            if (!$dialog) {
-                // Создаем диалог
-                $dialog = new Dialogs();
-                $dialog->excel_id = $excelId;
-                echo("insert new dialog with code : {$code} <br/>");
-            }
-            
-            $dialog->code = $code;
-            
-            //$characterName = $this->_convert($row['F']);
-            $chFrom = (int)$this->_getCharacterIdByName($row['G']);
-            if ($chFrom == 0)  {
-                //echo("cant find character from by name {$row['G']} excelId $excelId"); die();
-            }              
-            
-            $dialog->ch_from = $chFrom;
-            Logger::debug("ch_name=".$row['F']);
-
-            // Определим состояние персонажа:    
-            $characterState = $this->_convert($row['H']);
-            
-            $dialog->ch_from_state = $this->_getCharacterStateIdByName($characterState);
-            if ($dialog->ch_from_state == null) {
-                $dialog->ch_from_state = 1; //continue;
-            }
-
-            // Определим персонажа "кому":
-            $characterToId = (int)$this->_getCharacterIdByName($row['I']);
-            if ($characterToId == 0) {
-                $characterToId = null;
-                //echo("character ".$row['H']); die();
-            }
-            if ($characterToId > 0)
-                $dialog->ch_to = $characterToId;
-            
-            // Определим состояние персонажа "кому":
-            $dialog->ch_to_state = $this->_getCharacterStateIdByName($this->_convert($row['J']));
-
-            if ($dialog->ch_to_state == null) $dialog->ch_to_state = 1;
-            
-            // определим подтип диалога:
-            $dialogSubtype = (int)$this->_getDialogSubtypeIdByName($this->_convert($row['S']));
-            if ($dialogSubtype == 0) {
-                ///var_dump($this->_convert($row['R'])); die();
-            }
-            
-            $dialog->dialog_subtype = $dialogSubtype;
-
-            // Определи текст диалога
-            $dialog->text = $this->_convert($row['M']);
-            
-            // Определим длительность
-            $dialog->duration = $row['F'];
-            $dialog->event_result = 0;
-            
-            // Номер шага
-            $dialog->step_number = $row['K'];
-            // Номер реплики
-            $dialog->replica_number = $row['L'];       
-
-            // Код следующего события
-            $nextEventCode = $row['O'];
-            $dialog->next_event_code = $nextEventCode;
-            $event = EventsSamples::model()->byCode($nextEventCode)->find();
-            if ($event)
-                $dialog->next_event = $event->id;
-            else 
-                $dialog->next_event = null;
-
-
-            $delay = $this->_timeToInt($row['F']);
-            //echo($row['A']);
-            //echo('start : '.$delay);
-            if ($delay > 0) {
-                if (isset($delays[$row['N']])) {
-                    //echo('end '.$delays[$row['M']]);
-                    $delay2 = $this->_timeToInt($delays[$row['N']]);
-
-                    //echo("$delay - $delay2");
-                    $delay = abs($delay - $delay2);
-                }
-                else {
-                    $delay = 0;
-                }
-            }
-            //var_dump($delay);
-
-            // Имя файла с видео или звуком
-            $file = $this->_convert($row['P']);
-            if ($file == 'N/A' || $file == '-') $file = '';    
-
-            $dialog->delay = $delay;       
-            $dialog->sound = $file;       
-            $dialog->excel_id = $excelId;       
-            $dialog->flag = $row['T'];
-            $dialog->save();
-            echo("saved dialog by code : {$code}");
-            
-            
-            // теперь загрузим оценки
-            
-            foreach($pointsCodes as $pointIndex => $pointCode) {
-                Logger::debug("check code : $pointCode");
-                Logger::debug("value is : ".$row[$pointIndex]);
-                if ($row[$pointIndex] != '') {
-                    // сделать вставку в characters_points
-                    // если есть point с таким кодом
-                    if (isset($this->_charactersPoints[$pointCode])) {
-                        $pointId = $this->_charactersPoints[$pointCode];
-                        Logger::debug("found point : ".$pointId);
-                        
-                        // проверим а вдруг есть такая оценка
-                        $charactersPoints = CharactersPoints::model()->byDialog($dialog->id)->byPoint($pointId)->find();
-                        if (!$charactersPoints) {
-                            $charactersPoints = new CharactersPoints();
-                            $charactersPoints->dialog_id = $dialog->id;
-                            $charactersPoints->point_id = $pointId;
-                        }
-                        $charactersPoints->add_value = $row[$pointIndex];
-                        $charactersPoints->save();
-                    }
-                    
-                }
-            }
-            
-            $processed++;
-        }
-        
-        return $processed;
+        return true;
     }
     
+    /**
+     * @param string $fileName
+     */
+    private function getMarkCodesFromCsv($fileName)
+    {
+        $this->markCodes = array();
+        
+        $handle = fopen($fileName, "r");        
+        if (!$handle) {
+            throw new Exception(sprintf(
+                "Не могу открыть файл %s.",
+                $fileName
+            ));
+        }
+        
+        $i = 0;      
+        
+        $row = fgetcsv($handle, 5000, ";");
+        while (FALSE !== ($row = fgetcsv($handle, 5000, ";"))) 
+        {            
+            $formatedRow = $this->makeNamedRowData($row);
+            foreach ($formatedRow as $key => $cell) {
+                $i++;
+                if (23 < $i) { // 22 : 'X'
+                    if (null == $cell) {
+                        fclose($handle);
+                        return true;
+                    } else {
+                        $this->markCodes[$key] = $cell;
+                    }
+                }
+            }
+            
+            fclose($handle);         
+            return true; 
+        }  
+    }
+    
+    /*
+     * Just change indexes from numbers to letters, for easy usage
+     * 
+     * @param array of string $row
+     * 
+     * @return array of string
+     */
+    private function makeNamedRowData($row)
+    {
+        $abc = array('','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        $abc2 = array('A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z');
+        $i = 0;
+        
+        $result = array();
+        
+        // mport all cells in row from 'A' to 'XX', if there is no item ir row -> end.
+        foreach ($abc as $firstSign) {
+            foreach ($abc2 as $secondSign) {
+                $excelName = $firstSign.$secondSign;
+                    if (isset($row[$i])) {
+                        $result[$excelName] = $this->_convert($row[$i]);
+                    } else {
+                        return $result;
+                    }
+                $i++;
+            }
+        }
+        
+        return $result;
+    }
+
+
     public function importEvents($fileName) {
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
@@ -484,15 +487,15 @@ class DialogImportService {
             }
             
             //var_dump($row);
-            $eventCode = $row[$this->_columns['O']];
+            $eventCode = $row[$this->_columnAlias['O']];
             if ($eventCode == '-') continue;
             
             // определим event time
             /*if (!isset($row['E'])) {
                 var_dump($row); die();
             }*/
-            $eventTimeStr = $row[$this->_columns['E']];
-            Logger::debug("eventTime : $eventTimeStr");
+            $eventTimeStr = $row[$this->_columnAlias['E']];
+            // Logger::debug("eventTime : $eventTimeStr");
             $eventTime = 0;
             if (strstr($eventTimeStr, ':')) {
                 $eventTimeData = explode(':', $eventTimeStr);
@@ -535,9 +538,9 @@ class DialogImportService {
             }
             
             
-            $isFinalReplica = $this->_convert($row[$this->_columns['N']]);
+            $isFinalReplica = $this->_convert($row[$this->_columnAlias['N']]);
             if ($isFinalReplica == 'да') {
-                $excelId = $row[$this->_columns['A']];
+                $excelId = $row[$this->_columnAlias['A']];
                 $dialog = Dialogs::model()->byExcelId($excelId)->find();
                 if ($dialog) {
                     $dialog->is_final_replica = 1;
@@ -565,9 +568,9 @@ class DialogImportService {
             }
             
             
-            $text = $this->_convert($row[$this->_columns['M']]);
-            $nextEventCode = $row[$this->_columns['O']];
-            $excelId = $row[$this->_columns['A']];
+            $text = $this->_convert($row[$this->_columnAlias['M']]);
+            $nextEventCode = $row[$this->_columnAlias['O']];
+            $excelId = $row[$this->_columnAlias['A']];
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
             if ($dialog) {
                 $dialog->text = $text;
@@ -596,13 +599,13 @@ class DialogImportService {
             }
             
             // Определяем флаг
-            $flag = $row[$this->_columns['T']];
+            $flag = $row[$this->_columnAlias['T']];
             if ($flag == '') continue;
             // Убеждаемся что поле имеет нужный нам формат
             if (!preg_match('/^F\d+$/', $flag)) continue;
             var_dump($flag);
             
-            $excelId = $row[$this->_columns['A']];
+            $excelId = $row[$this->_columnAlias['A']];
             
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
             if ($dialog) {
@@ -633,9 +636,9 @@ class DialogImportService {
                 die();
             }
             
-            $excelId    = $row[$this->_columns['A']];
-            $code       = $row[$this->_columns['C']];
-            $file       = $this->_convert($row[$this->_columns['P']]);
+            $excelId    = $row[$this->_columnAlias['A']];
+            $code       = $row[$this->_columnAlias['C']];
+            $file       = $this->_convert($row[$this->_columnAlias['P']]);
             if ($file == 'N/A' || $file == '-') $file = '';
             
             $dialog = Dialogs::model()->byExcelId($excelId)->find();
@@ -669,8 +672,8 @@ class DialogImportService {
                 die();
             }
             
-            $excelId    = $row[$this->_columns['A']];
-            $demo       = $this->_convert($row[$this->_columns['D']]);
+            $excelId    = $row[$this->_columnAlias['A']];
+            $demo       = $this->_convert($row[$this->_columnAlias['D']]);
             if ($demo == 'да') {
                 $dialog = Dialogs::model()->byExcelId($excelId)->find();
                 if ($dialog) {
