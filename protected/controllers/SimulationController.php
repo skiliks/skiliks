@@ -108,7 +108,7 @@ class SimulationController extends AjaxController{
 
                 // событие создаем только если для него задано время
                 if ($event->trigger_time > 0) {
-                    Logger::debug("create trigger : {$event->code}");
+                    Logger::debug("<create trigger>, code : {$event->code}, trigger time: {$event->trigger_time}");
                     $eventsTriggers = new EventsTriggers();
                     $eventsTriggers->sim_id         = $simId;
                     $eventsTriggers->event_id       = $event->id;
