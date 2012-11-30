@@ -51,7 +51,7 @@ class LogHelper {
 		
 	}
     
-    public static function setLog($logs) {
+    public static function setLog($simId, $logs) {
         
         if(self::LOGIN) {
             if(is_array($logs)) {
@@ -62,6 +62,7 @@ class LogHelper {
                     foreach ($logs as $log) {
                         $csv = '';
                         $csv .= date("d.m.Y H:i:s", time()).$sparator; //Дата и время на сервере 
+                        $csv .= $simId.$sparator; //id симуляции
                         $csv .= $log[0].$sparator; //Активное окно
                         $csv .= $log[1].$sparator; //Активное под окно
                         $csv .= $log[2].$sparator; //Действие
@@ -344,7 +345,7 @@ class LogHelper {
                         continue;
                         
                     } else {
-                        
+                        Yii::log(var_export($log, true), 'info');
                         $comand->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3]),
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
