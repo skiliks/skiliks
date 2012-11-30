@@ -1,6 +1,7 @@
 /nbproject/private/
 /nbproject/
 /protected/runtime
+/protected/tests/artifacts
 /protected/config/main.php
 /.idea/*
 /cache
