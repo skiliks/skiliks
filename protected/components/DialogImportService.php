@@ -258,17 +258,18 @@ class DialogImportService {
             $dialog->ch_from_state = $this->_getCharacterStateIdByName($row['H']);
             $dialog->ch_to = $this->_getCharacterIdByName($row['I']);
             $dialog->ch_to_state = $this->_getCharacterStateIdByName($row['J']);
-            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($row['S']);
-            $dialog->next_event_code = $this->getNextEventId($row['O']);
+            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($row['S']);            
+            $dialog->next_event = $this->getNextEventId($row['O']);
             
+            $dialog->next_event_code = ('0' === $row['O']) ? '-' : $row['O'];
             $dialog->text = $row['M'];
             $dialog->duration = $row['F']; // Определим длительность            
             $dialog->step_number = $row['K']; // Номер шага
             $dialog->replica_number = $row['L'];    // Номер реплики  
             $dialog->delay = $row['F'];
-            $dialog->flag = $row['T'];            
+            $dialog->flag = $row['T']; 
             
-            $dialog->demo = ('да' == $row['EK']) ? 1 : 0;                   
+            $dialog->demo = ('да' == $row['EJ']) ? 1 : 0;                   
             $dialog->sound = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];       
                    
             $this->wrappedSave($dialog, $row, $lineNo);
