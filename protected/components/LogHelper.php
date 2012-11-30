@@ -15,7 +15,9 @@ class LogHelper {
     const RETURN_DATA = 'json'; //Тип возвращаемого значения JSON
 
     const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
-
+    
+    const LOGIN = true; //Писать лог в файл? true - да, false - нет
+    
     protected static $codes_documents = array(40,41,42);
 
     protected static $codes_mail = array(10,11,12,13,14);
@@ -49,6 +51,54 @@ class LogHelper {
 		
 	}
     
+    public static function setLog($logs) {
+        
+        if(self::LOGIN) {
+            if(is_array($logs)) {
+                $sparator = ';';
+                $end = "\r\n";
+                if(is_dir(__DIR__.'/../runtime/')) {
+                    $file = fopen(__DIR__.'/../runtime/windows.log', "a+");
+                    foreach ($logs as $log) {
+                        $csv = '';
+                        $csv .= date("d.m.Y H:i:s", time()).$sparator; //Дата и время на сервере 
+                        $csv .= $log[0].$sparator; //Активное окно
+                        $csv .= $log[1].$sparator; //Активное под окно
+                        $csv .= $log[2].$sparator; //Действие
+                        $csv .= $log[3].$sparator; //Игровое время
+                        $csv .= (empty($log[4]['mailId'])?'':$log[4]['mailId']).$sparator;// Дополнительный параметр mailId
+                        $csv .= (empty($log[4]['fileId'])?'':$log[4]['fileId']).$end;// Дополнительный параметр fileId
+                        fwrite($file, $csv);
+                    } 
+                    fclose($file);
+                } else {
+                    throw new Exception("Не правильный путь ".__DIR__.'/../runtime/');
+                }
+            }
+        }
+  
+    }
+
+    public static function logFilter($logs) {
+        
+        if(!is_array($logs)) return false;
+        
+        foreach ($logs as $key => $value) {
+            if(isset($logs[$key-1])){
+                if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
+                    unset($logs[$key]);
+                    unset($logs[$key-1]);
+                } else {
+                    continue;
+                }
+            }else{
+                continue;
+            }
+        }
+        
+        return $logs;
+    }
+
     private static function order($order_col, $columns, $order_type = "asc") {
         if(is_array($columns)){
             
