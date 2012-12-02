@@ -56,4 +56,4 @@ class CharactersPoints extends CActiveRecord{
     }
 }
 
-?>
+

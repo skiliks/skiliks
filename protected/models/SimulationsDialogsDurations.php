@@ -38,4 +38,4 @@ class SimulationsDialogsDurations extends CActiveRecord{
     }
 }
 
-?>
+

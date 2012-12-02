@@ -107,4 +107,4 @@ class EventsSamplesController extends DictionaryController{
     }
 }
 
-?>
+

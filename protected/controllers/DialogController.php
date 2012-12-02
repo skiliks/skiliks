@@ -242,4 +242,4 @@ class DialogController extends AjaxController{
     }
 }
 
-?>
+
