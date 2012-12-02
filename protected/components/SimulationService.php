@@ -10,17 +10,6 @@
 class SimulationService {
     
     /**
-     * Получить идентификатор симуляции для заданого пользователя
-     * @param int $uid
-     * @return int
-     */
-    public static function get($uid) {
-        $simulation = Simulations::model()->byUid($uid)->nearest()->find();
-        if (!$simulation) return false;
-        return $simulation->id;
-    }
-    
-    /**
      * Определение типа симуляции
      * @param int $sid
      * @return int
@@ -36,10 +25,11 @@ class SimulationService {
         if (!$simulation) return false;
         return $simulation->user_id;
     }
-    
+
     /**
      * Определяет игровое время в рамках заданной симуляции
-     * @param int $simId 
+     * @param int $simId
+     * @throws Exception
      * @return int игровое время
      */
     public static function getGameTime($simId) {
@@ -279,4 +269,4 @@ class SimulationService {
     }
 }
 
-?>
+

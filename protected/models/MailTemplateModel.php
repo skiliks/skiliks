@@ -43,4 +43,4 @@ class MailTemplateModel extends CActiveRecord{
     }
 }
 
-?>
+

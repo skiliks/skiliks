@@ -69,4 +69,4 @@ class FlagsRulesModel extends CActiveRecord{
     }
 }
 
-?>
+

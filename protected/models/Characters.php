@@ -67,4 +67,4 @@ class Characters extends CActiveRecord{
     }
 }
 
-?>
+
