@@ -11,7 +11,6 @@ class AuthControllerTest extends ControllerTestCase {
         $user->is_active = true;
         $user->save();
         $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test'));
-        print_r($result);
         $sid = $result['sid'];
         unset($result['sid']);
         $this->assertEquals(array(
@@ -22,5 +21,7 @@ class AuthControllerTest extends ControllerTestCase {
         ), $result);
         $result = $this->callJSONAction('AuthController', 'actionCheckSession', array('sid' => $sid));
         $this->assertEquals(1, $result['result']);
+        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test1'));
+        $this->assertEquals('Неправильное имя пользователя или пароль.', $result['message']);
     }
 }
