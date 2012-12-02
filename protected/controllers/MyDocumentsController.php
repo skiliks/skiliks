@@ -69,4 +69,4 @@ class MyDocumentsController extends AjaxController{
     }
 }
 
-?>
+

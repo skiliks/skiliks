@@ -301,4 +301,4 @@ class EventsController extends AjaxController{
     }
 }
 
-?>
+

@@ -57,4 +57,4 @@ class MailAttachmentsTemplateModel extends CActiveRecord{
     }
 }
 
-?>
+

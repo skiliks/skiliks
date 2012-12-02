@@ -94,4 +94,4 @@ class EventsTriggers extends CActiveRecord{
     }
 }
 
-?>
+

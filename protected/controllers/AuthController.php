@@ -22,18 +22,18 @@ class AuthController extends AjaxController
 
         try {
             $user = Users::model()->findByAttributes(array('email' => $email));
-            if (null === $user) throw new Exception('Пользователь не найден');
+            if (null === $user) throw new CHttpException('Пользователь не найден');
 
 
             if ($user->is_active == 0) {
-                throw new Exception('Пользователь не активирован');
+                throw new CHttpException('Пользователь не активирован');
             }
 
             $identity = new BackendUserIdentity($email, $password);
             if ($identity->authenticate()) {
                 Yii::app()->user->login($identity, 3600 * 12);
             } else {
-                throw new Exception('Неправильное имя пользователя или пароль.');
+                throw new CHttpException('Неправильное имя пользователя или пароль.');
             }
 
             $result = array(
@@ -42,7 +42,7 @@ class AuthController extends AjaxController
                 'simulations' => UserService::getGroups($user->id),
             );
 
-        } catch (Exception $exc) {
+        } catch (CHttpException $exc) {
             $result = array(
                 'message' => $exc->getMessage()
             );
