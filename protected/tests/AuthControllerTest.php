@@ -1,16 +1,17 @@
 <?php
 
 class AuthControllerTest extends ControllerTestCase {
+    /**
+     * @large
+     */
     function testSimulationStart() {
         $user = new Users();
         $user->email = 'andrey' . time() . '@kostenko.name';
         $user->password = md5('test');
         $user->is_active = true;
         $user->save();
-        $_POST['commandId'] = 2;
-        $_POST['email'] = $user->email;
-        $_POST['pass']  = 'test';
-        $result = $this->callJSONAction('AuthController', 'actionAuth');
+        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test'));
+        print_r($result);
         $sid = $result['sid'];
         unset($result['sid']);
         $this->assertEquals(array(

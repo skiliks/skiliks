@@ -25,4 +25,4 @@ class ExcelClipboard extends CActiveRecord{
     }
 }
 
-?>
+

@@ -27,5 +27,5 @@ class ScrapTest extends SeleniumTestCase
     $this->click("//input[@value='Выход']");
   }
 }
-?>
+
 

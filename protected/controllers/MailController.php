@@ -771,4 +771,4 @@ class MailController extends AjaxController{
     }
 }
 
-?>
+

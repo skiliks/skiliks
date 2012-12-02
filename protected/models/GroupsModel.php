@@ -42,4 +42,4 @@ class GroupsModel extends CActiveRecord{
     }
 }
 
-?>
+

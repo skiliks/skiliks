@@ -66,4 +66,4 @@ class EventsResultsController  extends DictionaryController{
     }
 }
 
-?>
+

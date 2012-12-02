@@ -43,4 +43,4 @@ class SiteController extends CController
     }
 }
 
-?>
+

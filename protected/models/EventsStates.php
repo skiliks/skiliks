@@ -35,4 +35,4 @@ class EventsStates extends CActiveRecord{
     }
 }
 
-?>
+
