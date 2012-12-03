@@ -1294,4 +1294,4 @@ function replaceVarsCallback($str) {
     return '2';
 }
 
-?>
+

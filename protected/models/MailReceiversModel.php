@@ -56,4 +56,4 @@ class MailReceiversModel extends CActiveRecord{
     }
 }
 
-?>
+

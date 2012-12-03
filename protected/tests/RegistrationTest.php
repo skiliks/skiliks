@@ -24,6 +24,9 @@ class RegistrationTest extends SeleniumTestCase
         $session->element('xpath','//input[@value="Вход"]')->click();
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию promo']")->click();
         $this->assertNotNull($this->waitForElement($session, 'xpath', '//a[@id="icons_phone"]'));
+        # Cookies work
+        $session->refresh();
+        $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию promo']")->click();
         $session->close();
     }
 

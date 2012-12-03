@@ -37,4 +37,4 @@ class AjaxController extends CController
     }
 }
 
-?>
+

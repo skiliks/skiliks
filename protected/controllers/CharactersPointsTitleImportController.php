@@ -257,8 +257,7 @@ class CharactersPointsTitleImportController extends AjaxController {
         
     public function actionTest() {
 
-        include_once($_SERVER['DOCUMENT_ROOT'].'/lib/excel/PHPExcel/IOFactory.php');
-        PHPExcel_IOFactory::load(__DIR__.'/../../media/Forma1_new_170912_v3.xlsx');
+        var_dump(LogHelper::ACTION_ACTIVATED == "0");
    
             
 	}
