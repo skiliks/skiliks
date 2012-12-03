@@ -55,7 +55,7 @@ class AuthController extends AjaxController
 
     public function actionCheckSession()
     {
-        $user_id = SessionHelper::getUidBySid(Yii::app()->request->getParam('sid'));
+        $user_id = Yii::app()->session['uid'];
         $user = Users::model()->findByPk($user_id);
         if (null === $user) {
             $this->sendJSON(array('result' => 0, 'message' => 'User not found'));
