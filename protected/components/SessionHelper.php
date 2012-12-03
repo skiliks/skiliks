@@ -51,16 +51,13 @@ final class SessionHelper {
     }
     
     public static function getSimIdBySid($sid) {
-        // получаем uid
-        $uid = SessionHelper::getUidBySid();
-        if (!$uid) throw new Exception("Не определить uid по sid : {$sid}");
-
-        // получаем идентификатор симуляции
-        $simId = SimulationService::get($uid);
-        if (!$simId) throw new Exception("Не определить сумуляцию по uid : {$uid}");
+        // stupidity, TODO: make normal sessions
+        session_id($sid);
+        $simulation = Simulations::model()->findByPk(Yii::app()->session['simulation']);
+        if (!$simulation) throw new CException("Не могу получить симуляцию");
         
-        return $simId;
+        return $simulation->primaryKey;
     }
 }
 
-?>
+

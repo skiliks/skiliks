@@ -88,4 +88,4 @@ class DayPlan extends CActiveRecord{
     }
 }
 
-?>
+

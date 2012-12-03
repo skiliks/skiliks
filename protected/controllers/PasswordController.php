@@ -41,4 +41,4 @@ class PasswordController extends AjaxController{
     }
 }
 
-?>
+
