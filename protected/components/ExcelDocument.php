@@ -29,7 +29,7 @@ final class ExcelDocument {
     
     function __construct($documentId = false) {
         $sid = SessionHelper::getSid();
-        $simId = SessionHelper::getSimIdBySid();
+        $simId = SessionHelper::getSimIdBySid($sid);
         
         /*
         $document = ExcelDocumentModel::model()->bySimulation($simId)->find();
