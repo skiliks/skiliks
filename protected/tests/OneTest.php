@@ -7,8 +7,11 @@ class OneTest extends SeleniumTestCase
         # Login
     $session = $this->webdriver->session('firefox');
     
+    
+    
     $session->open($this->browser_url);
     
+      
         # раскрыть окно на весь экран
     $session->window()->maximize();
     
@@ -33,6 +36,10 @@ class OneTest extends SeleniumTestCase
     $this->waitForElement($session, 'xpath', '//a[@id="icons_documents"]');
           
         #старт теста по параметрам заданным Антоном
+    
+        # $this->assertEquals("Сумма оценок: 0", $session->element("css selector",".result-total")->text());
+    
+    
       
       $this->waitForElement($session, "id","addTriggerSelect")->value(array("value"=>str_split("ET1.1")));
       $this->waitForElement($session, "id","addTriggerDelay")->value(array("value"=>str_split("1")));
@@ -40,38 +47,60 @@ class OneTest extends SeleniumTestCase
       $session->element("xpath", "//input[@value='Создать']")->click();
       
       //$session->verifyTextPresent("Событие было успешно добавлено");
+      
+      #$this->assertEquals("Сумма оценок: 0", $session->element("css selector",".result-total")->text());
+      
       sleep(3);
       $session->element('css selector','.alert a.btn')->click();
+      sleep(15);
       
       
-           
-      $session->element ('xpath', '//a[@id="icons_documents"]')->click();
+      
+      # Телефон
+     
+      $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
+      sleep(5);
+      $session->element("xpath", "//a[@onclick=\"phone.getSelect('2',0)\"]")->click();
+      sleep(2);
+      $session->element('css selector','li > p')->click();
+      sleep(2);
+      $session->element('css selector','li > p')->click();
+      sleep(2);
+      $session->element("xpath", "//p[@onclick=\"phone.getSelect('14')\"]")->click();
+      sleep(10);
+     
+      $session->element("id", "addTriggerSelect")->clear();
+      
+      $this->waitForElement($session, "id","addTriggerSelect")->value(array("value"=>str_split("ET2.1")));
+
+     
+      $session->element("xpath", "//input[@value='Создать']")->click();
+      
+     
+      sleep(3);
+      $session->element('css selector','.alert a.btn')->click();
+      sleep(15);
+      $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
       sleep(5);
       
-    sleep(5);
-    $session->element("xpath", "//input[@value='Создать']")->click();
-    
-    $this->click("id=icons_phone");
-    $this->click("link=ПРИНЯТЬ");
-    $this->click("//p[@onclick=\"phone.getSelect('6')\"]");
-    $this->click("css=li > p");
-    $this->click("css=li > p");
-    $this->click("id=addTriggerSelect");
-    $this->type("id=addTriggerSelect", "ET2.1");
-    $this->click("css=form.well > input.btn");
-    $this->click("link=Ок");
-    $this->click("id=icons_phone");
-    $this->click("link=ОТКЛОНИТЬ");
-    $this->click("id=icons_phone");
-    $this->click("link=ПРИНЯТЬ");
-    $this->click("css=li > p");
-    $this->click("//p[@onclick=\"phone.getSelect('150')\"]");
-    $this->click("id=addTriggerMainDiv");
-    $this->verifyTextPresent("4.66666666666667");
-    $this->click("id=addAssessmentMainForm");
-    $this->verifyTextPresent("Сумма оценок: 4.66666666666667");
-    $this->verifyTextPresent("Сумма оценок 6x: 4");
-    $this->verifyTextPresent("Сумма оценок Negative: 0");
+      $session->element("xpath", "//a[@onclick=\"phone.getSelect('130',1)\"]")->click();
+      
+      sleep(5);
+      $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
+      sleep(2);
+      $session->element("xpath", "//a[@onclick=\"phone.getSelect('132',0)\"]")->click();
+      
+      sleep(10);
+       $session->element("xpath", "//p[@onclick=\"phone.getSelect('143')\"]")->click();
+      sleep(2);
+      $session->element("xpath", "//p[@onclick=\"phone.getSelect('150')\"]")->click();
+      sleep(8);      
+      $this->assertEquals("Сумма оценок: 4.66666666666667", $session->element("css selector",".result-total")->text()); 
+      $this->assertEquals("Сумма оценок 6x: 4", $session->element("css selector",".result-total-6x")->text()); 
+      $this->assertEquals("Сумма оценок Negative: 0", $session->element("css selector",".result-total-negative")->text()); 
+      
+      
+
   }
 }
 
