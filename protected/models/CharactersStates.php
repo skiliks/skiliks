@@ -22,4 +22,4 @@ class CharactersStates extends CActiveRecord{
     }
 }
 
-?>
+

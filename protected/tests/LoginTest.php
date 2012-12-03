@@ -33,4 +33,4 @@ class LoginTest extends SeleniumTestCase
     //$this->click("//input[@value='Выход']");
 }
 }
-?>
+

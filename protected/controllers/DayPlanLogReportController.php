@@ -78,4 +78,4 @@ class DayPlanLogReportController extends AjaxController{
     }
 }
 
-?>
+

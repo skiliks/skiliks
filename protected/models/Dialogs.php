@@ -131,4 +131,4 @@ class Dialogs extends CActiveRecord{
     }
 }
 
-?>
+

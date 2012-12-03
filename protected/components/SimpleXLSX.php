@@ -405,4 +405,4 @@ class SimpleXLSX {
  return $worksheetName;
  }
 }
-?>
+

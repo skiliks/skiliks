@@ -47,14 +47,14 @@ class EventsController extends AjaxController{
             if (!$uid) throw new Exception('Не могу определить пользователя', 2);
 
             // получить симуляцию по uid
-            $simId = SimulationService::get($uid);
+            $simId = SessionHelper::getSimIdBySid($sid);
             if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
             // данные для логирования
             $logs_src = Yii::app()->request->getParam('logs', false); 
             $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
             //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
-            LogHelper::setLog($logs);
+            LogHelper::setLog($simId, $logs);
             LogHelper::setWindowsLog($simId, $logs);
             //Пишем логирование открытия и закрытия документов
             LogHelper::setDocumentsLog($simId, $logs);
@@ -254,7 +254,7 @@ class EventsController extends AjaxController{
             $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception('Не могу определить пользователя');
             
-            $simId = SimulationService::get($uid);
+            $simId = SessionHelper::getSimIdBySid($sid);
                         
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
@@ -301,4 +301,4 @@ class EventsController extends AjaxController{
     }
 }
 
-?>
+

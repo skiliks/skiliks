@@ -55,4 +55,4 @@ class MailTasksModel extends CActiveRecord{
     }
 }
 
-?>
+
