@@ -44,4 +44,4 @@ class DayPlanLogModel extends CActiveRecord{
     }
 }
 
-?>
+

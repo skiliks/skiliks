@@ -14,6 +14,7 @@ class DialogImportService {
     protected $_charactersStates = array();    
     protected $_dialogSubtypes = array();    
     protected $_charactersPoints = array();
+    protected $columnAlias = array();
     
     protected $countZeros = 0;
     protected $countOnes = 0; 
@@ -27,6 +28,11 @@ class DialogImportService {
     protected $lines = array();
     protected $markCodes = array();
     protected $dialogs = array(); // indexed by excel_id
+    protected $importedEvents = array();
+    protected $flagNames = array();
+    protected $updatedDialogs = 0;
+    protected $updatedFlagRules = 0;
+    protected $updatedFlagRuleValues = 0;
 
     public function __construct() 
     {
@@ -196,6 +202,8 @@ class DialogImportService {
                 continue; // ignore this line
             }
             
+            $this->importedEvents[] = $code;
+            
             // Проверяем, а нету ли уже такого события
             $event = EventsSamples::model()->byCode($code)->find();
             if (!$event) {
@@ -219,7 +227,7 @@ class DialogImportService {
             // but all rows in excel sorted in right (for dialogs phrases)  way
             // so we can store event id in array, and check has it been alredy imported or not
             $this->alreadyImportedEvents[] = $code;         
-        }    
+        } 
     }
 
     /**
@@ -239,7 +247,8 @@ class DialogImportService {
     
     private function importDialogsFromLines()
     {
-        foreach($this->lines as $lineNo => $row) {            
+        foreach($this->lines as $lineNo => $row) {
+            $isDifferent = false; // use to choose save dialog or not
             $code = $row['C'];
             $excelId = (int)$row['A'];  
             
@@ -248,30 +257,112 @@ class DialogImportService {
                 // Создаем диалог
                 $dialog = new Dialogs();
                 $dialog->excel_id = $excelId;
+                $isDifferent = true;
             }
             
-            $dialog->code = $code;
-            $dialog->excel_id = $excelId;
-            $dialog->event_result = 7; // ничего
+            if ($dialog->code != $code) {
+                $isDifferent = true;
+                $dialog->code = $code;
+            }
             
-            $dialog->ch_from = $this->_getCharacterIdByName($row['G']);
-            $dialog->ch_from_state = $this->_getCharacterStateIdByName($row['H']);
-            $dialog->ch_to = $this->_getCharacterIdByName($row['I']);
-            $dialog->ch_to_state = $this->_getCharacterStateIdByName($row['J']);
-            $dialog->dialog_subtype = $this->_getDialogSubtypeIdByName($row['S']);
-            $dialog->next_event_code = $this->getNextEventId($row['O']);
+            if ($dialog->excel_id != $excelId) {
+                $isDifferent = true;
+                $dialog->excel_id = $excelId;
+            }
             
-            $dialog->text = $row['M'];
-            $dialog->duration = $row['F']; // Определим длительность            
-            $dialog->step_number = $row['K']; // Номер шага
-            $dialog->replica_number = $row['L'];    // Номер реплики  
-            $dialog->delay = $row['F'];
-            $dialog->flag = $row['T'];            
+            if ($dialog->event_result != 7) {
+                $isDifferent = true;
+                $dialog->event_result = 7; // ничего
+            }
             
-            $dialog->demo = ('да' == $row['EK']) ? 1 : 0;                   
-            $dialog->sound = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];       
+            $characterFromId = $this->_getCharacterIdByName($row['G']);
+            if ($dialog->ch_from != $characterFromId) {
+                $isDifferent = true;
+                $dialog->ch_from = $characterFromId;
+            }
+            
+            $characterFromState = $this->_getCharacterStateIdByName($row['H']);
+            if ($dialog->ch_from_state != $characterFromState) {
+                $isDifferent = true;
+                $dialog->ch_from_state = $characterFromState;
+            }
+            
+            $characterToId = $this->_getCharacterIdByName($row['I']);
+            if ($dialog->ch_to != $characterToId) {
+                $isDifferent = true;
+                $dialog->ch_to = $characterToId;
+            }
+            
+            $characterToState = $this->_getCharacterStateIdByName($row['J']);
+            if ($dialog->ch_to_state != $characterToState) {
+                $isDifferent = true;
+                $dialog->ch_to_state = $characterToState;
+            }
+            
+            $dialogSubtypeId = $this->_getDialogSubtypeIdByName($row['S']);
+            if ($dialog->dialog_subtype != $dialogSubtypeId) {
+                $isDifferent = true;
+                $dialog->dialog_subtype = $dialogSubtypeId;            
+            }
+            
+            $nextEventId = $this->getNextEventId($row['O']);
+            if ($dialog->next_event != $nextEventId) {
+                $isDifferent = true;
+                $dialog->next_event = $nextEventId;
+            }
+            
+            $nextEventCode = ('0' === $row['O']) ? '-' : $row['O'];
+            if ($dialog->next_event_code != $nextEventCode) {
+                $isDifferent = true;
+                $dialog->next_event_code = $nextEventCode;
+            }
+            
+            if ($dialog->text != $row['M']) {
+                $isDifferent = true;
+                $dialog->text = $row['M'];
+            }
+            
+            if ($dialog->duration = $row['F']) {
+                $isDifferent = true;
+                $dialog->duration = $row['F']; // Определим длительность  
+            }
+            
+            if ($dialog->step_number != $row['K']) {
+                $isDifferent = true;
+                $dialog->step_number = $row['K']; // Номер шага
+            }
+            
+            if ($dialog->replica_number != $row['L']) {
+                $isDifferent = true;
+                $dialog->replica_number = $row['L'];    // Номер реплики  
+            }
+            
+            if ($dialog->delay != $row['F']) {
+                $isDifferent = true;
+                $dialog->delay = $row['F'];
+            }
+            
+            if ($dialog->flag != $row['T']) {
+                $isDifferent = true;
+                $dialog->flag = $row['T']; 
+            }
+            
+            $isUseInDemo = ('да' == $row['EJ']) ? 1 : 0;
+            if ($dialog->demo != $isUseInDemo) {
+                $isDifferent = true;
+                $dialog->demo = $isUseInDemo; 
+            }
+            
+            $soundFile = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];
+            if ($dialog->sound != $soundFile) {
+                $isDifferent = true;
+                $dialog->sound = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];       
+            }
                    
-            $this->wrappedSave($dialog, $row, $lineNo);
+            if ($isDifferent) {
+                $this->wrappedSave($dialog, $row, $lineNo);
+                $this->updatedDialogs++;
+            }
             
             $this->dialogs[$excelId] = $dialog;
         }    
@@ -338,6 +429,7 @@ class DialogImportService {
             'zeros'          => $this->countZeros,
             'marks'          => $this->countMarks,
             'pointCodes'     => count($this->markCodes),
+            'updatedDialogs' => $this->updatedDialogs,
         );
     }
     
@@ -582,6 +674,82 @@ class DialogImportService {
         fclose($handle);
     }
     
+    public function importFlagRules($fileName) {
+        $this->resetCounters();
+        
+        $handle = fopen($fileName, "r");
+        if (!$handle) throw new Exception("cant open $fileName");
+        
+        foreach(FlagsRulesContentModel::model()->findAll() as $flagContent) {
+            $flagContent->delete();
+        }
+        
+        foreach(FlagsRulesModel::model()->findAll() as $flag) {
+            $flag->delete();
+        }
+        
+        $lineNo = 1;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            if (1 === $lineNo) {
+                for ($i = 4; $i < 19; $i++) {
+                    $this->flagNames[$i] = $row[$i];
+                }
+                $lineNo++;
+                continue;
+            } 
+            
+            $recirdId = (0 !== (int)$row[0]) ? (int)$row[0] : null;
+
+            $flagRule = FlagsRulesModel::model()
+                ->byName($row[1])
+                ->byStepNumber((int)$row[2])
+                ->byReplicaNumber((int)$row[3])
+                ->byRecordId($recirdId )
+                ->find();
+            if (null === $flagRule) {
+                $flagRule = new FlagsRulesModel();
+                $flagRule->setRecordId($recirdId );
+                $flagRule->setStepNo((int)$row[2]);
+                $flagRule->setReplicaNo((int)$row[3]);
+                $flagRule->setEventCode($row[1]);
+            }
+            
+            $this->wrappedSave($flagRule, $row, $lineNo);
+            
+            for ($i = 4; $i < 19; $i++) {
+                if ('1' === $row[$i] || '0' === $row[$i] ) {
+                    
+                    $flagRuleContent = FlagsRulesContentModel::model()
+                        ->byRule($flagRule->getId())
+                        ->byFlagName($this->flagNames[$i])
+                        ->find();
+                    if (null === $flagRuleContent) {
+                        $flagRuleContent = new FlagsRulesContentModel();
+                        
+                        $flagRuleContent->setRuleId($flagRule->getId());
+                        $flagRuleContent->setFlagName($this->flagNames[$i]);
+                    }
+                    
+                    $flagRuleContent->setValue($row[$i]);
+                    
+                    $this->wrappedSave($flagRuleContent, $row, $lineNo);
+                    $this->updatedFlagRuleValues++;
+                }                
+            }
+
+            $this->updatedFlagRules++;
+            $lineNo++;
+        }
+        fclose($handle);
+        echo sprintf(
+            'Импорт правил для флагов завершен. <br/>
+             Сток с событиями обработано: %s. <br/>
+             Правил для событий обработано: %s. <br/>',
+            $this->updatedFlagRules,
+            $this->updatedFlagRuleValues
+        );
+    }
+    
     public function importFlags($fileName) {
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
@@ -595,8 +763,7 @@ class DialogImportService {
             if ($index <= 2) continue;
             if ($index > 802) {
                 die();
-            }
-            
+            }            
             // Определяем флаг
             $flag = $row[$this->_columnAlias['T']];
             if ($flag == '') continue;
@@ -693,4 +860,4 @@ class DialogImportService {
     }
 }
 
-?>
+

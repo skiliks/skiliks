@@ -65,4 +65,4 @@ class CharactersPointsTitles extends CActiveRecord{
     }
 }
 
-?>
+

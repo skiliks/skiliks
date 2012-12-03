@@ -43,4 +43,4 @@ class ViewerTemplateModel extends CActiveRecord{
     }
 }
 
-?>
+

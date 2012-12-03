@@ -72,4 +72,4 @@ class CharactersController extends AjaxController{
     }
 }
 
-?>
+

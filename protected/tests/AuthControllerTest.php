@@ -1,16 +1,16 @@
 <?php
 
 class AuthControllerTest extends ControllerTestCase {
+    /**
+     * @large
+     */
     function testSimulationStart() {
         $user = new Users();
         $user->email = 'andrey' . time() . '@kostenko.name';
         $user->password = md5('test');
         $user->is_active = true;
         $user->save();
-        $_POST['commandId'] = 2;
-        $_POST['email'] = $user->email;
-        $_POST['pass']  = 'test';
-        $result = $this->callJSONAction('AuthController', 'actionAuth');
+        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test'));
         $sid = $result['sid'];
         unset($result['sid']);
         $this->assertEquals(array(
@@ -21,5 +21,7 @@ class AuthControllerTest extends ControllerTestCase {
         ), $result);
         $result = $this->callJSONAction('AuthController', 'actionCheckSession', array('sid' => $sid));
         $this->assertEquals(1, $result['result']);
+        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test1'));
+        $this->assertEquals('Неправильное имя пользователя или пароль.', $result['message']);
     }
 }

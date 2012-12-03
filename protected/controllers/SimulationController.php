@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Контроллер симуляции
  *
@@ -96,6 +94,7 @@ class SimulationController extends AjaxController{
             $simulation->insert();
 
             $simId = $simulation->id;
+            Yii::app()->session['simulation'] = $simId;
 
             // Сделать вставки в events triggers
             $events = EventsSamples::model()->findAll();  // limit(1)->
@@ -108,7 +107,7 @@ class SimulationController extends AjaxController{
 
                 // событие создаем только если для него задано время
                 if ($event->trigger_time > 0) {
-                    Logger::debug("<create trigger>, code : {$event->code}, trigger time: {$event->trigger_time}");
+                    Logger::debug("create trigger : {$event->code}");
                     $eventsTriggers = new EventsTriggers();
                     $eventsTriggers->sim_id         = $simId;
                     $eventsTriggers->event_id       = $event->id;
@@ -181,7 +180,7 @@ class SimulationController extends AjaxController{
         // данные для логирования
         $logs_src = Yii::app()->request->getParam('logs', false); 
         $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
-        LogHelper::setLog($logs);
+        LogHelper::setLog($simId, $logs);
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
@@ -315,4 +314,4 @@ class SimulationController extends AjaxController{
     }
 }
 
-?>
+

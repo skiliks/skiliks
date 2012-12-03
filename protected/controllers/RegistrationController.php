@@ -121,4 +121,4 @@ class RegistrationController extends AjaxController{
     }
 }
 
-?>
+
