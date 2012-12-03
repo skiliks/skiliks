@@ -47,7 +47,7 @@ class EventsController extends AjaxController{
             if (!$uid) throw new Exception('Не могу определить пользователя', 2);
 
             // получить симуляцию по uid
-            $simId = SimulationService::get($uid);
+            $simId = SessionHelper::getSimIdBySid($sid);
             if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
             // данные для логирования
@@ -254,7 +254,7 @@ class EventsController extends AjaxController{
             $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception('Не могу определить пользователя');
             
-            $simId = SimulationService::get($uid);
+            $simId = SessionHelper::getSimIdBySid($sid);
                         
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
