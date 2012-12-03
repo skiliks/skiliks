@@ -28,4 +28,4 @@ class ExcelPointsFormulaModel extends CActiveRecord{
     }
 }
 
-?>
+

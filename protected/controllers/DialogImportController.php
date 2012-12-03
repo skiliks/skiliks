@@ -59,12 +59,32 @@ class DialogImportController extends AjaxController{
         }
     }
     
+    public function actionImportFlagRules() {
+        try {
+            $service = new DialogImportService();
+            $service->importFlagRules('media/flag-rules.csv');  
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
+    
+    public function actionImportFlagRuless() {
+        try {
+            $service = new DialogImportService();
+            $service->importFlagRules('media/flag_rules.csv');  
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
+    
     public function actionImportText() {
         try {
             $service = new DialogImportService();
             $service->importText('media/xls/scenario.csv');  
         } catch (Exception $exc) {
-            echo $exc->getMessage();
+            echo 'Ошибка: '.$exc->getMessage();
         }
     }
     
@@ -87,4 +107,4 @@ class DialogImportController extends AjaxController{
     }
 }
 
-?>
+

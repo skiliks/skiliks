@@ -37,4 +37,4 @@ class UsersActivationCode extends CActiveRecord{
     }
 }
 
-?>
+

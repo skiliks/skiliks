@@ -57,4 +57,4 @@ class MailPointsModel extends CActiveRecord{
     }
 }
 
-?>
+
