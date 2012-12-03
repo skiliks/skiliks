@@ -6,7 +6,11 @@ class AdminController extends AjaxController
     public function actionLog()
     {
         //$action = Yii::app()->request->getParam('action', false);
-        $action = array('type'=>'DialogDetail', 'data'=>'json', 'params' => array('order_col'));
+        $action = array(
+            'type' => Yii::app()->request->getParam('type','DialogDetail'),
+            'data' => 'json',
+            'params' => array('order_col')
+        );
         $result = array('result'=>1, 'message'=>"Done");
         try {
         if(isset($action['type'])) {
