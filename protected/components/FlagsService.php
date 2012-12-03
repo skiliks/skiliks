@@ -17,14 +17,24 @@ class FlagsService {
     /**
      * Определяет правило по заданному коду события
      * @param string $code
-     * @param int $stepNumber
-     * @param int $replicaNumber
+     * @param int $stepNumber, dialog step no
+     * @param int $replicaNumber, dialog replica no
+     * @param int $excelId, dialog excel id
      * @return FlagsRulesModel 
      */
-    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false) {
+    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false, $excelId = null) {
         if ($stepNumber!==false && $replicaNumber!==false) {
             Logger::debug("get rule by code $code stepNumber $stepNumber replicaNumber $replicaNumber");
-            return FlagsRulesModel::model()->byName($code)->byStepNumber($stepNumber)->byReplicaNumber($replicaNumber)->find();
+            $request = FlagsRulesModel::model()
+                ->byName($code)
+                ->byStepNumber($stepNumber)
+                ->byReplicaNumber($replicaNumber);
+            
+                if (null !== $excelId) {
+                    $request->byRecordId($excelId);
+                }
+            
+            return $request->find();
         }
         
         Logger::debug("get rule by code $code");
@@ -61,22 +71,25 @@ class FlagsService {
      * 
      * @param string $code код события
      * @param int $simId идентификатор симуляции
+     * @param int $stepNumber, dialog step no
+     * @param int $replicaNumber, dialog replica no
+     * @param int $excelId, dialog excel id
      * @return array
      */
-    public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0) {
+    public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0, $excelId = null) {
         $result = array();
         
         // определим код правила
-        $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber);
+        $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
+        
         if (!$ruleModel) {
             Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }    
-       
 
         $result['ruleExists']       = true;
-        $result['recId']            = $ruleModel->rec_id;
+        $result['recId']            = (int)$ruleModel->rec_id;
         $result['stepNumber']       = $ruleModel->step_number;
         $result['replicaNumber']    = $ruleModel->replica_number;
         $result['compareResult']    = false;
