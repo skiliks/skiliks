@@ -45,4 +45,4 @@ class SimulationsDialogsPoints extends CActiveRecord{
     }
 }
 
-?>
+

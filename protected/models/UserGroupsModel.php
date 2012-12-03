@@ -56,4 +56,4 @@ class UserGroupsModel extends CActiveRecord{
     }
 }
 
-?>
+

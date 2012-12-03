@@ -45,4 +45,4 @@ class MailMessagesModel extends CActiveRecord{
     }
 }
 
-?>
+

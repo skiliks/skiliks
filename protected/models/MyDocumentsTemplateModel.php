@@ -71,4 +71,4 @@ class MyDocumentsTemplateModel extends CActiveRecord{
     }
 }
 
-?>
+

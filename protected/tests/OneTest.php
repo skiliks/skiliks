@@ -74,4 +74,4 @@ class OneTest extends SeleniumTestCase
     $this->verifyTextPresent("Сумма оценок Negative: 0");
   }
 }
-?>
+

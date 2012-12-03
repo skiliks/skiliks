@@ -24,4 +24,4 @@ class EventsResults extends CActiveRecord{
     }
 }
 
-?>
+
