@@ -136,4 +136,4 @@ class MailBoxModel extends CActiveRecord{
     }
 }
 
-?>
+

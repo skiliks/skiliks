@@ -43,4 +43,4 @@ class MailCopiesModel extends CActiveRecord{
     }
 }
 
-?>
+

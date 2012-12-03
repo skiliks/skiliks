@@ -24,4 +24,4 @@ class MailFoldersModel extends CActiveRecord{
 
 }
 
-?>
+

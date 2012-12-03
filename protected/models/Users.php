@@ -98,4 +98,4 @@ class Users extends CActiveRecord{
     }
 }
 
-?>
+

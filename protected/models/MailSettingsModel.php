@@ -42,4 +42,4 @@ class MailSettingsModel extends CActiveRecord{
     }
 }
 
-?>
+
