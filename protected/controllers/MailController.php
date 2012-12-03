@@ -200,8 +200,9 @@ class MailController extends AjaxController{
         $receivers = Yii::app()->request->getParam('receivers', false);  
         $copies = Yii::app()->request->getParam('copies', false);  
         $phrases = Yii::app()->request->getParam('phrases', false);  
-        $letterType = Yii::app()->request->getParam('letterType', false); 
-        
+        $letterType = Yii::app()->request->getParam('letterType', false);
+        $fileId = (int)Yii::app()->request->getParam('fileId', false);
+
         list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
        
         $service = new MailBoxService();
@@ -215,7 +216,8 @@ class MailController extends AjaxController{
             'subject_id' => $subject_id,
             'phrases' => $phrases,
             'simId' => $simId,
-            'timeString'=>$timeString
+            'timeString'=>$timeString,
+            'fileId' => $fileId,
         ));
         
         // @todo: what is in error case?
