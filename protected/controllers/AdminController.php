@@ -44,6 +44,6 @@ class AdminController extends AjaxController
         $result = array('result'=>0, 'message'=>$e->getMessage(), 'data'=>null);
     }
 
-    $this->sendJSON($result);
+    $this->sendJSON($result['data']);
     }
 }

@@ -147,29 +147,31 @@ class LogHelper {
         $data = Yii::app()->db->createCommand()
             ->select('l.sim_id
 					 , p2.code as p_code
-				     , p2.title AS p_title
-				     , p.code
-				     , p.title
-				     , t.value as type_scale
-				     , p.scale
-					 , c.add_value
-					 , d.excel_id as dialog_id
-				     , d.code AS dialog_code
-				     , d.step_number
-				     , d.replica_number')
+				    ')
             ->from('log_dialog l')
             ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
             ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order($order)
+            ->order('l.id')
             ->queryAll();
+        
+//        -- , p2.title AS p_title
+//				    -- , p.code
+//				    -- , p.title
+//				    -- , t.value as type_scale
+//				    -- , p.scale
+//					-- , c.add_value
+//					-- , d.excel_id as dialog_id
+//				    -- , d.code AS dialog_code
+//				    -- , d.step_number
+//				    -- , d.replica_number
 
         foreach ($data as  $k=>$row) {
-            $data[$k]['p_title'] = Strings::toWin($data[$k]['p_title']);
-            $data[$k]['title'] = Strings::toWin($data[$k]['title']);
-            $data[$k]['scale'] = Strings::toWin(str_replace('.', ',', $data[$k]['scale']));
+            //$data[$k]['p_title'] = Strings::toWin($data[$k]['p_title']);
+            //$data[$k]['title'] = Strings::toWin($data[$k]['title']);
+            //$data[$k]['scale'] = Strings::toWin(str_replace('.', ',', $data[$k]['scale']));
         }
 
         if(self::RETURN_DATA == $return){
