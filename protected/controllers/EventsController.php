@@ -132,7 +132,7 @@ class EventsController extends AjaxController{
             
             $data = array();
             foreach($dialogs as $dialog) {
-                $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
+                $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
             
             Logger::debug("src dialogs : ".var_export($data, true));
@@ -141,18 +141,20 @@ class EventsController extends AjaxController{
             $resultList = $data;
             foreach ($data as $dialogId => $dialog) {
                 //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
-                $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number']);
+                $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
                 
                 if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
                     // нечего чистиить все выполняется
                     break;
                 }
-                
+
                 //Logger::debug("flag info : ".var_export($flagInfo, true));
                 if ($flagInfo['ruleExists']) {  // у нас есть такое правило
-                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
+                        if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
                         // правило не выполняется для определнной записи - убьем ее
-                        if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
+                        if (isset($resultList[ $flagInfo['recId'] ])) {
+                            unset($resultList[ $flagInfo['recId'] ]);
+                        }
                         continue;
                     }
                     else {
@@ -170,6 +172,7 @@ class EventsController extends AjaxController{
                         break;
                     }
                 }
+                
             }
             
             $data = array();
@@ -216,6 +219,7 @@ class EventsController extends AjaxController{
                 'serverTime' => $gameTime
             ));
         }
+        
         return;
     }
     
