@@ -112,4 +112,4 @@ class CharactersPointsTitlesController extends DictionaryController{
     }
 }
 
-?>
+

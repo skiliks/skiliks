@@ -39,4 +39,4 @@ class DayPlanAfterVacation extends CActiveRecord{
     }
 }
 
-?>
+

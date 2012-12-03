@@ -42,7 +42,7 @@ class DialogController extends AjaxController{
             $uid = SessionHelper::getUidBySid();
 
             // получаем идентификатор симуляции
-            $simId = SimulationService::get($uid);
+            $simId = SessionHelper::getSimIdBySid($uid);
             
             $gameTime = SimulationService::getGameTime($simId);
             
@@ -242,4 +242,4 @@ class DialogController extends AjaxController{
     }
 }
 
-?>
+

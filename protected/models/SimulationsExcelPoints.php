@@ -58,4 +58,4 @@ class SimulationsExcelPoints extends CActiveRecord{
     }
 }
 
-?>
+

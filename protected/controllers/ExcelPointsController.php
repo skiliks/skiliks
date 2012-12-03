@@ -44,4 +44,4 @@ class ExcelPointsController extends AjaxController{
     }
 }
 
-?>
+
