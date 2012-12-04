@@ -144,10 +144,20 @@ class LogHelper {
             'step_number'=>'d.step_number',
             'replica_number'=>'d.replica_number'
         );
-        $data = Yii::app()->db->createCommand()
-            ->select('l.sim_id
-					 , p2.code as p_code
-				    ')
+        $data['data'] = Yii::app()->db->createCommand()
+            ->select(' l.sim_id
+                       , p2.code as p_code
+                       , p2.title AS p_title
+                       , p.code
+                       , p.title
+                       , t.value as type_scale
+                       , p.scale
+                       , c.add_value
+                       , d.excel_id as dialog_id
+                       , d.code AS dialog_code
+                       , d.step_number
+                       , d.replica_number
+		')
             ->from('log_dialog l')
             ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
             ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
@@ -157,41 +167,34 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
         
-//        -- , p2.title AS p_title
-//				    -- , p.code
-//				    -- , p.title
-//				    -- , t.value as type_scale
-//				    -- , p.scale
-//					-- , c.add_value
-//					-- , d.excel_id as dialog_id
-//				    -- , d.code AS dialog_code
-//				    -- , d.step_number
-//				    -- , d.replica_number
 
-        foreach ($data as  $k=>$row) {
-            //$data[$k]['p_title'] = Strings::toWin($data[$k]['p_title']);
-            //$data[$k]['title'] = Strings::toWin($data[$k]['title']);
-            //$data[$k]['scale'] = Strings::toWin(str_replace('.', ',', $data[$k]['scale']));
+
+        foreach ($data['data'] as  $k=>$row) {
+            //$data['data'][$k]['p_title'] = Strings::toWin($data['data'][$k]['p_title']);
+            //$data['data'][$k]['title'] = Strings::toWin($data['data'][$k]['title']);
+            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
         }
-
+        $headers = array(
+                'sim_id'        => 'id_симуляции',
+                'p_code'          => 'Номер цели обучения',
+                'p_title'       => 'Наименование цели обучения',
+                'code' => 'Номер поведения',
+                'title'          => 'Наименование поведения',
+                'type_scale'         => 'Тип поведения',
+                'scale'      => 'Вес поведения',
+                'add_value'      => 'Проявление',
+                'dialog_id'           => 'Вызвавшая реплика (id_записи)',
+                'dialog_code'    => 'Вызвавшая реплика (Код события)',
+                'step_number'    => 'Вызвавшая реплика (номер шага)',
+                'replica_number'    => 'Вызвавшая реплика (номер реплики)'
+            );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование расчета оценки - детально";
             return $data;
         } elseif (self::RETURN_CSV == $return){
             $csv = new ECSVExport($data, true, true, ';');
-            $csv->setHeaders(array(
-                'sim_id'        => Strings::toWin('id_симуляции'),
-                'p_code'          => Strings::toWin('Номер цели обучения'),
-                'p_title'       => Strings::toWin('Наименование цели обучения'),
-                'code' => Strings::toWin('Номер поведения'),
-                'title'          => Strings::toWin('Наименование поведения'),
-                'type_scale'         => Strings::toWin('Тип поведения'),
-                'scale'      => Strings::toWin('Вес поведения'),
-                'add_value'      => Strings::toWin('Проявление'),
-                'dialog_id'           => Strings::toWin('Вызвавшая реплика (id_записи)'),
-                'dialog_code'    => Strings::toWin('Вызвавшая реплика (Код события)'),
-                'step_number'    => Strings::toWin('Вызвавшая реплика (номер шага)'),
-                'replica_number'    => Strings::toWin('Вызвавшая реплика (номер реплики)')
-            ));
+            $csv->setHeaders($headers);
             $content = $csv->toCSV();
             $filename = 'data.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
