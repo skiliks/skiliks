@@ -28,11 +28,8 @@ class FlagsService {
             $request = FlagsRulesModel::model()
                 ->byName($code)
                 ->byStepNumber($stepNumber)
-                ->byReplicaNumber($replicaNumber);
-            
-                if (null !== $excelId) {
-                    $request->byRecordId($excelId);
-                }
+                ->byReplicaNumber($replicaNumber)
+                ->byRecordId($excelId);
             
             return $request->find();
         }
@@ -82,20 +79,20 @@ class FlagsService {
         // определим код правила
         $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
         
-        if (!$ruleModel) {
+        if (null === $ruleModel) {
             Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }    
 
         $result['ruleExists']       = true;
-        $result['recId']            = (int)$ruleModel->rec_id;
-        $result['stepNumber']       = $ruleModel->step_number;
-        $result['replicaNumber']    = $ruleModel->replica_number;
+        $result['recId']            = (int)$ruleModel->getRecordId();
+        $result['stepNumber']       = $ruleModel->getStepNo();
+        $result['replicaNumber']    = $ruleModel->getReplicaNo();
         $result['compareResult']    = false;
         
         // получим флаги для этого правила
-        $flags = FlagsService::getFlags($ruleModel->id);
+        $flags = FlagsService::getFlags($ruleModel->getId());
         if (count($flags) == 0) {
             Logger::debug("no flags for this rule");
             return $result; // для данного кода нет правил

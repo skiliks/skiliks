@@ -122,8 +122,7 @@ class EventsController extends AjaxController{
             }
             
             
-            // У нас одно событие
-            
+            // У нас одно событие           
             
             Logger::debug("get dialogs by code : {$eventCode}");
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
