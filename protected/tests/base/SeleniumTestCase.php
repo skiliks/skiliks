@@ -31,6 +31,7 @@ class SeleniumTestCase extends CDbTestCase
     {
         $this->webdriver = new PHPWebDriver_WebDriver();
         $this->browser_url = Yii::app()->params['frontendUrl'];
+        $this->createInitialUsers();
         parent::setUp();
     }
 
@@ -46,9 +47,9 @@ class SeleniumTestCase extends CDbTestCase
         parent::tearDown();
     }
 
-    public function waitForElement($session, $using, $value)
+    public function waitForElement($session, $using, $value, $timeout = 10)
     {
-        $timeouts = new PHPWebDriver_WebDriverWait($session, 10, 0.5, array($using, $value));
+        $timeouts = new PHPWebDriver_WebDriverWait($session, $timeout, 0.5, array($using, $value));
         return $timeouts->until(function ($session, $args) {
             try {
                 return $session->element($args[0], $args[1]);
@@ -56,5 +57,33 @@ class SeleniumTestCase extends CDbTestCase
                 return false;
             }
         }, 10, 1, array($session, $using, $value));
+    }
+
+    public function waitForNoElement($session, $using, $value)
+    {
+        $timeouts = new PHPWebDriver_WebDriverWait($session, 10, 0.5, array($using, $value));
+        return $timeouts->until(function ($session, $args) {
+            try {
+                return !$session->element($args[0], $args[1]);
+            } catch (\WebDriver\Exception $e) {
+                return true;
+            }
+        }, 10, 1, array($session, $using, $value));
+    }
+
+    private function createInitialUsers()
+    {
+        foreach (Users::model()->findAllByAttributes(array('email' => 'kaaaaav@gmail.com')) as $user) {
+            $user->delete();
+        }
+        $user = new Users();
+        $user->email = 'kaaaaav@gmail.com';
+        $user->password = md5('111');
+        $user->is_active = true;
+        $user->save();
+        $group = new UserGroupsModel();
+        $group->uid = $user->primaryKey;
+        $group->gid = 2;
+        $group->save();
     }
 }
