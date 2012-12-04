@@ -84,6 +84,8 @@ class FlagsService {
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }    
+        
+        //var_dump((int)$ruleModel->getRecordId());
 
         $result['ruleExists']       = true;
         $result['recId']            = (int)$ruleModel->getRecordId();
