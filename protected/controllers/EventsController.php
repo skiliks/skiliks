@@ -40,77 +40,75 @@ class EventsController extends AjaxController{
         $gameTime = 0;
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
-            if (!$sid) throw new Exception('Не задан sid', 1);
+            if (!$sid) {
+                throw new Exception('Не задан sid', 1);
+            }
 
-            // получить uid
-            $uid = SessionHelper::getUidBySid();
-            if (!$uid) throw new Exception('Не могу определить пользователя', 2);
-
-            // получить симуляцию по uid
-            $simId = SessionHelper::getSimIdBySid($sid);
-            if (!$simId) throw new Exception('Не могу определить симуляцию', 3);
             
-            // данные для логирования
-            $logs_src = Yii::app()->request->getParam('logs', false); 
-            $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
-            //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
+            $uid = SessionHelper::getUidBySid(); // получить uid
+            if (null === $uid) { 
+                throw new Exception('Не могу определить пользователя', 2);
+            }
+
+            
+            $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
+            if (null === $simId) {
+                throw new Exception('Не могу определить симуляцию', 3);
+            }
+            
+            // данные для логирования {
+            $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
+            /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
             LogHelper::setLog($simId, $logs);
             LogHelper::setWindowsLog($simId, $logs);
-            //Пишем логирование открытия и закрытия документов
-            LogHelper::setDocumentsLog($simId, $logs);
-            LogHelper::setMailLog($simId, $logs);
-            //Yii::log($logs);
-            // определим тип симуляции
-            $simType = SimulationService::getType($simId);
             
+            LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
+            LogHelper::setMailLog($simId, $logs);
+            // данные для логирования }
+            // 
+            
+            $simType = SimulationService::getType($simId); // определим тип симуляции
             $gameTime = SimulationService::getGameTime($simId);
             
-            ### обработка задач
+            // обработка задач {
             $task = $this->_processTasks($simId);
             if ($task) {
-                $result = array('result' => 1, 'data' => $task, 'eventType' => 'task', 'serverTime' => $gameTime);
-                $this->sendJSON($result);
+                $this->sendJSON(array(
+                    'result' => 1, 
+                    'data' => $task, 
+                    'eventType' => 'task', 
+                    'serverTime' => $gameTime
+                ));
                 return;
             }
-            ###################
+            // обработка задач }
             
+            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(); // получить ближайшее событие
             
-            
-            
-            // получить ближайшее событие
-            Logger::debug("try to find trigger for time $gameTime sim {$simId}");
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll();
-            
-            if (count($triggers) == 0) throw new Exception('Нет ближайших событий', 4);
+            if (count($triggers) == 0) { 
+                throw new Exception('Нет ближайших событий', 4); // @todo: investigate - "No events" is exception ?
+            }
             
             $result = array('result' => 1);
 
             $eventCode = false;
             if (count($triggers)>0) {  // если у нас много событий
-                
                 $index = 0;
-                Logger::debug("process triggers");
                 foreach($triggers as $trigger) {
                     
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
-                    if (!$event) throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
-                    Logger::debug("found event by code {$event->code}");
-                    
-                    // Убиваем обработанное событие
-                    $trigger->delete();
-                    
-                    if ($index == 0) $eventCode = $event->code;
-                    
-                    
-                    ###################
-                    // проверим событие на флаги
-                    Logger::debug("check flags for event by code {$event->code}");
-                    if (!EventService::allowToRun($event->code, $simId, 1, 0)) {
-                        // событие не проходит по флагам -  не пускаем его
-                        Logger::debug("event {$event->code} was restricted by flags");
-                        continue; // обрабатываем другие события
+                    if (null === $event) {
+                        throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
                     }
-                    #####################################
+                    
+                    $trigger->delete(); // Убиваем обработанное событие
+                    
+                    if ($index == 0) { $eventCode = $event->code; }
+                    
+                    // проверим событие на флаги
+                    if (!EventService::allowToRun($event->code, $simId, 1, 0)) {
+                        continue; // событие не проходит по флагам -  не пускаем его
+                    }
                     
                     $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
@@ -123,8 +121,6 @@ class EventsController extends AjaxController{
             
             
             // У нас одно событие           
-            
-            Logger::debug("get dialogs by code : {$eventCode}");
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
             
             $gameTime = SimulationService::getGameTime($simId);
@@ -134,25 +130,18 @@ class EventsController extends AjaxController{
                 $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
             
-            Logger::debug("src dialogs : ".var_export($data, true));
-            
             // теперь подчистим список
             $resultList = $data;
             foreach ($data as $dialogId => $dialog) {
-                //Logger::debug("code {$dialog['code']}, $simId, step_number {$dialog['step_number']}, replica_number {$dialog['replica_number']}");
                 $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
                 
                 if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
-                    // нечего чистиить все выполняется
-                    break;
+                    break; // нечего чистиить все выполняется
                 }
-
-                //Logger::debug("flag info : ".var_export($flagInfo, true));
                 if ($flagInfo['ruleExists']) {  // у нас есть такое правило
-                        if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
-                        // правило не выполняется для определнной записи - убьем ее
+                    if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
                         if (isset($resultList[ $flagInfo['recId'] ])) {
-                            unset($resultList[ $flagInfo['recId'] ]);
+                            unset($resultList[ $flagInfo['recId'] ]); // правило не выполняется для определнной записи - убьем ее
                         }
                         continue;
                     }
@@ -205,9 +194,6 @@ class EventsController extends AjaxController{
             if (count($resultList) > 0) {
                 $result['events'][] = array('result' => 1, 'eventType' => 1, 'data' => $data);
             }
-           
-            
-            Logger::debug("result : ".var_export($result, true));
             
             $this->sendJSON($result);
         } catch (Exception $exc) {
@@ -219,6 +205,7 @@ class EventsController extends AjaxController{
             ));
         }
         
+        //die;
         return;
     }
     
