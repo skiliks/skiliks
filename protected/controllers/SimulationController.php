@@ -75,10 +75,6 @@ class SimulationController extends AjaxController{
             $uid = SessionHelper::getUidBySid();
             if (!$uid) throw new Exception('Не могу найти такого пользователя');
 
-            // Удаляем предыдущую симуляцию
-            //$simulation = Simulations::model()->findByAttributes(array('user_id'=>$uid));
-            //if ($simulation) $simulation->delete();
-
             // @todo: проверить а имеет ли право пользователь на эту симуляцию
             if (!UserService::isMemberOfGroup($uid, $stype)) {
                 throw new Exception('У вас нет прав для старта этой симуляции');
@@ -107,7 +103,6 @@ class SimulationController extends AjaxController{
 
                 // событие создаем только если для него задано время
                 if ($event->trigger_time > 0) {
-                    Logger::debug("create trigger : {$event->code}");
                     $eventsTriggers = new EventsTriggers();
                     $eventsTriggers->sim_id         = $simId;
                     $eventsTriggers->event_id       = $event->id;
@@ -116,22 +111,8 @@ class SimulationController extends AjaxController{
                 }
             }
 
-            #######################
-            // временно добавим тестовые ивенты
-            //$this->_createEventByCode('#plog', $simId); // будем логировать план в 11 часов
-            /*$this->_createEventByCode('M11', $simId);
-            $this->_createEventByCode('P6', $simId);*/
-
-            #################################################
-
             // предустановка задач в todo!
             $this->_fillTodo($simId);
-
-            // предустановка задач в план дневной
-            //++$this->_fillDayPlan($simId);
-
-            // Копируем игроку его документ в рамках его симуляции
-            //ExcelDocumentService::copy('Сводный бюджет', $simId);
 
             // скопируем документы
             MyDocumentsService::init($simId);
