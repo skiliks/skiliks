@@ -3,7 +3,7 @@
          stopOnFailure="false"
          syntaxCheck="false"
          verbose="true"
-         strict="true">
+         strict="false">
     <php>
         <includePath>../../framework</includePath>
     </php>
