@@ -7,7 +7,7 @@ class AdminController extends AjaxController
     {
         //$action = Yii::app()->request->getParam('action', false);
         $action = array(
-            'type' => Yii::app()->request->getParam('type','DialogDetail'),
+            'type' => 'DialogDetail',
             'data' => 'json',
             'params' => array('order_col')
         );
@@ -28,7 +28,7 @@ class AdminController extends AjaxController
                         ));
                          * 
                          */
-                        $result['data'] = LogHelper::$method($action['data'], $action['params']);
+                        $result += LogHelper::$method($action['data'], $action['params']);
                     } else {
                         throw new Exception("Не указаны параметры!");
                     }
@@ -48,6 +48,6 @@ class AdminController extends AjaxController
         $result = array('result'=>0, 'message'=>$e->getMessage(), 'data'=>null);
     }
 
-    $this->sendJSON($result['data']);
+    $this->sendJSON($result);
     }
 }
