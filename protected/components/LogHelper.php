@@ -327,13 +327,13 @@ class LogHelper {
         foreach( $logs as $log ) {
             
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
-                $comand = Yii::app()->db->createCommand();
+                $command = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
                     Yii::log(var_export($log, true), 'info');
                     Yii::log(var_export($log[2], true), 'info');
-                    $comand->insert( "log_mail" , array(
+                    $command->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
                         'window'   => $log[1],
@@ -345,14 +345,14 @@ class LogHelper {
                     
                     if($log[1] != 13) {
                         //Yii::log(var_export($log, true), 'info');
-                        $comand->update( "log_mail" , array(
+                        $command->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3])
                         ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         
                     } else {
                         //Yii::log(var_export($log, true), 'info');
-                        $comand->update( "log_mail" , array(
+                        $command->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3]),
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
                         ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
@@ -362,11 +362,11 @@ class LogHelper {
                     
                 } elseif( self::ACTION_SWITCH == (string)$log[2] ) {
                     //Yii::log($log, 'info');
-                    $comand->update( "log_mail" , array(
+                    $command->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     
-                        $comand->insert( "log_mail" , array(
+                        $command->insert( "log_mail" , array(
                             'sim_id'    => $simId,
                             'mail_id'   => $log[4]['mailId'],
                             'window'   => $log[1],
