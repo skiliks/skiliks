@@ -1,7 +1,10 @@
 <?php
 class OneTest extends SeleniumTestCase
 {
-   public function testMyTestCase()
+    /**
+     * @large
+     */
+    public function testMyTestCase()
   {
        
         # Login
@@ -41,23 +44,22 @@ class OneTest extends SeleniumTestCase
       
       sleep(3);
       $session->element('css selector','.alert a.btn')->click();
-      sleep(15);
+      $this->waitForElement($session, 'css selector', 'li.phone.icon-active');
       
       
       
       # Телефон
      
-      $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
-      sleep(5);
+      $session->element ('xpath', '//a[@id="icons_phone"]')->click();
+      $this->waitForElement($session, 'css selector', '.phone-call-in-btn');
       $session->element("xpath", "//a[@onclick=\"phone.getSelect('2',0)\"]")->click();
-      sleep(2);
+      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('5')\"]");
       $session->element('css selector','li > p')->click();
-      sleep(2);
+      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('10')\"]");
       $session->element('css selector','li > p')->click();
-      sleep(2);
-      $session->element("xpath", "//p[@onclick=\"phone.getSelect('14')\"]")->click();
-      sleep(10);
-     
+      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('14')\"]")->click();
+      $this->waitForElement($session, 'css selector', ".documents.icon-active");
+
       $session->element("id", "addTriggerSelect")->clear();
       
       $this->waitForElement($session, "id","addTriggerSelect")->value(array("value"=>str_split("ET2.1")));
@@ -68,7 +70,7 @@ class OneTest extends SeleniumTestCase
      
       sleep(3);
       $session->element('css selector','.alert a.btn')->click();
-      sleep(15);
+      $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 20);
       $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
       sleep(5);
       
