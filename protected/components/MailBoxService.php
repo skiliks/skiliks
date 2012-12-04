@@ -292,6 +292,7 @@ class MailBoxService {
      * Sends message in the internal mail client
      *
      * @param array $params dictionary with elements letterType, subject
+     * @return \MailBoxModel
      */
     public function sendMessage($params) {
 
@@ -309,18 +310,18 @@ class MailBoxService {
         
         $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
 
-        $model = new MailBoxModel();
-        $model->group_id = $params['group'];
-        $model->sender_id = $params['sender'];
-        $model->subject_id = $subject_id;
-        $model->subject = $subject;
-        $model->receiver_id = $receiverId;
-        $model->sending_date = time();
-        $model->readed = 0;
-        $model->sim_id = $params['simId'];
-        $model->insert();
+        $message = new MailBoxModel();
+        $message->group_id = $params['group'];
+        $message->sender_id = $params['sender'];
+        $message->subject_id = $subject_id;
+        $message->subject = $subject;
+        $message->receiver_id = $receiverId;
+        $message->sending_date = time();
+        $message->readed = 0;
+        $message->sim_id = $params['simId'];
+        $message->insert();
         
-        $mailId = $model->id;
+        $mailId = $message->id;
         //Создаем лог в ручную
         $logs = array(array(10,13,0,$params['timeString'], array('mailId'=>$mailId)));
         LogHelper::setLog($params['simId'], $logs);
@@ -351,12 +352,13 @@ class MailBoxService {
             foreach($phrases as $phraseId) {
                 //Logger::debug("insert : mailId $mailId phraseId $phraseId");
                 
-                $model = new MailMessagesModel();
-                $model->mail_id = $mailId;
-                $model->phrase_id = $phraseId;        
-                $model->insert();
+                $msg_model = new MailMessagesModel();
+                $msg_model->mail_id = $mailId;
+                $msg_model->phrase_id = $phraseId;
+                $msg_model->insert();
             }
         }
+        return $message;
     }
     
     

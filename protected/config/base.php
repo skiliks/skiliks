@@ -49,9 +49,20 @@ return array(
         'user' => array(
             'allowAutoLogin' => true,
         ),
+        'urlManager' => array(
+            'urlFormat' => 'path',
+            #'showScriptName' => false,
+
+            'rules' => array(
+
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+            ),
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
-    
+
 
     'preload' => array('log'),
 
@@ -60,7 +71,7 @@ return array(
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.loc/',
         'skiliksSpeedFactor' => 8
-    )
+    ),
 );
 
 

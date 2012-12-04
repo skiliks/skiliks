@@ -172,7 +172,7 @@ class MailController extends AjaxController{
         list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
         
         $service = new MailBoxService();
-        $service->sendMessage(array(
+        $message = $service->sendMessage(array(
             'message_id' => $messageId,
             'group' => 3, // outbox
             'sender' => 1, //$senderId, //- отправитель теперь всегда герой
@@ -187,7 +187,7 @@ class MailController extends AjaxController{
             'timeString'=>$timeString
         ));
         
-        $this->sendJSON(array('result' => 1));
+        $this->sendJSON(array('result' => 1, 'messageId' => $message->primaryKey));
     }
     
     public function actionSaveDraft() 
