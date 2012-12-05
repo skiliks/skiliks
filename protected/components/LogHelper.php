@@ -46,6 +46,14 @@ class LogHelper {
         41 => 'documents main',
         42 => 'documents files'
     );
+    
+    protected static $actions = array(
+        0             => 'close',
+        1             => 'open',
+        2             => 'switch',
+        'activated'   => 'activated',
+        'deactivated' => 'deactivated',
+    );
 
 	private function __construct() {
 		
@@ -60,16 +68,32 @@ class LogHelper {
                 if(is_dir(__DIR__.'/../runtime/')) {
                     $file = fopen(__DIR__.'/../runtime/windows.log', "a+");
                     foreach ($logs as $log) {
-                        $csv = '';
-                        $csv .= date("d.m.Y H:i:s", time()).$sparator; //Дата и время на сервере 
-                        $csv .= $simId.$sparator; //id симуляции
-                        $csv .= $log[0].$sparator; //Активное окно
-                        $csv .= $log[1].$sparator; //Активное под окно
-                        $csv .= $log[2].$sparator; //Действие
-                        $csv .= $log[3].$sparator; //Игровое время
-                        $csv .= (empty($log[4]['mailId'])?'':$log[4]['mailId']).$sparator;// Дополнительный параметр mailId
-                        $csv .= (empty($log[4]['fileId'])?'':$log[4]['fileId']).$end;// Дополнительный параметр fileId
-                        fwrite($file, $csv);
+                        $hours = floor($log[3]/3600);
+                        $minutes = floor($log[3]/60) - $hours*60;
+                        $seconds = $log[3] - 3600*$hours - 60*$minutes;
+                        
+                        $csv = array();
+                        $csv[] = date("d.m.Y H:i:s", time()); //Дата и время на сервере 
+                        $csv[] = $simId; //id симуляции
+                        $csv[] = $log[0]; //Активное окно
+                        $csv[] = $log[1]; //Активное под окно
+                        $csv[] = $log[2]; //Действие
+                        $csv[] = $log[3]; //Игровое время
+                        $csv[] = (empty($log[4]['mailId'])?'':$log[4]['mailId']);// Дополнительный параметр mailId
+                        $csv[] = (empty($log[4]['fileId'])?'':$log[4]['fileId']);// Дополнительный параметр fileId
+                        $csv[] = 'numbers => values';
+                        $csv[] = sprintf(
+                             '%02s:%02s:%02s %s',
+                             $hours,
+                             $minutes,
+                             $seconds,
+                             $sparator
+                        );
+                        $csv[] = self::$screens[$log[0]];
+                        $csv[] = self::$subScreens[$log[1]];
+                        $csv[] = self::$actions[$log[2]];
+                        // todo: use explode()
+                        fwrite($file, implode($sparator, $csv).$end);
                     } 
                     fclose($file);
                 } else {
