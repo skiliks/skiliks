@@ -112,7 +112,7 @@ class RegistrationController extends AjaxController{
     
     protected function _notifyUser($params) {
         
-        $url = "http://backend.skiliks.com/index.php?r=registration/activate&code={$params['code']}";
+        $url = "http://backend.skiliks.com/index.php/registration/activate&code={$params['code']}";
         
         $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}. 
         Для активации перейдите по <a href='{$url}'>ссылке</a>";
