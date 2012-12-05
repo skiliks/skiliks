@@ -22,6 +22,13 @@ class Users extends CActiveRecord{
             return parent::model($className);
     }
 
+    public function relations()
+    {
+        return array(
+            'simulations' => array(self::HAS_MANY, 'Simulations', 'user_id', 'order' => 'id DESC')
+        );
+    }
+
     /**
      * @return string the associated database table name
      */
