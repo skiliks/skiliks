@@ -18,6 +18,8 @@ class LogHelper {
     
     const LOGIN = true; //Писать лог в файл? true - да, false - нет
     
+    public $bom = "0xEF 0xBB 0xBF";
+        
     protected static $codes_documents = array(40,41,42);
 
     protected static $codes_mail = array(10,11,12,13,14);
@@ -219,7 +221,7 @@ class LogHelper {
         } elseif (self::RETURN_CSV == $return){
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
-            $content = $csv->toCSV();
+            $content = $csv->toCSVutf8BOM();
             $filename = 'data.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         }else{
@@ -260,7 +262,7 @@ class LogHelper {
                 
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
-            $content = $csv->toCSV();
+            $content = $csv->toCSVutf8BOM();
             $filename = 'data.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
             } else {
@@ -338,7 +340,7 @@ class LogHelper {
 
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
     } else {
@@ -445,7 +447,7 @@ class LogHelper {
            
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
@@ -487,7 +489,7 @@ class LogHelper {
 
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
@@ -528,7 +530,7 @@ class LogHelper {
 
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
@@ -578,7 +580,7 @@ class LogHelper {
         
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
@@ -670,7 +672,7 @@ class LogHelper {
         } elseif (self::RETURN_CSV == $return) {
         $csv = new ECSVExport($data['data'], true, true, ';');
         $csv->setHeaders($headers);
-        $content = $csv->toCSV();
+        $content = $csv->toCSVutf8BOM();
         $filename = 'data.csv';
         Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
