@@ -46,27 +46,22 @@ class EventService {
         if ( ($code == '') || ($code == '-') ) return false;
         if ($code == 'T') return false; // финальная реплика
         
-        //Logger::debug("add event by code : $code time : $eventTime");
         // проверить есть ли событие по такому коду и если есть то создать его
         $event = EventsSamples::model()->byCode($code)->find();
         if ($event) {
             // попробуем вытащить delay из диалога
             if ($eventTime) {
-                //if (DialogService::existByCode($code)) {
-                    $dialog = DialogService::getFirstReplicaByCode($code);
-                    if ($dialog) {
-                        if ($dialog->duration > 0) {
-                            Logger::debug("add durarion : {$dialog->duration}");
-                            $eventTime+=$dialog->duration;
-                        }
+                $dialog = DialogService::getFirstReplicaByCode($code);
+
+                if ($dialog) {
+                    if ($dialog->duration > 0) {
+                        $eventTime += (int)$dialog->duration;
                     }
-                //}
+                }
             }
             
             
             if (!$eventTime) $eventTime = $event->trigger_time;
-            
-            Logger::debug("add event : code {$code} time : {$eventTime}");
             
             // проверим а есть ли такой триггер
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
@@ -107,8 +102,6 @@ class EventService {
         // анализ писем
         $code = false;
         $type = false;
-        
-        Logger::debug("_processLinkedEntities : code : {$eventCode}");
         
         // логирование плана
         if ($eventCode == '#plog') {
@@ -165,11 +158,9 @@ class EventService {
         }
         
         if ($type == 'M') {
-            Logger::debug("Send message by code : $code");
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
             $mailModel = MailBoxService::copyMessageFromTemplateByCode($simId, $code);
             if (!$mailModel) {
-                Logger::debug("cant copy mail by code $code");
                 throw new Exception("cant copy mail by code $code");
             }
             
@@ -241,10 +232,6 @@ class EventService {
             
         $data = array();
         foreach($dialogs as $dialog) {
-            
-            
-            Logger::debug("check dialog by code : {$dialog->code} next event : {$dialog->next_event_code}");
-
             // Если у нас реплика к герою
             if ($dialog->replica_number == 0) {
                 // События типа диалог мы не создаем
@@ -274,31 +261,25 @@ class EventService {
      * @return true
      */
     public static function allowToRun($code, $simId, $stepNumber = false, $replicaNumber = false) {
-        Logger::debug("try to get flags rules for code : $code stepNumber: $stepNumber replicaNumber $replicaNumber");
         $ruleModel = FlagsService::getRuleByCode($code, $stepNumber, $replicaNumber);
         if (!$ruleModel) {
-            Logger::debug("no rules for event : $code");
             return true; // нет правил для данного события
         }    
         
         // получим флаги для этого правила
         $flags = FlagsService::getFlags($ruleModel->id);
         if (count($flags) == 0) {
-            Logger::debug("no flags for rule");
             return true; // для данного кода нет правил
         }    
         
         // получить флаги в рамках симуляции
         $simulationFlags = SimulationService::getFlags($simId);
         if (count($simulationFlags)==0) {
-            Logger::debug("no simulation flags");
             return false; // у нас пока нет установленных флагов - не чего сравнивать
         }    
         
-        Logger::debug("start compare flags  s: ".var_export($simulationFlags, true).' r :'.var_export($flags, true));
         // проверить на совпадение флагов с теми что есть в симуляции
         $result = FlagsService::compareFlags($simulationFlags, $flags);
-        Logger::debug("compare result : ".var_export($result, true));
         return $result;
     }
     
