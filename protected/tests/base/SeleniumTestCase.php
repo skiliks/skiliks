@@ -20,6 +20,10 @@ class SeleniumTestCase extends CDbTestCase
     protected $browser_url;
 
     /**
+     * @var Users
+     */
+    protected $users;
+    /**
      * @var PHPWebDriver_WebDriverSession session
      */
     protected $session;
@@ -85,5 +89,6 @@ class SeleniumTestCase extends CDbTestCase
         $group->uid = $user->primaryKey;
         $group->gid = 2;
         $group->save();
+        $this->user = $user;
     }
 }
