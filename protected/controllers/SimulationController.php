@@ -142,6 +142,8 @@ class SimulationController extends AjaxController{
             SessionHelper::setSid($sid);
         
         $simId = SessionHelper::getSimIdBySid($sid);
+
+        Yii::log('Stop simulation', 'debug');
         SimulationService::calcPoints($simId);
         
         
@@ -149,17 +151,19 @@ class SimulationController extends AjaxController{
         if (!$uid) throw new Exception('Не могу найти такого пользователя');
         
         
-        $model = Simulations::model()->byId($simId)->find();
-        if ($model) {
-            $model->end = time();
-            $model->status = 0;
-            $model->save();
+        $simulation = Simulations::model()->byId($simId)->find();
+        if ($simulation) {
+            $simulation->end = time();
+            $simulation->status = 0;
+            $simulation->save();
         }
-        
+
         // залогируем состояние плана
         DayPlanLogger::log($simId, DayPlanLogger::STOP);
         
         // данные для логирования
+
+        $logs_src = Yii::app()->request->getParam('logs', false);
         $logs_src = Yii::app()->request->getParam('logs', false); 
         LogHelper::setLog($simId, $logs_src);
         
@@ -167,7 +171,8 @@ class SimulationController extends AjaxController{
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
-        LogHelper::setWindowsLog($simId, $logs);        
+        LogHelper::setWindowsLog($simId, $logs);
+
         $result = array('result' => 1);
         $this->sendJSON($result);
     }
