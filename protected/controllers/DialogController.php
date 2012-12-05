@@ -22,7 +22,8 @@ class DialogController extends AjaxController{
      * Загрузка заданного диалога
      * @return type 
      */
-    public function actionGet() {
+    public function actionGet() 
+    {
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
             if (!$sid) { 
@@ -96,7 +97,14 @@ class DialogController extends AjaxController{
             $data = array();
             if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
                 // смотрим а не является ли следующее событие у нас диалогом
-                if (EventService::isDialog($currentDialog->next_event_code)) {
+                // if next event has delay it can`t statr immediatly
+                $dialog = Dialogs::model()->byCode($currentDialog->next_event_code)
+                    ->byStepNumber(1)
+                    ->byReplicaNumber(0)
+                    ->find();
+                $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
+                
+                if (EventService::isDialog($currentDialog->next_event_code) && null !== $dialog && 0 == (int)$dialog->delay) {
                     // сразу же отдадим реплики по этому событию - моментально
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
@@ -128,7 +136,6 @@ class DialogController extends AjaxController{
                     }
                 }
             }
-            
             
             ###################
             // теперь подчистим список
