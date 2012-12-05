@@ -324,7 +324,7 @@ class MailBoxService {
         $mailId = $message->id;
         //Создаем лог в ручную
         $logs = array(array(10,13,0,$params['timeString'], array('mailId'=>$mailId)));
-        LogHelper::setLog($params['simId'], $logs);
+        //LogHelper::setLog($params['simId'], $logs);
         LogHelper::setMailLog($params['simId'], $logs);
         // сохранение копий
         if (isset($params['copies'])) {
