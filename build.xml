@@ -15,6 +15,7 @@
         -->
         <echo msg="Copying config for user ${env.USER}..."/>
         <echo msg="${user.name}"/>
+        <mkdir dir="./protected/runtime" mode="777" />
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>

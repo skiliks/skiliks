@@ -104,7 +104,7 @@ class ExcelFormula {
         Logger::debug("replaceVars: $formula  ");
         $this->_vars = $vars;
         
-        return preg_replace_callback("/(\w*\!*\w+\d+)/u", 'self::replaceVarsCallback', $formula);
+        return preg_replace_callback("/((?:\p{L}+\!)?\p{L}+\d+)/u", 'self::replaceVarsCallback', $formula);
     }
     
     /**
