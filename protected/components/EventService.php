@@ -275,6 +275,7 @@ class EventService {
         // получить флаги в рамках симуляции
         $simulationFlags = SimulationService::getFlags($simId);
         if (count($simulationFlags)==0) {
+            // todo: event that allowed when FXX = 0 is possible, bu this method will return false
             return false; // у нас пока нет установленных флагов - не чего сравнивать
         }    
         
