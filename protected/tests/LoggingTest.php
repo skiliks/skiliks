@@ -67,47 +67,21 @@ class LoggingTest extends SeleniumTestCase
             $row = $data[$key];
             if ($row['id'] != $simulations[0]->primaryKey)
                 continue;
-            print_r($row);
             $this->assertNotEquals("01.01.1970 00:00:00", $row['start']);
             $this->assertNotEquals("01.01.1970 00:00:00", $row['end']);
+            $this->assertNotEquals("00:00:00", $row['start_time']);
+            $this->assertNotEquals("00:00:00", $row['end_time']);
             unset($row['start']);
             unset($row['end']);
             unset($row['start_time']);
             unset($row['end_time']);
+            if ($row['window'] == 'main screen' &&
+                $row['sub_window'] == 'main screen')
+                continue;
             array_push($our_rows, $row);
 
         }
         $this->assertEquals(array(
-            array(
-                'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
-                'id' => $simulation->primaryKey,
-                'window' => 'main screen',
-                'sub_window' => 'main screen',
-            ),
-            array
-            (
-                'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
-                'id' => $simulation->primaryKey,
-                'window' => 'mail',
-                'sub_window' => 'mail main',
-            ),
-            array
-            (
-                'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
-                'id' => $simulation->primaryKey,
-                'window' => 'mail',
-                'sub_window' => 'mail new',
-            ),
-            array(
-                'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
-                'id' => $simulation->primaryKey,
-                'window' => 'main screen',
-                'sub_window' => 'main screen',
-            ),
             array
             (
                 'user_id' => $this->user->primaryKey,
@@ -129,16 +103,16 @@ class LoggingTest extends SeleniumTestCase
                 'user_id' => $this->user->primaryKey,
                 'email' => 'kaaaaav@gmail.com',
                 'id' => $simulation->primaryKey,
-                'window' => 'main screen',
-                'sub_window' => 'main screen',
+                'window' => 'mail',
+                'sub_window' => 'mail main',
             ),
             array
             (
                 'user_id' => $this->user->primaryKey,
                 'email' => 'kaaaaav@gmail.com',
                 'id' => $simulation->primaryKey,
-                'window' => 'main screen',
-                'sub_window' => 'main screen',
+                'window' => 'mail',
+                'sub_window' => 'mail new',
             )
         ), $our_rows);
     }
