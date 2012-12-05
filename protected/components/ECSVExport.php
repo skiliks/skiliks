@@ -556,4 +556,71 @@ class ECSVExport
 	{
 		$value = str_replace("\r\n"," ", $value);
 	}
+        
+        /**
+     * create a csv string, or file if $outputFile is set
+     * 
+     * @param string $outputFile
+     * @param string $delimiter
+     * @param string $enclosure
+     * @param boolean $includeHeaders
+     * @return mixed string|boolean|integer csv string when no outputFile is specified
+     * boolean if the writing failed, or integer of num bytes written to file 
+     */
+    public function toCSVutf8BOM($outputFile=null, $delimiter=null, $enclosure=null, $includeHeaders=true)
+    {
+        // check that data provider is something useful
+        $isGood = false;
+        
+        if($this->_dataProvider instanceof CActiveDataProvider) {
+            $isGood = true;
+        }
+        
+        if($this->_dataProvider instanceof CSqlDataProvider) {
+            $isGood = true;
+        }
+        
+        if($this->_dataProvider instanceof CDbCommand) {
+            $isGood = true;
+        }
+        
+        if(is_array($this->_dataProvider)) {
+            $isGood = true;
+        }
+        
+        if(!$isGood) {
+            throw new Exception('Bad data provider given as source to '.__CLASS__);
+        }
+        
+        if($outputFile !== null) {
+            $this->setOutputFile($outputFile);
+        }
+        
+        if(!$includeHeaders) {
+            $this->includeColumnHeaders = false;
+        }
+        
+        if($delimiter !== null) {
+            $this->_delimiter = $delimiter;
+        }
+        
+        if($enclosure !== null) {
+            $this->_enclosure = $enclosure;
+        }
+        
+        // create file pointer
+        $this->_filePointer =  fopen("php://temp", 'w');
+        $this->_writeData();        
+        rewind($this->_filePointer);
+        
+        // make sure you can write to file!
+        if($this->_outputFile !== null) {
+            // write stream to file
+            return chr(239).chr(187).chr(191).$this->_appendCsv ? file_put_contents($this->_outputFile, $this->_filePointer, FILE_APPEND | LOCK_EX) 
+                                     : file_put_contents($this->_outputFile, $this->_filePointer, LOCK_EX);
+            
+        } else {
+            return chr(239).chr(187).chr(191).stream_get_contents($this->_filePointer);    
+        }
+    }
 }
