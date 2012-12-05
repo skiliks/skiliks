@@ -44,7 +44,7 @@ class OneTest extends SeleniumTestCase
       
       sleep(3);
       $session->element('css selector','.alert a.btn')->click();
-      $this->waitForElement($session, 'css selector', 'li.phone.icon-active');
+      $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 15);
       
       
       
@@ -52,12 +52,12 @@ class OneTest extends SeleniumTestCase
      
       $session->element ('xpath', '//a[@id="icons_phone"]')->click();
       $this->waitForElement($session, 'css selector', '.phone-call-in-btn');
-      $session->element("xpath", "//a[@onclick=\"phone.getSelect('2',0)\"]")->click();
-      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('5')\"]");
+      $session->element("xpath", "//a[text()=\"ПРИНЯТЬ\"]")->click();
+      $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]");
       $session->element('css selector','li > p')->click();
-      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('10')\"]");
+      $this->waitForElement($session, 'xpath', "//p[text()=\"- Я пока не знаю, сколько времени мне потребуется. Но точно смогу проверить все цифры к вечеру.\"]");
       $session->element('css selector','li > p')->click();
-      $this->waitForElement($session, 'xpath', "//p[@onclick=\"phone.getSelect('14')\"]")->click();
+      $this->waitForElement($session, 'xpath', "//p[text()=\"- Понял, открываю файл.\"]")->click();
       $this->waitForElement($session, 'css selector', ".documents.icon-active");
 
       $session->element("id", "addTriggerSelect")->clear();
@@ -71,20 +71,19 @@ class OneTest extends SeleniumTestCase
       sleep(3);
       $session->element('css selector','.alert a.btn')->click();
       $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 20);
-      $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
+      $session->element ('xpath', '//a[@id="icons_phone"]')->click();
       sleep(5);
-      
-      $session->element("xpath", "//a[@onclick=\"phone.getSelect('130',1)\"]")->click();
-      
+
+      $session->element("xpath", "//a[text()=\"ОТКЛОНИТЬ\"]")->click();
+
       sleep(5);
       $session->element ('xpath', '//a[@id="icons_phone"]')->click(); 
       sleep(2);
-      $session->element("xpath", "//a[@onclick=\"phone.getSelect('132',0)\"]")->click();
-      
+      $session->element("xpath", "//a[text()=\"ПРИНЯТЬ\"]")->click();
+
       sleep(10);
-       $session->element("xpath", "//p[@onclick=\"phone.getSelect('143')\"]")->click();
-      sleep(2);
-      $session->element("xpath", "//p[@onclick=\"phone.getSelect('150')\"]")->click();
+       $session->element("xpath", "//p[text()=\"- Валерий Семенович, так в прошлый раз нам пришлось презентацию за день делать! А аналитика, который тогда напортачил, я уже уволил.\"]")->click();
+      $this->waitForElement($session, "xpath", "//p[text()=\"- Непременно, сейчас запланирую время на проверку\"]")->click();
       sleep(8);      
       $this->assertEquals("Сумма оценок: 4.66666666666667", $session->element("css selector",".result-total")->text()); 
       $this->assertEquals("Сумма оценок 6x: 4", $session->element("css selector",".result-total-6x")->text()); 
