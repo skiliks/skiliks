@@ -7,7 +7,7 @@ class AdminController extends AjaxController
     {
         //$action = Yii::app()->request->getParam('action', false);
         $action = array(
-            'type' => 'DialogDetail',
+            'type' => Yii::app()->request->getParam('type','DialogDetail'),
             'data' => 'json',
             'params' => array('order_col')
         );
