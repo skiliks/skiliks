@@ -10,7 +10,7 @@ class SiteController extends CController
 
     public function actionIndex()
     {
-        $rows = array("1" => "2");
+        $rows = array("Error" => "Controller/action not founded.");
         $this->_sendResponse(200, CJSON::encode($rows));
         //echo 'Hello World';
     }
