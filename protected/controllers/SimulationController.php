@@ -160,8 +160,9 @@ class SimulationController extends AjaxController{
         
         // данные для логирования
         $logs_src = Yii::app()->request->getParam('logs', false); 
+        LogHelper::setLog($simId, $logs_src);
+        
         $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
-        LogHelper::setLog($simId, $logs);
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
