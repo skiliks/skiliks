@@ -8,7 +8,7 @@ class AdminController extends AjaxController
         //$action = Yii::app()->request->getParam('action', false);
         $action = array(
             'type' => Yii::app()->request->getParam('type','DialogDetail'),
-            'data' => 'json',
+            'data' => (string)Yii::app()->request->getParam('data','json'),
             'params' => array('order_col')
         );
         $result = array('result'=>1, 'message'=>"Done");
@@ -17,18 +17,8 @@ class AdminController extends AjaxController
             $method = "get{$action['type']}";
             if(method_exists('LogHelper', $method)) {
                 if(isset($action['data'])) {
-                    if(isset($action['params']) AND is_array($action['params'])){
-                        /*$result['data'] = LogHelper::$method($action['data'], array('order_col'=>$action['order_col'],
-                                                                                    'order_type'=>$action['order_type'],
-                                                                                    'where_col'=>$action['where_col'],
-                                                                                    'where_type'=>$action['where_type'],
-                                                                                    'where_val'=>$action['where_val'],
-                                                                                    'offset' => $action['offset'],
-                                                                                    'limit' => $action['offset']
-                        ));
-                         * 
-                         */
-                        $result += LogHelper::$method($action['data'], $action['params']);
+                    if(isset($action['params']) AND is_array($action['params'])) {
+                        $result += (array)LogHelper::$method($action['data']);
                     } else {
                         throw new Exception("Не указаны параметры!");
                     }

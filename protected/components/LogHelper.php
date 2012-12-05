@@ -193,11 +193,11 @@ class LogHelper {
             $data['title'] = "Логирование расчета оценки - детально";
             return $data;
         } elseif (self::RETURN_CSV == $return){
-            $csv = new ECSVExport($data, true, true, ';');
+            $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSV();
             $filename = 'data.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         }else{
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
@@ -206,7 +206,7 @@ class LogHelper {
 
      public static function getDialogAggregate($return) {
 
-            $data = Yii::app()->db->createCommand()
+            $data['data'] = Yii::app()->db->createCommand()
                 ->select('l.sim_id,
                       p.code,
                       t.value as type_scale,
@@ -219,24 +219,26 @@ class LogHelper {
                 ->order("l.sim_id")
                 ->queryAll();
 
-            foreach ($data as  $k=>$row) {
-                $data[$k]['avg'] = Strings::toWin(str_replace('.', ',', $data[$k]['avg']));
+            foreach ($data['data'] as  $k=>$row) {
+                $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
             }
-
+            $headers = array(
+                    'sim_id'     => 'id_симуляции',
+                    'code'       => 'Номер поведения',
+                    'type_scale' => 'Тип поведения',
+                    'avg'        => 'Оценка по поведению'
+            );
             if(self::RETURN_DATA == $return){
+                $data['headers'] = $headers;
+                $data['title'] = "Логирование расчета оценки - агрегированно";
                  return $data;
             } elseif (self::RETURN_CSV == $return) {
-
-            $csv = new ECSVExport($data, true, true, ';');
-            $csv->setHeaders(array(
-                    'sim_id'     => Strings::toWin('id_симуляции'),
-                    'code'       => Strings::toWin('Номер поведения'),
-                    'type_scale' => Strings::toWin('Тип поведения'),
-                    'avg'        => Strings::toWin('Оценка по поведению')
-            ));
+                
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
             $content = $csv->toCSV();
             $filename = 'data.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
             } else {
                 throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
             }
@@ -280,7 +282,7 @@ class LogHelper {
 
     public static function getDocuments($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select('l.sim_id,
@@ -294,25 +296,27 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
 
-        foreach ($data as  $k=>$row) {
-            $data[$k]['fileName'] = Strings::toWin(str_replace('.', ',', $data[$k]['fileName']));
+        foreach ($data['data'] as  $k=>$row) {
+            $data['data'][$k]['fileName'] = str_replace('.', ',', $data['data'][$k]['fileName']);
         }
-
+        $headers = array(
+                'sim_id'     => 'id_симуляции',
+                'code'       => 'Код документа',
+                'fileName'   => 'Наименование документа',
+                'start_time' => 'Игровое время - start',
+                'end_time'   => 'Игровое время - end'
+        );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
 
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-                'sim_id'     => Strings::toWin('id_симуляции'),
-                'code'       => Strings::toWin('Код документа'),
-                'fileName'   => Strings::toWin('Наименование документа'),
-                'start_time' => Strings::toWin('Игровое время - start'),
-                'end_time'   => Strings::toWin('Игровое время - end')
-        ));
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
     } else {
         throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
     }
@@ -385,7 +389,7 @@ class LogHelper {
 
     public static function getMailInDetail($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select('l.sim_id,
@@ -399,25 +403,27 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
 
-        foreach ($data as  $k=>$row) {
-            $data[$k]['window'] = self::$subScreens[$data[$k]['window']];
+        foreach ($data['data'] as  $k=>$row) {
+            $data['data'][$k]['window'] = self::$subScreens[$data['data'][$k]['window']];
         }
-
+        $headers = array(
+            'sim_id'     => 'id_симуляции',
+            'code'       => 'Код входящего письма',
+            'window'     => 'Тип просмотра',
+            'start_time' => 'Игровое время - start',
+            'end_time'   => 'Игровое время - end'
+        ); 
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование работы с Входящими сообщениями - детально";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
-
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-            'sim_id'     => Strings::toWin('id_симуляции'),
-            'code'       => Strings::toWin('Код входящего письма'),
-            'window'     => Strings::toWin('Тип просмотра'),
-            'start_time' => Strings::toWin('Игровое время - start'),
-            'end_time'   => Strings::toWin('Игровое время - end')
-        ));
+           
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
@@ -426,7 +432,7 @@ class LogHelper {
 
     public static function getMailInAggregate($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select("m.sim_id
@@ -441,29 +447,25 @@ class LogHelper {
             ->order('m.id')
             ->queryAll();
 
-        foreach ($data as  $k=>$row) {
-            $data[$k]['name'] = Strings::toWin($data[$k]['name']);
-            $data[$k]['readed'] = Strings::toWin($data[$k]['readed']);
-            $data[$k]['plan'] = Strings::toWin($data[$k]['plan']);
-            $data[$k]['reply'] = Strings::toWin($data[$k]['reply']);
-        }
-
+        $headers = array(
+            'sim_id'     => 'id_симуляции',
+            'code'       => 'Код входящего письма',
+            'name'     => 'Папка мейл-клиента',
+            'readed' => 'Письмо прочтено (да/нет)',
+            'plan'   => 'Письмо запланировано (да/нет)',
+            'reply'   => 'На письмо отправлен ответ'
+        );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование работы с Входящими сообщениями - агрегированно";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
 
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-            'sim_id'     => Strings::toWin('id_симуляции'),
-            'code'       => Strings::toWin('Код входящего письма'),
-            'name'     => Strings::toWin('Папка мейл-клиента'),
-            'readed' => Strings::toWin('Письмо прочтено (да/нет)'),
-            'plan'   => Strings::toWin('Письмо запланировано (да/нет)'),
-            'reply'   => Strings::toWin('На письмо отправлен ответ')
-        ));
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
@@ -473,7 +475,7 @@ class LogHelper {
 
     public static function getMailOutDetail($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select("l.sim_id
@@ -487,25 +489,24 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
 
-        foreach ($data as  $k=>$row) {
-            $data[$k]['send'] = Strings::toWin($data[$k]['send']);
-        }
-
+        $headers = array(
+            'sim_id'     => 'id_симуляции',
+            'mail_id'       => 'id_исходящего письма',
+            'send'     => 'Отправлено',
+            'start_time' => 'Игровое время - start',
+            'end_time'   => 'Игровое время - end'
+        );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование работы с Исходящими сообщениями - детально";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
 
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-            'sim_id'     => Strings::toWin('id_симуляции'),
-            'mail_id'       => Strings::toWin('id_исходящего письма'),
-            'send'     => Strings::toWin('Отправлено'),
-            'start_time' => Strings::toWin('Игровое время - start'),
-            'end_time'   => Strings::toWin('Игровое время - end')
-        ));
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
@@ -514,7 +515,7 @@ class LogHelper {
 
     public static function getMailOutAggregate($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select("l.sim_id
@@ -536,29 +537,26 @@ class LogHelper {
             ->group('l.mail_id')
             ->order('l.id')
             ->queryAll();
-
-        foreach ($data as  $k=>$row) {
-            $data[$k]['send'] = Strings::toWin($data[$k]['send']);
-            $data[$k]['subject'] = Strings::toWin($data[$k]['subject']);
-        }
-
+        $headers = array(
+            'sim_id'     => 'id_симуляции',
+            'mail_id'       => 'id_исходящего письма',
+            'send'     => 'Отправлено',
+            'receivers' => 'Кому',
+            'copies'   => 'Копия',
+            'subject'   => 'Тема',
+            'code'   => 'Код вложения'
+        );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование работы с Исходящими сообщениями - агрегированно";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
-
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-            'sim_id'     => Strings::toWin('id_симуляции'),
-            'mail_id'       => Strings::toWin('id_исходящего письма'),
-            'send'     => Strings::toWin('Отправлено'),
-            'receivers' => Strings::toWin('Кому'),
-            'copies'   => Strings::toWin('Копия'),
-            'subject'   => Strings::toWin('Тема'),
-            'code'   => Strings::toWin('Код вложения')
-        ));
+        
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
@@ -606,7 +604,7 @@ class LogHelper {
 
     public static function getWindows($return) {
 
-        $data = Yii::app()
+        $data['data'] = Yii::app()
             ->db
             ->createCommand()
             ->select("s.user_id
@@ -624,30 +622,33 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
 
-        foreach ($data as  $k=>$row) {
-            $data[$k]['start'] = date("d.m.Y H:i:s", $data[$k]['start']);
-            $data[$k]['end'] = date("d.m.Y H:i:s", $data[$k]['end']);
-            $data[$k]['window'] = self::$screens[$data[$k]['window']];
-            $data[$k]['sub_window'] = self::$subScreens[$data[$k]['sub_window']];
+        foreach ($data['data'] as  $k=>$row) {
+            $data['data'][$k]['start'] = date("d.m.Y H:i:s", $data['data'][$k]['start']);
+            $data['data'][$k]['end'] = date("d.m.Y H:i:s", $data['data'][$k]['end']);
+            $data['data'][$k]['window'] = self::$screens[$data['data'][$k]['window']];
+            $data['data'][$k]['sub_window'] = self::$subScreens[$data['data'][$k]['sub_window']];
         }
+        $headers = array(
+            'user_id'           => 'id_пользователя', 
+            'email'             => 'email',
+            'start'             => 'дата старта симуляции',
+            'end'               => 'дата окончания симуляции',                
+            'id'                => 'id_симуляции',
+            'window'      => 'Активное окно',
+            'sub_window'   => 'Активное подокно',
+            'start_time'         => 'Игровое время - start',
+            'end_time'           => 'Игровое время - end'                
+        );
         if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Универсальное логирование";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
-        $csv = new ECSVExport($data, true, true, ';');
-        $csv->setHeaders(array(
-            'user_id'           => Strings::toWin('id_пользователя'), 
-            'email'             => Strings::toWin('email'),
-            'start'             => Strings::toWin('дата старта симуляции'),
-            'end'               => Strings::toWin('дата окончания симуляции'),                
-            'id'                => Strings::toWin('id_симуляции'),
-            'window'      => Strings::toWin('Активное окно'),
-            'sub_window'   => Strings::toWin('Активное подокно'),
-            'start_time'         => Strings::toWin('Игровое время - start'),
-            'end_time'           => Strings::toWin('Игровое время - end')                
-        ));
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
         $content = $csv->toCSV();
         $filename = 'data.csv';
-        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=windows-1251", false);
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
