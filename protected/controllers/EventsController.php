@@ -42,19 +42,19 @@ class EventsController extends AjaxController{
             $sid = Yii::app()->request->getParam('sid', false);  
             
             if (!$sid) {
-                throw new Exception('Не задан sid', 1);
+                throw new CHttpException('Не задан sid', 1);
             }
 
             
             $uid = SessionHelper::getUidBySid(); // получить uid
             if (null === $uid) { 
-                throw new Exception('Не могу определить пользователя', 2);
+                throw new CHttpException(200,'Не могу определить пользователя', 2);
             }
 
             
             $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
             if (null === $simId) {
-                throw new Exception('Не могу определить симуляцию', 3);
+                throw new CHttpException(200,'Не могу определить симуляцию', 3);
             }
             
             // данные для логирования {
@@ -89,7 +89,7 @@ class EventsController extends AjaxController{
             $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(); // получить ближайшее событие
             
             if (count($triggers) == 0) { 
-                throw new Exception('Нет ближайших событий', 4); // @todo: investigate - "No events" is exception ?
+                throw new CHttpException(200, 'Нет ближайших событий', 4); // @todo: investigate - "No events" is exception ?
             }
             
             $result = array('result' => 1);
@@ -101,7 +101,7 @@ class EventsController extends AjaxController{
                     
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
                     if (null === $event) {
-                        throw new Exception('Не могу определить конкретное событие for event '.$trigger->event_id, 5);
+                        throw new CHttpException(200, 'Не могу определить конкретное событие for event '.$trigger->event_id, 5);
                     }
                     
                     $trigger->delete(); // Убиваем обработанное событие
@@ -199,7 +199,7 @@ class EventsController extends AjaxController{
             }
             
             $this->sendJSON($result);
-        } catch (Exception $exc) {
+        } catch (CHttpException $exc) {
             $this->sendJSON(array(
                 'result' => 0,
                 'message' => $exc->getMessage(),
