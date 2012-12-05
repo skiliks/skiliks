@@ -109,21 +109,21 @@ class LogHelper {
     public static function logFilter($logs) {
         
         if(!is_array($logs)) return false;
-        
+
+        $new_logs = array();
         foreach ($logs as $key => $value) {
             if(isset($logs[$key-1])){
                 if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
-                    unset($logs[$key]);
-                    unset($logs[$key-1]);
-                } else {
                     continue;
+                } else {
+                    array_push($new_logs, $value);
                 }
             }else{
-                continue;
+                array_push($new_logs, $value);
             }
         }
-        
-        return $logs;
+        Yii::log('Window: ' . CJSON::encode($new_logs));
+        return $new_logs;
     }
 
     private static function order($order_col, $columns, $order_type = "asc") {
@@ -595,8 +595,11 @@ class LogHelper {
             
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                Yii::log(var_export($log, true), 'info');
-                Yii::log('simulation:' . $simId);
+                Yii::log(sprintf(
+                        'Window log for sim %d: window "%s/%s", action %s, time %s, params %s',
+                        $simId, $log[0], $log[1], $log[2],date("H:i:s", $log[3]), isset($log[4]) ? CJSON::encode($log[4]) : "none"
+                    ),
+                    'info', 'log');
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 //                    $comand->update( "log_windows" , array(
 //                        'end_time'  => date("H:i:s", $log[3])
@@ -610,12 +613,16 @@ class LogHelper {
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
-
-                        $comand->update( "log_windows" , array(
-                            'end_time'  => date("H:i:s", $log[3]),
-                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                    $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
+                    if (!$windows) {
+                        Yii::log('Trying to close unopened window', CLogger::LEVEL_WARNING);
                         continue;
-                } elseif (self::ACTION_SWITCH == (string)$log[2]) { 
+                    }
+                    foreach ($windows as $window) {
+                        $window->end_time = date("H:i:s", $log[3]);
+                        $window->save();
+                    }
+                } elseif (self::ACTION_SWITCH == (string)$log[2]) {
                 
                     continue;
                     
