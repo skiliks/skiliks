@@ -54,6 +54,7 @@ class LoggingTest extends SeleniumTestCase
 
         //close mail
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();
+        sleep(5);
         $this->waitForElement($session, 'xpath', '//input[@value="SIM стоп"]')->click();
         sleep(5);
         $source = file_get_contents($this->browser_url . '/api/index.php/admin/log?type=Windows');
@@ -61,12 +62,13 @@ class LoggingTest extends SeleniumTestCase
         $simulations = $this->user->simulations();
         $simulation = $simulations[0];
         $our_rows = array();
-        $keys = array_keys($data);
+        $keys = array_keys($data['data']);
         sort($keys);
         foreach ($keys as $key) {
-            $row = $data[$key];
+            $row = $data['data'][$key];
             if ($row['id'] != $simulations[0]->primaryKey)
                 continue;
+            print_r($row);
             $this->assertNotEquals("01.01.1970 00:00:00", $row['start']);
             $this->assertNotEquals("01.01.1970 00:00:00", $row['end']);
             $this->assertNotEquals("00:00:00", $row['start_time']);
@@ -113,6 +115,14 @@ class LoggingTest extends SeleniumTestCase
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail new',
+            ),
+            array
+            (
+                'user_id' => $this->user->primaryKey,
+                'email' => 'kaaaaav@gmail.com',
+                'id' => $simulation->primaryKey,
+                'window' => 'mail',
+                'sub_window' => 'mail main',
             )
         ), $our_rows);
     }
