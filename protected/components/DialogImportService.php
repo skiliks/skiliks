@@ -518,7 +518,7 @@ class DialogImportService {
             $formatedRow = $this->makeNamedRowData($row);
             foreach ($formatedRow as $key => $cell) {
                 $i++;
-                if (23 < $i) { // 22 : 'X'
+                if (22 < $i && $i < 137) { // 22 : 'W', 137: 'EH'
                     if (null == $cell) {
                         fclose($handle);
                         return true;
