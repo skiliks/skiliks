@@ -571,7 +571,8 @@ class LogHelper {
             
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                //Yii::log(var_export($log, true), 'info');
+                Yii::log(var_export($log, true), 'info');
+                Yii::log('simulation:' . $simId);
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 //                    $comand->update( "log_windows" , array(
 //                        'end_time'  => date("H:i:s", $log[3])
@@ -587,7 +588,7 @@ class LogHelper {
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
 
                         $comand->update( "log_windows" , array(
-                        'end_time'  => date("H:i:s", $log[3])
+                            'end_time'  => date("H:i:s", $log[3]),
                         ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                 } elseif (self::ACTION_SWITCH == (string)$log[2]) { 
