@@ -40,6 +40,7 @@ class EventsController extends AjaxController{
         $gameTime = 0;
         try {
             $sid = Yii::app()->request->getParam('sid', false);  
+            
             if (!$sid) {
                 throw new Exception('Не задан sid', 1);
             }
@@ -57,9 +58,11 @@ class EventsController extends AjaxController{
             }
             
             // данные для логирования {
+            LogHelper::setLog($simId, Yii::app()->request->getParam('logs', false));
+
             $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
             /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
-            LogHelper::setLog($simId, $logs);
+            
             LogHelper::setWindowsLog($simId, $logs);
             
             LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
