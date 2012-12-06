@@ -6,11 +6,10 @@ class SubController extends AjaxController
     public function actionAdd()
     {
         $email = Yii::app()->request->getParam('email', false);
-        //$email = 'list@i.ua';
 
         $result = array(
             'result'  => 1,
-            'message' => "Ваш email - {$email} добавлен!"
+            'message' => "Email {$email} has been successfully added!"
         );
         
         try {
@@ -20,13 +19,13 @@ class SubController extends AjaxController
                     'email'    => $email
                 ));
             } else {
-                throw new Exception("Некорректный email - '{$email}'!");
+                throw new Exception("Invalid email - '{$email}'!");
             }
 
 
         } catch (CDbException $exc) {
             $result['result'] = 0;
-            $result['message'] = "Email - {$email} ранее был добавлен!";
+            $result['message'] = "Email - {$email} has been alredy added before!";
         } catch (Exception $exc) {
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
