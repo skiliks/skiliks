@@ -9,7 +9,35 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class FlagsRulesModel extends CActiveRecord{
+class FlagsRulesModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    private $id;
+    
+    /**
+     * @var string
+     */
+    private $rule_name;
+    
+    /**
+     * Record id, related to Dialog MySQL id
+     * @var integer
+     */
+    private $rec_id;
+    
+    /**
+     * @var integer
+     */
+    private $step_number;
+    
+    /**
+     * @var integer
+     */
+    private $replica_number;
+    
+    // -----------------------------------------------------------------------------------------------------------------
     
     /**
      *
@@ -91,7 +119,7 @@ class FlagsRulesModel extends CActiveRecord{
     
     public function getEventCode()
     {
-        return $this->rule_name;
+        return (string)$this->rule_name;
     }
     
     /**
@@ -107,7 +135,7 @@ class FlagsRulesModel extends CActiveRecord{
     
     public function getRecordId()
     {
-        return $this->rec_id;
+        return (int)$this->rec_id;
     }
     
     /**
@@ -117,13 +145,13 @@ class FlagsRulesModel extends CActiveRecord{
      */
     public function setRecordId($recordId)
     {
-        $this->rec_id = $recordId;
+        $this->rec_id = (int)$recordId;
         return $this;
     }
     
     public function getStepNo()
     {
-        return $this->step_number;
+        return (int)$this->step_number;
     }
     
     /**
@@ -133,13 +161,13 @@ class FlagsRulesModel extends CActiveRecord{
      */
     public function setStepNo($stepNo)
     {
-        $this->step_number = $stepNo;
+        $this->step_number = (int)$stepNo;
         return $this;
     } 
     
     public function getReplicaNo()
     {
-        return $this->step_number;
+        return (int)$this->step_number;
     }
     
     /**
@@ -160,7 +188,7 @@ class FlagsRulesModel extends CActiveRecord{
      */
     public function getId()
     {
-        return $this->id;
+        return (int)$this->id;
     }
 }
 
