@@ -100,7 +100,7 @@ class SimulationController extends AjaxController{
                 if (EventService::isDocument($event->code)) continue;
                 if (EventService::isSendedMail($event->code)) continue;
                 if (EventService::isMessageYesterday($event->code)) continue;
-                if (false === EventService::allowToRun($event->code, $simId, 1, 0)) continue;
+                //if (false === EventService::allowToRun($event->code, $simId, 1, 0)) continue;
 
                 // событие создаем только если для него задано время
                 if ($event->trigger_time > 0) {

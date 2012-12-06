@@ -73,11 +73,11 @@ class FlagsRulesModel extends CActiveRecord{
      * @param int $recordId
      * @return FlagsRulesModel 
      */
-    public function byRecordId($recordId)
+    public function byRecordIdOrNull($recordId)
     {
         if (null !== $recordId) {
             $this->getDbCriteria()->mergeWith(array(
-                'condition' => "rec_id = {$recordId}"
+                'condition' => "rec_id = {$recordId} OR rec_id is null"
             ));
         } else {
             $this->getDbCriteria()->mergeWith(array(
