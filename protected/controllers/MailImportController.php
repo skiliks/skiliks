@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Импорт почты
  *
@@ -11,14 +9,20 @@ class MailImportController extends AjaxController{
     
     public function actionImport() {
         
-        $fileName = __DIR__.'/../../media/mail.csv';
+        //$fileName = __DIR__.'/../../media/mail.csv';
+        $fileName = __DIR__."/../../media/mail.xlsx";
+        if(!file_exists($fileName)) {
+            throw new Exception("Файд {$fileName} не найден!"); 
+        }
+        
         
         $characters = array();
         $charactersList = Characters::model()->findAll();
         foreach($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
-        
+        var_dump($characters);
+        exit();
         // загрузим информацию о поинтах
         $pointsTitles = CharactersPointsTitles::model()->findAll();
         $pointsInfo = array();
