@@ -151,9 +151,6 @@ class MailImportController extends AjaxController{
                 $sendingDate = gmmktime($time[0], $time[1], 0, $date[1], $date[0], $date[2]);
             }
             
-            
-            
-            
             $model = MailTemplateModel::model()->byCode($code)->find();
             if (!$model) {
                 $model = new MailTemplateModel();
@@ -432,18 +429,13 @@ class MailImportController extends AjaxController{
             $index++;
             if ($index <= 1) continue;
             
-            if ($index > 115) { 
-                echo("processed rows: $index");
-                echo('all done'); die(); 
-            }
-            
             // Определение кода персонажа
             $characterCode = $row[0]; // A
             if (!isset($characters[$characterCode])) throw new Exception("cant find character by code $characterCode");
 
             $characterId        = $characters[$characterCode];  
             // Определим тему письма
-            $subject            = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            $subject            = $row[2]; // C
             // Phone
             $phone              = $row[3]; // D
             // Phone W/R
@@ -461,18 +453,18 @@ class MailImportController extends AjaxController{
             
             // определить код темы
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
-            if (!$subjectModel) {
+            if (null === $subjectModel) {
                 $subjectModel = new MailThemesModel();
                 $subjectModel->name = $subject;
                 $subjectModel->insert();
             }
             $subjectId = $subjectModel->id;
             
-           
-            
-            
-            $mailCharacterTheme = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($subjectId)->find();
-            if (!$mailCharacterTheme) {
+            $mailCharacterTheme = MailCharacterThemesModel::model()
+                ->byCharacter($characterId)
+                ->byTheme($subjectId)
+                ->find();
+            if (null === $mailCharacterTheme) {
                 $mailCharacterTheme = new MailCharacterThemesModel();
                 $mailCharacterTheme->character_id   = $characterId;
                 $mailCharacterTheme->theme_id       = $subjectId;
@@ -485,13 +477,36 @@ class MailImportController extends AjaxController{
             $mailCharacterTheme->phone_wr               = $phoneWr;
             $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
             $mailCharacterTheme->mail                   = $mail;
-            $r = $mailCharacterTheme->save();
             
-            var_dump($r);
+            try {
+                $mailCharacterTheme->save();            
+                echo sprintf(
+                    'Succesfully imported - email from "%s", %s subject "%s" . [MySQL id: %s] <br/>',
+                    $row[1],
+                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
+                    $row[2],
+                    $mailCharacterTheme->id
+                );
+            } catch(CDbException $e) {
+                echo sprintf(
+                    'Error during import line %s. DB error message: %s <br/>',
+                    $index,
+                    $e->getMessage()
+                );
+                
+            } catch(Exception $e) {
+                echo sprintf(
+                    'Error during import line %s. Error message: %s <br/>',
+                    $index,
+                    $e->getMessage()
+                );
+                
+            }
         }
         fclose($handle);
-        echo("processed rows: $index");
-        echo("All done!");
+        
+        echo("processed rows: $index <br/>");
+        echo("Email from characters import finished! <br/>");
     }
     
     /**
