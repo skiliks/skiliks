@@ -708,10 +708,10 @@ class DialogImportService {
                 ->find();
             if (null === $flagRule) {
                 $flagRule = new FlagsRulesModel();
-                $flagRule->setRecordId($recirdId );
-                $flagRule->setStepNo((int)$row[2]);
-                $flagRule->setReplicaNo((int)$row[3]);
-                $flagRule->setEventCode($row[1]);
+                $flagRule->setRecordId($recirdId)
+                    ->setStepNo($row[2])
+                    ->setReplicaNo($row[3])
+                    ->setEventCode($row[1]);
             }
             
             $this->wrappedSave($flagRule, $row, $lineNo);
@@ -726,8 +726,8 @@ class DialogImportService {
                     if (null === $flagRuleContent) {
                         $flagRuleContent = new FlagsRulesContentModel();
                         
-                        $flagRuleContent->setRuleId($flagRule->getId());
-                        $flagRuleContent->setFlagName($this->flagNames[$i]);
+                        $flagRuleContent->setRuleId($flagRule->getId())
+                            ->setFlagName($this->flagNames[$i]);
                     }
                     
                     $flagRuleContent->setValue($row[$i]);
