@@ -689,19 +689,19 @@ class MailController extends AjaxController{
             $simId = SessionHelper::getSimIdBySid($sid);
             
             $model = MailBoxModel::model()->byId($mailId)->find();
-            if (!$model) throw new Exception("cant get model by id $mailId");
+            if (!$model) throw new CHttpException(200, "cant get model by id $mailId");
             $model->group_id = 3;
             $model->sending_date = time();
             $model->save();
             
             $result = array();
             $result['result'] = 1;
-            return $this->sendJSON($result);
-        } catch (Exception $exc) {
+            $this->sendJSON($result);
+        } catch (CHttpException $exc) {
             $result = array();
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
-            return $this->sendJSON($result);
+            $this->sendJSON($result);
         }   
     }
     

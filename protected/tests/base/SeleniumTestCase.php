@@ -60,7 +60,7 @@ class SeleniumTestCase extends CDbTestCase
             } catch (\WebDriver\Exception $e) {
                 return false;
             }
-        }, 10, 1, array($session, $using, $value));
+        }, 10, 0.3, array($session, $using, $value));
     }
 
     public function waitForNoElement($session, $using, $value)
