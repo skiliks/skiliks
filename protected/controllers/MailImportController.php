@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Импорт почты
  *
@@ -11,13 +9,19 @@ class MailImportController extends AjaxController{
     
     public function actionImport() {
         
-        $fileName = __DIR__.'/../../media/mail.csv';
-        
+        //$fileName = __DIR__.'/../../media/mail.csv';
+        //$fileName = __DIR__."/../../media/mail.xlsx";
+        if(!file_exists($fileName)) {
+            throw new Exception("Файд {$fileName} не найден!"); 
+        }
+     
         $characters = array();
         $charactersList = Characters::model()->findAll();
+        
         foreach($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
+        
         
         // загрузим информацию о поинтах
         $pointsTitles = CharactersPointsTitles::model()->findAll();
@@ -28,13 +32,12 @@ class MailImportController extends AjaxController{
         
         $exists = array();
         
-        //var_dump($characters); die();
-        
         $handle = fopen($fileName, "r");
         if (!$handle) throw new Exception("cant open $fileName");
         $index = 0;
         $pointsCodes = array();
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            
             $index++;
             
             if ($index == 2) {
@@ -100,11 +103,10 @@ class MailImportController extends AjaxController{
             }
             
             if (!isset($characters[$fromCode])) {
-                Logger::debug("cant find character from by code $fromCode");
+                
                 echo("cant find character by code $fromCode");
                 echo("index : $index");
-                var_dump($row);
-                die();
+                throw new Exception("Не найден ");
             }
             $fromId = $characters[$fromCode];
             
