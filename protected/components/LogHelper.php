@@ -109,21 +109,19 @@ class LogHelper {
     public static function logFilter($logs) {
         
         if(!is_array($logs)) return false;
-
-        $new_logs = array();
-        foreach ($logs as $key => $value) {
+        for ($key = 0; $key < count($logs); $key++) {
             if(isset($logs[$key-1])){
-                if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
-                    continue;
+                if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != self::ACTION_SWITCH AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
+                    array_splice($logs, $key - 1, 2);
+                    $key -= 2;
                 } else {
-                    array_push($new_logs, $value);
+                    continue;
                 }
             }else{
-                array_push($new_logs, $value);
+                continue;
             }
         }
-        Yii::log('Window: ' . CJSON::encode($new_logs));
-        return $new_logs;
+        return $logs;
     }
 
     private static function order($order_col, $columns, $order_type = "asc") {
