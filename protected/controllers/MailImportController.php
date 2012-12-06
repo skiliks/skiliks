@@ -21,6 +21,7 @@ class MailImportController extends AjaxController{
             'M'      => 0,
             'MSY'    => 0,
             'MS'     => 0,
+            'mark-codes' => 0,
             'mark-0' => 0,
             'mark-1' => 0,
         );
@@ -50,10 +51,13 @@ class MailImportController extends AjaxController{
             
             if ($index == 2) {
                 // загрузим кодов
-                $columnIndex = 19;
-                while(isset($row[$columnIndex]) && $row[$columnIndex] != '' &&  $columnIndex<=126) {
+                $START_COL = 18;
+                $END_COL = 132;
+                $columnIndex = $START_COL;
+                while($columnIndex < $END_COL) {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
                     $columnIndex++;
+                    $counter['mark-codes']++;
                 }
                 continue;
             }
@@ -137,20 +141,22 @@ class MailImportController extends AjaxController{
             }
             $toId = $characters[$toCode];
             
-            $date = explode('.', $sendingDate);
+            $date = explode('/', $sendingDate);
             $time = explode(':', $sendingTime);
             if (!isset($time[1])) {
                 $time[0] = 0;
                 $time[1] = 0;
             }
             if (!isset($date[1])) {
-                echo("code $code date : ");
-                var_dump($sendingDate); die();
+                echo("line: $index, code $code date : ");
+                var_dump($sendingDate); 
+                die();
             }
             
             if (!isset($time[1])) {
-                echo("code $code time : ");
-                var_dump($sendingTime); die();
+                echo("line: $index,code $code time : ");
+                var_dump($sendingTime); 
+                die();
             }
             
             $sendingDate = null;
@@ -171,7 +177,7 @@ class MailImportController extends AjaxController{
                 $model->type = $type;
 
                 $model->insert();
-                echo("insert code: $code index $index <br/>");
+                //echo("insert code: $code index $index <br/>");
             }
             else {
                 $model->group_id = $group;
@@ -183,12 +189,12 @@ class MailImportController extends AjaxController{
                 $model->type = $type;
                 $model->update();
                 
-                echo("updated code: $code index $index <br/>");
+                //echo("updated code: $code index $index <br/>");
             }
             
             // учтем поинты (оценки, marks)
-            $columnIndex = 19;
-            while($columnIndex <= 126) {
+            $columnIndex = $START_COL;
+            while($columnIndex <= $END_COL) {
                 $value = $row[$columnIndex];
                 if ($value == '') {
                     $columnIndex++;
@@ -227,7 +233,7 @@ class MailImportController extends AjaxController{
                     echo("cant find receiver by code $receiverCode"); die();
                 }
                 $receiverId = $characters[$receiverCode];
-                echo("r = $receiverId  id: {$model->id} <br/>");
+                //echo("r = $receiverId  id: {$model->id} <br/>");
                 
                 // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
                 $dmo = MailReceiversTemplateModel::model()->byMailId($model->id)->byReceiverId($receiverId)->find();
@@ -260,30 +266,32 @@ class MailImportController extends AjaxController{
         fclose($handle);
         
         echo sprintf(
-           'Lines imported: %s .<br/>
+           'Lines imported: %s . must be 86<br/>
             <br/>
-            Inbox: %. <br/>
-            - MY: %s. <br/>
-            - M: %s. <br/>
+            Inbox: %s. must be 42<br/>
+            - MY: %s. must be 38<br/>
+            - M: %s. must be 4<br/>
             <br/>
-            Outbox: %s. <br/>
-            - MSY: %s. <br/>
-            - MS: %s. <br/>
+            Outbox: %s. must be 44<br/>
+            - MSY: %s. must be 1<br/>
+            - MS: %s. must be 43<br/>
             <br/>
-            Marks "0": %s. <br/>
-            Marks "1": %s. <br/>
+            Marks codes amount: %s must be 114<br/>
+            - Marks "0": %s. must be 86<br/>
+            - Marks "1": %s. must be 97<br/>
             <br/>
             Email import was finished.
             ',
-            $count['all'],
-            $count['M'] + $count['MY'],
-            $count['M'],
-            $count['MY'],
-            $count['MS'] + $count['MSY'],
-            $count['MSY'],
-            $count['MS'],
-            $count['mark-0'],
-            $count['mark-1']
+            $counter['all'],
+            $counter['M'] + $counter['MY'],
+            $counter['M'],
+            $counter['MY'],
+            $counter['MS'] + $counter['MSY'],
+            $counter['MSY'],
+            $counter['MS'],
+            $counter['mark-codes'],
+            $counter['mark-0'],
+            $counter['mark-1']
         );
     }
     
