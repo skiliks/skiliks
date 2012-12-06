@@ -1,19 +1,12 @@
 <?php
 
-
-
 /**
  * Сервис управления флагами
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class FlagsService {
-    
-    /*public static function getRules($rule) {
-        $ruleModel = FlagsRulesModel::model()->byName($rule)->find();
-        if (!$ruleModel) return false;
-    }*/
-    
+class FlagsService 
+{
     /**
      * Определяет правило по заданному коду события
      * @param string $code
@@ -22,30 +15,36 @@ class FlagsService {
      * @param int $excelId, dialog excel id
      * @return FlagsRulesModel 
      */
-    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false, $excelId = null) {
-        if ($stepNumber!==false && $replicaNumber!==false) {
-            Logger::debug("get rule by code $code stepNumber $stepNumber replicaNumber $replicaNumber");
+    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false, $excelId = null) 
+    {
+        if ($stepNumber !== false && $replicaNumber !== false) {
+            // Logger::debug("get rule by code $code stepNumber $stepNumber replicaNumber $replicaNumber");
             $request = FlagsRulesModel::model()
-                ->byName($code)
-                ->byStepNumber($stepNumber)
-                ->byReplicaNumber($replicaNumber)
-                ->byRecordIdOrNull($excelId);
-            
+                    ->byName($code)
+                    ->byStepNumber($stepNumber)
+                    ->byReplicaNumber($replicaNumber)
+                    ->byRecordIdOrNull($excelId);
+
             return $request->find();
         }
-        
-        Logger::debug("get rule by code $code");
+
+        // Logger::debug("get rule by code $code");
         return FlagsRulesModel::model()->byName($code)->find();
     }
-    
-    public static function getFlags($ruleId) {
+
+    /**
+     * @param integer $ruleId
+     * @return array
+     */
+    public static function getFlags($ruleId) 
+    {
         $rules = FlagsRulesContentModel::model()->byRule($ruleId)->findAll();
-        
+
         $list = array();
-        foreach($rules as $rule) {
-            $list[$rule->flag] = $rule->value;
+        foreach ($rules as $rule) {
+            $list[$rule->getFlagName()] = $rule->getValue();
         }
-        
+
         return $list;
     }
 
@@ -55,10 +54,13 @@ class FlagsService {
      * @param type $flags 
      * @return true
      */
-    public static function compareFlags($simulationFlags, $flags) {
-        foreach($flags as $flag => $value) {
-            if (!isset($simulationFlags[$flag])) return false;
-            if ($simulationFlags[$flag] != $value) return false;
+    public static function compareFlags($simulationFlags, $flags) 
+    {
+        foreach ($flags as $flag => $value) {
+            if (!isset($simulationFlags[$flag]))
+                return false;
+            if ($simulationFlags[$flag] != $value)
+                return false;
         }
         return true;
     }
@@ -73,46 +75,55 @@ class FlagsService {
      * @param int $excelId, dialog excel id
      * @return array
      */
-    public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0, $excelId = null) {
+    public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0, $excelId = null) 
+    {
         $result = array();
-        
+
         // определим код правила
         $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
-        
+
         if (null === $ruleModel) {
-            Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
+            // Logger::debug("no rule for : code $code, stepNumber $stepNumber, replicaNumber $replicaNumber");
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
-        }    
-        
+        }
+
         //var_dump((int)$ruleModel->getRecordId());
 
-        $result['ruleExists']       = true;
-        $result['recId']            = (int)$ruleModel->getRecordId();
-        $result['stepNumber']       = $ruleModel->getStepNo();
-        $result['replicaNumber']    = $ruleModel->getReplicaNo();
-        $result['compareResult']    = false;
-        
+        $result['ruleExists'] = true;
+        $result['recId'] = (int) $ruleModel->getRecordId();
+        $result['stepNumber'] = $ruleModel->getStepNo();
+        $result['replicaNumber'] = $ruleModel->getReplicaNo();
+        $result['compareResult'] = false;
+
         // получим флаги для этого правила
         $flags = FlagsService::getFlags($ruleModel->getId());
         if (count($flags) == 0) {
-            Logger::debug("no flags for this rule");
+            // Logger::debug("no flags for this rule");
             return $result; // для данного кода нет правил
-        }    
-        
+        }
+
         // получить флаги в рамках симуляции
         $simulationFlags = SimulationService::getFlags($simId);
-        if (count($simulationFlags)==0) return $result; // у нас пока нет установленных флагов - не чего сравнивать
-        
+        if (count($simulationFlags) == 0)
+            return $result; // у нас пока нет установленных флагов - не чего сравнивать
+
+            
         // проверить на совпадение флагов с теми что есть в симуляции
         if (FlagsService::compareFlags($simulationFlags, $flags)) {
             $result['compareResult'] = true;
         }
-        
+
         return $result;
     }
-    
-    public static function setFlag($simId, $flag, $value) {
+
+    /**
+     * @param string $simId
+     * @param string $flag
+     * @param string $value
+     */
+    public static function setFlag($simId, $flag, $value) 
+     {
         $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
         if (!$model) {
             $model = new SimulationFlagsModel();
@@ -122,50 +133,50 @@ class FlagsService {
         $model->value = $value;
         $model->save();
     }
-    
+
     /**
      * Установка первоначальных значений флагов в рамках симуляции.
      * @param int $simId 
      */
-    public static function initDefaultValues($simId) {
+    public static function initDefaultValues($simId) 
+    {
         for ($index = 1; $index <= 22; $index++) {
-            self::setFlag($simId, 'F'.$index, 0);
+            self::setFlag($simId, 'F' . $index, 0);
         }
     }
-    
+
     ## will broken
     public static function skipReplica($dialog, $simId) {
-        Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
+        // Logger::debug("check flags for dialog : {$dialog->code} id: {$dialog->excel_id} step number : {$dialog->step_number} replica number : {$dialog->replica_number}");
         $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
-        
-        Logger::debug("flag info : ".var_export($flagInfo, true));
-        
-        if ($flagInfo['ruleExists'] === false) return false; // нет правил
-        
-        
+
+        // Logger::debug("flag info : " . var_export($flagInfo, true));
+
+        if ($flagInfo['ruleExists'] === false)
+            return false; // нет правил
+
+
         if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
             if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
                 if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
                     if ($flagInfo['recId'] != $dialog->excel_id) {
-                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                        // Logger::debug("skipped replica excelId : {$dialog->excel_id}");
                         $flagInfo['action'] = 'skip';
                         return $flagInfo; // эта реплика не пойдет в выборку
-                    }    
-                }
-                else {
+                    }
+                } else {
                     // условие сравнение не выполняется
                     if ($flagInfo['recId'] == $dialog->excel_id) {
-                        Logger::debug("skipped replica excelId : {$dialog->excel_id}");
+                        // Logger::debug("skipped replica excelId : {$dialog->excel_id}");
                         $flagInfo['action'] = 'skip';
                         return $flagInfo; // эта реплика не пойдет в выборку
-                    }    
+                    }
                 }
             }
         }
-        
+
         $flagInfo['action'] = 'break';
         return $flagInfo;
     }
 }
-
 

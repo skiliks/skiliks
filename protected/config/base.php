@@ -7,6 +7,7 @@ defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER'
 return array(
     'import' => array(
         'application.models.*',
+        'application.models.Flags.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
