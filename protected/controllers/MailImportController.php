@@ -7,21 +7,30 @@
  */
 class MailImportController extends AjaxController{
     
-    public function actionImport() {
-        
-        //$fileName = __DIR__.'/../../media/mail.csv';
-        //$fileName = __DIR__."/../../media/mail.xlsx";
+    public function actionImport()
+    {        
+        $fileName = __DIR__.'/../../media/mail.csv';
         if(!file_exists($fileName)) {
-            throw new Exception("Файд {$fileName} не найден!"); 
+            echo "Файл {$fileName} не найден!";
+            die;
         }
+        
+        $counter = array(
+            'all'  => 0,
+            'MY'     => 0,
+            'M'      => 0,
+            'MSY'    => 0,
+            'MS'     => 0,
+            'mark-0' => 0,
+            'mark-1' => 0,
+        );
      
         $characters = array();
         $charactersList = Characters::model()->findAll();
         
         foreach($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
-        }
-        
+        }        
         
         // загрузим информацию о поинтах
         $pointsTitles = CharactersPointsTitles::model()->findAll();
@@ -36,8 +45,7 @@ class MailImportController extends AjaxController{
         if (!$handle) throw new Exception("cant open $fileName");
         $index = 0;
         $pointsCodes = array();
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {            
             $index++;
             
             if ($index == 2) {
@@ -53,12 +61,7 @@ class MailImportController extends AjaxController{
             if ($index <= 2) {
                 continue;
             }
-            
-            if ($index > 88) {
-                var_dump($exists);
-                echo('all done'); die();
-            }
-            
+           
             // Код письма
             $code = $row[0];  // A
             // дата отправки
@@ -78,10 +81,9 @@ class MailImportController extends AjaxController{
             // Вложение
             $attachment = $row[11];  // L
             
-            if (!isset($exists[$code])) {
+            if (false === isset($exists[$code])) {
                 $exists[$code] = 1;
-            }
-            else {
+            } else {
                 $exists[$code]++;
             }
             
@@ -91,22 +93,26 @@ class MailImportController extends AjaxController{
             if ( preg_match("/MY\d+/", $code) ) {
                 $group = 1;
                 $type = 3;
+                $counter['MY']++;
             } else if( preg_match("/M\d+/", $code) ) {
                 $type = 1;
+                $counter['M']++;
             } else if( preg_match("/MSY\d+/", $code) ) {
                 $group = 3;
                 $type = 4;
+                $counter['MSY']++;
             } else if( preg_match("/MS\d+/", $code) ){
                 $type = 2;
+                $counter['MS']++;
             } else {
-                throw new Exception("Ошибка"); //TODO: Дописать описание
+                echo("Ошибка"); //TODO: Дописать описание
+                die;
             }
             
-            if (!isset($characters[$fromCode])) {
-                
-                echo("cant find character by code $fromCode");
-                echo("index : $index");
-                throw new Exception("Не найден ");
+            if (!isset($characters[$fromCode])) {                
+                echo "cant find character by code $fromCode";
+                echo "index : $index not found.";
+                die();
             }
             $fromId = $characters[$fromCode];
             
@@ -126,8 +132,7 @@ class MailImportController extends AjaxController{
             }
             
             if (!isset($characters[$toCode])) {
-                Logger::debug("cant find character to by code $toCode");
-                echo("cant find character to by code $toCode");
+                echo("Can`t find character by code $toCode");
                 die();
             }
             $toId = $characters[$toCode];
@@ -181,9 +186,9 @@ class MailImportController extends AjaxController{
                 echo("updated code: $code index $index <br/>");
             }
             
-            // учтем поинты
+            // учтем поинты (оценки, marks)
             $columnIndex = 19;
-            while($columnIndex<=126) {
+            while($columnIndex <= 126) {
                 $value = $row[$columnIndex];
                 if ($value == '') {
                     $columnIndex++;
@@ -195,7 +200,7 @@ class MailImportController extends AjaxController{
                 $pointId = $pointsInfo[$pointCode];
                 
                 $pointModel = MailPointsModel::model()->byMailId($model->id)->byPointId($pointId)->find();
-                if (!$pointModel) {
+                if (null === $pointModel) {
                     $pointModel = new MailPointsModel();
                     $pointModel->mail_id = $model->id;
                     $pointModel->point_id = $pointId;
@@ -208,6 +213,11 @@ class MailImportController extends AjaxController{
                     $pointModel->update();
                 }
                 
+                if ( 1 == (int)$value) {
+                    $counter['mark-1']++;
+                } else {
+                    $counter['mark-0']++;
+                }
 
                 $columnIndex++;
             }
@@ -244,9 +254,37 @@ class MailImportController extends AjaxController{
                     $dmo->insert();
                 }
             }
+            
+            $counter['all']++;
         }
         fclose($handle);
-        echo("Done");
+        
+        echo sprintf(
+           'Lines imported: %s .<br/>
+            <br/>
+            Inbox: %. <br/>
+            - MY: %s. <br/>
+            - M: %s. <br/>
+            <br/>
+            Outbox: %s. <br/>
+            - MSY: %s. <br/>
+            - MS: %s. <br/>
+            <br/>
+            Marks "0": %s. <br/>
+            Marks "1": %s. <br/>
+            <br/>
+            Email import was finished.
+            ',
+            $count['all'],
+            $count['M'] + $count['MY'],
+            $count['M'],
+            $count['MY'],
+            $count['MS'] + $count['MSY'],
+            $count['MSY'],
+            $count['MS'],
+            $count['mark-0'],
+            $count['mark-1']
+        );
     }
     
     /**
