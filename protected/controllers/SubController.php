@@ -35,4 +35,18 @@ class SubController extends AjaxController
         
         return;
     }
+    
+    public function actionList() {
+        
+        $emails = Yii::app()->db->createCommand()
+	    		->select( 'id, email' )
+	    		->from( 'emails_sub' )
+	    		->queryAll();
+        echo 'ID EMAIL <br>';
+        foreach ($emails as $email) {
+            
+        echo "{$email['id']} {$email['email']} <br>";
+        }                
+        
+    }
 }
