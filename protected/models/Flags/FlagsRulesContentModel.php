@@ -10,7 +10,31 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class FlagsRulesContentModel extends CActiveRecord{
+class FlagsRulesContentModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    private $id;
+    
+    /**
+     * @var integer
+     */
+    private $rule_id;
+    
+    /**
+     * Flag name, like 'F1', 'F22'
+     * @var string
+     */
+    private $flag;
+    
+    /**
+     * True or false - Flag must be true, flag must be false
+     * @var boolean
+     */
+    private $value;
+
+    // -----------------------------------------------------------------------------------------------------------------
     
     /**
      *
@@ -71,7 +95,7 @@ class FlagsRulesContentModel extends CActiveRecord{
     
     public function getRuleId()
     {
-        return $this->rule_id;
+        return (int)$this->rule_id;
     }
     
     /**
@@ -81,7 +105,7 @@ class FlagsRulesContentModel extends CActiveRecord{
      */
     public function setRuleId($ruleId)
     {
-        $this->rule_id = $ruleId;
+        $this->rule_id = (int)$ruleId;
         return $this;
     }
     
@@ -113,6 +137,7 @@ class FlagsRulesContentModel extends CActiveRecord{
      */
     public function setValue($value)
     {
+        // MySQL store boolean as TinyInt(1)
         $this->value = (int)$value;
         return $this;
     }
