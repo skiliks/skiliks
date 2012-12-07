@@ -11,22 +11,67 @@ class ZohoDocuments
     
     protected $format = 'xls';
     
-    protected $saveUrl = 'http://backend.live.skiliks.com/tmp/zoho_save.php';
+    protected $saveUrl = 'http://front.live.skiliks.com/api/zoho/saveExcel';
     
     protected $id = 13;
     
     protected $zohoUrl;
     
-    public function __construct()
+    protected $simId = null;
+    
+    public function __construct($simId = null)
     {
         $this->xlsTemplatesDir = 'documents/excel';
         $this->zohoUrl = sprintf(
             'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
             $this->apiKey
         );
+        $this->simId = $simId;
     }
     
-    public function getExcelFields($xlsTemplateFilename)
+    public function copyUserFileIfNotExists($templateFilename, $fileId)
+    {
+        $defauleFileTemplatePath = sprintf(
+            '%s/%s/%s',
+            '/var/www/skiliks_git/backend',
+            $this->xlsTemplatesDir,
+            $templateFilename
+        );
+        
+        $pathToCustomUserFile = sprintf(
+            '%s/%s/%s/%s/%s',
+            '/var/www/skiliks_git/backend',
+            $this->xlsTemplatesDir,
+            $this->simId,
+            $fileId,
+            $templateFilename
+        );
+        
+        //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
+        
+        @$f = fopen($pathToCustomUserFile, 'x+'); 
+        
+        if(null === $f || false === $f){
+            mkdir(sprintf(
+                '%s/%s/%s/',
+                '/var/www/skiliks_git/backend',
+                $this->xlsTemplatesDir,
+                $this->simId
+            ));
+            mkdir(sprintf(
+                '%s/%s/%s/%s/',
+                '/var/www/skiliks_git/backend',
+                $this->xlsTemplatesDir,
+                $this->simId,
+                $fileId
+            ));
+            file_put_contents($pathToCustomUserFile, '');
+            copy($defauleFileTemplatePath, $pathToCustomUserFile);
+        }
+    }
+
+
+    public function getExcelFields($xlsTemplateFilename, $docId)
     {
         return array(
             'content'  => sprintf(
@@ -34,21 +79,28 @@ class ZohoDocuments
                 $this->xlsTemplatesDir,
                 $xlsTemplateFilename
              ),
-            'filename' => $xlsTemplateFilename,
+            'filename' => sprintf(
+                '%s-%s-%s',                
+                $this->simId,
+                $docId,
+                $xlsTemplateFilename
+            ),
             'id'       => $this->id,
             'format'   => $this->format,
             'saveurl'  => $this->saveUrl
         );
     }
     
-    public function openExcelDocument($xlsTemplateFilename)
+    public function openExcelDocument($xlsTemplateFilename, $docId)
     {
         $url = null;
+        
+        // var_dump($this->getExcelFields($xlsTemplateFilename, $docId));
         
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->zohoUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getExcelFields($xlsTemplateFilename));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getExcelFields($xlsTemplateFilename, $docId));
         curl_setopt($ch, CURLOPT_VERBOSE,  1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, true);
