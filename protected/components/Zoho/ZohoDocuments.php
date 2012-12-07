@@ -84,7 +84,7 @@ class ZohoDocuments
                 '%s-%s-%s',                
                 $this->simId,
                 $docId,
-                $xlsTemplateFilename
+                StringTools::CyToEn($xlsTemplateFilename)
             ),
             'id'       => $this->id,
             'format'   => $this->format,
