@@ -50,13 +50,13 @@ class ZohoDocuments
         //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
         
         if(fopen($pathToCustomUserFile, 'w')){
-            mkdir(sprintf(
+            @mkdir(sprintf(
                 '%s%s/%s/',
                 '', // /var/www/skiliks_git/backend
                 $this->xlsTemplatesDir,
                 $this->simId
             ));
-            mkdir(sprintf(
+            @mkdir(sprintf(
                 '%s%s/%s/%s/',
                 '', // /var/www/skiliks_git/backend
                 $this->xlsTemplatesDir,
