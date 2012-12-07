@@ -47,11 +47,7 @@ class ZohoDocuments
             $templateFilename
         );
         
-        //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
-        
         @$f = fopen($pathToCustomUserFile, 'x+'); // x+ only return false
-        
-        var_dump($f);
         
         if(null === $f || false === $f || 'resource(5) of type (stream)'){
             var_dump('make');
@@ -68,10 +64,8 @@ class ZohoDocuments
                 $this->simId,
                 $fileId
             ));
-            //file_put_contents($pathToCustomUserFile, '');
-            var_dump($defauleFileTemplatePath, $pathToCustomUserFile);
-            var_dump(copy($defauleFileTemplatePath, $pathToCustomUserFile));
-            die('1');
+            
+            copy($defauleFileTemplatePath, $pathToCustomUserFile);
         }
     }
 
