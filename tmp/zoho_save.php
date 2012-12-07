@@ -20,7 +20,7 @@ $pathToUserFile = sprintf(
 
 move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);
 
-echo utf8_encode ('RESPONSE: Файл успешно сохранён.');
+echo utf8_encode ('RESPONSE: Saved.');
 
 //move_uploaded_file($_FILES['content']['tmp_name'], '../tmp/responses/'.$_FILES['content']['name'] );
 //echo 'RESPONSE: saved!';
