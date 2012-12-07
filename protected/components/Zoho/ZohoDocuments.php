@@ -35,7 +35,7 @@ class ZohoDocuments
             '%s%s/%s',
             '',
             $this->xlsTemplatesDir,
-            $templateFilename
+            StringTools::CyToEn($templateFilename)
         );
         
         $pathToCustomUserFile = sprintf(
@@ -44,7 +44,7 @@ class ZohoDocuments
             $this->xlsTemplatesDir,
             $this->simId,
             $fileId,
-            $templateFilename
+            StringTools::CyToEn($templateFilename)
         );
         
         @$f = fopen($pathToCustomUserFile, 'x+'); // x+ only return false
@@ -78,7 +78,7 @@ class ZohoDocuments
                 $this->xlsTemplatesDir,
                 $this->simId,
                 $docId,
-                $xlsTemplateFilename
+                StringTools::CyToEn($xlsTemplateFilename)
              ),
             'filename' => sprintf(
                 '%s-%s-%s',                
