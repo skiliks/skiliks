@@ -67,6 +67,13 @@ class ExcelDocumentTemplate extends CActiveRecord{
         ));
         return $this;
     }
+    
+    /**
+     * Files placed at {root}/documents/excel/
+     * @return string
+     */
+    public function getRealFileName() {
+        return str_replace(' ', '_', $this->name);;
+    }
+
 }
-
-
