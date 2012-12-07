@@ -33,14 +33,14 @@ class ZohoDocuments
     {
         $defauleFileTemplatePath = sprintf(
             '%s/%s/%s',
-            '/var/www/skiliks_git/backend',
+            '',
             $this->xlsTemplatesDir,
             $templateFilename
         );
         
         $pathToCustomUserFile = sprintf(
             '%s/%s/%s/%s/%s',
-            '/var/www/skiliks_git/backend',
+            '',
             $this->xlsTemplatesDir,
             $this->simId,
             $fileId,
@@ -54,13 +54,13 @@ class ZohoDocuments
         if(null === $f || false === $f){
             mkdir(sprintf(
                 '%s/%s/%s/',
-                '/var/www/skiliks_git/backend',
+                '', // /var/www/skiliks_git/backend
                 $this->xlsTemplatesDir,
                 $this->simId
             ));
             mkdir(sprintf(
                 '%s/%s/%s/%s/',
-                '/var/www/skiliks_git/backend',
+                '', // /var/www/skiliks_git/backend
                 $this->xlsTemplatesDir,
                 $this->simId,
                 $fileId
