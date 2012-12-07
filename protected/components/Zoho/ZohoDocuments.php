@@ -50,7 +50,7 @@ class ZohoDocuments
         @$f = fopen($pathToCustomUserFile, 'x+'); // x+ only return false
         
         if(null === $f || false === $f || 'resource(5) of type (stream)'){
-            var_dump($f);
+            var_dump($pathToCustomUserFile, $f);
             die(1);
             @mkdir(sprintf(
                 '%s%s/%s/',
