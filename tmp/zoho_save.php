@@ -11,7 +11,7 @@ unset($name[0], $name[1]);
 
 $realFileName = implode('-', $name);
 
-$realFileName = iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $realFileName);
+$realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8", $realFileName);
 
 $pathToUserFile = sprintf(
     '../documents/excel/%s/%s/%s',
