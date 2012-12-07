@@ -50,8 +50,7 @@ class ZohoDocuments
         @$f = fopen($pathToCustomUserFile, 'r'); // x+ only return false
         
         if(null === $f || false === $f){
-            var_dump($pathToCustomUserFile, $f);
- 
+
             @mkdir(sprintf(
                 '%s%s/%s/',
                 '', // /var/www/skiliks_git/backend
