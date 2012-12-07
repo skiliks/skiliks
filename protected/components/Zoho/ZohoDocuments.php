@@ -49,7 +49,7 @@ class ZohoDocuments
         
         //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
         
-        @$f = fopen($pathToCustomUserFile, 'x+'); 
+        @$f = fopen($pathToCustomUserFile, 'x+'); // x+ only return false
         
         var_dump($f);
         
@@ -69,6 +69,7 @@ class ZohoDocuments
                 $fileId
             ));
             //file_put_contents($pathToCustomUserFile, '');
+            var_dump($defauleFileTemplatePath, $pathToCustomUserFile);
             var_dump(copy($defauleFileTemplatePath, $pathToCustomUserFile));
             die('1');
         }
