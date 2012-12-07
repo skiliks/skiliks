@@ -15,9 +15,11 @@ class ZohoController extends CController
         
         $f = fopen('documents/excel/log.txt', 'w');
         fwrite($f, "--- \n");
-        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
         $realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
-        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        $realFileName = utf8_encode($realFileName);
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
         fclose($f);
         
         $pathToUserFile = sprintf(
