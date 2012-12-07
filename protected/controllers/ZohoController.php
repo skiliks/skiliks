@@ -27,6 +27,9 @@ class ZohoController extends CController
         $realFileName = utf8_encode($realFileName);
         fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
         
+        $realFileName = iconv("ASCII", "UTF-8", $realFileName);
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        
         fclose($f);
         
         $pathToUserFile = sprintf(
