@@ -19,6 +19,7 @@ return array(
         'application.models.Simulation.*',
         'application.models.User.*',*/
         'application.components.*',
+        'application.components.Zoho.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
