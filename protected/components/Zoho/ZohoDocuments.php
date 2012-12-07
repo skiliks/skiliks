@@ -49,9 +49,7 @@ class ZohoDocuments
         
         @$f = fopen($pathToCustomUserFile, 'w'); // x+ only return false
         
-        if(null === $f || false === $f || 'resource(5) of type (stream)'){
-            var_dump($pathToCustomUserFile, $f);
-            die(1);
+        if(null === $f || false === $f){
             @mkdir(sprintf(
                 '%s%s/%s/',
                 '', // /var/www/skiliks_git/backend
