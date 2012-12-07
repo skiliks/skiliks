@@ -49,11 +49,11 @@ class ZohoDocuments
         
         //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
         
-        @$f = fopen($pathToCustomUserFile, 'w'); 
+        @$f = fopen($pathToCustomUserFile, 'x+'); 
         
         var_dump($f);
         
-        if(null === $f || false === $f){
+        if(null === $f || false === $f || 'resource(5) of type (stream)'){
             var_dump('make');
             @mkdir(sprintf(
                 '%s%s/%s/',
