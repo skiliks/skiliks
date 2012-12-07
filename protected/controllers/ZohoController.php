@@ -5,7 +5,7 @@ class ZohoController extends CController
     {
         header('Content-type: text/html; charset=utf-8');
         
-        $name = explode('-',iconv('UTF-8', 'Windows-1250', $_FILES['content']['name']));
+        $name = explode('-',iconv('UTF-8', 'ASCII', $_FILES['content']['name']));
         
         $simId = $name[0];
         $documentID = $name[1];
