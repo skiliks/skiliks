@@ -141,6 +141,12 @@ final class ExcelDocument {
             throw new Exception("Немогу загрузить шаблон докмента для $templateId");
         }
         
+        $this->file = $documentTemplate;
+        
+        $zohoDocuments = new ZohoDocuments($simId);
+        $zohoDocuments->copyUserFileIfNotExists($this->file->getRealFileName(), $fileId);
+
+        
         /*
         // проверить есть ли у нас такой документ
         $document = ExcelDocumentModel::model()->bySimulation($simId)->byFile($fileId)->find();
@@ -164,8 +170,6 @@ final class ExcelDocument {
         $this->_setWorksheet($this->_defaultWorksheetId, $this->getWorksheet($this->_defaultWorksheetId));
         */
         
-        $this->file = $documentTemplate;
-        
         return $this;
     }
     
@@ -174,12 +178,13 @@ final class ExcelDocument {
      * 
      * @return array of strings
      */
-    public function populateFrontendResult() 
+    public function populateFrontendResult($simId, $fileId) 
     {
-        $result = 
-        
-        $zohoConnect = new ZohoDocuments();
-        $zohoResults = $zohoConnect->openExcelDocument($this->file->getRealFileName());
+        $zohoDocuments = new ZohoDocuments($simId);
+        $zohoResults = $zohoDocuments->openExcelDocument(
+            $this->file->getRealFileName(),
+            $fileId
+        );
         
          return array(
             'result' => 1,
