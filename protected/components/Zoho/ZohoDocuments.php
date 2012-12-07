@@ -47,7 +47,7 @@ class ZohoDocuments
             StringTools::CyToEn($templateFilename)
         );
         
-        @$f = fopen($pathToCustomUserFile, 'w'); // x+ only return false
+        @$f = fopen($pathToCustomUserFile, 'r'); // x+ only return false
         
         if(null === $f || false === $f){
             var_dump($pathToCustomUserFile, $f);
