@@ -12,10 +12,13 @@ unset($name[0], $name[1]);
 $realFileName = implode('-', $name);
 
 $f = fopen('log.txt', 'w');
+fwrite("--- \n");
+fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
+$realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
 fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
 fclose($f);
 
-$realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8", $realFileName);
+
 
 $pathToUserFile = sprintf(
     '../documents/excel/%s/%s/%s',
