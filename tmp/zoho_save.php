@@ -12,7 +12,7 @@ unset($name[0], $name[1]);
 $realFileName = implode('-', $name);
 
 $pathToUserFile = sprintf(
-    '../documents/excel/%s/%s/%s',
+    utf8_encode ('../documents/excel/%s/%s/%s'),
     $simId,
     $documentID,
     $realFileName
@@ -20,7 +20,7 @@ $pathToUserFile = sprintf(
 
 move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);
 
-echo 'RESPONSE: Файл успешно сохранён.';
+echo utf8_encode ('RESPONSE: Файл успешно сохранён.');
 
 //move_uploaded_file($_FILES['content']['tmp_name'], '../tmp/responses/'.$_FILES['content']['name'] );
 //echo 'RESPONSE: saved!';
