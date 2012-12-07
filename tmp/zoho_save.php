@@ -11,12 +11,16 @@ unset($name[0], $name[1]);
 
 $realFileName = implode('-', $name);
 
+$realFileName = iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $realFileName);
+
 $pathToUserFile = sprintf(
-    iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8",'../documents/excel/%s/%s/%s'),
+    '../documents/excel/%s/%s/%s',
     $simId,
     $documentID,
     $realFileName
 );
+
+
 
 move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);
 
