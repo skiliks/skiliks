@@ -13,6 +13,13 @@ class ZohoController extends CController
         
         $realFileName = implode('-', $name);
         
+        $f = fopen('documents/excel/log.txt', 'w');
+        fwrite("--- \n");
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
+        $realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true));
+        fclose($f);
+        
         $pathToUserFile = sprintf(
             'documents/excel/%s/%s/%s',
             $simId,
