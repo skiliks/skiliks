@@ -51,8 +51,6 @@ class ZohoDocuments
         
         @$f = fopen($pathToCustomUserFile, 'w'); 
         
-        var_dump($f);
-        
         if(null === $f || false === $f){
             @mkdir(sprintf(
                 '%s%s/%s/',
@@ -69,6 +67,7 @@ class ZohoDocuments
             ));
             //file_put_contents($pathToCustomUserFile, '');
             copy($defauleFileTemplatePath, $pathToCustomUserFile);
+            die('1');
         }
     }
 
