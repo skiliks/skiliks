@@ -3,7 +3,8 @@ class ZohoController extends CController
 {
     public function actionSaveExcel()
     {
-        /*$name = explode('-', $_FILES['content']['name']);
+        // @todo: add nginx rule to make authentification exeption for api/zoho/saveExcel
+        $name = explode('-', $_FILES['content']['name']);
         
         $simId = $name[0];
         $documentID = $name[1];
@@ -19,7 +20,7 @@ class ZohoController extends CController
             $realFileName
         );
 
-        move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);*/
+        move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);
         
         echo 'RESPONSE: Файл успешно сохранён.';
         die;
