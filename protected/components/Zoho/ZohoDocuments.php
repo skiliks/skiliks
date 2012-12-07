@@ -52,7 +52,6 @@ class ZohoDocuments
         @$f = fopen($pathToCustomUserFile, 'w'); 
         
         if(null === $f || false === $f){
-            var_dump($f); die;
             mkdir(sprintf(
                 '%s%s/%s/',
                 '', // /var/www/skiliks_git/backend
@@ -66,7 +65,7 @@ class ZohoDocuments
                 $this->simId,
                 $fileId
             ));
-            file_put_contents($pathToCustomUserFile, '');
+            //file_put_contents($pathToCustomUserFile, '');
             copy($defauleFileTemplatePath, $pathToCustomUserFile);
         }
     }
@@ -76,8 +75,10 @@ class ZohoDocuments
     {
         return array(
             'content'  => sprintf(
-                '@%s/%s',
+                '@%s/%s/%s/%s',
                 $this->xlsTemplatesDir,
+                $this->simId,
+                $docId,
                 $xlsTemplateFilename
              ),
             'filename' => sprintf(
