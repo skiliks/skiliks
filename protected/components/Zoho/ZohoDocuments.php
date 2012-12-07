@@ -11,7 +11,7 @@ class ZohoDocuments
     
     protected $format = 'xls';
     
-    protected $saveUrl = 'http://backend.live.skiliks.com/tmp/zoho_save.php'; //http://front.live.skiliks.com/api/zoho/saveExcel
+    protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel'; // http://backend.live.skiliks.com/tmp/zoho_save.php
     
     protected $id = 13;
     
