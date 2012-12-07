@@ -5,7 +5,7 @@ class ZohoController extends CController
     {
         header('Content-type: text/html; charset=utf-8');
         
-        $name = explode('-', $_FILES['content']['name']);
+        $name = explode('-',iconv('UTF-8', 'Windows-1250', $_FILES['content']['name']));
         
         $simId = $name[0];
         $documentID = $name[1];
@@ -41,7 +41,7 @@ class ZohoController extends CController
 
         move_uploaded_file($_FILES['content']['tmp_name'], $pathToUserFile);
         
-        echo 'RESPONSE: Файл успешно сохранён.';
+        echo 'RESPONSE: Saved.';
         die;
     }
 }
