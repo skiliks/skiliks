@@ -3,7 +3,8 @@ class ZohoController extends CController
 {
     public function actionSaveExcel()
     {
-        // @todo: add nginx rule to make authentification exeption for api/zoho/saveExcel
+        header('Content-type: text/html; charset=utf-8');
+        
         $name = explode('-', $_FILES['content']['name']);
         
         $simId = $name[0];
@@ -16,10 +17,16 @@ class ZohoController extends CController
         $f = fopen('documents/excel/log.txt', 'w');
         fwrite($f, "--- \n");
         fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        
         $realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
         fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        
+        $realFileName = iconv('ASCII' , "UTF-8//IGNORE", $realFileName);
+        fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        
         $realFileName = utf8_encode($realFileName);
         fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
+        
         fclose($f);
         
         $pathToUserFile = sprintf(
