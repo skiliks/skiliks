@@ -10,7 +10,7 @@ unset($name[0], $name[1]);
 $realFileName = implode('-', $name);
 
 $pathToUserFile = sprintf(
-    'documents/excel/%s/%s/%s',
+    '../documents/excel/%s/%s/%s',
     $simId,
     $documentID,
     $realFileName
