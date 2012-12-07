@@ -20,6 +20,7 @@ return array(
         'application.models.User.*',*/
         'application.components.*',
         'application.components.Zoho.*',
+        'application.components.Tools.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
