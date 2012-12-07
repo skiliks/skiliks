@@ -69,7 +69,7 @@ class ZohoDocuments
                 $fileId
             ));
             //file_put_contents($pathToCustomUserFile, '');
-            copy($defauleFileTemplatePath, $pathToCustomUserFile);
+            var_dump(copy($defauleFileTemplatePath, $pathToCustomUserFile));
             die('1');
         }
     }
