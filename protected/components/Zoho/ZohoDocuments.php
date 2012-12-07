@@ -35,7 +35,7 @@ class ZohoDocuments
             '%s%s/%s',
             '',
             $this->xlsTemplatesDir,
-            StringTools::CyToEn($templateFilename)
+            $templateFilename
         );
         
         $pathToCustomUserFile = sprintf(
