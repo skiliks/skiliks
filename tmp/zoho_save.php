@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: text/html; charset=UTF-8');
+
 $name = explode('-', $_FILES['content']['name']);
 
 $simId = $name[0];
