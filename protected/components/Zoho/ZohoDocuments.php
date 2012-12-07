@@ -49,9 +49,7 @@ class ZohoDocuments
         
         //var_dump($defauleFileTemplatePath, $pathToCustomUserFile); die;
         
-        @$f = fopen($pathToCustomUserFile, 'w'); 
-        
-        if(null === $f || false === $f){
+        if(fopen($pathToCustomUserFile, 'w')){
             mkdir(sprintf(
                 '%s%s/%s/',
                 '', // /var/www/skiliks_git/backend
@@ -67,8 +65,6 @@ class ZohoDocuments
             ));
             //file_put_contents($pathToCustomUserFile, '');
             copy($defauleFileTemplatePath, $pathToCustomUserFile);
-            die('1');
-            exit;
         }
     }
 
