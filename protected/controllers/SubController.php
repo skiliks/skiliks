@@ -25,7 +25,7 @@ class SubController extends AjaxController
 
         } catch (CDbException $exc) {
             $result['result'] = 0;
-            $result['message'] = "Email - {$email} has been alredy added before!";
+            $result['message'] = "Email - {$email} has been already added before!";
         } catch (Exception $exc) {
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
