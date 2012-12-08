@@ -1,5 +1,5 @@
 <?php
-class TimeWait1Test extends SeleniumTestCase
+class TimeWait2Test extends SeleniumTestCase
 {
     public function testMyTestCase()
     {
