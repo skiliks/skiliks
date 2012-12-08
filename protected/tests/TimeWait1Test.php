@@ -69,7 +69,7 @@ class TimeWait1Test extends SeleniumTestCase
         
         
         
-        sleep(10);
+        sleep(20);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Ладно, заходите. Надеюсь, это не надолго?\"]")->click();
         
         
