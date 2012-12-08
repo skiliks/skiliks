@@ -57,7 +57,7 @@ class TimeWait1Test extends SeleniumTestCase
 
         
         #ждём и кликаем на дверь
-        sleep(50);
+        sleep(55);
         $this->waitForElement($session, 'xpath', '//a[@id="icons_visit"]')->click();        
         sleep(5);
 
