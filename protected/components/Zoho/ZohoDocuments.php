@@ -5,33 +5,82 @@
  */
 class ZohoDocuments 
 {
-    protected $apiKey = null; // 'b5e3f7316085c8ece12832f533c751be';
+    /**
+     * Zoho API key
+     * 
+     * @var string
+     */
+    protected $apiKey = null;
     
-    protected $xlsTemplatesDir = null;
+    /**
+     * Path from project root dir.
+     * 
+     * @var string
+     */
+    protected $xlsTemplatesDirPath = null;
     
-    protected $templatesDir = null;
+    /**
+     * Path from project root dir.
+     * 
+     * @var string
+     */
+    protected $templatesDirPath = null;
     
-    protected $saveUrl = null; // 'http://live.skiliks.com/api/index.php/zoho/saveExcel';
+    /**
+     * Zoho will send saved document to this URL
+     * 
+     * @var string
+     */
+    protected $saveUrl = null;
     
+    /**
+     * MyDocument.id
+     * 
+     * @var integer
+     */
     protected $docID = null;
     
+    /**
+     * Simulation.id
+     * 
+     * @var integer
+     */
     protected $simId = null;
     
+    /**
+     * Responce from ZohoServer after we upload target document to Zoho server
+     * 
+     * @var string
+     */
     protected $responce = null;
     
+    /**
+     * Filenam that must be displayed for user in Zoho interface.
+     * 
+     * @var string
+     */
     protected $templateFilename = null;
     
+    /**
+     * File extention, used to detect application.
+     * @var string, 'xml', 'doc', 'ptt'
+     */
     protected $extention = null;
 
-
+    /*
+     * @param integer $simId
+     * @param integer $fileId
+     * @param string $templateFilename
+     * @param string $extention
+     */
     public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
         $zohoConfigs = Yii::app()->params['zoho'];
         
         $this->apiKey = $zohoConfigs['apiKey'];
         $this->saveUrl = $zohoConfigs['saveUrl'];
-        $this->xlsTemplatesDir = $zohoConfigs['xlsTemplatesDir']; //'documents/excel';
-        $this->templatesDir = $zohoConfigs['templatesDir']; //'documents';
+        $this->xlsTemplatesDirPath = $zohoConfigs['xlsTemplatesDirPath']; //'documents/excel';
+        $this->templatesDirPath = $zohoConfigs['templatesDirPath']; //'documents';
         $this->zohoUrl = sprintf(
             $zohoConfigs['sendFileUrl'], // 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor'
             $this->apiKey
@@ -142,6 +191,9 @@ class ZohoDocuments
 
     // --- Private methods ---------------------------------------------------------------------------------------------
     
+    /**
+     * @return string
+     */
     private function getTemplateFilePath()
     {
         $attributeName = $this->extention.'TemplatesDir';
@@ -152,25 +204,34 @@ class ZohoDocuments
         );
     }
     
+    /**
+     * @return string
+     */
     private function getUserFilepath()
     {
         return sprintf(
             '%s/%s/%s.xls',
-            $this->templatesDir,
+            $this->templatesDirPath,
             $this->simId,
             $this->docId
          );
     }
     
+    /**
+     * @return string
+     */
     private function getDocDirPath()
     {
         return sprintf(
             '%s/%s/', 
-            $this->templatesDir,
+            $this->templatesDirPath,
             $this->simId
         );
     }
     
+    /**
+     * @return string
+     */    
     private function getExcelFields()
     {
         return array(
