@@ -73,7 +73,14 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.loc/',
-        'skiliksSpeedFactor' => 8
+        'skiliksSpeedFactor' => 8,
+        'zoho' => array(
+            'apiKey'          => 'b5e3f7316085c8ece12832f533c751be',
+            'saveUrl'         => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',
+            'xlsTemplatesDir' => 'documents/excel',
+            'templatesDir'    => 'documents',
+            'sendFileUrl'     => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+        ),
     ),
 );
 
