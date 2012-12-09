@@ -16,6 +16,8 @@ class ZohoController extends CController
         
         $f = fopen('documents/excel/log.txt', 'w+');
         fwrite($f, "--- \n");
+        fwrite($f, $_SERVER[REQUEST_URI]);
+        fwrite($f, serialize($_GET));
         /*fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
         
         $realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
@@ -38,7 +40,7 @@ class ZohoController extends CController
             $documentID,
             StringTools::CyToEn($realFileName)
         );
-        fwrite($f,$pathToUserFile);
+        //fwrite($f,$pathToUserFile);
         
          fclose($f);
 
