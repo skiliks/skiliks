@@ -143,7 +143,7 @@ class ZohoDocuments
     private function getUserFilepath()
     {
         return sprintf(
-            '@%s/%s/%s.xls',
+            '%s/%s/%s.xls',
             $this->xlsTemplatesDir,
             $this->simId,
             $this->docId
@@ -162,7 +162,7 @@ class ZohoDocuments
     private function getExcelFields()
     {
         return array(
-            'content'  => $this->getUserFilepath(),
+            'content'  => '@'.$this->getUserFilepath(),
             'filename' => $this->templateFilename,
             'id'       => $this->simId.'-'.$this->docId,
             'format'   => $this->format,
