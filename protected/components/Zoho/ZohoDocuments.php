@@ -26,7 +26,7 @@ class ZohoDocuments
 
     public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
-        $zohoConfigs = Yii::app()->config->get('zoho');
+        $zohoConfigs = Yii::app()->params['zoho'];
         
         $this->apiKey = $zohoConfigs['apiKey'];
         $this->saveUrl = $zohoConfigs['saveUrl'];
