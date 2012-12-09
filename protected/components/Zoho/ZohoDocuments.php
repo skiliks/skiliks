@@ -5,13 +5,13 @@
  */
 class ZohoDocuments 
 {
-    protected $apiKey = 'b5e3f7316085c8ece12832f533c751be';
+    protected $apiKey = null; // 'b5e3f7316085c8ece12832f533c751be';
     
     protected $xlsTemplatesDir = null;
     
     protected $templatesDir = null;
     
-    protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel';
+    protected $saveUrl = null; // 'http://live.skiliks.com/api/index.php/zoho/saveExcel';
     
     protected $docID = null;
     
@@ -26,10 +26,14 @@ class ZohoDocuments
 
     public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
-        $this->xlsTemplatesDir = 'documents/excel';
-        $this->templatesDir = 'documents';
+        $zohoConfigs = Yii::app()->config->get('zoho');
+        
+        $this->apiKey = $zohoConfigs['apiKey'];
+        $this->saveUrl = $zohoConfigs['saveUrl'];
+        $this->xlsTemplatesDir = $zohoConfigs['xlsTemplatesDir']; //'documents/excel';
+        $this->templatesDir = $zohoConfigs['templatesDir']; //'documents';
         $this->zohoUrl = sprintf(
-            'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            $zohoConfigs['sendFileUrl'], // 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor'
             $this->apiKey
         );
         $this->simId = $simId;
