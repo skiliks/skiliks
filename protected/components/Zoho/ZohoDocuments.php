@@ -165,7 +165,7 @@ class ZohoDocuments
             'content'  => '@'.$this->getUserFilepath(),
             'filename' => $this->templateFilename,
             'id'       => $this->simId.'-'.$this->docId,
-            'format'   => $this->format,
+            'format'   => 'xls',
             'saveurl'  => $this->saveUrl,
         );
     }
