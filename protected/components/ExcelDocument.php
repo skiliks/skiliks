@@ -30,6 +30,9 @@ final class ExcelDocument {
      */
     protected $_worksheetMap = array();
     
+    protected $zohoDocument = null;
+
+
     function __construct($documentId = false) {
         $sid = SessionHelper::getSid();
         $simId = SessionHelper::getSimIdBySid($sid);
@@ -143,9 +146,8 @@ final class ExcelDocument {
         
         $this->file = $documentTemplate;
         
-        $zohoDocuments = new ZohoDocuments($simId);
-        $zohoDocuments->copyUserFileIfNotExists($this->file->getRealFileName(), $fileId);
-
+        $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
+        $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
         
         /*
         // проверить есть ли у нас такой документ
@@ -180,15 +182,20 @@ final class ExcelDocument {
      */
     public function populateFrontendResult($simId, $fileId) 
     {
-        $zohoDocuments = new ZohoDocuments($simId);
+        /*$zohoDocuments = new ZohoDocuments($simId);
         $zohoResults = $zohoDocuments->openExcelDocument(
             $this->file->getRealFileName(),
             $fileId
-        );
+        );*/
+        
+        if (false === isset($this->zohoDocument[$simId][$fileId])) {
+            $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
+            $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
+        }        
         
          return array(
             'result' => 1,
-             'excelDocumentUrl' => $zohoResults['url'],
+             'excelDocumentUrl' => $this->zohoDocument[$simId][$fileId]->getUrl(),
         );
     }
 }

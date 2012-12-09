@@ -9,20 +9,18 @@ class ZohoDocuments
     
     protected $xlsTemplatesDir = null;
     
-    protected $format = 'xls';
-    
-    protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel'; // http://backend.live.skiliks.com/tmp/zoho_save.php
+    protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel';
     
     protected $docID = null;
-    
-    protected $zohoUrl;
     
     protected $simId = null;
     
     protected $responce = null;
+    
+    protected $templateFilename = null;
 
 
-    public function __construct($simId = null)
+    public function __construct($simId, $fileId, $templateFilename)
     {
         $this->xlsTemplatesDir = 'documents/excel';
         $this->zohoUrl = sprintf(
@@ -30,89 +28,65 @@ class ZohoDocuments
             $this->apiKey
         );
         $this->simId = $simId;
-    }
-    
-    public function copyUserFileIfNotExists($templateFilename, $fileId)
-    {
-        $defauleFileTemplatePath = sprintf(
-            '%s%s/%s',
-            '',
-            $this->xlsTemplatesDir,
-            $templateFilename
-        );
+        $this->docId = $fileId;
+        $this->templateFilename = $templateFilename;
         
-        $pathToCustomUserFile = sprintf(
-            '%s%s/%s/%s/%s',
-            '',
-            $this->xlsTemplatesDir,
-            $this->simId,
-            $fileId,
-            StringTools::CyToEn($templateFilename)
-        );
-        
-        @$f = fopen($pathToCustomUserFile, 'r'); // x+ only return false
-        
-        if(null === $f || false === $f){
-
-            @mkdir(sprintf(
-                '%s%s/%s/',
-                '', // /var/www/skiliks_git/backend
-                $this->xlsTemplatesDir,
-                $this->simId
-            ));
-            @mkdir(sprintf(
-                '%s%s/%s/%s/',
-                '', // /var/www/skiliks_git/backend
-                $this->xlsTemplatesDir,
-                $this->simId,
-                $fileId
-            ));
-            
-            copy($defauleFileTemplatePath, $pathToCustomUserFile);
+        if (false === $this->checkIsUserFileExists()) {
+            $this->copyUserFileIfNotExists();
         }
     }
-
-
-    public function getExcelFields($xlsTemplateFilename, $docId)
+    
+    /**
+     * Checks is user copy of system file exists
+     * 
+     * @return boolean
+     */
+    public function checkIsUserFileExists() 
     {
-        // @todo: move to constructor
-        $this->docId = $docId;
+        @$f = fopen($this->getUserFilepath(), 'r'); // w, x, a - creates an empty file.
         
-        return array(
-            'content'  => sprintf(
-                '@%s/%s/%s/%s',
-                $this->xlsTemplatesDir,
-                $this->simId,
-                $docId,
-                StringTools::CyToEn($xlsTemplateFilename)
-             ),
-            'filename' => sprintf(
-                '%s-%s-%s',                
-                $this->simId,
-                $docId,
-                StringTools::CyToEn($xlsTemplateFilename)
-            ),
-            'id'       => $this->docId,
-            'format'   => $this->format,
-            'saveurl'  => $this->saveUrl.'?id='.$this->simId.'-'.$this->docId,
-        );
+        if(null === $f || false === $f) {
+            return false;
+        }  
+        
+        return true;
     }
     
-    public function openExcelDocument($xlsTemplateFilename, $docId)
+    /**
+     * Make user copy of system file
+     */
+    public function copyUserFileIfNotExists()
     {
-        $url = null;
-        
-        // var_dump($this->getExcelFields($xlsTemplateFilename, $docId));
-        
+        // make folder for simulation user files
+        if (false === is_dir($this->getDocDirPath())) {
+            @mkdir($this->getDocDirPath());
+        }
+
+        copy($this->getTemplateFilePath(), $this->getUserFilepath());
+    }
+    
+    /**
+     * Sends user document to Zoho and store responce
+     */
+    public function sendDocumentToZoho()
+    {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->zohoUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getExcelFields($xlsTemplateFilename, $docId));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getExcelFields());
         curl_setopt($ch, CURLOPT_VERBOSE,  1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $this->responce = curl_exec($ch);
+    }
+    
+    /**
+     * @return string, full URL to Zoho file editor
+     */
+    public function getUrl()
+    {
+        $url = null;
         
         $headers = explode("\n", $this->responce);
         foreach($headers as $value)
@@ -120,11 +94,79 @@ class ZohoDocuments
             if (stripos($value, 'Location: ') !== false)
             {
                 $url = str_replace('Location: ', '', $value);
+                break;
             }
         }
 
+        return $url;
+    }
+    
+    /**
+     * 
+     * @param string $returnedId, '1243-1243', $simulation.Id-$myDocuments.Id
+     * @param string $tmpFileName, path to temporary OS file, like '/tmp/askd32uds8czjse.xls'
+     * @param string $extention, 'xls','doc','ptt'
+     * 
+     * @return string, status mesage, will be displayed to user
+     */
+    public static function saveFile($returnedId, $tmpFileName, $extention)
+    {
+        $path = explode('-', $returnedId);
+        
+        if (2 !== count($path)) {
+            return 'RESPONSE: Wrong document id!';
+        }
+        
+        $pathToUserFile = sprintf(
+            'documents/excel/%s/%s.%s',
+            $path[0], // simId
+            $path[1], // documentID,
+            $extention
+        );
+        
+        move_uploaded_file($tmpFileName, $pathToUserFile);
+        
+        return 'Saved.';
+    }
+
+    // --- Private methods ---------------------------------------------------------------------------------------------
+    
+    private function getTemplateFilePath()
+    {
+        return sprintf(
+            '%s/%s',
+            $this->xlsTemplatesDir,
+            $this->templateFilename
+        );
+    }
+    
+    private function getUserFilepath()
+    {
+        return sprintf(
+            '@%s/%s/%s.xls',
+            $this->xlsTemplatesDir,
+            $this->simId,
+            $this->docId
+         );
+    }
+    
+    private function getDocDirPath()
+    {
+        return sprintf(
+            '%s/%s/', 
+            $this->xlsTemplatesDir,
+            $this->simId
+        );
+    }
+    
+    private function getExcelFields()
+    {
         return array(
-            'url' => $url
+            'content'  => $this->getUserFilepath(),
+            'filename' => $this->templateFilename,
+            'id'       => $this->simId.'-'.$this->docId,
+            'format'   => $this->format,
+            'saveurl'  => $this->saveUrl,
         );
     }
 }
