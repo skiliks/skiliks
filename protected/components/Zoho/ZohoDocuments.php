@@ -9,6 +9,8 @@ class ZohoDocuments
     
     protected $xlsTemplatesDir = null;
     
+    protected $templatesDir = null;
+    
     protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel';
     
     protected $docID = null;
@@ -18,11 +20,14 @@ class ZohoDocuments
     protected $responce = null;
     
     protected $templateFilename = null;
+    
+    protected $extention = null;
 
 
-    public function __construct($simId, $fileId, $templateFilename)
+    public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
         $this->xlsTemplatesDir = 'documents/excel';
+        $this->templatesDir = 'documents';
         $this->zohoUrl = sprintf(
             'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
             $this->apiKey
@@ -30,6 +35,7 @@ class ZohoDocuments
         $this->simId = $simId;
         $this->docId = $fileId;
         $this->templateFilename = $templateFilename;
+        $this->extention = $extention;
         
         if (false === $this->checkIsUserFileExists()) {
             $this->copyUserFileIfNotExists();
@@ -102,10 +108,11 @@ class ZohoDocuments
     }
     
     /**
-     * 
      * @param string $returnedId, '1243-1243', $simulation.Id-$myDocuments.Id
      * @param string $tmpFileName, path to temporary OS file, like '/tmp/askd32uds8czjse.xls'
      * @param string $extention, 'xls','doc','ptt'
+     * 
+     * @tutorial: Be careful when update code - this is static method.
      * 
      * @return string, status mesage, will be displayed to user
      */
@@ -133,9 +140,10 @@ class ZohoDocuments
     
     private function getTemplateFilePath()
     {
+        $attributeName = $this->extentoin.'TemplatesDir';
         return sprintf(
             '%s/%s',
-            $this->xlsTemplatesDir,
+            $this->$attributeName,
             $this->templateFilename
         );
     }
@@ -144,7 +152,7 @@ class ZohoDocuments
     {
         return sprintf(
             '%s/%s/%s.xls',
-            $this->xlsTemplatesDir,
+            $this->templatesDir,
             $this->simId,
             $this->docId
          );
@@ -154,7 +162,7 @@ class ZohoDocuments
     {
         return sprintf(
             '%s/%s/', 
-            $this->xlsTemplatesDir,
+            $this->templatesDir,
             $this->simId
         );
     }
