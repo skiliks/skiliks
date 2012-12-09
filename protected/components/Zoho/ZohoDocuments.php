@@ -13,12 +13,15 @@ class ZohoDocuments
     
     protected $saveUrl = 'http://live.skiliks.com/api/index.php/zoho/saveExcel'; // http://backend.live.skiliks.com/tmp/zoho_save.php
     
-    protected $id = 13;
+    protected $docID = null;
     
     protected $zohoUrl;
     
     protected $simId = null;
     
+    protected $responce = null;
+
+
     public function __construct($simId = null)
     {
         $this->xlsTemplatesDir = 'documents/excel';
@@ -72,6 +75,9 @@ class ZohoDocuments
 
     public function getExcelFields($xlsTemplateFilename, $docId)
     {
+        // @todo: move to constructor
+        $this->docId = $docId;
+        
         return array(
             'content'  => sprintf(
                 '@%s/%s/%s/%s',
@@ -86,7 +92,7 @@ class ZohoDocuments
                 $docId,
                 StringTools::CyToEn($xlsTemplateFilename)
             ),
-            'id'       => $this->id,
+            'id'       => $this->docId,
             'format'   => $this->format,
             'saveurl'  => $this->saveUrl
         );
@@ -106,9 +112,9 @@ class ZohoDocuments
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, true);
 
-        $content = curl_exec ($ch);
+        $this->responce = curl_exec($ch);
         
-        $headers = explode("\n", $content);
+        $headers = explode("\n", $this->responce);
         foreach($headers as $value)
         {
             if (stripos($value, 'Location: ') !== false)
