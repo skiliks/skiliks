@@ -17,7 +17,8 @@ class ZohoController extends CController
         $f = fopen('documents/excel/log.txt', 'w+');
         fwrite($f, "--- \n");
         //fwrite($f, $_SERVER[REQUEST_URI]);
-        fwrite($f, serialize(Yii:app()->getRequest()));
+        $r = Yii::app()->getRequest();
+        fwrite($f, serialize($r));
         /*fwrite($f, mb_detect_encoding($realFileName, mb_detect_order(), true)."\n");
         
         $realFileName = iconv(mb_detect_encoding($realFileName, mb_detect_order(), true), "UTF-8//IGNORE", $realFileName);
