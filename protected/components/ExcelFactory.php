@@ -23,6 +23,25 @@ final class ExcelFactory {
         
         return self::$_doc;
     }
+    
+    /**
+     *
+     * @return ExcelDocument
+     */
+    public static function getDocumentPath($simId, $documentId) 
+    {
+        $pathToUserFile = sprintf(
+            'documents/%s/%s.xls',
+            $simId,
+            $documentId
+        );
+        
+        if (false === fopen($pathToUserFile, 'r')) {
+            return null;
+        }
+        
+        return file_get_contents($pathToUserFile);
+    }
 }
 
 
