@@ -295,7 +295,7 @@ class CheckConsolidatedBudget
     public function calcPoints() 
     {
         // check document {
-        $documentId = ExcelDocumentService::getIdByFileCode('D1', $this->simId);
+        $documentId = ExcelDocumentService::getFileIIdByFileCode('D1', $this->simId);
         if (null === $documentId) {
             return false;
         }

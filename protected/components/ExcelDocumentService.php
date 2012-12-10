@@ -151,12 +151,7 @@ class ExcelDocumentService {
      */
     public static function getIdByFileCode($code, $simId) 
     {
-        // определить fileId по коду
-        $fileTemplateId = MyDocumentsService::getTemplateIdByCode($code);
-        if (!$fileTemplateId) return false;
-        
-        // определить fileId по шаблону
-        $fileId = MyDocumentsService::getFileIdByTemplateId($simId, $fileTemplateId);
+        $fileId = self::getFileIdByFileCode($code, $simId);
         
         // получить идентификатор документа в экселе
         $excelDocumentTemplateId = self::getTemplateIdByFileId($fileTemplateId);
@@ -178,6 +173,23 @@ class ExcelDocumentService {
         }
         
         return $docId;
+    }
+    
+    /**
+     * Получение идентификатора документа по коду файла
+     * @param type $code
+     * @param type $simId 
+     */
+    public static function getFileIdByFileCode($code, $simId) 
+    {
+        // определить fileId по коду
+        $fileTemplateId = MyDocumentsService::getTemplateIdByCode($code);
+        if (!$fileTemplateId) return false;
+        
+        // определить fileId по шаблону
+        $fileId = MyDocumentsService::getFileIdByTemplateId($simId, $fileTemplateId);
+        
+        return $fileId; 
     }
 }
 
