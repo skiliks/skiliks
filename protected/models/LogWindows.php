@@ -5,6 +5,10 @@
  * Date: 05.12.12
  * Time: 21:52
  * To change this template use File | Settings | File Templates.
+ * @property mixed window
+ * @property mixed sub_window
+ * @property mixed start_time
+ * @property int sim_id
  */
 class LogWindows extends CActiveRecord {
 
