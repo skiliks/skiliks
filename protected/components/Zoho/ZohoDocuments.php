@@ -196,7 +196,7 @@ class ZohoDocuments
      */
     private function getTemplateFilePath()
     {
-        $attributeName = $this->extention.'TemplatesDir';
+        $attributeName = $this->extention.'TemplatesDirPath';
         return sprintf(
             '%s/%s',
             $this->$attributeName,
