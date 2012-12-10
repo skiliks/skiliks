@@ -90,6 +90,7 @@ class SimulationController extends AjaxController{
             $simulation->insert();
 
             $simId = $simulation->id;
+            session_id($sid);
             Yii::app()->session['simulation'] = $simId;
 
             // Сделать вставки в events triggers

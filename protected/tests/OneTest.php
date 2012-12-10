@@ -9,7 +9,7 @@ class OneTest extends SeleniumTestCase
        
         # Login
     $session = $this->webdriver->session('firefox');
-    $session->open($this->browser_url);
+    $session->open($this->browser_url . 'site.php');
         # раскрыть окно на весь экран
     $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание

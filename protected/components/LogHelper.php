@@ -602,12 +602,15 @@ class LogHelper {
 //                    $comand->update( "log_windows" , array(
 //                        'end_time'  => date("H:i:s", $log[3])
 //                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
-                    $comand->insert( "log_windows" , array(
-                        'sim_id'    => $simId,
-                        'window'   => $log[0],
-                        'sub_window'   => $log[1],
-                        'start_time'  => date("H:i:s", $log[3])
-                    ));
+                    if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
+                        throw(new CException('Previous window is still activated'));
+                    }
+                    $log_window = new LogWindows();
+                    $log_window->sim_id = $simId;
+                    $log_window->window = $log[0];
+                    $log_window->sub_window = $log[1];
+                    $log_window->start_time  = date("H:i:s", $log[3]);
+                    $log_window->save();
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
