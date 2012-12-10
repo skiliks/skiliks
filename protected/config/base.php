@@ -22,6 +22,7 @@ return array(
         'application.components.Zoho.*',
         'application.components.Tools.*',
         'application.components.Excel.*',
+        'application.components.Email.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
