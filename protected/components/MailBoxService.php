@@ -248,7 +248,8 @@ class MailBoxService {
             'sender' => $model->sender_id,
             'receiver' => $model->receiver_id
         );
-        
+        $message_id = $model->message_id;
+        //Yii::log(var_export($message_id, TRUE));
         // array($model->sender_id, $model->receiver_id)
         // Получим всех персонажей
         $characters = $this->getCharacters();
@@ -285,6 +286,10 @@ class MailBoxService {
         
         $message['attachments'] = MailAttachmentsService::get($model->id);
         
+        if(!empty($message_id)){
+            $reply = MailBoxModel::model()->byId($message_id)->find();
+            $message['reply'] = $reply->message;
+        }
         return $message;
     }
 
@@ -309,7 +314,7 @@ class MailBoxService {
         $receiverId = (int)$receivers[0];
         
         $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
-
+        //Yii::log(var_dump($message_id, TRUE));
         $message = new MailBoxModel();
         $message->group_id = $params['group'];
         $message->sender_id = $params['sender'];
@@ -318,6 +323,7 @@ class MailBoxService {
         $message->receiver_id = $receiverId;
         $message->sending_date = time();
         $message->readed = 0;
+        $message->message_id = $message_id;
         $message->sim_id = $params['simId'];
         $message->insert();
         

@@ -23,6 +23,24 @@ final class ExcelFactory {
         
         return self::$_doc;
     }
+    
+    /**
+     *
+     * @return ExcelDocument
+     */
+    public static function getDocumentPath($simId, $documentId, $templateFileName = null)
+    {
+        $pathToUserFile = sprintf(
+            'documents/%s/%s.xls',
+            $simId,
+            $documentId
+        );        
+        
+        // use ZohoDocument to create file, if it not exist
+        new ZohoDocuments($simId, $documentId, $templateFileName); // FileName is not nessesary
+        
+        return $pathToUserFile;
+    }
 }
 
 
