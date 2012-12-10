@@ -20,7 +20,6 @@ class DebugController extends AjaxController{
             $simId = SessionHelper::getSimIdBySid($sid);
             
             $CheckConsolidatedBudget = new CheckConsolidatedBudget($simId);
-            $CheckConsolidatedBudget->calcPoints();
             
             $result = array('result' => (int)$CheckConsolidatedBudget->calcPoints());
             return $this->sendJSON($result);
