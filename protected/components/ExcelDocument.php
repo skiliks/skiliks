@@ -149,29 +149,6 @@ final class ExcelDocument {
         $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
         $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
         
-        /*
-        // проверить есть ли у нас такой документ
-        $document = ExcelDocumentModel::model()->bySimulation($simId)->byFile($fileId)->find();
-        if (!$document) {
-            // пока документа нет, значит надо его залить в симуляцию
-        );
-            
-            // скопируем пользователю документ
-            $documentId = ExcelDocumentService::copy($documentTemplate->id, $simId);
-            if (!$documentId) throw new Exception("Неудалось скопировать документ");
-        }
-        else {
-            $documentId = $document->id;
-        }
-        
-        // получить первый  воркшит
-        $this->_loadWorksheets($documentId);
-        $this->_activeWorksheet = $this->_defaultWorksheetId;
-        
-        // загрузить worksheet
-        $this->_setWorksheet($this->_defaultWorksheetId, $this->getWorksheet($this->_defaultWorksheetId));
-        */
-        
         return $this;
     }
     
@@ -182,12 +159,6 @@ final class ExcelDocument {
      */
     public function populateFrontendResult($simId, $fileId) 
     {
-        /*$zohoDocuments = new ZohoDocuments($simId);
-        $zohoResults = $zohoDocuments->openExcelDocument(
-            $this->file->getRealFileName(),
-            $fileId
-        );*/
-        
         if (false === isset($this->zohoDocument[$simId][$fileId])) {
             $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
             $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
