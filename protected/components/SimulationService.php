@@ -34,7 +34,7 @@ class SimulationService {
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
-        Logger::debug("getGameTime : sim {$simulation->id}");
+        #Logger::debug("getGameTime : sim {$simulation->id}");
         if (!$simulation) throw new Exception('Не могу определить симуляцию');
         $startTime = $simulation->start;
         
