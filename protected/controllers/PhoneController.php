@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Контроллер телефона
  *
@@ -195,7 +193,8 @@ class PhoneController extends AjaxController{
             $charactersList = Characters::model()->findAll();
             $characters = array();
             foreach($charactersList as $character) {
-                $characters[$character->id] = $character->fio;
+                $characters[$character->id] = array( 'fio'   => $character->fio,
+                                                     'title' => $character->title );
             }
             
             $items = PhoneCallsModel::model()->bySimulation($simId)->findAll();
@@ -216,7 +215,7 @@ class PhoneController extends AjaxController{
                 }
                 
                 $list[] = array(
-                    'name' => $characters[$characterId],
+                    'name' => (!empty($characters[$characterId]['fio']))?$characters[$characterId]['fio']:$characters[$characterId]['title'],
                     'date' => date('d.m.Y | G:i', $item->call_date),
                     'type' => $item->call_type  // 2 = miss
                 );

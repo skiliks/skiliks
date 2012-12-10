@@ -7,6 +7,7 @@
  * 
  * Связана с моделями: Users.
  *
+ * @property int difficulty
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Simulations extends CActiveRecord{
