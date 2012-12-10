@@ -711,11 +711,10 @@ class ExcelDocumentController extends AjaxController{
             $fileId = (int)Yii::app()->request->getParam('fileId', false);  
             
             $simId = SessionHelper::getSimIdBySid($sid);
-            if (!$simId) throw new Exception("cant find simId by sid {$sid}");
+            if (!$simId) throw new Exception("Can`t find simId by sid {$sid}");
             
             if ($fileId == 0) {
-                $file = MyDocumentsModel::model()->bySimulation($simId)->byFileName('example_1.xls')->find();
-                $fileId = $file->id;
+                throw new Exception("Can`t find file by id {$fileId}");
             }
 
             $result = ExcelFactory::getDocument()->loadByFile($simId, $fileId)->populateFrontendResult($simId, $fileId);

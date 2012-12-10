@@ -21,10 +21,13 @@ return array(
         'application.components.*',
         'application.components.Zoho.*',
         'application.components.Tools.*',
+        'application.components.Excel.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
         'application.components.Mail.*',*/
+        'application.extensions.*',
+        'application.extensions.PHPExcel.*',
     ),
     'components' => array(
         'log' => array(
@@ -63,6 +66,9 @@ return array(
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ),
         ),
+        'excel'=>array(
+            'class' => 'application.extensions.PHPExcel',
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
 
@@ -84,13 +90,23 @@ return array(
         'analizer' => array(
              'excel' => array(
                  'consolidatedBudget' => array(
-                     'consolidatedWorksheenName' => 'Сводный',
-                     'salesWorksheenName'        => 'Продажи',
-                     'productionWorksheenName'   => 'Производство',
-                     'logisticWorksheenName'     => 'Логистика',
-                     'otherWorksheenName'        => 'Прочее',
+                     'worksheetNames' => array(
+                        'consolidated' => 'Сводный',
+                        'sales'        => 'Продажи',
+                        'production'   => 'Производство',
+                        'logistic'     => 'Логистика',
+                        'other'        => 'Прочее',    
+                     ),
                      'etalons' => array(
-                         1 => 876,264,
+                         1 => 876264,
+                         2 => 3303417,
+                         3 => 0,
+                         4 => 0,
+                         5 => 0,
+                         6 => 0,
+                         7 => 0.597951,
+                         8 => 1.547943,
+                         9 => 0.676173,
                      )
                  )
              )

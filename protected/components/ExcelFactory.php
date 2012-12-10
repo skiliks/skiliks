@@ -28,19 +28,18 @@ final class ExcelFactory {
      *
      * @return ExcelDocument
      */
-    public static function getDocumentPath($simId, $documentId) 
+    public static function getDocumentPath($simId, $documentId, $templateFileName = null)
     {
         $pathToUserFile = sprintf(
             'documents/%s/%s.xls',
             $simId,
             $documentId
-        );
+        );        
         
-        if (false === fopen($pathToUserFile, 'r')) {
-            return null;
-        }
+        // use ZohoDocument to create file, if it not exist
+        new ZohoDocuments($simId, $documentId, $templateFileName); // FileName is not nessesary
         
-        return file_get_contents($pathToUserFile);
+        return $pathToUserFile;
     }
 }
 

@@ -55,7 +55,8 @@ class ZohoDocuments
     protected $responce = null;
     
     /**
-     * Filenam that must be displayed for user in Zoho interface.
+     * Filename - used to make user file if it not exists
+     * Also used to display for user in Zoho interface.
      * 
      * @var string
      */
