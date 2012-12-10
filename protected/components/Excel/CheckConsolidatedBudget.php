@@ -304,7 +304,6 @@ class CheckConsolidatedBudget
         if (null === $documentPath) {
             return false;
         }
-        var_dump($documentPath);
         // check document }
         
         // init configs {
