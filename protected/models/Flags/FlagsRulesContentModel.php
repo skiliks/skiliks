@@ -15,24 +15,24 @@ class FlagsRulesContentModel extends CActiveRecord
     /**
      * @var integer
      */
-    private $id;
+    public $id;
     
     /**
      * @var integer
      */
-    private $rule_id;
+    public $rule_id;
     
     /**
      * Flag name, like 'F1', 'F22'
      * @var string
      */
-    private $flag;
+    public $flag;
     
     /**
      * True or false - Flag must be true, flag must be false
      * @var boolean
      */
-    private $value;
+    public $value;
 
     // -----------------------------------------------------------------------------------------------------------------
     

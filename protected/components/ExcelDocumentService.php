@@ -149,19 +149,13 @@ class ExcelDocumentService {
      * @param type $code
      * @param type $simId 
      */
-    public static function getIdByFileCode($code, $simId) {
-        // определить fileId по коду
-        $fileTemplateId = MyDocumentsService::getTemplateIdByCode($code);
-        if (!$fileTemplateId) return false;
-        
-        // определить fileId по шаблону
-        $fileId = MyDocumentsService::getFileIdByTemplateId($simId, $fileTemplateId);
+    public static function getIdByFileCode($code, $simId) 
+    {
+        $fileId = self::getFileIdByFileCode($code, $simId);
         
         // получить идентификатор документа в экселе
         $excelDocumentTemplateId = self::getTemplateIdByFileId($fileTemplateId);
-        //echo("excelDocumentTemplateId : $excelDocumentTemplateId");     die();
-        
-        //echo("fileId : $fileId");    
+   
         // проверим а есть ли такой документ в симуляции
         if (!MyDocumentsService::existsInSim($simId, $fileId)) {
             // скопируем файл в симуляцию
@@ -174,33 +168,28 @@ class ExcelDocumentService {
         
         // проверим а есть ли документ в экселевских файлах
         $docId = self::existsInSimulation($simId, $fileId, $excelDocumentTemplateId);
-        //var_dump($docId);
         if (!$docId) {
             return ExcelDocumentService::copy($excelDocumentTemplateId, $simId);
         }
         
         return $docId;
-        ##########################################################
+    }
+    
+    /**
+     * Получение идентификатора документа по коду файла
+     * @param type $code
+     * @param type $simId 
+     */
+    public static function getFileIdByFileCode($code, $simId) 
+    {
+        // определить fileId по коду
+        $fileTemplateId = MyDocumentsService::getTemplateIdByCode($code);
+        if (!$fileTemplateId) return false;
         
-        // если документа нет - загрузить его
-        //ExcelFactory::getDocument()->loadByFile($simId, $fileId);
+        // определить fileId по шаблону
+        $fileId = MyDocumentsService::getFileIdByTemplateId($simId, $fileTemplateId);
         
-        
-        var_dump($docId); die();
-        
-        
-        
-        // скопировать документ в симуляцию
-        $docId = MyDocumentsService::copyToSimulation($simId, $fileId);
-        
-        
-        
-        echo("sim : $simId tpl $templateId doc $docId");
-        $document = ExcelDocumentModel::model()->bySimulation($simId)->byDocument($docId)->find();
-        var_dump($document);
-        if (!$document) return false;
-        
-        return $document->id;
+        return $fileId; 
     }
 }
 
