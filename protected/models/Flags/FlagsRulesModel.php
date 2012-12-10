@@ -14,28 +14,28 @@ class FlagsRulesModel extends CActiveRecord
     /**
      * @var integer
      */
-    private $id;
+    public $id;
     
     /**
      * @var string
      */
-    private $rule_name;
+    public $rule_name;
     
     /**
      * Record id, related to Dialog MySQL id
      * @var integer
      */
-    private $rec_id;
+    public $rec_id;
     
     /**
      * @var integer
      */
-    private $step_number;
+    public $step_number;
     
     /**
      * @var integer
      */
-    private $replica_number;
+    public $replica_number;
     
     // -----------------------------------------------------------------------------------------------------------------
     
@@ -105,11 +105,11 @@ class FlagsRulesModel extends CActiveRecord
     {
         if (null !== $recordId) {
             $this->getDbCriteria()->mergeWith(array(
-                'condition' => "rec_id = {$recordId} OR rec_id is null"
+                'condition' => " rec_id = {$recordId} OR rec_id IS NULL "
             ));
         } else {
             $this->getDbCriteria()->mergeWith(array(
-                'condition' => "rec_id is null"
+                'condition' => " rec_id IS NULL "
             ));
         }
         return $this;

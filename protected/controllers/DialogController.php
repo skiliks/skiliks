@@ -31,7 +31,7 @@ class DialogController extends AjaxController{
             }
             
             $dialogId = (int)Yii::app()->request->getParam('dialogId', 0);  
-
+            $timeString = Yii::app()->request->getParam('timeString', false);
             if ($dialogId == 0) {
                 return $this->sendJSON(
                     array(
@@ -76,9 +76,11 @@ class DialogController extends AjaxController{
                         
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
-                $phoneCalls->call_date = time();
+                //Yii::log(var_export($timeString, TRUE));
+                $unix_time = explode(':', date("H:i:s", $timeString));
+                $phoneCalls->call_date = gmmktime($unix_time[0], $unix_time[1], $unix_time[2], 10, 4, 2012);
                 $phoneCalls->call_type = $callType;
-                $phoneCalls->from_id = $currentDialog->ch_from;
+                $phoneCalls->from_id = $currentDialog->ch_to;
                 $phoneCalls->to_id = 1;
                 $phoneCalls->insert();
             }

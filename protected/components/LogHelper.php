@@ -359,8 +359,8 @@ class LogHelper {
                 //if(!isset($log[4]['mailId'])) continue;
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
-                    Yii::log(var_export($log, true), 'info');
-                    Yii::log(var_export($log[2], true), 'info');
+                    //Yii::log(var_export($log, true), 'info');
+                    //Yii::log(var_export($log[2], true), 'info');
                     $command->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
@@ -593,21 +593,24 @@ class LogHelper {
             
                 $comand = Yii::app()->db->createCommand();
                 //if(!isset($log[4]['mailId'])) continue;
-                Yii::log(sprintf(
-                        'Window log for sim %d: window "%s/%s", action %s, time %s, params %s',
-                        $simId, $log[0], $log[1], $log[2],date("H:i:s", $log[3]), isset($log[4]) ? CJSON::encode($log[4]) : "none"
-                    ),
-                    'info', 'log');
+//                Yii::log(sprintf(
+//                        'Window log for sim %d: window "%s/%s", action %s, time %s, params %s',
+//                        $simId, $log[0], $log[1], $log[2],date("H:i:s", $log[3]), isset($log[4]) ? CJSON::encode($log[4]) : "none"
+//                    ),
+//                    'info', 'log');
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 //                    $comand->update( "log_windows" , array(
 //                        'end_time'  => date("H:i:s", $log[3])
 //                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
-                    $comand->insert( "log_windows" , array(
-                        'sim_id'    => $simId,
-                        'window'   => $log[0],
-                        'sub_window'   => $log[1],
-                        'start_time'  => date("H:i:s", $log[3])
-                    ));
+                    if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
+                        throw(new CException('Previous window is still activated'));
+                    }
+                    $log_window = new LogWindows();
+                    $log_window->sim_id = $simId;
+                    $log_window->window = $log[0];
+                    $log_window->sub_window = $log[1];
+                    $log_window->start_time  = date("H:i:s", $log[3]);
+                    $log_window->save();
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {

@@ -16,7 +16,7 @@ class EventsController extends AjaxController{
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
         $toTime = $gameTime + 5*60;
         
-        Logger::debug("try to find task from {$gameTime} to {$toTime}");
+        // Logger::debug("try to find task from {$gameTime} to {$toTime}");
         $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
         if (!$dayPlan) return false;
         
@@ -24,14 +24,12 @@ class EventsController extends AjaxController{
         $task = Tasks::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
-        Logger::debug("found task {$task->id}");
+        // Logger::debug("found task {$task->id}");
         return array(
             'id' => $task->id,
             'text' => $task->title
         );
-    }
-    
-    
+    }    
     
     /**
      * Опрос состояния событий
@@ -120,8 +118,7 @@ class EventsController extends AjaxController{
                     
                     $index++;
                 }
-            }
-            
+            }            
             
             // У нас одно событие           
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
@@ -208,7 +205,6 @@ class EventsController extends AjaxController{
             ));
         }
         
-        //die;
         return;
     }
     
@@ -268,12 +264,10 @@ class EventsController extends AjaxController{
             
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
-                Logger::debug("update event : {$event->code} set time : $gameTime id : {$event->id}");
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
             }
             else {
-                Logger::debug("create event : code : {$event->code} id : {$event->id} sim : {$simId} time {$gameTime}");
                 
                 // Добавляем событие
                 $eventsTriggers = new EventsTriggers();
