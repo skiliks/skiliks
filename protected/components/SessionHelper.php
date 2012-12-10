@@ -54,7 +54,7 @@ final class SessionHelper {
         // stupidity, TODO: make normal sessions
         session_id($sid);
         $simulation = Simulations::model()->findByPk(Yii::app()->session['simulation']);
-        if (!$simulation) throw new CException("Не могу получить симуляцию");
+        if (!$simulation) throw new CException(sprintf("Не могу получить симуляцию по ID %d", Yii::app()->session['simulation']));
         
         return $simulation->primaryKey;
     }
