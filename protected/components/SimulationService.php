@@ -34,7 +34,7 @@ class SimulationService {
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
-        Logger::debug("getGameTime : sim {$simulation->id}");
+        // Logger::debug("getGameTime : sim {$simulation->id}");
         if (!$simulation) throw new Exception('Не могу определить симуляцию');
         $startTime = $simulation->start;
         
@@ -47,16 +47,59 @@ class SimulationService {
     
     /**
      * Рассчет оценки по окончании симуляции
+     * 
+     * @param integer simId
      */
-    public static function calcPoints($simId) {
-        //$documentId = ExcelDocumentService::getIdByName('Сводный бюджет', $simId);
-        
+    public static function calcPoints($simId) 
+    {
         $documentId = ExcelDocumentService::getIdByFileCode('D1', $simId);
-        //echo('documentId:'); var_dump($documentId);
-        if (!$documentId) return false;
+        if (null === $documentId) {
+            return false;
+        }
         
-        $document = ExcelFactory::getDocument($documentId);
-        if (!$document) return false;
+        $documentPath = ExcelFactory::getDocumentPath($simId, $documentId);
+        if (null === $documentPath) {
+            return false;
+        }
+        
+        $params = Yii::app()->params['analizer'];
+        $params = $params['excel']['consolidatedBudget']; // We don`t sure is PHP 5.3 used on server.
+        
+        $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
+        
+        // 'wh' - worksheet
+        $whLogistic = $objPHPExcel->getSheetByName($params['logisticWorksheetName']);
+        $whProduction = $objPHPExcel->getSheetByName($params['production WorksheetName']);
+        $whConsolidated = $objPHPExcel->getSheetByName($params['consolidatedWorksheetName']);
+        
+        $points = 0;
+        $model = SimulationsExcelPoints::model()->bySimulation($simId)->find();
+        if ($model) {
+            $points = $model->value;
+        }
+        
+        $pointsMap = array();
+        
+        // ---
+        
+        $tmpSum = 0;
+        foreach(array('B','C','D','E','F','G','H','I','J','K','L','M') as $colName) {
+            $tmpSum += $whLogistic->getCell($colName.'6') + $whLogistic->getCell($colName.'7');
+        }
+        if ($tmpSum == $params['etalons'][1]) {
+            $points++;
+            $pointsMap[1] = 1;
+        }
+        else {
+            $pointsMap[1] = 0;
+        }
+        
+        var_dump($points, $pointsMap);
+        
+        die;
+        
+        // ---------------
+        
         $worksheetId = $document->getWorksheetIdByName('Сводный');
         $worksheet = $document->loadWorksheet($worksheetId);
         
@@ -72,52 +115,11 @@ class SimulationService {
         
         $pointsMap = array();
         
-        Logger::debug("start excel check");
-        /**$formula = '=SUM(N6:Q7)+SUM(N10:Q14)';
-        $value = $excelFormula->parse($formula);
-        if ($value == 13707993) {
-            $points++;
-            $pointsMap[1] = 1;
-        }
-        else {
-            $pointsMap[1] = 0;
-        }
-        
-        $formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(N8:Q8)-SUM(N15:Q15)';
-        $value = $excelFormula->parse($formula);
-        if ($value == 0) {
-            $points++;
-            $pointsMap[2] = 1;
-        }
-        else {
-            $pointsMap[2] = 0;
-        }
-        
-        $formula = '=SUM(R6:R7)+SUM(R10:R14)';
-        $value = $excelFormula->parse($formula);
-        if ($value == 13707993) {
-            $points++;
-            $pointsMap[3] = 1;
-        }
-        else {
-            $pointsMap[3] = 0;
-        }
-        
-        $formula = '=SUM(R6:R7)+SUM(R10:R14)-R8-R15';
-        $value = $excelFormula->parse($formula);  //0
-        if ($value == 0) {
-            $points++;
-            $pointsMap[4] = 1;
-        }
-        else {
-            $pointsMap[4] = 0;
-        }*/
-        
         // новые 
         $document->activateWorksheetByName('Логистика');
         $formula = '=SUM(B6:M7)+SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+
         if ($value == 876264) {
             $points++;
             $pointsMap[1] = 1;
@@ -129,8 +131,8 @@ class SimulationService {
         $document->activateWorksheetByName('Производство');
         $formula = '=SUM(B6:M7)+SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
-        Logger::debug("$formula = $value");
-        //echo("value = $value <br/>");
+
+
         if ((int)$value == 3303417) {
             $points++;
             $pointsMap[2] = 1;
@@ -142,7 +144,7 @@ class SimulationService {
         $document->activateWorksheetByName('Сводный');
         $formula = '=SUM(N6:Q7)+SUM(N10:Q14)-SUM(B6:M7)-SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
-        Logger::debug("$formula = $value");
+
         if ($value == 0) {
             $points++;
             $pointsMap[3] = 1;
@@ -153,7 +155,7 @@ class SimulationService {
         
         $formula = '=SUM(R6:R7)+SUM(R10:R14)-SUM(B6:M7)-SUM(B10:M14)';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+
         if ($value == 0) {
             $points++;
             $pointsMap[4] = 1;
@@ -164,7 +166,7 @@ class SimulationService {
         
         $formula = '=SUM(N16:Q16)-(SUM(B8:M8)-SUM(B15:M15))';
         $value = $excelFormula->parse($formula); 
-        Logger::debug("5: $formula = $value");
+
         if ($value == 0) {
             $points++;
             $pointsMap[5] = 1;
@@ -176,7 +178,7 @@ class SimulationService {
         
         $formula = '=R16-(SUM(B8:M8)-SUM(B15:M15))';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+
         if ($value == 0) {
             $points++;
             $pointsMap[6] = 1;
@@ -186,9 +188,9 @@ class SimulationService {
         }
         
         $formula = '=R18';
-        Logger::debug("check formula : $formula");
+
         $value = $excelFormula->parse($formula); 
-        Logger::debug("value : $value");
+
 
         if ($value == 0.597951) {
             $points++;
@@ -200,7 +202,7 @@ class SimulationService {
         
         $formula = '=SUM(N19:Q19)';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+
         if ($value == 1.547943) {
             $points++;
             $pointsMap[8] = 1;
@@ -212,7 +214,7 @@ class SimulationService {
         
         $formula = '=SUM(N20:Q20)';
         $value = $excelFormula->parse($formula); 
-        //echo("value = $value <br/>");
+
         if ($value == 0.676173) {
             $points++;
             $pointsMap[9] = 1;
@@ -225,13 +227,6 @@ class SimulationService {
             CalculationEstimateService::addExcelPoint($simId, $formulaId, $point);
         }
         
-        // сохраняем
-        /*if (!$model) {
-            $model = new SimulationsExcelPoints();
-            $model->sim_id = $simId;
-        }    
-        $model->value = $points;
-        $model->save();*/
         return true;
     }
     
