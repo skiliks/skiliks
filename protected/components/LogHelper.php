@@ -33,6 +33,11 @@ class LogHelper {
         40 => 'documents'
     );
     
+    const MAIL_MAIN = 'mail main';
+    const MAIL_PREVIEW = 'mail preview';
+    const MAIL_NEW = 'mail new';
+    const MAIL_PLAN = 'mail plan';
+
     protected static $subScreens = array(
         1 => 'main screen',
         3 => 'plan',
@@ -61,6 +66,11 @@ class LogHelper {
 		
 	}
     
+    public static function getSubScreensArr(){
+        return self::$subScreens;
+    }
+
+
     public static function setLog($simId, $logs) {
         
         if(self::LOGIN) {
