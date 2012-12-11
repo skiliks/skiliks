@@ -28,6 +28,20 @@ class DebugController extends AjaxController{
             return $this->sendJSON($result);
         }    
     }
+    
+    public function actionAe()
+    {
+        $ea = new EmailAnalizer(2894);
+        
+        echo "<br/>Big tasks emails:<br/>";
+        var_dump($ea->checkBigTasks());
+        
+        echo "<br/>Small task email:s<br/>";
+        var_dump($ea->checkSmallTasks());
+        
+        echo "<br/>Spams emails:<br/>";
+        var_dump($ea->checkSpam());
+    }
 }
 
 
