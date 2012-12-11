@@ -30,6 +30,7 @@ class SimulationTest extends ControllerTestCase
         $result = $this->callJSONAction('SimulationController', 'actionChangeTime');
         $this->assertEquals(array('result' => 1), $result);
         $result = $this->callJSONAction('EventsController', 'actionGetState');
+        $result['serverTime'] = round($result['serverTime'], -1);
         $this->assertEquals(array('result' => 1,
             'serverTime' => 600,
             'events' => array(
