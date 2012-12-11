@@ -86,7 +86,7 @@ return array(
             'saveUrl'             => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/excel',
             'templatesDirPath'    => 'documents',
-            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'http://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
         'analizer' => array(
              'excel' => array(
