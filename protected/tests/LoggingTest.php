@@ -30,7 +30,7 @@ class LoggingTest extends SeleniumTestCase
         sleep(1);
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.drawNewLetter();"]')->click();
         $this->waitForElement($session, 'css selector', '#mailEmulatorNewLetterReceiverBox')->click();
-        $this->waitForElement($session, 'xpath', '//li[@onclick="mailEmulator.addReceiver(2)"]')->click();
+        $this->waitForElement($session, 'xpath', '//li[@onclick="mailEmulator.addReceiver(2)"]', 20)->click();
         $this->waitForElement($session, 'css selector', '#mailEmulatorNewLetterThemeBox')->click();
         $this->waitForElement($session, 'xpath', '//li[@onclick="mailEmulator.addTheme(214)"]')->click();
         $phrase = $this->waitForElement($session, 'css selector', '.mailEmulatorPhrase_369');
@@ -53,6 +53,7 @@ class LoggingTest extends SeleniumTestCase
         $session->buttonup();
         $session->element('xpath', '//button[@onclick="mailEmulator.askForSaveDraftLetter();"]')->click();
         $this->waitForElement($session, 'xpath', '//div[@onclick="mailEmulator.doResultForSaveDraftLetter(1);"]')->click();
+        sleep(2);
 
         //close mail
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();
