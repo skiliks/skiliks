@@ -688,4 +688,93 @@ class LogHelper {
         }
         return true;
     }
+    
+    public static function getDayPlan($return) {
+
+//        $data['data'] = Yii::app()
+//            ->db
+//            ->createCommand()
+//            ->select("d.sim_id,
+//                      d.day,
+//                      d.snapshot_time,
+//                      t.code,
+//                      t.title,
+//                      t.category,
+//                      d.date,
+//                      null as is_done,
+//                      d.todo_count")
+//            ->from('day_plan_log d')
+//            ->leftJoin('tasks t', 't.id = d.task_id')
+//            ->queryAll();
+
+        $sql = "SELECT 
+                    d.sim_id,
+                    d.day,
+                    d.snapshot_time,
+                    t.code,
+                    t.title,
+                    t.category,
+                    d.date,
+                    0 as is_done,
+                    d.todo_count
+                FROM day_plan_log as d
+                left join tasks as t on (t.id = d.task_id)";
+        
+        $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+        
+      
+        //var_dump($data['data']);
+        //exit;
+        $headers = array(
+            'sim_id'        => 'id_симуляции', 
+            'day'           => 'Графа плана',
+            'snapshot_time' => 'Время логирования состояния плана',
+            'code'          => 'Код задачи',                
+            'title'         => 'Наименование задачи',
+            'category'      => 'Категория задачи',
+            'date'          => 'Время, на которое стоит в плане',
+            'is_done'       => 'Сделана ли задача',
+            'todo_count'    => 'Кол-во задач в "Сделать"'             
+        );
+        if(self::RETURN_DATA == $return){
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование работы с планом";
+            return $data;
+        } elseif (self::RETURN_CSV == $return) {
+        $csv = new ECSVExport($data['data'], true, true, ';');
+        $csv->setHeaders($headers);
+        $csv->setCallback(function($row){
+            switch ($row['day']) {
+                case 1:
+                    $row['day'] = 'today';    
+                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
+                    break;
+
+                case 2:
+                    $row['day'] = 'tomorrow';    
+                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
+                    break;
+                
+                case 3:
+                    $row['day'] = 'after vacation';    
+                    $row['date'] = 'any';
+                    break;
+            }
+            
+            //$row['snapshot_time'] = DateHelper::toString($row['snapshot_time']);
+            if ($row['snapshot_time'] == 1) $row['snapshot_time'] = '11:00';
+            else $row['snapshot_time'] = 'end';
+             
+            $row['is_done'] = 'no';
+            
+            return $row;
+        });
+        $content = $csv->toCSVutf8BOM();
+        $filename = 'data.csv';
+        Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+        } else {
+            throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+        }
+        return true;
+    }
 }
