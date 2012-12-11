@@ -8,7 +8,9 @@ class EmailData
 {
     public $email = null;
     
-    public $isMustBeAnsweredInTwoMinutes = false;
+    public $isBigTask = false;  // more than 16 game minutes
+    
+    public $isSmallTask = false;  // less than 16 game minutes
     
     public $firstOpenedAt = null;
     
@@ -16,13 +18,149 @@ class EmailData
     
     public $plannedAt = null;
     
-    public $isSpam = false;
+    private $isSpam = false;
     
     /**
      * @param MailBox instance $email
      */
     public function __construct($email) {
         $this->email = $email;
+        
+        $this->isSmallTask = (bool)rand(0,1);
+        $this->isBigTask = (bool)rand(0,1);
+        $this->isSpam = (bool)rand(0,1);
+    }
+    
+    // ----------
+    
+    /**
+     * Checks is email was planed in $delta minutes after reading
+     * 
+     * @param integer $delta, game minutes
+     * @return boolean
+     */
+    public function isPlanedByMinutes($delta) 
+    {
+        $isPlannedInTime = (strtotime($this->getPlanedAt()) - strtotime($this->getFirstOpenedAt())) < $delta;
+        
+        return ($this->getIsPlaned() && $isPlannedInTime);
+    }
+    
+    /**
+     * Checks is email was replied in $delta minutes after reading
+     * 
+     * @param integer $delta, game minutes
+     * @return boolean
+     */
+    public function isAnsweredByMinutes($delta) 
+    {
+        $isRepliedInTime = (strtotime($this->getAnsweredAt()) - strtotime($this->getFirstOpenedAt())) < $delta;
+        
+        return ($this->getIsReplied() && $isRepliedInTime);
+    }
+    
+    // ----------
+    
+    /**
+     * @return boolean
+     */
+    public function getIsPlaned()
+    {
+        return (boolean)$this->email->plan;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsReaded()
+    {
+        return (boolean)$this->email->readed;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsReplied()
+    {
+        return (boolean)$this->email->reply;
+    }
+    
+    /**
+     * @return integer | null
+     */    
+    public function getParentEmailId()
+    {
+        return $this->email->message_id;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function getIsSpam()
+    {
+        return false;
+    }
+    
+    /**
+     * @return integer | null
+     */
+    public function getEmailFolderId()
+    {
+        return $this->email->group;
+    }
+    
+    /**
+     * @return string, format 'hh:ii:ss'
+     */
+    public function getFirstOpenedAt() {
+        return $this->firstOpenedAt;
+    }
+    
+    /**
+     * @param $date string, format 'hh:ii:ss'
+     * 
+     * @return EmaiData
+     */    
+    public function setFirstOpenedAt($date) {
+        $this->firstOpenedAt = $date;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string, format 'hh:ii:ss'
+     */
+    public function getPlanedAt() {
+        return $this->plannedAt;
+    }
+    
+    /**
+     * @param $date string, format 'hh:ii:ss'
+     * 
+     * @return EmaiData
+     */ 
+    public function setPlanedAt($date) {
+        $this->plannedAt = $date;
+        
+        return $this;
+    }
+    
+    /**
+     * @return string, format 'hh:ii:ss'
+     */
+    public function getAnsweredAt() {
+        return $this->answeredAt;
+    }
+    
+    /**
+     * @param $date string, format 'hh:ii:ss'
+     * 
+     * @return EmaiData
+     */ 
+    public function setAnsweredAt($date) {
+        $this->answeredAt = $date;
+        
+        return $this;
     }
 }
 
