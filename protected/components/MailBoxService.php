@@ -323,7 +323,10 @@ class MailBoxService {
         $message->receiver_id = $receiverId;
         $message->sending_date = time();
         $message->readed = 0;
-        $message->message_id = $message_id;
+        Yii::log(var_export($letterType." = ".$message_id, true));
+        if($letterType == 'reply' OR $letterType == 'replyAll'){
+            $message->message_id = $message_id;
+        }
         $message->sim_id = $params['simId'];
         $message->insert();
         
