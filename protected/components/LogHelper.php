@@ -481,21 +481,48 @@ class LogHelper {
                     , g.name
                     , if(m.readed = 0, 'Нет', 'Да') AS readed
                     , if(m.plan = 0, 'Нет', 'Да') AS plan
-                    , if(m.reply = 0, 'Нет', 'Да') AS reply")
+                    , if(m.reply = 0, 'Нет', 'Да') AS reply
+                    , m.id
+                    ")
             ->from('mail_box m')
             ->join('mail_group g', 'm.group_id = g.id')
             ->where('type = 1 or type = 3')
             ->order('m.id')
             ->queryAll();
+        
+        // add is right mail_task planned  {
+        $logMail = array();
+        foreach (LogMail::model()->byWindow(14)->findAll() as $log) {
+            $logMail[$log->mail_id] = $log;
+        }
+        
+        $mailTask = array();
+        foreach (MailTasksModel::model()->findAll() as $line) {
+            $mailTask[$line->id] = $line;
+        }
+        
+        foreach ($data['data'] as $key => $value) {
+            $data['data'][$key]['mail_task_is_correct'] = '-';
+            
+            if (isset($logMail[$value['id']])) {
+                $mailTaskId = $logMail[$value['id']]->mail_task_id;
+                if (null !== $mailTaskId) {
+                    $data['data'][$key]['mail_task_is_correct'] = ('R' == $mailTask[$mailTaskId]->wr) ? 'Да' : 'Нет';
+                }                
+            }
+        }
+        // add is right mail_task planned  }
 
         $headers = array(
-            'sim_id'     => 'id_симуляции',
-            'code'       => 'Код входящего письма',
-            'name'     => 'Папка мейл-клиента',
-            'readed' => 'Письмо прочтено (да/нет)',
-            'plan'   => 'Письмо запланировано (да/нет)',
-            'reply'   => 'На письмо отправлен ответ'
+            'sim_id'                 => 'id_симуляции',
+            'code'                   => 'Код входящего письма',
+            'name'                   => 'Папка мейл-клиента',
+            'readed'                 => 'Письмо прочтено (да/нет)',
+            'plan'                   => 'Письмо запланировано (да/нет)',
+            'reply'                  => 'На письмо отправлен ответ',
+            'mail_task_is_correct'   => 'Задача запланирована правильно?',
         );
+        
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;
             $data['title'] = "Логирование работы с Входящими сообщениями - агрегированно";
