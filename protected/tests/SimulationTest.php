@@ -22,7 +22,7 @@ class SimulationTest extends ControllerTestCase
         $result = $this->callJSONAction('TodoController', 'actionGetCount');
         $this->assertEquals(array('result' => 1, 'data' => 18), $result);
         $result = $this->callJSONAction('EventsController', 'actionGetState');
-        $this->assertEquals(540, $result['serverTime'], 10);
+        $this->assertEquals(540, round($result['serverTime'], -1), 10);
         unset($result['serverTime']);
         $this->assertEquals(array('result' => 0, 'code' => 4, 'message' => 'Нет ближайших событий'), $result);
         $_POST['hour'] = 10;
