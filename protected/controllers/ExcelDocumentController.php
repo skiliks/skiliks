@@ -725,6 +725,8 @@ class ExcelDocumentController extends AjaxController{
         } catch (Exception $exc) {
             $this->sendJSON(array(
                 'result' => 0,
+                'filedId' => $fileId,
+                'excelDocumentUrl' => '/pages/excel/fileNotFound.html',
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
             ));
