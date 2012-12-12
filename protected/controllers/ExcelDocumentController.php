@@ -719,6 +719,8 @@ class ExcelDocumentController extends AjaxController{
 
             $result = ExcelFactory::getDocument()->loadByFile($simId, $fileId)->populateFrontendResult($simId, $fileId);
             
+            $result['fileId'] = $fileId;
+            
             $this->sendJSON($result);
         } catch (Exception $exc) {
             $this->sendJSON(array(

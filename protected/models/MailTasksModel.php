@@ -30,6 +30,9 @@ class MailTasksModel extends CActiveRecord{
     
     /**
      * Выбрать по заданному письму
+     * 
+     *  MAil id means mailTemplateId
+     * 
      * @param type $mailId
      * @return MailTasksModel 
      */
@@ -40,6 +43,25 @@ class MailTasksModel extends CActiveRecord{
         ));
         return $this;
     }
+    
+    /**
+     * Выбрать по заданному письму
+     * 
+     *  MAil id means mailTemplateId
+     * 
+     * @param array of integer $mailId
+     * @return MailTasksModel 
+     */
+    public function byMailIds($mailIds)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => sprintf(
+                "mail_id IN (%s)",
+                implode(', ', $mailIds)
+             )
+        ));
+        return $this;
+    }    
     
     /**
      * Выбрать по заданному идентификатору

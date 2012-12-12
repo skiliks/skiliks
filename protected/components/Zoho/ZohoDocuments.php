@@ -48,11 +48,11 @@ class ZohoDocuments
     protected $simId = null;
     
     /**
-     * Responce from ZohoServer after we upload target document to Zoho server
+     * Response from ZohoServer after we upload target document to Zoho server
      * 
      * @var string
      */
-    protected $responce = null;
+    protected $response = null;
     
     /**
      * Filename - used to make user file if it not exists
@@ -126,7 +126,7 @@ class ZohoDocuments
     }
     
     /**
-     * Sends user document to Zoho and store responce
+     * Sends user document to Zoho and store response
      */
     public function sendDocumentToZoho()
     {
@@ -138,7 +138,8 @@ class ZohoDocuments
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, true);
 
-        $this->responce = curl_exec($ch);
+        $this->response = curl_exec($ch);
+        Yii::log($this->response);
     }
     
     /**
@@ -148,7 +149,7 @@ class ZohoDocuments
     {
         $url = null;
         
-        $headers = explode("\n", $this->responce);
+        $headers = explode("\n", $this->response);
         foreach($headers as $value)
         {
             if (stripos($value, 'Location: ') !== false)
