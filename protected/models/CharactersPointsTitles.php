@@ -40,6 +40,28 @@ class CharactersPointsTitles extends CActiveRecord{
     }
     
     /**
+     * @return CharactersPointsTitles 
+     */
+    public function negative()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'type_scale = 2'
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return CharactersPointsTitles 
+     */
+    public function positive()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'type_scale = 1'
+        ));
+        return $this;
+    }
+    
+    /**
      * Выбрать цель, у которой есть родители
      * @return CharactersPointsTitles 
      */

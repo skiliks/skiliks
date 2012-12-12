@@ -628,15 +628,26 @@ class MailController extends AjaxController{
             $templateId = (int)MailBoxService::getTemplateId($messageId);
             if ($templateId == 0) throw new Exception("cant get template for id : $messageId");
             
+            $email = MailBoxModel::model()->findByPk($messageId);
+            
+            // not planned yet
+            if (0 == $email->plan) {
             // получить список задач для шаблона письма
-            $tasks = MailBoxService::getTasks($templateId);
-            //var_dump($tasks);
+                $tasks = MailBoxService::getTasks($templateId);
+                //var_dump($tasks);
 
-            // вернуть результат
-            $result = array();
-            $result['result'] = 1;
-            $result['data'] = $tasks;
-        return $this->sendJSON($result);
+                // вернуть результат
+                $result = array();
+                $result['result'] = 1;
+                $result['data'] = $tasks;
+            } else {
+                // has been planned
+                $result = array();
+                $result['result'] = 1;
+                $result['data'] = array(); 
+            }
+            
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;
