@@ -227,6 +227,7 @@ class MailController extends AjaxController{
             'simId' => $simId,
             'timeString'=>$timeString,
             'fileId' => $fileId,
+            'letterType'=>$letterType
         ));
         
         // @todo: what is in error case?
