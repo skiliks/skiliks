@@ -381,10 +381,16 @@ class LogHelper {
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     
+                    if (false === isset($log[4]) || false === isset($log[4]['planId'])) {
+                        $log[4]['planId'] = null;
+                    }
+                    // var_dump($log);
+                    
                     if($log[1] != 13) {
                         //Yii::log(var_export($log, true), 'info');
                         $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3])
+                        'end_time'  => date("H:i:s", $log[3]),
+                        'mail_task_id' => $log[4]['planId'],
                         ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         
@@ -392,6 +398,7 @@ class LogHelper {
                         //Yii::log(var_export($log, true), 'info');
                         $command->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3]),
+                        'mail_task_id' => $log[4]['planId'],
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
                         ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;

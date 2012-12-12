@@ -20,6 +20,12 @@ class EmailData
     
     private $isSpam = false;
     
+    private $planedTaskId = null;
+    
+    private $rightPlanedTaskId = null;
+    
+    public $typeOfImportance = null;
+    
     /**
      * @param MailBox instance $email
      */
@@ -61,6 +67,23 @@ class EmailData
     
     // ----------
     
+    public function isNeedToBePlaned()
+    {
+        return 'plan' === $this->typeOfImportance;
+    }
+    
+    /**
+     * @param $date string, 'plan', 'spam' .. etc.
+     * 
+     * @return EmaiData
+     */    
+    public function setTypeOfImportance($v) {
+        $this->typeOfImportance = $v;
+        
+        return $this;
+    }
+
+
     /**
      * @return boolean
      */
@@ -159,6 +182,42 @@ class EmailData
      */ 
     public function setAnsweredAt($date) {
         $this->answeredAt = $date;
+        
+        return $this;
+    }
+    
+    /**
+     * @return integer mail_task.id
+     */
+    public function getPlanedTaskId() {
+        return $this->planedTaskId;
+    }
+    
+    /**
+     * @param integer $id, mail_task.id
+     * 
+     * @return EmaiData
+     */    
+    public function setPlanedTaskId($id) {
+        $this->planedTaskId = $id;
+        
+        return $this;
+    }
+    
+    /**
+     * @return integer mail_task.id
+     */
+    public function getRightPlanedTaskId() {
+        return $this->rightPlanedTaskId;
+    }
+    
+    /**
+     * @param integer $id, mail_task.id
+     * 
+     * @return EmaiData
+     */    
+    public function setRightPlanedTaskId($id) {
+        $this->rightPlanedTaskId = $id;
         
         return $this;
     }

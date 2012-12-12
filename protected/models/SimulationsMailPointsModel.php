@@ -9,8 +9,18 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsMailPointsModel extends CActiveRecord{
+class SimulationsMailPointsModel extends CActiveRecord
+{
+    public $id;
     
+    public  $sim_id;
+    
+    public $point_id;
+    
+    public $scale_type_id;
+    
+    public $value;
+            
     /**
      *
      * @param type $className

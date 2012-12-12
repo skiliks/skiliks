@@ -45,6 +45,18 @@ class MailTasksModel extends CActiveRecord{
     }
     
     /**
+     * @param string $value, 'W', 'R' or 'M'. Wrong, Right, Miscelaniouse
+     * @return MailTasksModel 
+     */
+    public function byWrongRight($value)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "wr = '{$value}'"
+        ));
+        return $this;
+    }
+    
+    /**
      * Выбрать по заданному письму
      * 
      *  MAil id means mailTemplateId
