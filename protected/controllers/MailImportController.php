@@ -51,8 +51,8 @@ class MailImportController extends AjaxController{
             
             if ($index == 2) {
                 // загрузим кодов
-                $START_COL = 18;
-                $END_COL = 132;
+                $START_COL = 20;
+                $END_COL = 134;
                 $columnIndex = $START_COL;
                 while($columnIndex < $END_COL) {
                     $pointsCodes[$columnIndex] = $row[$columnIndex];
@@ -85,6 +85,8 @@ class MailImportController extends AjaxController{
             // Вложение
             $attachment = $row[11];  // L
             
+            $typeOfImportance = trim($row[13]);
+            
             if (false === isset($exists[$code])) {
                 $exists[$code] = 1;
             } else {
@@ -109,13 +111,13 @@ class MailImportController extends AjaxController{
                 $type = 2;
                 $counter['MS']++;
             } else {
-                echo("Ошибка"); //TODO: Дописать описание
+                echo "Ошибка: \$code = $code <br/> Line $index."; //TODO: Дописать описание
                 die;
             }
             
             if (!isset($characters[$fromCode])) {                
-                echo "cant find character by code $fromCode";
-                echo "index : $index not found.";
+                echo "cant find character by code $fromCode <br/>";
+                echo "Line $index";
                 die();
             }
             $fromId = $characters[$fromCode];
@@ -150,11 +152,12 @@ class MailImportController extends AjaxController{
             if (!isset($date[1])) {
                 echo("line: $index, code $code date : ");
                 var_dump($sendingDate); 
+                echo "<br/>Line $index";
                 die();
             }
             
             if (!isset($time[1])) {
-                echo("line: $index,code $code time : ");
+                echo("line: $index, code $code time : ");
                 var_dump($sendingTime); 
                 die();
             }
@@ -175,6 +178,7 @@ class MailImportController extends AjaxController{
                 $model->sending_date = $sendingDate;
                 $model->code = $code;
                 $model->type = $type;
+                $model->type_of_importance = $typeOfImportance;
 
                 $model->insert();
                 //echo("insert code: $code index $index <br/>");
@@ -187,6 +191,7 @@ class MailImportController extends AjaxController{
                 $model->message = $message;
                 $model->sending_date = $sendingDate;
                 $model->type = $type;
+                $model->type_of_importance = $typeOfImportance;
                 $model->update();
                 
                 //echo("updated code: $code index $index <br/>");
@@ -194,7 +199,7 @@ class MailImportController extends AjaxController{
             
             // учтем поинты (оценки, marks)
             $columnIndex = $START_COL;
-            while($columnIndex <= $END_COL) {
+            while($columnIndex < $END_COL) {
                 $value = $row[$columnIndex];
                 if ($value == '') {
                     $columnIndex++;
@@ -227,7 +232,7 @@ class MailImportController extends AjaxController{
 
                 $columnIndex++;
             }
-            
+
             foreach($receivers as $ind => $receiverCode) {
                 if (!isset($characters[$receiverCode])) {
                     echo("cant find receiver by code $receiverCode"); die();
