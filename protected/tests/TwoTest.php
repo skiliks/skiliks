@@ -75,7 +75,7 @@ class TwoTest extends SeleniumTestCase
         #3 ответа на диалог
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Может мой аналитик подойти вместо меня?\"]")->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, буду в 18.00\"]")->click();
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Действительно, повезло! Уже бегу!\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Действительно, повезло! Уже бегу!\"]", 20)->click();
  
 
         sleep(8);
