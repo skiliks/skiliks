@@ -39,7 +39,7 @@ class TwoTest extends SeleniumTestCase
         
         #2 ответа на диалог с Денежной
        
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]", 30)->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, за три часа управлюсь.\"]")->click();
         sleep(3);
         
@@ -75,13 +75,12 @@ class TwoTest extends SeleniumTestCase
         #3 ответа на диалог
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Может мой аналитик подойти вместо меня?\"]")->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, буду в 18.00\"]")->click();
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Действительно, повезло! Уже бегу!\"]", 20)->click();
- 
+
 
         sleep(8);
         #проверка конечного результата
         $this->assertEquals("Сумма оценок: 4.5", $session->element("css selector", ".result-total")->text());
-        $this->assertEquals("Сумма оценок 6x: 10", $session->element("css selector", ".result-total-6x")->text());
+        $this->assertEquals("Сумма оценок 6x: 9", $session->element("css selector", ".result-total-6x")->text());
         $this->assertEquals("Сумма оценок Negative: 0", $session->element("css selector", ".result-total-negative")->text());
 
     }
