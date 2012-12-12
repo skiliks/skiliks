@@ -10,7 +10,7 @@ class LoginTest extends SeleniumTestCase
   {
         $session = $this->webdriver->session('firefox');
         # после вызова open нужно сделать waitForElement, чтобы дождаться загрузки страницы
-        $session->open($this->browser_url);
+        $session->open($this->browser_url . 'site.php');
         # вот таким извращенным способом вводится текст
          $this->waitForElement($session, "id","login")->value(
                  array("value"=>str_split("kaaaaav@gmail.com"))

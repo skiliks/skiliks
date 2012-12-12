@@ -34,6 +34,21 @@ class Tasks extends CActiveRecord{
      * @param array $ids
      * @return Tasks 
      */
+    public function byTitles($titles)
+    {
+        $titles = implode("','", $titles);
+        
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "title in ('{$titles}')"
+        ));
+        return $this;
+    }
+    
+    /**
+     * Выбрать согласно набору задач
+     * @param array $ids
+     * @return Tasks 
+     */
     public function byIds($ids)
     {
         
@@ -41,6 +56,32 @@ class Tasks extends CActiveRecord{
         
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id in ({$ids})"
+        ));
+        return $this;
+    }
+    
+    /**
+     * Выбрать конкретную задачу
+     * @param int $id
+     * @return Tasks 
+     */
+    public function bySimId($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * Выбрать конкретную задачу
+     * @param int $id
+     * @return Tasks 
+     */
+    public function bySimIdOrNull($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " (sim_id = {$simId} OR sim_id IS NULL) "
         ));
         return $this;
     }

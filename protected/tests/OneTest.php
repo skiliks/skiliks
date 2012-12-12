@@ -74,12 +74,11 @@ class OneTest extends SeleniumTestCase
       $session->element ('xpath', '//a[@id="icons_phone"]')->click();
       sleep(5);
 
-      $session->element("xpath", "//a[text()=\"ОТКЛОНИТЬ\"]")->click();
+      $this->waitForElement($session, "xpath", "//a[text()=\"ОТКЛОНИТЬ\"]")->click();
 
-      sleep(5);
+      $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 40);
       $session->element ('xpath', '//a[@id="icons_phone"]')->click();
-      $this->waitForElement($session, 'css selector', '.phone-call-in-btn');
-      $session->element("xpath", "//a[text()=\"ПРИНЯТЬ\"]")->click();
+      $this->waitForElement($session, 'xpath', "//a[text()=\"ПРИНЯТЬ\"]")->click();
 
       sleep(10);
        $session->element("xpath", "//p[text()=\"- Валерий Семенович, так в прошлый раз нам пришлось презентацию за день делать! А аналитика, который тогда напортачил, я уже уволил.\"]")->click();
