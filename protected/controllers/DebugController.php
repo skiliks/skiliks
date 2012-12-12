@@ -31,16 +31,20 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        $ea = new EmailAnalizer(2894);
+        $ea = new EmailAnalizer(2932);
         
-        echo "<br/>Big tasks emails:<br/>";
+        echo "<br/>3322 3324:<br/> <pre>";
+        var_dump($ea->check_3322_3324());
+        echo "</pre>";
+        
+        /*echo "<br/>Big tasks emails:<br/>";
         var_dump($ea->checkBigTasks());
         
         echo "<br/>Small task email:s<br/>";
         var_dump($ea->checkSmallTasks());
         
         echo "<br/>Spams emails:<br/>";
-        var_dump($ea->checkSpam());
+        var_dump($ea->checkSpam());*/
     }
 }
 

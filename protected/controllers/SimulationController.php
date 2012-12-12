@@ -150,8 +150,7 @@ class SimulationController extends AjaxController{
         
         
         $uid = SessionHelper::getUidBySid();
-        if (!$uid) throw new Exception('Не могу найти такого пользователя');
-        
+        if (!$uid) throw new Exception('Не могу найти такого пользователя');        
         
         $simulation = Simulations::model()->byId($simId)->find();
         if ($simulation) {
@@ -174,7 +173,26 @@ class SimulationController extends AjaxController{
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
         LogHelper::setWindowsLog($simId, $logs);
-
+        
+        // make attestation 'work with emails' {
+        $emailAnalizer = new EmailAnalizer($simId);
+        $b_3322_3324 = $emailAnalizer->check_3322_3324();
+        
+        $emailResultsFor_3322 = new SimulationsMailPointsModel();
+        $emailResultsFor_3322->sim_id = $simId;
+        $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
+        $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
+        $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
+        $emailResultsFor_3322->save();
+        
+        $emailResultsFor_3324 = new SimulationsMailPointsModel();
+        $emailResultsFor_3324->sim_id = $simId;
+        $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
+        $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
+        $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
+        $emailResultsFor_3324->save();
+        // make attestation 'work with emails' }
+        
         $result = array('result' => 1);
         $this->sendJSON($result);
     }
