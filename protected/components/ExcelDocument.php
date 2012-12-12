@@ -141,7 +141,7 @@ final class ExcelDocument {
         // получим документ из шаблонов
         $documentTemplate = ExcelDocumentTemplate::model()->byFile($file->template_id)->find();
         if (null === $documentTemplate) {
-            throw new Exception("Немогу загрузить шаблон докмента для $templateId");
+            throw new Exception("Немогу загрузить шаблон документа для $file->template_id");
         }
         
         $this->file = $documentTemplate;
