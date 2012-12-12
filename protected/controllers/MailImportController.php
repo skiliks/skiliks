@@ -373,54 +373,56 @@ class MailImportController extends AjaxController{
      * Импорт фраз для писем
      */
     public function actionImportPhrases() {
-        $fileName = 'media/xls/mail_phrases.csv';
         
-        $special = array();
-        $standart = array();
-        
-        $system = array();
-        $system[] ='.';
-        $system[] =',';
-        $system[] =':';
-        $system[] =';';
-        $system[] ='-';
-        $system[] ='"';
-        
-        $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
-        $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            if ($index == 1) {
-                $code1 = 'В1'; //$row[0];
-                $code2 = $row[1];
-                continue;
-            }
-            
-            if ($index > 66) {
-                echo('all done'); die();
-            }
-            
-            //var_dump($row);
-            if ($row[0] != '') {
-                $name1 = iconv("Windows-1251", "UTF-8", $row[0]);
-            }
-            
-            if (isset($row[1]) &&  $row[1]!='') {
-                $name2 = iconv("Windows-1251", "UTF-8", $row[1]);
-            }
-            
-            $model = new MailPhrasesModel();
-            $model->character_theme_id = null;
-            $model->name = $name1;
-            $model->code = $code1;
-            $model->insert();
-            
-            $model = new MailPhrasesModel();
-            $model->character_theme_id = null;
-            $model->name = $name2;
-            $model->code = $code2;
-            $model->insert();
+        $import = new ImportMailPhrases();
+        $import->run();
+        //exit;
+//        $special = array();
+//        $standart = array();
+//        
+//        $system = array();
+//        $system[] ='.';
+//        $system[] =',';
+//        $system[] =':';
+//        $system[] =';';
+//        $system[] ='-';
+//        $system[] ='"';
+//        
+//        $handle = fopen($fileName, "r");
+//        if (!$handle) throw new Exception("cant open $fileName");
+//        $index = 0;
+//        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+//            $index++;
+//            if ($index == 1) {
+//                $code1 = 'В1'; //$row[0];
+//                $code2 = $row[1];
+//                continue;
+//            }
+//            
+//            if ($index > 66) {
+//                echo('all done'); die();
+//            }
+//            
+//            //var_dump($row);
+//            if ($row[0] != '') {
+//                $name1 = iconv("Windows-1251", "UTF-8", $row[0]);
+//            }
+//            
+//            if (isset($row[1]) &&  $row[1]!='') {
+//                $name2 = iconv("Windows-1251", "UTF-8", $row[1]);
+//            }
+//            
+//            $model = new MailPhrasesModel();
+//            $model->character_theme_id = null;
+//            $model->name = $name1;
+//            $model->code = $code1;
+//            $model->insert();
+//            
+//            $model = new MailPhrasesModel();
+//            $model->character_theme_id = null;
+//            $model->name = $name2;
+//            $model->code = $code2;
+//            $model->insert();
             
             /*$mail = MailTemplateModel::model()->byCode($code)->find();
             if (!$mail) {
@@ -433,8 +435,8 @@ class MailImportController extends AjaxController{
             $model->name = $task;
             $model->duration = $duration;
             $model->insert();*/
-        }
-        fclose($handle);
+//        }
+//        fclose($handle);
         
         /*foreach($special as $phrase) {
             $model = new MailPhrasesModel();
@@ -451,13 +453,13 @@ class MailImportController extends AjaxController{
             $model->insert();
         }*/
         
-        foreach($system as $phrase) {
-            $model = new MailPhrasesModel();
-            $model->character_theme_id = null;
-            $model->name = $phrase;
-            $model->code = 'SYS';
-            $model->insert();
-        }
+//        foreach($system as $phrase) {
+//            $model = new MailPhrasesModel();
+//            $model->character_theme_id = null;
+//            $model->name = $phrase;
+//            $model->code = 'SYS';
+//            $model->insert();
+//        }
         
         
         echo("Done");
@@ -467,7 +469,7 @@ class MailImportController extends AjaxController{
      * Импорт тем для писем F-S-C
      */
     public function actionImportThemes() {
-        $fileName = 'media/xls/mail_themes.csv';
+        $fileName = __DIR__.'/../../media/xls/mail_themes.csv';
         
         $characters = array();
         $charactersList = Characters::model()->findAll();
