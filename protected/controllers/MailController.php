@@ -143,6 +143,8 @@ class MailController extends AjaxController{
     
     public function actionSendMessage() 
     {
+        $result['result'] = 1;
+        try {
         $sid = Yii::app()->request->getParam('sid', false);
         
         $senderId = SessionHelper::getUidBySid($sid);
@@ -150,7 +152,11 @@ class MailController extends AjaxController{
         
         $messageId = Yii::app()->request->getParam('messageId', false);
         $timeString = Yii::app()->request->getParam('timeString', false); 
-        $receivers = Yii::app()->request->getParam('receivers', false);  
+        $receivers = Yii::app()->request->getParam('receivers', false);
+
+        if(empty($receivers)) {
+            throw new Exception("Не указан хотя бы один получатель!");
+        }
         $copies = Yii::app()->request->getParam('copies', false);           
         $phrases = Yii::app()->request->getParam('phrases', false);          
         $letterType = Yii::app()->request->getParam('letterType', false);  
@@ -184,8 +190,13 @@ class MailController extends AjaxController{
             'fileId' => $fileId,
             'timeString'=>$timeString
         ));
+        $result['messageId'] = $message->primaryKey;
+        } catch (Exception $e) {
+            $result['result'] = 0;
+            $result['messsage'] = $e->getMessage();
+        }
         
-        $this->sendJSON(array('result' => 1, 'messageId' => $message->primaryKey));
+        $this->sendJSON($result);
     }
     
     public function actionSaveDraft() 
