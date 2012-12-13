@@ -262,6 +262,26 @@ class LogHelper {
                     'type_scale' => 'Тип поведения',
                     'avg'        => 'Оценка по поведению'
             );
+            
+            // merge with email points (simulations_mail_points) {
+            
+            $emailPoints = Yii::app()->db->createCommand()
+                ->select('smp.sim_id,
+                      p.code,
+                      t.value as type_scale,
+                      smp.value as avg')
+                ->from('simulations_mail_points smp')
+                //->leftJoin('characters_points c', 'l.dialog_id = c.dialog_id')
+                ->leftJoin('characters_points_titles p', 'smp.point_id = p.id')
+                ->leftJoin('type_scale t', 'smp.scale_type_id = t.id')
+                ->group("smp.sim_id, p.code")
+                ->order("smp.sim_id")
+                ->queryAll();
+            
+            $data['data'] = array_merge($data['data'], $emailPoints);
+            
+            // merge with email points }
+            
             if(self::RETURN_DATA == $return){
                 $data['headers'] = $headers;
                 $data['title'] = "Логирование расчета оценки - агрегированно";
