@@ -31,7 +31,9 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        SimulationService::saveEmailsAnalize(2932);
+        var_dump(date("H:i:s", 32616 )); die;
+        
+        SimulationService::saveEmailsAnalize(2962);
         /*$ea = new EmailAnalizer(2932);
         
         echo "<br/>3322 3324:<br/> <pre>";
