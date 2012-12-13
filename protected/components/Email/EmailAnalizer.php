@@ -139,28 +139,32 @@ class EmailAnalizer
          */
         foreach (LogMail::model()->bySimId($this->simId)->findAll() as $logMailLine) {
             $mailId = $logMailLine->mail_id;
-            $userEmail = $this->userEmails[$mailId];
             
-            // check when letter was readed at first
-            if (null === $userEmail->getFirstOpenedAt() || 
-                $logMailLine->start_time < $userEmail->getFirstOpenedAt()) {
-                $this->userEmails[$mailId]->setFirstOpenedAt($logMailLine->start_time);
-            }
-            
-            // check when letter was Planed, at first
-            // open planer and close it?
-            if ((null === $userEmail->getPlanedAt() || $logMailLine->start_time < $userEmail->getPlanedAt()) &&
-                $this->mailPlanWindowId === (int)$logMailLine->window &&
-                $userEmail->getIsPlaned()) {
-                $this->userEmails[$mailId]->setPlanedAt($logMailLine->start_time);
-            } 
-            
-            //var_dump($logMailLine->id);
-            
-            // add planned mail_task.id
-            if (null !== $logMailLine->mail_task_id) {
-                
-                $this->userEmails[$mailId]->setPlanedTaskId($logMailLine->mail_task_id);
+            // we can have not saved letter in log, so there is no mail_box letter for it
+            if (isset($this->userEmails[$mailId])) {
+                $userEmail = $this->userEmails[$mailId];
+
+                // check when letter was readed at first
+                if (null === $userEmail->getFirstOpenedAt() || 
+                    $logMailLine->start_time < $userEmail->getFirstOpenedAt()) {
+                    $this->userEmails[$mailId]->setFirstOpenedAt($logMailLine->start_time);
+                }
+
+                // check when letter was Planed, at first
+                // open planer and close it?
+                if ((null === $userEmail->getPlanedAt() || $logMailLine->start_time < $userEmail->getPlanedAt()) &&
+                    $this->mailPlanWindowId === (int)$logMailLine->window &&
+                    $userEmail->getIsPlaned()) {
+                    $this->userEmails[$mailId]->setPlanedAt($logMailLine->start_time);
+                } 
+
+                //var_dump($logMailLine->id);
+
+                // add planned mail_task.id
+                if (null !== $logMailLine->mail_task_id) {
+
+                    $this->userEmails[$mailId]->setPlanedTaskId($logMailLine->mail_task_id);
+                }
             }
         }
         unset($logMailLine);
