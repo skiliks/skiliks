@@ -166,24 +166,25 @@ class LoggingTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
         # one letter
-        $this->waitForElement($session, 'xpath', '//a[@id="icons_email"]');#->click();
+        $this->waitForElement($session, 'xpath', '//a[@id="icons_email"]'); #->click();
 
         $this->setTime($session, "10", "57");
         $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 20);
-        $session->element ('xpath', '//a[@id="icons_phone"]')->click();
+        $session->element('xpath', '//a[@id="icons_phone"]')->click();
         $this->waitForElement($session, "xpath", "//a[text()=\"Не ПРИНЯТЬ\"]")->click();
         $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 35);
-        $session->element ('xpath', '//a[@id="icons_phone"]')->click();
+        $session->element('xpath', '//a[@id="icons_phone"]')->click();
         $this->waitForElement($session, "xpath", "//a[text()=\"ПРИНЯТЬ\"]")->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]")->click();
         $this->waitForElement($session, 'css selector', 'li.mail.icon-active', 20);
         $this->waitForElement($session, 'xpath', '//a[@id="icons_email"]')->click();
         $this->waitForElement($session, 'xpath', '//td[text()="!проблема с сервером!"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.messageReply();"]')->click();
-        $session->moveto($this->waitForElement($session, 'xpath', '//span[text()="вашего содействия в получении  "]'));
-        $session->buttondown();
-        $session->moveto($session->element('id', 'mailEmulatorNewLetterText'));
-        $session->buttonup();
+        $session->buttondown(array(
+            'element' => $this->waitForElement($session, 'xpath', '//span[text()="вашего содействия в получении"]')->getID()
+        ));
+        sleep(5);
+        $session->buttonup(array('element' => $session->element('id', 'mailEmulatorNewLetterText')));
         sleep(5);
         $session->element('xpath', '//button[@onclick="mailEmulator.askForSaveDraftLetter();"]')->click();
         $this->waitForElement($session, 'xpath', '//div[@onclick="mailEmulator.doResultForSaveDraftLetter(2);"]')->click();
@@ -204,9 +205,9 @@ class LoggingTest extends SeleniumTestCase
         $our_rows = $this->getWindowLog($simulations, false);
         print_r($our_rows);
         for ($i = 1; $i < count($our_rows); $i++) {
-            $this->assertFalse($our_rows[$i-1]['window'] == $our_rows[$i]['window']
-                && $our_rows[$i-1]['sub_window'] == $our_rows[$i]['sub_window']
-                && $our_rows[$i-1]['end_time'] == $our_rows[$i]['end_time']);
+            $this->assertFalse($our_rows[$i - 1]['window'] == $our_rows[$i]['window']
+                && $our_rows[$i - 1]['sub_window'] == $our_rows[$i]['sub_window']
+                && $our_rows[$i - 1]['end_time'] == $our_rows[$i]['end_time']);
         }
     }
 
