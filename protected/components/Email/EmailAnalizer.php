@@ -218,6 +218,7 @@ class EmailAnalizer
                     $doneRightActions++;
                 }
             } else {
+                //var_dump($emailData->email->id);
                 // -> no needs to add task to plan
                 if (true === $emailData->getIsPlaned()) {
                     // but user has add it to plan - wrong action
@@ -257,8 +258,9 @@ class EmailAnalizer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            
+            //var_dump($emailData->email->id);
             if (true === $emailData->getIsSpam() && true === $emailData->getIsReaded()) {
+                
                 $wrongActions++;
             }
         } 
