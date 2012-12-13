@@ -550,7 +550,7 @@ class MailBoxService {
         
         // если у нас более одного получателя
         if (count($receivers) > 1) {
-            $models = MailCharacterThemesModel::model()->findAll();
+            $models = MailCharacterThemesModel::model()->byMail()->findAll();
             $collection = array();
             foreach($models as $model) {
                 $collection[] = array(
