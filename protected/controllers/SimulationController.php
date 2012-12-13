@@ -175,7 +175,7 @@ class SimulationController extends AjaxController{
         LogHelper::setWindowsLog($simId, $logs);
         
         // make attestation 'work with emails' {
-        SimulationService::analizeEmails($sim_id);
+        SimulationService::saveEmailsAnalize($sim_id);
         // make attestation 'work with emails' }
         
         $result = array('result' => 1);
