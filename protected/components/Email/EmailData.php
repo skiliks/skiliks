@@ -16,6 +16,8 @@ class EmailData
     
     public $answeredAt = null;
     
+    public $answerEmailId = null;
+    
     public $plannedAt = null;
     
     private $isSpam = false;

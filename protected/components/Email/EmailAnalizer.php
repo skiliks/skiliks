@@ -171,6 +171,7 @@ class EmailAnalizer
         foreach ($this->userEmails as $mailId => $emailData) {
             if (null !== $emailData->getParentEmailId()) {
                 $this->userEmails[$emailData->getParentEmailId()]->setAnsweredAt($emailData->email->sending_time);
+                $this->userEmails[$emailData->getParentEmailId()]->answerEmailId = $emailData->email->id;
             }
         }
         
@@ -224,18 +225,15 @@ class EmailAnalizer
         $behave_3322 = CharactersPointsTitles::model()->byCode('3322')->positive()->find();
         $behave_3324 = CharactersPointsTitles::model()->byCode('3324')->negative()->find();
         
-        $coefOf_3322 = $behave_3322->scale;
-        $coefOf_3324 = $behave_3322->scale; 
-        
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
         return array(
             '3322' => array(
-                'positive' => ($doneRightActions / $possibleRightActions) * $coefOf_3322,
+                'positive' => ($doneRightActions / $possibleRightActions) * $behave_3322->scale,
                 'obj'      => $behave_3322,
             ),
             '3324' => array(
-                'negative' => $wrongActions * $coefOf_3324,
+                'negative' => $wrongActions * $behave_3324->scale,
                 'obj'      => $behave_3324,
             ),
         );
@@ -275,7 +273,7 @@ class EmailAnalizer
      * 
      * @return mixed array
      */
-    public function check_3323($delta = 16)
+    public function check_3323($delta = 24)
     {
         $possibleRightActions = 0;
         $doneRightActions = 0;
@@ -286,9 +284,7 @@ class EmailAnalizer
             if (true === $emailData->isNeedToActInTwoMinutes()) {
                 $possibleRightActions++;
                 
-                $isPlannedInTimeAndRightTask = $emailData->isPlanedByMinutes($delta) && $emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId();
-
-                if ($emailData->isAnsweredByMinutes($delta) || $isPlannedInTimeAndRightTask ) {
+                if ($emailData->isAnsweredByMinutes($delta)) {
                     $doneRightActions++;
                 }
             }
