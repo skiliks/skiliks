@@ -328,6 +328,7 @@ class MailBoxService {
             $message->message_id = $message_id;
         }
         $message->sim_id = $params['simId'];
+        
         $message->insert();
         
         $mailId = $message->id;
@@ -354,19 +355,21 @@ class MailBoxService {
         // Сохранение фраз
         if (isset($params['phrases'])) {
             $phrases = explode(',', $params['phrases']);
-            if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
+            //if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
             
             //Logger::debug("phrases : ".var_export($params['phrases'], true));
             
             foreach($phrases as $phraseId) {
                 //Logger::debug("insert : mailId $mailId phraseId $phraseId");
-                
-                $msg_model = new MailMessagesModel();
-                $msg_model->mail_id = $mailId;
-                $msg_model->phrase_id = $phraseId;
-                $msg_model->insert();
+                if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
+                    $msg_model = new MailMessagesModel();
+                    $msg_model->mail_id = $mailId;
+                    $msg_model->phrase_id = $phraseId;
+                    $msg_model->insert();
+                }
             }
         }
+        
         return $message;
     }
     
