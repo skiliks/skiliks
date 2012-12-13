@@ -74,4 +74,97 @@ class SimulationService
         
         return $list;
     }
+    
+    /**
+     * Save results of "work with emails"
+     * 
+     * @param integer $simId
+     */
+    public static function saveEmailsAnalize($simId) 
+    {
+        // init emails in analizer
+        $emailAnalizer = new EmailAnalizer($simId);
+        
+        // 3322_3324 {
+        // 3322 - add to plan right tasks
+        // 3324 - add to plan wrong tasks        
+        
+        $b_3322_3324 = $emailAnalizer->check_3322_3324();
+        
+        if (isset($b_3322_3324['3322']) && 
+            isset($b_3322_3324['3322']['obj']) && 
+            isset($b_3322_3324['3322']['positive']) &&
+            true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
+            {
+            $emailResultsFor_3322 = new SimulationsMailPointsModel();
+            $emailResultsFor_3322->sim_id = $simId;
+            $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
+            $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
+            $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
+            try {
+                $emailResultsFor_3322->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+            
+        if (isset($b_3322_3324['3324']) && 
+            isset($b_3322_3324['3324']['obj']) && 
+            isset($b_3322_3324['3324']['positive']) &&
+            true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3324 = new SimulationsMailPointsModel();
+            $emailResultsFor_3324->sim_id = $simId;
+            $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
+            $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
+            $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
+            try {
+                $emailResultsFor_3324->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+        // 3322_3324 }
+        
+        //3325 - read spam {        
+        $b_3325 = $emailAnalizer->check_3325();        
+            
+        if (isset($b_3325['obj']) && 
+            isset($b_3325['negative']) &&
+            true === $b_3325['obj'] instanceof CharactersPointsTitles)  
+            {
+
+            $emailResultsFor_3325 = new SimulationsMailPointsModel();
+            $emailResultsFor_3325->sim_id = $simId;
+            $emailResultsFor_3325->point_id = $b_3325['obj']->id;
+            $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
+            $emailResultsFor_3325->value = $b_3325['negative'];
+            try {
+                $emailResultsFor_3325->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+        //3325 - read spam }
+
+        //3323 - any action for 2 minutes tasks {        
+        $b_3323 = $emailAnalizer->check_3323();
+            
+        if (isset($b_3323['obj']) && 
+            isset($b_3323['positive']) &&
+            true === $b_3323['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3323 = new SimulationsMailPointsModel();
+            $emailResultsFor_3323->sim_id = $simId;
+            $emailResultsFor_3323->point_id = $b_3323['obj']->id;
+            $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
+            $emailResultsFor_3323->value = $b_3323['positive'];
+            try {
+                $emailResultsFor_3323->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+        //3323 - any action for 2 minutes tasks }        
+    }
 }

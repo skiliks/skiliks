@@ -195,7 +195,7 @@ class EmailAnalizer
      * 
      * @return mixed array
      */
-    public function check_3322_3324($delta = 16)
+    public function check_3322_3324()
     {
         $possibleRightActions = 0;
         $doneRightActions = 0;
@@ -204,14 +204,9 @@ class EmailAnalizer
         // inbox + trashCan
         foreach ($this->userInboxEmails as $mailId => $emailData) {
             
-            //var_dump($mailId, $emailData->typeOfImportance, $emailData->isNeedToBePlaned(), $emailData->getPlanedTaskId(), $emailData->getRightPlanedTaskId());
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
                 $possibleRightActions++;
-                
-                // var_dump($mailId, $emailData->typeOfImportance, $emailData->isNeedToBePlaned(), $emailData->getPlanedTaskId(), $emailData->getRightPlanedTaskId(), '----------------');
-                
-                //var_dump($mailId);
 
                 // is user add to plan right mail_task
                 if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
@@ -225,7 +220,6 @@ class EmailAnalizer
                 }
             }
         } 
-        // var_dump($possibleRightActions, $doneRightActions, $wrongActions);
         
         $behave_3322 = CharactersPointsTitles::model()->byCode('3322')->positive()->find();
         $behave_3324 = CharactersPointsTitles::model()->byCode('3324')->negative()->find();
@@ -238,23 +232,88 @@ class EmailAnalizer
         return array(
             '3322' => array(
                 'positive' => ($doneRightActions / $possibleRightActions) * $coefOf_3322,
-                'obj' => $behave_3322,
+                'obj'      => $behave_3322,
             ),
             '3324' => array(
                 'negative' => $wrongActions * $coefOf_3324,
-                'obj' => $behave_3324,
+                'obj'      => $behave_3324,
             ),
         );
     }
     
+    
     /**
+     * 3325 - read spam
+     * 
+     * @param integer $delta
+     * 
+     * @return mixed array
+     */
+    public function check_3325()
+    {
+        $wrongActions = 0;
+        
+        // inbox + trashCan
+        foreach ($this->userInboxEmails as $emailData) {
+            
+            if (true === $emailData->getIsSpam() && true === $emailData->getIsReaded()) {
+                $wrongActions++;
+            }
+        } 
+        
+        $behave_3325 = CharactersPointsTitles::model()->byCode('3325')->negative()->find();
+        
+        return array(
+            'negative' => $wrongActions * $behave_3325->scale,
+            'obj'      => $behave_3325,
+        );
+    }
+    /**
+     * 3323 - In 2 real minutes (16 game min) react on issues 
+     * 
+     * @param integer $delta
+     * 
+     * @return mixed array
+     */
+    public function check_3323($delta = 16)
+    {
+        $possibleRightActions = 0;
+        $doneRightActions = 0;
+        
+        // inbox + trashCan
+        foreach ($this->userInboxEmails as $mailId => $emailData) {
+            
+            if (true === $emailData->isNeedToActInTwoMinutes()) {
+                $possibleRightActions++;
+                
+                $isPlannedInTimeAndRightTask = $emailData->isPlanedByMinutes($delta) && $emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId();
+
+                if ($emailData->isAnsweredByMinutes($delta) || $isPlannedInTimeAndRightTask ) {
+                    $doneRightActions++;
+                }
+            }
+        } 
+        
+        $behave_3323 = CharactersPointsTitles::model()->byCode('3323')->positive()->find();
+         
+        $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
+        
+        return array(
+            'positive' => ($doneRightActions / $possibleRightActions) * $behave_3323->scale,
+            'obj'      => $behave_3323,
+        );
+    }
+    
+    /**
+     * @deprecated, was used just to test Analizer
+     * 
      * Sample analize 'Is user add to plan big task emails, in 16 game minutes'
      * 
      * @param integer $delta
      * 
      * @return mixed array
      */
-    public function checkBigTasks($delta = 16)
+    /*public function checkBigTasks($delta = 16)
     {
         $rightActions = 0;
         $wrongActions = 0;
@@ -272,16 +331,18 @@ class EmailAnalizer
             'rightActions' => $rightActions,
             'wrongActions' => $wrongActions,
         );
-    }
+    }*/
     
     /**
+     * @deprecated, was used just to test Analizer
+     * 
      * Sample analize 'Is user reply for small task emails, in 16 game minutes'
      * 
      * @param integer $delta
      * 
      * @return mixed array
      */
-    public function checkSmallTasks($delta = 16)
+    /*public function checkSmallTasks($delta = 16)
     {
         $rightActions = 0;
         $wrongActions = 0;
@@ -299,14 +360,16 @@ class EmailAnalizer
             'rightActions' => $rightActions,
             'wrongActions' => $wrongActions,
         );
-    }
+    }*/
     
     /**
+     * @deprecated, was used just to test Analizer
+     * 
      * Sample analize 'Is user read spam'
      * 
      * @return mixed array
      */
-    public function checkSpam()
+    /*public function checkSpam()
     {
         $rightActions = 0;
         $wrongActions = 0;
@@ -324,7 +387,7 @@ class EmailAnalizer
             'rightActions' => $rightActions,
             'wrongActions' => $wrongActions,
         );
-    }
+    }*/
     
     // --- tools: ------------------------------------------------------------------------------------------------------
     
