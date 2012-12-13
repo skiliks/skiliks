@@ -31,11 +31,12 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        $ea = new EmailAnalizer(2932);
+        SimulationService::saveEmailsAnalize(2932);
+        /*$ea = new EmailAnalizer(2932);
         
         echo "<br/>3322 3324:<br/> <pre>";
         var_dump($ea->check_3322_3324());
-        echo "</pre>";
+        echo "</pre>";*/
         
         /*echo "<br/>Big tasks emails:<br/>";
         var_dump($ea->checkBigTasks());
