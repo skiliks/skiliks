@@ -47,7 +47,7 @@ class EmailData
      */
     public function isPlanedByMinutes($delta) 
     {
-        $isPlannedInTime = (strtotime($this->getPlanedAt()) - strtotime($this->getFirstOpenedAt())) < $delta;
+        $isPlannedInTime = (strtotime($this->getPlanedAt()) - strtotime($this->getFirstOpenedAt())) <= $delta;
         
         return ($this->getIsPlaned() && $isPlannedInTime);
     }
@@ -60,7 +60,7 @@ class EmailData
      */
     public function isAnsweredByMinutes($delta) 
     {
-        $isRepliedInTime = (strtotime($this->getAnsweredAt()) - strtotime($this->getFirstOpenedAt())) < $delta;
+        $isRepliedInTime = (strtotime($this->getAnsweredAt()) - strtotime($this->getFirstOpenedAt())) <= $delta;
         
         return ($this->getIsReplied() && $isRepliedInTime);
     }
@@ -70,6 +70,11 @@ class EmailData
     public function isNeedToBePlaned()
     {
         return 'plan' === $this->typeOfImportance;
+    }
+    
+    public function isNeedToActInTwoMinutes()
+    {
+        return '2_min' === $this->typeOfImportance;
     }
     
     /**
@@ -121,7 +126,7 @@ class EmailData
      */
     public function getIsSpam()
     {
-        return false;
+        return 'spam' === $this->typeOfImportance;
     }
     
     /**
