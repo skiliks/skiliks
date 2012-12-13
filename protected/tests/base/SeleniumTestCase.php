@@ -35,6 +35,7 @@ class SeleniumTestCase extends CDbTestCase
     {
         $this->webdriver = new PHPWebDriver_WebDriver();
         $this->browser_url = Yii::app()->params['frontendUrl'];
+        #$this->browser_url = 'http://live.skiliks.com/';
         $this->createInitialUsers();
         parent::setUp();
     }
