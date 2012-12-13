@@ -71,10 +71,21 @@ class MailCharacterThemesModel extends CActiveRecord{
      * Выбрать с признаком "телефон"
      * @return MailCharacterThemesModel 
      */
-    public function byPhone()
+    public function byPhone($v = 1)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "phone = 1"
+            'condition' => "phone = {$v}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return MailCharacterThemesModel 
+     */
+    public function byMail($v = 1)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail = {$v}"
         ));
         return $this;
     }
