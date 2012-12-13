@@ -176,10 +176,12 @@ class EmailData
     }
     
     /**
+     * $this->answeredAt game time in seconds from 00:00:00 game day
+     * 
      * @return string, format 'hh:ii:ss'
      */
     public function getAnsweredAt() {
-        return $this->answeredAt;
+         return date("H", $this->answeredAt)*60 + date("i", $this->answeredAt);
     }
     
     /**

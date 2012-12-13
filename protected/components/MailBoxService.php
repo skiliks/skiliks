@@ -322,6 +322,7 @@ class MailBoxService {
         $message->subject = $subject;
         $message->receiver_id = $receiverId;
         $message->sending_date = time();
+        $message->sending_time = $params['timeString'];        
         $message->readed = 0;
         Yii::log(var_export($letterType." = ".$message_id, true));
         if($letterType == 'reply' OR $letterType == 'replyAll'){
