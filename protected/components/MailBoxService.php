@@ -325,7 +325,7 @@ class MailBoxService {
         $message->sending_time = $params['timeString'];        
         $message->readed = 0;
         Yii::log(var_export($letterType." = ".$message_id, true));
-        if($letterType == 'reply' OR $letterType == 'replyAll'){
+        if($letterType != 'new'){
             $message->message_id = $message_id;
         }
         $message->sim_id = $params['simId'];
