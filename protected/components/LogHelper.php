@@ -499,6 +499,7 @@ class LogHelper {
             ->select("m.sim_id
                     , m.code
                     , g.name
+                    , mt.type_of_importance
                     , if(m.readed = 0, 'Нет', 'Да') AS readed
                     , if(m.plan = 0, 'Нет', 'Да') AS plan
                     , if(m.reply = 0, 'Нет', 'Да') AS reply
@@ -506,7 +507,8 @@ class LogHelper {
                     ")
             ->from('mail_box m')
             ->join('mail_group g', 'm.group_id = g.id')
-            ->where('type = 1 or type = 3')
+            ->join('mail_template mt', 'm.code = mt.code')
+            ->where('m.type = 1 or m.type = 3')
             ->order('m.id')
             ->queryAll();
         
@@ -527,7 +529,7 @@ class LogHelper {
             if (isset($logMail[$value['id']])) {
                 $mailTaskId = $logMail[$value['id']]->mail_task_id;
                 if (null !== $mailTaskId) {
-                    $data['data'][$key]['mail_task_is_correct'] = ('R' == $mailTask[$mailTaskId]->wr) ? 'Да' : 'Нет';
+                    $data['data'][$key]['mail_task_is_correct'] = $mailTask[$mailTaskId]->wr;
                 }                
             }
         }
@@ -537,6 +539,7 @@ class LogHelper {
             'sim_id'                 => 'id_симуляции',
             'code'                   => 'Код входящего письма',
             'name'                   => 'Папка мейл-клиента',
+            'type_of_importance'     => 'Тип письма',
             'readed'                 => 'Письмо прочтено (да/нет)',
             'plan'                   => 'Письмо запланировано (да/нет)',
             'reply'                  => 'На письмо отправлен ответ',
