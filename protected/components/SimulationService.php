@@ -110,7 +110,7 @@ class SimulationService
             
         if (isset($b_3322_3324['3324']) && 
             isset($b_3322_3324['3324']['obj']) && 
-            isset($b_3322_3324['3324']['positive']) &&
+            isset($b_3322_3324['3324']['negative']) &&
             true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
             {
             $emailResultsFor_3324 = new SimulationsMailPointsModel();
