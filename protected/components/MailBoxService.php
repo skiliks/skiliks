@@ -538,7 +538,10 @@ class MailBoxService {
         $themes = array();
         if (count($receivers) == 1) {
             // загрузка тем по одному персонажу
-            $models = MailCharacterThemesModel::model()->byCharacter($receivers[0])->findAll();
+            $models = MailCharacterThemesModel::model()
+                ->byCharacter($receivers[0])
+                ->byMail()
+                ->findAll();
             
             foreach($models as $model) {
                 $themes[(int)$model->id] = (int)$model->theme_id;
