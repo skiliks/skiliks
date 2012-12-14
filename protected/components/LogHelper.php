@@ -535,6 +535,10 @@ class LogHelper {
         foreach ($data['data'] as $key => $value) {
             $data['data'][$key]['mail_task_is_correct'] = '-';
             
+            if ('Да' === $value['plan'] && 'plan' !== $value['type_of_importance']) {
+                $data['data'][$key]['mail_task_is_correct'] = 'W';
+            }
+            
             if (isset($logMail[$value['id']])) {
                 $mailTaskId = $logMail[$value['id']]->mail_task_id;
                 if (null !== $mailTaskId) {
