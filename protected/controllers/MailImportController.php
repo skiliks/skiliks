@@ -505,6 +505,8 @@ class MailImportController extends AjaxController{
             $wr                 = $row[8]; // I
             // Mail constructor number
             $constructorNumber  = $row[9]; // J
+            // Source of outbox email
+            $source             = $row[10]; // K
             
             // определить код темы
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
@@ -532,6 +534,7 @@ class MailImportController extends AjaxController{
             $mailCharacterTheme->phone_wr               = $phoneWr;
             $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
             $mailCharacterTheme->mail                   = $mail;
+            $mailCharacterTheme->source                   = $source;
             
             try {
                 $mailCharacterTheme->save();            

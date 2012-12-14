@@ -150,8 +150,7 @@ class SimulationController extends AjaxController{
         
         
         $uid = SessionHelper::getUidBySid();
-        if (!$uid) throw new Exception('Не могу найти такого пользователя');
-        
+        if (!$uid) throw new Exception('Не могу найти такого пользователя');        
         
         $simulation = Simulations::model()->byId($simId)->find();
         if ($simulation) {
@@ -174,7 +173,11 @@ class SimulationController extends AjaxController{
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
         LogHelper::setWindowsLog($simId, $logs);
-
+        
+        // make attestation 'work with emails' {
+        SimulationService::saveEmailsAnalize($simId);
+        // make attestation 'work with emails' }
+        
         $result = array('result' => 1);
         $this->sendJSON($result);
     }

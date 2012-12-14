@@ -1,15 +1,35 @@
 <?php
-
-
-
 /**
+ * !!!
+ * Looks like we must use MailReceiversModel instaad of MailCopiesModel
+ * 
  * Содержит набор персонажей, которые идут в копии к заданному письму
  * 
  * Связана с моделями: Characters, MailBoxModel.
+ * 
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCopiesModel extends CActiveRecord{
+class MailCopiesModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_box.id
+     * @var integer
+     */
+    public $mail_id;
+    
+    /**
+     * characters.id
+     * @var int
+     */
+    public $receiver_id;     
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

@@ -14,5 +14,4 @@ class m121212_134301_mail_template_update extends CDbMigration
 	{
         $this->dropColumn('mail_template', 'type_of_importance');
 	}
-
 }

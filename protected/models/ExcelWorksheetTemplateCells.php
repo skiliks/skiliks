@@ -8,6 +8,8 @@
  *
  * Связана с моделями: ExcelWorksheetTemplate
  * 
+ * @deprecated 
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class ExcelWorksheetTemplateCells extends CActiveRecord{

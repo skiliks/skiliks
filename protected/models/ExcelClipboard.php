@@ -6,10 +6,13 @@
  * Клипбоард Экселя
  * 
  * Связана с моделями: ExcelWorksheetModel.
+ * 
+ * @deprecated
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelClipboard extends CActiveRecord{
+class ExcelClipboard extends CActiveRecord
+{
     
     public static function model($className=__CLASS__)
     {

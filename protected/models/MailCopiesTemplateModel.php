@@ -9,7 +9,26 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCopiesTemplateModel extends CActiveRecord{
+class MailCopiesTemplateModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_template.id
+     * @var integer
+     */
+    public $mail_id;
+    
+    /**
+     * characters.id
+     * @var int
+     */
+    public $receiver_id;     
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

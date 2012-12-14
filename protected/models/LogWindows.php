@@ -10,7 +10,44 @@
  * @property mixed start_time
  * @property int sim_id
  */
-class LogWindows extends CActiveRecord {
+class LogWindows extends CActiveRecord 
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * See LogHelper window codes
+     * @var integer
+     */
+    public $winwod;
+    
+    /**
+     * See LogHelper subwindow codes
+     * @var integer
+     */
+    public $sub_winwod;
+    
+    /**
+     * '00:00::00' current game day
+     * @var string
+     */
+    public $start_time;
+    
+    /**
+     * '00:00::00' current game day
+     * @var string
+     */
+    public $end_time;        
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
      *
