@@ -7,7 +7,19 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailFoldersModel extends CActiveRecord{
+class MailFoldersModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     public static function model($className=__CLASS__)
     {

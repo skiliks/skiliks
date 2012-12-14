@@ -6,6 +6,8 @@
  * Модель рабочих листов шаблона excel документа
  * В данном случаи это шаблон, который потом копируется в рамках
  * конкретной симуляции.
+ * 
+ * @deprecated
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

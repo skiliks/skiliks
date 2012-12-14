@@ -8,7 +8,68 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCharacterThemesModel extends CActiveRecord{
+class MailCharacterThemesModel extends CActiveRecord
+{
+     /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var integer
+     */
+    public $character_id;
+    
+    /**
+     * @var integer
+     */
+    public $theme_id;
+    
+    /**
+     * @var string
+     */
+    public $letter_number; // "code" - "M2", "MS45" ...
+    
+    /**
+     * @var string
+     */
+    public $wr; // right, werong : "R", "W"
+    
+    /**
+     * @var string
+     */
+    public $construst_number; // "R1", "TXT" ...
+    
+    /**
+     * @var string
+     */
+    public $phone; // "R1", "TXT" ...
+    
+    /**
+     * @var string
+     */
+    public $phone_wr; // right, werong : "R", "W"
+    
+    /**
+     * @var string
+     */
+    public $phone_dialog_number; // ??
+    
+    /**
+     * @var int
+     */
+    public $mail; // ??
+    
+    /**
+     * @var string
+     * 
+     * "manual" - user write new letter and send it,
+     * "dialog" - new mail window was opened by dialog
+     * "inbox"  - user write reply email
+     */
+    public $source;   
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
