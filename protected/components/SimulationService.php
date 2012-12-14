@@ -166,5 +166,25 @@ class SimulationService
             }
         }
         //3323 - any action for 2 minutes tasks }        
+
+        //3313 - read most of not-spam emails {        
+        $b_3313 = $emailAnalizer->check_3313();
+            
+        if (isset($b_3313['obj']) && 
+            isset($b_3313['positive']) &&
+            true === $b_3313['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3313 = new SimulationsMailPointsModel();
+            $emailResultsFor_3313->sim_id = $simId;
+            $emailResultsFor_3313->point_id = $b_3313['obj']->id;
+            $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
+            $emailResultsFor_3313->value = $b_3313['positive'];
+            try {
+                $emailResultsFor_3313->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+        //3313 - read most of not-spam emails }        
     }
 }
