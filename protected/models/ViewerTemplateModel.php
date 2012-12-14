@@ -9,8 +9,26 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ViewerTemplateModel extends CActiveRecord{
-
+class ViewerTemplateModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * my_documents_tamplate.id
+     * @var integer
+     */
+    public $file_id;
+    
+    /**
+     * @var string
+     */
+    public $filePath;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className

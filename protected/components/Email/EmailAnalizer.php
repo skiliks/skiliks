@@ -80,6 +80,16 @@ class EmailAnalizer
      * @param array of MailTask
      */
     public $neutralMailTasks = array();
+    
+    /**
+     * @param array of MailPoint
+     */
+    public $mailPoints = array();
+    
+    /**
+     * @param array of point, indexed by id
+     */
+    public $points = array();
 
 
     public function __construct($simId) 
@@ -370,7 +380,7 @@ class EmailAnalizer
             'obj'      => $behave_3313,
         );
     }
-    
+
     // --- tools: ------------------------------------------------------------------------------------------------------
     
     /**
