@@ -7,7 +7,38 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersPointsTitles extends CActiveRecord{
+class CharactersPointsTitles extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * characters_points_titles.id
+     * @var integer
+     */
+    public $parent_id;
+    
+    /**
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * @var float
+     */
+    public $scale;  
+    
+    /**
+     * @var integer
+     */
+    public $type_scale;
     
     /**
      *
@@ -35,6 +66,28 @@ class CharactersPointsTitles extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => 'parent_id is null'
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return CharactersPointsTitles 
+     */
+    public function negative()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'type_scale = 2'
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return CharactersPointsTitles 
+     */
+    public function positive()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'type_scale = 1'
         ));
         return $this;
     }

@@ -13,8 +13,37 @@
  * @property int day
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DayPlan extends CActiveRecord{
-
+class DayPlan extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * In minutes from 00:00 game day
+     * @var int
+     */
+    public $date;
+    
+    /**
+     * 1 -first, 2 - second
+     * @var int
+     */
+    public $day;
+    
+    /**
+     * tasks.id
+     * @var int
+     */
+    public $task_id;    
+    
     /**
      *
      * @param type $className

@@ -10,7 +10,31 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailPointsModel extends CActiveRecord{
+class MailPointsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_template.id
+     * @var integer
+     */
+    public $mail_id;
+    
+    /**
+     * character_points_titles.id
+     * @var integer
+     */
+    public $point_id;   
+    
+    /**
+     * @var integer
+     */
+    public $add_value;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

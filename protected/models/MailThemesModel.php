@@ -8,7 +8,25 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailThemesModel extends CActiveRecord{
+class MailThemesModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
