@@ -9,7 +9,32 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Todo extends CActiveRecord{
+class Todo extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * tasks.id
+     * @var int
+     */
+    public $task_id;
+    
+    /**
+     * game minutes
+     * @var integer
+     */
+    public $adding_date;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

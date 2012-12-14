@@ -1,14 +1,52 @@
 <?php
-
-
-
 /**
  * Шаблон документов. Потом нужные документы отсюда копируются в рамках симуляции 
  * в таблицу my_documents
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MyDocumentsTemplateModel extends CActiveRecord{
+class MyDocumentsTemplateModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $fileName;
+    
+    /**
+     * is hidden
+     * @var integer, (boolean)
+     */
+    public $hidden;
+    
+    /**
+     * Code, '','' ...
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * @var string
+     */
+    public $srcFile;
+    
+    /**
+     * 'xml', 'doc', 'ptt'
+     * @var string
+     */
+    public $format;
+    
+    /**
+     * '-', 'new', 'start'
+     * @var string
+     */
+    public $type;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

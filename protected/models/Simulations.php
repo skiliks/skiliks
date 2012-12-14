@@ -10,7 +10,47 @@
  * @property int difficulty
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Simulations extends CActiveRecord{
+class Simulations extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * character.id
+     * @var integer
+     */
+    public $user_id;   
+    
+    /**
+     * @var integer
+     */
+    public $status;
+    
+    /**
+     * real time, Unix age seconds
+     * @var integer
+     */
+    public $start;
+    
+    /**
+     * real time, Unix age seconds
+     * @var integer
+     */
+    public $end; 
+    
+    /**
+     * @var integer
+     */
+    public $difficulty;
+    
+    /**
+     * @var integer
+     */
+    public $type; // ?
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

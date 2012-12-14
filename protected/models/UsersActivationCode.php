@@ -8,7 +8,25 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UsersActivationCode extends CActiveRecord{
+class UsersActivationCode extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * user.id
+     * @var int
+     */
+    public $uid;
+    
+    /**
+     * @var string
+     */
+    public $code;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     public static function model($className=__CLASS__)
     {

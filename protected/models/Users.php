@@ -10,7 +10,30 @@
  * @property mixed is_active
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Users extends CActiveRecord{
+class Users extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * md5
+     * @var string
+     */
+    public $password;
+    
+    /**
+     * @var string
+     */
+    public $email;
+    
+    /**
+     * @var integer, (boolean)
+     */
+    public $is_active;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
