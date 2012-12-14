@@ -12,14 +12,16 @@ class EventService {
     /**
      * Получить текущее событие в заданной симуляции
      * 
+     * @deprecated
+     * 
      * @param type $simId 
      */
-    public static function getCurrent($simId) {
+    /*public static function getCurrent($simId) {
         $eventsStates = EventsStates::model()->bySimulation($simId)->find();
         if (!$eventsStates) return false;
         
         return $eventsStates->event_id;
-    }
+    }*/
     
     /**
      * Поставить событие в очередь

@@ -13,8 +13,33 @@
  * @property mixed trigger_time
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class EventsTriggers extends CActiveRecord{
-
+class EventsTriggers extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * event_samples.id
+     * @var integer
+     */
+    public $event_id;
+    
+    /**
+     * In game minutes, time when event must be sheduled in game during sim start
+     * @var integer
+     */
+    public $trigger_time;      
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className

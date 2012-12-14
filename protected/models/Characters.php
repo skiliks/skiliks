@@ -6,8 +6,44 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Characters extends CActiveRecord{
+class Characters extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
     
+    /**
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * @var string
+     */
+    public $fio;
+    
+    /**
+     * @var string
+     */
+    public $email;
+    
+    /**
+     * @var integer
+     */
+    public $code;
+    
+    /**
+     * @var string
+     */
+    public $skype;
+    
+    /**
+     * @var string
+     */
+    public $phone;
+   
+
     /**
      *
      * @param type $className

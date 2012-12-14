@@ -9,7 +9,24 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelDocumentTemplate extends CActiveRecord{
+class ExcelDocumentTemplate extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * @var integer
+     */
+    public $file_id; // ??
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

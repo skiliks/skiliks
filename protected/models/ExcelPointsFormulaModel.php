@@ -4,6 +4,8 @@
 
 /**
  * Содержит набор формул для расчета оценки по Excel.
+ * 
+ * @deprecated
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

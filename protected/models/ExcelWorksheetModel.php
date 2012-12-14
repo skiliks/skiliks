@@ -7,6 +7,8 @@
  * Содержит листы в рамках документа Excel.
  * 
  * Связана с моделями:  ExcelDocument.
+ * 
+ * @deprecated
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
