@@ -70,8 +70,9 @@ class MailBoxService {
 
     /**
      * Получение списка собщений
-     * @param int $folderId
-     * @param int $receiverId
+     * @param $params
+     * @internal param int $folderId
+     * @internal param int $receiverId
      * @return array
      */
     public function getMessages($params) {
@@ -507,7 +508,7 @@ class MailBoxService {
     
     /**
      * Сохранить получателей сообщения
-     * @param string $receivers 
+     * @param array $receivers
      */
     public function saveReceivers($receivers, $mailId) {
         //$receivers = explode(',', $receivers);

@@ -6,8 +6,9 @@
  * Содержит набор получателей к конкретному письму в рамках симуляции.
  *
  * Связана с моделями:  MailBoxModel, Characters.
- * 
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ *
+ * @property int receiver_id
+ * @property int  mail_id
  */
 class MailReceiversModel extends CActiveRecord
 {

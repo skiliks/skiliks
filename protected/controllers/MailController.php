@@ -130,14 +130,20 @@ class MailController extends AjaxController{
     }
     
     public function actionGetPhrases() {
-        $id = (int)Yii::app()->request->getParam('id', false);  
+        $character_theme_id = (int)Yii::app()->request->getParam('id', false);
+        $character_theme = MailCharacterThemesModel::model()->findByPk($character_theme_id);
         
         $service = new MailBoxService();
         
         $result = array();
         $result['result'] = 1;
-        $result['data'] = $service->getMailPhrases($id);
-        $result['addData'] = $service->getSigns();
+        if ('TXT' === $character_theme->constructor_number) {
+            Yii::log($character_theme->letter_number);
+            $result['message'] = $character_theme->letter->message;
+        } else {
+            $result['data'] = $service->getMailPhrases($character_theme_id);
+            $result['addData'] = $service->getSigns();
+        }
         return $this->sendJSON($result);
     }
     
@@ -457,76 +463,75 @@ class MailController extends AjaxController{
     }
     
     public function actionReply() {
-        try {
-            $messageId = (int)Yii::app()->request->getParam('id', false);  
-            $sid = Yii::app()->request->getParam('sid', false);  
-            $simId = SessionHelper::getSimIdBySid($sid);
-            
-            $model = MailBoxModel::model()->byId($messageId)->find();
-            
-            $groupId = (int)$model->group_id;
-            
-            if (($groupId > 1) && ($groupId < 4)) {
-                $this->sendJSON(array('result'=>0));
-                return;
-            };
-            
-            $service = new MailBoxService();
-            $characters = $service->getCharacters();
-            
-            $subject = $model->subject;
-            if ($subject == '') {
-                if ($model->subject_id > 0) {
-                    $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
-                    if ($subjectModel) {
-                        $subject = $subjectModel->name;
-                    }
+        $messageId = (int)Yii::app()->request->getParam('id', false);
+        $sid = Yii::app()->request->getParam('sid', false);
+        $simId = SessionHelper::getSimIdBySid($sid);
+
+        $model = MailBoxModel::model()->byId($messageId)->find();
+
+        $groupId = (int)$model->group_id;
+
+        if (($groupId > 1) && ($groupId < 4)) {
+            $this->sendJSON(array('result'=>0));
+            return;
+        };
+
+        $service = new MailBoxService();
+        $characters = $service->getCharacters();
+
+        $subject = $model->subject;
+        if ($subject == '') {
+            if ($model->subject_id > 0) {
+                $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
+                if ($subjectModel) {
+                    $subject = $subjectModel->name;
                 }
             }
-            
-            $result = array();
-            $result['result'] = 1;
-            
-            $subject = 'Re:'.$subject;
-            $subjectModel = MailThemesModel::model()->byName($subject)->find();
-            if (!$subjectModel) {
-                // добавим тему
-                $subjectModel = new MailThemesModel();
-                $subjectModel->name = $subject;
-                $subjectModel->sim_id = $simId;
-                $subjectModel->insert();
-            }
-            
-            
-            
-            if ($subjectModel) {
-                $subjectId = $subjectModel->id;
-                $result['subjectId'] = $subjectId;
-                
-                $characterThemeModel = MailCharacterThemesModel::model()
-                        ->byCharacter($model->sender_id)
-                        ->byTheme($subjectId)->find();
-                if ($characterThemeModel) {
-                    $characterThemeId = $characterThemeModel->id;
+        }
+
+        $result = array();
+        $result['result'] = 1;
+
+        $subject = 'Re: '.$subject;
+        $subjectModel = MailThemesModel::model()->byName($subject)->find();
+        if (!$subjectModel) {
+            // добавим тему
+            $subjectModel = new MailThemesModel();
+            $subjectModel->name = $subject;
+            $subjectModel->sim_id = $simId;
+            $subjectModel->insert();
+        }
+
+
+
+        if ($subjectModel) {
+            $subjectId = $subjectModel->id;
+            $result['subjectId'] = $subjectId;
+
+            $characterThemeModel = MailCharacterThemesModel::model()
+                    ->byCharacter($model->sender_id)
+                    ->byTheme($subjectId)->find();
+            if ($characterThemeModel) {
+                $characterThemeId = $characterThemeModel->id;
+                if ($characterThemeModel->constructor_number === 'TXT') {
+                    $result['text'] = $characterThemeModel->letter->message;
+                } else {
                     $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
                     $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
-
-            if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
-            $result['phrases']['addData'] = $service->getSigns();
-            
-            $result['receiver'] = $characters[$model->sender_id];
-            $result['receiverId'] = $model->sender_id;
-            $result['subject'] = $subject;
-                  
-            return $this->sendJSON($result);
-        } catch (Exception $exc) {
-            $result = array();
-            $result['result'] = 0;
-            $result['message'] = $exc->getMessage();
-            return $this->sendJSON($result);
         }
+
+        if ( !isset($result['phrases']) && !isset($result['text'])) {
+            $result['phrases']['data'] = $service->getMailPhrases();
+        }  // берем дефолтные
+        $result['phrases']['addData'] = $service->getSigns();
+
+        $result['receiver'] = $characters[$model->sender_id];
+        $result['receiverId'] = $model->sender_id;
+        $result['subject'] = $subject;
+
+        return $this->sendJSON($result);
     }
     
     public function actionReplyAll() {
