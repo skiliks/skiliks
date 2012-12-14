@@ -19,6 +19,8 @@ class MailMessagesModel extends CActiveRecord
     
     public $phrase_id;
     
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className

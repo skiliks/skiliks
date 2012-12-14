@@ -7,7 +7,38 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersPointsTitles extends CActiveRecord{
+class CharactersPointsTitles extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * characters_points_titles.id
+     * @var integer
+     */
+    public $parent_id;
+    
+    /**
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * @var float
+     */
+    public $scale;  
+    
+    /**
+     * @var integer
+     */
+    public $type_scale;
     
     /**
      *

@@ -17,7 +17,112 @@
  * @property mixed sim_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailBoxModel extends CActiveRecord{
+class MailBoxModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_template.id
+     * @var int
+     */
+    public $template_id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * mail_group.id
+     * @var int
+     */
+    public $group_id;
+    
+    /**
+     * characters.id
+     * @var int
+     */
+    public $sender_id;    
+    
+    /**
+     * characters.id
+     * @var int
+     */
+    public $receiver_id; 
+    
+    /**
+     * @var string
+     */
+    public $subject;
+    
+    /**
+     * @var integer, real Unix epoch time, in seconds
+     */
+    public $sending_date;
+    
+    /**
+     * @var integer, real Unix epoch time, in seconds
+     */
+    public $receiving_date;
+    
+    /**
+     * @var string
+     */
+    public $message;
+    
+    /**
+     * is readed
+     * @var int (bool)
+     */
+    public $readed; 
+    
+    /**
+     * mail_themes.id
+     * @var int
+     */
+    public $subject_id;
+    
+    /**
+     * Code, 'M1', 'MS8' ...
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * In minutes from 00:00 game day
+     * @var int
+     */
+    public $sending_time;
+    
+    /**
+     * @var int
+     */
+    public $type; // ?
+    
+    /**
+     * is planed
+     * @var int (bool)
+     */
+    public $plan; 
+    
+    /**
+     * is replied
+     * @var int (bool)
+     */
+    public $reply; 
+    
+    /**
+     * mail_box.id
+     * If current email is reply, message_id = id of source email
+     * @var int
+     */
+    public $message_id;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
