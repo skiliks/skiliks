@@ -7,8 +7,24 @@
  * @property datetime start_time
  * @property datetime end_time
  */
-class Logmail extends CActiveRecord {
-
+class Logmail extends CActiveRecord 
+{
+    public $id;
+    
+    public $sim_id;
+    
+    public $mail_id;
+    
+    public $window;
+    
+    public $start_time;
+    
+    public $end_time;
+    
+    public $mail_task_id;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className
@@ -23,6 +39,14 @@ class Logmail extends CActiveRecord {
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
+    public function byWindow($v)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "window = {$v}"
         ));
         return $this;
     }

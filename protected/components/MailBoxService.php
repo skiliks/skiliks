@@ -322,9 +322,14 @@ class MailBoxService {
         $message->subject = $subject;
         $message->receiver_id = $receiverId;
         $message->sending_date = time();
+        $message->sending_time = $params['timeString'];        
         $message->readed = 0;
-        $message->message_id = $message_id;
+        Yii::log(var_export($letterType." = ".$message_id, true));
+        if($letterType != 'new'){
+            $message->message_id = $message_id;
+        }
         $message->sim_id = $params['simId'];
+        
         $message->insert();
         
         $mailId = $message->id;
@@ -351,19 +356,21 @@ class MailBoxService {
         // Сохранение фраз
         if (isset($params['phrases'])) {
             $phrases = explode(',', $params['phrases']);
-            if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
+            //if ($phrases[count($phrases)-1] == '') unset($phrases[count($phrases)-1]);
             
             //Logger::debug("phrases : ".var_export($params['phrases'], true));
             
             foreach($phrases as $phraseId) {
                 //Logger::debug("insert : mailId $mailId phraseId $phraseId");
-                
-                $msg_model = new MailMessagesModel();
-                $msg_model->mail_id = $mailId;
-                $msg_model->phrase_id = $phraseId;
-                $msg_model->insert();
+                if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
+                    $msg_model = new MailMessagesModel();
+                    $msg_model->mail_id = $mailId;
+                    $msg_model->phrase_id = $phraseId;
+                    $msg_model->insert();
+                }
             }
         }
+        
         return $message;
     }
     
@@ -535,7 +542,10 @@ class MailBoxService {
         $themes = array();
         if (count($receivers) == 1) {
             // загрузка тем по одному персонажу
-            $models = MailCharacterThemesModel::model()->byCharacter($receivers[0])->findAll();
+            $models = MailCharacterThemesModel::model()
+                ->byCharacter($receivers[0])
+                ->byMail()
+                ->findAll();
             
             foreach($models as $model) {
                 $themes[(int)$model->id] = (int)$model->theme_id;
@@ -544,7 +554,7 @@ class MailBoxService {
         
         // если у нас более одного получателя
         if (count($receivers) > 1) {
-            $models = MailCharacterThemesModel::model()->findAll();
+            $models = MailCharacterThemesModel::model()->byMail()->findAll();
             $collection = array();
             foreach($models as $model) {
                 $collection[] = array(

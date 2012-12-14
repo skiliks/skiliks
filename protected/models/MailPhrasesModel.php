@@ -10,7 +10,36 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailPhrasesModel extends CActiveRecord{
+class MailPhrasesModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_character-themes.id
+     * @var int
+     */
+    public $character_theme_id; 
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * @var int
+     */
+    public $thrase_type;
+    
+    /**
+     * Constructor code, 'B1','R1' ...
+     * @var string
+     */
+    public $code;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

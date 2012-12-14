@@ -9,7 +9,25 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailAttachmentsModel extends CActiveRecord{
+class MailAttachmentsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * mail_box.id
+     * @var int
+     */
+    public $mail_id;
+    
+    /**
+     * @var int
+     */
+    public $file_id; // ?
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

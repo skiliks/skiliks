@@ -7,7 +7,41 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class EventsSamples extends CActiveRecord{
+class EventsSamples extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * Dialog code, 'ET1.1', 'E8' ...
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * @var integer
+     */
+    public $on_ignore_result; // look not in use
+    
+    /**
+     * @var integer
+     */
+    public $on_hold_logic; // ?
+    
+    /**
+     * In game minutes, time when event must be sheduled in game during sim start
+     * @var integer
+     */
+    public $trigger_time;     
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

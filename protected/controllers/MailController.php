@@ -227,6 +227,7 @@ class MailController extends AjaxController{
             'simId' => $simId,
             'timeString'=>$timeString,
             'fileId' => $fileId,
+            'letterType'=>$letterType
         ));
         
         // @todo: what is in error case?
@@ -590,9 +591,27 @@ class MailController extends AjaxController{
             
             // добавим копии
             $copiesIds = array();
+            /*
             $collection = MailCopiesModel::model()->byMailId($messageId)->findAll();
+            
             foreach($collection as $model) {
                 $copiesIds[] = $model->receiver_id;
+            }
+            
+            if (count($copiesIds) > 0) {
+                $copies = $service->getCharacters($copiesIds);
+                $result['copies'] = implode(',', $copies);
+            }
+            else {
+                $result['copies'] = '';
+            }
+            */
+            $collection = MailReceiversModel::model()->byMailId($messageId)->findAll();
+            
+            foreach($collection as $model) {
+                if (1 !== $model->receiver_id) {
+                    $copiesIds[] = $model->receiver_id;
+                }
             }
             
             if (count($copiesIds) > 0) {
@@ -628,15 +647,26 @@ class MailController extends AjaxController{
             $templateId = (int)MailBoxService::getTemplateId($messageId);
             if ($templateId == 0) throw new Exception("cant get template for id : $messageId");
             
+            $email = MailBoxModel::model()->findByPk($messageId);
+            
+            // not planned yet
+            if (0 == $email->plan) {
             // получить список задач для шаблона письма
-            $tasks = MailBoxService::getTasks($templateId);
-            //var_dump($tasks);
+                $tasks = MailBoxService::getTasks($templateId);
+                //var_dump($tasks);
 
-            // вернуть результат
-            $result = array();
-            $result['result'] = 1;
-            $result['data'] = $tasks;
-        return $this->sendJSON($result);
+                // вернуть результат
+                $result = array();
+                $result['result'] = 1;
+                $result['data'] = $tasks;
+            } else {
+                // has been planned
+                $result = array();
+                $result['result'] = 1;
+                $result['data'] = array(); 
+            }
+            
+            return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
             $result['result'] = 0;

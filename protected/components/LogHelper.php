@@ -121,7 +121,16 @@ class LogHelper {
         if(!is_array($logs)) return false;
         for ($key = 0; $key < count($logs); $key++) {
             if(isset($logs[$key-1])){
-                if($logs[$key][0] == $logs[$key-1][0] AND $logs[$key][1] == $logs[$key-1][1] AND $logs[$key][2] != self::ACTION_SWITCH AND $logs[$key][2] != $logs[$key-1][2] AND $logs[$key][3] == $logs[$key-1][3]){
+                if(
+                    $logs[$key][0] == $logs[$key-1][0] AND
+                    $logs[$key][1] == $logs[$key-1][1] AND
+                    $logs[$key][2] != $logs[$key-1][2] AND
+                    $logs[$key][3] == $logs[$key-1][3] AND
+                    (
+                        count($logs[$key]) < 5 OR
+                        $logs[$key][4] == $logs[$key-1][4]
+                    )
+                ){
                     array_splice($logs, $key - 1, 2);
                     $key -= 2;
                 } else {
@@ -262,6 +271,26 @@ class LogHelper {
                     'type_scale' => 'Тип поведения',
                     'avg'        => 'Оценка по поведению'
             );
+            
+            // merge with email points (simulations_mail_points) {
+            
+            $emailPoints = Yii::app()->db->createCommand()
+                ->select('smp.sim_id,
+                      p.code,
+                      t.value as type_scale,
+                      smp.value as avg')
+                ->from('simulations_mail_points smp')
+                //->leftJoin('characters_points c', 'l.dialog_id = c.dialog_id')
+                ->leftJoin('characters_points_titles p', 'smp.point_id = p.id')
+                ->leftJoin('type_scale t', 'smp.scale_type_id = t.id')
+                ->group("smp.sim_id, p.code")
+                ->order("smp.sim_id")
+                ->queryAll();
+            
+            $data['data'] = array_merge($data['data'], $emailPoints);
+            
+            // merge with email points }
+            
             if(self::RETURN_DATA == $return){
                 $data['headers'] = $headers;
                 $data['title'] = "Логирование расчета оценки - агрегированно";
@@ -381,10 +410,16 @@ class LogHelper {
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     
+                    if (false === isset($log[4]) || false === isset($log[4]['planId'])) {
+                        $log[4]['planId'] = null;
+                    }
+                    // var_dump($log);
+                    
                     if($log[1] != 13) {
                         //Yii::log(var_export($log, true), 'info');
                         $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3])
+                        'end_time'  => date("H:i:s", $log[3]),
+                        'mail_task_id' => $log[4]['planId'],
                         ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
                         
@@ -392,6 +427,7 @@ class LogHelper {
                         //Yii::log(var_export($log, true), 'info');
                         $command->update( "log_mail" , array(
                         'end_time'  => date("H:i:s", $log[3]),
+                        'mail_task_id' => $log[4]['planId'],
                         'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
                         ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                         continue;
@@ -472,23 +508,57 @@ class LogHelper {
             ->select("m.sim_id
                     , m.code
                     , g.name
+                    , mt.type_of_importance
                     , if(m.readed = 0, 'Нет', 'Да') AS readed
                     , if(m.plan = 0, 'Нет', 'Да') AS plan
-                    , if(m.reply = 0, 'Нет', 'Да') AS reply")
+                    , if(m.reply = 0, 'Нет', 'Да') AS reply
+                    , m.id
+                    ")
             ->from('mail_box m')
             ->join('mail_group g', 'm.group_id = g.id')
-            ->where('type = 1 or type = 3')
+            ->join('mail_template mt', 'm.code = mt.code')
+            ->where('m.type = 1 or m.type = 3')
             ->order('m.id')
             ->queryAll();
+        
+        // add is right mail_task planned  {
+        $logMail = array();
+        foreach (LogMail::model()->byWindow(14)->findAll() as $log) {
+            $logMail[$log->mail_id] = $log;
+        }
+        
+        $mailTask = array();
+        foreach (MailTasksModel::model()->findAll() as $line) {
+            $mailTask[$line->id] = $line;
+        }
+        
+        foreach ($data['data'] as $key => $value) {
+            $data['data'][$key]['mail_task_is_correct'] = '-';
+            
+            if ('Да' === $value['plan'] && 'plan' !== $value['type_of_importance']) {
+                $data['data'][$key]['mail_task_is_correct'] = 'W';
+            }
+            
+            if (isset($logMail[$value['id']])) {
+                $mailTaskId = $logMail[$value['id']]->mail_task_id;
+                if (null !== $mailTaskId) {
+                    $data['data'][$key]['mail_task_is_correct'] = $mailTask[$mailTaskId]->wr;
+                }                
+            }
+        }
+        // add is right mail_task planned  }
 
         $headers = array(
-            'sim_id'     => 'id_симуляции',
-            'code'       => 'Код входящего письма',
-            'name'     => 'Папка мейл-клиента',
-            'readed' => 'Письмо прочтено (да/нет)',
-            'plan'   => 'Письмо запланировано (да/нет)',
-            'reply'   => 'На письмо отправлен ответ'
+            'sim_id'                 => 'id_симуляции',
+            'code'                   => 'Код входящего письма',
+            'name'                   => 'Папка мейл-клиента',
+            'type_of_importance'     => 'Тип письма',
+            'readed'                 => 'Письмо прочтено (да/нет)',
+            'plan'                   => 'Письмо запланировано (да/нет)',
+            'reply'                  => 'На письмо отправлен ответ',
+            'mail_task_is_correct'   => 'Задача запланирована правильно?',
         );
+        
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;
             $data['title'] = "Логирование работы с Входящими сообщениями - агрегированно";
