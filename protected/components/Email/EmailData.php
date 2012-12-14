@@ -40,7 +40,8 @@ class EmailData
     }
     
     // ----------
-    
+
+
     /**
      * Checks is email was planed in $delta minutes after reading
      * 

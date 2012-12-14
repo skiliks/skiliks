@@ -69,7 +69,17 @@ class EmailAnalizer
     /**
      * @param array of MailTask
      */
-    public $mailTasks = array();
+    public $rightMailTasks = array();
+    
+    /**
+     * @param array of MailTask
+     */
+    public $wrongMailTasks = array();
+    
+    /**
+     * @param array of MailTask
+     */
+    public $neutralMailTasks = array();
 
 
     public function __construct($simId) 
@@ -103,12 +113,23 @@ class EmailAnalizer
         foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
             $this->mailTemplate[$mailTemplate->code] = $mailTemplate; 
         }
-        unset($mailTemplate); 
-        
+        unset($mailTemplate);        
         
         // populate with right Mail_tasks
         foreach(MailTasksModel::model()->byWrongRight('R')->findAll() as $mailTask) {
-            $this->mailTasks[$mailTask->code] = $mailTask;
+            $this->rightMailTasks[$mailTask->code] = $mailTask;
+        }
+        unset($mailTask);
+        
+        // populate with wrong Mail_tasks
+        foreach(MailTasksModel::model()->byWrongRight('W')->findAll() as $mailTask) {
+            $this->wrongMailTasks[$mailTask->id] = $mailTask;
+        }
+        unset($mailTask);
+        
+        // populate with neutral Mail_tasks
+        foreach(MailTasksModel::model()->byWrongRight('N')->findAll() as $mailTask) {
+            $this->neutralMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
         
@@ -126,9 +147,9 @@ class EmailAnalizer
                 //var_dump($email->code, $this->userEmails[$email->id]->typeOfImportance);
             }
             
-            if (isset($this->mailTasks[$email->code])) {
+            if (isset($this->rightMailTasks[$email->code])) {
                 $this->userEmails[$email->id]->setRightPlanedTaskId(
-                    $this->mailTasks[$email->code]->id
+                    $this->rightMailTasks[$email->code]->id
                 );
             }
         }
@@ -192,6 +213,8 @@ class EmailAnalizer
         }        
     }
     
+    /** ----------------------------------------------------- **/
+    
     /**
      * 3322 - Add to plan right tasks
      * 3324 - Add to plan wrong tasks
@@ -212,17 +235,20 @@ class EmailAnalizer
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
                 $possibleRightActions++;
-
-                // is user add to plan right mail_task
-                if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
-                    $doneRightActions++;
-                } else {
-                    $wrongActions++;
+                
+                if (true === $emailData->getIsPlaned()) {
+                    // is user add to plan right mail_task ?
+                    if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
+                        $doneRightActions++;
+                    // is user add to plan wrong mail_task ?
+                    } elseif (true === $this->isWrongMailTaskAction($emailData->getPlanedTaskId())) {
+                        $wrongActions++;
+                    }
+                    // else are Neutral tasks
                 }
             } else {
-                //var_dump($emailData->email->id);
                 // -> no needs to add task to plan
-                if (true === $emailData->getIsPlaned()) {
+                if (true === $emailData->getIsPlaned() && false === $this->isNeutralMailTaskAction($emailData->getPlanedTaskId())) {
                     // but user has add it to plan - wrong action
                     $wrongActions++;
                 }
@@ -322,7 +348,6 @@ class EmailAnalizer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            //var_dump($emailData->email->id);
             if (false === $emailData->getIsSpam() ) {
                 $possibleRightActions++;
                 
@@ -347,6 +372,24 @@ class EmailAnalizer
     }
     
     // --- tools: ------------------------------------------------------------------------------------------------------
+    
+    /**
+     * @param integer $id, MailTask.id
+     * @return boolean
+     */
+    private function isWrongMailTaskAction($id)
+    {
+        return isset($this->wrongMailTasks[$id]);
+    }
+    
+    /**
+     * @param integer $id, MailTask.id
+     * @return boolean
+     */    
+    private function isNeutralMailTaskAction($id)
+    {
+        return isset($this->neutralMailTasks[$id]);
+    }
     
     /**
      * @param MailBoxModel $email
