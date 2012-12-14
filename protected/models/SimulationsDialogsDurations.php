@@ -9,7 +9,26 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsDialogsDurations extends CActiveRecord{
+class SimulationsDialogsDurations extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * in game minutes
+     * @var integer
+     */
+    public $duration;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     public static function model($className=__CLASS__)
     {

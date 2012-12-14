@@ -33,14 +33,16 @@ class DebugController extends AjaxController{
     {
         //SimulationService::saveEmailsAnalize(2962);
         $ea = new EmailAnalizer(3894);
+
+        die();
         
-        echo "<br/>3322 3324:<br/> <pre>";
+        /*echo "<br/>3322 3324:<br/> <pre>";
         
         $v = $ea->check_3322_3324();
         unset($v['3322']['obj']);
         unset($v['3324']['obj']);
         
-        var_dump($v);
+        var_dump($v);*/
         
         
         /*echo "<br/>Big tasks emails:<br/>";
@@ -49,11 +51,11 @@ class DebugController extends AjaxController{
         echo "<br/>Small task email:s<br/>";
         var_dump($ea->checkSmallTasks());
         */
-        echo "<br/>Spams emails:<br/>";
+        /*echo "<br/>Spams emails:<br/>";
         $v = $ea->check_3325();
         unset($v['obj']);
         var_dump($v);
-        echo "</pre>";
+        echo "</pre>";*/
     }
 }
 

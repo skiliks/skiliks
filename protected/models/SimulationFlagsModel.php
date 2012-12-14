@@ -8,7 +8,31 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationFlagsModel extends CActiveRecord{
+class SimulationFlagsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * 'F1', 'F2', ...
+     * @var string
+     */
+    public $flag;
+    
+    /**
+     * @var integer
+     */
+    public $value;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
