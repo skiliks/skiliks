@@ -8,7 +8,47 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailTasksModel extends CActiveRecord{
+class MailTasksModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;    
+    
+    /**
+     * mail_box.id
+     * @var integer
+     */
+    public $mail_id;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * In game minutes
+     * @var integer
+     */
+    public $duration; 
+    
+    /**
+     * Code, 'M1', 'M8' ...
+     * @var string
+     */
+    public $code;  
+    
+    /**
+     * @var string
+     */
+    public $wr; // right, werong : "R", "W" 
+    
+    /**
+     * @var integer
+     */
+    public $category; // ?  
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

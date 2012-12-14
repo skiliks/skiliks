@@ -591,9 +591,27 @@ class MailController extends AjaxController{
             
             // добавим копии
             $copiesIds = array();
+            /*
             $collection = MailCopiesModel::model()->byMailId($messageId)->findAll();
+            
             foreach($collection as $model) {
                 $copiesIds[] = $model->receiver_id;
+            }
+            
+            if (count($copiesIds) > 0) {
+                $copies = $service->getCharacters($copiesIds);
+                $result['copies'] = implode(',', $copies);
+            }
+            else {
+                $result['copies'] = '';
+            }
+            */
+            $collection = MailReceiversModel::model()->byMailId($messageId)->findAll();
+            
+            foreach($collection as $model) {
+                if (1 !== $model->receiver_id) {
+                    $copiesIds[] = $model->receiver_id;
+                }
             }
             
             if (count($copiesIds) > 0) {

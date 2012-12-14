@@ -9,7 +9,30 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DayPlanAfterVacation extends CActiveRecord{
+class DayPlanAfterVacation extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * tasks.id
+     * @var int
+     */
+    public $task_id; 
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * In minutes from 00:00 game day
+     * @var int
+     */
+    public $date;
     
     public static function model($className=__CLASS__)
     {

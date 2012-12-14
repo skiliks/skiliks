@@ -9,7 +9,31 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelDocumentModel extends CActiveRecord{
+class ExcelDocumentModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * excel_document_template.id
+     * @var integer
+     */
+    public $document_id; // ??
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;   
+            
+    /**
+     * @var integer
+     */
+    public $file_id; // ??
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

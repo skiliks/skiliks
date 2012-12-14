@@ -23,6 +23,8 @@ class Logmail extends CActiveRecord
     
     public $mail_task_id;
     
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className
