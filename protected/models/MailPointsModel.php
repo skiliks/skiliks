@@ -32,8 +32,9 @@ class MailPointsModel extends CActiveRecord
     /**
      * @var integer
      */
-    public $add_value;    
-    
+    public $add_value;  
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**

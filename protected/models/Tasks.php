@@ -9,7 +9,59 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Tasks extends CActiveRecord{
+class Tasks extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var string
+     */
+    public $title;
+    
+    /**
+     * game minutes
+     * @var integer
+     */
+    public $start;
+    
+    /**
+     * game minutes
+     * @var integer
+     */
+    public $duration;
+    
+    /**
+     * @var integer
+     */
+    public $type;    
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * Code, '','' ...
+     * @var string
+     */
+    public $code;  
+    
+    /**
+     * 'start', 'new', null
+     * @var string
+     */
+    public $start_type;
+    
+    /**
+     * @var integer
+     */
+    public $category; // ?  
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

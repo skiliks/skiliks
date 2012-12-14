@@ -10,7 +10,30 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsExcelPoints extends CActiveRecord{
+class SimulationsExcelPoints extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;   
+    
+    /**
+     * @var float
+     */
+    public $value;
+    
+    /**
+     * @var integer
+     */
+    public $formula_id;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
