@@ -6,6 +6,8 @@
  * 
  * Связана с моделями:  Simulations.
  *
+ * @property string name
+ * @property int sim_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailThemesModel extends CActiveRecord
@@ -85,7 +87,8 @@ class MailThemesModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
+
     /**
      * @param int $id, mail_themes_id
      * 
