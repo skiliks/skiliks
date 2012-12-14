@@ -150,6 +150,13 @@ class MailCharacterThemesModel extends CActiveRecord
         ));
         return $this;
     }
+
+    public function relations()
+    {
+        return array(
+            'letter' => array(self::BELONGS_TO, 'MailTemplateModel', 'letter_number')
+        );
+    }
 }
 
 
