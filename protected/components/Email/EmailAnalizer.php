@@ -216,6 +216,8 @@ class EmailAnalizer
                 // is user add to plan right mail_task
                 if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
                     $doneRightActions++;
+                } else {
+                    $wrongActions++;
                 }
             } else {
                 //var_dump($emailData->email->id);
