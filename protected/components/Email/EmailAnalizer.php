@@ -11,7 +11,7 @@ class EmailAnalizer
      */
     public $userEmails = array(); 
     
-    /**
+    /**behave_3313
      * @var array of EmailData, indexed of MySQL email.template_id
      */
     public $userInboxEmails = array();
@@ -244,8 +244,7 @@ class EmailAnalizer
                 'obj'      => $behave_3324,
             ),
         );
-    }
-    
+    }    
     
     /**
      * 3325 - read spam
@@ -274,6 +273,7 @@ class EmailAnalizer
             'obj'      => $behave_3325,
         );
     }
+    
     /**
      * 3323 - In 2 real minutes (16 game min) react on issues 
      * 
@@ -307,91 +307,44 @@ class EmailAnalizer
             'obj'      => $behave_3323,
         );
     }
-    
+
     /**
-     * @deprecated, was used just to test Analizer
-     * 
-     * Sample analize 'Is user add to plan big task emails, in 16 game minutes'
+     * 3313 - read all emails, exept spam
      * 
      * @param integer $delta
      * 
      * @return mixed array
      */
-    /*public function checkBigTasks($delta = 16)
+    public function check_3313($limit = 0.9)
     {
+        $possibleRightActions = 0;
         $rightActions = 0;
-        $wrongActions = 0;
-        foreach ($this->userInboxEmails as $mailId => $emailData) {
-            if ($emailData->isBigTask) {
-                if ($emailData->isPlanedByMinutes($delta)) {
-                    $rightActions++;
-                } else {
-                    $wrongActions++;
-                }
-            }
-        } 
         
-        return array(
-            'rightActions' => $rightActions,
-            'wrongActions' => $wrongActions,
-        );
-    }*/
-    
-    /**
-     * @deprecated, was used just to test Analizer
-     * 
-     * Sample analize 'Is user reply for small task emails, in 16 game minutes'
-     * 
-     * @param integer $delta
-     * 
-     * @return mixed array
-     */
-    /*public function checkSmallTasks($delta = 16)
-    {
-        $rightActions = 0;
-        $wrongActions = 0;
-        foreach ($this->userInboxEmails as $mailId => $emailData) {
-            if ($emailData->isSmallTask) {
-                if ($emailData->isAnsweredByMinutes($delta)) {
-                    $rightActions++;
-                } else {
-                    $wrongActions++;
-                }
-            }
-        } 
-        
-        return array(
-            'rightActions' => $rightActions,
-            'wrongActions' => $wrongActions,
-        );
-    }*/
-    
-    /**
-     * @deprecated, was used just to test Analizer
-     * 
-     * Sample analize 'Is user read spam'
-     * 
-     * @return mixed array
-     */
-    /*public function checkSpam()
-    {
-        $rightActions = 0;
-        $wrongActions = 0;
-        foreach ($this->userInboxEmails as $mailId => $emailData) {
-            if ($emailData->getIsSpam()) {
-                if ($emailData->getIsReaded()) {
-                    $wrongActions++;
-                } else {
+        // inbox + trashCan
+        foreach ($this->userInboxEmails as $emailData) {
+            //var_dump($emailData->email->id);
+            if (false === $emailData->getIsSpam() ) {
+                $possibleRightActions++;
+                
+                if (true === $emailData->getIsReaded()) {
                     $rightActions++;
                 }
             }
         } 
         
+        $behave_3313 = CharactersPointsTitles::model()->byCode('3313')->positive()->find();
+        
+        // grand score for user, if he read more or equal to $limit of not-spam emails only
+        $mark = 0;
+        if ($limit <= $rightActions/$possibleRightActions) {
+            $mark = 1;
+        }
+        
         return array(
-            'rightActions' => $rightActions,
-            'wrongActions' => $wrongActions,
+            'positive' => $mark * $behave_3313->scale,
+            'obj'      => $behave_3313,
         );
-    }*/
+    }
     
     // --- tools: ------------------------------------------------------------------------------------------------------
     
