@@ -8,7 +8,47 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailTasksModel extends CActiveRecord{
+class MailTasksModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;    
+    
+    /**
+     * mail_box.id
+     * @var integer
+     */
+    public $mail_id;
+    
+    /**
+     * @var string
+     */
+    public $name;
+    
+    /**
+     * In game minutes
+     * @var integer
+     */
+    public $duration; 
+    
+    /**
+     * Code, 'M1', 'M8' ...
+     * @var string
+     */
+    public $code;  
+    
+    /**
+     * @var string
+     */
+    public $wr; // right, werong : "R", "W" 
+    
+    /**
+     * @var integer
+     */
+    public $category; // ?  
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
@@ -40,6 +80,18 @@ class MailTasksModel extends CActiveRecord{
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param string $value, 'W', 'R' or 'M'. Wrong, Right, Miscelaniouse
+     * @return MailTasksModel 
+     */
+    public function byWrongRight($value)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "wr = '{$value}'"
         ));
         return $this;
     }

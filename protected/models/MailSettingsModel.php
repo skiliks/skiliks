@@ -8,7 +8,26 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailSettingsModel extends CActiveRecord{
+class MailSettingsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;    
+    
+    /**
+     * is messageArriveSound anables
+     * @var int (bool)
+     */
+    public $messageArriveSound;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

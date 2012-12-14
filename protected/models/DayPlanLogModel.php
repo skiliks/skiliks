@@ -9,7 +9,51 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DayPlanLogModel extends CActiveRecord{
+class DayPlanLogModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * @var integer
+     */
+    public $uid_id; // ??
+    
+    /**
+     * @var integer
+     */
+    public $snapshot_date; // ??
+    
+    /**
+     * @var integer
+     */
+    public $day; // of game? 1,2?
+    
+    
+    /**
+     * tasks.id
+     * @var int
+     */
+    public $task_id;
+    
+    /**
+     * @var integer
+     */
+    public $snapshot_time; // ??
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * @var int
+     */
+    public $todo_count;    
+    
     
     /**
      *

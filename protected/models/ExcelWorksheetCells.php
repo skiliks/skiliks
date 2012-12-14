@@ -7,6 +7,8 @@
  *
  * Связана с моделями:  ExcelWorksheetModel.
  * 
+ * @deprecated
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class ExcelWorksheetCells extends CActiveRecord{

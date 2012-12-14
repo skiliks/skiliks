@@ -11,7 +11,15 @@
  * @property int mail_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailMessagesModel extends CActiveRecord{
+class MailMessagesModel extends CActiveRecord
+{
+    public $id;
+    
+    public $mail_id;
+    
+    public $phrase_id;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

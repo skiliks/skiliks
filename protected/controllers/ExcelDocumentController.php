@@ -725,6 +725,8 @@ class ExcelDocumentController extends AjaxController{
         } catch (Exception $exc) {
             $this->sendJSON(array(
                 'result' => 0,
+                'filedId' => $fileId,
+                'excelDocumentUrl' => '/pages/excel/fileNotFound.html',
                 'message' => $exc->getMessage(),
                 'code' => $exc->getCode()
             ));
@@ -1283,6 +1285,19 @@ class ExcelDocumentController extends AjaxController{
         
         $value = $this->_parseFormula($formula);
         var_dump($value);
+    }
+    
+    public function actionGetExcelID() {
+        $uid = SessionHelper::getUidBySid(); // получаем uid
+        $sim_id = SessionHelper::getSimIdBySid($uid);
+        $id = Yii::app()
+            ->db
+            ->createCommand()
+            ->select('id')
+            ->from('my_documents')
+            ->where("sim_id = :sim_id AND template_id = 33", array(":sim_id"=>$sim_id))    
+            ->queryRow();
+        $this->sendJSON($id);
     }
 }
 
