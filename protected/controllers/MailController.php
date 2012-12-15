@@ -614,10 +614,10 @@ class MailController extends AjaxController{
             $collection = MailReceiversModel::model()->byMailId($messageId)->findAll();
             
             foreach($collection as $model) {
-                if (1 !== $model->receiver_id) {
+                if (1 != $model->receiver_id) {
                     $copiesIds[] = $model->receiver_id;
                 }
-            }
+            }            
             
             if (count($copiesIds) > 0) {
                 $copies = $service->getCharacters($copiesIds);
