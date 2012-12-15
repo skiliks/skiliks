@@ -14,8 +14,17 @@ class MailController extends AjaxController{
         
         $sid = Yii::app()->request->getParam('sid', false);  
         $receiverId = 1; // герой SessionHelper::getUidBySid($sid);
-        $simId = SessionHelper::getSimIdBySid($sid);
-        
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
+            
         $service = new MailBoxService();
         $folders = $service->getFolders();
         
@@ -46,7 +55,16 @@ class MailController extends AjaxController{
     public function actionGetInboxUnreadedCount() {
         
         $sid = Yii::app()->request->getParam('sid', false);  
-        $simId = SessionHelper::getSimIdBySid($sid);
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simId);
         
         $result = array();
@@ -70,7 +88,16 @@ class MailController extends AjaxController{
         $orderType = (int)Yii::app()->request->getParam('order_type', false);  
         
         $receiverId = SessionHelper::getUidBySid();
-        $simId = SessionHelper::getSimIdBySid($sid);
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
         
         $service = new MailBoxService();
         
@@ -151,52 +178,52 @@ class MailController extends AjaxController{
     {
         $result['result'] = 1;
         try {
-        $sid = Yii::app()->request->getParam('sid', false);
-        
-        $senderId = SessionHelper::getUidBySid($sid);
-        $simId = SessionHelper::getSimIdBySid($sid);
-        
-        $messageId = Yii::app()->request->getParam('messageId', false);
-        $timeString = Yii::app()->request->getParam('timeString', false); 
-        $receivers = Yii::app()->request->getParam('receivers', false);
+            $sid = Yii::app()->request->getParam('sid', false);
 
-        if(empty($receivers)) {
-            throw new Exception("Не указан хотя бы один получатель!");
-        }
-        $copies = Yii::app()->request->getParam('copies', false);           
-        $phrases = Yii::app()->request->getParam('phrases', false);          
-        $letterType = Yii::app()->request->getParam('letterType', false);  
-        $fileId = (int)Yii::app()->request->getParam('fileId', false);
-        
-        if($letterType == 'reply' OR $letterType == 'replyAll'){
-            if(!empty($messageId)){
-                //Изменяем запись в бд: SK - 708
-                $message = MailBoxModel::model()->byId($messageId)->find();
-                $message->reply = 1;//1 - значит что на сообщение отправлен ответ
-                $message->update();
-            }else{
-                throw new Exception("Ошибка, не указан messageId для ответить или ответить всем");
+            $senderId = SessionHelper::getUidBySid($sid);
+            $simId = SessionHelper::getSimIdBySid($sid);
+
+            $messageId = Yii::app()->request->getParam('messageId', false);
+            $timeString = Yii::app()->request->getParam('timeString', false); 
+            $receivers = Yii::app()->request->getParam('receivers', false);
+
+            if(empty($receivers)) {
+                throw new Exception("Не указан хотя бы один получатель!");
             }
-        }
-        
-        list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
-        
-        $service = new MailBoxService();
-        $message = $service->sendMessage(array(
-            'message_id' => $messageId,
-            'group' => 3, // outbox
-            'sender' => 1, //$senderId, //- отправитель теперь всегда герой
-            'receivers' => $receivers,
-            'copies' => $copies,
-            'subject' => $subject,
-            'subject_id' => $subject_id,
-            'phrases' => $phrases,
-            'simId' => $simId,
-            'letterType' => $letterType,
-            'fileId' => $fileId,
-            'timeString'=>$timeString
-        ));
-        $result['messageId'] = $message->primaryKey;
+            $copies = Yii::app()->request->getParam('copies', false);           
+            $phrases = Yii::app()->request->getParam('phrases', false);          
+            $letterType = Yii::app()->request->getParam('letterType', false);  
+            $fileId = (int)Yii::app()->request->getParam('fileId', false);
+
+            if($letterType == 'reply' OR $letterType == 'replyAll'){
+                if(!empty($messageId)){
+                    //Изменяем запись в бд: SK - 708
+                    $message = MailBoxModel::model()->byId($messageId)->find();
+                    $message->reply = 1;//1 - значит что на сообщение отправлен ответ
+                    $message->update();
+                }else{
+                    throw new Exception("Ошибка, не указан messageId для ответить или ответить всем");
+                }
+            }
+
+            list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
+
+            $service = new MailBoxService();
+            $message = $service->sendMessage(array(
+                'message_id' => $messageId,
+                'group' => 3, // outbox
+                'sender' => 1, //$senderId, //- отправитель теперь всегда герой
+                'receivers' => $receivers,
+                'copies' => $copies,
+                'subject' => $subject,
+                'subject_id' => $subject_id,
+                'phrases' => $phrases,
+                'simId' => $simId,
+                'letterType' => $letterType,
+                'fileId' => $fileId,
+                'timeString'=>$timeString
+            ));
+            $result['messageId'] = $message->primaryKey;
         } catch (Exception $e) {
             $result['result'] = 0;
             $result['messsage'] = $e->getMessage();
@@ -208,7 +235,17 @@ class MailController extends AjaxController{
     public function actionSaveDraft() 
     {
         $sid = Yii::app()->request->getParam('sid', false);  
-        $simId = SessionHelper::getSimIdBySid($sid);
+        
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }        
         
         $messageId = Yii::app()->request->getParam('messageId', false);
         $timeString = Yii::app()->request->getParam('timeString', false); 
@@ -335,8 +372,17 @@ class MailController extends AjaxController{
     
     public function actionDelete() {
         $id = (int)Yii::app()->request->getParam('id', false);  
-        $sid = Yii::app()->request->getParam('sid', false);  
-        $simId = SessionHelper::getSimIdBySid($sid);
+        $sid = Yii::app()->request->getParam('sid', false); 
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
         
         $service = new MailBoxService();
         $service->delete($id);
@@ -365,7 +411,16 @@ class MailController extends AjaxController{
     public function actionMarkRead() {
         $id = (int)Yii::app()->request->getParam('id', false);  
         $sid = Yii::app()->request->getParam('sid', false);  
-        $simId = SessionHelper::getSimIdBySid($sid);
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
         
         $service = new MailBoxService();
         $service->setAsReaded($id);
@@ -398,9 +453,18 @@ class MailController extends AjaxController{
         try {
             $messageId = (int)Yii::app()->request->getParam('messageId', false);  
             $folderId = (int)Yii::app()->request->getParam('folderId', false);  
-            $sid = Yii::app()->request->getParam('sid', false);  
-            $simId = SessionHelper::getSimIdBySid($sid);
-        
+            $sid = Yii::app()->request->getParam('sid', false); 
+            
+            try {
+               $simId = SessionHelper::getSimIdBySid($sid);
+            } catch (CException $e) {
+                return $this->sendJSON(
+                    array(
+                        'result' => 0,
+                        'e'      => $e->getMessage()
+                    )
+                );
+            }       
             
             $model = MailBoxModel::model()->byId($messageId)->find();
             if (!$model) {
@@ -465,8 +529,17 @@ class MailController extends AjaxController{
     public function actionReply() {
         $messageId = (int)Yii::app()->request->getParam('id', false);
         $sid = Yii::app()->request->getParam('sid', false);
-        $simId = SessionHelper::getSimIdBySid($sid);
-
+        try {
+           $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(
+                array(
+                    'result' => 0,
+                    'e'      => $e->getMessage()
+                )
+            );
+        }
+            
         $model = MailBoxModel::model()->byId($messageId)->find();
 
         $groupId = (int)$model->group_id;
@@ -537,8 +610,17 @@ class MailController extends AjaxController{
     public function actionReplyAll() {
         try {
             $messageId = (int)Yii::app()->request->getParam('id', false);  
-            $sid = Yii::app()->request->getParam('sid', false);  
-            $simId = SessionHelper::getSimIdBySid($sid);
+            $sid = Yii::app()->request->getParam('sid', false); 
+            try {
+               $simId = SessionHelper::getSimIdBySid($sid);
+            } catch (CException $e) {
+                return $this->sendJSON(
+                    array(
+                        'result' => 0,
+                        'e'      => $e->getMessage()
+                    )
+                );
+            }
             
             $model = MailBoxModel::model()->byId($messageId)->find();
             
@@ -614,7 +696,7 @@ class MailController extends AjaxController{
             $collection = MailReceiversModel::model()->byMailId($messageId)->findAll();
             
             foreach($collection as $model) {
-                if (1 != $model->receiver_id) {
+                if (1 !== $model->receiver_id) {
                     $copiesIds[] = $model->receiver_id;
                 }
             }            

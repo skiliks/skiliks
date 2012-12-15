@@ -35,7 +35,11 @@ final class ExcelDocument {
 
     function __construct($documentId = false) {
         $sid = SessionHelper::getSid();
-        $simId = SessionHelper::getSimIdBySid($sid);
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch(CException $e) {
+            // @todo: handle
+        }
         
         if ($documentId) {
             

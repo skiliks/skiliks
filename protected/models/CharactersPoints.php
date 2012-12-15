@@ -33,6 +33,8 @@ class CharactersPoints extends CActiveRecord
      */
     public $add_value;
     
+    /* ----------------------------------- */
+    
     /**
      *
      * @param type $className
