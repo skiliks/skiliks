@@ -1330,11 +1330,11 @@ class ExcelDocumentController extends AjaxController{
             if($time !== false){
                 return $time;
             } else {
-                //throw new Exception('Ошибка с файлом '.$file);
-                return null;
+                throw new Exception('Ошибка с файлом '.$file);
             }
         }else{
-            throw new Exception('Файл '.$file.' не  найден!');
+            return null;
+            //throw new Exception('Файл '.$file.' не  найден!');
         }
     }
 }
