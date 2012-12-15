@@ -96,8 +96,8 @@ class MailThemesModel extends CActiveRecord
      */
     public function getSubjectId($id, $messageId)
     {
-        $emailSubject = MailCharacterThemesModel::model()->findByPk($id);
-        $id = isset($emailSubject) ? $emailSubject->theme_id : null;
+        $emailSubject = MailThemesModel::model()->findByPk($id);
+        $id = isset($emailSubject) ? $emailSubject->id : null;
         
         if (null === $id) {
             $forvarderEmail = MailBoxModel::model()->findByPk($messageId);
