@@ -158,10 +158,17 @@ class MailController extends AjaxController{
     
     public function actionGetPhrases() {
         $character_theme_id = (int)Yii::app()->request->getParam('id', false);
+        $service = new MailBoxService();
+        if ((int)$character_theme_id === 0) {
+            $this->sendJSON(array(
+                'result' => 1,
+                'data' => $service->getMailPhrases(),
+                'addData' => $service->getSigns()
+            ));
+        }
         $character_theme = MailCharacterThemesModel::model()->findByPk($character_theme_id);
         
-        $service = new MailBoxService();
-        
+
         $result = array();
         $result['result'] = 1;
         if ('TXT' === $character_theme->constructor_number) {
