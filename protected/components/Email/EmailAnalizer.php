@@ -380,6 +380,41 @@ class EmailAnalizer
             'obj'      => $behave_3313,
         );
     }
+    
+    public function getExceptionPointCodes()
+    {
+        return array(
+            '3313', '3322', '3323', '3324', '3325'
+        );
+    }
+
+    public function standardCheck()
+    {
+        $scores = array();
+        
+        // use all emails in simulation
+        foreach ($this->userEmails as $emailData) {
+            // points must be calculated for readed or sended emails only
+            if (true === $emailData->getIsReaded() || true === $emailData->email->isMS()) {
+                // go throw ailPoints
+                foreach ($this->mailPoints as $mailPoint) {
+                    $point = $this->points[$mailPoint->point_id];
+                    // exept special scored points
+                    if (false === in_array($point, $this->getExceptionPointCodes())) {
+                        if (true === $point->isPositive()) {
+                            
+                        } elseif (true === $point->isNegative()) {
+                            
+                        } elseif (true === $point->isPersonal()) {
+                            
+                        }
+                    }
+                }
+            }
+        }
+        
+        // return point array
+    }
 
     // --- tools: ------------------------------------------------------------------------------------------------------
     

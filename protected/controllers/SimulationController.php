@@ -140,9 +140,16 @@ class SimulationController extends AjaxController{
     public function actionStop() {
         
         $sid = Yii::app()->request->getParam('sid', false);
-            SessionHelper::setSid($sid);
-        
-        $simId = SessionHelper::getSimIdBySid($sid);
+        SessionHelper::setSid($sid);
+            
+        try {
+           $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(array(
+                'result' => 0,
+                'e'      => $e->getMessage()
+            ));
+        }
 
         Yii::log('Stop simulation', 'debug');
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simId);

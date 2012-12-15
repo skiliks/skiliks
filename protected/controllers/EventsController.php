@@ -49,8 +49,17 @@ class EventsController extends AjaxController{
                 throw new CHttpException(200,'Не могу определить пользователя', 2);
             }
 
-            
-            $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
+            $simId = null;
+            try {
+                $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
+            } catch (CException $e) {
+                return $this->sendJSON(
+                    array(
+                        'result' => 0,
+                        'e'      => $e->getMessage()
+                    )
+                );
+            }
             if (null === $simId) {
                 throw new CHttpException(200,'Не могу определить симуляцию', 3);
             }

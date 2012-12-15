@@ -1289,7 +1289,12 @@ class ExcelDocumentController extends AjaxController{
     
     public function actionGetExcelID() {
         $uid = SessionHelper::getUidBySid(); // получаем uid
-        $sim_id = SessionHelper::getSimIdBySid($uid);
+        try {
+            $sim_id = SessionHelper::getSimIdBySid($uid);
+        } catch(CException $e) {
+            $this->sendJSON(null);
+        }
+        
         $id = Yii::app()
             ->db
             ->createCommand()
@@ -1302,9 +1307,6 @@ class ExcelDocumentController extends AjaxController{
 }
 
 function replaceVarsCallback($str) {
-    //Logger::debug("str : ".var_export($str, true));
-    //global $vars;
-    //Logger::debug("callback vars : ".var_export(ExcelDocumentController::$vars, true));
     if (isset(ExcelDocumentController::$vars[$str[1]]))
         return ExcelDocumentController::$vars[$str[1]];
     return '2';
