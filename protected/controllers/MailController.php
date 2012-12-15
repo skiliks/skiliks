@@ -587,7 +587,7 @@ class MailController extends AjaxController{
             if ($characterThemeModel) {
                 $characterThemeId = $characterThemeModel->id;
                 if ($characterThemeModel->constructor_number === 'TXT') {
-                    $result['text'] = $characterThemeModel->letter->message;
+                    $result['phrases']['message'] = $characterThemeModel->letter->message;
                 } else {
                     $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
                     $result['subjectId'] = $characterThemeId; //$subjectId;
@@ -595,7 +595,7 @@ class MailController extends AjaxController{
             }
         }
 
-        if ( !isset($result['phrases']) && !isset($result['text'])) {
+        if ( !isset($result['phrases'])) {
             $result['phrases']['data'] = $service->getMailPhrases();
         }  // берем дефолтные
         $result['phrases']['addData'] = $service->getSigns();
@@ -646,7 +646,7 @@ class MailController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             
-            $subject = 'Re:'.$subject;
+            $subject = 'Re: '.$subject;
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
             if (!$subjectModel) {
                 // у нас нет такой темы, значит создадим ее
@@ -662,7 +662,11 @@ class MailController extends AjaxController{
                         ->byTheme($subjectId)->find();
                 if ($characterThemeModel) {
                     $characterThemeId = $characterThemeModel->id;
-                    $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
+                    if ($characterThemeModel->constructor_number === 'TXT') {
+                        $result['phrases']['message'] = $characterThemeModel->letter->message;
+                    } else {
+                        $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
+                    }
                     //$result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
@@ -670,7 +674,7 @@ class MailController extends AjaxController{
             if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
             
-            $result['subjectId'] = $subjectId;
+            $result['subjectId'] = $subjectModel->primaryKey;
             
             $result['receiver'] = $characters[$model->sender_id];
             $result['receiverId'] = $model->sender_id;
@@ -847,7 +851,9 @@ class MailController extends AjaxController{
             $subject = $model->subject;
             $subjectId = $model->subject_id;
             $sender = $model->sender_id;
-            
+            $receiverId = $model->receiver_id;
+
+            $subject = 'Fwd:'.$subject;
             if ($subjectId > 0) {
                 $subject = MailBoxService::getSubjectById($subjectId);
             }
@@ -856,7 +862,6 @@ class MailController extends AjaxController{
             }
             //var_dump($subject); die();
             // изменить тему и создать новую
-            $subject = 'Fwd:'.$subject;
             $newSubjectId = MailBoxService::createSubject($subject, $simId);
             
             $result = array();
@@ -867,16 +872,22 @@ class MailController extends AjaxController{
             ///////////////////////
             if ($subjectId>0) {
                 $characterThemeModel = MailCharacterThemesModel::model()
-                        ->byCharacter($sender)
+                        ->byCharacter($receiverId)
                         ->byTheme($subjectId)->find();
                 if ($characterThemeModel) {
                     $characterThemeId = $characterThemeModel->id;
-                    $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
-                    $result['subjectId'] = $characterThemeId; //$subjectId;
+                    if ($characterThemeModel->constructor_number === 'TXT') {
+                        $result['text'] = $characterThemeModel->letter->message;
+                    } else {
+                        $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
+                        $result['subjectId'] = $characterThemeId; //$subjectId;
+                    }
                 }
             }
-            
-            if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
+
+            if ( !isset($result['phrases']) && !isset($result['text'])) {
+                $result['phrases']['data'] = $service->getMailPhrases();
+            }  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
             //////////////////////
             
