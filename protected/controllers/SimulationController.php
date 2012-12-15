@@ -179,7 +179,11 @@ class SimulationController extends AjaxController{
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
-        LogHelper::setWindowsLog($simId, $logs);
+        try {
+            LogHelper::setWindowsLog($simId, $logs);
+        } catch (CException $e) {
+            // @todo: handle
+        }
         
         // make attestation 'work with emails' {
         SimulationService::saveEmailsAnalize($simId);
