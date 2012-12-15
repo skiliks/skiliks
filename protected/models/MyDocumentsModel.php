@@ -25,7 +25,7 @@ class MyDocumentsModel extends CActiveRecord
      * my_documents_template.id
      * @var integer
      */
-    public $id;
+    public $template_id;
     
     /**
      * @var string
