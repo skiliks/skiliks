@@ -91,8 +91,7 @@ class EmailData
         return $this;
     }
 
-
-    /**
+        /**
      * @return boolean
      */
     public function getIsPlaned()

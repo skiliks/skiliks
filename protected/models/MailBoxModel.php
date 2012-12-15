@@ -88,6 +88,12 @@ class MailBoxModel extends CActiveRecord
     
     /**
      * Code, 'M1', 'MS8' ...
+     * 
+     * MS - mail sended by hero
+     * MY - ? mail sended by hero yesterday
+     * M - mail received during game
+     * MY - mail in inbox when game starts
+     * 
      * @var string
      */
     public $code;
@@ -124,6 +130,14 @@ class MailBoxModel extends CActiveRecord
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
+    /**
+     * @return boolean
+     */
+    public function isMS() {
+        return preg_match("/MS\d+/", $this->code);
+    }
+
+
     /**
      *
      * @param string $className

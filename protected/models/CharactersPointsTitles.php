@@ -36,9 +36,46 @@ class CharactersPointsTitles extends CActiveRecord
     public $scale;  
     
     /**
+     * 1 - positive
+     * 2 -negative
+     * 3 - personal
+     * 
      * @var integer
      */
     public $type_scale;
+    
+    const TYPE_POSITIVE = 1;
+    const TYPE_NEGATIVE = 2;
+    const TYPE_PERSONAL  = 3;
+    
+    /* ------------------------------------------------------------*/
+    
+    /**
+     * @return boolean
+     */
+    public function isPositive() 
+    {
+        return (self::TYPE_POSITIVE == $this->type_scale);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isNegative() 
+    {
+        return (self::TYPE_NEGATIVE == $this->type_scale);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isPersonal() 
+    {
+        return (self::TYPE_PERSONAL == $this->type_scale);
+    }
+
+
+    /* ------------------------------------------------------------*/
     
     /**
      *
