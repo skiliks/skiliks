@@ -1298,7 +1298,7 @@ class ExcelDocumentController extends AjaxController{
         }
 
         $res = array();
-        if(empty($fileId)){
+        if(empty($fileId) OR $fileId === "null"){
             $res['id'] = $this->_getFileID($sim_id);
             $res['time'] = $this->_getFileTime($sim_id, $res['id']);
         }else{
