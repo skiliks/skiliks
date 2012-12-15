@@ -1316,7 +1316,11 @@ class ExcelDocumentController extends AjaxController{
             ->from('my_documents')
             ->where("sim_id = :sim_id AND template_id = 33", array(":sim_id"=>$sim_id))    
             ->queryRow();
-            return (empty($id['id']))?null:$id['id'];
+            if(empty($id['id'])){
+                throw new Exception("файл не может быть не задан для симуляции - {$sim_id}!");
+            }else{
+                return $id['id'];
+            }
     }
     
     private function _getFileTime($sim_id, $fileId) {
