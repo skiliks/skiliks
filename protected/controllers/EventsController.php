@@ -69,8 +69,11 @@ class EventsController extends AjaxController{
 
             $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
             /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
-            
-            LogHelper::setWindowsLog($simId, $logs);
+            try {
+                LogHelper::setWindowsLog($simId, $logs);
+            } catch (CException $e) {
+                // @todo: handle
+            }
             
             LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
             LogHelper::setMailLog($simId, $logs);
