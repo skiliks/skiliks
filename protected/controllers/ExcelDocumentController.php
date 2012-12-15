@@ -1314,7 +1314,7 @@ class ExcelDocumentController extends AjaxController{
     }
     
     private function _getFileTime($sim_id, $fileId) {
-        $file = '../../documents/'.$sim_id.'/'.$fileId.'.xls';
+        $file = 'documents/'.$sim_id.'/'.$fileId.'.xls';
         if(file_exists($file)){
             $time = filemtime($file);
             if($time !== false){
