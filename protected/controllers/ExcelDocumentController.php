@@ -1288,21 +1288,49 @@ class ExcelDocumentController extends AjaxController{
     }
     
     public function actionGetExcelID() {
+        $fileId = Yii::app()->request->getParam('fileId', false);
         $uid = SessionHelper::getUidBySid(); // получаем uid
+
         try {
             $sim_id = SessionHelper::getSimIdBySid($uid);
         } catch(CException $e) {
             $this->sendJSON(null);
         }
+
+        $res = array();
+        if(empty($fileId)){
+            $res['id'] = $this->_getFileID($sim_id);
+            $res['time'] = $this->_getFileTime($sim_id, $res['id']);
+        }else{
+            $res['time'] = $this->_getFileTime($sim_id, $fileId);
+        }
         
-        $id = Yii::app()
+        $this->sendJSON($res);
+    }
+    
+    private function _getFileID($sim_id) {
+            $id = Yii::app()
             ->db
             ->createCommand()
             ->select('id')
             ->from('my_documents')
             ->where("sim_id = :sim_id AND template_id = 33", array(":sim_id"=>$sim_id))    
             ->queryRow();
-        $this->sendJSON($id);
+            return (empty($id['id']))?null:$id['id'];
+    }
+    
+    private function _getFileTime($sim_id, $fileId) {
+        $file = $_SERVER['DOCUMENT_ROOT'].'/documents/'.$sim_id.'/'.$fileId.'.xls';
+        if(file_exists($file)){
+            $time = filemtime($file);
+            if($time !== false){
+                return $time;
+            } else {
+                throw new Exception('Ошибка с файлом '.$file);
+            }
+        }else{
+            throw new Exception('Файл '.$file.' не  найден!');
+        }
     }
 }
 
