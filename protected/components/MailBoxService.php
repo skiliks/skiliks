@@ -309,19 +309,18 @@ class MailBoxService {
         $letterType = false;
         if (isset($params['letterType'])) $letterType = $params['letterType'];
         
-
+        $emailSubject = MailThemesModel::model()->findByPk($subject_id);
+        
         $receivers = explode(',', $params['receivers']);
         $receiverId = (int)$receivers[0];
         
         $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
-        $emailSubject = MailThemesModel::model()->findByPk($subject_id);
-
         //Yii::log(var_dump($message_id, TRUE));
         $message = new MailBoxModel();
         $message->group_id = $params['group'];
         $message->sender_id = $params['sender'];
         $message->subject_id = $subject_id;
-        $message->subject = isset($subject) ? $subject : $emailSubject->name;
+        $message->subject = $subject;
         $message->receiver_id = $receiverId;
         $message->sending_date = time();
         $message->sending_time = $params['timeString'];        
@@ -481,10 +480,8 @@ class MailBoxService {
      * @return string
      */
     public function buildMessage($mailId) {
-        $message = MailBoxModel::model()->findByPk($mailId);
-
         $models = MailMessagesModel::model()->byMail($mailId)->findAll();
-        $message_text = '';
+        
         $phrases = array();
         foreach($models as $model) {
             $phrases[] = $model->phrase_id;
@@ -506,12 +503,7 @@ class MailBoxService {
         }
         
         // склейка фраз
-        $message_text = implode(' ', $collection);
-        if ($message->message_id) {
-            $parent_message = MailBoxModel::model()->findByPk($mailId);
-            $message_text .= $parent_message->message;
-        }
-        return $message_text;
+        return implode(' ', $collection);
     }
     
     /**
@@ -596,6 +588,7 @@ class MailBoxService {
             $captions[(int)$themeModel->id] = $themeModel->name;
         }
         //var_dump($captions);die();
+        
         foreach($themes as $id=>$themeId) {
             //var_dump($themes[$id]);
             $themes[$id] = $captions[$themeId];
