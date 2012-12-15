@@ -150,7 +150,7 @@ class MailBoxModel extends CActiveRecord
 
     public function relations() {
         return array(
-            'subject' => array(self::BELONGS_TO, 'User', 'subject_id')
+            'subject_obj' => array(self::BELONGS_TO, 'MailSubject', 'subject_id')
         );
     }
 
