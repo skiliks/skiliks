@@ -91,7 +91,6 @@ class EmailAnalizer
      */
     public $points = array();
 
-
     public function __construct($simId) 
     {
         $this->simId = $simId;
@@ -244,7 +243,9 @@ class EmailAnalizer
             
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
-                $possibleRightActions++;
+                if ($this->isMailTaskHasRightAction($emailData->email->template_id)) {
+                    $possibleRightActions++;
+                }
                 
                 if (true === $emailData->getIsPlaned()) {
                     // is user add to plan right mail_task ?
@@ -417,6 +418,17 @@ class EmailAnalizer
     }
 
     // --- tools: ------------------------------------------------------------------------------------------------------
+    
+    /**
+     * @param integer $mailTaskId
+     * @return boolean
+     */
+    private function isMailTaskHasRightAction($mailTemplateId)
+    {
+        $taskWays = MailTasksModel::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+       
+        return (0 < count($taskWays) && null !== $taskWays);
+    }
     
     /**
      * @param integer $id, MailTask.id
