@@ -184,12 +184,12 @@ class EmailCoincidenceAnalizator
             }
         }
         
-        Yii::log('EmailCoincidenceAnalizator emailTemplatesByCodeFull: '.serialize($this->emailTemplatesByCodeFull));
+        /*Yii::log('EmailCoincidenceAnalizator emailTemplatesByCodeFull: '.serialize($this->emailTemplatesByCodeFull));
         Yii::log('EmailCoincidenceAnalizator emailTemplatesByCode1: '.serialize($this->emailTemplatesByCodePart1));
         Yii::log('EmailCoincidenceAnalizator emailTemplatesByCode2: '.serialize($this->emailTemplatesByCodePart2));
         Yii::log('EmailCoincidenceAnalizator indexFull: '.$indexFull);
         Yii::log('EmailCoincidenceAnalizator index1: '.$indexPart1);
-        Yii::log('EmailCoincidenceAnalizator index2: '.$indexPart2);
+        Yii::log('EmailCoincidenceAnalizator index2: '.$indexPart2);*/
         
         return $result;
     }
