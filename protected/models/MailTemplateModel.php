@@ -126,6 +126,42 @@ class MailTemplateModel extends CActiveRecord
         ));
         return $this;
     }
+    
+    /**
+      * @param ineger $receiverId
+     * @return \MailTemplateModel
+     */
+    public function byReceiverId($receiverId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "receiver_id = '{$receiverId}'"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param integer $subjectId
+     * @return \MailTemplateModel
+     */
+    public function bySubjectId($subjectId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "subject_id = '{$subjectId}'"
+        ));
+        return $this;
+    }
+    
+    /**
+     * Returns templates for outbox letters
+     * @return MailTemplateModel 
+     */
+    public function byMS()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code like 'MS%'"
+        ));
+        return $this;
+    }
 }
 
 
