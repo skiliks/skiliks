@@ -147,6 +147,8 @@ class EmailData
     }
     
     /**
+     * MS amais save send_time in seconds!!!
+     * 
      * @return string, format 'hh:ii:ss'
      */
     public function getFirstOpenedAtInMinutes() {
