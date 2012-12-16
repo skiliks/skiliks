@@ -192,7 +192,7 @@ class LoggingTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.saveDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Черновики "]')->click();
-        $this->waitForElement($session, 'xpath', '//td[text()="Re:!проблема с сервером!"]')->click();
+        $this->waitForElement($session, 'xpath', '//td[text()="Re: !проблема с сервером!"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.sendDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();
