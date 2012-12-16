@@ -141,7 +141,7 @@ class MailBoxModel extends CActiveRecord
      * @return boolean
      */
     public function isSended() {
-        return 0 != $this->sending_time;
+        return 3 == $this->group_id;
     }
 
 
