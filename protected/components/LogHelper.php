@@ -387,19 +387,15 @@ class LogHelper {
         
     }
     
-    public static function setMailLog( $simId, $logs ) {
-            
-        //Yii::log(var_export($logs, true), 'info');
+    public static function setMailLog( $simId, $logs ) 
+    {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
             
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
                 $command = Yii::app()->db->createCommand();
-                //if(!isset($log[4]['mailId'])) continue;
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
-                    //Yii::log(var_export($log, true), 'info');
-                    //Yii::log(var_export($log[2], true), 'info');
                     $command->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
@@ -409,33 +405,74 @@ class LogHelper {
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
-                    
                     if (false === isset($log[4]) || false === isset($log[4]['planId'])) {
                         $log[4]['planId'] = null;
                     }
-                    // var_dump($log);
                     
                     if($log[1] != 13) {
-                        //Yii::log(var_export($log, true), 'info');
-                        $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3]),
-                        'mail_task_id' => $log[4]['planId'],
-                        ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                        // reply, or close mail-plan, or close mail-main
+                        
+                        $command->update( 
+                            "log_mail" , 
+                            array(
+                                'end_time'         => date("H:i:s", $log[3]),
+                                'mail_task_id'     => $log[4]['planId'],
+                            ), 
+                            "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+                        );
                         continue;
                         
                     } else {
-                        //Yii::log(var_export($log, true), 'info');
-                        $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3]),
-                        'mail_task_id' => $log[4]['planId'],
-                        'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
-                        ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                        // new mail
+                        
+                        // check MS email concidence with mail_templates { 
+                        $result = array(
+                            'full'           => '-',
+                            'part1'          => '-',
+                            'part2'          => '-',
+                            'has_concidence' => 0,
+                        );
+                        
+                        //Yii::log('mailId: '.$log[4]['mailId']);
+                        
+                        if (isset($log[4]) && isset($log[4]['mailId'])) {
+                            $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
+                            $emailConsidenceAnalizator->setUserEmail($log[4]['mailId']);
+                            $result = $emailConsidenceAnalizator->checkCoinsidence();
+                            Yii::log('EmailCoincidenceAnalizator results: '.serialize($result));
+                            
+                            // update check MS email concidence
+                            $command->update(
+                                "log_mail" , 
+                                array(
+                                    'full_coincidence'  => $result['full'],
+                                    'part1_coincidence' => $result['part1'],
+                                    'part2_coincidence' => $result['part2'],
+                                    'is_coincidence'    => $result['has_concidence'],
+                                ), 
+                                "`mail_id` = {$log[4]['mailId']} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+                            );
+                        }
+                        // check MS email concidence with mail_templates }
+                        
+                        $command->update(
+                            "log_mail" , 
+                            array(
+                                'end_time'  => date("H:i:s", $log[3]),
+                                'mail_task_id' => $log[4]['planId'],
+                                'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId'] ,
+                                'full_coincidence'  => $result['full'],
+                                'part1_coincidence' => $result['part1'],
+                                'part2_coincidence' => $result['part2'],
+                                'is_coincidence'    => $result['has_concidence'],
+                            ), 
+                            "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+                        );
                         continue;
                          
                     }
                     
                 } elseif( self::ACTION_SWITCH == (string)$log[2] ) {
-                    //Yii::log($log, 'info');
                     $command->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
@@ -448,8 +485,7 @@ class LogHelper {
                         ));
                     
                 } else {
-                    //Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
-                    throw new Exception("Ошибка");//TODO:Описание доделать
+                    throw new Exception("Ошибка"); //TODO:Описание доделать
                 }
             }
         }
@@ -623,12 +659,17 @@ class LogHelper {
             ->db
             ->createCommand()
             ->select("l.sim_id
-                    , ifnull(l.mail_id, '-') AS mail_id
-                    , if(m.group_id = 3, 'Да', 'Нет') AS send
-                    , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
-                    , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
-                    , ifnull(s.name, '-') AS subject
-                    , ifnull(t.code, '-') AS code")
+                , ifnull(l.mail_id, '-') AS mail_id
+                , if(m.group_id = 3, 'Да', 'Нет') AS send
+                , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
+                , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
+                , ifnull(s.name, '-') AS subject
+                , ifnull(t.code, '-') AS code
+                , l.full_coincidence
+                , l.part1_coincidence
+                , l.part2_coincidence
+                , if(l.is_coincidence = 1, 'Да', 'Нет') AS is_coincidence
+                ")
             ->from('log_mail l')
             ->leftJoin('mail_box m', 'l.mail_id = m.id')
             ->leftJoin('mail_receivers r', 'l.mail_id = r.mail_id')
@@ -648,7 +689,11 @@ class LogHelper {
             'receivers' => 'Кому',
             'copies'   => 'Копия',
             'subject'   => 'Тема',
-            'code'   => 'Код вложения'
+            'code'   => 'Код вложения',
+            'full_coincidence'   => 'Полное совпадение',
+            'part1_coincidence'   => 'Совпадение 1',
+            'part2_coincidence'   => 'Совпадение 2',
+            'is_coincidence'   => 'Есть совпадение?',
         );
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;

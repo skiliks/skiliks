@@ -23,6 +23,26 @@ class Logmail extends CActiveRecord
     
     public $mail_task_id;
     
+    /**
+     * @var string, '-' or mail_template.code
+     */
+    public $full_coinsidence;
+    
+    /**
+     * @var string, '-' or mail_template.code
+     */
+    public $part1_coinsidence;
+    
+    /**
+     * @var string, '-' or mail_template.code
+     */    
+    public $part2_coinsidence;
+    
+    /**
+     * @var bool
+     */
+    public $is_coinsidence;
+    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -39,6 +59,14 @@ class Logmail extends CActiveRecord
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "sim_id = {$simId}"
+        ));
+        return $this;
+    }
+    
+    public function byMailTaskId($mailTaskId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_task_id = {$mailTaskId}"
         ));
         return $this;
     }
