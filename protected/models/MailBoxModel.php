@@ -136,6 +136,13 @@ class MailBoxModel extends CActiveRecord
     public function isMS() {
         return preg_match("/MS\d+/", $this->code);
     }
+    
+    /**
+     * @return boolean
+     */
+    public function isSended() {
+        return 0 != $this->sending_time;
+    }
 
 
     /**
