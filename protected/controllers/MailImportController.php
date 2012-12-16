@@ -167,6 +167,17 @@ class MailImportController extends AjaxController{
                 $sendingDate = gmmktime($time[0], $time[1], 0, $date[1], $date[0], $date[2]);
             }
             
+            // themes update {
+            $subjectEntity = MailThemesModel::model()->byName($subject)->find();
+            if (null === $subjectEntity) {
+                $subjectEntity = new MailThemesModel();
+                $subjectEntity->name = $subject;
+                $subjectEntity->insert();
+            }
+            
+            $subjectId = $subjectEntity->id; 
+            // themes update }
+            
             $model = MailTemplateModel::model()->byCode($code)->find();
             if (!$model) {
                 $model = new MailTemplateModel();
@@ -174,6 +185,7 @@ class MailImportController extends AjaxController{
                 $model->sender_id = $fromId;
                 $model->receiver_id = $toId;
                 $model->subject = $subject;
+                $model->subject_id = $subjectId;
                 $model->message = $message;
                 $model->sending_date = $sendingDate;
                 $model->code = $code;
@@ -188,6 +200,7 @@ class MailImportController extends AjaxController{
                 $model->sender_id = $fromId;
                 $model->receiver_id = $toId;
                 $model->subject = $subject;
+                $model->subject_id = $subjectId;
                 $model->message = $message;
                 $model->sending_date = $sendingDate;
                 $model->type = $type;
