@@ -63,7 +63,7 @@ class EmailData
      */
     public function isAnsweredByMinutes($delta) 
     {
-        $isRepliedInTime = (strtotime($this->getAnsweredAt()) - strtotime($this->getFirstOpenedAt())) <= $delta;
+        $isRepliedInTime = ($this->getAnsweredAt() - $this->getFirstOpenedAtInMinutes()) <= $delta;
         
         return ($this->getIsReplied() && $isRepliedInTime);
     }
@@ -147,6 +147,18 @@ class EmailData
     }
     
     /**
+     * @return string, format 'hh:ii:ss'
+     */
+    public function getFirstOpenedAtInMinutes() {
+        $time = explode(':', $this->firstOpenedAt);
+        if (3 == count($time)) {
+            return $time[0]*60 + $time[1];
+        } else {
+            return null;
+        }
+    }
+    
+    /**
      * @param $date string, format 'hh:ii:ss'
      * 
      * @return EmaiData
@@ -181,6 +193,7 @@ class EmailData
      * @return string, format 'hh:ii:ss'
      */
     public function getAnsweredAt() {
+         //var_dump($this->answeredAt);
          return date("H", $this->answeredAt)*60 + date("i", $this->answeredAt);
     }
     
