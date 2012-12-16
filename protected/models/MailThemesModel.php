@@ -100,9 +100,11 @@ class MailThemesModel extends CActiveRecord
         $id = isset($emailSubject) ? $emailSubject->id : null;
         
         if (null === $id) {
-            $forvarderEmail = MailBoxModel::model()->findByPk($messageId);
-            if (null !== $forvarderEmail) {
-                $id = (null === $forvarderEmail->subject_id) ? null : $forvarderEmail->subject_id;
+            $forwarderEmail = MailBoxModel::model()->findByPk($messageId);
+            if (null !== $forwarderEmail) {
+                if (null !== $forwarderEmail->subject_id) {
+                    $id = $forwarderEmail->subject_id;
+                }
             }
         }
         
