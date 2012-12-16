@@ -597,7 +597,6 @@ class MailController extends AjaxController{
                     $result['phrases']['message'] = $characterThemeModel->letter->message;
                 } else {
                     $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
-                    $result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
         }
@@ -610,6 +609,7 @@ class MailController extends AjaxController{
         $result['receiver'] = $characters[$model->sender_id];
         $result['receiverId'] = $model->sender_id;
         $result['subject'] = $subject;
+        $result['subjectId'] = $subjectModel->id;;
 
         return $this->sendJSON($result);
     }
