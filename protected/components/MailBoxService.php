@@ -144,7 +144,7 @@ class MailBoxService {
                 'id' => $message->id,
                 'subject' => $subject,
                 //'message' => $message->message,
-                'sendingDate' => DateHelper::toString($message->sending_date + $message->sending_time*60),
+                'sendingDate' => date("d.m.Y", $message->sending_date)." ".date("H:i:s",$message->sending_time),
                 'sendingDateInt' => $message->sending_date,
                 'receivingDate' => DateHelper::toString($message->sending_date), //DateHelper::toString($message->receiving_date),
                 'receivingDateInt' => $message->sending_date, //$message->receiving_date,
@@ -322,10 +322,11 @@ class MailBoxService {
         $message->subject_id = $subject_id;
         $message->subject = $subject;
         $message->receiver_id = $receiverId;
-        $message->sending_date = time();
+        $message->sending_date = gmmktime(0, 0, 0, 10, 4, 2012);
+        Yii::log(var_export(date("H:i:s", $params['timeString']), true));
         $message->sending_time = $params['timeString'];        
         $message->readed = 0;
-        Yii::log(var_export($letterType." = ".$message_id, true));
+        //Yii::log(var_export($letterType." = ".$message_id, true));
         if($letterType != 'new'){
             $message->message_id = $message_id;
         }
