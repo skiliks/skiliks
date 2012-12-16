@@ -112,6 +112,7 @@ class MailImportController extends AjaxController{
                 $counter['MS']++;
             } else {
                 echo "Ошибка: \$code = $code <br/> Line $index."; //TODO: Дописать описание
+                echo var_dump($code);
                 die;
             }
             
