@@ -45,15 +45,10 @@ class EmailCoincidenceAnalizator
      */
     public function checkCoinsidence() 
     {
-         //Yii::log(' ------------------------------- TEMPLATES --------------------------------');
         $templates = MailTemplateModel::model()
                 ->byReceiverId($this->userEmail->receiver_id)
                 ->bySubjectId($this->userEmail->subject_id)
                 ->findAll();
-//        Yii::log('Templates counter: '.count($templates));
-//        Yii::log('Templates receiver_id: '.$this->userEmail->receiver_id);
-//        Yii::log('Templates subject_id: '.$this->userEmail->subject_id);
-//        Yii::log('userEmail: '.  serialize($this->userEmail));
         
             foreach (MailTemplateModel::model()
                 ->byMS()
@@ -109,8 +104,6 @@ class EmailCoincidenceAnalizator
         
         // -----
         
-        //Yii::log(' -------------------------------USER --------------------------------');
-        
         // mailRecipientId{
         $mailRecipientId = array($this->userEmail->receiver_id);
         foreach (MailReceiversModel::model()->byMailId($this->userEmail->id)->findAll() as $recipient) {
@@ -122,7 +115,6 @@ class EmailCoincidenceAnalizator
 
         // mailCopyId {
         $mailCopyId = array();
-        //Yii::log('*** COPIES ***');
         $r = MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll();
         Yii::log('User email copies: '. count($r));
         foreach (MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
@@ -159,37 +151,32 @@ class EmailCoincidenceAnalizator
         
         // check 
         $result = array(
-            'full'           => '-',
-            'part1'          => '-',
-            'part2'          => '-',
-            'has_concidence' => 0,
+            'full'               => '-',
+            'part1'              => '-',
+            'part2'              => '-',
+            'has_concidence'     => 0,
+            'result_code'        => '',
         );  
-        
-         //Yii::log(' ------------------------------- RESULTS --------------------------------');
         
         if (isset($this->emailTemplatesByCodeFull[$indexFull])) {
             $result['full'] = $this->emailTemplatesByCodeFull[$indexFull];
             if ($this->userEmail->isSended()) {
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull];
                 $result['has_concidence'] = 1;
             }
         }elseif (isset($this->emailTemplatesByCodePart1[$indexPart1])) {
             $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1];
             if ($this->userEmail->isSended()) {
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart1];
                 $result['has_concidence'] = 1;
             }
         }elseif (isset($this->emailTemplatesByCodePart2[$indexPart2])) {
             $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2];
             if ($this->userEmail->isSended()) {
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart2];
                 $result['has_concidence'] = 1;
             }
         }
-        
-        /*Yii::log('EmailCoincidenceAnalizator emailTemplatesByCodeFull: '.serialize($this->emailTemplatesByCodeFull));
-        Yii::log('EmailCoincidenceAnalizator emailTemplatesByCode1: '.serialize($this->emailTemplatesByCodePart1));
-        Yii::log('EmailCoincidenceAnalizator emailTemplatesByCode2: '.serialize($this->emailTemplatesByCodePart2));
-        Yii::log('EmailCoincidenceAnalizator indexFull: '.$indexFull);
-        Yii::log('EmailCoincidenceAnalizator index1: '.$indexPart1);
-        Yii::log('EmailCoincidenceAnalizator index2: '.$indexPart2);*/
         
         return $result;
     }
