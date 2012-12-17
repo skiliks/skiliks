@@ -26,7 +26,7 @@ class CharactersPoints extends CActiveRecord
      * characters_points.id
      * @var integer
      */
-    public $piont_id;
+    public $point_id;
     
     /**
      * @var integer

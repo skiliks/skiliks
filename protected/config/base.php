@@ -8,6 +8,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.models.Flags.*',
+        'application.models.Assessment.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
@@ -23,6 +24,7 @@ return array(
         'application.components.Tools.*',
         'application.components.Excel.*',
         'application.components.Email.*',
+        'application.components.Assessment.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',

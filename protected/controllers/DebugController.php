@@ -31,8 +31,19 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
+        echo '<pre>';
         //SimulationService::saveEmailsAnalize(2962);
-        $ea = new EmailAnalizer(3916);
+        //$ea = new EmailAnalizer(3919);
+        
+        $aa = SimulationService::getAgregatedPoints(3938);
+        
+        foreach ($aa as $line) {
+            var_dump($line->getValue());
+            $line->mark = null;
+            var_dump($line);
+        }
+        
+        SimulationService::saveAgregatedPoints(3938);
 
         /*echo "<br/>3322 3324:<br/> <pre>";
         
@@ -43,13 +54,22 @@ class DebugController extends AjaxController{
         var_dump($v);
         die;*/
         
-        echo "<br/>3323:<br/> <pre>";
+        /*echo "<br/>3323:<br/> <pre>";
         
         $v = $ea->check_3323();
         unset($v['obj']);
         
         var_dump($v);
-        die;        
+        die;*/
+        
+        /*echo "<br/>Standard:<br/> <pre>";
+        
+        $v = $ea->standardCheck();
+        foreach ($v as $vLine) {
+            unset($vLine['obj']);
+            var_dump($vLine);
+        }
+        die;*/
         
         /*echo "<br/>Big tasks emails:<br/>";
         var_dump($ea->checkBigTasks());
@@ -62,6 +82,7 @@ class DebugController extends AjaxController{
         unset($v['obj']);
         var_dump($v);
         echo "</pre>";*/
+        echo '</pre>';
     }
 }
 
