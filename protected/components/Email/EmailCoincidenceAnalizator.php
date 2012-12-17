@@ -115,7 +115,6 @@ class EmailCoincidenceAnalizator
 
         // mailCopyId {
         $mailCopyId = array();
-        $r = MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll();
 
         foreach (MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
             $mailCopyId[] = $copy->receiver_id;
@@ -172,15 +171,15 @@ class EmailCoincidenceAnalizator
         }elseif (isset($this->emailTemplatesByCodePart1[$indexPart1])) {
             $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             if ($this->userEmail->isSended()) {
-                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart1]->code;
-                $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
+                $result['result_code'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
+                $result['result_template_id'] = $this->emailTemplatesByCodePart1[$indexPart1]->id;
                 $result['has_concidence'] = 1;
             }
         }elseif (isset($this->emailTemplatesByCodePart2[$indexPart2])) {
             $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             if ($this->userEmail->isSended()) {
-                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart2]->code;
-                $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
+                $result['result_code'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
+                $result['result_template_id'] = $this->emailTemplatesByCodePart2[$indexPart2]->id;
                 $result['has_concidence'] = 1;
             }
         }
