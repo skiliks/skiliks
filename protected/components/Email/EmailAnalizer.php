@@ -90,6 +90,10 @@ class EmailAnalizer
      * @param array of point, indexed by id
      */
     public $points = array();
+    
+    public $template_reply_all = array();
+    
+    public $full_coincidence_reply_all = array();
 
     public function __construct($simId) 
     {
@@ -120,7 +124,10 @@ class EmailAnalizer
         
         // get mail templates
         foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
-            $this->mailTemplate[$mailTemplate->code] = $mailTemplate; 
+            $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
+            if($mailTemplate->type_of_importance === "reply_all") {
+                $this->template_reply_all[] = $mailTemplate->code;
+            }
         }
         unset($mailTemplate);        
         
@@ -167,9 +174,10 @@ class EmailAnalizer
         /**
          * Add readedAt, plannedAt, replyedAt
          */
-        foreach (LogMail::model()->bySimId($this->simId)->findAll() as $logMailLine) {
+        $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+        foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;
-            
+
             // we can have not saved letter in log, so there is no mail_box letter for it
             if (isset($this->userEmails[$mailId])) {
                 $userEmail = $this->userEmails[$mailId];
@@ -220,6 +228,7 @@ class EmailAnalizer
                 //var_dump($mailId);
                 $this->userOutboxEmails[$mailId] = $emailData;
             }
+
         }  
         
         /**
@@ -237,6 +246,15 @@ class EmailAnalizer
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
+     
+        foreach ($temp_log_mail as $mail) {
+                if($mail->full_coincidence_reply_all !== '-' AND isset($this->userInboxEmails[$mail->mail_id]) AND $this->userInboxEmails[$mail->mail_id]->letter_type === 'replyAll') {
+                    
+                        $this->full_coincidence_reply_all[] = $this->userInboxEmails[$mail->mail_id]->code;
+                    
+                }
+        }
+
     }
     
     /** ----------------------------------------------------- **/
@@ -397,6 +415,33 @@ class EmailAnalizer
         return array(
             'positive' => $mark * $behave_3313->scale,
             'obj'      => $behave_3313,
+        );
+    }
+    
+    /**
+     * 3325 - read spam
+     * 
+     * @param integer $delta
+     * 
+     * @return mixed array
+     */
+    public function check_3333()
+    {
+        $wrongActions = 0;
+        
+        // inbox + trashCan
+        foreach ($this->full_coincidence_reply_all as $coincidence) {
+            //var_dump($emailData->email->id);
+            if (!in_array($coincidence, $this->template_reply_all)) {
+                $wrongActions++;
+            }
+        } 
+        
+        $behave_3333 = CharactersPointsTitles::model()->byCode('3333')->positive()->find();
+        
+        return array(
+            'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
+            'obj'      => $behave_3333,
         );
     }
     
