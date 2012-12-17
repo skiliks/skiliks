@@ -20,6 +20,6 @@ class m121217_113330_mail_template_reply_all_add extends CDbMigration
                         NULL DEFAULT 'none' 
                         COMMENT 'Is it spam, is it impotrant etc. None - not desided by game autor jet.' 
                         AFTER `sending_date_str`");
-	}
+	}   
 
 }
