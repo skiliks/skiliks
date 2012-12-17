@@ -47,7 +47,8 @@ class MailThemesModel extends CActiveRecord
     {
             return 'mail_themes';
     }
-    
+
+
     /**
      * Выборка по набору тем
      * @param array $ids
