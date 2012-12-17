@@ -185,6 +185,25 @@ class SimulationService
                 // @todo: hamdle exception
             }
         }
+
+        
+        $b_3333 = $emailAnalizer->check_3333();
+            
+        if (isset($b_3333['obj']) && 
+            isset($b_3333['positive']) &&
+            true === $b_3333['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3333 = new SimulationsMailPointsModel();
+            $emailResultsFor_3333->sim_id = $simId;
+            $emailResultsFor_3333->point_id = $b_3333['obj']->id;
+            $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
+            $emailResultsFor_3333->value = $b_3333['positive'];
+            try {
+                $emailResultsFor_3333->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
         //3313 - read most of not-spam emails } 
         
         // standard behaviours {
@@ -268,5 +287,8 @@ class SimulationService
             
             $existAssassment->save();
         }
+
+        //3313 - read most of not-spam emails }        
+
     }
 }
