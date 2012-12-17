@@ -326,6 +326,7 @@ class MailBoxService {
         Yii::log(var_export(date("H:i:s", $params['timeString']), true));
         $message->sending_time = $params['timeString'];        
         $message->readed = 0;
+        $message->letter_type = $params['letterType'];
         //Yii::log(var_export($letterType." = ".$message_id, true));
         if($letterType != 'new'){
             $message->message_id = $message_id;
