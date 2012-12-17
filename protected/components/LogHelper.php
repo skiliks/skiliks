@@ -205,6 +205,7 @@ class LogHelper {
                        , p.title
                        , t.value as type_scale
                        , p.scale
+                       , mp.add_value
                        , l.full_coincidence
                        , l.part1_coincidence
                        , l.part2_coincidence
@@ -220,48 +221,29 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
         
-        // update mailLogData {
-        $existsBehaviourKey = array();
-        // @tood: fix this crazy code. We need DB refactoring for this.
-        foreach ($mailLogData as $key => $logData) { 
-            $mailLogData[$key]['add_value'] = 0; 
-        }
-        
-        foreach ($mailLogData as $key => $logData) { 
-            // filtrate already exists behaviours
-            $index = sprintf('%s_%s', $logData['code'], $logData['sim_id']);            
-            if (false === isset($existsBehaviourKey[$index])) {                
-                $existsBehaviourKey[$index] = $key;
-                
-                // directly update mailLogData.out_mail_code {
-                if ('-' != $logData['full_coincidence']) {
-                        $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
-                    } elseif ('-' != $logData['part1_coincidence']) {
-                        $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
-                    } elseif ('-' != $logData['part2_coincidence']) {
-                        $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
-                    } else {
-                        $mailLogData[$key]['out_mail_code'] = '-';
-                    }
-
-                    $mailLogData[$key]['dialog_id'] = '-';
-                    $mailLogData[$key]['dialog_code'] = '-';
-                    $mailLogData[$key]['step_number'] = '-';
-                    $mailLogData[$key]['replica_number'] = '-';
-                    $mailLogData[$key]['add_value']++;
-                    unset(
-                        $mailLogData[$key]['full_coincidence'],
-                        $mailLogData[$key]['part1_coincidence'],
-                        $mailLogData[$key]['part2_coincidence']
-                   );
-                // directly update mailLogData.out_mail_code }
+        // update mailLogData.out_mail_code {
+        foreach ($mailLogData as $key => $logData) {
+            if ('-' != $logData['full_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
+            } elseif ('-' != $logData['part1_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
+            } elseif ('-' != $logData['part2_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
             } else {
-                $tmpKey = $existsBehaviourKey[$index];
-                $mailLogData[$tmpKey]['add_value']++;
-                unset($mailLogData[$key]);
-            }             
+                $mailLogData[$key]['out_mail_code'] = '-';
+            }
+            
+            $mailLogData[$key]['dialog_id'] = '-';
+            $mailLogData[$key]['dialog_code'] = '-';
+            $mailLogData[$key]['step_number'] = '-';
+            $mailLogData[$key]['replica_number'] = '-';
+            unset(
+                $mailLogData[$key]['full_coincidence'],
+                $mailLogData[$key]['part1_coincidence'],
+                $mailLogData[$key]['part2_coincidence']
+           );
         }
-        // update mailLogData }
+        // update mailLogData.out_mail_code }
         
         foreach ($data['data'] as  $k=>$row) {
             $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
