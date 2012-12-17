@@ -172,21 +172,8 @@ class LogHelper {
                         ));
 	}
 
-	public static function getDialogDetail($return, $params=array()) {
-        $col = array(
-            'sim_id'=>'l.sim_id',
-            'p_code'=>'p2.code',
-            'p_title'=>'p2.title',
-            'code'=>'p.code',
-            'title'=>'p.title',
-            'type_scale'=>'t.value',
-            'scale'=>'p.scale',
-            'add_value'=>'c.add_value',
-            'dialog_id'=>'d.excel_id',
-            'dialog_code'=>'d.code',
-            'step_number'=>'d.step_number',
-            'replica_number'=>'d.replica_number'
-        );
+	public static function getDialogDetail($return, $params=array()) 
+    {
         $data['data'] = Yii::app()->db->createCommand()
             ->select(' l.sim_id
                        , p2.code as p_code
@@ -210,27 +197,96 @@ class LogHelper {
             ->order('l.id')
             ->queryAll();
         
-
-
-        foreach ($data['data'] as  $k=>$row) {
-            //$data['data'][$k]['p_title'] = Strings::toWin($data['data'][$k]['p_title']);
-            //$data['data'][$k]['title'] = Strings::toWin($data['data'][$k]['title']);
-            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
+        $mailLogData = Yii::app()->db->createCommand()
+            ->select(' l.sim_id
+                       , p2.code as p_code
+                       , p2.title AS p_title
+                       , p.code
+                       , p.title
+                       , t.value as type_scale
+                       , p.scale
+                       , l.full_coincidence
+                       , l.part1_coincidence
+                       , l.part2_coincidence
+		')
+            ->from('log_mail l')
+            ->join('mail_box m', 'm.id = l.mail_id')
+            ->join('mail_template mt', 'mt.code = m.code') // by strange reason MS letetrs has null template_id 
+            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points 
+            ->join('characters_points_titles p', 'p.id = mp.point_id')
+            ->join('characters_points_titles p2', 'p2.id = p.parent_id')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->where('m.group_id = 3')
+            ->order('l.id')
+            ->queryAll();
+        
+        // update mailLogData {
+        $existsBehaviourKey = array();
+        // @tood: fix this crazy code. We need DB refactoring for this.
+        foreach ($mailLogData as $key => $logData) { 
+            $mailLogData[$key]['add_value'] = 0; 
         }
+        
+        foreach ($mailLogData as $key => $logData) { 
+            // filtrate already exists behaviours
+            $index = sprintf('%s_%s', $logData['code'], $logData['sim_id']);            
+            if (false === isset($existsBehaviourKey[$index])) {                
+                $existsBehaviourKey[$index] = $key;
+                
+                // directly update mailLogData.out_mail_code {
+                if ('-' != $logData['full_coincidence']) {
+                        $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
+                    } elseif ('-' != $logData['part1_coincidence']) {
+                        $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
+                    } elseif ('-' != $logData['part2_coincidence']) {
+                        $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
+                    } else {
+                        $mailLogData[$key]['out_mail_code'] = '-';
+                    }
+
+                    $mailLogData[$key]['dialog_id'] = '-';
+                    $mailLogData[$key]['dialog_code'] = '-';
+                    $mailLogData[$key]['step_number'] = '-';
+                    $mailLogData[$key]['replica_number'] = '-';
+                    $mailLogData[$key]['add_value']++;
+                    unset(
+                        $mailLogData[$key]['full_coincidence'],
+                        $mailLogData[$key]['part1_coincidence'],
+                        $mailLogData[$key]['part2_coincidence']
+                   );
+                // directly update mailLogData.out_mail_code }
+            } else {
+                $tmpKey = $existsBehaviourKey[$index];
+                $mailLogData[$tmpKey]['add_value']++;
+                unset($mailLogData[$key]);
+            }             
+        }
+        // update mailLogData }
+        
+        foreach ($data['data'] as  $k=>$row) {
+            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
+            $data['data'][$k]['out_mail_code'] = '-';
+        }
+        
+        // merge dialog and mail logs
+        $data['data'] = array_merge($data['data'], $mailLogData);
+        
         $headers = array(
-                'sim_id'        => 'id_симуляции',
-                'p_code'          => 'Номер цели обучения',
-                'p_title'       => 'Наименование цели обучения',
-                'code' => 'Номер поведения',
+                'sim_id'         => 'id_симуляции',
+                'p_code'         => 'Номер цели обучения',
+                'p_title'        => 'Наименование цели обучения',
+                'code'           => 'Номер поведения',
                 'title'          => 'Наименование поведения',
-                'type_scale'         => 'Тип поведения',
-                'scale'      => 'Вес поведения',
+                'type_scale'     => 'Тип поведения',
+                'scale'          => 'Вес поведения',
                 'add_value'      => 'Проявление',
-                'dialog_id'           => 'Вызвавшая реплика (id_записи)',
+                'dialog_id'      => 'Вызвавшая реплика (id_записи)',
                 'dialog_code'    => 'Вызвавшая реплика (Код события)',
                 'step_number'    => 'Вызвавшая реплика (номер шага)',
-                'replica_number'    => 'Вызвавшая реплика (номер реплики)'
+                'replica_number' => 'Вызвавшая реплика (номер реплики)',
+                'out_mail_code'  => 'Вызвавшее исходящее письмо ',
             );
+        
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;
             $data['title'] = "Логирование расчета оценки - детально";
@@ -244,6 +300,7 @@ class LogHelper {
         }else{
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
+        
         return true;
 	}
 
@@ -439,7 +496,6 @@ class LogHelper {
                             $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
                             $emailConsidenceAnalizator->setUserEmail($log[4]['mailId']);
                             $result = $emailConsidenceAnalizator->checkCoinsidence();
-                            Yii::log('EmailCoincidenceAnalizator results: '.serialize($result));
                             
                             // update check MS email concidence
                             $command->update(
@@ -452,6 +508,14 @@ class LogHelper {
                                 ), 
                                 "`mail_id` = {$log[4]['mailId']} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
                             );
+                            
+                            $command->update(
+                                'mail_box',
+                                array(
+                                    'code' => $result['result_code']
+                                ),
+                                "`id` = {$log[4]['mailId']}"
+                            );    
                         }
                         // check MS email concidence with mail_templates }
                         
