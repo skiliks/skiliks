@@ -88,7 +88,7 @@ class ZohoDocuments
         );
         $this->simId = $simId;
         $this->docId = $fileId;
-        $this->templateFilename = $templateFilename;
+        $this->templateFilename =  $templateFilename;
         $this->extention = $extention;
         
         if (false === $this->checkIsUserFileExists()) {
@@ -199,11 +199,17 @@ class ZohoDocuments
     private function getTemplateFilePath()
     {
         $attributeName = $this->extention.'TemplatesDirPath';
-        return sprintf(
+        $path = sprintf(
             '%s/%s',
             $this->$attributeName,
             $this->templateFilename
         );
+        # Crutch for Ivan's Windows
+        if (PHP_OS == "WIN32" || PHP_OS == "WINNT") {
+            $objFSO = new COM("Scripting.FileSystemObject");
+            $path = $objFSO->GetFile(__FILE__)->ShortPath;
+        }
+        return $path;
     }
     
     /**
