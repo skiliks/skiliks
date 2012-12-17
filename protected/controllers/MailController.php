@@ -573,6 +573,7 @@ class MailController extends AjaxController{
         $result['result'] = 1;
 
         $subject = 'Re: '.$subject;
+        # TODO: refactor this. name is not unique
         $subjectModel = MailThemesModel::model()->byName($subject)->find();
         if (!$subjectModel) {
             // добавим тему
@@ -663,7 +664,7 @@ class MailController extends AjaxController{
             if ($subjectModel) {
                 $subjectId = $subjectModel->id;
                 
-                
+
                 $characterThemeModel = MailCharacterThemesModel::model()
                         ->byCharacter($model->sender_id)
                         ->byTheme($subjectId)->find();
@@ -861,12 +862,7 @@ class MailController extends AjaxController{
             $receiverId = $model->receiver_id;
 
             $subject = 'Fwd:'.$subject;
-            if ($subjectId > 0) {
-                $subject = MailBoxService::getSubjectById($subjectId);
-            }
-            else {
-                $subjectId = MailBoxService::getSubjectIdByName($subject);
-            }
+            $subjectId = MailBoxService::getSubjectIdByName($subject);
             //var_dump($subject); die();
             // изменить тему и создать новую
             $newSubjectId = MailBoxService::createSubject($subject, $simId);
