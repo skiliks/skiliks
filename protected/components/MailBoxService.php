@@ -481,8 +481,13 @@ class MailBoxService {
      * @return string
      */
     public function buildMessage($mailId) {
+        $mail = MailBoxModel::model()->findByPk($mailId);
+        $characterTheme = $mail->getCharacterTheme();
+        if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
+            return $characterTheme->letter->message;
+        };
         $models = MailMessagesModel::model()->byMail($mailId)->findAll();
-        
+
         $phrases = array();
         foreach($models as $model) {
             $phrases[] = $model->phrase_id;
