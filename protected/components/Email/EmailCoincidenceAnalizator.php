@@ -74,7 +74,7 @@ class EmailCoincidenceAnalizator
             // mailAttachmentId {
             $mailAttachId = array();
             foreach (MailAttachmentsTemplateModel::model()->byMailId($mailTemplate->id)->findAll() as $attach) {
-                $mailAttachId[] = $attach->id;
+                $mailAttachId[] = $attach->file_id;
             }
             // mailAttachmentId }
             
@@ -94,9 +94,9 @@ class EmailCoincidenceAnalizator
                 $mailTemplate->subject_id, 
                 $mailAttachId);
             
-           $this->emailTemplatesByCodeFull[$indexFull]   = $mailTemplate->code;
-           $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate->code;
-           $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate->code;
+           $this->emailTemplatesByCodeFull[$indexFull]   = $mailTemplate;
+           $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
+           $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
            unset($mailRecipientId);
            unset($mailCopyId);
            unset($mailAttachId);
@@ -116,7 +116,7 @@ class EmailCoincidenceAnalizator
         // mailCopyId {
         $mailCopyId = array();
         $r = MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll();
-        Yii::log('User email copies: '. count($r));
+
         foreach (MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
             $mailCopyId[] = $copy->receiver_id;
         }
@@ -125,7 +125,10 @@ class EmailCoincidenceAnalizator
         // mailAttachmentId {
         $mailAttachId = array();
         foreach (MailAttachmentsModel::model()->byMailId($this->userEmail->id)->findAll() as $attach) {
-            $mailAttachId[] = $attach->id;
+            $doc = MyDocumentsModel::model()->byId($attach->file_id)->find();
+            if (null !== $doc) {
+                $mailAttachId[] = $doc->template_id;
+            }
         }
         // mailAttachmentId }
         
@@ -156,24 +159,28 @@ class EmailCoincidenceAnalizator
             'part2'              => '-',
             'has_concidence'     => 0,
             'result_code'        => '',
+            'result_template_id' => null,
         );  
         
         if (isset($this->emailTemplatesByCodeFull[$indexFull])) {
-            $result['full'] = $this->emailTemplatesByCodeFull[$indexFull];
+            $result['full'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             if ($this->userEmail->isSended()) {
-                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull];
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
+                $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
                 $result['has_concidence'] = 1;
             }
         }elseif (isset($this->emailTemplatesByCodePart1[$indexPart1])) {
-            $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1];
+            $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             if ($this->userEmail->isSended()) {
-                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart1];
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart1]->code;
+                $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
                 $result['has_concidence'] = 1;
             }
         }elseif (isset($this->emailTemplatesByCodePart2[$indexPart2])) {
-            $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2];
+            $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             if ($this->userEmail->isSended()) {
-                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart2];
+                $result['result_code'] = $this->emailTemplatesByCodeFull[$indexPart2]->code;
+                $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
                 $result['has_concidence'] = 1;
             }
         }

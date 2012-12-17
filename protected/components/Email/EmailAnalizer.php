@@ -220,7 +220,23 @@ class EmailAnalizer
                 //var_dump($mailId);
                 $this->userOutboxEmails[$mailId] = $emailData;
             }
-        }        
+        }  
+        
+        /**
+         * Get character points
+         */        
+        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+            $this->points[$point->id] = $point;
+        }
+        unset($point);
+        
+        /**
+         * Get mail points
+         */        
+        foreach (MailPointsModel::model()->findAll() as $point) {
+            $this->mailPoints[$point->id] = $point;
+        }
+        unset($point);
     }
     
     /** ----------------------------------------------------- **/
@@ -393,28 +409,63 @@ class EmailAnalizer
 
     public function standardCheck()
     {
-        $scores = array();
+        $mailBehaviours = array();
+        
+        foreach ($this->mailPoints as $mailPoint) {
+            $code = $this->points[$mailPoint->point_id]->code;
+            // check only existed mailPoints
+            if (false === in_array($code, $this->getExceptionPointCodes())) {
+                $mailBehaviours[$mailPoint->point_id] = array(
+                    'total' => 0,
+                    'score' => 0,
+                );
+            }
+        }
         
         // use all emails in simulation
         foreach ($this->userEmails as $emailData) {
             // points must be calculated for readed or sended emails only
-            if (true === $emailData->getIsReaded() || true === $emailData->email->isMS()) {
+              
+            if ($this->isOutbox($emailData->email) || 
+                $this->isInbox($emailData->email) || 
+                $this->isInTrash($emailData->email)) {
+                
                 // go throw ailPoints
                 foreach ($this->mailPoints as $mailPoint) {
-                    $point = $this->points[$mailPoint->point_id];
                     // exept special scored points
-                    if (false === in_array($point, $this->getExceptionPointCodes())) {
-                        if (true === $point->isPositive()) {
-                            
-                        } elseif (true === $point->isNegative()) {
-                            
-                        } elseif (true === $point->isPersonal()) {
-                            
+                    $code = $this->points[$mailPoint->point_id]->code;
+                    if (false === in_array($code, $this->getExceptionPointCodes())) {
+                         
+                        if ($mailPoint->mail_id == $emailData->email->template_id) {
+                            $mailBehaviours[$mailPoint->point_id]['total']++;
+                            $mailBehaviours[$mailPoint->point_id]['score'] = $mailPoint->add_value;
                         }
                     }
                 }
             }
         }
+        
+        $behaves = array();
+        foreach ($this->points as $behave) {
+            $behaves[$behave->id] = $behave;
+        }
+        unset($behave);
+        
+        foreach ($mailBehaviours as $pointId => $mBehave) {
+            if (0 == $mBehave['total']) { 
+                $mBehave['total'] = 1; // prevent devision by zero. If total = 0, than score = 0 too. So value wiil be right.         
+            }
+            
+            $k = $behaves[$pointId]->scale;
+            if (2 == $behaves[$pointId]->type_scale) {
+                $mailBehaviours[$pointId]['value'] = -$k;
+            } else {
+                $mailBehaviours[$pointId]['value'] = ($mBehave['score']/$mBehave['total'])*$k;
+            }
+            $mailBehaviours[$pointId]['obj'] = $behaves[$pointId];
+        }
+        
+        return $mailBehaviours;
         
         // return point array
     }

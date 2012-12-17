@@ -174,7 +174,12 @@ class LogHelper {
 
 	public static function getDialogDetail($return, $params=array()) 
     {
-        $data['data'] = Yii::app()->db->createCommand()
+        $sim_id = null;
+        if (isset($params['sim_id'])) {
+            $sim_id = $params['sim_id'];
+        }
+        
+         $query = Yii::app()->db->createCommand()
             ->select(' l.sim_id
                        , p2.code as p_code
                        , p2.title AS p_title
@@ -194,10 +199,15 @@ class LogHelper {
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id')
-            ->queryAll();
+            ->order('l.id');
+         
+        if (null !== $sim_id) {
+            $query->where(" l.sim_id = {$sim_id} ");
+        }
+         
+        $data['data'] = $query->queryAll();
         
-        $mailLogData = Yii::app()->db->createCommand()
+        $mailQuery = Yii::app()->db->createCommand()
             ->select(' l.sim_id
                        , p2.code as p_code
                        , p2.title AS p_title
@@ -218,8 +228,15 @@ class LogHelper {
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
             ->where('m.group_id = 3')
-            ->order('l.id')
-            ->queryAll();
+            ->order('l.id');
+        
+        if (null !== $sim_id) {
+            $mailQuery->where(" l.sim_id = {$sim_id} AND m.group_id = 3 ");
+        } else {
+            $mailQuery->where('m.group_id = 3');
+        }
+        
+        $mailLogData = $mailQuery->queryAll();
         
         // update mailLogData.out_mail_code {
         foreach ($mailLogData as $key => $logData) {
@@ -346,11 +363,49 @@ class LogHelper {
             }
          return true;
         }
+        
+     public static function getFullAgregatedLog($return) {
+
+            $data['data'] = Yii::app()->db->createCommand()
+                ->select('l.sim_id,
+                      p.code,
+                      t.value as type_scale,
+                      l.value')
+                ->from('assassment_agregated l')
+                ->leftJoin('characters_points_titles p', 'l.point_id = p.id')
+                ->leftJoin('type_scale t', 'p.type_scale = t.id')
+                ->group("l.sim_id, p.code")
+                ->order("l.sim_id")
+                ->queryAll();
+
+            $headers = array(
+                    'sim_id'     => 'id_симуляции',
+                    'code'       => 'Номер поведения',
+                    'type_scale' => 'Тип поведения',
+                    'value'        => 'Оценка по поведению'
+            );
+            
+            if(self::RETURN_DATA == $return){
+                $data['headers'] = $headers;
+                $data['title'] = "Логирование расчета оценки - агрегированно";
+                 return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'data.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
+        }
 
     public static function setDocumentsLog( $simId, $logs ) {
         
         if (!is_array($logs)) return false;
-        //Yii::log(var_export($logs, true), 'info');
+
         foreach( $logs as $log ) {
                 
             if( in_array( $log[0], self::$codes_documents ) || in_array( $log[1], self::$codes_documents ) ) {
@@ -366,7 +421,7 @@ class LogHelper {
                         'start_time'=> date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
-                    //Yii::log(var_export($log, true), 'info');
+
                     $comand = Yii::app()->db->createCommand();
 
                     $comand->update( "log_documents" , array(
@@ -472,8 +527,6 @@ class LogHelper {
                             'has_concidence' => 0,
                         );
                         
-                        //Yii::log('mailId: '.$log[4]['mailId']);
-                        
                         if (isset($log[4]) && isset($log[4]['mailId'])) {
                             $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
                             $emailConsidenceAnalizator->setUserEmail($log[4]['mailId']);
@@ -494,7 +547,8 @@ class LogHelper {
                             $command->update(
                                 'mail_box',
                                 array(
-                                    'code' => $result['result_code']
+                                    'code'        => $result['result_code'],
+                                    'template_id' => $result['result_template_id'],
                                 ),
                                 "`id` = {$log[4]['mailId']}"
                             );    
@@ -763,16 +817,8 @@ class LogHelper {
         foreach( $logs as $log ) {
             
                 $comand = Yii::app()->db->createCommand();
-                //if(!isset($log[4]['mailId'])) continue;
-//                Yii::log(sprintf(
-//                        'Window log for sim %d: window "%s/%s", action %s, time %s, params %s',
-//                        $simId, $log[0], $log[1], $log[2],date("H:i:s", $log[3]), isset($log[4]) ? CJSON::encode($log[4]) : "none"
-//                    ),
-//                    'info', 'log');
+
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-//                    $comand->update( "log_windows" , array(
-//                        'end_time'  => date("H:i:s", $log[3])
-//                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
                         throw(new CException('Previous window is still activated'));
                     }
@@ -787,7 +833,6 @@ class LogHelper {
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
                     if (!$windows) {
-                        Yii::log('Trying to close unopened window', CLogger::LEVEL_WARNING);
                         continue;
                     }
                     foreach ($windows as $window) {
