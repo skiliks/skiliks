@@ -155,18 +155,24 @@ class MailController extends AjaxController{
         return $this->sendJSON($result);
     }
     
-    public function actionGetPhrases() {
+    /**
+     * 
+     * @return type
+     */
+    public function actionGetPhrases() 
+    {
         $character_theme_id = (int)Yii::app()->request->getParam('id', false);
         $service = new MailBoxService();
+        
         if ((int)$character_theme_id === 0) {
             $this->sendJSON(array(
                 'result' => 1,
-                'data' => $service->getMailPhrases(),
+                'data'    => $service->getMailPhrases(),
                 'addData' => $service->getSigns()
             ));
         }
-        $character_theme = MailCharacterThemesModel::model()->findByPk($character_theme_id);
         
+        $character_theme = MailCharacterThemesModel::model()->findByPk($character_theme_id); 
 
         $result = array();
         $result['result'] = 1;
@@ -377,14 +383,31 @@ class MailController extends AjaxController{
     /**
      * Получение тем
      */
-    public function actionGetThemes() {
-        $receivers = Yii::app()->request->getParam('receivers', false);  
+    public function actionGetThemes() 
+    {
+        $receivers   = Yii::app()->request->getParam('receivers', false);  
+        $mailThemeId = Yii::app()->request->getParam('forwardEmailId', false); 
+        
+        $characterThemeId = null;
+        $receiversArr = explode(',', $receivers);
+        if (0 < count($receiversArr) && null !== $mailThemeId) {
+            $characterTheme = MailCharacterThemesModel::model()
+                ->byCharacter(reset($receiversArr))
+                ->byTheme($mailThemeId)
+                ->find();
+            
+            if (null !== $characterTheme) {
+                $characterThemeId = $characterTheme->id;
+            }
+        }        
         
         $service = new MailBoxService();
         
-        $result = array();
-        $result['result'] = 1;
-        $result['data'] = $service->getThemes($receivers);
+        $result = array(
+            'result'           => 1,
+            'data'             => $service->getThemes($receivers),
+            'characterThemeId' => $characterThemeId,
+        );
         return $this->sendJSON($result);
     }
     
@@ -861,11 +884,15 @@ class MailController extends AjaxController{
             $sender = $model->sender_id;
             $receiverId = $model->receiver_id;
 
-            $subject = 'Fwd:'.$subject;
+            $subject = 'Fwd: '.$subject; // 'Fwd: ' with space-symbol, 
+            // it is extremly important to find proper  Fwd: in database
+            
             $subjectId = MailBoxService::getSubjectIdByName($subject);
 
             // изменить тему и создать новую
-            $newSubjectId = MailBoxService::createSubject($subject, $simId);
+            if (false === $subjectId) {
+                $subjectId = MailBoxService::createSubject($subject, $simId);
+            }
             
             $result = array();
             
@@ -896,7 +923,7 @@ class MailController extends AjaxController{
             
             $result['result'] = 1;
             $result['subject'] = $subject;
-            $result['subjectId'] = $newSubjectId;
+            $result['subjectId'] = $subjectId;
             
             return $this->sendJSON($result);
         } catch (Exception $exc) {

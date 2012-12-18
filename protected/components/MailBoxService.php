@@ -811,9 +811,14 @@ class MailBoxService {
         return $subjectModel->id;
     }
     
-    public static function getSubjectIdByName($subject) {
-        $model = MailThemesModel::model()->byName($subject)->find();
-        if (!$model) return false;
+    public static function getSubjectIdByName($subject)
+    {
+        $model = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
+        
+        if (!$model) {
+            return false;
+        }
+        
         return $model->id;
     }
 }
