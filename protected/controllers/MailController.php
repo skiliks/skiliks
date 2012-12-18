@@ -134,8 +134,7 @@ class MailController extends AjaxController{
         
         $service = new MailBoxService();
         $message = $service->getMessage($id);
-        //$service->setAsReaded($id);
-        //var_dump($message);
+
         $result = array();
         $result['result'] = 1;
         $result['data'] = $message;
@@ -213,21 +212,21 @@ class MailController extends AjaxController{
             }
 
             list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
-
+            
             $service = new MailBoxService();
             $message = $service->sendMessage(array(
                 'message_id' => $messageId,
-                'group' => 3, // outbox
-                'sender' => 1, //$senderId, //- отправитель теперь всегда герой
-                'receivers' => $receivers,
-                'copies' => $copies,
-                'subject' => $subject,
+                'group'      => 3, // outbox
+                'sender'     => 1, //$senderId, //- отправитель теперь всегда герой
+                'receivers'  => $receivers,
+                'copies'     => $copies,
+                'subject'    => $subject,
                 'subject_id' => $subject_id,
-                'phrases' => $phrases,
-                'simId' => $simId,
+                'phrases'    => $phrases,
+                'simId'      => $simId,
                 'letterType' => $letterType,
-                'fileId' => $fileId,
-                'timeString'=>$timeString
+                'fileId'     => $fileId,
+                'timeString' => $timeString
             ));
             $result['messageId'] = $message->primaryKey;
         } catch (Exception $e) {
@@ -290,7 +289,7 @@ class MailController extends AjaxController{
      */
     private function checkSubject($emailType, $subjectFromRequest) 
     {
-        if ('new' === $emailType) {    
+        if ('new' === $emailType) {  
             // check is this id of predefined subjects (table 'mail_character_themes')
             $emailToCharacterSubject = MailCharacterThemesModel::model()->findByPk((int)$subjectFromRequest);
             if (null !== $emailToCharacterSubject) {
@@ -306,6 +305,19 @@ class MailController extends AjaxController{
             $subject_id = (int)$subjectFromRequest;
             $subject = null;
         }
+        
+        if (0 === (int)$subject_id && null === $subject) {
+            
+            $subjectObject = MailThemesModel::model()
+                ->byName($subjectFromRequest)
+                ->find();
+            if (null !== $subjectObject) {
+                $subject_id = $subjectObject->id;
+                $subject    = $subjectObject->name;
+            }
+        }
+        
+        //var_dump($subject_id, $subject); die;
         
         return array($subject_id, $subject);
     }
@@ -851,7 +863,7 @@ class MailController extends AjaxController{
 
             $subject = 'Fwd:'.$subject;
             $subjectId = MailBoxService::getSubjectIdByName($subject);
-            //var_dump($subject); die();
+
             // изменить тему и создать новую
             $newSubjectId = MailBoxService::createSubject($subject, $simId);
             
@@ -882,14 +894,9 @@ class MailController extends AjaxController{
             $result['phrases']['addData'] = $service->getSigns();
             //////////////////////
             
-            //$phrases = $service->getMailPhrasesByCharacterAndTheme($sender, $subjectId);  //$subjectId
-            
-            
             $result['result'] = 1;
             $result['subject'] = $subject;
             $result['subjectId'] = $newSubjectId;
-            //$result['phrases'] = $phrases;
-            
             
             return $this->sendJSON($result);
         } catch (Exception $exc) {
