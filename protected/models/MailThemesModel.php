@@ -64,6 +64,17 @@ class MailThemesModel extends CActiveRecord
     }
     
     /**
+     * @return MailThemesModel 
+     */
+    public function bySimIdNull()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id is null"
+        ));
+        return $this;
+    }
+    
+    /**
      * Выбрать по имени темы
      * @param string $name
      * @return MailThemesModel 
