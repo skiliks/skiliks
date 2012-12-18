@@ -171,11 +171,24 @@ class MailBoxModel extends CActiveRecord
             return 'mail_box';
     }
 
+    /**
+     * @return type
+     */
     public function getCharacterTheme() {
+        
         $main_subject = MailThemesModel::model()->findByAttributes(array(
             'name' => $this->subject_obj->name,
             'sim_id' => null
         ));
+        
+        // try to find subject for current symulation
+        if (null === $main_subject) {
+            $main_subject = MailThemesModel::model()->findByAttributes(array(
+                'name'   => $this->subject_obj->name,
+                'sim_id' => $this->sim_id
+            ));
+        }
+        
         return MailCharacterThemesModel::model()->find(
             '(character_id=:sender_id OR character_id=:receiver_id) AND theme_id=:subject_id',
             array(
