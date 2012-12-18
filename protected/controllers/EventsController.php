@@ -16,7 +16,6 @@ class EventsController extends AjaxController{
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
         $toTime = $gameTime + 5*60;
         
-        // Logger::debug("try to find task from {$gameTime} to {$toTime}");
         $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
         if (!$dayPlan) return false;
         
@@ -24,7 +23,6 @@ class EventsController extends AjaxController{
         $task = Tasks::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
-        // Logger::debug("found task {$task->id}");
         return array(
             'id' => $task->id,
             'text' => $task->title

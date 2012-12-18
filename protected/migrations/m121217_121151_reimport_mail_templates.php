@@ -4,7 +4,8 @@ class m121217_121151_reimport_mail_templates extends CDbMigration
 {
 	public function up()
 	{
-            Helper::callAction('MailImportController', 'actionImport');
+        $importService = new ImportGameDataService();
+        $result = $importService->importEmails();
 	}
 
 	public function down()

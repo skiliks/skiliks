@@ -16,7 +16,10 @@ class m121116_110640_mail_update extends CDbMigration
             $this->addColumn('mail_box', 'reply', "TINYINT NOT NULL DEFAULT 0 COMMENT 'mail_box.plan состояние плана для для письма, 0 - не запланировано, 1- заплпнировано'  AFTER `plan`");
             $this->alterColumn('mail_template', 'group_id', 'INT(11) NOT NULL DEFAULT 5');
             $this->addColumn('mail_template', 'type', "TINYINT NOT NULL DEFAULT 0 COMMENT 'Столбец нужен для типа сообщения 1 - Входящие, 2 - Исходящие, 3 - Входящие(доставлен), 4 - Исходящие(доставлен)'  AFTER `sending_time`");
-            Helper::callAction('MailImportController', 'actionImport');
+
+            $importService = new ImportGameDataService();
+            $result = $importService->importEmails(); 
+            
             $transaction->commit();
         }
         catch(Exception $e)

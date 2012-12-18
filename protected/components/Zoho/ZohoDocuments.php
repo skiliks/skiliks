@@ -139,7 +139,6 @@ class ZohoDocuments
         curl_setopt($ch, CURLOPT_HEADER, true);
 
         $this->response = curl_exec($ch);
-        Yii::log($this->response);
     }
     
     /**
