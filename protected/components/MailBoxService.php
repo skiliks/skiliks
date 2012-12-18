@@ -310,7 +310,6 @@ class MailBoxService {
         $subject_id = $params['subject_id'];
         $subject = $params['subject'];
         assert($subject !== null);
-        assert($subject_id !== null);
         $message_id = $params['message_id'];
         
         $letterType = false;
