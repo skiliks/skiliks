@@ -33,6 +33,15 @@ return array(
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
     ),
+    'modules'=>array(
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'in-es-an-oyp-em',
+            // 'ipFilters'=>array(…список IP…),
+            // 'newFileMode'=>0666,
+            // 'newDirMode'=>0777,
+        ),
+    ),
     'components' => array(
         'log' => array(
             'class' => 'CLogRouter',
