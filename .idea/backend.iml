@@ -4,18 +4,6 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library name="PHP">
-        <CLASSES>
-          <root url="file://$USER_HOME$/pear/share/pear" />
-          <root url="file://$MODULE_DIR$/../front" />
-        </CLASSES>
-        <SOURCES>
-          <root url="file://$USER_HOME$/pear/share/pear" />
-          <root url="file://$MODULE_DIR$/../front" />
-        </SOURCES>
-      </library>
-    </orderEntry>
   </component>
 </module>
 
