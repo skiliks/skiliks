@@ -638,7 +638,7 @@ class MailController extends AjaxController{
             };
             
             $service = new MailBoxService();
-            $characters = $service->getCharacters();
+            $characters = $service->getCharacters(array(), true);
             
             $subject = $model->subject;
             if ($subject == '') {
@@ -653,6 +653,8 @@ class MailController extends AjaxController{
             $result = array();
             $result['result'] = 1;
             
+            // Subject {
+            
             $subject = 'Re: '.$subject;
             $subjectModel = MailThemesModel::model()->byName($subject)->find();
             if (!$subjectModel) {
@@ -661,8 +663,7 @@ class MailController extends AjaxController{
             }
             
             if ($subjectModel) {
-                $subjectId = $subjectModel->id;
-                
+                $subjectId = $subjectModel->id;                
 
                 $characterThemeModel = MailCharacterThemesModel::model()
                         ->byCharacter($model->sender_id)
@@ -674,9 +675,10 @@ class MailController extends AjaxController{
                     } else {
                         $result['phrases']['data'] = $service->getMailPhrases($characterThemeId);
                     }
-                    //$result['subjectId'] = $characterThemeId; //$subjectId;
                 }
             }
+            
+            // Subject }
             
             if (!isset($result['phrases'])) $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
@@ -687,27 +689,13 @@ class MailController extends AjaxController{
             $result['receiverId'] = $model->sender_id;
             $result['subject'] = $subject;
             
-            // добавим копии
+            // добавим копии {
             $copiesIds = array();
-            /*
-            $collection = MailCopiesModel::model()->byMailId($messageId)->findAll();
-            
-            foreach($collection as $model) {
-                $copiesIds[] = $model->receiver_id;
-            }
-            
-            if (count($copiesIds) > 0) {
-                $copies = $service->getCharacters($copiesIds);
-                $result['copies'] = implode(',', $copies);
-            }
-            else {
-                $result['copies'] = '';
-            }
-            */
+
             $collection = MailReceiversModel::model()->byMailId($messageId)->findAll();
             
             foreach($collection as $model) {
-                if (1 !== $model->receiver_id) {
+                if (1 !== (int)$model->receiver_id) {
                     $copiesIds[] = $model->receiver_id;
                 }
             }            
@@ -720,7 +708,8 @@ class MailController extends AjaxController{
                 $result['copies'] = '';
             }
             $result['copiesId'] = implode(',', $copiesIds);
-                  
+            // добавим копии }
+            
             return $this->sendJSON($result);
         } catch (Exception $exc) {
             $result = array();
