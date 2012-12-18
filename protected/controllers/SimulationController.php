@@ -182,9 +182,16 @@ class SimulationController extends AjaxController{
             // @todo: handle
         }
         
-        // make attestation 'work with emails' {
+        // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simId);
-        // make attestation 'work with emails' }
+        
+        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+        // see Assessment scheme_v5.pdf
+        SimulationService::saveAgregatedPoints($simId);
+        
+        // @todo: this is trick
+        // write all mail outbox/inbox scores to AssessmentAgregate dorectly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simId);
         
         $result = array('result' => 1);
         $this->sendJSON($result);
