@@ -162,7 +162,13 @@ class MailController extends AjaxController{
     public function actionGetPhrases() 
     {
         $character_theme_id = (int)Yii::app()->request->getParam('id', false);
+        $forwardLetterCharacterThemesId = (int)Yii::app()->request->getParam('forwardLetterCharacterThemesId', false);
         $service = new MailBoxService();
+        
+        // for forwarded letters        
+        if ((int)$character_theme_id === 0 && (int)$forwardLetterCharacterThemesId !== 0) {
+            $character_theme_id = $forwardLetterCharacterThemesId;
+        }
         
         if ((int)$character_theme_id === 0) {
             $this->sendJSON(array(
@@ -390,7 +396,8 @@ class MailController extends AjaxController{
         
         $characterThemeId = null;
         $receiversArr = explode(',', $receivers);
-        if (0 < count($receiversArr) && null !== $mailThemeId) {
+        
+        if (0 < count($receiversArr) && null != $mailThemeId) {
             $characterTheme = MailCharacterThemesModel::model()
                 ->byCharacter(reset($receiversArr))
                 ->byTheme($mailThemeId)
