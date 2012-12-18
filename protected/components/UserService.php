@@ -21,7 +21,6 @@ class UserService {
             $groups[] = $group->gid;
         }
        
-        Logger::debug("groups : ".var_export($groups, true));
         if (count($groups) > 0) {
             $groupsCollection = GroupsModel::model()->byIds($groups)->findAll();
         }

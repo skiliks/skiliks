@@ -104,8 +104,6 @@ abstract class DictionaryController extends AjaxController{
         $offset = $limit*$rows;
         $sql .= " limit {$rows} offset {$offset}";
         
-        Logger::debug("dictionary sql : $sql");
-        
         //echo($sql);
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
@@ -115,7 +113,6 @@ abstract class DictionaryController extends AjaxController{
         foreach($dataReader as $row) { 
             $cell = array();
             foreach($row as $fieldName => $fieldValue) {
-                //Logger::debug("index: {$index} f: ".var_export($f, true));
                 
                 $fieldValue = $this->_processListField($fieldName, $fieldValue);
                 

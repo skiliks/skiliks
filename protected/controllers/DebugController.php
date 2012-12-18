@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of DebugController
  *
@@ -12,6 +7,9 @@
  */
 class DebugController extends AjaxController{
     
+    /**
+     * @deprecated
+     */
     public function actionCalcExcel() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
@@ -35,7 +33,7 @@ class DebugController extends AjaxController{
         //SimulationService::saveEmailsAnalize(2962);
         //$ea = new EmailAnalizer(3919);
         
-        $aa = SimulationService::getAgregatedPoints(3938);
+        /*$aa = SimulationService::getAgregatedPoints(3938);
         
         foreach ($aa as $line) {
             var_dump($line->getValue());
@@ -43,7 +41,11 @@ class DebugController extends AjaxController{
             var_dump($line);
         }
         
-        SimulationService::saveAgregatedPoints(3938);
+        SimulationService::saveAgregatedPoints(3938);*/
+        
+        $a = new EmailCoincidenceAnalizator();
+        $a->setUserEmail(410304);
+        var_dump($a->checkCoinsidence());
 
         /*echo "<br/>3322 3324:<br/> <pre>";
         
