@@ -38,11 +38,9 @@ class SimulationController extends AjaxController{
         
         foreach($tasks as $task) {
             if ($task->code != 'P017') {
-                Logger::debug("add todo task : {$task->code}");
                 TodoService::add($simId, $task->id);
             }
             else {
-                Logger::debug("add day plan task : {$task->code}");
                 $dayPlan = new DayPlan();
                 $dayPlan->sim_id    = $simId;	
                 $dayPlan->date      = $task->start_time;	
@@ -151,7 +149,6 @@ class SimulationController extends AjaxController{
             ));
         }
 
-        Yii::log('Stop simulation', 'debug');
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simId);
         $CheckConsolidatedBudget->calcPoints();
         
@@ -280,7 +277,6 @@ class SimulationController extends AjaxController{
      */
     public function actionChangeTime() {
         try {
-            Logger::debug("actionChangeTime :");
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("empty sid");
 
@@ -304,8 +300,6 @@ class SimulationController extends AjaxController{
 
             $simulation->start = ($simulation->start - (($hour-$clockH)*60*60 / Yii::app()->params['skiliksSpeedFactor'])
                 - (($min-$clockM)*60 / Yii::app()->params['skiliksSpeedFactor']));
-            Logger::debug("changed time for simulation : {$simulation->id} time: {$simulation->start}");
-            
             
             $simulation->save();
             

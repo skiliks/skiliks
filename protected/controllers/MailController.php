@@ -172,7 +172,6 @@ class MailController extends AjaxController{
         $result = array();
         $result['result'] = 1;
         if ('TXT' === $character_theme->constructor_number) {
-            Yii::log($character_theme->letter_number);
             $result['message'] = $character_theme->letter->message;
         } else {
             $result['data'] = $service->getMailPhrases($character_theme_id);

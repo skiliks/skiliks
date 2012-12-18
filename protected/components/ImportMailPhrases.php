@@ -33,66 +33,63 @@ class ImportMailPhrases {
         
     }
     
-    public function run() {
+    public function run() 
+    {
         $start_time = microtime(true);
         
         try {
         
-        $this->parseCSV();
-        
-        $this->loadOldData(array('name', 'code'));
-        foreach (explode(";", $this->data[0]) as $key => $value) {
-            $this->mail_codes[] = trim(trim($value, "\r\n"));
-        }
+            $this->parseCSV();
 
-        
-        unset($this->data[0]);
-//        
-//        echo '<pre>';
-//        var_dump($this->mail_codes);
-//        echo '</pre>';
-        $this->setPhrases();
-        
-        foreach ($this->phrases as $index => $search){
-            if($this->syncData($index, $search) === false){
-                break;
+            $this->loadOldData(array('name', 'code'));
+            foreach (explode(";", $this->data[0]) as $key => $value) {
+                $this->mail_codes[] = trim(trim($value, "\r\n"));
             }
-        }
-        
-        $this->saveData();
-        //header("text/html; charset=utf-8");
+
+            unset($this->data[0]);
+
+            $this->setPhrases();
+
+            foreach ($this->phrases as $index => $search){
+                if($this->syncData($index, $search) === false){
+                    break;
+                }
+            }
+
+            $this->saveData();
         
         } catch ( Exception $e ) {
     		
             if($this->transaction != null) {
                 $this->transaction->rollback();
             }
-    		//$this->transaction->rollback();
+            
+            return array(
+                'status' => false,
+                'text'   => $e->getMessage()." в файле ".$e->getFile()." на строке  ".$e->getLine().'<br>',
+            );
     		
-    		echo $e->getMessage()." в файле ".$e->getFile()." на строке  ".$e->getLine().'<br>';
-    		exit("Обработаное исключение");
     	}
         
         $end_time = microtime(true);
-    	echo "<h3>";
-    	echo "Файл - {$this->filename} <br>";
-    	echo "Размер - ".(filesize($this->filename)/1024)." Кбайт <br>";
-    	echo "Время последнего изменения файла  - ".date("d.m.Y H:i:s.", filemtime($this->filename))." <br>";
-    	echo "Время импорта - ". ($end_time - $start_time).' c. <br>';
-    	//echo "Количество обработаных строк данных - ".$count_str." по ".$count_col.' колонки <br>';
-    	echo "Добавлено  ".$this->count_insert." записей <br>";
+        
+        $html = "Добавлено  ".$this->count_insert." записей <br>";
+        
     	if(!empty($this->for_insert)){
                 foreach ($this->for_insert as $k => $v){
-                    echo "{$v['code']} = {$v['name']} <br>";
+                    $html .= "{$v['code']} = {$v['name']} <br>";
                 }
                 foreach ($this->system as $k => $v){
-                    echo "{$v['code']} = {$v['name']} <br>";
+                    $html .= "{$v['code']} = {$v['name']} <br>";
                 }
     		
     	}
-    	echo "Старые данные удалены";
+    	$html .= "Старые данные удалены";
     	
-    	echo "</h3>";
+    	return array(
+            'status' => true,
+            'text'   => $html,
+        );
     }
     
     public function parseCSV() {
@@ -111,10 +108,6 @@ class ImportMailPhrases {
 	    		->select( $yii_rows )
 	    		->from( 'mail_phrases' )
 	    		->queryAll();
-//        echo '<pre>';
-//        var_dump($this->old_data);
-//        echo '</pre>';
-//        exit();
     }
     
     public function setPhrases() {
@@ -144,13 +137,7 @@ class ImportMailPhrases {
                     $is_found = true;
                     break;
                 }else{
-                    //echo strlen($value["code"]) .' = '. strlen($search["code"])."  => {$search['code']} {$value['name']} => {$search['name']}";
                     $is_found = false;
-//                    file_put_contents("media/xls/debug.txt", $search["code"]);
-//                echo '<pre>';
-//                var_dump(strlen($value["code"]) == strlen($search["code"]));
-//                echo '</pre>';
-//                exit();
                 }
             }
             if(!$is_found) {
@@ -159,10 +146,6 @@ class ImportMailPhrases {
                 $this->for_insert[] = $search;//Всеравно удаляем!
             }
             unset($this->phrases[$index]);
-//        echo '<pre>';
-//        var_dump($this->for_insert);
-//        echo '</pre>';
-//        exit();
         }else{
                 return false;
             }
