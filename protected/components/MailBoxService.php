@@ -311,7 +311,7 @@ class MailBoxService {
 
         $message->sending_time = $params['timeString'];        
         $message->readed = 0;
-
+        $message->letter_type = $params['letterType'];
         if($letterType != 'new'){
             $message->message_id = $message_id;
         }
