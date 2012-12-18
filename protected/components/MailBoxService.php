@@ -587,12 +587,12 @@ class MailBoxService {
         
         foreach($themes as $id => $themeId) {
             // remove all Fwd: and re:
-//            if (false === strpos($captions[$themeId], 're:') &&
-//                false === strpos($captions[$themeId], 'Fwd:')) {
+            if (false === strpos($captions[$themeId], 're:') &&
+                false === strpos($captions[$themeId], 'Fwd:')) {
                 $themes[$id] = $captions[$themeId];
-//            } else {
-//                unset($themes[$id]);
-//            }
+            } else {
+                unset($themes[$id]);
+            }
         }
         
         return $themes;
