@@ -32,20 +32,26 @@ class MailBoxService {
     
     /**
      * Загрузка персонажей
+     * 
      * @param array $ids 
+     * 
      * @return array
      */
-    public function getCharacters($ids=array()) {
-        $model = Characters::model();
-        if (count($ids)>0) $model->byIds($ids);
-        $charactersCollection = $model->findAll();
+    public function getCharacters($ids = array()) 
+    {
+        $resultCharacters = array();
         
-        $characters = array();
-        foreach($charactersCollection as $characterModel) {
-            $characters[$characterModel->id] = $characterModel->fio.' <'.$characterModel->email.'>';
+        $query = Characters::model();
+        if (0 < count($ids)) {
+            $query->byIds($ids);
+        }
+        $charactersCollection = $query->findAll();        
+        
+        foreach($charactersCollection as $character) {
+            $resultCharacters[$character->id] = $character->fio.' <'.$character->email.'>';
         }
         
-        return $characters;
+        return $resultCharacters;
     }
     
     protected function processSubject($subject) {

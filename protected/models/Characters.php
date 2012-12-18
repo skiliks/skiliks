@@ -42,9 +42,16 @@ class Characters extends CActiveRecord
      * @var string
      */
     public $phone;
-   
+    
+    /* ----------------------------- */
+    
+    public function isMainHero()
+    {
+        return 1 === (int)$this->id;
+    }
 
-    /**
+
+        /**
      *
      * @param type $className
      * @return Characters
