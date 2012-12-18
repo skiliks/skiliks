@@ -43,10 +43,6 @@ class RegistrationController extends AjaxController{
             
             // Добавить группы пользователей
             UserService::addGroupToUser($users->id, 1);
-            //UserService::addGroupToUser($users->id, 2);
-            
-            
-            Logger::debug("activation code : {$activationCode}");
 
             // отправляем пользователю уведомление что все хорошо
             if (!$this->_notifyUser(array(

@@ -149,14 +149,12 @@ class FlagsService
             if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
                 if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
                     if ($flagInfo['recId'] != $dialog->excel_id) {
-                        // // Logger::debug("skipped replica excelId : {$dialog->excel_id}");
                         $flagInfo['action'] = 'skip';
                         return $flagInfo; // эта реплика не пойдет в выборку
                     }
                 } else {
                     // условие сравнение не выполняется
                     if ($flagInfo['recId'] == $dialog->excel_id) {
-                        // // Logger::debug("skipped replica excelId : {$dialog->excel_id}");
                         $flagInfo['action'] = 'skip';
                         return $flagInfo; // эта реплика не пойдет в выборку
                     }

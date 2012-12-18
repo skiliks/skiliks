@@ -255,8 +255,6 @@ class DayPlanController extends AjaxController{
             $date = explode(':', $time);
             $time = $date[0]*60 + $date[1];
             
-            Logger::debug("add : $simId, $taskId, $time");
-            
             // на всякий случай удалим из вакейшена
             DayPlanAfterVacation::model()->deleteAllByAttributes(array(
                 'sim_id' => $simId, 'task_id' => $taskId

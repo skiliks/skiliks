@@ -20,7 +20,9 @@ class m121107_115729_update_points_and_create_type_scale extends CDbMigration
             'point_id' => 'INT(11) NOT NULL',
             'dialog_id' => 'INT(11) NOT NULL'
         ));
-        Helper::callAction( 'CharactersPointsTitleImportController', 'actionImport' );
+        
+        $importServide = new ImportGameDataService();
+        $importServide->importCharactersPointsTitles();
 	}
 
 	public function down()

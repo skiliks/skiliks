@@ -106,7 +106,7 @@ class PhoneController extends AjaxController{
                             'duration'          => 5
                         );
                         $character = Characters::model()->byId($id)->find();
-                        //Logger::debug("found character : ".var_export($character));
+
                         if ($character) {
                             $data[0]['title'] = $character->title;
                             $data[0]['name'] = $character->fio;
@@ -114,7 +114,7 @@ class PhoneController extends AjaxController{
                         
                         $result = array();
                         $result['result'] = 1;
-                        //$result['data'] = $data;
+
                         $result['events'][] = array(
                             'result' => 1,
                             'data' => $data,
@@ -125,12 +125,9 @@ class PhoneController extends AjaxController{
                     else {
                         // у нас есть событие
                         // сгенерируем событие
-                        //EventService::addByCode($eventCode, $simId, SimulationService::getGameTime($simId));
-                        
-                        Logger::debug("check event in phone : $eventCode");
+
                         // проверим а позволяют ли флаги нам запускать реплику
                         $eventRunResult = EventService::allowToRun($eventCode, $simId, 1, 0);
-                        Logger::debug("eventRunResult : ".var_export($eventRunResult, true));
                         if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
                             // событие не проходит по флагам -  не пускаем его
                             return $this->sendJSON(array('result' => 1, 'events' => array()));
@@ -140,7 +137,6 @@ class PhoneController extends AjaxController{
                         $data = EventService::getReplicaByCode($eventCode, $simId);
                         $result = array();
                         $result['result'] = 1;
-                        //$result['data'] = $data;
                         $result['events'][] = array(
                             'result' => 1,
                             'data' => $data,
