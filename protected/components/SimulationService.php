@@ -188,7 +188,7 @@ class SimulationService
 
         
         $b_3333 = $emailAnalizer->check_3333();
-        Yii::log(var_export($b_3333, true));    
+        Yii::log(var_export($b_3333['positive'], true));    
         if (isset($b_3333['obj']) && 
             isset($b_3333['positive']) &&
             true === $b_3333['obj'] instanceof CharactersPointsTitles)  

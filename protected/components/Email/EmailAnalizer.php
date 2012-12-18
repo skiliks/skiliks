@@ -94,6 +94,8 @@ class EmailAnalizer
     public $template_reply_all = array();
     
     public $full_coincidence_reply_all = array();
+    
+    public $reply_all = array();
 
     public function __construct($simId) 
     {
@@ -246,15 +248,25 @@ class EmailAnalizer
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
-     
+        //var_dump($this->userOutboxEmails);
+        //var_dump($temp_log_mail);
+        //exit();
+        $temp = array();
         foreach ($temp_log_mail as $mail) {
-                if($mail->full_coincidence_reply_all !== '-' AND isset($this->userInboxEmails[$mail->mail_id]) AND $this->userInboxEmails[$mail->mail_id]->letter_type === 'replyAll') {
-                    
-                        $this->full_coincidence_reply_all[] = $this->userInboxEmails[$mail->mail_id]->code;
-                    
+                //$temp = $this->userOutboxEmails[$mail->mail_id];
+                //Yii::log(var_export($temp, true));
+                $temp[] = array($mail->full_coincidence, $mail->mail_id);
+                if(isset($this->userOutboxEmails[$mail->mail_id]) AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll') {
+                        if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
+                            $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
+                        }else{
+                            $this->full_coincidence_reply_all[] = $mail->full_coincidence;
+                        }
+                       
                 }
         }
-
+        Yii::log(var_export($this->full_coincidence_reply_all, true));
+        Yii::log(var_export($this->reply_all, true));
     }
     
     /** ----------------------------------------------------- **/
@@ -430,6 +442,9 @@ class EmailAnalizer
         $wrongActions = 0;
         
         // inbox + trashCan
+        if(count($this->reply_all)!= 0){
+            $wrongActions++;
+        }
         foreach ($this->full_coincidence_reply_all as $coincidence) {
             //var_dump($emailData->email->id);
             if (!in_array($coincidence, $this->template_reply_all)) {
