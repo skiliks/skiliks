@@ -181,7 +181,7 @@ class MailBoxModel extends CActiveRecord
             'sim_id' => null
         ));
         
-        // try to find subject for current symulation
+        // try to find subject for current simulation
         if (null === $main_subject) {
             $main_subject = MailThemesModel::model()->findByAttributes(array(
                 'name'   => $this->subject_obj->name,
@@ -189,13 +189,25 @@ class MailBoxModel extends CActiveRecord
             ));
         }
         
+        // try to find subject for current simulation
+        if (null === $main_subject) {
+            $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
+                'id'   => $this->subject_obj->id,
+            ));
+            
+            if (null !== $main_subject) {
+                $main_subject = MailThemesModel::model()->findByAttributes(array(
+                    'id'   => $main_subject->theme_id,
+                ));
+            }
+        }
+        
         return MailCharacterThemesModel::model()->find(
             '(character_id=:sender_id OR character_id=:receiver_id) AND theme_id=:subject_id',
             array(
-                'sender_id' => $this->sender_id,
+                'sender_id'   => $this->sender_id,
                 'receiver_id' => $this->receiver_id,
-                'subject_id' => $main_subject->primaryKey,
-
+                'subject_id'  => $main_subject->primaryKey,
         ));
     }
     

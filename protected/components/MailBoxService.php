@@ -81,11 +81,13 @@ class MailBoxService {
      * @internal param int $receiverId
      * @return array
      */
-    public function getMessages($params) {
-        
-        //var_dump($params);
-        $folderId = $params['folderId'];
+    public function getMessages($params) 
+    {        
+        $folderId   = $params['folderId'];
         $receiverId = $params['receiverId'];
+        $simId      = $params['simId'];
+        
+        
         $order = (isset($params['order'])) ? $params['order'] : false;
         if ($order == -1) {
             $order = false;
@@ -127,9 +129,19 @@ class MailBoxService {
             $subject = $message->subject;
             if ($subject == '') {
                 if ($message->subject_id > 0) {
+                    // we store both mail_tehame and mail_character_theme in mail_box
                     $subjectModel = MailThemesModel::model()->byId($message->subject_id)->find();
-                    if ($subjectModel) {
-                        $subject = $subjectModel->name;
+                    if (null !== $subjectModel && $subjectModel->sim_id == $simId) {
+                        $subject = $subjectModel->name; // CASE 1
+                    } else {
+                        $subjectModel = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
+                        if (null !== $subjectModel) {
+                            $id = $subjectModel->theme_id;
+                            $subjectModel = MailThemesModel::model()->byId($id)->find();
+                            if (null !== $subjectModel) {
+                                $subject = $subjectModel->name; // CASE 2
+                            } 
+                        }
                     }
                 }
             }
@@ -572,14 +584,17 @@ class MailBoxService {
         foreach($themeCollection as $themeModel) {
             $captions[(int)$themeModel->id] = $themeModel->name;
         }
-        //var_dump($captions);die();
         
-        foreach($themes as $id=>$themeId) {
-            //var_dump($themes[$id]);
-            $themes[$id] = $captions[$themeId];
+        foreach($themes as $id => $themeId) {
+            // remove all Fwd: and re:
+//            if (false === strpos($captions[$themeId], 're:') &&
+//                false === strpos($captions[$themeId], 'Fwd:')) {
+                $themes[$id] = $captions[$themeId];
+//            } else {
+//                unset($themes[$id]);
+//            }
         }
         
-        //var_dump($themes);die();
         return $themes;
     }
     
