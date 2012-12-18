@@ -222,6 +222,8 @@ class MailBoxService {
         $model = MailBoxModel::model()->byId($id)->find();
         if (!$model) return array();
         
+        $simId = $model->sim_id;
+        
         $subject = $model->subject;
         if ($subject == '') {
             if ($model->subject_id > 0) {
@@ -269,7 +271,6 @@ class MailBoxService {
         
         
         $message['sender'] = $characters[$message['sender']];
-        //$message['receiver'] = $characters[$message['receiver']];
         
         // Собираем сообщение
         if ($message['message'] == '') {
