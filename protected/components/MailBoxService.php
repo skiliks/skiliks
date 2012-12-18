@@ -127,11 +127,13 @@ class MailBoxService {
             $users[$receiverId] = $receiverId;
             
             $subject = $message->subject;
+            
             if ($subject == '') {
+                
                 if ($message->subject_id > 0) {
                     // we store both mail_tehame and mail_character_theme in mail_box
                     $subjectModel = MailThemesModel::model()->byId($message->subject_id)->find();
-                    if (null !== $subjectModel && $subjectModel->sim_id == $simId) {
+                    if (null !== $subjectModel && ($subjectModel->sim_id == $simId || $subjectModel->sim_id === null)) {
                         $subject = $subjectModel->name; // CASE 1
                     } else {
                         $subjectModel = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
@@ -145,7 +147,7 @@ class MailBoxService {
                     }
                 }
             }
-            
+
             
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
@@ -190,7 +192,6 @@ class MailBoxService {
                 }
             }
         }
-        
         
         // подготовка для сортировки на уровне php
         $receivers = array();
