@@ -185,24 +185,26 @@ class SimulationService
                 // @todo: hamdle exception
             }
         }
-        //3313 - read most of not-spam emails } 
+
         
-        // standard behaviours {
-        /*$standardBehaviours = $emailAnalizer->standardCheck();
-        
-        foreach ($standardBehaviours as $standardBehaviour) {
-            $emailResult = new SimulationsMailPointsModel();
-            $emailResult->sim_id        = $simId;
-            $emailResult->point_id      = $standardBehaviour['obj']->id;
-            $emailResult->scale_type_id = $standardBehaviour['obj']->type_scale;
-            $emailResult->value         = $standardBehaviour['value'];
+        $b_3333 = $emailAnalizer->check_3333();
+        Yii::log(var_export($b_3333['positive'], true));    
+        if (isset($b_3333['obj']) && 
+            isset($b_3333['positive']) &&
+            true === $b_3333['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3333 = new SimulationsMailPointsModel();
+            $emailResultsFor_3333->sim_id = $simId;
+            $emailResultsFor_3333->point_id = $b_3333['obj']->id;
+            $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
+            $emailResultsFor_3333->value = $b_3333['positive'];
             try {
-                $emailResult->save();
+                $emailResultsFor_3333->save();
             } catch (Exception $e) {
                 // @todo: hamdle exception
             }
-        }*/
-        // standard behaviours }
+        }
+        //3313 - read most of not-spam emails } 
         
         self::saveAgregatedPoints($simId);
     }
@@ -232,12 +234,13 @@ class SimulationService
             
             $behaviours[$pointCode]->update($line['add_value']);
         }
-        
+
+        // add Point object
         foreach (CharactersPointsTitles::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
-        }
+        }  
         
         return $behaviours;
     }
@@ -267,6 +270,23 @@ class SimulationService
             $existAssassment->value = $agrPoint->getValue();
             
             $existAssassment->save();
+        }
+
+        //3313 - read most of not-spam emails } 
+    }
+    
+    /**
+     * @param integer $simId
+     */ 
+    public static function copyMailInboxOutboxScoreToAssessmentAgregated($simId)
+    {
+        // add mail inbox/outbox points
+        foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+            $assassment = new AssassmentAgregated();
+            $assassment->sim_id   = $simId;
+            $assassment->point_id = $emailBehaviour->point_id;
+            $assassment->value = $emailBehaviour->value;
+            $assassment->save();
         }
     }
 }
