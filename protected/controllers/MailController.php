@@ -293,11 +293,12 @@ class MailController extends AjaxController{
         // @todo: what is in error case?
         $this->sendJSON(array('result' => 1));
     }
-    
+
     /**
+     *
      * @param string $emailType, 'new','forward','reply','replyAll', etc.
-     * 
-     * @return array 
+     * @param $subjectFromRequest
+     * @return array
      */
     private function checkSubject($emailType, $subjectFromRequest) 
     {
