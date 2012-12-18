@@ -90,6 +90,12 @@ class EmailAnalizer
      * @param array of point, indexed by id
      */
     public $points = array();
+    
+    public $template_reply_all = array();
+    
+    public $full_coincidence_reply_all = array();
+    
+    public $reply_all = array();
 
     public function __construct($simId) 
     {
@@ -120,7 +126,10 @@ class EmailAnalizer
         
         // get mail templates
         foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
-            $this->mailTemplate[$mailTemplate->code] = $mailTemplate; 
+            $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
+            if($mailTemplate->type_of_importance === "reply_all") {
+                $this->template_reply_all[] = $mailTemplate->code;
+            }
         }
         unset($mailTemplate);        
         
@@ -167,9 +176,10 @@ class EmailAnalizer
         /**
          * Add readedAt, plannedAt, replyedAt
          */
-        foreach (LogMail::model()->bySimId($this->simId)->findAll() as $logMailLine) {
+        $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+        foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;
-            
+
             // we can have not saved letter in log, so there is no mail_box letter for it
             if (isset($this->userEmails[$mailId])) {
                 $userEmail = $this->userEmails[$mailId];
@@ -220,6 +230,7 @@ class EmailAnalizer
                 //var_dump($mailId);
                 $this->userOutboxEmails[$mailId] = $emailData;
             }
+
         }  
         
         /**
@@ -237,6 +248,25 @@ class EmailAnalizer
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
+        //var_dump($this->userOutboxEmails);
+        //var_dump($temp_log_mail);
+        //exit();
+        $temp = array();
+        foreach ($temp_log_mail as $mail) {
+                //$temp = $this->userOutboxEmails[$mail->mail_id];
+                //Yii::log(var_export($temp, true));
+                $temp[] = array($mail->full_coincidence, $mail->mail_id);
+                if(isset($this->userOutboxEmails[$mail->mail_id]) AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll') {
+                        if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
+                            $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
+                        }else{
+                            $this->full_coincidence_reply_all[] = $mail->full_coincidence;
+                        }
+                       
+                }
+        }
+        Yii::log(var_export($this->full_coincidence_reply_all, true));
+        Yii::log(var_export($this->reply_all, true));
     }
     
     /** ----------------------------------------------------- **/
@@ -397,6 +427,36 @@ class EmailAnalizer
         return array(
             'positive' => $mark * $behave_3313->scale,
             'obj'      => $behave_3313,
+        );
+    }
+    
+    /**
+     * 3325 - read spam
+     * 
+     * @param integer $delta
+     * 
+     * @return mixed array
+     */
+    public function check_3333()
+    {
+        $wrongActions = 0;
+        
+        // inbox + trashCan
+        if(count($this->reply_all)!= 0){
+            $wrongActions++;
+        }
+        foreach ($this->full_coincidence_reply_all as $coincidence) {
+            //var_dump($emailData->email->id);
+            if (!in_array($coincidence, $this->template_reply_all)) {
+                $wrongActions++;
+            }
+        } 
+        
+        $behave_3333 = CharactersPointsTitles::model()->byCode('3333')->positive()->find();
+        
+        return array(
+            'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
+            'obj'      => $behave_3333,
         );
     }
     
