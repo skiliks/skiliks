@@ -469,7 +469,7 @@ class MailBoxService {
      */
     public function buildMessage($mailId) {
         $mail = MailBoxModel::model()->findByPk($mailId);
-        $characterTheme = $mail->getCharacterTheme();
+         $characterTheme = $mail->getCharacterTheme();
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
             return $characterTheme->letter->message;
         };
