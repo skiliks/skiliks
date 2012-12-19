@@ -268,7 +268,7 @@ class LogHelper {
         }
         
         // merge dialog and mail logs
-        $data['data'] = array_merge($data['data'], $mailLogData);
+        $data['data'] = array_merge($mailLogData, $data['data']);
         
         $headers = array(
                 'sim_id'         => 'id_симуляции',
