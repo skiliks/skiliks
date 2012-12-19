@@ -608,6 +608,8 @@ class ImportGameDataService
     {
         $fileName = __DIR__.'/../../../media/xls/mail_themes.csv';
         
+        $characterMailThemesIds = array(); // to remove all old characterMailThemes after import
+        
         $characters = array();
         $charactersList = Characters::model()->findAll();
         foreach($charactersList as $characterItem) {
@@ -689,7 +691,8 @@ class ImportGameDataService
             $mailCharacterTheme->source                  = $source;
             
             try {
-                $mailCharacterTheme->save();            
+                $mailCharacterTheme->save();
+                $characterMailThemesIds[] = $mailCharacterTheme->id;
                 $html .= sprintf(
                     'Succesfully imported - email from "%s", %s subject "%s" . [MySQL id: %s] <br/>',
                     $row[1],
@@ -716,6 +719,13 @@ class ImportGameDataService
             }
         }
         fclose($handle);
+        
+        // remove all old, unused characterMailThemes after import
+        $oldThemes = MailCharacterThemesModel::model()->byIdsNotIn(implode(',', $characterMailThemesIds))->findAll();
+        foreach ($oldThemes as $oldTheme) {
+            $oldTheme->delete();
+        }
+        
         
         $html .= "processed rows: $index <br/>";
         $html .= "Email from characters import finished! <br/>";
