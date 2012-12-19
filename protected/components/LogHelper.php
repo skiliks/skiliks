@@ -993,4 +993,41 @@ class LogHelper {
         }
         return true;
     }
+
+    public static function setDialogs($simId, $logs){
+        if (!is_array($logs)) return false;
+
+        foreach( $logs as $log ) {
+            if (empty($log[4]['dialogId'])) continue;
+            Yii::log(var_export($log, true));
+            if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+
+                $dialog = new LogDialogs();
+                $dialog->sim_id = $simId;
+                $dialog->dialog_id = (int)$log[4]['dialogId'];
+                $dialog->start_time  = date("H:i:s", $log[3]);
+                $dialog->save();
+                continue;
+
+            } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
+                $windows = LogDialogs::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
+                if (!$windows) {
+                    continue;
+                }
+                foreach ($windows as $window) {
+                    $window->end_time = date("H:i:s", $log[3]);
+                    $window->save();
+                }
+            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
+
+                continue;
+
+            } else {
+
+                throw new CException("Ошибка");//TODO:Описание доделать
+            }
+        }
+
+        return true;
+    }
 }
