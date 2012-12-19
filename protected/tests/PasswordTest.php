@@ -16,7 +16,7 @@ class PasswordTest extends SeleniumTestCase
         $this->waitForElement($session, 'id', 'email')->value(array('value' => str_split($login)));
         $session->element('id','pass1')->value(array('value' => str_split('test')));
         $session->element('id','pass2')->value(array('value' => str_split('test')));
-        $session->element('xpath','//input[@class="btn"]')->click();
+        $session->element("css selector", "input.btn-primary")->click();
         $session->open($this->browser_url . 'site.php');
         $this->waitForElement($session, 'xpath', "//input[@value='Вход']");
         $session->element('xpath','//input[@value="Забыли пароль?"]')->click();

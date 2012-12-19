@@ -114,7 +114,6 @@ class MailTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.saveDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Черновики "]')->click();
-        sleep(60);
         $this->waitForElement($session, 'xpath', '//td[text()="re: По ценовой политике"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.sendDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
