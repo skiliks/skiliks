@@ -41,7 +41,7 @@ class Activity extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parent, grandparent, name, category_id', 'required'),
+			array('parent, grandparent, name', 'required'),
 			array('category_id', 'numerical', 'integerOnly'=>true),
 			array('id, parent, grandparent', 'length', 'max'=>10),
 			array('name', 'length', 'max'=>255),

@@ -82,6 +82,10 @@ return array(
         'excel'=>array(
             'class' => 'application.extensions.PHPExcel',
         ),
+        'viewRenderer'=>array(
+            'class'=>'application.extensions.yiiext.renderers.smarty.ESmartyViewRenderer',
+            'fileExtension' => '.tpl',
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
 
