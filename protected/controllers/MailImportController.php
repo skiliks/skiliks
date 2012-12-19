@@ -21,7 +21,7 @@ class MailImportController extends AjaxController{
     public function actionImportTasks() 
     {
         $importService = new ImportGameDataService();
-        $result = $importService->importMailasks();    	
+        $result = $importService->importMailTasks();
 
         $this->renderText($result['text']); 
     }
@@ -74,6 +74,7 @@ class MailImportController extends AjaxController{
 
         $this->renderText($result['text']);      
     }
+
 }
 
 

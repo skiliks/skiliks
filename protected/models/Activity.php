@@ -9,6 +9,7 @@
  * @property string $grandparent
  * @property string $name
  * @property integer $category_id
+ * @prorerty string $import_id
  *
  * The followings are the available model relations:
  * @property ActivityAction[] $activityActions
@@ -44,10 +45,11 @@ class Activity extends CActiveRecord
 			array('parent, grandparent, name', 'required'),
 			array('category_id', 'numerical', 'integerOnly'=>true),
 			array('id, parent, grandparent', 'length', 'max'=>10),
-			array('name', 'length', 'max'=>255),
+            array('name', 'length', 'max'=>255),
+            array('import_id', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, parent, grandparent, name, category_id', 'safe', 'on'=>'search'),
+			array('id, parent, grandparent, name, category_id, import_id', 'safe', 'on'=>'search'),
 		);
 	}
 
