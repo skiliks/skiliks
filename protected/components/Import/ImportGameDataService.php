@@ -725,7 +725,296 @@ class ImportGameDataService
             'text'   => $html,
         );        
     }
+    
+    public function importTasks() 
+    {
+        $fileName = '../media/xls/tasks.csv';
+        
+        $handle = $this->checkFileExists($fileName) ;
+        $index = 0;
 
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            
+            if ($index == 1) continue;
+              
+            // Код
+            $code       = $row[0]; // A
+            // Тип старта задачи
+            $startType  = $row[1]; // B
+            // Список дел в to-do-list
+            $name       = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            // Жесткая
+            $startTime  = $row[3]; // D
+            if ($startTime != '') {
+                if (strstr($startTime, ':')) {
+                    $timeData = explode(':', $startTime);
+                    if (count($timeData) > 1) {
+                      $startTime = $timeData[0]*60 + $timeData[1];
+                    }
+                }
+            }
+            
+            // Категория
+            $category   = $row[4];  // E
+            // Мин.
+            $duration   = $row[5];  // F
+            
+            $task = Tasks::model()->byCode($code)->find();
+            if (!$task) {
+                $task = new Tasks();
+                $task->code = $code;
+            }
+            
+            $task->title = $name;
+            $task->start_time = $startTime;
+            $task->duration = $duration;
+            if ($startTime > 0) {
+                $task->type = 2;
+            } else {
+                $task->type = 1;
+            }
+            $task->start_type = $startType;
+            $task->category = $category;
+            
+            $task->save();
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s tasks have been imported.', $index),
+        );  
+    } 
+    
+    /**
+     * Импорт задач для писем M-T
+     */
+    public function importMailTasks() 
+    {
+        $fileName = '../media/xls/mail_tasks.csv';
+        
+        $characters = array();
+        $charactersList = Characters::model()->findAll();
+        foreach($charactersList as $characterItem) {
+            $characters[$characterItem->code] = $characterItem->id;
+        }
+        
+        $connection=Yii::app()->db; 
+        
+        $handle = $this->checkFileExists($fileName);
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) continue;
+            
+            // Mail code
+            $code       = $row[0];  // A
+            // Task
+            $task       = iconv("Windows-1251", "UTF-8", $row[1]); // B
+            // Duration
+            $duration   = $row[2]; // C
+            // Task W/R
+            $wr         = $row[3]; // D
+            // Category
+            $category   = $row[4]; // E
+            
+            $mail = MailTemplateModel::model()->byCode($code)->find();
+            if (!$mail) {
+                throw new Exception("cant find mail by code $code");
+            }
+            
+            //$model = MailTasksModel::model()->model()->byMailId($mail->id)->find();
+            $model = MailTasksModel::model()->model()->byId($index-1)->find();
+            if (!$model) {
+                return array(
+                    'status' => False,
+                    'text'   => sprintf('Error on line %s, %s.', $index, $code),
+                );  
+            }
+            $model->name        = $task;
+            $model->duration    = $duration;
+            $model->code        = $code;
+            $model->wr          = $wr;
+            $model->category    = $category;
+            $model->save();
+            
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s mail tasks have been imported.', $index),
+        );  
+    }
+    
+    /**
+     * Импорт событий из писем
+     */
+    public function importMailEvents() 
+    {
+        $fileName = '../media/xls/mail2.csv';
+        $handle = $this->checkFileExists($fileName);
+        
+        $events = EventService::getAllCodesList();
+        
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            $code = $row[0];
+            $time = DateHelper::timeToTimstamp($row[2]);
+            
+            $event = EventsSamples::model()->byCode($code)->find();
+            if (!$event) {
+                $event = new EventsSamples();
+                $event->code = $code;
+            }
+                
+            $event->on_ignore_result = 0;	
+            $event->on_hold_logic = 1;
+            $event->trigger_time = $time; 
+            $event->save();            
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s mail events have been imported.', $index),
+        );    
+    }
+    
+    public function importMailSendingTime() 
+    {
+        $fileName = '../media/xls/mail2.csv';
+        $handle = $this->checkFileExists($fileName);
+        
+        $events = EventService::getAllCodesList();
+        
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            $code = $row[0];
+            $date = DateHelper::dateStringToTimestamp($row[1]);
+            $time = DateHelper::timeToTimstamp($row[2]);
+            
+            $mail = MailTemplateModel::model()->byCode($code)->find();
+            if ($mail) {
+                $mail->sending_date = $date;
+                $mail->sending_date_str = $row[1];
+                $mail->sending_time = $time;
+                $mail->sending_time_str = $row[2];
+                $mail->save();
+            }
+            
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s mails have been updated.', $index),
+        );   
+    }
+    
+    public function importMailAttache() 
+    {
+        $fileName = '../media/xls/mail2.csv';
+        $handle = $this->checkFileExists($fileName);
+        
+        $documents = MyDocumentsService::getAllCodes();
+        //var_dump($documents); die();
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 1) {
+                continue;
+            }
+            
+            $code = $row[0];
+            $attache = $row[11];
+            
+            if ($attache == '' || $attache =='-') continue; // нет аттачей
+                
+            $mail = MailTemplateModel::model()->byCode($code)->find();
+            if ($mail) {
+                if (isset($documents[$attache])) {
+                    $fileId = $documents[$attache];
+                    
+                    $attacheModel = MailAttachmentsTemplateModel::model()->byMailId($mail->id)->byFileId($fileId)->find();
+                    if (!$attacheModel) {
+                        $attacheModel = new MailAttachmentsTemplateModel();
+                        $attacheModel->mail_id = $mail->id;
+                        $attacheModel->file_id = $fileId;
+                        $attacheModel->insert();
+                     }
+                }
+            }
+            
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s mail attaches have been imported.', $index),
+        );       
+    }
+    
+    /**
+     * Импорт документов
+     */
+    public function importMyDocuments() 
+    {
+        $fileName = '../media/xls/documents.csv';
+        
+        $handle = $this->checkFileExists($fileName);
+        $index = 0;
+        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+            $index++;
+            if ($index <= 2) continue;
+            
+            if ($index > 29) {
+                echo('all done'); die();
+            }
+            
+            // Определим код документа
+            $code       = $row[0]; // A
+            // Определим тип документа
+            $type       = $row[1]; // B
+            // Имя файла в системе
+            $fileName   = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            // Исходный файл
+            $srcFile    = iconv("Windows-1251", "UTF-8", $row[3]); // D
+            // Расширение файла
+            $format     = $row[4]; // E
+            
+            //if ($type == '-') continue;
+            
+            $document = MyDocumentsTemplateModel::model()->byCode($code)->find();
+            if (!$document) {
+                $document = new MyDocumentsTemplateModel();
+                $document->code         = $code;
+            }
+            
+            $document->fileName     = $fileName.'.'.$format;
+            $document->srcFile      = $srcFile;
+            $document->format       = $format;
+            $document->type         = $type;
+            $document->save();
+        }
+        fclose($handle);
+        
+        return array(
+            'status' => true,
+            'text'   => sprintf('%s document records have been imported.', $index),
+        );   
+    }
 
     /* ----- */
     
