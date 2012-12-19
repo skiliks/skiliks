@@ -47,5 +47,15 @@ class StringTools
         
         return $subject;
     }
+    
+    /**
+     * @param Exception $e
+     */
+    public static function logException($e) 
+    {
+        Yii::log('***');
+        Yii::log($e->getMessage());
+        Yii::log($e->getTraceAsString());
+    }
 }
 
