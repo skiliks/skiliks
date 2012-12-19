@@ -131,6 +131,18 @@ class MailCharacterThemesModel extends CActiveRecord
     }
     
     /**
+     * @param string $ids
+     * @return \MailCharacterThemesModel
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT IN ({$ids}) "
+        ));
+        return $this;
+    }
+    
+    /**
      * Выбрать с признаком "телефон"
      * @return MailCharacterThemesModel 
      */
