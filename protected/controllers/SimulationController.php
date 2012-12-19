@@ -181,7 +181,7 @@ class SimulationController extends AjaxController{
         } catch (CException $e) {
             // @todo: handle
         }
-        
+        LogHelper::setDialogs($simId, $logs);
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simId);
         

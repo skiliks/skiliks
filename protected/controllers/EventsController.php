@@ -77,7 +77,7 @@ class EventsController extends AjaxController{
             LogHelper::setMailLog($simId, $logs);
             // данные для логирования }
             // 
-            
+            LogHelper::setDialogs($simId, $logs);
             $simType = SimulationService::getType($simId); // определим тип симуляции
             $gameTime = SimulationService::getGameTime($simId);
             
@@ -296,6 +296,6 @@ class EventsController extends AjaxController{
         }
         return;
     }
-}
-
+            }
+        
 
