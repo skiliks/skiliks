@@ -128,8 +128,9 @@ class MailBoxService {
             
             $subject = $message->subject;
             
+            
             if ($subject == '') {
-                
+                $subject = 'Broken value.';
                 if ($message->subject_id > 0) {
                     // we store both mail_tehame and mail_character_theme in mail_box
                     $subjectModel = MailThemesModel::model()->byId($message->subject_id)->find();
