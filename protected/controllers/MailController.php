@@ -123,7 +123,7 @@ class MailController extends AjaxController
         } elseif ($folderId == 3) {
             $result['type'] = 'outbox';
         } elseif ($folderId == 4) {
-            $result['type'] = 'inbox';
+            $result['type'] = 'trash';
         }
 
         return $this->sendJSON($result);
