@@ -741,7 +741,7 @@ class MailController extends AjaxController
                 $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
 
-            $result['subjectId'] = $subjectModel->id;
+            $result['subjectId'] = $subjectId;
 
             $result['receiver'] = $characters[$messageToReply->sender_id];
             $result['receiverId'] = $messageToReply->sender_id;
