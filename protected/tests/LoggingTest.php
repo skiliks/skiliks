@@ -9,7 +9,7 @@ class LoggingTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . '/site.php');
+        $session->open($this->browser_url . 'site.php');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -21,7 +21,7 @@ class LoggingTest extends SeleniumTestCase
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
         # Кликаем на него
-        $session->element("xpath", "//input[@class='btn']")->click();
+        $session->element("css selector", "input.btn-primary")->click();
         # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
