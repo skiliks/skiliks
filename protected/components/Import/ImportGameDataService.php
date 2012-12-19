@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../../extensions/PHPExcel.php');
 
 /**
  * @author slavka
@@ -1212,12 +1213,13 @@ class ImportGameDataService
     }
 
     /* ----- */
-    
+
     /**
      * @param string $fileName, 'media/xls/characters.csv'
-     * 
+     *
+     * @throws Exception
      * @return file handler
-     * 
+     *
      * @throw Exception
      */
     private function checkFileExists($fileName) 
