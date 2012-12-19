@@ -628,7 +628,7 @@ class MailController extends AjaxController
 
         $subject = 're: ' . $subject; // lowercase is important for search!
         # TODO: refactor this. name is not unique
-        $subjectModel = MailThemesModel::model()->byName($subject)->find();
+        $subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
         if (!$subjectModel) {
             // добавим тему
             $subjectModel = new MailThemesModel();
@@ -713,7 +713,7 @@ class MailController extends AjaxController
             // Subject {
 
             $subject = 're: ' . $subject; // lowercase is important for search!
-            $subjectModel = MailThemesModel::model()->byName($subject)->find();
+            $subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
             if (!$subjectModel) {
                 // у нас нет такой темы, значит создадим ее
                 $subjectId = MailBoxService::createSubject($subject, $simId);
@@ -741,7 +741,7 @@ class MailController extends AjaxController
                 $result['phrases']['data'] = $service->getMailPhrases();  // берем дефолтные
             $result['phrases']['addData'] = $service->getSigns();
 
-            $result['subjectId'] = $subjectModel->primaryKey;
+            $result['subjectId'] = $subjectModel->id;
 
             $result['receiver'] = $characters[$messageToReply->sender_id];
             $result['receiverId'] = $messageToReply->sender_id;
