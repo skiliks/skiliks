@@ -1629,6 +1629,7 @@ class PHPExcel_Reader_Excel2007 implements PHPExcel_Reader_IReader
 										case '_xlnm._FilterDatabase':
 										case '_xlnm.Print_Titles':
 										case '_xlnm.Print_Area':
+                                        case 'Excel_BuiltIn__FilterDatabase':
 											break;
 
 										default:
