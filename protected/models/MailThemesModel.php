@@ -133,5 +133,16 @@ class MailThemesModel extends CActiveRecord
         
         return $id;
     }
-
+    
+    /**
+     * @param string $ids
+     * @return \MailTemplateModel
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT  IN ({$ids})"
+        ));
+        return $this;
+    }    
 }
