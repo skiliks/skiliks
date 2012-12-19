@@ -32,6 +32,7 @@ return array(
         'application.components.Mail.*',*/
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
+        'application.vendors.*',
     ),
     'modules'=>array(
         'gii'=>array(
@@ -83,7 +84,7 @@ return array(
             'class' => 'application.extensions.PHPExcel',
         ),
         'viewRenderer'=>array(
-            'class'=>'application.extensions.yiiext.renderers.smarty.ESmartyViewRenderer',
+            'class'=>'application.extensions.smarty.ESmartyViewRenderer',
             'fileExtension' => '.tpl',
         ),
     ),
