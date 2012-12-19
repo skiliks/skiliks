@@ -30,6 +30,8 @@ class DebugController extends AjaxController{
     public function actionAe()
     {
         echo '<pre>';
+        LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => 4067));
+        
         //SimulationService::saveEmailsAnalize(2962);
         //$ea = new EmailAnalizer(3919);
         
@@ -43,9 +45,11 @@ class DebugController extends AjaxController{
         
         SimulationService::saveAgregatedPoints(3938);*/
         
+        /*
         $a = new EmailCoincidenceAnalizator();
         $a->setUserEmail(410304);
         var_dump($a->checkCoinsidence());
+        */
 
         /*echo "<br/>3322 3324:<br/> <pre>";
         
