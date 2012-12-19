@@ -26,6 +26,7 @@ return array(
         'application.components.Email.*',
         'application.components.Assessment.*',
         'application.components.Import.*',
+        'application.components.Base.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
