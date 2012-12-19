@@ -1004,7 +1004,8 @@ class LogHelper {
 
                 $dialog = new LogDialogs();
                 $dialog->sim_id = $simId;
-                $dialog->dialog_id = (int)$log[4]['dialogId'];
+                $dialog->dialog_id = $log[4]['dialogId'];
+                $dialog->last_id = $log[4]['lastId'];
                 $dialog->start_time  = date("H:i:s", $log[3]);
                 $dialog->save();
                 continue;
@@ -1029,5 +1030,44 @@ class LogHelper {
         }
 
         return true;
+    }
+    
+    public static function getDialogs($return) {
+
+            $data['data'] = Yii::app()->db->createCommand()
+                ->select('l.sim_id, 
+                    d.code as code, 
+                    s.title as category, 
+                    l.last_id, 
+                    l.start_time, 
+                    l.end_time')
+                ->from('log_dialogs l')
+                ->leftJoin('dialogs d', 'l.dialog_id = d.id')
+                ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
+                ->order("l.id")
+                ->queryAll();
+
+            $data['headers'] = array(
+                    'sim_id'     => 'id_симуляции',
+                    'code'       => 'Код события',
+                    'category'   => 'Категория события',
+                    'last_id'    => 'Результирующее id_записи',
+                    'start_time' => 'Игровое время - start',
+                    'end_time'   => 'Игровое время - end'
+            );
+            
+            if(self::RETURN_DATA == $return) {
+                $data['title'] = "Логирование работы с Документами";
+                return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                $csv = new ECSVExport($data['data'], true, true, ';');
+                $csv->setHeaders($data['headers']);
+                $content = $csv->toCSVutf8BOM();
+                $filename = 'data.csv';
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
     }
 }
