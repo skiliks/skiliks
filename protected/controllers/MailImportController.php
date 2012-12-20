@@ -12,7 +12,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importEmails();    	
 
-        $this->renderText($result['text']);
+        $this->_sendResponse(200, $result['text']);
     }
     
     /**
@@ -23,7 +23,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMailTasks();
 
-        $this->renderText($result['text']); 
+        $this->_sendResponse(200, $result['text']); 
     }
     
     /**
@@ -34,7 +34,7 @@ class MailImportController extends AjaxController{
         $import = new ImportMailPhrases();
         $result = $import->run();       
         
-        $this->renderText($result['text']);
+        $this->_sendResponse(200, $result['text']);
     }
     
     /**
@@ -45,7 +45,7 @@ class MailImportController extends AjaxController{
     	$importService = new ImportGameDataService();
         $result = $importService->importMailEvents();   	
 
-        $this->renderText($result['text']);
+        $this->_sendResponse(200, $result['text']);
     }
     
     /**
@@ -56,7 +56,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importEmailSubjects();    	
 
-        $this->renderText($result['text']);   
+        $this->_sendResponse(200, $result['text']);   
     }
     
     public function actionImportTime() 
@@ -64,7 +64,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMailSendingTime();	
 
-        $this->renderText($result['text']); 
+        $this->_sendResponse(200, $result['text']); 
     }
     
     public function actionImportAttache() 
@@ -72,7 +72,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMailAttache();
 
-        $this->renderText($result['text']);      
+        $this->_sendResponse(200, $result['text']);      
     }
 
 }

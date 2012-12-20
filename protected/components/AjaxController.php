@@ -77,7 +77,11 @@ class AjaxController extends CController
     }
     
     /**
+     * We handle Yii rroes and savethem to Yii.log. 
+     * User see just standard notise
+     * 
      * @param string $message
+     * @param string $sysLog
      * @return HttpJsonResponce
      */
     public function returnErrorMessage($sysLog, $message = 'Ошибка при обработке запроса.')

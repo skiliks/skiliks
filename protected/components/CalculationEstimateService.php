@@ -110,7 +110,7 @@ class CalculationEstimateService {
         
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
-        LogHelper::setLogDoialog($dialogId, $simId, $pointId);
+        LogHelper::setLogDoialogPoint($dialogId, $simId, $pointId);
             $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
             if (!$dialogsPoints) {
                 $dialogsPoints = new SimulationsDialogsPoints();
