@@ -8,6 +8,7 @@ return array(
     'import' => array(
         'application.models.*',
         'application.models.Flags.*',
+        'application.models.Assessment.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
@@ -23,12 +24,25 @@ return array(
         'application.components.Tools.*',
         'application.components.Excel.*',
         'application.components.Email.*',
+        'application.components.Assessment.*',
+        'application.components.Import.*',
+        'application.components.Base.*',
         /*'application.components.DayPlan.*',
         'application.components.Dialog.*',
         'application.components.Excel.*',
         'application.components.Mail.*',*/
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
+        'application.vendors.*',
+    ),
+    'modules'=>array(
+        'gii'=>array(
+            'class'=>'system.gii.GiiModule',
+            'password'=>'in-es-an-oyp-em',
+            // 'ipFilters'=>array(…список IP…),
+            // 'newFileMode'=>0666,
+            // 'newDirMode'=>0777,
+        ),
     ),
     'components' => array(
         'log' => array(
@@ -69,6 +83,10 @@ return array(
         ),
         'excel'=>array(
             'class' => 'application.extensions.PHPExcel',
+        ),
+        'viewRenderer'=>array(
+            'class'=>'application.extensions.smarty.ESmartyViewRenderer',
+            'fileExtension' => '.tpl',
         ),
     ),
     'basePath' => dirname(__FILE__) . '/..',

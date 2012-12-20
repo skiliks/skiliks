@@ -9,7 +9,26 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UserGroupsModel extends CActiveRecord{
+class UserGroupsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * user.id
+     * @var int
+     */
+    public $uid;
+    
+    /**
+     * user_groups.id
+     * @var int
+     */
+    public $gid;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

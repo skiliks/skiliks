@@ -9,7 +9,44 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class PhoneCallsModel extends CActiveRecord{
+class PhoneCallsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * real time, Unix age seconds
+     * @var integer
+     */
+    public $call_date; 
+    
+    /**
+     * 0, 1, 2
+     * @var integer
+     */
+    public $call_type; // ?
+    
+    /**
+     * character.id
+     * @var integer
+     */
+    public $from_id; 
+    
+    /**
+     * character.id
+     * @var integer
+     */
+    public $to_id; 
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

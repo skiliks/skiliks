@@ -11,7 +11,6 @@ class DialogController extends AjaxController{
     
     protected function _parsePlanCode($code) {
         preg_match_all("/P(\d+)/", $code, $matches);
-        //Logger::debug('matches : '.var_export($matches, true));
         if (!isset($matches[1])) return false;
         if (!isset($matches[1][0])) return false;
         
@@ -76,7 +75,6 @@ class DialogController extends AjaxController{
                         
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
-                //Yii::log(var_export($timeString, TRUE));
                 $unix_time = explode(':', date("H:i:s", $timeString));
                 $phoneCalls->call_date = gmmktime($unix_time[0], $unix_time[1], $unix_time[2], 10, 4, 2012);
                 $phoneCalls->call_type = $callType;

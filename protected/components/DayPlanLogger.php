@@ -22,12 +22,6 @@ class DayPlanLogger {
         $uid = SimulationService::getUid($simId);
         $today = DateHelper::getCurrentTimestampDate();
         
-        Logger::debug("DayPlanLogger:log for sim: $simId ");
-        
-        /*$models = DayPlan::model()->bySimulation($simId)->findAll();
-        foreach($models as $model) {
-            
-        }*/
         // определить колличество задач в todo
         $todoCount = TodoService::getCount($simId);
         

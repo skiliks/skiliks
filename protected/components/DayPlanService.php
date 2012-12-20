@@ -10,7 +10,6 @@
 class DayPlanService {
     
     public function addAfterVacation($simId, $taskId, $date) {
-        Logger::debug("_addDayPlanAfterVacation : $simId $taskId $date");
         
         // Удалить задачу из дневного плана
         DayPlan::model()->deleteAllByAttributes(array(

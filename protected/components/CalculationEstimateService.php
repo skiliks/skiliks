@@ -16,22 +16,17 @@ class CalculationEstimateService {
      */
     public static function calculate($dialogId, $simId) {
         
-        //Logger::debug("calculate estimate for dialog : {$dialogId}");
         // Case 1
         $duration = 0;
         $dialogsDurations = SimulationsDialogsDurations::model()->bySimulation($simId)->find();
         if ($dialogsDurations) {
             $duration = $dialogsDurations->duration;
         }
-        //Logger::debug("found duration for simulation : {$duration}");
         
         // получить duration
         $dialog = Dialogs::model()->byId($dialogId)->find();
         if (!$dialog) throw new Exception ("Cant find dialog for {$dialogId}");
         $duration += (int)$dialog->duration;
-        
-        //Logger::debug("found duration for dialog {$dialogId} as {$dialog->duration}");
-        //Logger::debug("duration incremented to : {$duration}");
         
         $dialogs = array();
         $dialogs[] = $dialogId;
@@ -93,11 +88,9 @@ class CalculationEstimateService {
                 );
             }
             
-            Logger::debug("row: ".var_export($row, true));
             // 1X-5X
             if ($code <=5) {
                 $value = $row['add_value'] * $row['scale'];
-                Logger::debug("value: $value");
                 if ($value > 0) {
                     $data[$pointId]['value'] +=  $value;
                     //$data[$pointId]['count']++;
@@ -115,7 +108,6 @@ class CalculationEstimateService {
             }
         }        
         
-        Logger::debug("before save data: ".var_export($data, true));
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
         LogHelper::setLogDoialog($dialogId, $simId, $pointId);

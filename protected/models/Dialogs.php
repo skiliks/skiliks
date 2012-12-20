@@ -9,7 +9,125 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Dialogs extends CActiveRecord{
+class Dialogs extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * characters.id
+     * @var integer
+     */
+    public $ch_from;
+    
+    /**
+     * characters_states.id
+     * @var integer
+     */
+    public $ch_from_state;    
+    
+    /**
+     * characters.id
+     * @var integer
+     */
+    public $ch_to;
+    
+    /**
+     * characters_states.ids
+     * @var integer
+     */
+    public $ch_to_state;
+    
+    /**
+     * dialog_subtypes.id
+     * @var integer
+     */
+    public $dialog_subtype;
+    
+    /**
+     * @var string
+     */
+    public $text; 
+    
+    /**
+     * In game minutes
+     * @var integer
+     */
+    public $duration;    
+    
+    /**
+     * events_results.id
+     * @var integer
+     */
+    public $event_result;   
+    
+    /**
+     * Dialog code, 'ET1.1', 'E8' ...
+     * @var string
+     */
+    public $code;
+    
+    /**
+     * @var integer
+     */
+    public $step_number;
+    
+    /**
+     * @var integer
+     */
+    public $replica_number;
+    
+    /**
+     * event_samples.id
+     * @var integer
+     */
+    public $next_event;
+    
+    /**
+     * In game minutes
+     * Delay after event starts
+     * @var integer
+     */
+    public $delay;    
+    
+    /**
+     * @var boolean (integer)
+     */
+    public $is_final_replica;
+    
+    /**
+     * name of sound file
+     * @var string
+     */
+    public $sound;
+    
+    /**
+     * ID in source excel document, used to define dialod line in reimport case
+     * @var integer
+     */
+    public $excel_id;
+    
+    /**
+     * "D1", "E1.2" ...
+     * @var string
+     */
+    public $next_event_code;    
+    
+    /**
+     * "F1", "F2", ...
+     * @var string
+     */
+    public $flag; 
+    
+    /**
+     * Is this replica used in demo
+     * @var boolean (integer)
+     */
+    public $demo;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

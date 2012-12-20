@@ -4,8 +4,11 @@ class m121212_164839_import_themes extends CDbMigration
 {
 	public function up()
 	{
-            Helper::callAction('MailImportController', 'actionImportThemes');
-            Helper::callAction('MailImportController', 'actionImportPhrases');
+        $importService = new ImportGameDataService();
+        $importService->importEmailSubjects();
+        
+        $import = new ImportMailPhrases();
+        $import->run();
 	}
 
 	public function down()

@@ -12,11 +12,10 @@ final class ExcelFactory {
     protected static $_doc = null;
     
     /**
-     *
+     * New code!
      * @return ExcelDocument
      */
     public static function getDocument($documentId = false) {
-        //Logger::debug("getDocument : ".var_export(self::$_doc, true));
         if (is_null(self::$_doc)) {
             self::$_doc = new ExcelDocument($documentId);
         }
@@ -25,7 +24,7 @@ final class ExcelFactory {
     }
     
     /**
-     *
+     * New code!
      * @return ExcelDocument
      */
     public static function getDocumentPath($simId, $documentId, $templateFileName = null)
@@ -36,7 +35,7 @@ final class ExcelFactory {
             $documentId
         );        
         
-        // use ZohoDocument to create file, if it not exist
+        // use ZohoDocument __constructor() to create file, if it not exist
         new ZohoDocuments($simId, $documentId, $templateFileName); // FileName is not nessesary
         
         return $pathToUserFile;
