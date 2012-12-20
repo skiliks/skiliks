@@ -31,8 +31,6 @@ class ExcelDocumentService {
             $template = ExcelDocumentTemplate::model()->byId($documentTemplateId)->find();
             if (!$template) throw new Exception("ExcelDocumentService::copy - cant find document template by id $documentTemplateId");
             
-            
-            
             $templateId = $template->id;
             $fileTemplateId = $template->file_id;
             
@@ -48,57 +46,6 @@ class ExcelDocumentService {
             $document->insert();
             $documentId = $document->id;
 
-            // Копируем рабочие листы
-            $woksheets = ExcelWorksheetTemplate::model()->byDocument($templateId)->findAll();
-            $worksheetCollection = array();  // рабочие листы, которые нужно скопировать
-            $worksheetMap = array();
-            foreach($woksheets as $worksheet) {
-                Logger::debug("load ws : ".$worksheet->name);
-                $newWorksheet = new ExcelWorksheetModel();
-                $newWorksheet->document_id = $documentId;
-                $newWorksheet->name = $worksheet->name;
-                $newWorksheet->cellWidth = $worksheet->cellWidth;
-                $newWorksheet->cellHeight = $worksheet->cellHeight;
-                $newWorksheet->insert();
-
-                $worksheetCollection[] = $worksheet->id;
-                $worksheetMap[$worksheet->id] = $newWorksheet->id;
-            }
-
-            // копируем ячейки
-
-            $sql = "insert into excel_worksheet_cells 
-                    (worksheet_id, `string`, `column`, `value`, read_only, 
-                    `comment`, formula, colspan, rowspan, `bold`, `color`, 
-                    `font`, `fontSize`, `borderTop`, `borderBottom`, `borderLeft`, `borderRight`, `width`)
-                    select 
-                        :newWorksheetId, 
-                        `string`, 
-                        `column`, 
-                        t.value, 
-                        t.read_only, 
-                        t.comment, 
-                        t.formula, 
-                        t.colspan, 
-                        t.rowspan,
-                        t.bold, 
-                        t.color, 
-                        t.font, 
-                        t.fontSize,
-                        t.borderTop, 
-                        t.borderBottom,
-                        t.borderLeft,
-                        t.borderRight,
-                        t.width
-                    from excel_worksheet_template_cells as t
-                    where t.worksheet_id = :oldWorksheetId";
-            $command = $connection->createCommand($sql);       
-            foreach($worksheetMap as $oldWorksheetId=>$newWorksheetId) {
-                $command->bindParam(":newWorksheetId", $newWorksheetId, PDO::PARAM_INT);
-                $command->bindParam(":oldWorksheetId", $oldWorksheetId, PDO::PARAM_INT);
-                $command->execute();
-            }
-        
           $transaction->commit();
           return $documentId;
         }
@@ -108,18 +55,7 @@ class ExcelDocumentService {
             throw new Exception($e->getMessage());
         }
         
-        
         return false;
-    }
-    
-    /**
-     * Получение идентификатора документа по идентификатору рабочего листа
-     * @param int $worksheetId 
-     */
-    public static function getDocumentIdByWorksheetId($worksheetId) {
-        $worksheet = ExcelWorksheetModel::model()->byId($worksheetId)->find();
-        if (!$worksheet) return false;
-        return $worksheet->document_id;
     }
     
     /**

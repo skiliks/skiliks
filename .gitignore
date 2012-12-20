@@ -5,3 +5,5 @@
 /protected/config/main.php
 /.idea/*
 /cache
+/.idea
+/assets/

@@ -97,10 +97,10 @@ class SimulationService
             true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
             {
             $emailResultsFor_3322 = new SimulationsMailPointsModel();
-            $emailResultsFor_3322->sim_id = $simId;
-            $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
+            $emailResultsFor_3322->sim_id        = $simId;
+            $emailResultsFor_3322->point_id      = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
-            $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
+            $emailResultsFor_3322->value         = $b_3322_3324['3322']['positive'];
             try {
                 $emailResultsFor_3322->save();
             } catch (Exception $e) {
@@ -114,10 +114,10 @@ class SimulationService
             true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
             {
             $emailResultsFor_3324 = new SimulationsMailPointsModel();
-            $emailResultsFor_3324->sim_id = $simId;
-            $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
+            $emailResultsFor_3324->sim_id        = $simId;
+            $emailResultsFor_3324->point_id      = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
-            $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
+            $emailResultsFor_3324->value         = $b_3322_3324['3324']['negative'];
             try {
                 $emailResultsFor_3324->save();
             } catch (Exception $e) {
@@ -135,10 +135,10 @@ class SimulationService
             {
 
             $emailResultsFor_3325 = new SimulationsMailPointsModel();
-            $emailResultsFor_3325->sim_id = $simId;
-            $emailResultsFor_3325->point_id = $b_3325['obj']->id;
+            $emailResultsFor_3325->sim_id        = $simId;
+            $emailResultsFor_3325->point_id      = $b_3325['obj']->id;
             $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
-            $emailResultsFor_3325->value = $b_3325['negative'];
+            $emailResultsFor_3325->value         = $b_3325['negative'];
             try {
                 $emailResultsFor_3325->save();
             } catch (Exception $e) {
@@ -155,10 +155,10 @@ class SimulationService
             true === $b_3323['obj'] instanceof CharactersPointsTitles)  
             {
             $emailResultsFor_3323 = new SimulationsMailPointsModel();
-            $emailResultsFor_3323->sim_id = $simId;
-            $emailResultsFor_3323->point_id = $b_3323['obj']->id;
+            $emailResultsFor_3323->sim_id        = $simId;
+            $emailResultsFor_3323->point_id      = $b_3323['obj']->id;
             $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
-            $emailResultsFor_3323->value = $b_3323['positive'];
+            $emailResultsFor_3323->value         = $b_3323['positive'];
             try {
                 $emailResultsFor_3323->save();
             } catch (Exception $e) {
@@ -175,16 +175,118 @@ class SimulationService
             true === $b_3313['obj'] instanceof CharactersPointsTitles)  
             {
             $emailResultsFor_3313 = new SimulationsMailPointsModel();
-            $emailResultsFor_3313->sim_id = $simId;
-            $emailResultsFor_3313->point_id = $b_3313['obj']->id;
+            $emailResultsFor_3313->sim_id        = $simId;
+            $emailResultsFor_3313->point_id      = $b_3313['obj']->id;
             $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
-            $emailResultsFor_3313->value = $b_3313['positive'];
+            $emailResultsFor_3313->value         = $b_3313['positive'];
             try {
                 $emailResultsFor_3313->save();
             } catch (Exception $e) {
                 // @todo: hamdle exception
             }
         }
-        //3313 - read most of not-spam emails }        
+
+        
+        $b_3333 = $emailAnalizer->check_3333();
+        Yii::log(var_export($b_3333['positive'], true));    
+        if (isset($b_3333['obj']) && 
+            isset($b_3333['positive']) &&
+            true === $b_3333['obj'] instanceof CharactersPointsTitles)  
+            {
+            $emailResultsFor_3333 = new SimulationsMailPointsModel();
+            $emailResultsFor_3333->sim_id = $simId;
+            $emailResultsFor_3333->point_id = $b_3333['obj']->id;
+            $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
+            $emailResultsFor_3333->value = $b_3333['positive'];
+            try {
+                $emailResultsFor_3333->save();
+            } catch (Exception $e) {
+                // @todo: hamdle exception
+            }
+        }
+        //3313 - read most of not-spam emails } 
+        
+        self::saveAgregatedPoints($simId);
+    }
+    
+    /**
+     * @param integer $simId
+     * @return array of BehaviourCounter
+     */
+    public static function getAgregatedPoints($simId) 
+    {
+        // @todo: fix this relation to logHelper
+        $data = LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
+        
+        $behaviours = array();
+        
+        /**
+         * $line:
+            'code'           => 'Номер поведения',
+            'add_value'      => 'Проявление',
+         */
+          
+        foreach ($data['data'] as $line) {
+            $pointCode = $line['code'];
+            if (false === isset($behaviours[$pointCode])) {
+                $behaviours[$pointCode] = new BehaviourCounter();
+            }
+            
+            $behaviours[$pointCode]->update($line['add_value']);
+        }
+
+        // add Point object
+        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+            if (isset($behaviours[$point->code])) {
+                $behaviours[$point->code]->mark = $point;
+            }
+        }  
+        
+        return $behaviours;
+    }
+    
+    /**
+     * @param integer $simId
+     */    
+    public static function saveAgregatedPoints($simId) 
+    {
+        foreach(self::getAgregatedPoints($simId) as $agrPoint) {
+            // check, is in some fantastic way such value exists in DB {
+            $existAssassment = AssassmentAgregated::model()
+                ->bySimId($simId)
+                ->byPoint($agrPoint->mark->id)
+                ->find();
+            // check, is in some fantastic way such value exists in DB }
+            
+            // init Log record {
+            if (null == $existAssassment) {
+                $existAssassment = new AssassmentAgregated();
+                $existAssassment->sim_id   = $simId;
+                $existAssassment->point_id = $agrPoint->mark->id;
+            }
+            // init Log record }
+            
+            // set vakue
+            $existAssassment->value = $agrPoint->getValue();
+            
+            $existAssassment->save();
+        }
+
+        //3313 - read most of not-spam emails } 
+    }
+    
+    /**
+     * @param integer $simId
+     */ 
+    public static function copyMailInboxOutboxScoreToAssessmentAgregated($simId)
+    {
+        // add mail inbox/outbox points
+        foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+            $assassment = new AssassmentAgregated();
+            $assassment->sim_id   = $simId;
+            $assassment->point_id = $emailBehaviour->point_id;
+            $assassment->value = $emailBehaviour->value;
+            $assassment->save();
+        }
     }
 }

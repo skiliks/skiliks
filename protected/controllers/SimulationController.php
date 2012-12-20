@@ -38,11 +38,9 @@ class SimulationController extends AjaxController{
         
         foreach($tasks as $task) {
             if ($task->code != 'P017') {
-                Logger::debug("add todo task : {$task->code}");
                 TodoService::add($simId, $task->id);
             }
             else {
-                Logger::debug("add day plan task : {$task->code}");
                 $dayPlan = new DayPlan();
                 $dayPlan->sim_id    = $simId;	
                 $dayPlan->date      = $task->start_time;	
@@ -140,11 +138,17 @@ class SimulationController extends AjaxController{
     public function actionStop() {
         
         $sid = Yii::app()->request->getParam('sid', false);
-            SessionHelper::setSid($sid);
-        
-        $simId = SessionHelper::getSimIdBySid($sid);
+        SessionHelper::setSid($sid);
+            
+        try {
+           $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(array(
+                'result' => 0,
+                'e'      => $e->getMessage()
+            ));
+        }
 
-        Yii::log('Stop simulation', 'debug');
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simId);
         $CheckConsolidatedBudget->calcPoints();
         
@@ -172,11 +176,22 @@ class SimulationController extends AjaxController{
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
         LogHelper::setDocumentsLog($simId, $logs);//Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs);//Закрытие ркна почты при стопе симуляции
-        LogHelper::setWindowsLog($simId, $logs);
-        
-        // make attestation 'work with emails' {
+        try {
+            LogHelper::setWindowsLog($simId, $logs);
+        } catch (CException $e) {
+            // @todo: handle
+        }
+        LogHelper::setDialogs($simId, $logs);
+        // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simId);
-        // make attestation 'work with emails' }
+        
+        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+        // see Assessment scheme_v5.pdf
+        SimulationService::saveAgregatedPoints($simId);
+        
+        // @todo: this is trick
+        // write all mail outbox/inbox scores to AssessmentAgregate dorectly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simId);
         
         $result = array('result' => 1);
         $this->sendJSON($result);
@@ -269,7 +284,6 @@ class SimulationController extends AjaxController{
      */
     public function actionChangeTime() {
         try {
-            Logger::debug("actionChangeTime :");
             $sid = Yii::app()->request->getParam('sid', false);
             if (!$sid) throw new Exception("empty sid");
 
@@ -293,8 +307,6 @@ class SimulationController extends AjaxController{
 
             $simulation->start = ($simulation->start - (($hour-$clockH)*60*60 / Yii::app()->params['skiliksSpeedFactor'])
                 - (($min-$clockM)*60 / Yii::app()->params['skiliksSpeedFactor']));
-            Logger::debug("changed time for simulation : {$simulation->id} time: {$simulation->start}");
-            
             
             $simulation->save();
             

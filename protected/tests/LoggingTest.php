@@ -9,7 +9,7 @@ class LoggingTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . '/site.php');
+        $session->open($this->browser_url . 'site.php');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -21,7 +21,7 @@ class LoggingTest extends SeleniumTestCase
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
         # Кликаем на него
-        $session->element("xpath", "//input[@class='btn']")->click();
+        $session->element("css selector", "input.btn-primary")->click();
         # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
@@ -192,7 +192,7 @@ class LoggingTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.saveDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Черновики "]')->click();
-        $this->waitForElement($session, 'xpath', '//td[text()="Re:!проблема с сервером!"]')->click();
+        $this->waitForElement($session, 'xpath', '//td[text()="Re: !проблема с сервером!"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.sendDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();

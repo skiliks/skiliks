@@ -8,7 +8,56 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsDialogsPoints extends CActiveRecord{
+class SimulationsDialogsPoints extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;   
+    
+    /**
+     * character_points_titles.id
+     * @var integer
+     */
+    public $point_id; 
+    
+    /**
+     * @var integer
+     */
+    public $count;
+    
+    /**
+     * @var float
+     */
+    public $value;    
+    
+    /**
+     * @var integer
+     */
+    public $count6x;
+    
+    /**
+     * @var float
+     */
+    public $value6x;    
+    
+    /**
+     * @var integer
+     */
+    public $count_negative;
+    
+    /**
+     * @var float
+     */
+    public $value_negative;    
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

@@ -32,8 +32,9 @@ class MailPointsModel extends CActiveRecord
     /**
      * @var integer
      */
-    public $add_value;    
-    
+    public $add_value;  
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -79,6 +80,18 @@ class MailPointsModel extends CActiveRecord
         ));
         return $this;
     }
+    
+    /**
+     * @param string $ids
+     * @return \MailTemplateModel
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT  IN ({$ids})"
+        ));
+        return $this;
+    }    
 }
 
 

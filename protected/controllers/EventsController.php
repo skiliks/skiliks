@@ -16,7 +16,6 @@ class EventsController extends AjaxController{
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
         $toTime = $gameTime + 5*60;
         
-        // Logger::debug("try to find task from {$gameTime} to {$toTime}");
         $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
         if (!$dayPlan) return false;
         
@@ -24,7 +23,6 @@ class EventsController extends AjaxController{
         $task = Tasks::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
-        // Logger::debug("found task {$task->id}");
         return array(
             'id' => $task->id,
             'text' => $task->title
@@ -49,8 +47,17 @@ class EventsController extends AjaxController{
                 throw new CHttpException(200,'Не могу определить пользователя', 2);
             }
 
-            
-            $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
+            $simId = null;
+            try {
+                $simId = SessionHelper::getSimIdBySid($sid); // получить симуляцию по uid
+            } catch (CException $e) {
+                return $this->sendJSON(
+                    array(
+                        'result' => 0,
+                        'e'      => $e->getMessage()
+                    )
+                );
+            }
             if (null === $simId) {
                 throw new CHttpException(200,'Не могу определить симуляцию', 3);
             }
@@ -60,14 +67,17 @@ class EventsController extends AjaxController{
 
             $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
             /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
-            
-            LogHelper::setWindowsLog($simId, $logs);
+            try {
+                LogHelper::setWindowsLog($simId, $logs);
+            } catch (CException $e) {
+                // @todo: handle
+            }
             
             LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
             LogHelper::setMailLog($simId, $logs);
             // данные для логирования }
             // 
-            
+            LogHelper::setDialogs($simId, $logs);
             $simType = SimulationService::getType($simId); // определим тип симуляции
             $gameTime = SimulationService::getGameTime($simId);
             
@@ -286,6 +296,6 @@ class EventsController extends AjaxController{
         }
         return;
     }
-}
-
+            }
+        
 

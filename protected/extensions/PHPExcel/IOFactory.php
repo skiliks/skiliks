@@ -155,7 +155,7 @@ class PHPExcel_IOFactory
 	 * @static
 	 * @access	public
 	 * @param	string $readerType	Example: Excel2007
-	 * @return	PHPExcel_Reader_IReader
+     * @returns PHPExcel_Reader_IReader|PHPExcel_Reader_Excel2007
 	 * @throws	Exception
 	 */
 	public static function createReader($readerType = '') {
