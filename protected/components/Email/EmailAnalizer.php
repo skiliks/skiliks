@@ -80,7 +80,22 @@ class EmailAnalizer
      * @param array of MailTask
      */
     public $neutralMailTasks = array();
-
+    
+    /**
+     * @param array of MailPoint
+     */
+    public $mailPoints = array();
+    
+    /**
+     * @param array of point, indexed by id
+     */
+    public $points = array();
+    
+    public $template_reply_all = array();
+    
+    public $full_coincidence_reply_all = array();
+    
+    public $reply_all = array();
 
     public function __construct($simId) 
     {
@@ -111,7 +126,10 @@ class EmailAnalizer
         
         // get mail templates
         foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
-            $this->mailTemplate[$mailTemplate->code] = $mailTemplate; 
+            $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
+            if($mailTemplate->type_of_importance === "reply_all") {
+                $this->template_reply_all[] = $mailTemplate->code;
+            }
         }
         unset($mailTemplate);        
         
@@ -158,9 +176,10 @@ class EmailAnalizer
         /**
          * Add readedAt, plannedAt, replyedAt
          */
-        foreach (LogMail::model()->bySimId($this->simId)->findAll() as $logMailLine) {
+        $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+        foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;
-            
+
             // we can have not saved letter in log, so there is no mail_box letter for it
             if (isset($this->userEmails[$mailId])) {
                 $userEmail = $this->userEmails[$mailId];
@@ -195,6 +214,7 @@ class EmailAnalizer
          */
         foreach ($this->userEmails as $mailId => $emailData) {
             if (null !== $emailData->getParentEmailId()) {
+                // sending time for sending message saved in seconds from 00:00:00 game day 1
                 $this->userEmails[$emailData->getParentEmailId()]->setAnsweredAt($emailData->email->sending_time);
                 $this->userEmails[$emailData->getParentEmailId()]->answerEmailId = $emailData->email->id;
             }
@@ -210,7 +230,45 @@ class EmailAnalizer
                 //var_dump($mailId);
                 $this->userOutboxEmails[$mailId] = $emailData;
             }
-        }        
+
+        }  
+        
+        /**
+         * Get character points
+         */        
+        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+            $this->points[$point->id] = $point;
+        }
+        unset($point);
+        
+        /**
+         * Get mail points
+         */        
+        foreach (MailPointsModel::model()->findAll() as $point) {
+            $this->mailPoints[$point->id] = $point;
+        }
+        unset($point);
+        //var_dump($this->userOutboxEmails);
+        //var_dump($temp_log_mail);
+        //exit();
+        $temp = array();
+        foreach ($temp_log_mail as $mail) {
+                //$temp = $this->userOutboxEmails[$mail->mail_id];
+                //Yii::log(var_export($temp, true));
+                $temp[] = array($mail->full_coincidence, $mail->mail_id);
+                if(isset($this->userOutboxEmails[$mail->mail_id]) 
+                        AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll' 
+                        AND $this->userOutboxEmails[$mail->mail_id]->email->group_id == 3) {
+                        if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
+                            $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
+                        }else{
+                            $this->full_coincidence_reply_all[] = $mail->full_coincidence;
+                        }
+                       
+                }
+        }
+        Yii::log(var_export($this->full_coincidence_reply_all, true));
+        Yii::log(var_export($this->reply_all, true));
     }
     
     /** ----------------------------------------------------- **/
@@ -234,7 +292,9 @@ class EmailAnalizer
             
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
-                $possibleRightActions++;
+                if ($this->isMailTaskHasRightAction($emailData->email->template_id)) {
+                    $possibleRightActions++;
+                }
                 
                 if (true === $emailData->getIsPlaned()) {
                     // is user add to plan right mail_task ?
@@ -317,6 +377,7 @@ class EmailAnalizer
             
             if (true === $emailData->isNeedToActInTwoMinutes()) {
                 $possibleRightActions++;
+                //var_dump($mailId);
                 
                 if ($emailData->isAnsweredByMinutes($delta)) {
                     $doneRightActions++;
@@ -371,7 +432,118 @@ class EmailAnalizer
         );
     }
     
+    /**
+     * 3325 - read spam
+     * 
+     * @param integer $delta
+     * 
+     * @return mixed array
+     */
+    public function check_3333()
+    {
+        $wrongActions = 0;
+        
+        // inbox + trashCan
+        if(count($this->reply_all)!= 0){
+            $wrongActions++;
+        }
+        foreach ($this->full_coincidence_reply_all as $coincidence) {
+            //var_dump($emailData->email->id);
+            if (!in_array($coincidence, $this->template_reply_all)) {
+                $wrongActions++;
+            }
+        } 
+        
+        $behave_3333 = CharactersPointsTitles::model()->byCode('3333')->positive()->find();
+        
+        return array(
+            'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
+            'obj'      => $behave_3333,
+        );
+    }
+    
+    public function getExceptionPointCodes()
+    {
+        return array(
+            '3313', '3322', '3323', '3324', '3325'
+        );
+    }
+
+    public function standardCheck()
+    {
+        $mailBehaviours = array();
+        
+        foreach ($this->mailPoints as $mailPoint) {
+            $code = $this->points[$mailPoint->point_id]->code;
+            // check only existed mailPoints
+            if (false === in_array($code, $this->getExceptionPointCodes())) {
+                $mailBehaviours[$mailPoint->point_id] = array(
+                    'total' => 0,
+                    'score' => 0,
+                );
+            }
+        }
+        
+        // use all emails in simulation
+        foreach ($this->userEmails as $emailData) {
+            // points must be calculated for readed or sended emails only
+              
+            if ($this->isOutbox($emailData->email) || 
+                $this->isInbox($emailData->email) || 
+                $this->isInTrash($emailData->email)) {
+                
+                // go throw ailPoints
+                foreach ($this->mailPoints as $mailPoint) {
+                    // exept special scored points
+                    $code = $this->points[$mailPoint->point_id]->code;
+                    if (false === in_array($code, $this->getExceptionPointCodes())) {
+                         
+                        if ($mailPoint->mail_id == $emailData->email->template_id) {
+                            $mailBehaviours[$mailPoint->point_id]['total']++;
+                            $mailBehaviours[$mailPoint->point_id]['score'] = $mailPoint->add_value;
+                        }
+                    }
+                }
+            }
+        }
+        
+        $behaves = array();
+        foreach ($this->points as $behave) {
+            $behaves[$behave->id] = $behave;
+        }
+        unset($behave);
+        
+        foreach ($mailBehaviours as $pointId => $mBehave) {
+            if (0 == $mBehave['total']) { 
+                $mBehave['total'] = 1; // prevent devision by zero. If total = 0, than score = 0 too. So value wiil be right.         
+            }
+            
+            $k = $behaves[$pointId]->scale;
+            if (2 == $behaves[$pointId]->type_scale) {
+                $mailBehaviours[$pointId]['value'] = -$k;
+            } else {
+                $mailBehaviours[$pointId]['value'] = ($mBehave['score']/$mBehave['total'])*$k;
+            }
+            $mailBehaviours[$pointId]['obj'] = $behaves[$pointId];
+        }
+        
+        return $mailBehaviours;
+        
+        // return point array
+    }
+
     // --- tools: ------------------------------------------------------------------------------------------------------
+    
+    /**
+     * @param integer $mailTaskId
+     * @return boolean
+     */
+    private function isMailTaskHasRightAction($mailTemplateId)
+    {
+        $taskWays = MailTasksModel::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+       
+        return (0 < count($taskWays) && null !== $taskWays);
+    }
     
     /**
      * @param integer $id, MailTask.id

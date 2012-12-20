@@ -172,22 +172,14 @@ class LogHelper {
                         ));
 	}
 
-	public static function getDialogDetail($return, $params=array()) {
-        $col = array(
-            'sim_id'=>'l.sim_id',
-            'p_code'=>'p2.code',
-            'p_title'=>'p2.title',
-            'code'=>'p.code',
-            'title'=>'p.title',
-            'type_scale'=>'t.value',
-            'scale'=>'p.scale',
-            'add_value'=>'c.add_value',
-            'dialog_id'=>'d.excel_id',
-            'dialog_code'=>'d.code',
-            'step_number'=>'d.step_number',
-            'replica_number'=>'d.replica_number'
-        );
-        $data['data'] = Yii::app()->db->createCommand()
+	public static function getDialogDetail($return, $params=array()) 
+    {
+        $sim_id = null;
+        if (isset($params['sim_id'])) {
+            $sim_id = $params['sim_id'];
+        }
+        
+         $query = Yii::app()->db->createCommand()
             ->select(' l.sim_id
                        , p2.code as p_code
                        , p2.title AS p_title
@@ -207,30 +199,95 @@ class LogHelper {
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id')
-            ->queryAll();
-        
-
-
-        foreach ($data['data'] as  $k=>$row) {
-            //$data['data'][$k]['p_title'] = Strings::toWin($data['data'][$k]['p_title']);
-            //$data['data'][$k]['title'] = Strings::toWin($data['data'][$k]['title']);
-            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
+            ->order('l.id');
+         
+        if (null !== $sim_id) {
+            $query->where(" l.sim_id = {$sim_id} ");
         }
+         
+        $data['data'] = $query->queryAll();
+        
+        $mailQuery = Yii::app()->db->createCommand()
+            ->select(' l.sim_id
+                       , p2.code as p_code
+                       , p2.title AS p_title
+                       , p.code
+                       , p.title
+                       , t.value as type_scale
+                       , p.scale
+                       , mp.add_value
+                       , l.full_coincidence
+                       , l.part1_coincidence
+                       , l.part2_coincidence
+		')
+            ->from('log_mail l')
+            ->join('mail_box m', 'm.id = l.mail_id')
+            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id 
+            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points 
+            ->join('characters_points_titles p', 'p.id = mp.point_id')
+            ->join('characters_points_titles p2', 'p2.id = p.parent_id')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->order('l.id');
+        
+        if (null !== $sim_id) {
+            $mailQuery->where(" l.sim_id = {$sim_id} AND m.group_id = 3 ");
+        } else {
+            $mailQuery->where('m.group_id = 3');
+        }
+
+        $mailLogData = $mailQuery->queryAll();
+
+        
+        // update mailLogData.out_mail_code {
+        foreach ($mailLogData as $key => $logData) {
+            if ('-' != $logData['full_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
+            } elseif ('-' != $logData['part1_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
+            } elseif ('-' != $logData['part2_coincidence']) {
+                $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
+            } else {
+                $mailLogData[$key]['out_mail_code'] = '-';
+            }
+            
+            $mailLogData[$key]['dialog_id'] = '-';
+            $mailLogData[$key]['dialog_code'] = '-';
+            $mailLogData[$key]['step_number'] = '-';
+            $mailLogData[$key]['replica_number'] = '-';
+            unset(
+                $mailLogData[$key]['full_coincidence'],
+                $mailLogData[$key]['part1_coincidence'],
+                $mailLogData[$key]['part2_coincidence']
+           );
+        }
+        // update mailLogData.out_mail_code }
+        
+        foreach ($data['data'] as  $k=>$row) {
+            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
+            $data['data'][$k]['out_mail_code'] = '-';
+            $data['data'][$k]['add_value']  = str_replace('.', ',', $data['data'][$k]['add_value']);
+            $data['data'][$k]['type_scale'] = str_replace('.', ',', $data['data'][$k]['type_scale']);
+        }
+        
+        // merge dialog and mail logs
+        $data['data'] = array_merge($mailLogData, $data['data']);
+        
         $headers = array(
-                'sim_id'        => 'id_симуляции',
-                'p_code'          => 'Номер цели обучения',
-                'p_title'       => 'Наименование цели обучения',
-                'code' => 'Номер поведения',
+                'sim_id'         => 'id_симуляции',
+                'p_code'         => 'Номер цели обучения',
+                'p_title'        => 'Наименование цели обучения',
+                'code'           => 'Номер поведения',
                 'title'          => 'Наименование поведения',
-                'type_scale'         => 'Тип поведения',
-                'scale'      => 'Вес поведения',
+                'type_scale'     => 'Тип поведения',
+                'scale'          => 'Вес поведения',
                 'add_value'      => 'Проявление',
-                'dialog_id'           => 'Вызвавшая реплика (id_записи)',
+                'dialog_id'      => 'Вызвавшая реплика (id_записи)',
                 'dialog_code'    => 'Вызвавшая реплика (Код события)',
                 'step_number'    => 'Вызвавшая реплика (номер шага)',
-                'replica_number'    => 'Вызвавшая реплика (номер реплики)'
+                'replica_number' => 'Вызвавшая реплика (номер реплики)',
+                'out_mail_code'  => 'Вызвавшее исходящее письмо ',
             );
+        
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;
             $data['title'] = "Логирование расчета оценки - детально";
@@ -244,6 +301,7 @@ class LogHelper {
         }else{
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
+        
         return true;
 	}
 
@@ -261,10 +319,7 @@ class LogHelper {
                 ->group("l.sim_id, p.code")
                 ->order("l.sim_id")
                 ->queryAll();
-
-            foreach ($data['data'] as  $k=>$row) {
-                $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
-            }
+            
             $headers = array(
                     'sim_id'     => 'id_симуляции',
                     'code'       => 'Номер поведения',
@@ -289,7 +344,54 @@ class LogHelper {
             
             $data['data'] = array_merge($data['data'], $emailPoints);
             
+            foreach ($data['data'] as  $k=>$row) {
+                $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
+            }
+            
             // merge with email points }
+            
+            if(self::RETURN_DATA == $return){
+                $data['headers'] = $headers;
+                $data['title'] = "Логирование расчета оценки - агрегированно";
+                 return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'data.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
+        }
+        
+     public static function getFullAgregatedLog($return) {
+         
+            $data['data'] = Yii::app()->db->createCommand()
+                ->select('l.sim_id,
+                      p.code,
+                      t.value as type_scale,
+                      l.value')
+                ->from('assassment_agregated l')
+                ->leftJoin('characters_points_titles p', 'l.point_id = p.id')
+                ->leftJoin('type_scale t', 'p.type_scale = t.id')
+                ->group("l.sim_id, p.code")
+                ->order("l.sim_id")
+                ->queryAll();
+
+            $headers = array(
+                    'sim_id'     => 'id_симуляции',
+                    'code'       => 'Номер поведения',
+                    'type_scale' => 'Тип поведения',
+                    'value'        => 'Оценка по поведению'
+            );
+            
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['value']      = str_replace('.', ',', $value['value']);
+                $data['data'][$key]['type_scale'] = str_replace('.', ',', $value['type_scale']);
+            }
             
             if(self::RETURN_DATA == $return){
                 $data['headers'] = $headers;
@@ -311,7 +413,7 @@ class LogHelper {
     public static function setDocumentsLog( $simId, $logs ) {
         
         if (!is_array($logs)) return false;
-        //Yii::log(var_export($logs, true), 'info');
+
         foreach( $logs as $log ) {
                 
             if( in_array( $log[0], self::$codes_documents ) || in_array( $log[1], self::$codes_documents ) ) {
@@ -327,7 +429,7 @@ class LogHelper {
                         'start_time'=> date("H:i:s", $log[3])
                     ));
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
-                    //Yii::log(var_export($log, true), 'info');
+
                     $comand = Yii::app()->db->createCommand();
 
                     $comand->update( "log_documents" , array(
@@ -387,19 +489,15 @@ class LogHelper {
         
     }
     
-    public static function setMailLog( $simId, $logs ) {
-            
-        //Yii::log(var_export($logs, true), 'info');
+    public static function setMailLog( $simId, $logs ) 
+    {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
             
             if( in_array( $log[0], self::$codes_mail ) || in_array( $log[1], self::$codes_mail ) ) {
                 $command = Yii::app()->db->createCommand();
-                //if(!isset($log[4]['mailId'])) continue;
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
-                    //Yii::log(var_export($log, true), 'info');
-                    //Yii::log(var_export($log[2], true), 'info');
                     $command->insert( "log_mail" , array(
                         'sim_id'    => $simId,
                         'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
@@ -409,33 +507,57 @@ class LogHelper {
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
-                    
                     if (false === isset($log[4]) || false === isset($log[4]['planId'])) {
                         $log[4]['planId'] = null;
                     }
-                    // var_dump($log);
                     
                     if($log[1] != 13) {
-                        //Yii::log(var_export($log, true), 'info');
-                        $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3]),
-                        'mail_task_id' => $log[4]['planId'],
-                        ), "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                        // reply, or close mail-plan, or close mail-main
+                        
+                        $command->update( 
+                            "log_mail" , 
+                            array(
+                                'end_time'         => date("H:i:s", $log[3]),
+                                'mail_task_id'     => $log[4]['planId'],
+                            ), 
+                            "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+                        );
                         continue;
                         
                     } else {
-                        //Yii::log(var_export($log, true), 'info');
-                        $command->update( "log_mail" , array(
-                        'end_time'  => date("H:i:s", $log[3]),
-                        'mail_task_id' => $log[4]['planId'],
-                        'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId']    
-                        ), "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
+                        // new mail
+                        
+                        // check MS email concidence with mail_templates { 
+                        $result = array(
+                            'full'           => '-',
+                            'part1'          => '-',
+                            'part2'          => '-',
+                            'has_concidence' => 0,
+                        );
+                        
+                        if (isset($log[4]) && isset($log[4]['mailId'])) {
+                            $result = MailBoxService::updateMsCoincidernce($log[4]['mailId'], $simId);
+                        }
+                        // check MS email concidence with mail_templates }
+                        
+                        $command->update(
+                            "log_mail" , 
+                            array(
+                                'end_time'  => date("H:i:s", $log[3]),
+                                'mail_task_id' => $log[4]['planId'],
+                                'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId'] ,
+                                'full_coincidence'  => $result['full'],
+                                'part1_coincidence' => $result['part1'],
+                                'part2_coincidence' => $result['part2'],
+                                'is_coincidence'    => $result['has_concidence'],
+                            ), 
+                            "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+                        );
                         continue;
                          
                     }
                     
                 } elseif( self::ACTION_SWITCH == (string)$log[2] ) {
-                    //Yii::log($log, 'info');
                     $command->update( "log_mail" , array(
                         'end_time'  => date( "H:i:s", $log[3] )
                     ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
@@ -448,8 +570,7 @@ class LogHelper {
                         ));
                     
                 } else {
-                    //Yii::log("NO ACTION_OPEN OR ACTION_CLOSE", 'info');
-                    throw new Exception("Ошибка");//TODO:Описание доделать
+                    throw new Exception("Ошибка"); //TODO:Описание доделать
                 }
             }
         }
@@ -623,12 +744,17 @@ class LogHelper {
             ->db
             ->createCommand()
             ->select("l.sim_id
-                    , ifnull(l.mail_id, '-') AS mail_id
-                    , if(m.group_id = 3, 'Да', 'Нет') AS send
-                    , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
-                    , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
-                    , ifnull(s.name, '-') AS subject
-                    , ifnull(t.code, '-') AS code")
+                , ifnull(l.mail_id, '-') AS mail_id
+                , if(m.group_id = 3, 'Да', 'Нет') AS send
+                , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
+                , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
+                , ifnull(s.name, '-') AS subject
+                , ifnull(t.code, '-') AS code
+                , l.full_coincidence
+                , l.part1_coincidence
+                , l.part2_coincidence
+                , if(l.is_coincidence = 1, 'Да', 'Нет') AS is_coincidence
+                ")
             ->from('log_mail l')
             ->leftJoin('mail_box m', 'l.mail_id = m.id')
             ->leftJoin('mail_receivers r', 'l.mail_id = r.mail_id')
@@ -648,7 +774,11 @@ class LogHelper {
             'receivers' => 'Кому',
             'copies'   => 'Копия',
             'subject'   => 'Тема',
-            'code'   => 'Код вложения'
+            'code'   => 'Код вложения',
+            'full_coincidence'   => 'Полное совпадение',
+            'part1_coincidence'   => 'Совпадение 1',
+            'part2_coincidence'   => 'Совпадение 2',
+            'is_coincidence'   => 'Есть совпадение?',
         );
         if(self::RETURN_DATA == $return){
             $data['headers'] = $headers;
@@ -672,16 +802,8 @@ class LogHelper {
         foreach( $logs as $log ) {
             
                 $comand = Yii::app()->db->createCommand();
-                //if(!isset($log[4]['mailId'])) continue;
-//                Yii::log(sprintf(
-//                        'Window log for sim %d: window "%s/%s", action %s, time %s, params %s',
-//                        $simId, $log[0], $log[1], $log[2],date("H:i:s", $log[3]), isset($log[4]) ? CJSON::encode($log[4]) : "none"
-//                    ),
-//                    'info', 'log');
+
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-//                    $comand->update( "log_windows" , array(
-//                        'end_time'  => date("H:i:s", $log[3])
-//                        ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
                     if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
                         throw(new CException('Previous window is still activated'));
                     }
@@ -696,7 +818,6 @@ class LogHelper {
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
                     if (!$windows) {
-                        Yii::log('Trying to close unopened window', CLogger::LEVEL_WARNING);
                         continue;
                     }
                     foreach ($windows as $window) {
@@ -771,22 +892,6 @@ class LogHelper {
     
     public static function getDayPlan($return) {
 
-//        $data['data'] = Yii::app()
-//            ->db
-//            ->createCommand()
-//            ->select("d.sim_id,
-//                      d.day,
-//                      d.snapshot_time,
-//                      t.code,
-//                      t.title,
-//                      t.category,
-//                      d.date,
-//                      null as is_done,
-//                      d.todo_count")
-//            ->from('day_plan_log d')
-//            ->leftJoin('tasks t', 't.id = d.task_id')
-//            ->queryAll();
-
         $sql = "SELECT 
                     d.sim_id,
                     d.day,
@@ -802,9 +907,6 @@ class LogHelper {
         
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
         
-      
-        //var_dump($data['data']);
-        //exit;
         $headers = array(
             'sim_id'        => 'id_симуляции', 
             'day'           => 'Графа плана',
@@ -856,5 +958,83 @@ class LogHelper {
             throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
         }
         return true;
+    }
+
+    public static function setDialogs($simId, $logs){
+        if (!is_array($logs)) return false;
+
+        foreach( $logs as $log ) {
+            if (empty($log[4]['dialogId'])) continue;
+            Yii::log(var_export($log, true));
+            if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+
+                $dialog = new LogDialogs();
+                $dialog->sim_id = $simId;
+                $dialog->dialog_id = $log[4]['dialogId'];
+                $dialog->last_id = empty($log[4]['lastDialogId'])?null:$log[4]['lastDialogId'];
+                $dialog->start_time  = date("H:i:s", $log[3]);
+                $dialog->save();
+                continue;
+
+            } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
+                $dialogs = LogDialogs::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
+                if (!$dialogs) {
+                    continue;
+                }
+                foreach ($dialogs as $dialog) {
+                    $dialog->end_time = date("H:i:s", $log[3]);
+                    $dialog->last_id = $log[4]['lastDialogId'];
+                    $dialog->save();
+                }
+            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
+
+                continue;
+
+            } else {
+
+                throw new CException("Ошибка");//TODO:Описание доделать
+            }
+        }
+
+        return true;
+    }
+    
+    public static function getDialogs($return) {
+
+            $data['data'] = Yii::app()->db->createCommand()
+                ->select('l.sim_id, 
+                    d.code as code, 
+                    s.title as category, 
+                    l.last_id, 
+                    l.start_time, 
+                    l.end_time')
+                ->from('log_dialogs l')
+                ->leftJoin('dialogs d', 'l.dialog_id = d.id')
+                ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
+                ->order("l.id")
+                ->queryAll();
+
+            $data['headers'] = array(
+                    'sim_id'     => 'id_симуляции',
+                    'code'       => 'Код события',
+                    'category'   => 'Категория события',
+                    'last_id'    => 'Результирующее id_записи',
+                    'start_time' => 'Игровое время - start',
+                    'end_time'   => 'Игровое время - end'
+            );
+            
+            if(self::RETURN_DATA == $return) {
+                $data['title'] = "Логирование работы с Документами";
+                return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                $csv = new ECSVExport($data['data'], true, true, ';');
+                $csv->setHeaders($data['headers']);
+                $content = $csv->toCSVutf8BOM();
+                $filename = 'data.csv';
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
     }
 }

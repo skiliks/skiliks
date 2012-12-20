@@ -582,19 +582,15 @@ class DialogImportService {
             if ($eventCode == '-') continue;
             
             // определим event time
-            /*if (!isset($row['E'])) {
-                var_dump($row); die();
-            }*/
             $eventTimeStr = $row[$this->_columnAlias['E']];
-            // Logger::debug("eventTime : $eventTimeStr");
+
             $eventTime = 0;
             if (strstr($eventTimeStr, ':')) {
                 $eventTimeData = explode(':', $eventTimeStr);
                 if (isset($eventTimeData[1])) {
                     $eventTime = $eventTimeData[0] * 60 + $eventTimeData[1];
                 }
-            }
-            
+            }            
             // проверим а есть ли такое событие
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) {

@@ -21,20 +21,8 @@ class UploadHelper {
 
             if (!isset($_FILES))  throw new Exception('нечего загружать');
 
-            Logger::debug("files : ".var_export($_FILES, true));
-            Logger::debug("post : ".var_export($_POST, true));
-            Logger::debug("get : ".var_export($_GET, true));
-
-
-
-
             //проверяем размер и тип файла
-            //$ext = end(explode('.', strtolower($_FILES['Filedata']['name'])));
             $path_info = pathinfo(strtolower($_FILES['Filedata']['name']));
-            /*$ext = $path_info['extension'];
-            if (!in_array($ext, $allowedExt)) {
-                return;
-            }*/
 
             if ($maxFileSize < $_FILES['Filedata']['size']) throw new Exception('wrong file size');
             

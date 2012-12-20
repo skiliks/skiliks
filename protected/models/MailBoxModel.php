@@ -15,6 +15,7 @@
  * @property mixed sending_date
  * @property int readed
  * @property mixed sim_id
+ * @property MailTemplateModel template
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxModel extends CActiveRecord
@@ -88,6 +89,12 @@ class MailBoxModel extends CActiveRecord
     
     /**
      * Code, 'M1', 'MS8' ...
+     * 
+     * MS - mail sended by hero
+     * MY - ? mail sended by hero yesterday
+     * M - mail received during game
+     * MY - mail in inbox when game starts
+     * 
      * @var string
      */
     public $code;
@@ -124,6 +131,29 @@ class MailBoxModel extends CActiveRecord
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
+    public function markReplied()
+    {
+        $this->reply = 1;
+    }
+
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     * @return boolean
+     */
+    public function isMS() {
+        return preg_match("/MS\d+/", $this->code);
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function isSended() {
+        return 3 == $this->group_id;
+    }
+
+
     /**
      *
      * @param string $className
@@ -136,7 +166,8 @@ class MailBoxModel extends CActiveRecord
 
     public function relations() {
         return array(
-            'subject' => array(self::BELONGS_TO, 'User', 'subject_id')
+            'subject_obj' => array(self::BELONGS_TO, 'MailThemesModel', 'subject_id'),
+            'template' => array(self::BELONGS_TO, 'MailTemplateModel', 'template_id')
         );
     }
 
@@ -146,6 +177,46 @@ class MailBoxModel extends CActiveRecord
     public function tableName()
     {
             return 'mail_box';
+    }
+
+    /**
+     * @return type
+     */
+    public function getCharacterTheme() {
+        
+        $main_subject = MailThemesModel::model()->findByAttributes(array(
+            'name' => $this->subject_obj->name,
+            'sim_id' => null
+        ));
+        
+        // try to find subject for current simulation
+        if (null === $main_subject) {
+            $main_subject = MailThemesModel::model()->findByAttributes(array(
+                'name'   => $this->subject_obj->name,
+                'sim_id' => $this->sim_id
+            ));
+        }
+        
+        // try to find subject for current simulation
+        if (null === $main_subject) {
+            $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
+                'id'   => $this->subject_obj->id,
+            ));
+            
+            if (null !== $main_subject) {
+                $main_subject = MailThemesModel::model()->findByAttributes(array(
+                    'id'   => $main_subject->theme_id,
+                ));
+            }
+        }
+        
+        return MailCharacterThemesModel::model()->find(
+            '(character_id=:sender_id OR character_id=:receiver_id) AND theme_id=:subject_id',
+            array(
+                'sender_id'   => $this->sender_id,
+                'receiver_id' => $this->receiver_id,
+                'subject_id'  => $main_subject->primaryKey,
+        ));
     }
     
     /**

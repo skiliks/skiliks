@@ -43,11 +43,12 @@ interface PHPExcel_Reader_IReader
 	 */
 	public function canRead($pFilename);
 
-	/**
-	 * Loads PHPExcel from file
-	 *
-	 * @param 	string 		$pFileName
-	 * @throws 	Exception
-	 */
+    /**
+     * Loads PHPExcel from file
+     *
+     * @param $pFilename
+     * @return PHPExcel
+     * @internal param string $pFileName
+     */
 	public function load($pFilename);
 }

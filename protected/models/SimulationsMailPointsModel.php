@@ -20,6 +20,8 @@ class SimulationsMailPointsModel extends CActiveRecord
     public $scale_type_id;
     
     public $value;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
             
     /**
      *
