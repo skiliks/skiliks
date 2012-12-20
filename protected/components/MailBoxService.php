@@ -844,6 +844,9 @@ class MailBoxService {
         return $model->id;
     }
     
+    /**
+     * @param MailBox $sendedEmail
+     */
     public static function updateRelatedEmailForByReplyToAttribute($sendedEmail)
     {
         if ($sendedEmail->letter_type == 'reply' OR $sendedEmail->letter_type == 'replyAll') {
@@ -860,6 +863,43 @@ class MailBoxService {
                  ));
             }
         }
+    }
+    
+    /**
+     * 
+     * 
+     * @param integer $mailId, It must by ID of MS (sended from user) email
+     * @param integer $simId
+     */
+    public static function updateMsCoincidernce($mailId, $simId)
+    {
+        $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
+        $emailConsidenceAnalizator->setUserEmail($mailId);
+        $result = $emailConsidenceAnalizator->checkCoinsidence();
+        $command = Yii::app()->db->createCommand();
+        
+        // update check MS email concidence
+        $command->update(
+            "log_mail" , 
+            array(
+                'full_coincidence'  => $result['full'],
+                'part1_coincidence' => $result['part1'],
+                'part2_coincidence' => $result['part2'],
+                'is_coincidence'    => $result['has_concidence'],
+            ), 
+            "`mail_id` = {$mailId} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+        );
+
+        $command->update(
+            'mail_box',
+            array(
+                'code'        => $result['result_code'],
+                'template_id' => $result['result_template_id'],
+            ),
+            "`id` = {$mailId}"
+        );
+            
+        return $result;
     }
 }
 
