@@ -280,7 +280,7 @@ class LoggingTest extends SeleniumTestCase
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
         # Кликаем на него
-        $session->element("xpath", "//input[@class='btn']")->click();
+        $session->element("css selector", "input.btn-primary")->click();
         # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
@@ -311,7 +311,7 @@ class LoggingTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.saveDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Черновики "]')->click();
-        $this->waitForElement($session, 'xpath', '//td[text()="Re: !проблема с сервером!"]')->click();
+        $this->waitForElement($session, 'xpath', '//td[text()="re: !проблема с сервером!"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.sendDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();
@@ -322,7 +322,6 @@ class LoggingTest extends SeleniumTestCase
         $simulations = $this->user->simulations();
         $simulation = $simulations[0];
         $our_rows = $this->getWindowLog($simulations, false);
-        print_r($our_rows);
         for ($i = 1; $i < count($our_rows); $i++) {
             $this->assertFalse($our_rows[$i - 1]['window'] == $our_rows[$i]['window']
                 && $our_rows[$i - 1]['sub_window'] == $our_rows[$i]['sub_window']
