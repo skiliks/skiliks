@@ -971,7 +971,7 @@ class LogHelper {
                 $dialog = new LogDialogs();
                 $dialog->sim_id = $simId;
                 $dialog->dialog_id = $log[4]['dialogId'];
-                $dialog->last_id = $log[4]['lastId'];
+                $dialog->last_id = empty($log[4]['lastId'])?null:$log[4]['lastId'];
                 $dialog->start_time  = date("H:i:s", $log[3]);
                 $dialog->save();
                 continue;
@@ -983,6 +983,7 @@ class LogHelper {
                 }
                 foreach ($windows as $window) {
                     $window->end_time = date("H:i:s", $log[3]);
+                    $dialog->last_id = $log[4]['lastId'];
                     $window->save();
                 }
             } elseif (self::ACTION_SWITCH == (string)$log[2]) {
