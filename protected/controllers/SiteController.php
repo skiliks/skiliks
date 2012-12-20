@@ -1,30 +1,26 @@
 <?php
-class SiteController extends CController
+class SiteController extends AjaxController
 {
+    /**
+     * This is defaut Yii action.
+     * It never useded in API or frontend static pages.
+     * So, we display error message for user if aout sscript call this action.
+     */
     public function actionIndex()
     {
-        $rows = array("Error" => "Controller/action not founded.");
-        $this->_sendResponse(200, CJSON::encode($rows));
+        $this->returnErrorMessage(
+            'Controller/action not founded.',
+            'Controller/action not founded.'
+        );
     }
 
+    /**
+     * We handle Yii rroes and savethem to Yii.log. 
+     * User see just standard notise
+     */
     public function actionError()
     {
-        $error=Yii::app()->errorHandler->error;
-        $result = array();
-        $result['result'] = 0;
-        $result['message'] = $error;
-        $this->_sendResponse(200, CJSON::encode($result), 'application/json');
-    }
-
-    protected function _sendResponse($status = 200, $body = '', $content_type = 'text/html')
-    {
-        header("HTTP/1.0 200 OK");
-        header('Content-type: application/json; charset=UTF-8');
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-
-        echo $body;
-        Yii::app()->end();
+        $this->returnErrorMessage(Yii::app()->errorHandler->error);
     }
 }
 
