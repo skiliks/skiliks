@@ -82,7 +82,7 @@ class SeleniumTestCase extends CDbTestCase
             $user->delete();
         }
         $user = new Users();
-        $user->email = 'kaaaaav@gmail.com';
+        $user->email = 'kaaabv@gmail.com';
         $user->password = md5('111');
         $user->is_active = true;
         $user->save();
