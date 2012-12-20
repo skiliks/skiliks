@@ -6,6 +6,7 @@
  * 
  * Связана с моделями: Characters, MailThemesModel.
  *
+ * @property MailTemplateModel letter
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailCharacterThemesModel extends CActiveRecord
@@ -96,6 +97,7 @@ class MailCharacterThemesModel extends CActiveRecord
      */
     public function byCharacter($characterId)
     {
+
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "character_id = {$characterId}"
         ));
@@ -129,6 +131,18 @@ class MailCharacterThemesModel extends CActiveRecord
     }
     
     /**
+     * @param string $ids
+     * @return \MailCharacterThemesModel
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT IN ({$ids}) "
+        ));
+        return $this;
+    }
+    
+    /**
      * Выбрать с признаком "телефон"
      * @return MailCharacterThemesModel 
      */
@@ -149,6 +163,13 @@ class MailCharacterThemesModel extends CActiveRecord
             'condition' => "mail = {$v}"
         ));
         return $this;
+    }
+
+    public function relations()
+    {
+        return array(
+            'letter' => array(self::BELONGS_TO, 'MailTemplateModel', 'letter_number')
+        );
     }
 }
 

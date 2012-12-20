@@ -6,6 +6,8 @@
  * 
  * Связана с моделями:  Simulations.
  *
+ * @property string name
+ * @property int sim_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailThemesModel extends CActiveRecord
@@ -45,7 +47,8 @@ class MailThemesModel extends CActiveRecord
     {
             return 'mail_themes';
     }
-    
+
+
     /**
      * Выборка по набору тем
      * @param array $ids
@@ -56,6 +59,28 @@ class MailThemesModel extends CActiveRecord
         $ids = implode(',', $ids);
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id in ({$ids})"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return MailThemesModel 
+     */
+    public function bySimIdNull()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id is null"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @return MailThemesModel 
+     */
+    public function bySimId($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = '{$simId}'"
         ));
         return $this;
     }
@@ -85,7 +110,8 @@ class MailThemesModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
+
     /**
      * @param int $id, mail_themes_id
      * 
@@ -97,13 +123,26 @@ class MailThemesModel extends CActiveRecord
         $id = isset($emailSubject) ? $emailSubject->id : null;
         
         if (null === $id) {
-            $forvarderEmail = MailBoxModel::model()->findByPk($messageId);
-            if (null !== $forvarderEmail) {
-                $id = (null === $forvarderEmail->subject_id) ? null : $forvarderEmail->subject_id;
+            $forwarderEmail = MailBoxModel::model()->findByPk($messageId);
+            if (null !== $forwarderEmail) {
+                if (null !== $forwarderEmail->subject_id) {
+                    $id = $forwarderEmail->subject_id;
+                }
             }
         }
         
         return $id;
     }
-
+    
+    /**
+     * @param string $ids
+     * @return \MailTemplateModel
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT  IN ({$ids})"
+        ));
+        return $this;
+    }    
 }

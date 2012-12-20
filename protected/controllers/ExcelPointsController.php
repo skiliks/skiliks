@@ -13,7 +13,14 @@ class ExcelPointsController extends AjaxController{
         $sid = Yii::app()->request->getParam('sid', false);  
         if (!$sid) throw new Exception('wrong sid');
         
-        $simId = SessionHelper::getSimIdBySid($sid);
+        try {
+            $simId = SessionHelper::getSimIdBySid($sid);
+        } catch (CException $e) {
+            return $this->sendJSON(array(
+                'result' => 0,
+                'e'      => $e->getMessage()
+            ));
+        }
         
         $formulaCollection = ExcelPointsFormulaModel::model()->findAll();
         $formulaList = array();
@@ -28,12 +35,6 @@ class ExcelPointsController extends AjaxController{
             if (!isset($formulaList[$excelPoint->formula_id])) continue;
             
             $formulaList[$excelPoint->formula_id]['value'] = $excelPoint->value;
-            
-            /*$formula = $formulaList[$excelPoint->formula_id]['formula'];
-            $list[] = array(
-                'formula' => $formula,
-                'value' => $excelPoint->value
-            );*/
         }
         
         $result = array();

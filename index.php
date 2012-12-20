@@ -12,7 +12,7 @@ require_once(dirname(__FILE__).'/framework/yii.php');
 $config=dirname(__FILE__).'/protected/config/main.php';
 
 ini_set('date.timezone', 'Etc/GMT');
-set_time_limit(300); 
+set_time_limit(600);
 
 error_reporting(E_ALL);
 ini_set('display_errors', '1');

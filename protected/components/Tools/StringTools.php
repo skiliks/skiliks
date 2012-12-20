@@ -27,5 +27,35 @@ class StringTools
     {
         return strtr($string, self::$CyToEn);
     }
+    
+    /**
+     * Convert 'Fwd:!проблема с сервером!' to 'Fwd: !проблема с сервером!'
+     * 'Frw:' => 'Frw: '
+     * 're:'  => 're: '
+     * 
+     * @return string
+     */
+    public static function fixReAndFwd($subject) 
+    {
+        if (0 === strpos($subject, 'Fwd:') && false === strpos($subject, 'Fwd: ') ) {
+            $subject = str_replace('Fwd:', 'Fwd: ', $subject);
+        }    
+        
+        if (0 === strpos($subject, 're:') && false === strpos($subject, 're: ') ) {
+            $subject = str_replace('re:', 're: ', $subject);
+        } 
+        
+        return $subject;
+    }
+    
+    /**
+     * @param Exception $e
+     */
+    public static function logException($e) 
+    {
+        Yii::log('***');
+        Yii::log($e->getMessage());
+        Yii::log($e->getTraceAsString());
+    }
 }
 

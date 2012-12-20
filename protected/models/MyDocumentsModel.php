@@ -8,7 +8,37 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MyDocumentsModel extends CActiveRecord{
+class MyDocumentsModel extends CActiveRecord
+{
+    /**
+     * @var integer
+     */
+    public $id;
+    
+    /**
+     * simulations.id
+     * @var int
+     */
+    public $sim_id;
+    
+    /**
+     * my_documents_template.id
+     * @var integer
+     */
+    public $template_id;
+    
+    /**
+     * @var string
+     */
+    public $fileName;
+    
+    /**
+     * is hidden
+     * @var integer, (boolean)
+     */
+    public $hidden;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *

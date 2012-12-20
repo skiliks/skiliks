@@ -1,10 +1,5 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of DebugController
  *
@@ -12,6 +7,9 @@
  */
 class DebugController extends AjaxController{
     
+    /**
+     * @deprecated
+     */
     public function actionCalcExcel() {
         try {
             $sid = Yii::app()->request->getParam('sid', false);
@@ -31,17 +29,53 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        //SimulationService::saveEmailsAnalize(2962);
-        $ea = new EmailAnalizer(3894);
+        echo '<pre>';
+        //LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => 5002));
         
-        echo "<br/>3322 3324:<br/> <pre>";
+        //SimulationService::saveEmailsAnalize(5002);
+        //$ea = new EmailAnalizer(3919);
+        
+        /*$aa = SimulationService::getAgregatedPoints(3938);
+        
+        foreach ($aa as $line) {
+            var_dump($line->getValue());
+            $line->mark = null;
+            var_dump($line);
+        }
+        
+        SimulationService::saveAgregatedPoints(3938);*/
+        
+        
+        $a = new EmailCoincidenceAnalizator();
+        $a->setUserEmail(545509);
+        var_dump($a->checkCoinsidence());
+        
+
+        /*echo "<br/>3322 3324:<br/> <pre>";
         
         $v = $ea->check_3322_3324();
         unset($v['3322']['obj']);
         unset($v['3324']['obj']);
         
         var_dump($v);
+        die;*/
         
+        /*echo "<br/>3323:<br/> <pre>";
+        
+        $v = $ea->check_3323();
+        unset($v['obj']);
+        
+        var_dump($v);
+        die;*/
+        
+        /*echo "<br/>Standard:<br/> <pre>";
+        
+        $v = $ea->standardCheck();
+        foreach ($v as $vLine) {
+            unset($vLine['obj']);
+            var_dump($vLine);
+        }
+        die;*/
         
         /*echo "<br/>Big tasks emails:<br/>";
         var_dump($ea->checkBigTasks());
@@ -49,11 +83,12 @@ class DebugController extends AjaxController{
         echo "<br/>Small task email:s<br/>";
         var_dump($ea->checkSmallTasks());
         */
-        echo "<br/>Spams emails:<br/>";
+        /*echo "<br/>Spams emails:<br/>";
         $v = $ea->check_3325();
         unset($v['obj']);
         var_dump($v);
-        echo "</pre>";
+        echo "</pre>";*/
+        echo '</pre>';
     }
 }
 
