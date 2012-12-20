@@ -977,14 +977,14 @@ class LogHelper {
                 continue;
 
             } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
-                $windows = LogDialogs::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
-                if (!$windows) {
+                $dialogs = LogDialogs::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
+                if (!$dialogs) {
                     continue;
                 }
-                foreach ($windows as $window) {
-                    $window->end_time = date("H:i:s", $log[3]);
+                foreach ($dialogs as $dialog) {
+                    $dialog->end_time = date("H:i:s", $log[3]);
                     $dialog->last_id = $log[4]['lastDialogId'];
-                    $window->save();
+                    $dialog->save();
                 }
             } elseif (self::ACTION_SWITCH == (string)$log[2]) {
 
