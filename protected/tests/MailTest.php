@@ -84,7 +84,7 @@ class MailTest extends SeleniumTestCase
         sleep(2);
         # вводится текст
         $this->waitForElement($session, "id", "login")->value(
-            array("value" => str_split("kaaaaav@gmail.com"))
+            array("value" => str_split($this->email))
         );
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));

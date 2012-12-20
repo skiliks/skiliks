@@ -142,7 +142,7 @@ class LoggingTest extends SeleniumTestCase
         $session->element("xpath", "//input[@value='Создать']")->click();
         #ждем исчезновения черной полосы загрузки и в появившемся окне тригера кликаем ОК
         sleep(3);
-        $session->element('css selector','.alert a.btn')->click();
+        $session->element('css selector', '.alert a.btn')->click();
         sleep(5);
 
         #2 ответа на диалог с Денежной
@@ -158,7 +158,7 @@ class LoggingTest extends SeleniumTestCase
         $session->element("xpath", "//input[@value='Создать']")->click();
         #подтвеждение тригера, вейт почему то не работает
         sleep(3);
-        $session->element('css selector','.alert a.btn')->click();
+        $session->element('css selector', '.alert a.btn')->click();
         sleep(5);
 
 
@@ -176,7 +176,7 @@ class LoggingTest extends SeleniumTestCase
         $session->element("xpath", "//input[@value='Создать']")->click();
         #подтвеждение тригера, вейт почему то не работает
         sleep(3);
-        $session->element('css selector','.alert a.btn')->click();
+        $session->element('css selector', '.alert a.btn')->click();
         sleep(5);
 
 
@@ -190,7 +190,44 @@ class LoggingTest extends SeleniumTestCase
         $this->assertEquals("Сумма оценок: 4.5", $session->element("css selector", ".result-total")->text());
         $this->assertEquals("Сумма оценок 6x: 9", $session->element("css selector", ".result-total-6x")->text());
         $this->assertEquals("Сумма оценок Negative: 0", $session->element("css selector", ".result-total-negative")->text());
-
+        $source = file_get_contents($this->browser_url . '/api/index.php/Admin/Log?data=json&type=Dialogs');
+        $json = CJSON::decode($source);
+        $data = $json['data'];
+        $simulations = $this->user->simulations();
+        $simulation = $simulations[0];
+        $data = array_filter($data, function ($i) use ($simulation) {return $i['sim_id'] == $simulation->id;});
+        $data = array_map(function($item){
+            if ('00:00:00' !== $item['start_time']) {
+                unset($item['start_time']);
+            }
+            if ('00:00:00' !== $item['end_time']) {
+                unset($item['end_time']);
+            }
+            return $item;
+        }, $data);
+        $this->assertEquals(array (
+            100 =>
+            array (
+                'sim_id' => '4459',
+                'code' => 'E1',
+                'category' => 'Разговор по телефону',
+                'last_id' => '11',
+            ),
+            101 =>
+            array (
+                'sim_id' => '4459',
+                'code' => 'E8.3',
+                'category' => 'Встреча',
+                'last_id' => '340',
+            ),
+            102 =>
+            array (
+                'sim_id' => '4459',
+                'code' => 'E12.1',
+                'category' => 'Разговор по телефону',
+                'last_id' => '444',
+            ),
+        ),$data);
     }
 
     private function getWindowLog($simulations, $skip_time = true)
