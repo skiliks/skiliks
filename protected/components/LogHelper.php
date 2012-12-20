@@ -536,30 +536,7 @@ class LogHelper {
                         );
                         
                         if (isset($log[4]) && isset($log[4]['mailId'])) {
-                            $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
-                            $emailConsidenceAnalizator->setUserEmail($log[4]['mailId']);
-                            $result = $emailConsidenceAnalizator->checkCoinsidence();
-                            
-                            // update check MS email concidence
-                            $command->update(
-                                "log_mail" , 
-                                array(
-                                    'full_coincidence'  => $result['full'],
-                                    'part1_coincidence' => $result['part1'],
-                                    'part2_coincidence' => $result['part2'],
-                                    'is_coincidence'    => $result['has_concidence'],
-                                ), 
-                                "`mail_id` = {$log[4]['mailId']} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
-                            );
-                            
-                            $command->update(
-                                'mail_box',
-                                array(
-                                    'code'        => $result['result_code'],
-                                    'template_id' => $result['result_template_id'],
-                                ),
-                                "`id` = {$log[4]['mailId']}"
-                            );    
+                            $result = MailBoxService::updateMsCoincidernce($log[4]['mailId'], $simId);
                         }
                         // check MS email concidence with mail_templates }
                         
