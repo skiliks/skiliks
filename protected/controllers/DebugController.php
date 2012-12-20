@@ -30,7 +30,7 @@ class DebugController extends AjaxController{
     public function actionAe()
     {
         echo '<pre>';
-        LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => 4070));
+        LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => 4996));
         
         //SimulationService::saveEmailsAnalize(2962);
         //$ea = new EmailAnalizer(3919);
