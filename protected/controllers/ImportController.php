@@ -1,9 +1,18 @@
 <?php
 
-class ImportListController extends AjaxController
+class ImportController extends AjaxController
 {
+
     public function actionIndex()
     {
-        $this->render('index');
+        $controllers = array('MailImportController', 
+                             'CharactersPointsTitleImportController',
+                             'DialogImportController',
+                             'MailImportController', 
+                             'MyDocumentsImportController', 
+                             'TasksImportController');
+        $links = System::classToUrls($controllers);
+        //var_dump($links);
+        $this->render('index', array('links'=>$links));
     }
 }
