@@ -1,7 +1,21 @@
-<h1>Ссылки на импорт</h1>
-
+<script type="text/javascript">
+    document.title = 'Imports';
+    function setIframeSrc(src, title) {
+        document.title = title;
+        document.getElementById('importpage').src = src;
+        console.log(src);
+        return false;
+    }
+</script>    
+<div style="float: right">
 <p>
     <ul>
-        <li><a href="{$this->createUrl('post/read',array('id' => 100,'#'=>'title'))}"</li>
+        {foreach from=$links item=link}
+            <li><li><a onclick="setIframeSrc('http://{$link['href']}', '{$link['title']}');" href="#">{$link['title']}</a></li></li>
+        {/foreach} 
     </ul>
 </p>
+</div>
+    <div>
+        <iframe height="700" width="700" id="importpage" src="">
+    </div>    
