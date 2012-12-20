@@ -840,6 +840,24 @@ class MailBoxService {
         
         return $model->id;
     }
+    
+    public static function updateRelatedEmailForByReplyToAttribute($sendedEmail)
+    {
+        if ($sendedEmail->letter_type == 'reply' OR $sendedEmail->letter_type == 'replyAll') {
+            if (!empty($sendedEmail->message_id)) {
+                $replyToEmail = MailBoxModel::model()
+                    ->byId($sendedEmail->message_id)
+                    ->find();
+                $replyToEmail->markReplied();
+                $replyToEmail->update();
+            } else {
+                Yii::log(sprintf(
+                    "Ошибка, не указан messageId для ответить или ответить всем. Отправленное письмо ID %s.",
+                    $sendedEmail->id
+                 ));
+            }
+        }
+    }
 }
 
 
