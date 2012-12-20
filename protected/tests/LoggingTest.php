@@ -196,6 +196,7 @@ class LoggingTest extends SeleniumTestCase
         $simulations = $this->user->simulations();
         $simulation = $simulations[0];
         $data = array_filter($data, function ($i) use ($simulation) {return $i['sim_id'] == $simulation->id;});
+        $data = array_values($data);
         $data = array_map(function($item){
             if ('00:00:00' !== $item['start_time']) {
                 unset($item['start_time']);
@@ -206,23 +207,20 @@ class LoggingTest extends SeleniumTestCase
             return $item;
         }, $data);
         $this->assertEquals(array (
-            100 =>
             array (
-                'sim_id' => '4459',
+                'sim_id' => $simulation->id,
                 'code' => 'E1',
                 'category' => 'Разговор по телефону',
                 'last_id' => '11',
             ),
-            101 =>
             array (
-                'sim_id' => '4459',
+                'sim_id' => $simulation->id,
                 'code' => 'E8.3',
                 'category' => 'Встреча',
                 'last_id' => '340',
             ),
-            102 =>
             array (
-                'sim_id' => '4459',
+                'sim_id' => $simulation->id,
                 'code' => 'E12.1',
                 'category' => 'Разговор по телефону',
                 'last_id' => '444',
