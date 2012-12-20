@@ -248,13 +248,8 @@ class EmailAnalizer
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
-        //var_dump($this->userOutboxEmails);
-        //var_dump($temp_log_mail);
-        //exit();
         $temp = array();
         foreach ($temp_log_mail as $mail) {
-                //$temp = $this->userOutboxEmails[$mail->mail_id];
-                //Yii::log(var_export($temp, true));
                 $temp[] = array($mail->full_coincidence, $mail->mail_id);
                 if(isset($this->userOutboxEmails[$mail->mail_id]) 
                         AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll' 
@@ -267,8 +262,6 @@ class EmailAnalizer
                        
                 }
         }
-        Yii::log(var_export($this->full_coincidence_reply_all, true));
-        Yii::log(var_export($this->reply_all, true));
     }
     
     /** ----------------------------------------------------- **/

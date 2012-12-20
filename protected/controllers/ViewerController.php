@@ -19,10 +19,7 @@ class ViewerController extends AjaxController
                 )
             ));
         } catch (Exception $exc) {
-            return $this->sendJSON(array(
-                'result'  => 0, 
-                'message' => $exc->getMessage()
-            ));
+            $this->returnErrorMessage($exc->getMessage());
         }
     }
 }

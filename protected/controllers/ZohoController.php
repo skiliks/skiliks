@@ -9,7 +9,7 @@ class ZohoController extends CController
             'xls'
         );
         
-        $this->renderText('RESPONSE: '.$status);
+        $this->_sendResponse(200, 'RESPONSE: '.$status);
     }
 }
 
