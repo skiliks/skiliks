@@ -9,6 +9,7 @@ require_once('PHPWebDriver/WebDriverWait.php');
  * Date: 15.11.12
  * Time: 16:52
  * To change this template use File | Settings | File Templates.
+ * @property string email
  */
 
 class SeleniumTestCase extends CDbTestCase
@@ -35,6 +36,7 @@ class SeleniumTestCase extends CDbTestCase
     {
         $this->webdriver = new PHPWebDriver_WebDriver();
         $this->browser_url = Yii::app()->params['frontendUrl'];
+        $this->email = 'kaaabv@gmail.com';
         #$this->browser_url = 'http://live.skiliks.com/';
         $this->createInitialUsers();
         parent::setUp();
@@ -82,7 +84,7 @@ class SeleniumTestCase extends CDbTestCase
             $user->delete();
         }
         $user = new Users();
-        $user->email = 'kaaabv@gmail.com';
+        $user->email = $this->email;
         $user->password = md5('111');
         $user->is_active = true;
         $user->save();

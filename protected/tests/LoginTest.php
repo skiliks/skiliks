@@ -13,7 +13,7 @@ class LoginTest extends SeleniumTestCase
         $session->open($this->browser_url . 'site.php');
         # вот таким извращенным способом вводится текст
         $this->waitForElement($session, "id", "login")->value(
-            array("value" => str_split("kaaaaav@gmail.com"))
+            array("value" => str_split($this->email))
         );
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
         $session->element("css selector", "input.btn-primary")->click();
