@@ -256,7 +256,9 @@ class EmailAnalizer
                 //$temp = $this->userOutboxEmails[$mail->mail_id];
                 //Yii::log(var_export($temp, true));
                 $temp[] = array($mail->full_coincidence, $mail->mail_id);
-                if(isset($this->userOutboxEmails[$mail->mail_id]) AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll') {
+                if(isset($this->userOutboxEmails[$mail->mail_id]) 
+                        AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll' 
+                        AND $this->userOutboxEmails[$mail->mail_id]->email->group_id == 3) {
                         if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
                             $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
                         }else{
