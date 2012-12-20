@@ -265,6 +265,8 @@ class LogHelper {
         foreach ($data['data'] as  $k=>$row) {
             $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
             $data['data'][$k]['out_mail_code'] = '-';
+            $data['data'][$k]['add_value']  = str_replace('.', ',', $data['data'][$k]['add_value']);
+            $data['data'][$k]['type_scale'] = str_replace('.', ',', $data['data'][$k]['type_scale']);
         }
         
         // merge dialog and mail logs
@@ -317,10 +319,7 @@ class LogHelper {
                 ->group("l.sim_id, p.code")
                 ->order("l.sim_id")
                 ->queryAll();
-
-            foreach ($data['data'] as  $k=>$row) {
-                $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
-            }
+            
             $headers = array(
                     'sim_id'     => 'id_симуляции',
                     'code'       => 'Номер поведения',
@@ -345,6 +344,10 @@ class LogHelper {
             
             $data['data'] = array_merge($data['data'], $emailPoints);
             
+            foreach ($data['data'] as  $k=>$row) {
+                $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
+            }
+            
             // merge with email points }
             
             if(self::RETURN_DATA == $return){
@@ -365,7 +368,7 @@ class LogHelper {
         }
         
      public static function getFullAgregatedLog($return) {
-
+         
             $data['data'] = Yii::app()->db->createCommand()
                 ->select('l.sim_id,
                       p.code,
@@ -384,6 +387,11 @@ class LogHelper {
                     'type_scale' => 'Тип поведения',
                     'value'        => 'Оценка по поведению'
             );
+            
+            foreach ($data['data'] as $key => $value) {
+                $data['data'][$key]['value']      = str_replace('.', ',', $value['value']);
+                $data['data'][$key]['type_scale'] = str_replace('.', ',', $value['type_scale']);
+            }
             
             if(self::RETURN_DATA == $return){
                 $data['headers'] = $headers;
@@ -907,22 +915,6 @@ class LogHelper {
     
     public static function getDayPlan($return) {
 
-//        $data['data'] = Yii::app()
-//            ->db
-//            ->createCommand()
-//            ->select("d.sim_id,
-//                      d.day,
-//                      d.snapshot_time,
-//                      t.code,
-//                      t.title,
-//                      t.category,
-//                      d.date,
-//                      null as is_done,
-//                      d.todo_count")
-//            ->from('day_plan_log d')
-//            ->leftJoin('tasks t', 't.id = d.task_id')
-//            ->queryAll();
-
         $sql = "SELECT 
                     d.sim_id,
                     d.day,
@@ -938,9 +930,6 @@ class LogHelper {
         
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
         
-      
-        //var_dump($data['data']);
-        //exit;
         $headers = array(
             'sim_id'        => 'id_симуляции', 
             'day'           => 'Графа плана',

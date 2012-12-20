@@ -29,8 +29,8 @@ class TodoController extends AjaxController
         $simulationId = $this->getSimulationId(); // external for make code clean
 
         return $this->sendJSON(array(
-            'result' => self::STATUS_SUCCESS,
-            'data'   => TodoService::getTodoTasksList($simulationId),
+                'result' => self::STATUS_SUCCESS,
+                'data'   => TodoService::getTodoTasksList($simulationId),
         ));
     }
 
