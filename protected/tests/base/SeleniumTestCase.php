@@ -78,7 +78,7 @@ class SeleniumTestCase extends CDbTestCase
 
     private function createInitialUsers()
     {
-        foreach (Users::model()->findAllByAttributes(array('email' => 'kaaaaav@gmail.com')) as $user) {
+        foreach (Users::model()->findAllByAttributes(array('email' => 'kaaabv@gmail.com')) as $user) {
             $user->delete();
         }
         $user = new Users();
