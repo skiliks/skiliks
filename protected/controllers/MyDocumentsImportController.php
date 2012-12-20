@@ -16,7 +16,7 @@ class MyDocumentsImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMyDocuments();
 
-        $this->renderText($result['text']);
+        $this->_sendResponse(200, $result['text']);
     }
 }
 
