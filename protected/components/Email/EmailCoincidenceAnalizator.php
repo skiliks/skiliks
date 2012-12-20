@@ -108,8 +108,6 @@ class EmailCoincidenceAnalizator
                 $mailTemplate->subject_id, 
                 $mailAttachId);
             
-           
-            
            $this->emailTemplatesByCodeFull[$indexFull]   = $mailTemplate;
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
@@ -121,8 +119,6 @@ class EmailCoincidenceAnalizator
            unset($indexPart1);
            unset($indexPart2);
         }
-        
-        
         
         // -----
         
@@ -141,6 +137,7 @@ class EmailCoincidenceAnalizator
         foreach (MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
             $mailCopyId[] = $copy->receiver_id;
         }
+        
         // mailCopyId }
 
         // mailAttachmentId {
@@ -171,7 +168,7 @@ class EmailCoincidenceAnalizator
         
         unset($mailRecipientId);
         unset($mailCopyId);
-        unset($mailAttachId);        
+        unset($mailAttachId);    
         
         // check 
         $result = array(
@@ -219,6 +216,10 @@ class EmailCoincidenceAnalizator
      */
     private function getMailCodeFullConsidence($recipientsIds, $copyCharacterIds, $subjectId, $attachmentIds)
     {
+        sort($recipientsIds);
+        sort($copyCharacterIds);
+        sort($attachmentIds);
+        
         return sprintf(
             '%s_%s_%s_%s',
             implode('-', $recipientsIds),
@@ -237,6 +238,9 @@ class EmailCoincidenceAnalizator
      */
     private function getMailCodePart1Considence($recipientsIds, $subjectId, $attachmentIds)
     {
+        sort($recipientsIds);
+        sort($attachmentIds);
+        
         return sprintf(
             '%s_%s_%s',
             implode('-', $recipientsIds),
@@ -254,6 +258,8 @@ class EmailCoincidenceAnalizator
      */
     private function getMailCodePart2Considence($firstRecipientId, $subjectId, $attachmentIds)
     {
+        sort($attachmentIds);
+        
         return sprintf(
             '%s_%s_%s',
             $firstRecipientId,

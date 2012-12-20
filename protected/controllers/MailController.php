@@ -878,25 +878,25 @@ class MailController extends AjaxController
      */
     public function actionSendDraft()
     {
+        $simulationId = $this->getSimulationId();
+        
         try {
             $mailId = (int) Yii::app()->request->getParam('id', false);
-            $sid = Yii::app()->request->getParam('sid', false);
-            $simId = SessionHelper::getSimIdBySid($sid);
-
             $email = MailBoxModel::model()->byId($mailId)->find();
             if (null === $email) {
                 throw new CHttpException(200, "cant get model by id $mailId");
             }
             $email->group_id = 3;
             $email->sending_date = time();
+            $email->save();
             
             MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
             
-            $email->save();
+            MailBoxService::updateMsCoincidernce($email->id, $simulationId);
 
-            $result = array();
-            $result['result'] = 1;
-            $this->sendJSON($result);
+            $this->sendJSON(array(
+                'result' => 1
+            ));
         } catch (CHttpException $exc) {
             $result = array();
             $result['result'] = 0;
