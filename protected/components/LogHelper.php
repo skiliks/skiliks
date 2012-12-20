@@ -227,7 +227,6 @@ class LogHelper {
             ->join('characters_points_titles p', 'p.id = mp.point_id')
             ->join('characters_points_titles p2', 'p2.id = p.parent_id')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->where('m.group_id = 3')
             ->order('l.id');
         
         if (null !== $sim_id) {
@@ -235,8 +234,9 @@ class LogHelper {
         } else {
             $mailQuery->where('m.group_id = 3');
         }
-        
+
         $mailLogData = $mailQuery->queryAll();
+
         
         // update mailLogData.out_mail_code {
         foreach ($mailLogData as $key => $logData) {

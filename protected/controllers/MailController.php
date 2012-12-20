@@ -225,6 +225,7 @@ class MailController extends AjaxController
                     throw new Exception("Ошибка, не указан messageId для ответить или ответить всем");
                 }
             }
+            
 
             list($subject_id, $subject) = $this->checkSubject($letterType, Yii::app()->request->getParam('subject', null));
 
@@ -243,7 +244,10 @@ class MailController extends AjaxController
                 'fileId' => $fileId,
                 'timeString' => $timeString
                 ));
-            $result['messageId'] = $message->primaryKey;
+            $result['messageId'] = $message->id;
+            
+            MailBoxService::updateRelatedEmailForByReplyToAttribute($message);
+            
         } catch (Exception $e) {
             $result['result'] = 0;
             $result['messsage'] = $e->getMessage();
@@ -879,12 +883,16 @@ class MailController extends AjaxController
             $sid = Yii::app()->request->getParam('sid', false);
             $simId = SessionHelper::getSimIdBySid($sid);
 
-            $model = MailBoxModel::model()->byId($mailId)->find();
-            if (!$model)
+            $email = MailBoxModel::model()->byId($mailId)->find();
+            if (null === $email) {
                 throw new CHttpException(200, "cant get model by id $mailId");
-            $model->group_id = 3;
-            $model->sending_date = time();
-            $model->save();
+            }
+            $email->group_id = 3;
+            $email->sending_date = time();
+            
+            MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
+            
+            $email->save();
 
             $result = array();
             $result['result'] = 1;
