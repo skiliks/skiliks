@@ -16,9 +16,8 @@ class RegistrationTest extends SeleniumTestCase
         $this->waitForElement($session, 'id', 'email')->value(array('value' => str_split($login)));
         $session->element('id','pass1')->value(array('value' => str_split('test')));
         $session->element('id','pass2')->value(array('value' => str_split('test')));
-        $session->element("css selector", "input.btn-primary")->click();
-        $session->open($this->browser_url . 'site.php');
-        $this->waitForElement($session, 'xpath', "//input[@value='Вход']");
+        $element = $this->waitForElement($session, 'xpath', "//input[@value='Регистрация']")->click();
+        $this->waitForElement($session, "css selector", "input.btn-primary");
         $session->element('id','login')->value(array('value' => str_split($login)));
         $session->element('id','pass')->value(array('value' => str_split('test')));
         $session->element("css selector", "input.btn-primary")->click();

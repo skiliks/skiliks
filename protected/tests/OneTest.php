@@ -74,13 +74,12 @@ class OneTest extends SeleniumTestCase
 
         $this->waitForElement($session, "xpath", "//a[text()=\"ОТКЛОНИТЬ\"]")->click();
 
-        $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 40);
+        $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 60);
         $session->element('xpath', '//a[@id="icons_phone"]')->click();
         $this->waitForElement($session, 'xpath', "//a[text()=\"ПРИНЯТЬ\"]")->click();
 
-        sleep(10);
-        $session->element("xpath", "//p[text()=\"- Валерий Семенович, так в прошлый раз нам пришлось презентацию за день делать! А аналитика, который тогда напортачил, я уже уволил.\"]")->click();
-        $this->waitForElement($session, "xpath", "//p[text()=\"- Непременно, сейчас запланирую время на проверку\"]")->click();
+        $this->waitForElement($session, "xpath", "//p[text()=\"- Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать! А аналитика, который тогда напортачил, я уже уволил.\"]")->click();
+        $this->waitForElement($session, "xpath", "//p[text()=\"-          Непременно, сейчас запланирую время на проверку\"]")->click();
         sleep(8);
         $this->assertEquals("Сумма оценок: 4.66666666666667", $session->element("css selector", ".result-total")->text());
         $this->assertEquals("Сумма оценок 6x: 4", $session->element("css selector", ".result-total-6x")->text());
