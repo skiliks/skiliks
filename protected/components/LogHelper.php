@@ -1038,4 +1038,46 @@ class LogHelper {
             }
          return true;
     }
+    
+    public static function getLegActionsDetail($return) {
+
+//            $data['data'] = Yii::app()->db->createCommand()
+//                ->select("l.sim_id, 
+//                    d.code as code, 
+//                    s.title as category,
+//                    if(d.type_of_init != 'flex', 'System_dial', 'Manual_dial') as type_of_init,
+//                    l.last_id, 
+//                    l.start_time, 
+//                    l.end_time")
+//                ->from('log_dialogs l')
+//                ->leftJoin('dialogs d', 'l.dialog_id = d.id')
+//                ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
+//                ->order("l.id")
+//                ->queryAll();
+              $data['data'] = [['sim_id'=>'test'], ['sim_id'=>'test2']];  
+//            $data['headers'] = array(
+//                    'sim_id'     => 'id_симуляции',
+//                    'code'       => 'Код события',
+//                    'category'   => 'Категория события',
+//                    'type_of_init'   => 'Категория события',
+//                    'last_id'    => 'Результирующее id_записи',
+//                    'start_time' => 'Игровое время - start',
+//                    'end_time'   => 'Игровое время - end'
+//            );
+            $data['headers'] = ['sim_id' => 'id_симуляции'];
+            
+            if(self::RETURN_DATA == $return) {
+                $data['title'] = "Логирование Leg_actions - detail";
+                return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                $csv = new ECSVExport($data['data'], true, true, ';');
+                $csv->setHeaders($data['headers']);
+                $content = $csv->toCSVutf8BOM();
+                $filename = 'data.csv';
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
+    }
 }
