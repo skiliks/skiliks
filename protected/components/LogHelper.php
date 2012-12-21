@@ -517,6 +517,7 @@ class LogHelper {
                             'end_time' => '00:00:00',
                             'sim_id' => $simId
                         ));
+                        if(!$log_obj) continue;
                         $log_obj->end_time = date("H:i:s", $log[3]);
                         $log_obj->mail_task_id = $log[4]['planId'];
                         $log_obj->save();
@@ -542,6 +543,7 @@ class LogHelper {
                             "end_time" => '00:00:00',
                             "sim_id" => $simId
                         ));
+                        if(!$log_obj) continue;
                         $log_obj->end_time = date("H:i:s", $log[3]);
                         $log_obj->mail_task_id = $log[4]['planId'];
                         $log_obj->mail_id  = empty($log[4]['mailId'])?NULL:$log[4]['mailId'];
@@ -559,6 +561,7 @@ class LogHelper {
                         'end_time' => '00:00:00',
                         'sim_id' => $simId
                     ));
+                    if(!$log_obj) continue;
                     $log_obj->end_time = date( "H:i:s", $log[3] );
                     $log_obj->save();
 
