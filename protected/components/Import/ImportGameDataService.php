@@ -1017,7 +1017,6 @@ class ImportGameDataService
         $handle = $this->checkFileExists($fileName);
         
         $documents = MyDocumentsService::getAllCodes();
-        //var_dump($documents); die();
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
@@ -1113,23 +1112,28 @@ class ImportGameDataService
     {
         $import_id = $this->getImportUUID();
         $activity_types = array(
-            'Documents_leg' => 'document_id',
+            'Documents_leg'   => 'document_id',
             'Manual_dial_leg' => 'dialog_id',
             'System_dial_leg' => 'dialog_id',
-            'Inbox_leg' => 'mail_id',
-            'Outbox_leg' => 'mail_id',
-            'Window' => 'window_id'
+            'Inbox_leg'       => 'mail_id',
+            'Outbox_leg'      => 'mail_id',
+            'Window'          => 'window_id'
         );
         $errors = null;
         $fileName = __DIR__ . '/../../../media/xls/activity.xlsx';
         $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
+        
         PHPExcel_Settings::setCacheStorageMethod($cache_method);
 
         $reader = PHPExcel_IOFactory::createReader('Excel2007');
 
+        // load sheet {
         $reader->setLoadSheetsOnly('Leg_actions');
         $excel = $reader->load($fileName);
         $sheet = $excel->getSheetByName('Leg_actions');
+        // load sheet }
+        
+        // save colums numbers by column titles {
         $columns = array();
         for ($i = 0; ; $i++) {
             $row_title = $sheet->getCellByColumnAndRow($i, 1)->getValue();
@@ -1139,51 +1143,75 @@ class ImportGameDataService
                 break;
             }
         }
+        // save colums numbers by column titles }
+        
         $activities = array();
         $activity_actions = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            // get Leg_type value
             $leg_type = $sheet->getCellByColumnAndRow($columns['Leg_type'], $i->key())->getValue();
+            
+            // we haven`t skype agent jet
             if ($leg_type === 'Skype_leg') {
                 continue;
             }
 
-            $cell = $sheet->getCellByColumnAndRow($columns['Activity_code'], $i->key())->getValue();
-            $activity = Activity::model()->findByPk($cell);
+            // get Activity code
+            $activitiCode = $sheet->getCellByColumnAndRow($columns['Activity_code'], $i->key())->getValue();
+            
+            //try to find exest activity in DB
+            $activity = Activity::model()->findByPk($activitiCode);
+            
+            // create Activity 
             if ($activity === null) {
                 $activity = new Activity();
-                $activity->id = $cell;
+                $activity->id = $activitiCode;
             }
+                
+            // update activities counter
             $activities[$activity->id] = true;
-            $activity->parent = $sheet->getCellByColumnAndRow($columns['Parent'], $i->key())->getValue();
-            $activity->grandparent = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
-            $activity->name = $sheet->getCellByColumnAndRow($columns['Activity_name'], $i->key())->getValue();
-            $activity->import_id = $import_id;
+            
+            // update activity values {
+            $activity->parent                = $sheet->getCellByColumnAndRow($columns['Parent'], $i->key())->getValue();
+            $activity->grandparent           = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
+            $activity->name                  = $sheet->getCellByColumnAndRow($columns['Activity_name'], $i->key())->getValue();
+            $activity->numeric_id            = $sheet->getCellByColumnAndRow($columns['Activity_id'], $i->key())->getValue();
+            $activity->is_keep_last_category = $sheet->getCellByColumnAndRow($columns['Keep last category'], $i->key())->getValue();
+            
             $category = $sheet->getCellByColumnAndRow($columns['Категория'], $i->key())->getValue();
             $activity->category_id = ($category === '-' ? null : $category);
-            if (!$activity->validate()) {
-                $errors = $activity->getErrors();
-                return array('errors' => $errors);
+            
+            $activity->import_id   = $import_id;
+            if (false === $activity->validate()) {
+                return array('errors' => $activity->getErrors());
             }
             $activity->save();
+            // update activity values }
+            
+            // 
             $type = $activity_types[$leg_type];
             $xls_act_value = $sheet->getCellByColumnAndRow($columns['Leg_action'], $i->key())->getValue();
+            
             # Converting XLS codes to our
             if ($xls_act_value === '-') {
                 $values = array();
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = Dialogs::model()->findAll();
                 } else {
                     $values = array(Dialogs::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = MailTemplateModel::model()->findAll();
                 } else {
                     $values = array(MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = MyDocumentsTemplateModel::model()->findAll();
                 } else {
                     $values = array(MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
@@ -1194,6 +1222,8 @@ class ImportGameDataService
             } else {
                 return array('errors' => 'Can not handle type:' . $type);
             }
+            
+            // update relation Activiti to Document, Dialog replic ro Email {
             foreach ($values as $value) {
                 $activityAction = ActivityAction::model()->findByAttributes(array(
                     'activity_id' => $activity->primaryKey,
@@ -1211,12 +1241,21 @@ class ImportGameDataService
                 }
                 $activityAction->save();
             }
+            // update relation Activiti to Document, Dialog replic ro Email }
+            
             $activity_actions ++;
-
         }
+        
+        // delete old unused data {
         Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
         ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
-        return array('activity_actions' => $activity_actions, 'errors' => false, 'activities' => count($activities));
+        // delete old unused data }
+        
+        return array(
+            'activity_actions' => $activity_actions, 
+            'errors' => false, 
+            'activities' => count($activities)
+        );
     }
 
     /* ----- */
