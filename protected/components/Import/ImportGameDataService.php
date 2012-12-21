@@ -324,6 +324,20 @@ class ImportGameDataService
             $pointsInfo[$item->code] = $item->id;
         }
         
+        // Get all exist system mail_templates to avoid SQL queries againts each request {
+        $existsMailTemplate = array();
+        foreach (MailTemplateModel::model()->findAll() as $mailTemplate) {
+            $existsMailTemplate[$mailTemplate->code] = $mailTemplate;
+        }
+        // Get all mail_templates }
+        
+        // Get all exist system mail_themes to avoid SQL queries againts each request {
+        $existsMailThemes = array();
+        foreach (MailThemesModel::model()->bySimIdNull()->findAll() as $mailTheme) {
+            $existsMailThemes[$mailTheme->name] = $mailTheme;
+        }
+        // Get all mail_themes }
+        
         $exists = array();
         
         $handle = fopen($fileName, "r");
@@ -334,7 +348,7 @@ class ImportGameDataService
             $index++;
             
             if ($index == 2) {
-                // загрузим кодов
+                // get point codes
                 $START_COL = 20;
                 $END_COL = 134;
                 $columnIndex = $START_COL;
@@ -350,20 +364,14 @@ class ImportGameDataService
                 continue;
             }
            
-            // Код письма
-            $code = $row[0];  // A
-            // дата отправки
-            $sendingDate = $row[1]; // B
-            // время отправки
-            $sendingTime = $row[2]; // C
-            // От кого (код)
-            $fromCode = $row[3]; // D
-            // Кому (код)
-            $toCode = $row[5];  // F
-            // Копия (код)
-            $copies = $row[7]; // H
-            // тема
-            $subject = $row[9];  // J
+            $code = $row[0];  // A, Код письма
+            $sendingDate = $row[1]; // B, ата отправки
+            $sendingTime = $row[2]; // C, время отправки
+            $fromCode = $row[3]; // D, От кого (код)
+            $toCode = $row[5];  // F, Кому (код)
+            $copies = $row[7]; // H, Копия (код)
+
+            $subject = $row[9];  // J, тема
             $subject = StringTools::fixReAndFwd($subject);
             
             // Письмо
@@ -461,41 +469,44 @@ class ImportGameDataService
             }
             
             // themes update {
-            $subjectEntity = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
-            if (null === $subjectEntity) {
+            if (false === isset($existsMailThemes[$subject])) {
                 $subjectEntity = new MailThemesModel();
                 $subjectEntity->name = $subject;
                 $subjectEntity->insert();
+            } else {
+                $subjectEntity = $existsMailThemes[$subject];
             }
-            $emailSubjectsIds[] = $subjectEntity->id;
-
+            $emailSubjectsIds[] = $existsMailThemes[$subject]->id;
             // themes update }
             
-            $emailTemplateEntity = MailTemplateModel::model()->byCode($code)->find();
-            if (!$emailTemplateEntity) {
+            $emailTemplateEntity = null;
+            if (isset($existsMailTemplate[$code])) {
+                $emailTemplateEntity = $existsMailTemplate[$code];
+            }
+            if (null === $emailTemplateEntity) {
                 $emailTemplateEntity = new MailTemplateModel();
-                $emailTemplateEntity->group_id = $group;
-                $emailTemplateEntity->sender_id = $fromId;
-                $emailTemplateEntity->receiver_id = $toId;
-                $emailTemplateEntity->subject = $subject;
-                $emailTemplateEntity->subject_id = $subjectEntity->id;
-                $emailTemplateEntity->message = $message;
-                $emailTemplateEntity->sending_date = $sendingDate;
-                $emailTemplateEntity->code = $code;
-                $emailTemplateEntity->type = $type;
+                $emailTemplateEntity->group_id           = $group;
+                $emailTemplateEntity->sender_id          = $fromId;
+                $emailTemplateEntity->receiver_id        = $toId;
+                $emailTemplateEntity->subject            = $subject;
+                $emailTemplateEntity->subject_id         = $subjectEntity->id;
+                $emailTemplateEntity->message            = $message;
+                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->code               = $code;
+                $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
 
                 $emailTemplateEntity->insert();
             }
             else {
-                $emailTemplateEntity->group_id = $group;
-                $emailTemplateEntity->sender_id = $fromId;
-                $emailTemplateEntity->receiver_id = $toId;
-                $emailTemplateEntity->subject = $subject;
-                $emailTemplateEntity->subject_id = $subjectEntity->id;
-                $emailTemplateEntity->message = $message;
-                $emailTemplateEntity->sending_date = $sendingDate;
-                $emailTemplateEntity->type = $type;
+                $emailTemplateEntity->group_id           = $group;
+                $emailTemplateEntity->sender_id          = $fromId;
+                $emailTemplateEntity->receiver_id        = $toId;
+                $emailTemplateEntity->subject            = $subject;
+                $emailTemplateEntity->subject_id         = $subjectEntity->id;
+                $emailTemplateEntity->message            = $message;
+                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
                 $emailTemplateEntity->update();
             }
@@ -662,7 +673,7 @@ class ImportGameDataService
             - Marks "0": %s. must be 13<br/>
             - Marks "1": %s. must be 32<br/>
             <br/>
-            Email import was finished. <br>.
+            Email import was finished. <br>
             ',
             $counter['all'],
             $counter['M'] + $counter['MY'],
@@ -1176,8 +1187,7 @@ class ImportGameDataService
             $activity->grandparent           = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
             $activity->name                  = $sheet->getCellByColumnAndRow($columns['Activity_name'], $i->key())->getValue();
             $activity->numeric_id            = $sheet->getCellByColumnAndRow($columns['Activity_id'], $i->key())->getValue();
-            $activity->is_keep_last_category = $sheet->getCellByColumnAndRow($columns['Keep last category'], $i->key())->getValue();
-            
+                        
             $category = $sheet->getCellByColumnAndRow($columns['Категория'], $i->key())->getValue();
             $activity->category_id = ($category === '-' ? null : $category);
             
@@ -1234,6 +1244,7 @@ class ImportGameDataService
                 }
                 $activityAction->import_id = $import_id;
                 $activityAction->activity_id = $activity->id;
+                $activityAction->is_keep_last_category = $sheet->getCellByColumnAndRow($columns['Keep last category'], $i->key())->getValue();
                 $activityAction->$type = $value->id;
                 if (!$activityAction->validate()) {
                     $errors = $activityAction->getErrors();
