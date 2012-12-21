@@ -46,11 +46,6 @@ class Activity extends CActiveRecord
     public $name;
     
     /**
-     * @var bool
-     */
-    public $is_keep_last_category;
-    
-    /**
      * Importance.
      * From 0 to 5. 0 - very important, 5 - trash.
      * 2_min - must be act in 3 real time seconds.
