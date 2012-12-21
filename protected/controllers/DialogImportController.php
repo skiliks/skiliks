@@ -12,8 +12,25 @@ class DialogImportController extends AjaxController
         $service = new DialogImportService();
         $result = $service->import('media/ALL_DIALOGUES.csv');
         
+        $html = sprintf(
+            'Lines %s [must be 821] <br/>
+            Columns 137 [must be 137] <br/>
+            <br/>
+            Marks codes amount: %s [must be 114] <br/>
+            <br/>
+                Marks "0": %s [must be 408] <br/>
+                Marks "1": %s [must be 620] <br/>
+                tolal %s [1028] <br/>
+            ',
+            $result['replics'],
+            $result['pointCodes'],
+            $result['zeros'],
+            $result['ones'],
+            $result['zeros']+$result['ones']
+        );
+        
         if (false !== $result) {
-            $this->_sendResponse(200, var_export($result, true), 'text/html');
+            $this->_sendResponse(200, $html, 'text/html');
         } else {
             $this->_sendResponse(200, 'Error.');
         }
