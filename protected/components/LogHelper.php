@@ -422,12 +422,11 @@ class LogHelper {
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]){
 
-                    $comand = Yii::app()->db->createCommand();
-                    $comand->insert( "log_documents" , array(
-                        'sim_id'    => $simId,
-                        'file_id'   => $log[4]['fileId'],
-                        'start_time'=> date("H:i:s", $log[3])
-                    ));
+                    $log_obj = new LogDocuments();
+                    $log_obj->sim_id=$simId;
+                    $log_obj->file_id = $log[4]['fileId'];
+                    $log_obj->start_time=date("H:i:s", $log[3]);
+                    $log_obj->save();
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
 
                     $comand = Yii::app()->db->createCommand();
@@ -498,12 +497,12 @@ class LogHelper {
                 $command = Yii::app()->db->createCommand();
                 
                 if( self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2] ) {
-                    $command->insert( "log_mail" , array(
-                        'sim_id'    => $simId,
-                        'mail_id'   => empty($log[4]['mailId'])?NULL:$log[4]['mailId'],
-                        'window'   => $log[1],
-                        'start_time'  => date("H:i:s", $log[3])
-                    ));
+                    $log_obj = new LogMail();
+                    $log_obj->sim_id = $simId;
+                    $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
+                    $log_obj->window = $log[1];
+                    $log_obj->start_time = date("H:i:s", $log[3]);
+                    $log_obj->save();
                     continue;
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2] ) {
@@ -513,15 +512,14 @@ class LogHelper {
                     
                     if($log[1] != 13) {
                         // reply, or close mail-plan, or close mail-main
-                        
-                        $command->update( 
-                            "log_mail" , 
-                            array(
-                                'end_time'         => date("H:i:s", $log[3]),
-                                'mail_task_id'     => $log[4]['planId'],
-                            ), 
-                            "`mail_id` = {$log[4]['mailId']} AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
-                        );
+                        $log_obj = LogMail::model()->findByAttributes(array(
+                            'mail_id' => $log[4]['mailId'],
+                            'end_time' => '00:00:00',
+                            'sim_id' => $simId
+                        ));
+                        $log_obj->end_time = date("H:i:s", $log[3]);
+                        $log_obj->mail_task_id = $log[4]['planId'];
+                        $log_obj->save();
                         continue;
                         
                     } else {
@@ -539,36 +537,38 @@ class LogHelper {
                             $result = MailBoxService::updateMsCoincidernce($log[4]['mailId'], $simId);
                         }
                         // check MS email concidence with mail_templates }
-                        
-                        $command->update(
-                            "log_mail" , 
-                            array(
-                                'end_time'  => date("H:i:s", $log[3]),
-                                'mail_task_id' => $log[4]['planId'],
-                                'mail_id'  => empty($log[4]['mailId'])?NULL:$log[4]['mailId'] ,
-                                'full_coincidence'  => $result['full'],
-                                'part1_coincidence' => $result['part1'],
-                                'part2_coincidence' => $result['part2'],
-                                'is_coincidence'    => $result['has_concidence'],
-                            ), 
-                            "`mail_id` is null AND `end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
-                        );
+                        $log_obj = LogMail::model()->findByAttributes(array(
+                            "mail_id" => null,
+                            "end_time" => '00:00:00',
+                            "sim_id" => $simId
+                        ));
+                        $log_obj->end_time = date("H:i:s", $log[3]);
+                        $log_obj->mail_task_id = $log[4]['planId'];
+                        $log_obj->mail_id  = empty($log[4]['mailId'])?NULL:$log[4]['mailId'];
+                        $log_obj->full_coincidence  = $result['full'];
+                        $log_obj->part1_coincidence = $result['part1'];
+                        $log_obj->part2_coincidence = $result['part2'];
+                        $log_obj->is_coincidence = $result['has_concidence'];
+                        $log_obj->save();
                         continue;
                          
                     }
                     
                 } elseif( self::ACTION_SWITCH == (string)$log[2] ) {
-                    $command->update( "log_mail" , array(
-                        'end_time'  => date( "H:i:s", $log[3] )
-                    ), "`end_time` = '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1");
-                    
-                        $command->insert( "log_mail" , array(
-                            'sim_id'    => $simId,
-                            'mail_id'   => $log[4]['mailId'],
-                            'window'   => $log[1],
-                            'start_time'  => date("H:i:s", $log[3])
-                        ));
-                    
+                    $log_obj = LogMail::model()->findByAttributes(array(
+                        'end_time' => '00:00:00',
+                        'sim_id' => $simId
+                    ));
+                    $log_obj->end_time = date( "H:i:s", $log[3] );
+                    $log_obj->save();
+
+                    $log_obj = new LogMail();
+                    $log_obj->sim_id = $simId;
+                    $log_obj->mail_id = $log[4]['mailId'];
+                    $log_obj->window = $log[1];
+                    $log_obj->start_time = date("H:i:s", $log[3]);
+                    $log_obj->save();
+
                 } else {
                     throw new Exception("Ошибка"); //TODO:Описание доделать
                 }
