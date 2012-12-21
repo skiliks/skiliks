@@ -53,6 +53,6 @@
         </exec>
     </target>
     <target name="deploy">
-        <ssh username="gugu" host="skiliks.com" />
+        <ssh host="skiliks.com" username="gugu" privkeyfile="/Users/gugu/.ssh/id_rsa" pubkeyfile="/Users/gugu/.ssh/id_rsa.pub" command="git pull" />
     </target>
 </project>
