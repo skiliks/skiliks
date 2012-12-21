@@ -46,7 +46,8 @@ class TodoController extends AjaxController
         // addTask() returns Todo instance or false
         $result = TodoService::addTask($taskId, $simulationId);
         
-        if (false !== $result) {
+        // responce :
+        if (true === $result) {
             $this->sendJSON(
                 array('result' => self::STATUS_SUCCESS)
             );

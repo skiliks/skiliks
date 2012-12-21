@@ -413,8 +413,12 @@ class DialogImportService {
     {
         $this->resetCounters();
         
-        $this->getRowsFromCsv($fileName);
-        $this->getMarkCodesFromCsv($fileName);        
+        try {
+            $this->getRowsFromCsv($fileName);
+            $this->getMarkCodesFromCsv($fileName);
+        } catch (Exception $e) {
+            return false;
+        }
 
         $this->importEventsFromLines(); // импортируем события
         $this->importDialogsFromLines(); // импортируем диалоги
@@ -567,17 +571,13 @@ class DialogImportService {
 
     public function importEvents($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
         
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 802) {
-                die();
-            }
             
-            //var_dump($row);
             $eventCode = $row[$this->_columnAlias['O']];
             if ($eventCode == '-') continue;
             
@@ -601,7 +601,7 @@ class DialogImportService {
                 $event->on_hold_logic = 1;
                 $event->insert();
                 
-                echo("insert event $eventCode <br/>");
+                //echo("insert event $eventCode <br/>");
             }
             
             
@@ -611,7 +611,7 @@ class DialogImportService {
     
     public function importReplica($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
         
         $index = 0;
         $columns = array();
@@ -620,10 +620,6 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 802) {
-                die();
-            }
-            
             
             $isFinalReplica = $this->_convert($row[$this->_columnAlias['N']]);
             if ($isFinalReplica == 'да') {
@@ -632,7 +628,6 @@ class DialogImportService {
                 if ($dialog) {
                     $dialog->is_final_replica = 1;
                     $dialog->save();
-                    var_dump($dialog->excel_id); echo('<br>');
                 }
             }
         }
@@ -641,7 +636,7 @@ class DialogImportService {
     
     public function importText($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
         
         $index = 0;
         $columns = array();
@@ -650,10 +645,6 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 802) {
-                die();
-            }
-            
             
             $text = $this->_convert($row[$this->_columnAlias['M']]);
             $nextEventCode = $row[$this->_columnAlias['O']];
@@ -663,7 +654,6 @@ class DialogImportService {
                 $dialog->text = $text;
                 $dialog->next_event_code = $nextEventCode;
                 $dialog->save();
-                var_dump($dialog->excel_id); echo('<br>');
             }
             
         }
@@ -674,7 +664,7 @@ class DialogImportService {
         $this->resetCounters();
         
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
         
         foreach(FlagsRulesContentModel::model()->findAll() as $flagContent) {
             $flagContent->delete();
@@ -737,7 +727,7 @@ class DialogImportService {
             $lineNo++;
         }
         fclose($handle);
-        echo sprintf(
+        return sprintf(
             'Импорт правил для флагов завершен. <br/>
              Сток с событиями обработано: %s. <br/>
              Правил для событий обработано: %s. <br/>',
@@ -748,7 +738,7 @@ class DialogImportService {
     
     public function importFlags($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
         
         $index = 0;
         $columns = array();
@@ -757,15 +747,12 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 802) {
-                die();
-            }            
+        
             // Определяем флаг
             $flag = $row[$this->_columnAlias['T']];
             if ($flag == '') continue;
             // Убеждаемся что поле имеет нужный нам формат
             if (!preg_match('/^F\d+$/', $flag)) continue;
-            var_dump($flag);
             
             $excelId = $row[$this->_columnAlias['A']];
             
@@ -774,18 +761,17 @@ class DialogImportService {
                 // Записываем флаг в модель диалога
                 $dialog->flag = $flag;
                 $dialog->save();
-                echo("saved flag : $flag");
-                //var_dump($dialog->excel_id); echo('<br>');
             }
             
         }
         fclose($handle);
-        echo("Done");
     }
     
     public function updateFiles($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
+        
+        $resultHtml = '';
         
         $index = 0;
         $columns = array();
@@ -794,9 +780,6 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 816) {
-                die();
-            }
             
             $excelId    = $row[$this->_columnAlias['A']];
             $code       = $row[$this->_columnAlias['C']];
@@ -808,20 +791,24 @@ class DialogImportService {
                 //$dialog->code   = $code;
                 $dialog->sound  = $file;
                 $dialog->save();
-                echo("updated : $excelId sound : $file <br/>");
+                $resultHtml .= "updated : $excelId sound : $file <br/>";
             }
             else {
-                echo("cant find $excelId <br/>");
+                $resultHtml .= "cant find $excelId <br/>";
             }
             
         }
         fclose($handle);
-        echo("Done");
+        
+        $resultHtml .= "Done";
+        return $resultHtml;
     }
     
     public function updateDemo($fileName) {
         $handle = fopen($fileName, "r");
-        if (!$handle) throw new Exception("cant open $fileName");
+        if (!$handle) return false;
+        
+        $html = '';
         
         $index = 0;
         $columns = array();
@@ -830,9 +817,6 @@ class DialogImportService {
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
-            if ($index > 816) {
-                die();
-            }
             
             $excelId    = $row[$this->_columnAlias['A']];
             $demo       = $this->_convert($row[$this->_columnAlias['D']]);
@@ -841,10 +825,10 @@ class DialogImportService {
                 if ($dialog) {
                     $dialog->demo = 1;
                     $dialog->save();
-                    echo("updated : $excelId <br/>");
+                    $html .= "updated : $excelId <br/>";
                 }
                 else {
-                    echo("cant find $excelId <br/>");
+                    $html .= "cant find $excelId <br/>";
                 }
             }
             
@@ -852,7 +836,9 @@ class DialogImportService {
             
         }
         fclose($handle);
-        echo("Done");
+        
+        $html .="Done";
+        return $html;
     }
 }
 

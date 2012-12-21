@@ -85,6 +85,7 @@ class DialogController extends AjaxController{
             ############################################################
             
             // запускаем ф-цию расчета оценки { 
+            // @togo;
             CalculationEstimateService::calculate($dialogId, $simId); // к записи, ид которой пришло с фронта
             // конец расчета оценки }
             
@@ -95,6 +96,7 @@ class DialogController extends AjaxController{
              
             ## new code
             $data = array();
+            
             if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
                 // смотрим а не является ли следующее событие у нас диалогом
                 // if next event has delay it can`t statr immediatly
@@ -104,8 +106,10 @@ class DialogController extends AjaxController{
                     ->find();
                 $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
                 
-                if (EventService::isDialog($currentDialog->next_event_code) && null !== $dialog && 0 == (int)$dialog->delay) {
-                    // сразу же отдадим реплики по этому событию - моментально
+                $isDialog = EventService::isDialog($currentDialog->next_event_code);
+                
+                if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && 0 == (int)$dialog->delay) {
+                     // сразу же отдадим реплики по этому событию - моментально
                     $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                     foreach($dialogs as $dialog) {
                         $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);

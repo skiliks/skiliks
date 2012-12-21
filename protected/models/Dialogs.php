@@ -138,6 +138,15 @@ class Dialogs extends CActiveRecord
     {
             return parent::model($className);
     }
+    /**
+     * @todo; fix this dirty trick
+     * probebly we need aliaces for dialog_subtype instead of ids
+     * @return bool
+     */
+    public function isEvent()
+    {
+        return (1 === (int)$this->dialog_subtype || 5 === (int)$this->dialog_subtype);
+    }
 
     /**
      * @return string the associated database table name
