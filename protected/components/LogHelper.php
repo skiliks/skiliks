@@ -965,7 +965,6 @@ class LogHelper {
 
         foreach( $logs as $log ) {
             if (empty($log[4]['dialogId'])) continue;
-            Yii::log(var_export($log, true));
             if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
                 $dialog = new LogDialogs();
