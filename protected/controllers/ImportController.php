@@ -8,7 +8,6 @@ class ImportController extends AjaxController
         $controllers = array('MailImportController', 
                              'CharactersPointsTitleImportController',
                              'DialogImportController',
-                             'MailImportController', 
                              'MyDocumentsImportController', 
                              'TasksImportController');
         $links = System::classToUrls($controllers);

@@ -1,20 +1,20 @@
 <?php
 
 return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
-    'components'=>array(
-        'db'=>array(
+    'components' => array(
+        'db' => array(
             'connectionString' => 'mysql:host=localhost;dbname=skiliks',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => 'Vtufpfdh',
             'charset' => 'utf8',
-            
-             'enableParamLogging'=>true,
-            'enableProfiling'=>true
+
+            'enableParamLogging' => true,
+            'enableProfiling' => true
         ),
     ),
-    'params'=>array(
-        'frontendUrl'=>'http://front.skiliks.com/',
+    'params' => array(
+        'frontendUrl' => 'http://front.skiliks.com/',
         'skiliksSpeedFactor' => 4
     )
 ));
