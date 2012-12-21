@@ -162,17 +162,17 @@ class LogHelper {
      * @param int $simId ID - Симуляции
      * @param int $pointId ID - Поинта с таблицы `characters_points_titles`
      */
-    public static function setLogDoialog( $dialogId, $simId, $pointId ) {
+    public static function setLogDoialogPoint( $dialogId, $simId, $pointId ) {
 
 		$comand = Yii::app()->db->createCommand();
-		$comand->insert( "log_dialog" , array(
+		$comand->insert( "log_dialog_points" , array(
                          'sim_id'    => $simId,
                          'dialog_id' => $dialogId,
                          'point_id'  => $pointId
                         ));
 	}
 
-	public static function getDialogDetail($return, $params=array()) 
+	public static function getDialogPointsDetail($return, $params=array()) 
     {
         $sim_id = null;
         if (isset($params['sim_id'])) {
@@ -193,7 +193,7 @@ class LogHelper {
                        , d.step_number
                        , d.replica_number
 		')
-            ->from('log_dialog l')
+            ->from('log_dialog_points l')
             ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
             ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
@@ -305,14 +305,14 @@ class LogHelper {
         return true;
 	}
 
-     public static function getDialogAggregate($return) {
+     public static function getDialogPointsAggregate($return) {
 
             $data['data'] = Yii::app()->db->createCommand()
                 ->select('l.sim_id,
                       p.code,
                       t.value as type_scale,
                       round(avg(c.add_value)*p.scale, 2) as avg')
-                ->from('log_dialog l')
+                ->from('log_dialog_points l')
                 ->leftJoin('characters_points c', 'l.dialog_id = c.dialog_id')
                 ->leftJoin('characters_points_titles p', 'c.point_id = p.id')
                 ->leftJoin('type_scale t', 'p.type_scale = t.id')
@@ -965,7 +965,6 @@ class LogHelper {
 
         foreach( $logs as $log ) {
             if (empty($log[4]['dialogId'])) continue;
-            Yii::log(var_export($log, true));
             if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
                 $dialog = new LogDialogs();
@@ -983,7 +982,7 @@ class LogHelper {
                 }
                 foreach ($dialogs as $dialog) {
                     $dialog->end_time = date("H:i:s", $log[3]);
-                    $dialog->last_id = $log[4]['lastDialogId'];
+                    $dialog->last_id = empty($log[4]['lastDialogId'])?null:$log[4]['lastDialogId'];
                     $dialog->save();
                 }
             } elseif (self::ACTION_SWITCH == (string)$log[2]) {

@@ -16,7 +16,7 @@ class LoggingTest extends SeleniumTestCase
         sleep(2);
         # вводится текст
         $this->waitForElement($session, "id", "login")->value(
-            array("value" => str_split("kaaaaav@gmail.com"))
+            array("value" => str_split($this->email))
         );
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
@@ -68,7 +68,7 @@ class LoggingTest extends SeleniumTestCase
             array
             (
                 'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
+                'email' => $this->email,
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail main',
@@ -76,7 +76,7 @@ class LoggingTest extends SeleniumTestCase
             array
             (
                 'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
+                'email' => $this->email,
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail new',
@@ -84,7 +84,7 @@ class LoggingTest extends SeleniumTestCase
             array
             (
                 'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
+                'email' => $this->email,
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail main',
@@ -92,7 +92,7 @@ class LoggingTest extends SeleniumTestCase
             array
             (
                 'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
+                'email' => $this->email,
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail new',
@@ -100,13 +100,132 @@ class LoggingTest extends SeleniumTestCase
             array
             (
                 'user_id' => $this->user->primaryKey,
-                'email' => 'kaaaaav@gmail.com',
+                'email' => $this->email,
                 'id' => $simulation->primaryKey,
                 'window' => 'mail',
                 'sub_window' => 'mail main',
             )
         ), $our_rows);
 
+    }
+
+    public function testDialogLogging()
+    {
+        # Login
+        $session = $this->webdriver->session('firefox');
+        $session->open($this->browser_url . 'site.php');
+        # раскрыть окно на весь экран
+        $session->window()->maximize();
+        # из-за черной полосы загрузки, пришлось добавить временное ожидание
+        sleep(3);
+        # вводится текст
+        $this->waitForElement($session, "id", "login")->value(
+            array("value" => str_split($this->email))
+        );
+        # Ждём появления елемента и кликаем на него
+        $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
+        # Кликаем на него
+        $session->element("css selector", "input.btn-primary")->click();
+        # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
+        $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
+        $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
+        # ожидание одного из компонентов (чтобы убедиться что симуляция стартовала)
+        $this->waitForElement($session, 'xpath', '//a[@id="icons_documents"]');
+
+
+        #старт теста по параметрам заданным Антоном
+
+        #добавление события
+        $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split("E1")));
+        $this->waitForElement($session, "id", "addTriggerDelay")->value(array("value" => str_split("1")));
+        #клик на "создать событие"
+        $session->element("xpath", "//input[@value='Создать']")->click();
+        #ждем исчезновения черной полосы загрузки и в появившемся окне тригера кликаем ОК
+        sleep(3);
+        $session->element('css selector', '.alert a.btn')->click();
+        sleep(5);
+
+        #2 ответа на диалог с Денежной
+
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]", 30)->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, за три часа управлюсь.\"]")->click();
+        sleep(3);
+
+
+        #обнуляем поле ввода названия события, вписываем новое, кликаем создать
+        $session->element("id", "addTriggerSelect")->clear();
+        $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split("E8.3")));
+        $session->element("xpath", "//input[@value='Создать']")->click();
+        #подтвеждение тригера, вейт почему то не работает
+        sleep(3);
+        $session->element('css selector', '.alert a.btn')->click();
+        sleep(5);
+
+
+        #3 ответа на диалог с начальником АйТи отдела за обедом
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Нет, прости, Мирон. Сегодня просто сумасшедший день. Собирался почту разбирать как только со срочными вопросами разберусь. А им конца и края нет.\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы. Это ведь форс-мажор?\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, сейчас вернусь и напишу служебку. Спасибо за информацию!\"]")->click();
+
+        sleep(10);
+
+
+        #обнуляем поле ввода названия события, вписываем новое, кликаем создать
+        $session->element("id", "addTriggerSelect")->clear();
+        $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split("E12.1")));
+        $session->element("xpath", "//input[@value='Создать']")->click();
+        #подтвеждение тригера, вейт почему то не работает
+        sleep(3);
+        $session->element('css selector', '.alert a.btn')->click();
+        sleep(5);
+
+
+        #3 ответа на диалог
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Может мой аналитик подойти вместо меня?\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, буду в 18.00\"]")->click();
+
+
+        sleep(8);
+        #проверка конечного результата
+        $this->assertEquals("Сумма оценок: 4.5", $session->element("css selector", ".result-total")->text());
+        $this->assertEquals("Сумма оценок 6x: 9", $session->element("css selector", ".result-total-6x")->text());
+        $this->assertEquals("Сумма оценок Negative: 0", $session->element("css selector", ".result-total-negative")->text());
+        $source = file_get_contents($this->browser_url . '/api/index.php/Admin/Log?data=json&type=Dialogs');
+        $json = CJSON::decode($source);
+        $data = $json['data'];
+        $simulations = $this->user->simulations();
+        $simulation = $simulations[0];
+        $data = array_filter($data, function ($i) use ($simulation) {return $i['sim_id'] == $simulation->id;});
+        $data = array_values($data);
+        $data = array_map(function($item){
+            if ('00:00:00' !== $item['start_time']) {
+                unset($item['start_time']);
+            }
+            if ('00:00:00' !== $item['end_time']) {
+                unset($item['end_time']);
+            }
+            return $item;
+        }, $data);
+        $this->assertEquals(array (
+            array (
+                'sim_id' => $simulation->id,
+                'code' => 'E1',
+                'category' => 'Разговор по телефону',
+                'last_id' => '11',
+            ),
+            array (
+                'sim_id' => $simulation->id,
+                'code' => 'E8.3',
+                'category' => 'Встреча',
+                'last_id' => '340',
+            ),
+            array (
+                'sim_id' => $simulation->id,
+                'code' => 'E12.1',
+                'category' => 'Разговор по телефону',
+                'last_id' => '444',
+            ),
+        ),$data);
     }
 
     private function getWindowLog($simulations, $skip_time = true)
@@ -156,12 +275,12 @@ class LoggingTest extends SeleniumTestCase
         sleep(2);
         # вводится текст
         $this->waitForElement($session, "id", "login")->value(
-            array("value" => str_split("kaaaaav@gmail.com"))
+            array("value" => str_split($this->email))
         );
         # Ждём появления елемента и кликаем на него
         $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
         # Кликаем на него
-        $session->element("xpath", "//input[@class='btn']")->click();
+        $session->element("css selector", "input.btn-primary")->click();
         # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
@@ -192,7 +311,7 @@ class LoggingTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.saveDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Черновики "]')->click();
-        $this->waitForElement($session, 'xpath', '//td[text()="Re: !проблема с сервером!"]')->click();
+        $this->waitForElement($session, 'xpath', '//td[text()="re: !проблема с сервером!"]')->click();
         $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.sendDraftLetter()"]')->click();
         $this->waitForElement($session, 'xpath', '//a[text()="Исходящие "]')->click();
         $this->waitForElement($session, 'xpath', '//button[@onclick="mailEmulator.draw();"]')->click();
@@ -203,7 +322,6 @@ class LoggingTest extends SeleniumTestCase
         $simulations = $this->user->simulations();
         $simulation = $simulations[0];
         $our_rows = $this->getWindowLog($simulations, false);
-        print_r($our_rows);
         for ($i = 1; $i < count($our_rows); $i++) {
             $this->assertFalse($our_rows[$i - 1]['window'] == $our_rows[$i]['window']
                 && $our_rows[$i - 1]['sub_window'] == $our_rows[$i]['sub_window']

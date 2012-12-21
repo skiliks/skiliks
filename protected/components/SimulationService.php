@@ -104,7 +104,7 @@ class SimulationService
             try {
                 $emailResultsFor_3322->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
             
@@ -121,7 +121,7 @@ class SimulationService
             try {
                 $emailResultsFor_3324->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
         // 3322_3324 }
@@ -142,7 +142,7 @@ class SimulationService
             try {
                 $emailResultsFor_3325->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
         //3325 - read spam }
@@ -162,7 +162,7 @@ class SimulationService
             try {
                 $emailResultsFor_3323->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
         //3323 - any action for 2 minutes tasks }        
@@ -182,13 +182,12 @@ class SimulationService
             try {
                 $emailResultsFor_3313->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
 
         
         $b_3333 = $emailAnalizer->check_3333();
-        Yii::log(var_export($b_3333['positive'], true));    
         if (isset($b_3333['obj']) && 
             isset($b_3333['positive']) &&
             true === $b_3333['obj'] instanceof CharactersPointsTitles)  
@@ -201,7 +200,7 @@ class SimulationService
             try {
                 $emailResultsFor_3333->save();
             } catch (Exception $e) {
-                // @todo: hamdle exception
+                // @todo: handle exception
             }
         }
         //3313 - read most of not-spam emails } 
@@ -216,7 +215,7 @@ class SimulationService
     public static function getAgregatedPoints($simId) 
     {
         // @todo: fix this relation to logHelper
-        $data = LogHelper::getDialogDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
+        $data = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
         
         $behaviours = array();
         
@@ -287,6 +286,31 @@ class SimulationService
             $assassment->point_id = $emailBehaviour->point_id;
             $assassment->value = $emailBehaviour->value;
             $assassment->save();
+        }
+    }
+    
+    /**
+     * must be called at once, when simulation starts
+     * @param integer $simulationId
+     */
+    public static function fillTodo($simulationId)
+    {
+        $tasks = Tasks::model()->byStartType('start')->findAll();
+
+        foreach ($tasks as $task) {
+            // @todo: crazy tweak, works for current SimScenario only
+            if ($task->code != 'P017') {
+                // @todo: add attribute 'is_predefined' for task model.
+                // set it true for 'P017'
+                TodoService::add($simulationId, $task->id);
+            } else {
+                $dayPlan = new DayPlan();
+                $dayPlan->sim_id  = $simulationId;
+                $dayPlan->date    = $task->start_time;
+                $dayPlan->day     = 1;
+                $dayPlan->task_id = $task->id;
+                $dayPlan->insert();
+            }
         }
     }
 }
