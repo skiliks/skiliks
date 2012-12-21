@@ -429,8 +429,8 @@ class DialogImportService {
         $this->resetCounters();
         
         try {
-            $this->getRowsFromCsv(__DIR__.$fileName);
-            $this->getMarkCodesFromCsv(__DIR__.$fileName);
+            $this->getRowsFromCsv(__DIR__."/../../".$fileName);
+            $this->getMarkCodesFromCsv(__DIR__."/../../".$fileName);
         } catch (Exception $e) {
             return false;
         }
