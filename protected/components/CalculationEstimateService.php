@@ -72,7 +72,7 @@ class CalculationEstimateService {
         $data = array();
         foreach($dataReader as $row) { 
             $pointId = $row['point_id'];
-            /*$code = (int)$row['code'][0];
+            $code = (int)$row['code'][0];
             
             if (!isset($data[$pointId])) {
                 $data[$pointId] = array(
@@ -102,13 +102,13 @@ class CalculationEstimateService {
             if ($code >=6) {
                 $data[$pointId]['value6x'] +=  $row['add_value']*$row['scale'];
                 //$data[$pointId]['count6x']++;
-            }*/
+            }
         }  
         
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId => $item) {
             LogHelper::setLogDoialogPoint($dialogId, $simId, $pointId);
-            /*$dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
+            $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
             if (!$dialogsPoints) {
                 $dialogsPoints = new SimulationsDialogsPoints();
                 $dialogsPoints->sim_id      = $simId;
@@ -121,7 +121,7 @@ class CalculationEstimateService {
             $dialogsPoints->count_negative       += 1;
             $dialogsPoints->value6x     += $item['value6x'];
             $dialogsPoints->count6x     += 1;
-            $dialogsPoints->save();*/
+            $dialogsPoints->save();
             
         }
         
