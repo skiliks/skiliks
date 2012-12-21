@@ -1,49 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "activity".
  *
- * The followings are the available columns in table 'activity':
- * @property string $id
- * @property string $parent
- * @property string $grandparent
- * @property string $name
- * @property integer $category_id
- * @prorerty string $import_id
- *
- * The followings are the available model relations:
- * @property ActivityAction[] $activityActions
  */
-class Activity extends CActiveRecord
+class ActivityEfficiencyCondition extends CActiveRecord
 {
     /**
-     * Activiti code, unique for activity
-     * @var string
+     * @var integer
      */
     public $id;
     
     /**
-     * Activiti id in numeric format, not uniq for activity
      * @var string
      */
-    public $numeric_id;
-    
-    /**
-     * Parrent code, not uniq for activity
-     * @var string
-     */
-    public $parent;
-    
-    /**
-     * Grandparrent code, not uniq for activity
-     * @var string
-     */
-    public $grandparent;
-    
-    /**
-     * @var string
-     */
-    public $name;
+    public $activity_id;
     
     /**
      * @var string
@@ -51,18 +21,45 @@ class Activity extends CActiveRecord
     public $type;
     
     /**
-     * Importance.
-     * From 0 to 5. 0 - very important, 5 - trash.
-     * 2_min - must be act in 3 real time seconds.
+     * dialog.excel_id || mail_template.code || my_document_template.code
+     * @var string
+     */
+    public $result_code;
+    
+    /**
+     * mail_template.mysql_id
      * @var integer
      */
-    public $category_id;
+    public $email_template_id;
+    
+    /**
+     * dialog.mysql_id
+     * @var integer
+     */
+    public $dialog_id;
+    
+    /**
+     * @var string
+     */
+    public $operation;    
+    
+    /**
+     * @var integer
+     */
+    public $efficiency_value;
+    
+    /**
+     * @var string
+     */
+    public $fail_less_coeficient;
     
     /**
      * Systen value to check is entity just imported or old after reimport and delete olds.
      * @var string
      */
     public $import_id;
+    
+    /* ------------------------------------------------------------------------------------------------------------- **/
 
     /**
 	 * Returns the static model of the specified AR class.
@@ -79,13 +76,37 @@ class Activity extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'activity';
+		return 'activty_efficiency_conditions';
 	}
+    
+    public function byActivityId($activity_id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "activity_id = '{$activity_id}'"
+        ));
+        return $this;
+    }
+    
+    public function byResultCode($result_code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "result_code = '{$result_code}'"
+        ));
+        return $this;
+    }
+    
+    public function byType($type)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "type = '{$type}'"
+        ));
+        return $this;
+    }
 
 	/**
 	 * @return array validation rules for model attributes.
 	 */
-	public function rules()
+	/*public function rules()
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
@@ -98,33 +119,7 @@ class Activity extends CActiveRecord
 			// Please remove those attributes that should not be searched.
 			array('id, parent, grandparent, name, category_id, import_id', 'safe', 'on'=>'search'),
 		);
-	}
-
-	/**
-	 * @return array relational rules.
-	 */
-	public function relations()
-	{
-		// NOTE: you may need to adjust the relation name and the related
-		// class name for the relations automatically generated below.
-		return array(
-			'activityActions' => array(self::HAS_MANY, 'ActivityAction', 'activity_id'),
-		);
-	}
-
-	/**
-	 * @return array customized attribute labels (name=>label)
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'id' => 'ID',
-			'parent' => 'Parent',
-			'grandparent' => 'Grandparent',
-			'name' => 'Name',
-			'category_id' => 'Category',
-		);
-	}
+	}*/
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -138,10 +133,15 @@ class Activity extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id,true);
-		$criteria->compare('parent',$this->parent,true);
-		$criteria->compare('grandparent',$this->grandparent,true);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('category_id',$this->category_id);
+		$criteria->compare('activity_id',$this->activity_id,true);
+		$criteria->compare('type',$this->type,true);
+		$criteria->compare('result_code',$this->result_code,true);
+		$criteria->compare('email_template_id',$this->email_template_id,true);
+		$criteria->compare('dialog_id',$this->dialog_id,true);
+		$criteria->compare('operation',$this->operation,true);
+		$criteria->compare('efficiency_value',$this->efficiency_value,true);
+		$criteria->compare('fail_less_coeficient',$this->fail_less_coeficient,true);
+		$criteria->compare('import_id',$this->import_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -6,6 +6,24 @@ require_once(__DIR__ . '/../../extensions/PHPExcel.php');
  */
 class ImportGameDataService
 {
+    private $filename     = null;
+    
+    private $import_id    = null;
+    
+    private $errors       = null;
+    
+    private $cache_method = null;
+    
+    private $columnNoByName = array();
+    
+    public function __construct()
+    {
+        $this->filename = __DIR__ . '/../../../media/xls/activity.xlsx';
+        $this->import_id = $this->getImportUUID();
+        $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
+    }
+
+
     /**
      * @return mixed array
      * 
@@ -1118,10 +1136,103 @@ class ImportGameDataService
     {
         return uniqid();
     }
+    
+    public function importActivityEfficiencyConditions()
+    {
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('Activities');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Activities');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            // try to find exists entity {
+            $activityEfficiencyCondition = ActivityEfficiencyCondition::model()
+                ->byActivityId($this->getCellValue($sheet, 'Activity_code', $i))
+                ->byType($this->getCellValue($sheet, 'Result_type', $i))
+                ->byResultCode($this->getCellValue($sheet, 'Result_code', $i))
+                ->find();
+            // try to find exists entity }
+            
+            // create entity if not exists {
+            if (null === $activityEfficiencyCondition) {
+                $activityEfficiencyCondition = new ActivityEfficiencyCondition();
+                $activityEfficiencyCondition->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+                $activityEfficiencyCondition->type        = $this->getCellValue($sheet, 'Result_type', $i);
+                $activityEfficiencyCondition->result_code = $this->getCellValue($sheet, 'Result_code', $i);
+            }
+            // create entity if not exists }
+            
+            // update data {
+            $activityEfficiencyCondition->operation            = $this->getCellValue($sheet, 'Result_operation', $i);
+            $activityEfficiencyCondition->efficiency_value     = $this->getCellValue($sheet, 'All_Result_value', $i);
+            $activityEfficiencyCondition->fail_less_coeficient = $this->getCellValue($sheet, 'Fail_Less_Coef', $i);
+            $activityEfficiencyCondition->import_id            = $this->import_id;
+            // update data }
+            
+            // save
+            $activityEfficiencyCondition->save();
+            
+            $importedRows++;
+        }
+        
+        // delete old unused data {
+        ActivityEfficiencyCondition::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+        
+        return array(
+            'imported_activityEfficiencyConditions' => $importedRows, 
+            'errors' => false, 
+        );
+    }
+    
+    /**
+     * @return PHPExcel_Reader
+     */
+    private function getReader()
+    {
+        PHPExcel_Settings::setCacheStorageMethod($this->cache_method);
 
+        return PHPExcel_IOFactory::createReader('Excel2007'); 
+    }
+    
+    /**
+     * @param PHPExcel_Sheet $sheet
+     * @return void
+     */
+    public function setColumnNumbersByNames($sheet)
+    {
+        for ($i = 0; ; $i++) {
+            $row_title = $sheet->getCellByColumnAndRow($i, 1)->getValue();
+            if (null !== $row_title) {
+                $this->columnNoByName[$row_title] = $i;
+            } else {
+                return;
+            }
+        }
+    }
+    
+    private function getCellValue($sheet, $columnName, $i)
+    {
+        return $sheet->getCellByColumnAndRow(
+            $this->columnNoByName[$columnName], 
+            $i->key()
+        )->getValue();
+    }
+
+    /**
+     * @return array()
+     */
     public function importActivity()
     {
-        $import_id = $this->getImportUUID();
         $activity_types = array(
             'Documents_leg'   => 'document_id',
             'Manual_dial_leg' => 'dialog_id',
@@ -1130,37 +1241,23 @@ class ImportGameDataService
             'Outbox_leg'      => 'mail_id',
             'Window'          => 'window_id'
         );
-        $errors = null;
-        $fileName = __DIR__ . '/../../../media/xls/activity.xlsx';
-        $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
-        
-        PHPExcel_Settings::setCacheStorageMethod($cache_method);
 
-        $reader = PHPExcel_IOFactory::createReader('Excel2007');
+        $reader = $this->getReader();
 
         // load sheet {
         $reader->setLoadSheetsOnly('Leg_actions');
-        $excel = $reader->load($fileName);
+        $excel = $reader->load($this->filename);
         $sheet = $excel->getSheetByName('Leg_actions');
         // load sheet }
         
-        // save colums numbers by column titles {
-        $columns = array();
-        for ($i = 0; ; $i++) {
-            $row_title = $sheet->getCellByColumnAndRow($i, 1)->getValue();
-            if ($row_title) {
-                $columns[$row_title] = $i;
-            } else {
-                break;
-            }
-        }
-        // save colums numbers by column titles }
+        // save colums numbers by column titles 
+        $this->setColumnNumbersByNames($sheet);
         
         $activities = array();
         $activity_actions = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             // get Leg_type value
-            $leg_type = $sheet->getCellByColumnAndRow($columns['Leg_type'], $i->key())->getValue();
+            $leg_type = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_type'], $i->key())->getValue();
             
             // we haven`t skype agent jet
             if ($leg_type === 'Skype_leg') {
@@ -1168,7 +1265,7 @@ class ImportGameDataService
             }
 
             // get Activity code
-            $activitiCode = $sheet->getCellByColumnAndRow($columns['Activity_code'], $i->key())->getValue();
+            $activitiCode = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_code'], $i->key())->getValue();
             
             //try to find exest activity in DB
             $activity = Activity::model()->findByPk($activitiCode);
@@ -1183,15 +1280,16 @@ class ImportGameDataService
             $activities[$activity->id] = true;
             
             // update activity values {
-            $activity->parent                = $sheet->getCellByColumnAndRow($columns['Parent'], $i->key())->getValue();
-            $activity->grandparent           = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
-            $activity->name                  = $sheet->getCellByColumnAndRow($columns['Activity_name'], $i->key())->getValue();
-            $activity->numeric_id            = $sheet->getCellByColumnAndRow($columns['Activity_id'], $i->key())->getValue();
+            $activity->parent      = $sheet->getCellByColumnAndRow($this->columnNoByName['Parent'], $i->key())->getValue();
+            $activity->grandparent = $sheet->getCellByColumnAndRow($this->columnNoByName['Grand parent'], $i->key())->getValue();
+            $activity->name        = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_name'], $i->key())->getValue();
+            $activity->numeric_id  = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_id'], $i->key())->getValue();
+            $activity->type        = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_type'], $i->key())->getValue();
                         
-            $category = $sheet->getCellByColumnAndRow($columns['Категория'], $i->key())->getValue();
+            $category = $sheet->getCellByColumnAndRow($this->columnNoByName['Категория'], $i->key())->getValue();
             $activity->category_id = ($category === '-' ? null : $category);
             
-            $activity->import_id   = $import_id;
+            $activity->import_id   = $this->import_id;
             if (false === $activity->validate()) {
                 return array('errors' => $activity->getErrors());
             }
@@ -1200,7 +1298,7 @@ class ImportGameDataService
             
             // 
             $type = $activity_types[$leg_type];
-            $xls_act_value = $sheet->getCellByColumnAndRow($columns['Leg_action'], $i->key())->getValue();
+            $xls_act_value = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_action'], $i->key())->getValue();
             
             # Converting XLS codes to our
             if ($xls_act_value === '-') {
@@ -1242,13 +1340,14 @@ class ImportGameDataService
                 if ($activityAction === null) {
                     $activityAction = new ActivityAction();
                 }
-                $activityAction->import_id = $import_id;
+                $activityAction->import_id = $this->import_id;
                 $activityAction->activity_id = $activity->id;
-                $activityAction->is_keep_last_category = $sheet->getCellByColumnAndRow($columns['Keep last category'], $i->key())->getValue();
+                $activityAction->is_keep_last_category = 
+                    $sheet->getCellByColumnAndRow($this->columnNoByName['Keep last category'], $i->key())->getValue();
                 $activityAction->$type = $value->id;
                 if (!$activityAction->validate()) {
-                    $errors = $activityAction->getErrors();
-                    return array('errors' => $errors);
+                    $this->errors = $activityAction->getErrors();
+                    return array('errors' => $this->errors);
                 }
                 $activityAction->save();
             }
@@ -1258,8 +1357,8 @@ class ImportGameDataService
         }
         
         // delete old unused data {
-        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
-        ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
+        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         // delete old unused data }
         
         return array(
