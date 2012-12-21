@@ -12,7 +12,7 @@ class m121221_165103_log_activity_action_2 extends CDbMigration
             'end_time' => 'TIME',
             'activity_action_id' => 'integer'
         ));
-        $this->addForeignKey('activity_action_id', 'log_activity_action', 'activity_action_id', 'activity_action', 'id');
+        //$this->addForeignKey('activity_action_id', 'log_activity_action', 'activity_action_id', 'activity_action', 'id');
         $this->addForeignKey('log_activity_action_sim_id', 'log_activity_action', 'sim_id', 'simulations', 'id');
         /*CREATE TABLE `skiliks`.`<log_activity_action>` (
         `id` integer(11) AUTO_INCREMENT,
