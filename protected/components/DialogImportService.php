@@ -33,6 +33,10 @@ class DialogImportService {
     protected $updatedDialogs = 0;
     protected $updatedFlagRules = 0;
     protected $updatedFlagRuleValues = 0;
+    
+    protected $importedEventsIds = array();
+    protected $importedDialogsIds = array();
+    protected $importedCharacterPointsIds = array();
 
     public function __construct() 
     {
@@ -172,7 +176,7 @@ class DialogImportService {
         $keys = array();
         foreach($this->lines as $row) {
             $keys[] = $this->_convert($row['C']);
-        }       
+        }      
         
         // also T, D, P and M events willn`t be removed.
         // @todo: update inport to import Documents, PlanerEvents, eMails 
@@ -221,6 +225,8 @@ class DialogImportService {
             
             $this->wrappedSave($event, $row, $lineNo);
             
+            $this->importedEventsIds[] = $event->id;
+            
             $this->processedEvents++;
             
             // events with wisitors has two items with step_number == 1 && $replica_number == 0
@@ -239,7 +245,7 @@ class DialogImportService {
     {
         $event = EventsSamples::model()->byCode($code)->find();
         if (null === $event) {
-            return ('0' === $code) ? null : $this->eventT->id;
+            return ('0' === $code || '-' === $code) ? null : $this->eventT->id;
         } else {
             return $event->id;
         }
@@ -353,6 +359,11 @@ class DialogImportService {
                 $dialog->demo = $isUseInDemo; 
             }
             
+            if ($dialog->type_of_init != $row['EI']) {
+                $isDifferent = true;
+                $dialog->type_of_init = $row['EI']; 
+            }
+            
             $soundFile = ($row['P'] == 'N/A' || $row['P'] == '-') ? $file = '' : $row['P'];
             if ($dialog->sound != $soundFile) {
                 $isDifferent = true;
@@ -363,6 +374,8 @@ class DialogImportService {
                 $this->wrappedSave($dialog, $row, $lineNo);
                 $this->updatedDialogs++;
             }
+            
+            $this->importedDialogsIds[] = $dialog->id;
             
             $this->dialogs[$excelId] = $dialog;
         }    
@@ -391,6 +404,8 @@ class DialogImportService {
                         
                         $this->wrappedSave($charactersPoints, $row, $lineNo);
                         
+                        $this->importedCharacterPointsIds[] = $charactersPoints->id;
+                        
                         if (1 == $charactersPoints->add_value) {
                             $this->countOnes++;
                         } else {
@@ -414,26 +429,44 @@ class DialogImportService {
         $this->resetCounters();
         
         try {
-            $this->getRowsFromCsv($fileName);
-            $this->getMarkCodesFromCsv($fileName);
+            $this->getRowsFromCsv(__DIR__.$fileName);
+            $this->getMarkCodesFromCsv(__DIR__.$fileName);
         } catch (Exception $e) {
             return false;
         }
-
-        $this->importEventsFromLines(); // импортируем события
+        
+        $this->importEventsFromLines(); // импортируем события        
         $this->importDialogsFromLines(); // импортируем диалоги
         $this->importMarksFromLines(); // загрузим оценки 
         
+        $events = EventsSamples::model()
+            ->byIdsNotIn(implode(',', $this->importedEventsIds))
+            ->likeCode('D%')
+            ->likeCode('P%')
+            ->likeCode('M%')
+            ->likeCode('T')
+            ->findAll();
+        foreach ($events as $event) {
+            $event->delete();
+        }
+        foreach (CharactersPoints::model()->byIdsNotIn(implode(',', $this->importedCharacterPointsIds))->findAll() as $point) {
+            $point->delete();
+        }
+        foreach (Dialogs::model()->byIdsNotIn(implode(',', $this->importedDialogsIds))->findAll() as $dialog) {
+            $dialog->delete();
+        }
+        
         return array(
-            'replics'        => count($this->lines),
-            'events'         => $this->processedEvents,
-            'events-new'     => $this->processedEventNew,
-            'events-updated' => $this->processedEventUpdated,
-            'ones'           => $this->countOnes,
-            'zeros'          => $this->countZeros,
-            'marks'          => $this->countMarks,
-            'pointCodes'     => count($this->markCodes),
-            'updatedDialogs' => $this->updatedDialogs,
+            'must_be_values_actual_date' => '21 Dec 2012',
+            'replics'                    => count($this->lines),
+            'events'                     => $this->processedEvents,
+            'events-new'                 => $this->processedEventNew,
+            'events-updated'             => $this->processedEventUpdated,
+            'ones'                       => $this->countOnes,
+            'zeros'                      => $this->countZeros,
+            'marks'                      => $this->countMarks,
+            'pointCodes'                 => count($this->markCodes),
+            'updatedDialogs'             => $this->updatedDialogs,
         );
     }
     
@@ -522,7 +555,7 @@ class DialogImportService {
             $formatedRow = $this->makeNamedRowData($row);
             foreach ($formatedRow as $key => $cell) {
                 $i++;
-                if (22 < $i && $i < 137) { // 22 : 'W', 137: 'EH'
+                if (23 < $i && $i < 138) { // 23 : 'W', 138: 'EH'
                     if (null == $cell) {
                         fclose($handle);
                         return true;
@@ -563,6 +596,10 @@ class DialogImportService {
                     }
                 $i++;
             }
+        }
+        
+        if (false === isset($result['EJ'])) {
+            throw new Exception("There is no 'is use in demo' column in .csv file. Line ".($i+2));
         }
         
         return $result;
