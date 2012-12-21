@@ -1,110 +1,122 @@
 <?php
 
-
-
 /**
  * Description of DialogImportController
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DialogImportController extends AjaxController{
-    
-    public function actionImport() {
+class DialogImportController extends AjaxController
+{
+    public function actionImport()
+    {
+        $service = new DialogImportService();
+        $result = $service->import('media/ALL_DIALOGUES.csv');
         
-        // http://backend.skiliks.loc/index.php?r=dialogImport/import
-        try {
-            $service = new DialogImportService();
-            $data = $service->import('media/ALL_DIALOGUES.csv');  // 'media/import.csv'
-            var_dump($data);
-            die();
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+        if (false !== $result) {
+            $this->_sendResponse(200, var_export($result, true), 'text/html');
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
+    }
 
+    public function actionImportEvents()
+    {
+        $service = new DialogImportService();
+        $result = $service->importEvents('media/xls/scenario.csv');
         
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
+        }
+    }
+
+    public function actionImportReplica()
+    {
+        $service = new DialogImportService();
+        $result = $service->importReplica('media/xls/scenario.csv');
         
-        $result = array(
-            'data' => $data
-        );
-        $this->_sendResponse(200, var_export($data, true), 'text/html');
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
+        }
     }
-    
-    public function actionImportEvents() {
-        try {
-            $service = new DialogImportService();
-            $service->importEvents('media/xls/scenario.csv');  
 
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+    public function actionImportFlags()
+    {
+        $service = new DialogImportService();
+        $result = $service->importFlags('media/xls/scenario.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionImportReplica() {
-        try {
-            $service = new DialogImportService();
-            $service->importReplica('media/xls/scenario.csv');  
 
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+    public function actionImportFlagRules()
+    {
+        $service = new DialogImportService();
+        $result = $service->importFlagRules('media/flag-rules.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, $result);
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionImportFlags() {
-        try {
-            $service = new DialogImportService();
-            $service->importFlags('media/xls/scenario.csv');  
 
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+    /**
+     * WTF?
+     */
+    public function actionImportFlagRuless()
+    {
+        $service = new DialogImportService();
+        $result = $service->importFlagRules('media/flag_rules.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, $result);
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionImportFlagRules() {
-        try {
-            $service = new DialogImportService();
-            $service->importFlagRules('media/flag-rules.csv');  
 
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+    public function actionImportText()
+    {
+        $service = new DialogImportService();
+        $result = $service->importText('media/xls/scenario.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionImportFlagRuless() {
-        try {
-            $service = new DialogImportService();
-            $service->importFlagRules('media/flag_rules.csv');  
 
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
+    public function actionUpdateFiles()
+    {
+        $service = new DialogImportService();
+        $service->updateFiles('media/xls/scenario4.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionImportText() {
-        try {
-            $service = new DialogImportService();
-            $service->importText('media/xls/scenario.csv');  
-        } catch (Exception $exc) {
-            echo 'Ошибка: '.$exc->getMessage();
+
+    public function actionUpdateDemo()
+    {
+        $service = new DialogImportService();
+        $service->updateDemo('media/xls/dialogs_demo.csv');
+        
+        if (false !== $result) {
+            $this->_sendResponse(200, 'Done!');
+        } else {
+            $this->_sendResponse(200, 'Error.');
         }
     }
-    
-    public function actionUpdateFiles() {
-        try {
-            $service = new DialogImportService();
-            $service->updateFiles('media/xls/scenario4.csv');  
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        }
-    }
-    
-    public function actionUpdateDemo() {
-        try {
-            $service = new DialogImportService();
-            $service->updateDemo('media/xls/dialogs_demo.csv');  
-        } catch (Exception $exc) {
-            echo $exc->getMessage();
-        }
-    }
+
 }
-
 
