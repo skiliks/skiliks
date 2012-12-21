@@ -32,14 +32,7 @@ class SimulationService
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
-        if (!$simulation) throw new Exception('Не могу определить симуляцию');
-        $startTime = $simulation->start;
-        
-        $variance = time() - $simulation->start;
-        $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
-
-        $unixtimeMins = round($variance/60) + 9*60;
-        return $unixtimeMins;
+        return $simulation->getGameTime();
     }
     
     /**

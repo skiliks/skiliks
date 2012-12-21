@@ -1114,10 +1114,11 @@ class ImportGameDataService
         $import_id = $this->getImportUUID();
         $activity_types = array(
             'Documents_leg' => 'document_id',
-            'In_dial_leg' => 'dialog_id',
-            'Out_dial_leg' => 'dialog_id',
+            'Manual_dial_leg' => 'dialog_id',
+            'System_dial_leg' => 'dialog_id',
             'Inbox_leg' => 'mail_id',
-            'Outbox_leg' => 'mail_id'
+            'Outbox_leg' => 'mail_id',
+            'Window' => 'window_id'
         );
         $errors = null;
         $fileName = __DIR__ . '/../../../media/xls/activity.xlsx';
@@ -1146,7 +1147,7 @@ class ImportGameDataService
                 continue;
             }
 
-            $cell = $sheet->getCellByColumnAndRow($columns['Task code'], $i->key())->getValue();
+            $cell = $sheet->getCellByColumnAndRow($columns['Activity_code'], $i->key())->getValue();
             $activity = Activity::model()->findByPk($cell);
             if ($activity === null) {
                 $activity = new Activity();
@@ -1155,7 +1156,7 @@ class ImportGameDataService
             $activities[$activity->id] = true;
             $activity->parent = $sheet->getCellByColumnAndRow($columns['Parent'], $i->key())->getValue();
             $activity->grandparent = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
-            $activity->name = $sheet->getCellByColumnAndRow($columns['Task name'], $i->key())->getValue();
+            $activity->name = $sheet->getCellByColumnAndRow($columns['Activity_name'], $i->key())->getValue();
             $activity->import_id = $import_id;
             $category = $sheet->getCellByColumnAndRow($columns['Категория'], $i->key())->getValue();
             $activity->category_id = ($category === '-' ? null : $category);
@@ -1187,6 +1188,9 @@ class ImportGameDataService
                 } else {
                     $values = array(MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
+            } else if ($type === 'window_id') {
+                # TODO
+                $values = array();
             } else {
                 return array('errors' => 'Can not handle type:' . $type);
             }
