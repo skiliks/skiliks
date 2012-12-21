@@ -1001,12 +1001,13 @@ class LogHelper {
     public static function getDialogs($return) {
 
             $data['data'] = Yii::app()->db->createCommand()
-                ->select('l.sim_id, 
+                ->select("l.sim_id, 
                     d.code as code, 
-                    s.title as category, 
+                    s.title as category,
+                    if(d.type_of_init != 'flex', 'System_dial', 'Manual_dial') as type_of_init,
                     l.last_id, 
                     l.start_time, 
-                    l.end_time')
+                    l.end_time")
                 ->from('log_dialogs l')
                 ->leftJoin('dialogs d', 'l.dialog_id = d.id')
                 ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
@@ -1017,6 +1018,7 @@ class LogHelper {
                     'sim_id'     => 'id_симуляции',
                     'code'       => 'Код события',
                     'category'   => 'Категория события',
+                    'type_of_init'   => 'Категория события',
                     'last_id'    => 'Результирующее id_записи',
                     'start_time' => 'Игровое время - start',
                     'end_time'   => 'Игровое время - end'
