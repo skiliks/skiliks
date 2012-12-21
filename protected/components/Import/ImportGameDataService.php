@@ -363,10 +363,11 @@ class ImportGameDataService
             // Копия (код)
             $copies = $row[7]; // H
             // тема
-            $subject = iconv("Windows-1251", "UTF-8", $row[9]);  // J
+            $subject = $row[9];  // J
             $subject = StringTools::fixReAndFwd($subject);
+            
             // Письмо
-            $message = iconv("Windows-1251", "UTF-8", $row[10]); // K
+            $message = $row[10]; // K
             // Вложение
             $attachment = $row[11];  // L
             
@@ -646,21 +647,22 @@ class ImportGameDataService
        // remove old entities }
         
         $html = sprintf(
-           'Lines imported: %s . must be 86<br/>
+           'Must be values regarding  (21 Dec 2012)  <br/>
+            Lines imported: %s . must be 97<br/>
             <br/>
             Inbox: %s. must be 42<br/>
             - MY: %s. must be 38<br/>
             - M: %s. must be 4<br/>
             <br/>
-            Outbox: %s. must be 44<br/>
+            Outbox: %s. must be 55<br/>
             - MSY: %s. must be 1<br/>
-            - MS: %s. must be 43<br/>
+            - MS: %s. must be 54<br/>
             <br/>
             Marks codes amount: %s must be 114<br/>
-            - Marks "0": %s. must be 86<br/>
-            - Marks "1": %s. must be 97<br/>
+            - Marks "0": %s. must be 13<br/>
+            - Marks "1": %s. must be 32<br/>
             <br/>
-            Email import was finished.
+            Email import was finished. <br>.
             ',
             $counter['all'],
             $counter['M'] + $counter['MY'],
@@ -769,13 +771,14 @@ class ImportGameDataService
             try {
                 $mailCharacterTheme->save();
                 $characterMailThemesIds[] = $mailCharacterTheme->id;
-                $html .= sprintf(
+                // skip extra success messages
+                /*$html .= sprintf(
                     'Succesfully imported - email from "%s", %s subject "%s" . [MySQL id: %s] <br/>',
                     $row[1],
                     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                     $row[2],
                     $mailCharacterTheme->id
-                );
+                );*/
             } catch(CDbException $e) {
                 $html .= sprintf(
                     'Error during import line %s. <br/> subject: %s, id: %s<br/> DB error message: %s <br/>',
@@ -796,14 +799,14 @@ class ImportGameDataService
         }
         fclose($handle);
         
-        // remove all old, unused characterMailThemes after import
+        // remove all old, unused characterMailThemes after import {
         $oldThemes = MailCharacterThemesModel::model()->byIdsNotIn(implode(',', $characterMailThemesIds))->findAll();
         foreach ($oldThemes as $oldTheme) {
             $oldTheme->delete();
         }
+        // remove all old, unused characterMailThemes after import }
         
-        
-        $html .= "processed rows: $index <br/>";
+        $html .= "processed rows: ".($index-1)."  must be 113 (21 Dec 2012)<br/>";
         $html .= "Email from characters import finished! <br/>";
         
         return array(

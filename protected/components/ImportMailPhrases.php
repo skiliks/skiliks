@@ -73,9 +73,12 @@ class ImportMailPhrases {
         
         $end_time = microtime(true);
         
-        $html = "Добавлено  ".$this->count_insert." записей <br>";
+        $html = "Добавлено  ".$this->count_insert." фраз.<br>";
+        $html .= "Всего кодов  ".count($this->mail_codes)." must be 24 (21 Dec 2012) <br>";
+        $html .= "Коды:  ".  implode(', ', $this->mail_codes). ".<br/>";
         
-    	if(!empty($this->for_insert)){
+        // skip extra output data
+    	/*if(!empty($this->for_insert)){
                 foreach ($this->for_insert as $k => $v){
                     $html .= "{$v['code']} = {$v['name']} <br>";
                 }
@@ -83,8 +86,8 @@ class ImportMailPhrases {
                     $html .= "{$v['code']} = {$v['name']} <br>";
                 }
     		
-    	}
-    	$html .= "Старые данные удалены";
+    	}*/
+    	$html .= "Старые данные удалены.";
     	
     	return array(
             'status' => true,

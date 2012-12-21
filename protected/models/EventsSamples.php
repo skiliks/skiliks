@@ -62,6 +62,18 @@ class EventsSamples extends CActiveRecord
     }
     
     /**
+     * @param string $ids
+     * @return array of \EventSamples
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT IN ({$ids}) "
+        ));
+        return $this;
+    }    
+    
+    /**
      * Ограничить выборку записей
      * @param int $limit
      * @return EventsSamples 
