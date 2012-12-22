@@ -27,7 +27,7 @@ class LogWindows extends CActiveRecord
      * See LogHelper window codes
      * @var integer
      */
-    public $winwod;
+    public $window;
     
     /**
      * See LogHelper subwindow codes
@@ -65,5 +65,21 @@ class LogWindows extends CActiveRecord
     public function tableName()
     {
         return 'log_windows';
+    }
+
+    protected function afterSave()
+    {
+        $activity_action = ActivityAction::model()->findByAttributes(array('window_id' => $this->window));
+        if ($activity_action !== null) {
+            $activity_action->appendLog($this);
+        }
+        parent::afterSave();
+    }
+
+    public function relations()
+    {
+        return array(
+            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+        );
     }
 }

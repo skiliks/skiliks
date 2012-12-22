@@ -29,7 +29,7 @@ class ImportGameDataService
      * 
      * @throws Exception
      */
-    public function importCaracters() 
+    public function importCharacters()
     {
         $fileName = '../media/xls/characters.csv';
         
@@ -1040,7 +1040,7 @@ class ImportGameDataService
         );   
     }
     
-    public function importMailAttache() 
+    public function importMailAttaches()
     {
         $fileName = '../media/xls/mail2.csv';
         $handle = $this->checkFileExists($fileName);
@@ -1132,6 +1132,11 @@ class ImportGameDataService
         );   
     }
 
+    /**
+     * Get unique import ID
+     *
+     * @return string
+     */
     protected function getImportUUID()
     {
         return uniqid();
@@ -1231,6 +1236,11 @@ class ImportGameDataService
     /**
      * @return array()
      */
+    /**
+     * Import activity
+     *
+     * @return array
+     */
     public function importActivity()
     {
         $activity_types = array(
@@ -1326,7 +1336,7 @@ class ImportGameDataService
                 }
             } else if ($type === 'window_id') {
                 # TODO
-                $values = array();
+                $values = array(Window::model()->findByAttributes(array('type' => $xls_act_value)));
             } else {
                 return array('errors' => 'Can not handle type:' . $type);
             }
@@ -1351,14 +1361,14 @@ class ImportGameDataService
                 }
                 $activityAction->save();
             }
-            // update relation Activiti to Document, Dialog replic ro Email }
+            // update relation Activity to Document, Dialog replic ro Email }
             
             $activity_actions ++;
         }
         
         // delete old unused data {
-        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         // delete old unused data }
         
         return array(
