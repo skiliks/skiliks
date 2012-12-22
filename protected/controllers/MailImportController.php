@@ -70,7 +70,7 @@ class MailImportController extends AjaxController{
     public function actionImportAttache() 
     {
         $importService = new ImportGameDataService();
-        $result = $importService->importMailAttache();
+        $result = $importService->importMailAttaches();
 
         $this->_sendResponse(200, $result['text'], 'text/html');      
     }

@@ -1,21 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "log_documents".
+ * This is the model class for table "window".
  *
- * The followings are the available columns in table 'log_documents':
+ * The followings are the available columns in table 'window':
  * @property integer $id
- * @property integer $sim_id
- * @property integer $file_id
- * @property string $start_time
- * @property string $end_time
+ * @property string $type
+ * @property string $subtype
  */
-class LogDocuments extends CActiveRecord
+class Window extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LogDocuments the static model class
+	 * @return Window the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +25,7 @@ class LogDocuments extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'log_documents';
+		return 'window';
 	}
 
 	/**
@@ -38,12 +36,11 @@ class LogDocuments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, file_id, start_time', 'required'),
-			array('sim_id, file_id', 'numerical', 'integerOnly'=>true),
-			array('end_time', 'safe'),
+			array('id', 'numerical', 'integerOnly'=>true),
+			array('type, subtype', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, file_id, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, type, subtype', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,21 +62,10 @@ class LogDocuments extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'sim_id' => 'Sim',
-			'file_id' => 'File',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
+			'type' => 'Type',
+			'subtype' => 'Subtype',
 		);
 	}
-
-    protected function afterSave()
-    {
-        $activity_action = ActivityAction::model()->findByAttributes(array('document_id' => $this->file_id));
-        if ($activity_action !== null) {
-            $activity_action->appendLog($this);
-        }
-        parent::afterSave();
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -93,10 +79,8 @@ class LogDocuments extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('type',$this->type,true);
+		$criteria->compare('subtype',$this->subtype,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
