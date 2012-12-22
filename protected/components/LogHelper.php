@@ -1057,7 +1057,7 @@ class LogHelper {
 //                ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
 //                ->order("l.id")
 //                ->queryAll();
-              $data['data'] = [['sim_id'=>'test'], ['sim_id'=>'test2']];  
+              $data['data'] = array(array('sim_id'=>'test'), array('sim_id'=>'test2'));
 //            $data['headers'] = array(
 //                    'sim_id'     => 'id_симуляции',
 //                    'code'       => 'Код события',
@@ -1067,7 +1067,7 @@ class LogHelper {
 //                    'start_time' => 'Игровое время - start',
 //                    'end_time'   => 'Игровое время - end'
 //            );
-            $data['headers'] = ['sim_id' => 'id_симуляции'];
+            $data['headers'] = array('sim_id' => 'id_симуляции');
             
             if(self::RETURN_DATA == $return) {
                 $data['title'] = "Логирование Leg_actions - detail";
