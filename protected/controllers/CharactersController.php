@@ -19,7 +19,7 @@ class CharactersController extends AjaxController
     {
         $importService = new ImportGameDataService();
         
-        $result = $importService->importCaracters();
+        $result = $importService->importCharacters();
         
         $this->renderText($result['text']);
     }

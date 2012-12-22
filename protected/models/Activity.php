@@ -91,6 +91,7 @@ class Activity extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('parent, grandparent, name', 'required'),
+			array('category_id', 'length', 'max'=>10),
 			array('id, parent, grandparent', 'length', 'max'=>10),
             array('name', 'length', 'max'=>255),
             array('import_id', 'length', 'max'=>255),
