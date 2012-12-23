@@ -101,6 +101,72 @@ class EventsSamples extends CActiveRecord
     }
     
     /**
+     * @return EventsSamples 
+     */
+    public function byNotDocumentCode()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code NOT LIKE 'D%'"
+        ));
+        return $this;
+    }    
+    
+    /**
+     * @return EventsSamples 
+     */
+    public function byTriggerTimeGreaterThanZero()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "trigger_time > 0"
+        ));
+        return $this;
+    }    
+    
+    /**
+     * @return EventsSamples 
+     */
+    public function byNotPlanTaskCode()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code NOT LIKE 'P%'"
+        ));
+        return $this;
+    }    
+    
+    /**
+     * @return EventsSamples 
+     */
+    public function byNotSendedTodayEmailCode()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code NOT LIKE 'MS%'"
+        ));
+        return $this;
+    }    
+    
+    /**
+     * @return EventsSamples 
+     */
+    public function byNotTerminatorCode()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code != 'T'"
+        ));
+        return $this;
+    }    
+    
+    /**
+     * @return EventsSamples 
+     */
+    public function byNotSendedYesterdayEmailCode()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "code NOT LIKE 'MY%'"
+        ));
+        return $this;
+    }    
+    
+    /**
      * Выбрать событие по коду с учетом like.
      * @param string $code
      * @return EventsSamples 

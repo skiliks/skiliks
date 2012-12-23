@@ -29,10 +29,13 @@ final class SessionHelper {
      * @return int
      */
     public static function getUidBySid() {
-        session_id(Yii::app()->request->getParam('sid', false));
-        if (isset(Yii::app()->session['uid']))
+        session_id(Yii::app()->request->getParam('sid', null));
+        
+        if (isset(Yii::app()->session['uid'])) {
             return Yii::app()->session['uid'];
-        return false;
+        }
+        if (!$userId)
+                throw new Exception('Не могу найти такого пользователя');
     }
     
     /**
