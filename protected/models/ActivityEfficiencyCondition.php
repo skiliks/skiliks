@@ -76,7 +76,7 @@ class ActivityEfficiencyCondition extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'activty_efficiency_conditions';
+		return 'activity_efficiency_conditions';
 	}
     
     public function byActivityId($activity_id)
