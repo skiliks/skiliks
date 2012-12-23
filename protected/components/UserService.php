@@ -49,7 +49,7 @@ class UserService {
      * @return bool
      */
     public static function isMemberOfGroup($uid, $gid) {
-        return UserGroupsModel::model()->byUser($uid)->byGroup($gid)->find();
+        return (1 === (int)UserGroupsModel::model()->byUser($uid)->byGroup($gid)->count());
     }
 }
 

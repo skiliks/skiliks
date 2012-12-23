@@ -306,4 +306,117 @@ class SimulationService
             }
         }
     }
+    
+    /**
+     * @param integer $userId
+     * @param integer $simulationType
+     * 
+     * @return Simulations
+     */
+    public static function initSimulationEntity($userId, $simulationType)
+    {
+        $simulation = new Simulations();
+        $simulation->user_id = $userId;
+        $simulation->status = 1;
+        $simulation->start = time();
+        $simulation->difficulty = 1;
+        $simulation->type = $simulationType;
+        $simulation->insert();
+        
+        return $simulation;
+    }
+    
+    /**
+     * @param Simulation $simulation
+     * 
+     * @return array of EventsTriggers
+     */
+    public static function initEventTriggers($simulation)
+    {
+        $events = EventsSamples::model()
+            ->byNotDocumentCode()
+            ->byNotPlanTaskCode()
+            ->byNotSendedTodayEmailCode()
+            ->byNotSendedYesterdayEmailCode()
+            ->byNotTerminatorCode()
+            ->byTriggerTimeGreaterThanZero()
+            ->findAll();
+        
+        $initedEvents = array();
+        $i = 0;
+        foreach ($events as $event) {
+            $initedEvents[$i] = new EventsTriggers();
+            $initedEvents[$i]->sim_id = $simulation->id;
+            $initedEvents[$i]->event_id = $event->id;
+            $initedEvents[$i]->trigger_time = $event->trigger_time;
+            $initedEvents[$i]->save();
+            $i++;
+        }
+
+        return $initedEvents;
+    }
+    
+    public static function simulationStart()
+    {
+        // тип симуляции 1 - promo, 2 - dev
+        $simulationType = (int) Yii::app()->request->getParam('stype', 1); 
+
+        $userId = SessionHelper::getUidBySid();
+        if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
+            throw new Exception('У вас нет прав для старта этой симуляции');
+        }
+        
+        // Создаем новую симуляцию
+        $simulation = SimulationService::initSimulationEntity($userId, $simulationType);
+        
+        // save simulation ID to user session
+        Yii::app()->session['simulation'] = $simulation->id;
+
+        //@todo: increase speed
+        SimulationService::initEventTriggers($simulation); // 3 seconds 
+
+        // предустановка задач в todo!
+        SimulationService::fillTodo($simulation->id);
+
+        // скопируем документы
+        MyDocumentsService::init($simulation->id);
+
+        // @todo: increase speed
+        // Установим дефолтовые значения для mail client
+        MailBoxService::initDefaultSettings($simulation->id); // 4 seconds
+        
+        // Copy email templates
+        MailBoxService::initMailBoxEmails($simulation->id);
+
+        // проставим дефолтовые значени флагов для симуляции пользователя
+        FlagsService::initDefaultValues($simulation->id);
+        
+        return $simulation;
+    }
+    
+    /**
+     * WTF! This crazy code not change internal sim time? but change sim start value
+     * in real life time coords
+     * 
+     * @param Simulation $simulation
+     * @param integer $newHours
+     * @param integer $newMinutes
+     */
+    public static function setSimulationClockTime($simulation, $newHours, $newMinutes)
+    {
+        $speedFactor = Yii::app()->params['skiliksSpeedFactor'];
+        
+        $variance = time() - $simulation->start;
+        $variance = $variance * $speedFactor;
+
+        $unixtimeMins = round($variance / 60);
+        $clockH = round($unixtimeMins / 60);
+        $clockM = $unixtimeMins - ($clockH * 60);
+        $clockH = $clockH + 9;
+
+        $simulation->start = ($simulation->start - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+            - (($newMinutes - $clockM) * 60 / $speedFactor));
+
+        $simulation->save();
+    }
 }
