@@ -77,6 +77,24 @@ class AjaxController extends CController
     }
     
     /**
+     * @return Simulation || HttpJsonResponce (Error)
+     */
+    public function getSimulationEntity()
+    {
+        $simulation = Simulations::model()->findByPk($this->getSimulationId());
+        
+        if (null !== $simulation) {
+            return $simulation;
+        } else {
+            $this->returnErrorMessage(sprintf(
+                'Simulation with id %s doesn`t exists in db.', 
+                $this->getSimulationId()
+            ));
+        }
+    }
+
+
+    /**
      * We handle Yii rroes and savethem to Yii.log. 
      * User see just standard notise
      * 
