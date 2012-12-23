@@ -374,7 +374,7 @@ class LogHelper {
                       p.code,
                       t.value as type_scale,
                       l.value')
-                ->from('assassment_agregated l')
+                ->from('assessment_aggregated l')
                 ->leftJoin('characters_points_titles p', 'l.point_id = p.id')
                 ->leftJoin('type_scale t', 'p.type_scale = t.id')
                 ->group("l.sim_id, p.code")

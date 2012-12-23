@@ -244,7 +244,7 @@ class SimulationService
     {
         foreach(self::getAgregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
-            $existAssassment = AssassmentAgregated::model()
+            $existAssassment = AssessmentAggregated::model()
                 ->bySimId($simId)
                 ->byPoint($agrPoint->mark->id)
                 ->find();
@@ -252,7 +252,7 @@ class SimulationService
             
             // init Log record {
             if (null == $existAssassment) {
-                $existAssassment = new AssassmentAgregated();
+                $existAssassment = new AssessmentAggregated();
                 $existAssassment->sim_id   = $simId;
                 $existAssassment->point_id = $agrPoint->mark->id;
             }
@@ -274,7 +274,7 @@ class SimulationService
     {
         // add mail inbox/outbox points
         foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
-            $assassment = new AssassmentAgregated();
+            $assassment = new AssessmentAggregated();
             $assassment->sim_id   = $simId;
             $assassment->point_id = $emailBehaviour->point_id;
             $assassment->value = $emailBehaviour->value;
