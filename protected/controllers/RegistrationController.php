@@ -42,19 +42,19 @@ class RegistrationController extends AjaxController{
             'email'    => $user->email,
             'password' => $password,
             'uid'      => $user->id,
-            'code'     => $activationCode
+            'code'     => $user->activationCode
         ))) {
-            $this->_sendResponse(200, CJSON::encode(array(
+           $this->_sendResponse(200, CJSON::encode(array(
                 'result'  => self::STATUS_ERROR, 
                 'message' => "Немогу отправить емейл пользователю {$user->email}",
-            )));  
+            ))); 
         }
 
         // send success responce
         return $this->sendJSON(array(
             'result' => 1, 
-            'rows' => $r, 
-            "email"=>$email
+            'rows'   => true, // WTF? it shall be true
+            "email"  =>$email
         ));
     }
     
