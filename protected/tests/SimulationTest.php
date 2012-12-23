@@ -88,6 +88,6 @@ class SimulationTest extends ControllerTestCase
     {
         $_POST['sid'] = 'non-existent';
         $result = $this->callJSONAction('SimulationController', 'actionStart');
-        $this->assertEquals(array("result" => 0, "message" => "Не могу найти такого пользователя"), $result);
+        $this->assertEquals(0, $result["result"]);
     }
 }
