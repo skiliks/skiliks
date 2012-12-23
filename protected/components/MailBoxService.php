@@ -448,37 +448,13 @@ class MailBoxService {
      * Установка дефолтовых значений при старте симуляции
      * @param type $simId 
      */
-    public static function initDefaultSettings($simId) {
+    public static function initDefaultSettings($simId) 
+    {
         $model = new MailSettingsModel();
         $model->sim_id = $simId;
         $model->insert();
         
-        self::copyTemplates($simId);
-        
         return true;
-        
-        // copy mail tasks
-        $sql = 'SELECT e.id, e.trigger_time,
-                e.code , e.code REGEXP "^M[[:digit:]]+$"  as code2, m.sending_date_str, m.sending_time_str
-            FROM `events_samples` as e  
-            inner join mail_template as m on (m.code = e.code and m.sending_date=1349308800 and sending_time>0)
-            where e.code REGEXP "^M[[:digit:]]+$" =1 
-            and e.trigger_time>0 
-            order by sending_time_str';
-        $command = Yii::app()->db->createCommand($sql);
-        $events = $command->queryAll();
-        
-        foreach($events as $event) {
-             
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event['id'])->find();
-            if ($eventsTriggers) continue; // у нас уже есть такое событие
-            
-            $eventsTriggers = new EventsTriggers();
-            $eventsTriggers->sim_id         = $simId;
-            $eventsTriggers->event_id       = $event['id'];
-            $eventsTriggers->trigger_time   = $event['trigger_time']; 
-            $eventsTriggers->save();
-        }
     }
     
     /**
@@ -706,7 +682,7 @@ class MailBoxService {
      * Копирование шаблонов писем в рамках заданной симуляции
      * @param int $simId 
      */
-    public static function copyTemplates($simId) {
+    public static function initMailBoxEmails($simId) {
         $connection = Yii::app()->db;
         $receivingDate = time();
         $sql = "insert into mail_box 
