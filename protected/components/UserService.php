@@ -65,7 +65,7 @@ class UserService {
             return sprintf("Пользователь с емейлом %s уже существует", $email);
         }
         
-        if ($password != $password2) {    
+        if ($password != $passwordAgain) {    
             return 'Введенные пароли не совпадают';
         }
         
