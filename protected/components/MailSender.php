@@ -35,4 +35,26 @@ class MailSender{
         
         return @mail($to, $subject, $message, $head);
     }
+    
+    /**
+     * @param mixed array $params
+     * @return bool
+     */
+    public static function notifyUser($params) 
+    {
+        $url = Yii::app()->createAbsoluteUrl('registration/activate', array('code' => $params['code']));
+        
+        $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}. 
+        Для активации перейдите по <a href='{$url}'>ссылке</a>";
+        
+        var_dump($message);
+        
+        return self::send(
+            $params['email'], 
+            'Регистрация завершена', 
+            $message, 
+            'Skiliks - game the skills!', 
+            'info@skiliks.com'
+        );
+    }
 }
