@@ -395,6 +395,43 @@ class SimulationService
     }
     
     /**
+     * @param Simulation $simulation
+     */
+    public static function simulationStop($simulation)
+    {
+        // залогируем состояние плана
+        DayPlanLogger::log($simulation->id, DayPlanLogger::STOP);
+
+        // данные для логирования
+
+        $logs_src = Yii::app()->request->getParam('logs', array());
+
+        $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
+        //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
+        LogHelper::setDocumentsLog($simulation->id, $logs); //Закрытие документа при стопе симуляции
+        LogHelper::setMailLog($simulation->id, $logs); //Закрытие ркна почты при стопе симуляции
+        
+        try {
+            LogHelper::setWindowsLog($simulation->id, $logs);
+        } catch (CException $e) {
+            $this->returnErrorMessage($e->getMessage);
+        }
+        
+        LogHelper::setDialogs($simulation->id, $logs);
+        // make attestation 'work with emails' 
+        SimulationService::saveEmailsAnalize($simulation->id);
+
+        // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
+        // see Assessment scheme_v5.pdf
+        SimulationService::saveAgregatedPoints($simulation->id);
+
+        // @todo: this is trick
+        // write all mail outbox/inbox scores to AssessmentAgregate dorectly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+    }
+
+
+    /**
      * WTF! This crazy code not change internal sim time? but change sim start value
      * in real life time coords
      * 
@@ -418,5 +455,64 @@ class SimulationService
             - (($newMinutes - $clockM) * 60 / $speedFactor));
 
         $simulation->save();
+    }
+    
+    /**
+     * @param Simulation $simulation
+     * @return mixed array
+     */
+    public static function getPointsForDebug($simulation)
+    {
+        $result = array('result' => 1);
+
+        // определяем duration симуляции
+
+        $dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
+        if (null === $dialogsDuration) {
+            $result['duration'] = 0;
+        } else {
+            $result['duration'] = $dialogsDuration->duration;
+        }
+
+        // загружаем поинты
+        $sql = "select 
+            sdp.count, sdp.value, sdp.count_negative, sdp.value_negative, sdp.count6x, sdp.value6x, cpt.code, cpt.title
+        from simulations_dialogs_points as sdp
+        left join characters_points_titles as cpt on (cpt.id = sdp.point_id)
+        where sdp.sim_id = {$simulation->id}";
+
+        foreach (Yii::app()->db->createCommand($sql)->query() as $row) {
+
+            $avg = 0;
+            if ($row['count'] > 0) {
+                $avg = $row['value'] / $row['count'];
+            }
+
+            $avgNegative = 0;
+            if ($row['count_negative'] > 0) {
+                $avgNegative = $row['value_negative'] / $row['count_negative'];
+            }
+
+            $avg6x = 0;
+            if ($row['count6x'] > 0) {
+                $avg6x = $row['value6x'] / $row['count6x'];
+            }
+
+            $result['points'][] = array(
+                'code'          => $row['code'],
+                'title'         => $row['title'],
+                'count'         => $row['count'],
+                'value'         => $row['value'],
+                'avg'           => $avg,
+                'countNegative' => $row['count_negative'],
+                'valueNegative' => $row['value_negative'],
+                'avgNegative'   => $avgNegative,
+                'count6x'       => $row['count6x'],
+                'value6x'       => $row['value6x'],
+                'avg6x'         => $avg6x
+            );
+        }
+        
+        return $result;
     }
 }
