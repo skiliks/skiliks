@@ -29,19 +29,22 @@ final class SessionHelper {
      * @return int
      */
     public static function getUidBySid() {
-        session_id(Yii::app()->request->getParam('sid', null));
+        $sid = Yii::app()->request->getParam('sid');
+        assert(strlen($sid) > 0);
+        session_id($sid);
         
         if (isset(Yii::app()->session['uid'])) {
             return Yii::app()->session['uid'];
+        } else {
+            throw new Exception('Не могу найти такого пользователя');
         }
-        if (!$userId)
-                throw new Exception('Не могу найти такого пользователя');
     }
-    
+
     /**
      * Получение модели пользователя по sid
-     * @param int $sid
-     * @return Users 
+     * @throws Exception
+     * @internal param int $sid
+     * @return Users
      */
     public static function getUserBySid() {
         $uid = self::getUidBySid();
@@ -55,6 +58,7 @@ final class SessionHelper {
     
     public static function getSimIdBySid($sid) {
         // stupidity, TODO: make normal sessions
+        assert(strlen($sid) > 0);
         session_id($sid);
         $simulation = Simulations::model()->findByPk(Yii::app()->session['simulation']);
         if (!$simulation) throw new CException(sprintf("Не могу получить симуляцию по ID %d", Yii::app()->session['simulation']));

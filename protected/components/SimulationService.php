@@ -395,7 +395,7 @@ class SimulationService
     }
     
     /**
-     * @param Simulation $simulation
+     * @param Simulations $simulation
      */
     public static function simulationStop($simulation)
     {
@@ -411,11 +411,8 @@ class SimulationService
         LogHelper::setDocumentsLog($simulation->id, $logs); //Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simulation->id, $logs); //Закрытие ркна почты при стопе симуляции
         
-        try {
-            LogHelper::setWindowsLog($simulation->id, $logs);
-        } catch (CException $e) {
-            $this->returnErrorMessage($e->getMessage);
-        }
+        LogHelper::setWindowsLog($simulation->id, $logs);
+
         
         LogHelper::setDialogs($simulation->id, $logs);
         // make attestation 'work with emails' 
@@ -425,6 +422,9 @@ class SimulationService
         // see Assessment scheme_v5.pdf
         SimulationService::saveAgregatedPoints($simulation->id);
 
+        $simulation->end = time();
+        $simulation->status = 0;
+        $simulation->save();
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAgregate dorectly
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
@@ -434,6 +434,8 @@ class SimulationService
     /**
      * WTF! This crazy code not change internal sim time? but change sim start value
      * in real life time coords
+     *
+     * There are no internal simulation time stored anywhere :)
      * 
      * @param Simulation $simulation
      * @param integer $newHours
