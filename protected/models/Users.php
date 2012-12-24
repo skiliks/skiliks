@@ -33,9 +33,6 @@ class Users extends CActiveRecord
      */
     public $is_active;
     
-    public $activationCode = null;
-
-
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -43,7 +40,7 @@ class Users extends CActiveRecord
      * @return string
      */
     public function generateActivationCode() {
-        $this->activationCode = md5(time() + rand(1, 1000000));
+        return md5(time() + rand(1, 1000000));
     }
     
     /** ------------------------------------------------------------------------------------------------------------ **/
