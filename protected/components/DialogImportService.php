@@ -698,72 +698,78 @@ class DialogImportService {
     }
     
     public function importFlagRules($fileName) {
-        $this->resetCounters();
-        
-        $handle = fopen($fileName, "r");
-        if (!$handle) return false;
-        
-        foreach(FlagsRulesContentModel::model()->findAll() as $flagContent) {
-            $flagContent->delete();
-        }
-        
-        foreach(FlagsRulesModel::model()->findAll() as $flag) {
-            $flag->delete();
-        }
-        
-        $lineNo = 1;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            if (1 === $lineNo) {
-                for ($i = 4; $i < 19; $i++) {
-                    $this->flagNames[$i] = $row[$i];
-                }
-                $lineNo++;
-                continue;
-            } 
-            
-            $recirdId = (0 !== (int)$row[0]) ? (int)$row[0] : null;
+        $transaction=FlagsRulesContentModel::model()->dbConnection->beginTransaction();
+        try {
+            $this->resetCounters();
 
-            $flagRule = FlagsRulesModel::model()
-                ->byName($row[1])
-                ->byStepNumber((int)$row[2])
-                ->byReplicaNumber((int)$row[3])
-                ->byRecordId($recirdId )
-                ->find();
-            if (null === $flagRule) {
-                $flagRule = new FlagsRulesModel();
-                $flagRule->setRecordId($recirdId)
-                    ->setStepNo($row[2])
-                    ->setReplicaNo($row[3])
-                    ->setEventCode($row[1]);
+            $handle = fopen($fileName, "r");
+            if (!$handle) return false;
+
+            foreach(FlagsRulesContentModel::model()->findAll() as $flagContent) {
+                $flagContent->delete();
             }
-            
-            $this->wrappedSave($flagRule, $row, $lineNo);
-            
-            for ($i = 4; $i < 19; $i++) {
-                if ('1' === $row[$i] || '0' === $row[$i] ) {
-                    
-                    $flagRuleContent = FlagsRulesContentModel::model()
-                        ->byRule($flagRule->getId())
-                        ->byFlagName($this->flagNames[$i])
-                        ->find();
-                    if (null === $flagRuleContent) {
-                        $flagRuleContent = new FlagsRulesContentModel();
-                        
-                        $flagRuleContent->setRuleId($flagRule->getId())
-                            ->setFlagName($this->flagNames[$i]);
+
+            foreach(FlagsRulesModel::model()->findAll() as $flag) {
+                $flag->delete();
+            }
+
+            $lineNo = 1;
+            while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+                if (1 === $lineNo) {
+                    for ($i = 4; $i < 19; $i++) {
+                        $this->flagNames[$i] = $row[$i];
                     }
-                    
-                    $flagRuleContent->setValue($row[$i]);
-                    
-                    $this->wrappedSave($flagRuleContent, $row, $lineNo);
-                    $this->updatedFlagRuleValues++;
-                }                
-            }
+                    $lineNo++;
+                    continue;
+                }
 
-            $this->updatedFlagRules++;
-            $lineNo++;
+                $recordId = (0 !== (int)$row[0]) ? (int)$row[0] : null;
+
+                $flagRule = FlagsRulesModel::model()
+                    ->byName($row[1])
+                    ->byStepNumber((int)$row[2])
+                    ->byReplicaNumber((int)$row[3])
+                    ->byRecordIdOrNull($recordId )
+                    ->find();
+                if (null === $flagRule) {
+                    $flagRule = new FlagsRulesModel();
+                    $flagRule->setRecordId($recordId)
+                        ->setStepNo($row[2])
+                        ->setReplicaNo($row[3])
+                        ->setEventCode($row[1]);
+                }
+
+                $this->wrappedSave($flagRule, $row, $lineNo);
+
+                for ($i = 4; $i < 19; $i++) {
+                    if ('1' === $row[$i] || '0' === $row[$i] ) {
+
+                        $flagRuleContent = FlagsRulesContentModel::model()
+                            ->byRule($flagRule->getId())
+                            ->byFlagName($this->flagNames[$i])
+                            ->find();
+                        if (null === $flagRuleContent) {
+                            $flagRuleContent = new FlagsRulesContentModel();
+
+                            $flagRuleContent->setRuleId($flagRule->getId())
+                                ->setFlagName($this->flagNames[$i]);
+                        }
+
+                        $flagRuleContent->setValue($row[$i]);
+
+                        $this->wrappedSave($flagRuleContent, $row, $lineNo);
+                        $this->updatedFlagRuleValues++;
+                    }
+                }
+
+                $this->updatedFlagRules++;
+                $lineNo++;
+            }
+            fclose($handle);
+            $transaction->commit();
+        } catch (Exception $e) {
+            $transaction->rollback();
         }
-        fclose($handle);
         return sprintf(
             'Импорт правил для флагов завершен. <br/>
              Сток с событиями обработано: %s. <br/>
