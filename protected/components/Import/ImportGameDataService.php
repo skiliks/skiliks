@@ -494,7 +494,8 @@ class ImportGameDataService
             } else {
                 $subjectEntity = $existsMailThemes[$subject];
             }
-            $emailSubjectsIds[] = $existsMailThemes[$subject]->id;
+
+            $emailSubjectsIds[] = $subjectEntity->id;
             // themes update }
             
             $emailTemplateEntity = null;
