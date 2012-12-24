@@ -135,7 +135,6 @@ class CalculationEstimateService {
      * @param int $pointId 
      */
     public static function addExcelPoint($simId, $formulaId, $point) {
-        
         $model = SimulationsExcelPoints::model()->bySimulation($simId)->byFormula($formulaId)->find();
         if (!$model) {
             $model = new SimulationsExcelPoints();
