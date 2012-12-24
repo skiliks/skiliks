@@ -1134,19 +1134,26 @@ class LogHelper {
         $sql = 'SELECT 
             ep.sim_id,
             ep.formula_id,
-            f.formula,
-            if(ep.value = 1, \'да\', \'нет\') AS value
+            ep.value,
+            f.formula
             FROM simulations_excel_points AS ep
             LEFT JOIN excel_points_formula AS f ON f.id = ep.formula_id
             ORDER BY ep.sim_id DESC;';
         
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
         
+        foreach ($data['data'] as $key => $line) {
+            // "convert" excel fopmulas to excel string, by adding space before =
+            $data['data'][$key]['formula'] = ' '. $line['formula']; 
+            $data['data'][$key]['value']   = $line['value']; 
+        }
+        
         $data['headers'] = array(
             'sim_id'       => 'ID симуляции',
             'formula_id'   => 'ID формулы',
-            'formula'      => 'Формула',
-            'value'        => 'Правильный результат?');
+            'value'        => 'Правильный результат?',
+            'formula'      => 'Формула'
+            );
 
         if(self::RETURN_DATA == $return) {
             $data['title'] = "Логирование Leg_actions - detail";
