@@ -34,8 +34,8 @@ class LogDialogs extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_actions = ActivityAction::model()->findAllByAttributes(array('dialog_id' => $this->id));
-        foreach ($activity_actions as $activity_action) {
+        $activity_action = ActivityAction::model()->findByPriority(array('dialog_id' => $this->id));
+        if (null !== $activity_action) {
             $activity_action->appendLog($this);
         }
         parent::afterSave();

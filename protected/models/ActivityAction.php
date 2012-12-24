@@ -107,6 +107,9 @@ class ActivityAction extends CActiveRecord
             if (isset($log->document_id)) {
                 $log_action->document_id = $log->document_id;
             }
+            if (isset($log->window)) {
+                $log_action->window = $log->window;
+            }
             #$log_action->window = $log->$window;
 
         }
@@ -114,6 +117,18 @@ class ActivityAction extends CActiveRecord
             $log_action->end_time = $log->end_time;
         };
         $log_action->save();
+    }
+
+    /**
+     * Order by numeric_id
+     */
+    public function findByPriority($attrs) {
+        $result = $this->with([
+            'activity' => [
+                'select' => false, 'order' => 'numeric_id', 'limit' => 1
+            ]
+        ])->findByAttributes($attrs);
+        return $result;
     }
 
 

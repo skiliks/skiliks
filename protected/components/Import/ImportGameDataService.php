@@ -1275,15 +1275,18 @@ class ImportGameDataService
             }
 
             // get Activity code
-            $activitiCode = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_code'], $i->key())->getValue();
+            $activityCode = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_code'], $i->key())->getValue();
+            if ($activityCode == '') {
+                break;
+            }
             
             //try to find exest activity in DB
-            $activity = Activity::model()->findByPk($activitiCode);
+            $activity = Activity::model()->findByPk($activityCode);
             
             // create Activity 
             if ($activity === null) {
                 $activity = new Activity();
-                $activity->id = $activitiCode;
+                $activity->id = $activityCode;
             }
                 
             // update activities counter
@@ -1336,7 +1339,7 @@ class ImportGameDataService
                 }
             } else if ($type === 'window_id') {
                 # TODO
-                $values = array(Window::model()->findByAttributes(array('type' => $xls_act_value)));
+                $values = array(Window::model()->findByAttributes(array('subtype' => $xls_act_value)));
             } else {
                 return array('errors' => 'Can not handle type:' . $type);
             }
