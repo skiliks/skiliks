@@ -236,7 +236,6 @@ class LogHelper {
         }
 
         $mailLogData = $mailQuery->queryAll();
-
         
         // update mailLogData.out_mail_code {
         foreach ($mailLogData as $key => $logData) {
@@ -247,8 +246,8 @@ class LogHelper {
             } elseif ('-' != $logData['part2_coincidence']) {
                 $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
             } else {
-                //$mailLogData[$key]['out_mail_code'] = '-';
-                unset($mailLogData[$key]);
+                $mailLogData[$key]['out_mail_code'] = '-';
+                //unset($mailLogData[$key]);
             }
             
             $mailLogData[$key]['dialog_id'] = '-';
@@ -260,6 +259,10 @@ class LogHelper {
                 $mailLogData[$key]['part1_coincidence'],
                 $mailLogData[$key]['part2_coincidence']
            );
+            
+           if ('-' == $mailLogData[$key]['out_mail_code']) {
+               unset($mailLogData[$key]);
+           }
         }
         // update mailLogData.out_mail_code }
         

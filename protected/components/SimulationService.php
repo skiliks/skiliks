@@ -214,12 +214,12 @@ class SimulationService
         
         /**
          * $line:
-            'code'           => 'Номер поведения',
+            'p_code'           => 'Номер поведения',
             'add_value'      => 'Проявление',
          */
           
         foreach ($data['data'] as $line) {
-            $pointCode = $line['code'];
+            $pointCode = $line['p_code'];
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
             }
