@@ -1121,4 +1121,44 @@ class LogHelper {
             }
          return true;
     }
+    
+    /**
+     * @param string $return
+     * 
+     * @return string|boolean
+     * 
+     * @throws Exception
+     */                    
+    public static function getExcelAssessmentDetail($return)
+    {
+        $sql = 'SELECT 
+            ep.sim_id,
+            f.formula,
+            if(ep.value = 1, \'да\', \'нет\') AS value
+            FROM simulations_excel_points AS ep
+            LEFT JOIN excel_points_formula AS f ON f.id = ep.formula_id
+            ORDER BY ep.sim_id DESC;';
+        
+        $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+        
+        $data['headers'] = array(
+            'sim_id'       => 'ID симуляции',
+            'formula'      => 'Формула',
+            'value'        => 'Правильный результат?');
+
+        if(self::RETURN_DATA == $return) {
+            $data['title'] = "Логирование Leg_actions - detail";
+            return $data;
+        } elseif (self::RETURN_CSV == $return) {
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($data['headers']);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'data.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+        } else {
+            throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+        }
+        
+        return true;
+    }
 }
