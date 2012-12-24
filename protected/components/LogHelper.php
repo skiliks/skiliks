@@ -1045,30 +1045,64 @@ class LogHelper {
     
     public static function getLegActionsDetail($return) {
 
-//            $data['data'] = Yii::app()->db->createCommand()
-//                ->select("l.sim_id, 
-//                    d.code as code, 
-//                    s.title as category,
-//                    if(d.type_of_init != 'flex', 'System_dial', 'Manual_dial') as type_of_init,
-//                    l.last_id, 
-//                    l.start_time, 
-//                    l.end_time")
-//                ->from('log_dialogs l')
-//                ->leftJoin('dialogs d', 'l.dialog_id = d.id')
-//                ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
-//                ->order("l.id")
-//                ->queryAll();
-              $data['data'] = array(array('sim_id'=>'test'), array('sim_id'=>'test2'));
-//            $data['headers'] = array(
-//                    'sim_id'     => 'id_симуляции',
-//                    'code'       => 'Код события',
-//                    'category'   => 'Категория события',
-//                    'type_of_init'   => 'Категория события',
-//                    'last_id'    => 'Результирующее id_записи',
-//                    'start_time' => 'Игровое время - start',
-//                    'end_time'   => 'Игровое время - end'
-//            );
-            $data['headers'] = array('sim_id' => 'id_симуляции');
+                $sql = "SELECT l.sim_id
+                         , CASE
+                           WHEN a.dialog_id THEN
+                             if(d.type_of_init != 'flex', 'System_dial_leg', 'Manual_dial_leg')
+                           WHEN a.mail_id THEN
+                             CASE
+                             WHEN m.group_id = 1 THEN
+                               'Inbox_leg'
+                             WHEN m.group_id = 3 THEN
+                               'Outbox_leg'
+                             END
+                           WHEN a.document_id THEN
+                             'Documents_leg'
+                           WHEN a.window_id THEN
+                             'Window'
+                           END AS leg_type
+                         , CASE
+                           WHEN a.dialog_id THEN
+                             d.code
+                           WHEN a.mail_id THEN
+                             m.code
+                           WHEN a.document_id THEN
+                             t.code
+                           WHEN a.window_id THEN
+                             w.subtype
+                           END AS leg_action
+                         , i.category_id AS category
+                         , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
+                         , l.start_time AS start_time
+                         , ifnull(l.end_time, '00:00:00') AS end_time
+                         , TIMEDIFF(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time
+                    FROM
+                      log_activity_action AS l
+                    LEFT JOIN activity_action AS a
+                    ON l.activity_action_id = a.id
+                    LEFT JOIN window AS w
+                    ON w.id = a.window_id
+                    LEFT JOIN dialogs AS d
+                    ON d.id = a.dialog_id
+                    LEFT JOIN mail_template AS m
+                    ON m.id = a.mail_id
+                    LEFT JOIN my_documents_template AS t
+                    ON t.id = a.document_id
+                    LEFT JOIN activity AS i
+                    ON i.id = a.activity_id
+                      ORDER BY l.id";
+        
+            $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+
+            $data['headers'] = array(
+                'sim_id' => 'id_симуляции',
+                'leg_type' => 'Leg_type',
+                'leg_action' => 'Leg_action',
+                'category' => 'Category',
+                'is_keep_last_category' => 'Keep last category',
+                'start_time' => 'Игровое время - start',
+                'end_time' => 'Игровое время - end',
+                'diff_time' => 'Разница времени');
             
             if(self::RETURN_DATA == $return) {
                 $data['title'] = "Логирование Leg_actions - detail";
