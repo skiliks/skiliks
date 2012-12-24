@@ -247,7 +247,8 @@ class LogHelper {
             } elseif ('-' != $logData['part2_coincidence']) {
                 $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
             } else {
-                $mailLogData[$key]['out_mail_code'] = '-';
+                //$mailLogData[$key]['out_mail_code'] = '-';
+                unset($mailLogData[$key]);
             }
             
             $mailLogData[$key]['dialog_id'] = '-';
