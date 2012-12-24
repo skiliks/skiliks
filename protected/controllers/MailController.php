@@ -309,7 +309,7 @@ class MailController extends AjaxController
      */
     private function checkSubject($emailType, $subjectFromRequest)
     {
-        if ('new' === $emailType) {
+        //if ('new' === $emailType) {
             // check is this id of predefined subjects (table 'mail_character_themes')
             $emailToCharacterSubject = MailCharacterThemesModel::model()->findByPk((int) $subjectFromRequest);
             if (null !== $emailToCharacterSubject) {
@@ -321,10 +321,10 @@ class MailController extends AjaxController
                 $subject_id = null;
                 $subject = $subjectFromRequest;
             }
-        } else {
-            $subject_id = (int) $subjectFromRequest;
-            $subject = null;
-        }
+        //} else {
+        //    $subject_id = (int) $subjectFromRequest;
+        //    $subject = null;
+        //}
 
         if (0 === (int) $subject_id && null === $subject) {
 
