@@ -86,10 +86,10 @@ class UserService {
             return null;
         }
 
-        $activationCode            = $user->generateActivationCode();
-        $usersActivationCode       = new UsersActivationCode();
-        $usersActivationCode->uid  = $user->id;
-        $usersActivationCode->code = $user->activationCode;
+        $activationCode = $user->generateActivationCode();
+        $usersActivationCode = new UsersActivationCode();
+        $usersActivationCode->uid = $user->id;
+        $usersActivationCode->code = $activationCode;
         $usersActivationCode->insert();
 
         // Добавить группы пользователей
