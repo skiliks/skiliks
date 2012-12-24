@@ -16,7 +16,7 @@ class LogHelper {
 
     const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
     
-    const LOGIN = false; //Писать лог в файл? true - да, false - нет
+    const LOGIN = true; //Писать лог в файл? true - да, false - нет
     
     public $bom = "0xEF 0xBB 0xBF";
         
