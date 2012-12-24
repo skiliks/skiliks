@@ -1,5 +1,5 @@
 <?php
-class ZohoController extends CController
+class ZohoController extends AjaxController
 {
     public function actionSaveExcel()
     {
