@@ -1133,6 +1133,7 @@ class LogHelper {
     {
         $sql = 'SELECT 
             ep.sim_id,
+            ep.formula_id,
             f.formula,
             if(ep.value = 1, \'да\', \'нет\') AS value
             FROM simulations_excel_points AS ep
@@ -1143,6 +1144,7 @@ class LogHelper {
         
         $data['headers'] = array(
             'sim_id'       => 'ID симуляции',
+            'formula'      => 'ID формулы',
             'formula'      => 'Формула',
             'value'        => 'Правильный результат?');
 
