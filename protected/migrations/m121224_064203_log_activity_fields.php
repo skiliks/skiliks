@@ -12,7 +12,7 @@ class m121224_064203_log_activity_fields extends CDbMigration
 
 	public function down()
 	{
-        yecho "m121224_064203_log_activity_fields does not support migration down.\n";
+        echo "m121224_064203_log_activity_fields does not support migration down.\n";
 		return false;
 	}
 
