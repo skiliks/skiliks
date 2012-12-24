@@ -1144,7 +1144,7 @@ class LogHelper {
         
         $data['headers'] = array(
             'sim_id'       => 'ID симуляции',
-            'formula'      => 'ID формулы',
+            'formula_id'   => 'ID формулы',
             'formula'      => 'Формула',
             'value'        => 'Правильный результат?');
 
