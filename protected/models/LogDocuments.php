@@ -54,8 +54,10 @@ class LogDocuments extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-		);
+		return [
+            'file' => [self::BELONGS_TO, 'MyDocumentsModel', 'file_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulations', 'sim_id']
+		];
 	}
 
 	/**
@@ -74,7 +76,7 @@ class LogDocuments extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByAttributes(array('document_id' => $this->file_id));
+        $activity_action = ActivityAction::model()->findByAttributes(array('document_id' => $this->file->template_id));
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
         }
