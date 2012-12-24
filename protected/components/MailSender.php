@@ -47,6 +47,8 @@ class MailSender{
         $message = "Поздравляем {$params['email']}, вы успешно зарегистрированы и ваш пароль {$params['password']}. 
         Для активации перейдите по <a href='{$url}'>ссылке</a>";
         
+        var_dump($message);
+        
         return self::send(
             $params['email'], 
             'Регистрация завершена', 
