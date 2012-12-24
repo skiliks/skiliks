@@ -69,7 +69,7 @@ class LogWindows extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByAttributes(array('window_id' => $this->window));
+        $activity_action = ActivityAction::model()->findByPriority(array('window_id' => $this->window));
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
         }
