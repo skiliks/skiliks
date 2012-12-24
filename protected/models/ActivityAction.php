@@ -104,8 +104,8 @@ class ActivityAction extends CActiveRecord
             if (isset($log->mail_id)) {
                 $log_action->mail_id = $log->mail_id;
             }
-            if (isset($log->document_id)) {
-                $log_action->document_id = $log->document_id;
+            if (isset($log->file_id)) {
+                $log_action->document_id = $log->file_id;
             }
             if (isset($log->window)) {
                 $log_action->window = $log->window;
