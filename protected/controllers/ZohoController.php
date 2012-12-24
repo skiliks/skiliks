@@ -3,6 +3,7 @@ class ZohoController extends CController
 {
     public function actionSaveExcel()
     {
+        $this->_sendResponse(200, 'RESPONSE: Saved.');
         Yii::log('Zoho save start. ');
         $status = ZohoDocuments::saveFile(
             Yii::app()->getRequest()->getParam('id'), 
