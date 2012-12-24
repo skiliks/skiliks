@@ -101,6 +101,12 @@ class ActivityAction extends CActiveRecord
             $log_action->activity_action_id = $this->id;
             $log_action->start_time = $log->start_time;
             $log_action->sim_id = $log->sim_id;
+            if (isset($log->mail_id)) {
+                $log_action->mail_id = $log->mail_id;
+            }
+            if (isset($log->document_id)) {
+                $log_action->document_id = $log->document_id;
+            }
             #$log_action->window = $log->$window;
 
         }
