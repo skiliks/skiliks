@@ -148,6 +148,8 @@ class FlagsRulesModel extends CActiveRecord
         $this->rec_id = (int)$recordId;
         return $this;
     }
+
+
     
     public function getStepNo()
     {
