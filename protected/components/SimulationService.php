@@ -197,8 +197,6 @@ class SimulationService
             }
         }
         //3313 - read most of not-spam emails } 
-        
-        self::saveAgregatedPoints($simId);
     }
     
     /**
@@ -219,16 +217,16 @@ class SimulationService
          */
           
         foreach ($data['data'] as $line) {
-            $pointCode = $line['p_code'];
+            $pointCode = $line['code'];
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
             }
             
             $behaviours[$pointCode]->update($line['add_value']);
         }
-
+  
         // add Point object
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (CharactersPointsTitles::model()->byIsBehaviour()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -242,6 +240,7 @@ class SimulationService
      */    
     public static function saveAgregatedPoints($simId) 
     {
+
         foreach(self::getAgregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
             $existAssassment = AssessmentAggregated::model()
@@ -258,7 +257,9 @@ class SimulationService
             }
             // init Log record }
             
-            // set vakue
+            // set value
+            Yii::log(get_class($agrPoint));
+            Yii::log("agrPoint->getValue() {$agrPoint->getValue()}");
             $existAssassment->value = $agrPoint->getValue();
             
             $existAssassment->save();
