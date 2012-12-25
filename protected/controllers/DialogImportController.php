@@ -126,7 +126,7 @@ class DialogImportController extends AjaxController
     public function actionUpdateDemo()
     {
         $service = new DialogImportService();
-        $service->updateDemo('media/xls/dialogs_demo.csv');
+        $service->updateDemo();
         
         if (false !== $result) {
             $this->_sendResponse(200, 'Done!');
