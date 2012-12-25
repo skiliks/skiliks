@@ -33,7 +33,7 @@ class LogWindows extends CActiveRecord
      * See LogHelper subwindow codes
      * @var integer
      */
-    public $sub_winwod;
+    public $sub_window;
     
     /**
      * '00:00::00' current game day
@@ -69,7 +69,7 @@ class LogWindows extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByPriority(array('window_id' => $this->window));
+        $activity_action = ActivityAction::model()->findByPriority(array('window_id' => $this->sub_window));
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
         }
