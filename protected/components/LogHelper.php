@@ -172,8 +172,7 @@ class LogHelper {
                         ));
 	}
 
-	public static function getDialogPointsDetail($return, $params=array()) 
-    {
+    public static function getDialogPointsDetail($return, $params=array()) {
         $sim_id = null;
         if (isset($params['sim_id'])) {
             $sim_id = $params['sim_id'];
@@ -432,13 +431,16 @@ class LogHelper {
                     $log_obj->start_time=date("H:i:s", $log[3]);
                     $log_obj->save();
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
-
-                    $comand = Yii::app()->db->createCommand();
-
-                    $comand->update( "log_documents" , array(
-                        'end_time'  => date("H:i:s", $log[3])
-                        ), "`file_id` = {$log[4]['fileId']} AND
-                        `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                    
+                    $log_obj = LogDocuments::model()->findByAttributes(array(
+                        'file_id' => $log[4]['fileId'],
+                        'end_time' => '00:00:00',
+                        'sim_id' => $simId
+                    ));
+                    if(!$log_obj) continue;
+                    $log_obj->end_time = date("H:i:s", $log[3]);
+                    $log_obj->save();
+                    continue;    
                 } else {
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
@@ -825,7 +827,7 @@ class LogHelper {
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
                     if (!$windows) {
-                        continue;
+                        throw(new CException('Two active windows at one time. Achtung!'));
                     }
                     foreach ($windows as $window) {
                         $window->end_time = date("H:i:s", $log[3]);
@@ -974,7 +976,7 @@ class LogHelper {
             if (empty($log[4]['dialogId'])) continue;
             
             $lastDialogIdInMySQL = $log[4]['lastDialogId'];
-            $dialog = Dialogs::model()->findByPk($lastDialogIdInMySQL);
+            $dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
             $lastDialogIdAccordingExcel = (null === $dialog) ? null : $dialog->excel_id;
             
             if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
@@ -1053,7 +1055,7 @@ class LogHelper {
     }
     
     public static function getLegActionsDetail($return) {
-
+                # Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn :)
                 $sql = "SELECT DISTINCT l.sim_id
                               , CASE
                                 WHEN a.dialog_id THEN
