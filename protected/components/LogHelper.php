@@ -972,12 +972,18 @@ class LogHelper {
 
         foreach( $logs as $log ) {
             if (empty($log[4]['dialogId'])) continue;
+            
+            $lastDialogIdInMySQL = $log[4]['lastDialogId'];
+            $dialog = Dialogs::model()->findByPk($lastDialogIdInMySQL);
+            $lastDialogIdAccordingExcel = (null === $dialog) ? null : $dialog->excel_id;
+            
             if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+
 
                 $dialog = new LogDialogs();
                 $dialog->sim_id = $simId;
                 $dialog->dialog_id = $log[4]['dialogId'];
-                $dialog->last_id = empty($log[4]['lastDialogId'])?null:$log[4]['lastDialogId'];
+                $dialog->last_id = $lastDialogIdAccordingExcel;
                 $dialog->start_time  = date("H:i:s", $log[3]);
                 $dialog->save();
                 continue;
@@ -989,7 +995,7 @@ class LogHelper {
                 }
                 foreach ($dialogs as $dialog) {
                     $dialog->end_time = date("H:i:s", $log[3]);
-                    $dialog->last_id = empty($log[4]['lastDialogId'])?null:$log[4]['lastDialogId'];
+                    $dialog->last_id = $lastDialogIdAccordingExcel;
                     $dialog->save();
                 }
             } elseif (self::ACTION_SWITCH == (string)$log[2]) {
