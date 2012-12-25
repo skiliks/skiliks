@@ -54,7 +54,7 @@ class SeleniumTestCase extends CDbTestCase
         parent::tearDown();
     }
 
-    public function waitForElement($session, $using, $value, $timeout = 10)
+    protected function waitForElement($session, $using, $value, $timeout = 10)
     {
         $timeouts = new PHPWebDriver_WebDriverWait($session, $timeout, 0.5, array($using, $value));
         return $timeouts->until(function ($session, $args) {
@@ -78,6 +78,26 @@ class SeleniumTestCase extends CDbTestCase
         }, 10, 1, array($session, $using, $value));
     }
 
+    protected function startSimulation($session)
+    {
+        $session->open($this->browser_url . 'site.php');
+        # раскрыть окно на весь экран
+        $session->window()->maximize();
+        # из-за черной полосы загрузки, пришлось добавить временное ожидание
+        sleep(2);
+        # вводится текст
+        $this->waitForElement($session, "id", "login")->value(
+            array("value" => str_split($this->email))
+        );
+        # Ждём появления елемента и кликаем на него
+        $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
+        # Кликаем на него
+        $session->element("css selector", "input.btn-primary")->click();
+        # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
+        $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
+        $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
+    }
+
     private function createInitialUsers()
     {
         foreach (Users::model()->findAllByAttributes(array('email' => 'kaaabv@gmail.com')) as $user) {
@@ -93,5 +113,15 @@ class SeleniumTestCase extends CDbTestCase
         $group->gid = 2;
         $group->save();
         $this->user = $user;
+    }
+
+    protected function runEvent($session, $event, $delay = 0)
+    {
+        $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split($event)));
+        $this->waitForElement($session, "id", "addTriggerDelay")->value(array("value" => str_split($delay)));
+        $session->element("xpath", "//input[@value='Создать']")->click();
+        sleep(3);
+        $session->element('css selector', '.alert a.btn')->click();
+
     }
 }
