@@ -34,11 +34,11 @@ class DebugController extends AjaxController{
         //$import = new ImportGameDataService();
         //$result = $import->importCharactersPointsTitles();
         //var_dump($result);
-        SimulationService::saveAgregatedPoints(6159);
+        //SimulationService::saveAgregatedPoints(6159);
         //LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => 5002));
         
         //SimulationService::saveEmailsAnalize(5002);
-        //$ea = new EmailAnalizer(3919);
+        //$ea = new EmailAnalizer(6188);
         
         /*$aa = SimulationService::getAgregatedPoints(3938);
         
@@ -49,10 +49,10 @@ class DebugController extends AjaxController{
         }
         
         SimulationService::saveAgregatedPoints(3938);*/
-        
+        MailBoxService::updateMsCoincidernce(696644, 6188);
         /*
         $a = new EmailCoincidenceAnalizator();
-        $a->setUserEmail(545509);
+        $a->setUserEmail(696644);
         var_dump($a->checkCoinsidence());
         */
 
@@ -94,7 +94,6 @@ class DebugController extends AjaxController{
         var_dump($v);
         echo "</pre>";*/
         echo '</pre>';
-        die;
     }
 }
 
