@@ -127,6 +127,12 @@ class Dialogs extends CActiveRecord
      */
     public $demo;    
     
+    /**
+     * Replica initialization type: dialog, icon, time, flex etc.
+     * @var string
+     */
+    public $type_of_init;     
+    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -147,6 +153,11 @@ class Dialogs extends CActiveRecord
     {
         return (1 === (int)$this->dialog_subtype || 5 === (int)$this->dialog_subtype);
     }
+    
+    public function isPhoneCall()
+    {
+        return (1 === (int)$this->dialog_subtype);
+    }    
 
     /**
      * @return string the associated database table name
@@ -173,6 +184,18 @@ class Dialogs extends CActiveRecord
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array('condition' => 'id = '.$id));
+        return $this;
+    }
+    
+    /**
+     * @param string $ids
+     * @return array of \Dialogs
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT IN ({$ids}) "
+        ));
         return $this;
     }
     

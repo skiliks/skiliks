@@ -5,14 +5,16 @@ class ImportController extends AjaxController
 
     public function actionIndex()
     {
-        $controllers = array('MailImportController', 
-                             'CharactersPointsTitleImportController',
-                             'DialogImportController',
-                             'MailImportController', 
-                             'MyDocumentsImportController', 
-                             'TasksImportController');
-        $links = System::classToUrls($controllers);
+        $links = [['href' => $this->createUrl('do'), 'title' => 'Начать импорт']];
         //var_dump($links);
         $this->render('index', array('links'=>$links));
+    }
+
+    public function actionDo()
+    {
+        $service = new ImportGameDataService();
+        $result = $service->importAll();
+        $this->render('do', array('result'=>$result));
+
     }
 }

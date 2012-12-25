@@ -2,7 +2,7 @@
 /**
  * @author slavka
  */
-class AssassmentAgregated extends CActiveRecord
+class AssessmentAggregated extends CActiveRecord
 {
     /**
      * @var integer
@@ -69,7 +69,7 @@ class AssassmentAgregated extends CActiveRecord
      */
     public function tableName()
     {
-            return 'assassment_agregated';
+            return 'assessment_aggregated';
     }
 }
 

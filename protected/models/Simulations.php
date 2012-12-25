@@ -95,6 +95,19 @@ class Simulations extends CActiveRecord
         ));
         return $this;
     }
+
+    /**
+     * Returns current simulation time
+     */
+    public function getGameTime() {
+        if (!$this) throw new Exception('Не могу определить симуляцию');
+
+        $variance = time() - $this->start;
+        $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
+
+        $unixtimeMins = round($variance/60) + 9*60;
+        return $unixtimeMins;
+    }
     
     /**
      * Выбрать по идентификатору
