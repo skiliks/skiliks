@@ -975,7 +975,7 @@ class LogHelper {
         foreach( $logs as $log ) {
             if (empty($log[4]['dialogId'])) continue;
             
-            $lastDialogIdInMySQL = $log[4]['lastDialogId'];
+            $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : $log[4]['dialogId'];
             $dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
             $lastDialogIdAccordingExcel = (null === $dialog) ? null : $dialog->excel_id;
             
