@@ -5,12 +5,7 @@ class ImportController extends AjaxController
 
     public function actionIndex()
     {
-        $controllers = array('MailImportController', 
-                             'CharactersPointsTitleImportController',
-                             'DialogImportController',
-                             'MyDocumentsImportController', 
-                             'TasksImportController');
-        $links = System::classToUrls($controllers);
+        $links = [['href' => $this->createUrl('do'), 'title' => 'Начать импорт']];
         //var_dump($links);
         $this->render('index', array('links'=>$links));
     }
