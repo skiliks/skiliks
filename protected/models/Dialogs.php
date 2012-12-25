@@ -153,6 +153,11 @@ class Dialogs extends CActiveRecord
     {
         return (1 === (int)$this->dialog_subtype || 5 === (int)$this->dialog_subtype);
     }
+    
+    public function isPhoneCall()
+    {
+        return (1 === (int)$this->dialog_subtype);
+    }    
 
     /**
      * @return string the associated database table name

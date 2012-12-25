@@ -56,4 +56,40 @@ class LogDialogs extends CActiveRecord
         return 'log_dialogs';
     }
     
+    /**
+     * @param int $simulationId
+     * @return LogDialogs 
+     */
+    public function bySimulationId($simulationId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = {$simulationId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param int $dialogId
+     * @return LogDialogs 
+     */
+    public function byDialogId($dialogId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "dialog_id = {$dialogId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param string $sort
+     * @return LogDialogs 
+     */
+    public function orderById($sort = 'DESC')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "id $sort"
+        ));
+        return $this;
+    }
+    
 }
