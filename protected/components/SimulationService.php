@@ -32,14 +32,7 @@ class SimulationService
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
-        if (!$simulation) throw new Exception('Не могу определить симуляцию');
-        $startTime = $simulation->start;
-        
-        $variance = time() - $simulation->start;
-        $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
-
-        $unixtimeMins = round($variance/60) + 9*60;
-        return $unixtimeMins;
+        return $simulation->getGameTime();
     }
     
     /**
@@ -204,8 +197,6 @@ class SimulationService
             }
         }
         //3313 - read most of not-spam emails } 
-        
-        self::saveAgregatedPoints($simId);
     }
     
     /**
@@ -221,7 +212,7 @@ class SimulationService
         
         /**
          * $line:
-            'code'           => 'Номер поведения',
+            'p_code'           => 'Номер поведения',
             'add_value'      => 'Проявление',
          */
           
@@ -233,9 +224,9 @@ class SimulationService
             
             $behaviours[$pointCode]->update($line['add_value']);
         }
-
+  
         // add Point object
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (CharactersPointsTitles::model()->byIsBehaviour()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -249,9 +240,10 @@ class SimulationService
      */    
     public static function saveAgregatedPoints($simId) 
     {
+
         foreach(self::getAgregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
-            $existAssassment = AssassmentAgregated::model()
+            $existAssassment = AssessmentAggregated::model()
                 ->bySimId($simId)
                 ->byPoint($agrPoint->mark->id)
                 ->find();
@@ -259,14 +251,18 @@ class SimulationService
             
             // init Log record {
             if (null == $existAssassment) {
-                $existAssassment = new AssassmentAgregated();
+                $existAssassment = new AssessmentAggregated();
                 $existAssassment->sim_id   = $simId;
                 $existAssassment->point_id = $agrPoint->mark->id;
             }
             // init Log record }
             
-            // set vakue
+            // set value
             $existAssassment->value = $agrPoint->getValue();
+            if ($agrPoint->mark->isNegative() && 0 < $existAssassment->value) {
+                // fix for negative points
+                $existAssassment->value =-$existAssassment->value;
+            }
             
             $existAssassment->save();
         }
@@ -281,7 +277,7 @@ class SimulationService
     {
         // add mail inbox/outbox points
         foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
-            $assassment = new AssassmentAgregated();
+            $assassment = new AssessmentAggregated();
             $assassment->sim_id   = $simId;
             $assassment->point_id = $emailBehaviour->point_id;
             $assassment->value = $emailBehaviour->value;
@@ -312,5 +308,120 @@ class SimulationService
                 $dayPlan->insert();
             }
         }
+    }
+    
+    /**
+     * @param integer $userId
+     * @param integer $simulationType
+     * 
+     * @return Simulations
+     */
+    public static function initSimulationEntity($userId, $simulationType)
+    {
+        $simulation = new Simulations();
+        $simulation->user_id = $userId;
+        $simulation->status = 1;
+        $simulation->start = time();
+        $simulation->difficulty = 1;
+        $simulation->type = $simulationType;
+        $simulation->insert();
+        
+        return $simulation;
+    }
+    
+    /**
+     * @param Simulation $simulation
+     * 
+     * @return array of EventsTriggers
+     */
+    public static function initEventTriggers($simulation)
+    {
+        $events = EventsSamples::model()
+            ->byNotDocumentCode()
+            ->byNotPlanTaskCode()
+            ->byNotSendedTodayEmailCode()
+            ->byNotSendedYesterdayEmailCode()
+            ->byNotTerminatorCode()
+            ->byTriggerTimeGreaterThanZero()
+            ->findAll();
+        
+        $initedEvents = array();
+        $i = 0;
+        foreach ($events as $event) {
+            $initedEvents[$i] = new EventsTriggers();
+            $initedEvents[$i]->sim_id = $simulation->id;
+            $initedEvents[$i]->event_id = $event->id;
+            $initedEvents[$i]->trigger_time = $event->trigger_time;
+            $initedEvents[$i]->save();
+            $i++;
+        }
+
+        return $initedEvents;
+    }
+    
+    public static function simulationStart()
+    {
+        // тип симуляции 1 - promo, 2 - dev
+        $simulationType = (int) Yii::app()->request->getParam('stype', 1); 
+
+        $userId = SessionHelper::getUidBySid();
+        if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
+            throw new Exception('У вас нет прав для старта этой симуляции');
+        }
+        
+        // Создаем новую симуляцию
+        $simulation = SimulationService::initSimulationEntity($userId, $simulationType);
+        
+        // save simulation ID to user session
+        Yii::app()->session['simulation'] = $simulation->id;
+
+        //@todo: increase speed
+        SimulationService::initEventTriggers($simulation); // 3 seconds 
+
+        // предустановка задач в todo!
+        SimulationService::fillTodo($simulation->id);
+
+        // скопируем документы
+        MyDocumentsService::init($simulation->id);
+
+        // @todo: increase speed
+        // Установим дефолтовые значения для mail client
+        MailBoxService::initDefaultSettings($simulation->id); // 4 seconds
+        
+        // Copy email templates
+        MailBoxService::initMailBoxEmails($simulation->id);
+
+        // проставим дефолтовые значени флагов для симуляции пользователя
+        FlagsService::initDefaultValues($simulation->id);
+        
+        return $simulation;
+    }
+    
+    /**
+     * WTF! This crazy code not change internal sim time? but change sim start value
+     * in real life time coords
+     *
+     * There are no internal simulation time stored anywhere :)
+     * 
+     * @param Simulation $simulation
+     * @param integer $newHours
+     * @param integer $newMinutes
+     */
+    public static function setSimulationClockTime($simulation, $newHours, $newMinutes)
+    {
+        $speedFactor = Yii::app()->params['skiliksSpeedFactor'];
+        
+        $variance = time() - $simulation->start;
+        $variance = $variance * $speedFactor;
+
+        $unixtimeMins = round($variance / 60);
+        $clockH = round($unixtimeMins / 60);
+        $clockM = $unixtimeMins - ($clockH * 60);
+        $clockH = $clockH + 9;
+
+        $simulation->start = ($simulation->start - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+            - (($newMinutes - $clockM) * 60 / $speedFactor));
+
+        $simulation->save();
     }
 }

@@ -149,7 +149,7 @@ class TodoService
         }
 
         $newTodoEntity = new Todo();
-        $newTodoEntity->sim_id = $simId;
+        $newTodoEntity->sim_id = $simulationId;
         $newTodoEntity->task_id = $taskId;
         $newTodoEntity->insert();
         

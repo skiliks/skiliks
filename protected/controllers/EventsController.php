@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Движек событий
  *
@@ -64,6 +62,8 @@ class EventsController extends AjaxController{
             
             // данные для логирования {
             LogHelper::setLog($simId, Yii::app()->request->getParam('logs', false));
+            $originalNotFilteregLogs = Yii::app()->request->getParam('logs', null); // used after standart logging
+            // to update phone call dialogs lastDialogId
 
             $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
             /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
@@ -75,9 +75,45 @@ class EventsController extends AjaxController{
             
             LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
             LogHelper::setMailLog($simId, $logs);
-            // данные для логирования }
-            // 
+            
             LogHelper::setDialogs($simId, $logs);
+            // данные для логирования }
+            
+            // update phone call dialogs lastDialogId {
+            if(is_array($originalNotFilteregLogs)) {
+                $updatedDialogs = array();
+                foreach ($originalNotFilteregLogs as $data) {
+                    if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
+                        if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
+                            $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
+                            $updatedDialogs[] =  $data[4]['lastDialogId'];
+
+                            if ($currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
+                                // update Phone call dialog last_id
+                                $callDialog = Dialogs::model()
+                                    ->byCode($currentDialog->code)
+                                    ->byStepNumber(1)
+                                    ->byReplicaNumber(0)
+                                    ->find();
+
+                                if (null !== $callDialog) {
+                                    $logRecord = LogDialogs::model()
+                                        ->bySimulationId($simId)
+                                        ->byDialogId($callDialog->id)
+                                        ->orderById('DESC')
+                                        ->find();
+                                    if (null !== $logRecord) {
+                                        $logRecord->last_id = $currentDialog->excel_id;
+                                        $logRecord->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // update phone call dialogs lastDialogId }
+            
             $simType = SimulationService::getType($simId); // определим тип симуляции
             $gameTime = SimulationService::getGameTime($simId);
             

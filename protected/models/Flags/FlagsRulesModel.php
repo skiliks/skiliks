@@ -115,6 +115,25 @@ class FlagsRulesModel extends CActiveRecord
         return $this;
     }
     
+    /**
+     * Выбрать по номеру записи
+     * @param int $recordId
+     * @return FlagsRulesModel 
+     */
+    public function byRecordIdOrNullOrZero($recordId)
+    {
+        if (null !== $recordId) {
+            $this->getDbCriteria()->mergeWith(array(
+                'condition' => " rec_id = {$recordId} OR rec_id IS NULL OR rec_id = 0 "
+            ));
+        } else {
+            $this->getDbCriteria()->mergeWith(array(
+                'condition' => " rec_id = 0 OR rec_id IS NULL "
+            ));
+        }
+        return $this;
+    }
+    
     // -------------------------------------------------------------------------
     
     public function getEventCode()
@@ -148,6 +167,8 @@ class FlagsRulesModel extends CActiveRecord
         $this->rec_id = (int)$recordId;
         return $this;
     }
+
+
     
     public function getStepNo()
     {

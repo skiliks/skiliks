@@ -204,6 +204,7 @@ class LoggingTest extends SeleniumTestCase
             if ('00:00:00' !== $item['end_time']) {
                 unset($item['end_time']);
             }
+            unset($item['last_id']);
             return $item;
         }, $data);
         $this->assertEquals(array (
@@ -211,19 +212,21 @@ class LoggingTest extends SeleniumTestCase
                 'sim_id' => $simulation->id,
                 'code' => 'E1',
                 'category' => 'Разговор по телефону',
-                'last_id' => '11',
+                'type_of_init' => 'System_dial'
+
             ),
             array (
                 'sim_id' => $simulation->id,
                 'code' => 'E8.3',
                 'category' => 'Встреча',
-                'last_id' => '340',
+                'type_of_init' => 'System_dial'
+
             ),
             array (
                 'sim_id' => $simulation->id,
                 'code' => 'E12.1',
                 'category' => 'Разговор по телефону',
-                'last_id' => '444',
+                'type_of_init' => 'System_dial'
             ),
         ),$data);
     }

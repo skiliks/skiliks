@@ -9,22 +9,7 @@ class OneTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
-        # раскрыть окно на весь экран
-        $session->window()->maximize();
-        # из-за черной полосы загрузки, пришлось добавить временное ожидание
-        sleep(2);
-        # вводится текст
-        $this->waitForElement($session, "id", "login")->value(
-            array("value" => str_split($this->email))
-        );
-        # Ждём появления елемента и кликаем на него
-        $this->waitForElement($session, "id", "pass")->value(array("value" => str_split("111")));
-        # Кликаем на него
-        $session->element("css selector", "input.btn-primary")->click();
-        # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
-        $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
-        $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
+        $this->startSimulation($session);
         # ожидание одного из компонентов (чтобы убедиться что симуляция стартовала)
         $this->waitForElement($session, 'xpath', '//a[@id="icons_documents"]');
         #старт теста по параметрам заданным Антоном
@@ -32,17 +17,12 @@ class OneTest extends SeleniumTestCase
         # $this->assertEquals("Сумма оценок: 0", $session->element("css selector",".result-total")->text());
 
 
-        $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split("ET1.1")));
-        $this->waitForElement($session, "id", "addTriggerDelay")->value(array("value" => str_split("1")));
-
-        $session->element("xpath", "//input[@value='Создать']")->click();
+        $this->runEvent($session, "ET1.1");
 
         //$session->verifyTextPresent("Событие было успешно добавлено");
 
         #$this->assertEquals("Сумма оценок: 0", $session->element("css selector",".result-total")->text());
 
-        sleep(3);
-        $session->element('css selector', '.alert a.btn')->click();
         $this->waitForElement($session, 'css selector', 'li.phone.icon-active', 15);
 
 
@@ -87,5 +67,7 @@ class OneTest extends SeleniumTestCase
 
 
     }
+
+
 }
 
