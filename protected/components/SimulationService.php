@@ -258,9 +258,11 @@ class SimulationService
             // init Log record }
             
             // set value
-            Yii::log(get_class($agrPoint));
-            Yii::log("agrPoint->getValue() {$agrPoint->getValue()}");
             $existAssassment->value = $agrPoint->getValue();
+            if ($agrPoint->mark->isNegative() && 0 < $existAssassment->value) {
+                // fix for negative points
+                $existAssassment->value =-$existAssassment->value;
+            }
             
             $existAssassment->save();
         }
