@@ -25,6 +25,8 @@ class ImportGameDataService
 
 
     /**
+     * Import characters, requires nothing
+     *
      * @return mixed array
      * 
      * @throws Exception
@@ -711,7 +713,12 @@ class ImportGameDataService
             'text'   => $html,
         );
     }
-    
+
+    /**
+     * Requires characters, emails
+     *
+     * @return array
+     */
     public function importEmailSubjects()
     {
         $fileName = __DIR__.'/../../../media/xls/mail_themes.csv';
@@ -1380,6 +1387,26 @@ class ImportGameDataService
             'errors' => false, 
             'activities' => count($activities)
         );
+    }
+
+    /**
+     * Only must to use functions. Has correct import order
+     */
+    public function importAll() {
+        $result = [];
+        #$result['characters'] = $this->importCharacters();
+        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+        $result['emails'] = $this->importEmails();
+        $result['emails_subjects'] = $this->importEmailSubjects();
+        #$result['mail_attaches'] = $this->importMailAttaches();
+        #$result['mail_events'] = $this->importMailEvents();
+        #$result['mail_sending_time'] = $this->importMailSendingTime();
+        #$result['tasks'] = $this->importTasks();
+        #$result['mail_tasks'] = $this->importMailTasks();
+        #$result['my_documents'] = $this->importMyDocuments();
+        $result['activity'] = $this->importActivity();
+        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+        return $result;
     }
 
     /* ----- */
