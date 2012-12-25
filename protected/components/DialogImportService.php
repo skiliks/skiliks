@@ -848,7 +848,8 @@ class DialogImportService {
         return $resultHtml;
     }
     
-    public function updateDemo($fileName) {
+    public function updateDemo() {
+        $fileName = 'media/xls/dialogs_demo.csv';
         $handle = fopen($fileName, "r");
         if (!$handle) return false;
         
