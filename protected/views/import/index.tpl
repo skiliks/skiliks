@@ -11,7 +11,7 @@
 <p>
     <ul>
         {foreach from=$links item=link}
-            <li><li><a onclick="setIframeSrc('http://{$link['href']}', '{$link['title']}');" href="#">{$link['title']}</a></li></li>
+            <li><a href="/api/{$link['href']}">{$link['title']}</a></li>
         {/foreach} 
     </ul>
 </p>

@@ -22,7 +22,7 @@ class FlagsService
                     ->byName($code)
                     ->byStepNumber($stepNumber)
                     ->byReplicaNumber($replicaNumber)
-                    ->byRecordIdOrNull($excelId);
+                    ->byRecordIdOrNullOrZero($excelId);
 
             return $request->find();
         }

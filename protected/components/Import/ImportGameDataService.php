@@ -6,12 +6,32 @@ require_once(__DIR__ . '/../../extensions/PHPExcel.php');
  */
 class ImportGameDataService
 {
+    private $filename     = null;
+    
+    private $import_id    = null;
+    
+    private $errors       = null;
+    
+    private $cache_method = null;
+    
+    private $columnNoByName = array();
+    
+    public function __construct()
+    {
+        $this->filename = __DIR__ . '/../../../media/xls/activity.xlsx';
+        $this->import_id = $this->getImportUUID();
+        $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
+    }
+
+
     /**
+     * Import characters, requires nothing
+     *
      * @return mixed array
      * 
      * @throws Exception
      */
-    public function importCaracters() 
+    public function importCharacters()
     {
         $fileName = '../media/xls/characters.csv';
         
@@ -179,9 +199,9 @@ class ImportGameDataService
                 foreach ($db_data as $k2 => $data) {
                     if ($data['code'] == $title[0]) {
                         if ($data['title'] == $title[2] && $data['scale'] == $title[3] && $data['type_scale'] == $type_scale[$title[4]] && $data['p_code'] == $title[5]) {
-                            
                         } else {
                             //TODO:Изменить запись
+                            
                             $command->update('characters_points_titles', array(
                                 'parent_id' => $keys[$title[5]],
                                 'title' => $title[2],
@@ -231,13 +251,15 @@ class ImportGameDataService
             '<h3>Файл - %s </h3><br/>
             Размер - %s Кбайт <br/>
             Время последнего изменения файла  - %s <br/>
-            Количество обработаных строк данных - %s по %s колонки <br>
+            Количество обработаных строк данных - %s по %s колонки <br/>
+            Лишних наименований целей обучения в бд: %s <br/>
             ',
             $filename,
             filesize($filename) / 1024,
             date("d.m.Y H:i:s.", filemtime($filename)),
             $count_str,
-            $count_col
+            $count_col,
+            count($db_parent)
         );
         
         // if you want - you can fihish $html
@@ -324,6 +346,20 @@ class ImportGameDataService
             $pointsInfo[$item->code] = $item->id;
         }
         
+        // Get all exist system mail_templates to avoid SQL queries againts each request {
+        $existsMailTemplate = array();
+        foreach (MailTemplateModel::model()->findAll() as $mailTemplate) {
+            $existsMailTemplate[$mailTemplate->code] = $mailTemplate;
+        }
+        // Get all mail_templates }
+        
+        // Get all exist system mail_themes to avoid SQL queries againts each request {
+        $existsMailThemes = array();
+        foreach (MailThemesModel::model()->bySimIdNull()->findAll() as $mailTheme) {
+            $existsMailThemes[$mailTheme->name] = $mailTheme;
+        }
+        // Get all mail_themes }
+        
         $exists = array();
         
         $handle = fopen($fileName, "r");
@@ -334,7 +370,7 @@ class ImportGameDataService
             $index++;
             
             if ($index == 2) {
-                // загрузим кодов
+                // get point codes
                 $START_COL = 20;
                 $END_COL = 134;
                 $columnIndex = $START_COL;
@@ -350,23 +386,18 @@ class ImportGameDataService
                 continue;
             }
            
-            // Код письма
-            $code = $row[0];  // A
-            // дата отправки
-            $sendingDate = $row[1]; // B
-            // время отправки
-            $sendingTime = $row[2]; // C
-            // От кого (код)
-            $fromCode = $row[3]; // D
-            // Кому (код)
-            $toCode = $row[5];  // F
-            // Копия (код)
-            $copies = $row[7]; // H
-            // тема
-            $subject = iconv("Windows-1251", "UTF-8", $row[9]);  // J
+            $code = $row[0];  // A, Код письма
+            $sendingDate = $row[1]; // B, ата отправки
+            $sendingTime = $row[2]; // C, время отправки
+            $fromCode = $row[3]; // D, От кого (код)
+            $toCode = $row[5];  // F, Кому (код)
+            $copies = $row[7]; // H, Копия (код)
+
+            $subject = $row[9];  // J, тема
             $subject = StringTools::fixReAndFwd($subject);
+            
             // Письмо
-            $message = iconv("Windows-1251", "UTF-8", $row[10]); // K
+            $message = $row[10]; // K
             // Вложение
             $attachment = $row[11];  // L
             
@@ -460,41 +491,45 @@ class ImportGameDataService
             }
             
             // themes update {
-            $subjectEntity = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
-            if (null === $subjectEntity) {
+            if (false === isset($existsMailThemes[$subject])) {
                 $subjectEntity = new MailThemesModel();
                 $subjectEntity->name = $subject;
                 $subjectEntity->insert();
+            } else {
+                $subjectEntity = $existsMailThemes[$subject];
             }
-            $emailSubjectsIds[] = $subjectEntity->id;
 
+            $emailSubjectsIds[] = $subjectEntity->id;
             // themes update }
             
-            $emailTemplateEntity = MailTemplateModel::model()->byCode($code)->find();
-            if (!$emailTemplateEntity) {
+            $emailTemplateEntity = null;
+            if (isset($existsMailTemplate[$code])) {
+                $emailTemplateEntity = $existsMailTemplate[$code];
+            }
+            if (null === $emailTemplateEntity) {
                 $emailTemplateEntity = new MailTemplateModel();
-                $emailTemplateEntity->group_id = $group;
-                $emailTemplateEntity->sender_id = $fromId;
-                $emailTemplateEntity->receiver_id = $toId;
-                $emailTemplateEntity->subject = $subject;
-                $emailTemplateEntity->subject_id = $subjectEntity->id;
-                $emailTemplateEntity->message = $message;
-                $emailTemplateEntity->sending_date = $sendingDate;
-                $emailTemplateEntity->code = $code;
-                $emailTemplateEntity->type = $type;
+                $emailTemplateEntity->group_id           = $group;
+                $emailTemplateEntity->sender_id          = $fromId;
+                $emailTemplateEntity->receiver_id        = $toId;
+                $emailTemplateEntity->subject            = $subject;
+                $emailTemplateEntity->subject_id         = $subjectEntity->id;
+                $emailTemplateEntity->message            = $message;
+                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->code               = $code;
+                $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
 
                 $emailTemplateEntity->insert();
             }
             else {
-                $emailTemplateEntity->group_id = $group;
-                $emailTemplateEntity->sender_id = $fromId;
-                $emailTemplateEntity->receiver_id = $toId;
-                $emailTemplateEntity->subject = $subject;
-                $emailTemplateEntity->subject_id = $subjectEntity->id;
-                $emailTemplateEntity->message = $message;
-                $emailTemplateEntity->sending_date = $sendingDate;
-                $emailTemplateEntity->type = $type;
+                $emailTemplateEntity->group_id           = $group;
+                $emailTemplateEntity->sender_id          = $fromId;
+                $emailTemplateEntity->receiver_id        = $toId;
+                $emailTemplateEntity->subject            = $subject;
+                $emailTemplateEntity->subject_id         = $subjectEntity->id;
+                $emailTemplateEntity->message            = $message;
+                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
                 $emailTemplateEntity->update();
             }
@@ -646,21 +681,22 @@ class ImportGameDataService
        // remove old entities }
         
         $html = sprintf(
-           'Lines imported: %s . must be 86<br/>
+           'Must be values regarding  (21 Dec 2012)  <br/>
+            Lines imported: %s . must be 97<br/>
             <br/>
             Inbox: %s. must be 42<br/>
             - MY: %s. must be 38<br/>
             - M: %s. must be 4<br/>
             <br/>
-            Outbox: %s. must be 44<br/>
+            Outbox: %s. must be 55<br/>
             - MSY: %s. must be 1<br/>
-            - MS: %s. must be 43<br/>
+            - MS: %s. must be 54<br/>
             <br/>
             Marks codes amount: %s must be 114<br/>
-            - Marks "0": %s. must be 86<br/>
-            - Marks "1": %s. must be 97<br/>
+            - Marks "0": %s. must be 13<br/>
+            - Marks "1": %s. must be 32<br/>
             <br/>
-            Email import was finished.
+            Email import was finished. <br>
             ',
             $counter['all'],
             $counter['M'] + $counter['MY'],
@@ -679,7 +715,12 @@ class ImportGameDataService
             'text'   => $html,
         );
     }
-    
+
+    /**
+     * Requires characters, emails
+     *
+     * @return array
+     */
     public function importEmailSubjects()
     {
         $fileName = __DIR__.'/../../../media/xls/mail_themes.csv';
@@ -769,13 +810,14 @@ class ImportGameDataService
             try {
                 $mailCharacterTheme->save();
                 $characterMailThemesIds[] = $mailCharacterTheme->id;
-                $html .= sprintf(
+                // skip extra success messages
+                /*$html .= sprintf(
                     'Succesfully imported - email from "%s", %s subject "%s" . [MySQL id: %s] <br/>',
                     $row[1],
                     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
                     $row[2],
                     $mailCharacterTheme->id
-                );
+                );*/
             } catch(CDbException $e) {
                 $html .= sprintf(
                     'Error during import line %s. <br/> subject: %s, id: %s<br/> DB error message: %s <br/>',
@@ -796,14 +838,14 @@ class ImportGameDataService
         }
         fclose($handle);
         
-        // remove all old, unused characterMailThemes after import
+        // remove all old, unused characterMailThemes after import {
         $oldThemes = MailCharacterThemesModel::model()->byIdsNotIn(implode(',', $characterMailThemesIds))->findAll();
         foreach ($oldThemes as $oldTheme) {
             $oldTheme->delete();
         }
+        // remove all old, unused characterMailThemes after import }
         
-        
-        $html .= "processed rows: $index <br/>";
+        $html .= "processed rows: ".($index-1)."  must be 113 (21 Dec 2012)<br/>";
         $html .= "Email from characters import finished! <br/>";
         
         return array(
@@ -1008,13 +1050,12 @@ class ImportGameDataService
         );   
     }
     
-    public function importMailAttache() 
+    public function importMailAttaches()
     {
         $fileName = '../media/xls/mail2.csv';
         $handle = $this->checkFileExists($fileName);
         
         $documents = MyDocumentsService::getAllCodes();
-        //var_dump($documents); die();
         $index = 0;
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
@@ -1101,92 +1142,219 @@ class ImportGameDataService
         );   
     }
 
+    /**
+     * Get unique import ID
+     *
+     * @return string
+     */
     protected function getImportUUID()
     {
         return uniqid();
     }
-
-    public function importActivity()
+    
+    public function importActivityEfficiencyConditions()
     {
-        $import_id = $this->getImportUUID();
-        $activity_types = array(
-            'Documents_leg' => 'document_id',
-            'In_dial_leg' => 'dialog_id',
-            'Out_dial_leg' => 'dialog_id',
-            'Inbox_leg' => 'mail_id',
-            'Outbox_leg' => 'mail_id'
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('Activities');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Activities');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            // try to find exists entity {
+            $activityEfficiencyCondition = ActivityEfficiencyCondition::model()
+                ->byActivityId($this->getCellValue($sheet, 'Activity_code', $i))
+                ->byType($this->getCellValue($sheet, 'Result_type', $i))
+                ->byResultCode($this->getCellValue($sheet, 'Result_code', $i))
+                ->find();
+            // try to find exists entity }
+            
+            // create entity if not exists {
+            if (null === $activityEfficiencyCondition) {
+                $activityEfficiencyCondition = new ActivityEfficiencyCondition();
+                $activityEfficiencyCondition->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+                $activityEfficiencyCondition->type        = $this->getCellValue($sheet, 'Result_type', $i);
+                $activityEfficiencyCondition->result_code = $this->getCellValue($sheet, 'Result_code', $i);
+            }
+            // create entity if not exists }
+            
+            // update data {
+            $activityEfficiencyCondition->operation            = $this->getCellValue($sheet, 'Result_operation', $i);
+            $activityEfficiencyCondition->efficiency_value     = $this->getCellValue($sheet, 'All_Result_value', $i);
+            $activityEfficiencyCondition->fail_less_coeficient = $this->getCellValue($sheet, 'Fail_Less_Coef', $i);
+            $activityEfficiencyCondition->import_id            = $this->import_id;
+            // update data }
+            
+            // save
+            $activityEfficiencyCondition->save();
+            
+            $importedRows++;
+        }
+        
+        // delete old unused data {
+        ActivityEfficiencyCondition::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
         );
-        $errors = null;
-        $fileName = __DIR__ . '/../../../media/xls/activity.xlsx';
-        $cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
-        PHPExcel_Settings::setCacheStorageMethod($cache_method);
+        // delete old unused data }
+        
+        return array(
+            'imported_activityEfficiencyConditions' => $importedRows, 
+            'errors' => false, 
+        );
+    }
+    
+    /**
+     * @return PHPExcel_Reader
+     */
+    private function getReader()
+    {
+        PHPExcel_Settings::setCacheStorageMethod($this->cache_method);
 
-        $reader = PHPExcel_IOFactory::createReader('Excel2007');
-
-        $reader->setLoadSheetsOnly('Leg_actions');
-        $excel = $reader->load($fileName);
-        $sheet = $excel->getSheetByName('Leg_actions');
-        $columns = array();
+        return PHPExcel_IOFactory::createReader('Excel2007'); 
+    }
+    
+    /**
+     * @param PHPExcel_Sheet $sheet
+     * @return void
+     */
+    public function setColumnNumbersByNames($sheet)
+    {
         for ($i = 0; ; $i++) {
             $row_title = $sheet->getCellByColumnAndRow($i, 1)->getValue();
-            if ($row_title) {
-                $columns[$row_title] = $i;
+            if (null !== $row_title) {
+                $this->columnNoByName[$row_title] = $i;
             } else {
-                break;
+                return;
             }
         }
+    }
+    
+    private function getCellValue($sheet, $columnName, $i)
+    {
+        return $sheet->getCellByColumnAndRow(
+            $this->columnNoByName[$columnName], 
+            $i->key()
+        )->getValue();
+    }
+
+    /**
+     * @return array()
+     */
+    /**
+     * Import activity
+     *
+     * @return array
+     */
+    public function importActivity()
+    {
+        $activity_types = array(
+            'Documents_leg'   => 'document_id',
+            'Manual_dial_leg' => 'dialog_id',
+            'System_dial_leg' => 'dialog_id',
+            'Inbox_leg'       => 'mail_id',
+            'Outbox_leg'      => 'mail_id',
+            'Window'          => 'window_id'
+        );
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $reader->setLoadSheetsOnly('Leg_actions');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Leg_actions');
+        // load sheet }
+        
+        // save colums numbers by column titles 
+        $this->setColumnNumbersByNames($sheet);
+        
         $activities = array();
         $activity_actions = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $leg_type = $sheet->getCellByColumnAndRow($columns['Leg_type'], $i->key())->getValue();
+            // get Leg_type value
+            $leg_type = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_type'], $i->key())->getValue();
+            
+            // we haven`t skype agent jet
             if ($leg_type === 'Skype_leg') {
                 continue;
             }
 
-            $cell = $sheet->getCellByColumnAndRow($columns['Task code'], $i->key())->getValue();
-            $activity = Activity::model()->findByPk($cell);
+            // get Activity code
+            $activityCode = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_code'], $i->key())->getValue();
+            if ($activityCode == '') {
+                break;
+            }
+            
+            //try to find exest activity in DB
+            $activity = Activity::model()->findByPk($activityCode);
+            
+            // create Activity 
             if ($activity === null) {
                 $activity = new Activity();
-                $activity->id = $cell;
+                $activity->id = $activityCode;
             }
+                
+            // update activities counter
             $activities[$activity->id] = true;
-            $activity->parent = $sheet->getCellByColumnAndRow($columns['Parent'], $i->key())->getValue();
-            $activity->grandparent = $sheet->getCellByColumnAndRow($columns['Grand parent'], $i->key())->getValue();
-            $activity->name = $sheet->getCellByColumnAndRow($columns['Task name'], $i->key())->getValue();
-            $activity->import_id = $import_id;
-            $category = $sheet->getCellByColumnAndRow($columns['Категория'], $i->key())->getValue();
+            
+            // update activity values {
+            $activity->parent      = $sheet->getCellByColumnAndRow($this->columnNoByName['Parent'], $i->key())->getValue();
+            $activity->grandparent = $sheet->getCellByColumnAndRow($this->columnNoByName['Grand parent'], $i->key())->getValue();
+            $activity->name        = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_name'], $i->key())->getValue();
+            $activity->numeric_id  = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_id'], $i->key())->getValue();
+            $activity->type        = $sheet->getCellByColumnAndRow($this->columnNoByName['Activity_type'], $i->key())->getValue();
+                        
+            $category = $sheet->getCellByColumnAndRow($this->columnNoByName['Категория'], $i->key())->getValue();
             $activity->category_id = ($category === '-' ? null : $category);
-            if (!$activity->validate()) {
-                $errors = $activity->getErrors();
-                return array('errors' => $errors);
+            
+            $activity->import_id   = $this->import_id;
+            if (false === $activity->validate()) {
+                return array('errors' => $activity->getErrors());
             }
             $activity->save();
+            // update activity values }
+            
+            // 
             $type = $activity_types[$leg_type];
-            $xls_act_value = $sheet->getCellByColumnAndRow($columns['Leg_action'], $i->key())->getValue();
+            $xls_act_value = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_action'], $i->key())->getValue();
+            
             # Converting XLS codes to our
             if ($xls_act_value === '-') {
                 $values = array();
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = Dialogs::model()->findAll();
                 } else {
                     $values = array(Dialogs::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = MailTemplateModel::model()->findAll();
                 } else {
                     $values = array(MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
+                    // @todo: not clear jet
                     $values = MyDocumentsTemplateModel::model()->findAll();
                 } else {
                     $values = array(MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
+            } else if ($type === 'window_id') {
+                # TODO
+                $values = array(Window::model()->findByAttributes(array('subtype' => $xls_act_value)));
             } else {
                 return array('errors' => 'Can not handle type:' . $type);
             }
+            
+            // update relation Activiti to Document, Dialog replic ro Email {
             foreach ($values as $value) {
                 $activityAction = ActivityAction::model()->findByAttributes(array(
                     'activity_id' => $activity->primaryKey,
@@ -1195,21 +1363,52 @@ class ImportGameDataService
                 if ($activityAction === null) {
                     $activityAction = new ActivityAction();
                 }
-                $activityAction->import_id = $import_id;
+                $activityAction->import_id = $this->import_id;
                 $activityAction->activity_id = $activity->id;
+                $activityAction->is_keep_last_category = 
+                    $sheet->getCellByColumnAndRow($this->columnNoByName['Keep last category'], $i->key())->getValue();
                 $activityAction->$type = $value->id;
                 if (!$activityAction->validate()) {
-                    $errors = $activityAction->getErrors();
-                    return array('errors' => $errors);
+                    $this->errors = $activityAction->getErrors();
+                    return array('errors' => $this->errors);
                 }
                 $activityAction->save();
             }
+            // update relation Activity to Document, Dialog replic ro Email }
+            
             $activity_actions ++;
-
         }
-        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
-        ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $import_id));
-        return array('activity_actions' => $activity_actions, 'errors' => false, 'activities' => count($activities));
+        
+        // delete old unused data {
+        ActivityAction::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        // delete old unused data }
+        
+        return array(
+            'activity_actions' => $activity_actions, 
+            'errors' => false, 
+            'activities' => count($activities)
+        );
+    }
+
+    /**
+     * Only must to use functions. Has correct import order
+     */
+    public function importAll() {
+        $result = [];
+        #$result['characters'] = $this->importCharacters();
+        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+        $result['emails'] = $this->importEmails();
+        $result['emails_subjects'] = $this->importEmailSubjects();
+        #$result['mail_attaches'] = $this->importMailAttaches();
+        #$result['mail_events'] = $this->importMailEvents();
+        #$result['mail_sending_time'] = $this->importMailSendingTime();
+        #$result['tasks'] = $this->importTasks();
+        #$result['mail_tasks'] = $this->importMailTasks();
+        #$result['my_documents'] = $this->importMyDocuments();
+        $result['activity'] = $this->importActivity();
+        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+        return $result;
     }
 
     /* ----- */

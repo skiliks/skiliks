@@ -18,6 +18,12 @@
  */
 class ActivityAction extends CActiveRecord
 {
+    
+    /**
+     * @var bool
+     */
+    public $is_keep_last_category;
+    
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -48,9 +54,9 @@ class ActivityAction extends CActiveRecord
 			array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly'=>true),
             array('activity_id', 'length', 'max'=>10),
             array('import_id', 'length', 'max'=>255),
-			// The following rule is used by search().
+            // The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, activity_id, dialog_id, mail_id, document_id, import_id', 'safe', 'on'=>'search'),
+			array('id, activity_id, dialog_id, mail_id, document_id, import_id, window_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -80,10 +86,53 @@ class ActivityAction extends CActiveRecord
 			'dialog_id' => 'Dialog',
 			'mail_id' => 'Mail',
 			'document_id' => 'Document',
+            'window_id' => 'Window'
 		);
 	}
 
-	/**
+    public function appendLog($log) {
+        $log_action = LogActivityAction::model()->findByAttributes(array(
+            'activity_action_id' => $this->id,
+            'sim_id' => $log->simulation->id,
+            'end_time' => null
+        ));
+        if (!$log_action) {
+            $log_action = new LogActivityAction();
+            $log_action->activity_action_id = $this->id;
+            $log_action->start_time = $log->start_time;
+            $log_action->sim_id = $log->sim_id;
+            if (isset($log->mail_id)) {
+                $log_action->mail_id = $log->mail_id;
+            }
+            if (isset($log->file_id)) {
+                $log_action->document_id = $log->file_id;
+            }
+            if (isset($log->window)) {
+                $log_action->window = $log->window;
+            }
+            #$log_action->window = $log->$window;
+
+        }
+        if ($log->end_time !== '00:00:00') {
+            $log_action->end_time = $log->end_time;
+        };
+        $log_action->save();
+    }
+
+    /**
+     * Order by numeric_id
+     */
+    public function findByPriority($attrs) {
+        $result = $this->with([
+            'activity' => [
+                'select' => false, 'order' => 'numeric_id', 'limit' => 1
+            ]
+        ])->findByAttributes($attrs);
+        return $result;
+    }
+
+
+    /**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */

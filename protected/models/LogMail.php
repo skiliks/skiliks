@@ -6,8 +6,9 @@
  * @property integer window
  * @property datetime start_time
  * @property datetime end_time
+ * @property Simulations simulation
  */
-class Logmail extends CActiveRecord 
+class LogMail extends CActiveRecord
 {
     public $id;
     
@@ -70,7 +71,26 @@ class Logmail extends CActiveRecord
         ));
         return $this;
     }
-    
+
+    protected function afterSave()
+    {
+        if (null !== $this->mail) {
+            $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $this->mail->template_id));
+            if ($activity_action !== null) {
+                $activity_action->appendLog($this);
+            }
+        }
+        parent::afterSave();
+    }
+
+    public function relations()
+    {
+        return array(
+            'mail' => array(self::BELONGS_TO, 'MailBoxModel', 'mail_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+        );
+    }
+
     public function byWindow($v)
     {
         $this->getDbCriteria()->mergeWith(array(

@@ -54,6 +54,18 @@ class CharactersPoints extends CActiveRecord
     }
     
     /**
+     * @param string $ids
+     * @return array of \Characterspoints
+     */
+    public function byIdsNotIn($ids)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => " `id` NOT IN ({$ids}) "
+        ));
+        return $this;
+    }
+    
+    /**
      * Выборка оценки по конкретному диалогу
      * @param int $dialogId идентификатор диалога
      * @return CharactersPoints 
