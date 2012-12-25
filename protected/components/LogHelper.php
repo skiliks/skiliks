@@ -431,13 +431,16 @@ class LogHelper {
                     $log_obj->start_time=date("H:i:s", $log[3]);
                     $log_obj->save();
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
-
-                    $comand = Yii::app()->db->createCommand();
-
-                    $comand->update( "log_documents" , array(
-                        'end_time'  => date("H:i:s", $log[3])
-                        ), "`file_id` = {$log[4]['fileId']} AND
-                        `end_time` = '00:00:00' ORDER BY `id` DESC LIMIT 1");
+                    
+                    $log_obj = LogDocuments::model()->findByAttributes(array(
+                        'file_id' => $log[4]['fileId'],
+                        'end_time' => '00:00:00',
+                        'sim_id' => $simId
+                    ));
+                    if(!$log_obj) continue;
+                    $log_obj->end_time = date("H:i:s", $log[3]);
+                    $log_obj->save();
+                    continue;    
                 } else {
                     throw new Exception("Ошибка");//TODO:Описание доделать
                 }
