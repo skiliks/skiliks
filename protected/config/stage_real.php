@@ -15,6 +15,7 @@ return CMap::mergeArray(require(dirname(__FILE__) . '/base.php'), array(
     ),
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.com/',
+        'simulationStartTime' => '9:45',
         'skiliksSpeedFactor' => 4
     )
 ));
