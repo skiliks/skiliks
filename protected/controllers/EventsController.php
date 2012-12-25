@@ -88,7 +88,6 @@ class EventsController extends AjaxController{
                             $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
                             $updatedDialogs[] =  $data[4]['lastDialogId'];
 
-                            Yii::log('currentDialog->replica_number '.$currentDialog->replica_number);
                             if ($currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
                                 // update Phone call dialog last_id
                                 $callDialog = Dialogs::model()
@@ -96,20 +95,16 @@ class EventsController extends AjaxController{
                                     ->byStepNumber(1)
                                     ->byReplicaNumber(0)
                                     ->find();
-                                Yii::log('is null '.((null === $callDialog) ? 'NULL' : 'notNULL'));
+
                                 if (null !== $callDialog) {
                                     $logRecord = LogDialogs::model()
                                         ->bySimulationId($simId)
                                         ->byDialogId($callDialog->id)
                                         ->orderById('DESC')
                                         ->find();
-                                    Yii::log('callDialog->id '.$callDialog->id);
-                                    Yii::log('is null '.((null === $logRecord) ? 'NULL' : 'notNULL'));
                                     if (null !== $logRecord) {
                                         $logRecord->last_id = $currentDialog->excel_id;
                                         $logRecord->save();
-                                        Yii::log('logRecord id '.$logRecord->id);
-                                        Yii::log('logRecord last_id '.$logRecord->last_id);
                                     }
                                 }
                             }
