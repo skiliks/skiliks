@@ -437,7 +437,8 @@ class DialogImportService {
         
         $this->importEventsFromLines(); // импортируем события        
         $this->importDialogsFromLines(); // импортируем диалоги
-        $this->importMarksFromLines(); // загрузим оценки 
+        $this->importMarksFromLines(); // загрузим оценки
+        $this->importReplica($fileName);
         
         $events = EventsSamples::model()
             ->byIdsNotIn(implode(',', $this->importedEventsIds))

@@ -26,6 +26,15 @@ class DialogTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//p[text()="- Да уж, ситуация... Значит так, быстренько зови сюда Трутнева, попробую его подключить."]')->click();
         $this->waitForElement($session, 'xpath', '//p[text()="-          Сергей, нужно сделать бюджет. Срочно. Тебе придется этим заняться."]')->click();
         $this->waitForElement($session, 'xpath', '//p[text()="- Я тебе сейчас перешлю файл, ты посмотри, и сразу приходи, если будут вопросы, разберемся."]')->click();
+        sleep(40);
+        $this->waitForElement($session, 'css selector', '#icons_phone')->click();
+        $this->waitForElement($session, 'xpath', '//li[@onclick="phone.getContacts()"]')->click();
+        $this->waitForElement($session, 'xpath', '//a[@onclick="phone.getThemes(2)"]')->click();
+        $simulation = $this->user->simulations[0];
+        $dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        foreach ($dialogs as $dialog) {
+            print_r($dialog->attributes);
+        };
     }
 
 

@@ -5,6 +5,7 @@
  * @property integer dialog_id
  * @property datetime start_time
  * @property datetime end_time
+ * @property integer last_id
  */
 class LogDialogs extends CActiveRecord
 {
