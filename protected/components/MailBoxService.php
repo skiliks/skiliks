@@ -863,7 +863,7 @@ class MailBoxService {
                 'part2_coincidence' => $result['part2'],
                 'is_coincidence'    => $result['has_concidence'],
             ), 
-            "`mail_id` = {$mailId} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `id` DESC LIMIT 1"
+            "`mail_id` = {$mailId} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `window` DESC, `id` DESC LIMIT 1"
         );
 
         $command->update(
