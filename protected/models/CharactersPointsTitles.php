@@ -108,6 +108,17 @@ class CharactersPointsTitles extends CActiveRecord
     }
     
     /**
+      * @return CharactersPointsTitles 
+     */
+    public function byIsBehaviour()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'parent_id IS NOT NULL'
+        ));
+        return $this;
+    }
+    
+    /**
      * @return CharactersPointsTitles 
      */
     public function negative()
