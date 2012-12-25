@@ -1409,7 +1409,7 @@ class ImportGameDataService
         #$result['my_documents'] = $this->importMyDocuments();
         $result['activity'] = $this->importActivity();
         $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
-        $result['dialogDemo'] = $dialog_import->updateDemo();
+        $result['dialog'] = $dialog_import->import();
         return $result;
     }
 
