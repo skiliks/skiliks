@@ -199,9 +199,9 @@ class ImportGameDataService
                 foreach ($db_data as $k2 => $data) {
                     if ($data['code'] == $title[0]) {
                         if ($data['title'] == $title[2] && $data['scale'] == $title[3] && $data['type_scale'] == $type_scale[$title[4]] && $data['p_code'] == $title[5]) {
-                            
                         } else {
                             //TODO:Изменить запись
+                            
                             $command->update('characters_points_titles', array(
                                 'parent_id' => $keys[$title[5]],
                                 'title' => $title[2],
@@ -251,13 +251,15 @@ class ImportGameDataService
             '<h3>Файл - %s </h3><br/>
             Размер - %s Кбайт <br/>
             Время последнего изменения файла  - %s <br/>
-            Количество обработаных строк данных - %s по %s колонки <br>
+            Количество обработаных строк данных - %s по %s колонки <br/>
+            Лишних наименований целей обучения в бд: %s <br/>
             ',
             $filename,
             filesize($filename) / 1024,
             date("d.m.Y H:i:s.", filemtime($filename)),
             $count_str,
-            $count_col
+            $count_col,
+            count($db_parent)
         );
         
         // if you want - you can fihish $html
