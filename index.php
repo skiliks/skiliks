@@ -1,6 +1,5 @@
 <?php
 // ���� ������������� Yii
-
 header("HTTP/1.0 200 OK");
 header('Content-type: text/html; charset=utf-8');
 header("Cache-Control: no-store, no-cache, must-revalidate");

@@ -27,13 +27,13 @@ class LogWindows extends CActiveRecord
      * See LogHelper window codes
      * @var integer
      */
-    public $winwod;
+    public $window;
     
     /**
      * See LogHelper subwindow codes
      * @var integer
      */
-    public $sub_winwod;
+    public $sub_window;
     
     /**
      * '00:00::00' current game day
@@ -65,5 +65,21 @@ class LogWindows extends CActiveRecord
     public function tableName()
     {
         return 'log_windows';
+    }
+
+    protected function afterSave()
+    {
+        $activity_action = ActivityAction::model()->findByPriority(array('window_id' => $this->sub_window));
+        if ($activity_action !== null) {
+            $activity_action->appendLog($this);
+        }
+        parent::afterSave();
+    }
+
+    public function relations()
+    {
+        return array(
+            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+        );
     }
 }

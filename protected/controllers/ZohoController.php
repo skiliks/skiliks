@@ -1,5 +1,5 @@
 <?php
-class ZohoController extends CController
+class ZohoController extends AjaxController
 {
     public function actionSaveExcel()
     {
@@ -10,7 +10,7 @@ class ZohoController extends CController
         );
         
         $this->_sendResponse(200, 'RESPONSE: '.$status);
-    }
+    } 
 }
 
 

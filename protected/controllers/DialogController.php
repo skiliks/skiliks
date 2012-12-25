@@ -102,8 +102,7 @@ class DialogController extends AjaxController{
                 // if next event has delay it can`t statr immediatly
                 $dialog = Dialogs::model()->byCode($currentDialog->next_event_code)
                     ->byStepNumber(1)
-                    ->byReplicaNumber(0)
-                    ->find();
+                    ->find('', array('order' => 'replica_number'));
                 $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
                 
                 $isDialog = EventService::isDialog($currentDialog->next_event_code);
@@ -188,10 +187,8 @@ class DialogController extends AjaxController{
                             EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
                     }
                 }
-                unset($resultList[$index]['step_number']);
                 unset($resultList[$index]['replica_number']);
                 unset($resultList[$index]['next_event_code']);
-                unset($resultList[$index]['code']);
                 $data[] = $resultList[$index];
             }
             

@@ -12,7 +12,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importEmails();    	
 
-        $this->_sendResponse(200, $result['text']);
+        $this->_sendResponse(200, $result['text'], 'text/html');
     }
     
     /**
@@ -23,7 +23,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMailTasks();
 
-        $this->_sendResponse(200, $result['text']); 
+        $this->_sendResponse(200, $result['text'], 'text/html'); 
     }
     
     /**
@@ -34,7 +34,7 @@ class MailImportController extends AjaxController{
         $import = new ImportMailPhrases();
         $result = $import->run();       
         
-        $this->_sendResponse(200, $result['text']);
+        $this->_sendResponse(200, $result['text'], 'text/html');
     }
     
     /**
@@ -45,7 +45,7 @@ class MailImportController extends AjaxController{
     	$importService = new ImportGameDataService();
         $result = $importService->importMailEvents();   	
 
-        $this->_sendResponse(200, $result['text']);
+        $this->_sendResponse(200, $result['text'], 'text/html');
     }
     
     /**
@@ -56,7 +56,7 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importEmailSubjects();    	
 
-        $this->_sendResponse(200, $result['text']);   
+        $this->_sendResponse(200, $result['text'], 'text/html');   
     }
     
     public function actionImportTime() 
@@ -64,15 +64,15 @@ class MailImportController extends AjaxController{
         $importService = new ImportGameDataService();
         $result = $importService->importMailSendingTime();	
 
-        $this->_sendResponse(200, $result['text']); 
+        $this->_sendResponse(200, $result['text'], 'text/html'); 
     }
     
     public function actionImportAttache() 
     {
         $importService = new ImportGameDataService();
-        $result = $importService->importMailAttache();
+        $result = $importService->importMailAttaches();
 
-        $this->_sendResponse(200, $result['text']);      
+        $this->_sendResponse(200, $result['text'], 'text/html');      
     }
 
 }
