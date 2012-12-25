@@ -74,7 +74,7 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
-        if (null !== $this->mail) {
+        if (null !== $this->mail AND $this->mail->template_id !== null) {            
             $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $this->mail->template_id));
             if ($activity_action !== null) {
                 $activity_action->appendLog($this);
