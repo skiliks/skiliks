@@ -10,7 +10,7 @@ class DialogImportController extends AjaxController
     public function actionImport()
     {
         $service = new DialogImportService();
-        $result = $service->import('media/ALL_DIALOGUES.csv');
+        $result = $service->import();
         
         $html = sprintf(
             'Lines %s [must be 821] <br/>
