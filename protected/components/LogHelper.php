@@ -172,8 +172,7 @@ class LogHelper {
                         ));
 	}
 
-	public static function getDialogPointsDetail($return, $params=array()) 
-    {
+    public static function getDialogPointsDetail($return, $params=array()) {
         $sim_id = null;
         if (isset($params['sim_id'])) {
             $sim_id = $params['sim_id'];
