@@ -50,7 +50,7 @@ class EmailCoincidenceAnalizator
             'part1'              => '-',
             'part2'              => '-',
             'has_concidence'     => 0,
-            'result_code'        => '',
+            'result_code'        => null,
             'result_template_id' => null,
             'result_type'        => null,
         ); 
