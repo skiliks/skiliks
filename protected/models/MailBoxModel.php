@@ -20,6 +20,10 @@
  */
 class MailBoxModel extends CActiveRecord
 {
+    const COINCIDENCE_FULL   = 'full';
+    const COINCIDENCE_PART_1 = 'part1';
+    const COINCIDENCE_PART_2 = 'part2';
+    
     /**
      * @var integer
      */
@@ -129,6 +133,18 @@ class MailBoxModel extends CActiveRecord
      */
     public $message_id;
     
+    /**
+     * @var string | NULL
+     */
+    public $coincidence_type;
+    
+    /**
+     * Like MS1, MS2 etc.
+     * @var string
+     */
+    public $coincidence_mail_code;
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     public function markReplied()
@@ -139,6 +155,32 @@ class MailBoxModel extends CActiveRecord
 
     /** ------------------------------------------------------------------------------------------------------------ **/
     
+    /**
+     * @return bool
+     */
+    public function isHasCoincidence()
+    {
+        return null === $this->coincidence_mail_code;
+    }
+
+    /**
+     * @param string $type, self::COINCIDENCE_FULL, self::COINCIDENCE_PART_1, self::COINCIDENCE_PART_2
+     * @return bool
+     */
+    public function isHasCoincidenceByType($type)
+    {
+        if (false === in_array($type, $this->getConcidenceTypes())) {
+            throw new Exception(sprintf('Wrong mail coincidence type %s.', $type));
+        }        
+        
+        return $type === $this->coincidence_type;
+    }    
+    
+    public function getConcidenceTypes()
+    {
+        return array(self::COINCIDENCE_FULL, self::COINCIDENCE_PART_1, self::COINCIDENCE_PART_2);
+    }
+
     /**
      * @return boolean
      */
