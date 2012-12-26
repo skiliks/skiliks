@@ -1079,12 +1079,7 @@ class LogHelper {
                               WHEN x.group_id = 1 THEN
                                 x.code
                               WHEN x.group_id = 3 THEN
-                                CASE
-                                WHEN o.is_coincidence = 1 THEN
-                                  x.code
-                                WHEN o.is_coincidence = 0 THEN
-                                  'incorrect_sent'
-                                END
+                                if(x.coincidence_mail_code = null, 'incorrect_sent', x.coincidence_mail_code)
                               ELSE
                                 'not_sent'
                               END
