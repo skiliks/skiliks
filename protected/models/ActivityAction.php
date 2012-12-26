@@ -110,8 +110,18 @@ class ActivityAction extends CActiveRecord
             if (isset($log->window)) {
                 $log_action->window = $log->window;
             }
-            #$log_action->window = $log->$window;
 
+        }
+
+        # Drafts
+        if (isset($log->mail_id)) {
+            $log_items = LogActivityAction::model()->findAllByAttributes(array(
+                'activity_action_id' => $this->id,
+            ));
+            foreach ($log_items as $log_item) {
+                $log_item->mail_id = $log->mail_id;
+                $log_item->save();
+            }
         }
         if ($log->end_time !== '00:00:00') {
             $log_action->end_time = $log->end_time;
