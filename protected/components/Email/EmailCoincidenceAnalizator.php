@@ -52,6 +52,7 @@ class EmailCoincidenceAnalizator
             'has_concidence'     => 0,
             'result_code'        => '',
             'result_template_id' => null,
+            'result_type'        => null,
         ); 
         
         // not sended email can`t has any coinsidence by business logic
@@ -171,30 +172,25 @@ class EmailCoincidenceAnalizator
         unset($mailAttachId);    
         
         // check 
-        $result = array(
-            'full'               => '-',
-            'part1'              => '-',
-            'part2'              => '-',
-            'has_concidence'     => 0,
-            'result_code'        => '',
-            'result_template_id' => null,
-        ); 
         
         if (isset($this->emailTemplatesByCodeFull[$indexFull])) {
             $result['full'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
             $result['has_concidence'] = 1;
+            $result['result_type'] = MailBoxModel::COINCIDENCE_FULL;
         }elseif (isset($this->emailTemplatesByCodePart1[$indexPart1])) {
             $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             $result['result_code'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodePart1[$indexPart1]->id;
             $result['has_concidence'] = 1;
+            $result['result_type'] = MailBoxModel::COINCIDENCE_PART_1;
         }elseif (isset($this->emailTemplatesByCodePart2[$indexPart2])) {
             $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             $result['result_code'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodePart2[$indexPart2]->id;
             $result['has_concidence'] = 1;
+            $result['result_type'] = MailBoxModel::COINCIDENCE_PART_2;
         }
         
         return $result;
