@@ -64,6 +64,38 @@ class LogMail extends CActiveRecord
         return $this;
     }
     
+    public function orderByWindow($sort = 'ACS')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "window $sort"
+        ));
+        return $this;
+    }    
+    
+    public function orderById($sort = 'ACS')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "id $sort"
+        ));
+        return $this;
+    }    
+    
+    public function byMailBoxId($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
+    
+    public function byEndTimeGreaterThen($date)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "end_time > '{$date}'"
+        ));
+        return $this;
+    }
+    
     public function byMailTaskId($mailTaskId)
     {
         $this->getDbCriteria()->mergeWith(array(
