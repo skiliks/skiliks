@@ -74,8 +74,13 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
-        if (null !== $this->mail AND $this->mail->template_id !== null) {            
-            $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $this->mail->template_id));
+        if ($this->full_coinsidence !== null && $this->full_coinsidence !== '-') {
+            $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coinsidence]);
+        } else {
+            $template = (null !== $this->mail) ? $this->mail->template : null;
+        };
+        if (null !== $template) {
+            $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $template->primaryKey));
             if ($activity_action !== null) {
                 $activity_action->appendLog($this);
             }
