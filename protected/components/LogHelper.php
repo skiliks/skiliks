@@ -1088,7 +1088,7 @@ class LogHelper {
                             WHEN a.window_id THEN
                               w.subtype
                             END AS leg_action
-                          , if(x.group_id != 1 AND o.is_coincidence != 1, l.mail_id, '') AS mail_id
+                          , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
                           , i.category_id AS category
                           , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
                           , l.start_time AS start_time
@@ -1106,11 +1106,6 @@ class LogHelper {
             ON t.id = a.document_id
             LEFT JOIN activity AS i
             ON i.id = a.activity_id
-            LEFT JOIN log_mail AS o
-            ON l.mail_id = o.mail_id 
-              AND l.sim_id = o.sim_id 
-              AND l.start_time = o.start_time
-              AND l.end_time = o.end_time
             LEFT JOIN mail_box AS x
             ON l.mail_id = x.id AND l.sim_id = x.sim_id
             ORDER BY
