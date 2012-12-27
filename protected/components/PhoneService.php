@@ -46,17 +46,158 @@ class PhoneService {
         $model->insert();
     }
     
-    public static function registerMissed($simId, $characterId) {
+    public static function registerMissed($simulation, $dialog) {
         $model = new PhoneCallsModel();
-        $model->sim_id      = $simId;
+        $model->sim_id      = $simulation->id;
         $model->call_date   = time();
         $model->call_type   = 2;
-        $model->from_id     = $characterId;
+        $model->from_id     = $dialog->ch_from;
         $model->to_id       = 1; // какому персонажу мы звоним
         $model->insert();
     }
     
-    // 2 miss
+    /**
+     * @param Simulations $simulation
+     * @return mixed array
+     */
+    public static function getMissedCalls($simulation)
+    {
+        $charactersList = Characters::model()->findAll();
+        $characters = array();
+        foreach($charactersList as $character) {
+            $characters[$character->id] = array( 
+                'fio'   => $character->fio,
+                'title' => $character->title 
+            );
+        }
+
+        $items = PhoneCallsModel::model()->bySimulation($simulation->id)->findAll();
+        $list = array();
+        foreach($items as $item) {
+            // входящие
+            if ($item->call_type == 0) {
+                $characterId = $item->from_id;
+            }
+
+            if ($item->call_type == 1) {
+                // исходящие
+                $characterId = $item->to_id;
+            }
+
+            if ($item->call_type == 2) {
+                $characterId = $item->from_id;
+            }
+
+            $list[] = array(
+                'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
+                'date' => date('d.m.Y | G:i', $item->call_date),
+                'type' => $item->call_type  // 2 = miss
+            );
+        }
+        
+        return $list;
+    }
+    
+    public static function call($simulation, $themeId, $characterId)
+    {
+        $result = null;
+        
+        // нам передана тема
+        if ($themeId > 0) {
+            $mailThemeModel = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($themeId)->find();
+            if ($mailThemeModel) {
+                $eventCode = $mailThemeModel->phone_dialog_number;
+                if ($eventCode == '' || $eventCode == 'AUTO') {
+
+                    // выдаем автоответчик
+                    $data = array();
+                    $data[] = self::combineReplicaToHero(array('ch_from' => $characterId));
+
+                    $character = Characters::model()->byId($characterId)->find();
+
+                    if ($character) {
+                        $data[0]['title'] = $character->title;
+                        $data[0]['name'] = $character->fio;
+                    }
+
+                    $result = array(
+                        'result' => 1,
+                        'events' => array(
+                            array(
+                                'result' => 1,
+                                'data' => $data,
+                                'eventType' => 1   
+                            )
+                         )
+                    );
+                } else {
+                    // у нас есть событие
+                    // сгенерируем событие
+
+                    // проверим а позволяют ли флаги нам запускать реплику
+                    $eventRunResult = EventService::allowToRun($eventCode, $simulation->id, 1, 0);
+                    if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
+                        // событие не проходит по флагам -  не пускаем его
+                        return array(
+                            'result' => 1, 
+                            'events' => array()
+                        );
+                    }
+
+
+                    $data = EventService::getReplicaByCode($eventCode, $simulation->id);
+                    
+                    $result = array(
+                        'result' => 1,
+                        'events' => array(
+                            array(
+                                'result' => 1,
+                                'data' => $data,
+                                'eventType' => 1   
+                            )
+                         )
+                    );
+                }
+            }
+        }
+        
+        if (null === $result) {
+
+            // регистрируем исходящий вызов
+            PhoneService::registerOutgoing($simulation->id, $characterId);
+
+            // подготовим список тем
+            $themes = PhoneService::getThemes($characterId);
+            $data = array();
+            foreach($themes as $themeId => $themeName) {
+                $data[] = self::combineReplicaToHero(array('id' => $themeId, 'ch_to' => $characterId, 'text' => $themeName));
+            }
+            
+            $result = array(
+                'result' => 1,
+                'data'   => $data,
+            );
+        }
+        
+        return $result;
+    }
+    
+    private static function combineReplicaToHero($newData)
+    {
+        $data = array(
+            'id'                => 0,
+            'ch_from'           => 1,
+            'ch_from_state'     => 1,
+            'ch_to'             => 1,
+            'ch_to_state'       => 1,
+            'dialog_subtype'    => 2,
+            'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
+            'sound'             => '#',
+            'duration'          => 5
+        );
+        
+        return array_merge($newData, $data);
+    }
 }
 
 
