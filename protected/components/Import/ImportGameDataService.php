@@ -1396,6 +1396,7 @@ class ImportGameDataService
      */
     public function importAll() {
         $result = [];
+        $dialog_import = new DialogImportService();
         #$result['characters'] = $this->importCharacters();
         $result['characters_points_titles'] = $this->importCharactersPointsTitles();
         $result['emails'] = $this->importEmails();
@@ -1408,6 +1409,7 @@ class ImportGameDataService
         #$result['my_documents'] = $this->importMyDocuments();
         $result['activity'] = $this->importActivity();
         $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+        $result['dialog'] = $dialog_import->import();
         return $result;
     }
 

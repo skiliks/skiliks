@@ -29,7 +29,7 @@ class DialogTest extends SeleniumTestCase
         sleep(40);
         $this->waitForElement($session, 'css selector', '#icons_phone')->click();
         $this->waitForElement($session, 'xpath', '//li[@onclick="phone.getContacts()"]')->click();
-        $this->waitForElement($session, 'xpath', '//a[@onclick="phone.getThemes(2)"]')->click();
+        //$this->waitForElement($session, 'xpath', '//a[@onclick="phone.getThemes(2)"]')->click();
         $simulation = $this->user->simulations[0];
         $dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         foreach ($dialogs as $dialog) {
