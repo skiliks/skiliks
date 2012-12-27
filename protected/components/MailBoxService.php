@@ -875,6 +875,32 @@ class MailBoxService {
             "`id` = {$mailId}"
         );
             
+        /*$emailLog = LogMail::model()
+            ->byMailBoxId($mailId)
+            ->byEndTimeGreaterThen('00:00:00')
+            ->bySimId($simId)
+            ->orderByWindow('DESC')
+            ->find();
+        */
+        /*
+        if (null !== $emailLog) {
+            $emailLog->full_coincidence  = $result['full'];
+            $emailLog->part1_coincidence = $result['part1'];
+            $emailLog->part2_coincidence = $result['part2'];
+            $emailLog->is_coincidence    = $result['has_concidence'];
+            $emailLog->save();
+        }
+          */  
+            
+        $simulationEmail = MailBoxModel::model()->findByPk($mailId);
+        if (null !== $simulationEmail) {
+            $simulationEmail->code                  = $result['result_code'];
+            $simulationEmail->template_id           = $result['result_template_id'];
+            $simulationEmail->coincidence_type      = $result['result_type'];
+            $simulationEmail->coincidence_mail_code = $result['result_code'];
+            $simulationEmail->save();
+        }
+            
         return $result;
     }
 }

@@ -105,10 +105,30 @@ class Simulations extends CActiveRecord
         $variance = time() - $this->start;
         $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
 
-        $unixtimeMins = round($variance/60) + 9*60;
+        $start_time = explode(':', Yii::app()->params['simulationStartTime']);
+        $unixtimeMins = round($variance/60) + $start_time[0] * 60 + $start_time[1];
         return $unixtimeMins;
     }
-    
+
+    public function deleteOldTriggers($newHours, $newMinutes) {
+        foreach ($this->events_triggers as $event_trigger) {
+            if ($event_trigger->trigger_time == null) {
+                continue;
+            }
+            if (preg_match('/^M/', $event_trigger->event_sample->code)) {
+                continue;
+            }
+            if ($event_trigger->trigger_time < $newHours*60 + $newMinutes) {
+                $event_trigger->delete();
+            }
+        }
+    }
+
+    public function relations()
+    {
+        return ['events_triggers' => [self::HAS_MANY, 'EventsTriggers', 'sim_id']];
+    }
+
     /**
      * Выбрать по идентификатору
      * @param int $id
@@ -121,6 +141,7 @@ class Simulations extends CActiveRecord
         ));
         return $this;
     }
+
 }
 
 
