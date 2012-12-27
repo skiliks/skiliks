@@ -130,7 +130,7 @@ class EventsController extends AjaxController{
             }
             // обработка задач }
             
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(); // получить ближайшее событие
+            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]); // получить ближайшее событие
             
             if (count($triggers) == 0) { 
                 throw new CHttpException(200, 'Нет ближайших событий', 4); // @todo: investigate - "No events" is exception ?
@@ -149,7 +149,7 @@ class EventsController extends AjaxController{
                     }
                     
                     $trigger->delete(); // Убиваем обработанное событие
-                    
+
                     if ($index == 0) { $eventCode = $event->code; }
                     
                     // проверим событие на флаги
