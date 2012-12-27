@@ -14,6 +14,7 @@ class SimulationTest extends ControllerTestCase
         $sid = $result['sid'];
         $_POST['sid'] = $result['sid'];
         $_POST['stype'] = 1;
+
         $result = $this->callJSONAction('SimulationController', 'actionStart');
 
         $this->assertEquals(array("result" => 1, "speedFactor" => 8), $result);
@@ -79,6 +80,23 @@ class SimulationTest extends ControllerTestCase
         $this->assertEquals(array('result' => 1, 'events' => array(array('result' => 1, 'data' => array(), 'eventType' => 1))), $result);
         $result = $this->callJSONAction('EventsController', 'actionGetState');
         $this->callJSONAction('AuthController', 'actionLogout');
+    }
+
+    function testChangeTime() {
+        $_POST['commandId'] = 2;
+        $_POST['email'] = 'asd';
+        $_POST['pass']  = '123';
+        $result = $this->callJSONAction('AuthController', 'actionAuth');
+        $_POST['sid'] = $result['sid'];
+        $simulation = SimulationService::simulationStart();
+        SimulationService::setSimulationClockTime($simulation, 13, 30);
+        $simulation->deleteOldTriggers(13, 30);
+        foreach (EventsTriggers::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $event) {
+            if (preg_match('/^M/', $event->event_sample->code)) {
+                continue;
+            }
+            $this->assertTrue($event->trigger_time >= 13*60+30);
+        }
     }
 
     /**
