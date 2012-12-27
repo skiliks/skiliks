@@ -64,6 +64,38 @@ class LogMail extends CActiveRecord
         return $this;
     }
     
+    public function orderByWindow($sort = 'ACS')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "window $sort"
+        ));
+        return $this;
+    }    
+    
+    public function orderById($sort = 'ACS')
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'order' => "id $sort"
+        ));
+        return $this;
+    }    
+    
+    public function byMailBoxId($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
+    
+    public function byEndTimeGreaterThen($date)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "end_time > '{$date}'"
+        ));
+        return $this;
+    }
+    
     public function byMailTaskId($mailTaskId)
     {
         $this->getDbCriteria()->mergeWith(array(
@@ -74,8 +106,13 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
-        if (null !== $this->mail) {
-            $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $this->mail->template_id));
+        if ($this->full_coinsidence !== null && $this->full_coinsidence !== '-') {
+            $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coinsidence]);
+        } else {
+            $template = (null !== $this->mail) ? $this->mail->template : null;
+        };
+        if (null !== $template) {
+            $activity_action = ActivityAction::model()->findByPriority(array('mail_id' => $template->primaryKey));
             if ($activity_action !== null) {
                 $activity_action->appendLog($this);
             }

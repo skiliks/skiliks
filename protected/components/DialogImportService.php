@@ -276,6 +276,7 @@ class DialogImportService {
                 $dialog->excel_id = $excelId;
             }
             
+
             if ($dialog->event_result != 7) {
                 $isDifferent = true;
                 $dialog->event_result = 7; // ничего
@@ -424,8 +425,9 @@ class DialogImportService {
      * @param type $fileName
      * @return int 
      */
-    public function import($fileName) 
+    public function import()
     {
+        $fileName = 'media/ALL_DIALOGUES.csv';
         $this->resetCounters();
         
         try {
@@ -519,7 +521,7 @@ class DialogImportService {
         
         fgetcsv($handle, 5000, ";"); // skip first line
         fgetcsv($handle, 5000, ";"); // skip second line
-        
+
         while (FALSE !== ($row = fgetcsv($handle, 5000, ";")) ) 
         {            
             if (!isset($row[1])) {
@@ -848,7 +850,8 @@ class DialogImportService {
         return $resultHtml;
     }
     
-    public function updateDemo($fileName) {
+    public function updateDemo() {
+        $fileName = 'media/xls/dialogs_demo.csv';
         $handle = fopen($fileName, "r");
         if (!$handle) return false;
         

@@ -102,6 +102,7 @@ return array(
     'params' => array(
         'frontendUrl' => 'http://front.skiliks.loc/',
         'skiliksSpeedFactor' => 8,
+        'simulationStartTime' => '9:00',
         'zoho' => array(
             'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',

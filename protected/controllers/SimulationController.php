@@ -182,11 +182,16 @@ class SimulationController extends AjaxController
     public function actionChangeTime()
     {
         try {
+            $newHours = (int)Yii::app()->request->getParam('hour', 0);
+            $newMinutes = (int)Yii::app()->request->getParam('min', 0);
+            $simulation = $this->getSimulationEntity();
             SimulationService::setSimulationClockTime(
-                $this->getSimulationEntity(), 
-                (int)Yii::app()->request->getParam('hour', 0),
-                (int)Yii::app()->request->getParam('min', 0)
+                $simulation,
+                $newHours,
+                $newMinutes
             );
+
+            $simulation->deleteOldTriggers($newHours, $newMinutes);
 
             $this->sendJSON(array('result' => 1));
         } catch (Exception $e) {

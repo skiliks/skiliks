@@ -403,7 +403,7 @@ class SimulationService
      *
      * There are no internal simulation time stored anywhere :)
      * 
-     * @param Simulation $simulation
+     * @param Simulations $simulation
      * @param integer $newHours
      * @param integer $newMinutes
      */
@@ -415,9 +415,11 @@ class SimulationService
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
+        $start_time = explode(':', Yii::app()->params['simulationStartTime']);
         $clockH = round($unixtimeMins / 60);
         $clockM = $unixtimeMins - ($clockH * 60);
-        $clockH = $clockH + 9;
+        $clockH = $clockH + $start_time[0];
+        $clockM = $clockM + $start_time[1];
 
         $simulation->start = ($simulation->start - (($newHours - $clockH) * 60 * 60 / $speedFactor)
             - (($newMinutes - $clockM) * 60 / $speedFactor));
