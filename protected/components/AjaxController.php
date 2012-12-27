@@ -77,7 +77,7 @@ class AjaxController extends CController
     }
     
     /**
-     * @return Simulation || HttpJsonResponce (Error)
+     * @return Simulations || HttpJsonResponce (Error)
      */
     public function getSimulationEntity()
     {
