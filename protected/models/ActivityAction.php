@@ -117,6 +117,7 @@ class ActivityAction extends CActiveRecord
         if (isset($log->mail_id)) {
             $log_items = LogActivityAction::model()->findAllByAttributes(array(
                 'activity_action_id' => $this->id,
+                'sim_id' => $log->sim_id
             ));
             foreach ($log_items as $log_item) {
                 $log_item->mail_id = $log->mail_id;
