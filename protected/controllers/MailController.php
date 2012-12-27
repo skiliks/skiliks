@@ -318,7 +318,7 @@ class MailController extends AjaxController
                 $subject = null;
             } else {
                 // this is TEXT subject
-                $obj = MailThemesModel::model()->byId($subjectFromRequest)->find();
+                $obj = MailThemesModel::model()->findByPk($subjectFromRequest);
                 $subject_id = $obj ? $obj->primaryKey : null;
                 $subject = $obj ? $obj->name : null;
             }
