@@ -109,6 +109,13 @@ class Simulations extends CActiveRecord
         $unixtimeMins = round($variance/60) + $start_time[0] * 60 + $start_time[1];
         return $unixtimeMins;
     }
+
+    public function deleteOldTriggers($newHours, $newMinutes) {
+        EventsTriggers::model()->deleteAll('trigger_time<:trigger_time AND sim_id=:sim_id', array(
+            'trigger_time' => $newHours*60 + $newMinutes,
+            'sim_id' => $this->primaryKey
+        ));
+    }
     
     /**
      * Выбрать по идентификатору
