@@ -111,12 +111,24 @@ class Simulations extends CActiveRecord
     }
 
     public function deleteOldTriggers($newHours, $newMinutes) {
-        EventsTriggers::model()->deleteAll('trigger_time<:trigger_time AND sim_id=:sim_id', array(
-            'trigger_time' => $newHours*60 + $newMinutes,
-            'sim_id' => $this->primaryKey
-        ));
+        foreach ($this->events_triggers as $event_trigger) {
+            if ($event_trigger->trigger_time == null) {
+                continue;
+            }
+            if (preg_match('/^M/', $event_trigger->event_sample->code)) {
+                continue;
+            }
+            if ($event_trigger->trigger_time < $newHours*60 + $newMinutes) {
+                $event_trigger->delete();
+            }
+        }
     }
-    
+
+    public function relations()
+    {
+        return ['events_triggers' => [self::HAS_MANY, 'EventsTriggers', 'sim_id']];
+    }
+
     /**
      * Выбрать по идентификатору
      * @param int $id
@@ -129,6 +141,7 @@ class Simulations extends CActiveRecord
         ));
         return $this;
     }
+
 }
 
 
