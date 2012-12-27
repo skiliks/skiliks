@@ -45,6 +45,29 @@ class Characters extends CActiveRecord
     
     /* ----------------------------- */
     
+    /**
+     * List of Contacts fot main hero phone
+     * @return mixed array
+     */
+    public function getContactsList()
+    {
+        $characters = self::model()->findAll();
+        
+        $list = array();
+        foreach($characters as $character) {
+            $list[] = array(
+                'id'    => $character->id,
+                'name'  => $character->fio,
+                'title' => $character->title,
+                'phone' => $character->phone
+            );
+        }
+        
+        return $list;
+    }
+
+    /* ----------------------------- */
+
     public function isMainHero()
     {
         return 1 === (int)$this->id;

@@ -88,7 +88,7 @@ class EventsController extends AjaxController{
                             $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
                             $updatedDialogs[] =  $data[4]['lastDialogId'];
 
-                            if ($currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
+                            if (null!== $currentDialog &&$currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
                                 // update Phone call dialog last_id
                                 $callDialog = Dialogs::model()
                                     ->byCode($currentDialog->code)
