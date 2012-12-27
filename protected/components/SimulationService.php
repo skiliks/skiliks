@@ -403,7 +403,7 @@ class SimulationService
      *
      * There are no internal simulation time stored anywhere :)
      * 
-     * @param Simulation $simulation
+     * @param Simulations $simulation
      * @param integer $newHours
      * @param integer $newMinutes
      */
