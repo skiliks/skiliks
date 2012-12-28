@@ -6,9 +6,8 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CalculationEstimateService {
-    
-    
+class CalculationEstimateService 
+{
     /**
      * Расчет оценки для диалога
      * @param int $dialogId идентификатор диалога
@@ -143,6 +142,36 @@ class CalculationEstimateService {
         }
         $model->value = $point;
         $model->save();
+    }
+    
+    /**
+     * @param Simulations $simulation
+     * @return mixed array
+     */
+    public static function getExcelPointsValies($simulation)
+    {
+        $formulaCollection = ExcelPointsFormulaModel::model()->findAll();
+        
+        $formulaList = array();
+        
+        foreach($formulaCollection as $formulaModel) {
+            $formulaList[$formulaModel->id] = array(
+                'formula' => $formulaModel->formula, 
+                'value'   => 0
+            );
+        }
+        
+        $excelPoints = SimulationsExcelPoints::model()->bySimulation($simulation->id)->findAll();
+        
+        $list = array();
+        
+        foreach($excelPoints as $excelPoint) {            
+            if (isset($formulaList[$excelPoint->formula_id])) {
+                $formulaList[$excelPoint->formula_id]['value'] = $excelPoint->value;
+            }
+        }
+        
+        return $formulaList;
     }
 }
 
