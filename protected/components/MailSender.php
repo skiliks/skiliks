@@ -55,4 +55,19 @@ class MailSender{
             'info@skiliks.com'
         );
     }
+    
+    /**
+     * @param Users $user
+     * @param string $password, not encypted password
+     */
+    public static function notifyUserAboutPassword($user, $password)
+    {
+        MailSender::send(
+            $email, 
+            'Skiliks : восстановление пароля', 
+            "{$user->email}, ваш новый пароль {$password}", 
+            'skiliks', 
+            'info@skiliks.com'
+        );
+    }
 }
