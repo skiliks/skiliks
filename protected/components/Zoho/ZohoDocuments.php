@@ -212,7 +212,7 @@ class ZohoDocuments
     /**
      * @return string
      */
-    private function getUserFilepath()
+    public function getUserFilepath()
     {
         return sprintf(
             '%s/%s/%s.xls',

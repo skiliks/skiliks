@@ -9,40 +9,13 @@
  */
 class ExcelPointsController extends AjaxController{
     
-    public function actionDraw() {
-        $sid = Yii::app()->request->getParam('sid', false);  
-        if (!$sid) throw new Exception('wrong sid');
-        
-        try {
-            $simId = SessionHelper::getSimIdBySid($sid);
-        } catch (CException $e) {
-            return $this->sendJSON(array(
-                'result' => 0,
-                'e'      => $e->getMessage()
-            ));
-        }
-        
-        $formulaCollection = ExcelPointsFormulaModel::model()->findAll();
-        $formulaList = array();
-        foreach($formulaCollection as $formulaModel) {
-            $formulaList[$formulaModel->id] = array('formula' => $formulaModel->formula, 'value'=>0);
-        }
-        
-        $excelPoints = SimulationsExcelPoints::model()->bySimulation($simId)->findAll();
-        $list = array();
-        foreach($excelPoints as $excelPoint) {
-            
-            if (!isset($formulaList[$excelPoint->formula_id])) continue;
-            
-            $formulaList[$excelPoint->formula_id]['value'] = $excelPoint->value;
-        }
-        
-        $result = array();
-        $result['result'] = 1;
-        $result['data'] = $formulaList;
+    public function actionDraw() 
+    {
+        $simulation = $this->getSimulationEntity();
 
-        return $this->sendJSON($result);
+        return $this->sendJSON(array(
+            'result' => 1,
+            'data'   => CalculationEstimateService::getExcelPointsValies($simulation)
+        ));
     }
 }
-
-

@@ -7,6 +7,8 @@
  */
 class MyDocumentsTemplateModel extends CActiveRecord
 {
+    const CONSOLIDATED_BUDGET_ID = 33;
+    
     /**
      * @var integer
      */
