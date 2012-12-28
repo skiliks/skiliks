@@ -5,7 +5,7 @@ imgConfigMaps = {
         sHeight: 1600
     }, */
     'bgMain': {
-        image: 'img/maps/bg-main-light.jpg',
+        image: '/static/img/maps/bg-main-light.jpg',
         sWidth: 1000,
         sHeight: 600
     }
