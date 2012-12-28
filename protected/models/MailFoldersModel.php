@@ -19,6 +19,32 @@ class MailFoldersModel extends CActiveRecord
      */
     public $name;
     
+    const INBOX_ID = 1;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
+     * @return mixed array
+     */
+    public static function getFoldersListForJson()
+    {
+        $folders = self::model()->findAll(array('limit' => 4));
+        
+        $list = array();
+        
+        foreach($folders as $folder) {
+            $list[(int)$folder->id] = array(
+                'id'       => (int)$folder->id,
+                'folderId' => (int)$folder->id, // Fuck, some JS code need it.
+                'name'     => $folder->name,
+                'unreaded' => 0
+            );
+        }
+        
+        return $list;   
+    }
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     public static function model($className=__CLASS__)

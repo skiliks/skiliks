@@ -30,6 +30,38 @@ class MailSettingsModel extends CActiveRecord
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
+     * @return mixed array
+     */
+    public function getSettingsArray()
+    {
+        return array(
+            'messageArriveSound' => $this->messageArriveSound
+        );
+    }
+    
+    /**
+     * @param Simulations $simulation
+     * @param integer $messageArriveSound
+     * 
+     * @return boolean
+     */
+    public static function updateSimulationSettings($simulation, $messageArriveSound)
+    {
+        $result = false;
+        
+        $MailSettingsEntity = self::model()->bySimulation($simId)->find();
+        if (NULL !== $MailSettingsEntity) {
+            $MailSettingsEntity->messageArriveSound = (int)$messageArriveSound;
+            $MailSettingsEntity->update();
+            $result = true;
+        } 
+        
+        return $result;
+    }
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
      *
      * @param type $className
      * @return MailSettingsModel 
