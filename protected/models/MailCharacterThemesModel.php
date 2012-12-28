@@ -73,6 +73,34 @@ class MailCharacterThemesModel extends CActiveRecord
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
+     * @param string $receivers, '1,2,3'
+     * @param integer $mailThemeId
+     * 
+     * @return integer || NULL
+     */
+    public static function getCharacterThemeId($receivers, $mailThemeId)
+    {
+        $characterThemeId = NULL;
+        $receiversArr = explode(',', $receivers);
+
+        if (0 < count($receiversArr) && NULL != $mailThemeId) {
+            $characterTheme = MailCharacterThemesModel::model()
+                ->byCharacter(reset($receiversArr))
+                ->byTheme($mailThemeId)
+                ->find();
+
+            if (null !== $characterTheme) {
+                $characterThemeId = $characterTheme->id;
+            }
+        }
+        
+        return $characterThemeId;
+    }
+
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    /**
      *
      * @param type $className
      * @return MailCharacterThemesModel 
