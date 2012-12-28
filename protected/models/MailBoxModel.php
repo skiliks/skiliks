@@ -24,6 +24,26 @@ class MailBoxModel extends CActiveRecord
     const COINCIDENCE_PART_1 = 'part1';
     const COINCIDENCE_PART_2 = 'part2';
     
+    const INBOX_FOLDER_ID  = 1;
+    const DRAFTS_FOLDER_ID = 2;
+    const OUTBOX_FOLDER_ID = 3;
+    const TRASH_FOLDER_ID  = 4;
+    
+    const INBOX_FOLDER_ALIAS  = 'inbox';
+    const DRAFTS_FOLDER_ALIAS = 'drafts';
+    const OUTBOX_FOLDER_ALIAS = 'outbox';
+    const TRASH_FOLDER_ALIAS  = 'trash';
+    
+    const TYPE_REPLY    = 'reply';
+    const TYPE_REPLY_ALL = 'replyAll';
+    
+    public static $folderIdToAlias = array(
+        self::INBOX_FOLDER_ID  => self::INBOX_FOLDER_ALIAS,
+        self::DRAFTS_FOLDER_ID => self::DRAFTS_FOLDER_ALIAS,
+        self::OUTBOX_FOLDER_ID => self::OUTBOX_FOLDER_ALIAS,
+        self::TRASH_FOLDER_ID  => self::TRASH_FOLDER_ALIAS,
+    );
+    
     /**
      * @var integer
      */
@@ -152,7 +172,6 @@ class MailBoxModel extends CActiveRecord
         $this->reply = 1;
     }
 
-
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -192,9 +211,15 @@ class MailBoxModel extends CActiveRecord
      * @return boolean
      */
     public function isSended() {
-        return 3 == $this->group_id;
+        return MailBoxModel::OUTBOX_FOLDER_ID == $this->group_id;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isPlanned() {
+        return true === (bool)$this->plan;
+    }
 
     /**
      *
