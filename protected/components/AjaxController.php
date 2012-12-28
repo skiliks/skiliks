@@ -92,6 +92,23 @@ class AjaxController extends CController
             ));
         }
     }
+    
+    /**
+     * @return Users || HttpJsonResponce (Error)
+     */
+    public function getCurrentUserId()
+    {
+        try {
+            return SessionHelper::getUidBySid($this->getSessionId());
+        } catch(\Exception $e) {
+            $this->returnErrorMessage(
+            $e->getMessage(),
+            sprintf(
+                'User with id %s doesn`t exists in db.', 
+                $this->getSimulationId()
+            ));
+        }
+    }
 
 
     /**
@@ -107,7 +124,7 @@ class AjaxController extends CController
         $errorId = date('Y-m-d H:i:s #'.rand(100, 999));
         
         // logging system error
-        Yii::log(sprintf('Error No. %s. %s', $errorId, $sysLog));
+        Yii::log(sprintf('Error No. %s. %s, (%s)', $errorId, $sysLog, $message));
         
         // display user error
         $this->_sendResponse(200, CJSON::encode(array(

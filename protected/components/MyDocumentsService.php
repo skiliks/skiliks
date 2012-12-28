@@ -135,5 +135,53 @@ class MyDocumentsService
         
         return $pages;
     }
+    
+    /**
+     * 
+     * @param Simulations $simulation
+     * @return mixed array
+     */
+    public static function getDocumentsList($simulation)
+    {
+        $documents = MyDocumentsModel::model()
+            ->bySimulation($simulation->id)
+            ->visible()
+            ->orderByFileName()
+            ->findAll();
+
+        $list = array();
+        foreach ($documents as $document) {
+            $list[] = array(
+                'id' => $document->id,
+                'name' => $document->fileName
+            );
+        }
+        
+        return $list;
+    }
+    
+    /**
+     * 
+     * @param Simulations $simulation
+     * @param integer || NULL $fileId
+     * 
+     * @return boolean
+     */
+    public function makeDocumentVisibleInSimulation($simulation, $fileId)
+    {
+        $status = false;
+        $file = MyDocumentsModel::model()
+            ->bySimulation($simulation->id)
+            ->byId($fileId)
+            ->find();
+        
+        if (null !== $file) {
+            $file->hidden = 0;
+            $file->save();
+            $status = true;
+        }
+        
+        return $status;
+    }
 }
 
