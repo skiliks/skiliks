@@ -873,7 +873,7 @@ dayPlan = {
           messages.showCustomSystemMessage(message);
     },
     systemMessageHtml:'<div class="planner-popup">'+
-        	'<div class="planner-popup-tit"><img alt="" src="img/mail/type-system-message.png"></div>'+
+        	'<div class="planner-popup-tit"><img alt="" src="/static/img/mail/type-system-message.png"></div>'+
         	
         	'<p class="planner-popup-text">'+
         		'Вы не можете перенести эту встречу, так как не являетесь ее организатором.'+
@@ -945,16 +945,16 @@ dayPlan = {
         '</div>',
         planHTML:'<div class="planner-book-main-div">'+
 '<div id="plannerBookQuarterPlan" class="planner-book-quarter-plan">'+
-'<img src="/img/planner/plan_quarter.png">'+
+'<img src="/static/img/planner/plan_quarter.png">'+
 '</div>'+
 '<div id="plannerBookDayPlan" class="planner-book-day-plan">'+
-'<img src="/img/planner/plan_day.png">'+
+'<img src="/static/img/planner/plan_day.png">'+
 '</div>'+
 '<div class="btn-close" onclick="dayPlan.draw();"><button></button></div>'+
 '<div id="plannerBook" class="planner-book">'+
 '<div id="plannerBookToday" class="planner-book-today">'+
 '<div class="planner-book-today-head">'+
-'<img src="/img/planner/type-today.png">'+
+'<img src="/static/img/planner/type-today.png">'+
 '</div>'+
 '<div id="plannerBookTodayTimeTable" class="planner-book-timetable">'+
 '<table cellpadding=0 cellspacing=0 class="planner-book-timetable-table">'+
@@ -1216,7 +1216,7 @@ dayPlan = {
 '</div>'+
 '<div id="plannerBookTomorrow" class="planner-book-tomorrow">'+
 '<div class="planner-book-tomorrow-head">'+
-'<img src="/img/planner/type-tomorrow.png">'+
+'<img src="/static/img/planner/type-tomorrow.png">'+
 '</div>'+
 '<div id="plannerBookTomorrowTimeTable" class="planner-book-timetable">'+
 '<table cellpadding=0 cellspacing=0 class="planner-book-timetable-table">'+
@@ -1478,7 +1478,7 @@ dayPlan = {
 '</div>'+
 '<div id="plannerBookAfterVacation" class="planner-book-after-vacation">'+
 '<div class="planner-book-after-vacation-head">'+
-'<img src="/img/planner/type-after-vacation.png">'+
+'<img src="/static/img/planner/type-after-vacation.png">'+
 '</div>'+
 '<div id="plannerBookAfterVacationTable" class="planner-book-afterv-table">'+
 '<table cellpadding=0 cellspacing=0 class="planner-book-timetable-table">'+
