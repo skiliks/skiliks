@@ -1,0 +1,4 @@
+imgConfigAnimations = {
+    'animation':{
+    }
+};

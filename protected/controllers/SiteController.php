@@ -8,11 +8,14 @@ class SiteController extends AjaxController
      */
     public function actionIndex()
     {
-        $this->returnErrorMessage(
-            'Controller/action not founded.',
-            'Controller/action not founded.'
-        );
+        $this->render('index');
     }
+
+    public function actionSite()
+    {
+        $this->render('site');
+    }
+
 
     /**
      * We handle Yii rroes and savethem to Yii.log. 
