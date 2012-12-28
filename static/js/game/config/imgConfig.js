@@ -1,0 +1,3 @@
+imgConfig = {
+    sizeFactor:1
+}
