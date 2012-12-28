@@ -200,8 +200,8 @@
         html1:'<span class="badge badge-inverse">{clock}</span>',
         html:'<ul class="main-screen-stat">' +
             '<li>{clock}</li>' +
-            '<li><img src="img/main-screen/icon-bat-full.png" alt="" /></li>' +
-            '<li><a><img alt="" src="img/main-screen/icon-help.png"></a></li>' +
+            '<li><img src="/static/img/main-screen/icon-bat-full.png" alt="" /></li>' +
+            '<li><a><img alt="" src="/static/img/main-screen/icon-help.png"></a></li>' +
             '</ul>',
         clockDefault: config.startTime
     };

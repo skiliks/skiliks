@@ -92,7 +92,7 @@ a {
 }
 /* loading begin */
 #loadingScreen {
-    background: url("/img/interface/loading.gif") no-repeat 5px 8px;
+    background: url("/static/img/interface/loading.gif") no-repeat 5px 8px;
     padding-left: 25px;
 }
 /* hide the close x on the loading screen */
@@ -890,7 +890,7 @@ mail-emulator-received-list-row
 }
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     width: 12px;
-    background: url(/img/mail/scrollbar-buttons.png) center no-repeat;
+    background: url(/static/img/mail/scrollbar-buttons.png) center no-repeat;
 }
 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger {
 
@@ -902,7 +902,7 @@ mail-emulator-received-list-row
 
 }
 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar {
-    background: url(/img/mail/scrollbar-buttons.png) center no-repeat;
+    background: url(/static/img/mail/scrollbar-buttons.png) center no-repeat;
 }
 /*#dayReceivedListDivScroll {
     position: absolute;

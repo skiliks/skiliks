@@ -246,7 +246,7 @@
 
                 var attImg = '';
                 if (value['attachments'] == 1) {
-                    attImg = '<img src="img/mail/icon-attach.png" style="width:12px; height:18px;" id="mailEmulatorReceivedListCellAttachImg_' + value['id'] + '">';
+                    attImg = '<img src="/static/img/mail/icon-attach.png" style="width:12px; height:18px;" id="mailEmulatorReceivedListCellAttachImg_' + value['id'] + '">';
                 }
 
                 curHTML += '<tr class="active mail-emulator-received-list-string' + addClass + '" id="mailEmulatorReceivedListString_' + value['id'] + '">';
@@ -297,7 +297,7 @@
                     start:function (e, ui) {
                         mailEmulator.remember = $(this).html();
 
-                        $(ui.helper).html('<div style="width:42px; height:42px;"><img src="img/mail/e-mail.png"></div>');
+                        $(ui.helper).html('<div style="width:42px; height:42px;"><img src="/static/img/mail/e-mail.png"></div>');
                         $(ui.helper).css('background', 'transparent');
                     },
                     stop:function (e, ui) {
@@ -570,7 +570,7 @@
             var attachments = '';
             var saveButton = '';
             if (typeof(data['attachments']) != 'undefined' && data['attachments']) {
-                attachments = '<p class="mail-attach">' + data['attachments']['name'] + ' <img alt="" src="img/mail/icon-attach.png"></p>';
+                attachments = '<p class="mail-attach">' + data['attachments']['name'] + ' <img alt="" src="/static/img/mail/icon-attach.png"></p>';
             }
 
             if (data['reply'] == undefined) {
@@ -622,7 +622,7 @@
 
             if (typeof(data['attachments']) != 'undefined' && data['attachments']) {
                 if (this.curFolderType == 'inbox' && this.curFolderType != 'trash') {
-                    saveButton = '<img src="img/interface/savedoc.png"  class="mail-emulator-save-button" onclick="mailEmulator.saveDocument(' + data['attachments']['id'] + ')">'
+                    saveButton = '<img src="/static/img/interface/savedoc.png"  class="mail-emulator-save-button" onclick="mailEmulator.saveDocument(' + data['attachments']['id'] + ')">'
                 }
                 attachments = data['attachments']['name'] + saveButton;
             }
@@ -1577,7 +1577,7 @@
             '<td onclick="mailEmulator.folderSort(\'sender\')"><span id="mailEmulatorReceivedListSortSender">От кого</span></td>' +
             '<td onclick="mailEmulator.folderSort(\'subject\')"><span>Тема</span></td>' +
             '<td onclick="mailEmulator.folderSort(\'time\')"><span id="mailEmulatorReceivedListSortTime">Дата получения</span></td>' +
-            '<td><img src="img/mail/icon-attach.png" alt="" /></td>' +
+            '<td><img src="/static/img/mail/icon-attach.png" alt="" /></td>' +
             '</tr>' +
             '</table>' +
             '<div id="mailEmulatorContentContainer">' +
@@ -1630,13 +1630,13 @@
             '</div>' +
             '<div class="mail-emulator-received-list-sort">' +
             '<div id="mailEmulatorReceivedListSortSender" class="mail-emulator-received-list-sort-sender" onclick="mailEmulator.folderSort(\'sender\')">' +
-            '<img src="img/mail/sortno.png">От кого' +
+            '<img src="/static/img/mail/sortno.png">От кого' +
             '</div>' +
             '<div id="mailEmulatorReceivedListSortSubject" class="mail-emulator-received-list-sort-subject" onclick="mailEmulator.folderSort(\'subject\')">' +
-            '<img src="img/mail/sortno.png">Тема' +
+            '<img src="/static/img/mail/sortno.png">Тема' +
             '</div>' +
             '<div id="mailEmulatorReceivedListSortTime" class="mail-emulator-received-list-sort-time" onclick="mailEmulator.folderSort(\'time\')">' +
-            '<img src="img/mail/sortno.png">Дата получения' +
+            '<img src="/static/img/mail/sortno.png">Дата получения' +
             '</div>' +
             '<div id="mailEmulatorReceivedListSortAttach" class="mail-emulator-received-list-sort-attach">' +
             'Вложения' +
@@ -1699,7 +1699,7 @@
             '<div id="mailEmulatorOpenedMailTime">Дата: {time}</div>' +
             '<div id="mailEmulatorOpenedMailReceiver">Кому: {receiver}</div>' +
             '<div id="mailEmulatorOpenedMailCopy">Копия: {copy}</div>' +
-            '<div id="mailEmulatorOpenedMailAttach"><img src="img/mail/attach.png" style="width:20px; height:20px;"> {attach}</div>' +
+            '<div id="mailEmulatorOpenedMailAttach"><img src="/static/img/mail/attach.png" style="width:20px; height:20px;"> {attach}</div>' +
             '</div>' +
             '<div class="mail-emulator-opened-mail-letter-text">' +
             '{message}' +
@@ -1723,7 +1723,7 @@
             '<td>{subject}</td>' +
             '</tr>' +
             '<tr>' +
-            '<th><img alt="" src="/img/mail/icon-attach.png"></th>' +
+            '<th><img alt="" src="/static/img/mail/icon-attach.png"></th>' +
             '<td>{attach}</td>' +
             '</tr>' +
             '</table>' +
@@ -1752,7 +1752,7 @@
             '<div id="mailEmulatorOpenedMailTime">Дата: {time}</div>' +
             '<div id="mailEmulatorOpenedMailReceiver">Кому: {receiver}</div>' +
             '<div id="mailEmulatorOpenedMailCopy">Копия: {copy}</div>' +
-            '<div id="mailEmulatorOpenedMailAttach"><img src="img/mail/attach.png" style="width:20px; height:20px;"> {attach}</div>' +
+            '<div id="mailEmulatorOpenedMailAttach"><img src="/static/img/mail/attach.png" style="width:20px; height:20px;"> {attach}</div>' +
             '</div>' +
             '<div class="mail-emulator-opened-mail-letter-text-full">' +
             '{message}' +
@@ -1791,7 +1791,7 @@
             '</td>' +
             '</tr>' +
             '<tr>' +
-            '<th><img src="img/mail/btn-attach.png" alt="" onclick="mailEmulator.showAttachForm()"/></th>' +
+            '<th><img src="/static/img/mail/btn-attach.png" alt="" onclick="mailEmulator.showAttachForm()"/></th>' +
             '<td>' +
             '<div class="mail-file-attach" id="mailEmulatorNewLetterAttachBox"></div>' +
             '</td>' +
@@ -1835,7 +1835,7 @@
             '<div class="mail-emulator-new-letter-label">Кому:</div>' +
             '<div class="mail-emulator-new-letter-label">Копия:</div>' +
             '<div class="mail-emulator-new-letter-label">Тема:</div>' +
-            '<div class="mail-emulator-new-letter-label"><img src="img/mail/attach.png" style="width:20px; height:20px;"></div>' +
+            '<div class="mail-emulator-new-letter-label"><img src="/static/img/mail/attach.png" style="width:20px; height:20px;"></div>' +
             '</div>' +
             '<div class="mail-emulator-new-letter-head-boxes">' +
             '<input id="mailEmulatorNewLetterReceiverBox" class="span3 mail-emulator-new-letter-box"' +
@@ -1861,10 +1861,10 @@
             'Проигрывать звук при получении сообщения' +
             '</div>' +
             '<div class="mail-emulator-settings-sound-field" onclick="mailEmulator.changeSound()">' +
-            '<img src="img/mail/soundfield.png">' +
+            '<img src="/static/img/mail/soundfield.png">' +
             '</div>' +
             /*'<div class="mail-emulator-settings-sound-slider">'+
-             '<img src="img/mail/soundslider.png">'+
+             '<img src="/static/img/mail/soundslider.png">'+
              '</div>'+*/
             '</div>' +
             /*'<div class="mail-emulator-settings-spam-filter">'+
@@ -1915,7 +1915,7 @@
             '<input type="button" value="Отмена" class="btn" onclick="mailEmulator.hideAttachForm();">' +
             '</div>',
         mailMessageHtml:'<div class="mail-popup">' +
-            '<div class="mail-popup-tit"><img src="img/mail/type-system-message.png" alt=""></div>' +
+            '<div class="mail-popup-tit"><img src="/static/img/mail/type-system-message.png" alt=""></div>' +
 
             '<p class="mail-popup-text">' +
             'Сохранить письмо в черновиках?' +
@@ -1942,7 +1942,7 @@
             '</tbody></table>' +
             '</div>',
         mailMessageReceiver:'<div class="mail-popup">' +
-            '<div class="mail-popup-tit"><img src="img/mail/type-system-message.png" alt=""></div>' +
+            '<div class="mail-popup-tit"><img src="/static/img/mail/type-system-message.png" alt=""></div>' +
 
             '<p class="mail-popup-text">' +
             'Так как получатель письма изменился, нам придется очистить текст письма. Вы уверены?' +
@@ -1964,7 +1964,7 @@
             '</tbody></table>' +
             '</div>',
         mailMessageError:'<div class="mail-popup">' +
-            '<div class="mail-popup-tit"><img src="img/mail/type-system-message.png" alt=""></div>' +
+            '<div class="mail-popup-tit"><img src="/static/img/mail/type-system-message.png" alt=""></div>' +
 
             '<p class="mail-popup-text">' +
             '{$message}' +
