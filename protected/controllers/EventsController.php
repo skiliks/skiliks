@@ -12,7 +12,7 @@ class EventsController extends AjaxController {
      */
     public function actionGetState() {
         
-        $event = new Events();
+        $event = new EventsManager();
         $json = $event->getState();
         //var_dump($json);
         $this->sendJSON($json);
@@ -26,7 +26,7 @@ class EventsController extends AjaxController {
      */
     public function actionGetList() {
         
-        $event = new Events();
+        $event = new EventsManager();
         $json = $event->getList();
         $this->sendJSON($json);
         
@@ -37,7 +37,7 @@ class EventsController extends AjaxController {
      */
     public function actionStart() {
     
-        $event = new Events();
+        $event = new EventsManager();
         $json = $event->startEvent();
         $this->sendJSON($json);
     }
