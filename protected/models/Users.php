@@ -46,6 +46,26 @@ class Users extends CActiveRecord
         $this->activationCode = md5(time() + rand(1, 1000000));
     }
     
+    /**
+     * @return string
+     */
+    public static function generatePassword()
+    {
+        // Shit, but better than md5(time)
+        return md5(time() + rand(1, 1000000));
+    }
+    
+    public function reinitPassword()
+    {
+        $password = self::generatePassword();
+
+        $this->password = $this->encryptPassword($password);
+        $this->save();
+        
+        return $password;
+    }
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**

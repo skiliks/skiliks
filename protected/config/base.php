@@ -9,6 +9,7 @@ return array(
         'application.models.*',
         'application.models.Flags.*',
         'application.models.Assessment.*',
+        'application.models.PullOfOptions.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
