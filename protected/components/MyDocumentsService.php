@@ -183,5 +183,55 @@ class MyDocumentsService
         
         return $status;
     }
+    
+    /**
+     * @param Simulation $simulation
+     * @param integer $fileId
+     * 
+     * @return mixed array
+     */
+    public static function checkDocumentTime($simulation, $fileId)
+    {
+        $document = MyDocumentsModel::model()->findByPk($fileId);
+        
+        if (NULL === $document) {
+            // this document not null because any simulation must have consolidated budget
+            $document = MyDocumentsModel::model()
+                ->bySimulation($simulation->id)
+                ->byTemplateId(MyDocumentsTemplateModel::CONSOLIDATED_BUDGET_ID)
+                ->find();
+        }
+        
+        $result = array();
+        if(NULL == $fileId){
+            $result['id']   = $document->id;
+            $result['time'] = self::getFileTime($simulation, $document);
+        }else{
+
+            $result['time'] = self::getFileTime($simulation, $document);
+        }
+        
+        return $result;
+    }
+    
+    /**
+     * @param tSimulation $simulation
+     * @param MyDocument $document
+     * 
+     * @return integer || NULL
+     */
+    private static function getFileTime($simulation, $document) 
+    {
+        $zohoDocument = new ZohoDocuments($simulation->id, $document->id, str_replace(' ', '_', $document->fileName));
+        
+        if(file_exists($zohoDocument->getUserFilepath())){
+            $time = filemtime($zohoDocument->getUserFilepath());
+            if($time !== false){
+                return $time;
+            }
+        }
+        
+        return null;
+    }
 }
 
