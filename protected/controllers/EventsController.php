@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class EventsController extends AjaxController{
+class EventsController extends AjaxController {
     
     protected function _processTasks($simId) {
         ###  определение событие типа todo
@@ -21,10 +21,10 @@ class EventsController extends AjaxController{
         $task = Tasks::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
-        return array(
+        return [
             'id' => $task->id,
             'text' => $task->title
-        );
+        ];
     }    
     
     /**
@@ -277,61 +277,11 @@ class EventsController extends AjaxController{
      * Принудительный старт заданного события
      */
     public function actionStart() {
-        $sid = Yii::app()->request->getParam('sid', false);  
-        $eventCode = Yii::app()->request->getParam('eventCode', false);  
-        $delay = (int)Yii::app()->request->getParam('delay', false);  
-        $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
-        $clearAssessment = Yii::app()->request->getParam('clearAssessment', false);  
-        
-        try {
-            if (!$sid) throw new Exception('Не задан сид');
-            
-            $uid = SessionHelper::getUidBySid();
-            if (!$uid) throw new Exception('Не могу определить пользователя');
-            
-            $simId = SessionHelper::getSimIdBySid($sid);
-                        
-            $event = EventsSamples::model()->byCode($eventCode)->find();
-            if (!$event) throw new Exception('Не могу определить событие по коду : '.$eventCode);
-            
-            // если надо очищаем очерель событий для текущей симуляции
-            if ($clearEvents) {
-                EventsTriggers::model()->deleteAll("sim_id={$simId}");
-            }
-            
-            // если надо очищаем оценки  для текущей симуляции
-            if ($clearAssessment) {
-                SimulationsDialogsPoints::model()->deleteAll("sim_id={$simId}");
-            }
-            
-            $gameTime = SimulationService::getGameTime($simId);
-            $gameTime = $gameTime + $delay;  //time() + ($delay/4);
-            
-            
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
-            if ($eventsTriggers) {
-                $eventsTriggers->trigger_time = $gameTime;
-                $eventsTriggers->save(); // обновляем существующее событие в очереди
-            }
-            else {
-                
-                // Добавляем событие
-                $eventsTriggers = new EventsTriggers();
-                $eventsTriggers->sim_id = $simId;
-                $eventsTriggers->event_id = $event->id;
-                $eventsTriggers->trigger_time = $gameTime;
-                $eventsTriggers->insert();
-            }
-            
-            $this->sendJSON(array('result' => 1));
-            
-        } catch (Exception $exc) {
-            $this->sendJSON(array(
-                'result' => 0, 'message' => $exc->getMessage()
-            ));
-        }
-        return;
+    
+        $event = new Events();
+        $json = $event->startEvent();
+        $this->sendJSON($json);
     }
-            }
+}
         
 
