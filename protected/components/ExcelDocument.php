@@ -37,18 +37,32 @@ final class ExcelDocument
     /**
      * Add url for Zoho-docunebt iframe
      * 
+     * @param Simulations $simulation
+     * @param integer $fileId
+     * 
      * @return array of strings
      */
-    public function populateFrontendResult($simId, $fileId) 
+    public function populateFrontendResult($simulation, $fileId) 
     {
+        if (NULL === $fileId || false === is_numeric($fileId) || $fileId < 1) {
+            return array(
+                'result'           => 0,
+                'filedId'          => $fileId,
+                'excelDocumentUrl' => '/pages/excel/fileNotFound.html',
+            );
+        }
+        
         if (false === isset($this->zohoDocument[$simId][$fileId])) {
-            $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
-            $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
+            $this->zohoDocument[$simulation->id][$fileId] = 
+                new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
+            
+            $this->zohoDocument[$simulation->id][$fileId]->sendDocumentToZoho();
         }        
         
          return array(
-            'result' => 1,
-             'excelDocumentUrl' => $this->zohoDocument[$simId][$fileId]->getUrl(),
+            'result'           => 1,
+            'filedId'          => $fileId,
+            'excelDocumentUrl' => $this->zohoDocument[$simulation->id][$fileId]->getUrl(),
         );
     }
 }
