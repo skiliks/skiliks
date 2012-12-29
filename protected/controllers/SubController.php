@@ -3,11 +3,10 @@
 class SubController extends AjaxController
 {
    /**
-     * @deprecated
+     * 
      */
     public function actionAdd()
     {
-        /*
         $email = Yii::app()->request->getParam('email', false);
 
         $result = array(
@@ -37,15 +36,14 @@ class SubController extends AjaxController
         $this->sendJSON($result);
         
         return;
-         */
     }
     
     /**
-     * @deprecated
+     * 
      */
     public function actionList() {
         
-        /*$emails = Yii::app()->db->createCommand()
+        $emails = Yii::app()->db->createCommand()
 	    		->select( 'id, email' )
 	    		->from( 'emails_sub' )
 	    		->queryAll();
@@ -53,7 +51,7 @@ class SubController extends AjaxController
         foreach ($emails as $email) {
             
         echo "{$email['id']} {$email['email']} <br>";
-        }  */              
+        }             
         
     }
 }
