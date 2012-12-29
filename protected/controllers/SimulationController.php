@@ -19,7 +19,7 @@ class SimulationController extends AjaxController
 
             $this->sendJSON(array(
                 'result' => 1, 
-                'speedFactor' => Yii::app()->params['skiliksSpeedFactor']
+                'speedFactor' => Yii::app()->params['public']['skiliksSpeedFactor']
             ));
         } catch (Exception $e) {
             $this->returnErrorMessage($e->getMessage());
