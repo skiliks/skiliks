@@ -3,7 +3,7 @@
 (function () {
     "use strict";
     window.SKServer = Backbone.Model.extend({
-        'api_root': '/api/index.php/',
+        'api_root': '/index.php/',
         'api': function (path, params, callback) {
             var cb = callback;
             var debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/);
