@@ -103,9 +103,9 @@ class Simulations extends CActiveRecord
         if (!$this) throw new Exception('Не могу определить симуляцию');
 
         $variance = time() - $this->start;
-        $variance = $variance * Yii::app()->params['skiliksSpeedFactor'];
+        $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
-        $start_time = explode(':', Yii::app()->params['simulationStartTime']);
+        $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
         $unixtimeMins = round($variance/60) + $start_time[0] * 60 + $start_time[1];
         return $unixtimeMins;
     }

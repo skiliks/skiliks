@@ -7,7 +7,7 @@
         issetDiv:false,
         divTop:50,
         divLeft:50,
-        speedFactor:config.speedFactor,
+        speedFactor:SKConfig.skiliksSpeedFactor,
         divZindex:50,
         saveExcelTime:null,
         saveExcelTimeout:null,
@@ -84,7 +84,7 @@
 
             var variance = unixtime - this.timer;
             variance = variance * this.speedFactor;
-            var startTimeParts = config.startTime.split(':');
+            var startTimeParts = SKConfig.simulationStartTime.split(':');
 
             var startTimePartHour = parseInt(startTimeParts[0], 10);
             var startTimePartMin = parseInt(startTimeParts[1], 10);
@@ -150,7 +150,7 @@
             var unixtimeMins = Math.floor(variance / 60);
             var clockH = Math.floor(unixtimeMins / 60);
             var clockM = unixtimeMins - (clockH * 60);
-            var startTimeParts = config.startTime.split(':');
+            var startTimeParts = SKConfig.simulationStartTime.split(':');
 
             var startTimePartHour = parseInt(startTimeParts[0], 10);
             var startTimePartMin = parseInt(startTimeParts[1], 10);
@@ -192,11 +192,11 @@
             
         },
         getSimulationStartTime : function() {
-            var startTime = config.startTime.split(':');
+            var startTime = SKConfig.simulationStartTime.split(':');
             return {hours:parseInt(startTime[0]), minutes:parseInt(startTime[1])};
         },
         getSimulationEndTime : function(){
-            var endTime = config.endTime.split(':');
+            var endTime = SKConfig.simulationEndTime.split(':');
             return {hours:parseInt(endTime[0]), minutes:parseInt(endTime[1])};
         },
         html1:'<span class="badge badge-inverse">{clock}</span>',
@@ -205,7 +205,7 @@
             '<li><img src="{assetsRoot}/img/main-screen/icon-bat-full.png" alt="" /></li>' +
             '<li><a><img alt="" src="{assetsRoot}/img/main-screen/icon-help.png"></a></li>' +
             '</ul>',
-        clockDefault: config.startTime
+        clockDefault: SKConfig.simulationStartTime
     };
     window.timer = timer;
 })();
