@@ -5,11 +5,11 @@ frame_switcher = {
         
         var activeFrame = document.getElementById('location');
         activeFrame.style.display = 'block';
-        activeFrame.width = config.activeFrame.width;
-        activeFrame.height = config.activeFrame.height;
-        activeFrame.style.width = config.activeFrame.width;
-        activeFrame.style.height = config.activeFrame.height;
-        
+        activeFrame.style.width = '1000px';
+        activeFrame.style.height = '600px';
+        activeFrame.width = 1000;
+        activeFrame.height = 600;
+
         return activeFrame;
     },
     setToCanvas:function(){
@@ -19,11 +19,11 @@ frame_switcher = {
         
         var activeFrame = document.getElementById('canvas');
         activeFrame.style.display = 'block';
-        activeFrame.width = config.activeFrame.width;
-        activeFrame.height = config.activeFrame.height;
-        activeFrame.style.width = config.activeFrame.width;
-        activeFrame.style.height = config.activeFrame.height;
-        
+        activeFrame.style.width = '1000px';
+        activeFrame.style.height = '600px';
+        activeFrame.width = 1000;
+        activeFrame.height = 600;
+
         return activeFrame;
     }
 }

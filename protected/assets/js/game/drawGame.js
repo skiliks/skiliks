@@ -15,7 +15,7 @@ drawGame = {
             return;
         }
 
-        canvas.clearRect(0,0,config.activeFrame.width,config.activeFrame.height);
+        canvas.clearRect(0,0,1000,600);
         canvas.beginPath();
         
         //отрисовываем обьекты на карте  НАЧАЛО

@@ -34,7 +34,9 @@ return CMap::mergeArray(
     ),
         'params' => array(
             'frontendUrl' => 'http://skiliks.loc/',
-            'skiliksSpeedFactor' => 8
+            'public' => [
+                'skiliksSpeedFactor' => 8
+            ]
         )
     )
 );

@@ -21,7 +21,8 @@ class SiteController extends AjaxController
         $cs = Yii::app()->clientScript;
 
         $assetsUrl = $this->getAssetsUrl();
-        $config = CJSON::encode(['assetsUrl' => $assetsUrl]);
+        $config = Yii::app()->params['public'];
+        $config['assetsUrl'] = $assetsUrl;
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery-ui-1.8.21.custom.min.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.hotkeys.js");
@@ -55,7 +56,6 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationStartView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSettingsView.js");
         //конфиги
-        $cs->registerScriptFile($assetsUrl . "/js/game/config/config.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfig.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfigPlayersLogos.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfigPlayersLogosAdd.js");
@@ -116,7 +116,7 @@ class SiteController extends AjaxController
 
         //стартер, обязательно последний инклуд // фикс под ИЕ
         $cs->registerScriptFile($assetsUrl . "/js/game/starter.js");
-        $this->render('site', ['config' => $config]);
+        $this->render('site', ['config' => CJSON::encode($config)]);
     }
 
     public function getAssetsUrl()
