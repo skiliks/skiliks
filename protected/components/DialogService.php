@@ -68,6 +68,61 @@ class DialogService {
             'code'              => $dialog->code    
         );
     }
+    
+    /**
+     * @return mixed array
+     */
+    public static function getDialogsListForAdminka()
+    {
+        $dialogs = array();
+        
+        $characters = array();
+        foreach (Characters::model()->findAll() as $character) {
+            $characters[$character->id] = $character;
+        }
+        
+        $characterStates = array();
+        foreach (CharactersStates::model()->findAll() as $characterState) {
+            $characterStates[$characterState->id] = $characterState;
+        }
+        
+        $dialogSubtypes = array();
+        foreach (DialogSubtypes::model()->findAll() as $dialogSubtype) {
+            $dialogSubtypes[$dialogSubtype->id] = $dialogSubtype;
+        }
+        
+        $events = array();
+        foreach (EventsSamples::model()->findAll() as $event) {
+            $events[$event->id] = $event;
+        }
+        
+        $codes = array();
+        foreach (Dialogs::model()->findAll() as $dialog) {
+            $codes[] = $dialog->code;
+            $dialogs[] = array(
+                'id'    => $dialog->id,
+                'cell'  => array(
+                    $dialog->id, 
+                    $dialog->code, 
+                    $characters[$dialog->ch_from]->title,
+                    $characterStates[$dialog->ch_from_state]->title,
+                    $characters[$dialog->ch_to]->title,
+                    $characterStates[$dialog->ch_to_state]->title,
+                    $dialogSubtypes[$dialog->dialog_subtype]->title,
+                    $dialog->text,
+                    $dialog->duration,
+                    (7 == $dialog->event_result) ? "нет результата" : $dialog->event_result,
+                    $dialog->step_number,
+                    $dialog->replica_number,
+                    (isset($events[$dialog->next_event])) ? $events[$dialog->next_event]->code : '-',
+                    $dialog->delay,
+                    (1 == $dialog->is_final_replica) ? "да" : "нет",
+                )
+            );
+        }
+        
+        return $dialogs;
+    }
 }
 
 
