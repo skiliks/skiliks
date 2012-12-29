@@ -17,6 +17,12 @@ class AjaxController extends CController
     
     public $is_test = false;
 
+    /**
+     * 
+     * @param integer $status, 2xx, 3xx, 4xx, 5xx
+     * @param string $body
+     * @param string $content_type
+     */
     protected function _sendResponse($status = 200, $body = '', $content_type = 'application/json')
     {
         if (!$this->is_test) {
@@ -28,12 +34,12 @@ class AjaxController extends CController
         }
         echo $body;
 
-        if (!$this->is_test)
-            Yii::app()->end();
+        Yii::app()->end();
     }
 
     /** 
-     * @method void sendJSON Writes JSON to output 
+     * @deprecated
+     * @method void send JSON Writes JSON to output 
      */
     protected function sendJSON($data, $status = 200)
     {
@@ -41,6 +47,7 @@ class AjaxController extends CController
     }
     
     /**
+     * @deprecated
      * @return integer || HttpResponce
      */
     public function getSessionId()
@@ -53,6 +60,7 @@ class AjaxController extends CController
     }
     
     /**
+     * @deprecated
      * @param integer $sessionId
      * @return integer || HttpResponce
      */
@@ -77,6 +85,7 @@ class AjaxController extends CController
     }
     
     /**
+     * @deprecated
      * @return Simulations || HttpJsonResponce (Error)
      */
     public function getSimulationEntity()
@@ -94,6 +103,7 @@ class AjaxController extends CController
     }
     
     /**
+     * @deprecated
      * @return Users || HttpJsonResponce (Error)
      */
     public function getCurrentUserId()
@@ -112,6 +122,7 @@ class AjaxController extends CController
 
 
     /**
+     * @deprecated
      * We handle Yii rroes and savethem to Yii.log. 
      * User see just standard notise
      * 
@@ -131,6 +142,71 @@ class AjaxController extends CController
             'result'  => self::STATUS_ERROR, 
             'message' => sprintf('Error No. %s. %s', $errorId, $message),
         )));
+    }
+    
+    /**
+     * @return mixed array:
+     *     array(
+     *          'result'        => integer  // 0 - error || 1 - success
+     *          'data'          => array,   // array with API responce necessary data
+     *          'error_message' => string,  // message that will be displayed for user in error ('result' => 0) case
+     *      )
+     */
+    public function processRequest()
+    {
+        try {
+            $apiMethod = $this->initApiMethodObject();
+            $apiMethod->validate();
+            $data = $apiMethod->process();
+            
+            // all right way responce
+            $this->sendJSON(array(
+                'result' => self::STATUS_ERROR,
+                'data'   => $data,
+            ));
+        } catch (FrontendNotificationException $e) {
+            // expected error cases
+            $this->sendJSON(array(
+                'result'        => self::STATUS_SUCCESS,
+                'error_message' => $e->getMessage(),
+            ));
+        } catch (Exception $e) {
+            // unexpected error cases
+
+            // log error {
+            Yii::log($e->getMessage());
+            Yii::log($e->getTraceAsString());
+            // log error }
+            
+            // responce
+            $this->sendJSON(array(
+                'result' => self::STATUS_ERROR,
+            ));
+        }
+    }
+    
+    /**
+     * @return mixed object, instance of one from components/ApiMethods classes
+     * 
+     * @throws FrontendNotificationException
+     */
+    public function initApiMethodObject()
+    {
+        $className = sprintf (
+            'api%s%s',
+            ucfirst(Yii::app()->controller->id),
+            ucfirst(Yii::app()->controller->action->id)
+        );
+        
+        if (class_exists($className)) {
+            return new $className();
+        } else {
+            Yii::log(sprintf(
+                'Can`t find class %s to init API responce.',
+                $className
+            ));
+            throw new FrontendNotificationException('Invalid API method name.');
+        }
     }
 }
 
