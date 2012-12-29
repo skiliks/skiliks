@@ -359,11 +359,8 @@ class SimulationService
         return $initedEvents;
     }
     
-    public static function simulationStart()
+    public static function simulationStart($simulationType)
     {
-        // тип симуляции 1 - promo, 2 - dev
-        $simulationType = (int) Yii::app()->request->getParam('stype', 1); 
-
         $userId = SessionHelper::getUidBySid();
         if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
             throw new Exception('У вас нет прав для старта этой симуляции');
@@ -414,12 +411,8 @@ class SimulationService
         LogHelper::setDocumentsLog($simulation->id, $logs); //Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simulation->id, $logs); //Закрытие ркна почты при стопе симуляции
         
-        try {
-            LogHelper::setWindowsLog($simulation->id, $logs);
-        } catch (CException $e) {
-            $this->returnErrorMessage($e->getMessage);
-        }
-        
+        LogHelper::setWindowsLog($simulation->id, $logs);
+
         LogHelper::setDialogs($simulation->id, $logs);
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simulation->id);
