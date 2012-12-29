@@ -40,17 +40,25 @@ class F4Flag1 extends SeleniumTestCase
         sleep(5);
         
         #2 ответа на диалог с Трутневым
-       
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Сергей, привет! Ты не мог бы мне помочь? У меня тут полный аврал. Крутько занята, только на тебя надежда. Будем делать бюджет, сводный.\"]")->click();
+
+        $this->waitForElement($session, 'xpath', "//p[text()=\"-          Сергей, привет! Ты не мог бы мне помочь? У меня тут полный аврал. Крутько занята, только на тебя надежда. Будем делать бюджет, сводный.\"]", 5)->click();
         sleep(2);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Я тебе сейчас перешлю файл, ты посмотри, и сразу приходи, если будут вопросы, разберемся.\"]")->click();
         sleep(20);
         
     
         $this->waitForElement($session, "id", "newTimeH")->value(array("value" => str_split("11")));
-        $this->waitForElement($session, "id", "newTimeM")->value(array("value" => str_split("49")));
+        $this->waitForElement($session, "id", "newTimeM")->value(array("value" => str_split("48")));
         $session->element("xpath", "//input[@value='Задать']")->click();
         sleep(2);
+        
+        
+        $this->waitForElement($session, "id", "icons_phone", 20)->click;
+        sleep(2);
+        $this->waitForElement("xpath", "//input[@value='Трутнев С.']");
+        
+        $session->element("xpath", "//input[@value='Ответить']")->click();
+         $this->waitForElement($session, 'xpath', "//p[text()=\" - Да, я тебе все переслал. Так в чем проблема, говори толком.\"]")->click();
         
         /* 
    $this->type("id=newTimeH", "11");
@@ -69,8 +77,9 @@ class F4Flag1 extends SeleniumTestCase
 <a class="btn1" onclick="phone.getSelect('622',1)">Не ПРИНЯТЬ</a>
 
 
-
-
+<a id="icons_phone" onclick="icons.showEvent('phone')"></a>
+<a class="btn0" onclick="phone.getSelect('61',0);">Ответить</a>         * 
+<p onclick="phone.getSelect('67')">- Да, я тебе все переслал. Так в чем проблема, говори толком.</p>
 
 
 <a id="icons_phone" onclick="icons.showEvent('phone')"></a>
