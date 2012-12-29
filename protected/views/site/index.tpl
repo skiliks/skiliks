@@ -8,17 +8,14 @@
 		<!--[if IE]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-
-		<link rel="stylesheet" href="/static/css/style.css" />
-        <script type="text/javascript" src="/static/js/jquery/jquery-1.7.2.min.js"></script>
-	</head>
+    </head>
 
 	<body>
 		<div class="container main-page" id="top">
 			
 			<!--header-->
 			<header>
-				<h1><a href="#">Skiliks</a></h1>
+				<h1><a href="/">Skiliks</a></h1>
 				
 				<p class="coming-soon">Coming soon</p>
 			</header>
@@ -32,7 +29,7 @@
 					<h2>The easiest &amp; most reliable way to discover your people management skills!</h2>
 					
 					<div class="video">
-						<img src="/static/img/img-video.png" alt="" />
+						{CHtml::image("$assetsUrl/img/img-video.png")}
 					</div>
 					
 					<ul>
@@ -43,13 +40,13 @@
 					</ul>
 					
                     <!-- FORM { -->
-                    <form action="/api.php/Sub/Add" id="subscribe-form">
+                    <form action="/sub/add" id="subscribe-form">
                         <div>
                             <input type="text" 
                                    id = "user-email-value"
                                    value   = "Enter your email address" 
-                                   onblur  = "if (value == '') { value = 'Enter your email address'; };" 
-                                   onfocus = "if (value == 'Enter your email address') { value =''; };" 
+                                   onblur  = "if (value == '') { value = 'Enter your email address'; }"
+                                   onfocus = "if (value == 'Enter your email address') { value =''; }"
                                    />
                             <p id="user-email-error-box" class="error" style="display: none;">
                                 <span>Please enter a valid email address</span>
@@ -90,10 +87,10 @@
 					<h3>Our Clients</h3>
 					
 					<ul>
-						<li><a href="#"><img src="img/icon-hipway.png" alt="" /></a></li>
-						<li><a href="#" style="margin-top:12px;"><img src="img/icon-mif.png" alt="" /></a></li>
-						<li><a href="#" style="margin-top:8px;"><img src="img/icon-wikimart.png" alt="" /></a></li>
-						<li><a href="#"><img src="img/icon-mcg.png" alt="" /></a></li>
+                        <li><a href="#">{CHtml::image("$assetsUrl/img/icon-hipway.png")}</a></li>
+						<li><a href="#" style="margin-top:12px;">{CHtml::image("$assetsUrl/img/icon-mif.png")}</a></li>
+						<li><a href="#" style="margin-top:8px;">{CHtml::image("$assetsUrl/img/icon-wikimart.png")}</a></li>
+						<li><a href="#">{CHtml::image("$assetsUrl/img/icon-mcg.png")}</a></li>
 					</ul>
 				</section>
 				<!--clients end-->
@@ -127,7 +124,7 @@
                         success: function(response) {
                             if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
                                 if (1 === response.result) {
-                                    // redirect to succes page
+                                    // redirect to success page
                                     window.location.href = '/coming-soon-success.html';
                                 } else {
                                     // invalid email
@@ -137,13 +134,13 @@
                             } else {
                                 console.log('e2');
                                 // wrong server response format
-                                displayError('No proper response from server. Please try again several seconds ago.');
+                                displayError('No proper response from server. Please try again later.');
                             }
                         },
                         error: function() {
                             console.log('e3');
                             // no response from server
-                            displayError('No response from server. Please try again several seconds ago.');
+                            displayError('No response from server. Please try again later.');
                         }                
                     });
             

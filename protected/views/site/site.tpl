@@ -1,62 +1,19 @@
-<?php
-    $version = '0.015';
-    ?>
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon"/>
-    <title>Skiliks</title>
-
-    <link href="/static/js/jquery/jquery-ui.css?v=<?php echo $version ?>" rel="stylesheet"/>
-    <link href="/static/js/bootstrap/css/bootstrap.css?v=<?php echo $version ?>" rel="stylesheet"/>
-    <link href="/static/js/jquery/jquery-ui-1.8.23.slider.css?v=<?php echo $version ?>" rel="stylesheet"/>
-    <link href="/static/js/jquery/jquery.mCustomScrollbar.css?v=<?php echo $version ?>" rel="stylesheet"/>
-    <link href="/static/css/main.css?v=<?php echo $version ?>" rel="stylesheet"/>
-
+    <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <script type="text/javascript">
+        var SKConfig = {$config};
         window.gameVersion = '?v=<?php echo $version ?>';
     </script>
+    <title>Skiliks</title>
 
-    <script type="text/javascript" src="/static/js/jquery/jquery-1.7.2.min.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery-ui-1.8.21.custom.min.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery.hotkeys.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery.balloon.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery.cookies.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery.mCustomScrollbar.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery/jquery.mousewheel.min.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/jquery.textchange.min.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/bootstrap/js/bootstrap.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/bootstrap/js/bootstrap-alert.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/lib/php.js?v=<?php echo $version ?>"></script>
 
-    <script type="text/javascript" src="/static/js/jquery/jquery-ui-1.8.23.custom.min.js?v=<?php echo $version ?>"></script>
-
-    <script type="text/javascript" src="/static/js/underscore.js?v=<?php echo $version ?>"></script>
     <script type="text/javascript">
         _.templateSettings.interpolate = /<@=(.+?)@>/g;
         _.templateSettings.evaluate = /<@(.+?)@>/g;
     </script>
-    <script type="text/javascript" src="/static/js/backbone.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/skwindow.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/skwindowset.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/skmailwindow.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/skdocumentswindow.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/skdialogwindow.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/SKServer.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/models/SKApplication.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/views/SKDialogView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/views/world/SKLoginView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript"
-            src="/static/js/game/views/mail/SKMailLetterBaseView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript"
-            src="/static/js/game/views/mail/SKMailLetterFixedTextView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript"
-            src="/static/js/game/views/mail/SKMailLetterPhraseListView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/views/world/SKSimulationStartView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript"
-            src="/static/js/game/views/world/SKSettingsView.js?v=<?php echo $version ?>"></script>
-    <script type="text/javascript" src="/static/js/game/skiliks/engine_loader.js?v=<?php echo $version ?>"></script>
 
     <script type="text/template" id="start_simulation_menu">
         <div class="world-index-mainDiv">

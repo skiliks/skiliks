@@ -13,11 +13,8 @@ class SimulationTest extends ControllerTestCase
         $result = $this->callJSONAction('AuthController', 'actionAuth');
         $sid = $result['sid'];
         $_POST['sid'] = $result['sid'];
-        $_POST['stype'] = 1;
 
-        $result = $this->callJSONAction('SimulationController', 'actionStart');
-
-        $this->assertEquals(array("result" => 1, "speedFactor" => 8), $result);
+        $simulation = SimulationService::simulationStart(1);
         $result = $this->callJSONAction('MailController', 'actionGetInboxUnreadedCount');
         $this->assertEquals(array('result' => 1, 'unreaded' => 4), $result);
         $result = $this->callJSONAction('TodoController', 'actionGetCount');
@@ -88,7 +85,7 @@ class SimulationTest extends ControllerTestCase
         $_POST['pass']  = '123';
         $result = $this->callJSONAction('AuthController', 'actionAuth');
         $_POST['sid'] = $result['sid'];
-        $simulation = SimulationService::simulationStart();
+        $simulation = SimulationService::simulationStart(1);
         SimulationService::setSimulationClockTime($simulation, 13, 30);
         $simulation->deleteOldTriggers(13, 30);
         foreach (EventsTriggers::model()->findAllByAttributes(['sim_id' => $simulation->id]) as $event) {
