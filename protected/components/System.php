@@ -5,10 +5,10 @@
  *
  * @author ivan
  */
-class System {
-    //put your code here
-    public static function classToUrls($classes) {
-        
+class System 
+{
+    public static function classToUrls($classes) 
+    {        
         $links = array();
         $pre = 'action';
         $pos = 'Controller';
@@ -34,5 +34,88 @@ class System {
         
         return $links;
         
+    }
+    
+    /**
+     * Отображение комбика в виде html
+     * 
+     * @param type $tableName
+     * @param type $nameField
+     * 
+     * @return string 
+     */
+    public static function getComboboxHtml($tableName, $nameField = 'title', $condition='', $idField = 'id') 
+    {
+        $sql = "select * from {$tableName} ".$condition;
+        
+        $dataReader = Yii::app()->db
+            ->createCommand($sql)
+            ->query();
+        
+        $html = "<select><option value=\'-1\'>Все</option>";
+        foreach($dataReader as $row) { 
+            $html .= "<option value='{$row[$idField]}'>{$row[$nameField]}</option>";
+        }
+        $html .= '</select>';
+        
+        return $html;
+    }
+    
+    /**
+     * @param string $tableName
+     * @param string $nameField
+     * @param string $condition
+     * @param string $firstValue
+     * @param integer $idField
+     * 
+     * @return mixed array
+     */
+    public static function getComboboxData($tableName, $nameField = 'title', $condition='', $firstValue = false, $idField = 'id') 
+    {
+        $dataReader = Yii::app()->db
+            ->createCommand("select * from {$tableName} ".$condition)
+            ->query();
+            
+        $records = array();
+        
+        if ($firstValue) {
+            $records[] = '-1:'.$firstValue;
+        }
+        
+        foreach($dataReader as $row) { 
+            $records[] = $row[$idField].':'.$row[$nameField];
+        }
+        
+        return implode(';', $records);
+    }
+    
+    /**
+     * @return mixed array
+     */
+    public static function getBehavioursListForAdminka()
+    {
+        $list = array();
+        
+        $behaviours = array();
+        foreach (CharactersPointsTitles::model()->findAll() as $behaviour) {
+            $behaviours[$behaviour->id] = $behaviour;
+        }
+        
+        foreach ($behaviours as $behaviour) {
+            if (NULL !== $behaviour->parent_id) {
+                $list[] = array(
+                    'id'    => $behaviour->id,
+                    'cell'  => array(
+                        $behaviour->id, 
+                        (isset($behaviours[$behaviour->parent_id])) ? $behaviours[$behaviour->parent_id]->title : '--',
+                        $behaviour->code,
+                        $behaviour->title, 
+                        $behaviour->scale
+                    )
+                );
+            }
+        }
+        
+        return $list;
     }
 }
