@@ -439,13 +439,13 @@ class SimulationService
      */
     public static function setSimulationClockTime($simulation, $newHours, $newMinutes)
     {
-        $speedFactor = Yii::app()->params['skiliksSpeedFactor'];
+        $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
         
         $variance = time() - $simulation->start;
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
-        $start_time = explode(':', Yii::app()->params['simulationStartTime']);
+        $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
         $clockH = round($unixtimeMins / 60);
         $clockM = $unixtimeMins - ($clockH * 60);
         $clockH = $clockH + $start_time[0];
