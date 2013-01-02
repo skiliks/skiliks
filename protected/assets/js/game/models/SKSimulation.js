@@ -98,7 +98,8 @@
             clearInterval(this.events_timer);
             this.window_set.closeAll();
             this.window.close();
-            SKApp.server.api('simulation/stop', {}, function () {
+            var logs = this.windowLog.getAndClear();
+            SKApp.server.api('simulation/stop', {'logs': logs}, function () {
                 me.trigger('stop');
             });
         },
