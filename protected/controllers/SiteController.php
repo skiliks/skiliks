@@ -45,6 +45,7 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindowset.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindowLog.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skmailwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skdocumentswindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skdialogwindow.js");
@@ -104,7 +105,6 @@ class SiteController extends AjaxController
 
 
         //загрузка игрового мира
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/simulation.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/dialogController.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/icons.js");
