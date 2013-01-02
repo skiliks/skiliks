@@ -18,7 +18,7 @@
             this.is_opened = false;
             this.name = name;
             this.subname = subname;
-            this.simulation = window.simulation;
+            this.simulation = SKApp.user.simulation;
         },
         /**
          * Opens a window
@@ -38,13 +38,13 @@
             this.simulation.window_set.hideWindow(this);
         },
         deactivate: function () {
-            console.log('[SKWindow] Deactivated window ' + this.name + '/' + this.subname + ' at ' + window.timer.getCurTimeFormatted() +
+            console.log('[SKWindow] Deactivated window ' + this.name + '/' + this.subname + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
             window.simulation.frontEventLog(this.name, this.subname, 'deactivated', this.get('params'));
         },
         activate: function () {
-            console.log('[SKWindow] Activated window ' + this.name + '/' + this.subname + ' at ' + window.timer.getCurTimeFormatted() +
+            console.log('[SKWindow] Activated window ' + this.name + '/' + this.subname + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
             window.simulation.frontEventLog(this.name, this.subname, 'activated', this.get('params'));

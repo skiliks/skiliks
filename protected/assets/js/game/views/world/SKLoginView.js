@@ -2,6 +2,7 @@
 (function() {
     "use strict";
     window.SKLoginView = Backbone.View.extend({
+        'el': 'body',
         'initialize': function () {
             this.render();
         },
@@ -14,7 +15,7 @@
         },
         'doSubmit': function (event) {
             event.preventDefault();
-            sender.playerLogin($('#login').val(), $('#pass').val(), false);
+            SKApp.session.login($('#login').val(), $('#pass').val())
         }
     });
 })();

@@ -29,7 +29,7 @@ sounds = {
         
         var audio = new Audio();
         audio.setAttribute('id', 'audioMainDiv');
-        audio.setAttribute('src', 'media/sounds/'+file);
+        audio.setAttribute('src', SKConfig.assetsUrl + '/sounds/'+file);
         audio.setAttribute('type', 'audio/wav');
         audio.load();
         audio.play();

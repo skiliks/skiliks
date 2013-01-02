@@ -6,7 +6,7 @@ var IE='\v'=='v';
 //определяем глобальные переменные НАЧАЛО
 var allLoaded = 0;
 var toLoad = 0;
-var frameChanged = new Array();
+var frameChanged = [];
 
 var mouseX = 0;
 var mouseY = 0;
@@ -16,7 +16,7 @@ var mapSizeX = 0;
 var mapSizeY = 0;
 
 //type, params
-var mapObjects = new Array();
+var mapObjects = [];
 
 //определяем глобальные переменные КОНЕЦ
 
@@ -53,14 +53,7 @@ var input = function()
  */
 function runGame()
 {
-	dante = new Dante();
-	dante.input = input;
-        dante.gameInit = function(){
-            //загружаем картинки
-            objects.loadingObjects();
-        };
-	dante.draw = drawGame.drawGame;
-	dante.run();
+    //objects.loadingObjects();
 }
 
 /**

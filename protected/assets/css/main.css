@@ -79,7 +79,10 @@ a {
 }
 .canvas {
     margin: 0 auto;
-    /*cursor: crosshair;*/
+    background-image: url('../img/maps/bg-main-light.jpg');
+    width: 1000px;
+    height: 600px;
+/*cursor: crosshair;*/
 }
 .message {
     display: none;
@@ -90,6 +93,7 @@ a {
 .def-label-200{
     width:200px;
 }
+
 /* loading begin */
 #loadingScreen {
     background: url("../img/interface/loading.gif") no-repeat 5px 8px;
@@ -103,6 +107,7 @@ a {
 
 
 /* World begin  */
+
 .world-index-mainDiv{
     margin: 0 auto; 
     width:225px; 
@@ -3530,7 +3535,7 @@ ul.main-screen-stat li img{
 	vertical-align:middle;
 }
 .main-screen-icons{
-	/*float:right;*/
+	float:right;
 }
 .main-screen-icons ul{
 	list-style:none;
@@ -3543,7 +3548,7 @@ ul.main-screen-stat li img{
 	overflow:hidden;
 	position:relative;
 }
-.main-screen-icons ul li.messanger{
+.main-screen-icons ul li.messenger{
 	background:url("../img/main-screen/icon-messanger.png") no-repeat;
 	z-index:6;
 }

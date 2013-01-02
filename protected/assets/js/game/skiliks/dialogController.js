@@ -54,11 +54,9 @@ dialogController = {
         if(this.status == 0 || typeof(action) != 'undefined'){
             if(action=='close'){
                 this.closedialogController();
-                simulation.drawDefaultLocation();
                 //логируем событие
-                simulation.window_set.closeAll('visitor');
+                SKApp.user.simulation.window_set.closeAll('visitor');
                 this.activeSubScreen = '';
-                simulation.setDisplayMode('normal');
                 return;
             }
             this.status = 1;
@@ -71,7 +69,6 @@ dialogController = {
             //логируем событие
             simulation.window_set.closeAll('visitor');
             this.activeSubScreen = '';
-            simulation.setDisplayMode('normal');
             return;
         }
         
@@ -191,8 +188,7 @@ dialogController = {
         $('#dialogControllerMainDiv').css('left',  (this.divLeft-20)+'px');
         $('#dialogControllerMainDiv').css('height', this.divCheight);
         
-        simulation.setDisplayMode('dialog');
-        
+
         //логируем режим
         if(this.activeSubScreen !== 'visitorTalk'){
             simulation.window_set.closeAll('visitor');
