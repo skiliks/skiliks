@@ -6,7 +6,6 @@ sender = {
                 logout: 3,
                 register: 4,
                 lostpass: 5,
-                checkSession: 200,
                 userAccountChangeEmail: 6,
                 userAccountChangePassword: 7,
                 simulationStart:8,
@@ -82,7 +81,6 @@ sender = {
                 checkSession: '/auth/checkSession',
                 userAccountChangeEmail: '/userAccount/changeEmail',
                 userAccountChangePassword: '/userAccount/changePassword',
-                simulationStart: '/simulation/start',
                 simulationGetNewEvents: '/events/getState',
                 dialogsGetSelect: '/dialog/get',
                 addTriggerGetList: '/events/getList',
@@ -132,7 +130,7 @@ sender = {
                 phoneGetSelect: '/dialog/get',
                 phoneGetThemes: '/phone/getThemes',
                 phoneCallIgnore: '/phone/ignore',
-                mailGetInboxUnreadedCount: '/mail/getInboxUnreadedCount',
+                mailGetInboxUnreadedCount: '/mail/getInboxUnreadCount',
                 dayPlanTodoGetCount: '/todo/getCount',
                 excelPointsDraw: '/excelPoints/draw',
                 excelPointsReload: '/debug/calcExcel',
@@ -189,9 +187,6 @@ sender = {
                 };
                 this.sendCommand(command, this.urls.login, this.commands.login);
             },
-            playerCheckSession: function () {
-                this.sendCommand({}, this.urls.checkSession, this.commands.checkSession);
-            },
             playerLogout: function()
             {
                 var command = {
@@ -238,15 +233,6 @@ sender = {
                     pass2:curUserPass2
                 };
                 this.sendCommand(command, this.urls.userAccountChangePassword, this.commands.userAccountChangePassword);
-            },
-            simulationStart: function(stype)
-            {
-                var command = {
-                    commandId: this.commands.simulationStart,
-                    sid:session.getSid(),
-                    stype:stype
-                };
-                this.sendCommand(command, this.urls.simulationStart, this.commands.simulationStart);
             },
             simulationGetNewEvents: function(logs, windowActive,timeString)
             {
@@ -700,7 +686,7 @@ sender = {
                     commandId: this.commands.phoneGetSelect,
                     sid:session.getSid(),
                     dialogId:dialogId,
-                    timeString:timer.getCurTimeFormatted('timeStamp')
+                    timeString:SKApp.user.simulation.getGameMinutes()
                 };
                 this.sendCommand(command, this.urls.phoneGetSelect, this.commands.phoneGetSelect);
             },

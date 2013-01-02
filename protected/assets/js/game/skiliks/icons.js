@@ -50,8 +50,6 @@ icons = {
         if(!this.issetDiv){
             this.createDiv();
         }
-        //обновляем по мылу счетчик
-        sender.mailGetInboxUnreadedCount();
         //обновляем по todo счетчик
         sender.dayPlanTodoGetCount();
         
@@ -274,35 +272,5 @@ icons = {
     removeIconCounter: function(icon)
     {
         $('#icons_'+icon).html('');
-    },
-    html1:'<div class="s-icons-mainDiv">'+
-        '<div class="s-icon-single">{icon_phone}</div>'+
-        '<div class="s-icon-single">{icon_visit}</div>'+
-        '<div class="s-icon-single">{icon_todo}</div>'+
-        '<div class="s-icon-single">{icon_excel}</div>'+
-        '<div class="s-icon-single">{icon_email}</div>'+
-        '<div class="s-icon-single">{icon_documents}</div>'+
-        '</div>',
-    html:'<nav class="main-screen-icons">'+
-                '<ul>'+
-                        '<li class="messanger"><a href="#"></a></li>'+
-                        '<li class="plan">{icon_todo}</li>'+
-                        '<li class="phone">{icon_phone}</li>'+
-                        '<li class="mail">{icon_email}</li>'+
-                        '<li class="door">{icon_visit}</li>'+
-                        '<li class="documents">{icon_documents}</li>'+
-                '</ul>'+
-        '</nav>',
-    htmlIconPhone:'<a onclick="icons.showEvent(\'phone\')" id="icons_phone"></a>',
-    htmlIconVisit:'<a onclick="icons.showEvent(\'visit\')" id="icons_visit"></a>',
-    htmlIconTodo:'<a onclick="icons.showEvent(\'todo\')" id="icons_todo"></a>',
-    htmlIconEmail:'<a onclick="icons.showEvent(\'email\')" id="icons_email"></a>',
-    htmlIconDocuments:'<a onclick="icons.showEvent(\'documents\')" id="icons_documents"></a>',
-    
-    htmlIconPhone1:'<img src="img/icons/phone.png" onclick="icons.showEvent(\'phone\')" id="icons_phone" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">',
-    htmlIconVisit1:'<img src="img/icons/visit.png" onclick="icons.showEvent(\'visit\')" id="icons_visit" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">',
-    htmlIconTodo1:'<img src="img/icons/todo.png" onclick="dayPlan.draw()" id="icons_todo" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">',
-    htmlIconexcel1:'<img src="img/icons/excel.png" onclick="excel.draw()" id="icons_excel" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">',
-    htmlIconEmail1:'<img src="img/icons/email.png" onclick="mailEmulator.draw()" id="icons_email" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">',
-    htmlIconDocuments1:'<img src="img/icons/documents.png" onclick="documents.draw()" id="icons_documents" style="width:50px;height:50px; margin-left:20px; margin-right:20px; cursor:pointer;">'
+    }
 }

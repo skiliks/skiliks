@@ -30,7 +30,6 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.cookies.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mousewheel.min.js");
-        $cs->registerScriptFile($assetsUrl . "/js/jquery.textchange.min.js");
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/php.js");
@@ -40,20 +39,34 @@ class SiteController extends AjaxController
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui-1.8.23.slider.css");
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.css");
         $cs->registerCssFile($assetsUrl . "/css/main.css");
+        $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
         $cs->registerScriptFile($assetsUrl . "/js/backbone.js");
+        $cs->registerScriptFile($assetsUrl . "/js/less-1.3.3.min.js");
+
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindowset.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skmailwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skdocumentswindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skdialogwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKServer.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKSession.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKApplication.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKUser.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKSimulation.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKEvent.js");
+
+        $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKEventCollection.js");
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKLoginView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationStartView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKDebugView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKIconPanelView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSettingsView.js");
         //конфиги
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfig.js");
@@ -68,7 +81,6 @@ class SiteController extends AjaxController
 
         //системные классы
         $cs->registerScriptFile($assetsUrl . "/js/game/input.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/frame_switcher.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/messages.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/mouse.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/imageManager.js");
@@ -87,17 +99,14 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/session.js");
 
         //движок самой игры
-        $cs->registerScriptFile($assetsUrl . "/js/game/dante.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/game_logic.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/drawGame.js");
 
 
         //загрузка игрового мира
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/world.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/simulation.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/dialogController.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/timer.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/icons.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/add_trigger.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/add_assessment.js");
@@ -114,9 +123,7 @@ class SiteController extends AjaxController
         //регистрация
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/register.js");
 
-        //стартер, обязательно последний инклуд // фикс под ИЕ
-        $cs->registerScriptFile($assetsUrl . "/js/game/starter.js");
-        $this->render('site', ['config' => CJSON::encode($config)]);
+        $this->render('site', ['config' => CJSON::encode($config), 'assetsUrl' => $assetsUrl]);
     }
 
     public function getAssetsUrl()
@@ -127,7 +134,7 @@ class SiteController extends AjaxController
 
     /**
      * We handle Yii rroes and savethem to Yii.log.
-     * User see just standard notise
+     * User see just standard notice
      */
     public function actionError()
     {

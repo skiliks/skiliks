@@ -48,7 +48,7 @@
             div.style.zIndex = (this.zIndex + 1);
             document.body.appendChild(div);
             $('#phoneMainDiv').css('top', this.divTop + 'px');
-            $('#phoneMainDiv').css('left', this.divLeft + 'px');
+            $('#phoneMainDiv').css('left', '100px');
 
             this.issetDiv = true;
         },
@@ -88,7 +88,7 @@
                 if (action === 'close') {
                     this.closePhone();
                     //логируем событие
-                    simulation.window_set.closeAll('phone');
+                    SKApp.user.simulation.window_set.closeAll('phone');
                     this.activeSubScreen = '';
                     return;
                 }
@@ -105,7 +105,7 @@
             } else {
                 this.closePhone();
                 //логируем событие
-                simulation.window_set.closeAll('phone');
+                SKApp.user.simulation.window_set.closeAll('phone');
                 this.activeSubScreen = '';
                 return;
             }
@@ -168,7 +168,7 @@
         receiveContacts:function (data) {
             //логируем
             if (this.activeSubScreen != 'phoneMain') {
-                simulation.window_set.closeAll('phone');
+                SKApp.user.simulation.window_set.closeAll('phone');
                 this.activeSubScreen = 'phoneMain';
                 this.main_window = new SKDialogWindow('phone', 'phoneMain');
                 this.main_window.open();
@@ -338,7 +338,7 @@
         drawIncome:function (dialog) {
             //логируем
             if (this.activeSubScreen != 'phoneCall') {
-                simulation.window_set.closeAll('phone');
+                SKApp.user.simulation.window_set.closeAll('phone');
                 this.activeSubScreen = 'phoneCall';
                 this.window = new SKDialogWindow('phone', 'phoneCall', dialog[0].id);
                 this.window.open();
@@ -423,7 +423,7 @@
             SKApp.server.api('dialog/get',
                 {
                     'dialogId':dialogId,
-                    'timeString':timer.getCurTimeFormatted('timeStamp')
+                    'timeString':SKApp.user.simulation.getGameMinutes()
                 }, function (data) {
                     if(data.result===1){
 
@@ -449,7 +449,7 @@
 
             //логируем
             if (this.activeSubScreen != 'phoneTalk') {
-                simulation.window_set.closeAll('phone');
+                SKApp.user.simulation.window_set.closeAll('phone');
                 this.activeSubScreen = 'phoneTalk';
                 this.talk_window = new SKDialogWindow('phone', 'phoneTalk', dialog ? dialog[0].id : undefined);
                 this.talk_window.open();
@@ -506,7 +506,7 @@
             if (soundDuration > 0) {
                 $('#phoneAnswers').hide();
                 this.answersShowFlag = 0;
-                this.timeToShow = timer.getCurUnixtime() + (parseFloat(soundDuration));
+                setTimeout(function() {$('#phoneAnswers').show()}, soundDuration * 1000);
             }
 
             //а вдруг вариантов ответа нет

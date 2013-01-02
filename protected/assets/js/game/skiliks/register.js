@@ -1,27 +1,9 @@
 register = {
     drawDefault: function (){
-        var canvasFrame = document.getElementById('canvas');
-        canvasFrame.width = 0;
-        canvasFrame.height = 0;
-        canvasFrame.style.display = 'none';
-        
-        var activeFrame = document.getElementById('location');
-        activeFrame.width = config.activeFrame.width;
-        activeFrame.height = config.activeFrame.height;
-        activeFrame.innerHTML = this.defaultHtml;
-        activeFrame.style.display = 'block';
+        document.body.innerHTML = this.defaultHtml;
     },
     lostPass: function (){
-        var canvasFrame = document.getElementById('canvas');
-        canvasFrame.width = 0;
-        canvasFrame.height = 0;
-        canvasFrame.style.display = 'none';
-        
-        var activeFrame = document.getElementById('location');
-        activeFrame.width = config.activeFrame.width;
-        activeFrame.height = config.activeFrame.height;
-        activeFrame.innerHTML = this.defaultLostPassHtml;
-        activeFrame.style.display = 'block';
+        document.body.innerHTML = this.defaultLostPassHtml;
     },
     playerRegisterCheck: function(curUserEmail, curUserPass1, curUserPass2)
     {
@@ -61,12 +43,12 @@ register = {
             '<label for="pass2" class="def-label-200">Повторите пароль:<span style="color: red; ">*</span></label><input id="pass2" type="password" class="span3"><br>'+
             
             '<div class="reg-def-b1Div"><input type="button" onclick="register.playerRegisterCheck(document.getElementById(\'email\').value, document.getElementById(\'pass1\').value, document.getElementById(\'pass2\').value);" value="Регистрация" class="btn">&nbsp;'+
-            '<input type="button" onclick="world.drawDefault();" value="Назад" class="btn"></div><br>'+
+            '<input type="button" onclick="new SKLoginView()" value="Назад" class="btn"></div><br>'+
             '</div>',
     defaultLostPassHtml: '<div class="reg-def-mainDiv">'+
             '<br><br><label for="email">Почта<font color=red>*</font></label><input id="email" type="text" class="span3"><br>'+
             
             '<div class="reg-lp-b1Div"><input type="button" onclick="register.playerLostPassCheck(document.getElementById(\'email\').value);" value="Восстановить пароль" class="btn">&nbsp;'+
-            '<input type="button" onclick="world.drawDefault();" value="Назад" class="btn"></div><br>'+
+            '<input type="button" onclick="new SKLoginView()" value="Назад" class="btn"></div><br>'+
             '</div>'
 }

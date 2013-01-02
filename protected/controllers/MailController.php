@@ -27,7 +27,7 @@ class MailController extends AjaxController
     /**
      * Возвращает колличество непрочитанных писем во входящих
      */
-    public function actionGetInboxUnreadedCount()
+    public function actionGetInboxUnreadCount()
     {
         $simulation = $this->getSimulationEntity();
         
@@ -42,9 +42,7 @@ class MailController extends AjaxController
             );
         }
         
-        $this->sendJSON(array(
-            'result' => $result
-        ));
+        $this->sendJSON($result);
     }
 
     /**

@@ -413,35 +413,13 @@ receiver = {
                     return;
                 }
             },
-            checkSession: function (data) {
-
-                if(data['result']==1){
-                    session.setSid(data['sid']);
-                    world.drawWorld(data['simulations']);
-                }
-            },
-            playerLogin: function(data)
-            {
-                if(data['result']==1){
-                    session.setSid(data['sid']);                    
-                    // cookies to save logined user {
-                    $.cookie('user-email', data['user-email'], { expires: 1 });
-                    // cookies }
-                    world.drawWorld(data['simulations']);
-                }else{
-                    var message = data['message'];
-                    var lang_alert_title = 'Авторизация';
-                    var lang_confirmed = 'Ок';
-                    messages.dw_alert(message, lang_alert_title, lang_confirmed, 'alert-error');
-                }
-            },
             registerAction: function (data){
                 if(data['result']==1){
                     var message = 'Поздравляем, вы успешно зарегистрировались под email-ом <b>'+data['email']+'</b>';
                     var lang_alert_title = 'Регистрация';
                     var lang_confirmed = 'Ок';
                     messages.dw_alert(message, lang_alert_title, lang_confirmed, 'alert-success');
-                    world.drawDefault();
+                    AppView.render();
                 }else{
                     var message = data['message'];
                     var lang_alert_title = 'Регистрация';
@@ -492,8 +470,7 @@ receiver = {
             simulationStart: function(data)
             {
                 if(data['result']==1){
-                    timer.setSpeedFactor(data['speedFactor']);
-                    simulation.drawInterface();
+
                 }
             },
             simulationGetNewEvents: function(data)
@@ -906,7 +883,7 @@ receiver = {
                         icons.setIconCounter('email', counter);
                     }
                 }else{
-                   icons.removeIconCounter('email'); 
+                   icons.removeIconCounter('email');
                 }
             },
             dayPlanTodoGetCount: function(data)

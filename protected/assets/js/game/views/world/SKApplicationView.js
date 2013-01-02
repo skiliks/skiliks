@@ -1,13 +1,37 @@
-/*global _, Backbone, simulation, SKSettingsView:true, world, messages*/
+/*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView*/
 (function () {
     "use strict";
     window.SKApplicationView = Backbone.View.extend({
-        'initialize': function () {
+        'el':'body',
+        'initialize':function () {
+            var me = this;
+            SKApp.session.on('login:failure', function () {
+                me.frame = new SKLoginView();
+            });
+            SKApp.session.on('login:success', function () {
+                me.frame = new SKSimulationStartView({'simulations':SKApp.user.simulations});
+            });
             this.render();
         },
-        'render': function () {
-            var code = _.template($('#settings_template').html(), {});
+        'render':function () {
+            var code = _.template($('#simulation_template').html(), {});
+            SKApp.session.check();
+
             this.$el.html(code);
+        },
+        '_drawWorld':function (simulations) {
+            //нам пришли симуляции, или мы просто прервали текущую
+            if (typeof(simulations) !== 'undefined') {
+                this.simulations = simulations;
+            } else {
+                simulations = this.simulations;
+            }
+            var activeFrame = this.$('#location');
+
         }
+    });
+
+    $(function () {
+        window.AppView = new window.SKApplicationView();
     });
 })();
