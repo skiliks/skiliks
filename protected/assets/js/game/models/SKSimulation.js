@@ -1,4 +1,4 @@
-/*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent */
+/*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog */
 
 (function () {
     "use strict";
@@ -15,6 +15,7 @@
     window.SKSimulation = Backbone.Model.extend({
         'initialize':function () {
             this.events = new SKEventCollection();
+            this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
         },
         /**
@@ -46,7 +47,11 @@
             var me = this;
             events.forEach(function (event) {
                 console.log('[SKSimulation] new event ' + event.eventType);
-
+                if (event.eventType === 1 && event.data.length === 0) {
+                    // Crutch, sometimes server returns empty events
+                    me.events.trigger('dialog:end');
+                    return;
+                }
                 me.events.push(new SKEvent({
                         type:event.eventType,
                         data:event.data
@@ -63,7 +68,7 @@
         },
         'getNewEvents':function () {
             var me = this;
-            var logs = [];
+            var logs = this.windowLog.getAndClear();
             SKApp.server.api('events/getState', {
                 logs:logs,
                 timeString:this.getGameMinutes()

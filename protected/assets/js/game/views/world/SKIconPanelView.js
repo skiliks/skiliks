@@ -11,7 +11,7 @@
                     me.startAnimation('.' + event.getTypeSlug());
                     me.updateMailCounter();
                 } else if (event.getTypeSlug() === 'document') {
-                    me.startAnimation('.' + event.getTypeSlug());
+                    me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug());
                 } else if (event.getTypeSlug() === 'visit') {
@@ -19,6 +19,9 @@
                 } else if (event.getTypeSlug() === 'immediate-visit') {
                     // TODO: incorrect location
                     dialogController.draw('dialog', event.get('data'));
+                } else if (event.getTypeSlug() === 'immediate-phone') {
+                    // TODO: incorrect location
+                    phone.draw('dialog', event.get('data'));
                 }
             });
             this.render();
@@ -109,8 +112,9 @@
             e.preventDefault();
         },
         'doDocumentsToggle':function (e) {
-            documents.draw();
             e.preventDefault();
+            documents.draw();
+            this.$('.documents').removeClass('icon-active');
         },
         'doMailToggle':function (e) {
             e.preventDefault();
