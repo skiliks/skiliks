@@ -153,7 +153,7 @@
         </div>
     </script>
     <script type="text/template" id="simulation_template">
-        <div style="width: 100%;">
+        <div style="width: 100%;height: 100%;">
             <div id="canvas" class="canvas">
                 <ul class="main-screen-stat">
                     <li class="time"><span class="hour"></span><span class="delimiter">:</span><span

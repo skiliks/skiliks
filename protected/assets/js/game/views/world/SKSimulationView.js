@@ -20,6 +20,7 @@
             if (this.simulation.isDebug()) {
                 this.debug_view = new SKDebugView({'el':this.$('.debug-panel')});
             }
+            var canvas = this.$('.canvas');
             this.updateTime();
         },
         'updateTime':function () {

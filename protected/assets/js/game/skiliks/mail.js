@@ -120,7 +120,6 @@
                 }
                 this.mail_main_window.close();
                 this.activeSubScreen = '';
-                simulation.subwindowActive = "mainScreen";
             }
 
         },
