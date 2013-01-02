@@ -137,7 +137,7 @@
             if (typeof(action) === 'undefined') {
                 //логируем
                 if (this.activeSubScreen !== 'phoneMain') {
-                    simulation.window_set.closeAll('phone');
+                    SKApp.user.simulation.window_set.closeAll('phone');
                     this.activeSubScreen = 'phoneMain';
                     this.main_window = new SKDialogWindow('phone', 'phoneMain', dialog ? dialog[0].id : undefined);
                     this.main_window.open();
@@ -581,11 +581,11 @@
 
             '<ul class="phone-main-menu">' +
             '<li onclick="phone.getContacts()">' +
-            '<img src="img/phone/icon-contact.png" alt="">' +
+            '<img src="' +SKConfig.assetsUrl+ '/img/phone/icon-contact.png" alt="">' +
             '<p>Список контактов</p>' +
             '</li>' +
             '<li onclick="phone.getHistory()">' +
-            '<img src="img/phone/icon-contact.png" alt="">' +
+            '<img src="' +SKConfig.assetsUrl+ '/img/phone/icon-contact.png" alt="">' +
             '<p>История Вызовов</p>' +
             '</li>' +
             '</ul>' +
@@ -607,7 +607,7 @@
             '<div class="phone-bl main">' +
             '<div class="phone-screen">' +
             '<div class="phone-call">' +
-            '<div class="phone-call-img"><img alt="" src="img/phone/icon-call-ch{id}.png"></div>' +
+            '<div class="phone-call-img"><img alt="" src="' +SKConfig.assetsUrl+ '/img/phone/icon-call-ch{id}.png"></div>' +
             '<p class="phone-call-text">' +
             '<span class="name">{name}</span><br>' +
             '{title}<br>' +

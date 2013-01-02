@@ -1,20 +1,23 @@
 /*global Backbone, _, SKEvent, SKApp*/
-(function() {
+(function () {
     "use strict";
-     window.SKEventCollection = Backbone.Collection.extend({
-         'model': SKEvent,
-         'getUnreadMailCount': function (cb) {
-             SKApp.server.api('mail/getInboxUnreadCount', {}, function(data) {
-                 if(data.result === 1){
-                     var counter = data.unreaded;
-                     cb(counter);
-                 }
-             });
-         },
-         'getByTypeSlug': function(type) {
-             return this.filter(function (event) {
-                 return (event.getTypeSlug() === type);
-             });
-         }
-     });
+    window.SKEventCollection = Backbone.Collection.extend({
+        'model':SKEvent,
+        'getUnreadMailCount':function (cb) {
+            SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
+                if (data.result === 1) {
+                    var counter = data.unreaded;
+                    cb(counter);
+                }
+            });
+        },
+        'getByTypeSlug':function (type, completed) {
+            return this.filter(function (event) {
+                if ((completed !== undefined ) && (event.completed !== completed)) {
+                    return false;
+                }
+                return (event.getTypeSlug() === type);
+            });
+        }
+    });
 })();
