@@ -150,7 +150,7 @@ dayPlan = {
             dayPlan.taskdayPlanSelected = false;
             this.timer = 0;
             
-            this.status = 0
+            this.status = 0;
             
             //логируем событие
             this.plan_window.close();
@@ -162,7 +162,7 @@ dayPlan = {
         
         var foo = new Date; // Generic JS date object
         var unixtime_ms = foo.getTime(); // Returns milliseconds since the epoch
-        var unixtime = parseInt(unixtime_ms / (1000/timer.speedFactor) );
+        var unixtime = parseInt(unixtime_ms / (1000/SKConfig.skiliksSpeedFactor) );
         
         var variance = unixtime-this.timer;
         if(execFlag==0 && variance<this.varianceToUpdate){
@@ -763,7 +763,7 @@ dayPlan = {
     {
         var foo = new Date; // Generic JS date object
         var unixtime_ms = foo.getTime(); // Returns milliseconds since the epoch
-        var unixtime = parseInt(unixtime_ms / (1000/timer.speedFactor) );
+        var unixtime = parseInt(unixtime_ms / (1000/SKConfig.skiliksSpeedFactor) );
         
         var variance = unixtime-dayPlan.timer;
         if(variance>3){
