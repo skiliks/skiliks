@@ -46,7 +46,9 @@
                     if (bounce_counter > 0) {
                         bounce_counter--;
                         setTimeout(function () {
-                            el.effect("bounce", {times:3, direction:'left'}, 400, bounce_cb);
+                            if (el.hasClass('icon-active')) {
+                                el.effect("bounce", {times:3, direction:'left'}, 400, bounce_cb);
+                            }
                         }, 1000);
                     } else {
                         me.icon_lock[selector] = false;
@@ -77,6 +79,7 @@
             e.stopPropagation();
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
             sim_event.complete();
+            this.$('.phone').removeClass('icon-active');
             phone.draw('income', sim_event.get('data'));
         },
         'doDialogStart':function (e) {
@@ -84,6 +87,7 @@
             e.stopPropagation();
             var sim_event = this.sim_events.getByTypeSlug('visit', false)[0];
             sim_event.complete();
+            this.$('.door').removeClass('icon-active');
             dialogController.draw('income', sim_event.get('data'));
         },
         'doPlanToggle':function (e) {
@@ -101,6 +105,7 @@
         },
         'doMailToggle':function (e) {
             e.preventDefault();
+            this.$('.mail').removeClass('icon-active');
             mailEmulator.draw();
         }
     });
