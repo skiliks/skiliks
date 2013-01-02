@@ -2,21 +2,36 @@
 (function () {
     "use strict";
     var event_types = {
-        'M': 'mail',
-        'MS': 'mail',
-        'D': 'document'
+        'M':'mail',
+        'MS':'mail',
+        'D':'document'
     };
 
     window.SKEvent = Backbone.Model.extend({
-        'getTypeSlug': function () {
-            if (this.get('type') === undefined) {
-                throw 'Unknown event type: ' + this.get('type');
-            } else  if (this.get('type') === 1) {
+        'initialize': function () {
+            this.completed = false;
+        },
+        'getTypeSlug':function () {
+            if (this.get('type') === 1) {
                 if (this.get('data')[0].dialog_subtype === '1') {
                     return 'phone';
+                } else if (this.get('data')[0].dialog_subtype === '4') {
+                    return 'immediate-visit';
+                } else if (this.get('data')[0].dialog_subtype === '5') {
+                    return 'visit';
+                } else {
+                    throw 'Incorrect subtype ' + this.get('data')[0].dialog_subtype;
                 }
+            } else if (event_types[this.get('type')] === undefined) {
+                throw 'Unknown event type: ' + this.get('type');
             }
             return event_types[this.get('type')];
+        },
+        'complete': function () {
+            if (this.completed === true) {
+                throw 'This event is already completed';
+            }
+            this.completed = true;
         }
     });
 })();
