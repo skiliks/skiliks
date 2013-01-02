@@ -72,6 +72,9 @@
         },
 
         draw:function (action, dialog) {
+            SKApp.user.simulation.events.on('dialog:end', function () {
+                phone.draw('close');
+            });
             if (this.cancelDialogId != 0) {
                 //отправляем запрос, что звонок был отклонен
                 sender.phoneGetSelect(this.cancelDialogId);
@@ -112,7 +115,7 @@
             
             // fix to keep open dialog (phon talk or visit) alive when 
             // Main hero miss phone call and it ignored automatically
-            simulation.isRecentlyIgnoredPhone = false;
+            //simulation.isRecentlyIgnoredPhone = false;
         },
         closePhone:function () {
             $('#phoneMainDiv').remove();
@@ -434,7 +437,7 @@
                             data.events[0].data[0].dialog_subtype === '2') {
                             win.switchDialog(data.events[0].data[0].id);
                         }
-                        simulation.parseNewEvents(data);
+                        SKApp.user.simulation.parseNewEvents(data.events);
 
                         if(flag===1){
                             me.drawMenu();
@@ -443,6 +446,7 @@
                 });
         },
         dialogDisplay:function (dialog) {
+            var me = this;
             //для этого варианта подложка не нужна
             this.removeBack();
 
@@ -496,16 +500,16 @@
 
             if (sound != '' && sound != '#') {
                 if (sound.indexOf('.wav') > 0) {
-                    sounds.start(sound);
+                    $('#phoneAnswers').hide();
+                    sounds.start(sound, function (audio) {
+                        soundDuration = audio.duration;
+                        //а вдруг нам надо послушать звук?
+                        if (soundDuration > 0) {
+                            me.answersShowFlag = 0;
+                            setTimeout(function() {$('#phoneAnswers').show()}, soundDuration * 1000);
+                        }
+                    });
                 }
-            }
-
-            soundDuration = 5;
-            //а вдруг нам надо послушать звук?
-            if (soundDuration > 0) {
-                $('#phoneAnswers').hide();
-                this.answersShowFlag = 0;
-                setTimeout(function() {$('#phoneAnswers').show()}, soundDuration * 1000);
             }
 
             //а вдруг вариантов ответа нет
