@@ -701,7 +701,7 @@
 
             this.selectedReceiversCopy = reqString;
 
-            var timeString = timer.getCurTimeFormatted('timeStamp');
+            var timeString = SKApp.user.simulation.getGameMinutes();
             var result = sender.mailSendMessage(this.curMesage, this.selectedReceivers, this.selectedReceiversCopy, this.selectedTheme, this.selectedPhrases, this.letterType, this.curFile, timeString);
         },
 
@@ -724,7 +724,7 @@
             this.selectedReceiversCopy = reqString;
 
             //убираем нулевую, фиктивную фразу
-            var timeString = timer.getCurTimeFormatted('timeStamp');
+            var timeString = SKApp.user.simulation.getGameMinutes();
 
             // add subject for new email
             if (0 == this.selectedTheme) {
