@@ -3418,23 +3418,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .visitor-reply-h li:hover span{
 	background-position:-531px -72px;
 }
-.visitor-reply{
-	background:#b2a283;
-    background:-moz-linear-gradient(top, #b2a283, #b8a989);
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2a283), color-stop(100%,#b8a989));
-    background:-webkit-linear-gradient(top, #b2a283, #b8a989);
-    background:-o-linear-gradient(top, #b2a283, #b8a989);
-    background:-ms-linear-gradient(top, #b2a283, #b8a989);
-    background:linear-gradient(top, #b2a283, #b8a989);
-    -webkit-border-radius:16px;
-	-moz-border-radius:16px;
-	border-radius:16px;
-	width:661px;
-	position:absolute;
-	top:10px;
-	left:210px;
-	padding:2px;
-}
+
 .visitor-reply p{
 	background:#f9f3ed;
 	border:1px solid #8b7e63;
@@ -3454,30 +3438,6 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	position:absolute;
 	bottom:-20px;
 	right:15px;
-}
-.char-reply{
-	list-style:none;
-	margin:0;
-	position:absolute;
-	left:20px;
-	bottom:21px;
-}
-.char-reply li{
-	background:#b2a283;
-    background:-moz-linear-gradient(top, #b2a283, #b8a989);
-    background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2a283), color-stop(100%,#b8a989));
-    background:-webkit-linear-gradient(top, #b2a283, #b8a989);
-    background:-o-linear-gradient(top, #b2a283, #b8a989);
-    background:-ms-linear-gradient(top, #b2a283, #b8a989);
-    background:linear-gradient(top, #b2a283, #b8a989);
-    -webkit-border-radius:10px;
-	-moz-border-radius:10px;
-	border-radius:10px;
-	width:427px;
-	height:auto;
-	padding:2px;
-	margin-top:9px;
-	cursor:pointer;
 }
 .char-reply li p{
 	background:#f9f3ed;

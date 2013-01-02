@@ -2,8 +2,8 @@ dialogController = {
     status:0,
     activeSubScreen:'',
     issetDiv: false,
-    divTop: 50,
-    divLeft: 50,
+    divTop: 0,
+    divLeft: 0,
     divCheight:0,
     topZindex: 50,
     
@@ -37,12 +37,8 @@ dialogController = {
         var div = document.createElement('div');
           div.setAttribute('id', 'dialogControllerMainDiv');
           div.setAttribute('class', 'mail-emulator-main-div');
-          div.style.position = "absolute";
-          div.style.zIndex = this.topZindex;
-          document.body.appendChild(div);
-          $('#dialogControllerMainDiv').css('top', this.divTop+'px');
-          $('#dialogControllerMainDiv').css('left',  this.divLeft+'px');
-          
+          $('.canvas').append($(div));
+
           this.issetDiv = true;
     },
 
@@ -84,9 +80,6 @@ dialogController = {
             this.createDiv();
         }
         
-        $('#dialogControllerMainDiv').css('top',  this.divTop+'px');
-        $('#dialogControllerMainDiv').css('left',  this.divLeft+'px');
-        $('#dialogControllerMainDiv').css('height', '');
 
         if(typeof(action) == 'undefined'){
             return;
@@ -101,7 +94,7 @@ dialogController = {
     {
         //логируем режим
         if(this.activeSubScreen !== 'visitorEntrance'){
-            simulation.window_set.closeAll('visitor');
+            SKApp.user.simulation.window_set.closeAll('visitor');
             this.activeSubScreen = 'visitorEntrance';
             this.visitor_entrance_window = new SKDialogWindow('visitor', 'visitorEntrance', dialog[0].id);
             this.visitor_entrance_window.open();
@@ -184,14 +177,9 @@ dialogController = {
     },
     dialogDisplay:function(dialog)
     {
-        $('#dialogControllerMainDiv').css('top',  (this.divTop-20)+'px');
-        $('#dialogControllerMainDiv').css('left',  (this.divLeft-20)+'px');
-        $('#dialogControllerMainDiv').css('height', this.divCheight);
-        
-
         //логируем режим
         if(this.activeSubScreen !== 'visitorTalk'){
-            simulation.window_set.closeAll('visitor');
+            SKApp.user.simulation.window_set.closeAll('visitor');
             this.activeSubScreen = 'visitorTalk';
             this.visitor_entrance_window = new SKDialogWindow('visitor', 'visitorTalk', dialog[0].id);
             this.visitor_entrance_window.open();
@@ -247,7 +235,7 @@ dialogController = {
         $('#dialogControllerMainDiv').html(callInHtml);
         
         if(toUsLastId == 0){
-            $('.visitor-reply').hide();
+            $('.visitor-reply').css('visibility', 'hidden');
         }
         
         if(sound!='' && sound != '#'){
@@ -266,11 +254,11 @@ dialogController = {
         
         soundDuration = 5;
         //а вдруг нам надо послушать звук?
-        if(soundDuration > 0 ){
+        /* if(soundDuration > 0 ){
             $('#dialogControllerAnswers').hide();
             this.answersShowFlag = 0;
-            this.timeToShow = timer.getCurUnixtime() + (parseFloat(soundDuration));
-        }
+            this.timeToShow = (new Date()).getDate()/1000 + (parseFloat(soundDuration));
+        }  */
         
         //а вдруг вариантов ответа нет
         if(fromUsFlag == 0)
@@ -293,23 +281,7 @@ dialogController = {
     },
     loadCustomDialogMap: function (image)
     {
-
-        var object = {
-            image: 'media/dialog_images/'+image,
-            sWidth: 1000,
-            sHeight: 600
-        };
-
-        var img = object.image;
-        object.imageSrc = new Image();
-        object.imageSrc.src = img;
-        object.imageSrc.onload = function(){
-            simulation.drawLocation(image);
-        }
-
-
-        mapObjects['maps'][image] = object;
-        
+        $('.canvas').css('backgroundImage', 'url(' + SKConfig.assetsUrl + '/dialog_images/'+image + ')');
         return true;
     },
      incomeHTML:'<section class="visitor-income">'+

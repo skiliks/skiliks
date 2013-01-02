@@ -6,6 +6,7 @@
     opacity: 0.0;
   }
 }
+
 @keyframes blinker {
   from {
     opacity: 1.0;
@@ -40,7 +41,56 @@
     animation-duration: 1s;
     animation-name: blinker;
   }
+
+  #dialogControllerMainDiv {
+    height: 100%;
+    position: relative;
+
+    .visitor-reply {
+      background: #b2a283;
+      background: -moz-linear-gradient(top, #b2a283, #b8a989);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b2a283), color-stop(100%, #b8a989));
+      background: -webkit-linear-gradient(top, #b2a283, #b8a989);
+      background: -o-linear-gradient(top, #b2a283, #b8a989);
+      background: -ms-linear-gradient(top, #b2a283, #b8a989);
+      background: linear-gradient(top, #b2a283, #b8a989);
+      -webkit-border-radius: 16px;
+      -moz-border-radius: 16px;
+      border-radius: 16px;
+      margin-right: 110px;
+      margin-left: auto;
+      margin-top: 10px;
+      width: 661px;
+      padding: 2px;
+    }
+    .char-reply {
+      list-style: none;
+      margin: 0;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 20px;
+    }
+    .char-reply li {
+      background: #b2a283;
+      background: -moz-linear-gradient(top, #b2a283, #b8a989);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b2a283), color-stop(100%, #b8a989));
+      background: -webkit-linear-gradient(top, #b2a283, #b8a989);
+      background: -o-linear-gradient(top, #b2a283, #b8a989);
+      background: -ms-linear-gradient(top, #b2a283, #b8a989);
+      background: linear-gradient(top, #b2a283, #b8a989);
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      width: 427px;
+      height: auto;
+      padding: 2px;
+      margin-top: 9px;
+      cursor: pointer;
+    }
+  }
 }
+
 .simulation-controls {
   width: 980px;
   margin: auto;
