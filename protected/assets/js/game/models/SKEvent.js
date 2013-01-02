@@ -4,17 +4,20 @@
     var event_types = {
         'M':'mail',
         'MS':'mail',
-        'D':'document'
+        'D':'document',
+        2:'event'
     };
 
     window.SKEvent = Backbone.Model.extend({
-        'initialize': function () {
+        'initialize':function () {
             this.completed = false;
         },
         'getTypeSlug':function () {
             if (this.get('type') === 1) {
                 if (this.get('data')[0].dialog_subtype === '1') {
                     return 'phone';
+                } else if (this.get('data')[0].dialog_subtype === '2') {
+                    return 'immediate-phone';
                 } else if (this.get('data')[0].dialog_subtype === '4') {
                     return 'immediate-visit';
                 } else if (this.get('data')[0].dialog_subtype === '5') {
@@ -27,7 +30,7 @@
             }
             return event_types[this.get('type')];
         },
-        'complete': function () {
+        'complete':function () {
             if (this.completed === true) {
                 throw 'This event is already completed';
             }
