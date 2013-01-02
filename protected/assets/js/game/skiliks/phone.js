@@ -359,7 +359,7 @@
                 if (value['ch_to'] == 1) {
                     sound = value['sound']
                     toUsLastId = value['id'];
-                    callInHtmlMain += '<div class="phone-call-img"><img src="img/phone/icon-call-ch' + value['ch_from'] + '.png" alt=""></div>' +
+                    callInHtmlMain += '<div class="phone-call-img"><img src="'+ SKConfig.assetsUrl +'/img/phone/icon-call-ch' + value['ch_from'] + '.png" alt=""></div>' +
                         '<p class="phone-call-text">' +
                         '<span class="name">' + value['name'] + '</span><br>' +
                         '' + value['title'] + '<br>' +
@@ -443,7 +443,6 @@
                 });
         },
         dialogDisplay:function (dialog) {
-            $('#phoneMainDiv').css('left', (this.divLeft - 300) + 'px');
             //для этого варианта подложка не нужна
             this.removeBack();
 
