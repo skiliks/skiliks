@@ -56,21 +56,17 @@ videos = {
         var video = document.createElement('video');
         video.setAttribute('id', 'videoMainDiv');
         
-        video.setAttribute('src', 'media/videos/'+file);
+        video.setAttribute('src', SKConfig.assetsUrl + '/videos/'+file);
         video.load();
         video.play();
         
         video.style.position = "absolute";
         video.style.zIndex = this.divZindex;
         
-        document.body.appendChild(video);
+        $('.canvas').append($(video));
         
         video.addEventListener('ended', function(){videos.onEndFunc(file);});
         
-        $('#videoMainDiv').css('top', this.divTop+'px');
-        $('#videoMainDiv').css('left',this.divLeft+'px');
-        $('#videoMainDiv').css('width', this.divWidth+'px');
-        $('#videoMainDiv').css('height',this.divHeight+'px');
     },
     
     onEndFunc: function(file)
