@@ -746,7 +746,7 @@
         drawNewLetter:function () {
             //логируем то что мы пишем новое письмо
             if (this.activeSubScreen != 'mailNew') {
-                simulation.window_set.closeAll('mailEmulator');
+                SKApp.user.simulation.window_set.closeAll('mailEmulator');
                 this.activeSubScreen = 'mailNew';
 
                 this.mail_new_window = new SKMailWindow('mailNew');
