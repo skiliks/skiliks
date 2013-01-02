@@ -15,7 +15,7 @@ class SimulationTest extends ControllerTestCase
         $_POST['sid'] = $result['sid'];
 
         $simulation = SimulationService::simulationStart(1);
-        $result = $this->callJSONAction('MailController', 'actionGetInboxUnreadedCount');
+        $result = $this->callJSONAction('MailController', 'actionGetInboxUnreadCount');
         $this->assertEquals(array('result' => 1, 'unreaded' => 4), $result);
         $result = $this->callJSONAction('TodoController', 'actionGetCount');
         $this->assertEquals(array('result' => 1, 'data' => 18), $result);

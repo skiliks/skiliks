@@ -1,7 +1,8 @@
-/*global _, Backbone, simulation, SKSettingsView, SKApp, session, world*/
+/*global _, Backbone, simulation, SKSettingsView, SKLoginView, SKApp, session, world, $*/
 (function () {
     "use strict";
     window.SKSimulationStartView = Backbone.View.extend({
+        'el': 'body',
         'initialize': function () {
             this.render();
         },
@@ -11,20 +12,32 @@
             'click .logout': 'doLogout'
         },
         'render': function () {
-            var code = _.template($('#start_simulation_menu').html(), {'simulations': this.options.simulations});
+            var simulations = SKApp.user.simulations;
+            var code = _.template($('#start_simulation_menu').html(), {'simulations': simulations});
             this.$el.html(code);
         },
         'doSimulationStart': function (event) {
-            simulation.start($(event.target).attr('data-sim-id'));
+            var me = this;
+            var simulation = SKApp.user.startSimulation($(event.target).attr('data-sim-id'));
+            var simulation_view = this.simulation_view = new SKSimulationView();
+            simulation.on('start', function () {
+                simulation_view.render();
+            });
+            simulation.on('stop', function () {
+                delete me.simulation_view;
+                me.render();
+            });
+
         },
         'doSettings': function () {
             var view = new SKSettingsView({'el': this.$el});
         },
         'doLogout': function () {
-            SKApp.server.api('auth/logout', {}, function() {
-                session.clearSid();
-                world.drawDefault();
+            var me = this;
+            SKApp.user.on('logout', function () {
+                var login_view = new SKLoginView({'el': me.$el});
             });
+            SKApp.user.logout();
         }
     });
 })();
