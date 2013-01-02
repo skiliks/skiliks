@@ -16,7 +16,7 @@ sounds = {
            }
          catch(e) { }   return bool; 
     },
-    start: function(file)
+    start: function(file, cb)
     {
         
         var result = this.test();
@@ -36,7 +36,11 @@ sounds = {
         
         
         document.body.appendChild(audio);
-        
+        if (cb !== undefined) {
+            audio.addEventListener("loadedmetadata", function(_event) {
+                cb(audio);
+            });
+        }
         audio.addEventListener('ended', function(){sounds.onEndFunc(file);});
 
     },
