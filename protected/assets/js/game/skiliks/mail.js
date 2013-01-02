@@ -246,7 +246,7 @@
 
                 var attImg = '';
                 if (value['attachments'] == 1) {
-                    attImg = '<img src="'+SKConfig.assetsUrl+'/static/img/mail/icon-attach.png" style="width:12px; height:18px;" id="mailEmulatorReceivedListCellAttachImg_' + value['id'] + '">';
+                    attImg = '<img src="'+SKConfig.assetsUrl+'/img/mail/icon-attach.png" style="width:12px; height:18px;" id="mailEmulatorReceivedListCellAttachImg_' + value['id'] + '">';
                 }
 
                 curHTML += '<tr class="active mail-emulator-received-list-string' + addClass + '" id="mailEmulatorReceivedListString_' + value['id'] + '">';
