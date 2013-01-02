@@ -128,7 +128,7 @@ class SiteController extends AjaxController
 
     public function getAssetsUrl()
     {
-        return Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.assets'),false, -1, true);
+        return Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.assets'),false, -1, Yii::app()->params['assetsDebug']);
     }
 
 
