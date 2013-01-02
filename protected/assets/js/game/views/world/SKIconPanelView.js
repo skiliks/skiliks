@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, phone*/
+/*global _, Backbone, SKApp, phone, dialogController, mailEmulator*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -9,17 +9,25 @@
             events.on('add', function (event) {
                 if (event.getTypeSlug() === 'mail') {
                     me.startAnimation('.' + event.getTypeSlug());
-                    events.getUnreadMailCount(function (count) {
-                        me.setCounter('.mail', count);
-                    });
+                    me.updateMailCounter();
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.' + event.getTypeSlug());
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug());
+                } else if (event.getTypeSlug() === 'visit') {
+                    me.startAnimation('.door');
+                } else if (event.getTypeSlug() === 'immediate-visit') {
+                    // TODO: incorrect location
+                    dialogController.draw('dialog', event.get('data'));
                 }
-
             });
             this.render();
+        },
+        'updateMailCounter': function () {
+            var me = this;
+            this.sim_events.getUnreadMailCount(function (count) {
+                me.setCounter('.mail', count);
+            });
         },
         'setCounter':function (selector, count) {
             if (!this.$(selector + ' a span').length) {
@@ -50,37 +58,48 @@
             }
         },
         'events':{
-            'click .icons-panel .phone.icon-active a': 'doPhoneTalkStart',
+            'click .icons-panel .phone.icon-active a':'doPhoneTalkStart',
+            'click .icons-panel .door.icon-active a':'doDialogStart',
 
-            'click .icons-panel .plan a': 'doPlanToggle',
-            'click .icons-panel .phone:not(.icon-active) a': 'doPhoneToggle',
-            'click .icons-panel .mail a': 'doMailToggle',
-            'click .icons-panel .door a': 'doDoorToggle',
-            'click .icons-panel .documents a': 'doDocumentsToggle'
+            'click .icons-panel .plan a':'doPlanToggle',
+            'click .icons-panel .phone:not(.icon-active) a':'doPhoneToggle',
+            'click .icons-panel .mail a':'doMailToggle',
+            'click .icons-panel .door a':'doDoorToggle',
+            'click .icons-panel .documents a':'doDocumentsToggle'
         },
         'render':function () {
+            var me = this;
             this.$el.html(_.template($('#icon_panel').html(), {}));
+            me.updateMailCounter();
         },
-        'doPhoneTalkStart': function (e) {
+        'doPhoneTalkStart':function (e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log(this.sim_events.getByTypeSlug('phone')[0].get('data'));
-            phone.draw('income', this.sim_events.getByTypeSlug('phone')[0].get('data'));
+            var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
+            sim_event.complete();
+            phone.draw('income', sim_event.get('data'));
         },
-        'doPlanToggle': function (e) {
+        'doDialogStart':function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var sim_event = this.sim_events.getByTypeSlug('visit', false)[0];
+            sim_event.complete();
+            dialogController.draw('income', sim_event.get('data'));
+        },
+        'doPlanToggle':function (e) {
             e.preventDefault();
         },
-        'doPhoneToggle': function (e) {
+        'doPhoneToggle':function (e) {
             e.preventDefault();
             phone.draw();
         },
-        'doDoorToggle': function(e) {
+        'doDoorToggle':function (e) {
             e.preventDefault();
         },
-        'doDocumentsToggle':function(e) {
+        'doDocumentsToggle':function (e) {
             e.preventDefault();
         },
-        'doMailToggle': function (e) {
+        'doMailToggle':function (e) {
             e.preventDefault();
             mailEmulator.draw();
         }
