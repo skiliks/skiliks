@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, phone, dialogController, mailEmulator*/
+/*global _, Backbone, SKApp, phone, dialogController, mailEmulator, documents, dayPlan*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -27,6 +27,12 @@
             var me = this;
             this.sim_events.getUnreadMailCount(function (count) {
                 me.setCounter('.mail', count);
+            });
+        },
+        'updatePlanCounter': function () {
+            var me = this;
+            this.sim_events.getPlanTodoCount(function (count) {
+                me.setCounter('.plan', count);
             });
         },
         'setCounter':function (selector, count) {
@@ -73,6 +79,7 @@
             var me = this;
             this.$el.html(_.template($('#icon_panel').html(), {}));
             me.updateMailCounter();
+            me.updatePlanCounter();
         },
         'doPhoneTalkStart':function (e) {
             e.preventDefault();
@@ -91,6 +98,7 @@
             dialogController.draw('income', sim_event.get('data'));
         },
         'doPlanToggle':function (e) {
+            dayPlan.draw();
             e.preventDefault();
         },
         'doPhoneToggle':function (e) {
@@ -101,6 +109,7 @@
             e.preventDefault();
         },
         'doDocumentsToggle':function (e) {
+            documents.draw();
             e.preventDefault();
         },
         'doMailToggle':function (e) {
