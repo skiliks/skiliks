@@ -11,6 +11,14 @@
                 }
             });
         },
+        'getPlanTodoCount':function (cb) {
+            SKApp.server.api('todo/getCount', {}, function (data) {
+                if (data.result === 1) {
+                    var counter = data.unreaded;
+                    cb(counter);
+                }
+            });
+        },
         'getByTypeSlug':function (type, completed) {
             return this.filter(function (event) {
                 if ((completed !== undefined ) && (event.completed !== completed)) {

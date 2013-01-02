@@ -138,7 +138,7 @@ class MailController extends AjaxController
         $message = MailBoxService::sendMessagePro($sendMailOptions);
         
         if (NULL === $message){
-            $this->sendJSON($result);            
+            $this->sendJSON(array('result' => 0));
         } else {
             $this->sendJSON(array(
                 'result'    => 1,
