@@ -53,6 +53,10 @@
 
 }
 
+html, body {
+    height: 100%;
+}
+
 excel-nav-menu-imagelabel {
   display: block;
   width: 100px;
@@ -80,8 +84,6 @@ a {
 .canvas {
     margin: 0 auto;
     background-image: url('../img/maps/bg-main-light.jpg');
-    width: 1000px;
-    height: 600px;
 /*cursor: crosshair;*/
 }
 .message {
