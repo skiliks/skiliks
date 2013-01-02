@@ -111,6 +111,7 @@ return array(
             'simulationStartTime' => '9:00',
             'simulationEndTime' => '18:00'
         ],
+        'assetsDebug' => false,
         'zoho' => array(
             'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',

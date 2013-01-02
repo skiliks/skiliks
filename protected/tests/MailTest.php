@@ -16,7 +16,7 @@ class MailTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
