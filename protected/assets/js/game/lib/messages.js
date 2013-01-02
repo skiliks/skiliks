@@ -83,12 +83,9 @@ messages = {
           div.style.zIndex = topZindex+1;
           document.body.appendChild(div);
           
-          var activeFrame = frame_switcher.setToCanvas();
-          var bounds = objects.getBounds(activeFrame);
-          
           var offsets = {
               top:50,
-              left:(bounds.x+150+75)
+              left:150+75
           };
           
           $('#messageSystemMessageDiv').css('top', (offsets.top+20)+'px');
