@@ -29,11 +29,12 @@ return CMap::mergeArray(
             ),
         ),
         'request' => array(
-            'baseUrl' => 'http://skiliks.loc/api/',
+            'baseUrl' => 'http://skiliks.loc/',
         ),
     ),
         'params' => array(
             'frontendUrl' => 'http://skiliks.loc/',
+            'assetsDebug' => true,
             'public' => [
                 'skiliksSpeedFactor' => 8
             ]
