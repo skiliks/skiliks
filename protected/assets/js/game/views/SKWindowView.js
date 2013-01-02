@@ -6,7 +6,7 @@ $(function () {
     "use strict";
 
     window.SKWindowView = Backbone.View.extend({
-        
+        ini:'Yes'    
     });
 });
 
