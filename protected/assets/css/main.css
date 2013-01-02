@@ -231,7 +231,7 @@ a {
 }
 
 .day-plan-todo-div{
-    background: url("/img/plan/todo1.png");
+    background: url("../img/plan/todo1.png");
     height: 188px;
     width: 305px;
 }
@@ -645,7 +645,7 @@ mail-emulator-received-list-row
     font-size: 13px;
     left: 20px;                 
     position: relative;
-    vertical-align: center;
+    vertical-align: middle;
     width: 95px;
 }
 .mail-emulator-received-list-sort-subject
@@ -895,7 +895,7 @@ mail-emulator-received-list-row
 }
 .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     width: 12px;
-    background: url(/static/img/mail/scrollbar-buttons.png) center no-repeat;
+    background: url(../img/mail/scrollbar-buttons.png) center no-repeat;
 }
 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger {
 
@@ -907,7 +907,7 @@ mail-emulator-received-list-row
 
 }
 .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar {
-    background: url(/static/img/mail/scrollbar-buttons.png) center no-repeat;
+    background: url(../img/mail/scrollbar-buttons.png) center no-repeat;
 }
 /*#dayReceivedListDivScroll {
     position: absolute;
