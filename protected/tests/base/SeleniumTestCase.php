@@ -56,7 +56,7 @@ class SeleniumTestCase extends CDbTestCase
 
     protected function waitForElement($session, $using, $value, $timeout = 10)
     {
-        $timeouts = new PHPWebDriver_WebDriverWait($session, $timeout, 0.5, array($using, $value));
+        $timeouts = new PHPWebDriver_WebDriverWait($session, $timeout, 1, array($using, $value));
         return $timeouts->until(function ($session, $args) {
             try {
                 if ($session->element($args[0], $args[1]) && $session->element($args[0], $args[1])->displayed()) {
@@ -67,7 +67,7 @@ class SeleniumTestCase extends CDbTestCase
             } catch (\WebDriver\Exception $e) {
                 return false;
             }
-        }, 10, 0.3, array($session, $using, $value));
+        }, 10, 1, array($session, $using, $value));
     }
 
     public function waitForNoElement($session, $using, $value)
