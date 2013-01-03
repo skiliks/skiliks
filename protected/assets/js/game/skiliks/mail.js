@@ -980,12 +980,13 @@
             div.style.position = "absolute";
             div.style.zIndex = this.divZindex + 1;
             document.body.appendChild(div);
-
+            /*
+            Removed by GuGu
             $('#mailEmulatorShowReceiversDivClose').css('top', simulation.bounds.y + 'px');
             $('#mailEmulatorShowReceiversDivClose').css('left', simulation.bounds.x + 'px');
             $('#mailEmulatorShowReceiversDivClose').css('width', simulation.bounds.width + 'px');
             $('#mailEmulatorShowReceiversDivClose').css('height', simulation.bounds.height + 'px');
-
+*/
             $('#mailEmulatorShowReceiversDivClose').click(function () {
                 mailEmulator.hideReceivers();
             });
@@ -1192,11 +1193,13 @@
             div.style.position = "absolute";
             div.style.zIndex = this.divZindex + 1;
             document.body.appendChild(div);
-
+            /*
+            Removed by GuGu
             $('#mailEmulatorShowThemesDivClose').css('top', simulation.bounds.y + 'px');
             $('#mailEmulatorShowThemesDivClose').css('left', simulation.bounds.x + 'px');
             $('#mailEmulatorShowThemesDivClose').css('width', simulation.bounds.width + 'px');
             $('#mailEmulatorShowThemesDivClose').css('height', simulation.bounds.height + 'px');
+             */
 
             $('#mailEmulatorShowThemesDivClose').click(function () {
                 mailEmulator.hideThemes();
