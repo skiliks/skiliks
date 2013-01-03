@@ -38,9 +38,9 @@ dialogController = {
     },
 
     draw:function (action, dialog) {
-        $('#dialogControllerMainDiv').css('top', this.divTop + 'px');
-        $('#dialogControllerMainDiv').css('left', this.divLeft + 'px');
-
+        SKApp.user.simulation.events.on('dialog:end', function () {
+            dialogController.draw('close');
+        });
         if (this.status == 0 || typeof(action) != 'undefined') {
             if (action == 'close') {
                 this.closedialogController();
@@ -159,7 +159,7 @@ dialogController = {
                     data.events[0].data[0].dialog_subtype === '4') {
                     me.visitor_entrance_window.switchDialog(data.events[0].data[0].id);
                 }
-                simulation.parseNewEvents(data);
+                SKApp.user.simulation.parseNewEvents(data.events);
                 if (flag === 1) {
                     me.closedialogController();
                 }
@@ -259,7 +259,7 @@ dialogController = {
 
         // fix to keep open dialog (phon talk or visit) alive when 
         // Main hero miss phone call and it ignored automatically
-        simulation.isRecentlyIgnoredPhone = false;
+        //simulation.isRecentlyIgnoredPhone = false;
     },
     update:function () {
         if (this.answersShowFlag == 1) {
@@ -273,6 +273,7 @@ dialogController = {
     },
     loadCustomDialogMap:function (image) {
         $('#dialogControllerMainDiv').css('backgroundImage', 'url(' + SKConfig.assetsUrl + '/dialog_images/' + image + ')');
+        $('#dialogControllerMainDiv').css('backgroundSize', '100% auto');
         return true;
     },
     incomeHTML:'<section class="visitor-income">' +

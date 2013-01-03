@@ -950,6 +950,7 @@ class MailBoxService {
      * @togo: merge sendMEssage to this method
      * 
      * @param SendMailOptions $sendMailOptions
+     * @return MailBoxModel|null
      */
     public static function sendMessagePro($sendMailOptions)
     {
@@ -958,8 +959,6 @@ class MailBoxService {
             $message = MailBoxModel::model()->byId($sendMailOptions->messageId)->find();
             $message->reply = true; //1 - значит что на сообщение отправлен ответ
             $message->update();
-        } else {
-            return NULL;
         }
 
         self::checkSubject($sendMailOptions);
@@ -986,7 +985,7 @@ class MailBoxService {
     
     /**
      * @param SendMailOptions $sendMailOptions
-     * @return MailBox || NULL
+     * @return \MailBoxModel
      */
     public static function saveDraft($sendMailOptions)
     {
@@ -1012,9 +1011,10 @@ class MailBoxService {
 
 
     /**
-     * @param string $emailType, 'new','forward','reply','replyAll', etc.
-     * @param $subjectFromRequest
-     * 
+     * @param $sendMailOptions
+     * @internal param string $emailType , 'new','forward','reply','replyAll', etc.
+     * @internal param $subjectFromRequest
+     *
      * @return array
      */
     private static function checkSubject($sendMailOptions)

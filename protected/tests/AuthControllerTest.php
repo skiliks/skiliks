@@ -10,18 +10,13 @@ class AuthControllerTest extends ControllerTestCase {
         $user->password = md5('test');
         $user->is_active = true;
         $user->save();
-        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test'));
-        $sid = $result['sid'];
-        unset($result['sid']);
-        $this->assertEquals(array(
-            'result' => 1,
-            'simulations' => array(
-                '1' => 'promo'
-            )
-        ), $result);
-        $result = $this->callJSONAction('AuthController', 'actionCheckSession', array('sid' => $sid));
-        $this->assertEquals(1, $result['result']);
-        $result = $this->callJSONAction('AuthController', 'actionAuth', array('email' => $user->email, 'pass' => 'test1'));
-        $this->assertEquals('Неправильное имя пользователя или пароль.', $result['message']);
+        $identity = new BackendUserIdentity($user->email, 'test');
+        $identity->authenticate();
+        Yii::app()->user->login($identity, 3600 * 12);
+        $sid = Yii::app()->session->sessionID;
+        Yii::app()->session['uid'] = Yii::app()->user->id;
+        $this->assertEquals(UserService::getGroups(Yii::app()->user->id),["1" => "promo"]);
+        $identity = new BackendUserIdentity($user->email, 'test1');
+        $this->assertFalse($identity->authenticate());
     }
 }

@@ -29,7 +29,7 @@ videos = {
         var elem = document.createElement('video'), bool = false;
        try {
           if ( bool = !!elem.canPlayType ) {
-             bool = new Boolean(bool);
+             bool = Boolean(bool);
              bool.ogg = elem.canPlayType('video/ogg; codecs="theora"');
              // Workaround required for IE9, which doesn't
              //  report video support without audio codec specified.
