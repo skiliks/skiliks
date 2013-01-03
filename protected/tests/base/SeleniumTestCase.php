@@ -80,7 +80,7 @@ class SeleniumTestCase extends CDbTestCase
 
     protected function startSimulation($session)
     {
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
