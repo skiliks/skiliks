@@ -25,7 +25,8 @@ class SendMailOptions
       */
      public function isReply()
      {
-         return (MailBoxModel::TYPE_REPLY === $this->letterType || MailBoxModel::TYPE_REPLY === $this->letterType);
+         return (MailBoxModel::TYPE_REPLY === $this->letterType ||
+                 MailBoxModel::TYPE_REPLY === $this->letterType);
      }
      
      /**

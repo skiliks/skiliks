@@ -471,6 +471,8 @@
             var i = 0;
             for (var key in dialog) {
                 var value = dialog[key];
+                var replica_text = value.text;
+                replica_text = replica_text.replace(/^\s*-\s*/, ' — ');
                 if (value['ch_to'] == 1) {
                     sound = value['sound'];
                     toUsLastId = value['id'];
@@ -479,10 +481,10 @@
                     callInHtml = php.str_replace('{id}', value['ch_from'], callInHtml);
                     callInHtml = php.str_replace('{name}', value['name'], callInHtml);
                     callInHtml = php.str_replace('{title}', value['title'], callInHtml);
-                    callInHtml = php.str_replace('{dialog_text}', value['text'], callInHtml);
+                    callInHtml = php.str_replace('{dialog_text}', replica_text, callInHtml);
 
                 } else {
-                    callInHtmlAns += '<li><p onclick="phone.getSelect(\'' + value['id'] + '\')">' + value['text'] + '</p><span></span></li>';
+                    callInHtmlAns += '<li><p onclick="phone.getSelect(\'' + value['id'] + '\')">' + replica_text + '</p><span></span></li>';
                     fromUsFlag = 1;
                     i++;
                 }
