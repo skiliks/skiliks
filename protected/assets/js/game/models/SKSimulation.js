@@ -43,28 +43,20 @@
             return pad(hours) + ':' + pad(minutes);
         },
         parseNewEvents:function (events) {
-            var issetDialog = 0;
             var me = this;
             events.forEach(function (event) {
                 console.log('[SKSimulation] new event ' + event.eventType);
-                if (event.eventType === 1 && event.data.length === 0) {
+                if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                     // Crutch, sometimes server returns empty events
                     me.events.trigger('dialog:end');
                     return;
                 }
                 me.events.push(new SKEvent({
-                        type:event.eventType,
-                        data:event.data
-                    }));
+                    type:event.eventType,
+                    data:event.data
+                }));
 
-                    var newEvent = event.data;
-                    if (event.eventType === '1' && typeof(newEvent) !== 'undefined' && Object.keys(newEvent).length !== 0) {
-                        if (newEvent[0].dialog_subtype !== 1 && newEvent[0].dialog_subtype !== 5) {
-                            //мы считаем что диалог есть, если это не звонок телефона, и не попытка визита
-                            issetDialog = 1;
-                        }
-                    }
-                });
+            });
         },
         'getNewEvents':function () {
             var me = this;
@@ -99,7 +91,7 @@
             this.window_set.closeAll();
             this.window.close();
             var logs = this.windowLog.getAndClear();
-            SKApp.server.api('simulation/stop', {'logs': logs}, function () {
+            SKApp.server.api('simulation/stop', {'logs':logs}, function () {
                 me.trigger('stop');
             });
         },

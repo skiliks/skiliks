@@ -70,6 +70,37 @@
     animation-name: blinker;
   }
 
+  .char-reply {
+    list-style: none;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+  }
+
+  .char-reply li {
+    background: #b2a283;
+    background: -moz-linear-gradient(top, #b2a283, #b8a989);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b2a283), color-stop(100%, #b8a989));
+    background: -webkit-linear-gradient(top, #b2a283, #b8a989);
+    background: -o-linear-gradient(top, #b2a283, #b8a989);
+    background: -ms-linear-gradient(top, #b2a283, #b8a989);
+    background: linear-gradient(top, #b2a283, #b8a989);
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    width: 427px;
+    height: auto;
+    padding: 2px;
+    margin-top: 9px;
+    cursor: pointer;
+    a {
+      color: black;
+      text-decoration: none;
+    }
+  }
+
   #dialogControllerMainDiv {
     height: 100%;
     position: relative;
@@ -91,31 +122,8 @@
       width: 661px;
       padding: 2px;
     }
-    .char-reply {
-      list-style: none;
-      margin: 0;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      padding: 20px;
-    }
-    .char-reply li {
-      background: #b2a283;
-      background: -moz-linear-gradient(top, #b2a283, #b8a989);
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #b2a283), color-stop(100%, #b8a989));
-      background: -webkit-linear-gradient(top, #b2a283, #b8a989);
-      background: -o-linear-gradient(top, #b2a283, #b8a989);
-      background: -ms-linear-gradient(top, #b2a283, #b8a989);
-      background: linear-gradient(top, #b2a283, #b8a989);
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-      width: 427px;
-      height: auto;
-      padding: 2px;
-      margin-top: 9px;
-      cursor: pointer;
-    }
+
+
   }
 }
 

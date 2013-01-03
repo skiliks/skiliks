@@ -9,7 +9,7 @@ class LoggingTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -113,7 +113,7 @@ class LoggingTest extends SeleniumTestCase
     {
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -143,13 +143,14 @@ class LoggingTest extends SeleniumTestCase
         #ждем исчезновения черной полосы загрузки и в появившемся окне тригера кликаем ОК
         sleep(3);
         $session->element('css selector', '.alert a.btn')->click();
-        sleep(5);
+        sleep(10);
 
         #2 ответа на диалог с Денежной
 
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]", 30)->click();
+        sleep(10);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, за три часа управлюсь.\"]")->click();
-        sleep(3);
+        sleep(6);
 
 
         #обнуляем поле ввода названия события, вписываем новое, кликаем создать
@@ -159,12 +160,14 @@ class LoggingTest extends SeleniumTestCase
         #подтвеждение тригера, вейт почему то не работает
         sleep(3);
         $session->element('css selector', '.alert a.btn')->click();
-        sleep(5);
+        sleep(6);
 
 
         #3 ответа на диалог с начальником АйТи отдела за обедом
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Нет, прости, Мирон. Сегодня просто сумасшедший день. Собирался почту разбирать как только со срочными вопросами разберусь. А им конца и края нет.\"]")->click();
+        sleep(25);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы. Это ведь форс-мажор?\"]")->click();
+        sleep(6);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, сейчас вернусь и напишу служебку. Спасибо за информацию!\"]")->click();
 
         sleep(10);
@@ -177,11 +180,12 @@ class LoggingTest extends SeleniumTestCase
         #подтвеждение тригера, вейт почему то не работает
         sleep(3);
         $session->element('css selector', '.alert a.btn')->click();
-        sleep(5);
+        sleep(10);
 
 
         #3 ответа на диалог
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Может мой аналитик подойти вместо меня?\"]")->click();
+        sleep(6);
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, буду в 18.00\"]")->click();
 
 
@@ -233,7 +237,7 @@ class LoggingTest extends SeleniumTestCase
 
     private function getWindowLog($simulations, $skip_time = true)
     {
-        $source = file_get_contents($this->browser_url . '/api/index.php/admin/log?type=Windows');
+        $source = file_get_contents($this->browser_url . '/admin/log?type=Windows');
         $data = CJSON::decode($source);
         $our_rows = array();
         $keys = array_keys($data['data']);
@@ -271,7 +275,7 @@ class LoggingTest extends SeleniumTestCase
 
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . '/site.php');
+        $session->open($this->browser_url . '/site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
