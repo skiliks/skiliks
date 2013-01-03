@@ -54,10 +54,15 @@ $(function () {
             div.setAttribute('class', 'mail-emulator-main-div');
             div.style.position = "absolute";
             div.style.zIndex = (this.zIndex + 1);
-            document.body.appendChild(div);
+            $(this.conteiner).append(div);
+            //document.body.appendChild(div);
             $('#phoneMainDiv').css('top', this.divTop + 'px');
-            $('#phoneMainDiv').css('left', '100px');
-
+            //$('#phoneMainDiv').css('left', '100px');
+            var canvas = $('#canvas').width();
+            var icons = $('.main-screen-icons').width();
+            var phone = $('#phoneMainDiv').width(); 
+            var left = (canvas - icons - phone) / 2;
+            $('#phoneMainDiv').css('left', left);
             this.issetDiv = true;
         },
         createBack:function () {
