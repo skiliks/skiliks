@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, phone, dialogController, mailEmulator, documents, dayPlan*/
+/*global _, Backbone, SKApp, SKVisitView, phone, dialogController, mailEmulator, documents, dayPlan*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -18,10 +18,12 @@
                     me.startAnimation('.door');
                 } else if (event.getTypeSlug() === 'immediate-visit') {
                     // TODO: incorrect location
-                    dialogController.draw('dialog', event.get('data'));
+                    var visit_view = new SKVisitView({'event': event});
+                    event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
                     phone.draw('dialog', event.get('data'));
+                    event.complete();
                 }
             });
             this.render();
@@ -97,6 +99,7 @@
             e.stopPropagation();
             var sim_event = this.sim_events.getByTypeSlug('visit', false)[0];
             sim_event.complete();
+            var visit_view = new SKVisitView(sim_event);
             this.$('.door').removeClass('icon-active');
             dialogController.draw('income', sim_event.get('data'));
         },
