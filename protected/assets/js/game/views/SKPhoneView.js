@@ -7,8 +7,8 @@ $(function () {
     "use strict";
 
     window.SKPhoneView = window.SKWindowView.extend({
-        initialize:function (){
-            this.render();
+        initialize:function (action, dialog){
+            this.render(action, dialog);
         },
         status:0,
         activeSubScreen:'',
@@ -55,6 +55,7 @@ $(function () {
             div.style.position = "absolute";
             div.style.zIndex = (this.zIndex + 1);
             $(this.conteiner).append(div);
+            $('#phoneMainDiv').css('position', 'absolute');
             //document.body.appendChild(div);
             $('#phoneMainDiv').css('top', this.divTop + 'px');
             //$('#phoneMainDiv').css('left', '100px');
@@ -62,7 +63,8 @@ $(function () {
             var icons = $('.main-screen-icons').width();
             var phone = $('#phoneMainDiv').width(); 
             var left = (canvas - icons - phone) / 2;
-            $('#phoneMainDiv').css('left', left);
+            console.log(left);
+            $('#phoneMainDiv').css('left', left+'px');
             this.issetDiv = true;
         },
         createBack:function () {
