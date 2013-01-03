@@ -5,7 +5,7 @@ class TwoTest extends SeleniumTestCase
     {
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -39,8 +39,8 @@ class TwoTest extends SeleniumTestCase
         
         #2 ответа на диалог с Денежной
        
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]", 30)->click();
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Хорошо, за три часа управлюсь.\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\" — Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней только бюджетом и занимаюсь, до отпуска точно успею.\"]", 30)->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\" — Хорошо, за три часа управлюсь.\"]")->click();
         sleep(3);
         
 
