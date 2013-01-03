@@ -161,6 +161,7 @@
 
 <script type="text/template" id="visit_template">
     <div>
+        <video class="video_background"></video>
         <@ if (remote_replica) { @>
         <div class="visitor-reply"><p><@=remote_replica.title@></p>
         <@ } @>
