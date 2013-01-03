@@ -22,7 +22,7 @@
                     event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
-                    phone.draw('dialog', event.get('data'));
+                    var view = SKPhoneView('dialog', event.get('data'));
                     event.complete();
                 }
             });
