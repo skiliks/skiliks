@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, dialogController, mailEmulator, documents, dayPlan*/
+/*global _, Backbone, SKApp, SKVisitView, phone, dialogController, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -23,7 +23,7 @@
                     event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
-                    var view = SKPhoneView('dialog', event.get('data'));
+                    var view = new SKPhoneDialogView({'event' : event.get('data')});
                     event.complete();
                 }
             });
