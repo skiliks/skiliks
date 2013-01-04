@@ -6,131 +6,85 @@
 $(function () {
     "use strict";
 
-    window.SKPhoneView = window.SKWindowView.extend({
-        initialize:function (action, dialog){
-            this.render(action, dialog);
+    window.SKPhoneDialogView = window.SKWindowView.extend({
+        'el': 'body .phone-dialog-div',
+        initialize:function (){
+            this.render();
         },
-        status:0,
-        activeSubScreen:'',
-        issetDiv:false,
-        divTop:50,
-        divLeft:50,
-        contacts:{},
-        contactHover:0,
+        render:function () {
+            var me = this;
+            var dialog = this.options.event;
 
-        scrollK:0,
-        zIndex:0,
-
-
-        answersShowFlag:1,
-        timeToShow:0,
-
-        companion:0,
-
-        missedCalls:0,
-
-        activeFrameParams:{},
-
-        cancelDialogId:0,
-
-        setDivTop:function (val) {
-            this.divTop = val;
-        },
-
-        setDivLeft:function (val) {
-            this.divLeft = val;
-        },
-
-        setBoundsParams:function (params) {
-            this.activeFrameParams = params;
-        },
-
-        createDiv:function () {
-            var topZindex = php.getTopZindexOf();
-            this.zIndex = topZindex + 1;
-
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phoneMainDiv');
-            div.setAttribute('class', 'mail-emulator-main-div');
-            div.style.position = "absolute";
-            div.style.zIndex = (this.zIndex + 1);
-            $(this.conteiner).append(div);
-            $('#phoneMainDiv').css('position', 'absolute');
-            //document.body.appendChild(div);
-            $('#phoneMainDiv').css('top', this.divTop + 'px');
-            //$('#phoneMainDiv').css('left', '100px');
-            var canvas = $('#canvas').width();
-            var icons = $('.main-screen-icons').width();
-            var phone = $('#phoneMainDiv').width(); 
-            var left = (canvas - icons - phone) / 2;
-            console.log(left);
-            $('#phoneMainDiv').css('left', left+'px');
-            this.issetDiv = true;
-        },
-        createBack:function () {
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phoneBackDiv');
-            div.style.position = "absolute";
-            div.style.zIndex = (this.zIndex);
-            document.body.appendChild(div);
-            var phone_back_div = $('#phoneBackDiv');
-            phone_back_div.css('top', this.activeFrameParams.y + 'px');
-            phone_back_div.css('left', this.activeFrameParams.x + 'px');
-            phone_back_div.css('height', this.activeFrameParams.height + 'px');
-            phone_back_div.css('width', this.activeFrameParams.width + 'px');
-
-            phone_back_div.css('background-color', '#000');
-            phone_back_div.css('opacity', '0.7');
-        },
-        removeBack:function () {
-            $('#phoneBackDiv').remove();
-        },
-
-        render:function (action, dialog) {
-            SKApp.user.simulation.events.on('dialog:end', function () {
-                phone.draw('close');
-            });
-            if (this.cancelDialogId != 0) {
-                //отправляем запрос, что звонок был отклонен
-                sender.phoneGetSelect(this.cancelDialogId);
-                this.cancelDialogId = 0;
-
-            }
-
-            $('.phoneMainScreenScrollbar').remove();
-            $('.phone-screen-scroll').remove();
-
-            this.scrollK = 0;
-
-            if (this.status == 0 || typeof(action) !== 'undefined') {
-                if (action === 'close') {
-                    this.closePhone();
-                    //логируем событие
-                    SKApp.user.simulation.window_set.closeAll('phone');
-                    this.activeSubScreen = '';
-                    return;
-                }
-                //а надо ли нам логировать открытие? смотрим по status
-                var logFlag = 1;
-                if (this.status != 0 || typeof(action) != 'undefined') {
-                    logFlag = 0;
-                }
-
-                this.status = 1;
-
-                this.drawInterface(action, dialog);
-
-            } else {
-                this.closePhone();
-                //логируем событие
+            //логируем
+            if (this.activeSubScreen !== 'phoneTalk') {
                 SKApp.user.simulation.window_set.closeAll('phone');
-                this.activeSubScreen = '';
-                return;
+                this.activeSubScreen = 'phoneTalk';
+                this.talk_window = new SKDialogWindow('phone', 'phoneTalk', dialog ? dialog[0].id : undefined);
+                this.talk_window.open();
             }
-            this.Windows[this.cid] = this;
-            // fix to keep open dialog (phon talk or visit) alive when 
-            // Main hero miss phone call and it ignored automatically
-            //simulation.isRecentlyIgnoredPhone = false;
+
+            //'<li><p>Потрясающая безответственность! Вот уж от тебя никак не ожидал!</p><span></span></li>'+
+            var callInHtml = this.dialogHTML;
+            var callInHtmlAns = '';
+
+
+            var fromUsFlag = 0;
+            var toUsLastId = 0;
+
+            var soundDuration = 0;
+            var sound = '';
+            var i = 0;
+            dialog.forEach(function (value) {
+                if (value['ch_to'] == 1) {
+                    sound = value['sound'];
+                    toUsLastId = value['id'];
+                    soundDuration = value['duration'];
+
+                    callInHtml = php.str_replace('{id}', value['ch_from'], callInHtml);
+                    callInHtml = php.str_replace('{name}', value['name'], callInHtml);
+                    callInHtml = php.str_replace('{title}', value['title'], callInHtml);
+                    callInHtml = php.str_replace('{dialog_text}', value['text'], callInHtml);
+
+                } else {
+                    callInHtmlAns += '<li><p onclick="phone.getSelect(\'' + value['id'] + '\')">' + value['text'] + '</p><span></span></li>';
+                    fromUsFlag = 1;
+                    i++;
+                }
+            });
+
+            callInHtml = php.str_replace('{id}', '', callInHtml);
+            callInHtml = php.str_replace('{name}', '', callInHtml);
+            callInHtml = php.str_replace('{title}', '', callInHtml);
+            callInHtml = php.str_replace('{dialog_text}', '', callInHtml);
+
+            callInHtml = php.str_replace('{dialog_answers}', callInHtmlAns, callInHtml);
+
+            this.$el.html(callInHtml);
+
+
+            if (sound != '' && sound != '#') {
+                if (sound.indexOf('.wav') > 0) {
+                    $('#phoneAnswers').hide();
+                    sounds.start(sound, function (audio) {
+                        soundDuration = audio.duration;
+                        //а вдруг нам надо послушать звук?
+                        if (soundDuration > 0) {
+                            me.answersShowFlag = 0;
+                            setTimeout(function() {$('#phoneAnswers').show()}, soundDuration * 1000);
+                        }
+                    });
+                }
+            }
+
+            //а вдруг вариантов ответа нет
+            if (fromUsFlag == 0) {
+                this.talk_window.setLastDialog(toUsLastId);
+                setTimeout(function () {
+                    phone.getSelectByTimeout(toUsLastId);
+                }, 5000);
+            }
+
+
         },
         closePhone:function () {
             $('#phoneMainDiv').remove();
@@ -461,80 +415,6 @@ $(function () {
                 });
         },
         dialogDisplay:function (dialog) {
-            var me = this;
-            //для этого варианта подложка не нужна
-            this.removeBack();
-
-            //логируем
-            if (this.activeSubScreen != 'phoneTalk') {
-                SKApp.user.simulation.window_set.closeAll('phone');
-                this.activeSubScreen = 'phoneTalk';
-                this.talk_window = new SKDialogWindow('phone', 'phoneTalk', dialog ? dialog[0].id : undefined);
-                this.talk_window.open();
-            }
-
-            //'<li><p>Потрясающая безответственность! Вот уж от тебя никак не ожидал!</p><span></span></li>'+
-            var callInHtml = this.dialogHTML;
-            var callInHtmlAns = '';
-
-
-            var fromUsFlag = 0;
-            var toUsLastId = 0;
-
-            var soundDuration = 0;
-            var sound = '';
-            var i = 0;
-            for (var key in dialog) {
-                var value = dialog[key];
-                if (value['ch_to'] == 1) {
-                    sound = value['sound'];
-                    toUsLastId = value['id'];
-                    soundDuration = value['duration'];
-
-                    callInHtml = php.str_replace('{id}', value['ch_from'], callInHtml);
-                    callInHtml = php.str_replace('{name}', value['name'], callInHtml);
-                    callInHtml = php.str_replace('{title}', value['title'], callInHtml);
-                    callInHtml = php.str_replace('{dialog_text}', value['text'], callInHtml);
-
-                } else {
-                    callInHtmlAns += '<li><p onclick="phone.getSelect(\'' + value['id'] + '\')">' + value['text'] + '</p><span></span></li>';
-                    fromUsFlag = 1;
-                    i++;
-                }
-            }
-
-            callInHtml = php.str_replace('{id}', '', callInHtml);
-            callInHtml = php.str_replace('{name}', '', callInHtml);
-            callInHtml = php.str_replace('{title}', '', callInHtml);
-            callInHtml = php.str_replace('{dialog_text}', '', callInHtml);
-
-            callInHtml = php.str_replace('{dialog_answers}', callInHtmlAns, callInHtml);
-
-            $('#phoneMainDiv').html(callInHtml);
-
-
-            if (sound != '' && sound != '#') {
-                if (sound.indexOf('.wav') > 0) {
-                    $('#phoneAnswers').hide();
-                    sounds.start(sound, function (audio) {
-                        soundDuration = audio.duration;
-                        //а вдруг нам надо послушать звук?
-                        if (soundDuration > 0) {
-                            me.answersShowFlag = 0;
-                            setTimeout(function() {$('#phoneAnswers').show()}, soundDuration * 1000);
-                        }
-                    });
-                }
-            }
-
-            //а вдруг вариантов ответа нет
-            if (fromUsFlag == 0) {
-                this.talk_window.setLastDialog(toUsLastId);
-                setTimeout(function () {
-                    phone.getSelectByTimeout(toUsLastId);
-                }, 5000);
-            }
-
 
         },
         update:function () {
