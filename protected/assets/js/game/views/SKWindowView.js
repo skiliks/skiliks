@@ -7,7 +7,16 @@ $(function () {
 
     window.SKWindowView = Backbone.View.extend({
         Windows:{},
-        conteiner:'.canvas'
+        conteiner:'.canvas',
+
+        /*
+        Creates window
+
+        @return window jquery element
+         */
+        'renderWindow':function () {
+
+        }
     });
 });
 
