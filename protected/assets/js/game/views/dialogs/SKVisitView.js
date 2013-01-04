@@ -51,6 +51,7 @@
             SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
                 if (data.result === 1) {
                     me.visitor_entrance_window.setLastDialog(dialog_id);
+                    /* TODO refactor */
                     if (data.events && data.events[0] && data.events[0].data && data.events[0].data[0] && data.events[0].data[0].step_number === '1' &&
                         data.events[0].data[0].dialog_subtype === '4') {
                         me.visitor_entrance_window.switchDialog(data.events[0].data[0].id);
