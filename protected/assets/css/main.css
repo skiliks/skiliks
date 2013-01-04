@@ -2914,7 +2914,6 @@ section.phone{
 	height:565px;
 	margin:0 auto;
 	padding:3px 6px 0 5px;
-	overflow:hidden;
 }
 section.phone.popup{
 	background:url("../img/phone/bg-popup.png") no-repeat;
