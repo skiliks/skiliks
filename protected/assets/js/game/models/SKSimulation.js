@@ -17,6 +17,7 @@
             this.events = new SKEventCollection();
             this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
+            this.mailClient = new SKMailClient();
         },
         /**
          * Returns number of minutes past from the start of game
