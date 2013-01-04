@@ -76,7 +76,7 @@ class MailController extends AjaxController
     {
         $this->sendJSON(array(
             'result' => 1,
-            'data'   => MailBoxService::getMessage((int)Yii::app()->request->getParam('id', 0)
+            'data'   => MailBoxService::getMessage((int)Yii::app()->request->getParam('emailId', 0)
         )));
     }
 
