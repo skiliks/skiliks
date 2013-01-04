@@ -123,7 +123,8 @@
         'doMailToggle':function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
-            mailEmulator.draw();
+            
+            SKApp.user.simulation.mailClient.openWindow();
         }
     });
 })();
