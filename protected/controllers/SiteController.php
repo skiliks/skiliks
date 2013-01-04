@@ -42,6 +42,11 @@ class SiteController extends AjaxController
         $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
         $cs->registerScriptFile($assetsUrl . "/js/backbone.js");
         $cs->registerScriptFile($assetsUrl . "/js/less-1.3.3.min.js");
+        
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/skwindowset.js");
@@ -60,14 +65,14 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
+        
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
+        
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneView.js");
+        
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKLoginView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");        
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationStartView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKDebugView.js");
