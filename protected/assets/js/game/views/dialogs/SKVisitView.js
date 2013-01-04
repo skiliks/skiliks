@@ -9,14 +9,15 @@
         'initialize':function () {
             var me = this;
             this.render();
-            var on_end;
-            on_end = function () {
-                me.$el.html('');
-                me.off('dialog:end', on_end);
+            SKApp.user.simulation.events.on('dialog:end', function () {
+                me.close();
+            });
 
-            };
-            SKApp.user.simulation.events.on('dialog:end', on_end);
-
+        },
+        'close': function () {
+            this.visitor_entrance_window.close();
+            this.off('dialog:end');
+            this.$el.html('');
         },
         'render':function () {
             var replicas = this.options.event.get('data'),
@@ -41,6 +42,9 @@
             }));
             this.$('video')[0].addEventListener('ended', function(){
                 me.$('video').css('zIndex', 0);
+                if (my_replicas.length === 0) {
+                    me.close();
+                }
             });
 
         },
