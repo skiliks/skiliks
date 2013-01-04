@@ -300,7 +300,9 @@
         },
         
         renderFolder: function(folderAlias) {
+            console.log(folderAlias);
             if (this.aliasFolderIncome == folderAlias) {
+                console.log('way 1');
                 this.viewObject.renderIncomeFolder();
                 this.setActiveScreen(this.screenIncomeList);
             }
