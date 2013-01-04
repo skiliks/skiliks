@@ -15,6 +15,7 @@
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug());
                 } else if (event.getTypeSlug() === 'visit') {
+                    me.$('.door').attr('data-event-id', event.id);
                     me.startAnimation('.door');
                 } else if (event.getTypeSlug() === 'immediate-visit') {
                     // TODO: incorrect location
@@ -97,7 +98,7 @@
         'doDialogStart':function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.getByTypeSlug('visit', false)[0];
+            var sim_event = this.sim_events.get($(e.currentTarget).attr('data-event-id'));
             sim_event.complete();
             var visit_view = new SKVisitView(sim_event);
             this.$('.door').removeClass('icon-active');

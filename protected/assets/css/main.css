@@ -3496,9 +3496,6 @@ ul.main-screen-stat li:first-child{
 ul.main-screen-stat li img{
 	vertical-align:middle;
 }
-.main-screen-icons{
-	float:right;
-}
 .main-screen-icons ul{
 	list-style:none;
 	width:132px;
