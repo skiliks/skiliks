@@ -153,7 +153,6 @@ sender = {
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
-                if(runBlock==1){loading.waitingDialog({});}
 
                 var result;
                 $.ajax({
@@ -163,7 +162,6 @@ sender = {
                     dataType: "json",
                     success: function (data){
                         result = data;
-                        if(runBlock===1){loading.closeWaitingDialog();}
                         receiver.parseData(data, commandId, runBlock);
                         if (typeof callback !== 'undefined') {
                             callback(data);
