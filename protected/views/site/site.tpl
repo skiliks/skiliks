@@ -185,6 +185,7 @@
                 <li><img src="{$assetsUrl}/img/main-screen/icon-bat-full.png" alt=""/></li>
                 <li><a><img alt="" src="{$assetsUrl}/img/main-screen/icon-help.png"></a></li>
             </ul>
+            <div class="phone-dialog-div"></div>
             <div class="visitor-container"></div>
             <nav class="main-screen-icons"></nav>
         </div>
