@@ -75,7 +75,7 @@
                 <label for="addTriggerSelect" class="control-label">Код события:</label>
 
                 <div class="controls">
-                    <input name="code" id="addTriggerSelect" type="text" class="span2">
+                    <input name="code" id="addTriggerSelect" required="required" type="text" class="span2">
                 </div>
             </div>
             <div class="control-group">
@@ -83,7 +83,7 @@
                     минуты):</label>
 
                 <div class="controls">
-                    <input name="delay" type="number" id="addTriggerDelay" class="span2" value="0">
+                    <input name="delay" type="number" id="addTriggerDelay"  required="required" class="span2" value="0">
                 </div>
             </div>
             <div class="control-group">
@@ -167,7 +167,7 @@
     <div>
         <video class="video_background" src="<@= video_src @>" autoplay="autoplay"></video>
         <@ if (remote_replica) { @>
-        <div class="visitor-reply"><p><@=remote_replica.text@></p>
+        <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
             <@ } @>
 
             <ul class="char-reply" id="dialogControllerAnswers">
@@ -214,7 +214,7 @@
 
 <script type="text/template" id="login_template">
     <div class="world-index-mainDiv" style="width: 400px; padding-top: 50px">
-        <form action="">
+        <form action="" class="login-form">
 
             <div><label for="login">E-mail</label><input id="login" type="text" class="input-large"></div>
 
