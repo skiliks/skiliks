@@ -170,7 +170,7 @@ dayPlan = {
         }
         this.timer = unixtime;
         
-        var curTime = timer.getCurTime();
+        var curTime = SKApp.user.simulation.getCurTime();
         //var curTimeString = curTime.charAt(0)+curTime.charAt(1)+curTime.charAt(3)+curTime.charAt(4);
         var curTdId = 't1_'+curTime.charAt(0)+curTime.charAt(1)+'00';
         var curMins = parseFloat(curTime.charAt(3)+curTime.charAt(4));

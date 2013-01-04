@@ -26,6 +26,16 @@
                 }
                 return (event.getTypeSlug() === type);
             });
+        },
+        'triggerEvent': function (code, delay, clear_events, clear_assessment) {
+            SKApp.server.api('events/start',{
+                eventCode:code,
+                delay:delay,
+                clearEvents:clear_events,
+                clearAssessment:clear_assessment
+            }, function () {
+                window.scrollTo(0,0);
+            });
         }
     });
 })();
