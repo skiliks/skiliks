@@ -17,10 +17,6 @@
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.id);
                     me.startAnimation('.door');
-                } else if (event.getTypeSlug() === 'immediate-visit') {
-                    // TODO: incorrect location
-                    var visit_view = new SKVisitView({'event': event});
-                    event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
                     var view = new SKPhoneDialogView({'event' : event.get('data')});
