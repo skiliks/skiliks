@@ -68,14 +68,14 @@
 </script>
 
 <script type="text/template" id="debug_panel">
-    <form class="form-horizontal span8 offset2">
+    <form class="form-horizontal span8 offset2 trigger-event">
         <fieldset>
             <legend>Запуск события</legend>
             <div class="control-group">
                 <label for="addTriggerSelect" class="control-label">Код события:</label>
 
                 <div class="controls">
-                    <input id="addTriggerSelect" type="text" class="span2">
+                    <input name="code" id="addTriggerSelect" required="required" type="text" class="span2">
                 </div>
             </div>
             <div class="control-group">
@@ -83,23 +83,27 @@
                     минуты):</label>
 
                 <div class="controls">
-                    <input id="addTriggerDelay" type="text" class="span2" value="0">
+                    <input name="delay" type="number" id="addTriggerDelay"  required="required" class="span2" value="0">
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
                     <label for="addTriggerClearEvents" class="checkbox">
-                        <input id="addTriggerClearEvents" type="checkbox"/>
+                        <input name="clear_events" id="addTriggerClearEvents" type="checkbox"/>
                         Очистить очередь событий
                     </label>
                     <label for="addTriggerClearAssessment" class="checkbox">
-                        <input id="addTriggerClearAssessment" type="checkbox"/>
+                        <input name="clear_assessment" id="addTriggerClearAssessment" type="checkbox"/>
                         Очистить очередь оценки
                     </label>
                 </div>
-                <input type="button"
-                       onclick="addTrigger.add(document.getElementById('addTriggerSelect').value,document.getElementById('addTriggerDelay').value,document.getElementById('addTriggerClearEvents').checked,document.getElementById('addTriggerClearAssessment').checked);"
-                       value="Создать" class="btn" style="margin-top:0px; margin-left:25px;">
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit"
+                           value="Создать" class="btn btn-primary">
+
+                </div>
             </div>
         </fieldset>
     </form>
@@ -163,12 +167,15 @@
     <div>
         <video class="video_background" src="<@= video_src @>" autoplay="autoplay"></video>
         <@ if (remote_replica) { @>
-        <div class="visitor-reply"><p><@=remote_replica.text@></p>
-        <@ } @>
+        <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
+            <@ } @>
 
             <ul class="char-reply" id="dialogControllerAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
-                <li><p><a href="" class="replica-select" data-id="<@= replica.id @>"><@= replica.text.replace(/^\s*-/, '—')@></a>
+                <li><p>
+                    <a href="" class="replica-select" data-id="<@= replica.id @>">
+                        <@= replica.text.replace(/^\s*-/, '—')@>
+                    </a>
                     <span></span></p></li>
                 <@ }) @>
             </ul>
@@ -207,7 +214,7 @@
 
 <script type="text/template" id="login_template">
     <div class="world-index-mainDiv" style="width: 400px; padding-top: 50px">
-        <form action="">
+        <form action="" class="login-form">
 
             <div><label for="login">E-mail</label><input id="login" type="text" class="input-large"></div>
 
