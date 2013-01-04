@@ -161,9 +161,9 @@
 
 <script type="text/template" id="visit_template">
     <div>
-        <video class="video_background"></video>
+        <video class="video_background" src="<@= video_src @>" autoplay="autoplay"></video>
         <@ if (remote_replica) { @>
-        <div class="visitor-reply"><p><@=remote_replica.title@></p>
+        <div class="visitor-reply"><p><@=remote_replica.text@></p>
         <@ } @>
 
             <ul class="char-reply" id="dialogControllerAnswers">
