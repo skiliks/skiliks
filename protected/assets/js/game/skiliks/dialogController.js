@@ -38,9 +38,6 @@ dialogController = {
     },
 
     draw:function (action, dialog) {
-        SKApp.user.simulation.events.on('dialog:end', function () {
-            dialogController.draw('close');
-        });
         if (this.status == 0 || typeof(action) != 'undefined') {
             if (action == 'close') {
                 this.closedialogController();
