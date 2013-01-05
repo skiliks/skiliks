@@ -35,13 +35,13 @@
         // --------------------------------------------------
 
         // @var string
-        aliasButtonNewEmail:   'NEW_EMAIL',
+        aliasButtonNewEmail:  'NEW_EMAIL',
 
         // @var string
-        aliasButtonReply:      'REPLY_EMAIL',
+        aliasButtonReply:     'REPLY_EMAIL',
 
         // @var string
-        aliasButtonReplyAll:   'REPLY_ALL_EMAIL',
+        aliasButtonReplyAll:  'REPLY_ALL_EMAIL',
 
         // @var string
         aliasButtonForward:   'FORWARD_EMAIL',
@@ -54,6 +54,18 @@
 
         // @var string
         aliasButtonSaveDraft: 'SAVE_TO_DRAFTS',
+        
+        // @var string
+        aliasButtonAddToPlan: 'ADD_TO_PLAN',
+        
+        // unfortunatey this checnge context inside new Array, so I need to use literals
+        iconsForIncomeScreenArray: new Array(
+            'NEW_EMAIL',
+            'REPLY_EMAIL',
+            'REPLY_ALL_EMAIL',
+            'FORWARD_EMAIL',
+            'ADD_TO_PLAN'
+        ),
         
         // --------------------------------------------------
         
