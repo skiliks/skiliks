@@ -308,16 +308,15 @@
             
             this.viewObject.renderMailClientScreenBase();
             this.viewObject.updateFolderLabels();
-            this.renderFolder(this.aliasFolderIncome);
+            this.preRenderFolder(this.aliasFolderIncome);
         },
         
-        renderFolder: function(folderAlias) {
-            console.log(folderAlias);
+        preRenderFolder: function(folderAlias) {
             if (this.aliasFolderIncome == folderAlias) {
-                console.log('way 1');
-                this.viewObject.renderIncomeFolder();
-                this.setActiveScreen(this.screenIncomeList);
+                this.viewObject.renderIncomeFolder();                
             }
+            
+            this.setActiveScreen(folderAlias);
         },
         
         /**
@@ -394,13 +393,13 @@
         
         // ------------------------------------------------------
         
-        'renderMailClientFunctionalButtons': function(buttonsToDisplay) {
+        renderMailClientFunctionalButtons: function(buttonsToDisplay) {
             if ('undefined' == typeof buttonsToDisplay) {
                 buttonsToDisplay = new Array();
             }
         },
         
-        'toggleWindow': function() {
+        toggleWindow: function() {
             if ('undefined' == typeof this.window) {
                 this.openWindow();
             } else {

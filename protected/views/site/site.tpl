@@ -258,8 +258,8 @@
     
     <!-- MailClient_Folderlabel: -->
     <script type="text/template" id="MailClient_FolderLabel">
-        <li onclick="" id="FOLDER_<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
-            <label class="icon_<@= alias @>" href="#"><@= label @> 
+        <li onclick="<@= action @>" id="FOLDER_<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
+            <label class="icon_<@= alias @>"><@= label @> 
                 (<span class="counter"><@= counter @></span>)
             </label>
         </li>
