@@ -353,6 +353,13 @@
     <script type="text/template" id="MailClient_ReadEmailSceleton">
         <div id="<@= emailPreviewId @>" class="pre" style="padding-top: 25px;"></div>
     </script>
+    
+    <!-- MailClient_ActionIcon: -->
+    <script type="text/template" id="MailClient_ActionIcon">
+        <li id="mailEmulatorReceivedButton">
+            <a onclick="<@= action @>" class="<@= iconCssClass @>"><@= label @></a>
+        </li>
+    </script>
         
     <!-- MailClient } -->
 
