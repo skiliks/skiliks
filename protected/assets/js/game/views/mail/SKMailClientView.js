@@ -129,7 +129,22 @@
                     isActiveCssClass = ' active ';
                 }
                 
+                var action = '';
+                if (alias == SKApp.user.simulation.mailClient.aliasFolderIncome) {
+                    action = 'SKApp.user.simulation.mailClient.preRenderFolder(SKApp.user.simulation.mailClient.aliasFolderIncome);';
+                }
+                if (alias == SKApp.user.simulation.mailClient.aliasFolderDrafts) {
+                    action = '';
+                }
+                if (alias == SKApp.user.simulation.mailClient.aliasFolderSended) {
+                    action = '';
+                }
+                if (alias == SKApp.user.simulation.mailClient.aliasFolderTrash) {
+                    action = '';
+                }
+                
                 html += _.template($('#MailClient_FolderLabel').html(), {
+                    action:           action,
                     label:            this.mailClient.folders[alias].name,
                     isActiveCssClass: isActiveCssClass,
                     counter:          this.mailClient.folders[alias].emails.length,
@@ -153,10 +168,11 @@
                 if (incomingEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
                     // why 2 CSS classes? - this is works
                     isActiveCssClass = ' mail-emulator-received-list-string-selected active '; 
-                }    
+                } 
                 
                 // generate HTML by template
                 emailsList += _.template($('#MailClient_IncomeEmailLine').html(),{
+                    
                     emailMySqlId:       incomingEmails[key].mySqlId,
                     senderName:         incomingEmails[key].senderNameString,
                     subject:            incomingEmails[key].subject.text,
@@ -203,7 +219,6 @@
                 this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId);
             }
             
-            console.log('renderIcons > ');
             this.renderIcons(this.mailClient.iconsForIncomeScreenArray);
         },
         
@@ -310,9 +325,6 @@
                 });
             }
             // conpose HTML code }
-            
-            console.log('#' + this.mailClientScreenID + ' .actions');
-            console.log(iconsListHtml);
             
             // render HTML
             $('#' + this.mailClientScreenID + ' .actions').html(iconsListHtml);
