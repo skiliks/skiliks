@@ -1781,16 +1781,19 @@ section.mail .actions li>a{
 	line-height:14px;
 	padding-top:27px;
 }
-section.mail .actions li a.btn1{
+section.mail .actions li a.NEW_EMAIL{
+	background-position:center 0px;
+}
+section.mail .actions li a.REPLY_EMAIL{
 	background-position:center -40px;
 }
-section.mail .actions li a.btn2{
+section.mail .actions li a.REPLY_ALL_EMAIL{
 	background-position:center -80px;
 }
-section.mail .actions li a.btn3{
+section.mail .actions li a.FORWARD_EMAIL{
 	background-position:center -120px;
 }
-section.mail .actions li a.btn4{
+section.mail .actions li a.ADD_TO_PLAN{
 	background-position:center -160px;
 }
 section.mail .actions li a:hover{
