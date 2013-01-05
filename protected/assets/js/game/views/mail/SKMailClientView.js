@@ -17,6 +17,10 @@
         
         mailClient: undefined,
         
+        /**
+         * Used to add reverce link from view to it`s model
+         * @param mailClient SKMailClient
+         */
         setMailClient: function(mailClient) {
             this.mailClient = mailClient;
         },
@@ -50,6 +54,10 @@
             }
         },
         
+        /**
+         * Used to get data for email preview
+         * @todo^ move to model?
+         */
         doGetEmailDetails: function (emailId) {
             // do we have full data for current email ? {
             var email = SKApp.user.simulation.mailClient.getIncomeFolder().getEmailByMySqlId(emailId);
@@ -194,6 +202,9 @@
             if (undefined != this.mailClient.activeEmail) {
                 this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId);
             }
+            
+            console.log('renderIcons > ');
+            this.renderIcons(this.mailClient.iconsForIncomeScreenArray);
         },
         
         renderEmaiPreviewScreen: function(email, id) {
@@ -226,6 +237,85 @@
             // set HTML sceleton } 
             
             this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId);
+        },
+        
+        renderIcons: function(iconButtonAliaces) {
+            // set defaults {
+            var iconsListHtml = '';
+            
+            var addButtonNewEmail = false;
+            var addButtonReply = false;
+            var addButtonReplyAll = false;
+            var addButtonForward = false;
+            var addButtonAddToPlan = false;
+            // set defaults }
+            
+            // choose icons to show {
+            for (var i in iconButtonAliaces) {
+            switch(iconButtonAliaces[i])
+            {
+                case this.mailClient.aliasButtonNewEmail:
+                  addButtonNewEmail = true;
+                  break;
+                case this.mailClient.aliasButtonReply:
+                  addButtonReply = true
+                  break;
+                case this.mailClient.aliasButtonReplyAll:
+                  addButtonReplyAll = true
+                  break;
+                case this.mailClient.aliasButtonForward:
+                  addButtonForward = true
+                  break;
+                case this.mailClient.aliasButtonAddToPlan:
+                  addButtonAddToPlan = true
+                  break;
+                }
+            }
+            // choose icons to show }
+            
+            // conpose HTML code {
+            if (addButtonNewEmail) {
+                iconsListHtml += _.template($('#MailClient_ActionIcon').html(),{
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonNewEmail,
+                    label:        'новое письмо'
+                });
+            }
+            if (addButtonReply) {
+                iconsListHtml += _.template($('#MailClient_ActionIcon').html(),{
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonReply,
+                    label:        'ответить'
+                });
+            }
+            if (addButtonReplyAll) {
+                iconsListHtml += _.template($('#MailClient_ActionIcon').html(),{
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonReplyAll,
+                    label:        'ответить всем'
+                });
+            }
+            if (addButtonForward) {
+                iconsListHtml += _.template($('#MailClient_ActionIcon').html(),{
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonForward,
+                    label:        'переслать'
+                });
+            }
+            if (addButtonAddToPlan) {
+                iconsListHtml += _.template($('#MailClient_ActionIcon').html(),{
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonAddToPlan,
+                    label:        'запланировать'
+                });
+            }
+            // conpose HTML code }
+            
+            console.log('#' + this.mailClientScreenID + ' .actions');
+            console.log(iconsListHtml);
+            
+            // render HTML
+            $('#' + this.mailClientScreenID + ' .actions').html(iconsListHtml);
         }
     });
 })();
