@@ -157,12 +157,14 @@
         
         updateIncomeListView: function() {
             // generate emails list {
-            var emailsList = '';
+                       
+            // We  use this 2 variables to separate emails to display unreaded emails first in list
+            var readedEmailsList = '';
+            var unreadedEmailsList = '';
             
             var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderIncome].emails; // to make code shorter
             
             for (var key in incomingEmails) {
-                
                 // check is email active
                 var isActiveCssClass = '';
                 if (incomingEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
@@ -171,7 +173,7 @@
                 } 
                 
                 // generate HTML by template
-                emailsList += _.template($('#MailClient_IncomeEmailLine').html(),{
+                var emailsList = _.template($('#MailClient_IncomeEmailLine').html(),{
                     
                     emailMySqlId:       incomingEmails[key].mySqlId,
                     senderName:         incomingEmails[key].senderNameString,
@@ -181,11 +183,18 @@
                     isReadedCssClass:   incomingEmails[key].getIsReadedCssClass(),
                     isActiveCssClass:   isActiveCssClass
                 }); 
-            }         
-            // generate emails list }
+
+                // Sort emails to display unreaded email first in list of emails {
+                if (incomingEmails[key].isReaded()) {
+                    readedEmailsList += emailsList;
+                } else {
+                    unreadedEmailsList += emailsList;
+                }
+                // Sort emails to display unreaded email first in list of emails }
+            } 
             
             // add emails list
-            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table').html(unreadedEmailsList + readedEmailsList);
             
             $('.email-list-line').click(function(event){
                 // if user click on same email line twise - open read email screen

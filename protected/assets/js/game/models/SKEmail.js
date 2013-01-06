@@ -81,7 +81,7 @@
          */
 
         isReaded: function() {
-            return this.is_readed === 1;
+            return this.is_readed == 1;
         },
         
         /**
