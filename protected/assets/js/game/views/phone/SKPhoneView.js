@@ -42,7 +42,7 @@ $(function () {
             div.setAttribute('class', 'mail-emulator-main-div');
             div.style.position = "absolute";
             div.style.zIndex = (this.zIndex + 1);
-            $(this.conteiner).append(div);
+            $(this.container).append(div);
             $('#phoneMainDiv').css('position', 'absolute');
             //document.body.appendChild(div);
             $('#phoneMainDiv').css('top', this.divTop + 'px');
