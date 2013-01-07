@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, dialogController, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView*/
+/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -98,10 +98,9 @@
             sim_event.complete();
             var visit_view = new SKVisitView(sim_event);
             this.$('.door').removeClass('icon-active');
-            dialogController.draw('income', sim_event.get('data'));
         },
         doPlanToggle:function (e) {
-            dayPlan.draw();
+            var plan = new SKDayPlanView();
             e.preventDefault();
         },
         doPhoneToggle:function (e) {

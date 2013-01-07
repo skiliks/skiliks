@@ -263,6 +263,7 @@
         },
 
         renderIcons:function (iconButtonAliaces) {
+            var me = this;
             // set defaults {
             var iconsListHtml = '';
 
@@ -274,27 +275,25 @@
             // set defaults }
 
             // choose icons to show {
-            for (var i in iconButtonAliaces) {
-                if (iconButtonAliaces.hasOwnProperty(i)) {
-                    switch (iconButtonAliaces[i]) {
-                        case this.mailClient.aliasButtonNewEmail:
-                            addButtonNewEmail = true;
-                            break;
-                        case this.mailClient.aliasButtonReply:
-                            addButtonReply = true;
-                            break;
-                        case this.mailClient.aliasButtonReplyAll:
-                            addButtonReplyAll = true;
-                            break;
-                        case this.mailClient.aliasButtonForward:
-                            addButtonForward = true;
-                            break;
-                        case this.mailClient.aliasButtonAddToPlan:
-                            addButtonAddToPlan = true;
-                            break;
-                    }
+            iconButtonAliaces.forEach(function (alias) {
+                switch (alias) {
+                    case me.mailClient.aliasButtonNewEmail:
+                        addButtonNewEmail = true;
+                        break;
+                    case me.mailClient.aliasButtonReply:
+                        addButtonReply = true;
+                        break;
+                    case me.mailClient.aliasButtonReplyAll:
+                        addButtonReplyAll = true;
+                        break;
+                    case me.mailClient.aliasButtonForward:
+                        addButtonForward = true;
+                        break;
+                    case me.mailClient.aliasButtonAddToPlan:
+                        addButtonAddToPlan = true;
+                        break;
                 }
-            }
+            });
             // choose icons to show }
 
             // conpose HTML code {
