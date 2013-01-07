@@ -1,5 +1,4 @@
-/* 
- * 
+/*global Backbone
  */
 (function() {
     "use strict";
@@ -12,7 +11,7 @@
         name: undefined,
         
         // @var array of 
-        emails: new Array(),
+        emails: [],
        
         // @bar bool
         isActive: false,
@@ -22,12 +21,14 @@
         },
         
         getEmailByMySqlId: function(mySqlId) {
-            mySqlId = parseInt(mySqlId);
-            for (var id in this.emails) {
-                if ('undefined' != typeof this.emails[id] && this.emails[id].mySqlId == mySqlId) {
-                    return this.emails[id];
+            mySqlId = parseInt(mySqlId, 10);
+            var res_email;
+            this.emails.forEach(function (email) {
+                if ('undefined' !== typeof email && parseInt(email.mySqlId, 10) === mySqlId) {
+                    res_email = email;
                 }
-            }
+            });
+            return res_email;
         }
     });
 })();

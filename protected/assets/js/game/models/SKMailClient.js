@@ -1,6 +1,4 @@
-/* 
- * 
- */
+/*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView*/
 (function() {
     "use strict";
     window.SKMailClient = Backbone.Model.extend({
@@ -116,16 +114,16 @@
         activeScreen: undefined,
         
         // @var array of SkMailFolder
-        folders: new Array(),
+        folders: [],
         
         // @var array of SkCharacter
-        defaultRecipients: new Array(),
+        defaultRecipients: [],
         
         // @var array of 
-        availableSubjects: new Array(),
+        availableSubjects: [],
         
         // @var array of 
-        availableAttachments: new Array(),
+        availableAttachments: [],
         
         // -------------------------------------------------
         
@@ -186,17 +184,17 @@
         },
         
         getFolderAliasById: function(folderId) {
-            folderId = parseInt(folderId);
-            if (1 == folderId) {
+            folderId = parseInt(folderId, 10);
+            if (1 === folderId) {
                 return this.aliasFolderIncome;
             }  
-            if (2 == folderId) {
+            if (2 === folderId) {
                 return this.aliasFolderSended;
             }  
-            if (3 == folderId) {
+            if (3 === folderId) {
                 return this.aliasFolderDrafts;
             }  
-            if (4 == folderId) {
+            if (4 === folderId) {
                 return this.aliasFolderTrash;
             }  
         },
@@ -204,28 +202,30 @@
         /**
          * CleanUp 'folderAlias' folder
          * Push all emails from 'emails' to 'folderAlias' folder
-         * 
-         * @param string folderAlias
-         * @param mixed array emails
+         *
+         * @param folderAlias
+         * @param emailsData
          */
         setEmailsToFolder: function(folderAlias, emailsData) { 
 
-            this.folders[folderAlias].emails = new Array();
+            this.folders[folderAlias].emails = [];
             
             for (var id in emailsData) {
-                var subject = new SKMailSubject();
-                subject.text = emailsData[id].subject;
+                if (emailsData.hasOwnProperty(id)) {
+                    var subject = new SKMailSubject();
+                    subject.text = emailsData[id].subject;
 
-                var email = new SKEmail();
-                email.mySqlId             = emailsData[id].id;
-                email.is_readed           = (1 == parseInt(emailsData[id].readed));
-                email.is_has_attachment   = (1 == parseInt(emailsData[id].attachments));
-                email.sendedAt            = emailsData[id].receivingDate;
-                email.subject             = subject;
-                email.senderNameString    = emailsData[id].sender;
-                email.recipientNameString = emailsData[id].receiver;
-                
-                this.folders[folderAlias].addEmail(email);
+                    var email = new SKEmail();
+                    email.mySqlId             = emailsData[id].id;
+                    email.is_readed           = (1 === parseInt(emailsData[id].readed, 10));
+                    email.is_has_attachment   = (1 === parseInt(emailsData[id].attachments, 10));
+                    email.sendedAt            = emailsData[id].receivingDate;
+                    email.subject             = subject;
+                    email.senderNameString    = emailsData[id].sender;
+                    email.recipientNameString = emailsData[id].receiver;
+
+                    this.folders[folderAlias].addEmail(email);
+                }
             }
         },
         
@@ -275,7 +275,7 @@
         getDataForInitialScreen: function() {
             SKApp.server.api(
                 'mail/getFolders',
-                { sid: session.getSid() }, 
+                {},
                 function (data) {
                     SKApp.user.simulation.mailClient.renderInitialScreen(data.folders, data.messages);
                 });
@@ -298,10 +298,13 @@
             this.folders[this.aliasFolderIncome].isActive = true;
             
             // set as active first letter in Income folder {
-            if (0 < this.folders[this.aliasFolderIncome].emails.length) {
-                for (var key in this.folders[this.aliasFolderIncome].emails) {
-                    this.setActiveEmail(this.folders[this.aliasFolderIncome].emails[key]);
-                    break;
+            var emails = this.folders[this.aliasFolderIncome].emails;
+            if (0 < emails.length) {
+                for (var key in emails) {
+                    if (emails.hasOwnProperty(key)) {
+                        this.setActiveEmail(emails[key]);
+                        break;
+                    }
                 }
             }
             // set as active first letter in Income folder }
@@ -312,7 +315,7 @@
         },
         
         preRenderFolder: function(folderAlias) {
-            if (this.aliasFolderIncome == folderAlias) {
+            if (this.aliasFolderIncome === folderAlias) {
                 this.viewObject.renderIncomeFolder();                
             }
             
@@ -325,10 +328,14 @@
          */
         getEmailById: function(emailId) {
             for (var alias in this.folders) {
-                var emais = this.folders[alias].emails;
-                for (var i in emais) {
-                    if (emais[i].mySqlId == emailId) {
-                        return emais[i];
+                if (this.folders.hasOwnProperty(alias)){
+                    var emails = this.folders[alias].emails;
+                    for (var i in emails) {
+                        if (emails.hasOwnProperty(i)) {
+                            if (emails[i].mySqlId === emailId) {
+                                return emails[i];
+                            }
+                        }
                     }
                 }
             }
@@ -345,13 +352,12 @@
             SKApp.server.api(
                 'myDocuments/add',
                 { 
-                    sid:          session.getSid(),
                     attachmentId: attachmentId
                 }, 
-                function (responce) {
+                function (response) {
                     // and display message for user
-                    SKApp.user.simulation.mailClient.message_window 
-                        = SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                    SKApp.user.simulation.mailClient.message_window =
+                        SKApp.user.simulation.mailClient.message_window || new SKDialogView({
                         'message': 'Файл был успешно сохранён в папку Мои документы.',
                         'buttons': [
                             {
@@ -394,16 +400,16 @@
         // ------------------------------------------------------
         
         renderMailClientFunctionalButtons: function(buttonsToDisplay) {
-            if ('undefined' == typeof buttonsToDisplay) {
-                buttonsToDisplay = new Array();
+            if ('undefined' === typeof buttonsToDisplay) {
+                buttonsToDisplay = [];
             }
         },
         
         toggleWindow: function() {
-            if ('undefined' == typeof this.window) {
+            if ('undefined' === typeof this.window) {
                 this.openWindow();
             } else {
-                if (1 == this.window.active) {
+                if (1 === this.window.active) {
                     this.window = 'undefined';
                     this.closeWindow();
                 } else {
