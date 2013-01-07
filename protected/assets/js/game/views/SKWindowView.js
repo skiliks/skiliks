@@ -14,7 +14,7 @@ $(function () {
 
         @return window jquery element
          */
-        'renderWindow':function () {
+        renderWindow:function () {
 
         }
     });
