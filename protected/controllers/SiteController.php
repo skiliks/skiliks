@@ -41,6 +41,7 @@ class SiteController extends AjaxController
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.css");
         $cs->registerCssFile($assetsUrl . "/css/main.css");
         $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
+        $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/plan.less");
         $cs->registerScriptFile($assetsUrl . "/js/backbone.js");
         $cs->registerScriptFile($assetsUrl . "/js/less-1.3.3.min.js");
         
@@ -73,9 +74,11 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
-        
+
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/plan/DayPlanView.js");
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneView.js");
         
@@ -123,7 +126,6 @@ class SiteController extends AjaxController
 
         //загрузка игрового мира
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/dialogController.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/icons.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/add_assessment.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/day_plan.js");
