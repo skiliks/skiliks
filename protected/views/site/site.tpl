@@ -17,6 +17,7 @@
 
 
 {include "site/jst/world.tpl"}
+{include "site/jst/window.tpl"}
 {include "site/jst/visit.tpl"}
 {include "site/jst/simulation.tpl"}
 {include "site/jst/plan.tpl"}
