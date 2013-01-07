@@ -33,18 +33,6 @@ $(function () {
 
         cancelDialogId:0,
 
-        setDivTop:function (val) {
-            this.divTop = val;
-        },
-
-        setDivLeft:function (val) {
-            this.divLeft = val;
-        },
-
-        setBoundsParams:function (params) {
-            this.activeFrameParams = params;
-        },
-
         createDiv:function () {
             var topZindex = php.getTopZindexOf();
             this.zIndex = topZindex + 1;
@@ -67,25 +55,6 @@ $(function () {
             $('#phoneMainDiv').css('left', left+'px');
             this.issetDiv = true;
         },
-        createBack:function () {
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phoneBackDiv');
-            div.style.position = "absolute";
-            div.style.zIndex = (this.zIndex);
-            document.body.appendChild(div);
-            var phone_back_div = $('#phoneBackDiv');
-            phone_back_div.css('top', this.activeFrameParams.y + 'px');
-            phone_back_div.css('left', this.activeFrameParams.x + 'px');
-            phone_back_div.css('height', this.activeFrameParams.height + 'px');
-            phone_back_div.css('width', this.activeFrameParams.width + 'px');
-
-            phone_back_div.css('background-color', '#000');
-            phone_back_div.css('opacity', '0.7');
-        },
-        removeBack:function () {
-            $('#phoneBackDiv').remove();
-        },
-
         render:function () {
             var action = this.options.action;
             var dialog = this.options.dialog;
@@ -134,7 +103,7 @@ $(function () {
             // Main hero miss phone call and it ignored automatically
             //simulation.isRecentlyIgnoredPhone = false;
         },
-        closePhone:function () {
+        close:function () {
             $('#phoneMainDiv').remove();
             $('#phoneBackDiv').remove();
             $('.phoneMainScreenScrollbar').remove();
