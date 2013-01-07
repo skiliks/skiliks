@@ -22,8 +22,6 @@ $(function () {
                 this.talk_window = new SKDialogWindow('phone', 'phoneTalk', dialog ? dialog[0].id : undefined);
                 this.talk_window.open();
             }
-
-            //'<li><p>Потрясающая безответственность! Вот уж от тебя никак не ожидал!</p><span></span></li>'+
             var callInHtml = this.dialogHTML;
             var callInHtmlAns = '';
 
@@ -86,7 +84,7 @@ $(function () {
 
 
         },
-        closePhone:function () {
+        close:function () {
             $('#phoneMainDiv').remove();
             $('#phoneBackDiv').remove();
             $('.phoneMainScreenScrollbar').remove();
