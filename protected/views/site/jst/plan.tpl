@@ -16,82 +16,90 @@
     </div>
 </script>
 <script type="text/template" id="plan_template">
-<div class="planner-book-main-div">
-<div id="plannerBookQuarterPlan" class="planner-book-quarter-plan">
-    <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_quarter.png">
-</div>
-<div id="plannerBookDayPlan" class="planner-book-day-plan">
-    <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_day.png">
-</div>
-<div class="btn-close" onclick="dayPlan.draw();">
-    <button></button>
-</div>
-<div id="plannerBook" class="planner-book">
-<div id="plannerBookToday" class="planner-book-today">
-    <div class="planner-book-today-head">
-        <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
+    <div class="planner-book-main-div">
+        <div id="plannerBookQuarterPlan" class="planner-book-quarter-plan">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_quarter.png">
+        </div>
+        <div id="plannerBookDayPlan" class="planner-book-day-plan">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_day.png">
+        </div>
+        <div class="btn-close win-close">
+            <button></button>
+        </div>
+        <div id="plannerBook" class="planner-book">
+            <div id="plannerBookToday" class="planner-book-today">
+                <div class="planner-book-today-head">
+                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
+                </div>
+                <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
+                    <table class="planner-book-timetable-table">
+                        <@ _.range(9,22).forEach(function(hour) { @>
+                        <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
+                        <tr>
+                            <@ if (minute === '00') { @>
+                            <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
+                            <@ } @>
+                            <@ if (minute === '30') { @>
+                            <td class="planner-book-timetable-time-fl" rowspan="2"></td>
+                            <@ } @>
+                            <td data-hour="<@= hour @>" data-minute="<@= minute @>"
+                                class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
+                        </tr>
+                        <@ }) @>
+                        <@ }) @>
+                    </table>
+                </div>
+            </div>
+            <div id="plannerBookTomorrow" class="planner-book-tomorrow">
+                <div class="planner-book-tomorrow-head">
+                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
+                </div>
+                <div id="plannerBookTomorrowTimeTable" class="planner-book-timetable">
+                    <table class="planner-book-timetable-table">
+                        <@ _.range(9,22).forEach(function(hour) { @>
+                        <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
+                        <tr>
+                            <@ if (minute === '00') { @>
+                            <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
+                            <@ } @>
+                            <@ if (minute === '30') { @>
+                            <td class="planner-book-timetable-time-fl" rowspan="2"></td>
+                            <@ } @>
+                            <td data-hour="<@= hour @>" data-minute="<@= minute @>"
+                                class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
+                        </tr>
+                        <@ }) @>
+                        <@ }) @>
+                    </table>
+                </div>
+                <div class="planner-book-scrollbar"></div>
+            </div>
+            <div id="plannerBookAfterVacation" class="planner-book-after-vacation">
+                <div class="planner-book-after-vacation-head">
+                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
+                </div>
+                <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table">
+                    <table class="planner-book-timetable-table">
+                        <@ _.range(9,22).forEach(function(hour) { @>
+                        <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
+                        <tr>
+                            <td data-hour="<@= hour @>" data-minute="<@= minute @>"
+                                class="planner-book-timetable-afterv-fl day-plan-td-slot ui-droppable"></td>
+                        </tr>
+                        <@ }) @>
+                        <@ }) @>
+                    </table>
+                </div>
+                <div id="plannerBookAfterVacationScrollbar" class="planner-book-afterv-scrollbar"></div>
+            </div>
+        </div>
+        <div class="plan-todo open">
+            <ul class="plan-todo-btn">
+                <li><button class="min" onclick="dayPlan.todoViewChange(\'down\');"></button></li>
+                </ul>
+
+            <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum">(19)</span></p>
+
+            </div>
     </div>
-    <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
-        <table class="planner-book-timetable-table">
-            <@ _.range(9,22).forEach(function(hour) { @>
-            <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
-            <tr>
-                <@ if (minute === '00') { @>
-                <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
-                <@ } @>
-                <@ if (minute === '30') { @>
-                <td class="planner-book-timetable-time-fl" rowspan="2"></td>
-                <@ } @>
-                <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                    class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
-            </tr>
-            <@ }) @>
-            <@ }) @>
-        </table>
-    </div>
-</div>
-<div id="plannerBookTomorrow" class="planner-book-tomorrow">
-    <div class="planner-book-tomorrow-head">
-        <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
-    </div>
-    <div id="plannerBookTomorrowTimeTable" class="planner-book-timetable">
-        <table class="planner-book-timetable-table">
-            <@ _.range(9,22).forEach(function(hour) { @>
-            <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
-            <tr>
-                <@ if (minute === '00') { @>
-                <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
-                <@ } @>
-                <@ if (minute === '30') { @>
-                <td class="planner-book-timetable-time-fl" rowspan="2"></td>
-                <@ } @>
-                <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                    class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
-            </tr>
-            <@ }) @>
-            <@ }) @>
-        </table>
-    </div>
-    <div class="planner-book-scrollbar"></div>
-</div>
-<div id="plannerBookAfterVacation" class="planner-book-after-vacation">
-    <div class="planner-book-after-vacation-head">
-        <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
-    </div>
-    <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table">
-        <table class="planner-book-timetable-table">
-            <@ _.range(9,22).forEach(function(hour) { @>
-            <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
-            <tr>
-                <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                    class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
-            </tr>
-            <@ }) @>
-            <@ }) @>
-        </table>
-    </div>
-    <div id="plannerBookAfterVacationScrollbar" class="planner-book-afterv-scrollbar"></div>
-</div>
-</div>
-</div>
 </script>
