@@ -1,13 +1,13 @@
-/*global Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global Backbone, _, SKApp, SKConfig, SKWindowView*/
 (function () {
     "use strict";
-    window.SKDayPlanView = Backbone.View.extend({
+    window.SKDayPlanView = SKWindowView.extend({
         'el':'body .plan-container',
         'initialize': function () {
             this.render();
         },
-        'render': function () {
-            this.$el.html(_.template($('#plan_template').html()));
+        'renderWindow': function (window_el) {
+            window_el.html(_.template($('#plan_template').html()));
         }
     });
 })();

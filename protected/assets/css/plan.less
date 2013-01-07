@@ -3,15 +3,18 @@
     border-right: dotted 1px;
   }
   tr:nth-child(4n), tr:nth-child(4n+3) {
-    .planner-book-timetable-event-fl {
+    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
       border-top: dotted 1px #D9D9CB;
+      height: 10px;
       background-color: #F6F6FD;
     }
     .planner-book-timetable-time-fl {
       background-color: #F6F6FD;
     }
   }
-  tr:nth-child(2n) .planner-book-timetable-event-fl {
-    border: none;
+  tr:nth-child(2n) {
+    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+      border: none;
+    }
   }
 }
