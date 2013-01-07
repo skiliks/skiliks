@@ -2,7 +2,7 @@
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
-        'initialize':function () {
+        initialize:function () {
             var me = this;
             me.icon_lock = {};
             var events = this.sim_events = SKApp.user.simulation.events;
@@ -25,25 +25,25 @@
             });
             this.render();
         },
-        'updateMailCounter': function () {
+        updateMailCounter: function () {
             var me = this;
             this.sim_events.getUnreadMailCount(function (count) {
                 me.setCounter('.mail', count);
             });
         },
-        'updatePlanCounter': function () {
+        updatePlanCounter: function () {
             var me = this;
             this.sim_events.getPlanTodoCount(function (count) {
                 me.setCounter('.plan', count);
             });
         },
-        'setCounter':function (selector, count) {
+        setCounter:function (selector, count) {
             if (!this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
             }
             this.$(selector + ' a span').html(count);
         },
-        'startAnimation':function (selector) {
+        startAnimation:function (selector) {
             var me = this;
             if (!(me.icon_lock[selector])) {
                 me.icon_lock[selector] = true;
@@ -67,7 +67,7 @@
 
             }
         },
-        'events':{
+        events:{
             'click .icons-panel .phone.icon-active a':'doPhoneTalkStart',
             'click .icons-panel .door.icon-active a':'doDialogStart',
 
@@ -77,13 +77,13 @@
             'click .icons-panel .door a':'doDoorToggle',
             'click .icons-panel .documents a':'doDocumentsToggle'
         },
-        'render':function () {
+        render:function () {
             var me = this;
             this.$el.html(_.template($('#icon_panel').html(), {}));
             me.updateMailCounter();
             me.updatePlanCounter();
         },
-        'doPhoneTalkStart':function (e) {
+        doPhoneTalkStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
@@ -91,7 +91,7 @@
             this.$('.phone').removeClass('icon-active');
             phone.draw('income', sim_event.get('data'));
         },
-        'doDialogStart':function (e) {
+        doDialogStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).attr('data-event-id'));
@@ -100,23 +100,23 @@
             this.$('.door').removeClass('icon-active');
             dialogController.draw('income', sim_event.get('data'));
         },
-        'doPlanToggle':function (e) {
+        doPlanToggle:function (e) {
             dayPlan.draw();
             e.preventDefault();
         },
-        'doPhoneToggle':function (e) {
+        doPhoneToggle:function (e) {
             e.preventDefault();
             phone.draw();
         },
-        'doDoorToggle':function (e) {
+        doDoorToggle:function (e) {
             e.preventDefault();
         },
-        'doDocumentsToggle':function (e) {
+        doDocumentsToggle:function (e) {
             e.preventDefault();
             documents.draw();
             this.$('.documents').removeClass('icon-active');
         },
-        'doMailToggle':function (e) {
+        doMailToggle:function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
             
