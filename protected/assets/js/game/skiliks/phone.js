@@ -25,18 +25,6 @@
 
         cancelDialogId:0,
 
-        setDivTop:function (val) {
-            this.divTop = val;
-        },
-
-        setDivLeft:function (val) {
-            this.divLeft = val;
-        },
-
-        setBoundsParams:function (params) {
-            this.activeFrameParams = params;
-        },
-
         createDiv:function () {
             var topZindex = php.getTopZindexOf();
             this.zIndex = topZindex + 1;
