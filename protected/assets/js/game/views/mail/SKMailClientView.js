@@ -195,9 +195,10 @@
             // add emails list
             $('#' + this.mailClientIncomeFolderListId + ' table').html(unreadedEmailsList + readedEmailsList);
             
-            $('.email-list-line').click(function(event){
+            $('.email-list-line').click(function(event) {
                 // if user click on same email line twise - open read email screen
-                if ($(event.currentTarget).data().emailId === SKApp.user.simulation.mailClient.activeEmail.mySqlId) {
+                // Andrey, do not change == to ===
+                if ($(event.currentTarget).data().emailId == SKApp.user.simulation.mailClient.activeEmail.mySqlId) {
                     SKApp.user.simulation.mailClient.renderReadEmailScreen(
                         $(event.currentTarget).data().emailId
                     );
