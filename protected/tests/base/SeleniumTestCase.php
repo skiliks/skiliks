@@ -59,7 +59,11 @@ class SeleniumTestCase extends CDbTestCase
         $timeouts = new PHPWebDriver_WebDriverWait($session, $timeout, 0.5, array($using, $value));
         return $timeouts->until(function ($session, $args) {
             try {
-                return $session->element($args[0], $args[1]);
+                if ($session->element($args[0], $args[1]) && $session->element($args[0], $args[1])->displayed()) {
+                    return $session->element($args[0], $args[1]);
+                } else {
+                    return false;
+                };
             } catch (\WebDriver\Exception $e) {
                 return false;
             }
@@ -71,7 +75,7 @@ class SeleniumTestCase extends CDbTestCase
         $timeouts = new PHPWebDriver_WebDriverWait($session, 10, 0.5, array($using, $value));
         return $timeouts->until(function ($session, $args) {
             try {
-                return !$session->element($args[0], $args[1]);
+                return !($session->element($args[0], $args[1]) && $session->element($args[0], $args[1])->displayed());
             } catch (\WebDriver\Exception $e) {
                 return true;
             }
