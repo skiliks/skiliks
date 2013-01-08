@@ -35,7 +35,7 @@ class TodoController extends AjaxController
     }
 
     /**
-     * @return HttpResponce
+     * @return HttpResponse
      */
     public function actionAdd()
     {
