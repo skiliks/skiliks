@@ -543,7 +543,7 @@
          * @var SKMailPhrase phrase
          */
         removePhraseFromEmail: function(phrase) {
-            
+            console.log('-');
             this.viewObject.removePhraseFromEmail(phrase);
             
             var phrases = this.newEmailUsedPhrases;
@@ -590,13 +590,6 @@
             }
             
             return undefined;
-        },
-        
-        /**
-         * @vat SKAttachment attachment
-         */
-        addAttachment: function(attachment) {
-            console.log(attachment.label);
         },
 
         'renderWriteReplyEmailScreen': function() {
