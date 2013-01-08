@@ -63,7 +63,8 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKUser.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKSimulation.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKEvent.js");
-        
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKTodoTask.js");
+
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailSubject.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailClient.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
@@ -72,13 +73,14 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKAttachment.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKEventCollection.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKTodoCollection.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
 
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/plan/DayPlanView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/plan/SKDayPlanView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneView.js");
