@@ -1,0 +1,102 @@
+.tagHandler {
+    width: 100%;
+    position: relative;
+}
+.tagHandler ul.tagHandlerContainer {
+    -webkit-border-radius: 7px;
+    -moz-border-radius: 7px;
+    border: 1px solid #DFDFDF;
+    background-color: white;
+    border-radius: 0;
+    box-shadow: 0;
+    overflow: hidden;
+    min-height: 30px;
+    line-height: 30px;
+    cursor: text;
+    font-family: arial, helvetica, sans-serif;
+    padding: 0px 5px;
+    margin: 0;
+}
+.tagHandler ul.tagHandlerContainer li {
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    height: 14px;
+    line-height: 14px;
+    display: block;
+    float: left;
+    font-size: 12px;
+    margin: 5px 5px 5px 0;
+    white-space: nowrap;
+}
+.tagHandler ul.tagHandlerContainer li.tagItem {
+    background-color: #777;
+    color: #FFF;
+    padding: 3px 8px;
+    cursor: url('../img/tag-handler/tag_remove.cur'), pointer;
+}
+.tagHandler ul.tagHandlerContainer li.tagItem:hover {
+    background-color: #008afb;
+}
+.tagHandler ul.tagHandlerContainer li.tagInput {
+    padding: 3px 4px;
+}
+.tagHandler ul.tagHandlerContainer input.tagInputField,
+.tagHandler ul.tagHandlerContainer input.tagInputField:focus{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: none;
+    width: inherit;
+    background-color: #FFF;
+    border-radius: 0;
+    box-shadow: 0 0 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.tagHandler div.tagLoader {
+    position: absolute;
+    right: -24px;
+    top: 12px;
+    display: none;
+    background: url('../img/tag-handler/loader.gif') center center no-repeat;
+    width: 16px;
+    height: 18px;
+    cursor: default;
+}
+.tagHandler div.tagUpdate {
+    position: absolute;
+    right: -24px;
+    top: 14px;
+    background: url('../img/tag-handler/tag_update.png') center center no-repeat;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.ui-widget-content {
+    background-color: white;
+    max-height: 350px;
+    overflow-y: scroll;
+}
+
+.ui-widget-content a {
+    color: #000000;
+    margin: 10px 0;   
+}
+
+.ui-menu .ui-menu-item a.ui-state-hover {
+    margin: 10px 0;
+    background-color: #DDD;
+}
+
+.ui-autocomplete {
+    margin-top: -5px;
+    padding-bottom: 15px; 
+}
+
+input.tagInputField {
+    border-radius: 0;
+    box-shadow: 0;
+}

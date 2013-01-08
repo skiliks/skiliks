@@ -4,13 +4,16 @@
     "use strict";
     window.SKServer = Backbone.Model.extend({
         'api_root': '/index.php/',
-        'api': function (path, params, callback) {
+        'api': function (path, params, callback, async) {
             var me = this,
                 cb = callback,
                 debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/),
                 url = this.api_root + path;
             if (params === undefined) {
                 params = {};
+            }
+            if (async === undefined) {
+                async = true;
             }
             if (debug_match !== null) {
                 url += '?XDEBUG_SESSION_START=' + debug_match[1];
@@ -24,6 +27,7 @@
                 url:      url,
                 type:     "POST",
                 dataType: "json",
+                async:    async,
                 success: function (data){
                     result = data;
                     if (typeof cb !== 'undefined') {
