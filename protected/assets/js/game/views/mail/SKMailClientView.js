@@ -353,7 +353,7 @@
             }
             if (addButtonSave) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSaveCurrentCustomEmail();',
                     iconCssClass: this.mailClient.aliasButtonSaveDraft,
                     label:        'сохранить'
                 });
@@ -459,6 +459,25 @@
             return list;
         },
         
+        getCurentEmailCopiesIds: function() {
+            var list = [];
+            var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
+            
+            var valuesArray = $("#MailClient_CopiesList li").get();
+            
+            for (var i in valuesArray) {
+                for (var j in defaultRecipients) {
+                    // get IDs of character by label text comparsion
+                    if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName()) {
+                        list.push(defaultRecipients[j].mySqlId);
+                        break;
+                    }
+                }
+            }
+            
+            return list;
+        },
+        
         updateSubjectsList: function() {
             var subjects = this.mailClient.availableSubjects; // to keep code shorter
             var listHtml = '<option value="0"></option>';
@@ -538,6 +557,60 @@
         
         removePhraseFromEmail: function(phrase) {
             $("#mailEmulatorNewLetterText li[data-uid=" + phrase.uid + "]").remove();
+        },
+        
+        /**
+         * @return SKAttachment | undefined
+         */
+        getCurrentEmailAttachmentFile: function() {
+            var selectedAttachmentlabel = $('.dd-selected label').text();
+            var attachments = this.mailClient.availableAttachments;
+            
+            if (undefined !== selectedAttachmentlabel && null !== selectedAttachmentlabel) {
+                for (var i in attachments) {
+                    if (selectedAttachmentlabel == attachments[i].label) {
+                        return attachments[i];
+                    }
+                }
+            }
+            
+            return undefined;
+        },
+        
+        /**
+         * @return integer | empty string
+         */
+        getCurrentEmailAttachmentFileId: function() {
+            var file = this.getCurrentEmailAttachmentFile();
+            
+            if (undefined === file) {
+                return '';
+            } else {
+                return file.fileMySqlId;
+            }
+        },
+        
+        getCurrentEmailPhrases: function() {
+            var list = [];
+            
+            var usedPhrases = $("#mailEmulatorNewLetterText li").get();
+            
+            for (var i in usedPhrases) {
+                list.push($(usedPhrases[i]).data('id'));
+            }
+            
+            return list;
+        },
+        
+        doSaveCurrentCustomEmail: function() {
+            console.log('Recipients:', this.getCurentEmailRecipientIds());
+            console.log('Copies:', this.getCurentEmailCopiesIds());
+            console.log('SubjectID:', this.getCurentEmailSubjectId());
+            console.log('Phrases:', this.getCurrentEmailPhrases());
+            console.log('Type:', this.mailClient.emailTypeNew);
+            console.log('FileId:', this.getCurrentEmailAttachmentFileId());
+            console.log('MessageId:', '-');
+            console.log('TimeString:', SKApp.user.simulation.getGameMinutes());
         }
     });
 })();
