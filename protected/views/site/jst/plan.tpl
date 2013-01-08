@@ -27,7 +27,7 @@
             <button></button>
         </div>
         <div id="plannerBook" class="planner-book">
-            <div id="plannerBookToday" class="planner-book-today">
+            <div id="plannerBookToday" class="planner-book-today" data-day-id="1">
                 <div class="planner-book-today-head">
                     <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
                 </div>
@@ -51,7 +51,7 @@
                     </table>
                 </div>
             </div>
-            <div id="plannerBookTomorrow" class="planner-book-tomorrow">
+            <div id="plannerBookTomorrow" class="planner-book-tomorrow"  data-day-id="2">
                 <div class="planner-book-tomorrow-head">
                     <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
                 </div>
@@ -108,7 +108,9 @@
     </div>
 </script>
 <script type="text/template" id="todo_task_template">
-    <div class="planner-task day-plan-todo-task" data-task-id="<@= task.get('id') @>" data-task-duration="<@= task.get('duration') @>">
+    <div class="planner-task day-plan-todo-task <@ if (type === 'regular') { @>regular<@ } @>"
+         data-task-id="<@= task.id @>"
+         data-task-duration="<@= task.get('duration') @>">
     <span class="title hyphenate"><@= task.get('title') @></span>
         <div class="duration"><p><span><@= task.get('duration') @></span><br />мин</p></div>
 </script>
