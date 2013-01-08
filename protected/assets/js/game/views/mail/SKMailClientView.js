@@ -394,12 +394,6 @@
             
             // add attachments list {
             this.mailClient.uploadAttachmentsList();
-            
-//            var attachmentsListHtml = _.template($("#MailClient_AttachmentOptionItem").html(), {
-//                fileId: 0,
-//                label:  '',
-//                iconFile: 'ppt.png'
-//            }); 
 
             var attachmentsListHtml = [];
             
@@ -411,29 +405,19 @@
             });
             
             for (var i in this.mailClient.availableAttachments) {
-            attachmentsListHtml.push({
-                text:     this.mailClient.availableAttachments[i].label,
-                value:    this.mailClient.availableAttachments[i].fileId,
-                imageSrc: this.mailClient.availableAttachments[i].getIconImagePath()
-            });
-//                attachmentsListHtml += _.template($("#MailClient_AttachmentOptionItem").html(), {
-//                    fileId:   this.mailClient.availableAttachments[i].fileId,
-//                    label:    this.mailClient.availableAttachments[i].label,
-//                    iconFile: 'ppt.png'
-//                });
+                attachmentsListHtml.push({
+                    text:     this.mailClient.availableAttachments[i].label,
+                    value:    this.mailClient.availableAttachments[i].fileId,
+                    imageSrc: this.mailClient.availableAttachments[i].getIconImagePath()
+                });
             }
             
             $("#MailClient_NewLetterAttachment div.list").ddslick({
                 data:          attachmentsListHtml,
                 width:         '100%',
                 selectText:    "Нет вложения.",
-                imagePosition: "left",
-                onSelected:   function(selectedData){
-                    //callback function: do something with selectedData;
-                }   
+                imagePosition: "left"
             })
-            
-            // $("#MailClient_NewLetterAttachment").html(attachmentsListHtml);
             // add attachments list }
             
             // bind recipients 
@@ -540,7 +524,7 @@
             
             $("#mailEmulatorNewLetterText").append(phraseHtml);
             
-            $("#mailEmulatorNewLetterText ul li").click(function() {
+            $("#mailEmulatorNewLetterText li").click(function() {
                 var phrase = SKApp.user.simulation.mailClient.getUsedPhraseByUid($(this).data('uid'));
                 if (undefined === phrase) {
                     // if a have seweral (2,3,4...) phrases added to email - click handled twise
@@ -548,7 +532,7 @@
                     // @todo: fix it
                     throw 'Undefined phrase uid.';
                 }
-                SKApp.user.simulation.mailClient.removePhraseFromEmail(phrase, $(this).eq());
+                SKApp.user.simulation.mailClient.removePhraseFromEmail(phrase);
             });
         },
         
