@@ -1,4 +1,5 @@
-/*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog */
+/*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
+/*global SKTodoCollection */
 
 (function () {
     "use strict";
@@ -15,8 +16,10 @@
     window.SKSimulation = Backbone.Model.extend({
         'initialize':function () {
             this.events = new SKEventCollection();
+            this.todo_tasks = new SKTodoCollection();
             this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
+            this.mailClient = new SKMailClient();
         },
         /**
          * Returns number of minutes past from the start of game
@@ -78,6 +81,7 @@
             var win = this.window = new SKWindow('mainScreen', 'mainScreen');
             win.open();
             SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function () {
+                me.todo_tasks.fetch();
                 me.trigger('start');
             });
             this.events_timer = setInterval(function () {

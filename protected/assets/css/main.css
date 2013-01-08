@@ -1702,8 +1702,9 @@ section.mail>header nav ul li.active{
 section.mail>header nav ul li:first-child{
 	margin-top:0;
 }
-section.mail>header nav ul li a{
-        color: #fff;
+section.mail>header nav ul li label{
+    color: #fff;
+    cursor: pointer;
 	display:block;
 	background:url("../img/mail/icon-nav.png") no-repeat 5px 0;
 	font-size:12px;
@@ -1716,30 +1717,39 @@ section.mail>header nav ul li a{
 	padding-left:47px;
 	position:relative;
 }
-section.mail>header nav ul li a.btn1{
+section.mail>header nav ul li label.icon_DRAFTS{
 	background-position:0 -43px;
 }
-section.mail>header nav ul li a.btn2{
+section.mail>header nav ul li label.icon_SENDED{
 	background-position:0 -86px;
 }
-section.mail>header nav ul li a.btn3{
+section.mail>header nav ul li label.icon_TRASH{
 	background-position:0 -129px;
 }
-section.mail>header nav ul li a:hover{
+.ml tr.notreaded td {
+    font: bold 14px/14px 'orbi_sansregular';
+}
+
+.save-attachment-icon {
+    background: url("../img/interface/savedoc.png") no-repeat;
+    display: inline-block;
+    height: 17px;
+    margin: 0;
+    width: 20px;
+}
+
+section.mail>header nav ul li label:hover{
 	text-decoration:underline;
 }
-section.mail>header nav ul li.active a:hover{
+section.mail>header nav ul li.active label:hover{
 	text-decoration:none;
 }
-section.mail>header nav ul li a span{
-	display:block;
-	line-height:44px;
-	text-align:center;
-	width:21px;
-	height:40px;
-	position:absolute;
-	top:0;
-	right:14px;
+
+.attachmentIcon {
+    background: url("../img/mail/icon-attach.png") no-repeat;
+    display: inline-block;
+    height:18px;
+    width:12px;
 }
 
 .r{
@@ -1747,6 +1757,8 @@ section.mail>header nav ul li a span{
 	float:right;
 	position:relative;
 }
+
+/* mail actions buttons */
 
 section.mail .actions{
 	list-style:none;
@@ -1769,16 +1781,19 @@ section.mail .actions li>a{
 	line-height:14px;
 	padding-top:27px;
 }
-section.mail .actions li a.btn1{
+section.mail .actions li a.NEW_EMAIL{
+	background-position:center 0px;
+}
+section.mail .actions li a.REPLY_EMAIL{
 	background-position:center -40px;
 }
-section.mail .actions li a.btn2{
+section.mail .actions li a.REPLY_ALL_EMAIL{
 	background-position:center -80px;
 }
-section.mail .actions li a.btn3{
+section.mail .actions li a.FORWARD_EMAIL{
 	background-position:center -120px;
 }
-section.mail .actions li a.btn4{
+section.mail .actions li a.ADD_TO_PLAN{
 	background-position:center -160px;
 }
 section.mail .actions li a:hover{
@@ -2914,7 +2929,6 @@ section.phone{
 	height:565px;
 	margin:0 auto;
 	padding:3px 6px 0 5px;
-	overflow:hidden;
 }
 section.phone.popup{
 	background:url("../img/phone/bg-popup.png") no-repeat;
@@ -3495,9 +3509,6 @@ ul.main-screen-stat li:first-child{
 }*/
 ul.main-screen-stat li img{
 	vertical-align:middle;
-}
-.main-screen-icons{
-	float:right;
 }
 .main-screen-icons ul{
 	list-style:none;
