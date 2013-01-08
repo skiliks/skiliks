@@ -111,6 +111,15 @@
             } else {
                 return ' display: none; ';
             }
+        },
+        
+        isValid: function() {
+            
+            if (undefined === this.subject) {
+                throw 'Письмо должно содержать тему.';
+            }
+                
+            return true;
         }
     });
 })();
