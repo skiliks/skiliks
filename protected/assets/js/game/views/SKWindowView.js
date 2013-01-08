@@ -6,7 +6,8 @@ $(function () {
     "use strict";
 
     window.SKWindowView = Backbone.View.extend({
-        Windows:{}    
+        Windows:{},
+        conteiner:'.canvas'
     });
 });
 
