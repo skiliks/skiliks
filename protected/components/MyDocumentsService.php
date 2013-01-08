@@ -167,7 +167,7 @@ class MyDocumentsService
      * 
      * @return boolean
      */
-    public function makeDocumentVisibleInSimulation($simulation, $fileId)
+    public static function makeDocumentVisibleInSimulation($simulation, $fileId)
     {
         $status = false;
         $file = MyDocumentsModel::model()
