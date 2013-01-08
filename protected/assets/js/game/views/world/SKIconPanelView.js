@@ -25,6 +25,10 @@
                     event.complete();
                 }
             });
+            var todo_tasks = SKApp.user.simulation.todo_tasks;
+            todo_tasks.on('add remove reset', function () {
+                me.updatePlanCounter();
+            });
             this.render();
         },
         updateMailCounter: function () {
@@ -35,9 +39,8 @@
         },
         updatePlanCounter: function () {
             var me = this;
-            this.sim_events.getPlanTodoCount(function (count) {
-                me.setCounter('.plan', count);
-            });
+            me.setCounter('.plan', SKApp.user.simulation.todo_tasks.length);
+
         },
         setCounter:function (selector, count) {
             if (!this.$(selector + ' a span').length) {

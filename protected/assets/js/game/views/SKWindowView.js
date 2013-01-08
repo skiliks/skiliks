@@ -13,6 +13,19 @@
             throw 'You need to override it';
         },
 
+        renderTPL: function (element, template, userData) {
+            var data = {};
+            var systemData = {assetsUrl:SKConfig.assetsUrl};
+            for(var i in systemData){ data[i] = systemData[i]; }
+            for(var i in userData){ 
+                if(data[i] === undefined){
+                    data[i] = userData[i]}
+                else{
+                    throw new Error("Переменная "+i+" используеться системой!");
+                }}
+            var html = _.template($(template).html(), data);
+            $(element).html(html);
+        },
         /*
         Creates window
 
