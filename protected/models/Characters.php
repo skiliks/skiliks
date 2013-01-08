@@ -53,16 +53,16 @@ class Characters extends CActiveRecord
      */
     public function getContactsList()
     {
-        $characters = self::model()->findAll();
+        $characters = self::model()->findAll('id != 1');
         
-        $list = array();
+        $list = [];
         foreach($characters as $character) {
-            $list[] = array(
+            $list[] = [
                 'id'    => $character->id,
                 'name'  => $character->fio,
                 'title' => $character->title,
                 'phone' => $character->phone
-            );
+            ];
         }
         
         return $list;
