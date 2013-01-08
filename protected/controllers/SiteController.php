@@ -45,6 +45,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/php.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/lib/hyphenate.js");
         $cs->registerScriptFile($assetsUrl . "/js/underscore.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery.ddslick.min.js");
 
@@ -71,6 +72,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKSimulation.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKEvent.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKTodoTask.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKDayTask.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailPhrase.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKCharacter.js");
@@ -83,6 +85,7 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKEventCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKTodoCollection.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKDayTaskCollection.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
@@ -93,6 +96,7 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneCallView.js");
         
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKLoginView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");        
