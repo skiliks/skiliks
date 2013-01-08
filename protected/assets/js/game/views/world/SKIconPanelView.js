@@ -1,8 +1,8 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, dialogController, mailEmulator, documents, dayPlan*/
+/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView, SKDayPlanView*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
-        'initialize':function () {
+        initialize:function () {
             var me = this;
             me.icon_lock = {};
             var events = this.sim_events = SKApp.user.simulation.events;
@@ -13,40 +13,39 @@
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
-                    me.startAnimation('.' + event.getTypeSlug());
+                    me.startAnimation('.' + event.getTypeSlug(), function () {
+                        me.setCounter('.phone', 1);
+                    });
                 } else if (event.getTypeSlug() === 'visit') {
+                    me.$('.door').attr('data-event-id', event.id);
                     me.startAnimation('.door');
-                } else if (event.getTypeSlug() === 'immediate-visit') {
-                    // TODO: incorrect location
-                    var visit_view = new SKVisitView({'event': event});
-                    event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
-                    phone.draw('dialog', event.get('data'));
+                    var view = new SKPhoneDialogView({'event' : event.get('data')});
                     event.complete();
                 }
             });
             this.render();
         },
-        'updateMailCounter': function () {
+        updateMailCounter: function () {
             var me = this;
             this.sim_events.getUnreadMailCount(function (count) {
                 me.setCounter('.mail', count);
             });
         },
-        'updatePlanCounter': function () {
+        updatePlanCounter: function () {
             var me = this;
             this.sim_events.getPlanTodoCount(function (count) {
                 me.setCounter('.plan', count);
             });
         },
-        'setCounter':function (selector, count) {
+        setCounter:function (selector, count) {
             if (!this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
             }
             this.$(selector + ' a span').html(count);
         },
-        'startAnimation':function (selector) {
+        startAnimation:function (selector, end_cb) {
             var me = this;
             if (!(me.icon_lock[selector])) {
                 me.icon_lock[selector] = true;
@@ -64,13 +63,16 @@
                     } else {
                         me.icon_lock[selector] = false;
                         el.removeClass('icon-active');
+                        if (end_cb !== undefined) {
+                            end_cb();
+                        }
                     }
                 };
                 bounce_cb();
 
             }
         },
-        'events':{
+        events:{
             'click .icons-panel .phone.icon-active a':'doPhoneTalkStart',
             'click .icons-panel .door.icon-active a':'doDialogStart',
 
@@ -80,13 +82,13 @@
             'click .icons-panel .door a':'doDoorToggle',
             'click .icons-panel .documents a':'doDocumentsToggle'
         },
-        'render':function () {
+        render:function () {
             var me = this;
             this.$el.html(_.template($('#icon_panel').html(), {}));
             me.updateMailCounter();
             me.updatePlanCounter();
         },
-        'doPhoneTalkStart':function (e) {
+        doPhoneTalkStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
@@ -94,35 +96,35 @@
             this.$('.phone').removeClass('icon-active');
             phone.draw('income', sim_event.get('data'));
         },
-        'doDialogStart':function (e) {
+        doDialogStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.getByTypeSlug('visit', false)[0];
+            var sim_event = this.sim_events.get($(e.currentTarget).attr('data-event-id'));
             sim_event.complete();
             var visit_view = new SKVisitView(sim_event);
             this.$('.door').removeClass('icon-active');
-            dialogController.draw('income', sim_event.get('data'));
         },
-        'doPlanToggle':function (e) {
-            dayPlan.draw();
+        doPlanToggle:function (e) {
+            var plan = new SKDayPlanView();
             e.preventDefault();
         },
-        'doPhoneToggle':function (e) {
+        doPhoneToggle:function (e) {
             e.preventDefault();
             phone.draw();
         },
-        'doDoorToggle':function (e) {
+        doDoorToggle:function (e) {
             e.preventDefault();
         },
-        'doDocumentsToggle':function (e) {
+        doDocumentsToggle:function (e) {
             e.preventDefault();
             documents.draw();
             this.$('.documents').removeClass('icon-active');
         },
-        'doMailToggle':function (e) {
+        doMailToggle:function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
-            mailEmulator.draw();
+            
+            SKApp.user.simulation.mailClient.openWindow();
         }
     });
 })();
