@@ -462,6 +462,16 @@ a {
 /* excel end*/
 
 /* mail begin */
+.mail-bg {
+    background-color: white
+}
+
+.attach-icon-medium {
+    background-image: url(../img/mail/btn-attach.png); 
+    height: 26px; 
+    margin-left: 30px;
+    width: 26px;
+}
 .mail-emulator-main-div
 {
     height: 500px;
@@ -2171,7 +2181,7 @@ table.ml-title td span{
 	height:24px;
 	padding:0 10px;
 }
-.mail-view.new .mail-view-header table td input[type=text]{
+.mail-view.new .mail-view-header table td input.origin{
 	background:#fff;
 	border:1px solid #cfcece;
 	-webkit-border-radius:0;
@@ -2185,15 +2195,64 @@ table.ml-title td span{
 	padding:0 10px;
 	margin:0;
 }
-.mail-view.new .mail-view-header table td input[type=text]:focus{
+#MailClient_NewLetterSubject select {
+    background: none repeat scroll 0 0 #FFFFFF;
+    font-size: 14px;
+    width: 100%;
+}
+
+.dd-options li {
+    height: auto;
+    line-height: 16px;
+    font:14px;
+}
+
+#MailClient_NewLetterAttachment .dd-selected-image,
+#MailClient_NewLetterAttachment .dd-option-image {
+    height: 26px;
+    widht: 26px;
+}
+
+#MailClient_NewLetterAttachment .dd-selected {
+    padding: 5px;
+}
+
+#MailClient_NewLetterAttachment .dd-option {
+    padding: 3px;
+}
+
+#MailClient_NewLetterAttachment label {
+    margin-bottom: 0;
+}
+
+#MailClient_NewLetterAttachment .dd-selected-text {
+    line-height: 26px !important;
+}
+
+#MailClient_NewLetterAttachment a.dd-selected {
+    color: black;   
+}
+
+#MailClient_NewLetterAttachment a.dd-option:hover,
+#MailClient_NewLetterAttachment a.dd-selected:hover {
+    color: black;   
+    text-decoration: none;
+}
+
+#MailClient_NewLetterAttachment .dd-options {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
+.mail-view.new .mail-view-header table td input.origin:focus{
 	-webkit-box-shadow:0 0 5px rgba(5,102,202,1);
 	-moz-box-shadow:0 0 5px rgba(5,102,202,1);
 	box-shadow:0 0 5px rgba(5,102,202,1);
 }
-.mail-view.new .mail-view-header table td input[type=text]::selection{
+.mail-view.new .mail-view-header table td input.origin::selection{
     background:#ddecf9;
 }
-.mail-view.new .mail-view-header table td input[type=text]::-moz-selection{
+.mail-view.new .mail-view-header table td input.origin::-moz-selection{
     background:#ddecf9;
 }
 .mail-file-attach{
@@ -2311,7 +2370,7 @@ table.ml-title td span{
 }
 .mail-tags-words{
 	list-style:none;
-	width:799px;
+	width:770px;
 	height:225px;
 	float:right;
 	overflow:hidden;

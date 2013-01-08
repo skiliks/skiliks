@@ -57,13 +57,22 @@
         aliasButtonAddToPlan: 'ADD_TO_PLAN',
         
         // unfortunatey this checnge context inside new Array, so I need to use literals
-        iconsForIncomeScreenArray: new Array(
+        iconsForIncomeScreenArray: [
             'NEW_EMAIL',
             'REPLY_EMAIL',
             'REPLY_ALL_EMAIL',
             'FORWARD_EMAIL',
             'ADD_TO_PLAN'
-        ),
+        ],
+            
+        iconsForWriteEmailScreenArray: [
+            'SEND_EMAIL',
+            'SAVE_TO_DRAFTS'
+        ],
+        
+        iconsForDraftsScreenArray: [
+            'SEND_DRAFT_EMAIL'
+        ],
         
         // --------------------------------------------------
         
@@ -119,11 +128,26 @@
         // @var array of SkCharacter
         defaultRecipients: [],
         
+        // use just to store avaliable for current new email subjects according recipients list
+        // refreshed for each new email and each recipients list change
         // @var array of 
         availableSubjects: [],
         
-        // @var array of 
+        // @var array of SKMailAttachment
         availableAttachments: [],
+        
+        // @var array of SKMailPhrase
+        availablePhrases: [],
+        
+        // @var array of SKMailPhrase
+        // this is ',', '.', ':' etc. - symbols for any phrases set
+        availableAdditionalPhrases: [],
+        
+        // @var array of SKMailPhrase
+        newEmailUsedPhrases: [],
+        
+        // @var array of SKMailAttachment
+        newEmailAttachment: undefined,
         
         // -------------------------------------------------
         
@@ -372,12 +396,209 @@
                 });   
         },
         
+        updateRecipientsList: function() {
+            SKApp.server.api(
+                'mail/getReceivers',
+                {}, 
+                function (response) {
+                    if (undefined !== response.data) {
+                        for (var i in response.data) {
+                            var string = response.data[i];
+                            
+                            var character = new SKCharacter();
+                            character.mySqlId = i;
+                            character.excelId = i;
+                            character.name    = $.trim(string.substr(0, string.indexOf('<')));
+                            character.email   = $.trim(string.substr(string.indexOf('<'), string.length));
+                            character.email   = character.email.replace('<', '');
+                            character.email   = character.email.replace('>', '');
+                            
+                            SKApp.user.simulation.mailClient.defaultRecipients.push(character);
+                        }
+                    }
+                },
+                false
+            ); 
+        },        
+        
+        getFormatedCharacterList: function() {
+            var list = [];
+            for (var i in this.defaultRecipients) {
+                // non strict "!=" is important!
+                if ('' != this.defaultRecipients[i].name && '' != this.defaultRecipients[i].email) {
+                    list.push(this.defaultRecipients[i].getFormatedForMailToName());
+                }
+            }
+            
+            return list;
+        },
+        
+        renderWriteCustomNewEmailScreen: function() {
+            if (0 == this.defaultRecipients.length) {
+                this.updateRecipientsList();
+            }
+            
+            this.viewObject.renderWriteCustomNewEmailScreen();
+        },
+        
+        reloadSubjects: function() {
+            var recipientIds = this.viewObject.getCurentEmailRecipientIds();
+            
+            SKApp.server.api(
+                'mail/getThemes',
+                {
+                    receivers: recipientIds.join(',') // implode()
+                }, 
+                function (response) {
+                    if (undefined !== response.data) {
+                        for (var i in response.data) {
+                            var string = response.data[i];
+                            
+                            var subject = new SKMailSubject();
+                            subject.characterSubjectId = i;
+                            subject.text = response.data[i];
+                            
+                            SKApp.user.simulation.mailClient.availableSubjects.push(subject);
+                        }
+                    }
+                },
+                false
+            ); 
+                
+            this.viewObject.updateSubjectsList();
+        },
+        
+        reloadPhrases: function() {
+            SKApp.server.api(
+                'mail/getPhrases',
+                {
+                    id: this.viewObject.getCurentEmailSubjectId()
+                }, 
+                function (response) {
+                    if (undefined !== response.data) {
+                        for (var i in response.data) {
+                            
+                            var phrase = new SKMailPhrase();                            
+                            phrase.mySqlId = parseInt(i);
+                            phrase.text = response.data[i];
+                            
+                            SKApp.user.simulation.mailClient.availablePhrases.push(phrase);
+                        }
+                        for (var i in response.addData) {
+                            var string = response.addData[i];
+                            
+                            var phrase = new SKMailPhrase();
+                            phrase.mySqlId = parseInt(i);
+                            phrase.text = response.addData[i];
+                            
+                            SKApp.user.simulation.mailClient.availableAdditionalPhrases.push(phrase);
+                        }
+                    }
+                },
+                false
+            ); 
+                
+            this.viewObject.reloadPhrases();
+        },
+        
+        getAvailablePhraseByMySqlId: function(phraseId) {
+            var phrases = this.availablePhrases;
+            for (var i in phrases) {
+                // keep '==' not strict!
+                if (phrases[i].mySqlId == phraseId) {
+                    return phrases[i];
+                }
+            }
+            
+            var addPhrases = this.availableAdditionalPhrases;
+            for (var j in addPhrases) {
+                // keep '==' not strict!
+                if (addPhrases[j].mySqlId == phraseId) {
+                    return addPhrases[j];
+                }
+            }
+            
+            return undefined;
+        },
+        
+        getUsedPhraseByUid: function(phraseUid) {
+
+            var phrases = this.newEmailUsedPhrases;
+            for (var i in phrases) {
+                // keep '==' not strict!
+                if (phrases[i].uid == phraseUid) {
+                    return phrases[i];
+                }
+            }
+            
+            return undefined;
+        },
+        
+        addPhraseToEmail: function(phrase) {
+            this.newEmailUsedPhrases.push(phrase);
+            this.viewObject.renderAddPhraseToEmail(phrase);
+        },
+        
         /**
+         * @var SKMailPhrase phrase
          */
-        'renderWriteCustomNewEmailScreen': function() {
+        removePhraseFromEmail: function(phrase) {
+            
+            this.viewObject.removePhraseFromEmail(phrase);
+            
+            var phrases = this.newEmailUsedPhrases;
+            for (var i in phrases) {
+                // keep '==' not strict!
+                if (phrases[i].uid === phrase.uid) {
+                    phrases.splice(i, 1);
+                    return true;
+                }
+            }
+        },
+        
+        uploadAttachmentsList: function() {
+            SKApp.server.api(
+                'myDocuments/getList',
+                {}, 
+                function (response) {
+                    if (undefined !== response.data) {
+                        for (var i in response.data) {
+                            
+                            var attach = new SKAttachment();                            
+                            attach.fileMySqlId = response.data[i].id;
+                            attach.label       = response.data[i].name;
+                            
+                            SKApp.user.simulation.mailClient.availableAttachments.push(attach);
+                        }
+                    }
+                },
+                false
+            ); 
+                
             
         },
         
+        /**
+         * @var integer fileId
+         */
+        getAttahmentByFileID: function(fileId) {
+            for (var i in this.availableAttachments) {
+                // keet not strict comparsion ('==') !
+                if (this.availableAttachments[i] == fileID) {
+                    return this.availableAttachments[i];
+                }
+            }
+            
+            return undefined;
+        },
+        
+        /**
+         * @vat SKAttachment attachment
+         */
+        addAttachment: function(attachment) {
+            console.log(attachment.label);
+        },
+
         'renderWriteReplyEmailScreen': function() {
             
         },
@@ -418,7 +639,6 @@
                 }
             }
         },
-        
 
         openWindow: function() {
             this.getDataForInitialScreen();
