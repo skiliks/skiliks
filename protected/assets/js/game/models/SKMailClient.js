@@ -332,7 +332,8 @@
                     var emails = this.folders[alias].emails;
                     for (var i in emails) {
                         if (emails.hasOwnProperty(i)) {
-                            if (emails[i].mySqlId === emailId) {
+                            // Andrey, do not change == to ===
+                            if (emails[i].mySqlId == emailId) {
                                 return emails[i];
                             }
                         }
