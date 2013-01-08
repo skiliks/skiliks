@@ -31,6 +31,10 @@
         codeFolderTrash: 4,
         
         // --------------------------------------------------
+        
+        emailTypeNew: 'new',
+        
+        // --------------------------------------------------
 
         // @var string
         aliasButtonNewEmail:  'NEW_EMAIL',
