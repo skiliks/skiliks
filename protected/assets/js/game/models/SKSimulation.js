@@ -54,16 +54,18 @@
             var me = this;
             events.forEach(function (event) {
                 console.log('[SKSimulation] new event ' + event.eventType);
+                console.log(event.data);
                 if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                     // Crutch, sometimes server returns empty events
                     me.events.trigger('dialog:end');
                     return;
                 }
-                me.events.push(new SKEvent({
+                var event_model = new SKEvent({
                     type:event.eventType,
                     data:event.data
-                }));
-                me.events.trigger('event:' + event.eventType);
+                });
+                me.events.push(event_model);
+                me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
 
             });
         },
