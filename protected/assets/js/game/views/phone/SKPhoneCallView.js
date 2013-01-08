@@ -6,7 +6,7 @@
 $(function () {
     "use strict";
 
-    window.SKPhoneDialogView = window.SKWindowView.extend({
+    window.SKPhoneCallView = window.SKWindowView.extend({
         el: 'body .phone-dialog-div',
         initialize:function (){
             this.render();
