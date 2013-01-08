@@ -5,25 +5,25 @@
     "use strict";
     window.SKCharacter = Backbone.Model.extend({
         // @var integer, MySQL id
-        'mySQlId': undefined,
+        mySqlId: undefined,
         
         // @var integer, ExcelId
-        'excelId': undefined,
+        excelId: undefined,
 
         // @var string, 
-        'name': undefined,
+        name: undefined,
 
         // @var string, 
-        'email': undefined,
+        email: undefined,
 
         // @var string, 
-        'phoneNo': undefined,
+        phoneNo: undefined,
         
         /**
          * @return string
          */
-        'getFormatedForMailToName': function() {
-            return this.name + ' &lt;' + this.email + '&gt;';
+        getFormatedForMailToName: function() {
+            return this.name + ', ' + this.email + ' (' + this.mySqlId + ')';
         }
     });
 })();
