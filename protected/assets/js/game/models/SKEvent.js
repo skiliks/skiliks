@@ -5,6 +5,7 @@
         'M':'mail',
         'MS':'mail',
         'D':'document',
+        'P': 'plan',
         2:'event'
     };
 
@@ -26,6 +27,7 @@
                     throw 'Incorrect subtype ' + this.get('data')[0].dialog_subtype;
                 }
             } else if (event_types[this.get('type')] === undefined) {
+                console.log(this.toJSON());
                 throw 'Unknown event type: ' + this.get('type');
             }
             return event_types[this.get('type')];

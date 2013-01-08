@@ -1,0 +1,15 @@
+/*global Backbone:false, console, SKApp, session */
+
+(function () {
+    "use strict";
+    window.SKDayTask = Backbone.Model.extend({
+        idAttribute: 'task_id',
+        sync: function (method, model, options) {
+            if ('create' === method){
+                SKApp.server.api('dayPlan/add', model.toJSON(), function (data) {
+                    options.success(data);
+                });
+            }
+        }
+    });
+})();

@@ -31,8 +31,8 @@ class DayPlanController extends AjaxController{
             $plan = new DayPlanService();
             $json = $plan->addToPlan(
                     $this->getSimulationId(), 
-                    (int)Yii::app()->request->getParam('taskId', false), 
-                    Yii::app()->request->getParam('time', false), 
+                    (int)Yii::app()->request->getParam('task_id', false),
+                    Yii::app()->request->getParam('date', false),
                     (int)Yii::app()->request->getParam('day', false));
             $this->sendJSON($json);
             
