@@ -85,7 +85,7 @@
                         <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
                         <tr>
                             <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                                class="planner-book-timetable-afterv-fl day-plan-td-slot ui-droppable"></td>
+                                class="planner-book-timetable-afterv-fl ui-droppable"><div class="day-plan-td-slot"></div></td>
                         </tr>
                         <@ }) @>
                         <@ }) @>
@@ -109,6 +109,6 @@
 </script>
 <script type="text/template" id="todo_task_template">
     <div class="planner-task day-plan-todo-task" data-task-id="<@= task.get('id') @>" data-task-duration="<@= task.get('duration') @>">
-    <@= task.get('title') @>
+    <span class="title hyphenate"><@= task.get('title') @></span>
         <div class="duration"><p><span><@= task.get('duration') @></span><br />мин</p></div>
 </script>
