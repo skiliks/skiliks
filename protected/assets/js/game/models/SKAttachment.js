@@ -27,17 +27,14 @@
         },
         
         getIconImagePath: function() {
-            console.log(this.label.indexOf('.xls'));
-            console.log(this.label.indexOf('.doc'));
-            console.log(this.label.indexOf('.ppt'));
             if (0 < this.label.indexOf('.xls')) {
-                return "../protected/assets/img/documents/xls.png";
+                return SKConfig.assetsUrl + "/img/documents/xls.png";
             }
             if (0 < this.label.indexOf('.doc')) {
-                return "../protected/assets/img/documents/doc.png";
+                return SKConfig.assetsUrl + "/img/documents/doc.png";
             }
             if (0 < this.label.indexOf('.ppt')) {
-                return "../protected/assets/img/documents/ppt.png";
+                return SKConfig.assetsUrl + "/img/documents/ppt.png";
             }
             
             return '';
