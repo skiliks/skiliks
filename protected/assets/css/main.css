@@ -1439,19 +1439,11 @@ mail-emulator-received-list-row
 .planner-task.h2{
 	/*padding:10px 10px;*/
 }
-.planner-task.locked{
-	width:182px;
-	padding-left:26px;
-}
 .planner-task.locked span{
 	display:block;
-	background:url("../img/planner/icon-task-locked.png") no-repeat 0 0;
-	width:19px;
-	height:22px;
-	position:absolute;
-	top:50%;
-	left:-1px;
-	margin-top:-11px;
+    padding-left: 21px;
+    height: 100%;
+    background:url("../img/planner/icon-task-locked.png") no-repeat 0 0;
 }
 .planner-tine-line{
 	background:url("../img/planner/bg-time-line.png") no-repeat;
