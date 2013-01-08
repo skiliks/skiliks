@@ -9,6 +9,7 @@
         'initialize':function () {
             var me = this;
             var simulation = this.simulation = SKApp.user.simulation;
+            this.addSimulationEvents();
             simulation.on('tick', function () {
                 me.updateTime();
             });
@@ -28,6 +29,16 @@
             this.$('.time .hour').text(parts[0]);
             this.$('.time .minute').text(parts[1]);
         },
+        'addSimulationEvents':function () {
+            SKApp.user.simulation.events.on('add', function (event) {
+                if (event.getTypeSlug() === 'immediate-visit') {
+                    // TODO: incorrect location
+                    var visit_view = new SKVisitView({'event':event});
+                    event.complete();
+                }
+            });
+        },
+
         'doSimulationStop':function () {
             SKApp.user.stopSimulation();
         }

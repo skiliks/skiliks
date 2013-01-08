@@ -28,7 +28,7 @@ class MyDocumentsController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $fileId = (int) Yii::app()->request->getParam('fileId', null);
+        $fileId = (int) Yii::app()->request->getParam('attachmentId', null);
         
         $this->sendJSON(array(
             'result' => (int)MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $fileId)
