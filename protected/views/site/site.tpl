@@ -22,6 +22,7 @@
 {include "site/jst/simulation.tpl"}
 {include "site/jst/plan.tpl"}
 {include "site/jst/mail.tpl"}
+{include "site/jst/phone.tpl"}
 </head>
 <body class="body">
 <div id="excel-cache" style="display: none; visibility: hidden;"></div>
