@@ -1,44 +1,43 @@
 <!--historyOneHTML-->
-<script type="text/template" id="Phone_HistoryOne">
-<li>
-    <table>
-            <tbody>
-                <tr>
-                    <td class="phone-contact-list-img"><img alt=""  src="'+SKConfig.assetsUrl+'/img/phone/icon-call-<@=type@>.png"></td>
-                <td>
-                    <p class="phone-contact-list-f0"><@=name@></p>
-                    <p class="phone-contact-list-f1"><@=date@></p>
-                </td>
-                </tr>
-            </tbody>
-    </table>
-</li>
+<script type="text/template" id="Phone_History">
+<ul class="phone-contact-list history">
+    <@ history.each(function(model) { @>
+        <li>
+            <table>
+                    <tbody>
+                        <tr>
+                            <td class="phone-contact-list-img"><img alt=""  src="<@=assetsUrl@>/img/phone/icon-call-<@=types[model.get('type')]@>.png"></td>
+                        <td>
+                            <p class="phone-contact-list-f0"><@=model.get('name')@></p>
+                            <p class="phone-contact-list-f1"><@=model.get('date')@></p>
+                        </td>
+                        </tr>
+                    </tbody>
+            </table>
+        </li>
+     <@ }) @>   
+</ul>
 </script>
-<!--contactHTML-->
-<script type="text/template" id="Phone_Contact">
+
+<script type="text/template" id="Phone_Contacts">
+    <ul class="phone-contact-list">
+        <@ contacts.each(function(model) { @>
+        <li id="contactLi_<@=model.get('id')@>" class="contact-li">
         <table>
             <tr>
-            <td class="phone-contact-list-img"><img src="'+SKConfig.assetsUrl+'/img/phone/icon-ch<@=charackter_id@>.png" alt="" /></td>
+                <td class="hover-hide phone-contact-list-img"><img src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('id')@>.png" alt="" /></td>
+                <td class="hover-show phone-contact-list-img"><img alt=""  src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('id')@>-1.png"></td>
             <td>
-            <p class="phone-contact-list-f0"><@=name@></p>
-            <p class="phone-contact-list-f1"><@=title@></p>
+            <p class="phone-contact-list-f0"><@=model.get('name')@></p>
+            <p class="phone-contact-list-f1"><@=model.get('title')@></p>
+            <p class="hover-show phone-contact-list-f1"><@=model.get('phone')@></p>
+            <a class="hover-show phone-call-btn">Позвонить</a>
             </td>
             </tr>
         </table>
-</script>
-<!--contactHTMLActive-->
-<script type="text/template" id="Phone_ContactActive">
-        <table class="active">
-            <tbody><tr>
-            <td class="phone-contact-list-img"><img alt=""  src="'+SKConfig.assetsUrl+'/img/phone/icon-ch<@=id@>-1.png"></td>
-            <td>
-            <p class="phone-contact-list-f0"><@=name@></p>
-            <p class="phone-contact-list-f1"><@=title@></p>
-            <p class="phone-contact-list-f1"><@=phone@></p>
-            <a class="phone-call-btn" onclick="phone.getThemes(<@=id@>)">Позвонить</a>
-            </td>
-            </tr>
-            </tbody></table>
+       </li>
+       <@ }) @>
+    </ul>        
 </script>
 <!--html-->
 <script type="text/template" id="Phone_Html">
@@ -48,26 +47,26 @@
 
             <ul class="btn-window">
             <li><button class="btn-set">&nbsp;</button></li>
-            <li><button class="btn-cl win-close">&nbsp;</button></li>
+            <li><button window_id="<@=windowID@>" class="btn-cl win-close">&nbsp;</button></li>
             </ul>
             </header>
 
             <div class="phone-bl popup">
             <div class="phone-screen" id="phoneMainScreen">
 
-            <ul class="phone-main-menu">
-            <li onclick="phone.getContacts()">
-            <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
-            <p>Список контактов</p>
-            </li>
-            <li onclick="phone.getHistory()">
-            <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
-            <p>История Вызовов</p>
-            </li>
+            <ul window_id="<@=windowID@>" class="phone-main-menu">
+                <li window_id="<@=windowID@>" class="phone_get_contacts">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">Список контактов</p>
+                </li>
+                <li window_id="<@=windowID@>" class="phone_get_history">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">История Вызовов</p>
+                </li>
             </ul>
 
             </div>
-            <a class="phone-menu-btn" onclick="phone.drawMenu()" href="#">меню</a>
+                <a class="phone-menu-btn" href="#">меню</a>
             </div>
             </section>
 </script>
