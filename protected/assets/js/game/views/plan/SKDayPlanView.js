@@ -153,8 +153,16 @@
                 }
             });
         },
-        updateTodoCount:function () {
+        updateTodos:function () {
+            var me = this;
             this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
+            me.$('.plan-todo-wrap').html('');
+            SKApp.user.simulation.todo_tasks.each(function (model) {
+                var todo_task = $(_.template($('#todo_task_template').html(), {task:model, type:'todo'}));
+                me.$('.plan-todo-wrap').append(todo_task);
+            });
+            this.setupDraggable();
+
         },
 
         /**
@@ -164,13 +172,10 @@
         renderWindow:function (window_el) {
             var me = this;
             window_el.html(_.template($('#plan_template').html(), {}));
-            this.updateTodoCount();
-            SKApp.user.simulation.todo_tasks.each(function (model) {
-                var todo_task = $(_.template($('#todo_task_template').html(), {task:model, type:'todo'}));
-                window_el.find('.plan-todo-wrap').append(todo_task);
-            });
+            this.updateTodos();
+
             SKApp.user.simulation.todo_tasks.on('add remove reset', function () {
-                me.updateTodoCount();
+                me.updateTodos();
             });
             SKApp.user.simulation.todo_tasks.on('remove', function (model) {
                 me.removeTodoTask(model);
@@ -185,7 +190,6 @@
                 me.addDayPlanTask(model);
             });
             this.setupDroppable();
-            this.setupDraggable();
             Hyphenator.run();
 
         },
