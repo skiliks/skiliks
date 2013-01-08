@@ -8,34 +8,28 @@ $(function () {
 
     window.SKPhoneView = window.SKWindowView.extend({
         initialize:function (){
-            this.render();
+            this.open();
         },
-        status:0,
+        el:'#'+this.windowID,
+        windowClass: "phoneMainDiv",
+        windowID: '',
+        open: function (){
+            var div = document.createElement('div');
+            this.windowID = this.cid;
+            div.setAttribute('id', this.windowID);
+            div.setAttribute('class', this.windowClass);
+            div.style.position = "absolute";
+            $(this.container).append(div);
+            $('#'+this.windowID).css('position', 'absolute');
+            var canvas = $('#canvas').width();
+            var icons = $('.main-screen-icons').width();
+            var phone = $('#'+this.windowID).width(); 
+            var left = (canvas - icons - phone) / 2;
+            $('#'+this.windowID).css('left', left+'px');
+            this.renderTPL('#'+this.windowID, '#Phone_Html');
+        },
         activeSubScreen:'',
-        issetDiv:false,
-        divTop:50,
-        divLeft:50,
-        contacts:{},
-        contactHover:0,
-
-        scrollK:0,
-        zIndex:0,
-
-
-        answersShowFlag:1,
-        timeToShow:0,
-
-        companion:0,
-
-        missedCalls:0,
-
-        activeFrameParams:{},
-
-        cancelDialogId:0,
-
         createDiv:function () {
-            var topZindex = php.getTopZindexOf();
-            this.zIndex = topZindex + 1;
 
             var div = document.createElement('div');
             div.setAttribute('id', 'phoneMainDiv');
@@ -53,63 +47,12 @@ $(function () {
             var left = (canvas - icons - phone) / 2;
             console.log(left);
             $('#phoneMainDiv').css('left', left+'px');
-            this.issetDiv = true;
         },
         render:function () {
-            var action = this.options.action;
-            var dialog = this.options.dialog;
-            SKApp.user.simulation.events.on('dialog:end', function () {
-                phone.draw('close');
-            });
-            if (this.cancelDialogId != 0) {
-                //отправляем запрос, что звонок был отклонен
-                sender.phoneGetSelect(this.cancelDialogId);
-                this.cancelDialogId = 0;
-
-            }
-
-            $('.phoneMainScreenScrollbar').remove();
-            $('.phone-screen-scroll').remove();
-
-            this.scrollK = 0;
-
-            if (this.status == 0 || typeof(action) !== 'undefined') {
-                if (action === 'close') {
-                    this.closePhone();
-                    //логируем событие
-                    SKApp.user.simulation.window_set.closeAll('phone');
-                    this.activeSubScreen = '';
-                    return;
-                }
-                //а надо ли нам логировать открытие? смотрим по status
-                var logFlag = 1;
-                if (this.status != 0 || typeof(action) != 'undefined') {
-                    logFlag = 0;
-                }
-
-                this.status = 1;
-
-                this.drawInterface(action, dialog);
-
-            } else {
-                this.closePhone();
-                //логируем событие
-                SKApp.user.simulation.window_set.closeAll('phone');
-                this.activeSubScreen = '';
-                return;
-            }
-            this.Windows[this.cid] = this;
-            // fix to keep open dialog (phon talk or visit) alive when 
-            // Main hero miss phone call and it ignored automatically
-            //simulation.isRecentlyIgnoredPhone = false;
+            
         },
         close:function () {
-            $('#phoneMainDiv').remove();
-            $('#phoneBackDiv').remove();
-            $('.phoneMainScreenScrollbar').remove();
-            $('.phone-screen-scroll').remove();
-            this.issetDiv = false;
-            this.status = 0;
+            
         },
         drawInterface:function (action, dialog) {
             if (!this.issetDiv) {
@@ -119,8 +62,6 @@ $(function () {
             }
             $('#phoneMainDiv').css('left', this.divLeft + 'px');
             //отрисовываем подложку
-            this.removeBack();
-            this.createBack();
 
             this.drawMenu();
             if (typeof(action) === 'undefined') {
@@ -522,172 +463,8 @@ $(function () {
                 $('#phoneAnswers').show();
                 this.answersShowFlag = 1;
             }
-        },
-
-        historyOneHTML:'<li>' +
-            '<table>' +
-            '<tbody><tr>' +
-            '<td class="phone-contact-list-img"><img alt=""  src="'+SKConfig.assetsUrl+'/img/phone/icon-call-{type}.png"></td>' +
-            '<td>' +
-            '<p class="phone-contact-list-f0">{name}</p>' +
-            '<p class="phone-contact-list-f1">{date}</p>' +
-            '</td>' +
-            '</tr>' +
-            '</tbody></table>' +
-            '</li>',
-        contactHTML:'<table>' +
-            '<tr>' +
-            '<td class="phone-contact-list-img"><img src="'+SKConfig.assetsUrl+'/img/phone/icon-ch{charackter_id}.png" alt="" /></td>' +
-            '<td>' +
-            '<p class="phone-contact-list-f0">{name}</p>' +
-            '<p class="phone-contact-list-f1">{title}</p>' +
-            '</td>' +
-            '</tr>' +
-            '</table>',
-        contactHTMLActive:'<table class="active">' +
-            '<tbody><tr>' +
-            '<td class="phone-contact-list-img"><img alt=""  src="'+SKConfig.assetsUrl+'/img/phone/icon-ch{id}-1.png"></td>' +
-            '<td>' +
-            '<p class="phone-contact-list-f0">{name}</p>' +
-            '<p class="phone-contact-list-f1">{title}</p>' +
-            '<p class="phone-contact-list-f1">{phone}</p>' +
-            '<a class="phone-call-btn" onclick="phone.getThemes({id})">Позвонить</a>' +
-            '</td>' +
-            '</tr>' +
-            '</tbody></table>',
-        html:'<section class="phone popup">' +
-            '<header>' +
-            '<h1>Телефон</h1>' +
-
-            '<ul class="btn-window">' +
-            '<li><button class="btn-set">&nbsp;</button></li>' +
-            '<li><button class="btn-cl" onclick="phone.draw()">&nbsp;</button></li>' +
-            '</ul>' +
-            '</header>' +
-
-            '<div class="phone-bl popup">' +
-            '<div class="phone-screen" id="phoneMainScreen">' +
-
-            '<ul class="phone-main-menu">' +
-            '<li onclick="phone.getContacts()">' +
-            '<img src="' +SKConfig.assetsUrl+ '/img/phone/icon-contact.png" alt="">' +
-            '<p>Список контактов</p>' +
-            '</li>' +
-            '<li onclick="phone.getHistory()">' +
-            '<img src="' +SKConfig.assetsUrl+ '/img/phone/icon-contact.png" alt="">' +
-            '<p>История Вызовов</p>' +
-            '</li>' +
-            '</ul>' +
-
-            '</div>' +
-            '<a class="phone-menu-btn" onclick="phone.drawMenu()" href="#">меню</a>' +
-            '</div>' +
-            '</section>',
-        dialogHTML:'<section class="phone">' +
-            '<header>' +
-            '<h1>Телефон</h1>' +
-
-            '<ul class="btn-window">' +
-            '<li><button class="btn-set">&nbsp;</button></li>' +
-            '<li><button class="btn-cl" onclick="phone.draw()">&nbsp;</button></li>' +
-            '</ul>' +
-            '</header>' +
-
-            '<div class="phone-bl main">' +
-            '<div class="phone-screen">' +
-            '<div class="phone-call">' +
-            '<div class="phone-call-img"><img alt="" src="' +SKConfig.assetsUrl+ '/img/phone/icon-call-ch{id}.png"></div>' +
-            '<p class="phone-call-text">' +
-            '<span class="name">{name}</span><br>' +
-            '{title}<br>' +
-            '<span class="post">&nbsp;</span>' +
-            '</p>' +
-            '<a class="phone-call-end" onclick="phone.drawMenu(\'menu\')">Завершить</a>' +
-            '</div>	' +
-            '</div>' +
-
-            '<a class="phone-menu-btn" onclick="phone.drawMenu(\'menu\')">меню</a>' +
-            '</div>' +
-
-            '<div class="phone-reply-field">' +
-            '<p class="phone-reply-ch max">{dialog_text}</p>' +
-
-            '<ul class="phone-reply-h" id="phoneAnswers">' +
-            '{dialog_answers}' +
-            '</ul>' +
-            '</div>' +
-            '</section>',
-        doScrollable:function () {
-            var topZindex = php.getTopZindexOf();
-
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phone-screen-scroll');
-            div.setAttribute('class', 'phone-screen-scroll');
-            div.style.position = "absolute";
-            div.style.zIndex = (topZindex + 1);
-            document.body.appendChild(div);
-            $('#phoneMainScreenScrollbar').css('top', (this.divTop + 140) + 'px');
-            $('#phoneMainScreenScrollbar').css('left', (this.divLeft + 290) + 'px');
-            $('#phoneMainScreenScrollbar').css('height', '310px');
-
-
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phoneMainScreenScrollbar');
-            div.setAttribute('class', 'phoneMainScreenScrollbar');
-            div.style.position = "absolute";
-            div.style.zIndex = (topZindex + 1);
-            document.body.appendChild(div);
-            $('#phoneMainScreenScrollbar').css('top', (this.divTop + 180) + 'px');
-            $('#phoneMainScreenScrollbar').css('left', (this.divLeft + 290) + 'px');
-            $('#phoneMainScreenScrollbar').css('height', '250px');
-
-            $("#phoneMainScreenScrollbar").slider({
-                orientation:"vertical",
-                min:0,
-                max:phone.scrollK,
-                value:phone.scrollK,
-                slide:function (event, ui) {
-                    phone.scrollMainScreen(ui.value);
-                }
-
-            });
-        },
-        scrollMainScreen:function (value) {
-            var scrollValue = phone.scrollK - value;
-            $("#phoneMainScreen").scrollTop(scrollValue);
-        },
-
-        themesScroll:function (Cheight) {
-            var topZindex = php.getTopZindexOf();
-
-            var div = document.createElement('div');
-            div.setAttribute('id', 'phoneThemesScrollbar');
-            div.setAttribute('class', 'planner-dayplan-scrollbar');
-            div.style.position = "absolute";
-            div.style.zIndex = (topZindex + 1);
-            document.body.appendChild(div);
-            $('#phoneThemesScrollbar').css('top', (this.divTop + 60) + 'px');
-            $('#phoneThemesScrollbar').css('left', (this.divLeft + 700) + 'px');
-            $('#phoneThemesScrollbar').css('height', '110px');
-            $('#phoneThemesScrollbar').css('width', '1px');
-            $('#phoneThemesScrollbar').css('border', '0px');
-
-
-            $("#phoneThemesScrollbar").slider({
-                orientation:"vertical",
-                min:0,
-                max:Cheight,
-                value:Cheight,
-                slide:function (event, ui) {
-                    phone.scrollThemesScroll(ui.value, Cheight);
-                }
-
-            });
-        },
-        scrollThemesScroll:function (value, Cheight) {
-            var scrollValue = Cheight - value;
-            $("#phoneCallThemesDiv").scrollTop(scrollValue);
         }
-    
+
+     
     });
 });
