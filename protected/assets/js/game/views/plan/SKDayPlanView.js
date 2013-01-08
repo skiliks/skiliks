@@ -1,7 +1,12 @@
+var SKDayPlanView;
 /*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator*/
 (function () {
     "use strict";
-    window.SKDayPlanView = SKWindowView.extend({
+
+    /**
+     * @type {SKDayPlanView}
+     */
+    SKDayPlanView = SKWindowView.extend({
         'el':'body .plan-container',
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
@@ -101,6 +106,20 @@
         removeTodoTask:function (model) {
             this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
         },
+        canContainTask:function (el, duration) {
+            var res = true;
+            var currentRow = el.parents('tr');
+            for (var i = 0; i < duration; i += 15) {
+                if (!(currentRow.find('.planner-book-timetable-event-fl').is(':visible') &&
+                    currentRow.find('.day-plan-td-slot').is(':visible')
+                    )) {
+                    res = false;
+                    break;
+                }
+                currentRow = currentRow.next();
+            }
+            return res;
+        },
         setupDroppable:function () {
             var me = this;
             this.$('.day-plan-td-slot').droppable({
@@ -140,16 +159,7 @@
                         return true;
                     }
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
-                    var currentRow = $(this).parents('tr');
-                    for (var i = 0; i < duration; i += 15) {
-                        if (!(currentRow.find('.planner-book-timetable-event-fl').is(':visible') &&
-                            currentRow.find('.day-plan-td-slot').is(':visible')
-                            )) {
-                            return false;
-                        }
-                        currentRow = currentRow.next();
-                    }
-                    return true;
+                    return me.canContainTask($(this),duration);
                 }
             });
         },
@@ -162,6 +172,10 @@
                 me.$('.plan-todo-wrap').append(todo_task);
             });
             this.setupDraggable();
+
+        },
+
+        disableOldSlots:function () {
 
         },
 
@@ -189,6 +203,9 @@
             SKApp.user.simulation.dayplan_tasks.on('add', function (model) {
                 me.addDayPlanTask(model);
             });
+            SKApp.user.simulation.on('tick', function () {
+                me.disableOldSlots();
+            });
             this.setupDroppable();
             Hyphenator.run();
 
@@ -203,7 +220,26 @@
             }
         },
         doSetTask:function (e) {
-
+            var me = this;
+            var task_id = $(e.currentTarget).attr('data-task-id');
+            var task = SKApp.user.simulation.todo_tasks.get(task_id);
+            me.$('.day-plan-td-slot').each(function () {
+                var duration = task.get('duration');
+                if (me.canContainTask($(this), duration)) {
+                    task.set('day', $(this).parents('div[data-day-id]').attr('data-day-id'));
+                    task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
+                    task.destroy();
+                    SKApp.user.simulation.dayplan_tasks.create({
+                        title:$(e.currentTarget).find('.title').text(),
+                        date:task.get('date'),
+                        task_id:task.id,
+                        duration:duration,
+                        day:task.get('day')
+                    });
+                    return false;
+                }
+                return true;
+            });
         }
     });
 })();
