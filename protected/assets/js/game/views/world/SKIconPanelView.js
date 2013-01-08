@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView*/
+/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView, SKDayPlanView*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -13,7 +13,9 @@
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
-                    me.startAnimation('.' + event.getTypeSlug());
+                    me.startAnimation('.' + event.getTypeSlug(), function () {
+                        me.setCounter('.phone', 1);
+                    });
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.id);
                     me.startAnimation('.door');
@@ -43,7 +45,7 @@
             }
             this.$(selector + ' a span').html(count);
         },
-        startAnimation:function (selector) {
+        startAnimation:function (selector, end_cb) {
             var me = this;
             if (!(me.icon_lock[selector])) {
                 me.icon_lock[selector] = true;
@@ -61,6 +63,9 @@
                     } else {
                         me.icon_lock[selector] = false;
                         el.removeClass('icon-active');
+                        if (end_cb !== undefined) {
+                            end_cb();
+                        }
                     }
                 };
                 bounce_cb();

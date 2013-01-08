@@ -1,20 +1,75 @@
-.planner-book-timetable-table {
-  .planner-book-timetable-time-fl {
-    border-right: dotted 1px;
+.planner-book-main-div {
+  position: relative;
+  .plan-todo.open {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: auto;
   }
-  tr:nth-child(4n), tr:nth-child(4n+3) {
-    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-      border-top: dotted 1px #D9D9CB;
-      height: 10px;
-      background-color: #F6F6FD;
-    }
+  .planner-book-timetable-table {
     .planner-book-timetable-time-fl {
-      background-color: #F6F6FD;
+      border-right: dotted 1px;
+    }
+    tr:nth-child(4n), tr:nth-child(4n+3) {
+      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+        border-top: dotted 1px #D9D9CB;
+        height: 10px;
+        background-color: #F6F6FD;
+      }
+      .planner-book-timetable-time-fl {
+        background-color: #F6F6FD;
+      }
+    }
+    tr:nth-child(2n) {
+      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+        border: none;
+      }
     }
   }
-  tr:nth-child(2n) {
-    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-      border: none;
+  .plan-todo.open {
+    padding-left: 36px;
+    width: 274px;
+    .planner-task {
+      margin-left: 0;
+      cursor: move;
+    }
+  }
+  .plan-todo-tit {
+    margin-left: 25px;
+  }
+  .day-plan-td-slot {
+    height: 100%;
+  }
+  .planner-task.ui-draggable-dragging {
+    border-top: 1px solid #fff;
+    border-right: 1px solid #c8e0f1;
+    border-bottom: 1px solid #c5def0;
+    border-left: 1px solid #81a0b8;
+    background: #c4dff2;
+    background: -moz-linear-gradient(top, #dbedfa, #aed1ea);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dbedfa), color-stop(100%, #aed1ea));
+    background: -webkit-linear-gradient(top, #dbedfa, #aed1ea);
+    background: -o-linear-gradient(top, #dbedfa, #aed1ea);
+    background: -ms-linear-gradient(top, #dbedfa, #aed1ea);
+    background: linear-gradient(top, #dbedfa, #aed1ea);
+    -moz-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+    -webkit-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+    box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+  }
+  .planner-task.ui-draggable-dragging {
+    width: 217px;
+    margin: 0;
+  }
+  .drop-hover {
+    background-color: #adff2f;
+  }
+  .planner-task.regular {
+    height: 100%;
+    overflow: hidden;
+  }
+  .planner-task.regular, .planner-task.ui-draggable-dragging {
+    .duration {
+      display: none;
     }
   }
 }
