@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection */
+/*global SKTodoCollection, SKDayTaskCollection */
 
 (function () {
     "use strict";
@@ -11,12 +11,16 @@
     /**
      * Simulation class
      * TODO: enable logging
-     * @type {*}
+     * @type {SKSimulation}
      */
     window.SKSimulation = Backbone.Model.extend({
         'initialize':function () {
             this.events = new SKEventCollection();
             this.todo_tasks = new SKTodoCollection();
+            this.events.on('event:plan', function () {
+                SKApp.user.simulation.todo_tasks.fetch();
+            });
+            this.dayplan_tasks = new SKDayTaskCollection();
             this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
             this.mailClient = new SKMailClient();
@@ -45,6 +49,7 @@
             var minutes = (mins % 60);
             return pad(hours) + ':' + pad(minutes);
         },
+
         parseNewEvents:function (events) {
             var me = this;
             events.forEach(function (event) {
@@ -58,6 +63,7 @@
                     type:event.eventType,
                     data:event.data
                 }));
+                me.events.trigger('event:' + event.eventType);
 
             });
         },
@@ -82,6 +88,7 @@
             win.open();
             SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function () {
                 me.todo_tasks.fetch();
+                me.dayplan_tasks.fetch();
                 me.trigger('start');
             });
             this.events_timer = setInterval(function () {
