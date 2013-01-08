@@ -1,4 +1,4 @@
-/*global Backbone:false, console, session */
+/*global Backbone:false, console, session, SKDialogView */
 
 (function () {
     "use strict";
@@ -47,4 +47,5 @@
             return result;
         }
     });
+
 })();

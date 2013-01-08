@@ -25,6 +25,7 @@ $(function () {
                 'width': '100%',
                 'margin': 'auto'
             });
+            el.topZIndex();
             $('body').prepend(el);
             this.$el = el;
         },
