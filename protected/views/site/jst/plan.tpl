@@ -34,6 +34,7 @@
                 <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
+
                         <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
                         <tr>
                             <@ if (minute === '00') { @>
@@ -43,7 +44,7 @@
                             <td class="planner-book-timetable-time-fl" rowspan="2"></td>
                             <@ } @>
                             <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                                class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
+                                class="planner-book-timetable-event-fl bdb"><div class="day-plan-td-slot"></div></td>
                         </tr>
                         <@ }) @>
                         <@ }) @>
@@ -66,7 +67,7 @@
                             <td class="planner-book-timetable-time-fl" rowspan="2"></td>
                             <@ } @>
                             <td data-hour="<@= hour @>" data-minute="<@= minute @>"
-                                class="planner-book-timetable-event-fl bdb day-plan-td-slot ui-droppable"></td>
+                                class="planner-book-timetable-event-fl bdb ui-droppable"><div class="day-plan-td-slot"></div></td>
                         </tr>
                         <@ }) @>
                         <@ }) @>
@@ -95,11 +96,19 @@
         </div>
         <div class="plan-todo open">
             <ul class="plan-todo-btn">
-                <li><button class="min" onclick="dayPlan.todoViewChange(\'down\');"></button></li>
-                </ul>
+                <li>
+                    <button class="min" onclick="dayPlan.todoViewChange('down');"></button>
+                </li>
 
-            <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum">(19)</span></p>
+            </ul>
 
-            </div>
+            <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
+            <div class="plan-todo-wrap" style="float: left; height: 250px;"></div>
+        </div>
     </div>
+</script>
+<script type="text/template" id="todo_task_template">
+    <div class="planner-task day-plan-todo-task" data-task-id="<@= task.get('id') @>" data-task-duration="<@= task.get('duration') @>">
+    <@= task.get('title') @>
+        <div class="duration"><p><span><@= task.get('duration') @></span><br />мин</p></div>
 </script>

@@ -31,6 +31,8 @@
                     video_src = replica.sound;
                 } else {
                     my_replicas.push(replica);
+                    video_src = video_src || replica.sound;
+
                 }
             });
             this.visitor_entrance_window = new SKDialogWindow('visitor', 'visitorEntrance', replicas[0].id);
