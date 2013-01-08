@@ -5,15 +5,18 @@
     "use strict";
     window.SKMailSubject = Backbone.Model.extend({
         // @var string
-        'code' : undefined,
+        code : undefined,
         
         // @var integer
-        'id' : undefined,
+        id : undefined,
+        
+        // @var integer
+        characterSubjectId : undefined,
 
         // @var string, 
-        'text': undefined,
+        text: undefined,
         
-        'getText': function() {
+        getText: function() {
             return this.text;
         }
     });

@@ -268,11 +268,13 @@
             // set defaults {
             var iconsListHtml = '';
 
-            var addButtonNewEmail = false;
-            var addButtonReply = false;
-            var addButtonReplyAll = false;
-            var addButtonForward = false;
+            var addButtonNewEmail  = false;
+            var addButtonReply     = false;
+            var addButtonReplyAll  = false;
+            var addButtonForward   = false;
             var addButtonAddToPlan = false;
+            var addButtonSend      = false;
+            var addButtonSave      = false;
             // set defaults }
 
             // choose icons to show {
@@ -293,51 +295,265 @@
                     case me.mailClient.aliasButtonAddToPlan:
                         addButtonAddToPlan = true;
                         break;
+                    case me.mailClient.aliasButtonSaveDraft:
+                        addButtonSave = true;
+                        break;
+                    case me.mailClient.aliasButtonSend:
+                        addButtonSend = true;
+                        break;
                 }
             });
             // choose icons to show }
 
             // conpose HTML code {
-            var action_icon = $('#MailClient_ActionIcon');
+            // declarate action_icon just avoid long strings 
+            var action_icon = $('#MailClient_ActionIcon').html();
+            
             if (addButtonNewEmail) {
-                iconsListHtml += _.template(action_icon.html(), {
-                    action:'',
-                    iconCssClass:this.mailClient.aliasButtonNewEmail,
-                    label:'новое письмо'
+                iconsListHtml += _.template(action_icon, {
+                    action:       'SKApp.user.simulation.mailClient.renderWriteCustomNewEmailScreen();',
+                    iconCssClass: this.mailClient.aliasButtonNewEmail,
+                    label:        'новое письмо'
                 });
             }
             if (addButtonReply) {
-                iconsListHtml += _.template(action_icon.html(), {
-                    action:'',
-                    iconCssClass:this.mailClient.aliasButtonReply,
-                    label:'ответить'
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonReply,
+                    label:        'ответить'
                 });
             }
             if (addButtonReplyAll) {
-                iconsListHtml += _.template(action_icon.html(), {
-                    action:'',
-                    iconCssClass:this.mailClient.aliasButtonReplyAll,
-                    label:'ответить всем'
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonReplyAll,
+                    label:        'ответить всем'
                 });
             }
             if (addButtonForward) {
-                iconsListHtml += _.template(action_icon.html(), {
-                    action:'',
-                    iconCssClass:this.mailClient.aliasButtonForward,
-                    label:'переслать'
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonForward,
+                    label:        'переслать'
                 });
             }
             if (addButtonAddToPlan) {
-                iconsListHtml += _.template(action_icon.html(), {
-                    action:'',
-                    iconCssClass:this.mailClient.aliasButtonAddToPlan,
-                    label:'запланировать'
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonAddToPlan,
+                    label:        'запланировать'
+                });
+            }
+            if (addButtonAddToPlan) {
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonAddToPlan,
+                    label:        'запланировать'
+                });
+            }
+            if (addButtonSave) {
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonSaveDraft,
+                    label:        'сохранить'
+                });
+            }
+            if (addButtonSend) {
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonSend,
+                    label:        'отправить'
                 });
             }
             // conpose HTML code }
 
             // render HTML
             $('#' + this.mailClientScreenID + ' .actions').html(iconsListHtml);
+        },
+        
+        hideFoldersBlock: function() {
+            $("#" + this.mailClientScreenID + " header nav").hide();
+            $("#" + this.mailClientContentBlockId).css('margin-left', '-180px');
+        },
+        
+        unhideFoldersBlock: function() {            
+            $("#" + this.mailClientContentBlockId).css('margin-left', '0px');
+            $("#" + this.mailClientScreenID + " header nav").show();
+        },
+        
+        renderWriteCustomNewEmailScreen: function() {
+            // get template
+            var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+            
+            this.hideFoldersBlock();
+            
+            // render HTML sceleton
+            $("#" + this.mailClientContentBlockId).html(htmlSceleton);
+            
+            this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
+            
+            // add attachments list {
+            this.mailClient.uploadAttachmentsList();
+            
+//            var attachmentsListHtml = _.template($("#MailClient_AttachmentOptionItem").html(), {
+//                fileId: 0,
+//                label:  '',
+//                iconFile: 'ppt.png'
+//            }); 
+
+            var attachmentsListHtml = [];
+            
+            attachmentsListHtml.push({
+                text:     "без вложения.",
+                value:    0,
+                selected: 1,
+                imageSrc: ""
+            });
+            
+            for (var i in this.mailClient.availableAttachments) {
+            attachmentsListHtml.push({
+                text:     this.mailClient.availableAttachments[i].label,
+                value:    this.mailClient.availableAttachments[i].fileId,
+                imageSrc: this.mailClient.availableAttachments[i].getIconImagePath()
+            });
+//                attachmentsListHtml += _.template($("#MailClient_AttachmentOptionItem").html(), {
+//                    fileId:   this.mailClient.availableAttachments[i].fileId,
+//                    label:    this.mailClient.availableAttachments[i].label,
+//                    iconFile: 'ppt.png'
+//                });
+            }
+            
+            $("#MailClient_NewLetterAttachment div.list").ddslick({
+                data:          attachmentsListHtml,
+                width:         '100%',
+                selectText:    "Нет вложения.",
+                imagePosition: "left",
+                onSelected:   function(selectedData){
+                    //callback function: do something with selectedData;
+                }   
+            })
+            
+            // $("#MailClient_NewLetterAttachment").html(attachmentsListHtml);
+            // add attachments list }
+            
+            // bind recipients 
+            $("#MailClient_RecipientsList").tagHandler({
+                 availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                 autocomplete: true,
+                 afterAdd : function(tag) { SKApp.user.simulation.mailClient.reloadSubjects(); },
+                 afterDelete : function(tag) { SKApp.user.simulation.mailClient.reloadSubjects(); }
+            });
+
+            // bind copies
+            $("#MailClient_CopiesList").tagHandler({
+                availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                autocomplete: true
+            });
+            
+            // bind subjects
+            $("#MailClient_NewLetterSubject select").change(function() {
+                SKApp.user.simulation.mailClient.reloadPhrases();
+            });
+        },
+        
+        getCurentEmailRecipientIds: function() {
+            var list = [];
+            var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
+            
+            var valuesArray = $("#MailClient_RecipientsList li").get();
+            
+            for (var i in valuesArray) {
+                for (var j in defaultRecipients) {
+                    // get IDs of character by label text comparsion
+                    if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName()) {
+                        list.push(defaultRecipients[j].mySqlId);
+                        break;
+                    }
+                }
+            }
+            
+            return list;
+        },
+        
+        updateSubjectsList: function() {
+            var subjects = this.mailClient.availableSubjects; // to keep code shorter
+            var listHtml = '<option value="0"></option>';
+            
+            for (var i in subjects) {
+                listHtml += '<option value="' + subjects[i].characterSubjectId +'">' + subjects[i].getText() + '</option>';
+            }
+            
+            $("#MailClient_NewLetterSubject select").html(listHtml);
+        },
+        
+        getCurentEmailSubjectId: function() {
+            return $("#MailClient_NewLetterSubject select option:selected").val();
+        },
+        
+        reloadPhrases: function() {
+            var phrases = this.mailClient.availablePhrases; 
+            var addPhrases = this.mailClient.availableAdditionalPhrases;
+            
+            var mainPhrasesHtml = '';
+            var additionalPhrasesHtml = '';
+            
+            for (var i in phrases) {
+                mainPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    phraseUid: phrases[i].uid,
+                    phraseId:  phrases[i].mySqlId,
+                    text:      phrases[i].text
+                });
+            }
+            
+            for (var i in addPhrases) {
+                additionalPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    phraseUid: addPhrases[i].uid,
+                    phraseId:  addPhrases[i].mySqlId,
+                    text:      addPhrases[i].text
+                });
+            }
+            
+            $("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
+            $("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
+            
+            $("#MailClient_ContentBlock .mail-tags-bl li").click(function() {
+                var phrase = SKApp.user.simulation.mailClient.getAvailablePhraseByMySqlId($(this).data('id'));
+                if (undefined === phrase) {
+                    throw 'Undefined phrase id.';
+                }
+                // simplest way to clone small object in js {
+                var phraseToAdd = new SKMailPhrase; // generate unique uid
+                phraseToAdd.mySqlId = phrase.mySqlId;
+                phraseToAdd.text    = phrase.text;
+                // simplest way to clone small object in js }
+                
+                SKApp.user.simulation.mailClient.addPhraseToEmail(phraseToAdd);
+            }); 
+        },
+        
+        renderAddPhraseToEmail: function(phrase) {
+            var phraseHtml = _.template($("#MailClient_PhraseItem").html(), {
+                phraseUid: phrase.uid,
+                phraseId:  phrase.mySqlId,
+                text:      phrase.text
+            });  
+            
+            $("#mailEmulatorNewLetterText").append(phraseHtml);
+            
+            $("#mailEmulatorNewLetterText ul li").click(function() {
+                var phrase = SKApp.user.simulation.mailClient.getUsedPhraseByUid($(this).data('uid'));
+                if (undefined === phrase) {
+                    // if a have seweral (2,3,4...) phrases added to email - click handled twise
+                    // currently I ignore this bug.
+                    // @todo: fix it
+                    throw 'Undefined phrase uid.';
+                }
+                SKApp.user.simulation.mailClient.removePhraseFromEmail(phrase, $(this).eq());
+            });
+        },
+        
+        removePhraseFromEmail: function(phrase) {
+            $("#mailEmulatorNewLetterText li[data-uid=" + phrase.uid + "]").remove();
         }
     });
 })();
