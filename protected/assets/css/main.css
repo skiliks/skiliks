@@ -3617,4 +3617,9 @@ ul.main-screen-stat li img{
 	top:-6px;
 	right:-10px;
 }
+
+/*----/phone/----*/
+.hover-show {display: none;}
+.contact-li:hover .hover-show{ display: block; }
+.contact-li:hover .hover-hide{ display: none; }
 /* --------------- /main screen ---------*/

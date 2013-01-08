@@ -23,7 +23,9 @@
                 else{
                     throw new Error("Переменная "+i+" используеться системой!");
                 }}
+            //console.log(data)
             var html = _.template($(template).html(), data);
+            //console.log(html)
             $(element).html(html);
         },
         /*
