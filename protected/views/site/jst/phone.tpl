@@ -64,11 +64,67 @@
                     <p window_id="<@=windowID@>">История Вызовов</p>
                 </li>
             </ul>
-
+                
             </div>
-                <a class="phone-menu-btn" href="#">меню</a>
+                <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
             </div>
             </section>
+</script>
+
+<script type="text/template" id="Phone_Call">
+        <section class="phone popup">
+            <header>
+            <h1>Телефон</h1>
+
+            <ul class="btn-window">
+            <li><button class="btn-set">&nbsp;</button></li>
+            <li><button window_id="<@=windowID@>" class="btn-cl win-close">&nbsp;</button></li>
+            </ul>
+            </header>
+
+            <div class="phone-bl popup">
+            <div class="phone-screen" id="phoneMainScreen">
+
+                <div class="phone-call in">
+                    <div class="phone-call-img">
+                        <img src="<@=assetsUrl@>/img/phone/icon-call-ch<@=call[0].ch_from@>.png" alt="<@=call[0].name@>">
+                    </div>
+                        <p class="phone-call-text">
+                        <span class="name">
+                        </span>
+                        <br><@=call[0].name@><br>
+                        <span class="post">&nbsp;</span>
+                    </p>
+                    <ul class="phone-call-in-btn">
+                        <li><a window_id="<@=windowID@>" id="phone_reply" dialog_id="" class="btn0">Ответить</a></li>
+                        <li><a window_id="<@=windowID@>" id="phone_no_reply" dialog_id="" class="btn1">Не ПРИНЯТЬ</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+                <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
+            </div>
+            </section>
+            
+</script>
+
+<script type="text/template" id="Phone_Menu">
+        
+            <div class="phone-screen" id="phoneMainScreen">
+
+            <ul window_id="<@=windowID@>" class="phone-main-menu">
+                <li window_id="<@=windowID@>" class="phone_get_contacts">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">Список контактов</p>
+                </li>
+                <li window_id="<@=windowID@>" class="phone_get_history">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">История Вызовов</p>
+                </li>
+            </ul>
+                
+            </div>
+       
 </script>
 <!--dialogHTML-->
 <script type="text/template" id="Phone_Dialog">
@@ -85,24 +141,26 @@
             <div class="phone-bl main">
             <div class="phone-screen">
             <div class="phone-call">
-            <div class="phone-call-img"><img alt="" src="' +SKConfig.assetsUrl+ '/img/phone/icon-call-ch<@=id@>.png"></div>
+            <div class="phone-call-img"><img alt="" src="<@= SKConfig.assetsUrl @>/img/phone/icon-call-ch<@=remote_replica.ch_from@>.png"></div>
             <p class="phone-call-text">
-            <span class="name"><@=name@></span><br>
-            <@=title@><br>
+            <span class="name"><@=remote_replica.name@></span><br>
+            <@=remote_replica.title@><br>
             <span class="post">&nbsp;</span>
             </p>
-            <a class="phone-call-end" onclick="phone.drawMenu(\'menu\')">Завершить</a>
+            <a class="phone-call-end" onclick="phone.drawMenu('menu')">Завершить</a>
             </div>	
             </div>
 
-            <a class="phone-menu-btn" onclick="phone.drawMenu(\'menu\')">меню</a>
+            <a class="phone-menu-btn" onclick="phone.drawMenu('menu')">меню</a>
             </div>
 
             <div class="phone-reply-field">
-            <p class="phone-reply-ch max"><@=dialog_text@></p>
+            <p class="phone-reply-ch max"><@=remote_replica.text@></p>
 
             <ul class="phone-reply-h" id="phoneAnswers">
-            <@=dialog_answers@>
+                <@ my_replicas.forEach(function (replica) { @>
+                <li><p><a href="" class="replica-select" data-id="<@= replica.id @>"><@= replica.text @></a></p><span></span></li>
+                <@ }) @>
             </ul>
             </div>
             </section>
