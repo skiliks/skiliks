@@ -5,7 +5,7 @@
         'M':'mail',
         'MS':'mail',
         'D':'document',
-        'P': 'plan',
+        'P':'plan',
         2:'event'
     };
 
@@ -13,7 +13,7 @@
         'initialize':function () {
             this.completed = false;
         },
-        'getTypeSlug':function () {
+        getTypeSlug:function () {
             if (this.get('type') === 1) {
                 if (this.get('data')[0].dialog_subtype === '1') {
                     return 'phone';
@@ -27,10 +27,51 @@
                     throw 'Incorrect subtype ' + this.get('data')[0].dialog_subtype;
                 }
             } else if (event_types[this.get('type')] === undefined) {
-                console.log(this.toJSON());
                 throw 'Unknown event type: ' + this.get('type');
             }
             return event_types[this.get('type')];
+        },
+        getRemoteReplica:function () {
+            var replicas = this.get('data');
+            var remote_replica = undefined;
+            replicas.forEach(function (replica) {
+                if (replica.ch_to === '1') {
+                    remote_replica = replica;
+                }
+            });
+            return remote_replica
+        },
+        getMyReplicas:function () {
+            var replicas = this.get('data');
+            var my_replicas = [];
+            replicas.forEach(function (replica) {
+                if (replica.ch_to !== '1') {
+                    my_replicas.push(replica);
+                }
+            });
+            return my_replicas;
+        },
+        getVideoSrc:function () {
+            var replicas = this.get('data');
+            var video_src = undefined;
+            replicas.forEach(function (replica) {
+                video_src = video_src || replica.sound;
+            });
+            if (!video_src.match(/\.webm$/)) {
+                video_src = undefined;
+            }
+            return video_src ? SKConfig.assetsUrl + '/videos/' + video_src : undefined;
+        },
+        getImgSrc:function () {
+            var replicas = this.get('data');
+            var img_src = undefined;
+            replicas.forEach(function (replica) {
+                img_src = img_src || replica.sound;
+            });
+            if (!img_src.match(/\.png$/)) {
+                img_src = undefined;
+            }
+            return img_src ? SKConfig.assetsUrl + '/dialog_images/' + img_src : undefined;
         },
         'complete':function () {
             if (this.completed === true) {
