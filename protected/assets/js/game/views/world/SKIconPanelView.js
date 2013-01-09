@@ -21,7 +21,7 @@
                     me.startAnimation('.door');
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
-                    var view = new SKPhoneDialogView({'event' : event.get('data')});
+                    var view = new SKPhoneDialogView({'event' : event});
                     event.complete();
                 }
             });
