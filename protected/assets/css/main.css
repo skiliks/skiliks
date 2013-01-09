@@ -1511,11 +1511,6 @@ mail-emulator-received-list-row
 	top:3px;
 	right:47px;
 }
-.plan-todo.closed .plan-todo-btn li button.max{
-	background-position:0 0;
-	width:38px;
-	height:30px;
-}
 .plan-todo-tit{
 	font-family:'hortensiaregular';
 	font-size:30px;
@@ -1527,9 +1522,6 @@ mail-emulator-received-list-row
 .plan-todo-tit span{
 	font-weight:normal;
 	color:#000;
-}
-.plan-todo.closed .plan-todo-tit{
-	margin-left:160px;
 }
 .plan-todo-wrap{
 	overflow:hidden;
