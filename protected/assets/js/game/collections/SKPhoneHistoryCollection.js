@@ -1,4 +1,4 @@
-/*global SKApp, Backbone, _, SKTodoTask */
+/*global SKApp, Backbone, _, SKTodoTask, SKPhoneHistory */
 
 (function () {
     "use strict";
