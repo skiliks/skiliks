@@ -113,7 +113,7 @@
         },
         doPhoneToggle:function (e) {
             e.preventDefault();
-            phone.draw();
+            var view = new SKPhoneView();
         },
         doDoorToggle:function (e) {
             e.preventDefault();
