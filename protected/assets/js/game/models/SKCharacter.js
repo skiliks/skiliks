@@ -24,6 +24,14 @@
          */
         getFormatedForMailToName: function() {
             return this.name + ', ' + this.email + ' (' + this.mySqlId + ')';
+        },
+        
+        /* 
+         * Sorry,I can`t find good name for this function
+         * @return string
+         */
+        getFormated_2_ForMailToName: function() {
+            return this.name + ' <' + this.email + '>, ';
         }
     });
 })();

@@ -65,12 +65,104 @@
     <div id="<@= emailPreviewId @>" class="pre"></div>
 </script>
 
+<!-- MailClient_TrashFolderSceleton: -->
+<script type="text/template" id="MailClient_TrashFolderSceleton">
+    <table id="mlTitle" class="ml-title">
+        <colgroup>
+            <col class="col0">
+            <col class="col1">
+            <col class="col2">
+            <col class="col3">
+        </colgroup>
+        <tbody>
+        <tr>
+            <td onclick="mailEmulator.folderSort('sender')">
+                <span id="mailEmulatorReceivedListSortSender">От кого</span>
+            </td>
+            <td onclick="mailEmulator.folderSort('subject')">
+                <span>Тема</span>
+            </td>
+            <td onclick="mailEmulator.folderSort('time')">
+                <span id="mailEmulatorReceivedListSortTime">Дата получения</span>
+            </td>
+            <td>
+                <div class="attachmentIcon"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
+        <table class="ml"></table>
+    </div>
+    <div id="<@= emailPreviewId @>" class="pre"></div>
+</script>
+
+<!-- MailClient_SendedFolderSceleton: -->
+<script type="text/template" id="MailClient_SendedFolderSceleton">
+    <table id="mlTitle" class="ml-title">
+        <colgroup>
+            <col class="col0">
+            <col class="col1">
+            <col class="col2">
+            <col class="col3">
+        </colgroup>
+        <tbody>
+        <tr>
+            <td onclick="mailEmulator.folderSort('sender')">
+                <span id="mailEmulatorReceivedListSortSender">Кому</span>
+            </td>
+            <td onclick="mailEmulator.folderSort('subject')">
+                <span>Тема</span>
+            </td>
+            <td onclick="mailEmulator.folderSort('time')">
+                <span id="mailEmulatorReceivedListSortTime">Дата отправки</span>
+            </td>
+            <td>
+                <div class="attachmentIcon"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
+        <table class="ml"></table>
+    </div>
+    <div id="<@= emailPreviewId @>" class="pre"></div>
+</script>
+
 <!-- MailClient_IncomeEmailLine: -->
 <script type="text/template" id="MailClient_IncomeEmailLine">
     <tr data-email-id="<@= emailMySqlId @>"
         class="email-list-line <@= isReadedCssClass @> mail-emulator-received-list-string
           mail-emulator-received-list-string-selected <@= isActiveCssClass @> ui-draggable">
         <td class="col0 mail-emulator-received-list-cell-sender"><@= senderName @></td>
+        <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
+        <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
+        <td class="col3 mail-emulator-received-list-cell-attach">
+            <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
+        </td>
+    </tr>
+</script>
+
+<!-- MailClient_TrashEmailLine: -->
+<script type="text/template" id="MailClient_TrashEmailLine">
+    <tr data-email-id="<@= emailMySqlId @>"
+        class="email-list-line <@= isReadedCssClass @> mail-emulator-received-list-string
+          mail-emulator-received-list-string-selected <@= isActiveCssClass @> ui-draggable">
+        <td class="col0 mail-emulator-received-list-cell-sender"><@= senderName @></td>
+        <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
+        <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
+        <td class="col3 mail-emulator-received-list-cell-attach">
+            <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
+        </td>
+    </tr>
+</script>
+
+<!-- MailClient_SendedEmailLine: -->
+<script type="text/template" id="MailClient_SendedEmailLine">
+    <tr data-email-id="<@= emailMySqlId @>"
+        class="email-list-line <@= isReadedCssClass @> mail-emulator-received-list-string
+          mail-emulator-received-list-string-selected <@= isActiveCssClass @> ui-draggable">
+        <td class="col0 mail-emulator-received-list-cell-sender"><@= recipientName @></td>
         <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
         <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
         <td class="col3 mail-emulator-received-list-cell-attach">

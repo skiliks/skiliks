@@ -1790,6 +1790,9 @@ section.mail .actions li a.FORWARD_EMAIL{
 section.mail .actions li a.ADD_TO_PLAN{
 	background-position:center -160px;
 }
+section.mail .actions li a.MOVE_TO_TRASH{
+	background-position:center -200px;
+}
 section.mail .actions li a:hover{
 	text-decoration:underline;
 }
@@ -3615,3 +3618,4 @@ ul.main-screen-stat li img{
 .contact-li:hover .hover-show{ display: block; }
 .contact-li:hover .hover-hide{ display: none; }
 /* --------------- /main screen ---------*/
+
