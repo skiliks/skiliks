@@ -40,9 +40,6 @@ $(function () {
             this.renderTPL('#'+this.windowID, '#Phone_Html', {windowID:this.windowID});
             this.$el = $('#'+this.windowID);
         },
-        render:function () {
-            
-        },
         close:function (event) {            
             if(event != undefined){
                 var id = $(event.toElement).attr('window_id');

@@ -97,7 +97,7 @@
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
             sim_event.complete();
             this.$('.phone').removeClass('icon-active');
-            phone.draw('income', sim_event.get('data'));
+            var view = new SKPhoneCallView(sim_event.get('data'));
         },
         doDialogStart:function (e) {
             e.preventDefault();
