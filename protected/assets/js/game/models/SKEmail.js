@@ -62,7 +62,22 @@
         
         // @var string, 
         // @todo: replace with links to SKCharacters
-        copyToString: undefined,        
+        copyToString: undefined, 
+        
+        setSendedAtFromTodayMinutes: function(fullMinutes) {
+            var hours = (Math.floor(fullMinutes/60));
+            var minutes = (fullMinutes - hours*60);
+            if (minutes < 10) {
+                minutes = '0' + minutes;
+            }
+            this.sendedAt = '10.03.2012 ' + hours + ':' + minutes;
+        },
+        
+        updateStatusPropertiesAccordingObjects: function() {
+            if (undefined !== this.attachment) {
+                this.is_has_attachment = true;
+            }  
+        },
 
         /**
          */
@@ -120,6 +135,59 @@
             }
                 
             return true;
+        },
+        
+        getAttachmentId: function() {
+            if (undefined !== this.attachnent) {
+                return this.attachnent.fileMySqlId;
+            } else {
+                return '';
+            }
+        },
+        
+        getRecipientIdsString: function() {
+            var string = '';
+            for (var i in this.recipients) {
+                string += this.recipients[i].mySqlId + ',';
+            }
+            
+            return string;
+        },
+        
+        getFormatedRecipientsString: function() {
+            var string = '';
+            for (var i in this.recipients) {
+                string += this.recipients[i].getFormated_2_ForMailToName();
+            }
+            
+            return string;
+        },
+        
+        getFormatedCopyToString: function() {
+            var string = '';
+            for (var i in this.copyTo) {
+                string += this.copyTo[i].getFormated_2_ForMailToName();
+            }
+            
+            return string;
+        },
+        
+        getCopyToIdsString: function() {
+            var string = '';
+            for (var i in this.copyTo) {
+                string += this.copyTo[i].mySqlId + ',';
+            }
+            
+            return string;
+        },
+        
+        getPhrasesIdsString: function() {
+            var string = '';
+            for (var i in this.phrases) {
+                string += this.phrases[i].mySqlId + ',';
+            }
+            
+            return string;
         }
     });
 })();

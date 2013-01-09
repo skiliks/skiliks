@@ -11,7 +11,7 @@
 
         mailClientIncomeFolderListId:'MailClient_IncomeFolder_List',
 
-        mailClientIncomeFolderEmailPreviewId:'MailClient_IncomeFolder_EmailPreview',
+        mailClientInboxFolderEmailPreviewId:'MailClient_IncomeFolder_EmailPreview',
 
         mailClientReadEmailContentBoxId:'MailClient_ReadEmail_Content',
 
@@ -58,9 +58,10 @@
          * Used to get data for email preview
          * @todo move to model?
          */
-        doGetEmailDetails:function (emailId) {
+        doGetEmailDetails:function (emailId, folderAlias) {
+
             // do we have full data for current email ? {
-            var email = SKApp.user.simulation.mailClient.getIncomeFolder().getEmailByMySqlId(emailId);
+            var email = SKApp.user.simulation.mailClient.folders[folderAlias].getEmailByMySqlId(emailId);
 
             if ('undefined' === typeof email) {
                 throw 'Try to render unexistent email ' + emailId + '.';
@@ -68,12 +69,27 @@
 
             this.mailClient.setActiveEmail(email);
 
+            // update active email in amails list {
+            if (folderAlias === SKApp.user.simulation.mailClient.aliasFolderInbox) {
+                this.updateInboxListView();
+            }
+            if (folderAlias === SKApp.user.simulation.mailClient.aliasFolderSended) {
+                this.updateSendedListView();
+            }
+            if (folderAlias === SKApp.user.simulation.mailClient.aliasFolderDrats) {
+                this.updateDratsListView();
+            }
+            if (folderAlias === SKApp.user.simulation.mailClient.aliasFolderTrash) {
+                this.updateTrashListView();
+            }
+            // update active email in amails list }
+            
             if ('undefined' !== typeof email.text &&
                 'undefined' !== typeof email.attachment) {
                 // if YES - just render it
                 SKApp.user.simulation.mailClient.viewObject.renderEmaiPreviewScreen(
                     email,
-                    SKApp.user.simulation.mailClient.viewObject.mailClientIncomeFolderEmailPreviewId
+                    SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId
                 );
                 return;
             }
@@ -83,20 +99,21 @@
             SKApp.server.api(
                 'mail/getMessage',
                 {
-                    emailId:emailId
+                    emailId: emailId
                 },
                 function (response) {
                     if (1 === response.result) {
                         // update email {
-                        var email = SKApp.user.simulation.mailClient.getIncomeFolder()
-                            .getEmailByMySqlId(response.data.id);
 
+                        var email = SKApp.user.simulation.mailClient.getEmailByMySqlId(response.data.id);
+                        
                         // update attachment object
-                        var attachment = new SKAttachment();
-                        attachment.id = response.data.attachments.id;
-                        attachment.label = response.data.attachments.name;
-                        email.attachment = attachment;
-
+                        if (undefined !== response.data.attachments) {
+                            var attachment = new SKAttachment();
+                            attachment.id = response.data.attachments.id;
+                            attachment.label = response.data.attachments.name;
+                            email.attachment = attachment;
+                        }
                         // update Copy to: string
                         email.copyToString = response.data.copies;
 
@@ -106,8 +123,9 @@
                         // render preview
                         SKApp.user.simulation.mailClient.viewObject.renderEmaiPreviewScreen(
                             email,
-                            SKApp.user.simulation.mailClient.viewObject.mailClientIncomeFolderEmailPreviewId
+                            SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId
                         );
+
                     }
                 });
         },
@@ -129,17 +147,17 @@
                     }
 
                     var action = '';
-                    if (alias === SKApp.user.simulation.mailClient.aliasFolderIncome) {
-                        action = 'SKApp.user.simulation.mailClient.preRenderFolder(SKApp.user.simulation.mailClient.aliasFolderIncome);';
+                    if (alias === SKApp.user.simulation.mailClient.aliasFolderInbox) {
+                        action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderInbox);';
                     }
                     if (alias === SKApp.user.simulation.mailClient.aliasFolderDrafts) {
-                        action = '';
+                        action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderDrafts);';
                     }
                     if (alias === SKApp.user.simulation.mailClient.aliasFolderSended) {
-                        action = '';
+                        action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderSended);';
                     }
                     if (alias === SKApp.user.simulation.mailClient.aliasFolderTrash) {
-                        action = '';
+                        action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderTrash);';
                     }
 
                     html += _.template($('#MailClient_FolderLabel').html(), {
@@ -154,14 +172,42 @@
 
             $('#' + this.mailClientFoldersListId).html(html);
         },
+        
+        doRenderFolder: function(folderAlias) {
+            if (this.mailClient.aliasFolderInbox === folderAlias) {
+                this.mailClient.setActiveEmail(this.mailClient.getInboxFolder().getFirstEmail());
+                this.renderInboxFolder();                
+            }
+            
+            if (this.mailClient.aliasFolderSended === folderAlias) {
+                this.mailClient.setActiveEmail(this.mailClient.getSendedFolder().getFirstEmail());
+                this.renderSendedFolder();                
+            }
+            
+            if (this.mailClient.aliasFolderDrafts === folderAlias) {
+                this.mailClient.setActiveEmail(this.mailClient.getDraftsFolder().getFirstEmail());
+                this.renderDraftsFolder();                
+            }
+            
+            if (this.mailClient.aliasFolderTrash === folderAlias) {
+                this.mailClient.setActiveEmail(this.mailClient.getTrashFolder().getFirstEmail());
+                this.renderTrashFolder();                
+            }
+            
+            this.mailClient.setActiveFolder(folderAlias);
+            this.updateFolderLabels();
+            this.mailClient.setActiveScreen(folderAlias);
+        },
 
-        updateIncomeListView:function () {
+        updateInboxListView:function () {
             // generate emails list {
                        
             // We  use this 2 variables to separate emails to display unreaded emails first in list
             var readedEmailsList = '';
             var unreadedEmailsList = '';
-            var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderIncome].emails; // to make code shorter
+            var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderInbox].emails; // to make code shorter
+
+            console.log(this.mailClient.activeEmail.mySqlId);
 
             for (var key in incomingEmails) {
                 // check is email active
@@ -195,57 +241,251 @@
             // add emails list
             $('#' + this.mailClientIncomeFolderListId + ' table').html(unreadedEmailsList + readedEmailsList);
             
+            this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
+        },
+        updateTrashListView:function () {
+            // generate emails list {
+                       
+            // We  use this 2 variables to separate emails to display unreaded emails first in list
+            var emailsList = '';
+            var trashEmails = this.mailClient.folders[this.mailClient.aliasFolderTrash].emails; // to make code shorter
+
+            for (var key in trashEmails) {
+                // check is email active
+                var isActiveCssClass = '';
+                if (trashEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
+                    // why 2 CSS classes? - this is works
+                    isActiveCssClass = ' mail-emulator-received-list-string-selected active '; 
+                } 
+                
+                // generate HTML by template
+                emailsList += _.template($('#MailClient_TrashEmailLine').html(),{
+                    
+                    emailMySqlId:       trashEmails[key].mySqlId,
+                    senderName:         trashEmails[key].senderNameString,
+                    subject:            trashEmails[key].subject.text,
+                    sendedAt:           trashEmails[key].sendedAt,
+                    isHasAttachmentCss: trashEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:   true,
+                    isActiveCssClass:   isActiveCssClass
+                }); 
+            } 
+            
+            // add emails list
+            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            
+            this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderTrash);
+        },
+
+        updateSendedListView:function () {
+            // generate emails list {
+                       
+            // We  use this 2 variables to separate emails to display unreaded emails first in list
+            var emailsList = '';
+            var sendedEmails = this.mailClient.folders[this.mailClient.aliasFolderSended].emails; // to make code shorter
+
+            for (var key in sendedEmails) {
+                // check is email active
+                var isActiveCssClass = '';
+                if (sendedEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
+                    // why 2 CSS classes? - this is works
+                    isActiveCssClass = ' mail-emulator-received-list-string-selected active '; 
+                } 
+                
+                // generate HTML by template
+                emailsList += _.template($('#MailClient_SendedEmailLine').html(),{
+                    
+                    emailMySqlId:       sendedEmails[key].mySqlId,
+                    recipientName:      sendedEmails[key].getFormatedRecipientsString(),
+                    subject:            sendedEmails[key].subject.text,
+                    sendedAt:           sendedEmails[key].sendedAt,
+                    isHasAttachmentCss: sendedEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:   true,
+                    isActiveCssClass:   isActiveCssClass
+                }); 
+            } 
+            
+            // add emails list
+            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            
+            this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderSended);
+        },
+
+        updateDraftsListView:function () {
+            // generate emails list {
+                       
+            // We  use this 2 variables to separate emails to display unreaded emails first in list
+            var emailsList = '';
+            var draftEmails = this.mailClient.folders[this.mailClient.aliasFolderDrafts].emails; // to make code shorter
+
+            for (var key in draftEmails) {
+                // check is email active
+                var isActiveCssClass = '';
+                if (draftEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
+                    // why 2 CSS classes? - this is works
+                    isActiveCssClass = ' mail-emulator-received-list-string-selected active '; 
+                } 
+                
+                // generate HTML by template
+                emailsList += _.template($('#MailClient_SendedEmailLine').html(),{
+                    
+                    emailMySqlId:       draftEmails[key].mySqlId,
+                    recipientName:      draftEmails[key].getFormatedRecipientsString(),
+                    subject:            draftEmails[key].subject.text,
+                    sendedAt:           draftEmails[key].sendedAt,
+                    isHasAttachmentCss: draftEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:   true,
+                    isActiveCssClass:   isActiveCssClass
+                }); 
+            } 
+            
+            // add emails list
+            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            
+            this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderDrafts);
+        },
+        
+        addClickAndDoubleClickBehaviour: function(folderAlias) {
             $('.email-list-line').click(function(event) {
                 // if user click on same email line twise - open read email screen
                 // Andrey, do not change == to ===
                 if ($(event.currentTarget).data().emailId == SKApp.user.simulation.mailClient.activeEmail.mySqlId) {
+                    console.log('2');
                     SKApp.user.simulation.mailClient.renderReadEmailScreen(
                         $(event.currentTarget).data().emailId
                     );
                 } else {
+                    console.log('1');
                     // if user clicks on different email lines - activate ckicked line email
                     SKApp.user.simulation.mailClient.viewObject.doGetEmailDetails(
-                        $(event.currentTarget).data().emailId
+                        $(event.currentTarget).data().emailId,
+                        folderAlias
                     );
                 }
             });
         },
 
-        renderIncomeFolder:function () {
+        renderInboxFolder:function () {
+            this.unhideFoldersBlock();
+            
             // set HTML sceleton {
             var sceleton = _.template($('#MailClient_IncomeFolderSceleton').html(), {
                 listId:this.mailClientIncomeFolderListId,
-                emailPreviewId:this.mailClientIncomeFolderEmailPreviewId
+                emailPreviewId:this.mailClientInboxFolderEmailPreviewId
             });
 
             $('#' + this.mailClientContentBlockId).html(sceleton);
             // set HTML sceleton }
 
-            this.updateIncomeListView();
+            this.updateInboxListView();
 
             // render preview email
             if (undefined !== this.mailClient.activeEmail) {
-                this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId);
+                this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderInbox);
             }
 
-            this.renderIcons(this.mailClient.iconsForIncomeScreenArray);
+            this.renderIcons(this.mailClient.iconsForInboxScreenArray);
+        },
+
+        renderTrashFolder:function () {
+            this.unhideFoldersBlock();
+            
+            // set HTML sceleton {
+            var sceleton = _.template($('#MailClient_TrashFolderSceleton').html(), {
+                listId:this.mailClientIncomeFolderListId,
+                emailPreviewId:this.mailClientInboxFolderEmailPreviewId
+            });
+
+            $('#' + this.mailClientContentBlockId).html(sceleton);
+            // set HTML sceleton }
+
+            this.updateTrashListView();
+
+            // render preview email
+            if (undefined !== this.mailClient.activeEmail) {
+                this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderTrash);
+            }
+
+            this.renderIcons(this.mailClient.iconsForTrashScreenArray);
+        },
+        
+        renderSendedFolder:function () {
+            this.unhideFoldersBlock();
+            
+            // set HTML sceleton {
+            var sceleton = _.template($('#MailClient_SendedFolderSceleton').html(), {
+                listId:         this.mailClientIncomeFolderListId,
+                emailPreviewId: this.mailClientInboxFolderEmailPreviewId
+            });
+
+            $('#' + this.mailClientContentBlockId).html(sceleton);
+            // set HTML sceleton }
+            
+            this.updateSendedListView();
+            
+            // render preview email
+            if (undefined !== this.mailClient.activeEmail) {
+                this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderSended);
+            }
+           
+            this.renderIcons(this.mailClient.iconsForSendedScreenArray);
+            
+            // this dublicates model code, but this is first step to use models like data storage only
+            
+            this.updateFolderLabels();
+            
+            this.mailClient.setActiveScreen(this.mailClient.aliasFolderSended);
+        },
+        
+        renderDraftsFolder:function () {
+            this.unhideFoldersBlock();
+            
+            // set HTML sceleton {
+            var sceleton = _.template($('#MailClient_SendedFolderSceleton').html(), {
+                listId:         this.mailClientIncomeFolderListId,
+                emailPreviewId: this.mailClientInboxFolderEmailPreviewId
+            });
+
+            $('#' + this.mailClientContentBlockId).html(sceleton);
+            // set HTML sceleton }
+
+            this.updateDraftsListView();
+
+            // render preview email
+            if (undefined !== this.mailClient.activeEmail) {
+                this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderDrafts);
+            }
+            
+            this.renderIcons(this.mailClient.iconsForDraftsScreenArray);
+            
+            // this dublicates model code, but this is first step to use models like data storage only
+            
+            this.updateFolderLabels();
+            
+            this.mailClient.setActiveScreen(this.mailClient.aliasFolderDrafts);
+            
         },
 
         renderEmaiPreviewScreen:function (email, id) {
-            this.updateIncomeListView();
+            this.mailClient.setActiveEmail(email);
+            
+            var attachmentLabel = '';
+            if (undefined !== email.attachment) {
+                attachmentLabel = email.attachment.label;
+            }
 
             var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
-                emailMySqlId:email.mySqlId,
-                senderName:email.senderNameString,
-                recipientName:this.mailClient.heroNameEmail,
-                copyNamesLine:email.copyToString,
-                subject:email.subject.text,
-                text:email.text,
-                sendedAt:email.sendedAt,
-                isHasAttachmentCss:email.getIsHasAttachmentCss(),
-                isReadedCssClass:email.getIsReadedCssClass(),
-                attachmentFileName:email.attachment.label,
-                attachmentId:email.attachment.id
+                emailMySqlId:           email.mySqlId,
+                senderName:             email.senderNameString,
+                recipientName:          email.recipientNameString, //this.mailClient.heroNameEmail,
+                copyNamesLine:          email.copyToString,
+                subject:                email.subject.text,
+                text:                   email.text,
+                sendedAt:               email.sendedAt,
+                isHasAttachmentCss:     email.getIsHasAttachmentCss(),
+                isReadedCssClass:       email.getIsReadedCssClass(),
+                attachmentFileName:     attachmentLabel,
+                attachmentId:           email.attachment.id
             });
 
             $('#' + id).html(emailPreviewTemplate);
@@ -268,13 +508,15 @@
             // set defaults {
             var iconsListHtml = '';
 
-            var addButtonNewEmail  = false;
-            var addButtonReply     = false;
-            var addButtonReplyAll  = false;
-            var addButtonForward   = false;
-            var addButtonAddToPlan = false;
-            var addButtonSend      = false;
-            var addButtonSave      = false;
+            var addButtonNewEmail    = false;
+            var addButtonReply       = false;
+            var addButtonReplyAll    = false;
+            var addButtonForward     = false;
+            var addButtonAddToPlan   = false;
+            var addButtonSend        = false;
+            var addButtonSaveDraft   = false;
+            var addButtonSendDraft   = false;
+            var addButtonMoveToTrash = false;
             // set defaults }
 
             // choose icons to show {
@@ -295,11 +537,17 @@
                     case me.mailClient.aliasButtonAddToPlan:
                         addButtonAddToPlan = true;
                         break;
-                    case me.mailClient.aliasButtonSaveDraft:
-                        addButtonSave = true;
+                    case me.mailClient.aliasButtonSendDraft:
+                        addButtonSendDraft = true;
                         break;
                     case me.mailClient.aliasButtonSend:
                         addButtonSend = true;
+                        break;
+                    case me.mailClient.aliasButtonSaveDraft:
+                        addButtonSaveDraft = true;
+                        break;
+                    case me.mailClient.aliasButtonMoveToTrash:
+                        addButtonMoveToTrash = true;
                         break;
                 }
             });
@@ -344,31 +592,67 @@
                     label:        'запланировать'
                 });
             }
-            if (addButtonAddToPlan) {
+            if (addButtonSaveDraft) {
                 iconsListHtml += _.template(action_icon, {
                     action:       '',
-                    iconCssClass: this.mailClient.aliasButtonAddToPlan,
-                    label:        'запланировать'
-                });
-            }
-            if (addButtonSave) {
-                iconsListHtml += _.template(action_icon, {
-                    action:       'SKApp.user.simulation.mailClient.viewObject.doSaveCurrentCustomEmail();',
                     iconCssClass: this.mailClient.aliasButtonSaveDraft,
                     label:        'сохранить'
                 });
             }
             if (addButtonSend) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSendCurrentCustomEmail();',
                     iconCssClass: this.mailClient.aliasButtonSend,
                     label:        'отправить'
+                });
+            }
+            if (addButtonSendDraft) {
+                iconsListHtml += _.template(action_icon, {
+                    action:       '',
+                    iconCssClass: this.mailClient.aliasButtonSendDraft,
+                    label:        'отправить черновик'
+                });
+            }
+            if (addButtonMoveToTrash) {
+                iconsListHtml += _.template(action_icon, {
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doMoveToTrashActiveEmail();',
+                    iconCssClass: this.mailClient.aliasButtonMoveToTrash,
+                    label:        'удалить'
                 });
             }
             // conpose HTML code }
 
             // render HTML
             $('#' + this.mailClientScreenID + ' .actions').html(iconsListHtml);
+        },
+        
+        doMoveToTrashActiveEmail: function() {
+            this.doMoveToTrash(SKApp.user.simulation.mailClient.activeEmail);
+        },
+        
+        doMoveToTrash: function(email) {
+            SKApp.server.api(
+                'mail/move',
+                {
+                    folderId:  this.mailClient.codeFolderTrash,
+                    messageId: email.mySqlId
+                },
+                function (){},
+                false
+            );
+            
+            this.mailClient.getInboxFolderEmails();
+            this.mailClient.getTashFolderEmails();
+            
+            this.mailClient.setActiveEmail(undefined);
+            var inboxEmails = this.mailClient.getInboxFolder().emails;
+            for (var i in inboxEmails) {
+                this.mailClient.setActiveEmail(inboxEmails[i]);
+                break;
+            }
+            
+            this.updateFolderLabels();
+            this.renderInboxFolder();
         },
         
         hideFoldersBlock: function() {
@@ -382,6 +666,9 @@
         },
         
         renderWriteCustomNewEmailScreen: function() {
+            $("#MailClient_RecipientsList li").remove();
+            $("#MailClient_CopiesList li").remove();
+            
             // get template
             var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
             
@@ -444,7 +731,7 @@
             var list = [];
             var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
             
-            var valuesArray = $("#MailClient_RecipientsList li").get();
+            var valuesArray = $("#MailClient_RecipientsList li.tagItem").get();
             
             for (var i in valuesArray) {
                 for (var j in defaultRecipients) {
@@ -491,6 +778,10 @@
         
         getCurentEmailSubjectId: function() {
             return $("#MailClient_NewLetterSubject select option:selected").val();
+        },
+        
+        getCurentEmailSubjectText: function() {
+            return $("#MailClient_NewLetterSubject select option:selected").text();
         },
         
         reloadPhrases: function() {
@@ -562,7 +853,7 @@
         /**
          * @return SKAttachment | undefined
          */
-        getCurrentEmailAttachmentFile: function() {
+        getCurrentEmailAttachment: function() {
             var selectedAttachmentlabel = $('.dd-selected label').text();
             var attachments = this.mailClient.availableAttachments;
             
@@ -581,7 +872,7 @@
          * @return integer | empty string
          */
         getCurrentEmailAttachmentFileId: function() {
-            var file = this.getCurrentEmailAttachmentFile();
+            var file = this.getCurrentEmailAttachment();
             
             if (undefined === file) {
                 return '';
@@ -590,7 +881,7 @@
             }
         },
         
-        getCurrentEmailPhrases: function() {
+        getCurrentEmailPhraseIds: function() {
             var list = [];
             
             var usedPhrases = $("#mailEmulatorNewLetterText li").get();
@@ -602,15 +893,44 @@
             return list;
         },
         
-        doSaveCurrentCustomEmail: function() {
-            console.log('Recipients:', this.getCurentEmailRecipientIds());
-            console.log('Copies:', this.getCurentEmailCopiesIds());
-            console.log('SubjectID:', this.getCurentEmailSubjectId());
-            console.log('Phrases:', this.getCurrentEmailPhrases());
-            console.log('Type:', this.mailClient.emailTypeNew);
-            console.log('FileId:', this.getCurrentEmailAttachmentFileId());
-            console.log('MessageId:', '-');
-            console.log('TimeString:', SKApp.user.simulation.getGameMinutes());
+        doSendCurrentCustomEmail: function() {
+            var emailToSave = new SKEmail();
+            
+            // recipients
+            var recipients = this.getCurentEmailRecipientIds();
+            for (var i in recipients) {
+                emailToSave.recipients.push(this.mailClient.getCharacterById(recipients[i]));
+            }
+            
+            // copies
+            var copies = this.getCurentEmailCopiesIds();
+            for (var i in copies) {
+                emailToSave.copyTo.push(this.mailClient.getCharacterById(copies[i]));
+            }
+            
+            // subject
+            var subject = new SKMailSubject();
+            subject.characterSubjectId = this.getCurentEmailSubjectId();
+            subject.text = this.getCurentEmailSubjectText();
+            emailToSave.subject = subject;
+            
+            // attachment
+            emailToSave.attachment = this.getCurrentEmailAttachment();
+            
+            // phrases
+            var phrases = this.getCurrentEmailPhraseIds()
+            for (var i in copies) {
+                emailToSave.phrases.push(this.mailClient.getAvailablePhraseByMySqlId(copies[i]));
+            }
+            
+            // update
+            emailToSave.updateStatusPropertiesAccordingObjects();
+            
+            // store temporary since save
+            this.mailClient.sendNewCustomEmail(emailToSave); // sync AJAX
+            
+            this.updateFolderLabels();
+            this.renderInboxFolder();
         }
     });
 })();
