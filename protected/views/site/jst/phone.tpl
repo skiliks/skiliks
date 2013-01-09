@@ -103,24 +103,26 @@
             <div class="phone-bl main">
             <div class="phone-screen">
             <div class="phone-call">
-            <div class="phone-call-img"><img alt="" src="' +SKConfig.assetsUrl+ '/img/phone/icon-call-ch<@=id@>.png"></div>
+            <div class="phone-call-img"><img alt="" src="<@= SKConfig.assetsUrl @>/img/phone/icon-call-ch<@=remote_replica.ch_from@>.png"></div>
             <p class="phone-call-text">
-            <span class="name"><@=name@></span><br>
-            <@=title@><br>
+            <span class="name"><@=remote_replica.name@></span><br>
+            <@=remote_replica.title@><br>
             <span class="post">&nbsp;</span>
             </p>
-            <a class="phone-call-end" onclick="phone.drawMenu(\'menu\')">Завершить</a>
+            <a class="phone-call-end" onclick="phone.drawMenu('menu')">Завершить</a>
             </div>	
             </div>
 
-            <a class="phone-menu-btn" onclick="phone.drawMenu(\'menu\')">меню</a>
+            <a class="phone-menu-btn" onclick="phone.drawMenu('menu')">меню</a>
             </div>
 
             <div class="phone-reply-field">
-            <p class="phone-reply-ch max"><@=dialog_text@></p>
+            <p class="phone-reply-ch max"><@=remote_replica.text@></p>
 
             <ul class="phone-reply-h" id="phoneAnswers">
-            <@=dialog_answers@>
+                <@ my_replicas.forEach(function (replica) { @>
+                <li><p><a href="" class="replica-select" data-id="<@= replica.id @>"><@= replica.text @></a></p><span></span></li>
+                <@ }) @>
             </ul>
             </div>
             </section>
