@@ -47,11 +47,12 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/php.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/hyphenate.js");
         $cs->registerScriptFile($assetsUrl . "/js/underscore.js");
+        $cs->registerScriptFile($assetsUrl . "/js/prefixfree.min.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery.ddslick.min.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/backbone.js");
         $cs->registerScriptFile($assetsUrl . "/js/less-1.3.3.min.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/tag-handler/jquery.taghandler.min.js");
         
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
