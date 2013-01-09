@@ -1,4 +1,4 @@
-/*global Backbone*/
+/*global Backbone, SKConfig, SKApp*/
 (function () {
     "use strict";
     var event_types = {
@@ -33,13 +33,13 @@
         },
         getRemoteReplica:function () {
             var replicas = this.get('data');
-            var remote_replica = undefined;
+            var remote_replica = null;
             replicas.forEach(function (replica) {
                 if (replica.ch_to === '1') {
                     remote_replica = replica;
                 }
             });
-            return remote_replica
+            return remote_replica;
         },
         getMyReplicas:function () {
             var replicas = this.get('data');
@@ -53,7 +53,7 @@
         },
         getVideoSrc:function () {
             var replicas = this.get('data');
-            var video_src = undefined;
+            var video_src;
             replicas.forEach(function (replica) {
                 video_src = video_src || replica.sound;
             });
@@ -64,7 +64,7 @@
         },
         getImgSrc:function () {
             var replicas = this.get('data');
-            var img_src = undefined;
+            var img_src = null;
             replicas.forEach(function (replica) {
                 img_src = img_src || replica.sound;
             });
@@ -72,6 +72,27 @@
                 img_src = undefined;
             }
             return img_src ? SKConfig.assetsUrl + '/dialog_images/' + img_src : undefined;
+        },
+        getAudioSrc:function () {
+            var replicas = this.get('data');
+            var audio_src = null;
+            replicas.forEach(function (replica) {
+                audio_src = audio_src || replica.sound;
+            });
+            if (!audio_src.match(/\.wav/)) {
+                audio_src = null;
+            }
+            return audio_src ? SKConfig.assetsUrl + '/sounds/' + audio_src : undefined;
+        },
+        select:function (replica_id, cb) {
+            SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
+                if (data.result === 1) {
+                    if (cb) {
+                        cb(data);
+                    }
+                    SKApp.user.simulation.parseNewEvents(data.events);
+                }
+            });
         },
         'complete':function () {
             if (this.completed === true) {

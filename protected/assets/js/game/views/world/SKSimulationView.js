@@ -1,4 +1,4 @@
-/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView */
+/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView */
 (function () {
     "use strict";
     window.SKSimulationView = Backbone.View.extend({
@@ -32,11 +32,14 @@
         'addSimulationEvents':function () {
             SKApp.user.simulation.events.on('add', function (event) {
                 if (event.getTypeSlug() === 'immediate-visit') {
-                    // TODO: incorrect location
                     var visit_view = new SKVisitView({'event':event});
+                    event.complete();
+                } else if (event.getTypeSlug() === 'immediate-phone') {
+                    var view = new SKPhoneDialogView({'event' : event});
                     event.complete();
                 }
             });
+
         },
 
         'doSimulationStop':function () {

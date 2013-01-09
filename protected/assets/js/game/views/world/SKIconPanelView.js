@@ -1,4 +1,5 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView, SKDayPlanView*/
+/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
+glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 (function () {
     "use strict";
     window.SKIconPanelView = Backbone.View.extend({
@@ -14,15 +15,15 @@
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug(), function () {
-                        me.setCounter('.phone', 1);
+                        var history = new SKPhoneHistoryCollection();
+                        history.fetch();
+                        history.on('reset', function () {
+                            me.setCounter('.phone', history.length);
+                        });
                     });
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.cid);
                     me.startAnimation('.door');
-                } else if (event.getTypeSlug() === 'immediate-phone') {
-                    // TODO: incorrect location
-                    var view = new SKPhoneDialogView({'event' : event});
-                    event.complete();
                 }
             });
             var todo_tasks = SKApp.user.simulation.todo_tasks;
