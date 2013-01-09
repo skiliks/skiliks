@@ -75,7 +75,7 @@
                 </div>
                 <div class="planner-book-scrollbar"></div>
             </div>
-            <div id="plannerBookAfterVacation" class="planner-book-after-vacation">
+            <div id="plannerBookAfterVacation" class="planner-book-after-vacation"  data-day-id="3">
                 <div class="planner-book-after-vacation-head">
                     <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
                 </div>

@@ -20,6 +20,11 @@
             this.events.on('event:plan', function () {
                 SKApp.user.simulation.todo_tasks.fetch();
             });
+            this.on('tick', function () {
+                if (this.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
+                    this.stop();
+                }
+            });
             this.dayplan_tasks = new SKDayTaskCollection();
             this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
