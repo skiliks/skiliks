@@ -7,16 +7,22 @@ $(function () {
     "use strict";
 
     window.SKPhoneView = window.SKWindowView.extend({
-        initialize:function (){
-            this.open();
+        initialize:function () {
+            if(this.countMaxView > this.getCountViews()){
+                this.open();
+            } else {
+                this.close();
+            }
         },
         el:null,
+        countMaxView: 1,
         windowClass: "phoneMainDiv",
         windowID: '',
         events:{
             'click .btn-cl':'close',
             'click .phone_get_contacts':'getContacts',
-            'click .phone_get_history':'getHistory'
+            'click .phone_get_history':'getHistory',
+            'click .phone_get_menu':'getMenu'
         },
         open: function (){
             var div = document.createElement('div');
@@ -37,9 +43,14 @@ $(function () {
         render:function () {
             
         },
-        close:function (event) {
-            var id = $(event.toElement).attr('window_id');
-            $('#'+id).remove();
+        close:function (event) {            
+            if(event != undefined){
+                var id = $(event.toElement).attr('window_id');
+                $('#'+id).remove();
+            }else{
+                $('.'+this.windowClass).remove();
+            }
+            
         },
         getContacts: function (event) {
             console.log(event.toElement);
@@ -50,10 +61,12 @@ $(function () {
             contacts.fetch();
             console.log('#'+id+' .phone-screen');
             var me = this;
-            contacts.on('reset', function () {me.renderTPL('#'+id+' .phone-screen', '#Phone_Contacts', {contacts:contacts});})
-            //console.log(contacts.models);
+            contacts.on('reset', function () {
+                me.renderTPL('#'+id+' .phone-screen', '#Phone_Contacts', {contacts:contacts});
+                me.doScroll(id);
+            });
         },
-        getHistory:function (event) {
+        getHistory: function (event) {
             console.log(event.toElement);
             var id = $(event.toElement).attr('window_id');
             
@@ -61,7 +74,20 @@ $(function () {
             history.fetch();
             console.log('#'+id+' .phone-screen');
             var me = this;
-            history.on('reset', function () {me.renderTPL('#'+id+' .phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});})
+            history.on('reset', function () {
+                me.renderTPL('#'+id+' .phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
+                me.doScroll(id);
+            })
+        },
+        getMenu: function(event){
+            var id = $(event.toElement).attr('window_id');
+            this.renderTPL('#'+id+' .phone-screen', '#Phone_Menu', {windowID:id});
+        },
+        getCountViews : function(){
+            return $('.'+this.windowClass).length;
+        }, 
+        doScroll: function(id){
+            $('#'+id+' .phone-screen').mCustomScrollbar({'advanced':{'updateOnContentResize':true}});
         }
     });
 });

@@ -64,11 +64,29 @@
                     <p window_id="<@=windowID@>">История Вызовов</p>
                 </li>
             </ul>
-
+                
             </div>
-                <a class="phone-menu-btn" href="#">меню</a>
+                <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
             </div>
             </section>
+</script>
+<script type="text/template" id="Phone_Menu">
+        
+            <div class="phone-screen" id="phoneMainScreen">
+
+            <ul window_id="<@=windowID@>" class="phone-main-menu">
+                <li window_id="<@=windowID@>" class="phone_get_contacts">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">Список контактов</p>
+                </li>
+                <li window_id="<@=windowID@>" class="phone_get_history">
+                    <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p window_id="<@=windowID@>">История Вызовов</p>
+                </li>
+            </ul>
+                
+            </div>
+       
 </script>
 <!--dialogHTML-->
 <script type="text/template" id="Phone_Dialog">
