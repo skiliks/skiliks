@@ -27,15 +27,13 @@
                 return (event.getTypeSlug() === type);
             });
         },
-        'triggerEvent': function (code, delay, clear_events, clear_assessment) {
+        'triggerEvent': function (code, delay, clear_events, clear_assessment, cb) {
             SKApp.server.api('events/start',{
                 eventCode:code,
                 delay:delay,
                 clearEvents:clear_events,
                 clearAssessment:clear_assessment
-            }, function () {
-                window.scrollTo(0,0);
-            });
+            }, cb);
         }
     });
 })();

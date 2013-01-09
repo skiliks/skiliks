@@ -19,7 +19,7 @@ class DayPlanController extends AjaxController{
      */
     public function actionDelete() {        
         $plan = new DayPlanService();
-        $json = $plan->delete($this->getSimulationId(), (int)Yii::app()->request->getParam('taskId', false));
+        $json = $plan->delete($this->getSimulationId(), (int)Yii::app()->request->getParam('id', false));
         $this->sendJSON($json);
     }
        

@@ -145,15 +145,11 @@ class SiteController extends AjaxController
 
         //загрузка игрового мира
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/icons.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/add_assessment.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/day_plan.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/excel.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/mail.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/keyboard.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/documents.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/viewer.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/phone.js");
 
         //регистрация
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/register.js");
