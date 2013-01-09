@@ -10,6 +10,11 @@
                     options.success(data);
                 });
             }
+            if ('delete' === method){
+                SKApp.server.api('dayPlan/delete', model.toJSON(), function (data) {
+                    options.success(data);
+                });
+            }
         }
     });
 })();

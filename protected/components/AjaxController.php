@@ -62,7 +62,7 @@ class AjaxController extends CController
     /**
      * @deprecated
      * @param integer $sessionId
-     * @return integer || HttpResponce
+     * @return integer || HttpResponse
      */
     public function getSimulationId($sessionId = null) 
     {
@@ -124,7 +124,7 @@ class AjaxController extends CController
     /**
      * @deprecated
      * We handle Yii rroes and savethem to Yii.log. 
-     * User see just standard notise
+     * User see just standard notice
      * 
      * @param string $message
      * @param string $sysLog
