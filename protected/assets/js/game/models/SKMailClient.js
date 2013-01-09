@@ -7,7 +7,7 @@
         
         // @var string
 
-        aliasFolderIncome : 'INCOME',
+        aliasFolderInbox : 'INBOX',
 
         // @var string
         aliasFolderDrafts: 'DRAFTS',
@@ -19,7 +19,7 @@
         aliasFolderTrash: 'TRASH',
         
         // @var string
-        codeFolderIncome : 1,
+        codeFolderInbox : 1,
 
         // @var string
         codeFolderDrafts: 2,
@@ -37,31 +37,42 @@
         // --------------------------------------------------
 
         // @var string
-        aliasButtonNewEmail:  'NEW_EMAIL',
+        aliasButtonNewEmail:    'NEW_EMAIL',
 
         // @var string
-        aliasButtonReply:     'REPLY_EMAIL',
+        aliasButtonReply:       'REPLY_EMAIL',
 
         // @var string
-        aliasButtonReplyAll:  'REPLY_ALL_EMAIL',
+        aliasButtonReplyAll:    'REPLY_ALL_EMAIL',
 
         // @var string
-        aliasButtonForward:   'FORWARD_EMAIL',
+        aliasButtonForward:     'FORWARD_EMAIL',
 
         // @var string
-        aliasButtonSend:      'SEND_EMAIL',
+        aliasButtonSend:        'SEND_EMAIL',
 
         // @var string
-        aliasButtonSendDraft: 'SEND_DRAFT_EMAIL',
+        aliasButtonSendDraft:   'SEND_DRAFT_EMAIL',
 
         // @var string
-        aliasButtonSaveDraft: 'SAVE_TO_DRAFTS',
+        aliasButtonSaveDraft:   'SAVE_TO_DRAFTS',
         
         // @var string
-        aliasButtonAddToPlan: 'ADD_TO_PLAN',
+        aliasButtonAddToPlan:   'ADD_TO_PLAN',
+        
+        // @var string
+        aliasButtonMoveToTrash: 'MOVE_TO_TRASH',
         
         // unfortunatey this checnge context inside new Array, so I need to use literals
-        iconsForIncomeScreenArray: [
+        iconsForInboxScreenArray: [
+            'NEW_EMAIL',
+            'REPLY_EMAIL',
+            'REPLY_ALL_EMAIL',
+            'FORWARD_EMAIL',
+            'ADD_TO_PLAN',
+            'MOVE_TO_TRASH'
+        ],
+        iconsForTrashScreenArray: [
             'NEW_EMAIL',
             'REPLY_EMAIL',
             'REPLY_ALL_EMAIL',
@@ -75,13 +86,18 @@
         ],
         
         iconsForDraftsScreenArray: [
+            'NEW_EMAIL',
             'SEND_DRAFT_EMAIL'
+        ],
+        
+        iconsForSendedScreenArray: [
+            'NEW_EMAIL'
         ],
         
         // --------------------------------------------------
         
         // @var string
-        screenIncomeList: 'SCREEN_INCOME_LIST',
+        screenInboxList: 'SCREEN_INBOX_LIST',
         
         // @var string
         screenReadEmail: 'SCREEN_READ_EMAIL',
@@ -153,14 +169,16 @@
         // @var array of SKMailAttachment
         newEmailAttachment: undefined,
         
+        // @var undefined | SKEmail
+        lastNotSavedEmail: undefined,
+        
         // -------------------------------------------------
         
         initialize: function() {
-            this.folders[this.aliasFolderIncome] = new SKMailFolder();
+            this.folders[this.aliasFolderInbox]  = new SKMailFolder();
             this.folders[this.aliasFolderDrafts] = new SKMailFolder();
             this.folders[this.aliasFolderSended] = new SKMailFolder();
             this.folders[this.aliasFolderTrash]  = new SKMailFolder();
-            
 
             this.viewObject.setMailClient(this);
         },
@@ -168,8 +186,8 @@
         /**
          * @return SkMailFolder
          */
-        getIncomeFolder: function(){
-            return this.folders[this.aliasFolderIncome];
+        getInboxFolder: function(){
+            return this.folders[this.aliasFolderInbox];
         },
         
         /**
@@ -205,7 +223,7 @@
          * }
          */
         updateFolders: function(data) {
-            this.getIncomeFolder().name = data[this.codeFolderIncome].name;
+            this.getInboxFolder().name = data[this.codeFolderInbox].name;
             this.getDraftsFolder().name = data[this.codeFolderDrafts].name;
             this.getSendedFolder().name = data[this.codeFolderSended].name;
             this.getTrashFolder().name  = data[this.codeFolderTrash].name;
@@ -214,7 +232,7 @@
         getFolderAliasById: function(folderId) {
             folderId = parseInt(folderId, 10);
             if (1 === folderId) {
-                return this.aliasFolderIncome;
+                return this.aliasFolderInbox;
             }  
             if (2 === folderId) {
                 return this.aliasFolderSended;
@@ -235,7 +253,6 @@
          * @param emailsData
          */
         setEmailsToFolder: function(folderAlias, emailsData) { 
-
             this.folders[folderAlias].emails = [];
             
             for (var id in emailsData) {
@@ -249,10 +266,10 @@
                     email.is_has_attachment   = (1 === parseInt(emailsData[id].attachments, 10));
                     email.sendedAt            = emailsData[id].receivingDate;
                     email.subject             = subject;
-                    email.senderNameString    = emailsData[id].sender;
-                    email.recipientNameString = emailsData[id].receiver;
+                    email.senderNameString    = emailsData[id].sender.replace('<','(').replace('>',')');
+                    email.recipientNameString = emailsData[id].receiver.replace('<','(').replace('>',')');
 
-                    this.folders[folderAlias].addEmail(email);
+                    this.folders[folderAlias].emails.push(email);
                 }
             }
         },
@@ -309,24 +326,133 @@
                 });
         },
         
+        // todo: combine all getXxxFolderEmails() to one method.
+        getInboxFolderEmails: function() {
+            SKApp.server.api(
+                'mail/getMessages',
+                {
+                    folderId:   SKApp.user.simulation.mailClient.codeFolderInbox,
+                    order:      1,
+                    order_type: 0
+                },
+                function (responce) {
+                    SKApp.user.simulation.mailClient.updateInboxFolderEmails(responce.messages);
+                },
+                false
+            );
+        },
+        
+        getDraftsFolderEmails: function() {
+            SKApp.server.api(
+                'mail/getMessages',
+                {
+                    folderId:   SKApp.user.simulation.mailClient.codeFolderDrafts,
+                    order:      2,
+                    order_type: 0
+                },
+                function (responce) {
+                    SKApp.user.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
+                },
+                false
+            );
+        },        
+        
+        getSendedFolderEmails: function() {
+            SKApp.server.api(
+                'mail/getMessages',
+                {
+                    folderId:   SKApp.user.simulation.mailClient.codeFolderSended,
+                    order:      -1,
+                    order_type: 0
+                },
+                function (responce) {
+                    SKApp.user.simulation.mailClient.updateSendedFolderEmails(responce.messages);
+                },
+                false
+            );
+        },
+        
+        getTashFolderEmails: function() {
+            SKApp.server.api(
+                'mail/getMessages',
+                {
+                    folderId:   SKApp.user.simulation.mailClient.codeFolderTrash,
+                    order:      -1,
+                    order_type: 0
+                },
+                function (responce) {
+                    SKApp.user.simulation.mailClient.updateTrashFolderEmails(responce.messages);
+                },
+                false
+            );
+        },
+        
+        // todo: combine all updateXxxFolderEmails() to one method.
+        updateInboxFolderEmails: function(messages) {
+            this.setEmailsToFolder(this.aliasFolderInbox, messages);
+        },
+        
+        updateDraftsFolderEmails: function(messages) {
+            this.setEmailsToFolder(this.aliasFolderDrafts, messages);
+        },
+        
+        updateSendedFolderEmails: function(messages) {
+            this.setEmailsToFolder(this.aliasFolderSended, messages);
+        },
+        
+        updateTrashFolderEmails: function(messages) {
+            this.setEmailsToFolder(this.aliasFolderTrash, messages);
+        },
+        
+        setActiveEmailFromArray: function(emails) {
+            if (0 === emails.length) {
+                this.activeEmail = undefined;
+                return false;
+            }
+
+            for (var key in emails) {
+                this.activeEmail = emails[key];
+                return true;
+            }            
+         },
+        
         setActiveEmail: function(email) {
             // active email or readed or new writed in any case
-            email.is_readed = true;
+            if (undefined !== email) {
+                email.is_readed = true;
+            }
             
             this.activeEmail = email;
          },
         
-        renderInitialScreen: function(folders, messages) {
+        setActiveFolder: function(alias) {
+            for (var i in this.folders) {
+                this.folders[i].isActive = false;
+                if (alias === i) {
+                    this.folders[i].isActive = true;
+                }
+            }
+         },
+         
+         getActiveFolder: function() {
+            for (var i in this.folders) {
+                if (this.folders[i].isActive === true) {
+                    return this.folders[i].isActive;
+                }
+            }    
+         },
+        
+         renderInitialScreen: function(folders, messages) {
             // process and store in model AJAX data {
             this.updateFolders(folders);
-            this.setEmailsToFolder(this.aliasFolderIncome, messages);
+            this.setEmailsToFolder(this.aliasFolderInbox, messages);
             // process and store in model AJAX data }
             
             // mark INCOM foldes as active
-            this.folders[this.aliasFolderIncome].isActive = true;
+            this.folders[this.aliasFolderInbox].isActive = true;
             
-            // set as active first letter in Income folder {
-            var emails = this.folders[this.aliasFolderIncome].emails;
+            // set as active first letter in Inbox folder {
+            var emails = this.folders[this.aliasFolderInbox].emails;
             if (0 < emails.length) {
                 for (var key in emails) {
                     if (emails.hasOwnProperty(key)) {
@@ -335,26 +461,17 @@
                     }
                 }
             }
-            // set as active first letter in Income folder }
+            // set as active first letter in Inbox folder }
             
             this.viewObject.renderMailClientScreenBase();
-            this.viewObject.updateFolderLabels();
-            this.preRenderFolder(this.aliasFolderIncome);
-        },
-        
-        preRenderFolder: function(folderAlias) {
-            if (this.aliasFolderIncome === folderAlias) {
-                this.viewObject.renderIncomeFolder();                
-            }
-            
-            this.setActiveScreen(folderAlias);
+            this.viewObject.doRenderFolder(this.aliasFolderInbox);
         },
         
         /**
          * Returns email bi it`s id from anu folder.
          * By the way, any email stored in single folder in any moment of time
          */
-        getEmailById: function(emailId) {
+        getEmailByMySqlId: function(emailId) {
             for (var alias in this.folders) {
                 if (this.folders.hasOwnProperty(alias)){
                     var emails = this.folders[alias].emails;
@@ -371,7 +488,7 @@
         },
         
         renderReadEmailScreen: function(emailId) {
-            this.viewObject.renderReadEmail(this.getEmailById(emailId));
+            this.viewObject.renderReadEmail(this.getEmailByMySqlId(emailId));
             
             this.setActiveScreen(this.screenReadEmail);
         },
@@ -505,6 +622,9 @@
             this.viewObject.reloadPhrases();
         },
         
+        /**
+         * Search throw list of avalibabte to add to email text phrases
+         */
         getAvailablePhraseByMySqlId: function(phraseId) {
             var phrases = this.availablePhrases;
             for (var i in phrases) {
@@ -525,6 +645,9 @@
             return undefined;
         },
         
+        /**
+         * Search throw already used in email text phrases
+         */
         getUsedPhraseByUid: function(phraseUid) {
 
             var phrases = this.newEmailUsedPhrases;
@@ -547,7 +670,6 @@
          * @var SKMailPhrase phrase
          */
         removePhraseFromEmail: function(phrase) {
-            console.log('-');
             this.viewObject.removePhraseFromEmail(phrase);
             
             var phrases = this.newEmailUsedPhrases;
@@ -582,6 +704,17 @@
             
         },
         
+        getCharacterById: function(id) {
+            for (var i in this.defaultRecipients) {
+                // keep not strong comparsion
+                if (this.defaultRecipients[i].mySqlId == id) {
+                    return this.defaultRecipients[i];
+                }
+            }  
+            
+            return undefined;
+        },
+        
         /**
          * @var integer fileId
          */
@@ -594,6 +727,46 @@
             }
             
             return undefined;
+        },
+        
+        sendNewCustomEmail: function(emailToSave) {
+            //this.lastNotSavedEmail = emailToSave;
+
+            SKApp.server.api(
+                'mail/sendMessage',
+                {
+                    copies:     emailToSave.getCopyToIdsString(),
+                    fileId:     emailToSave.getAttachmentId(),
+                    messageId:  '',
+                    phrases:    emailToSave.getPhrasesIdsString(),
+                    receivers:  emailToSave.getRecipientIdsString(),
+                    subject:    emailToSave.subject.characterSubjectId,
+                    timeString:	SKApp.user.simulation.getGameMinutes()
+                },
+                function (responce) {
+                    // keep non strict comparsion
+                    if (1 == responce.result) {
+                        SKApp.user.simulation.mailClient.getSendedFolderEmails(); 
+                    } else {
+                        SKApp.user.simulation.mailClient.message_window =
+                            SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                            'message': 'Не удалось отправить письмо.',
+                            'buttons': [
+                                {
+                                    'value': 'Окей',
+                                    'onclick': function () {
+                                        delete SKApp.user.simulation.mailClient.message_window;
+                                    }
+                                }
+                            ]
+                        });   
+                    }
+                    
+                    //SKApp.user.simulation.mailClient.lastNotSavedEmail = undefined;
+                    
+                },
+                false
+            );
         },
 
         'renderWriteReplyEmailScreen': function() {
