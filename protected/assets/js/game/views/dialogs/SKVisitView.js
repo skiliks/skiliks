@@ -24,7 +24,7 @@
                 me = this,
                 my_replicas = [],
                 remote_replica,
-                video_src;
+                video_src = '';
             replicas.forEach(function (replica) {
                 if (replica.ch_to === '1') {
                     remote_replica = replica;
@@ -40,9 +40,9 @@
             this.$el.html(_.template($('#visit_template').html(), {
                 'remote_replica':remote_replica,
                 'my_replicas':my_replicas,
-                'video_src':SKConfig.assetsUrl + '/videos/' + video_src
+                'video_src': video_src ? SKConfig.assetsUrl + '/videos/' + video_src : undefined
             }));
-            this.$('video')[0].addEventListener('ended', function(){
+            this.$('video').on('ended', function(){
                 me.$('video').css('zIndex', 0);
                 if (my_replicas.length === 0) {
                     me.close();

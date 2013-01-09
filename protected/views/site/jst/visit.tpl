@@ -1,6 +1,8 @@
 <script type="text/template" id="visit_template">
     <div>
+        <@ if (video_src) { @>
         <video class="video_background" src="<@= video_src @>" autoplay="autoplay"></video>
+        <@ } @>
         <@ if (remote_replica) { @>
         <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
             <@ } @>
