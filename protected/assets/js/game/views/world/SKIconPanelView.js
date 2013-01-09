@@ -17,7 +17,7 @@
                         me.setCounter('.phone', 1);
                     });
                 } else if (event.getTypeSlug() === 'visit') {
-                    me.$('.door').attr('data-event-id', event.id);
+                    me.$('.door').attr('data-event-id', event.cid);
                     me.startAnimation('.door');
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
@@ -102,9 +102,9 @@
         doDialogStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.get($(e.currentTarget).attr('data-event-id'));
+            var sim_event = this.sim_events.getByCid($(e.currentTarget).parents('.door').attr('data-event-id'));
             sim_event.complete();
-            var visit_view = new SKVisitView(sim_event);
+            var visit_view = new SKVisitView({event:sim_event});
             this.$('.door').removeClass('icon-active');
         },
         doPlanToggle:function (e) {
