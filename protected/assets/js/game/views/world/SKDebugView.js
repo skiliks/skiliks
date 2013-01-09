@@ -34,7 +34,11 @@
                 target.elements.code.value,
                 target.elements.delay.value,
                 target.elements.clear_events.value,
-                target.elements.clear_assessment.value
+                target.elements.clear_assessment.value, function (data) {
+                    if (data.result) {
+                        window.scrollTo(0, 0);
+                    }
+                }
             );
 
         }

@@ -4,8 +4,8 @@
     "use strict";
     window.SKTodoTask = Backbone.Model.extend({
         sync: function (method) {
-            if (method !== 'delete') {
-                Backbone.Model.sync.apply(this, arguments);
+            if (method !== 'delete' && method !== 'create') {
+                Backbone.Model.prototype.sync.apply(this, arguments);
             }
         }
     });
