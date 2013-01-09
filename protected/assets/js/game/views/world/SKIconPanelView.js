@@ -21,7 +21,7 @@
                     me.startAnimation('.door');
                 } else if (event.getTypeSlug() === 'immediate-phone') {
                     // TODO: incorrect location
-                    var view = new SKPhoneDialogView({'event' : event.get('data')});
+                    var view = new SKPhoneDialogView({'event' : event});
                     event.complete();
                 }
             });
@@ -97,7 +97,7 @@
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
             sim_event.complete();
             this.$('.phone').removeClass('icon-active');
-            phone.draw('income', sim_event.get('data'));
+            var view = new SKPhoneCallView(sim_event.get('data'));
         },
         doDialogStart:function (e) {
             e.preventDefault();
@@ -113,7 +113,7 @@
         },
         doPhoneToggle:function (e) {
             e.preventDefault();
-            phone.draw();
+            var view = new SKPhoneView();
         },
         doDoorToggle:function (e) {
             e.preventDefault();
