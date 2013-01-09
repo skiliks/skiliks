@@ -1,7 +1,10 @@
 <script type="text/template" id="visit_template">
-    <div>
+    <div class="visit-background-container">
         <@ if (video_src) { @>
-        <video class="video_background" src="<@= video_src @>" autoplay="autoplay"></video>
+        <video class="visit-background" src="<@= video_src @>" autoplay="autoplay"></video>
+        <@ } @>
+        <@ if (img_src) { @>
+        <img class="visit-background" src="<@= img_src @>" />
         <@ } @>
         <@ if (remote_replica) { @>
         <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
@@ -11,7 +14,7 @@
                 <@ my_replicas.forEach(function (replica) { @>
                 <li><p>
                     <a href="" class="replica-select" data-id="<@= replica.id @>">
-                        <@= replica.text.replace(/^\s*-/, '—')@>
+                        <@= replica.text.replace(/^\s*-\s*/, ' — ')@>
                     </a>
                     <span></span></p></li>
                 <@ }) @>
