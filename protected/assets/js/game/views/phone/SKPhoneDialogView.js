@@ -1,21 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+/*global _, SKWindowView, SKDialogWindow, SKApp */
 
 $(function () {
     "use strict";
 
-    window.SKPhoneDialogView = window.SKWindowView.extend({
+    window.SKPhoneDialogView = SKWindowView.extend({
         el: 'body .phone-dialog-div',
         initialize:function (){
-            var me = this;
             this.render();
 
         },
-        'events': {
+        'events':_.defaults({
             'click .replica-select':'doSelectReplica'
-        },
+        }, SKWindowView.prototype.events),
         close: function () {
             this.off('dialog:end');
             this.talk_window.close();
@@ -23,26 +19,35 @@ $(function () {
             this.undelegateEvents();
 
         },
-        render:function () {
-            var event = this.options.event;
-            var me = this,
+        renderWindow:function (window_el) {
+            var event = this.options.event,
+                me = this,
                 my_replicas = event.getMyReplicas(),
                 remote_replica = event.getRemoteReplica();
 
             this.activeSubScreen = 'phoneTalk';
             this.talk_window = new SKDialogWindow('phone', 'phoneTalk', event ? event.get('data')[0].id : undefined);
             this.talk_window.open();
-            console.log(event.get('data'));
             var callInHtml = _.template($('#Phone_Dialog').html(), {
                 'remote_replica':remote_replica,
                 'my_replicas':my_replicas,
+                'audio_src': event.getAudioSrc()
             });
-            this.$el.html(callInHtml);
+            window_el.html(callInHtml);
+            this.$('audio').on('ended', function(){
+                if (my_replicas.length === 0) {
+                    event.select(remote_replica.id, function () {
+                        me.close();
+                    });
+                }
+            });
         },
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
+            var event = this.options.event;
             var dialog_id = $(e.currentTarget).attr('data-id');
+
             SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
                 if (data.result === 1) {
                     me.talk_window.setLastDialog(dialog_id);
