@@ -10,7 +10,9 @@ var SKDayPlanView;
         'el':'body .plan-container',
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
-            'dblclick .day-plan-todo-task':'doSetTask'
+            'dblclick .day-plan-todo-task':'doSetTask',
+            'click .todo-min': 'doMinimizeTodo',
+            'click .todo-max': 'doMaximizeTodo'
         }, SKWindowView.prototype.events),
         'initialize':function () {
             this.render();
@@ -110,6 +112,10 @@ var SKDayPlanView;
             var res = true;
             var currentRow = el.parents('tr');
             for (var i = 0; i < duration; i += 15) {
+                if (currentRow.find('.planner-book-timetable-event-fl').is('.past-slot')) {
+                    res = false;
+                    break;
+                }
                 if (!(currentRow.find('.planner-book-timetable-event-fl').is(':visible') &&
                     currentRow.find('.day-plan-td-slot').is(':visible')
                     )) {
@@ -155,9 +161,6 @@ var SKDayPlanView;
                  * @return {Boolean}
                  */
                 accept:function (draggable) {
-                    if ($(this).parents('.planner-book-afterv-table').length) {
-                        return true;
-                    }
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
                     return me.canContainTask($(this),duration);
                 }
@@ -176,7 +179,16 @@ var SKDayPlanView;
         },
 
         disableOldSlots:function () {
-
+            this.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
+                    var time = SKApp.user.simulation.getGameTime();
+                var cell_hour = parseInt($(this).attr('data-hour'),10);
+                var current_hour = parseInt(time.split(':')[0],10);
+                var cell_minute = parseInt($(this).attr('data-minute'),10);
+                var current_minute = parseInt(time.split(':')[1],10);
+                if (cell_hour < current_hour || (cell_hour === current_hour && cell_minute < current_minute)) {
+                    $(this).addClass('past-slot');
+                }
+            });
         },
 
         /**
@@ -240,6 +252,14 @@ var SKDayPlanView;
                 }
                 return true;
             });
+        },
+        doMinimizeTodo:function() {
+            this.$('.plan-todo').removeClass('open').addClass('closed');
+            this.$('.planner-book-afterv-table').removeClass('half').addClass('full');
+        },
+        doMaximizeTodo:function() {
+            this.$('.plan-todo').removeClass('closed').addClass('open');
+            this.$('.planner-book-afterv-table').removeClass('full').addClass('half');
         }
     });
 })();

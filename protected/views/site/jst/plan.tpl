@@ -79,7 +79,7 @@
                 <div class="planner-book-after-vacation-head">
                     <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
                 </div>
-                <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table">
+                <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table half">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
                         <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
@@ -91,19 +91,19 @@
                         <@ }) @>
                     </table>
                 </div>
-                <div id="plannerBookAfterVacationScrollbar" class="planner-book-afterv-scrollbar"></div>
+                <div class="plan-todo open">
+                    <ul class="plan-todo-btn">
+                        <li>
+                            <button class="todo-min min"></button>
+                            <button class="todo-max max"></button>
+                        </li>
+
+                    </ul>
+
+                    <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
+                    <div class="plan-todo-wrap" style="float: left; height: 250px;"></div>
+                </div>
             </div>
-        </div>
-        <div class="plan-todo open">
-            <ul class="plan-todo-btn">
-                <li>
-                    <button class="min" onclick="dayPlan.todoViewChange('down');"></button>
-                </li>
-
-            </ul>
-
-            <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
-            <div class="plan-todo-wrap" style="float: left; height: 250px;"></div>
         </div>
     </div>
 </script>

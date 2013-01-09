@@ -1,12 +1,47 @@
 .planner-book-main-div {
   position: relative;
-  .plan-todo.open {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    height: auto;
+  .plan-todo {
+    background-position: 0 -79px;
+    height: 50%;
+    transition-property: height, transform;
+    transition-duration: 1s, 1s;
+    transition-delay: 0s, 0s;
+    .max {
+      display: none;
+    }
   }
+  .plan-todo.closed {
+    transform: rotate(-30deg);
+    .min {
+      display: none;
+    }
+    .max {
+      display: block;
+    }
+    .plan-todo-tit {
+      text-align: right;
+    }
+  }
+  .planner-book-after-vacation {
+    width: 271px;
+    height: 552px;
+    overflow: hidden;
+  }
+  .planner-book-afterv-table {
+    transition-property: height;
+    transition-duration: 1s;
+  }
+  .planner-book-afterv-table.half {
+    height: 230px;
+  }
+  .planner-book-afterv-table.full {
+    height: 460px;
+  }
+
   .planner-book-timetable-table {
+    tr td.planner-book-timetable-event-fl.past-slot {
+      background-color: #ccc;
+    }
     .planner-book-timetable-time-fl {
       border-right: dotted 1px;
     }
@@ -26,6 +61,7 @@
       }
     }
   }
+
   .plan-todo.open {
     padding-left: 36px;
     width: 274px;
@@ -34,12 +70,15 @@
       cursor: move;
     }
   }
+
   .plan-todo-tit {
     margin-left: 25px;
   }
+
   .day-plan-td-slot {
     height: 100%;
   }
+
   .planner-task.ui-draggable-dragging {
     border-top: 1px solid #fff;
     border-right: 1px solid #c8e0f1;
@@ -56,22 +95,27 @@
     -webkit-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
     box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
   }
+
   .planner-task.ui-draggable-dragging {
     width: 217px;
     margin: 0;
   }
+
   .drop-hover {
     background-color: #adff2f;
   }
+
   td .planner-task.regular {
     height: 100%;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
   }
+
   .planner-task.regular, .planner-task.ui-draggable-dragging {
     .duration {
       display: none;
     }
   }
+
 }
