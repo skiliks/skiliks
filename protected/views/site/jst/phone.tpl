@@ -70,6 +70,44 @@
             </div>
             </section>
 </script>
+
+<script type="text/template" id="Phone_Call">
+        <section class="phone popup">
+            <header>
+            <h1>Телефон</h1>
+
+            <ul class="btn-window">
+            <li><button class="btn-set">&nbsp;</button></li>
+            <li><button window_id="<@=windowID@>" class="btn-cl win-close">&nbsp;</button></li>
+            </ul>
+            </header>
+
+            <div class="phone-bl popup">
+            <div class="phone-screen" id="phoneMainScreen">
+
+                <div class="phone-call in">
+                    <div class="phone-call-img">
+                        <img src="<@=assetsUrl@>/img/phone/icon-call-ch<@=call[0].ch_from@>.png" alt="<@=call[0].name@>">
+                    </div>
+                        <p class="phone-call-text">
+                        <span class="name">
+                        </span>
+                        <br><@=call[0].name@><br>
+                        <span class="post">&nbsp;</span>
+                    </p>
+                    <ul class="phone-call-in-btn">
+                        <li><a window_id="<@=windowID@>" id="phone_reply" dialog_id="" class="btn0">Ответить</a></li>
+                        <li><a window_id="<@=windowID@>" id="phone_no_reply" dialog_id="" class="btn1">Не ПРИНЯТЬ</a></li>
+                    </ul>
+                </div>
+                
+            </div>
+                <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
+            </div>
+            </section>
+            
+</script>
+
 <script type="text/template" id="Phone_Menu">
         
             <div class="phone-screen" id="phoneMainScreen">
