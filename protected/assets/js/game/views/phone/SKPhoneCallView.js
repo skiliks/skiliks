@@ -18,6 +18,7 @@ $(function () {
         countMaxView: 1,
         windowClass: "phoneMainDiv",
         windowID: '',
+        SKWindow:null,
         events: {
             'click .btn-cl':'close',
             'click .phone_get_menu':'getMenu',
@@ -40,6 +41,8 @@ $(function () {
             $('#'+this.windowID).css('left', left+'px');
             this.renderTPL('#'+this.windowID, '#Phone_Call', {windowID:this.windowID, call:call});
             this.$el = $('#'+this.windowID);
+            this.SKWindow = new SKWindow('phone', 'phoneCall');
+            this.SKWindow.open();
         },
         close: function (event) {            
             if(event != undefined){
@@ -48,7 +51,7 @@ $(function () {
             }else{
                 $('.'+this.windowClass).remove();
             }
-            
+            this.SKWindow.close();
         },
         getMenu: function(event){
             var id = $(event.toElement).attr('window_id');
@@ -62,12 +65,12 @@ $(function () {
             this.close(event);
             SKApp.server.api('dialog/get', {'dialogId':dialogId}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
-            })
+            });
         },
         noReply: function(event) {
             var dialogId = $(event.toElement).attr('data-dialog-id');
             this.close(event);
-            SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {})
+            SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {});
         }
    });         
 });
