@@ -440,8 +440,7 @@
             
             this.updateFolderLabels();
             
-            this.mailClient.setActiveScreen(this.mailClient.aliasFolderSended);
-            this.mailClient.setActiveScreen(this.mailClient.screenSendedList);
+             this.mailClient.setActiveScreen(this.mailClient.screenSendedList);
         },
         
         renderDraftsFolder:function () {
@@ -459,6 +458,7 @@
             this.updateDraftsListView();
 
             // render preview email
+            console.log('this.mailClient.activeEmail: ', this.mailClient.activeEmail);
             if (undefined !== this.mailClient.activeEmail) {
                 this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderDrafts);
             }
@@ -469,7 +469,6 @@
             
             this.updateFolderLabels();
             
-            this.mailClient.setActiveScreen(this.mailClient.aliasFolderDrafts);
             this.mailClient.setActiveScreen(this.mailClient.screenDraftsList);
             
         },
@@ -621,7 +620,7 @@
             }
             if (addButtonSendDraft) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSendDraft();',
                     iconCssClass: this.mailClient.aliasButtonSendDraft,
                     label:        'отправить черновик'
                 });
@@ -1195,6 +1194,47 @@
             ); 
                 
             this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
+        },
+        
+        doSendDraft: function() {
+            SKApp.server.api(
+                'mail/sendDraft',
+                {
+                    id: this.mailClient.activeEmail.mySqlId
+                }, 
+                function (response) {
+                    if (1 != response.result ) {
+                    // display message for user
+                        SKApp.user.simulation.mailClient.message_window =
+                            SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                            'message': 'Не удалось отправить черновик адресату.',
+                            'buttons': [
+                                {
+                                    'value': 'Окей',
+                                    'onclick': function () {
+                                        delete SKApp.user.simulation.mailClient.message_window;
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                },
+                false
+            ); 
+
+            this.mailClient.getDraftsFolderEmails();
+            this.mailClient.getSendedFolderEmails();
+            
+            // get first email if email exist in folder {
+            var draftEmails = this.mailClient.getDraftsFolder().emails;
+            
+            SKApp.user.simulation.mailClient.activeEmail = undefined;
+            for (var i in draftEmails) {
+                SKApp.user.simulation.mailClient.activeEmail = draftEmails[i];
+            }
+            // get first email if email exist in folder }
+ 
+            this.renderDraftsFolder();
         }
     });
 })();
