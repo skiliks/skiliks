@@ -36,22 +36,27 @@ class PhoneService {
      * @param int $simId
      * @param int $characterId 
      */
-    public static function registerOutgoing($simId, $characterId) {
+    public static function registerOutgoing($simId, $characterId, $time) {
+        
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
-        $model->call_date   = time();
+        $model->call_time   = $time;
         $model->call_type   = 1;
         $model->from_id     = 1;
         $model->to_id       = $characterId; // какому персонажу мы звоним
         $model->insert();
     }
     
-    public static function registerMissed($simulation, $dialog) {
+    public static function registerMissed($simId, $dialogId, $time) {
+        
+        $dialog = Dialogs::model()->byId($dialogId)->find();
+        if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
+        
         $model = new PhoneCallsModel();
-        $model->sim_id      = $simulation->id;
-        $model->call_date   = time();
+        $model->sim_id      = $simId;
+        $model->call_time   = $time;
         $model->call_type   = 2;
-        $model->from_id     = $dialog->ch_from;
+        $model->from_id     = $dialog->ch_to;
         $model->to_id       = 1; // какому персонажу мы звоним
         $model->insert();
     }
@@ -90,7 +95,7 @@ class PhoneService {
 
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date' => date('d.m.Y | G:i', $item->call_date),
+                'date' => "10.09.2012 | ".$item->call_time,
                 'type' => $item->call_type  // 2 = miss
             );
         }
