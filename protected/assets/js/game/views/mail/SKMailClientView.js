@@ -89,8 +89,10 @@
                 // if YES - just render it
                 SKApp.user.simulation.mailClient.viewObject.renderEmaiPreviewScreen(
                     email,
-                    SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId
+                    SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId,
+                    '120px'
                 );
+                    
                 return;
             }
             // do we have full data for current email ? }
@@ -118,12 +120,18 @@
                         email.copyToString = response.data.copies;
 
                         email.text = response.data.message;
+                        
+                        // update previouse email text - actual for re: and fwd:
+                        if (undefined !== response.data.reply) {
+                            email.previouseEmailText = response.data.reply;
+                        }
                         // update email }
 
                         // render preview
                         SKApp.user.simulation.mailClient.viewObject.renderEmaiPreviewScreen(
                             email,
-                            SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId
+                            SKApp.user.simulation.mailClient.viewObject.mailClientInboxFolderEmailPreviewId,
+                            '120px'
                         );
 
                     }
@@ -366,8 +374,8 @@
             
             // set HTML sceleton {
             var sceleton = _.template($('#MailClient_IncomeFolderSceleton').html(), {
-                listId:this.mailClientIncomeFolderListId,
-                emailPreviewId:this.mailClientInboxFolderEmailPreviewId
+                listId:         this.mailClientIncomeFolderListId,
+                emailPreviewId: this.mailClientInboxFolderEmailPreviewId
             });
 
             $('#' + this.mailClientContentBlockId).html(sceleton);
@@ -381,6 +389,7 @@
             }
 
             this.renderIcons(this.mailClient.iconsForInboxScreenArray);
+            this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
         },
 
         renderTrashFolder:function () {
@@ -403,6 +412,7 @@
             }
 
             this.renderIcons(this.mailClient.iconsForTrashScreenArray);
+            this.mailClient.setActiveScreen(this.mailClient.screenTrashList);
         },
         
         renderSendedFolder:function () {
@@ -431,6 +441,7 @@
             this.updateFolderLabels();
             
             this.mailClient.setActiveScreen(this.mailClient.aliasFolderSended);
+            this.mailClient.setActiveScreen(this.mailClient.screenSendedList);
         },
         
         renderDraftsFolder:function () {
@@ -459,10 +470,11 @@
             this.updateFolderLabels();
             
             this.mailClient.setActiveScreen(this.mailClient.aliasFolderDrafts);
+            this.mailClient.setActiveScreen(this.mailClient.screenDraftsList);
             
         },
 
-        renderEmaiPreviewScreen:function (email, id) {
+        renderEmaiPreviewScreen:function (email, id, height) {
             this.mailClient.setActiveEmail(email);
             
             var attachmentLabel = '';
@@ -481,10 +493,15 @@
                 isHasAttachmentCss:     email.getIsHasAttachmentCss(),
                 isReadedCssClass:       email.getIsReadedCssClass(),
                 attachmentFileName:     attachmentLabel,
-                attachmentId:           email.attachment.id
+                attachmentId:           email.attachment.id,
+                height:                 height
             });
 
             $('#' + id).html(emailPreviewTemplate);
+            
+            this.renderPreviouseMessage(email.previouseEmailText);
+            
+            this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
         },
 
         renderReadEmail:function (email) {
@@ -496,7 +513,7 @@
             $('#' + this.mailClientContentBlockId).html(sceleton);
             // set HTML sceleton } 
 
-            this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId);
+            this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
         },
 
         renderIcons:function (iconButtonAliaces) {
@@ -576,7 +593,7 @@
             }
             if (addButtonForward) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.renderForwardActiveEmailScreen();',
                     iconCssClass: this.mailClient.aliasButtonForward,
                     label:        'переслать'
                 });
@@ -737,8 +754,6 @@
                 }
             }
             
-            console.log("RR list: ", list);
-            
             return list;
         },
         
@@ -757,8 +772,6 @@
                     }
                 }
             }
-            
-            console.log("CC list: ", list);
             
             return list;
         },
@@ -922,8 +935,6 @@
                 emailToSave.copyTo.push(this.mailClient.getCharacterById(copies[i]));
             }
             
-            console.log('emailToSave: ', emailToSave);
-            
             // subject
             var subject = new SKMailSubject();
             subject.characterSubjectId = this.getCurentEmailSubjectId();
@@ -1016,7 +1027,10 @@
         },
 
         renderPreviouseMessage: function(text) {
-            $("#mailEmulatorNewLetterDiv .previouse-message-text").text(text);
+            if (undefined !== text && '' !== text) {
+                text = '<pre><p style="color:blue;">' + text + '</p></pre>';
+            }
+            $(".previouse-message-text").html(text);
         },
         
         /**
@@ -1079,6 +1093,47 @@
             } 
         },
         
+        /**
+         * @param mixed array response, API response
+         */
+        doUpdateScreenFromForwardEmailData: function(response) {
+            if (1 == response.result) {
+                var subject = new SKMailSubject();
+                subject.text               = response.subject;
+                subject.mySqlId            = response.subjectId;
+                subject.characterSubjectId = response.subjectId;
+
+                SKApp.user.simulation.mailClient.viewObject.renderSingleSubject(subject);
+
+                SKApp.user.simulation.mailClient.viewObject
+                    .renderPreviouseMessage(response.phrases.previouseMessage);
+
+                // set recipients 
+                $("#MailClient_RecipientsList").tagHandler({
+                     availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                     autocomplete: true
+                });
+                
+                $("#MailClient_CopiesList").tagHandler({
+                    availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                    autocomplete: true
+                });
+                // add copies if they exests }
+
+                // add phrases {
+                SKApp.user.simulation.mailClient
+                    .setRegularAvailablePhrases(response.phrases.data);
+
+                SKApp.user.simulation.mailClient
+                    .setAdditionalAvailablePhrases(response.phrases.addData);
+
+                SKApp.user.simulation.mailClient.viewObject.reloadPhrases();
+                // add phrases }
+            } else {
+                throw "Can`t initialize responce email.";
+            } 
+        },        
+        
         renderReplyToActiveEmailScreen: function() {
             this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
             
@@ -1096,6 +1151,8 @@
                 },
                 false
             ); 
+                
+            this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
         },
         
         renderReplyAllToActiveEmailScreen: function() {
@@ -1114,7 +1171,30 @@
                     }
                 },
                 false
+            );
+                
+            this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
+        },
+        
+        renderForwardActiveEmailScreen: function() {
+            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+            
+            SKApp.server.api(
+                'mail/forward',
+                {
+                    id: this.mailClient.activeEmail.mySqlId
+                }, 
+                function (response) {
+                    if (1 == response.result) {
+                        SKApp.user.simulation.mailClient.viewObject.doUpdateScreenFromForwardEmailData(response);
+                    } else {
+                        throw "Can`t initialize responce email.";
+                    }
+                },
+                false
             ); 
+                
+            this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
         }
     });
 })();
