@@ -501,6 +501,7 @@
                     attachmentId: attachmentId
                 }, 
                 function (response) {
+                    console.log('save attachment');
                     // and display message for user
                     SKApp.user.simulation.mailClient.message_window =
                         SKApp.user.simulation.mailClient.message_window || new SKDialogView({
@@ -515,6 +516,16 @@
                         ]
                     });
                 });   
+        },
+        
+        getRecipientByMySqlId: function(id) {
+            for (var i in this.defaultRecipients) {
+                // keep non strict!
+                if (id == this.defaultRecipients[i].mySqlId) {
+                    return this.defaultRecipients[i];
+                }
+            }            
+            return undefined;
         },
         
         updateRecipientsList: function() {
@@ -572,6 +583,9 @@
                 }, 
                 function (response) {
                     if (undefined !== response.data) {
+                        // clean up list
+                        SKApp.user.simulation.mailClient.availableSubjects = [];
+                        
                         for (var i in response.data) {
                             var string = response.data[i];
                             
@@ -589,6 +603,27 @@
             this.viewObject.updateSubjectsList();
         },
         
+        setRegularAvailablePhrases: function(array) {
+            for (var i in array) {
+
+                var phrase = new SKMailPhrase();                            
+                phrase.mySqlId = parseInt(i);
+                phrase.text = array[i];
+
+                this.availablePhrases.push(phrase);
+            }
+        },
+        
+        setAdditionalAvailablePhrases: function(array) {
+            for (var i in array) {
+                var phrase = new SKMailPhrase();
+                phrase.mySqlId = parseInt(i);
+                phrase.text = array[i];
+
+                this.availableAdditionalPhrases.push(phrase);
+            }
+        },
+        
         reloadPhrases: function() {
             SKApp.server.api(
                 'mail/getPhrases',
@@ -597,23 +632,11 @@
                 }, 
                 function (response) {
                     if (undefined !== response.data) {
-                        for (var i in response.data) {
+                        SKApp.user.simulation.mailClient
+                            .setRegularAvailablePhrases(response.data);
                             
-                            var phrase = new SKMailPhrase();                            
-                            phrase.mySqlId = parseInt(i);
-                            phrase.text = response.data[i];
-                            
-                            SKApp.user.simulation.mailClient.availablePhrases.push(phrase);
-                        }
-                        for (var i in response.addData) {
-                            var string = response.addData[i];
-                            
-                            var phrase = new SKMailPhrase();
-                            phrase.mySqlId = parseInt(i);
-                            phrase.text = response.addData[i];
-                            
-                            SKApp.user.simulation.mailClient.availableAdditionalPhrases.push(phrase);
-                        }
+                        SKApp.user.simulation.mailClient
+                            .setAdditionalAvailablePhrases(response.addData);
                     }
                 },
                 false
@@ -729,12 +752,8 @@
             return undefined;
         },
         
-        sendNewCustomEmail: function(emailToSave) {
-            //this.lastNotSavedEmail = emailToSave;
-
-            SKApp.server.api(
-                'mail/sendMessage',
-                {
+        combineMailDataByEmailObject: function(emailToSave) {
+            return {
                     copies:     emailToSave.getCopyToIdsString(),
                     fileId:     emailToSave.getAttachmentId(),
                     messageId:  '',
@@ -742,7 +761,13 @@
                     receivers:  emailToSave.getRecipientIdsString(),
                     subject:    emailToSave.subject.characterSubjectId,
                     timeString:	SKApp.user.simulation.getGameMinutes()
-                },
+                };
+        },
+        
+        sendNewCustomEmail: function(emailToSave) {
+            SKApp.server.api(
+                'mail/sendMessage',
+                this.combineMailDataByEmailObject(emailToSave),
                 function (responce) {
                     // keep non strict comparsion
                     if (1 == responce.result) {
@@ -761,9 +786,33 @@
                             ]
                         });   
                     }
-                    
-                    //SKApp.user.simulation.mailClient.lastNotSavedEmail = undefined;
-                    
+                },
+                false
+            );
+        },
+        
+        saveToDraftsNewCustomEmail: function(emailToSave) {
+            SKApp.server.api(
+                'mail/saveDraft',
+                this.combineMailDataByEmailObject(emailToSave),
+                function (responce) {
+                    // keep non strict comparsion
+                    if (1 == responce.result) {
+                        SKApp.user.simulation.mailClient.getDraftsFolderEmails(); 
+                    } else {
+                        SKApp.user.simulation.mailClient.message_window =
+                            SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                            'message': 'Не удалось сохранить письмо.',
+                            'buttons': [
+                                {
+                                    'value': 'Окей',
+                                    'onclick': function () {
+                                        delete SKApp.user.simulation.mailClient.message_window;
+                                    }
+                                }
+                            ]
+                        });   
+                    }
                 },
                 false
             );
