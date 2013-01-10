@@ -15,12 +15,17 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug(), function () {
-                        var history = new SKPhoneHistoryCollection();
-                        history.fetch();
-                        history.on('reset', function () {
-                            me.setCounter('.phone', history.length);
+                        var dialogId = event.get('data')[2].id;
+                        SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {
+                            var history = new SKPhoneHistoryCollection();
+                                history.fetch();
+                                history.on('reset', function () {
+                                console.log(event);
+                                me.setCounter('.phone', history.length);
+                            });
                         });
                     });
+                    
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.cid);
                     me.startAnimation('.door');

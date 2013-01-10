@@ -18,13 +18,14 @@ $(function () {
         countMaxView: 1,
         windowClass: "phoneMainDiv",
         windowID: '',
+        SKWindow:null,
         events:{
             'click .btn-cl':'close',
             'click .phone_get_contacts':'getContacts',
             'click .phone_get_history':'getHistory',
             'click .phone_get_menu':'getMenu'
         },
-        open: function (){
+        open: function () {
             var div = document.createElement('div');
             this.windowID = this.cid;
             div.setAttribute('id', this.windowID);
@@ -39,6 +40,8 @@ $(function () {
             $('#'+this.windowID).css('left', left+'px');
             this.renderTPL('#'+this.windowID, '#Phone_Html', {windowID:this.windowID});
             this.$el = $('#'+this.windowID);
+            this.SKWindow = new SKWindow('phone', 'phoneMain');
+            this.SKWindow.open();
         },
         close:function (event) {            
             if(event != undefined){
@@ -47,7 +50,7 @@ $(function () {
             }else{
                 $('.'+this.windowClass).remove();
             }
-            
+            this.SKWindow.close();
         },
         getContacts: function (event) {
             console.log(event.toElement);
