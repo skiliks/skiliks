@@ -49,6 +49,9 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         },
         setCounter:function (selector, count) {
+            if (!count) {
+                this.$(selector + ' a span').remove();
+            }
             if (!this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
             }
