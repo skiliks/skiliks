@@ -160,6 +160,10 @@
                 string += this.recipients[i].getFormated_2_ForMailToName();
             }
             
+            if ('' == string) {
+                string = this.recipientNameString;
+            }
+            
             return string;
         },
         
@@ -167,6 +171,10 @@
             var string = '';
             for (var i in this.copyTo) {
                 string += this.copyTo[i].getFormated_2_ForMailToName();
+            }
+            
+            if ('' == string) {
+                string = this.copyToNameString;
             }
             
             return string;
@@ -183,6 +191,7 @@
         
         getPhrasesIdsString: function() {
             var string = '';
+            console.log('this.phrases: ', this.phrases);
             for (var i in this.phrases) {
                 string += this.phrases[i].mySqlId + ',';
             }
