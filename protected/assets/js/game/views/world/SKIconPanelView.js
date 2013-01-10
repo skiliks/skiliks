@@ -16,7 +16,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug(), function () {
                         var dialogId = event.get('data')[2].id;
-                        SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {
+                        SKApp.server.api('phone/ignore', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
                             var history = new SKPhoneHistoryCollection();
                                 history.fetch();
                                 history.on('reset', function () {

@@ -67,7 +67,7 @@ $(function () {
         noReply: function(event) {
             var dialogId = $(event.toElement).attr('data-dialog-id');
             this.close(event);
-            SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {});
+            SKApp.server.api('phone/ignore', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {});
         }
    });         
 });
