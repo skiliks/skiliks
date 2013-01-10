@@ -111,8 +111,8 @@
                         <span class="post">&nbsp;</span>
                     </p>
                     <ul class="phone-call-in-btn">
-                        <li><a window_id="<@=windowID@>" id="phone_reply" dialog_id="" class="btn0">Ответить</a></li>
-                        <li><a window_id="<@=windowID@>" id="phone_no_reply" dialog_id="" class="btn1">Не ПРИНЯТЬ</a></li>
+                        <li><a window_id="<@=windowID@>" id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
+                        <li><a window_id="<@=windowID@>" id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
                     </ul>
                 </div>
                 
