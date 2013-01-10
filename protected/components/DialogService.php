@@ -58,8 +58,7 @@ class DialogService {
                         
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
-                $unix_time = explode(':', date("H:i:s", $timeString));
-                $phoneCalls->call_date = gmmktime($unix_time[0], $unix_time[1], $unix_time[2], 10, 4, 2012);
+                $phoneCalls->call_time = date("H:i:s", $timeString);
                 $phoneCalls->call_type = $callType;
                 $phoneCalls->from_id = $currentDialog->ch_to;
                 $phoneCalls->to_id = 1;

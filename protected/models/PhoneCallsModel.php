@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Какие звонки и когда были совершены в рамках симуляции
  * 
@@ -26,7 +24,7 @@ class PhoneCallsModel extends CActiveRecord
      * real time, Unix age seconds
      * @var integer
      */
-    public $call_date; 
+    public $call_time; 
     
     /**
      * 0, 1, 2

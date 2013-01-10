@@ -37,15 +37,13 @@ class PhoneController extends AjaxController{
      */
     public function actionIgnore() 
     {
-        $simulation = $this->getSimulationEntity();
-        try {
-            $dialogId = (int)Yii::app()->request->getParam('dialogId', null);     
-            
-            // определить персонажа по диалогу
-            $dialog = Dialogs::model()->byId($dialogId)->find();
-            if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
-            
-            PhoneService::registerMissed($simulation , $dialog);
+        try {     
+                
+            PhoneService::registerMissed(
+                    $this->getSimulationId(), 
+                    (int)Yii::app()->request->getParam('dialogId', null),
+                    Yii::app()->request->getParam('time', null)
+            );
             
             return $this->sendJSON(array(
                 'result' => 1
