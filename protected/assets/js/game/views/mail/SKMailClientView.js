@@ -566,7 +566,7 @@
             }
             if (addButtonReply) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.renderReplyToActiveEmailScreen();',
                     iconCssClass: this.mailClient.aliasButtonReply,
                     label:        'ответить'
                 });
@@ -594,7 +594,7 @@
             }
             if (addButtonSaveDraft) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSaveCurrentCustomEmailToDrafts();',
                     iconCssClass: this.mailClient.aliasButtonSaveDraft,
                     label:        'сохранить'
                 });
@@ -666,8 +666,6 @@
         },
         
         renderWriteCustomNewEmailScreen: function() {
-            $("#MailClient_RecipientsList li").remove();
-            $("#MailClient_CopiesList li").remove();
             
             // get template
             var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
@@ -776,7 +774,25 @@
             $("#MailClient_NewLetterSubject select").html(listHtml);
         },
         
+        /**
+         * @param SKMailSubject subject
+         */
+        renderSingleSubject: function(subject) {
+            var listHtml = '<option selected value="' 
+                + subject.characterSubjectId +'">' + subject.getText() + '</option>';
+            
+            $("#MailClient_NewLetterSubject select").html(listHtml);
+            $("#MailClient_NewLetterSubject select").attr("disabled", true);
+        },
+        
         getCurentEmailSubjectId: function() {
+            // removeAttr - for reply, replyAll, forward cases
+            $("#MailClient_NewLetterSubject select option:selected").removeAttr("disabled"); 
+            
+            //console.log($("#MailClient_NewLetterSubject select option"));
+            console.log($("#MailClient_NewLetterSubject select option:selected"));
+            console.log($("#MailClient_NewLetterSubject select option:selected").val());
+            
             return $("#MailClient_NewLetterSubject select option:selected").val();
         },
         
@@ -893,7 +909,7 @@
             return list;
         },
         
-        doSendCurrentCustomEmail: function() {
+        generateNewEmailObject: function() {
             var emailToSave = new SKEmail();
             
             // recipients
@@ -926,11 +942,138 @@
             // update
             emailToSave.updateStatusPropertiesAccordingObjects();
             
-            // store temporary since save
+            return emailToSave;
+        },
+        
+        doSaveCurrentCustomEmailToDrafts: function() {
+            var emailToSave = this.generateNewEmailObject();
+            
+            this.mailClient.saveToDraftsNewCustomEmail(emailToSave); // sync AJAX
+            
+            this.updateFolderLabels();
+            this.renderInboxFolder();
+        },
+        
+        doSendCurrentCustomEmail: function() {
+            var emailToSave = this.generateNewEmailObject();
+            
             this.mailClient.sendNewCustomEmail(emailToSave); // sync AJAX
             
             this.updateFolderLabels();
             this.renderInboxFolder();
+        },
+        
+        renderWriteEmailScreen: function(iconsList) {
+            if (0 == this.mailClient.defaultRecipients.length) {
+                this.mailClient.updateRecipientsList();
+            }
+            
+            // get template
+            var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+            
+            this.hideFoldersBlock();
+            
+            // render HTML sceleton
+            $("#" + this.mailClientContentBlockId).html(htmlSceleton);
+            
+            this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
+            
+            // add attachments list {
+            this.mailClient.uploadAttachmentsList();
+
+            var attachmentsListHtml = [];
+            
+            attachmentsListHtml.push({
+                text:     "без вложения.",
+                value:    0,
+                selected: 1,
+                imageSrc: ""
+            });
+            
+            for (var i in this.mailClient.availableAttachments) {
+                attachmentsListHtml.push({
+                    text:     this.mailClient.availableAttachments[i].label,
+                    value:    this.mailClient.availableAttachments[i].fileId,
+                    imageSrc: this.mailClient.availableAttachments[i].getIconImagePath()
+                });
+            }
+            
+            $("#MailClient_NewLetterAttachment div.list").ddslick({
+                data:          attachmentsListHtml,
+                width:         '100%',
+                selectText:    "Нет вложения.",
+                imagePosition: "left"
+            })
+            // add attachments list }
+            
+            // bind copies
+            $("#MailClient_CopiesList").tagHandler({
+                availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                autocomplete: true
+            });
+            
+            // bind recipients 
+            // realized in custom way
+            
+            // bind subjects
+            $("#MailClient_NewLetterSubject select").change(function() {
+                SKApp.user.simulation.mailClient.reloadPhrases();
+            });
+        },
+
+        renderPreviouseMessage: function(text) {
+            console.log(text);
+            console.log($("#mailEmulatorNewLetterDiv .previouse-message-text"));
+            $("#mailEmulatorNewLetterDiv .previouse-message-text").text(text);
+        },
+        
+        renderReplyToActiveEmailScreen: function() {
+            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+            
+            SKApp.server.api(
+                'mail/reply',
+                {
+                    id: this.mailClient.activeEmail.mySqlId
+                }, 
+                function (response) {
+                    if (1 == response.result) {
+                        var subject = new SKMailSubject();
+                        subject.text               = response.subject;
+                        subject.mySqlId            = response.subjectId;
+                        subject.characterSubjectId = response.subjectId;
+                        
+                        SKApp.user.simulation.mailClient.viewObject.renderSingleSubject(subject);
+                        
+                        SKApp.user.simulation.mailClient.viewObject
+                            .renderPreviouseMessage(response.phrases.previouseMessage);
+                        
+                        // there is one recipient,but it must be an array
+                        var recipient = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
+                                .getFormatedForMailToName()];
+                        
+                        // set recipient
+                        $("#MailClient_RecipientsList").tagHandler({
+                             assignedTags:  recipient,
+                             availableTags: recipient,
+                             allowAdd:      false,
+                             allowEdit:     false
+                        });
+                        
+                        // add phrases {
+                        SKApp.user.simulation.mailClient
+                            .setRegularAvailablePhrases(response.phrases.data);
+                            
+                        SKApp.user.simulation.mailClient
+                            .setAdditionalAvailablePhrases(response.phrases.addData);
+                            
+                        SKApp.user.simulation.mailClient.viewObject.reloadPhrases();
+                        // add phrases }
+                    } else {
+                        throw "Can`t initialize responce email.";
+                    }
+                },
+                false
+            ); 
         }
     });
 })();
