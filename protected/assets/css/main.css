@@ -1202,7 +1202,6 @@ mail-emulator-received-list-row
     border-bottom: 1px solid #fff;
     font-family: 'orbi_sansregular';
     font-size: 12px;
-    height: 22px;    
     line-height: 22px;
     text-align: center;
     width: 43px;
@@ -1452,7 +1451,6 @@ mail-emulator-received-list-row
 .planner-task.locked span{
 	display:block;
     padding-left: 21px;
-    height: 100%;
     background:url("../img/planner/icon-task-locked.png") no-repeat 0 0;
 }
 .planner-tine-line{
