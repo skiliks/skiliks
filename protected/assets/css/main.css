@@ -3620,3 +3620,7 @@ ul.main-screen-stat li img{
 .phone_get_menu { cursor: pointer }
 /* --------------- /main screen ---------*/
 
+tr.email-list-separator {
+    background-color: #dddddd;
+    font-weight: bold;
+}
