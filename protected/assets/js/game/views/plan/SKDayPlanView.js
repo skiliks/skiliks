@@ -68,6 +68,7 @@ var SKDayPlanView;
             var task_el = this.$('div[data-task-id=' + task.id + ']');
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
+            prev_cell.height(11);
             prev_cell.find('.day-plan-td-slot')
                 .show();
             prev_cell
@@ -94,44 +95,21 @@ var SKDayPlanView;
                 drop_td.find('.planner-task').addClass('locked');
             }
             var max_height = Math.ceil(duration / 15) * 10;
-            this.overflowText(drop_td, max_height, drop_td.find('.title'));
+            this.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
             // Hiding next N cells
             var currentRow = drop_td.parents('tr');
             for (var i = 0; i < duration - 15; i += 15) {
                 currentRow = currentRow.next();
                 currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
             }
+            drop_td.find('.day-plan-todo-task').height(Math.ceil(duration / 15) * 11);
+            drop_td.height(Math.ceil(duration / 15) * 11);
             drop_td.attr('rowspan', duration / 15);
             // Updating draggable element list
             this.setupDraggable();
         },
         removeTodoTask:function (model) {
             this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
-        },
-        /**
-         * @deprecated
-         *
-         * @param el
-         * @param duration
-         * @return {Boolean}
-         */
-        canContainTask:function (el, duration) {
-            var res = true;
-            var currentRow = el.parents('tr');
-            for (var i = 0; i < duration; i += 15) {
-                if (currentRow.find('.planner-book-timetable-event-fl').is('.past-slot')) {
-                    res = false;
-                    break;
-                }
-                if (!(currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').is(':visible') &&
-                    currentRow.find('.day-plan-td-slot').is(':visible')
-                    )) {
-                    res = false;
-                    break;
-                }
-                currentRow = currentRow.next();
-            }
-            return res;
         },
         setupDroppable:function () {
             var me = this;
@@ -164,23 +142,14 @@ var SKDayPlanView;
 
                 },
                 over:function (event, ui) {
-                    var me = this;
-                    setTimeout(function () {
-                        var currentRow = $(me).parents('tr');
-                        var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
-                        for (var i = 0; i < duration; i += 15) {
-                            currentRow.find('td.planner-book-timetable-event-fl').addClass('drop-hover');
-                            currentRow = currentRow.next();
-                        }
-                    }, 0);
-                },
-                out:function (event, ui) {
+                    me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
                     var currentRow = $(this).parents('tr');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
                     for (var i = 0; i < duration; i += 15) {
-                        currentRow.find('td.planner-book-timetable-event-fl').removeClass('drop-hover');
+                        currentRow.find('td.planner-book-timetable-event-fl').addClass('drop-hover');
                         currentRow = currentRow.next();
                     }
+
                 },
                 /**
                  * Returns true if draggable can be dropped on the element
@@ -192,7 +161,9 @@ var SKDayPlanView;
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
                     var day = $(this).parents('div[data-day-id]').attr('data-day-id');
                     var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
-                    return SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
+                    var isTimeSlotFree = SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
+                    console.log(isTimeSlotFree + ' ' + time + ' ' + day);
+                    return isTimeSlotFree;
                 }
             });
             var after_vacation_slot = this.$('.planner-book-afterv-table');
@@ -200,6 +171,10 @@ var SKDayPlanView;
             after_vacation_slot.droppable({
                 hoverClass:"drop-hover",
                 tolerance:"pointer",
+                over: function (event, ui) {
+                    me.$('.drop-hover').removeClass('drop-hover');
+                    me.$('.planner-book-afterv-table').addClass('drop-hover');
+                },
                 'drop':function (event, ui) {
 
                     me.$('.planner-book-after-vacation .day-plan-td-slot').each(function () {
@@ -224,7 +199,7 @@ var SKDayPlanView;
                                 date:time,
                                 task_id:task_id,
                                 duration:ui.draggable.attr('data-task-duration'),
-                                day: day
+                                day:day
                             });
                             return false;
                         }
@@ -238,6 +213,9 @@ var SKDayPlanView;
             todo_slot.droppable({
                 hoverClass:"drop-hover",
                 tolerance:"pointer",
+                accept: function (draggable) {
+                    return !draggable.parents('.plan-todo').length;
+                },
                 'drop':function (event, ui) {
 
                     // Reverting old element location
@@ -308,6 +286,8 @@ var SKDayPlanView;
             SKApp.user.simulation.on('tick', function () {
                 me.disableOldSlots();
             });
+            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar();
+
             this.setupDroppable();
             Hyphenator.run();
 
@@ -327,9 +307,9 @@ var SKDayPlanView;
             var task = SKApp.user.simulation.todo_tasks.get(task_id);
             me.$('.day-plan-td-slot').each(function () {
                 var duration = task.get('duration');
-                if (me.canContainTask($(this), duration)) {
-                    task.set('day', $(this).parents('div[data-day-id]').attr('data-day-id'));
-                    task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
+                task.set('day', $(this).parents('div[data-day-id]').attr('data-day-id'));
+                task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
+                if (SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                     task.destroy();
                     SKApp.user.simulation.dayplan_tasks.create({
                         title:$(e.currentTarget).find('.title').text(),

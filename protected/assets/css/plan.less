@@ -1,5 +1,17 @@
 .planner-book-main-div {
   position: relative;
+  user-select: none;
+  .mCSB_container{
+    margin-right: 12px;
+  }
+  .mCSB_scrollTools {
+    margin-right: 0;
+    z-index: 1;
+  }
+  .planner-book-today,.planner-book-tomorrow {
+    margin-right: -12px;
+    border-right: none;
+  }
   .plan-todo {
     background-position: 0 -79px;
     height: 50%;
@@ -39,6 +51,9 @@
   }
 
   .planner-book-timetable-table {
+    tr {
+      height: 10px;
+    }
     tr td.planner-book-timetable-event-fl.past-slot {
       background-color: #ccc;
     }
@@ -76,6 +91,7 @@
   }
 
   .day-plan-td-slot {
+    user-select: none;
     height: 100%;
   }
 
@@ -85,6 +101,7 @@
     border-bottom: 1px solid #c5def0;
     border-left: 1px solid #81a0b8;
     background: #c4dff2;
+    z-index: 2;
     background: -moz-linear-gradient(top, #dbedfa, #aed1ea);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dbedfa), color-stop(100%, #aed1ea));
     background: -webkit-linear-gradient(top, #dbedfa, #aed1ea);
