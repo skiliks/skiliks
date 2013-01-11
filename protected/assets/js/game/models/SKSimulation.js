@@ -91,7 +91,7 @@
             var me = this;
             me.start_time = new Date();
             this.window_set = new SKWindowSet();
-            var win = this.window = new SKWindow('mainScreen', 'mainScreen');
+            var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
             win.open();
             SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function () {
                 me.todo_tasks.fetch();
