@@ -1,5 +1,5 @@
 /*global Backbone, _ */
-$(function () {
+(function () {
     "use strict";
     /**
      * List of user's phrases added to letter
@@ -44,4 +44,4 @@ $(function () {
             this.$el.remove();
         }
     });
-});
+})();
