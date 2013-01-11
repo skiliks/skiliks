@@ -599,7 +599,7 @@
             }
             if (addButtonAddToPlan) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       '',
+                    action:       'SKApp.user.simulation.mailClient.addToPlanDialogObject.render();',
                     iconCssClass: this.mailClient.aliasButtonAddToPlan,
                     label:        'запланировать'
                 });

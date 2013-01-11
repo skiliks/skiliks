@@ -1,5 +1,5 @@
 /*global Backbone, _, SKMailLetterBaseView */
-(function () {
+/*(function () {
     "use strict";
     window.SKMailLetterFixedTextView = SKMailLetterBaseView.extend({
         'initialize': function () {
@@ -11,4 +11,4 @@
             this.$el.html(template);
         }
     });
-})();
+})();*/
