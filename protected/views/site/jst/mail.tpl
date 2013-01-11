@@ -62,7 +62,7 @@
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
         <table class="ml"></table>
     </div>
-    <div id="<@= emailPreviewId @>" class="pre"></div>
+    <div id="<@= emailPreviewId @>" class="previouse-message-text"></div>
 </script>
 
 <!-- MailClient_TrashFolderSceleton: -->
@@ -204,9 +204,10 @@
             </tbody>
         </table>
     </div>
-    <div style="overflow-y: scroll; height: 120px; padding: 7px 15px 15px 15px">
+    <div class="readed-email-text" style="overflow-y: scroll; height: <@= height @>; padding: 7px 15px 15px 15px">
         <@= text @>
-    </div>
+        <div class="previouse-message-text"></div>
+    </div>    
 </script>
 
 <!-- MailClient_ReadEmailSceleton: -->
