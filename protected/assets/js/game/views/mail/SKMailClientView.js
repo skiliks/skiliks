@@ -48,7 +48,7 @@
                 });
 
                 // append to <body>
-                $('body').append(mailClientWindowBasicHtml);
+                $('#canvas').append(mailClientWindowBasicHtml);
             } else {
                 existsMailClientDiv.show();
             }
@@ -153,27 +153,30 @@
                     if (this.mailClient.folders[alias].isActive) {
                         isActiveCssClass = ' active ';
                     }
+                    
+                    var counter = this.mailClient.folders[alias].emails.length;
 
                     var action = '';
-                    if (alias === SKApp.user.simulation.mailClient.aliasFolderInbox) {
-                        action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderInbox);';
+                    if (alias === this.mailClient.aliasFolderInbox) {
+                        action  = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderInbox);';
+                        counter = this.mailClient.getInboxFolder().countUnreaded();
                     }
-                    if (alias === SKApp.user.simulation.mailClient.aliasFolderDrafts) {
+                    if (alias === this.mailClient.aliasFolderDrafts) {
                         action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderDrafts);';
                     }
-                    if (alias === SKApp.user.simulation.mailClient.aliasFolderSended) {
+                    if (alias === this.mailClient.aliasFolderSended) {
                         action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderSended);';
                     }
-                    if (alias === SKApp.user.simulation.mailClient.aliasFolderTrash) {
+                    if (alias === this.mailClient.aliasFolderTrash) {
                         action = 'SKApp.user.simulation.mailClient.viewObject.doRenderFolder(SKApp.user.simulation.mailClient.aliasFolderTrash);';
                     }
 
                     html += _.template($('#MailClient_FolderLabel').html(), {
-                        action:action,
-                        label:this.mailClient.folders[alias].name,
-                        isActiveCssClass:isActiveCssClass,
-                        counter:this.mailClient.folders[alias].emails.length,
-                        alias:alias
+                        action:           action,
+                        label:            this.mailClient.folders[alias].name,
+                        isActiveCssClass: isActiveCssClass,
+                        counter:          counter,
+                        alias:            alias
                     });
                 }
             }
@@ -458,7 +461,6 @@
             this.updateDraftsListView();
 
             // render preview email
-            console.log('this.mailClient.activeEmail: ', this.mailClient.activeEmail);
             if (undefined !== this.mailClient.activeEmail) {
                 this.doGetEmailDetails(this.mailClient.activeEmail.mySqlId, this.mailClient.aliasFolderDrafts);
             }
