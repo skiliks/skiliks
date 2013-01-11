@@ -12,7 +12,8 @@ var SKDayPlanView;
             'click .day-plan-todo-task':'doActivateTodo',
             'dblclick .day-plan-todo-task':'doSetTask',
             'click .todo-min':'doMinimizeTodo',
-            'click .todo-max':'doMaximizeTodo'
+            'click .todo-max':'doMaximizeTodo',
+            'click .todo-revert':'doRestoreTodo'
         }, SKWindowView.prototype.events),
         'initialize':function () {
             this.render();
@@ -322,20 +323,20 @@ var SKDayPlanView;
             });
         },
         doMinimizeTodo:function () {
-            this.$('.plan-todo').removeClass('open').addClass('closed');
-            this.$('.planner-book-afterv-table').removeClass('half').addClass('full');
+            this.$('.plan-todo').removeClass('open').removeClass('middle').addClass('closed');
+            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('half').addClass('full');
             this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
         },
         doMaximizeTodo:function () {
-            this.$('.plan-todo').removeClass('closed').addClass('open');
-            this.$('.planner-book-afterv-table').removeClass('full').hide();
+            this.$('.plan-todo').removeClass('closed').removeClass('middle').addClass('open');
+            this.$('.planner-book-afterv-table').removeClass('full').removeClass('half').addClass('closed');
             this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
 
         },
         doRestoreTodo:function () {
-            this.$('.plan-todo').removeClass('closed').removeClass('open');
-            this.$('.planner-book-afterv-table').removeClass('full').addClass('half');
-            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+            this.$('.plan-todo').removeClass('closed').removeClass('open').addClass('middle');
+            this.$('.planner-book-afterv-table').removeClass('closed').removeClass('full').addClass('half');
+            this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
         }
     });
 })();
