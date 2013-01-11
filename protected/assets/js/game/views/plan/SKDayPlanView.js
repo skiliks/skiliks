@@ -161,9 +161,7 @@ var SKDayPlanView;
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
                     var day = $(this).parents('div[data-day-id]').attr('data-day-id');
                     var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
-                    var isTimeSlotFree = SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
-                    console.log(isTimeSlotFree + ' ' + time + ' ' + day);
-                    return isTimeSlotFree;
+                    return SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }
             });
             var after_vacation_slot = this.$('.planner-book-afterv-table');
@@ -267,26 +265,25 @@ var SKDayPlanView;
             var me = this;
             window_el.html(_.template($('#plan_template').html(), {}));
             this.updateTodos();
-
-            SKApp.user.simulation.todo_tasks.on('add remove reset', function () {
+            me.listenTo(SKApp.user.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();
             });
-            SKApp.user.simulation.todo_tasks.on('remove', function (model) {
+            me.listenTo(SKApp.user.simulation.todo_tasks, 'remove', function (model) {
                 me.removeTodoTask(model);
             });
             SKApp.user.simulation.dayplan_tasks.each(function (model) {
                 me.addDayPlanTask(model);
             });
-            SKApp.user.simulation.dayplan_tasks.on('remove', function (model) {
+            me.listenTo(SKApp.user.simulation.dayplan_tasks, 'remove', function (model) {
                 me.removeDayPlanTask(model);
             });
-            SKApp.user.simulation.dayplan_tasks.on('add', function (model) {
+            me.listenTo(SKApp.user.simulation.dayplan_tasks, 'add', function (model) {
                 me.addDayPlanTask(model);
             });
-            SKApp.user.simulation.on('tick', function () {
+            me.listenTo(SKApp.user.simulation, 'tick', function () {
                 me.disableOldSlots();
             });
-            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar();
+            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
 
             this.setupDroppable();
             Hyphenator.run();
@@ -326,10 +323,13 @@ var SKDayPlanView;
         doMinimizeTodo:function () {
             this.$('.plan-todo').removeClass('open').addClass('closed');
             this.$('.planner-book-afterv-table').removeClass('half').addClass('full');
+            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
         },
         doMaximizeTodo:function () {
             this.$('.plan-todo').removeClass('closed').addClass('open');
             this.$('.planner-book-afterv-table').removeClass('full').addClass('half');
+            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
+
         }
     });
 })();

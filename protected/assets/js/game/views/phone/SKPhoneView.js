@@ -1,6 +1,4 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/*global SKWindow
  */
 
 $(function () {
@@ -40,11 +38,11 @@ $(function () {
             $('#'+this.windowID).css('left', left+'px');
             this.renderTPL('#'+this.windowID, '#Phone_Html', {windowID:this.windowID});
             this.$el = $('#'+this.windowID);
-            this.SKWindow = new SKWindow('phone', 'phoneMain');
+            this.SKWindow = new SKWindow({name:'phone', subname:'phoneMain'});
             this.SKWindow.open();
         },
         close:function (event) {            
-            if(event != undefined){
+            if(event !== undefined){
                 var id = $(event.toElement).attr('window_id');
                 $('#'+id).remove();
             }else{
