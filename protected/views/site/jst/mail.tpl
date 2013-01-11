@@ -313,6 +313,30 @@
     </option>
 </script>
 
+<!-- MailClient_AddToPlanPopUp -->
+<script type="text/template" id="MailClient_AddToPlanPopUp">
+    <div id="mailEmulatorShowTasksDiv">
+        <div class="mail-plan">
+            <@= list @>
+            <div class="mail-plan-btn mail-popup-button">
+                <span><@= buttonLabel @></span>
+            </div>
+        </div>
+    </div>
+</script>
+
+<!-- MailClient_AddToPlanItem -->
+<script type="text/template" id="MailClient_AddToPlanItem">
+    <table class="mail-plan-item" data-id="<@= id @>">
+        <tbody>
+            <tr>
+                <th><@= text @></th>
+                <td><@= duration @></td>
+            </tr>
+        </tbody>
+    </table>
+</script>
+
 <!-- @todo: is it used? -->
 <script type="text/template" id="mail_fixed_text_template">
     <div class="message-container">
