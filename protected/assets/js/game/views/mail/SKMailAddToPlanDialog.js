@@ -3,9 +3,7 @@
     "use strict";
     window.SKMailAddToPlanDialog = Backbone.View.extend({
         
-        DomElement:                undefined,
-        
-        preventOtherClicksElement: undefined,
+        $el:                undefined,
         
         /**
          * Used to add reverce link from view to it`s model
@@ -57,17 +55,8 @@
             
             var me = this;
             
-            // preventOtherClicks {
-            this.preventOtherClicksElement = 
-                $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; height: 100%;;width:100%;"></div>');
-            
-            this.preventOtherClicksElement.topZIndex();
-            
-            $('#canvas').prepend(this.preventOtherClicksElement);
-            
-            $('.preventOtherClicks').click(function(){
-                me.close();
-            });
+            // preventOtherClicks 
+            this.renderPreventClickElement();
 
             // render dialog {
             var dialogHtml = _.template($('#MailClient_AddToPlanPopUp').html(), {
@@ -75,11 +64,11 @@
                 buttonLabel: 'Запланировать'
             });
             
-            this.DomElement = $(dialogHtml);
+            this.$el = $(dialogHtml);
             
-            this.DomElement.topZIndex();
+            this.$el.topZIndex();
             
-            this.DomElement.css({
+            this.$el.css({
                 'left' : $("#mailEmulatorMainScreen .ADD_TO_PLAN").offset().left + 'px',
                 'top': '70px',
                 'position': 'absolute',
@@ -87,7 +76,7 @@
                 'margin': 'auto'
             });
             
-            $('#canvas').prepend(this.DomElement);
+            $('#canvas').prepend(this.$el);
             
             $('#MailClient_AddToPlanPopUp .mail-plan-btn').click(function(){
                 me.doAddToPlan();
@@ -150,9 +139,8 @@
         },
         
         close: function() {
-            if (undefined !== this.DomElement) {
-                this.DomElement.remove();
-                this.preventOtherClicksElement.remove();
+            if (undefined !== this.$el) {
+                this.cleanUpDOM();
             }
         }
     });
