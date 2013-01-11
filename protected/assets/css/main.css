@@ -1801,7 +1801,7 @@ section.mail .actions li a:hover{
 	height:345px;
 	position:absolute;
 	top:40px;
-	left:-182px;
+	left:-180px;
 	padding-top:20px;
 	z-index:2;
 }
@@ -1821,25 +1821,35 @@ section.mail .actions li a:hover{
 .mail-plan-item.active th,.mail-plan-item.active td{
 	text-shadow:none;
 }
-.mail-plan-item th{
+.mail-plan-item label{
 	background:url("../img/mail/bd-plan-item.png") no-repeat right center;
 	font-weight:normal;
 	text-shadow:#f5ede0 0 0 1px;
 	width:310px;
 	padding:10px 15px 10px 20px;
 	vertical-align:middle;
+    display: inline-block;
 }
-.mail-plan-item td{
+.mail-plan-item span{
 	text-align:center;
 	text-shadow:#f5ede0 0 0 1px;
-	padding:10px 20px 10px 15px;
+	padding:0px 10px 5px 0px;
 	vertical-align:middle;
+    display: inline-block;
+    width: 30px;
 }
+
+#mailEmulatorMainScreen,
+#MailClient_AddToPlanPopUp {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
 .mail-plan-btn{
 	text-align:center;
 	margin-top:19px;
 }
-.mail-plan-btn a{
+.mail-plan-btn span{
 	display:inline-block;
 	background:url("../img/mail/btn-mail.png") no-repeat right -47px;
 	font-size:14px;
@@ -1850,15 +1860,22 @@ section.mail .actions li a:hover{
 	text-transform:uppercase;
 	padding-right:31px;
 }
-.mail-plan-btn a span{
+.mail-plan-btn span label{
+	font-size:14px;
+	color:#fff;
 	display:block;
 	background:url("../img/mail/btn-mail.png") no-repeat 0 0;
+	line-height:47px;
+	text-decoration:none !important;
+	text-shadow:rgba(0,0,0,0.35) 1px 1px 0;
+	text-transform:uppercase;
 	padding-left:31px;
+    margin-bottom: 0px;
 }
-.mail-plan-btn a:hover{
+.mail-plan-btn span:hover{
 	background-position:right -141px;
 }
-.mail-plan-btn a:hover span{
+.mail-plan-btn span:hover label{
 	background-position:0 -94px;
 }
 .btn-window{

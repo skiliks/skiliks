@@ -1,51 +1,160 @@
 /*global Backbone, _, SKDialogView */
 (function () {
     "use strict";
-    window.SKMailAddToPlanDialog = SKDialogView.extend({
-        'initialize': function () {
-            this.options.buttons.forEach(function (button) {
-                button.id = _.uniqueId('button_');
-            });
-            this.render();
+    window.SKMailAddToPlanDialog = Backbone.View.extend({
+        
+        DomElement:                undefined,
+        
+        preventOtherClicksElement: undefined,
+        
+        /**
+         * Used to add reverce link from view to it`s model
+         * @param mailClient SKMailClient
+         */
+        mailClient: undefined,
+        
+        selectedMailTask: undefined,
+        
+        initialize: function () {},
+        
+        getTasksToBePlanned: function() {
+            return SKApp.server.api(
+                'mail/toPlan',
+                {
+                    id: this.mailClient.activeEmail.mySqlId
+                }, 
+                function (response) {
+                    SKApp.user.simulation.mailClient.availaleActiveEmailTasks = [];
+                    for (var i in response.data) {
+                        var task = new SKMailTask();
+                        task.mySqlId  = response.data[i].id;
+                        task.label    = response.data[i].name;
+                        task.duration = response.data[i].duration;
+                        
+                        SKApp.user.simulation.mailClient.availaleActiveEmailTasks.push(task);
+                    }
+                },
+                false
+            );   
         },
-        'render': function () {            
+        
+        render: function () {  
             var listHtml = '';
-
-            console.log(SKApp.user.simulation.mailClient.activeEmail);
             
+            // generate mail tasks list {
+            this.getTasksToBePlanned();
+            
+            var mailTasks = SKApp.user.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
+            
+            for (var i in mailTasks) {
+                listHtml +=  _.template($('#MailClient_AddToPlanItem').html(), {
+                    id:       mailTasks[i].mySqlId,
+                    text:     mailTasks[i].label,
+                    duration: mailTasks[i].getFormatedDuration()
+                });
+            }
+            // generate mail tasks list }
+            
+            var me = this;
+            
+            // preventOtherClicks {
+            this.preventOtherClicksElement = 
+                $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; height: 100%;;width:100%;"></div>');
+            
+            this.preventOtherClicksElement.topZIndex();
+            
+            $('#canvas').prepend(this.preventOtherClicksElement);
+            
+            $('.preventOtherClicks').click(function(){
+                me.close();
+            });
+
+            // render dialog {
             var dialogHtml = _.template($('#MailClient_AddToPlanPopUp').html(), {
                 list: listHtml,
-                buttonLabe: 'Запланировать'
+                buttonLabel: 'Запланировать'
             });
             
-            var el = $(dialogHtml);
-            el.css({
-                //'zIndex': 60000,
+            this.DomElement = $(dialogHtml);
+            
+            this.DomElement.topZIndex();
+            
+            this.DomElement.css({
+                'left' : $("#mailEmulatorMainScreen .ADD_TO_PLAN").offset().left + 'px',
                 'top': '70px',
                 'position': 'absolute',
                 'width': '100%',
                 'margin': 'auto'
             });
             
-            el.topZIndex();
+            $('#canvas').prepend(this.DomElement);
             
-            $('body').prepend(el);
+            $('#MailClient_AddToPlanPopUp .mail-plan-btn').click(function(){
+                me.doAddToPlan();
+            });
             
-            this.$el = el;
+            // render dialog }
         },
-        'events': {
-            'click .mail-popup-button': 'handleClick'
+        
+        // override default behavoiur
+        handleClick: function () {},
+        
+        selectItem: function(id) {
+            console.log('mail task id: ', id);
+            $('.mail-plan-item').removeClass('active');
+            $('.mail-task-'+id).addClass('active');
+
+            this.setSelectedMailTaskByMySqlId(id);  
         },
-        'handleClick': function (event) {
-            var target = $(event.target).parents('*').andSelf().filter('.mail-popup-button');
-            this.options.buttons.forEach(function(button) {
-                if (button.id === target.attr('data-button-id')) {
-                    if ((typeof button.onclick) === 'function' ) {
-                        button.onclick();
+        
+        setSelectedMailTaskByMySqlId: function(id) {
+            this.selectedMailTask = this.mailClient.getMailTaskByMySqlId(id);
+        },
+        
+        doAddToPlan: function () {
+            var addToPlanDialog = this;
+            
+            // check it action possible {
+            if (undefined === addToPlanDialog.selectedMailTask) {
+                addToPlanDialog.message_window = addToPlanDialog.message_window || new SKDialogView({
+                    'message': 'Задача не выбрана.',
+                    'buttons': [
+                        {
+                            'value': 'Окей',
+                            'onclick': function () {
+                                delete addToPlanDialog.message_window;
+                            }
+                        }
+                    ]
+                });
+                    
+                return;
+            }
+            // check it action possible }
+            
+            // add to plan {
+            return SKApp.server.api(
+                'mail/addToPlan',
+                { 
+                    id:        addToPlanDialog.selectedMailTask.mySqlId,
+                    messageId: addToPlanDialog.mailClient.activeEmail.mySqlId
+                }, 
+                function (response) {
+                    addToPlanDialog.close();
+                    
+                    if (response.result == 1) {
+                        new SKDayPlanView();
                     }
                 }
-            });
-            this.$el.remove();
+            );  
+            // add to plan }
+        },
+        
+        close: function() {
+            if (undefined !== this.DomElement) {
+                this.DomElement.remove();
+                this.preventOtherClicksElement.remove();
+            }
         }
     });
 })();
