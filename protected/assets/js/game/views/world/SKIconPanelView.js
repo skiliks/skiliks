@@ -16,8 +16,9 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 } else if (event.getTypeSlug() === 'phone') {
                     me.startAnimation('.' + event.getTypeSlug(), function () {
                         var dialogId = event.get('data')[2].id;
-                        SKApp.server.api('phone/ignore', {'dialogId':dialogId}, function (data) {
-                            var history = new SKPhoneHistoryCollection();
+                        SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
+                            SKApp.user.simulation.parseNewEvents(data.events);
+                            var history = SKApp.user.simulation.phone_history;
                                 history.fetch();
                                 history.on('reset', function () {
                                 console.log(event);
@@ -34,6 +35,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             var todo_tasks = SKApp.user.simulation.todo_tasks;
             todo_tasks.on('add remove reset', function () {
                 me.updatePlanCounter();
+            });
+            var phone_history = SKApp.user.simulation.phone_history;
+            phone_history.on('add change remove reset', function () {
+                me.setCounter(
+                    '.phone',
+                    phone_history.where({is_read: false}).length);
             });
             this.render();
         },
