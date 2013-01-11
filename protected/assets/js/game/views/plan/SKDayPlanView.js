@@ -234,12 +234,14 @@ var SKDayPlanView;
         },
         updateTodos:function () {
             var me = this;
+            me.$('.plan-todo-wrap').mCustomScrollbar("destroy");
             this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
             me.$('.plan-todo-wrap').html('');
             SKApp.user.simulation.todo_tasks.each(function (model) {
                 var todo_task = $(_.template($('#todo_task_template').html(), {task:model, type:'todo'}));
                 me.$('.plan-todo-wrap').append(todo_task);
             });
+            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDraggable();
 
         },
@@ -284,7 +286,6 @@ var SKDayPlanView;
                 me.disableOldSlots();
             });
             me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
-
             this.setupDroppable();
             Hyphenator.run();
 
