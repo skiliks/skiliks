@@ -1450,6 +1450,7 @@ mail-emulator-received-list-row
 }
 .planner-task.locked span{
 	display:block;
+    min-height: 20px;
     padding-left: 21px;
     background:url("../img/planner/icon-task-locked.png") no-repeat 0 0;
 }
@@ -1470,8 +1471,8 @@ mail-emulator-received-list-row
 	height:69px;
 }
 .plan-todo.middle,.plan-todo.open{
-	background-position:0 -79px;
-	width:320px;
+	background-position:-15px -79px;
+	width:272px;
 }
 .plan-todo.middle{
 	height:293px;

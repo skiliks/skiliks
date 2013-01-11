@@ -1,14 +1,17 @@
 .planner-book-main-div {
   position: relative;
   user-select: none;
-  .mCSB_container{
+  .mCSB_container {
     margin-right: 12px;
+  }
+  .mCSB_scrollTools .mCSB_dragger {
+    height: 80px;
   }
   .mCSB_scrollTools {
     margin-right: 0;
     z-index: 1;
   }
-  .planner-book-today,.planner-book-tomorrow {
+  .planner-book-today, .planner-book-tomorrow {
     margin-right: -12px;
     border-right: none;
   }
@@ -55,10 +58,13 @@
       height: 10px;
     }
     tr td.planner-book-timetable-event-fl.past-slot {
-      background-color: #ccc;
+      background-color: #eee;
     }
     .planner-book-timetable-time-fl {
       border-right: dotted 1px;
+    }
+    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+      padding: 0;
     }
     tr:nth-child(4n), tr:nth-child(4n+3) {
       .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
