@@ -12,12 +12,10 @@ $(function () {
         'events':_.defaults({
             'click .replica-select':'doSelectReplica'
         }, SKWindowView.prototype.events),
-        close: function () {
+        remove: function () {
             this.off('dialog:end');
             this.talk_window.close();
-            this.$el.html('');
-            this.undelegateEvents();
-
+            SKWindowView.prototype.remove.call(this);
         },
         renderWindow:function (window_el) {
             var event = this.options.event,
@@ -37,7 +35,7 @@ $(function () {
             this.$('audio').on('ended', function(){
                 if (my_replicas.length === 0) {
                     event.select(remote_replica.id, function () {
-                        me.close();
+                        me.remove();
                     });
                 }
             });
@@ -56,7 +54,7 @@ $(function () {
                         data.events[0].data[0].dialog_subtype === '4') {
                         me.talk_window.switchDialog(data.events[0].data[0].id);
                     }
-                    me.close();
+                    me.remove();
                     SKApp.user.simulation.parseNewEvents(data.events);
                     /*if (flag === 1) {
                      me.closedialogController();
