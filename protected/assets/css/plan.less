@@ -15,23 +15,47 @@
     margin-right: -12px;
     border-right: none;
   }
+  .plan-todo.open {
+    .max {
+      display: none;
+    }
+
+    .todo-revert.min {
+      display: block;
+    }
+
+    .todo-min.min {
+      display: none;
+    }
+  }
   .plan-todo {
     background-position: 0 -79px;
     height: 50%;
     transition-property: height, transform;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
-    .max {
+    .plan-todo-btn {
+      height: 30px;
+    }
+    .todo-revert {
       display: none;
     }
   }
   .plan-todo.closed {
     transform: rotate(-30deg);
-    .min {
-      display: none;
-    }
-    .max {
-      display: block;
+    .plan-todo-btn {
+      .min {
+        display: none;
+      }
+      .todo-revert.max {
+        display: block;
+      }
+      .todo-max.max {
+        display: none;
+      }
+      .min {
+        display: none;
+      }
     }
     .plan-todo-tit {
       text-align: right;
@@ -45,6 +69,9 @@
   .planner-book-afterv-table {
     transition-property: height;
     transition-duration: 1s;
+  }
+  .planner-book-afterv-table.closed {
+    height: 0;
   }
   .planner-book-afterv-table.half {
     height: 230px;
@@ -117,13 +144,8 @@
     }
   }
 
-  .plan-todo.open {
-    padding-left: 36px;
-    width: 274px;
-    .planner-task {
-      margin-left: 0;
-      cursor: move;
-    }
+  .planner-task {
+    cursor: move;
   }
 
   .plan-todo-tit {
@@ -159,7 +181,7 @@
   }
 
   .drop-hover, .drop-hover td.planner-book-timetable-afterv-fl, .drop-hover td.planner-book-timetable-event-fl {
-    background-color: #adff2f !important;
+    background: #adff2f !important;
   }
 
   td .planner-task.regular {
@@ -169,12 +191,16 @@
     hyphens: auto;
   }
 
+  .planner-task.regular.locked {
+    padding-left: 0;
+  }
 
   .planner-task.regular, .planner-task.ui-draggable-dragging {
     vertical-align: middle;
     width: 214px;
     padding-left: 4px;
     padding-right: 4px;
+    margin: 0;
     display: table-cell;
     .duration {
       display: none;
