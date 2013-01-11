@@ -205,7 +205,7 @@
         </table>
     </div>
     <div class="readed-email-text" style="overflow-y: scroll; height: <@= height @>; padding: 7px 15px 15px 15px">
-        <@= text @>
+        <pre><@= text @></pre>
         <div class="previouse-message-text"></div>
     </div>    
 </script>
@@ -315,11 +315,13 @@
 
 <!-- MailClient_AddToPlanPopUp -->
 <script type="text/template" id="MailClient_AddToPlanPopUp">
-    <div id="mailEmulatorShowTasksDiv">
+    <div id="MailClient_AddToPlanPopUp">
         <div class="mail-plan">
             <@= list @>
-            <div class="mail-plan-btn mail-popup-button">
-                <span><@= buttonLabel @></span>
+            <div class="mail-plan-btn">
+                <span>
+                    <label><@= buttonLabel @></label>
+                </span>
             </div>
         </div>
     </div>
@@ -327,14 +329,10 @@
 
 <!-- MailClient_AddToPlanItem -->
 <script type="text/template" id="MailClient_AddToPlanItem">
-    <table class="mail-plan-item" data-id="<@= id @>">
-        <tbody>
-            <tr>
-                <th><@= text @></th>
-                <td><@= duration @></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="mail-plan-item mail-task-<@= id @>" onclick="SKApp.user.simulation.mailClient.addToPlanDialogObject.selectItem(<@= id @>);">
+        <label><@= text @></label>
+        <span><@= duration @></span>
+    </div>
 </script>
 
 <!-- @todo: is it used? -->
