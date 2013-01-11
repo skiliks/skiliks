@@ -366,7 +366,7 @@ class MailController extends AjaxController
         $email = MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(array(
-            'return' => (int)MailBoxService::sendDraft($simulation, $email),
+            'result' => (int)MailBoxService::sendDraft($simulation, $email),
         ));
     }
 
