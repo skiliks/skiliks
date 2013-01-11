@@ -1,4 +1,4 @@
-/*global Backbone:false, console */
+/*global Backbone:false, console, SKApp */
 
 (function () {
     "use strict";
@@ -26,28 +26,26 @@
             'documentsFiles':42
     };
     window.SKWindow = Backbone.Model.extend({
-        initialize: function (name, subname) {
-            var window_id = name + "/" + subname;
+        initialize: function () {
+            var window_id = this.get('name') + "/" + this.get('subname');
             if (window_id in window.SKWindow.window_set) {
                 throw "Window " + window_id + " already exists";
             }
-            if (! (name in screens)) {
+            if (! (this.get('name') in screens)) {
                 throw 'Unknown screen';
             }
-            if (! (subname in screensSub)) {
+            if (! (this.get('subname') in screensSub)) {
                 throw 'Unknown subscreen';
             }
             window_id[window_id] = this;
             this.is_opened = false;
-            this.name = name;
-            this.subname = subname;
             this.simulation = SKApp.user.simulation;
         },
         'getWindowId': function () {
-            return screens[this.name];
+            return screens[this.get('name')];
         },
         'getSubwindowId': function () {
-            return screensSub[this.subname];
+            return screensSub[this.get('subname')];
         },
         /**
          * Opens a window
@@ -67,13 +65,13 @@
             this.simulation.window_set.hideWindow(this);
         },
         deactivate: function () {
-            console.log('[SKWindow] Deactivated window ' + this.name + '/' + this.subname + ' at ' + this.simulation.getGameTime() +
+            console.log('[SKWindow] Deactivated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
             this.simulation.windowLog.deactivate(this);
         },
         activate: function () {
-            console.log('[SKWindow] Activated window ' + this.name + '/' + this.subname + ' at ' + this.simulation.getGameTime() +
+            console.log('[SKWindow] Activated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
             this.simulation.windowLog.activate(this);
