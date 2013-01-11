@@ -38,10 +38,7 @@
                         <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
                         <tr>
                             <@ if (minute === '00') { @>
-                            <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
-                            <@ } @>
-                            <@ if (minute === '30') { @>
-                            <td class="planner-book-timetable-time-fl" rowspan="2"></td>
+                            <td class="planner-book-timetable-time-fl" rowspan="4"><@= hour @>:<@= minute @></td>
                             <@ } @>
                             <td data-hour="<@= hour @>" data-minute="<@= minute @>"
                                 class="planner-book-timetable-event-fl bdb"><div class="day-plan-td-slot"></div></td>
@@ -61,10 +58,7 @@
                         <@ ['00', '15', '30', '45'].forEach(function(minute){ @>
                         <tr>
                             <@ if (minute === '00') { @>
-                            <td class="planner-book-timetable-time-fl" rowspan="2"><@= hour @>:<@= minute @></td>
-                            <@ } @>
-                            <@ if (minute === '30') { @>
-                            <td class="planner-book-timetable-time-fl" rowspan="2"></td>
+                            <td class="planner-book-timetable-time-fl" rowspan="4"><@= hour @>:<@= minute @></td>
                             <@ } @>
                             <td data-hour="<@= hour @>" data-minute="<@= minute @>"
                                 class="planner-book-timetable-event-fl bdb ui-droppable"><div class="day-plan-td-slot"></div></td>
