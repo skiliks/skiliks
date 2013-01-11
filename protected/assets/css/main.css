@@ -1410,7 +1410,7 @@ mail-emulator-received-list-row
     box-shadow: 1px 1px 1px rgba(113,181,93,1);
 }
 .planner-task.regular{
-	border-top:1px solid #fff;
+	border-top:1px solid #e2eff9;
 	border-right:1px solid #c8e0f1;
 	border-bottom:1px solid #c5def0;
 	border-left:1px solid #81a0b8;
@@ -1536,7 +1536,7 @@ mail-emulator-received-list-row
 	width:185px;
 	padding:0 35px 0 8px;
 	position:relative;
-	margin:0 0 18px 36px;
+	margin:0 0 18px 19px;
 }
 .plan-todo .planner-task div{
 	display:none;
