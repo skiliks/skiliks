@@ -9,7 +9,7 @@
         },
         sync:function (method, collection, options) {
             if ('read' === method){
-                SKApp.server.api('phone/getList', {}, function (data) {
+                SKApp.server.api('phone/getlist', {}, function (data) {
                     options.success(data);
                 });
             }
