@@ -178,7 +178,11 @@
         // @var undefined | SKEmail
         lastNotSavedEmail: undefined,
         
-        addToPlanDialogObject: undefined,
+        // @var SKMailAddToPlanDialog
+        addToPlanDialogObject: new SKMailAddToPlanDialog(),
+        
+        // @var array of SKMailTAsk
+        availaleActiveEmailTasks: [],
         
         // -------------------------------------------------
         
@@ -187,10 +191,20 @@
             this.folders[this.aliasFolderDrafts] = new SKMailFolder();
             this.folders[this.aliasFolderSended] = new SKMailFolder();
             this.folders[this.aliasFolderTrash]  = new SKMailFolder();
-            
-            this.addToPlanDialogObject = new SKMailAddToPlanDialog();
 
             this.viewObject.setMailClient(this);
+            this.addToPlanDialogObject.mailClient = this;
+        },
+        
+        getMailTaskByMySqlId: function(id) {
+            for (var i in this.availaleActiveEmailTasks) {
+                // kepp non strict comparson!
+                if (this.availaleActiveEmailTasks[i].mySqlId == id) {
+                    return this.availaleActiveEmailTasks[i];
+                }
+            }
+            
+            return undefined;
         },
         
         /**
@@ -406,6 +420,10 @@
                 email.is_readed = true;
             }
             
+            var unreaded = this.getInboxFolder().countUnreaded();
+            this.updateMailIconCounter(unreaded);
+            this.updateInboxFolderCounter(unreaded);
+            
             this.activeEmail = email;
          },
         
@@ -449,6 +467,14 @@
             
             this.viewObject.renderMailClientScreenBase();
             this.viewObject.doRenderFolder(this.aliasFolderInbox);
+        },
+        
+        updateMailIconCounter: function(counter) {
+            $('#icons_email span').text(counter);
+        },
+        
+        updateInboxFolderCounter: function(counter) {
+            $('.icon_' + this.aliasFolderInbox + ' .counter').text(counter);
         },
         
         /**
@@ -865,6 +891,7 @@
          */
         closeWindow: function() {
             this.viewObject.hideMailClientScreen();
+            this.addToPlanDialogObject.close();
         }
     });
 })();

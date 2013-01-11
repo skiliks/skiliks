@@ -49,6 +49,18 @@
             }
             
             return undefined;
+        },
+        
+        countUnreaded: function() {
+            var result = 0;
+            
+            for (var i in this.emails) {
+                if (false === this.emails[i].isReaded()) {
+                    result++;
+                }
+            }
+            
+            return result;
         }
     });
 })();
