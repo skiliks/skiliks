@@ -34,7 +34,7 @@ class SiteController extends AjaxController
         $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/plan.less");
         
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
-        $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery-ui-1.8.21.custom.min.js");
+        $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery-ui-1.8.24.custom.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.hotkeys.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.balloon.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.topzindex.min.js");
