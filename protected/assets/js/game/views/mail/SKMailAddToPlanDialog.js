@@ -100,7 +100,6 @@
         handleClick: function () {},
         
         selectItem: function(id) {
-            console.log('mail task id: ', id);
             $('.mail-plan-item').removeClass('active');
             $('.mail-task-'+id).addClass('active');
 
