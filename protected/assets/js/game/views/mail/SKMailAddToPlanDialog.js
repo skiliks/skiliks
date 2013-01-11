@@ -1,10 +1,7 @@
 /*global Backbone, _, SKDialogView */
 (function () {
     "use strict";
-    window.SKMailAddToPlanDialog = Backbone.View.extend({
-        
-        $el:                undefined,
-        
+    window.SKMailAddToPlanDialog = SKDialogView.extend({        
         /**
          * Used to add reverce link from view to it`s model
          * @param mailClient SKMailClient
@@ -12,6 +9,8 @@
         mailClient: undefined,
         
         selectedMailTask: undefined,
+        
+        isCloseWhenClickNotOnDialog: true,
         
         initialize: function () {},
         
@@ -56,7 +55,7 @@
             var me = this;
             
             // preventOtherClicks 
-            this.renderPreventClickElement();
+            me.renderPreventClickElement();
 
             // render dialog {
             var dialogHtml = _.template($('#MailClient_AddToPlanPopUp').html(), {
