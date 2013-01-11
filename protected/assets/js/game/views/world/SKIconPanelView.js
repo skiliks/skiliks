@@ -37,8 +37,10 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 me.updatePlanCounter();
             });
             var phone_history = SKApp.user.simulation.phone_history;
-            phone_history.on('add remove reset', function () {
-                me.setCounter('.phone', SKApp.user.simulation.phone_history.length);
+            phone_history.on('add change remove reset', function () {
+                me.setCounter(
+                    '.phone',
+                    phone_history.where({is_read: false}).length);
             });
             this.render();
         },
