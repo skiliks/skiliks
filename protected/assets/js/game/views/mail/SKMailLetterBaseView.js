@@ -1,11 +1,7 @@
 /*global Backbone, _ */
-(function () {
+/*(function () {
     "use strict";
     window.SKMailLetterBaseView = Backbone.View.extend({
-        /**
-         * Sets quote message
-         * @param message
-         */
         'setQuote': function (message) {
             var me = this;
             var quote_div = $('<div class="message-quote"></div>');
@@ -17,4 +13,4 @@
             this.$el.mCustomScrollbar("update");
         }
     });
-})();
+})();*/

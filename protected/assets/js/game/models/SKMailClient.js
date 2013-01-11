@@ -178,6 +178,8 @@
         // @var undefined | SKEmail
         lastNotSavedEmail: undefined,
         
+        addToPlanDialogObject: undefined,
+        
         // -------------------------------------------------
         
         initialize: function() {
@@ -185,6 +187,8 @@
             this.folders[this.aliasFolderDrafts] = new SKMailFolder();
             this.folders[this.aliasFolderSended] = new SKMailFolder();
             this.folders[this.aliasFolderTrash]  = new SKMailFolder();
+            
+            this.addToPlanDialogObject = new SKMailAddToPlanDialog();
 
             this.viewObject.setMailClient(this);
         },
