@@ -20,7 +20,7 @@ class DialogController extends AjaxController{
         $json = $dialog->getDialog(
                 $this->getSimulationId(), 
                 (int)Yii::app()->request->getParam('dialogId', 0), 
-                Yii::app()->request->getParam('timeString', false));
+                Yii::app()->request->getParam('time', false));
         
         $this->sendJSON($json);
     }
