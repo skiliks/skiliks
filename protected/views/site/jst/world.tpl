@@ -51,8 +51,9 @@
     </div>
 </script>
 
-<script type="text/template" id="dialog_template">
-    <!--suppress HtmlUnknownTag -->
+<!-- suppress HtmlUnknownTag -->
+
+<script type="text/template" id="dialog_template">    
     <div id="messageSystemMessageDiv">
         <div class="mail-popup">
             <div class="mail-popup-tit"><img src="img/mail/type-system-message.png" alt=""></div>

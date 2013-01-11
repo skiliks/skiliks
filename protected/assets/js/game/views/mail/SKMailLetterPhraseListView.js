@@ -1,5 +1,5 @@
 /*global Backbone, _, SKMailLetterBaseView */
-$(function () {
+/*$(function () {
     "use strict";
     /**
      * List of user's phrases added to letter
@@ -15,4 +15,4 @@ $(function () {
             this.$el.mCustomScrollbar();
         }
     });
-});
+});*/
