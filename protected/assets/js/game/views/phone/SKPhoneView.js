@@ -70,6 +70,7 @@ $(function () {
             
             var history = SKApp.user.simulation.phone_history;
             history.fetch();
+            history.readHistory();
             console.log('#'+id+' .phone-screen');
             var me = this;
             history.on('reset', function () {
