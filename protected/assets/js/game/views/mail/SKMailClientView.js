@@ -205,9 +205,7 @@
                 this.renderTrashFolder();                
             }
             
-            this.mailClient.setActiveFolder(folderAlias);
-            this.updateFolderLabels();
-            this.mailClient.setActiveScreen(folderAlias);
+            this.updateFolderLabels();            
         },
 
         updateInboxListView:function () {
@@ -501,8 +499,6 @@
             $('#' + id).html(emailPreviewTemplate);
             
             this.renderPreviouseMessage(email.previouseEmailText);
-            
-            this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
         },
 
         renderReadEmail:function (email) {
@@ -515,6 +511,7 @@
             // set HTML sceleton } 
 
             this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
+            this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
         },
 
         renderIcons:function (iconButtonAliaces) {
@@ -608,14 +605,14 @@
             }
             if (addButtonSaveDraft) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       'SKApp.user.simulation.mailClient.viewObject.doSaveCurrentCustomEmailToDrafts();',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSaveEmailToDrafts();',
                     iconCssClass: this.mailClient.aliasButtonSaveDraft,
                     label:        'сохранить'
                 });
             }
             if (addButtonSend) {
                 iconsListHtml += _.template(action_icon, {
-                    action:       'SKApp.user.simulation.mailClient.viewObject.doSendCurrentCustomEmail();',
+                    action:       'SKApp.user.simulation.mailClient.viewObject.doSendEmail();',
                     iconCssClass: this.mailClient.aliasButtonSend,
                     label:        'отправить'
                 });
@@ -737,6 +734,8 @@
             $("#MailClient_NewLetterSubject select").change(function() {
                 SKApp.user.simulation.mailClient.reloadPhrases();
             });
+            
+            this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
         },
         
         getCurentEmailRecipientIds: function() {
@@ -957,16 +956,16 @@
             return emailToSave;
         },
         
-        doSaveCurrentCustomEmailToDrafts: function() {
+        doSaveEmailToDrafts: function() {
             var emailToSave = this.generateNewEmailObject();
             
-            this.mailClient.saveToDraftsNewCustomEmail(emailToSave); // sync AJAX
-            
-            this.updateFolderLabels();
-            this.renderInboxFolder();
+            if (this.mailClient.saveToDraftsEmail(emailToSave)) { // sync AJAX
+                this.updateFolderLabels();
+                this.renderInboxFolder();
+            }
         },
         
-        doSendCurrentCustomEmail: function() {
+        doSendEmail: function() {
             var emailToSave = this.generateNewEmailObject();
             
             this.mailClient.sendNewCustomEmail(emailToSave); // sync AJAX

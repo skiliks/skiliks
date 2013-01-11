@@ -24,16 +24,16 @@
         subject: undefined,
 
         // @var array of SkCharacter
-        recipients: new Array(),
+        recipients: [],
         
         // @var array of SkCharacter
-        copyTo: new Array(),
+        copyTo: [],
         
         // @var array of SkAttachment
         attachment: undefined,
         
         // @var array of SkMailPhrases
-        phrases: new Array(),
+        phrases: [],
         
         // @var bool, use markReaded(), markUnreaded(), isReaded()
         is_readed: false,
@@ -63,6 +63,18 @@
         // @var string, 
         // @todo: replace with links to SKCharacters
         copyToString: undefined, 
+        
+        isSubjectValid: function() {
+            console.log('this.subject.characterSubjectId:',this.subject.characterSubjectId);
+            console.log('this.subject.text:', this.subject.text);
+            // keep not strong compartion in non strong way!
+            return (undefined !== this.subject && 
+                undefined !== this.subject.characterSubjectId && 
+                '0' !== this.subject.characterSubjectId && 
+                0 !== this.subject.characterSubjectId && 
+                '' !== this.subject.text &&
+                undefined !== this.subject.text );
+        },
         
         setSendedAtFromTodayMinutes: function(fullMinutes) {
             var hours = (Math.floor(fullMinutes/60));
@@ -191,7 +203,6 @@
         
         getPhrasesIdsString: function() {
             var string = '';
-            console.log('this.phrases: ', this.phrases);
             for (var i in this.phrases) {
                 string += this.phrases[i].mySqlId + ',';
             }
