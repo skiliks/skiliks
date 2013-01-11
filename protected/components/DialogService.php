@@ -13,7 +13,7 @@ class DialogService {
         
     }
     
-    public function getDialog($simId, $dialogId, $timeString) {
+    public function getDialog($simId, $dialogId, $time) {
         try {
             
             if ($dialogId == 0) {
@@ -46,24 +46,16 @@ class DialogService {
                 return $this->sendJSON(array('result' => 1, 'data' => array())); // событие не проходит по флагам -  не пускаем его
             }
             
-            // проверка а не звонок ли это чтобы залогировать входящий вызов
-            if ($currentDialog->dialog_subtype == 1 && $currentDialog->step_number == 1) {                
-                if ($currentDialog->replica_number == 1) {
-                    $callType = 0; // входящее
-                }
-                
-                if ($currentDialog->replica_number == 2) {
-                    $callType = 2; // пропущенные
-                }
-                        
-                $phoneCalls = new PhoneCallsModel();
-                $phoneCalls->sim_id = $simId;
-                $phoneCalls->call_time = date("H:i:s", $timeString);
-                $phoneCalls->call_type = $callType;
-                $phoneCalls->from_id = $currentDialog->ch_to;
-                $phoneCalls->to_id = 1;
-                $phoneCalls->insert();
-            }
+            $phone = new PhoneService();
+            $phone->setHistory(
+                    $simId, 
+                    $time, 
+                    $currentDialog->ch_to, 
+                    1, 
+                    $currentDialog->dialog_subtype, 
+                    $currentDialog->step_number, 
+                    $currentDialog->replica_number
+            );
             ############################################################
             
             // запускаем ф-цию расчета оценки { 
