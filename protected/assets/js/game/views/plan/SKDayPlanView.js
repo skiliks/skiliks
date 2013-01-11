@@ -18,7 +18,8 @@ var SKDayPlanView;
             this.render();
         },
         setupDraggable:function () {
-            var elements = this.$('.planner-task:not(.locked)');
+            var me = this,
+                elements = this.$('.planner-task:not(.locked)');
             elements.draggable("destroy");
             elements.draggable({
                 containment:this.$('.planner-book'),
@@ -234,14 +235,12 @@ var SKDayPlanView;
         },
         updateTodos:function () {
             var me = this;
-            me.$('.plan-todo-wrap').mCustomScrollbar("destroy");
             this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
-            me.$('.plan-todo-wrap').html('');
+            me.$('.plan-todo-wrap .plan-todo-inner').html('');
             SKApp.user.simulation.todo_tasks.each(function (model) {
                 var todo_task = $(_.template($('#todo_task_template').html(), {task:model, type:'todo'}));
-                me.$('.plan-todo-wrap').append(todo_task);
+                me.$('.plan-todo-wrap .plan-todo-inner').append(todo_task);
             });
-            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDraggable();
 
         },
@@ -286,6 +285,7 @@ var SKDayPlanView;
                 me.disableOldSlots();
             });
             me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
+            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDroppable();
             Hyphenator.run();
 
@@ -328,9 +328,14 @@ var SKDayPlanView;
         },
         doMaximizeTodo:function () {
             this.$('.plan-todo').removeClass('closed').addClass('open');
-            this.$('.planner-book-afterv-table').removeClass('full').addClass('half');
+            this.$('.planner-book-afterv-table').removeClass('full').hide();
             this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
 
+        },
+        doRestoreTodo:function () {
+            this.$('.plan-todo').removeClass('closed').removeClass('open');
+            this.$('.planner-book-afterv-table').removeClass('full').addClass('half');
+            this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
         }
     });
 })();
