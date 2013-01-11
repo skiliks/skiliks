@@ -1471,8 +1471,8 @@ mail-emulator-received-list-row
 	height:69px;
 }
 .plan-todo.middle,.plan-todo.open{
-	background-position:0 -79px;
-	width:320px;
+	background-position:-15px -79px;
+	width:272px;
 }
 .plan-todo.middle{
 	height:293px;
