@@ -91,7 +91,7 @@
                         <@ }) @>
                     </table>
                 </div>
-                <div class="plan-todo open">
+                <div class="plan-todo middle">
                     <ul class="plan-todo-btn">
                         <li>
                             <button class="todo-min min"></button>
@@ -101,7 +101,7 @@
                     </ul>
 
                     <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
-                    <div class="plan-todo-wrap" style="float: left; height: 250px;"></div>
+                    <div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
                 </div>
             </div>
         </div>
