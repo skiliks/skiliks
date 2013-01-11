@@ -809,23 +809,59 @@
             );
         },
         
-        saveToDraftsNewCustomEmail: function(emailToSave) {
+        saveToDraftsEmail: function(emailToSave) {
+            
+            var mailClient = this;
+            
+            // validation {
+            // email.recipients
+            if (0 == emailToSave.recipients.length) {
+                mailClient.message_window =  new SKDialogView({
+                    'message': 'Добавте адресата письма.',
+                    'buttons': [
+                        {
+                            'value': 'Окей',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        }
+                    ]
+                });
+                return false;
+            }
+            
+            // email.sunbject
+            if (false === emailToSave.isSubjectValid()) {
+                mailClient.message_window =  new SKDialogView({
+                    'message': 'Укажите тему письма.',
+                    'buttons': [
+                        {
+                            'value': 'Окей',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        }
+                    ]
+                });  
+                return false;
+            }
+            // validation }
+            
             SKApp.server.api(
                 'mail/saveDraft',
                 this.combineMailDataByEmailObject(emailToSave),
                 function (responce) {
                     // keep non strict comparsion
                     if (1 == responce.result) {
-                        SKApp.user.simulation.mailClient.getDraftsFolderEmails(); 
+                        mailClient.getDraftsFolderEmails(); 
                     } else {
-                        SKApp.user.simulation.mailClient.message_window =
-                            SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                        mailClient.message_window =  new SKDialogView({
                             'message': 'Не удалось сохранить письмо.',
                             'buttons': [
                                 {
                                     'value': 'Окей',
                                     'onclick': function () {
-                                        delete SKApp.user.simulation.mailClient.message_window;
+                                        delete mailClient.message_window;
                                     }
                                 }
                             ]
@@ -834,6 +870,8 @@
                 },
                 false
             );
+                
+            return true;
         },
 
         'renderWriteReplyEmailScreen': function() {
@@ -889,9 +927,46 @@
          * Close mailClient screen as our virtual application
          * Maybe in future we will habe some logic here
          */
-        closeWindow: function() {
+        closeWindow: function() {            
+            var mailClient = this;
+            
+            if (this.activeScreen === this.screenWriteNewCustomEmail ||
+                this.activeScreen === this.screenWriteReply ||
+                this.activeScreen === this.screenWriteReplyAll ||
+                this.activeScreen === this.screenWriteForward) {               
+                
+                mailClient.message_window = new SKDialogView({
+                    'message': 'Сохранить письмо в черновиках?',
+                    'buttons': [
+                        {
+                            'value': 'Не сохранять',
+                            'onclick': function () {
+                                mailClient.viewObject.renderInboxFolder();
+                            }
+                        },
+                        {
+                            'value': 'Отмена',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        },
+                        {
+                            'value': 'Сохранить',
+                            'onclick': function () {
+                                mailClient.viewObject.doSaveEmailToDrafts();
+                            }
+                        }
+                    ]
+                });
+            } else {
+                this.close();
+            }
+        },
+        
+        // this is clean close action without any verifications
+        close: function() {
             this.viewObject.hideMailClientScreen();
-            this.addToPlanDialogObject.close();
+            this.addToPlanDialogObject.close();    
         }
     });
 })();
