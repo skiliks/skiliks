@@ -89,6 +89,8 @@
                     <ul class="plan-todo-btn">
                         <li>
                             <button class="todo-min min"></button>
+                            <button class="todo-revert min"></button>
+                            <button class="todo-revert max"></button>
                             <button class="todo-max max"></button>
                         </li>
 

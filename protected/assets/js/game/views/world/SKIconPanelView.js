@@ -36,6 +36,10 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             todo_tasks.on('add remove reset', function () {
                 me.updatePlanCounter();
             });
+            var phone_history = SKApp.user.simulation.phone_history;
+            phone_history.on('add remove reset', function () {
+                me.setCounter('.phone', SKApp.user.simulation.phone_history.length);
+            });
             this.render();
         },
         updateMailCounter: function () {
