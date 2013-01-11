@@ -42,8 +42,13 @@ class PhoneController extends AjaxController{
             PhoneService::registerMissed(
                     $this->getSimulationId(), 
                     (int)Yii::app()->request->getParam('dialogId', null),
-                    Yii::app()->request->getParam('time', null)
+                    Yii::app()->request->getParam('time', 0)*60
             );
+            
+            $dialog = new DialogService();
+            $dialog->getDialog($this->getSimulationId(), 
+                    (int)Yii::app()->request->getParam('dialogId', null), 
+                    Yii::app()->request->getParam('time', 0) *60 );
             
             return $this->sendJSON(array(
                 'result' => 1

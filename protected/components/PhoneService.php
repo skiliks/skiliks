@@ -54,7 +54,7 @@ class PhoneService {
         
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
-        $model->call_time   = $time;
+        $model->call_time   = date("H:i:s", $time);;
         $model->call_type   = 2;
         $model->from_id     = $dialog->ch_to;
         $model->to_id       = 1; // какому персонажу мы звоним
