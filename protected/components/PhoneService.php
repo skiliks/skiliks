@@ -8,6 +8,36 @@
  */
 class PhoneService {
     
+    public function setHistory( $simId, $time, $from_id, $to_id, $dialog_subtype, $step_number, $replica_number ) {
+        
+        // проверка а не звонок ли это чтобы залогировать входящий вызов
+            if ( $dialog_subtype == 1 && $step_number == 1 ) {                
+                if ( $replica_number == 1 ) {
+                    $callType = 0; // входящее
+                }
+                
+                if ( $replica_number == 2 ) {
+                    $callType = 2; // пропущенные
+                }
+                        
+                $phoneCalls = new PhoneCallsModel();
+                $phoneCalls->sim_id = $simId;
+                $phoneCalls->call_time = $time;
+                $phoneCalls->call_type = $callType;
+                $phoneCalls->from_id = $from_id;
+                $phoneCalls->to_id = $to_id;
+                $phoneCalls->insert();
+                return true;
+                
+            } else {
+                
+                return false;
+                
+            }
+        
+            
+    }
+
     /**
      * Получить список тем для телефона.
      * @param int $id
