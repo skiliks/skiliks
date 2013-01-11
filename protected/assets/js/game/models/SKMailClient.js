@@ -98,9 +98,6 @@
         
         // @var string
         screenInboxList: 'SCREEN_INBOX_LIST',
-        
-        // @var string
-        screenReadEmail: 'SCREEN_READ_EMAIL',
 
         // @var string
         screenDraftsList: 'SCREEN_DRAFTS_LIST',
@@ -110,15 +107,24 @@
 
         // @var string
         screenTrashList: 'SCREEN_TRASH_LIST',
+        
+        // @var string
+        screenAddToPlan: 'SCREEN_ADD_TO_PLAN',        
+        
+        // @var string
+        screenReadEmail: 'SCREEN_READ_EMAIL',
 
         // @var string
         screenWriteNewCustomEmail: 'SCREEN_WRITE_NEW_EMAIL',
 
         // @var string
         screenWriteReply: 'SCREEN_WRITE_REPLY',
-
+        
         // @var string
-        screenWriteDraft: 'SCREEN_WRITE_DRAFT',
+        screenWriteReplyAll: 'SCREEN_WRITE_REPLY_ALL',
+        
+        // @var string
+        screenWriteForward: 'SCREEN_WRITE_FORWARD',
         
         // --------------------------------------------------
  
@@ -267,7 +273,11 @@
                     email.sendedAt            = emailsData[id].receivingDate;
                     email.subject             = subject;
                     email.senderNameString    = emailsData[id].sender.replace('<','(').replace('>',')');
-                    email.recipientNameString = emailsData[id].receiver.replace('<','(').replace('>',')');
+                    email.recipientNameString = emailsData[id].receiver.replace('<','(').replace('>',')');                    
+                    
+                    if (undefined !== emailsData.reply) {
+                        email.previouseEmailText = emailsData.reply;
+                    }
 
                     this.folders[folderAlias].emails.push(email);
                 }
@@ -279,36 +289,6 @@
          */
         setActiveScreen: function(activeScreenAlias) {
             this.activeScreen = activeScreenAlias;  
-        },
-        
-        // ----------------------------------------------
-        
-        /**
-         * @param integer emailId
-         * @param string folderAlias
-         */
-        'moveEmailToFolder': function(emailId, folderAlias) {
-            
-        },
-        
-        'saveDraft': function() {
-            
-        },
-        
-        'sendDraft': function() {
-            
-        },
-        
-        'sendEmail': function() {
-            
-        },
-        
-        'updateSubjectList': function() {
-            
-        },
-        
-        'updateAttachmentsList': function() {
-            
         },
         
         // ---------------------------------------------
@@ -501,7 +481,6 @@
                     attachmentId: attachmentId
                 }, 
                 function (response) {
-                    console.log('save attachment');
                     // and display message for user
                     SKApp.user.simulation.mailClient.message_window =
                         SKApp.user.simulation.mailClient.message_window || new SKDialogView({
@@ -753,10 +732,19 @@
         },
         
         combineMailDataByEmailObject: function(emailToSave) {
+            var mailId = '';
+            if (this.activeScreen === this.screenWriteForward ||
+                this.activeScreen === this.screenWriteReply ||
+                this.activeScreen === this.screenWriteReplyAll) {
+                if (undefined !== this.activeEmail) {
+                    mailId = this.activeEmail.mySqlId;
+                }
+            };
+            
             return {
                     copies:     emailToSave.getCopyToIdsString(),
                     fileId:     emailToSave.getAttachmentId(),
-                    messageId:  '',
+                    messageId:  mailId,
                     phrases:    emailToSave.getPhrasesIdsString(),
                     receivers:  emailToSave.getRecipientIdsString(),
                     subject:    emailToSave.subject.characterSubjectId,
