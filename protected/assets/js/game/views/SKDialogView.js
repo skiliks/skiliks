@@ -12,6 +12,8 @@
         
         preventOtherClicksElement: undefined,
         
+        isCloseWhenClickNotOnDialog: false,
+        
         'initialize': function () {
             this.options.buttons.forEach(function (button) {
                 button.id = _.uniqueId('button_');
@@ -27,8 +29,11 @@
             
             $('#canvas').prepend(this.preventOtherClicksElement);
             
+            var me = this;
             $('.preventOtherClicks').click(function(){
-                me.close();
+                if (me.isCloseWhenClickNotOnDialog) {
+                    me.cleanUpDOM();
+                }
             });    
         },
         

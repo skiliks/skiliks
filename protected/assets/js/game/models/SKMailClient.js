@@ -512,8 +512,7 @@
                 }, 
                 function (response) {
                     // and display message for user
-                    SKApp.user.simulation.mailClient.message_window =
-                        SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                    SKApp.user.simulation.mailClient.message_window = new SKDialogView({
                         'message': 'Файл был успешно сохранён в папку Мои документы.',
                         'buttons': [
                             {
