@@ -19,9 +19,9 @@
             for(var i in systemData){ data[i] = systemData[i]; }
             for(var i in userData){ 
                 if(data[i] === undefined){
-                    data[i] = userData[i]}
-                else{
-                    throw new Error("Переменная "+i+" используеться системой!");
+                    data[i] = userData[i];
+                } else{
+                    throw new Error("Переменная "+i+" используется системой!");
                 }}
             //console.log(data)
             var html = _.template($(template).html(), data);
@@ -49,6 +49,8 @@
         doWindowClose:function () {
             this.$el.html('');
             this.trigger('close');
+            this.undelegateEvents();
+            this.stopListening();
         }
     });
 })();
