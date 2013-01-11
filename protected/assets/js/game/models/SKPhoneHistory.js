@@ -3,6 +3,8 @@
 (function () {
     "use strict";
     window.SKPhoneHistory = Backbone.Model.extend({
-        is_read:false
+        defaults: {
+            is_read:false
+        }
     });
 })();
