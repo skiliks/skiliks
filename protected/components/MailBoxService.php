@@ -237,6 +237,10 @@ class MailBoxService {
         $model = MailBoxModel::model()->byId($id)->find();
         if (!$model) return array();
         
+        // mark Readed
+        $model->readed = 1;
+        $model->save();
+        
         $simId = $model->sim_id;
         
         $subject = $model->subject;
