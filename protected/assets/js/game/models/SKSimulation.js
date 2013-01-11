@@ -17,6 +17,7 @@
         'initialize':function () {
             this.events = new SKEventCollection();
             this.todo_tasks = new SKTodoCollection();
+            this.phone_history = new SKPhoneHistoryCollection();
             this.events.on('event:plan', function () {
                 SKApp.user.simulation.todo_tasks.fetch();
             });
