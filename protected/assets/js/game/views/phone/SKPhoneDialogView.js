@@ -24,7 +24,7 @@ $(function () {
                 remote_replica = event.getRemoteReplica();
 
             this.activeSubScreen = 'phoneTalk';
-            this.talk_window = new SKDialogWindow('phone', 'phoneTalk', event ? event.get('data')[0].id : undefined);
+            this.talk_window = new SKDialogWindow({name:'phone', subname:'phoneTalk', dialog_id: event ? event.get('data')[0].id : undefined});
             this.talk_window.open();
             var callInHtml = _.template($('#Phone_Dialog').html(), {
                 'remote_replica':remote_replica,
