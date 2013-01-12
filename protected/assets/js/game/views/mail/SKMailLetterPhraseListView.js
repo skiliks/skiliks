@@ -4,7 +4,6 @@
     /**
      * List of user's phrases added to letter
      * @type {*}
-     */
     window.SKMailLetterPhraseListView = SKMailLetterBaseView.extend({
         'initialize': function () {
             this.render();
