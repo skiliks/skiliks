@@ -1,4 +1,21 @@
 <script type="text/template" id="window_template">
-    <div class="sim-window">
-    </div>
+    <section class="sim-window-container">
+        <header>
+            <div class="header-inner">
+                <h1><@= title @></h1>
+
+                <ul class="btn-window">
+                    <li>
+                        <button class="btn-set">&nbsp;</button>
+                    </li>
+                    <li>
+                        <button class="btn-cl win-close">&nbsp;</button>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <div class="sim-window-content">
+        </div>
+    </section>
 </script>
