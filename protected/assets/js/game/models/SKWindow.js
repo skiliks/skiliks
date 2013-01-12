@@ -56,6 +56,7 @@
             }
             this.is_opened = true;
             this.simulation.window_set.showWindow(this);
+            this.trigger('open', this.get('name'), this.get('subname'))
         },
         close: function() {
             if (!this.is_opened) {
@@ -63,6 +64,7 @@
             }
             this.is_opened = false;
             this.simulation.window_set.hideWindow(this);
+            this.trigger('close');
         },
         deactivate: function () {
             console.log('[SKWindow] Deactivated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
