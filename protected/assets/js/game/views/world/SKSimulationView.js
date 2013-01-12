@@ -22,6 +22,10 @@
                     var phone_view = new SKPhoneView({model_instance:window});
                     phone_view.render();
                 }
+                if (window.get('name') === 'phone' && window.get('subname') === 'phoneTalk') {
+                    var view = new SKPhoneDialogView({model_instance:window, 'event' : window.get('params').event});
+                    view.render();
+                }
             });
         },
         'render':function () {
@@ -45,7 +49,8 @@
                     var visit_view = new SKVisitView({'event':event});
                     event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
-                    var view = new SKPhoneDialogView({'event' : event});
+
+                    SKApp.user.simulation.window_set.toggle('phone','phoneTalk', {event:event});
                     event.complete();
                 }
             });
