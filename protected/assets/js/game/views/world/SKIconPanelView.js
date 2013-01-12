@@ -124,12 +124,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             this.$('.door').removeClass('icon-active');
         },
         doPlanToggle:function (e) {
-            var plan = new SKDayPlanView();
             e.preventDefault();
+            SKApp.user.simulation.window_set.toggle('plan','plan');
         },
         doPhoneToggle:function (e) {
             e.preventDefault();
-            var view = new SKPhoneView();
+            SKApp.user.simulation.window_set.toggle('phone','phoneMain');
         },
         doDoorToggle:function (e) {
             e.preventDefault();
@@ -143,7 +143,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
             
-            SKApp.user.simulation.mailClient.openWindow();
+            SKApp.user.simulation.mailClient.toggleWindow();
         }
     });
 })();
