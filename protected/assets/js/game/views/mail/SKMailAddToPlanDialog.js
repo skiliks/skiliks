@@ -130,7 +130,7 @@
                     addToPlanDialog.close();
                     
                     if (response.result == 1) {
-                        new SKDayPlanView();
+                        SKApp.user.simulation.window_set.toggle('plan','plan');
                     }
                 }
             );  
