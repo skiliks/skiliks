@@ -18,7 +18,7 @@ $(function () {
             SKWindowView.prototype.remove.call(this);
         },
         renderWindow:function (window_el) {
-            var event = this.options.event,
+            var event = this.options.model_instance.get('params').event,
                 me = this,
                 my_replicas = event.getMyReplicas(),
                 remote_replica = event.getRemoteReplica();
