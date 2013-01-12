@@ -24,6 +24,31 @@
   background-repeat: no-repeat;
   background-size: 100% auto;
   user-select: none;
+  .sim-window {
+    .sim-window-container {
+      header {
+        height: 46px;
+        border: solid 2px #000000;
+        border-bottom: none;
+        background-image: url('../img/window-header.png');
+      }
+      .header-inner {
+        height: 100%;
+        border: solid 2px rgba(255,255,255,0.3);
+        border-bottom: none;
+        vertical-align: middle;
+        h1 {
+          font-weight: normal;
+          font-family: "Lucida Grande";
+          color: white;
+        }
+        .btn-window {
+          top: 14px;
+          right: 0;
+        }
+      }
+    }
+  }
   .main-screen-icons {
     position: absolute;
     right: 0;
@@ -176,6 +201,7 @@
   .phone-screen .mCSB_container {
     margin-right: 0;
   }
+
 }
 
 

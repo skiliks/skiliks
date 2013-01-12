@@ -50,20 +50,7 @@
 </script>
 <!--html-->
 <script type="text/template" id="Phone_Html">
-    <section class="phone popup">
-        <header>
-            <h1>Телефон</h1>
-
-            <ul class="btn-window">
-                <li>
-                    <button class="btn-set">&nbsp;</button>
-                </li>
-                <li>
-                    <button window_id="<@=windowID@>" class="btn-cl win-close">&nbsp;</button>
-                </li>
-            </ul>
-        </header>
-
+    <div class="phone-popup-content">
         <div class="phone-bl popup">
             <div class="phone-screen" id="phoneMainScreen">
 
@@ -79,72 +66,61 @@
                         <p window_id="<@=windowID@>">История Вызовов</p>
                     </li>
                 </ul>
-
             </div>
             <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
+
         </div>
-    </section>
+    </div>
 </script>
 
 <script type="text/template" id="Phone_Call">
-        <section class="phone popup">
-            <header>
-            <h1>Телефон</h1>
+    <div class="phone-popup-content">
+        <div class="phone-screen" id="phoneMainScreen">
 
-            <ul class="btn-window">
-            <li><button class="btn-set">&nbsp;</button></li>
-            <li><button window_id="<@=windowID@>" class="btn-cl win-close">&nbsp;</button></li>
-            </ul>
-            </header>
-
-            <div class="phone-bl popup">
-            <div class="phone-screen" id="phoneMainScreen">
-
-                <div class="phone-call in">
-                    <div class="phone-call-img">
-                        <img src="<@=assetsUrl@>/img/phone/icon-call-ch<@=call[0].ch_from@>.png" alt="<@=call[0].name@>">
-                    </div>
-                        <p class="phone-call-text">
+            <div class="phone-call in">
+                <div class="phone-call-img">
+                    <img src="<@=assetsUrl@>/img/phone/icon-call-ch<@=call[0].ch_from@>.png" alt="<@=call[0].name@>">
+                </div>
+                <p class="phone-call-text">
                         <span class="name">
                         </span>
-                        <br><@=call[0].name@><br>
-                        <span class="post">&nbsp;</span>
-                    </p>
-                    <ul class="phone-call-in-btn">
-                        <li><a window_id="<@=windowID@>" id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
-                        <li><a window_id="<@=windowID@>" id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
-                    </ul>
-                </div>
-                
+                    <br><@=call[0].name@><br>
+                    <span class="post">&nbsp;</span>
+                </p>
+                <ul class="phone-call-in-btn">
+                    <li><a id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
+                    <li><a id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
+                </ul>
             </div>
-                <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
-            </div>
-            </section>
-            
+
+        </div>
+        <p class="phone-menu-btn phone_get_menu">меню</p>
+    </div>
 </script>
 
 <script type="text/template" id="Phone_Menu">
+    <div class="phone-popup-content">
+        <div class="phone-screen" id="phoneMainScreen">
 
-    <div class="phone-screen" id="phoneMainScreen">
+            <ul class="phone-main-menu">
+                <li class="phone_get_contacts">
+                    <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
 
-        <ul window_id="<@=windowID@>" class="phone-main-menu">
-            <li window_id="<@=windowID@>" class="phone_get_contacts">
-                <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p>Список контактов</p>
+                </li>
+                <li class="phone_get_history">
+                    <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
 
-                <p window_id="<@=windowID@>">Список контактов</p>
-            </li>
-            <li window_id="<@=windowID@>" class="phone_get_history">
-                <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <p>История Вызовов</p>
+                </li>
+            </ul>
 
-                <p window_id="<@=windowID@>">История Вызовов</p>
-            </li>
-        </ul>
-
+        </div>
     </div>
-
 </script>
 <!--dialogHTML-->
 <script type="text/template" id="Phone_Dialog">
+
     <section class="phone">
         <audio src="<@= audio_src @>" autoplay="autoplay"></audio>
         <header>

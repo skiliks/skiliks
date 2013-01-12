@@ -10,8 +10,18 @@
             var me = this;
             var simulation = this.simulation = SKApp.user.simulation;
             this.addSimulationEvents();
-            simulation.on('tick', function () {
+            this.listenTo(simulation, 'tick', function () {
                 me.updateTime();
+            });
+            this.listenTo(simulation.window_set, 'add', function (window) {
+                if (window.get('name') === 'plan') {
+                    var plan_view = new SKDayPlanView({model_instance:window});
+                    plan_view.render();
+                }
+                if (window.get('name') === 'phone' && window.get('subname') === 'phoneMain') {
+                    var phone_view = new SKPhoneView({model_instance:window});
+                    phone_view.render();
+                }
             });
         },
         'render':function () {
