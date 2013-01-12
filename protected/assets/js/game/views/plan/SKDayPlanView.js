@@ -1,13 +1,12 @@
 var SKDayPlanView;
-/*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator*/
+/*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView*/
 (function () {
     "use strict";
 
     /**
      * @type {SKDayPlanView}
      */
-    SKDayPlanView = SKWindowView.extend({
-        'el':'body .plan-container',
+    SKDayPlanView = SKSingleWindowView.extend({
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
             'dblclick .day-plan-todo-task':'doSetTask',
@@ -15,9 +14,6 @@ var SKDayPlanView;
             'click .todo-max':'doMaximizeTodo',
             'click .todo-revert':'doRestoreTodo'
         }, SKWindowView.prototype.events),
-        'initialize':function () {
-            this.render();
-        },
         setupDraggable:function () {
             var me = this,
                 elements = this.$('.planner-task:not(.locked)');

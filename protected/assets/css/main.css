@@ -2989,14 +2989,14 @@ section.phone{
 	background:url("../img/phone/bg-main.png") no-repeat;
 	width:871px;
 	height:565px;
-	margin:0 auto;
 	padding:3px 6px 0 5px;
 }
-section.phone.popup{
+div.phone-popup-content{
 	background:url("../img/phone/bg-popup.png") no-repeat;
-	width:371px;
+	width:358px;
 	height:566px;
 	padding:3px 9px 0 4px;
+    background-position: -4px -53px;
 }
 section.phone>header{
 	height:41px;
@@ -3061,12 +3061,12 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	margin:27px 0 0 25px;
 }
 .phone-bl.popup{
-	margin:14px 0 0 66px;
+	margin:14px 66px 0 66px;
 }
 .phone-screen{
 	width:202px;
 	height:328px;
-	overflow:hidden;
+	overflow:scroll;
 }
 .phone-main-menu{
 	list-style:none;
