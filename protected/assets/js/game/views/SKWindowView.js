@@ -60,13 +60,5 @@
             doWindowClose:function () {
                 this.options.model_instance.close();
             }
-        },
-
-        {
-            open:function () {
-                var SKThisWindow = this;
-                var window = new SKThisWindow();
-                window.render();
-            }
         });
 })();

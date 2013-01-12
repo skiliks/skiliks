@@ -179,7 +179,7 @@
         lastNotSavedEmail: undefined,
         
         // @var SKMailAddToPlanDialog
-        addToPlanDialogObject: new SKMailAddToPlanDialog(),
+        //addToPlanDialogObject: new SKMailAddToPlanDialog(),
         
         // @var array of SKMailTAsk
         availaleActiveEmailTasks: [],
@@ -193,7 +193,7 @@
             this.folders[this.aliasFolderTrash]  = new SKMailFolder();
 
             this.viewObject.setMailClient(this);
-            this.addToPlanDialogObject.mailClient = this;
+            //this.addToPlanDialogObject.mailClient = this;
         },
         
         getMailTaskByMySqlId: function(id) {

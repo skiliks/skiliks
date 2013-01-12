@@ -1,8 +1,11 @@
-/*global console, Backbone, SKWindow*/
+/*global console, Backbone, SKWindow, SKDialogWindow*/
 (function() {
     "use strict";
     window.SKWindowSet = Backbone.Collection.extend({
         model: SKWindow,
+        window_classes: {
+            'phone/phoneTalk': SKDialogWindow
+        },
         'initialize':function () {
             this.window_zindex = [];
         },
@@ -17,12 +20,13 @@
             win.activate();
         },
 
-        toggle: function (name, subname) {
+        toggle: function (name, subname, params) {
             var windows = this.where({name:name, subname:subname});
             if (windows.length !== 0) {
                 windows[0].close();
             } else {
-                var win = new SKWindow({name:name, subname:subname});
+                var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                var win = new WindowType(_.extend({name:name, subname:subname}, params));
                 win.open();
             }
         },
