@@ -179,7 +179,7 @@
         lastNotSavedEmail: undefined,
         
         // @var SKMailAddToPlanDialog
-        //addToPlanDialogObject: new SKMailAddToPlanDialog(),
+        addToPlanDialogObject: new SKMailAddToPlanDialog(),
         
         // @var array of SKMailTAsk
         availaleActiveEmailTasks: [],
