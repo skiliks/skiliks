@@ -5,13 +5,6 @@ $(function () {
     "use strict";
 
     window.SKPhoneCallView = window.SKWindowView.extend({
-        initialize:function (call) {
-            if(this.countMaxView > this.getCountViews()){
-                this.open(call);
-            } else {
-                this.close();
-            }
-        },
         el:null,
         countMaxView: 1,
         windowClass: "phoneMainDiv",
@@ -23,7 +16,7 @@ $(function () {
             'click #phone_reply':'reply',
             'click #phone_no_reply':'noReply'
         },
-        open: function (call) {
+        renderContent: function (window_el) {
             var div = document.createElement('div');
             this.windowID = this.cid;
             div.setAttribute('id', this.windowID);
