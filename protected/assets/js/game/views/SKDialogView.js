@@ -79,7 +79,9 @@
         
         cleanUpDOM: function(){
             this.$el.remove();
-            this.preventOtherClicksElement.remove();  
+            if (undefined !== this.preventOtherClicksElement) {
+                this.preventOtherClicksElement.remove();
+            }
         }
     });
 })();
