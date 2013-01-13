@@ -1,4 +1,4 @@
-/*global console, Backbone, SKWindow, SKDialogWindow*/
+/*global console, Backbone, SKWindow, SKDialogWindow, _*/
 (function() {
     "use strict";
     window.SKWindowSet = Backbone.Collection.extend({
@@ -6,8 +6,10 @@
         window_classes: {
             'phone/phoneTalk': SKDialogWindow
         },
+        comparator:function(window) {
+            return this.get('zindex')
+        },
         'initialize':function () {
-            this.window_zindex = [];
         },
         'showWindow':function (win) {
             if (this.get(win)) {
@@ -23,7 +25,11 @@
         toggle: function (name, subname, params) {
             var windows = this.where({name:name, subname:subname});
             if (windows.length !== 0) {
-                windows[0].close();
+                if (this.at(this.length-1).id === subname) { // If this is top window
+                    windows[0].close();
+                } else {
+                    windows[0].setOnTop();
+                }
             } else {
                 var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                 var win = new WindowType(_.extend({name:name, subname:subname}, params));
