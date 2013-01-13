@@ -55,11 +55,6 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/tag-handler/jquery.taghandler.min.js");
         
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
-
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindowLog.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailWindow.js");
@@ -95,6 +90,12 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/windows/SKSingleWindowView.js");
 
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
+
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/plan/SKDayPlanView.js");
@@ -122,28 +123,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/adminka/jgridController.js");
 
         //системные классы
-        $cs->registerScriptFile($assetsUrl . "/js/game/input.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/messages.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/mouse.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/imageManager.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/objects.js");
-
-        //lib
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/mathematics.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/sounds.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/videos.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/accounting.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/loading.js");
-
-        //приемник, отправитель
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/sender.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/receiver.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/session.js");
-
-        //движок самой игры
-        $cs->registerScriptFile($assetsUrl . "/js/game/game_logic.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/drawGame.js");
-
         //загрузка игрового мира
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/excel.js");

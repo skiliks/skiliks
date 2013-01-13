@@ -139,9 +139,6 @@
         // @var SkWindow
         windowObject: undefined,
         
-        // @var SKMailClientView
-        viewObject: new SKMailClientView(),
-        
         // @var SKEmail
         activeEmail: undefined,
         
@@ -192,7 +189,6 @@
             this.folders[this.aliasFolderSended] = new SKMailFolder();
             this.folders[this.aliasFolderTrash]  = new SKMailFolder();
 
-            this.viewObject.setMailClient(this);
             //this.addToPlanDialogObject.mailClient = this;
         },
         
@@ -464,12 +460,11 @@
                 }
             }
             // set as active first letter in Inbox folder }
-            
-            this.viewObject.renderMailClientScreenBase();
-            this.viewObject.doRenderFolder(this.aliasFolderInbox);
+            this.trigger('init_completed');
         },
         
         updateMailIconCounter: function(counter) {
+            //Todo remove it from model
             $('#icons_email span').text(counter);
         },
         

@@ -142,8 +142,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         doMailToggle:function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
-            
-            SKApp.user.simulation.mailClient.toggleWindow();
+            SKApp.user.simulation.window_set.toggle('mailEmulator','mailMain');
         }
     });
 })();
