@@ -1639,6 +1639,7 @@ mail-emulator-received-list-row
 /* --------------- mail ---------*/
 section.mail{
 	background:#fff url("../img/mail/bg-main.png") no-repeat;
+    background-position: 0 -53px;
 	border:2px solid #454545;
 	-webkit-border-radius:2px;
 	-moz-border-radius:2px;
@@ -1649,7 +1650,6 @@ section.mail{
 	width:851px;
 	height:555px;
 	font-family: 'orbi_sansregular';
-	margin:0px auto 0;
 	overflow:hidden;
 }
 section.mail.new{
@@ -1674,19 +1674,21 @@ section.mail>header h1{
 	text-indent:-9999px;
 	margin:18px 0 0 54px;
 }
-section.mail>header nav{
-	margin-top:12px;
+section.mail nav{
+    float: left;
+    height: 100%;
+    border-right: solid 2px;
 }
-section.mail>header nav ul{
+section.mail nav ul{
 	margin: 0px 0px 0px 0px;
 }
-section.mail>header nav ul li{
+section.mail nav ul li{
 	list-style:none;
 }
-section.mail>header nav ul li{
+section.mail nav ul li{
 	background:url("../img/mail/btn-nav.png") no-repeat 0 0;
 	padding:3px 10px 0;
-	margin-top:17px;
+	margin-bottom:17px;
         height: 40px;
 }
 section.mail>header nav ul li.active{
@@ -1695,7 +1697,7 @@ section.mail>header nav ul li.active{
 section.mail>header nav ul li:first-child{
 	margin-top:0;
 }
-section.mail>header nav ul li label{
+section.mail nav ul li label{
     color: #fff;
     cursor: pointer;
 	display:block;
@@ -1710,13 +1712,13 @@ section.mail>header nav ul li label{
 	padding-left:47px;
 	position:relative;
 }
-section.mail>header nav ul li label.icon_DRAFTS{
+section.mail nav ul li label.icon_DRAFTS{
 	background-position:0 -43px;
 }
-section.mail>header nav ul li label.icon_SENDED{
+section.mail nav ul li label.icon_SENDED{
 	background-position:0 -86px;
 }
-section.mail>header nav ul li label.icon_TRASH{
+section.mail nav ul li label.icon_TRASH{
 	background-position:0 -129px;
 }
 .ml tr.notreaded td {
@@ -1753,18 +1755,24 @@ section.mail>header nav ul li.active label:hover{
 
 /* mail actions buttons */
 
-section.mail .actions{
+.mail-window .actions{
 	list-style:none;
 	height:40px;
 	margin-top:9px;
 }
-section.mail .actions li{
+.mail-window .actions li{
 	float:left;
 	margin-left:20px;
 	height: 40px;
 	position:relative;
 }
-section.mail .actions li>a{
+.canvas .sim-window.mail-window .sim-window-container header {
+    height: 62px;
+}
+.mail-window header h1 {
+    width: 160px;
+}
+.mail-window .actions li>a{
 	display:block;
 	background:url("../img/mail/icon-actions.png") no-repeat center 0;
 	font-size:12px;
@@ -1774,25 +1782,25 @@ section.mail .actions li>a{
 	line-height:14px;
 	padding-top:27px;
 }
-section.mail .actions li a.NEW_EMAIL{
+.mail-window .actions li a.NEW_EMAIL{
 	background-position:center 0px;
 }
-section.mail .actions li a.REPLY_EMAIL{
+.mail-window .actions li a.REPLY_EMAIL{
 	background-position:center -40px;
 }
-section.mail .actions li a.REPLY_ALL_EMAIL{
+.mail-window .actions li a.REPLY_ALL_EMAIL{
 	background-position:center -80px;
 }
-section.mail .actions li a.FORWARD_EMAIL{
+.mail-window .actions li a.FORWARD_EMAIL{
 	background-position:center -120px;
 }
-section.mail .actions li a.ADD_TO_PLAN{
+.mail-window .actions li a.ADD_TO_PLAN{
 	background-position:center -160px;
 }
-section.mail .actions li a.MOVE_TO_TRASH{
+.mail-window .actions li a.MOVE_TO_TRASH{
 	background-position:center -200px;
 }
-section.mail .actions li a:hover{
+.mail-window .actions li a:hover{
 	text-decoration:underline;
 }
 .mail-plan{
@@ -1841,6 +1849,8 @@ section.mail .actions li a:hover{
 
 #mailEmulatorMainScreen,
 #MailClient_AddToPlanPopUp {
+    width: 851px;
+    margin: 0;
     -moz-user-select: none;
     -webkit-user-select: none;
 }
@@ -2985,9 +2995,10 @@ section.excel>.content{
 /* --------------- /excel ---------*/
 
 /* --------------- phone ---------*/
-section.phone{
+div.phone-content{
 	background:url("../img/phone/bg-main.png") no-repeat;
-	width:871px;
+    background-position: -4px -53px;
+    width:861px;
 	height:565px;
 	padding:3px 6px 0 5px;
 }
