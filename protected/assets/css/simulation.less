@@ -30,17 +30,28 @@
         height: 46px;
         border: solid 2px #000000;
         border-bottom: none;
-        background-image: url('../img/window-header.png');
+        background: -moz-linear-gradient(top, #7f7d7d, #2e2d2d);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7f7d7d), color-stop(100%, #2e2d2d));
+        background: -webkit-linear-gradient(top, #7f7d7d, #2e2d2d);
+        background: -o-linear-gradient(top, #7f7d7d, #2e2d2d);
+        background: -ms-linear-gradient(top, #7f7d7d, #2e2d2d);
+        background: linear-gradient(top, #7f7d7d, #2e2d2d);
+        float: none;
       }
       .header-inner {
         height: 100%;
-        border: solid 2px rgba(255,255,255,0.3);
+        background-image: url('../img/window-title-dots.png');
+        border: solid 2px rgba(255, 255, 255, 0.3);
         border-bottom: none;
         vertical-align: middle;
         h1 {
+          font-family: orbi_sansregular;
+          text-transform: uppercase;
           font-weight: normal;
-          font-family: "Lucida Grande";
           color: white;
+          padding-left: 9px;
+          padding-top: 2px;
+          float: left;
         }
         .btn-window {
           top: 14px;
@@ -203,7 +214,6 @@
   }
 
 }
-
 
 .simulation-controls {
   width: 980px;
