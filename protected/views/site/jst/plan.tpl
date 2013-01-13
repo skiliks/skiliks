@@ -15,8 +15,21 @@
         <div id="plannerDayPlanScrollbar" class="planner-dayplan-scrollbar" style="float:left;margin-top:50px;"></div>
     </div>
 </script>
-<script type="text/template" id="plan_template">
-    <div class="planner-book-main-div">
+<script type="text/template" id="plan_title_template">
+    <div>
+        <div class="planner-book-head planner-book-today-head">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
+        </div>
+        <div class="planner-book-head planner-book-tomorrow-head">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
+        </div>
+        <div class="planner-book-head planner-book-after-vacation-head">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
+        </div>
+    </div>
+</script>
+<script type="text/template" id="plan_content_template">
+    <div>
         <div id="plannerBookQuarterPlan" class="planner-book-quarter-plan">
             <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_quarter.png">
         </div>
@@ -28,9 +41,6 @@
         </div>
         <div id="plannerBook" class="planner-book">
             <div id="plannerBookToday" class="planner-book-today" data-day-id="1">
-                <div class="planner-book-today-head">
-                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
-                </div>
                 <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
@@ -49,9 +59,6 @@
                 </div>
             </div>
             <div id="plannerBookTomorrow" class="planner-book-tomorrow"  data-day-id="2">
-                <div class="planner-book-tomorrow-head">
-                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
-                </div>
                 <div id="plannerBookTomorrowTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>
@@ -70,9 +77,6 @@
                 <div class="planner-book-scrollbar"></div>
             </div>
             <div id="plannerBookAfterVacation" class="planner-book-after-vacation"  data-day-id="3">
-                <div class="planner-book-after-vacation-head">
-                    <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
-                </div>
                 <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table half">
                     <table class="planner-book-timetable-table">
                         <@ _.range(9,22).forEach(function(hour) { @>

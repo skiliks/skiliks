@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDayTaskCollection */
+/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection */
 
 (function () {
     "use strict";
@@ -22,6 +22,7 @@
                 SKApp.user.simulation.todo_tasks.fetch();
             });
             this.on('tick', function () {
+                //noinspection JSUnresolvedVariable
                 if (this.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
                     this.stop();
                 }
