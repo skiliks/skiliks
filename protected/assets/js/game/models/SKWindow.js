@@ -26,9 +26,10 @@
             'documentsFiles':42
     };
     window.SKWindow = Backbone.Model.extend({
+        idAttribute: 'subname',
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
-            if (window_id in window.SKWindow.window_set) {
+            if (window_id in SKApp.user.simulation.window_set) {
                 throw "Window " + window_id + " already exists";
             }
             if (! (this.get('name') in screens)) {
@@ -54,9 +55,10 @@
             if (this.is_opened) {
                 throw "Window is already opened";
             }
+            this.set('zindex', Math.max(Math.max.apply(this, this.simulation.window_set.pluck('zindex')),0));
             this.is_opened = true;
             this.simulation.window_set.showWindow(this);
-            this.trigger('open', this.get('name'), this.get('subname'))
+            this.trigger('open', this.get('name'), this.get('subname'));
         },
         close: function() {
             if (!this.is_opened) {
@@ -66,16 +68,36 @@
             this.simulation.window_set.hideWindow(this);
             this.trigger('close');
         },
+        setOnTop:function () {
+            var me = this;
+            var window_set = this.simulation.window_set;
+            if (window_set.at(window_set.length - 1).id === this.id) {
+                return;
+            }
+            window_set.at(window_set.length - 1).deactivate();
+            window_set.remove(me, {silent:true});
+            var zIndex = 0;
+            window_set.each(function (window) {
+                window.set('zindex', zIndex);
+                zIndex ++;
+            });
+            me.set('zindex', zIndex);
+            window_set.add(me, {silent:true});
+            window_set.sort();
+            me.activate();
+        },
         deactivate: function () {
             console.log('[SKWindow] Deactivated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
+            this.trigger('deactivate');
             this.simulation.windowLog.deactivate(this);
         },
         activate: function () {
             console.log('[SKWindow] Activated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
+            this.trigger('activate');
             this.simulation.windowLog.activate(this);
         }
     });

@@ -22,6 +22,11 @@
                     var phone_view = new SKPhoneView({model_instance:window});
                     phone_view.render();
                 }
+                if (window.get('name') === 'mailEmulator' && window.get('subname') === 'mailMain')  {
+                    var mail_client_view = new SKMailClientView({model_instance:window});
+                    mail_client_view.render();
+                    //SKApp.user.simulation.mailClient.toggleWindow();
+                }
                 if (window.get('name') === 'phone' && window.get('subname') === 'phoneTalk') {
                     var view = new SKPhoneDialogView({model_instance:window, 'event' : window.get('params').event});
                     view.render();
@@ -50,7 +55,7 @@
                     event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
 
-                    SKApp.user.simulation.window_set.toggle('phone','phoneTalk', {event:event});
+                    SKApp.user.simulation.window_set.toggle('phone','phoneTalk', {sim_event:event});
                     event.complete();
                 }
             });

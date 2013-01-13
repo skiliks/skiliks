@@ -1,25 +1,22 @@
 <!-- MailClient { -->
 
+<script type="text/template" id="MailClient_TitleHtml">
+    <div class="header-inner">
+        <h1>Почта</h1>
+        <ul class="actions"></ul>
+    </div>
+</script>
 <!-- MailClient_BasicHtml: -->
 <script type="text/template" id="MailClient_BasicHtml">
-    <div id="<@= id @>" class="mail-emulator-main-div" style="position: absolute; z-index: 50; top: 35px; left: 283px; right: 388px;">
+    <div id="<@= id @>" class="mail-emulator-main-div">
         <section class="mail">
-            <header>
-                <h1>Почта</h1>
-                <nav>
-                    <ul id="MailClient_FolderLabels"></ul>
-                </nav>
-            </header>
-
+            <nav>
+                <ul id="MailClient_FolderLabels"></ul>
+            </nav>
             <div id="mailEmulatorContentDiv" class="r">
-                <ul class="actions"></ul>
-                <ul class="btn-window">
-                    <li>
-                        <button onclick="SKApp.user.simulation.mailClient.closeWindow();" class="btn-cl"></button>
-                    </li>
-                </ul>
                 <div id="<@= contentBlockId @>" class="mail-bg"></div>
             </div>
+
         </section>
     </div>
 </script>

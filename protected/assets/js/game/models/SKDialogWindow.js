@@ -6,8 +6,10 @@
     "use strict";
     window.SKDialogWindow = window.SKWindow.extend({
         'initialize':function () {
-            window.SKWindow.prototype.initialize.call(this, this.get('name'), this.get('subname'));
-            this.set('params', {'dialogId': this.get('event').data[0].id, 'lastDialogId':this.get('event').data[0].id});
+            window.SKWindow.prototype.initialize.call(this);
+            this.set('params', {
+                'dialogId': this.get('sim_event').get('data')[0].id,
+                'lastDialogId':this.get('sim_event').get('data')[0].id});
         },
 
         /**

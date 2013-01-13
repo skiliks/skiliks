@@ -1,6 +1,22 @@
-.planner-book-main-div {
+.canvas .sim-window.planner-book-main-div {
   position: relative;
   user-select: none;
+  header {
+    height: 80px;
+    margin-left: 44px;
+    background: url("../img/planner/planner_book.png");
+    background-position: -25px 0px;
+    border: none;
+  }
+  .planner-book {
+    margin-top: 0;
+    background-position: 0 -80px;
+    height: 483px;
+  }
+  .planner-book-head {
+    float: left;
+    border-right: solid 1px #000000;
+  }
   .mCSB_container {
     margin-right: 15px;
   }
@@ -16,7 +32,14 @@
     margin-right: -12px;
     border-right: none;
   }
+
+  .plan-todo.middle {
+    height: 236px;
+  }
   .plan-todo.open {
+    .plan-todo-wrap {
+      height: 400px;
+    }
     .max {
       display: none;
     }
@@ -29,12 +52,21 @@
       display: none;
     }
   }
+
   .plan-todo {
-    background-position: 0 -79px;
+    background-position: -15px -79px;
     height: 50%;
     transition-property: height, transform;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
+    .day-plan-todo-task {
+      min-height: 30px;
+    }
+    .plan-todo-wrap {
+      height: 170px;
+      overflow-y: scroll;
+      margin-right: 20px;
+    }
     .plan-todo-btn {
       height: 30px;
     }
@@ -64,7 +96,7 @@
   }
   .planner-book-after-vacation {
     width: 271px;
-    height: 552px;
+    height: 464px;
     overflow: hidden;
   }
   .planner-book-afterv-table {

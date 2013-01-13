@@ -6,7 +6,8 @@ var SKDayPlanView;
     /**
      * @type {SKDayPlanView}
      */
-    SKDayPlanView = SKSingleWindowView.extend({
+    SKDayPlanView = SKWindowView.extend({
+        'addClass': 'planner-book-main-div',
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
             'dblclick .day-plan-todo-task':'doSetTask',
@@ -256,12 +257,22 @@ var SKDayPlanView;
         },
 
         /**
+         * Renders title
+         * @param title_el
+         */
+        renderTitle: function (title_el) {
+            var me = this;
+            title_el.html(_.template($('#plan_title_template').html(), {}));
+
+        },
+
+        /**
          * Renders inner part of the window
          * @param window_el
          */
-        renderWindow:function (window_el) {
+        renderContent:function (window_el) {
             var me = this;
-            window_el.html(_.template($('#plan_template').html(), {}));
+            window_el.html(_.template($('#plan_content_template').html(), {}));
             this.updateTodos();
             me.listenTo(SKApp.user.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();
@@ -282,7 +293,6 @@ var SKDayPlanView;
                 me.disableOldSlots();
             });
             me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
-            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDroppable();
             Hyphenator.run();
 
