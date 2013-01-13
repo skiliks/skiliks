@@ -72,14 +72,6 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKPhoneContact.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKPhoneHistory.js");
 
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailPhrase.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKCharacter.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailSubject.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKEmail.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKAttachment.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailClient.js");
-
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKEventCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKTodoCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKDayTaskCollection.js");
@@ -89,6 +81,18 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/windows/SKSingleWindowView.js");
+        
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailAddToPlanDialog.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
+        
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailTask.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailPhrase.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKCharacter.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailSubject.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKEmail.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKAttachment.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailClient.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
