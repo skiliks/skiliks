@@ -120,22 +120,8 @@
 </script>
 <!--dialogHTML-->
 <script type="text/template" id="Phone_Dialog">
-
-    <section class="phone">
+   <div class="phone-content">
         <audio src="<@= audio_src @>" autoplay="autoplay"></audio>
-        <header>
-            <h1>Телефон</h1>
-
-            <ul class="btn-window">
-                <li>
-                    <button class="btn-set">&nbsp;</button>
-                </li>
-                <li>
-                    <button class="btn-cl win-close">&nbsp;</button>
-                </li>
-            </ul>
-        </header>
-
         <div class="phone-bl main">
             <div class="phone-screen">
                 <div class="phone-call">
@@ -164,5 +150,5 @@
                 <@ }) @>
             </ul>
         </div>
-    </section>
+   </div>
 </script>
