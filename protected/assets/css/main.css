@@ -1647,7 +1647,7 @@ section.mail{
 	-webkit-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
 	-moz-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
 	box-shadow:1px 2px 8px rgba(0,0,0,0.75);
-	width:851px;
+	width:847px;
 	height:555px;
 	font-family: 'orbi_sansregular';
 	overflow:hidden;
@@ -1748,7 +1748,7 @@ section.mail>header nav ul li.active label:hover{
 }
 
 .r{
-	width:672px;
+	width:665px;
 	float:right;
 	position:relative;
 }
@@ -1799,6 +1799,12 @@ section.mail>header nav ul li.active label:hover{
 }
 .mail-window .actions li a.MOVE_TO_TRASH{
 	background-position:center -200px;
+}
+.mail-window .actions li a.SAVE_TO_DRAFTS{
+	background-position:center -276px;
+}
+.mail-window .actions li a.SEND_EMAIL{
+	background-position:center -237px;
 }
 .mail-window .actions li a:hover{
 	text-decoration:underline;
@@ -1950,9 +1956,9 @@ section.mail>header nav ul li.active label:hover{
 table.ml-title{
 	table-layout:fixed;
 	background:url("../img/mail/bg-ml-title.png") no-repeat;
-	width:652px;
+	width:668px;
 	height:24px;
-	margin:-4px 0 0 7px;
+	margin:0;
 }
 table.ml-title .col0{
 	width:140px;
@@ -2337,7 +2343,7 @@ table.ml-title td span{
 	background:#b1d8f9;
 }
 .mail-new-text{
-	width:831px;
+	width:825px;
 	height:92px;
 	padding:10px;
     overflow: scroll;
@@ -2349,17 +2355,16 @@ table.ml-title td span{
 	height:227px;
 }
 .mail-tags-bl{
+    background:url("../img/mail/bg-signs.png") repeat-y 790px 0;
 	border-top:2px solid #363636;
-	height:232px;
+	height:265px;
 	overflow:hidden;
 }
 .mail-tags-signs{
 	list-style:none;
-	background:url("../img/mail/bg-signs.png") repeat-y 0 0;
 	width:44px;
-	height:218px;
-	margin:0;
-	padding-top:14px;
+	height:100%;
+	margin:0 0 17px 0;
 	float:right;
 }
 .mail-tags-signs li{
@@ -2384,11 +2389,9 @@ table.ml-title td span{
 .mail-tags-words{
 	list-style:none;
 	width:770px;
-	height:225px;
 	float:right;
 	overflow:hidden;
-	margin:0;
-	padding:7px 0 0 7px;
+	margin:0 0 17px 0;
 }
 .mail-tags-words li{
 	display:inline-block;
@@ -3650,4 +3653,8 @@ ul.main-screen-stat li img{
 tr.email-list-separator {
     background-color: #dddddd;
     font-weight: bold;
+}
+
+#login, #pass{
+     font-size: 16px;
 }
