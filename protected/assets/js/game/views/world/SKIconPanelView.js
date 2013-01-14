@@ -113,12 +113,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
             sim_event.complete();
             this.$('.phone').removeClass('icon-active');
-            var view = new SKPhoneCallView(sim_event.get('data'));
+            SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});
         },
         doDialogStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.getByCid($(e.currentTarget).parents('.door').attr('data-event-id'));
+            var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
             sim_event.complete();
             var visit_view = new SKVisitView({event:sim_event});
             this.$('.door').removeClass('icon-active');
