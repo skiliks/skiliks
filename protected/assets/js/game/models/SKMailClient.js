@@ -127,11 +127,6 @@
         screenWriteForward: 'SCREEN_WRITE_FORWARD',
         
         // --------------------------------------------------
- 
-        // @var string
-        heroName: 'Федоров А.В.',
-        
-        // --------------------------------------------------
         
         // @var stringone of 'screenXXX' literals
         currentScreen: undefined,
@@ -180,6 +175,9 @@
         
         // @var array of SKMailTAsk
         availaleActiveEmailTasks: [],
+        
+        // @var ctring
+        messageForNewEmail: '',
         
         // -------------------------------------------------
         
@@ -286,8 +284,8 @@
                     email.is_has_attachment   = (1 === parseInt(emailsData[id].attachments, 10));
                     email.sendedAt            = emailsData[id].receivingDate;
                     email.subject             = subject;
-                    email.senderNameString    = emailsData[id].sender.replace('<','(').replace('>',')');
-                    email.recipientNameString = emailsData[id].receiver.replace('<','(').replace('>',')');                    
+                    email.setSenderEmailAndNameStrings(emailsData[id].sender);
+                    email.setRecipientEmailAndNameStrings(emailsData[id].receiver);                    
                     
                     if (undefined !== emailsData.reply) {
                         email.previouseEmailText = emailsData.reply;
@@ -306,6 +304,69 @@
         },
         
         // ---------------------------------------------
+        
+        /**
+         * @return: mixed array, Skiliks API responce
+         */
+        getDataForReplyToActiveEmail:function () {
+            var mailClient = this;
+            
+            return SKApp.server.api(
+                'mail/reply',
+                {
+                    id: mailClient.activeEmail.mySqlId
+                },
+                function (response) {
+                    if (1 == response.result) {
+                        return response; 
+                    } else {
+                        throw "Can`t initialize responce email.";
+                    }
+                },
+                false
+            );
+        },
+
+        /**
+         * @return: mixed array, Skiliks API responce
+         */
+        getDataForReplyAllToActiveEmail:function () {
+            var mailClient = this;
+            
+            return SKApp.server.api(
+                'mail/replyAll',
+                {
+                    id: mailClient.activeEmail.mySqlId
+                },
+                function (response) {
+                    if (1 == response.result) {
+                        return response; 
+                    } else {
+                        throw "Can`t initialize responce email.";
+                    }
+                },
+                false
+            );
+        },
+        
+        getDataForForwardActiveEmail:function () {
+            var mailClient = this;
+
+            return SKApp.server.api(
+                'mail/forward',
+                {
+                    id: mailClient.activeEmail.mySqlId
+                },
+                function (response) {
+                    if (1 == response.result) {
+                        return response;
+                    } else {
+                        throw "Can`t initialize responce email.";
+                    }
+                },
+                false
+            );
+        },
         
         /**
          * This is just alias to make initial screen flexible
@@ -568,17 +629,7 @@
             return list;
         },
         
-        renderWriteCustomNewEmailScreen: function() {
-            if (0 == this.defaultRecipients.length) {
-                this.updateRecipientsList();
-            }
-            
-            this.viewObject.renderWriteCustomNewEmailScreen();
-        },
-        
-        reloadSubjects: function() {
-            var recipientIds = this.viewObject.getCurentEmailRecipientIds();
-            
+        reloadSubjects: function(recipientIds) {
             SKApp.server.api(
                 'mail/getThemes',
                 {
@@ -602,11 +653,14 @@
                 },
                 false
             ); 
-                
-            this.viewObject.updateSubjectsList();
+            
+            this.trigger('mail:subject_list_in_model_updated');
+            //this.viewObject.updateSubjectsList();
         },
         
         setRegularAvailablePhrases: function(array) {
+            this.availablePhrases = []; // clean-up old phrases
+            
             for (var i in array) {
 
                 var phrase = new SKMailPhrase();                            
@@ -618,6 +672,8 @@
         },
         
         setAdditionalAvailablePhrases: function(array) {
+            this.availableAdditionalPhrases = []; // clean-up old phrases
+            
             for (var i in array) {
                 var phrase = new SKMailPhrase();
                 phrase.mySqlId = parseInt(i);
@@ -627,25 +683,27 @@
             }
         },
         
-        reloadPhrases: function() {
+        getAvailablePhrases: function(subjectId) {
+            var mailClient = this;
             SKApp.server.api(
                 'mail/getPhrases',
                 {
-                    id: this.viewObject.getCurentEmailSubjectId()
+                    id: subjectId
                 }, 
                 function (response) {
                     if (undefined !== response.data) {
-                        SKApp.user.simulation.mailClient
-                            .setRegularAvailablePhrases(response.data);
+                        mailClient.setRegularAvailablePhrases(response.data);
                             
-                        SKApp.user.simulation.mailClient
-                            .setAdditionalAvailablePhrases(response.addData);
+                        mailClient.setAdditionalAvailablePhrases(response.addData);
+                        
+                        mailClient.messageForNewEmail = response.message;
                     }
                 },
                 false
             ); 
-                
-            this.viewObject.reloadPhrases();
+            
+            // thow event there - because no matter success or fail request, phrases are need tobe reloaded
+            this.trigger('mail:available_phrases_reloaded');
         },
         
         /**
@@ -685,11 +743,6 @@
             }
             
             return undefined;
-        },
-        
-        addPhraseToEmail: function(phrase) {
-            this.newEmailUsedPhrases.push(phrase);
-            this.viewObject.renderAddPhraseToEmail(phrase);
         },
         
         /**
@@ -867,26 +920,6 @@
                 
             return true;
         },
-
-        'renderWriteReplyEmailScreen': function() {
-            
-        },
-        
-        'renderWriteReplyAllEmailScreen': function() {
-            
-        },
-        
-        'renderForwardEmailScreen': function() {
-            
-        },
-        
-        'renderAllToPlanPopUp': function() {
-            
-        },
-        
-        'closeMailClientWindow': function() {
-            
-        },
         
         // ------------------------------------------------------
         
@@ -913,15 +946,11 @@
             this.getDataForInitialScreen();
         },
         
-        'activateWindow': function() {
-            
-        },
-        
         /**
          * Close mailClient screen as our virtual application
          * Maybe in future we will habe some logic here
          */
-        closeWindow: function() {            
+        close: function() {            
             var mailClient = this;
             
             if (this.activeScreen === this.screenWriteNewCustomEmail ||
@@ -953,14 +982,17 @@
                     ]
                 });
             } else {
-                this.close();
+                this.closeClean();
             }
         },
         
         // this is clean close action without any verifications
-        close: function() {
-            this.viewObject.hideMailClientScreen();
-            this.addToPlanDialogObject.close();    
+        closeClean: function() {
+            this.trigger('mail:close');
+            SKApp.user.simulation.window_set.toggle('mailEmulator','mailMain');
+            //this.viewObject.hideMailClientScreen();
+            //this.addToPlanDialogObject.close();    
         }
     });
 })();
+
