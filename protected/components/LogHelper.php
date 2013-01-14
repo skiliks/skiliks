@@ -808,8 +808,6 @@ class LogHelper {
     public static function setWindowsLog( $simId, $logs ) {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
-            
-                $comand = Yii::app()->db->createCommand();
 
                 if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
                     if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {

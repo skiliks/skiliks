@@ -89,7 +89,8 @@ class EventsManager {
             } catch (CException $e) {
                 // @todo: handle
             }
-            
+            $log_manager = new LogManager();
+            $log_manager->setUniversalLog($simId, $logs);
             LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
             LogHelper::setMailLog($simId, $logs);
             
