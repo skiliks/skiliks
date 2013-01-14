@@ -4,6 +4,9 @@
     <div class="header-inner">
         <h1>Почта</h1>
         <ul class="actions"></ul>
+        <div class="btn-close win-close">
+            <button></button>
+        </div>
     </div>
 </script>
 <!-- MailClient_BasicHtml: -->
@@ -23,7 +26,7 @@
 
 <!-- MailClient_Folderlabel: -->
 <script type="text/template" id="MailClient_FolderLabel">
-    <li onclick="<@= action @>" id="FOLDER_<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
+    <li id="FOLDER_<@= alias @>" data-alias="<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
         <label class="icon_<@= alias @>"><@= label @>
             (<span class="counter"><@= counter @></span>)
         </label>
@@ -193,8 +196,7 @@
                 <th>Вложение:</th>
                 <td>
                     <@= attachmentFileName @>
-                           <span class="save-attachment-icon"
-                                 onclick="SKApp.user.simulation.mailClient.saveAttachmentToMyDocuments(<@= attachmentId @>)">
+                           <span class="save-attachment-icon" data-document-id="<@= attachmentId @>">
                            </span>
                 </td>
             </tr>
@@ -215,7 +217,7 @@
 <!-- MailClient_ActionIcon: -->
 <script type="text/template" id="MailClient_ActionIcon">
     <li id="mailEmulatorReceivedButton">
-        <a onclick="<@= action @>" class="<@= iconCssClass @>"><@= label @></a>
+        <a class="<@= iconCssClass @>"><@= label @></a>
     </li>
 </script>
 
@@ -263,7 +265,7 @@
                 </tr>
               </tbody>
             </table>
-            <button onclick="mailEmulator.switchNewLetterView()" class="mail-header-btn min" id="switchNewLetterViewBtn"></button>
+            <button data-type="mail-header" class="switch-size mail-header-btn min"></button>
         </div>
         <div id="mailEmulatorNewLetterDiv" class="mail-new-text mCustomScrollbar _mCS_25">
             <div style="width:100%;" id="mCSB_25" class="mCustomScrollBox">
