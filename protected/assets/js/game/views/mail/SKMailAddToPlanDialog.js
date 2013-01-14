@@ -12,7 +12,13 @@
         
         isCloseWhenClickNotOnDialog: true,
         
-        initialize: function () {},
+        initialize: function () {
+            var me = this;
+            
+            this.listenTo(this, 'mail:close', function () {
+                me.close();
+            });
+        },
         
         getTasksToBePlanned: function() {
             return SKApp.server.api(
@@ -34,9 +40,13 @@
                 false
             );   
         },
+        events: {
+            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan'
+        },
         
         render: function () {  
             var listHtml = '';
+            var addToPlanDialog = this;
             
             // generate mail tasks list {
             this.getTasksToBePlanned();
@@ -51,6 +61,22 @@
                 });
             }
             // generate mail tasks list }
+            
+            if (0 == mailTasks.length) {
+                addToPlanDialog.message_window = new SKDialogView({
+                    'message': 'Это письмо нельзя запланировать.',
+                    'buttons': [
+                        {
+                            'value': 'Окей',
+                            'onclick': function () {
+                                delete SKApp.user.simulation.mailClient.message_window;
+                            }
+                        }
+                    ]
+                });
+                
+                return;
+            }
             
             var me = this;
             
@@ -68,7 +94,7 @@
             this.$el.topZIndex();
             
             this.$el.css({
-                'left' : $("#mailEmulatorMainScreen .ADD_TO_PLAN").offset().left + 'px',
+                'left' : $(".mail-window .ADD_TO_PLAN").offset().left + 'px',
                 'top': '70px',
                 'position': 'absolute',
                 'width': '100%',
@@ -76,12 +102,9 @@
             });
             
             $('#canvas').prepend(this.$el);
-            
-            $('#MailClient_AddToPlanPopUp .mail-plan-btn').click(function(){
-                me.doAddToPlan();
-            });
-            
             // render dialog }
+            
+            this.delegateEvents();
         },
         
         // override default behavoiur

@@ -44,6 +44,11 @@
         // @var string, 
         sendedAt: undefined,
         
+        // @var SKMailCharacter
+        // we need sender id fron server:
+        // use instead of senderNameString, after refactiring will be complete
+        sender: undefined,
+        
         // @var string,
         // @todo: replace with link to SKCharacter
         senderNameString: undefined,
@@ -89,6 +94,16 @@
             if (undefined !== this.attachment) {
                 this.is_has_attachment = true;
             }  
+        },
+        
+        setSenderEmailAndNameStrings: function(string) {
+            this.senderNameString = string.substring(0, string.indexOf('<', string)).trim();
+            this.senderEmailString = string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
+        },
+        
+        setRecipientEmailAndNameStrings: function(string) {
+            this.recipientNameString = string.substring(0, string.indexOf('<', string)).trim();
+            this.recipientEmailString = string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
         },
 
         /**
