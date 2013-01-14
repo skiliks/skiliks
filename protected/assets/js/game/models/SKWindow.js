@@ -65,13 +65,13 @@
                 throw "Window is already closed";
             }
             this.is_opened = false;
-            this.simulation.window_set.hideWindow(this);
+            SKApp.user.simulation.window_set.hideWindow(this);
             this.trigger('close');
         },
         setOnTop:function () {
             var me = this;
             var window_set = this.simulation.window_set;
-            if (window_set.at(window_set.length - 1).id === this.id) {
+            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
                 return;
             }
             window_set.at(window_set.length - 1).deactivate();
