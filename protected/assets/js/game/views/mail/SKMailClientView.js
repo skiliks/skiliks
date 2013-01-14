@@ -33,6 +33,7 @@
             'click #FOLDER_SENDED'   : 'doRenderFolderByEvent',  
             'click #FOLDER_TRASH'    : 'doRenderFolderByEvent',
             
+            'click .SEND_DRAFT_EMAIL'                          : 'doSendDraft',
             'click .save-attachment-icon'                      : 'doSaveAttachment',
             'change #MailClient_NewLetterSubject select'       : 'doUpdateMailPhrasesList',
             '#MailClient_ContentBlock .mail-tags-bl li'        : 'doAddPhraseToEmail',
