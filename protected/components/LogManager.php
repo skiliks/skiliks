@@ -19,58 +19,49 @@ class LogManager
 
     const ACTION_DEACTIVATED = "deactivated"; //Деактивация окна
 
-    const RETURN_DATA = 'json'; //Тип возвращаемого значения JSON
+    public function setUniversalLog($simId, $logs) {
 
-    const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
+        if (!is_array($logs)) return false;
+        foreach( $logs as $log ) {
 
-    const LOGIN = false; //Писать лог в файл? true - да, false - нет
+            if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+                if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
+                    throw(new CException('Previous window is still activated'));
+                }
+                $universal_log = new UniversalLog();
+                $universal_log->sim_id = $simId;
+                $universal_log->window_id = $log[1];
+                $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
+                $universal_log->file_id = empty($log[4]['fileId'])?null:$log[4]['fileId'];
+                $universal_log->dialog_id = empty($log[4]['dialogId'])?null:$log[4]['dialogId'];
+                $universal_log->start_time  = date("H:i:s", $log[3]);
+                $universal_log->save();
+                continue;
 
-    public $bom = "0xEF 0xBB 0xBF";
+            } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
+                $universal_logs = UniversalLog::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
+                if (!$universal_logs) {
+                    throw(new CException('Two active windows at one time. Achtung!'));
+                }
+                foreach ($universal_logs as $universal_log) {
+                    if(!empty($log['lastDialogId'])){
+                        $dialog = Dialogs::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
+                    }
+                    $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
+                    $universal_log->end_time = date("H:i:s", $log[3]);
+                    $universal_log->save();
+                }
+            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
 
-    protected $codes_documents = array(40,41,42);
+                continue;
 
-    protected $codes_mail = array(10,11,12,13,14);
+            } else {
 
-    protected $screens = array(
-        1 => 'main screen',
-        3 => 'plan',
-        10 => 'mail',
-        20 => 'phone',
-        30 => 'visitor',
-        40 => 'documents'
-    );
+                throw new CException("Ошибка");//TODO:Описание доделать
+            }
+        }
 
-    const MAIL_MAIN = 'mail main';
-    const MAIL_PREVIEW = 'mail preview';
-    const MAIL_NEW = 'mail new';
-    const MAIL_PLAN = 'mail plan';
-
-    protected $subScreens = array(
-        1 => 'main screen',
-        3 => 'plan',
-        11 => 'mail main',
-        12 => 'mail preview',
-        13 => 'mail new',
-        14 => 'mail plan',
-        21 => 'phone main',
-        23 => 'phone talk',
-        24 => 'phone call',
-        31 => 'visitor entrance',
-        32 => 'visitor talk',
-        41 => 'documents main',
-        42 => 'documents files'
-    );
-
-    protected $actions = array(
-        0             => 'close',
-        1             => 'open',
-        2             => 'switch',
-        'activated'   => 'activated',
-        'deactivated' => 'deactivated',
-    );
-
-
-    public function setUniversalLog() {
+        return true;
 
     }
 
