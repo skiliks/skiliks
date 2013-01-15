@@ -78,6 +78,8 @@
 .ui-widget-content {
     background-color: white;
     max-height: 350px;
+}
+.ui-autocomplete.ui-widget-content {
     overflow-y: scroll;
 }
 
