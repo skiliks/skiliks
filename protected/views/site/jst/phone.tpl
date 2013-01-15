@@ -75,6 +75,7 @@
 
 <script type="text/template" id="Phone_Call">
     <div class="phone-popup-content">
+        <div class="phone-bl popup">
         <div class="phone-screen" id="phoneMainScreen">
 
             <div class="phone-call in">
@@ -83,8 +84,9 @@
                 </div>
                 <p class="phone-call-text">
                         <span class="name">
+                            <@=call[0].name@>
                         </span>
-                    <br><@=call[0].name@><br>
+                    <br><@=call[0].title@><br>
                     <span class="post">&nbsp;</span>
                 </p>
                 <ul class="phone-call-in-btn">
@@ -95,6 +97,7 @@
 
         </div>
         <p class="phone-menu-btn phone_get_menu">меню</p>
+            </div>
     </div>
 </script>
 
