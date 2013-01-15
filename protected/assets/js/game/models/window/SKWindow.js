@@ -88,9 +88,7 @@
         },
         deactivate: function (params) {
             params = params || {};
-            console.log('[SKWindow] Deactivated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
-                (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
-            );
+
             if (!params.silent) {
                 this.trigger('deactivate');
             }
@@ -98,9 +96,7 @@
         },
         activate: function (params) {
             params = params || {};
-            console.log('[SKWindow] Activated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
-                (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
-            );
+
             if (!params.silent) {
                 this.trigger('activate');
             }

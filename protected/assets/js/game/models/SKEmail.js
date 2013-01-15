@@ -70,8 +70,6 @@
         copyToString: undefined, 
         
         isSubjectValid: function() {
-            console.log('this.subject.characterSubjectId:',this.subject.characterSubjectId);
-            console.log('this.subject.text:', this.subject.text);
             // keep not strong compartion in non strong way!
             return (undefined !== this.subject && 
                 undefined !== this.subject.characterSubjectId && 
