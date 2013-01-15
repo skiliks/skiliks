@@ -3661,3 +3661,6 @@ tr.email-list-separator {
 .documents-list {
     width: 800px;
 }
+.documents-list input[type="text"] {
+    margin-bottom: 0;
+}
