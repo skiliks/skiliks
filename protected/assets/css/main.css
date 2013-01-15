@@ -410,7 +410,6 @@ a {
 .ui-selected { background: #cceeff; }*/
 #feedback { font-size: 1.4em;}
 .ui-selecting { background: #c2d9f5;}
-.ui-selected { background: #F4A949; border: double 1px black; border-collapse:separate;}
 
 .ui-drawing-progress { /*background: #d7d7d7; border: dashed 1px #0480be; border-collapse:separate;*/}
 
@@ -3657,4 +3656,8 @@ tr.email-list-separator {
 
 #login, #pass{
      font-size: 16px;
+}
+
+.documents-list {
+    width: 800px;
 }
