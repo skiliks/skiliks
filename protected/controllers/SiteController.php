@@ -28,6 +28,8 @@ class SiteController extends AjaxController
         $cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap.css");
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui-1.8.23.slider.css");
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.css");
+        $cs->registerCssFile($assetsUrl . "/js/elfinder-2.0-rc1/css/elfinder.min.css");
+        $cs->registerCssFile($assetsUrl . "/js/elfinder-2.0-rc1/css/theme.css");
         $cs->registerCssFile($assetsUrl . "/css/tag-handler.css");
         $cs->registerCssFile($assetsUrl . "/css/main.css");
         $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
@@ -52,6 +54,7 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/backbone.js");
         $cs->registerScriptFile($assetsUrl . "/js/less-1.3.3.min.js");
+        $cs->registerScriptFile($assetsUrl . "/js/elfinder-2.0-rc1/js/elfinder.min.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/tag-handler/jquery.taghandler.min.js");
         
@@ -96,6 +99,8 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
 
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/documents/SKDocumentListView.js");
+
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");
 
@@ -114,6 +119,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSettingsView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/raven-0.7.1.js");
+
 
         //конфиги
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfig.js");
