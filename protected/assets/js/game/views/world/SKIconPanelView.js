@@ -142,7 +142,16 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         doMailToggle:function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
-            SKApp.user.simulation.window_set.toggle('mailEmulator','mailMain');
+            
+            console.log(SKApp.user.simulation.mailClient.getActiveSubscreenName());
+            
+            
+            // we need getActiveSubscreenName() because mailClient window subname changed dinamically
+            SKApp.user.simulation.window_set.toggle(
+                'mailEmulator', 
+                SKApp.user.simulation.mailClient.getActiveSubscreenName()
+            );
+            //SKApp.user.simulation.window_set.toggle('mailEmulator','mailMain');
         }
     });
 })();
