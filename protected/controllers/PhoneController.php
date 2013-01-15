@@ -69,9 +69,9 @@ class PhoneController extends AjaxController{
         
         try {
             $themeId = (int)Yii::app()->request->getParam('themeId', false);  // идентификатор темы
-            $characterId = (int)Yii::app()->request->getParam('id', false);  // идентификатор темы
+            $contactId = (int)Yii::app()->request->getParam('contactId', false);  // идентификатор темы
             $this->sendJSON(
-                PhoneService::call($simulation, $themeId, $characterId)
+                PhoneService::call($simulation, $themeId, $contactId)
             );
         } catch (Exception $e) {
             $this->returnErrorMessage($e->getMessage());
