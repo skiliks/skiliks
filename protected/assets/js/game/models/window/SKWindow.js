@@ -86,18 +86,24 @@
             window_set.sort();
             me.activate();
         },
-        deactivate: function () {
+        deactivate: function (params) {
+            params = params || {};
             console.log('[SKWindow] Deactivated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
-            this.trigger('deactivate');
+            if (!params.silent) {
+                this.trigger('deactivate');
+            }
             this.simulation.windowLog.deactivate(this);
         },
-        activate: function () {
+        activate: function (params) {
+            params = params || {};
             console.log('[SKWindow] Activated window ' + this.get('name') + '/' + this.get('subname') + ' at ' + this.simulation.getGameTime() +
                 (this.get('params') ? ' ' + JSON.stringify(this.get('params')):'')
             );
-            this.trigger('activate');
+            if (!params.silent) {
+                this.trigger('activate');
+            }
             this.simulation.windowLog.activate(this);
         }
     });

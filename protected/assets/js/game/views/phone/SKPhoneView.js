@@ -1,4 +1,4 @@
-/*global SKWindow
+/*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
 
 $(function () {
@@ -15,8 +15,6 @@ $(function () {
             window_el.html(_.template($('#Phone_Html').html(), _.defaults({windowID:this.windowID}, SKConfig)));
         },
         getContacts: function (event) {
-            var id = $(event.toElement).attr('window_id');
-            
             //$('#'+id+' .phone-screen')
             var contacts = new SKPhoneContactsCollection();
             contacts.fetch();
