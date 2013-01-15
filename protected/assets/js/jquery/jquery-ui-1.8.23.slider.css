@@ -12,12 +12,10 @@
 ----------------------------------*/
 .ui-widget-content { background-color: black;}
 .ui-widget-content a { color: #ffffff; }
-.ui-widget-header {background: url("../../img/planner/scroll.png"); color: #ffffff; font-weight: bold; }
 .ui-widget-header a { color: #ffffff; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {background: url("../../img/planner/scroll.png");  border:none !important;}
 /*.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #eeeeee; text-decoration: none; }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {font-weight: bold; color: #ffffff; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; }
