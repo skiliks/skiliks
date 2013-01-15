@@ -9,7 +9,7 @@
             this.contact = contact;
         },
         parse:function(data) {
-            return _.values(data.data);
+            return data.data;
         },
         sync:function (method, collection, options) {
             if ('read' === method) {
