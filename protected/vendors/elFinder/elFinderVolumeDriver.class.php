@@ -639,10 +639,13 @@ abstract class elFinderVolumeDriver {
 		$type = strtolower($this->options['mimeDetect']);
 		$type = preg_match('/^(finfo|mime_content_type|internal|auto)$/i', $type) ? $type : 'auto';
 		$regexp = '/text\/x\-(php|c\+\+)/';
-		
-		if (($type == 'finfo' || $type == 'auto') 
+
+        $finfo_handle = finfo_open(FILEINFO_MIME);
+        $finfo_file = @finfo_file($finfo_handle, __FILE__);
+        $finfo_file_parts = explode(';', $finfo_file);
+        if (($type == 'finfo' || $type == 'auto')
 		&& class_exists('finfo')
-		&& preg_match($regexp, array_shift(explode(';', @finfo_file(finfo_open(FILEINFO_MIME), __FILE__))))) {
+		&& preg_match($regexp, array_shift($finfo_file_parts))) {
 			$type = 'finfo';
 			$this->finfo = finfo_open(FILEINFO_MIME);
 		} elseif (($type == 'mime_content_type' || $type == 'auto') 
