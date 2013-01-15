@@ -25,7 +25,7 @@
         toggle: function (name, subname, params) {
             var windows = this.where({name:name, subname:subname});
             if (windows.length !== 0) {
-                if (this.at(this.length-1).id === subname) { // If this is top window
+                if ((this.at(this.length-1).id === subname)) { // If this is top window
                     windows[0].close();
                 } else {
                     windows[0].setOnTop();

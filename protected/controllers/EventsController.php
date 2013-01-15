@@ -11,7 +11,7 @@ class EventsController extends AjaxController {
      * Опрос состояния событий
      */
     public function actionGetState() {
-        
+        //die();
         $event = new EventsManager();
         $json = $event->getState($this->getSimulationId());
         //var_dump($json);

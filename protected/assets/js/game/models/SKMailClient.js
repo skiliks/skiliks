@@ -176,10 +176,50 @@
         // @var array of SKMailTAsk
         availaleActiveEmailTasks: [],
         
-        // @var ctring
+        // @var string
         messageForNewEmail: '',
         
         // -------------------------------------------------
+        /**
+         * @return string,
+         */
+        getActiveSubscreenName: function() {
+            if (undefined === this.activeScreen) {
+                return 'mailMain';
+            }
+            if ('SCREEN_ADD_TO_PLAN' === this.activeScreen) {
+                return 'mailPlan';
+            }
+            if ('SCREEN_DRAFTS_LIST' === this.activeScreen) {
+                return this.mailPreviewOrMailMail('mailPreview');
+            }
+            if ('SCREEN_INBOX_LIST' === this.activeScreen) {
+                return this.mailPreviewOrMailMail('mailPreview');
+            }
+            if ('SCREEN_READ_EMAIL' === this.activeScreen) {
+                return 'mailPreview';
+            }
+            if ('SCREEN_SENDED_LIST' === this.activeScreen) {
+                return this.mailPreviewOrMailMail('mailPreview');
+            }
+            if ('SCREEN_TRASH_LIST' === this.activeScreen) {
+                return this.mailPreviewOrMailMail('mailPreview');
+            }
+            if ('SCREEN_WRITE_FORWARD' === this.activeScreen) {
+                return 'mailNew';
+            }
+            if ('SCREEN_WRITE_NEW_EMAIL' === this.activeScreen) {
+                return 'mailNew';
+            }
+            if ('SCREEN_WRITE_REPLY' === this.activeScreen) {
+                return 'mailNew';
+            }
+            if ('SCREEN_WRITE_REPLY_ALL' === this.activeScreen) {
+                return 'mailNew';
+            }
+            
+            return 'mailMain';
+        },
         
         initialize: function() {
             this.folders[this.aliasFolderInbox]  = new SKMailFolder();
@@ -470,8 +510,27 @@
                 return true;
             }            
          },
+         
+         getActiveEmailId: function () {
+             if (undefined === this.activeEmail) {
+                 return undefined;
+             }
+             
+             return this.activeEmail.mySqlId;
+         },
+         
+         /**
+          * Helps to use 'mailMain' instead of 'mailPreview' if there is no active email in folder.
+          */
+         mailPreviewOrMailMail: function(alias) {
+             if (undefined !== this.getActiveEmailId()) {
+                return alias;
+             } else {
+                 return 'mailMain';
+             }
+         },
         
-        setActiveEmail: function(email) {
+         setActiveEmail: function(email) {
             // active email or readed or new writed in any case
             if (undefined !== email) {
                 email.is_readed = true;
@@ -557,6 +616,32 @@
             this.viewObject.renderReadEmail(this.getEmailByMySqlId(emailId));
             
             this.setActiveScreen(this.screenReadEmail);
+        },
+        
+        getSimulationMailClientWindow: function() {
+            var windows = SKApp.user.simulation.window_set.where({name:'mailEmulator'});
+            
+            if (undefined === windows || 0 === windows.length) {
+                throw 'There is no active window object for mailClient.';
+            }            
+            
+            if (1 < windows.length) {
+                console.log('There is two or more active window object for mailClient.');
+            }
+            
+            return windows[0];
+        },
+        
+        setWindowsLog: function(newSubscreen, emailId) {
+            var window = this.getSimulationMailClientWindow();
+
+            SKApp.user.simulation.windowLog.deactivate(window);
+            
+            window.set('subname', newSubscreen);
+
+            window.set('params', {'mailId':emailId});
+            
+            SKApp.user.simulation.windowLog.activate(window);
         },
         
         saveAttachmentToMyDocuments: function(attachmentId) {
@@ -867,7 +952,9 @@
         
         sendNewCustomEmail: function(emailToSave) {
             
-            this.validationDialog();
+            if (false === this.validationDialogResult(emailToSave)) {
+                return false;
+            }
             
             SKApp.server.api(
                 'mail/sendMessage',
@@ -895,7 +982,7 @@
             );
         },
         
-        validationDilaod: function() {
+        validationDialogResult: function(emailToSave) {
             var mailClient = this;
           
             // validation {
@@ -937,7 +1024,9 @@
             
             var mailClient = this;
             
-            this.validationDialog();
+            if (false === this.validationDialogResult(emailToSave)) {
+                return false;
+            }
             
             SKApp.server.api(
                 'mail/saveDraft',
