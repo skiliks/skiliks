@@ -55,7 +55,7 @@ class PhoneService {
         $themes = MailThemesModel::model()->byIds($themeIds)->findAll();
         $list = array();
         foreach($themes as $theme) {
-            $list[$theme->id] = $theme->name;
+            $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->name];
         }
         
         return $list;
@@ -199,7 +199,7 @@ class PhoneService {
         if (null === $result) {
 
             // регистрируем исходящий вызов
-            PhoneService::registerOutgoing($simulation->id, $characterId);
+            PhoneService::registerOutgoing($simulation->id, $characterId, '00:00:00');
 
             // подготовим список тем
             $themes = PhoneService::getThemes($characterId);
