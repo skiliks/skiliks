@@ -55,12 +55,12 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/tag-handler/jquery.taghandler.min.js");
         
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindow.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindowLog.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailWindow.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKDocumentsWindow.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKDialogWindow.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKWindowSet.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKWindow.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKWindowLog.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKMailWindow.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKDocumentsWindow.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKDialogWindow.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKWindowSet.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKServer.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKSession.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKApplication.js");
@@ -94,9 +94,6 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKAttachment.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailClient.js");
 
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterBaseView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterFixedTextView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailLetterPhraseListView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
 
 
