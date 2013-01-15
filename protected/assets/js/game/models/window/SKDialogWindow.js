@@ -20,9 +20,9 @@
             if (!this.is_opened) {
                 throw "Window is already closed";
             }
-            this.deactivate();
+            this.deactivate({silent:true});
             this.set('params', {'dialogId': dialogId});
-            this.activate();
+            this.activate({silent:true});
         },
         'setDialog':function (dialogId) {
             if (this.get('params') && this.get('params').dialogId) {
