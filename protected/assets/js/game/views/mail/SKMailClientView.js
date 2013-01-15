@@ -101,8 +101,8 @@
             SKWindowView.prototype.initialize.call(this);
         },
         
-        /*
         remove: function() {
+            /*
             var mailClient = this.mailClient;
             var mailClientView = this;
             
@@ -138,9 +138,10 @@
                 // this.$el.remove();
                 SKWindow.prototype.remove.call(this);
             }
-            
-            SKWindow.prototype.remove.call(this);
-        },*/
+            */
+            SKWindowView.prototype.remove.call(this);
+            this.mailClient.setActiveScreen(undefined);
+        },
  
         /**
          * shows title block
@@ -308,6 +309,10 @@
             }
 
             this.updateFolderLabels();
+            this.mailClient.setWindowsLog(
+                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                this.mailClient.getActiveEmailId()
+            );
         },
 
         updateInboxListView:function () {
@@ -459,6 +464,13 @@
             
             // Todo — move to events dictionary (GuGu)
             $('.email-list-line').click(function (event) {
+                // update lod data {
+                
+                mailClientView.mailClient.setWindowsLog(
+                    mailClientView.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    $(event.currentTarget).data().emailId
+                );
+                
                 // if user click on same email line twice - open read email screen
                 // Andrey, do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
@@ -736,6 +748,9 @@
         },
 
         doMoveToTrashActiveEmail:function () {
+            if (undefined === this.mailClient.activeEmail) {
+                throw 'try to delete unexistent email';
+            }
             this.doMoveToTrash(this.mailClient.activeEmail);
         },
 
@@ -760,6 +775,12 @@
                 this.mailClient.setActiveEmail(inboxEmails[i]);
                 break;
             }
+            
+            // logging:
+            this.mailClient.setWindowsLog(
+                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                this.mailClient.getActiveEmailId()
+            );
 
             this.updateFolderLabels();
             this.renderInboxFolder();
@@ -847,6 +868,8 @@
             this.delegateEvents();
 
             this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
+            
+            this.mailClient.setWindowsLog('mailNew');
         },
 
         getCurentEmailRecipientIds:function () {
@@ -1086,19 +1109,29 @@
         doSaveEmailToDrafts:function () {
             var emailToSave = this.generateNewEmailObject();
 
-            if (this.mailClient.saveToDraftsEmail(emailToSave)) { // sync AJAX
+            if (false !== this.mailClient.saveToDraftsEmail(emailToSave)) { // sync AJAX
                 this.updateFolderLabels();
                 this.renderInboxFolder();
+                
+                this.mailClient.setWindowsLog(
+                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    this.mailClient.getActiveEmailId()
+                );
             }
         },
 
         doSendEmail:function () {
             var emailToSave = this.generateNewEmailObject();
 
-            this.mailClient.sendNewCustomEmail(emailToSave); // sync AJAX
+            if (false !== this.mailClient.sendNewCustomEmail(emailToSave)) { // sync AJAX
+                this.updateFolderLabels();
+                this.renderInboxFolder();
 
-            this.updateFolderLabels();
-            this.renderInboxFolder();
+                this.mailClient.setWindowsLog(
+                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    this.mailClient.getActiveEmailId()
+                );
+            }
         },
 
         renderWriteEmailScreen:function (iconsList) {
@@ -1296,6 +1329,8 @@
             this.doUpdateScreenFromReplyEmailData(response);
             
             this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
+            
+            this.mailClient.setWindowsLog('mailNew');
         },
         
         renderReplyAllScreen: function() {
@@ -1305,6 +1340,8 @@
             this.doUpdateScreenFromReplyEmailData(response);
             
             this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
+            
+            this.mailClient.setWindowsLog('mailNew');
         },
 
         renderForwardEmailScreen:function () {
@@ -1314,6 +1351,8 @@
             this.doUpdateScreenFromForwardEmailData(response);
 
             this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
+            
+            this.mailClient.setWindowsLog('mailNew');
         },
 
         doSendDraft:function () {
