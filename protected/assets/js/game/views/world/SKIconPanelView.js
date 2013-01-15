@@ -136,7 +136,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         },
         doDocumentsToggle:function (e) {
             e.preventDefault();
-            documents.draw();
+            SKApp.user.simulation.window_set.toggle('documents','documents');
+
             this.$('.documents').removeClass('icon-active');
         },
         doMailToggle:function (e) {
