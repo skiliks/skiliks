@@ -1,7 +1,7 @@
 /*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
 
-$(function () {
+(function () {
     "use strict";
 
     window.SKPhoneView = SKWindowView.extend({
@@ -41,4 +41,4 @@ $(function () {
             return $('.'+this.windowClass).length;
         }
     });
-});
+})();
