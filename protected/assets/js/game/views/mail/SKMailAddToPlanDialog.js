@@ -44,9 +44,11 @@
             'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan'
         },
         
-        render: function () {  
+        render: function () { 
             var listHtml = '';
             var addToPlanDialog = this;
+            
+            addToPlanDialog.mailClient.setWindowsLog('mailPlan');
             
             // generate mail tasks list {
             this.getTasksToBePlanned();
@@ -70,6 +72,10 @@
                             'value': 'Окей',
                             'onclick': function () {
                                 delete SKApp.user.simulation.mailClient.message_window;
+                                addToPlanDialog.mailClient.setWindowsLog(
+                                    'mailPreview',
+                                    addToPlanDialog.mailClient.getActiveEmailId()
+                                );
                             }
                         }
                     ]
@@ -164,6 +170,11 @@
             if (undefined !== this.$el) {
                 this.cleanUpDOM();
             }
+            
+            this.mailClient.setWindowsLog(
+                'mailPreview',
+                this.mailClient.getActiveEmailId()
+            );
         }
     });
 })();
