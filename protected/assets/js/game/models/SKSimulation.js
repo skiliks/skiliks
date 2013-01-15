@@ -99,11 +99,12 @@
                 me.todo_tasks.fetch();
                 me.dayplan_tasks.fetch();
                 me.trigger('start');
+                
+                me.events_timer = setInterval(function () {
+                    me.getNewEvents();
+                    me.trigger('tick');
+                }, 60000 / SKConfig.skiliksSpeedFactor);
             });
-            this.events_timer = setInterval(function () {
-                me.getNewEvents();
-                me.trigger('tick');
-            }, 60000 / SKConfig.skiliksSpeedFactor);
         },
         'stop':function () {
             var me = this;
