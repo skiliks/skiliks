@@ -9,7 +9,9 @@
         events:_.defaults({
             'click .phone_get_contacts':'getContacts',
             'click .phone_get_history':'getHistory',
-            'click .phone_get_menu':'getMenu'
+            'click .phone_get_menu':'getMenu',
+            'click .phone_get_themes':'getThemes',
+            'click .phone_call_to_contact':'callToContact'
         }, SKWindowView.prototype.events),
         renderContent: function (window_el) {
             window_el.html(_.template($('#Phone_Html').html(), _.defaults({windowID:this.windowID}, SKConfig)));
@@ -39,6 +41,27 @@
         },
         getCountViews : function(){
             return $('.'+this.windowClass).length;
+        },
+        getThemes: function(event){
+            $('#canvas').append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 1160px; width: 300px;"></div>');
+            var contactId = $(event.toElement).attr('data-contact-id');
+            //var windowId = $(event.toElement).attr('window_id');
+            var themes = new SKPhoneThemeCollection({'id':contactId});
+            themes.fetch();
+            var me = this;
+            //console.log(themes);
+            themes.on('reset', function () {
+                me.renderTPL('#phoneCallThemesDiv', '#Phone_Themes', {'themes':themes, 'contactId':contactId});
+            });
+        },
+        callToContact:function(event){
+            console.log("Run");
+            var themeId = $(event.toElement).attr('data-theme-id');
+            var contactId = $(event.toElement).attr('data-contact-id');
+            SKApp.server.api('phone/getThemes', {'themeId':themeId, 'contactId':contactId}, function (data) {
+                console.log(data);
+                //options.success(data);
+            });
         }
     });
 })();
