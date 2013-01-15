@@ -1,5 +1,10 @@
 <?php
 
+require_once(__DIR__ . '/../vendors/elFinder/elFinderConnector.class.php');
+require_once(__DIR__ . '/../vendors/elFinder/elFinderVolumeDriver.class.php');
+require_once(__DIR__ . '/../vendors/elFinder/elFinderVolumeLocalFileSystem.class.php');
+require_once(__DIR__ . '/../vendors/elFinder/elFinder.class.php');
+
 /**
  * Контроллер моих документов
  *
@@ -19,6 +24,31 @@ class MyDocumentsController extends AjaxController
             'result' => 1,
             'data'   => MyDocumentsService::getDocumentsList($simulation),
         ));
+    }
+
+    /**
+     * Получение списка документов
+     */
+    public function actionConnector()
+    {
+        $simulation = $this->getSimulationEntity();
+
+        $opts = array(
+            // 'debug' => true,
+            'roots' => array(
+                array(
+                    'driver'        => 'Skiliks',   // driver for accessing file system (REQUIRED)
+                    'path'          => __DIR__ . '/../../documents/templates',         // path to files (REQUIRED)
+                    'URL'           => dirname($_SERVER['PHP_SELF']) . '/../../documents/templates/', // URL to files (REQUIRED)
+                    'mimeDetect' => 'internal',
+                    'sim_id' => $simulation->id
+                )
+            )
+        );
+
+        // run elFinder
+        $connector = new elFinderConnector(new elFinder($opts));
+        $connector->run();
     }
 
     /**
