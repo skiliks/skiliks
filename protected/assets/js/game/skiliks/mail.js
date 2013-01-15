@@ -90,7 +90,7 @@
             this.issetDiv = true;
         },
 
-        draw:function (mode) {
+        /*draw:function (mode) {
             if (typeof(mode) === 'undefined') {
                 mode = 'normal';
             }
@@ -122,13 +122,13 @@
                 this.activeSubScreen = '';
             }
 
-        },
+        },*/
 
-        receive:function (data) {
+        /*receive:function (data) {
             this.drawInterface(data);
-        },
+        },*/
 
-        drawInterface:function (data) {
+        /*drawInterface:function (data) {
             if (!this.issetDiv) {
                 this.createDiv();
             }
@@ -164,8 +164,9 @@
             this.drawContent();
             this.folderSelect('1', data["messages"]);
             sender.mailGetReceivers();
-        },
-        receiveFolder:function (data) {
+        },*/
+        
+        /*receiveFolder:function (data) {
             for (var key in data["folders"]) {
                 var value = data["folders"][key];
 
@@ -175,8 +176,9 @@
                 }
                 $('#mailFolderCounter_' + value['folderId']).html(counter);
             }
-        },
-        receiveMessages:function (data) {
+        },*/
+        
+        /*receiveMessages:function (data) {
             var messages = data['messages'];
             this.curFolderType = data['type'];
 
@@ -264,11 +266,6 @@
             } else if (messageSelected != 0) {
                 mailEmulator.messageSelect(messageSelected);
             }
-            /*else{
-             this.curMesage = 0;
-             mailEmulator.drawReceived();
-             }*/
-
 
             //КЛИК/даблклик
             $('.mail-emulator-received-list-cell-sender, .mail-emulator-received-list-cell-theme, .mail-emulator-received-list-cell-time, .mail-emulator-received-list-cell-attach')
@@ -315,7 +312,7 @@
                 });
             });
 
-        },
+        },*/
 
         mailElementClick:function (i) {
 
@@ -338,16 +335,16 @@
                 mailEmulator.messageMarkRead(id);
             }
         },
-        receiveMessage:function (data) {
+        /*receiveMessage:function (data) {
             mailEmulator.drawMail(data);
-        },
-        receiveMessageFull:function (data) {
+        },*/
+        /*receiveMessageFull:function (data) {
             mailEmulator.drawMailFull(data);
-        },
-        receiveReceivers:function (data) {
+        },/*
+        /*receiveReceivers:function (data) {
             this.receivers = data;
-        },
-        receiveThemes:function (data, characterThemeId) {
+        },*/
+        /*receiveThemes:function (data, characterThemeId) {
             this.themes = data;
             
             if ('undefined' != typeof characterThemeId) {
@@ -358,8 +355,8 @@
             if (this.letterType === 'forward') {
                 this.getAvalPhrases();
             }
-        },
-        drawMessageEdit:function (data) {
+        },*/
+        /*drawMessageEdit:function (data) {
             this.phrases = data.data;
             var newLetterDiv = $('#mailEmulatorNewLetterDiv');
             if (data.message) {
@@ -414,33 +411,34 @@
                 $('#mailEmulatorNewLetterDiv')
                     .append(this.prewMessageWrapperPrefix + data.previouseMessage + this.prewMessageWrapperSuffix);
             }
-        }, receivePhrases:function (data) {
+        },*/
+        /*receivePhrases:function (data) {
             this.drawMessageEdit(data);
             if (this.hasOwnProperty('lastMailText')) {
                 this.letterBlock.setQuote(this.lastMailText);
             }
 
-        },
-        messageTransfer:function (folderId, messageId) {
+        },*/
+        /*messageTransfer:function (folderId, messageId) {
             if (folderId == 0) {
                 return;
             }
             sender.mailMessageTransfer(folderId, messageId);
-        },
-        messageMarkRead:function (id) {
+        },*/
+        /*mesageMarkRead:function (id) {
             //убираем непрочтенность
             $('#mailEmulatorReceivedListString_' + id).removeClass('mail-emulator-received-list-string-new');
             sender.mailMarkRead(id);
-        },
-        messageSelect:function (id) {
+        },*/
+        /*messageSelect:function (id) {
             this.curMesage = id;
             $('.mail-emulator-received-list-string').removeClass('mail-emulator-received-list-string-selected');
             $('.mail-emulator-received-list-string').removeClass('active');
             $('#mailEmulatorReceivedListString_' + id).addClass('mail-emulator-received-list-string-selected');
             $('#mailEmulatorReceivedListString_' + id).addClass('active');
             sender.mailGetMessage(id);
-        },
-        messageDelete:function () {
+        },*/
+       /* messageDelete:function () {
             if (this.issetDiv == false) {
                 return;
             }
@@ -455,8 +453,8 @@
             var curIDarr = curID.split('_');
             var id = curIDarr[1];
             sender.mailMessageDelete(id);
-        },
-        folderSelect:function (callerID, messages) {
+        },*/
+        /*folderSelect:function (callerID, messages) {
 
             
             $('.mail-emulator-opened-mail-letter').html('');
@@ -477,27 +475,11 @@
                 return;
             }
             this.folderUpdate();
-        },
-        folderUpdate:function () {
+        },*/
+        /*folderUpdate:function () {
             sender.mailGetMessages(this.curFolderID, -1, 0);
-        },
-        folderSort:function (type) {
-            /*var order_type = 0;
-             var noImg = 'img/mail/sortno.png';
-             var newImg = 'img/mail/sortdown.png';
-             var curSrc = $('.mail-emulator-received-list-sort-'+type+' img').attr('src');
-             if(curSrc.indexOf('down') != -1)
-             {
-             newImg = 'img/mail/sortup.png';
-             order_type = 1;
-             }
-
-             $('.mail-emulator-received-list-sort-subject img').attr('src', noImg);
-             $('.mail-emulator-received-list-sort-sender img').attr('src', noImg);
-             $('.mail-emulator-received-list-sort-time img').attr('src', noImg);
-
-             $('.mail-emulator-received-list-sort-'+type+' img').attr('src', newImg);
-             */
+        },*/
+        /*folderSort:function (type) {
             var order_type = 0;
             if (typeof(this.orderArr[type]) != 'undefined' && this.orderArr[type] == 0) {
                 order_type = 1;
@@ -509,8 +491,8 @@
                 type = 'receiver';
             }
             sender.mailGetMessages(this.curFolderID, type, order_type);
-        },
-        backAction:function (params) {
+        },*/
+        /*backAction:function (params) {
             //возвращаем нормальный режим
             this.mode = 'normal';
             if (undefined !== params && params['mailId']) {
@@ -530,19 +512,19 @@
             $('#mailEmulatorMainDiv').show();
             mailEmulator.drawReceived();
             mailEmulator.folderUpdate();
-        },
-        drawContent:function () {
+        },*/
+        /*drawContent:function () {
             this.drawReceived();
-        },
+        },*/
 
-        drawReceived:function () {
+        /*drawReceived:function () {
             var contentReceived = this.receivedMail;
             $('#mailEmulatorContentDiv').html(contentReceived);
             $('#dayReceivedListDivScroll').mCustomScrollbar({'advanced':{'updateOnContentResize':true}});
             this.addReceivedListScroll();
-        },
+        },*/
 
-        drawMail:function (data) {
+        /*drawMail:function (data) {
             //логируем то что мы показываем письмо
             if (this.mode == 'normal') {
                 if (this.activeSubScreen != 'mailMain') {
@@ -596,9 +578,9 @@
             this.addOpenedMailScroll();
             $('.mail-view-body').mCustomScrollbar({'advanced':{'updateOnContentResize':true}, 'autoDraggerLength':true});
             this.lastMailText = data['message'];
-        },
+        },*/
 
-        drawMailFull:function (data) {
+        /*drawMailFull:function (data) {
             //логируем режим
             if (this.activeSubScreen != 'mailPreview') {
                 this.activeSubScreen = 'mailPreview';
@@ -660,9 +642,9 @@
             this.addOpenedMailFullScroll();
 
             this.lastMailText = data['message'];
-        },
+        },*/
 
-        sendNewLetter:function () {
+        /*sendNewLetter:function () {
 
             //забиваем копию
             var val = $('#mailEmulatorNewLetterCopyBox').val();
@@ -702,9 +684,9 @@
 
             var timeString = SKApp.user.simulation.getGameMinutes();
             var result = sender.mailSendMessage(this.curMesage, this.selectedReceivers, this.selectedReceiversCopy, this.selectedTheme, this.selectedPhrases, this.letterType, this.curFile, timeString);
-        },
+        },*/
 
-        saveDraftLetter:function () {
+       /* saveDraftLetter:function () {
             //забиваем копию
             var val = $('#mailEmulatorNewLetterCopyBox').val();
             var valArr = val.split(',');
@@ -740,9 +722,9 @@
 
             sender.mailSaveDraft(this.curMesage, this.selectedReceivers, this.selectedReceiversCopy, this.selectedTheme, this.selectedPhrases, this.letterType, this.curFile, timeString);
             this.backAction();
-        },
+        },*/
 
-        drawNewLetter:function () {
+        /*drawNewLetter:function () {
             //логируем то что мы пишем новое письмо
             if (this.activeSubScreen != 'mailNew') {
                 SKApp.user.simulation.window_set.closeAll('mailEmulator');
@@ -777,26 +759,11 @@
             $('#mailEmulatorMainDivNew').css('left', this.divLeft + 'px');
             $('#mailEmulatorMainDivNew').css('right', this.divRight + 'px');
             $('#mailEmulatorMainDivNew').html(contentNew);
-            /*$('#mailEmulatorContentDiv').html(contentNew);
-
-             /*$('.mail-emulator-new-letter-box').css('font-size', '13px');
-             $('.mail-emulator-new-letter-box').css('height', '15px');
-             $('.mail-emulator-new-letter-box').css('margin-bottom', '5px');
-             $('.mail-emulator-new-letter-box').css('padding-left', '5px');
-             $('.mail-emulator-new-letter-box').css('width', '420px');
-
-             $('#mailEmulatorNewLetterText').parent().css('width', '450px');
-             $('#mailEmulatorNewLetterText').css('height', '125px');
-             $('#mailEmulatorNewLetterText').css('width', '450px');
-
-             $('#mailEmulatorNewLetterTextVariants').parent().css('width', '450px');
-             $('#mailEmulatorNewLetterTextVariants').css('height', '50px');
-             $('#mailEmulatorNewLetterTextVariants').css('width', '450px');*/
-
-
+ 
             this.drawNewLetterAddTextVariants();
             this.addNewLetterScroll();
-        },
+        },*/
+        /*
         drawNewLetterCheckType:function () {
             if (this.letterType != 'new') {
                 $("#mailEmulatorNewLetterThemeBox").prop('disabled', true);
@@ -835,33 +802,33 @@
             if (this.letterType == 'reply' || this.letterType == 'replyAll') {
                 $("#mailEmulatorNewLetterReceiverBox").prop('disabled', true);
             }
-        },
+        },*/
 
-        messageReply:function () {
+        /*messageReply:function () {
             var messageId = this.curMesage;
             sender.mailMessageReply(messageId);
-        },
-        messageReplyAll:function () {
+        },*/
+        /*messageReplyAll:function () {
             var messageId = this.curMesage;
             sender.mailMessageReplyAll(messageId);
-        },
-        messageForward:function () {
+        },*/
+        /*messageForward:function () {
             var messageId = this.curMesage;
             sender.mailMessageForward(messageId);
-        },
-        messageToPlan:function () {
+        },*/
+        /*messageToPlan:function () {
             var messageId = this.curMesage;
             sender.mailMessageToPlan(messageId);
-        },
-        sendDraftLetter:function () {
+        },*/
+        /*sendDraftLetter:function () {
             var messageId = this.curMesage;
             sender.mailSendDraftLetter(messageId);
-        },
-        preventChangeRecipient: function() {
+        },*/
+        /*preventChangeRecipient: function() {
             $('#mailEmulatorNewLetterReceiverBox').attr('disabled', true);
             $('#mailEmulatorNewLetterReceiverBox').unbind();
-        },
-        messageDrawReply:function (data) {
+        },*/
+        /*messageDrawReply:function (data) {
             this.drawNewLetter();
 
             if (typeof(data['receiver']) != 'undefined') {
@@ -892,9 +859,9 @@
             }
 
             this.getAvalThemes();
-        },
+        },*/
 
-        drawNewLetterAddTextVariants:function () {
+        /*drawNewLetterAddTextVariants:function () {
             sender.mailGetReceivers();
 
             var change_receiver_cb = function (event, previousText) {
@@ -980,13 +947,7 @@
             div.style.position = "absolute";
             div.style.zIndex = this.divZindex + 1;
             document.body.appendChild(div);
-            /*
-            Removed by GuGu
-            $('#mailEmulatorShowReceiversDivClose').css('top', simulation.bounds.y + 'px');
-            $('#mailEmulatorShowReceiversDivClose').css('left', simulation.bounds.x + 'px');
-            $('#mailEmulatorShowReceiversDivClose').css('width', simulation.bounds.width + 'px');
-            $('#mailEmulatorShowReceiversDivClose').css('height', simulation.bounds.height + 'px');
-*/
+
             $('#mailEmulatorShowReceiversDivClose').click(function () {
                 mailEmulator.hideReceivers();
             });
@@ -998,8 +959,8 @@
 
 
             this.receiversScroll(Cheight);
-        },
-        showReceiversAval:function () {
+        },*/
+        /*showReceiversAval:function () {
             var val = $('#mailEmulatorNewLetterReceiverBox').val();
             var valArr = val.split(',');
             var needle = php.last(valArr);
@@ -1017,16 +978,16 @@
             }
             receivers += '</ul>';
             $('#mailEmulatorShowReceiversDiv').html(receivers);
-        },
-        hideReceivers:function () {
+        },*/
+        /*hideReceivers:function () {
             var me = this;
             $('#mailReceiversScrollbar').remove();
             $('#mailEmulatorShowReceiversDivClose').remove();
             $('#mailEmulatorShowReceiversDiv').remove();
             this.getAvalThemes();
 
-        },
-        addReceiver:function (id) {
+        },*/
+        /*addReceiver:function (id) {
             if (this.letterType == 'new') {
                 this.changeReceiver();
             }
@@ -1048,8 +1009,8 @@
             } else {
                 $("#mailEmulatorNewLetterThemeBox").prop('disabled', true);
             }
-        },
-        getAvalThemes:function () {
+        },*/
+        /*getAvalThemes:function () {
             var val = $('#mailEmulatorNewLetterReceiverBox').val();
             var valArr = val.split(',');
 
@@ -1116,8 +1077,8 @@
             }
 
             this.receiversCopyScroll(Cheight);
-        },
-        showReceiversCopyAval:function () {
+        },*/
+        /*showReceiversCopyAval:function () {
             var val = $('#mailEmulatorNewLetterCopyBox').val();
             var valArr = val.split(',');
             var needle = php.last(valArr);
@@ -1135,13 +1096,13 @@
             }
             receivers += '</ul>';
             $('#mailEmulatorShowReceiversCopyDiv').html(receivers);
-        },
-        hideReceiversCopy:function () {
+        },*/
+        /*hideReceiversCopy:function () {
             $('#mailReceiversCopyScrollbar').remove();
             $('#mailEmulatorShowReceiversCopyDivClose').remove();
             $('#mailEmulatorShowReceiversCopyDiv').remove();
-        },
-        addReceiverCopy:function (id) {
+        },*/
+        /*addReceiverCopy:function (id) {
             var val = $('#mailEmulatorNewLetterCopyBox').val();
             var valArr = val.split(',');
             var needle = php.last(valArr);
@@ -1156,9 +1117,9 @@
                 $('#mailEmulatorNewLetterCopyBox').val(val + this.receivers[id] + ',');
             }
             mailEmulator.hideReceiversCopy();
-        },
+        },*/
 //темы
-        showThemes:function () {
+        /*showThemes:function () {
             this.getAvalThemes();
             if (this.letterType != 'new') {
                 return;
@@ -1193,13 +1154,6 @@
             div.style.position = "absolute";
             div.style.zIndex = this.divZindex + 1;
             document.body.appendChild(div);
-            /*
-            Removed by GuGu
-            $('#mailEmulatorShowThemesDivClose').css('top', simulation.bounds.y + 'px');
-            $('#mailEmulatorShowThemesDivClose').css('left', simulation.bounds.x + 'px');
-            $('#mailEmulatorShowThemesDivClose').css('width', simulation.bounds.width + 'px');
-            $('#mailEmulatorShowThemesDivClose').css('height', simulation.bounds.height + 'px');
-             */
 
             $('#mailEmulatorShowThemesDivClose').click(function () {
                 mailEmulator.hideThemes();
@@ -1211,8 +1165,8 @@
             }
 
             this.themesScroll(Cheight);
-        },
-        showThemesAval:function () {
+        },*/
+        /*showThemesAval:function () {
             if (this.letterType != 'new') {
                 return;
             }
@@ -1233,14 +1187,14 @@
             }
             receivers += '</ul>';
             $('#mailEmulatorShowThemesDiv').html(receivers);
-        },
-        hideThemes:function () {
+        },*/
+        /*hideThemes:function () {
             $('#mailThemesScrollbar').remove();
             $('#mailEmulatorShowThemesDivClose').remove();
             $('#mailEmulatorShowThemesDiv').remove();
             this.getAvalPhrases();
-        },
-        addTheme:function (id) {
+        },*/
+        /*addTheme:function (id) {
             var me = this;
             this.changeTheme(function () {
                 var val = $('#mailEmulatorNewLetterThemeBox').val();
@@ -1254,8 +1208,8 @@
                 }
                 mailEmulator.hideThemes();
             });
-        },
-        getAvalPhrases:function (callback) {
+        },*/
+        /*getAvalPhrases:function (callback) {
 
             var val = $('#mailEmulatorNewLetterThemeBox').val();
  
@@ -1276,10 +1230,10 @@
            this.selectedTheme = reqString;
 
             sender.mailGetPhrases(reqString , callback);
-        },
+        },*/
         
         //Таски
-        showTasks:function (data) {
+        /*showTasks:function (data) {
             //логируем режим
             if (this.activeSubScreen != 'mailPlan') {
                 simulation.window_set.closeAll('mailEmulator');
@@ -1335,8 +1289,8 @@
             $('#mailEmulatorShowTasksDivClose').click(function () {
                 mailEmulator.hideTasks();
             });
-        },
-        hideTasks:function () {
+        },*/
+        /*hideTasks:function () {
             this.selectedTask = 0;
             $('#mailEmulatorShowTasksDivClose').remove();
             $('#mailEmulatorShowTasksDiv').remove();
@@ -1350,15 +1304,15 @@
             } else {
                 this.mail_main_window.switchMessage(this.curMesage);
             }
-        },
-        selectTask:function (id) {
+        },*/
+        /*selectTask:function (id) {
             this.mail_plan_window.setPlan(id);
             //id="mailPlanTask_'+value['id']+'" class="mail-plan-item"
             $('.mail-plan-item').removeClass('active');
             this.selectedTask = id;
             $('#mailPlanTask_' + id).addClass('active');
-        },
-        addTask:function () {
+        },*/
+        /*addTask:function () {
             var id = this.selectedTask;
             if (id == 0) {
                 return;
@@ -1367,19 +1321,19 @@
             mailEmulator.hideTasks();
             this.selectedTask = 0;
             sender.dayPlanTodoGetCount();
-        },
-        gotoTask:function (taskId) {
+        },*/
+        /*gotoTask:function (taskId) {
             dayPlan.taskdayPlanToSelect = taskId;
             dayPlan.draw();
-        },
+        },*/
 //documents begin
-        hideAttachForm:function () {
+        /*hideAttachForm:function () {
             this.fileSelected = 0;
             $('#attachFormScrollbar').remove();
             $('#mailEmulatorShowAttachDivClose').remove();
             $('#mailEmulatorShowAttachDiv').remove();
-        },
-        selectFile:function () {
+        },*/
+        /*selectFile:function () {
             if (this.curFile == 0) {
                 this.curFile = this.fileSelected;
             } else {
@@ -1391,12 +1345,12 @@
 
             this.drawSelectedAttach();
             this.hideAttachForm();
-        },
-        unselectFile:function () {
+        },*/
+        /*unselectFile:function () {
             this.curFile = 0;
             this.drawSelectedAttach();
-        },
-        drawSelectedAttach:function () {
+        },*/
+        /*drawSelectedAttach:function () {
             if (this.curFile == 0) {
                 $('#mailEmulatorNewLetterAttachBox').html('');
             } else {
@@ -1404,11 +1358,11 @@
 
                 $('#mailEmulatorNewLetterAttachBox').html(html);
             }
-        },
-        showAttachForm:function () {
+        },*/
+        /*showAttachForm:function () {
             sender.mailGetDocumentsList();
-        },
-        drawAttachForm:function (data) {
+        },*/
+        /*drawAttachForm:function (data) {
             for (var key in data) {
                 var value = data[key];
                 this.files[value['id']] = data[key];
@@ -1417,8 +1371,8 @@
             this.drawAttachFormHtml();
 
             this.drawFiles();
-        },
-        drawFiles:function () {
+        },*/
+        /*drawFiles:function () {
             var html = '';
             var num = 1;
             for (var key in this.files) {
@@ -1441,15 +1395,15 @@
             $('#documentsContentDivMail').html(html);
 
             this.attachFormScroll(Cheight);
-        },
-        setActiveFile:function (id) {
+        },*/
+        /*setActiveFile:function (id) {
             $('.documents-file-active').removeClass('documents-file-active');
             $('#documentsFile_' + id).addClass('documents-file-active');
             this.fileSelected = id;
 
             this.selectFile();
-        },
-        drawAttachFormHtml:function () {
+        },*/
+        /*drawAttachFormHtml:function () {
             var div = document.createElement('div');
             div.setAttribute('id', 'mailEmulatorShowAttachDiv');
             div.setAttribute('class', 'mail-new-drop');
@@ -1480,15 +1434,15 @@
             $('#mailEmulatorShowAttachDivClose').click(function () {
                 mailEmulator.hideAttachForm();
             });
-        },
+        },*/
 //documents end
 //конец
-        drawNewLetterStopDragging:function () {
+        /*drawNewLetterStopDragging:function () {
             $('#mailEmulatorNewLetterText li').each(function (index) {
                 $(this).children("span").addClass('mailEmulatorNewLetterTextVariantPhrase');
             });
-        },
-        drawNewLetterStopSorting:function () {
+        },*/
+        /*drawNewLetterStopSorting:function () {
             var phrases = '';
             $('#mailEmulatorNewLetterText li').each(function (index) {
                 var className = $(this).attr('class');
@@ -1506,8 +1460,8 @@
             });
 
             this.selectedPhrases = phrases;
-        },
-        drawSettings:function () {
+        },*/
+        /*drawSettings:function () {
             var contentSettings = this.settingsPage;
             $('#mailEmulatorContentDiv').html(contentSettings);
 
@@ -1516,8 +1470,8 @@
             $('#mailEmulatorSettingsSpamFilterBox').css('width', '450px');
 
             sender.mailGetSettings();
-        },
-        receiveSettings:function (data) {
+        },*/
+        /*receiveSettings:function (data) {
             var image = 'soundfieldoff.png';
             this.messageArriveSound = data;
             if (this.messageArriveSound == 1) {
@@ -1525,8 +1479,8 @@
             }
             var background = 'url("/img/mail/' + image + '") no-repeat scroll 0 0 transparent';
             $('#mailButtonSwitcher').attr('background', background);
-        },
-        changeSound:function () {
+        },*/
+        /*changeSound:function () {
             if (this.messageArriveSound == 1) {
                 this.messageArriveSound = 0;
             } else {
@@ -1534,18 +1488,18 @@
             }
             this.receiveSettings(this.messageArriveSound);
             sender.mailSaveSettings(this.messageArriveSound);
-        },
-        saveDocument:function (id) {
+        },*/
+        /*saveDocument:function (id) {
             sender.mailSaveDocument(id);
-        },
-        showSettings:function () {
+        },/*
+        /*showSettings:function () {
             if ($('.btn-window li div.set').css('display') != 'none') {
                 $('.btn-window li div.set').hide();
             } else {
                 $('.btn-window li div.set').show();
             }
-        },
-
+        },*/
+        /*
         receivedMail:'<ul class="actions">' +
             '<li id="mailEmulatorReceivedButton"><a class="btn0" onclick="mailEmulator.drawNewLetter();">новое письмо</a></li>' +
             '<li id="mailEmulatorOpenedMailAnswer"><a class="btn1" onclick="mailEmulator.messageReply();">ответить</a></li>' +
@@ -1589,36 +1543,6 @@
             '</div>' +
 
             '<div class="mail-view pre mail-emulator-opened-mail-letter">' +
-//            '<div class="mail-view-header">' +
-//            '<table>' +
-//            '<tr>' +
-//            '<th>От кого:</th>' +
-//            '<td><strong>МойСклад &lt;info@moysklad.ru&gt;</strong></td>' +
-//            '</tr>' +
-//            '<tr>' +
-//            '<th>Кому:</th>' +
-//            '<td>a-scetch@mail.ru</td>' +
-//            '</tr>' +
-//            '<tr>' +
-//            '<th>Копия:</th>' +
-//            '<td>Elena Levina &lt;a.levina@gmail.com&gt;</td>' +
-//            '</tr>' +
-//            '<tr>' +
-//            '<th>Тема:</th>' +
-//            '<td>Re: Рабочие материалы</td>' +
-//            '</tr>' +
-//            '</table>' +
-//            '</div>' +
-//            '<div class="mail-view-body mail-emulator-opened-mail-letter-text">' +
-//            '<p>' +
-//            'Добрый день!<br /><br />' +
-//            'Теперь у вас есть комплексное решение для управления торговлей и бухгалтерского учета от ' +
-//            'МоегоСклада. Начните работать в Бухгалтерии онлайн. До 1 сентября 2012 года она доступна ' +
-//            'в бесплатном тестовом режиме. Бухгалтерия онлайн.' +
-//            '</p>' +
-//            '<div class="mail-view-scroll pre"></div>' +
-//            '</div>' +
-//            '</div>' +
             '</div>',
         receivedMail1:'<div class="mail-emulator-received">' +
             '<div class="mail-emulator-head-buttons">' +
@@ -1680,10 +1604,6 @@
             '<th>Тема:</th>' +
             '<td>{subject}</td>' +
             '</tr>' +
-            /*'<tr>'+
-             '<th><img alt="" src="'+SKConfig.assetsUrl+'/img/mail/icon-attach.png"></th>'+
-             '<td>{attach}</td>'+
-             '</tr>'+*/
             '</table>' +
             '{attach}' +
             '</div>' +
@@ -1865,17 +1785,7 @@
             '<div class="mail-emulator-settings-sound-field" onclick="mailEmulator.changeSound()">' +
             '<img src="'+SKConfig.assetsUrl+'/img/mail/soundfield.png">' +
             '</div>' +
-            /*'<div class="mail-emulator-settings-sound-slider">'+
-             '<img src="'+SKConfig.assetsUrl+'/img/mail/soundslider.png">'+
-             '</div>'+*/
             '</div>' +
-            /*'<div class="mail-emulator-settings-spam-filter">'+
-             'Признаки для спам-фильтра:'+
-             '<br/>'+
-             '<br/>'+
-             '<input id="mailEmulatorSettingsSpamFilterBox" class="span3" type="text"'+
-             'value="Щелкните, чтобы добавить адреса в спам-фильтр"></input>'+
-             '</div>'+*/
             '</div>',
 
         closeHtml:'<img src="'+SKConfig.assetsUrl+'/img/interface/close.png" onclick="mailEmulator.draw();" style="cursor:pointer;">',
@@ -1982,13 +1892,13 @@
             '</tr>' +
             '</tbody></table>' +
             '</div>',
-
-        askForSaveDraftLetter:function () {
+            */
+        /*askForSaveDraftLetter:function () {
             var message = this.mailMessageHtml;
 
             messages.showCustomSystemMessage(message);
-        },
-        doResultForSaveDraftLetter:function (action) {
+        },*/
+        /*doResultForSaveDraftLetter:function (action) {
             if (action == 1) {
                 this.backAction({mailId:this.curMesage});
                 $('#mailEmulatorNewLetterThemeBox').val('');
@@ -1998,24 +1908,19 @@
                 this.backAction({mailId:this.curMesage});
             }
             this.hideMessage();
-        },
-        askForReceiver:function () {
+        },*/
+        /*askForReceiver:function () {
             var message = this.mailMessageReceiver;
 
             messages.showCustomSystemMessage(message);
             messages.disableCloseByClick();
-        },
-        changeReceiver:function () {
-            // 0 0 0
-            // 0 1 0
-            // 1 0 1
-            // 1 1 1
-            //$('#mailEmulatorNewLetterCopyBox').val() != "" && - Копия
+        },*/
+        /*changeReceiver:function () {
             if ($('#mailEmulatorNewLetterThemeBox').val() !== "") {
                 this.askForReceiver();
             }
-        },
-        changeTheme:function (cb) {
+        },*/
+        /*changeTheme:function (cb) {
             var me = this;
             //$('#mailEmulatorNewLetterCopyBox').val() != "" && - Копия
             if ($('#mailEmulatorNewLetterText').find('li').length) {
@@ -2038,8 +1943,8 @@
             } else {
                 cb();
             }
-        },
-        doResultForReceiver:function (action) {
+        },*/
+        /*doResultForReceiver:function (action) {
             var me = this;
             if (action == 1) {
                 $('#mailEmulatorNewLetterThemeBox').val("");
@@ -2054,11 +1959,11 @@
             }
 
             this.hideMessage();
-        },
-        hideMessage:function () {
+        },*/
+        /*hideMessage:function () {
             messages.hideCustomSystemMessage();
-        },
-        switchNewLetterView:function () {
+        },*/
+        /*switchNewLetterView:function () {
             var upK = 140;
             var className = $('#switchNewLetterViewBtn').attr('class');
             if (className == 'mail-header-btn min') {
@@ -2078,8 +1983,8 @@
                 $('#newLetterScrollbar').css('top', '210px');
                 $('#newLetterScrollbar').css('height', '25px');
             }
-        },
-        addReceivedListScroll:function () {
+        },*/
+        /*addReceivedListScroll:function () {
 
             $("#mailReceivedListScrollbar").slider({
                 orientation:"vertical",
@@ -2094,12 +1999,12 @@
             $('#mailReceivedListScrollbar').css('height', (135) + 'px');
             $('#mailReceivedListScrollbar').css('width', '1px');
             $('#mailReceivedListScrollbar').css('border', '0px');
-        },
-        scrollReceivedListScroll:function (value) {
+        },*/
+        /*scrollReceivedListScroll:function (value) {
             var scrollValue = 825 - value;
             $("#dayReceivedListDivScroll").scrollTop(scrollValue);
-        },
-        addOpenedMailScroll:function () {
+        },*/
+        /*addOpenedMailScroll:function () {
             $("#mailOpenedMailScrollbar").slider({
                 orientation:"vertical",
                 min:0,
@@ -2113,12 +2018,12 @@
             $('#mailOpenedMailScrollbar').css('height', (90) + 'px');
             $('#mailOpenedMailScrollbar').css('width', '1px');
             $('#mailOpenedMailScrollbar').css('border', '0px');
-        },
-        scrollOpenedMailScroll:function (value) {
+        },*/
+        /*scrollOpenedMailScroll:function (value) {
             var scrollValue = 825 - value;
             $(".mail-view-body").scrollTop(scrollValue);
-        },
-        addOpenedMailFullScroll:function () {
+        },*/
+        /*addOpenedMailFullScroll:function () {
             $("#mailOpenedMailFullScrollbar").slider({
                 orientation:"vertical",
                 min:0,
@@ -2132,12 +2037,12 @@
             $('#mailOpenedMailFullScrollbar').css('height', (290) + 'px');
             $('#mailOpenedMailFullScrollbar').css('width', '1px');
             $('#mailOpenedMailFullScrollbar').css('border', '0px');
-        },
-        scrollOpenedMailFullScroll:function (value) {
+        },*/
+        /*scrollOpenedMailFullScroll:function (value) {
             var scrollValue = 825 - value;
             $(".mail-view-body").scrollTop(scrollValue);
-        },
-        receiversScroll:function (Cheight) {
+        },*/
+        /*receiversScroll:function (Cheight) {
             var topZindex = php.getTopZindexOf();
 
             var div = document.createElement('div');
@@ -2163,12 +2068,12 @@
                 }
 
             });
-        },
-        scrollreceiversScroll:function (value, Cheight) {
+        },*/
+        /*scrollreceiversScroll:function (value, Cheight) {
             var scrollValue = Cheight - value;
             $("#mailEmulatorShowReceiversDiv").scrollTop(scrollValue);
-        },
-        receiversCopyScroll:function (Cheight) {
+        },*/
+        /*receiversCopyScroll:function (Cheight) {
             var topZindex = php.getTopZindexOf();
 
             var div = document.createElement('div');
@@ -2194,12 +2099,12 @@
                 }
 
             });
-        },
-        scrollreceiversCopyScroll:function (value, Cheight) {
+        },*/
+       /*scrollreceiversCopyScroll:function (value, Cheight) {
             var scrollValue = Cheight - value;
             $("#mailEmulatorShowReceiversCopyDiv").scrollTop(scrollValue);
-        },
-        themesScroll:function (Cheight) {
+        },*/
+        /*themesScroll:function (Cheight) {
             var topZindex = php.getTopZindexOf();
 
             var div = document.createElement('div');
@@ -2225,12 +2130,12 @@
                 }
 
             });
-        },
-        scrollThemesScroll:function (value, Cheight) {
+        },*/
+        /*scrollThemesScroll:function (value, Cheight) {
             var scrollValue = Cheight - value;
             $("#mailEmulatorShowThemesDiv").scrollTop(scrollValue);
-        },
-        addNewLetterScroll:function () {
+        },*/
+        /*addNewLetterScroll:function () {
             $('#newLetterScrollbar').css('height', '25px');
             $('#newLetterScrollbar').css('width', '1px');
             $('#newLetterScrollbar').css('border', '0px');
@@ -2245,20 +2150,20 @@
                 }
 
             });
-        },
-        scrollNewLetterScroll:function (value) {
+        },*/
+       /* scrollNewLetterScroll:function (value) {
             var scrollValue = 500 - value;
             $(".mail-new-text").scrollTop(scrollValue);
-        },
-        messageErrorRender:function (message) {
+        },*/
+       /* messageErrorRender:function (message) {
             if (message == null || message == '' || message == undefined) {
                 message = "Не известная ошибка!";
             }
             var mess = this.mailMessageError.replace("{$message}", message);
             messages.showCustomSystemMessage(mess);
 
-        },
-        getReceirves : function(data){
+        },*/
+        /*getReceirves : function(data){
             if(data == undefined){
                 data = $('#mailEmulatorNewLetterReceiverBox').val();
             }
@@ -2273,8 +2178,8 @@
             }
             this.selectedReceivers = res;
             
-        },
-        attachFormScroll:function (Cheight) {
+        },*/
+        /*attachFormScroll:function (Cheight) {
             var topZindex = php.getTopZindexOf();
 
             var div = document.createElement('div');
@@ -2300,15 +2205,15 @@
                 }
 
             });
-        },
-        scrollAttachFormScroll:function (value, Cheight) {
+        },*/
+       /* scrollAttachFormScroll:function (value, Cheight) {
             var scrollValue = Cheight - value;
             $("#mailEmulatorShowAttachDiv").scrollTop(scrollValue);
-        }
+        }*/
     };
 })();
 
-jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {
+/*jQuery.fn.single_double_click = function (single_click_callback, double_click_callback, timeout) {
     return this.each(function () {
         var clicks = 0, self = this;
         jQuery(this).click(function (event) {
@@ -2325,4 +2230,4 @@ jQuery.fn.single_double_click = function (single_click_callback, double_click_ca
             }
         });
     });
-};
+};*/

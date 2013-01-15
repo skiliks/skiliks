@@ -84,22 +84,63 @@
             
             this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
                 me.updateSubjectsList();
+                
+                me.mailClient.availablePhrases = [];
+                me.mailClient.availableAdditionalPhrases = [];
+                me.renderPhrases();
             });
             
             this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
-                me.renderPhrases();
+                me.renderPhrases()
             });
             
             this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
                 me.doUpdateScreenFromReplyEmailData();
             });
-            
-            this.listenTo(this.mailClient, 'mail:close', function () {
-                me.hideMailClientScreen();
-            });
 
             SKWindowView.prototype.initialize.call(this);
         },
+        
+        /*
+        remove: function() {
+            var mailClient = this.mailClient;
+            var mailClientView = this;
+            
+            if (mailClient.activeScreen === mailClient.screenWriteNewCustomEmail ||
+                mailClient.activeScreen === mailClient.screenWriteReply ||
+                mailClient.activeScreen === mailClient.screenWriteReplyAll ||
+                mailClient.activeScreen === mailClient.screenWriteForward) {               
+                
+                mailClient.message_window = new SKDialogView({
+                    'message': 'Сохранить письмо в черновиках?',
+                    'buttons': [
+                        {
+                            'value': 'Не сохранять',
+                            'onclick': function () {
+                                mailClientView.renderInboxFolder();
+                            }
+                        },
+                        {
+                            'value': 'Отмена',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        },
+                        {
+                            'value': 'Сохранить',
+                            'onclick': function () {
+                                mailClientView.doSaveEmailToDrafts();
+                            }
+                        }
+                    ]
+                });
+            } else {
+                // this.$el.remove();
+                SKWindow.prototype.remove.call(this);
+            }
+            
+            SKWindow.prototype.remove.call(this);
+        },*/
  
         /**
          * shows title block
@@ -206,12 +247,6 @@
 
                     }
                 });
-        },
-
-        /**
-         */
-        hideMailClientScreen:function () {
-            $('#' + this.mailClientScreenID).hide();
         },
 
         updateFolderLabels:function () {
@@ -790,13 +825,15 @@
                 availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                 autocomplete:true,
                 afterAdd:function (tag) {
-                    SKApp.user.simulation.mailClient.reloadSubjects(
-                        mailClientView.getCurentEmailRecipientIds()
+                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        mailClientView.getCurentEmailRecipientIds(),
+                        'add'
                     );
                 },
                 afterDelete:function (tag) {
-                    SKApp.user.simulation.mailClient.reloadSubjects(
-                        mailClientView.getCurentEmailRecipientIds()
+                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        mailClientView.getCurentEmailRecipientIds(),
+                        'delete'
                     );
                 }
             });
@@ -807,11 +844,6 @@
                 autocomplete:  true
             });
 
-            // bind subjects
-//               
-//            $("#MailClient_NewLetterSubject select").change(function () {
-//                SKApp.user.simulation.mailClient.getAvailablePhrases();
-//            });
             this.delegateEvents();
 
             this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
@@ -1118,7 +1150,36 @@
         },
         
         doUpdateMailPhrasesList: function() {
-            this.mailClient.getAvailablePhrases(this.getCurentEmailSubjectId());
+            var mailClientView = this;
+            var mailClient = this.mailClient;
+            
+            if (0 !== mailClient.availablePhrases.length ||
+                0 !== mailClient.availableAdditionalPhrases.length ||
+                0 !== mailClient.newEmailUsedPhrases.length ) {
+                // warning
+                this.message_window = new SKDialogView({
+                    'message': 'Если вы измените тему письма, то обновится список доступных фраз и очистится тескт письма.',
+                    'buttons': [
+                        {
+                            'value': 'Продолжить',
+                            'onclick': function () {
+                                mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
+                                delete mailClient.message_window;
+                                ;
+                            }
+                        },
+                        {
+                            'value': 'Вернуться',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        }
+                    ]
+                });
+            } else {
+                // standart way
+                mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
+            }
         },
 
         renderPreviouseMessage:function (text) {
