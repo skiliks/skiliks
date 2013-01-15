@@ -27,14 +27,14 @@ $(function () {
         },
         reply: function(event) {
             var dialogId = $(event.toElement).attr('data-dialog-id');
-            this.model_instance.close();
+            this.options.model_instance.close();
             SKApp.server.api('dialog/get', {'dialogId':dialogId}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
             });
         },
         noReply: function(event) {
             var dialogId = $(event.toElement).attr('data-dialog-id');
-            this.model_instance.close();
+            this.options.model_instance.close();
             SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameMinutes()}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
             });
