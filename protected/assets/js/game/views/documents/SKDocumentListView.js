@@ -5,6 +5,7 @@
     "use strict";
 
     window.SKDocumentsListView = SKWindowView.extend({
+        title: 'Мои документы',
         addClass: 'documents-list',
         renderContent:function (el) {
             el.elfinder({
