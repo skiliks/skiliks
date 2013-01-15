@@ -84,8 +84,9 @@
                 </div>
                 <p class="phone-call-text">
                         <span class="name">
+                            <@=call[0].name@>
                         </span>
-                    <br><@=call[0].name@><br>
+                    <br><@=call[0].title@><br>
                     <span class="post">&nbsp;</span>
                 </p>
                 <ul class="phone-call-in-btn">
