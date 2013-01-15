@@ -3,5 +3,6 @@
 (function () {
     "use strict";
     window.SKPhoneTheme = Backbone.Model.extend({
+        idAttribute: 'themeId'
     });
 })();
