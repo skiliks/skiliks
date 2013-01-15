@@ -21,8 +21,7 @@
             if ($.cookie('sid')) {
                 params.sid = $.cookie('sid');
             }
-            var result;
-            $.ajax({
+            var result = $.ajax({
                 data:     params,
                 url:      url,
                 type:     "POST",
