@@ -1,5 +1,5 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKPhoneView, SKMailClientView
- SKPhoneCallView */
+ SKPhoneCallView, SKDocumentsListView */
 (function () {
     "use strict";
     window.SKSimulationView = Backbone.View.extend({
@@ -35,6 +35,10 @@
                 if (window.get('name') === 'phone' && window.get('subname') === 'phoneTalk') {
                     var view = new SKPhoneDialogView({model_instance:window, 'event':window.get('params').event});
                     view.render();
+                }
+                if (window.get('name') === 'documents' && window.get('subname') === 'documents') {
+                    var doc_view = new SKDocumentsListView({model_instance:window});
+                    doc_view.render()
                 }
             });
         },
