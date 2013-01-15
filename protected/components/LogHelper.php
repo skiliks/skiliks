@@ -518,7 +518,7 @@ class LogHelper {
                     if($log[1] != 13) {
                         // reply, or close mail-plan, or close mail-main
                         $log_obj = LogMail::model()->findByAttributes(array(
-                            'mail_id' => $log[4]['mailId'],
+                            'mail_id' => empty($log[4]['mailId']) ? NULL : $log[4]['mailId'], //todo:Добавлена проверка, хотя mailId должен быть в данной ситуации всегда
                             'end_time' => '00:00:00',
                             'sim_id' => $simId
                         ));
