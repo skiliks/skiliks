@@ -101,8 +101,9 @@
             SKWindowView.prototype.initialize.call(this);
         },
         
+        /*
         remove: function() {
-            /*var mailClient = this.mailClient;
+            var mailClient = this.mailClient;
             var mailClientView = this;
             
             if (mailClient.activeScreen === mailClient.screenWriteNewCustomEmail ||
@@ -136,10 +137,10 @@
             } else {
                 // this.$el.remove();
                 SKWindow.prototype.remove.call(this);
-            }*/
+            }
             
             SKWindow.prototype.remove.call(this);
-        },
+        },*/
  
         /**
          * shows title block
