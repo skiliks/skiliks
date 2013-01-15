@@ -14,9 +14,9 @@
          * @param mailId int message identifier
          */
         'switchMessage':function (mailId) {
-            this.deactivate();
+            this.deactivate({silent:true});
             this.set('params', {'mailId':mailId});
-            this.activate();
+            this.activate({silent:true});
         },
 
         /**
