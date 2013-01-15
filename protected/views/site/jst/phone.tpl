@@ -23,6 +23,14 @@
     </ul>
 </script>
 
+<script type="text/template" id="Phone_Themes">
+    <ul>
+        <@ themes.each(function(model) { @>
+        <li class="phone_call_to_contact" data-theme-id="<@=model.get('themeId')@>" data-contact-id="<@=contactId@>"><@=model.get('themeTitle')@></li>
+        <@ }) @>
+    </ul>
+</script>
+
 <script type="text/template" id="Phone_Contacts">
     <ul class="phone-contact-list">
         <@ contacts.each(function(model) { @>
@@ -40,7 +48,7 @@
                         <p class="phone-contact-list-f1"><@=model.get('title')@></p>
 
                         <p class="hover-show phone-contact-list-f1"><@=model.get('phone')@></p>
-                        <a class="hover-show phone-call-btn">Позвонить</a>
+                        <a class="hover-show phone_get_themes phone-call-btn" data-contact-id="<@=model.get('id')@>">Позвонить</a>
                     </td>
                 </tr>
             </table>
