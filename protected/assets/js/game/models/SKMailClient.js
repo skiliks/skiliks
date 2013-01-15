@@ -629,6 +629,43 @@
             return list;
         },
         
+        /**
+         * @param array of integer recipientIds
+         * @param string action, 'add', 'delete' : add/delete decipient
+         */
+        reloadSubjectsWithWarning: function(recipientIds, action) {
+            var mailClient = this;
+            
+            var checkValue = 0;
+            if ('add' === action) {
+                checkValue = 1;
+            }
+            
+            // display warning only if user add extra recipients
+            if (checkValue < recipientIds.length) {
+                this.message_window = new SKDialogView({
+                    'message': 'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
+                    'buttons': [
+                        {
+                            'value': 'Продолжить',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                                mailClient.reloadSubjects(recipientIds);
+                            }
+                        },
+                        {
+                            'value': 'Вернуться',
+                            'onclick': function () {
+                                delete mailClient.message_window;
+                            }
+                        }
+                    ]
+                });
+            } else {
+                mailClient.reloadSubjects(recipientIds);
+            }    
+        },
+        
         reloadSubjects: function(recipientIds) {
             SKApp.server.api(
                 'mail/getThemes',
@@ -639,23 +676,22 @@
                     if (undefined !== response.data) {
                         // clean up list
                         SKApp.user.simulation.mailClient.availableSubjects = [];
-                        
+
                         for (var i in response.data) {
                             var string = response.data[i];
-                            
+
                             var subject = new SKMailSubject();
                             subject.characterSubjectId = i;
                             subject.text = response.data[i];
-                            
+
                             SKApp.user.simulation.mailClient.availableSubjects.push(subject);
                         }
                     }
                 },
                 false
             ); 
-            
+
             this.trigger('mail:subject_list_in_model_updated');
-            //this.viewObject.updateSubjectsList();
         },
         
         setRegularAvailablePhrases: function(array) {
@@ -830,6 +866,9 @@
         },
         
         sendNewCustomEmail: function(emailToSave) {
+            
+            this.validationDialog();
+            
             SKApp.server.api(
                 'mail/sendMessage',
                 this.combineMailDataByEmailObject(emailToSave),
@@ -856,10 +895,9 @@
             );
         },
         
-        saveToDraftsEmail: function(emailToSave) {
-            
+        validationDilaod: function() {
             var mailClient = this;
-            
+          
             // validation {
             // email.recipients
             if (0 == emailToSave.recipients.length) {
@@ -892,7 +930,14 @@
                 });  
                 return false;
             }
-            // validation }
+            // validation }  
+        },
+        
+        saveToDraftsEmail: function(emailToSave) {
+            
+            var mailClient = this;
+            
+            this.validationDialog();
             
             SKApp.server.api(
                 'mail/saveDraft',
@@ -944,54 +989,6 @@
 
         openWindow: function() {
             this.getDataForInitialScreen();
-        },
-        
-        /**
-         * Close mailClient screen as our virtual application
-         * Maybe in future we will habe some logic here
-         */
-        close: function() {            
-            var mailClient = this;
-            
-            if (this.activeScreen === this.screenWriteNewCustomEmail ||
-                this.activeScreen === this.screenWriteReply ||
-                this.activeScreen === this.screenWriteReplyAll ||
-                this.activeScreen === this.screenWriteForward) {               
-                
-                mailClient.message_window = new SKDialogView({
-                    'message': 'Сохранить письмо в черновиках?',
-                    'buttons': [
-                        {
-                            'value': 'Не сохранять',
-                            'onclick': function () {
-                                mailClient.viewObject.renderInboxFolder();
-                            }
-                        },
-                        {
-                            'value': 'Отмена',
-                            'onclick': function () {
-                                delete mailClient.message_window;
-                            }
-                        },
-                        {
-                            'value': 'Сохранить',
-                            'onclick': function () {
-                                mailClient.viewObject.doSaveEmailToDrafts();
-                            }
-                        }
-                    ]
-                });
-            } else {
-                this.closeClean();
-            }
-        },
-        
-        // this is clean close action without any verifications
-        closeClean: function() {
-            this.trigger('mail:close');
-            SKApp.user.simulation.window_set.toggle('mailEmulator','mailMain');
-            //this.viewObject.hideMailClientScreen();
-            //this.addToPlanDialogObject.close();    
         }
     });
 })();

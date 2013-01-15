@@ -823,8 +823,11 @@ class LogHelper {
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
-                    if (!$windows) {
-                        throw(new CException('Two active windows at one time. Achtung!'));
+                    if (0 == count($windows)) {
+                        throw(new CException('No active windows. Achtung!'.$simId));
+                    }
+                    if (1 < count($windows)) {
+                        throw(new CException('Two or more active windows at one time. Achtung!'));
                     }
                     foreach ($windows as $window) {
                         $window->end_time = date("H:i:s", $log[3]);
