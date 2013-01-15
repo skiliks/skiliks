@@ -133,7 +133,15 @@ class MyDocumentsModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
+    public function relations()
+    {
+        return [
+           'template' => [self::BELONGS_TO, 'MyDocumentsTemplateModel', 'template_id']
+        ];
+    }
+
+
     // -----------------------------------------------------------------------------------------------------------------
 }
 
