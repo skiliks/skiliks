@@ -56,12 +56,14 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         },
         setCounter:function (selector, count) {
-            if (!count) {
+            if (0 === count) {
                 this.$(selector + ' a span').remove();
             }
-            if (!this.$(selector + ' a span').length) {
+
+            if (0 === this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
             }
+            
             this.$(selector + ' a span').html(count);
         },
         startAnimation:function (selector, end_cb) {
