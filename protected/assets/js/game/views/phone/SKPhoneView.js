@@ -11,7 +11,7 @@
             'click .phone_get_history':'getHistory',
             'click .phone_get_menu':'getMenu',
             'click .phone_get_themes':'getThemes',
-            'click .phone_call_to_contact':'callToContact'
+            'click .phone_call':'callToContact'
         }, SKWindowView.prototype.events),
         renderContent: function (window_el) {
             window_el.html(_.template($('#Phone_Html').html(), _.defaults({windowID:this.windowID}, SKConfig)));
@@ -56,12 +56,13 @@
         },
         callToContact:function(event){
             console.log("Run");
-            var themeId = $(event.toElement).attr('data-theme-id');
+            /*var themeId = $(event.toElement).attr('data-theme-id');
             var contactId = $(event.toElement).attr('data-contact-id');
             SKApp.server.api('phone/getThemes', {'themeId':themeId, 'contactId':contactId}, function (data) {
                 console.log(data);
                 //options.success(data);
             });
+            */
         }
     });
 })();
