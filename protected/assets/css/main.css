@@ -908,16 +908,16 @@ mail-emulator-received-list-row
     width: 12px;
     background: url(../img/mail/scrollbar-buttons.png) center no-repeat;
 }
-.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger {
+.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger, .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger {
 
-    background-image: linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
-    background-image: -o-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
-    background-image: -moz-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
-    background-image: -webkit-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
-    background-image: -ms-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
+    background: linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
+    background: -o-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
+    background: -moz-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
+    background: -webkit-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
+    background: -ms-linear-gradient(left , rgb(123,123,124) 11%, rgb(63,63,63) 67%);
 
 }
-.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar {
+.mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
     background: url(../img/mail/scrollbar-buttons.png) center no-repeat;
 }
 /*#dayReceivedListDivScroll {
@@ -1512,7 +1512,6 @@ mail-emulator-received-list-row
 .plan-todo-tit{
 	font-family:'hortensiaregular';
 	font-size:30px;
-	font-weight:bold;
 	color:#c71414;
 	text-align:left;
 	margin:24px 71px 0 49px;
