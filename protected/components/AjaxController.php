@@ -208,6 +208,17 @@ class AjaxController extends CController
             throw new FrontendNotificationException('Invalid API method name.');
         }
     }
+    
+    public function getAssetsUrl()
+    {
+        return Yii::app()->getAssetManager()
+            ->publish(
+                Yii::getPathOfAlias('application.assets'),
+                false, 
+                -1, 
+                Yii::app()->params['assetsDebug']
+            );
+    }
 }
 
 
