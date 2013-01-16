@@ -101,8 +101,6 @@
             this.options.model_instance.on('pre_close', function () {
                 me.options.model_instance.prevent_close = !me.isCanBeClosed();
                 
-                console.log('me.isCanBeClosed: ', me.isCanBeClosed());
-                
                 if (false == me.isCanBeClosed()) {
                     var mailClient = me.mailClient;
                     var mailClientView = me;
