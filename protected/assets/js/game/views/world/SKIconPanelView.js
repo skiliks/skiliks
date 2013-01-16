@@ -20,10 +20,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                             SKApp.user.simulation.parseNewEvents(data.events);
                             var history = SKApp.user.simulation.phone_history;
                                 history.fetch();
-                                history.on('reset', function () {
-                                console.log('IconPanelView event: ', event);
-                                me.setCounter('.phone', history.length);
-                            });
+                                // event will be linked later, if link event here - it will be handled twise
+                                me.setCounter('.phone', phone_history.where({'is_read': false}).length);
                         });
                     });
                     
@@ -37,10 +35,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 me.updatePlanCounter();
             });
             var phone_history = SKApp.user.simulation.phone_history;
+            
+            // update counter on any change in calls collection
             phone_history.on('add change remove reset', function () {
                 me.setCounter(
                     '.phone',
-                    phone_history.where({is_read: false}).length);
+                    phone_history.where({'is_read': false}).length);
             });
             this.render();
         },
@@ -56,12 +56,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         },
         setCounter:function (selector, count) {
-            if (0 === count) {
-                this.$(selector + ' a span').remove();
-            }
-
             if (0 === this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
+            }
+            
+            if (0 === count) {
+                this.$(selector + ' a span').remove();
             }
             
             this.$(selector + ' a span').html(count);
@@ -72,7 +72,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 me.icon_lock[selector] = true;
                 var el = me.$(selector);
                 el.addClass('icon-active');
-                var bounce_counter = 10;
+                var bounce_counter = 1; // 10
                 var bounce_cb = function () {
                     if (bounce_counter > 0) {
                         bounce_counter--;
