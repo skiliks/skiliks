@@ -168,7 +168,7 @@
         newEmailAttachment: undefined,
         
         // @var array of SKMailSubject
-        newEmailSubjectId: 0,
+        newEmailSubjectId: undefined,
         
         // @var undefined | SKEmail
         lastNotSavedEmail: undefined,
@@ -1067,7 +1067,11 @@
             }
         },
         
-        toggleWindow: function() {
+        /**
+         * Seem to be newer used
+         */
+        /*toggleWindow: function() {
+            console.log('toggleWindow: ', this.window);
             if ('undefined' === typeof this.window) {
                 this.openWindow();
             } else {
@@ -1078,7 +1082,7 @@
                     this.activateWidow();
                 }
             }
-        },
+        },*/
 
         openWindow: function() {
             this.getDataForInitialScreen();
