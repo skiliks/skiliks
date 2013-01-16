@@ -97,48 +97,55 @@
             this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
                 me.doUpdateScreenFromReplyEmailData();
             });
+            
+            this.options.model_instance.on('pre_close', function () {
+                me.options.model_instance.prevent_close = !me.isCanBeClosed();
+                
+                console.log('me.isCanBeClosed: ', me.isCanBeClosed());
+                
+                if (false == me.isCanBeClosed()) {
+                    var mailClient = me.mailClient;
+                    var mailClientView = me;
+
+                    mailClientView.options.model_instance.prevent_close = true;
+
+                    mailClient.message_window = new SKDialogView({
+                        'message': 'Сохранить письмо в черновиках?',
+                        'buttons': [
+                            {
+                                'value': 'Не сохранять',
+                                'onclick': function () {
+                                    mailClientView.renderInboxFolder();
+                                }
+                            },
+                            {
+                                'value': 'Отмена',
+                                'onclick': function () {
+                                    delete mailClient.message_window;
+                                }
+                            },
+                            {
+                                'value': 'Сохранить',
+                                'onclick': function () {
+                                    mailClientView.doSaveEmailToDrafts();
+                                }
+                            }
+                        ]
+                    });
+                }
+            });
 
             SKWindowView.prototype.initialize.call(this);
         },
         
+        isCanBeClosed: function() {
+            return (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
+                this.mailClient.activeScreen !== this.mailClient.screenWriteReply &&
+                this.mailClient.activeScreen !== this.mailClient.screenWriteReplyAll &&
+                this.mailClient.activeScreen !== this.mailClient.screenWriteForward);
+        },
+        
         remove: function() {
-            /*
-            var mailClient = this.mailClient;
-            var mailClientView = this;
-            
-            if (mailClient.activeScreen === mailClient.screenWriteNewCustomEmail ||
-                mailClient.activeScreen === mailClient.screenWriteReply ||
-                mailClient.activeScreen === mailClient.screenWriteReplyAll ||
-                mailClient.activeScreen === mailClient.screenWriteForward) {               
-                
-                mailClient.message_window = new SKDialogView({
-                    'message': 'Сохранить письмо в черновиках?',
-                    'buttons': [
-                        {
-                            'value': 'Не сохранять',
-                            'onclick': function () {
-                                mailClientView.renderInboxFolder();
-                            }
-                        },
-                        {
-                            'value': 'Отмена',
-                            'onclick': function () {
-                                delete mailClient.message_window;
-                            }
-                        },
-                        {
-                            'value': 'Сохранить',
-                            'onclick': function () {
-                                mailClientView.doSaveEmailToDrafts();
-                            }
-                        }
-                    ]
-                });
-            } else {
-                // this.$el.remove();
-                SKWindow.prototype.remove.call(this);
-            }
-            */
             SKWindowView.prototype.remove.call(this);
             this.mailClient.setActiveScreen(undefined);
         },
