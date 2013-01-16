@@ -58,13 +58,15 @@
         },
         callToContact:function(event){
             console.log("Run");
-            /*var themeId = $(event.toElement).attr('data-theme-id');
+            var themeId = $(event.toElement).attr('data-theme-id');
             var contactId = $(event.toElement).attr('data-contact-id');
-            SKApp.server.api('phone/getThemes', {'themeId':themeId, 'contactId':contactId}, function (data) {
+            this.options.model_instance.close();
+            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId}, function (data) {
+                SKApp.user.simulation.parseNewEvents(data.events);
                 console.log(data);
                 //options.success(data);
             });
-            */
+
         }
     });
 })();
