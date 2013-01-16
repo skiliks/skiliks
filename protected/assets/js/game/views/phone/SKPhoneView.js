@@ -43,7 +43,7 @@
             return $('.'+this.windowClass).length;
         },
         getThemes: function(event){
-            $('#canvas').append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 1160px; width: 300px;"></div>');
+            this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 14px; width: 330px;"></div>');
             var contactId = $(event.toElement).attr('data-contact-id');
             //var windowId = $(event.toElement).attr('window_id');
             var themes = new SKPhoneThemeCollection({'id':contactId});
@@ -52,17 +52,21 @@
             //console.log(themes);
             themes.on('reset', function () {
                 me.renderTPL('#phoneCallThemesDiv', '#Phone_Themes', {'themes':themes, 'contactId':contactId});
+                me.undelegateEvents();
+                me.delegateEvents();
             });
         },
         callToContact:function(event){
             console.log("Run");
-            /*var themeId = $(event.toElement).attr('data-theme-id');
+            var themeId = $(event.toElement).attr('data-theme-id');
             var contactId = $(event.toElement).attr('data-contact-id');
-            SKApp.server.api('phone/getThemes', {'themeId':themeId, 'contactId':contactId}, function (data) {
+            this.options.model_instance.close();
+            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId}, function (data) {
+                SKApp.user.simulation.parseNewEvents(data.events);
                 console.log(data);
                 //options.success(data);
             });
-            */
+
         }
     });
 })();
