@@ -29,6 +29,9 @@
                 if (task.get('day') !== day) {
                     return;
                 }
+                if (task.get('moving') === true) {
+                    return;
+                }
                 var task_start_hour = task.get('date').split(':')[0];
                 var task_start_minute = task.get('date').split(':')[1];
                 var task_start_time = parseInt(task_start_hour, 10) * 60 + parseInt(task_start_minute, 10);

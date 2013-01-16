@@ -31,7 +31,22 @@ var SKDayPlanView;
                 scroll:true,
                 cursorAt:{ top:4 },
                 start:function () {
+                    me.showDayPlanSlot($(this));
+                    var task_id = $(this).attr('data-task-id');
+                    var prev_cell = $(this).parents('td');
+                    if (prev_cell.length) {
+                        SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', true);
+                    }
+                    $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
+                },
+                stop:function () {
+                    var task_id = $(this).attr('data-task-id');
+                    var prev_cell = $(this).parents('td');
+                    if (prev_cell.length) {
+                        SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', false);
+                    }
+                    $(this).show();
                 },
                 drag:function (event, ui) {
                     var st = parseInt($(this).data("startingScrollTop"), 10);
@@ -63,8 +78,7 @@ var SKDayPlanView;
                 );
             }
         },
-        removeDayPlanTask:function (task) {
-            var task_el = this.$('div[data-task-id=' + task.id + ']');
+        showDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
             prev_cell.height(11);
@@ -80,6 +94,10 @@ var SKDayPlanView;
                     .show();
             }
             this.setupDroppable();
+            return task_el;
+        }, removeDayPlanTask:function (task) {
+            var task_el = this.$('div[data-task-id=' + task.id + ']');
+            this.showDayPlanSlot(task_el);
             task_el.remove();
         },
         addDayPlanTask:function (model) {
