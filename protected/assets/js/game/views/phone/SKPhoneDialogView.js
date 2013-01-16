@@ -17,7 +17,7 @@ $(function () {
                 me = this,
                 my_replicas = event.getMyReplicas(),
                 remote_replica = event.getRemoteReplica();
-
+                console.log(remote_replica);
             var callInHtml = _.template($('#Phone_Dialog').html(), {
                 'remote_replica':remote_replica,
                 'my_replicas':my_replicas,
