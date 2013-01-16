@@ -67,7 +67,6 @@ class PhoneService {
      * @param int $characterId 
      */
     public static function registerOutgoing($simId, $characterId, $time) {
-        
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
         $model->call_time   = $time;
@@ -84,7 +83,7 @@ class PhoneService {
         
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
-        $model->call_time   = date("H:i:s", $time);;
+        $model->call_time   = date("H:i:s", $time);
         $model->call_type   = 2;
         $model->from_id     = $dialog->ch_to;
         $model->to_id       = 1; // какому персонажу мы звоним
@@ -133,7 +132,7 @@ class PhoneService {
         return $list;
     }
     
-    public static function call($simulation, $themeId, $characterId)
+    public static function call($simulation, $themeId, $characterId, $time)
     {
         $result = null;
         
@@ -154,7 +153,7 @@ class PhoneService {
                         $data[0]['title'] = $character->title;
                         $data[0]['name'] = $character->fio;
                     }
-
+                    PhoneService::registerOutgoing($simulation->id, $characterId, $time);
                     $result = array(
                         'result' => 1,
                         'events' => array(
@@ -199,7 +198,7 @@ class PhoneService {
         if (null === $result) {
 
             // регистрируем исходящий вызов
-            PhoneService::registerOutgoing($simulation->id, $characterId, '00:00:00');
+            PhoneService::registerOutgoing($simulation->id, $characterId, $time);
 
             // подготовим список тем
             $themes = PhoneService::getThemes($characterId);
