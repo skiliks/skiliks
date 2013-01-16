@@ -65,13 +65,11 @@ class PhoneController extends AjaxController{
      */
     public function actionCall() 
     {
-        try {
+            throw new CException("Hello Sentry!");
             $this->sendJSON(
-                PhoneService::call($this->getSimulationEntity(), (int)Yii::app()->request->getParam('themeId', false), (int)Yii::app()->request->getParam('contactId', false), (int)Yii::app()->request->getParam('time', '00:00'))
+                PhoneService::call($this->getSimulationEntity(), (int)Yii::app()->request->getParam('themeId', false), (int)Yii::app()->request->getParam('contactId', false), Yii::app()->request->getParam('time', '00:00'))
             );
-        } catch (Exception $e) {
-            $this->returnErrorMessage($e->getMessage());
-        }
+
     }
 
     
