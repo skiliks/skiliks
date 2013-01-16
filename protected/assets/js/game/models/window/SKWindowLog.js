@@ -7,7 +7,7 @@
             this.log = [];
         },
         'activate': function (window) {
-            var time = SKApp.user.simulation.getGameMinutes();
+            var time = SKApp.user.simulation.getGameSeconds();
             this.log.push([window.getWindowId(), window.getSubwindowId(), 'activated', time, window.get('params')]);
             
             console.log('[SKWindow] Activated window ' + window.get('name') + '/' + window.get('subname') + ' at ' 
@@ -15,7 +15,7 @@
             );
         },
         'deactivate': function (window) {
-            var time = SKApp.user.simulation.getGameMinutes();
+            var time = SKApp.user.simulation.getGameSeconds();
             this.log.push([window.getWindowId(), window.getSubwindowId(), 'deactivated', time, window.get('params')]);
             
             console.log('[SKWindow] Deactivated window ' + window.get('name') + '/' + window.get('subname') + ' at ' 

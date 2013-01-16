@@ -1,8 +1,6 @@
 frame_switcher = {
     setToHTML:function(){
         var canvasFrame = document.getElementById('canvas');
-        console.log('body: ', $('body').html());
-        console.log('canvasFrame: ', canvasFrame);
         canvasFrame.style.display = 'none';
         
         var activeFrame = document.getElementById('location');
