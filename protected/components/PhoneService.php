@@ -67,6 +67,7 @@ class PhoneService {
      * @param int $characterId 
      */
     public static function registerOutgoing($simId, $characterId, $time) {
+
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
         $model->call_time   = $time;
