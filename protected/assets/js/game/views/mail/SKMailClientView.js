@@ -76,12 +76,12 @@
             var me = this;
             this.mailClient = SKApp.user.simulation.mailClient;
             
-            //this.options.model_instance = this.mailClient;
-            
+            // init View according model
             this.listenTo(this.mailClient, 'init_completed', function () {
                 me.doRenderFolder(me.mailClient.aliasFolderInbox);
             });
             
+            // render character subjects list
             this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
                 me.updateSubjectsList();
                 
@@ -90,14 +90,24 @@
                 me.renderPhrases();
             });
             
+            // render phrases
             this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
                 me.renderPhrases()
             });
             
+            // render write reply
             this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
                 me.doUpdateScreenFromReplyEmailData();
             });
             
+            // update inbox emails counter
+            this.listenTo(this.mailClient, 'mail:update_inbox_counter', function (event) {
+                var unreaded = me.mailClient.getInboxFolder().countUnreaded();
+                me.updateMailIconCounter(unreaded);
+                me.updateInboxFolderCounter(unreaded);
+            });
+            
+            // close with conditions action {
             this.options.model_instance.on('pre_close', function () {
                 me.options.model_instance.prevent_close = !me.isCanBeClosed();
                 
@@ -132,8 +142,28 @@
                     });
                 }
             });
+            // close with conditions action }
 
+            // call parrent initialize();
             SKWindowView.prototype.initialize.call(this);
+        },
+        
+        updateMailIconCounter: function(counter) {
+            var counterElement = $('#icons_email span');
+            
+            if (0 === counterElement.length) {
+                counterElement.html('<span></span>');
+                counterElement = $('#icons_email span');
+            }            
+            
+            counterElement.text(counter);
+            if ( 0 === counter) {
+                counterElement.remove();
+            }
+        },
+        
+        updateInboxFolderCounter: function(counter) {
+            $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter').text(counter);
         },
         
         isCanBeClosed: function() {

@@ -539,9 +539,7 @@
                 email.is_readed = true;
             }
             
-            var unreaded = this.getInboxFolder().countUnreaded();
-            this.updateMailIconCounter(unreaded);
-            this.updateInboxFolderCounter(unreaded);
+            this.trigger('mail:update_inbox_counter');
             
             this.activeEmail = email;
          },
@@ -584,15 +582,6 @@
             }
             // set as active first letter in Inbox folder }
             this.trigger('init_completed');
-        },
-        
-        updateMailIconCounter: function(counter) {
-            //Todo remove it from model
-            $('#icons_email span').text(counter);
-        },
-        
-        updateInboxFolderCounter: function(counter) {
-            $('.icon_' + this.aliasFolderInbox + ' .counter').text(counter);
         },
         
         /**
