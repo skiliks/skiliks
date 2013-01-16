@@ -1,6 +1,6 @@
 config = {
     host: {
-        name: '//backend.test.skiliks.com/'
+        name: ''
     },
     activeFrame: {
         width: '100%',
