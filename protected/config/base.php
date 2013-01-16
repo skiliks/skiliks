@@ -47,6 +47,7 @@ return array(
             // 'newDirMode'=>0777,
         ),
     ),
+    'preload'=> array('log', 'RSentryException'),
     'components' => array(
         /*log' => array(
             'class' => 'CLogRouter',
@@ -70,6 +71,10 @@ return array(
                     'levels'=>'error, warning',
                 ),
             ),
+        ),
+        'RSentryException'=> array(
+            'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
+            'class' => 'application.components..yii-sentry-log.RSentryComponent',
         ),
         'cache' => array(
             'class' => 'CDbCache',
