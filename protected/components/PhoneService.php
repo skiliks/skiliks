@@ -146,7 +146,7 @@ class PhoneService {
 
                     // выдаем автоответчик
                     $data = array();
-                    $data[] = self::combineReplicaToHero(array('ch_from' => $characterId));
+                    $data[] = self::combineReplicaToHero(array('ch_from' => "$characterId"));
 
                     $character = Characters::model()->byId($characterId)->find();
 
@@ -205,7 +205,7 @@ class PhoneService {
             $themes = PhoneService::getThemes($characterId);
             $data = array();
             foreach($themes as $themeId => $themeName) {
-                $data[] = self::combineReplicaToHero(array('id' => $themeId, 'ch_to' => $characterId, 'text' => $themeName));
+                $data[] = self::combineReplicaToHero(array('id' => $themeId, 'ch_from' => "{$characterId}", 'text' => $themeName));
             }
             
             $result = array(
@@ -221,11 +221,10 @@ class PhoneService {
     {
         $data = array(
             'id'                => 0,
-            'ch_from'           => 1,
             'ch_from_state'     => 1,
             'ch_to'             => 1,
             'ch_to_state'       => 1,
-            'dialog_subtype'    => 2,
+            'dialog_subtype'    => '2',
             'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
             'sound'             => '#',
             'duration'          => 5
