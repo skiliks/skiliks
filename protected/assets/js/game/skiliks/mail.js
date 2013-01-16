@@ -627,7 +627,6 @@
 
             $('#mailEmulatorNewLetterSendDraft').hide();
             
-            console.log('this.curFolderType: ', this.curFolderType);
             if (this.curFolderType != 'inbox' && this.curFolderType != 'trash') {
                 $('#mailEmulatorOpenedMailAnswer').hide();
                 $('#mailEmulatorOpenedMailAnswerAll').hide();
