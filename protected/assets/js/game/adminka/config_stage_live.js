@@ -1,6 +1,6 @@
 config = {
     host: {
-        name: '/api/'
+        name: ''
     },
     activeFrame: {
         width: '100%',
