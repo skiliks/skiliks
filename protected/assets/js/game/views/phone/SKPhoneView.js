@@ -32,7 +32,7 @@
             history.fetch();
             var me = this;
             history.on('reset', function () {
-                me.renderTPL('#'+id+' .phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
+                me.renderTPL('.phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
             });
         },
         getMenu: function(event){
