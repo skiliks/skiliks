@@ -1196,7 +1196,8 @@
                         {
                             'value': 'Продолжить',
                             'onclick': function () {
-                                mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
+                                mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
+                                mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
                                 delete mailClient.message_window;
                                 ;
                             }
@@ -1204,6 +1205,7 @@
                         {
                             'value': 'Вернуться',
                             'onclick': function () {
+                                mailClientView.selectSubjectByValue(mailClient.newEmailSubjectId);
                                 delete mailClient.message_window;
                             }
                         }
@@ -1211,8 +1213,14 @@
                 });
             } else {
                 // standart way
+                mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                 mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
             }
+        },
+        
+        selectSubjectByValue: function(value) {
+            $('#MailClient_NewLetterSubject select option').removeAttr('selected');
+            $('#MailClient_NewLetterSubject select option[value="' + value + '"]').attr('selected','selected');
         },
 
         renderPreviouseMessage:function (text) {
