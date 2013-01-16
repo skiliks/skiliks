@@ -52,7 +52,10 @@
             }
             this.each(function (win) {
                 if (name ? win.name === name : win.name !== 'mainScreen') {
-                    win.close();
+                    // we can`t close already closed windows
+                    if (false === win.is_opened) {
+                        win.close();
+                    }
                 }
             });
         }
