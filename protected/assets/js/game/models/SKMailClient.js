@@ -167,6 +167,9 @@
         // @var array of SKMailAttachment
         newEmailAttachment: undefined,
         
+        // @var array of SKMailSubject
+        newEmailSubjectId: 0,
+        
         // @var undefined | SKEmail
         lastNotSavedEmail: undefined,
         
@@ -727,7 +730,7 @@
             }
             
             // display warning only if user add extra recipients
-            if (checkValue < recipientIds.length) {
+            if (checkValue < recipientIds.length && 0 < this.newEmailUsedPhrases.lenght) {
                 this.message_window = new SKDialogView({
                     'message': 'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                     'buttons': [
@@ -741,6 +744,7 @@
                         {
                             'value': 'Вернуться',
                             'onclick': function () {
+                                this.trigger('mail:return_last_subject');
                                 delete mailClient.message_window;
                             }
                         }
