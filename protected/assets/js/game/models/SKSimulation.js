@@ -60,8 +60,7 @@
         parseNewEvents:function (events) {
             var me = this;
             events.forEach(function (event) {
-                console.log('[SKSimulation] new event ' + event.eventType);
-                console.log(event.data);
+                console.log('[SKSimulation] new event ', event.eventType, event.data);
                 if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                     // Crutch, sometimes server returns empty events
                     me.events.trigger('dialog:end');
@@ -109,9 +108,11 @@
         'stop':function () {
             var me = this;
             clearInterval(this.events_timer);
+
             this.window_set.closeAll();
-            this.window.close();
+
             var logs = this.windowLog.getAndClear();
+            
             SKApp.server.api('simulation/stop', {'logs':logs}, function () {
                 me.trigger('stop');
             });
