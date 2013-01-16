@@ -23,7 +23,7 @@
                 my_replicas = event.getMyReplicas(),
                 video_src = event.getVideoSrc(),
                 remote_replica = event.getRemoteReplica();
-            this.visitor_entrance_window = new SKDialogWindow('visitor', 'visitorEntrance', event.get('data')[0].id);
+            this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
             this.visitor_entrance_window.open();
             this.$el.html(_.template($('#visit_template').html(), {
                 'remote_replica':remote_replica,
