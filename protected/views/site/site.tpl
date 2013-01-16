@@ -5,7 +5,7 @@
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <script type="text/javascript">
         var SKConfig = {$config};
-        window.gameVersion = '?v=<?php echo $version ?>';
+        window.gameVersion = '?v=1';
     </script>
     <title>Skiliks</title>
 

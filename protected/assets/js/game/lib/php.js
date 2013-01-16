@@ -140,6 +140,7 @@ php = {
                     if (eval(requirement) == "undefined")
                     {
                         setTimeout(function() { //У-е-бан-ство
+                            console.log('url: ', url);
                             php.include(url, rec_flag, requirements); 
                             }, 500);
                         return;
@@ -149,6 +150,7 @@ php = {
       var script = document.createElement('script');
       script.setAttribute('type', 'text/javascript')
       script.setAttribute('src', url);
+      console.log('url: ', url);
       document.getElementsByTagName('head').item(0).appendChild(script);
     }
 }
