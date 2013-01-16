@@ -6,7 +6,6 @@ world = {
     draw:function(string)
     {
         var activeFrame = frame_switcher.setToHTML();
-        console.log('frame_switcher: ', frame_switcher);
         var html='';
         html += menuMain.get();
         html += string;
