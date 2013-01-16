@@ -26,7 +26,7 @@
 <script type="text/template" id="Phone_Themes">
     <ul>
         <@ themes.each(function(model) { @>
-        <li class="phone_call_to_contact" data-theme-id="<@=model.get('themeId')@>" data-contact-id="<@=contactId@>"><@=model.get('themeTitle')@></li>
+        <li class="phone_call" data-theme-id="<@=model.get('themeId')@>" data-contact-id="<@=contactId@>"><@=model.get('themeTitle')@></li>
         <@ }) @>
     </ul>
 </script>
