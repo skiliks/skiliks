@@ -150,12 +150,6 @@ class SiteController extends AjaxController
         $this->render('site', ['config' => CJSON::encode($config), 'assetsUrl' => $assetsUrl]);
     }
 
-    public function getAssetsUrl()
-    {
-        return Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.assets'),false, -1, Yii::app()->params['assetsDebug']);
-    }
-
-
     /**
      * We handle Yii rroes and savethem to Yii.log.
      * User see just standard notice
