@@ -220,14 +220,16 @@ class PhoneService {
     private static function combineReplicaToHero($newData)
     {
         $data = array(
-            'id'                => 0,
-            'ch_from_state'     => 1,
-            'ch_to'             => 1,
-            'ch_to_state'       => 1,
+            'id'                => '0',
+            'ch_from_state'     => '1',
+            'ch_to'             => '1',
+            'ch_to_state'       => '1',
             'dialog_subtype'    => '2',
             'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
             'sound'             => '#',
-            'duration'          => 5
+            'duration'          => '5',
+            'step_number'       => '1',
+            'code'              => 'None'
         );
         
         return array_merge($newData, $data);
