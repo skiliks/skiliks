@@ -721,7 +721,7 @@
         reloadSubjectsWithWarning: function(recipientIds, action) {
             var mailClient = this;
             
-            var checkValue = 0;
+            var checkValue = -1;
             if ('add' === action) {
                 checkValue = 1;
             }
