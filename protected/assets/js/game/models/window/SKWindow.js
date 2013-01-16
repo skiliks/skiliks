@@ -64,6 +64,11 @@
             if (!this.is_opened) {
                 throw "Window is already closed";
             }
+            this.trigger('pre_close');
+            if (this.prevent_close === true) {
+                delete this.prevent_close;
+                return;
+            }
             this.is_opened = false;
             SKApp.user.simulation.window_set.hideWindow(this);
             this.trigger('close');
