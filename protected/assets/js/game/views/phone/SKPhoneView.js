@@ -60,7 +60,7 @@
             var themeId = $(event.toElement).attr('data-theme-id');
             var contactId = $(event.toElement).attr('data-contact-id');
             this.options.model_instance.close();
-            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId}, function (data) {
+            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
             });
 
