@@ -44,18 +44,11 @@ class PhoneService {
      * @return array
      */
     public static function getThemes($id) {
-        $themes = MailCharacterThemesModel::model()->byCharacter($id)->byPhone()->findAll();
-        $themeIds = array();
-        foreach($themes as $theme) {
-            $themeIds[] = $theme->theme_id;
-        }
-        
-        if (count($themeIds) == 0) return array();
-        
-        $themes = MailThemesModel::model()->byIds($themeIds)->findAll();
+
+        $themes = MailCharacterThemesModel::model()->byCharacter($id)->findAll();
         $list = array();
         foreach($themes as $theme) {
-            $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->name];
+            $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
         }
         
         return $list;
