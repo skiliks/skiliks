@@ -16,7 +16,11 @@
 
                     }
                 },
-                uiOptions : {
+                getFileCallback: function (file) {
+                    var window = new SKDocumentsWindow({subname:'documentsFiles', filename:file});
+                    window.open();
+                },
+                    uiOptions : {
                     // toolbar configuration
                     toolbar : [
                         ['back', 'forward'],
