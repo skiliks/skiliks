@@ -6,6 +6,7 @@ class m130116_201326_mail_themes_remove extends CDbMigration
 	{
         $connection = $this->getDbConnection();
         $transaction = $connection->beginTransaction();
+        $connection->createCommand("SET FOREIGN_KEY_CHECKS = 0")->execute();
         try
         {
             $mail_template = $connection->createCommand("SELECT `t`.`id`, `t`.`subject_id` FROM `mail_template` AS `t`")->queryAll();
@@ -84,11 +85,14 @@ class m130116_201326_mail_themes_remove extends CDbMigration
             echo count($mail_character_themes)." not updates in `mail_character_themes` \r\n";
             echo "done! \r\n";
             $transaction->commit();
+            $connection->createCommand("SET FOREIGN_KEY_CHECKS = 1")->execute();
+
         }
         catch(Exception $e)
         {
             echo "Exception: ".$e->getMessage()."\n";
             $transaction->rollback();
+            $connection->createCommand("SET FOREIGN_KEY_CHECKS = 1")->execute();
             return false;
         }
         /*echo "rollback change? 'yes/no' [yes]";
