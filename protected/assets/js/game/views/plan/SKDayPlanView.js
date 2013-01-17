@@ -17,7 +17,7 @@ var SKDayPlanView;
         }, SKWindowView.prototype.events),
         setupDraggable:function () {
             var me = this,
-                elements = this.$('.planner-task:not(.locked)');
+            elements = this.$('.planner-task:not(.locked)');
             elements.draggable("destroy");
             elements.draggable({
                 containment:this.$('.planner-book'),
@@ -30,17 +30,20 @@ var SKDayPlanView;
                 snapTolerance:11,
                 scroll:true,
                 cursorAt:{ top:4 },
+                addClasses: 'dragget-task',
+                revert: "invalid",
                 start:function () {
                     me.showDayPlanSlot($(this));
+                    
                     var task_id = $(this).attr('data-task-id');
+                    
                     var prev_cell = $(this).parents('td');
                     if (prev_cell.length) {
                         SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', true);
                     }
                     $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
-                },
-                revert: "invalid",
+                },                
                 stop:function (socketObj) {
                         me.hideDayPlanSlot($(this));
                         var task_id = $(this).attr('data-task-id');
@@ -56,6 +59,19 @@ var SKDayPlanView;
                 drag:function (event, ui) {
                     var st = parseInt($(this).data("startingScrollTop"), 10);
                     ui.position.top -= $(this).parent().scrollTop() - st;
+                    
+                    // set height aacording duration {
+                    var duration = parseInt($(this).attr('data-task-duration'), 10);
+                    var height = me.calculateTaskHeigth(duration);
+                    $('.planner-book .ui-draggable-dragging').height(height);
+                    
+                    // crop text length    
+                    me.overflowText(
+                        $('.planner-book .ui-draggable-dragging .title'),
+                        height, 
+                        $('.planner-book .ui-draggable-dragging .title')
+                    );
+                    // set height aacording duration }
                 }
             });
         },
@@ -136,23 +152,33 @@ var SKDayPlanView;
             if (model.get("type") === "2") {
                 drop_td.find('.planner-task').addClass('locked');
             }
+            
+            // add title attribute to HTMl with full code
+            drop_td.attr('title', drop_td.find('.title').text()); 
+            
             var max_height = Math.ceil(duration / 15) * 10;
             setTimeout(function () {
                 me.overflowText(drop_td.find('.title'), max_height, drop_td.find('.title'));
             }, 0);
             var todo_el = drop_td.find('.day-plan-todo-task');
-            todo_el.height(Math.ceil(duration / 15) * 11);
-            drop_td.height(Math.ceil(duration / 15) * 11);
+            
+            todo_el.height(me.calculateTaskHeigth(duration));
+            drop_td.height(me.calculateTaskHeigth(duration));
+            
             // Hiding next N cells
             var currentRow = drop_td.parents('tr');
             for (var i = 0; i < duration - 15; i += 15) {
                 currentRow = currentRow.next();
                 currentRow.find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl').hide();
             }
+            
             // Updating draggable element list
             this.setupDraggable();
-            console.log('2');
         },
+        calculateTaskHeigth: function(duration) {
+            return (Math.ceil(duration / 15) * 11);
+        },
+        
         removeTodoTask:function (model) {
             this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
         },
@@ -166,7 +192,7 @@ var SKDayPlanView;
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-
+                    console.log('1');
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
                     var prev_cell = ui.draggable.parents('td');
@@ -180,11 +206,11 @@ var SKDayPlanView;
 
                     //Appending to new location
                     SKApp.user.simulation.dayplan_tasks.create({
-                        title:ui.draggable.find('.title').text(),
-                        date:$(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
-                        task_id:task_id,
-                        duration:ui.draggable.attr('data-task-duration'),
-                        day:$(this).parents('div[data-day-id]').attr('data-day-id')
+                        title:    ui.draggable.find('.title').text(),
+                        date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
+                        task_id:  task_id,
+                        duration: ui.draggable.attr('data-task-duration'),
+                        day:      $(this).parents('div[data-day-id]').attr('data-day-id')
                     });
 
                     // clean up highlighting, it is duplicate but it nessesary to place it here too
@@ -214,11 +240,11 @@ var SKDayPlanView;
                     }
                     
                     // highlight time pieces {
-                    var currentRow = $(this).parents('tr');
-                    for (var i = 0; i < duration; i += 15) {
-                        currentRow.find('td.planner-book-timetable-event-fl').addClass('drop-hover');
-                        currentRow = currentRow.next();
-                    }
+                    $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')
+                        .removeClass('drop-hover');
+                        
+                    $(this).parent().parent().parent().parent()
+                        .find('tr').addClass('drop-hover');  
                     // highlight time pieces }
                 },
                 /**
@@ -246,7 +272,7 @@ var SKDayPlanView;
                     me.$('.planner-book-afterv-table').addClass('drop-hover');
                 },
                 'drop':function (event, ui) {
-
+                    console.log('2');
                     me.$('.planner-book-after-vacation .day-plan-td-slot').each(function () {
                         var duration = ui.draggable.attr('data-task-duration');
                         var day = $(this).parents('div[data-day-id]').attr('data-day-id');
@@ -288,7 +314,9 @@ var SKDayPlanView;
                     return !draggable.parents('.plan-todo').length;
                 },
                 'drop':function (event, ui) {
-
+                    // clean up highlighting, it is duplicate but it nessesary to place it here too
+                    $('#plannerBook .drop-hover').removeClass('drop-hover');
+                    
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
                     SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
