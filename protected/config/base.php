@@ -103,8 +103,8 @@ return array(
         'zoho' => array(
             'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/excel',
-            'templatesDirPath'    => 'documents',
+            'xlsTemplatesDirPath' => 'documents/templates',
+            'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
         'analizer' => array(
