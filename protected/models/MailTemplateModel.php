@@ -5,7 +5,7 @@
 /**
  * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
- * Связана с моделями:  MailThemesModel, Characters.
+ * Связана с моделями:  MailCharacterThemesModel, Characters.
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -33,13 +33,7 @@ class MailTemplateModel extends CActiveRecord
      * @var int
      */
     public $receiver_id; 
-    
-    /**
-     * @var string
-     */
-    public $subject;
-    
-    
+       
     /**
      * @var integer, real Unix epoch time, in seconds
      */
