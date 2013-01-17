@@ -104,6 +104,7 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/documents/SKDocumentListView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/documents/SKPDFDisplayView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/documents/SKXLSDisplayView.js");
 
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKVisitView.js");

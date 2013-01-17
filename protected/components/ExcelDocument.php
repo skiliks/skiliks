@@ -14,22 +14,17 @@ final class ExcelDocument
     
     protected $zohoDocument = null;
     
-    public function loadByFile($simId, $fileId) {
-        // проверить есть ли такой файл
-        $file = MyDocumentsService::existsInSim($simId, $fileId);
-        if (null === $file) { 
-            throw new Exception("Для вашей симуляции отсутствует файл");
-        }
+    public function loadByFile($simId, $file) {
         // получим документ из шаблонов
         $documentTemplate = ExcelDocumentTemplate::model()->byFile($file->template_id)->find();
         if (null === $documentTemplate) {
-            throw new Exception("Немогу загрузить шаблон документа для $file->template_id");
+            throw new Exception("Can not load document for $file->template_id");
         }
         
         $this->file = $documentTemplate;
         
-        $this->zohoDocument[$simId][$fileId] = new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
-        $this->zohoDocument[$simId][$fileId]->sendDocumentToZoho();
+        $this->zohoDocument[$simId][$file->id] = new ZohoDocuments($simId, $file->id, $this->file->getRealFileName());
+        $this->zohoDocument[$simId][$file->id]->sendDocumentToZoho();
         
         return $this;
     }
@@ -42,27 +37,27 @@ final class ExcelDocument
      * 
      * @return array of strings
      */
-    public function populateFrontendResult($simulation, $fileId) 
+    public function populateFrontendResult($simulation, $file)
     {
-        if (NULL === $fileId || false === is_numeric($fileId) || $fileId < 1) {
+        if (NULL === $file) {
             return array(
                 'result'           => 0,
-                'filedId'          => $fileId,
+                'filedId'          => $file->id,
                 'excelDocumentUrl' => '/pages/excel/fileNotFound.html',
             );
         }
         
-        if (false === isset($this->zohoDocument[$simId][$fileId])) {
-            $this->zohoDocument[$simulation->id][$fileId] = 
-                new ZohoDocuments($simId, $fileId, $this->file->getRealFileName());
+        if (false === isset($this->zohoDocument[$simulation->id][$file->id])) {
+            $this->zohoDocument[$simulation->id][$file->id] =
+                new ZohoDocuments($simId, $file->id, $this->file->getRealFileName());
             
-            $this->zohoDocument[$simulation->id][$fileId]->sendDocumentToZoho();
+            $this->zohoDocument[$simulation->id][$file->id]->sendDocumentToZoho();
         }        
         
          return array(
             'result'           => 1,
-            'filedId'          => $fileId,
-            'excelDocumentUrl' => $this->zohoDocument[$simulation->id][$fileId]->getUrl(),
+            'filedId'          => $file->id,
+            'excelDocumentUrl' => $this->zohoDocument[$simulation->id][$file->id]->getUrl(),
         );
     }
 }

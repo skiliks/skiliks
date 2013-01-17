@@ -122,7 +122,8 @@ class ZohoDocuments
             @mkdir($this->getDocDirPath());
         }
 
-        copy($this->getTemplateFilePath(), $this->getUserFilepath());
+        $templateFilePath = $this->getTemplateFilePath();
+        copy($templateFilePath, $this->getUserFilepath());
     }
 
     /**
