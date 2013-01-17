@@ -29,7 +29,10 @@
             var id = $(event.toElement).attr('window_id');
             
             var history = SKApp.user.simulation.phone_history;
-            history.fetch();
+            
+            history.readHistory();
+            history.trigger('reset'); // to refresh counter
+            
             var me = this;
             history.on('reset', function () {
                 me.renderTPL('.phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
