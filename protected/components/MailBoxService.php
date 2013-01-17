@@ -127,10 +127,9 @@ class MailBoxService {
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
             $theme = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
+
             $subject = $theme->text;
 
-
-            
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
             if ($folderId == 2 || $folderId == 3) $readed = 1;
