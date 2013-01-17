@@ -47,35 +47,8 @@ return array(
             // 'newDirMode'=>0777,
         ),
     ),
-    'preload'=> array('log', 'RSentryException'),
     'components' => array(
-        /*log' => array(
-            'class' => 'CLogRouter',
-            'routes' => array(
-                'all' => array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error,trace,info,warning,debug',
-                    //'filter'=>'CLogFilter',
-                    'categories'=>'system.db.*',
-                    'logFile'=>'sql.log'
-                ),
-
-            ),
-        ),*/
-        'log'=>array(
-            'class'=>'CLogRouter',
-            'routes'=>array(
-                array(
-                    'class'=>'application.components.yii-sentry-log.RSentryLog',
-                    'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
-                    'levels'=>'error, warning',
-                ),
-            ),
-        ),
-        'RSentryException'=> array(
-            'dsn'=> 'https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572',
-            'class' => 'application.components..yii-sentry-log.RSentryComponent',
-        ),
+        'preload'=> array('log', 'RSentryException'),
         'cache' => array(
             'class' => 'CDbCache',
             'connectionID' => 'db',
@@ -130,8 +103,8 @@ return array(
         'zoho' => array(
             'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/api/index.php/zoho/saveExcel',
-            'xlsTemplatesDirPath' => 'documents/excel',
-            'templatesDirPath'    => 'documents',
+            'xlsTemplatesDirPath' => 'documents/templates',
+            'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
         'analizer' => array(
