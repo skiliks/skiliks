@@ -604,12 +604,6 @@
             }
         },
         
-        renderReadEmailScreen: function(emailId) {
-            this.viewObject.renderReadEmail(this.getEmailByMySqlId(emailId));
-            
-            this.setActiveScreen(this.screenReadEmail);
-        },
-        
         getSimulationMailClientWindow: function() {
             var windows = SKApp.user.simulation.window_set.where({name:'mailEmulator'});
             
