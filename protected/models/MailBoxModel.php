@@ -233,7 +233,7 @@ class MailBoxModel extends CActiveRecord
 
     public function relations() {
         return array(
-            'subject_obj' => array(self::BELONGS_TO, 'MailThemesModel', 'subject_id'),
+            'subject_obj' => array(self::BELONGS_TO, 'MailCharacterThemesModel', 'subject_id'),
             'template' => array(self::BELONGS_TO, 'MailTemplateModel', 'template_id')
         );
     }
@@ -251,34 +251,19 @@ class MailBoxModel extends CActiveRecord
      */
     public function getCharacterTheme() {
         
-        $main_subject = MailThemesModel::model()->findByAttributes(array(
-            'name' => $this->subject_obj->name,
-            'sim_id' => null
+        $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
+            'text' => $this->subject_obj->text
         ));
-        
-        // try to find subject for current simulation
-        if (null === $main_subject) {
-            $main_subject = MailThemesModel::model()->findByAttributes(array(
-                'name'   => $this->subject_obj->name,
-                'sim_id' => $this->sim_id
-            ));
-        }
-        
+
         // try to find subject for current simulation
         if (null === $main_subject) {
             $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
                 'id'   => $this->subject_obj->id,
-            ));
-            
-            if (null !== $main_subject) {
-                $main_subject = MailThemesModel::model()->findByAttributes(array(
-                    'id'   => $main_subject->theme_id,
-                ));
-            }
-        }
+        ));
+    }
         
         return MailCharacterThemesModel::model()->find(
-            '(character_id=:sender_id OR character_id=:receiver_id) AND theme_id=:subject_id',
+            '(character_id=:sender_id OR character_id=:receiver_id) AND id=:subject_id',
             array(
                 'sender_id'   => $this->sender_id,
                 'receiver_id' => $this->receiver_id,

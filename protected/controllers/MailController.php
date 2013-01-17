@@ -130,7 +130,7 @@ class MailController extends AjaxController
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject    = Yii::app()->request->getParam('subject', NULL);
+        $sendMailOptions->subject_id    = Yii::app()->request->getParam('subject', NULL);
         
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
         
@@ -162,7 +162,7 @@ class MailController extends AjaxController
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject    = Yii::app()->request->getParam('subject', NULL);        
+        $sendMailOptions->subject_id    = Yii::app()->request->getParam('subject', NULL);
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
 
 
@@ -280,21 +280,20 @@ class MailController extends AjaxController
      */
     public function actionReply()
     {
-        $simulation = $this->getSimulationEntity();
 
         $messageToReply = MailBoxModel::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
 
         $characters = MailBoxService::getCharacters();
-        $subjectEntity = MailBoxService::getSubjectForRepryEmail($simulation, $messageToReply);
+        $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
 
         return $this->sendJSON(array(
             'result'      => 1,
-            'subjectId'   => $subjectEntity->id ,
-            'subject'     => $subjectEntity->name,
+            'subjectId'   => $subjectEntity->id,
+            'subject'     => $subjectEntity->text,
             'receiver'    => $characters[$messageToReply->sender_id],
             'receiver_id' => $messageToReply->sender_id,
-            'phrases'     => MailBoxService::getPhrasesDataForReply($simulation, $messageToReply, $subjectEntity)
+            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity )
         ));
     }
 
@@ -306,18 +305,18 @@ class MailController extends AjaxController
             ->findByPk(Yii::app()->request->getParam('id', 0));
          
         $characters = MailBoxService::getCharacters();
-        $subjectEntity = MailBoxService::getSubjectForRepryEmail($simulation,$messageToReply);
+        $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
         list($copiesIds, $copies) = MailBoxService::getCopiesArrayForReplyAll($messageToReply);
 
         return $this->sendJSON(array(
             'result'      => 1,
             'subjectId'   => $subjectEntity->id ,
-            'subject'     => $subjectEntity->name,
+            'subject'     => $subjectEntity->text,
             'receiver'    => $characters[$messageToReply->sender_id],
             'receiver_id' => $messageToReply->sender_id,
             'copiesIds'   => $copiesIds,
             'copies'      => $copies,
-            'phrases'     => MailBoxService::getPhrasesDataForReply($simulation, $messageToReply, $subjectEntity)
+            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity )
         ));
     }
 

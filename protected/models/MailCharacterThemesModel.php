@@ -4,7 +4,7 @@
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
  * 
- * Связана с моделями: Characters, MailThemesModel.
+ * Связана с моделями: Characters
  *
  * @property MailTemplateModel letter
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
@@ -22,9 +22,9 @@ class MailCharacterThemesModel extends CActiveRecord
     public $character_id;
     
     /**
-     * @var integer
+     * @var string
      */
-    public $theme_id;
+    public $text;
     
     /**
      * @var string
@@ -131,16 +131,16 @@ class MailCharacterThemesModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
     /**
-     * Выбрать по заданной теме
-     * @param int $themeId
-     * @return MailCharacterThemesModel 
+     * Выбрать по имени темы
+     * @param string $name
+     * @return MailCharacterThemesModel
      */
-    public function byTheme($themeId)
+    public function byText($text)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "theme_id = {$themeId}"
+            'condition' => "text = '{$text}'"
         ));
         return $this;
     }
@@ -154,6 +154,20 @@ class MailCharacterThemesModel extends CActiveRecord
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
+
+    /**
+     * Выборка по набору тем
+     * @param array $ids
+     * @return MailCharacterThemesModel
+     */
+    public function byIds($ids)
+    {
+        $ids = implode(',', $ids);
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id in ({$ids})"
         ));
         return $this;
     }
@@ -181,7 +195,20 @@ class MailCharacterThemesModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
+    /**
+     * Выбрать по заданной теме
+     * @param int $themeId
+     * @return MailCharacterThemesModel
+     */
+    public function byTheme($themeId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = {$themeId}"
+        ));
+        return $this;
+    }
+
     /**
      * @return MailCharacterThemesModel 
      */
