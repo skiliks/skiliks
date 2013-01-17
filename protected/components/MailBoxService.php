@@ -122,34 +122,13 @@ class MailBoxService {
         $mailIds = array();
         foreach($messages as $message) {
             $mailIds[] = (int)$message->id;
-            
             $senderId = (int)$message->sender_id;
             $receiverId = (int)$message->receiver_id;
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
-            
-            $subject = $message->subject;
-            
-            
-            if ($subject == '') {
-                $subject = 'Broken value.';
-                if ($message->subject_id > 0) {
-                    // we store both mail_tehame and mail_character_theme in mail_box
-                    $subjectModel = MailThemesModel::model()->byId($message->subject_id)->find();
-                    if (null !== $subjectModel && ($subjectModel->sim_id == $simId || $subjectModel->sim_id === null)) {
-                        $subject = $subjectModel->name; // CASE 1
-                    } else {
-                        $subjectModel = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
-                        if (null !== $subjectModel) {
-                            $id = $subjectModel->theme_id;
-                            $subjectModel = MailThemesModel::model()->byId($id)->find();
-                            if (null !== $subjectModel) {
-                                $subject = $subjectModel->name; // CASE 2
-                            } 
-                        }
-                    }
-                }
-            }
+            $theme = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
+            $subject = $theme->text;
+
 
             
             $readed = $message->readed;
@@ -240,18 +219,8 @@ class MailBoxService {
         // mark Readed
         $model->readed = 1;
         $model->save();
-        
-        $simId = $model->sim_id;
-        
-        $subject = $model->subject;
-        if ($subject == '') {
-            if ($model->subject_id > 0) {
-                $subjectModel = MailThemesModel::model()->byId($model->subject_id)->find();
-                if ($subjectModel) {
-                    $subject = $subjectModel->name;
-                }
-            }
-        }
+        $themes = MailCharacterThemesModel::model()->byId($model->subject_id)->find();
+        $subject = $themes->text;
         
         $message = array(
             'id' => $model->id,
@@ -314,30 +283,23 @@ class MailBoxService {
     public static function sendMessage($params) {
 
         $subject_id = $params['subject_id'];
-        $subject = $params['subject'];
-        assert($subject !== null || $subject_id !== null);
         $message_id = $params['message_id'];
         assert($message_id !== null);
 
         $letterType = false;
         if (isset($params['letterType'])) $letterType = $params['letterType'];
-        
-        $emailSubject = MailThemesModel::model()->findByPk($subject_id);
-        
+
         if (false === is_array($params['receivers'])) {
             $receivers = explode(',', $params['receivers']);
         } else {
             $receivers = $params['receivers'];
         }
         $receiverId = (int)$receivers[0];
-        
-        $subject_id = MailThemesModel::model()->getSubjectId($subject_id, $message_id);
 
         $message = new MailBoxModel();
         $message->group_id = $params['group'];
         $message->sender_id = $params['sender'];
         $message->subject_id = $subject_id;
-        $message->subject = $subject;
         $message->receiver_id = $receiverId;
         $message->sending_date = gmmktime(0, 0, 0, 10, 4, 2012);
 
@@ -471,7 +433,7 @@ class MailBoxService {
      */
     public static function buildMessage($mailId) {
         $mail = MailBoxModel::model()->findByPk($mailId);
-         $characterTheme = $mail->getCharacterTheme();
+        $characterTheme = $mail->getCharacterTheme();
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
             return $characterTheme->letter->message;
         };
@@ -535,7 +497,7 @@ class MailBoxService {
                 ->findAll();
             
             foreach($models as $model) {
-                $themes[(int)$model->id] = (int)$model->theme_id;
+                $themes[(int)$model->id] = (int)$model->id;
             }
         }
         
@@ -546,7 +508,7 @@ class MailBoxService {
             foreach($models as $model) {
                 $collection[] = array(
                     'id' => (int)$model->id,
-                    'theme_id' => (int)$model->theme_id
+                    'theme_id' => (int)$model->id
                 );
             }
             
@@ -556,7 +518,7 @@ class MailBoxService {
                 
                 if (isset($collection[$index]))
                 if (!isset($themes[$collection[$index]['id']])) {
-                    $themes[$collection[$index]['id']] = $collection[$index]['theme_id'];
+                    $themes[$collection[$index]['id']] = $collection[$index]['id'];
                     
                 }
                 $processedItems++;
@@ -566,10 +528,10 @@ class MailBoxService {
         if (count($themes) == 0) return array();
         
         // загрузка тем
-        $themeCollection = MailThemesModel::model()->byIds($themes)->findAll();
+        $themeCollection = MailCharacterThemesModel::model()->byIds($themes)->findAll();
         $captions = array();
         foreach($themeCollection as $themeModel) {
-            $captions[(int)$themeModel->id] = $themeModel->name;
+            $captions[(int)$themeModel->id] = $themeModel->text;
         }
         
         foreach($themes as $id => $themeId) {
@@ -698,8 +660,8 @@ class MailBoxService {
         $connection = Yii::app()->db;
         $receivingDate = time();
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, sending_time, type)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, $receivingDate, message, subject_id, code, sending_time, type
+            (sim_id, template_id, group_id, sender_id, receiver_id, sending_date, receiving_date, message, subject_id, code, sending_time, type)
+            select :simId, id, group_id, sender_id, receiver_id, sending_date, $receivingDate, message, subject_id, code, sending_time, type
             from mail_template";
         
         $command = $connection->createCommand($sql);     
@@ -807,9 +769,9 @@ class MailBoxService {
      * @return string
      */
     public static function getSubjectById($subjectId) {
-        $subjectModel = MailThemesModel::model()->byId($subjectId)->find();
+        $subjectModel = MailCharacterThemesModel::model()->byId($subjectId)->find();
         if ($subjectModel) {
-            return $subjectModel->name;
+            return $subjectModel->text;
         }
         
         return false;
@@ -819,20 +781,18 @@ class MailBoxService {
      * Создает тему
      * 
      * @param string $subject
-     * @param int $simId
      * @return int
      */
-    public static function createSubject($subject, $simId) {
-        $subjectModel = new MailThemesModel();
-        $subjectModel->name = $subject;
-        $subjectModel->sim_id = $simId;
+    public static function createSubject($subject) {
+        $subjectModel = new MailCharacterThemesModel();
+        $subjectModel->text = $subject;
         $subjectModel->insert();
         return $subjectModel->id;
     }
     
-    public static function getSubjectIdByName($subject)
+    public static function getSubjectIdByText($subject)
     {
-        $model = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
+        $model = MailCharacterThemesModel::model()->byText($subject)->find();
         
         if (!$model) {
             return false;
@@ -965,15 +925,12 @@ class MailBoxService {
             $message->update();
         }
 
-        self::checkSubject($sendMailOptions);
-
         $message = MailBoxService::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group'      => MailBoxModel::OUTBOX_FOLDER_ID,
             'sender'     => Characters::HERO_ID,
             'receivers'  => $sendMailOptions->getRecipientsArray(),
             'copies'     => $sendMailOptions->copies,
-            'subject'    => $sendMailOptions->subject,
             'subject_id' => $sendMailOptions->subject_id,
             'phrases'    => $sendMailOptions->phrases,
             'simId'      => $sendMailOptions->simulation->id,
@@ -993,15 +950,12 @@ class MailBoxService {
      */
     public static function saveDraft($sendMailOptions)
     {
-        self::checkSubject($sendMailOptions);
-
         $message = self::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group'      => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
             'sender'     => Characters::HERO_ID,
             'receivers'  => $sendMailOptions->getRecipientsArray(),
             'copies'     => $sendMailOptions->copies,
-            'subject'    => $sendMailOptions->subject,
             'subject_id' => $sendMailOptions->subject_id,
             'phrases'    => $sendMailOptions->phrases,
             'simId'      => $sendMailOptions->simulation->id,
@@ -1013,44 +967,6 @@ class MailBoxService {
         return $message;
     }
 
-
-    /**
-     * @param $sendMailOptions
-     * @internal param string $emailType , 'new','forward','reply','replyAll', etc.
-     * @internal param $subjectFromRequest
-     *
-     * @return array
-     */
-    private static function checkSubject($sendMailOptions)
-    {
-        // check is this id of predefined subjects (table 'mail_character_themes')
-        $emailToCharacterSubject = MailCharacterThemesModel::model()->findByPk((int)$sendMailOptions->subject);
-        if (null !== $emailToCharacterSubject) {
-            // get real subject id (id for nable 'mail_themes')              
-            $subject_id = $emailToCharacterSubject->theme_id;
-            $subject = null;
-        } else {
-            // this is TEXT subject
-            $obj = MailThemesModel::model()->findByPk((int)$sendMailOptions->subject);
-            $subject_id = $obj ? $obj->primaryKey : null;
-            $subject = $obj ? $obj->name : null;
-        }  
-
-        if (0 === (int) $subject_id && null === $subject) {
-
-            $subjectObject = MailThemesModel::model()
-                ->byName((int)$sendMailOptions->subject)
-                ->find();
-            if (null !== $subjectObject) {
-                $subject_id = $subjectObject->id;
-                $subject = $subjectObject->name;
-            }
-        }
-
-        $sendMailOptions->subject_id = $subject_id;
-        $sendMailOptions->subject = $subject;
-    }
-    
     /*
      * @param MailBoxModel $email
      * @param int $folderId
@@ -1078,10 +994,10 @@ class MailBoxService {
     /**
      * @param Simulations $simulation
      * @param MailBoxModel $messageToReply
-     * @param MailThemesModel $subjectEntity
+     * @param MailCharacterThemesModel $characterThemeModel
      * @return type
      */
-    public static function getPhrasesDataForReply($simulation, $messageToReply, $subjectEntity)
+    public static function getPhrasesDataForReply($messageToReply, $characterThemeModel)
     {
         // validation
         if (NULL === $messageToReply ||
@@ -1098,12 +1014,6 @@ class MailBoxService {
             'addData'          => self::getSigns()
         );
 
-        // get phrases {
-        $characterThemeModel = MailCharacterThemesModel::model()
-            ->byCharacter($messageToReply->sender_id)
-            ->byTheme($subjectEntity->id)
-            ->find();
-        
         if ($characterThemeModel) {
             $characterThemeId = $characterThemeModel->id;
             if ($characterThemeModel->constructor_number === 'TXT') {
@@ -1123,30 +1033,18 @@ class MailBoxService {
     }
     
     /**
-     * @params MailBoxModel $messageToReply
+     * @params MailCharacterThemesModel $messageToReply
      */
-    public static function getSubjectForRepryEmail($simulation, $messageToReply)
+    public static function getSubjectForRepryEmail($messageToReply)
     {
-        $subjectOfRepliedEmail = $messageToReply->subject;
-        
-        if ($subjectOfRepliedEmail == '') {
-            if (0 < $messageToReply->subject_id) {
-                $previousEmalSubjectEntity = MailThemesModel::model()->findByPk($messageToReply->subject_id);
-                if (NULL !== $previousEmalSubjectEntity) {
-                    $subjectOfRepliedEmail = $previousEmalSubjectEntity->name;
-                }
-            }
-        }
+        $previousEmalSubjectEntity = MailCharacterThemesModel::model()->findByPk($messageToReply->subject_id);
 
-        $subject = 're: ' . $subjectOfRepliedEmail; // lowercase is important for search!
-        
         # TODO: refactor this. name is not unique
-        $subjectEntity = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
+        $subjectEntity = MailCharacterThemesModel::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find();// lowercase is important for search!
         if (NULL === $subjectEntity) {
             // добавим тему
-            $subjectEntity         = new MailThemesModel();
-            $subjectEntity->name   = $subject;
-            $subjectEntity->sim_id = $simulation->id;
+            $subjectEntity         = new MailCharacterThemesModel();
+            $subjectEntity->text   = $previousEmalSubjectEntity->text;
             $subjectEntity->save();
         }
         
@@ -1267,7 +1165,7 @@ class MailBoxService {
         $forwardSubject = 'Fwd: ' . $messageToForward->subject; // 'Fwd: ' with space-symbol, 
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubjectId = MailBoxService::getSubjectIdByName($forwardSubject);
+        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubject);
 
         // изменить тему и создать новую
         if (false === $forwardSubjectId) {
