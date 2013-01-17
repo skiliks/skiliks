@@ -49,6 +49,9 @@ var SKDayPlanView;
                             SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', false);
                         }
                         $(this).show();
+
+                        // clean up highlighting, it is duplicate but it nessesary to place it here too
+                        $('#plannerBook .drop-hover').removeClass('drop-hover');
                 },
                 drag:function (event, ui) {
                     var st = parseInt($(this).data("startingScrollTop"), 10);
@@ -148,12 +151,15 @@ var SKDayPlanView;
             }
             // Updating draggable element list
             this.setupDraggable();
+            console.log('2');
         },
         removeTodoTask:function (model) {
             this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
         },
         setupDroppable:function () {
             var me = this;
+            me.shift = 0;
+            
             var td_slot = this.$('.planner-book-today .day-plan-td-slot, .planner-book-tomorrow  .day-plan-td-slot');
             td_slot.droppable("destroy");
             td_slot.droppable({
@@ -180,18 +186,40 @@ var SKDayPlanView;
                         duration:ui.draggable.attr('data-task-duration'),
                         day:$(this).parents('div[data-day-id]').attr('data-day-id')
                     });
-                    me.$('.drop-hover').removeClass('drop-hover');
 
+                    // clean up highlighting, it is duplicate but it nessesary to place it here too
+                    $('#plannerBook .drop-hover').removeClass('drop-hover');
                 },
                 over:function (event, ui) {
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
+                    
+                    // go last tr under dragged task {
                     var currentRow = $(this).parents('tr');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
+                    for (var i = 0; i < duration; i += 15) {
+                        currentRow = currentRow.next();
+                    }
+                    // go last tr under dragged task }
+                    
+                    // count time pieces
+                    var rowsCount = currentRow.parent().parent().find('tr').length;
+                    
+                    // autoscroll to bottom
+                    if (currentRow.index() < rowsCount && 0.75*rowsCount < currentRow.index()) {
+                        currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'last');
+                    }else
+                    // autoscroll to top    
+                        if (1 < currentRow.index() && currentRow.index() < 0.5*rowsCount) {
+                        currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'first');
+                    }
+                    
+                    // highlight time pieces {
+                    var currentRow = $(this).parents('tr');
                     for (var i = 0; i < duration; i += 15) {
                         currentRow.find('td.planner-book-timetable-event-fl').addClass('drop-hover');
                         currentRow = currentRow.next();
                     }
-
+                    // highlight time pieces }
                 },
                 /**
                  * Returns true if draggable can be dropped on the element
@@ -203,6 +231,7 @@ var SKDayPlanView;
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
                     var day = $(this).parents('div[data-day-id]').attr('data-day-id');
                     var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+
                     return SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }
             });
@@ -272,7 +301,6 @@ var SKDayPlanView;
                         duration:ui.draggable.attr('data-task-duration'),
                         day:$(this).parents('div[data-day-id]').attr('data-day-id')
                     });
-
                 }
             });
         },
