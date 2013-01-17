@@ -96,9 +96,10 @@
             });
             
             // render write reply
-            this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
+            // looks unused
+            /*this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
                 me.doUpdateScreenFromReplyEmailData();
-            });
+            });*/
             
             // update inbox emails counter
             this.listenTo(this.mailClient, 'mail:update_inbox_counter', function (event) {
@@ -1270,6 +1271,7 @@
          * @var miced array responce, Skiliks API response
          */
         doUpdateScreenFromReplyEmailData:function (response) {
+            console.log('response.result 2: ', response);
             if (1 == response.result) {
                 var subject = new SKMailSubject();
                 subject.text = response.subject;
@@ -1369,6 +1371,14 @@
             this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
             
             var response = this.mailClient.getDataForReplyToActiveEmail();
+
+            // strange, sometimes responce return to lile JSON but like some response object
+            // so we get JSON from it {
+            if (undefined == response.result && undefined !== response.responseText) {
+                response = $.parseJSON(response.responseText);
+            }
+            // so we get JSON from it }
+
             this.doUpdateScreenFromReplyEmailData(response);
             
             this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
@@ -1380,6 +1390,14 @@
             this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
             
             var response = this.mailClient.getDataForReplyAllToActiveEmail();
+            
+            // strange, sometimes responce return to lile JSON but like some response object
+            // so we get JSON from it {
+            if (undefined == response.result && undefined !== response.responseText) {
+                response = $.parseJSON(response.responseText);
+            }
+            // so we get JSON from it }
+            
             this.doUpdateScreenFromReplyEmailData(response);
             
             this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
