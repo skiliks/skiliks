@@ -40,6 +40,10 @@
                     var doc_view = new SKDocumentsListView({model_instance:window});
                     doc_view.render()
                 }
+                if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
+                    var pdf_view = new SKPDFDisplayView({model_instance:window});
+                    pdf_view.render()
+                }
             });
         },
         'render':function () {
