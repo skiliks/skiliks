@@ -39,6 +39,7 @@ var SKDayPlanView;
                     }
                     $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
+                    $(this).data("startingScrollLeft", $(this).parent().scrollLeft());
                 },
                 revert: "invalid",
                 stop:function (socketObj) {
@@ -52,7 +53,9 @@ var SKDayPlanView;
                 },
                 drag:function (event, ui) {
                     var st = parseInt($(this).data("startingScrollTop"), 10);
+                    var stl = parseInt($(this).data("startingScrollLeft"), 10);
                     ui.position.top -= $(this).parent().scrollTop() - st;
+                    ui.position.left -= $(this).parent().scrollLeft() - stl;
                 }
             });
         },
@@ -301,12 +304,13 @@ var SKDayPlanView;
                 if (cell_hour < current_hour || (cell_hour === current_hour && cell_minute < current_minute)) {
                     $(this).addClass('past-slot');
                 }
+                $(this).find('.past').remove();
                 if (cell_hour === current_hour && cell_minute === parseInt(Math.floor(current_minute/15),10)*15) {
-                    if (!$(this).find('hr.past').length) {
+                    if (cell_minute === current_minute) {
+                        $(this).prepend('<hr class="past" />');
+                    } else {
                         $(this).append('<hr class="past" />');
                     }
-                } else {
-                    $(this).find('hr.past').remove();
                 }
             });
         },
