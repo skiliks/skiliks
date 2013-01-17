@@ -355,8 +355,7 @@
             // generate emails list {
 
             // We  use this 2 variables to separate emails to display unreaded emails first in list
-            var readedEmailsList = '';
-            var unreadedEmailsList = '';
+            var emailsList = '';
             var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderInbox].emails; // to make code shorter
 
             for (var key in incomingEmails) {
@@ -368,7 +367,7 @@
                 }
 
                 // generate HTML by template
-                var emailsList = _.template($('#MailClient_IncomeEmailLine').html(), {
+                emailsList += _.template($('#MailClient_IncomeEmailLine').html(), {
 
                     emailMySqlId:       incomingEmails[key].mySqlId,
                     senderName:         incomingEmails[key].senderNameString,
@@ -379,17 +378,11 @@
                     isActiveCssClass:   isActiveCssClass
                 });
 
-                // Sort emails to display unreaded email first in list of emails {
-                if (incomingEmails[key].isReaded()) {
-                    readedEmailsList += emailsList;
-                } else {
-                    unreadedEmailsList += emailsList;
-                }
-                // Sort emails to display unreaded email first in list of emails }
             }
 
             // add emails list
-            $('#' + this.mailClientIncomeFolderListId + ' table').html('<tr class="email-list-separator"><td colspan="4">новые:</td></tr>' + unreadedEmailsList + '<tr class="email-list-separator"><td colspan="4">прочитанные:</td></tr>' + readedEmailsList);
+            // $('#' + this.mailClientIncomeFolderListId + ' table').html('<tr class="email-list-separator"><td colspan="4">новые:</td></tr>' + unreadedEmailsList + '<tr class="email-list-separator"><td colspan="4">прочитанные:</td></tr>' + readedEmailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
 
             this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
         },
