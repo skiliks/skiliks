@@ -18,6 +18,8 @@
         <mkdir dir="./protected/runtime" mode="777" />
         <mkdir dir="./documents" />
         <chmod file="./documents" mode="777" />
+        <mkdir dir="./documents/zoho" />
+        <chmod file="./documents/zoho" mode="777" />
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
