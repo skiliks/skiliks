@@ -25,6 +25,7 @@
 {include "site/jst/simulation.tpl"}
 {include "site/jst/plan.tpl"}
 {include "site/jst/mail.tpl"}
+{include "site/jst/documents.tpl"}
 {include "site/jst/phone.tpl"}
 </head>
 <body class="body">
