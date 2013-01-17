@@ -508,11 +508,13 @@
                 );
                 
                 // if user click on same email line twice - open read email screen
-                // Andrey, do not change == to ===
+                // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
-                    mailClientView.mailClient.renderReadEmailScreen(
-                        $(event.currentTarget).data().emailId
+                    mailClientView.renderReadEmail(
+                        mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
                     );
+                        
+                    mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                 } else {
                     // if user clicks on different email lines - activate ckicked line email
                     mailClientView.doGetEmailDetails(
@@ -633,6 +635,8 @@
             if (undefined !== email.attachment) {
                 attachmentLabel = email.attachment.label;
             }
+            
+            console.log('email: ', email);
 
             var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
                 emailMySqlId:        email.mySqlId,
