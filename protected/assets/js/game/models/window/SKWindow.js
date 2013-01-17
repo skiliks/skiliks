@@ -75,8 +75,9 @@
         },
         setOnTop:function () {
             var me = this;
-            var window_set = this.simulation.window_set;
-            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
+            var window_set = SKApp.user.simulation.window_set;
+            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id ||
+                !window_set.get(me)) {
                 return;
             }
             window_set.at(window_set.length - 1).deactivate();
