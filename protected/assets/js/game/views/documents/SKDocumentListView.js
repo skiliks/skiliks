@@ -5,8 +5,8 @@
     "use strict";
 
     window.SKDocumentsListView = SKWindowView.extend({
-        title: 'Мои документы',
-        addClass: 'documents-list',
+        title:'Мои документы',
+        addClass:'documents-list',
         renderContent:function (el) {
             el.elfinder({
                 url:'myDocuments/connector',
@@ -16,13 +16,13 @@
 
                     }
                 },
-                getFileCallback: function (file) {
+                getFileCallback:function (file) {
                     var window = new SKDocumentsWindow({subname:'documentsFiles', filename:file});
                     window.open();
                 },
-                    uiOptions : {
+                uiOptions:{
                     // toolbar configuration
-                    toolbar : [
+                    toolbar:[
                         ['back', 'forward'],
                         // ['reload'],
                         // ['home', 'up'],
@@ -33,9 +33,9 @@
                         ['view']
                     ],
 
-                    navbar : {
-                        minWidth : 150,
-                        maxWidth : 500
+                    navbar:{
+                        minWidth:150,
+                        maxWidth:500
                     }
                 }
                 // lang: 'ru',             // language (OPTIONAL)
