@@ -90,7 +90,7 @@ class ExcelDocumentTemplate extends CActiveRecord
      * @return string
      */
     public function getRealFileName() {
-        return str_replace(' ', '_', $this->name);;
+        return $this->name;
     }
 
 }
