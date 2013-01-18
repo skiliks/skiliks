@@ -45,7 +45,14 @@ class ExcelDocumentTemplate extends CActiveRecord
     {
             return 'excel_document_template';
     }
-    
+
+    public function relations()
+    {
+        return [
+            'template' => [self::BELONGS_TO, 'MyDocumentsTemplateModel', 'file_id']
+        ];
+    }
+
     /**
      * Вернуть документ по имени
      * @param string $name
@@ -90,7 +97,7 @@ class ExcelDocumentTemplate extends CActiveRecord
      * @return string
      */
     public function getRealFileName() {
-        return $this->srcName;
+        return $this->template->srcName;
     }
 
 }
