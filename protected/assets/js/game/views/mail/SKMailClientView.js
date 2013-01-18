@@ -322,25 +322,36 @@
              this.doRenderFolder(folderAlias);
         },
 
-        doRenderFolder:function (folderAlias) {
+        doRenderFolder:function (folderAlias, isSwitchToFirst) {
+            if (undefined === isSwitchToFirst) {
+                isSwitchToFirst = true;
+            }
              
             if (this.mailClient.aliasFolderInbox === folderAlias) {
-                this.mailClient.setActiveEmail(this.mailClient.getInboxFolder().getFirstEmail());
+                if (isSwitchToFirst) {
+                    this.mailClient.setActiveEmail(this.mailClient.getInboxFolder().getFirstEmail());
+                }
                 this.renderInboxFolder();
             }
 
             if (this.mailClient.aliasFolderSended === folderAlias) {
-                this.mailClient.setActiveEmail(this.mailClient.getSendedFolder().getFirstEmail());
+                if (isSwitchToFirst) {
+                    this.mailClient.setActiveEmail(this.mailClient.getSendedFolder().getFirstEmail());
+                }
                 this.renderSendedFolder();
             }
 
             if (this.mailClient.aliasFolderDrafts === folderAlias) {
-                this.mailClient.setActiveEmail(this.mailClient.getDraftsFolder().getFirstEmail());
+                if (isSwitchToFirst) {
+                    this.mailClient.setActiveEmail(this.mailClient.getDraftsFolder().getFirstEmail());
+                }
                 this.renderDraftsFolder();
             }
 
             if (this.mailClient.aliasFolderTrash === folderAlias) {
-                this.mailClient.setActiveEmail(this.mailClient.getTrashFolder().getFirstEmail());
+                if (isSwitchToFirst) {
+                    this.mailClient.setActiveEmail(this.mailClient.getTrashFolder().getFirstEmail());
+                }
                 this.renderTrashFolder();
             }
 
@@ -1269,7 +1280,7 @@
             if (1 == response.result) {
                 
                 if (null == response.subjectId) {
-                    this.doRenderFolder(this.mailClient.aliasFolderInbox);
+                    this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                     return  false;
                 }  
@@ -1352,7 +1363,7 @@
         doUpdateScreenFromForwardEmailData:function (response) {
             if (1 == response.result) {
                 if (null == response.subjectId) {
-                    this.doRenderFolder(this.mailClient.aliasFolderInbox);
+                    this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                     this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
                     return  false;
                 }
