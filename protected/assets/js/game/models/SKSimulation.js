@@ -1,5 +1,5 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
-/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection */
+/*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection */
 
 (function () {
     "use strict";
@@ -28,6 +28,7 @@
                 }
             });
             this.dayplan_tasks = new SKDayTaskCollection();
+            this.documents = new SKDocumentCollection();
             this.windowLog = new SKWindowLog();
             this.skipped_minutes = 0;
             this.mailClient = new SKMailClient();
@@ -110,6 +111,7 @@
             SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function () {
                 me.todo_tasks.fetch();
                 me.dayplan_tasks.fetch();
+                me.documents.fetch();
                 me.trigger('start');
                 
                 me.events_timer = setInterval(function () {

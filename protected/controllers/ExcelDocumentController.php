@@ -17,8 +17,7 @@ class ExcelDocumentController extends AjaxController
 
         $fileName = Yii::app()->request->getParam('fileName', NULL);
         $fileName = preg_replace('/.*\//', '', $fileName);
-        $file_template = MyDocumentsTemplateModel::model()->findByAttributes(['srcFile' => $fileName]);
-        $file = MyDocumentsModel::model()->findByAttributes(['template_id' => $file_template->id, 'sim_id' => $simulation->id]);
+        $file = MyDocumentsModel::model()->findByAttributes(['fileName' => $fileName, 'sim_id' => $simulation->id]);
         assert($file);
         $this->sendJSON(
             ExcelFactory::getDocument()

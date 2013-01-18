@@ -8,13 +8,11 @@
         title:'Мои документы',
         renderContent:function (el) {
             var me = this;
-            SKApp.server.api('excelDocument/get', {
-                'fileName':decodeURIComponent(this.options.model_instance.get('filename'))
-            }, function (data) {
-                me.options.excel_url = data.excelDocumentUrl;
-                el.html(_.template($('#document_xls_template').html(), {filename:me.options.excel_url}));
-            });
-
+            var fn = this.options.model_instance.get('filename');
+            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
+            el.html(_.template($('#document_xls_template').html(), {
+                'filename': doc.get('excel_url')
+            }));
         }
     });
 })();
