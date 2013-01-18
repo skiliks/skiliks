@@ -60,7 +60,7 @@
             if (!video_src.match(/\.webm$/)) {
                 video_src = undefined;
             }
-            return video_src ? SKConfig.assetsUrl + '/videos/' + video_src : undefined;
+            return video_src ? SKConfig.storageURL + '/videos/' + video_src : undefined;
         },
         getImgSrc:function () {
             var replicas = this.get('data');
@@ -82,7 +82,7 @@
             if (!audio_src.match(/\.wav/)) {
                 audio_src = null;
             }
-            return audio_src ? SKConfig.assetsUrl + '/sounds/' + audio_src : undefined;
+            return audio_src ? SKConfig.storageURL + '/sounds/' + audio_src : undefined;
         },
         select:function (replica_id, cb) {
             SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
