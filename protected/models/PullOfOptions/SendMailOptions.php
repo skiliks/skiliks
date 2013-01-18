@@ -8,10 +8,9 @@ class SendMailOptions
      public $simulation = NULL;
      public $senderId   = NULL;
      public $messageId  = NULL;
-     public $timeString = NULL;
+     public $time       = NULL;
      public $fileId     = NULL;
-     public $subject    = NULL;
-     public $subjectId  = NULL;
+     public $subject_id  = NULL;
      
      public $copies     = array();
      public $phrases    = array();
