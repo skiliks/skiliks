@@ -74,7 +74,7 @@ class ZohoDocuments
      * @param string $templateFilename
      * @param string $extention
      */
-    public function __construct($simId, $fileId, $templateFilename, $extention = 'xlsx')
+    public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
@@ -215,7 +215,7 @@ class ZohoDocuments
     public function getUserFilepath()
     {
         return sprintf(
-            '%s/%s/%s.xls',
+            '%s/%s/%s.xlsx',
             $this->templatesDirPath,
             $this->simId,
             $this->docId
