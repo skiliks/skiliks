@@ -7,7 +7,7 @@
         container:'.canvas',
         'events':{
             'click .win-close':'doWindowClose',
-            'click':'doActivate'
+            'mousedown':'doActivate'
         },
 
         initialize:function () {

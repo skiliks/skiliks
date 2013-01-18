@@ -12,7 +12,7 @@
         'initialize':function () {
         },
         'showWindow':function (win) {
-            if (this.get(win)) {
+            if (win.single === true && this.get(win)) {
                     throw 'Window already displayed';
             }
             if (this.length) {
