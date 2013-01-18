@@ -49,7 +49,7 @@ final class ExcelDocument
         
         if (false === isset($this->zohoDocument[$simulation->id][$file->id])) {
             $this->zohoDocument[$simulation->id][$file->id] =
-                new ZohoDocuments($simId, $file->id, $this->file->getRealFileName());
+                new ZohoDocuments($simulation->id, $file->id, $this->file->getRealFileName());
             
             $this->zohoDocument[$simulation->id][$file->id]->sendDocumentToZoho();
         }        
