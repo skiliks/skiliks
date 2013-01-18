@@ -97,7 +97,7 @@ class ExcelDocumentTemplate extends CActiveRecord
      * @return string
      */
     public function getRealFileName() {
-        return $this->template->srcName;
+        return $this->template->srcFile;
     }
 
 }
