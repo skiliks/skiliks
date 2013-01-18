@@ -215,7 +215,7 @@ class ZohoDocuments
     public function getUserFilepath()
     {
         return sprintf(
-            '%s/%s/%s.xlsx',
+            '%s/%s/%s.xls',
             $this->templatesDirPath,
             $this->simId,
             $this->docId
