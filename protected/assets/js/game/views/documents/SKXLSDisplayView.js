@@ -6,17 +6,15 @@
 
     window.SKXLSDisplayView = SKWindowView.extend({
         title:'Мои документы',
-        render:function () {
+        renderContent:function (el) {
             var me = this;
             SKApp.server.api('excelDocument/get', {
                 'fileName':decodeURIComponent(this.options.model_instance.get('filename'))
             }, function (data) {
                 me.options.excel_url = data.excelDocumentUrl;
-                SKWindowView.prototype.render.call(me);
+                el.html(_.template($('#document_xls_template').html(), {filename:me.options.excel_url}));
             });
-        },
-        renderContent:function (el) {
-            el.html(_.template($('#document_xls_template').html(), {filename:this.options.excel_url}));
+
         }
     });
 })();
