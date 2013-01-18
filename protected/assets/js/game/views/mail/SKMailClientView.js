@@ -628,8 +628,6 @@
             if (undefined !== email.attachment) {
                 attachmentLabel = email.attachment.label;
             }
-            
-            console.log('email: ', email);
 
             var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
                 emailMySqlId:        email.mySqlId,
@@ -1268,8 +1266,14 @@
          * @var miced array responce, Skiliks API response
          */
         doUpdateScreenFromReplyEmailData:function (response) {
-            console.log('response.result 2: ', response);
             if (1 == response.result) {
+                
+                if (null == response.subjectId) {
+                    this.doRenderFolder(this.mailClient.aliasFolderInbox);
+                    this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
+                    return  false;
+                }  
+                
                 var subject = new SKMailSubject();
                 subject.text = response.subject;
                 subject.mySqlId = response.subjectId;
@@ -1320,8 +1324,24 @@
                 this.renderPhrases(); 
                 // add phrases }
             } else {
-                throw "Can`t initialize responce email.";
+                throw "Can`t initialize responce email. View. #1";
             }
+        },
+        
+        renderNullSubjectIdWarning: function(message) {
+            var mailClientView = this;
+            
+            mailClientView.message_window = new SKDialogView({
+                'message': message,
+                'buttons': [
+                    {
+                        'value': 'Окей',
+                        'onclick': function () {
+                            delete mailClientView.message_window;
+                        }
+                    }
+                ]
+            });
         },
 
         /**
@@ -1329,6 +1349,12 @@
          */
         doUpdateScreenFromForwardEmailData:function (response) {
             if (1 == response.result) {
+                if (null == response.subjectId) {
+                    this.doRenderFolder(this.mailClient.aliasFolderInbox);
+                    this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
+                    return  false;
+                }  
+
                 var subject = new SKMailSubject();
                 subject.text = response.subject;
                 subject.mySqlId = response.subjectId;
@@ -1360,7 +1386,8 @@
                 this.renderPhrases();
                 // add phrases }
             } else {
-                throw "Can`t initialize responce email.";
+                console.log(response);
+                throw "Can`t initialize responce email. View. #2";
             }
         },
         
@@ -1406,11 +1433,16 @@
             this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
 
             var response = this.mailClient.getDataForForwardActiveEmail();
-            this.doUpdateScreenFromForwardEmailData(response);
-
-            this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
-            
-            this.mailClient.setWindowsLog('mailNew');
+            // strange, sometimes responce return to lile JSON but like some response object
+            // so we get JSON from it {
+            if (undefined == response.result && undefined !== response.responseText) {
+                response = $.parseJSON(response.responseText);
+            }
+            // so we get JSON from it }
+            if(false !== this.doUpdateScreenFromForwardEmailData(response)) {                
+                this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
+                this.mailClient.setWindowsLog('mailNew');    
+            }
         },
 
         doSendDraft:function () {

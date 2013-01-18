@@ -133,19 +133,6 @@ class MailCharacterThemesModel extends CActiveRecord
     }
 
     /**
-     * Выбрать по имени темы
-     * @param string $name
-     * @return MailCharacterThemesModel
-     */
-    public function byText($text)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "text = '{$text}'"
-        ));
-        return $this;
-    }
-    
-    /**
      * Выбрать по идентификатору записи
      * @param int $id
      * @return MailCharacterThemesModel 
@@ -216,6 +203,30 @@ class MailCharacterThemesModel extends CActiveRecord
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "mail = {$v}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param string $code, mail code 'M1', 'MS2' etc.
+     * @return MailCharacterThemesModel 
+     */
+    public function byLetterNumber($code)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "letter_number = '{$code}'"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param string $text, like 'Служебная записка о сервере. Срочно!' e.g.
+     * @return MailCharacterThemesModel 
+     */
+    public function byText($text)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "text = '{$text}'"
         ));
         return $this;
     }

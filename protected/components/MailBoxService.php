@@ -789,15 +789,11 @@ class MailBoxService {
         return $subjectModel->id;
     }
     
-    public static function getSubjectIdByText($subject)
+    public static function getSubjectIdByText($subjectText)
     {
-        $model = MailCharacterThemesModel::model()->byText($subject)->find();
+        $model = MailCharacterThemesModel::model()->byText($subjectText)->find();
         
-        if (!$model) {
-            return false;
-        }
-        
-        return $model->id;
+        return (null === $model) ? null : $model->id;
     }
     
     /**
@@ -1161,15 +1157,10 @@ class MailBoxService {
         $sender            = $messageToForward->sender_id;
         $receiverId        = $messageToForward->receiver_id;
 
-        $forwardSubject = 'Fwd: ' . $messageToForward->subject; // 'Fwd: ' with space-symbol, 
+        $forwardSubjectText = 'Fwd: ' . $messageToForward->subject; // 'Fwd: ' with space-symbol, 
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubject);
-
-        // изменить тему и создать новую
-        if (false === $forwardSubjectId) {
-            $forwardSubjectId = MailBoxService::createSubject($forwardSubject, $simulation->id);
-        }
+        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText);
 
         $result = array();
 
@@ -1198,7 +1189,7 @@ class MailBoxService {
 
 
         $result['result']    = 1;
-        $result['subject']   = $forwardSubject;
+        $result['subject']   = $forwardSubjectText;
         $result['subjectId'] = $forwardSubjectId;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
