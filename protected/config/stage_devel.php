@@ -12,12 +12,12 @@ return CMap::mergeArray(
             'enableParamLogging' => true,
             'enableProfiling' => true
         ),
-        'log'=>array(
-            'class'=>'CLogRouter',
-            'routes'=>array(
+        'log' => array(
+            'class' => 'CLogRouter',
+            'routes' => array(
                 array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning, info, trace, log, debug',
+                    'class' => 'CFileLogRoute',
+                    'levels' => 'error, warning, info, trace, log, debug',
                 ),
 
             ),
@@ -25,6 +25,9 @@ return CMap::mergeArray(
         'request' => array(
             'baseUrl' => 'http://skiliks.loc/api/',
         ),
-    )
+    ),
+    'params' => [
+        'assetsDebug' => true
+    ]
     )
 );
