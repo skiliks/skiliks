@@ -16,10 +16,10 @@
         <echo msg="Copying config for user ${env.USER}..."/>
         <echo msg="${user.name}"/>
         <mkdir dir="./protected/runtime" mode="777" />
-        <mkdir dir="./documents" />
-        <chmod file="./documents" mode="777" />
         <mkdir dir="./documents/zoho" />
         <chmod file="./documents/zoho" mode="777" />
+        <mkdir dir="./assets" />
+        <chmod file="./assets" mode="777" />
         <if>
             <equals arg1="${stage}" arg2="devel"/>
             <then>
