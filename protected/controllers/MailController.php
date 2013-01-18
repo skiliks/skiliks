@@ -289,8 +289,8 @@ class MailController extends AjaxController
 
         return $this->sendJSON(array(
             'result'      => 1,
-            'subjectId'   => $subjectEntity->id,
-            'subject'     => $subjectEntity->text,
+            'subjectId'   => (null === $subjectEntity) ? null : $subjectEntity->id,
+            'subject'     => (null === $subjectEntity) ? null : $subjectEntity->text,
             'receiver'    => $characters[$messageToReply->sender_id],
             'receiver_id' => $messageToReply->sender_id,
             'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity )
@@ -310,13 +310,13 @@ class MailController extends AjaxController
 
         return $this->sendJSON(array(
             'result'      => 1,
-            'subjectId'   => $subjectEntity->id ,
-            'subject'     => $subjectEntity->text,
+            'subjectId'   => (null === $subjectEntity) ? null : $subjectEntity->id,
+            'subject'     => (null === $subjectEntity) ? null : $subjectEntity->text,
             'receiver'    => $characters[$messageToReply->sender_id],
             'receiver_id' => $messageToReply->sender_id,
             'copiesIds'   => $copiesIds,
             'copies'      => $copies,
-            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity )
+            'phrases'     => MailBoxService::getPhrasesDataForReply( $messageToReply, $subjectEntity)
         ));
     }
 

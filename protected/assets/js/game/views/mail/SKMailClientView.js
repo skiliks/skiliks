@@ -1274,6 +1274,8 @@
                     return  false;
                 }  
                 
+                this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                
                 var subject = new SKMailSubject();
                 subject.text = response.subject;
                 subject.mySqlId = response.subjectId;
@@ -1353,7 +1355,9 @@
                     this.doRenderFolder(this.mailClient.aliasFolderInbox);
                     this.renderNullSubjectIdWarning('Вы не можете переслать это письмо.');
                     return  false;
-                }  
+                }
+                
+                this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
 
                 var subject = new SKMailSubject();
                 subject.text = response.subject;
@@ -1392,8 +1396,6 @@
         },
         
         renderReplyScreen: function() {
-            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
-            
             var response = this.mailClient.getDataForReplyToActiveEmail();
 
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1403,16 +1405,13 @@
             }
             // so we get JSON from it }
 
-            this.doUpdateScreenFromReplyEmailData(response);
-            
-            this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
-            
-            this.mailClient.setWindowsLog('mailNew');
+            if(false !== this.doUpdateScreenFromReplyEmailData(response)){             
+                this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);            
+                this.mailClient.setWindowsLog('mailNew');
+            }
         },
         
         renderReplyAllScreen: function() {
-            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
-            
             var response = this.mailClient.getDataForReplyAllToActiveEmail();
             
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1422,16 +1421,13 @@
             }
             // so we get JSON from it }
             
-            this.doUpdateScreenFromReplyEmailData(response);
-            
-            this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
-            
-            this.mailClient.setWindowsLog('mailNew');
+            if(false !== this.doUpdateScreenFromReplyEmailData(response)){            
+                this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
+                this.mailClient.setWindowsLog('mailNew');
+            }
         },
 
         renderForwardEmailScreen:function () {
-            this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
-
             var response = this.mailClient.getDataForForwardActiveEmail();
             // strange, sometimes responce return to lile JSON but like some response object
             // so we get JSON from it {
