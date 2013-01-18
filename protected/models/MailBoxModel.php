@@ -77,23 +77,18 @@ class MailBoxModel extends CActiveRecord
      * characters.id
      * @var int
      */
-    public $receiver_id; 
+    public $receiver_id;
+
+    /**
+     * @var datetime
+     */
+    public $sent_at;
     
     /**
      * @var string
      */
     public $subject;
-    
-    /**
-     * @var integer, real Unix epoch time, in seconds
-     */
-    public $sending_date;
-    
-    /**
-     * @var integer, real Unix epoch time, in seconds
-     */
-    public $receiving_date;
-    
+
     /**
      * @var string
      */
@@ -122,13 +117,7 @@ class MailBoxModel extends CActiveRecord
      * @var string
      */
     public $code;
-    
-    /**
-     * In minutes from 00:00 game day
-     * @var int
-     */
-    public $sending_time;
-    
+
     /**
      * @var int
      */

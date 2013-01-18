@@ -104,7 +104,7 @@ class MailBoxService {
         
         $orderField = false;
         if ($order == 'sender') $orderField = 'sender_id';
-        if ($order == 'time') $orderField = 'receiving_date';
+        //if ($order == 'time') $orderField = 'receiving_date'; TODO:Могут быть проблемы из-за того что уже нет столбца receiving_date в mail_template
         
         $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
         if ($orderType == 0) $orderType = 'ASC';
@@ -137,10 +137,7 @@ class MailBoxService {
             $item = array(
                 'id' => $message->id,
                 'subject' => $subject,
-                'sendingDate' => date("d.m.Y", $message->sending_date)." ".date("H:i:s",$message->sending_time),
-                'sendingDateInt' => $message->sending_date,
-                'receivingDate' => DateHelper::toString($message->sending_date), 
-                'receivingDateInt' => $message->sending_date, 
+                'sentAt' => GameTime::getDateTime($message->sent_at),
                 'sender' => $senderId,
                 'receiver' => $message->receiver_id,
                 'readed' => $readed,
@@ -179,9 +176,7 @@ class MailBoxService {
            $subjects[$key]  = $row['subjectSort'];
            $senders[$key] = $row['sender'];
            $receivers[$key] = $row['receiver'];
-           
-           $receivingDate[$key] = $row['receivingDateInt'];
-           $sendingDate[$key] = $row['sendingDateInt'];
+
         }
         
         if ($order == 'subject') {
@@ -195,15 +190,7 @@ class MailBoxService {
         if ($order == 'receiver') {
             array_multisort($receivers, $ordeFlag,  $list);
         }
-        
-        if ($order == 'time') {
-            if ($folderId == 3) {  //исходящие
-                array_multisort($sendingDate, $ordeFlag,  $list);
-            }
-            else 
-                array_multisort($receivingDate, $ordeFlag,  $list);
-        }
-        
+
         return $list;
     }
     
@@ -225,8 +212,7 @@ class MailBoxService {
             'id' => $model->id,
             'subject' => $subject,
             'message' => $model->message,
-            'sendingDate' => DateHelper::toString($model->sending_date),
-            'receivingDate' => DateHelper::toString($model->receiving_date),
+            'sentAt' => GameTime::getDateTime($model->sent_at),
             'sender' => $model->sender_id,
             'receiver' => $model->receiver_id
         );
@@ -300,9 +286,7 @@ class MailBoxService {
         $message->sender_id = $params['sender'];
         $message->subject_id = $subject_id;
         $message->receiver_id = $receiverId;
-        $message->sending_date = gmmktime(0, 0, 0, 10, 4, 2012);
-
-        $message->sending_time = $params['timeString'];        
+        $message->sent_at = GameTime::setTimeToday($params['time']); //TODO: Время, проверить
         $message->readed = 0;
         $message->letter_type = $params['letterType'];
         if($letterType != 'new'){
@@ -345,7 +329,7 @@ class MailBoxService {
             }
         }
         
-        $logs = array(array(10,13,0,$params['timeString'], array('mailId'=>$mailId)));
+        $logs = array(array(10,13,0,GameTime::timeToSeconds($params['time']), array('mailId'=>$mailId)));
         LogHelper::setMailLog($params['simId'], $logs);
         
         return $message;
@@ -578,8 +562,8 @@ class MailBoxService {
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, type)
-            select :simId, id, group_id, sender_id, receiver_id, subject, sending_date, receiving_date, message, subject_id, code, type
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type
             from mail_template
             where mail_template.code = '{$code}'";
         
@@ -657,10 +641,9 @@ class MailBoxService {
      */
     public static function initMailBoxEmails($simId) {
         $connection = Yii::app()->db;
-        $receivingDate = time();
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, receiver_id, sending_date, receiving_date, message, subject_id, code, sending_time, type)
-            select :simId, id, group_id, sender_id, receiver_id, sending_date, $receivingDate, message, subject_id, code, sending_time, type
+            (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
+            select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
             from mail_template";
         
         $command = $connection->createCommand($sql);     
@@ -931,7 +914,7 @@ class MailBoxService {
             'simId'      => $sendMailOptions->simulation->id,
             'letterType' => $sendMailOptions->getLetterType(),
             'fileId'     => $sendMailOptions->fileId,
-            'timeString' => $sendMailOptions->timeString
+            'time'       => $sendMailOptions->time
         ));
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($message);    
@@ -954,7 +937,7 @@ class MailBoxService {
             'subject_id' => $sendMailOptions->subject_id,
             'phrases'    => $sendMailOptions->phrases,
             'simId'      => $sendMailOptions->simulation->id,
-            'timeString' => $sendMailOptions->timeString,
+            'time' => $sendMailOptions->time,
             'fileId'     => $sendMailOptions->fileId,
             'letterType' => $sendMailOptions->getLetterType(),
         ));
@@ -1121,7 +1104,6 @@ class MailBoxService {
         
         // update email folder {
         $email->group_id = MailBoxModel::OUTBOX_FOLDER_ID;
-        $email->sending_date = time(); // WTF? date = time!
         $email->save();;
         // update email folder }
 
