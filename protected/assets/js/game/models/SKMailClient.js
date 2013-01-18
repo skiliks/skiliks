@@ -325,7 +325,7 @@
                     email.mySqlId             = emailsData[id].id;
                     email.is_readed           = (1 === parseInt(emailsData[id].readed, 10));
                     email.is_has_attachment   = (1 === parseInt(emailsData[id].attachments, 10));
-                    email.sendedAt            = emailsData[id].receivingDate;
+                    email.sendedAt            = emailsData[id].sentAt;
                     email.subject             = subject;
                     email.setSenderEmailAndNameStrings(emailsData[id].sender);
                     email.setRecipientEmailAndNameStrings(emailsData[id].receiver);                    
@@ -933,7 +933,7 @@
                     phrases:    emailToSave.getPhrasesIdsString(),
                     receivers:  emailToSave.getRecipientIdsString(),
                     subject:    emailToSave.subject.characterSubjectId,
-                    timeString:	SKApp.user.simulation.getGameMinutes()
+                    time:	    SKApp.user.simulation.getGameTime()
                 };
         },
         

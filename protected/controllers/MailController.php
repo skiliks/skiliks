@@ -126,7 +126,7 @@ class MailController extends AjaxController
         // more sendMessagePro options
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = Yii::app()->request->getParam('messageId', 0);
-        $sendMailOptions->timeString = Yii::app()->request->getParam('timeString', NULL);
+        $sendMailOptions->time = Yii::app()->request->getParam('time', NULL);
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
@@ -158,7 +158,7 @@ class MailController extends AjaxController
         $sendMailOptions->setRecipientsArray(Yii::app()->request->getParam('receivers', ''));
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = Yii::app()->request->getParam('messageId', 0);
-        $sendMailOptions->timeString = Yii::app()->request->getParam('timeString', NULL);
+        $sendMailOptions->time = Yii::app()->request->getParam('time', NULL);
         $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
         $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
