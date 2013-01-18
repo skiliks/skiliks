@@ -363,7 +363,7 @@
                     if (1 == response.result) {
                         return response; 
                     } else {
-                        throw "Can`t initialize responce email.";
+                        throw "Can`t initialize responce email. Model. #1";
                     }
                 },
                 false
@@ -385,7 +385,7 @@
                     if (1 == response.result) {
                         return response; 
                     } else {
-                        throw "Can`t initialize responce email.";
+                        throw "Can`t initialize responce email. Model. #2";
                     }
                 },
                 false
@@ -404,7 +404,7 @@
                     if (1 == response.result) {
                         return response;
                     } else {
-                        throw "Can`t initialize responce email.";
+                        throw "Can`t initialize responce email. Model. #3";
                     }
                 },
                 false

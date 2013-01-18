@@ -1036,13 +1036,7 @@ class MailBoxService {
 
         # TODO: refactor this. name is not unique
         $subjectEntity = MailCharacterThemesModel::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find();// lowercase is important for search!
-        if (NULL === $subjectEntity) {
-            // добавим тему
-            $subjectEntity         = new MailCharacterThemesModel();
-            $subjectEntity->text   = $previousEmalSubjectEntity->text;
-            $subjectEntity->save();
-        }
-        
+
         return $subjectEntity;
     }
     
