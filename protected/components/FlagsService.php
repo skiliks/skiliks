@@ -45,6 +45,22 @@ class FlagsService
 
         return $list;
     }
+    
+    /**
+     * @param Simulations  $simulation
+     * @return mixed array
+     */
+    public static function getFlagsState(Simulations $simulation) {
+        $result = [];
+        
+        // display flags for developers only ! :) no chanses for cheatting
+        if ($simulation->isDevelopMode()) {
+            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+                $result[$flag->flag] = $flag->value;
+            }        
+        }        
+        return $result;
+    }
 
     /**
      * Сравнение флагов из симуляции с флагами из правила

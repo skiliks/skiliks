@@ -72,7 +72,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 me.icon_lock[selector] = true;
                 var el = me.$(selector);
                 el.addClass('icon-active');
-                var bounce_counter = 1; // 10
+                var bounce_counter = 10;
                 var bounce_cb = function () {
                     if (bounce_counter > 0) {
                         bounce_counter--;

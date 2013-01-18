@@ -48,7 +48,7 @@ class Simulations extends CActiveRecord
     /**
      * @var integer
      */
-    public $type; // ?
+    public $type; // 1 - promotion mode (for users), 2 - develop mode (to debug)
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
@@ -142,6 +142,14 @@ class Simulations extends CActiveRecord
         return $this;
     }
 
+    /**
+     * Shows is simulation run in develop mode (or promotion)
+     * 
+     * @return boolean
+     */
+    public function isDevelopMode() {
+        return 2 == $this->type;
+    }
 }
 
 

@@ -80,7 +80,25 @@
                 <button class="btn set-time" data-hour="17" data-minute="50">17:50</button>
             </div>
         </fieldset>
+    </form>
+    
+    <form class="form-horizontal form-flags span8 offset2">
+        <fieldset>
+            <legend>Текущее значение флагов<span class="current-time"></span></legend>
+            <table class="table table-bordered" >
+                <thead></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            Неизвестно.
+                        </td>
+                    </tr>
+                <tbody>
+            </table>
+        </fieldset>
+    </form>
 </script>
+
 <script type="text/template" id="simulation_template">
     <div style="width: 100%;height: 100%;">
         <div id="canvas" class="canvas">
