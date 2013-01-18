@@ -355,8 +355,8 @@ class ImportGameDataService
         
         // Get all exist system mail_themes to avoid SQL queries againts each request {
         $existsMailThemes = array();
-        foreach (MailThemesModel::model()->bySimIdNull()->findAll() as $mailTheme) {
-            $existsMailThemes[$mailTheme->name] = $mailTheme;
+        foreach (MailCharacterThemesModel::model()->findAll() as $mailTheme) {
+            $existsMailThemes[$mailTheme->text] = $mailTheme;
         }
         // Get all mail_themes }
         
@@ -389,9 +389,9 @@ class ImportGameDataService
             $code = $row[0];  // A, Код письма
             $sendingDate = $row[1]; // B, ата отправки
             $sendingTime = $row[2]; // C, время отправки
-            $fromCode = $row[3]; // D, От кого (код)
-            $toCode = $row[5];  // F, Кому (код)
-            $copies = $row[7]; // H, Копия (код)
+            $fromCode = $row[3]; // D, От кого (код - character_id)
+            $toCode = $row[5];  // F, Кому (код - character_id)
+            $copies = $row[7]; // H, Копия (код - character_ids)
 
             $subject = $row[9];  // J, тема
             $subject = StringTools::fixReAndFwd($subject);
@@ -412,20 +412,25 @@ class ImportGameDataService
             $group = 5;
             $type = 0;
             // определение группы по коду
+            $source = null;
             if ( preg_match("/MY\d+/", $code) ) {
                 $group = 1;
                 $type = 3;
                 $counter['MY']++;
+                $source = 'inbox';
             } else if( preg_match("/M\d+/", $code) ) {
                 $type = 1;
                 $counter['M']++;
+                $source = 'inbox';
             } else if( preg_match("/MSY\d+/", $code) ) {
                 $group = 3;
                 $type = 4;
                 $counter['MSY']++;
+                $source = 'outbox';
             } else if( preg_match("/MS\d+/", $code) ){
                 $type = 2;
                 $counter['MS']++;
+                $source = 'outbox';
             } else {
                 return array(
                     'status' => false,
@@ -492,9 +497,20 @@ class ImportGameDataService
             
             // themes update {
             if (false === isset($existsMailThemes[$subject])) {
-                $subjectEntity = new MailThemesModel();
-                $subjectEntity->name = $subject;
-                $subjectEntity->insert();
+                $subjectEntity = new MailCharacterThemesModel();
+                $subjectEntity->character_id        = $fromCode;
+                $subjectEntity->text                = $subject;
+                $subjectEntity->letter_number       = $code;
+                $subjectEntity->wr                  = 'W';
+                $subjectEntity->wr                  = 'W';
+                $subjectEntity->constructor_number  = 'B1'; // base-default
+                $subjectEntity->phone               = 0;    // this is email
+                $subjectEntity->phone_dialog_number = '';   // this is email
+                $subjectEntity->mail                = 1;    // this is email
+                $subjectEntity->source              = $source; 
+                $subjectEntity->save();
+                // theme must exist, this is dirty hack to create them
+                // @todo: fix asap with reimport
             } else {
                 $subjectEntity = $existsMailThemes[$subject];
             }
@@ -511,7 +527,6 @@ class ImportGameDataService
                 $emailTemplateEntity->group_id           = $group;
                 $emailTemplateEntity->sender_id          = $fromId;
                 $emailTemplateEntity->receiver_id        = $toId;
-                $emailTemplateEntity->subject            = $subject;
                 $emailTemplateEntity->subject_id         = $subjectEntity->id;
                 $emailTemplateEntity->message            = $message;
                 $emailTemplateEntity->sending_date       = $sendingDate;
@@ -525,7 +540,6 @@ class ImportGameDataService
                 $emailTemplateEntity->group_id           = $group;
                 $emailTemplateEntity->sender_id          = $fromId;
                 $emailTemplateEntity->receiver_id        = $toId;
-                $emailTemplateEntity->subject            = $subject;
                 $emailTemplateEntity->subject_id         = $subjectEntity->id;
                 $emailTemplateEntity->message            = $message;
                 $emailTemplateEntity->sending_date       = $sendingDate;
@@ -659,7 +673,7 @@ class ImportGameDataService
        // points relations }
        
        // "theme" relations {
-       $emailSubjectEntities = MailThemesModel::model()
+       $emailSubjectEntities = MailCharacterThemesModel::model()
             ->byIdsNotIn(implode(',', $emailSubjectsIds))
             ->findAll();
         
@@ -759,8 +773,8 @@ class ImportGameDataService
 
             $characterId        = $characters[$characterCode];  
             // Определим тему письма
-            $subject            = $row[2]; // C
-            $subject            = StringTools::fixReAndFwd($subject);
+            $subjectText        = $row[2]; // C
+            $subjectText        = StringTools::fixReAndFwd($subjectText);
             // Phone
             $phone              = $row[3]; // D
             // Phone W/R
@@ -780,32 +794,33 @@ class ImportGameDataService
             $source             = $row[10]; // K
             
             // определить код темы
-            $subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
-            if (null === $subjectModel) {
+            //$subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
+            /*if (null === $subjectModel) {
                 $subjectModel = new MailThemesModel();
                 $subjectModel->name = $subject;
                 $subjectModel->insert();
-            }
+            }*/
             
             $mailCharacterTheme = MailCharacterThemesModel::model()
+                ->byLetterNumber($mailCode)
+                ->byText($subjectText)
                 ->byCharacter($characterId)
-                ->byTheme($subjectModel->id)
                 ->find();
             
             if (null === $mailCharacterTheme) {
                 $mailCharacterTheme = new MailCharacterThemesModel();
-                $mailCharacterTheme->character_id   = $characterId;
-                $mailCharacterTheme->theme_id       = $subjectModel->id;
             }
             
+            $mailCharacterTheme->text                   = $subjectText;
             $mailCharacterTheme->letter_number          = $mailCode;
+            $mailCharacterTheme->character_id           = $characterId;
             $mailCharacterTheme->wr                     = $wr;
             $mailCharacterTheme->constructor_number     = $constructorNumber;
             $mailCharacterTheme->phone                  = $phone;
             $mailCharacterTheme->phone_wr               = $phoneWr;
             $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
             $mailCharacterTheme->mail                   = $mail;
-            $mailCharacterTheme->source                  = $source;
+            $mailCharacterTheme->source                 = $source;
             
             try {
                 $mailCharacterTheme->save();
@@ -820,10 +835,9 @@ class ImportGameDataService
                 );*/
             } catch(CDbException $e) {
                 $html .= sprintf(
-                    'Error during import line %s. <br/> subject: %s, id: %s<br/> DB error message: %s <br/>',
+                    'Error during import line %s. <br/> DB error message: %s <br/>',
                     $index,
-                    $subject,
-                    $subjectModel->id,
+                    $subjectText,
                     $e->getMessage()
                 );
                 
