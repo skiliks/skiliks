@@ -71,7 +71,7 @@
             if (!img_src.match(/\.png$/)) {
                 img_src = undefined;
             }
-            return img_src ? SKConfig.assetsUrl + '/dialog_images/' + img_src : undefined;
+            return img_src ? SKConfig.storageURL + '/dialog_images/' + img_src : undefined;
         },
         getAudioSrc:function () {
             var replicas = this.get('data');
