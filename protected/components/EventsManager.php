@@ -11,8 +11,6 @@ class EventsManager {
     }
     
     protected function initEventParams() {
-        
-        
         $eventCode = Yii::app()->request->getParam('eventCode', false);  
         $delay = (int)Yii::app()->request->getParam('delay', false);  
         $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
@@ -72,8 +70,8 @@ class EventsManager {
         
     }
     
-    public function getState($simId) {
-        
+    public function getState($simulation) {
+        $simId = $simulation->id;
         $gameTime = 0;
         try {
 
@@ -132,8 +130,8 @@ class EventsManager {
             }
             // update phone call dialogs lastDialogId }
             
-            $simType = SimulationService::getType($simId); // определим тип симуляции
-            $gameTime = SimulationService::getGameTime($simId);
+            $simType  = $simulation->type; // определим тип симуляции
+            $gameTime = $simulation->getGameTime();
             
             // обработка задач {
             $task = $this->processTasks($simId);
@@ -186,8 +184,6 @@ class EventsManager {
             
             // У нас одно событие           
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
-            
-            $gameTime = SimulationService::getGameTime($simId);
             
             $data = array();
             foreach($dialogs as $dialog) {
@@ -259,13 +255,16 @@ class EventsManager {
                 $result['events'][] = array('result' => 1, 'eventType' => 1, 'data' => $data);
             }
             
+            $result['flagsState'] = FlagsService::getFlagsState($simulation);
+            
             return $result;
         } catch (CHttpException $exc) {
             return [
-                'result' => 0,
-                'message' => $exc->getMessage(),
-                'code' => $exc->getCode(),
-                'serverTime' => $gameTime
+                'result'     => 0,
+                'message'    => $exc->getMessage(),
+                'code'       => $exc->getCode(),
+                'serverTime' => $gameTime,
+                'flagsState' => FlagsService::getFlagsState($simulation)
             ];
         }
 

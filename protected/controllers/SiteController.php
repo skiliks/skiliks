@@ -122,9 +122,9 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKDebugView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKIconPanelView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSettingsView.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/develop_mode/SKFlagStateView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/raven-0.7.1.js");
-
 
         //конфиги
         $cs->registerScriptFile($assetsUrl . "/js/game/config/imgConfig.js");

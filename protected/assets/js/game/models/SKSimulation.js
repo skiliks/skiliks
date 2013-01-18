@@ -90,6 +90,11 @@
                 logs:logs,
                 timeString:this.getGameMinutes()
             }, function (data) {
+                // update flags for dev mode
+                if (undefined !== data.flagsState && undefined !== data.serverTime) {
+                    me.updateFlagsForDev(data.flagsState, data.serverTime);
+                }
+                
                 if (data.result === 1 && data.events !== undefined) {
                     me.parseNewEvents(data.events, 'new');
                     me.getNewEvents();
@@ -138,6 +143,10 @@
         },
         'isDebug':function () {
             return parseInt(this.get('stype'), 10) === 2;
+        },
+        updateFlagsForDev: function(flagsState, serverTime) {
+            var flagStateView = new SKFlagStateView();
+            flagStateView.updateValues(flagsState, serverTime);
         }
     });
 })();
