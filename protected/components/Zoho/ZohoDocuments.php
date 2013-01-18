@@ -74,7 +74,7 @@ class ZohoDocuments
      * @param string $templateFilename
      * @param string $extention
      */
-    public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
+    public function __construct($simId, $fileId, $templateFilename, $extention = 'xlsx')
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
