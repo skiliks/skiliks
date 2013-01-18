@@ -1,14 +1,20 @@
 <?php
-
 /**
  * Контроллер симуляции
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * PHP Version 5.4
+ *
+ * @package  None
+ * @link     skiliks.com
+ * @author   Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @license  proprietary http://skiliks.com/
  */
 class SimulationController extends AjaxController
 {
     /**
      * Старт симуляции
+     *
+     * @return string
      */
     public function actionStart()
     {
@@ -17,10 +23,13 @@ class SimulationController extends AjaxController
             $simulationType = (int) Yii::app()->request->getParam('stype', 1);
             SimulationService::simulationStart($simulationType);
 
-            $this->sendJSON(array(
-                'result' => 1, 
-                'speedFactor' => Yii::app()->params['public']['skiliksSpeedFactor']
-            ));
+            $this->sendJSON(
+                array(
+                    'result' => 1,
+                    'speedFactor' =>
+                        Yii::app()->params['public']['skiliksSpeedFactor']
+                )
+            );
         } catch (Exception $e) {
             $this->returnErrorMessage($e->getMessage());
         }
@@ -37,7 +46,7 @@ class SimulationController extends AjaxController
     }
 
     /**
-     *  
+     * Get user's score
      */
     public function actionGetPoint()
     {
@@ -52,6 +61,8 @@ class SimulationController extends AjaxController
 
     /**
      * Изменение времени симуляции
+     *
+     * @return string
      */
     public function actionChangeTime()
     {
