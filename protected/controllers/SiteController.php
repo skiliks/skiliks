@@ -76,6 +76,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKPhoneContact.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKPhoneHistory.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKPhoneTheme.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKDocument.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKEventCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKTodoCollection.js");
@@ -83,6 +84,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKPhoneContactsCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKPhoneHistoryCollection.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKPhoneThemeCollection.js");
+        $cs->registerScriptFile($assetsUrl . "/js/game/collections/SKDocumentCollection.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
@@ -136,19 +138,6 @@ class SiteController extends AjaxController
 
         //плагины
         $cs->registerScriptFile($assetsUrl . "/js/game/adminka/jgridController.js");
-
-        //системные классы
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/messages.js");
-        //загрузка игрового мира
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/events.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/excel.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/mail.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/lib/keyboard.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/documents.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/viewer.js");
-
-        //регистрация
-        $cs->registerScriptFile($assetsUrl . "/js/game/skiliks/register.js");
 
         $this->render('site', ['config' => CJSON::encode($config), 'assetsUrl' => $assetsUrl]);
     }

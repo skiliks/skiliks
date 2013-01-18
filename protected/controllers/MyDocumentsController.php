@@ -27,30 +27,6 @@ class MyDocumentsController extends AjaxController
     }
 
     /**
-     * Получение списка документов
-     */
-    public function actionConnector()
-    {
-        $simulation = $this->getSimulationEntity();
-
-        $opts = array(
-            // 'debug' => true,
-            'roots' => array(
-                array(
-                    'driver'        => 'Skiliks',   // driver for accessing file system (REQUIRED)
-                    'path'          => __DIR__ . '/../../documents/templates',         // path to files (REQUIRED)
-                    'URL'           => dirname($_SERVER['PHP_SELF']) . '/../../documents/templates/', // URL to files (REQUIRED)
-                    'sim_id' => $simulation->id
-                )
-            )
-        );
-
-        // run elFinder
-        $connector = new elFinderConnector(new elFinder($opts));
-        $connector->run();
-    }
-
-    /**
      * Добавление 
      */
     public function actionAdd()

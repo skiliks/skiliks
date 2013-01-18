@@ -93,6 +93,25 @@ class MyDocumentsTemplateModel extends CActiveRecord
         ));
         return $this;
     }
+
+    public function getMimeType() {
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mime = finfo_file($finfo, $this->getFilePath());
+        finfo_close($finfo);
+        return $mime;
+    }
+
+    private function getFilePath()
+    {
+        $zohoConfigs = Yii::app()->params['zoho'];
+
+        $path = sprintf("%s/%s",
+            $zohoConfigs['xlsTemplatesDirPath'],
+            $this->srcFile
+        );
+
+        return $path;
+    }
     
     /**
      * Выбрать по заданному набору шаблонов документов

@@ -135,7 +135,6 @@ class ZohoDocuments
         curl_setopt($ch, CURLOPT_URL, $this->zohoUrl);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getExcelFields());
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, true);
 

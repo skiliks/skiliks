@@ -7,6 +7,8 @@
  * Связана с моделями:  Simulations, MyDocumentsTemplateModel.
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ *
+ * @property MyDocumentsTemplateModel template
  */
 class MyDocumentsModel extends CActiveRecord
 {
@@ -37,7 +39,8 @@ class MyDocumentsModel extends CActiveRecord
      * @var integer, (boolean)
      */
     public $hidden;
-    
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -121,7 +124,7 @@ class MyDocumentsModel extends CActiveRecord
         ));
         return $this;
     }
-    
+
     /**
      * Выбрать только видимые документы 
      * @return MyDocumentsModel 
