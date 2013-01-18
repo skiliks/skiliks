@@ -6,12 +6,14 @@ $(function () {
     window.SKPhoneDialogView = SKWindowView.extend({
         title: "Телефон",
         'events':_.defaults({
-            'click .replica-select':'doSelectReplica'
+            'click .replica-select':   'doSelectReplica',
         }, SKWindowView.prototype.events),
+        
         remove: function () {
             this.off('dialog:end');
             SKWindowView.prototype.remove.call(this);
         },
+        
         renderContent:function (window_el) {
             var event = this.options.model_instance.get('sim_event'),
                 me = this,
@@ -32,6 +34,7 @@ $(function () {
                 }
             });
         },
+        
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
