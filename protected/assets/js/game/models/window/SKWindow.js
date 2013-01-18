@@ -26,7 +26,7 @@
             'documentsFiles':42
     };
     window.SKWindow = Backbone.Model.extend({
-        idAttribute: 'subname',
+        single: true,
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
             if (window_id in SKApp.user.simulation.window_set) {
@@ -39,6 +39,9 @@
                 throw 'Unknown subscreen';
             }
             window_id[window_id] = this;
+            if (!this.has('id')) {
+                this.set('id', this.get('subname'));
+            }
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
         },
@@ -76,8 +79,7 @@
         setOnTop:function () {
             var me = this;
             var window_set = SKApp.user.simulation.window_set;
-            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id ||
-                !window_set.get(me)) {
+            if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
                 return;
             }
             window_set.at(window_set.length - 1).deactivate();

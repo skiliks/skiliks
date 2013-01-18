@@ -97,7 +97,8 @@ return array(
         'public' => [
             'skiliksSpeedFactor' => 8,
             'simulationStartTime' => '9:00',
-            'simulationEndTime' => '18:00'
+            'simulationEndTime' => '18:00',
+            'storageURL' => 'http://storage.skiliks.com/v1/'
         ],
         'assetsDebug' => false,
         'zoho' => array(

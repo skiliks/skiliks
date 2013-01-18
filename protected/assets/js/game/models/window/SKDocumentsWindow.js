@@ -5,8 +5,10 @@
 (function () {
     "use strict";
     window.SKDocumentsWindow = window.SKWindow.extend({
+        single: false,
         'initialize':function () {
             this.set('name', 'documents');
+            this.set('id', this.get('subname') + ':' + this.get('filename'));
             window.SKWindow.prototype.initialize.call(this, {name:'documents', subname:this.get('subname')});
             this.set('params', {'fileId':this.get('fileId')});
         },
