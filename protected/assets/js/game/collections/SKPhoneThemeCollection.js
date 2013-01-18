@@ -3,19 +3,25 @@
 (function () {
     "use strict";
     window.SKPhoneThemeCollection = Backbone.Collection.extend({
-        model:SKPhoneTheme,
-        contact:{},
-        initialize:function(contact) {
-            this.contact = contact;
+        
+        model:       SKPhoneTheme,
+        characterId: undefined,
+        
+        initialize:function(options) {
+            this.characterId = options.characterId;
         },
         parse:function(data) {
             return data.data;
         },
         sync:function (method, collection, options) {
+            var phoneCollection = this;
+            
             if ('read' === method) {
-                SKApp.server.api('phone/getThemes', this.contact, function (data) {
-                    options.success(data);
-                });
+                SKApp.server.api(
+                    'phone/getThemes', 
+                    {id: phoneCollection.characterId }
+                    ,function (data) { options.success(data); }
+                );
             }
         }
     });

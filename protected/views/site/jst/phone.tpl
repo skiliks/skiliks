@@ -144,7 +144,7 @@
                         <@=remote_replica.title@><br>
                         <span class="post">&nbsp;</span>
                     </p>
-                    <a class="phone-call-end phone-draw-menu" href="">Завершить</a>
+                    <a class="phone-call-end phone-draw-menu">Завершить</a>
                 </div>
             </div>
 
@@ -156,7 +156,7 @@
 
             <ul class="phone-reply-h" id="phoneAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
-                <li><p><a href="" class="replica-select" data-id="<@= replica.id @>"><@= replica.text @></a></p>
+                <li><p><a class="replica-select" data-id="<@= replica.id @>"><@= replica.text @></a></p>
                     <span></span></li>
                 <@ }) @>
             </ul>
