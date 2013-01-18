@@ -105,7 +105,8 @@ class MyDocumentsTemplateModel extends CActiveRecord
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
-        $path = sprintf("%s/%s",
+        $path = sprintf("%s/../../%s/%s",
+            __DIR__,
             $zohoConfigs['xlsTemplatesDirPath'],
             $this->srcFile
         );
