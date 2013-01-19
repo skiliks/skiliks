@@ -1,5 +1,5 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKPhoneView, SKMailClientView
- SKPhoneCallView, SKDocumentsListView */
+ SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView */
 (function () {
     "use strict";
     window.SKSimulationView = Backbone.View.extend({
@@ -7,7 +7,43 @@
         'events':{
             'click .btn-simulation-stop':'doSimulationStop'
         },
-        'initialize':function () {
+        setupWindowEvents:function (window) {
+            if (window.get('name') === 'plan') {
+                var plan_view = new SKDayPlanView({model_instance:window});
+                plan_view.render();
+            }
+            if (window.get('name') === 'phone' && window.get('subname') === 'phoneMain') {
+                var phone_view = new SKPhoneView({model_instance:window});
+                phone_view.render();
+            }
+            if (window.get('name') === 'mailEmulator' && window.get('subname') === 'mailMain') {
+                var mail_client_view = new SKMailClientView({model_instance:window});
+                mail_client_view.render();
+                //SKApp.user.simulation.mailClient.toggleWindow();
+            }
+            if (window.get('name') === 'phone' && window.get('subname') === 'phoneCall') {
+                var call_view = new SKPhoneCallView({model_instance:window, event:window.get('sim_event')});
+                call_view.render();
+            }
+            if (window.get('name') === 'phone' && window.get('subname') === 'phoneTalk') {
+                var view = new SKPhoneDialogView({model_instance:window, 'event':window.get('params').event});
+                view.render();
+            }
+            if (window.get('name') === 'documents' && window.get('subname') === 'documents') {
+                var doc_view = new SKDocumentsListView({model_instance:window});
+                doc_view.render();
+            }
+            if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
+                var file = window.get('filename');
+                var document_view;
+                if (file.match(/\.xls$/)) {
+                    document_view = new SKXLSDisplayView({model_instance:window});
+                } else {
+                    document_view = new SKPDFDisplayView({model_instance:window});
+                }
+                document_view.render();
+            }
+        }, 'initialize':function () {
             var me = this;
             var simulation = this.simulation = SKApp.user.simulation;
             this.addSimulationEvents();
@@ -15,42 +51,17 @@
                 me.updateTime();
             });
             this.listenTo(simulation.window_set, 'add', function (window) {
-                if (window.get('name') === 'plan') {
-                    var plan_view = new SKDayPlanView({model_instance:window});
-                    plan_view.render();
-                }
-                if (window.get('name') === 'phone' && window.get('subname') === 'phoneMain') {
-                    var phone_view = new SKPhoneView({model_instance:window});
-                    phone_view.render();
-                }
-                if (window.get('name') === 'mailEmulator' && window.get('subname') === 'mailMain') {
-                    var mail_client_view = new SKMailClientView({model_instance:window});
-                    mail_client_view.render();
-                    //SKApp.user.simulation.mailClient.toggleWindow();
-                }
-                if (window.get('name') === 'phone' && window.get('subname') === 'phoneCall') {
-                    var call_view = new SKPhoneCallView({model_instance:window, event:window.get('sim_event')});
-                    call_view.render();
-                }
-                if (window.get('name') === 'phone' && window.get('subname') === 'phoneTalk') {
-                    var view = new SKPhoneDialogView({model_instance:window, 'event':window.get('params').event});
-                    view.render();
-                }
-                if (window.get('name') === 'documents' && window.get('subname') === 'documents') {
-                    var doc_view = new SKDocumentsListView({model_instance:window});
-                    doc_view.render();
-                }
-                if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    var file = window.get('filename');
-                    var document_view;
-                    if (file.match(/\.xls$/)) {
-                        document_view = new SKXLSDisplayView({model_instance:window});
-                    } else {
-                        document_view = new SKPDFDisplayView({model_instance:window});
-                    }
-                    document_view.render();
-                }
-
+                me.setupWindowEvents(window);
+            });
+            this.listenTo(simulation.documents, 'reset', function () {
+                simulation.documents.each(function (doc) {
+                    me.listenTo(doc, 'change:excel_url', function () {
+                        this.$('.canvas').append($('<iframe />', {
+                            src: doc.get('excel_url'),
+                            id: 'excel-preload-' + doc.id
+                        }).css('display', 'none'));
+                    });
+                });
 
             });
         },
