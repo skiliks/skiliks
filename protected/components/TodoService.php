@@ -40,7 +40,7 @@ class TodoService
             $todo = new Todo();
             $todo->sim_id = $simId;
             $todo->task_id = $taskId;
-            $todo->adding_date = time();
+            $todo->adding_date = GameTime::setNowDateTime();
             $todo->insert();
         }
     }
