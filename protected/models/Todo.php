@@ -32,7 +32,7 @@ class Todo extends CActiveRecord
      * game minutes
      * @var integer
      */
-    public $adding_date;
+    public $adding_date;//TODO:Не понятно зачем оно, это просто реальная дата на сервере!!
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
