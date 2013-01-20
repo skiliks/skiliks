@@ -32,7 +32,7 @@ class SimulationService
      */
     public static function getGameTime($simId) {
         $simulation = Simulations::model()->byId($simId)->find();
-        return GameTime::getUnixDateTime($simulation->getGameTime());
+        return $simulation->getGameTime();
     }
     
     /**
