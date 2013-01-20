@@ -2,20 +2,26 @@
 
 class GameTime
 {
+    const set_default_timezone = true;
+
     public static $today = '04.10.2012';
 
     public static $time_zone = "Europe/Moscow";
 
+    private static function getTimeZone() {
+        return self::set_default_timezone?date_default_timezone_get():self::$time_zone;
+    }
+
     public static function getDateTime($datetime) {
 
-        $date = new DateTime($datetime, new DateTimeZone(self::$time_zone));
+        $date = new DateTime($datetime, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('d.m.Y H:i');
     }
 
     public static function setTimeToday($time) {
 
-        $date = new DateTime(self::$today.' '.$time, new DateTimeZone(self::$time_zone));
+        $date = new DateTime(self::$today.' '.$time, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('Y-m-d H:i:s');
     }
@@ -35,5 +41,18 @@ class GameTime
             throw new CException("Фармат не нуждаеться в преобразовании! с HH:MM:SS в HH:MM");
         }
         return $el[0].':'.$el[1];
+    }
+
+    public static function getUnixDateTime($datetime) {
+        return strtotime($datetime);
+    }
+
+    public static function setNowDateTime() {
+        $date = new DateTime();
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    public static function setUnixDateTime($datetime) {
+        return date('Y-m-d H:i:s', $datetime);
     }
 }
