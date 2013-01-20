@@ -4,12 +4,12 @@ class GameTime
 {
     const set_default_timezone = true;
 
-    public static $today = '04.10.2012';
+    const today = '04.10.2012';
 
-    public static $time_zone = "Europe/Moscow";
+    const time_zone = "Europe/Moscow";
 
     private static function getTimeZone() {
-        return self::set_default_timezone?date_default_timezone_get():self::$time_zone;
+        return self::set_default_timezone?date_default_timezone_get():self::time_zone;
     }
 
     public static function getDateTime($datetime) {
@@ -21,7 +21,7 @@ class GameTime
 
     public static function setTimeToday($time) {
 
-        $date = new DateTime(self::$today.' '.$time, new DateTimeZone(self::getTimeZone()));
+        $date = new DateTime(self::today.' '.$time, new DateTimeZone(self::getTimeZone()));
 
         return $date->format('Y-m-d H:i:s');
     }
@@ -48,7 +48,7 @@ class GameTime
     }
 
     public static function setNowDateTime() {
-        $date = new DateTime();
+        $date = new DateTime('now', new DateTimeZone(self::getTimeZone()));
         return $date->format('Y-m-d H:i:s');
     }
 
