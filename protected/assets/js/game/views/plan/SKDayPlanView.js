@@ -10,7 +10,8 @@ var SKDayPlanView;
         'addClass': 'planner-book-main-div',
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
-            'dblclick .day-plan-todo-task':'doSetTask',
+            'dblclick .plan-todo .day-plan-todo-task':'doSetTask',
+            'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
             'click .todo-min':'doMinimizeTodo',
             'click .todo-max':'doMaximizeTodo',
             'click .todo-revert':'doRestoreTodo'
@@ -442,6 +443,18 @@ var SKDayPlanView;
                     return false;
                 }
                 return true;
+            });
+        },
+        doUnSetTask:function (e) {
+            var task_id = $(e.currentTarget).attr('data-task-id');
+            var task = SKApp.user.simulation.dayplan_tasks.get(task_id);
+            SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
+            SKApp.user.simulation.todo_tasks.create({
+                title:task.get("title"),
+                date:task.get("date"),
+                id:task.get("task_id"),
+                duration:task.get("duration"),
+                day:task.get("day")
             });
         },
         doMinimizeTodo:function () {
