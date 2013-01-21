@@ -53,7 +53,9 @@ class GameTime
     }
 
     public static function setUnixDateTime($datetime) {
-        $date = new DateTime($datetime, new DateTimeZone(self::getTimeZone()));
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone(self::getTimeZone()));
+        $date->setTimestamp($datetime);
         return $date->format('Y-m-d H:i:s');
     }
 
