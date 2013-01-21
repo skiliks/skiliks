@@ -67,7 +67,7 @@ class EventsTriggers extends CActiveRecord
     public function nearest($simId, $triggerTime)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "trigger_time <= {$triggerTime} and sim_id={$simId} and trigger_time != 0",
+            'condition' => "trigger_time <= '{$triggerTime}' and sim_id={$simId} and trigger_time is not null",
             'order' => "trigger_time asc",       
             //'limit' => 1,
         ));
