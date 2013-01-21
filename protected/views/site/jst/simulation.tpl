@@ -10,93 +10,108 @@
 </script>
 
 <script type="text/template" id="debug_panel">
-    <form class="form-horizontal span8 offset2 trigger-event">
-        <fieldset>
-            <legend>Запуск события</legend>
-            <div class="control-group">
-                <label for="addTriggerSelect" class="control-label">Код события:</label>
+    <div class="row">
+        <div class="span2">
+            <form class="simulation-buttons">
+                <fieldset>
+                    <br/>
+                    <h4>Действия</h4>
+                    <br/>
+                    <input class="btn btn-simulation-stop" type="button" value="SIM стоп">
+                </fieldset>
+            </form>
+        </div>
+        <div class="span3">
+            <form class="form-inline trigger-event">
+                <fieldset>
+                    <br/>
+                    <h4>Запуск события</h4>
+                    <br/>
+                    <div class="control-group">
+                        <label for="addTriggerSelect" class="control-label">Код события:</label>
+                        <input name="code" id="addTriggerSelect" required="required" type="text" class="span1">
+                    </div>
+                    <div class="control-group">
+                        <label for="addTriggerDelay" class="control-label">Задержка(игровые
+                            минуты):</label>
 
-                <div class="controls">
-                    <input name="code" id="addTriggerSelect" required="required" type="text" class="span2">
-                </div>
-            </div>
-            <div class="control-group">
-                <label for="addTriggerDelay" class="control-label">Задержка(игровые
-                    минуты):</label>
+                        <div class="controls">
+                            <input name="delay" type="number" id="addTriggerDelay"  required="required" class="span1" value="0">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <label for="addTriggerClearEvents" class="checkbox">
+                                <input name="clear_events" id="addTriggerClearEvents" type="checkbox"/>
+                                Очистить очередь событий
+                            </label>
+                            <label for="addTriggerClearAssessment" class="checkbox">
+                                <input name="clear_assessment" id="addTriggerClearAssessment" type="checkbox"/>
+                                Очистить очередь оценки
+                            </label>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit"
+                                   value="Создать" class="btn btn-primary">
 
-                <div class="controls">
-                    <input name="delay" type="number" id="addTriggerDelay"  required="required" class="span2" value="0">
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <label for="addTriggerClearEvents" class="checkbox">
-                        <input name="clear_events" id="addTriggerClearEvents" type="checkbox"/>
-                        Очистить очередь событий
-                    </label>
-                    <label for="addTriggerClearAssessment" class="checkbox">
-                        <input name="clear_assessment" id="addTriggerClearAssessment" type="checkbox"/>
-                        Очистить очередь оценки
-                    </label>
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit"
-                           value="Создать" class="btn btn-primary">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span4">
+            <form class="form-inline form-set-time">
+                <fieldset>
+                    <br/>
+                    <h4>Установка времени</h4>
+                    <br/>
+                    <div class="control-group">
+                        <label for="setTimeHours" class="control-label">Новое время:</label>
 
-                </div>
-            </div>
-        </fieldset>
-    </form>
-
-    <form class="form-horizontal form-set-time span8 offset2">
-        <fieldset>
-            <legend>Установка времени</legend>
-            <div class="control-group">
-                <label for="setTimeHours" class="control-label">Новое время:</label>
-
-                <div class="controls">
-                    <input name="hours" id="setTimeHours" type="number" class="span1" maxlength="2"/>
-                    <span> : </span>
-                    <input name="minutes" type="number" class="span1" maxlength="2">
-                </div>
-            </div>
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" value="Задать" class="btn btn-primary">
-                </div>
-            </div>
-            <div class="btn-group">
-                <button class="btn set-time" data-hour="0" data-minute="0">0:00</button>
-                <button class="btn set-time" data-hour="10" data-minute="0">10:00</button>
-                <button class="btn set-time" data-hour="11" data-minute="0">11:00</button>
-                <button class="btn set-time" data-hour="12" data-minute="0">12:00</button>
-                <button class="btn set-time" data-hour="13" data-minute="0">13:00</button>
-                <button class="btn set-time" data-hour="14" data-minute="0">14:00</button>
-                <button class="btn set-time" data-hour="15" data-minute="0">15:00</button>
-                <button class="btn set-time" data-hour="16" data-minute="0">16:00</button>
-                <button class="btn set-time" data-hour="17" data-minute="0">17:00</button>
-                <button class="btn set-time" data-hour="17" data-minute="50">17:50</button>
-            </div>
-        </fieldset>
-    </form>
-    
-    <form class="form-horizontal form-flags span8 offset2">
-        <fieldset>
-            <legend>Текущее значение флагов<span class="current-time"></span></legend>
-            <table class="table table-bordered" >
-                <thead></thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            Неизвестно.
-                        </td>
-                    </tr>
-                <tbody>
-            </table>
-        </fieldset>
-    </form>
+                        <div class="controls">
+                            <input name="hours" id="setTimeHours" type="number" class="span1" maxlength="2"/>
+                            <span> : </span>
+                            <input name="minutes" type="number" class="span1" maxlength="2">
+                            <input type="submit" value="Задать" class="btn btn-primary">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn set-time" data-hour="0" data-minute="0">0:00</button>
+                        <button class="btn set-time" data-hour="10" data-minute="0">10:00</button>
+                        <button class="btn set-time" data-hour="11" data-minute="0">11:00</button>
+                        <button class="btn set-time" data-hour="12" data-minute="0">12:00</button>
+                        <button class="btn set-time" data-hour="13" data-minute="0">13:00</button>
+                        <button class="btn set-time" data-hour="14" data-minute="0">14:00</button>
+                        <button class="btn set-time" data-hour="15" data-minute="0">15:00</button>
+                        <button class="btn set-time" data-hour="16" data-minute="0">16:00</button>
+                        <button class="btn set-time" data-hour="17" data-minute="0">17:00</button>
+                        <button class="btn set-time" data-hour="17" data-minute="50">17:50</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="span3">
+            <form class="form-inline form-flags">
+                <fieldset>
+                    <br/>
+                    <h4>Текущее значение флагов<span class="current-time"></span></h4>
+                    <br/>
+                    <table class="table table-bordered" >
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Неизвестно.
+                                </td>
+                            </tr>
+                        <tbody>
+                    </table>
+                </fieldset>
+            </form>
+        </div>
+    </div>
 </script>
 
 <script type="text/template" id="simulation_template">
@@ -114,12 +129,6 @@
             <nav class="main-screen-icons"></nav>
         </div>
         <div class="simulation-controls">
-            <form class="simulation-buttons span8 offset2">
-                <fieldset>
-                    <legend>Действия</legend>
-                    <input class="btn btn-simulation-stop" type="button" value="SIM стоп">
-                </fieldset>
-            </form>
             <div class="debug-panel"></div>
         </div>
 

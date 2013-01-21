@@ -675,6 +675,22 @@ class MailBoxService {
         $model->save();
     }
     
+    /**
+     * @param int $id
+     * 
+     * @return boolean
+     */
+    public static function markPlanned($id) 
+    {
+        $model = MailBoxModel::model()->byId($id)->find();
+        if (NULL === $model) {
+            return false;         
+        }
+        
+        $model->plan = 1;
+        $model->save();
+    }
+    
     public static function getUnreadInfo($mailId, $simId) {
         // получить колличество непрочитанных сообщений
         $model = MailBoxModel::model()->byId($mailId)->find();

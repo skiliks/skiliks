@@ -254,6 +254,18 @@ class MailController extends AjaxController
     }
 
     /**
+     * @return type
+     */
+    public function actionMarkPlanned()
+    {
+        $simulation = $this->getSimulationEntity();
+        
+        return $this->sendJSON(array(
+            'result'  => (int)MailBoxService::markPlanned((int)Yii::app()->request->getParam('emailId', 0)),
+        ));
+    }
+
+    /**
      * Перенести письмо в другую папку
      * @todo: check is it in use?
      * How can I move letter. Just Delete(move to trash), Save or Send. 
@@ -353,6 +365,30 @@ class MailController extends AjaxController
         $this->sendJSON(array(
             'result' => (NULL === $plannerTask) ? 0 : 1,
             'taskId' => (NULL === $plannerTask) ? NULL : $plannerTask->id,
+        ));
+    }
+    
+    /**
+     * Добавление задачи в план
+     */
+    public function actionGetTaskInfo()
+    {
+        $simulation = $this->getSimulationEntity();
+        
+        $email = MailBoxModel::model()
+            ->findByPk(Yii::app()->request->getParam('messageId', 0));
+        
+        $emailTask = MailTasksModel::model()->findByPk(Yii::app()->request->getParam('id', 0));
+        
+        $this->sendJSON(array(
+            'result' => (NULL === $task) ? 0 : 1,
+            'task' => [
+                'id'       => (NULL === $task) ? NULL : $emailTask->id,
+                'duration' => (NULL === $task) ? NULL : $emailTask->duration,
+                'day'      => (NULL === $task) ? NULL : $emailTask->day,
+                'text'     => (NULL === $task) ? NULL : $emailTask->name,
+                'date'     => (NULL === $task) ? NULL : $emailTask->date,
+            ]
         ));
     }
 
