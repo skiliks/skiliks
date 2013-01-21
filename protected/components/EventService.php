@@ -43,7 +43,7 @@ class EventService {
 
                 if ($dialog) {
                     if ($dialog->duration > 0) {
-                        $eventTime += (int)$dialog->duration;
+                        $eventTime += GameTime::addMinutesTime($eventTime, $dialog->duration);
                     }
                 }
             }
