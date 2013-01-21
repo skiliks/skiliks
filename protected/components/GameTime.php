@@ -2,11 +2,11 @@
 
 class GameTime
 {
-    const set_default_timezone = true;
+    const set_default_timezone = false;
 
     const today = '04.10.2012';
 
-    const time_zone = "Europe/Moscow";
+    const time_zone = "Europe/Kiev";
 
     private static function getTimeZone() {
         return self::set_default_timezone?date_default_timezone_get():self::time_zone;

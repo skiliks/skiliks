@@ -195,15 +195,14 @@ class DayPlanService {
         
     }
     
-        protected function _isAppropriateTime($simId, $time) {
+    protected function _isAppropriateTime($simId, $time) {
         $simulation = Simulations::model()->byId($simId)->find();
         if (!$simulation) return false;
-        
-        $start = $simulation->start;
-        $duration = (time() - $start) / 4;
+
+        $duration = (time() - GameTime::setUnixDateTime($simulation->start)) / 4;
         
         // если время задачи меньше времени длительности
-        if ($time < $duration) return false;
+        if (GameTime::timeToSeconds($time) < $duration) return false;
         return true;
     }
     
@@ -216,16 +215,15 @@ class DayPlanService {
         // получить длительность задачи
         $task = Tasks::model()->byId($taskId)->find();
         if (!$task) throw new Exception("cant find task by id {$taskId}");
-        
-        $start = $time;
-        $end = $time + $task->duration;
+
+        $end = GameTime::addMinutesTime($time, $task->duration);
         
         $sql = "select count(*) as count from tasks 
             where 
-                (start_time >= {$start} and start_time <= {$end}) or
-                (start_time + duration >= {$start} and start_time <= {$start}) or
-                (start_time >= {$start} and start_time + duration <= {$end} ) or
-                (start_time  <= {$start} and start_time + duration >= {$end})
+                (start_time >= '{$time}' and start_time <= '{$end}') or
+                (start_time + duration >= '{$time}' and start_time <= '{$time}') or
+                (start_time >= '{$time}' and start_time + duration <= '{$end}') or
+                (start_time  <= '{$time}' and start_time + duration >= '{$end}')
                 ";
                 
         $connection = Yii::app()->db;
