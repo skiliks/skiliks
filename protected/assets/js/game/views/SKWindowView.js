@@ -24,11 +24,11 @@
             this.$el.draggable({
                 handle:"header",
                 start:function () {
-                    if (me.doStartDrag !== undefined) {
+                    if (typeof(me.doStartDrag) !== "undefined") {
                         me.doStartDrag();
                     }
                 },
-                end:function () {
+                stop:function () {
                     if (me.doEndDrag !== undefined) {
                         me.doEndDrag();
                     }
