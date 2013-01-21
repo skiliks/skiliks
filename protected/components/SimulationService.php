@@ -444,7 +444,7 @@ class SimulationService
     {
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
         
-        $variance = time() - GameTime::getUnixDateTime($simulation->start);
+        $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->start);
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);

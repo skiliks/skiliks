@@ -199,7 +199,7 @@ class DayPlanService {
         $simulation = Simulations::model()->byId($simId)->find();
         if (!$simulation) return false;
 
-        $duration = (time() - GameTime::setUnixDateTime($simulation->start)) / 4;
+        $duration = (GameTime::setUnixDateTime(GameTime::setNowDateTime()) - GameTime::setUnixDateTime($simulation->start)) / 4;
         
         // если время задачи меньше времени длительности
         if (GameTime::timeToSeconds($time) < $duration) return false;
