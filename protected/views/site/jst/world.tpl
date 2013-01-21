@@ -56,7 +56,7 @@
 <script type="text/template" id="dialog_template">    
     <div id="messageSystemMessageDiv">
         <div class="mail-popup">
-            <div class="mail-popup-tit"><img src="<@= SKConfig.assetsURL @>img/mail/type-system-message.png" alt=""></div>
+            <div class="mail-popup-tit"><img src="<@= SKConfig.assetsUrl @>img/mail/type-system-message.png" alt=""></div>
             <p class="mail-popup-text"><@= title @></p>
             <table class="mail-popup-btn">
                 <tbody>
