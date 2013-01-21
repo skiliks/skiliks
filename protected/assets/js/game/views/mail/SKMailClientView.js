@@ -19,6 +19,11 @@
 
         mailClientReadEmailContentBoxId:'MailClient_ReadEmail_Content',
         
+        // used to indicate is jQuery table sorter applied
+        // .tablesorter increase internal array avery bind, 
+        // but hasn`t internal method to check is it binded to element or not
+        isSortingNotApplied: true, 
+        
         events: _.defaults({
             'click .NEW_EMAIL'       : 'renderWriteCustomNewEmailScreen',
             'click .REPLY_EMAIL'     : 'renderReplyScreen',
@@ -94,12 +99,6 @@
             this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
                 me.renderPhrases()
             });
-            
-            // render write reply
-            // looks unused
-            /*this.listenTo(this.mailClient, 'mail:render_reply_screen_before', function () {
-                me.doUpdateScreenFromReplyEmailData();
-            });*/
             
             // update inbox emails counter
             this.listenTo(this.mailClient, 'mail:update_inbox_counter', function (event) {
@@ -326,6 +325,9 @@
             if (undefined === isSwitchToFirst) {
                 isSwitchToFirst = true;
             }
+            
+            // script will assign table sotder for new folder
+            this.isSortingNotApplied = true;
              
             if (this.mailClient.aliasFolderInbox === folderAlias) {
                 if (isSwitchToFirst) {
@@ -384,6 +386,7 @@
                     senderName:         incomingEmails[key].senderNameString,
                     subject:            incomingEmails[key].subject.text,
                     sendedAt:           incomingEmails[key].sendedAt,
+                    isHasAttachment:    incomingEmails[key].getIsHasAttachment(),
                     isHasAttachmentCss: incomingEmails[key].getIsHasAttachmentCss(),
                     isReadedCssClass:   incomingEmails[key].getIsReadedCssClass(),
                     isActiveCssClass:   isActiveCssClass
@@ -392,8 +395,7 @@
             }
 
             // add emails list
-            // $('#' + this.mailClientIncomeFolderListId + ' table').html('<tr class="email-list-separator"><td colspan="4">новые:</td></tr>' + unreadedEmailsList + '<tr class="email-list-separator"><td colspan="4">прочитанные:</td></tr>' + readedEmailsList);
-            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
             this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
         },
@@ -415,18 +417,19 @@
                 // generate HTML by template
                 emailsList += _.template($('#MailClient_TrashEmailLine').html(), {
 
-                    emailMySqlId:trashEmails[key].mySqlId,
-                    senderName:trashEmails[key].senderNameString,
-                    subject:trashEmails[key].subject.text,
-                    sendedAt:trashEmails[key].sendedAt,
-                    isHasAttachmentCss:trashEmails[key].getIsHasAttachmentCss(),
-                    isReadedCssClass:true,
-                    isActiveCssClass:isActiveCssClass
+                    emailMySqlId:          trashEmails[key].mySqlId,
+                    senderName:            trashEmails[key].senderNameString,
+                    subject:               trashEmails[key].subject.text,
+                    sendedAt:              trashEmails[key].sendedAt,
+                    isHasAttachment:       trashEmails[key].getIsHasAttachment(),
+                    isHasAttachmentCss:    trashEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:      true,
+                    isActiveCssClass:      isActiveCssClass
                 });
             }
 
             // add emails list
-            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
             this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderTrash);
         },
@@ -449,18 +452,19 @@
                 // generate HTML by template
                 emailsList += _.template($('#MailClient_SendedEmailLine').html(), {
 
-                    emailMySqlId:sendedEmails[key].mySqlId,
-                    recipientName:sendedEmails[key].getFormatedRecipientsString(),
-                    subject:sendedEmails[key].subject.text,
-                    sendedAt:sendedEmails[key].sendedAt,
-                    isHasAttachmentCss:sendedEmails[key].getIsHasAttachmentCss(),
-                    isReadedCssClass:true,
-                    isActiveCssClass:isActiveCssClass
+                    emailMySqlId:       sendedEmails[key].mySqlId,
+                    recipientName:      sendedEmails[key].getFormatedRecipientsString(),
+                    subject:            sendedEmails[key].subject.text,
+                    sendedAt:           sendedEmails[key].sendedAt,
+                    isHasAttachment:    sendedEmails[key].getIsHasAttachment(),
+                    isHasAttachmentCss: sendedEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:   true,
+                    isActiveCssClass:   isActiveCssClass
                 });
             }
 
             // add emails list
-            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
             this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderSended);
         },
@@ -483,18 +487,19 @@
                 // generate HTML by template
                 emailsList += _.template($('#MailClient_SendedEmailLine').html(), {
 
-                    emailMySqlId:draftEmails[key].mySqlId,
-                    recipientName:draftEmails[key].getFormatedRecipientsString(),
-                    subject:draftEmails[key].subject.text,
-                    sendedAt:draftEmails[key].sendedAt,
-                    isHasAttachmentCss:draftEmails[key].getIsHasAttachmentCss(),
-                    isReadedCssClass:true,
-                    isActiveCssClass:isActiveCssClass
+                    emailMySqlId:        draftEmails[key].mySqlId,
+                    recipientName:       draftEmails[key].getFormatedRecipientsString(),
+                    subject:             draftEmails[key].subject.text,
+                    sendedAt:            draftEmails[key].sendedAt,
+                    isHasAttachment:     draftEmails[key].getIsHasAttachment(),
+                    isHasAttachmentCss:  draftEmails[key].getIsHasAttachmentCss(),
+                    isReadedCssClass:    true,
+                    isActiveCssClass:    isActiveCssClass
                 });
             }
 
             // add emails list
-            $('#' + this.mailClientIncomeFolderListId + ' table').html(emailsList);
+            $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
             this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderDrafts);
         },
@@ -527,6 +532,17 @@
                     );
                 }
             });
+            
+            // make table sortable
+            if (this.isSortingNotApplied) {
+                $('#' + this.mailClientIncomeFolderListId + ' table').tablesorter({
+                    sortInitialOrder: 'desc',
+                    sortList: [[2,0],[0,0]]
+                });
+                this.isSortingNotApplied = false;
+            } else {
+                $('#' + this.mailClientIncomeFolderListId + ' table').trigger('update');
+            }
         },
 
         renderInboxFolder:function () {
@@ -636,8 +652,10 @@
             this.mailClient.setActiveEmail(email);
 
             var attachmentLabel = '';
+            var attachmentId    = '';
             if (undefined !== email.attachment) {
                 attachmentLabel = email.attachment.label;
+                attachmentId    = email.attachment.id;
             }
 
             var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
@@ -651,7 +669,7 @@
                 isHasAttachmentCss:  email.getIsHasAttachmentCss(),
                 isReadedCssClass:    email.getIsReadedCssClass(),
                 attachmentFileName:  attachmentLabel,
-                attachmentId:        email.attachment.id,
+                attachmentId:        attachmentId,
                 height:              height
             });
 
@@ -1413,7 +1431,6 @@
                 this.renderPhrases();
                 // add phrases }
             } else {
-                console.log(response);
                 throw "Can`t initialize responce email. View. #2";
             }
         },

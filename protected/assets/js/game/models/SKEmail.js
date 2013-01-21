@@ -145,6 +145,17 @@
         /**
          * @return string, CSS style
          */
+        getIsHasAttachment: function() {
+            if (this.is_has_attachment) {
+                return '1';
+            } else {
+                return '0';
+            }
+        },
+        
+        /**
+         * @return string, CSS style
+         */
         getIsHasAttachmentCss: function() {
             if (this.is_has_attachment) {
                 return ' display: block; ';

@@ -1967,7 +1967,7 @@ table.ml-title .col1{
 table.ml-title .col2{
 	width:135px;
 }
-table.ml-title td{
+table.ml-title th{
 	background:url("../img/mail/bd-ml-title.png") no-repeat 0 6px;
 	font:normal 14px 'orbi_sans_boldregular';
 	color:#5d5b5b;
@@ -1975,11 +1975,11 @@ table.ml-title td{
 	padding:1px 10px 0;
 	vertical-align:middle;
 }
-table.ml-title td:first-child{
+table.ml-title th:first-child{
 	background:none;
 	padding-left:13px;
 }
-table.ml-title td span{
+table.ml-title th span{
 	background:url("../img/mail/icon-sort.png") no-repeat right 4px;
 	padding-right:12px;
 	cursor:pointer;

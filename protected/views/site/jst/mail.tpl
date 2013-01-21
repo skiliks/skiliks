@@ -35,96 +35,98 @@
 
 <!-- MailClient_IncomeFolderSceleton: -->
 <script type="text/template" id="MailClient_IncomeFolderSceleton">
-    <table id="mlTitle" class="ml-title">
-        <colgroup>
-            <col class="col0">
-            <col class="col1">
-            <col class="col2">
-            <col class="col3">
-        </colgroup>
-        <tbody>
-        <tr>
-            <td onclick="mailEmulator.folderSort('sender')">
-                <span id="mailEmulatorReceivedListSortSender">От кого</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('subject')">
-                <span>Тема</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('time')">
-                <span id="mailEmulatorReceivedListSortTime">Дата получения</span>
-            </td>
-            <td>
-                <div class="attachmentIcon"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
-        <table class="ml"></table>
+        <table id="mlTitle" class="ml ml-title sortable-table">
+            <colgroup>
+                <col class="col0">
+                <col class="col1">
+                <col class="col2">
+                <col class="col3">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>
+                        <span>От кого</span>
+                    </th>
+                    <th>
+                        <span>Тема</span>
+                    </th>
+                    <th>
+                        <span>Дата получения</span>
+                    </th>
+                    <th>
+                        <div class="attachmentIcon"></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
     <div id="<@= emailPreviewId @>" class="previouse-message-text"></div>
 </script>
 
 <!-- MailClient_TrashFolderSceleton: -->
 <script type="text/template" id="MailClient_TrashFolderSceleton">
-    <table id="mlTitle" class="ml-title">
-        <colgroup>
-            <col class="col0">
-            <col class="col1">
-            <col class="col2">
-            <col class="col3">
-        </colgroup>
-        <tbody>
-        <tr>
-            <td onclick="mailEmulator.folderSort('sender')">
-                <span id="mailEmulatorReceivedListSortSender">От кого</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('subject')">
-                <span>Тема</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('time')">
-                <span id="mailEmulatorReceivedListSortTime">Дата получения</span>
-            </td>
-            <td>
-                <div class="attachmentIcon"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
-        <table class="ml"></table>
+        <table id="mlTitle" class="ml ml-title">
+            <colgroup>
+                <col class="col0">
+                <col class="col1">
+                <col class="col2">
+                <col class="col3">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>
+                        <span id="mailEmulatorReceivedListSortSender">От кого</span>
+                    </th>
+                    <th>
+                        <span>Тема</span>
+                    </th>
+                    <th>
+                        <span id="mailEmulatorReceivedListSortTime">Дата получения</span>
+                    </th>
+                    <th>
+                        <div class="attachmentIcon"></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
     <div id="<@= emailPreviewId @>" class="pre"></div>
 </script>
 
 <!-- MailClient_SendedFolderSceleton: -->
 <script type="text/template" id="MailClient_SendedFolderSceleton">
-    <table id="mlTitle" class="ml-title">
-        <colgroup>
-            <col class="col0">
-            <col class="col1">
-            <col class="col2">
-            <col class="col3">
-        </colgroup>
-        <tbody>
-        <tr>
-            <td onclick="mailEmulator.folderSort('sender')">
-                <span id="mailEmulatorReceivedListSortSender">Кому</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('subject')">
-                <span>Тема</span>
-            </td>
-            <td onclick="mailEmulator.folderSort('time')">
-                <span id="mailEmulatorReceivedListSortTime">Дата отправки</span>
-            </td>
-            <td>
-                <div class="attachmentIcon"></div>
-            </td>
-        </tr>
-        </tbody>
-    </table>
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
-        <table class="ml"></table>
+        <table id="mlTitle" class="ml ml-title">
+            <colgroup>
+                <col class="col0">
+                <col class="col1">
+                <col class="col2">
+                <col class="col3">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>
+                        <span id="mailEmulatorReceivedListSortSender">Кому</span>
+                    </th>
+                    <th>
+                        <span>Тема</span>
+                    </th>
+                    <th>
+                        <span id="mailEmulatorReceivedListSortTime">Дата отправки</span>
+                    </th>
+                    <th>
+                        <div class="attachmentIcon"></div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
     <div id="<@= emailPreviewId @>" class="pre"></div>
 </script>
@@ -138,6 +140,7 @@
         <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
         <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
         <td class="col3 mail-emulator-received-list-cell-attach">
+            <span style="display: none;"><@= isHasAttachment @></span> <!-- for sorting purposes -->
             <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
         </td>
     </tr>
@@ -152,6 +155,7 @@
         <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
         <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
         <td class="col3 mail-emulator-received-list-cell-attach">
+            <span style="display: none;"><@= isHasAttachment @></span> <!-- for sorting purposes -->
             <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
         </td>
     </tr>
@@ -166,6 +170,7 @@
         <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
         <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
         <td class="col3 mail-emulator-received-list-cell-attach">
+            <span style="display: none;"><@= isHasAttachment @></span> <!-- for sorting purposes -->
             <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
         </td>
     </tr>
@@ -196,7 +201,9 @@
                 <th>Вложение:</th>
                 <td>
                     <@= attachmentFileName @>
-                           <span class="save-attachment-icon" data-document-id="<@= attachmentId @>">
+                           <span class="save-attachment-icon" 
+                                 data-document-id="<@= attachmentId @>" 
+                                 style="<@= isHasAttachmentCss @>">
                            </span>
                 </td>
             </tr>
