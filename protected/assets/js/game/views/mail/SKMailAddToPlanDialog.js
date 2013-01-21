@@ -148,22 +148,26 @@
             }
             // check it action possible }
             
+            addToPlanDialog.close();
+            
             // add to plan {
-            return SKApp.server.api(
-                'mail/addToPlan',
-                { 
-                    id:        addToPlanDialog.selectedMailTask.mySqlId,
-                    messageId: addToPlanDialog.mailClient.activeEmail.mySqlId
-                }, 
-                function (response) {
-                    addToPlanDialog.close();
-                    
-                    if (response.result == 1) {
-                        SKApp.user.simulation.window_set.toggle('plan','plan');
-                    }
-                }
-            );  
+            SKApp.user.simulation.todo_tasks.create({
+                title:    addToPlanDialog.selectedMailTask.label,
+                duration: parseInt(addToPlanDialog.selectedMailTask.duration)
+            });
             // add to plan }
+            
+            SKApp.user.simulation.window_set.toggle('plan','plan'); // for logging
+            
+            // mark email planned
+            SKApp.server.api(
+                'mail/markPlanned',
+                { 
+                    emailId: addToPlanDialog.selectedMailTask.mySqlId
+                }, 
+                function (response) {},
+                false
+            ); 
         },
         
         close: function() {
