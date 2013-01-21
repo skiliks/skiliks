@@ -1,5 +1,5 @@
 <?php
-define(YII_DEBUG, false);
+define(YII_DEBUG, true);
 return CMap::mergeArray(
     require(dirname(__FILE__) . '/base.php'),
     array(
