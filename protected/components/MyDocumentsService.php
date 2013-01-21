@@ -153,7 +153,7 @@ class MyDocumentsService
         foreach ($documents as $document) {
             $list[] = array(
                 'id' => $document->id,
-                'name' => $document->fileName,
+                'name' => $document->template->srcFile,
                 'mime' => $document->template->getMimeType()
             );
         }

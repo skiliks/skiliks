@@ -46,10 +46,9 @@
         'getGameSeconds':function () {
             var current_time_string = new Date();
             var game_start_time = timeStringToMinutes(SKConfig.simulationStartTime)*60;
-            var time = game_start_time +
+            return game_start_time +
                 Math.floor((current_time_string - this.start_time) / 1000 * SKConfig.skiliksSpeedFactor) +
-                this.skipped_minutes*60;
-            return time;
+                this.skipped_minutes * 60;
         },
         'getGameTime':function () {
             function pad(num) {
