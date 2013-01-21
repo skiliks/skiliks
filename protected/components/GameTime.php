@@ -53,7 +53,8 @@ class GameTime
     }
 
     public static function setUnixDateTime($datetime) {
-        return date('Y-m-d H:i:s', $datetime);
+        $date = new DateTime($datetime, new DateTimeZone(self::getTimeZone()));
+        return $date->format('Y-m-d H:i:s');
     }
 
     public static function addMinutesTime($time, $minutes) {
