@@ -13,7 +13,7 @@
                 'width':el.width() - 6,
                 'height':el.height(),
                 'left':me.$el[0].offsetLeft,
-                'top':me.$el[0].offsetTop + el[0].offsetTop,
+                'top':el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position':'absolute'
             });
         }, renderContent:function (el) {
@@ -30,12 +30,12 @@
         doStartDrag: function (el) {
             var fn = this.options.model_instance.get('filename');
             var doc = SKApp.user.simulation.documents.where({name:fn})[0];
-            this.hideZohoIframe(doc, el);
+            this.hideZohoIframe();
         },
         doEndDrag: function (el) {
             var fn = this.options.model_instance.get('filename');
             var doc = SKApp.user.simulation.documents.where({name:fn})[0];
-            this.displayZohoIframe(doc, el);
+            this.displayZohoIframe(doc, el.find('.sim-window-content'));
         },
         hideZohoIframe:function () {
             var fn = this.options.model_instance.get('filename');
