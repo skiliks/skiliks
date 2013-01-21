@@ -7,7 +7,7 @@
             var me = this;
             if (this.get('mime') === "application/vnd.ms-excel") {
                 SKApp.server.api('excelDocument/get', {
-                    'fileName':decodeURIComponent(this.get('name'))
+                    'id':decodeURIComponent(this.get('id'))
                 }, function (data) {
                     me.set('excel_url', data.excelDocumentUrl);
                 });

@@ -47,8 +47,12 @@
         },
         getThemes: function(event){
             event.preventDefault();
-            
-            this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 14px; width: 330px;"></div>');
+
+            var el = $('#phoneCallThemesDiv');
+            if(el.length == 0) {
+                this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 14px; width: 330px;"></div>');
+            }
+
             var contactId = $(event.currentTarget).attr('data-contact-id');
             var themes = new SKPhoneThemeCollection({characterId: contactId});
             themes.fetch();
