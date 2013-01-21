@@ -40,7 +40,7 @@ class SimulationController extends AjaxController
      */
     public function actionStop()
     {
-        SimulationService::simulationStop($this->getSimulationEntity());
+        SimulationService::simulationStop($this->getSimulationId());
 
         $this->sendJSON(array('result' => 1));
     }

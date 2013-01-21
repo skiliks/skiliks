@@ -5,17 +5,7 @@ class EventsManager {
     protected $uid;
 
     public function __construct() {
-        
-        $this->initEventParams();
-        
-    }
-    
-    protected function initEventParams() {
-        $eventCode = Yii::app()->request->getParam('eventCode', false);  
-        $delay = (int)Yii::app()->request->getParam('delay', false);  
-        $clearEvents = Yii::app()->request->getParam('clearEvents', false);  
-        $clearAssessment = Yii::app()->request->getParam('clearAssessment', false);
-        
+
     }
 
     public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
@@ -39,11 +29,9 @@ class EventsManager {
             if ($clearAssessment) {
                 SimulationsDialogsPoints::model()->deleteAll("sim_id={$simId}");
             }
-            
-            $gameTime = SimulationService::getGameTime($simId);
-            $gameTime = $gameTime + $delay;  //time() + ($delay/4);
-            
-            
+
+            $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), $delay);
+
             $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $gameTime;
@@ -273,9 +261,9 @@ class EventsManager {
     public function processTasks($simId) {
         ###  определение событие типа todo
         // получаем игровое время
-        $gameTime = SimulationService::getGameTime($simId) + 9*60*60;
+        $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), 9*60);
         // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
-        $toTime = $gameTime + 5*60;
+        $toTime = GameTime::addMinutesTime($gameTime, 5);
         
         $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
         if (!$dayPlan) return false;

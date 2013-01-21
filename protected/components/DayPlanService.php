@@ -22,16 +22,7 @@ class DayPlanService {
     protected function dateToArr($date) {
         return explode('-', date('Y-m-d-G-i-S', $date));
     }
-    
-    /**
-     * Преобразует время в массив
-     * @param string $time 
-     * @return array
-     */
-    protected function _timeToArr($time) {
-         return explode(':', $time);
-    }
-    
+
     /**
      *
      * @param array $ids
@@ -114,14 +105,6 @@ class DayPlanService {
     public function get($simId) {
         
         try {
-           
-            $now = time();
-            $date = explode('-', date('Y-m-d', $now));
-
-
-            $fromTime   = mktime(0, 0, 0, $date[self::MONTH], $date[self::DAY], $date[self::YEAR]);
-            $toTime = $fromTime + 2*24*60*60;
-            //$toTime     = mktime(23, 59, 59, $date[1], $date[2], $date[0]);
 
             $data = array();
             $tasks = array();
@@ -130,16 +113,8 @@ class DayPlanService {
             foreach($plans as $plan) {
                 $tasks[] = $plan->task_id;
 
-                /*
-                $date = $this->dateToArr($plan->date);
-                $showDate = $date[self::HOUR].':'.$date[self::MINUTE];  // дата в формате hh:mm
-                 * 
-                 */
-                
-                $showDate = DateHelper::timestampTimeToArr($plan->date);
-                //$showDate = $showDate['h'].':'.$showDate['m'];
                 $data[] = array(
-                    'date' => $this->_shell_numberFormat($showDate['h'], 2).':'.$this->_shell_numberFormat($showDate['m'], 2),
+                    'date' => GameTime::getTime($plan->date),
                     'task_id' => $plan->task_id,
                     'day' =>  $plan->day  //$date[self::DAY]  // день, на когда идут задачи
                     
@@ -175,12 +150,9 @@ class DayPlanService {
             $vacationTasks = array();
             $vacationsCollection = DayPlanAfterVacation::model()->bySimulation($simId)->findAll();
             foreach($vacationsCollection as $item) {
-                //$date = $this->dateToArr($item->date);
-                $date = DateHelper::timestampTimeToArr($item->date);
-                
                 $tasks[] = $item->task_id;
                 $vacationTasks[] = array(
-                    'date' => $this->_shell_numberFormat($date['h'], 2).':'.$this->_shell_numberFormat($date['m'], 2),  // дата в формате hh:mm
+                    'date' => GameTime::getTime($item->date),  // дата в формате hh:mm
                     'task_id' => $item->task_id
                 );
             }
@@ -223,15 +195,14 @@ class DayPlanService {
         
     }
     
-        protected function _isAppropriateTime($simId, $time) {
+    protected function _isAppropriateTime($simId, $time) {
         $simulation = Simulations::model()->byId($simId)->find();
         if (!$simulation) return false;
-        
-        $start = $simulation->start;
-        $duration = (time() - $start) / 4;
+
+        $duration = (time() - GameTime::setUnixDateTime($simulation->start)) / 4;
         
         // если время задачи меньше времени длительности
-        if ($time < $duration) return false;
+        if (GameTime::timeToSeconds($time) < $duration) return false;
         return true;
     }
     
@@ -244,16 +215,15 @@ class DayPlanService {
         // получить длительность задачи
         $task = Tasks::model()->byId($taskId)->find();
         if (!$task) throw new Exception("cant find task by id {$taskId}");
-        
-        $start = $time;
-        $end = $time + $task->duration;
+
+        $end = GameTime::addMinutesTime($time, $task->duration);
         
         $sql = "select count(*) as count from tasks 
             where 
-                (start_time >= {$start} and start_time <= {$end}) or
-                (start_time + duration >= {$start} and start_time <= {$start}) or
-                (start_time >= {$start} and start_time + duration <= {$end} ) or
-                (start_time  <= {$start} and start_time + duration >= {$end})
+                (start_time >= '{$time}' and start_time <= '{$end}') or
+                (start_time + duration >= '{$time}' and start_time <= '{$time}') or
+                (start_time >= '{$time}' and start_time + duration <= '{$end}') or
+                (start_time  <= '{$time}' and start_time + duration >= '{$end}')
                 ";
                 
         $connection = Yii::app()->db;
@@ -274,10 +244,6 @@ class DayPlanService {
         */
     
         try {
-                                    
-            $date = explode(':', $time);
-            $time = $date[0]*60 + $date[1];
-            
             // на всякий случай удалим из вакейшена
             DayPlanAfterVacation::model()->deleteAllByAttributes(array(
                 'sim_id' => $simId, 'task_id' => $taskId
@@ -318,10 +284,6 @@ class DayPlanService {
                 'sim_id' => $simId, 'task_id' => $taskId
             ));
             if (!$task) throw new Exception("cant find task by id {$taskId}");
- 
-            // преобразовать время в unixtime
-            $time = $this->_timeToArr($time);
-            $time = mktime($time[0], $time[1], 0, 0, 0, 0);
 
             return ['result' => 1];
         } catch (Exception $exc) {
