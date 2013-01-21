@@ -102,7 +102,7 @@ class Simulations extends CActiveRecord
     public function getGameTime() {
         if (!$this) throw new Exception('Не могу определить симуляцию');
 
-        $variance = time() - GameTime::getUnixDateTime($this->start);
+        $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start);
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
         $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
