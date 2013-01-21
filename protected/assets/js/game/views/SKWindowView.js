@@ -18,9 +18,17 @@
 
 
         renderWindow:function () {
+            var me = this;
             this.$el.html(_.template($('#window_template').html(), {title:this.title}));
             this.renderTitle(this.$('header'));
-            this.$el.draggable({handle:"header"});
+            this.$el.draggable({
+                handle:"header",
+                start:function () {
+                    if (me.doStartDrag !== undefined) {
+                        me.doStartDrag();
+                    }
+                }
+            });
             this.renderContent(this.$('.sim-window-content'));
         },
         renderTitle:function (el) {

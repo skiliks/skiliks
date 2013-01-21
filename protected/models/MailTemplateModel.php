@@ -32,18 +32,13 @@ class MailTemplateModel extends CActiveRecord
      * characters.id
      * @var int
      */
-    public $receiver_id; 
-       
+    public $receiver_id;
+
     /**
-     * @var integer, real Unix epoch time, in seconds
+     * @var datetime
      */
-    public $sending_date;
-    
-    /**
-     * @var integer, real Unix epoch time, in seconds
-     */
-    public $receiving_date;
-    
+    public $sent_at;
+
     /**
      * @var string
      */
@@ -60,28 +55,12 @@ class MailTemplateModel extends CActiveRecord
      * @var string
      */
     public $code;
-    
-    /**
-     * In minutes from 00:00 game day
-     * @var int
-     */
-    public $sending_time;
-    
+
     /**
      * @var int
      */
     public $type; // ?
-    
-    /**
-     * @var string 'hh:ii'
-     */
-    public $sending_time_str;    
-    
-    /**
-     * @var string 'dd.mm.yyyy'
-     */
-    public $sending_date_str;
-    
+
     /**
      * @var string
      * 'none', 'spam', '2_min', 'plan', 'info', 'first_category', ...

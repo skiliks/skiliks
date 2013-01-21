@@ -937,13 +937,11 @@ class LogHelper {
         $csv->setCallback(function($row){
             switch ($row['day']) {
                 case 1:
-                    $row['day'] = 'today';    
-                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
+                    $row['day'] = 'today';
                     break;
 
                 case 2:
-                    $row['day'] = 'tomorrow';    
-                    $row['date'] = DateHelper::timestampTimeToString($row['date']);
+                    $row['day'] = 'tomorrow';
                     break;
                 
                 case 3:

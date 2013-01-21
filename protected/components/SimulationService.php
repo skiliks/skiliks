@@ -321,7 +321,7 @@ class SimulationService
         $simulation = new Simulations();
         $simulation->user_id = $userId;
         $simulation->status = 1;
-        $simulation->start = time();
+        $simulation->start = GameTime::setNowDateTime();
         $simulation->difficulty = 1;
         $simulation->type = $simulationType;
         $simulation->insert();
@@ -441,7 +441,7 @@ class SimulationService
     {
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
         
-        $variance = time() - $simulation->start;
+        $variance = time() - GameTime::getUnixDateTime($simulation->start);
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
@@ -451,8 +451,8 @@ class SimulationService
         $clockH = $clockH + $start_time[0];
         $clockM = $clockM + $start_time[1];
 
-        $simulation->start = ($simulation->start - (($newHours - $clockH) * 60 * 60 / $speedFactor)
-            - (($newMinutes - $clockM) * 60 / $speedFactor));
+        $simulation->start = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+            - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
         $simulation->save();
     }

@@ -1,6 +1,6 @@
 <script type="text/template" id="document_xls_template">
     <div class="xls-container">
-        <iframe src="<@= filename @>"></iframe>
+        <div class="loader"></div>
     </div>
 </script>
 <script type="text/template" id="document_pdf_template">

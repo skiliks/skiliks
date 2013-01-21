@@ -4,7 +4,7 @@ class m130118_151745_correct_filename_length extends CDbMigration
 {
 	public function up()
 	{
-        $this->alterColumn('my_documents_template', 'srcFile', 'string NOT NULL');
+        $this->alterColumn('my_documents_template', 'srcFile', 'VARCHAR(255) NOT NULL');
 	}
 
 	public function down()
