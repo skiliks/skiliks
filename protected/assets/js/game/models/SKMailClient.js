@@ -225,10 +225,17 @@
         },
         
         initialize: function() {
-            this.folders[this.aliasFolderInbox]  = new SKMailFolder();
-            this.folders[this.aliasFolderDrafts] = new SKMailFolder();
-            this.folders[this.aliasFolderSended] = new SKMailFolder();
-            this.folders[this.aliasFolderTrash]  = new SKMailFolder();
+            this.folders[this.aliasFolderInbox]       = new SKMailFolder();
+            this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;
+            
+            this.folders[this.aliasFolderDrafts]       = new SKMailFolder();
+            this.folders[this.aliasFolderDrafts].alias = this.aliasFolderDrafts;
+            
+            this.folders[this.aliasFolderSended]       = new SKMailFolder();
+            this.folders[this.aliasFolderSended].alias = this.aliasFolderSended;
+            
+            this.folders[this.aliasFolderTrash]        = new SKMailFolder();
+            this.folders[this.aliasFolderTrash].alias  = this.aliasFolderTrash;
 
             this.addToPlanDialogObject.mailClient = this;
         },
@@ -470,7 +477,7 @@
             );
         },
         
-        getTashFolderEmails: function() {
+        getTrashFolderEmails: function() {
             SKApp.server.api(
                 'mail/getMessages',
                 {
@@ -555,8 +562,8 @@
          
          getActiveFolder: function() {
             for (var i in this.folders) {
-                if (this.folders[i].isActive === true) {
-                    return this.folders[i].isActive;
+                if (this.folders[i].isActive == true) {
+                    return this.folders[i];
                 }
             }    
          },

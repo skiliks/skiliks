@@ -287,6 +287,7 @@
 
         updateFolderLabels:function () {
             var html = '';
+            var mailClientView = this;
 
             for (var alias in this.mailClient.folders) {
                 if (this.mailClient.folders.hasOwnProperty(alias)) {
@@ -311,6 +312,52 @@
             }
 
             $('#' + this.mailClientFoldersListId).html(html);
+            
+            // droppable {
+            $('#FOLDER_INBOX').droppable("destroy");
+            $('#FOLDER_TRASH').droppable("destroy");        
+            console.log('this.mailClient.getActiveFolder().alias: ', this.mailClient.getActiveFolder().alias);
+            
+            // add restore from trash behaviour {
+            if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
+                // clean up bunders                
+                
+                // init move to trash onDrop
+                $('#FOLDER_INBOX').droppable({
+                    tolerance:"pointer",
+                    drop: function( event, ui ) {
+                        var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
+                        mailClientView.doMoveToInbox(email);
+                    },
+                    over: function (event, ui) {
+                        $(this).addClass('over');
+                    },
+                    out: function(event, ui) {
+                        $(this).removeClass('over');
+                    }
+                });
+            }
+            // add restore from trash behaviour }
+            
+            // add move to trash behaviour {
+            if (this.mailClient.aliasFolderInbox === this.mailClient.getActiveFolder().alias) {                
+                $('#FOLDER_TRASH').droppable({
+                    tolerance:"pointer",
+                    drop: function( event, ui ) {
+                        var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
+                        mailClientView.doMoveToTrash(email)
+                    },
+                    over: function (event, ui) {
+                        $(this).addClass('over');
+                    },
+                    out: function(event, ui) {
+                        $(this).removeClass('over');
+                    }
+                });
+            }
+            // add move to trash behaviour }
+            // droppable
+            
             this.delegateEvents();
         },
         
@@ -328,6 +375,8 @@
             
             // script will assign table sotder for new folder
             this.isSortingNotApplied = true;
+            
+            this.mailClient.setActiveFolder(folderAlias);
              
             if (this.mailClient.aliasFolderInbox === folderAlias) {
                 if (isSwitchToFirst) {
@@ -534,7 +583,8 @@
             });
             
             // make table sortable
-            if (this.isSortingNotApplied) {
+            if (this.isSortingNotApplied && 
+                0 !== $('#' + this.mailClientIncomeFolderListId + ' table tbody tr').length) {
                 $('#' + this.mailClientIncomeFolderListId + ' table').tablesorter({
                     sortInitialOrder: 'desc',
                     sortList: [[2,0],[0,0]]
@@ -566,6 +616,16 @@
 
             this.renderIcons(this.mailClient.iconsForInboxScreenArray);
             this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
+            
+            // draggable: add move to trash behaviour {
+            $('.email-list-line').draggable("destroy");;
+            $('.email-list-line').draggable({
+              helper: function(event) {
+                  return $('<div class="email-envelope"><table style="display: none;"></table></div>')
+                    .find('table').append($(event.target).closest('tr').clone()).end();
+              }
+            });
+            // draggable: add move to trash behaviour }
         },
 
         renderTrashFolder:function () {
@@ -589,6 +649,16 @@
 
             this.renderIcons(this.mailClient.iconsForTrashScreenArray);
             this.mailClient.setActiveScreen(this.mailClient.screenTrashList);
+            
+            // draggable: add restore from trash behaviour {
+            $('.email-list-line').draggable("destroy");
+            $('.email-list-line').draggable({
+              helper: function(event) {
+                  return $('<div class="email-envelope"><table style="display: none;"></table></div>')
+                    .find('table').append($(event.target).closest('tr').clone()).end();
+              }
+            });
+            // draggable: add restore from trash behaviour }
         },
 
         renderSendedFolder:function () {
@@ -827,7 +897,7 @@
             );
 
             this.mailClient.getInboxFolderEmails();
-            this.mailClient.getTashFolderEmails();
+            this.mailClient.getTrashFolderEmails();
 
             this.mailClient.setActiveEmail(undefined);
             var inboxEmails = this.mailClient.getInboxFolder().emails;
@@ -844,6 +914,38 @@
 
             this.updateFolderLabels();
             this.renderInboxFolder();
+        },
+        
+        doMoveToInbox:function (email) {
+            SKApp.server.api(
+                'mail/move',
+                {
+                    folderId:this.mailClient.codeFolderInbox,
+                    messageId:email.mySqlId
+                },
+                function () {
+                },
+                false
+            );
+
+            this.mailClient.getInboxFolderEmails();
+            this.mailClient.getTrashFolderEmails();
+
+            this.mailClient.setActiveEmail(undefined);
+            var trashEmails = this.mailClient.getTrashFolder().emails;
+            for (var i in trashEmails) {
+                this.mailClient.setActiveEmail(trashEmails[i]);
+                break;
+            }
+            
+            // logging:
+            this.mailClient.setWindowsLog(
+                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                this.mailClient.getActiveEmailId()
+            );
+
+            this.updateFolderLabels();
+            this.renderTrashFolder();
         },
 
         hideFoldersBlock:function () {

@@ -1672,6 +1672,12 @@ section.mail>header h1{
 	text-indent:-9999px;
 	margin:18px 0 0 54px;
 }
+.email-envelope{
+	background:url("../img/mail/e-mail.png") no-repeat scroll 0 0 / contain transparent;
+    margin-left: 50px;
+	height:30px;
+    width: 50px;
+}
 section.mail nav{
     float: left;
     height: 100%;
@@ -1689,8 +1695,11 @@ section.mail nav ul li{
 	margin-bottom:17px;
         height: 40px;
 }
-section.mail>header nav ul li.active{
+#MailClient_FolderLabels li.active{
 	background-position:0 -43px;
+}
+#MailClient_FolderLabels .over label {
+	font-weight: bold;
 }
 section.mail>header nav ul li:first-child{
 	margin-top:0;
