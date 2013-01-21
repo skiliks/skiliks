@@ -34,15 +34,14 @@ class EventsController extends AjaxController {
      * Принудительный старт заданного события
      */
     public function actionStart() {
-        
+
         $manager = new EventsManager();
         $json = $manager->startEvent(
             $this->getSimulationId(),
             Yii::app()->request->getParam('eventCode', false),
-            (int)Yii::app()->request->getParam('delay', false),    
             Yii::app()->request->getParam('clearEvents', false),
-            Yii::app()->request->getParam('clearAssessment', false)    
-        );
+            Yii::app()->request->getParam('clearAssessment', false),
+            Yii::app()->request->getParam('delay', 0)        );
         $this->sendJSON($json);
     }
 }
