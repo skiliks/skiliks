@@ -29,8 +29,8 @@
                     }
                 },
                 stop:function () {
-                    if (me.doEndDrag !== undefined) {
-                        me.doEndDrag();
+                    if (typeof(me.doEndDrag) !== "undefined") {
+                        me.doEndDrag($(this));
                     }
                 }
             });
