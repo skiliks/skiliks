@@ -232,7 +232,7 @@
                     <td>
                         <ul id="MailClient_RecipientsList" class="tagHandlerContainer">
                             <li class="tagInput"
-                                <input type="text" id="MailClient_NewLetterReceiverBox">
+                                <input type="text" id="MailClient_NewLetterReceiverBox" readonly="readonly">
                             </li>
                         </ul>
                     </td>
@@ -242,7 +242,7 @@
                     <td>
                         <ul id="MailClient_CopiesList" class="tagHandlerContainer">
                             <li class="tagInput"
-                                <input type="text" id="MailClient_NewLetterThemeBox">
+                                <input type="text" id="MailClient_NewLetterThemeBox" readonly="readonly">
                             </li>
                         </ul>
                     </td>
