@@ -197,7 +197,6 @@ var SKDayPlanView;
                 tolerance:"pointer",
                 scope: "tasks",
                 'drop':function (event, ui) {
-                    console.log('1');
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
                     var prev_cell = ui.draggable.parents('td');
