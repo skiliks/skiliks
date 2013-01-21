@@ -4,6 +4,8 @@
  */
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER', true);
 defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER', true);
+ini_set('date.timezone', 'Europe/Moscow');
+
 return array(
     'import' => array(
         'application.models.*',
