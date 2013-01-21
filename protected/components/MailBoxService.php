@@ -1146,12 +1146,11 @@ class MailBoxService {
             );
         }
         
-        $subject           = $messageToForward->subject;
         $forwardSubjectId  = $messageToForward->subject_id;
         $sender            = $messageToForward->sender_id;
         $receiverId        = $messageToForward->receiver_id;
 
-        $forwardSubjectText = 'Fwd: ' . $messageToForward->subject; // 'Fwd: ' with space-symbol, 
+        $forwardSubjectText = 'Fwd: ' . $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol, 
         // it is extremly important to find proper  Fwd: in database
 
         $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText);

@@ -3663,3 +3663,7 @@ tr.email-list-separator {
 .documents-list input[type="text"] {
     margin-bottom: 0;
 }
+
+#mailEmulatorMainScreen .tagInputField {
+    cursor: text;
+}

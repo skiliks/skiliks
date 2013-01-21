@@ -906,6 +906,10 @@
                 availableTags: mailClientView.mailClient.getFormatedCharacterList(),
                 autocomplete:  true
             });
+            
+            // prevent custom text input
+            $("#MailClient_RecipientsList input").attr('readonly','readonly');
+            $("#MailClient_CopiesList input").attr('readonly','readonly');
 
             this.delegateEvents();
 
@@ -1307,7 +1311,7 @@
                     allowAdd:false,
                     allowEdit:false
                 });
-
+                
                 // add copies if they exests {
                 var copies = [];
                 if (undefined !== response.copiesIds) {
@@ -1325,6 +1329,10 @@
                     availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:  true
                 });
+                
+                // prevent custom text input
+                $("#MailClient_RecipientsList input").attr('readonly','readonly');
+                $("#MailClient_CopiesList input").attr('readonly','readonly');
                 // add copies if they exests }
 
                 // add phrases {
@@ -1389,6 +1397,10 @@
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true
                 });
+                // prevent custom text input
+                $("#MailClient_RecipientsList input").attr('readonly','readonly');
+                $("#MailClient_CopiesList input").attr('readonly','readonly');
+                
                 // add copies if they exests }
 
                 // add phrases {

@@ -376,6 +376,7 @@ class MailController extends AjaxController
     public function actionForward()
     {
         $simulation = $this->getSimulationEntity();
+
         $messageToForward = MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(
