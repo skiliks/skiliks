@@ -19,6 +19,7 @@ class m130119_215227_events_samples extends CDbMigration
 
                 $this->update('events_samples', ['trigger_time'=>$trigger_time], "id = ".$event['id']);
             }
+            $transaction->commit();
         }
         catch(Exception $e)
         {

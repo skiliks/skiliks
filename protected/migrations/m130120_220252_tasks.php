@@ -19,6 +19,7 @@ class m130120_220252_tasks extends CDbMigration
 
                 $this->update('tasks', ['start_time'=>$start_time], "id = ".$task['id']);
             }
+            $transaction->commit();
         }
         catch(Exception $e)
         {
