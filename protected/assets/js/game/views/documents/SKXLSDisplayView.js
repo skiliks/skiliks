@@ -28,10 +28,14 @@
 
         },
         doStartDrag: function (el) {
+            var fn = this.options.model_instance.get('filename');
+            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
             this.hideZohoIframe(doc, el);
         },
         doEndDrag: function (el) {
-            this.hideZohoIframe(doc, el);
+            var fn = this.options.model_instance.get('filename');
+            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
+            this.displayZohoIframe(doc, el);
         },
         hideZohoIframe:function () {
             var fn = this.options.model_instance.get('filename');
