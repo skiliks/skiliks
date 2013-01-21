@@ -357,8 +357,11 @@ class MailController extends AjaxController
         
         $email = MailBoxModel::model()
             ->findByPk(Yii::app()->request->getParam('messageId', 0));
+
+        assert($email);
         
         $emailTask = MailTasksModel::model()->findByPk(Yii::app()->request->getParam('id', 0));
+        assert($emailTask);
         
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
