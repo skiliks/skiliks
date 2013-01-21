@@ -325,7 +325,7 @@ class SimulationService
         $simulation->difficulty = 1;
         $simulation->type = $simulationType;
         $simulation->insert();
-        
+
         return $simulation;
     }
     
@@ -454,7 +454,7 @@ class SimulationService
         $clockH = $clockH + $start_time[0];
         $clockM = $clockM + $start_time[1];
 
-        $simulation->start = GameTime::getUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+        $simulation->start = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
             - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
         $simulation->save();

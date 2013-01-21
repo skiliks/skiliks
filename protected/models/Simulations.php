@@ -118,7 +118,7 @@ class Simulations extends CActiveRecord
             if (preg_match('/^M/', $event_trigger->event_sample->code)) {
                 continue;
             }
-            if ($event_trigger->trigger_time < $newHours*60 + $newMinutes) {
+            if (GameTime::timeToSeconds($event_trigger->trigger_time) < ($newHours*60 + $newMinutes)*60) {
                 $event_trigger->delete();
             }
         }
