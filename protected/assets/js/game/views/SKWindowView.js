@@ -27,6 +27,11 @@
                     if (me.doStartDrag !== undefined) {
                         me.doStartDrag();
                     }
+                },
+                end:function () {
+                    if (me.doEndDrag !== undefined) {
+                        me.doEndDrag();
+                    }
                 }
             });
             this.renderContent(this.$('.sim-window-content'));
