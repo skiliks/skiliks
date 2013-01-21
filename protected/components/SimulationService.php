@@ -321,7 +321,7 @@ class SimulationService
         $simulation = new Simulations();
         $simulation->user_id = $userId;
         $simulation->status = 1;
-        $simulation->start = time();
+        $simulation->start = GameTime::setNowDateTime();
         $simulation->difficulty = 1;
         $simulation->type = $simulationType;
         $simulation->insert();
@@ -397,10 +397,10 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
-    public static function simulationStop($simulation)
+    public static function simulationStop($simId)
     {
         // залогируем состояние плана
-        DayPlanLogger::log($simulation->id, DayPlanLogger::STOP);
+        DayPlanLogger::log($simId, DayPlanLogger::STOP);
 
         // данные для логирования
 
@@ -408,22 +408,25 @@ class SimulationService
 
         $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
         //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
-        LogHelper::setDocumentsLog($simulation->id, $logs); //Закрытие документа при стопе симуляции
-        LogHelper::setMailLog($simulation->id, $logs); //Закрытие ркна почты при стопе симуляции
+        LogHelper::setDocumentsLog($simId, $logs); //Закрытие документа при стопе симуляции
+        LogHelper::setMailLog($simId, $logs); //Закрытие ркна почты при стопе симуляции
         
-        LogHelper::setWindowsLog($simulation->id, $logs);
+        LogHelper::setWindowsLog($simId, $logs);
 
-        LogHelper::setDialogs($simulation->id, $logs);
+        LogHelper::setDialogs($simId, $logs);
         // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalize($simId);
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
-        SimulationService::saveAgregatedPoints($simulation->id);
+        SimulationService::saveAgregatedPoints($simId);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAgregate dorectly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simId);
+        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation->end = GameTime::setNowDateTime();
+        $simulation->save();
     }
 
 
@@ -441,7 +444,7 @@ class SimulationService
     {
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
         
-        $variance = time() - $simulation->start;
+        $variance = time() - GameTime::getUnixDateTime($simulation->start);
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
@@ -451,8 +454,8 @@ class SimulationService
         $clockH = $clockH + $start_time[0];
         $clockM = $clockM + $start_time[1];
 
-        $simulation->start = ($simulation->start - (($newHours - $clockH) * 60 * 60 / $speedFactor)
-            - (($newMinutes - $clockM) * 60 / $speedFactor));
+        $simulation->start = GameTime::setUnixDateTime((GameTime::getUnixDateTime($simulation->start) - (($newHours - $clockH) * 60 * 60 / $speedFactor)
+            - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
         $simulation->save();
     }
