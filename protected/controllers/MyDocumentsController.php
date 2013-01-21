@@ -1,10 +1,5 @@
 <?php
 
-require_once(__DIR__ . '/../vendors/elFinder/elFinderConnector.class.php');
-require_once(__DIR__ . '/../vendors/elFinder/elFinderVolumeDriver.class.php');
-require_once(__DIR__ . '/../vendors/elFinder/elFinderVolumeLocalFileSystem.class.php');
-require_once(__DIR__ . '/../vendors/elFinder/elFinder.class.php');
-
 /**
  * Контроллер моих документов
  *
