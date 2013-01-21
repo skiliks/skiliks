@@ -120,7 +120,7 @@ class EventsManager {
             
             $simType  = $simulation->type; // определим тип симуляции
             $gameTime = $simulation->getGameTime();
-            Logger::write($gameTime);
+
             // обработка задач {
             $task = $this->processTasks($simId);
             if ($task) {

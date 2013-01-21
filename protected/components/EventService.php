@@ -42,8 +42,12 @@ class EventService {
                 $dialog = DialogService::getFirstReplicaByCode($code);
 
                 if ($dialog) {
-                    if ($dialog->duration > 0) {
-                        $eventTime += GameTime::addMinutesTime($eventTime, $dialog->duration);
+                    if ($dialog->duration > 0) { //TODO:Проблемное место
+                        //Logger::write('$dialog->duration = '.$dialog->duration);
+                        //Logger::write('$eventTime = '.$eventTime);
+                        $eventTime = GameTime::addMinutesTime($eventTime, $dialog->duration);
+                        //Logger::write('$eventTime = '.$eventTime);
+                        //Logger::write("=============");
                     }
                 }
             }
