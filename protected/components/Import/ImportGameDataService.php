@@ -529,7 +529,7 @@ class ImportGameDataService
                 $emailTemplateEntity->receiver_id        = $toId;
                 $emailTemplateEntity->subject_id         = $subjectEntity->id;
                 $emailTemplateEntity->message            = $message;
-                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->sent_at       = $sendingDate;
                 $emailTemplateEntity->code               = $code;
                 $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
@@ -542,7 +542,7 @@ class ImportGameDataService
                 $emailTemplateEntity->receiver_id        = $toId;
                 $emailTemplateEntity->subject_id         = $subjectEntity->id;
                 $emailTemplateEntity->message            = $message;
-                $emailTemplateEntity->sending_date       = $sendingDate;
+                $emailTemplateEntity->sent_at       = $sendingDate;
                 $emailTemplateEntity->type               = $type;
                 $emailTemplateEntity->type_of_importance = $typeOfImportance;
                 $emailTemplateEntity->update();
