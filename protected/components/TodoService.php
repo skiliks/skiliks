@@ -153,7 +153,7 @@ class TodoService
         $newTodoEntity->task_id = $taskId;
         $newTodoEntity->insert();
         
-        return $newTodoEntity;
+        return true;
     }
 }
 
