@@ -976,7 +976,7 @@
             // email.recipients
             if (0 == emailToSave.recipients.length) {
                 mailClient.message_window =  new SKDialogView({
-                    'message': 'Добавте адресата письма.',
+                    'message': 'Добавьте адресата письма.',
                     'buttons': [
                         {
                             'value': 'Окей',

@@ -45,6 +45,8 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery-skiliks.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mousewheel.min.js");
+        $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.tablesorter.js");
+        
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/php.js");

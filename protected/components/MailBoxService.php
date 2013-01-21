@@ -418,7 +418,9 @@ class MailBoxService {
         $mail = MailBoxModel::model()->findByPk($mailId);
         $characterTheme = $mail->getCharacterTheme();
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
-            return $characterTheme->letter->message;
+            // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work 
+            $mailTemplate = MailTemplateModel::model()->byCode($characterTheme->letter_number)->find();
+            return $mailTemplate->message;
         };
         $models = MailMessagesModel::model()->byMail($mailId)->findAll();
 
@@ -873,8 +875,11 @@ class MailBoxService {
 
         $characterTheme = MailCharacterThemesModel::model()->findByPk($characterThemeId);
 
-        if (NULL !== $characterTheme && 'TXT' === $characterTheme->constructor_number) {
-            $message = $characterTheme->letter->message;
+        if (NULL !== $characterTheme && 
+            'TXT' === $characterTheme->constructor_number) {
+            // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work 
+            $mailTemplate = MailTemplateModel::model()->byCode($characterTheme->letter_number)->find();
+            $message = $mailTemplate->message;
         } else {
             $data    = self::getMailPhrases($characterThemeId);
             $addData = self::getSigns();
