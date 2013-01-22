@@ -573,7 +573,7 @@
                         
                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                 } else {
-                    // if user clicks on different email lines - activate ckicked line email
+                    // if user clicks on different email lines - activate clicked line email
                     mailClientView.doGetEmailDetails(
                         $(event.currentTarget).data().emailId,
                         folderAlias
@@ -1142,6 +1142,7 @@
         },
         
         doAddPhraseToEmail: function(event) {
+            event.preventDefault();
             var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
             
             if (undefined === phrase) {
