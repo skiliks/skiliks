@@ -23,8 +23,12 @@
                 my_replicas = event.getMyReplicas(),
                 video_src = event.getVideoSrc(),
                 remote_replica = event.getRemoteReplica();
-            this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
-            this.visitor_entrance_window.open();
+            if (this.visitor_entrance_window === undefined || !this.visitor_entrance_window.is_opened) {
+                this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
+                this.visitor_entrance_window.open();
+            } else {
+                this.visitor_entrance_window.set('sim_event', event);
+            }
             this.$el.html(_.template($('#visit_template').html(), {
                 'remote_replica':remote_replica,
                 'my_replicas':my_replicas,
@@ -43,15 +47,14 @@
             var me = this;
             e.preventDefault();
             var dialog_id = $(e.currentTarget).attr('data-id');
+            var is_final = $(e.currentTarget).attr('data-is-final');
             SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
                 if (data.result === 1) {
                     me.visitor_entrance_window.setLastDialog(dialog_id);
                     /* TODO refactor */
-                    if (data.events && data.events[0] && data.events[0].data && data.events[0].data[0] && data.events[0].data[0].step_number === '1' &&
-                        data.events[0].data[0].dialog_subtype === '4') {
-                        me.visitor_entrance_window.switchDialog(data.events[0].data[0].id);
+                    if (is_final) {
+                        me.close();
                     }
-                    me.close();
                     SKApp.user.simulation.parseNewEvents(data.events);
                     /*if (flag === 1) {
                      me.closedialogController();
