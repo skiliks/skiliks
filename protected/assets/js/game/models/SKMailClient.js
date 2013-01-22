@@ -528,17 +528,6 @@
              
              return this.activeEmail.mySqlId;
          },
-         
-         /**
-          * Helps to use 'mailMain' instead of 'mailPreview' if there is no active email in folder.
-          */
-         mailPreviewOrMailMail: function(alias) {
-             if (undefined !== this.getActiveEmailId()) {
-                return alias;
-             } else {
-                 return 'mailMain';
-             }
-         },
         
          setActiveEmail: function(email) {
             // active email or readed or new writed in any case

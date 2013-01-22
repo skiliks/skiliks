@@ -407,7 +407,7 @@
 
             this.updateFolderLabels();
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
         },
@@ -559,14 +559,15 @@
             $('.email-list-line').click(function (event) {
                 // update lod data {
                 
-                mailClientView.mailClient.setWindowsLog(
-                    mailClientView.mailClient.mailPreviewOrMailMail('mailPreview'), 
-                    $(event.currentTarget).data().emailId
-                );
-                
                 // if user click on same email line twice - open read email screen
                 // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+                    // log {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailPreview', 
+                        $(event.currentTarget).data().emailId
+                    );
+                    // log }
                     mailClientView.renderReadEmail(
                         mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
                     );
@@ -574,6 +575,12 @@
                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                 } else {
                     // if user clicks on different email lines - activate clicked line email
+                    // log {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailMain', 
+                        $(event.currentTarget).data().emailId
+                    );
+                    // log }
                     mailClientView.doGetEmailDetails(
                         $(event.currentTarget).data().emailId,
                         folderAlias
@@ -750,12 +757,11 @@
         renderReadEmail:function (email) {
             // set HTML sceleton {
             var sceleton = _.template($('#MailClient_ReadEmailSceleton').html(), {
-                emailPreviewId:this.mailClientReadEmailContentBoxId
+                emailPreviewId:  this.mailClientReadEmailContentBoxId
             });
 
             $('#' + this.mailClientContentBlockId).html(sceleton);
-            // set HTML sceleton } 
-
+            // set HTML sceleton }
             this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
             this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
         },
@@ -907,7 +913,7 @@
             
             // logging:
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
 
@@ -939,7 +945,7 @@
             
             // logging:
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
 
@@ -1282,7 +1288,7 @@
                 this.renderInboxFolder();
                 
                 this.mailClient.setWindowsLog(
-                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    'mailMain', 
                     this.mailClient.getActiveEmailId()
                 );
             }
@@ -1296,7 +1302,7 @@
                 this.renderInboxFolder();
 
                 this.mailClient.setWindowsLog(
-                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    'mailMain', 
                     this.mailClient.getActiveEmailId()
                 );
             }
