@@ -13,7 +13,13 @@ $(function () {
             this.off('dialog:end');
             SKWindowView.prototype.remove.call(this);
         },
-        
+        initialize:function() {
+            var me = this;
+            this.listenTo(this.options.model_instance, 'refresh', function () {
+                me.render();
+            });
+            SKWindowView.prototype.initialize.call(this);
+        },
         renderContent:function (window_el) {
             var event = this.options.model_instance.get('sim_event'),
                 me = this,
@@ -40,16 +46,15 @@ $(function () {
             e.preventDefault();
             var event = this.options.event;
             var dialog_id = $(e.currentTarget).attr('data-id');
+            var is_final = $(e.currentTarget).attr('data-is-final');
 
             SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
                 if (data.result === 1) {
                     me.options.model_instance.setLastDialog(dialog_id);
                     /* TODO refactor */
-                    if (data.events && data.events[0] && data.events[0].data && data.events[0].data[0] && data.events[0].data[0].step_number === '1' &&
-                        data.events[0].data[0].dialog_subtype === '4') {
-                        me.options.model_instance.switchDialog(data.events[0].data[0].id);
+                    if (is_final) {
+                        me.options.model_instance.close();
                     }
-                    me.options.model_instance.close();
                     SKApp.user.simulation.parseNewEvents(data.events);
                     /*if (flag === 1) {
                      me.closedialogController();

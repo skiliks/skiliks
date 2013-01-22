@@ -973,19 +973,19 @@ class LogHelper {
         foreach( $logs as $log ) {
             if (empty($log[4]['dialogId'])) continue;
             
-            $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : $log[4]['dialogId'];
-            $dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
-            $lastDialogIdAccordingExcel = (null === $dialog) ? null : $dialog->excel_id;
+            $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : null;
+            $last_dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
+            $lastDialogIdAccordingExcel = (null === $last_dialog) ? null : $last_dialog->excel_id;
             
             if( self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
 
-                $dialog = new LogDialogs();
-                $dialog->sim_id = $simId;
-                $dialog->dialog_id = $log[4]['dialogId'];
-                $dialog->last_id = $lastDialogIdAccordingExcel;
-                $dialog->start_time  = date("H:i:s", $log[3]);
-                $dialog->save();
+                $last_dialog = new LogDialogs();
+                $last_dialog->sim_id = $simId;
+                $last_dialog->dialog_id = $log[4]['dialogId'];
+                $last_dialog->last_id = $lastDialogIdAccordingExcel;
+                $last_dialog->start_time  = date("H:i:s", $log[3]);
+                $last_dialog->save();
                 continue;
 
             } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
@@ -993,10 +993,10 @@ class LogHelper {
                 if (!$dialogs) {
                     continue;
                 }
-                foreach ($dialogs as $dialog) {
-                    $dialog->end_time = date("H:i:s", $log[3]);
-                    $dialog->last_id = $lastDialogIdAccordingExcel;
-                    $dialog->save();
+                foreach ($dialogs as $last_dialog) {
+                    $last_dialog->end_time = date("H:i:s", $log[3]);
+                    $last_dialog->last_id = $lastDialogIdAccordingExcel;
+                    $last_dialog->save();
                 }
             } elseif (self::ACTION_SWITCH == (string)$log[2]) {
 

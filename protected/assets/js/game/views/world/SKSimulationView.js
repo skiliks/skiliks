@@ -86,8 +86,7 @@
                     var visit_view = new SKVisitView({'event':event});
                     event.complete();
                 } else if (event.getTypeSlug() === 'immediate-phone') {
-
-                    SKApp.user.simulation.window_set.toggle('phone', 'phoneTalk', {sim_event:event});
+                    var win = SKApp.user.simulation.window_set.open('phone', 'phoneTalk', {sim_event:event});
                     event.complete();
                 }
             });

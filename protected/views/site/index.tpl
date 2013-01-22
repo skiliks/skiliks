@@ -44,9 +44,7 @@
                         <div>
                             <input type="text" 
                                    id = "user-email-value"
-                                   value   = "Enter your email address" 
-                                   onblur  = "if (value == '') { value = 'Enter your email address'; }"
-                                   onfocus = "if (value == 'Enter your email address') { value =''; }"
+                                   placeholder="Enter your email address"
                                    />
                             <p id="user-email-error-box" class="error" style="display: none;">
                                 <span>Please enter a valid email address</span>

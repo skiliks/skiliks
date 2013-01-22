@@ -29,11 +29,39 @@
                     windows[0].close();
                 } else {
                     windows[0].setOnTop();
+                    windows[0].trigger('refresh');
                 }
             } else {
                 var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                 var win = new WindowType(_.extend({name:name, subname:subname}, params));
                 win.open();
+            }
+        },
+
+        /**
+         * Just opens window or nothing if opened
+         * @param name
+         * @param subname
+         * @param params
+         */
+        open: function (name, subname, params) {
+            var windows = this.where({name:name, subname:subname});
+            if (windows.length !== 0) {
+                if (this.at(this.length-1).id !== subname) { // If this is top window
+                    windows[0].setOnTop();
+                }
+                if (params !== undefined) {
+                    _.each(_.pairs(params), function(i) {
+                        windows[0].set(i[0],i[1]);
+                    });
+                }
+                windows[0].trigger('refresh');
+                return windows[0];
+            } else {
+                var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
+                var win = new WindowType(_.extend({name:name, subname:subname}, params));
+                win.open();
+                return win;
             }
         },
 
@@ -51,7 +79,7 @@
                 name = arguments[0];
             }
             this.each(function (win) {
-                if (name ? win.name === name : win.name !== 'mainScreen') {
+                if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
                     // we can`t close already closed windows
                     if (false === win.is_opened) {
                         win.close();
