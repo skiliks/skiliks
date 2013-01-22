@@ -528,17 +528,6 @@
              
              return this.activeEmail.mySqlId;
          },
-         
-         /**
-          * Helps to use 'mailMain' instead of 'mailPreview' if there is no active email in folder.
-          */
-         mailPreviewOrMailMail: function(alias) {
-             if (undefined !== this.getActiveEmailId()) {
-                return alias;
-             } else {
-                 return 'mailMain';
-             }
-         },
         
          setActiveEmail: function(email) {
             // active email or readed or new writed in any case
@@ -656,6 +645,11 @@
                                 }
                             }
                         ]
+                    });
+                    SKApp.user.simulation.documents.create({
+                        "id":   response.file.id,
+                        "name": response.file.name,
+                        "mime": response.file.mime  
                     });
                 });   
         },
@@ -1021,10 +1015,10 @@
             if (false === this.validationDialogResult(emailToSave)) {
                 return false;
             }
-            
+
             SKApp.server.api(
                 'mail/saveDraft',
-                this.combineMailDataByEmailObject(emailToSave),
+                mailClient.combineMailDataByEmailObject(emailToSave),
                 function (responce) {
                     // keep non strict comparsion
                     if (1 == responce.result) {
@@ -1056,23 +1050,6 @@
                 buttonsToDisplay = [];
             }
         },
-        
-        /**
-         * Seem to be newer used
-         */
-        /*toggleWindow: function() {
-            console.log('toggleWindow: ', this.window);
-            if ('undefined' === typeof this.window) {
-                this.openWindow();
-            } else {
-                if (1 === this.window.active) {
-                    this.window = 'undefined';
-                    this.closeWindow();
-                } else {
-                    this.activateWidow();
-                }
-            }
-        },*/
 
         openWindow: function() {
             this.getDataForInitialScreen();
