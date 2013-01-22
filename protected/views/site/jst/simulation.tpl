@@ -30,6 +30,7 @@
                     <div class="control-group">
                         <label for="addTriggerSelect" class="control-label">Код события:</label>
                         <input name="code" id="addTriggerSelect" required="required" type="text" class="span1">
+                        
                     </div>
                     <div class="control-group">
                         <label for="addTriggerDelay" class="control-label">Задержка(игровые
@@ -37,6 +38,7 @@
 
                         <div class="controls">
                             <input name="delay" type="number" id="addTriggerDelay"  required="required" class="span1" value="0">
+                            <input type="submit" value="Создать" class="btn btn-primary">
                         </div>
                     </div>
                     <div class="control-group">
@@ -49,13 +51,6 @@
                                 <input name="clear_assessment" id="addTriggerClearAssessment" type="checkbox"/>
                                 Очистить очередь оценки
                             </label>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <div class="controls">
-                            <input type="submit"
-                                   value="Создать" class="btn btn-primary">
-
                         </div>
                     </div>
                 </fieldset>

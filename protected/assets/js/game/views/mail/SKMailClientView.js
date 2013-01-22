@@ -316,7 +316,6 @@
             // droppable {
             $('#FOLDER_INBOX').droppable("destroy");
             $('#FOLDER_TRASH').droppable("destroy");        
-            console.log('this.mailClient.getActiveFolder().alias: ', this.mailClient.getActiveFolder().alias);
             
             // add restore from trash behaviour {
             if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
@@ -408,7 +407,7 @@
 
             this.updateFolderLabels();
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
         },
@@ -560,21 +559,28 @@
             $('.email-list-line').click(function (event) {
                 // update lod data {
                 
-                mailClientView.mailClient.setWindowsLog(
-                    mailClientView.mailClient.mailPreviewOrMailMail('mailPreview'), 
-                    $(event.currentTarget).data().emailId
-                );
-                
                 // if user click on same email line twice - open read email screen
                 // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
+                    // log {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailPreview', 
+                        $(event.currentTarget).data().emailId
+                    );
+                    // log }
                     mailClientView.renderReadEmail(
                         mailClientView.mailClient.getEmailByMySqlId($(event.currentTarget).data().emailId)
                     );
                         
                     mailClientView.mailClient.setActiveScreen(mailClientView.mailClient.screenReadEmail);
                 } else {
-                    // if user clicks on different email lines - activate ckicked line email
+                    // if user clicks on different email lines - activate clicked line email
+                    // log {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailMain', 
+                        $(event.currentTarget).data().emailId
+                    );
+                    // log }
                     mailClientView.doGetEmailDetails(
                         $(event.currentTarget).data().emailId,
                         folderAlias
@@ -751,12 +757,11 @@
         renderReadEmail:function (email) {
             // set HTML sceleton {
             var sceleton = _.template($('#MailClient_ReadEmailSceleton').html(), {
-                emailPreviewId:this.mailClientReadEmailContentBoxId
+                emailPreviewId:  this.mailClientReadEmailContentBoxId
             });
 
             $('#' + this.mailClientContentBlockId).html(sceleton);
-            // set HTML sceleton } 
-
+            // set HTML sceleton }
             this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
             this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
         },
@@ -908,7 +913,7 @@
             
             // logging:
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
 
@@ -940,7 +945,7 @@
             
             // logging:
             this.mailClient.setWindowsLog(
-                this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                'mailMain', 
                 this.mailClient.getActiveEmailId()
             );
 
@@ -1143,6 +1148,7 @@
         },
         
         doAddPhraseToEmail: function(event) {
+            event.preventDefault();
             var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
             
             if (undefined === phrase) {
@@ -1194,7 +1200,7 @@
         /**
          * @return SKAttachment | undefined
          */
-        getCurrentEmailAttachment:function () {
+        getCurrentEmailAttachment: function () {
             var selectedAttachmentlabel = $('.dd-selected label').text();
             var attachments = this.mailClient.availableAttachments;
 
@@ -1274,13 +1280,15 @@
 
         doSaveEmailToDrafts:function () {
             var emailToSave = this.generateNewEmailObject();
+            
+            var result = this.mailClient.saveToDraftsEmail(emailToSave);
+            if (false !== result) { // sync AJAX
 
-            if (false !== this.mailClient.saveToDraftsEmail(emailToSave)) { // sync AJAX
                 this.updateFolderLabels();
                 this.renderInboxFolder();
                 
                 this.mailClient.setWindowsLog(
-                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    'mailMain', 
                     this.mailClient.getActiveEmailId()
                 );
             }
@@ -1294,7 +1302,7 @@
                 this.renderInboxFolder();
 
                 this.mailClient.setWindowsLog(
-                    this.mailClient.mailPreviewOrMailMail('mailPreview'), 
+                    'mailMain', 
                     this.mailClient.getActiveEmailId()
                 );
             }

@@ -958,7 +958,7 @@ class MailBoxService {
             'subject_id' => $sendMailOptions->subject_id,
             'phrases'    => $sendMailOptions->phrases,
             'simId'      => $sendMailOptions->simulation->id,
-            'time' => $sendMailOptions->time,
+            'time'       => $sendMailOptions->time,
             'fileId'     => $sendMailOptions->fileId,
             'letterType' => $sendMailOptions->getLetterType(),
         ));
