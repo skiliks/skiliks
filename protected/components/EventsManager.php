@@ -1,22 +1,13 @@
 <?php
 
 class EventsManager {
-    
-    protected $uid;
 
     public function __construct() {
 
     }
 
     public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
-        
-        try {
-            
-            $uid = SessionHelper::getUidBySid();
-            if (null === $uid) { 
-                throw new CHttpException(200,'Не могу определить пользователя', 2);
-            }
-                        
+
             $event = EventsSamples::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
             
@@ -48,13 +39,7 @@ class EventsManager {
             }
             
             return ['result' => 1];
-            
-        } catch (Exception $exc) {
-            return [
-                'result' => 0, 
-                'message' => $exc->getMessage()
-            ];
-        }
+
         
     }
     

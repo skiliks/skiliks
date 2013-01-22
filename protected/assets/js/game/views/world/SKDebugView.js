@@ -30,6 +30,9 @@
         'doEventTrigger':function (event) {
             var target = event.currentTarget;
             event.preventDefault();
+            console.log(target);
+            console.log(target.elements);
+            console.log(target.elements.clear_events.value);
             SKApp.user.simulation.events.triggerEvent(
                 target.elements.code.value,
                 target.elements.delay.value,

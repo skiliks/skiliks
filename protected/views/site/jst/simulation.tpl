@@ -44,11 +44,11 @@
                     <div class="control-group">
                         <div class="controls">
                             <label for="addTriggerClearEvents" class="checkbox">
-                                <input name="clear_events" id="addTriggerClearEvents" type="checkbox"/>
+                                <input name="clear_events" value="0" id="addTriggerClearEvents" type="checkbox"/>
                                 Очистить очередь событий
                             </label>
                             <label for="addTriggerClearAssessment" class="checkbox">
-                                <input name="clear_assessment" id="addTriggerClearAssessment" type="checkbox"/>
+                                <input name="clear_assessment" value="0" id="addTriggerClearAssessment" type="checkbox"/>
                                 Очистить очередь оценки
                             </label>
                         </div>
