@@ -5,7 +5,7 @@
     window.SKSimulationView = Backbone.View.extend({
         'el':'body',
         'events':{
-            'click .btn-simulation-stop':'doSimulationStop'
+            'click .btn-simulation-stop': 'doSimulationStop'
         },
         setupWindowEvents:function (window) {
             if (window.get('name') === 'plan') {
@@ -56,14 +56,21 @@
             this.listenTo(simulation.documents, 'reset', function () {
                 simulation.documents.each(function (doc) {
                     me.listenTo(doc, 'change:excel_url', function () {
-                        this.$('.canvas').append($('<iframe />', {
-                            src: doc.get('excel_url'),
-                            id: 'excel-preload-' + doc.id
-                        }).css('display', 'none'));
+                        me.preloadZoho(doc);
                     });
                 });
-
             });
+            this.listenTo(simulation.documents, 'add', function (doc) {
+                me.listenTo(doc, 'change:excel_url', function () {
+                    me.preloadZoho(doc);  
+                });
+            });
+        },
+        preloadZoho: function (doc) {
+            this.$('.canvas').append($('<iframe />', {
+                src: doc.get('excel_url'),
+                id: 'excel-preload-' + doc.id
+            }).css('display', 'none'));    
         },
         'render':function () {
             var login_html = _.template($('#simulation_template').html(), {});
