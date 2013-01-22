@@ -35,7 +35,7 @@ $(function () {
         noReply: function(event) {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
             this.options.model_instance.close();
-            SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameMinutes()}, function (data) {
+            SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
             });
         }
