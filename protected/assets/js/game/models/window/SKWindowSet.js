@@ -81,7 +81,7 @@
             this.each(function (win) {
                 if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
                     // we can`t close already closed windows
-                    if (false === win.is_opened) {
+                    if (true === win.is_opened) {
                         win.close();
                     }
                 }

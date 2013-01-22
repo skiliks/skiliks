@@ -13,7 +13,9 @@
             <ul class="char-reply" id="dialogControllerAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
                 <li><p>
-                    <a href="" class="replica-select" data-id="<@= replica.id @>">
+                    <a href="" class="replica-select" data-id="<@= replica.id @>" <@if (replica.is_final_replica === "1") { @>
+                    data-is-final="true"
+                    <@ } @>>
                         <@= replica.text.replace(/^\s*-\s*/, ' — ')@>
                     </a>
                     <span></span></p></li>
