@@ -225,7 +225,6 @@ class EventsManager {
                 unset($resultList[$index]['step_number']);
                 unset($resultList[$index]['replica_number']);
                 unset($resultList[$index]['next_event_code']);
-                unset($resultList[$index]['code']);
                 $data[] = $resultList[$index];
             }
             

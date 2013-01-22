@@ -156,7 +156,11 @@
 
             <ul class="phone-reply-h" id="phoneAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
-                <li><p><a class="replica-select" data-id="<@= replica.id @>"><@= replica.text @></a></p>
+                <li><p><a class="replica-select"
+                    <@if (replica.is_final_replica === "1") { @>
+                    data-is-final="true"
+                    <@ } @>
+                    data-id="<@= replica.id @>"><@= replica.text @></a></p>
                     <span></span></li>
                 <@ }) @>
             </ul>

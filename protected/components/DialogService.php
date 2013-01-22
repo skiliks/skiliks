@@ -256,7 +256,8 @@ class DialogService {
             'step_number'       => $dialog->step_number,
             'replica_number'    => $dialog->replica_number,
             'next_event_code'   => $dialog->next_event_code,
-            'code'              => $dialog->code    
+            'is_final_replica'   => $dialog->is_final_replica,
+            'code'              => $dialog->code
         );
     }
     

@@ -146,6 +146,7 @@
             return parseInt(this.get('stype'), 10) === 2;
         },
         updateFlagsForDev: function(flagsState, serverTime) {
+            // Please, don't do that
             var flagStateView = new SKFlagStateView();
             flagStateView.updateValues(flagsState, serverTime);
         }
