@@ -316,7 +316,6 @@
             // droppable {
             $('#FOLDER_INBOX').droppable("destroy");
             $('#FOLDER_TRASH').droppable("destroy");        
-            console.log('this.mailClient.getActiveFolder().alias: ', this.mailClient.getActiveFolder().alias);
             
             // add restore from trash behaviour {
             if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
@@ -1194,7 +1193,7 @@
         /**
          * @return SKAttachment | undefined
          */
-        getCurrentEmailAttachment:function () {
+        getCurrentEmailAttachment: function () {
             var selectedAttachmentlabel = $('.dd-selected label').text();
             var attachments = this.mailClient.availableAttachments;
 
@@ -1274,8 +1273,10 @@
 
         doSaveEmailToDrafts:function () {
             var emailToSave = this.generateNewEmailObject();
+            
+            var result = this.mailClient.saveToDraftsEmail(emailToSave);
+            if (false !== result) { // sync AJAX
 
-            if (false !== this.mailClient.saveToDraftsEmail(emailToSave)) { // sync AJAX
                 this.updateFolderLabels();
                 this.renderInboxFolder();
                 
