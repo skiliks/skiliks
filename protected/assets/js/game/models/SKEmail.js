@@ -158,7 +158,7 @@
          */
         getIsHasAttachmentCss: function() {
             if (this.is_has_attachment) {
-                return ' display: block; ';
+                return ' display: inline-block; ';
             } else {
                 return ' display: none; ';
             }
@@ -174,10 +174,10 @@
         },
         
         getAttachmentId: function() {
-            if (undefined !== this.attachnent) {
-                return this.attachnent.fileMySqlId;
-            } else {
+            if (undefined === typeof this.attachment) {
                 return '';
+            } else {
+                return this.attachment.fileMySqlId;
             }
         },
         
