@@ -657,6 +657,11 @@
                             }
                         ]
                     });
+                    SKApp.user.simulation.documents.create({
+                        "id":   response.file.id,
+                        "name": response.file.name,
+                        "mime": response.file.mime  
+                    });
                 });   
         },
         
