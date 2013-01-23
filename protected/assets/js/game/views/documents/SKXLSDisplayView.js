@@ -40,7 +40,7 @@
         hideZohoIframe:function () {
             var fn = this.options.model_instance.get('filename');
             var doc = SKApp.user.simulation.documents.where({name:fn})[0];
-            $('#excel-preload-' + doc.id).hide();
+            $('#excel-preload-' + doc.id).css({'left':'-1000px','position':'absolute'});
         }, remove:function () {
             var me = this;
             this.hideZohoIframe();

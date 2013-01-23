@@ -70,7 +70,7 @@
             this.$('.canvas').append($('<iframe />', {
                 src: doc.get('excel_url'),
                 id: 'excel-preload-' + doc.id
-            }).css('display', 'none'));    
+            }).css({'left': '-1000px', 'position':'absolute'}));
         },
         'render':function () {
             var login_html = _.template($('#simulation_template').html(), {});
