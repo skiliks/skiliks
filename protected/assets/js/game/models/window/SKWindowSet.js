@@ -78,7 +78,8 @@
             if (arguments.length === 1) {
                 name = arguments[0];
             }
-            this.each(function (win) {
+            var reverse_list = this.models.slice();
+            reverse_list.forEach(function (win) {
                 if (name ? win.get('name') === name : win.get('name') !== 'mainScreen') {
                     // we can`t close already closed windows
                     if (true === win.is_opened) {

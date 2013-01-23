@@ -1,5 +1,5 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKPhoneView, SKMailClientView
- SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView */
+ SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
 (function () {
     "use strict";
     window.SKSimulationView = Backbone.View.extend({
