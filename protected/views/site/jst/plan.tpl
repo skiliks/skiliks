@@ -18,13 +18,103 @@
 <script type="text/template" id="plan_title_template">
     <div>
         <div class="planner-book-head planner-book-today-head">
-            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
+            <div>
+            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
+            	<table>
+            		<tr>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
         </div>
         <div class="planner-book-head planner-book-tomorrow-head">
-            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
+            <div>
+            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
+            	<table>
+            		<tr>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
         </div>
         <div class="planner-book-head planner-book-after-vacation-head">
-            <img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
+            <div>
+            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
+            	<table>
+            		<tr>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            			<td>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-l"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            				<span class="stroke-r"></span>
+            			</td>
+            		</tr>
+            	</table>
+            </div>
         </div>
     </div>
 </script>
@@ -74,7 +164,6 @@
                         <@ }) @>
                     </table>
                 </div>
-                <div class="planner-book-scrollbar"></div>
             </div>
             <div id="plannerBookAfterVacation" class="planner-book-after-vacation"  data-day-id="3">
                 <div id="plannerBookAfterVacationTable" class="planner-book-afterv-table half">
@@ -90,18 +179,20 @@
                     </table>
                 </div>
                 <div class="plan-todo middle">
-                    <ul class="plan-todo-btn">
-                        <li>
-                            <button class="todo-min min"></button>
-                            <button class="todo-revert min"></button>
-                            <button class="todo-revert max"></button>
-                            <button class="todo-max max"></button>
-                        </li>
-
-                    </ul>
-
-                    <p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
-                    <div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
+                    <div>
+                    	<ul class="plan-todo-btn">
+                    	    <li>
+                    	        <button class="todo-min min"></button>
+                    	        <button class="todo-revert min"></button>
+                    	        <button class="todo-revert max"></button>
+                    	        <button class="todo-max max"></button>
+                    	    </li>
+                    	
+                    	</ul>
+                    	
+                    	<p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
+                    	<div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
+                    </div>
                 </div>
             </div>
         </div>
