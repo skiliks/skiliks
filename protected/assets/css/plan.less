@@ -1,237 +1,509 @@
 .canvas .sim-window.planner-book-main-div {
+  width: 80%;
+  min-width: 880px;
+  max-width: 1522px;
   position: relative;
   user-select: none;
+  .sim-window-container {
+    height: 561px;
+    overflow: hidden;
+  }
   header {
+    background: url("../img/planner/bg-planner-header-right.png") no-repeat right top;
     height: 80px;
-    margin-left: 44px;
-    background: url("../img/planner/planner_book.png");
-    background-position: -25px 0px;
+    padding-right: 32px;
     border: none;
-  }
-  .planner-book {
-    margin-top: 0;
-    background-position: 0 -80px;
-    height: 483px;
-  }
-  .planner-book-head {
-    float: left;
-    border-right: solid 1px #000000;
-  }
-  .mCSB_container {
-    margin-right: 15px;
-  }
-  .mCSB_scrollTools .mCSB_dragger {
-    height: 80px;
-  }
-  .mCSB_scrollTools {
-    margin-right: 0;
-    z-index: 1;
-  }
-  .planner-book-today, .planner-book-tomorrow {
-    width: 281px;
-    margin-right: -12px;
-    border-right: none;
-  }
-
-  .plan-todo.middle {
-    height: 236px;
-  }
-  .plan-todo.open {
-    height:100%;
-    .plan-todo-wrap {
-      height: 400px;
+    >div {
+      background: url("../img/planner/bg-planner-header-left.png") no-repeat left top;
+      overflow: hidden;
+      padding: 4px 0 0 25px;
+      .planner-book-head {
+        background-color:#FFF;
+        background-repeat:repeat-x;
+        background-position:right 0;
+        border-right: solid 1px #000;
+        width: 33.15%;
+        float: left;
+        &.planner-book-today-head{
+          background-image: url("../img/planner/planner_book_orange.png");
+          div{
+            background: url("../img/planner/planner_book_orange.png") no-repeat 0 -81px;
+          }
+        }
+        &.planner-book-tomorrow-head{
+          border-left: 1px solid #000;
+          background-image: url("../img/planner/planner_book_gray.png");
+          div{
+            background: url("../img/planner/planner_book_gray.png") no-repeat 0 -81px;
+          }
+        }
+        &.planner-book-after-vacation-head{
+          border-left: 1px solid #000;
+          background-image: url("../img/planner/planner_book_gray.png");
+          div{
+            background: url("../img/planner/planner_book_gray.png") no-repeat 0 -81px;
+          }
+        }
+        div{
+          text-align:center;
+          height: 68px;
+          padding: 13px 0 0 1px;
+          margin-right: 1px;
+          position:relative;
+          table{
+            border-collapse:collapse;
+            border-spacing:0;
+            width:100%;
+            table-layout:fixed;
+            margin-top:5px;
+            position:absolute;
+            top:37px;
+            left:0;
+            .col{
+              
+            }
+            td{
+              background:url("../img/planner/bg-header-sk.png") no-repeat center 0;
+              width:33.3%;
+              height:32px;
+              span{
+                display:block;
+                background:#828181;
+                box-shadow:inset 1px 1px 0 #000;
+                width:10.5%;
+                height:2px;
+                margin:25px 1% 0;
+                &.stroke-l{
+                  float:left;
+                }
+                &.stroke-r{
+                  float:right;
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    .max {
-      display: none;
-    }
-
-    .todo-revert.min {
-      display: block;
-    }
-
-    .todo-min.min {
-      display: none;
+  }
+  .sim-window-content{
+    background: url("../img/planner/bg-planner-book-right.png") no-repeat right bottom;
+    padding-right: 32px;
+    >div{
+      background: url("../img/planner/bg-planner-book-left.png") no-repeat left bottom;
+      padding: 0 0 9px 25px;
+      .btn-close{
+        position:absolute;
+        top:10px;
+        right:43px;
+        button{
+          background:url("../img/planner/icon-close.png") no-repeat 0 0;
+          border:none;
+          width:20px;
+          height:20px;
+          cursor:pointer;
+          &:hover{
+            background-position:0 -20px;
+          }
+        }
+      }
+      .planner-book-quarter-plan{
+        position: absolute;
+        top: 40px;
+        left: -20px;
+        z-index: 1;    
+      }
+      .planner-book-day-plan{
+        position: absolute;
+        top: 265px;
+        left: -20px;
+        z-index: 2;
+      }
     }
   }
-
+  .planner-book{
+    background-color: #FFF;
+    height: 464px;
+    .mCustomScrollBox{
+      overflow:visible;
+    }
+    .mCSB_container {
+      margin-right: 0;
+    }
+    .mCSB_scrollTools {
+      margin-right: 0;
+      width:16px;
+      top:0;
+      right:-10px;
+      z-index: 1;
+      .mCSB_dragger {
+        height: 80px;
+      }
+    }
+    .planner-book-today {
+      border-right:1px solid #000;
+      width: 33.15%;
+      height: 464px;
+      float: left;
+    }
+    .planner-book-tomorrow {
+      border-right:1px solid #000;
+      border-left:1px solid #000;
+      width: 33.15%;
+      height: 464px;
+      float: left;
+    }
+    .planner-book-after-vacation {
+      border-right:1px solid #000;
+      border-left:1px solid #000;
+      width: 33.15%;
+      height: 464px;
+      float: left;
+      overflow: hidden;
+      .planner-book-afterv-table {
+        margin-top: 4px;
+        overflow-y: hidden;
+        transition-property: height;
+        transition-duration: 1s;
+      }
+      .planner-book-afterv-table.closed {
+        height: 0;
+      }
+      .planner-book-afterv-table.half {
+        height: 230px;
+      }
+      .planner-book-afterv-table.full {
+        height: 460px;
+      }
+    }
+    .planner-book-timetable{
+      height: 460px;
+      margin-top: 4px;
+      overflow-y: hidden;
+    }
+    .planner-book-timetable-table{
+      border-collapse: separate;
+      table-layout: fixed;
+      width: 100%;
+      tr {
+        height: 10px;
+      }
+      hr.past::before {
+        background-image: url('../img/planner/bg-time-line.png');
+        width: 19px;
+        height: 13px;
+        display: block;
+        margin-left: -19px;
+        margin-top: -7px;
+        content: ".";
+        position: absolute;
+        color: transparent;
+      }
+      hr.past {
+        margin: 0;
+        height: 1px;
+        margin-top: -1px;
+        border-top: solid 1px #d72327;
+        background-color: #be1b1e;
+      }
+      tr td.planner-book-timetable-event-fl.past-slot {
+        background: #eee;
+      }
+      .planner-book-timetable-time-fl {
+        border-top: 1px solid #d9d9db;
+        border-right: dotted 1px;
+        border-bottom: 1px solid #fff;
+        vertical-align: top;
+        padding-top: 0;
+        padding-bottom: 0;
+        width: 43px;
+        height: 44px;
+        background: #ffffff; /* Old browsers */
+        background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+        font-family: 'orbi_sansregular';
+        font-size: 12px;
+        line-height: 22px;
+        text-align: center;
+      }
+      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+        border-top: 1px solid #d9d9db;
+        padding: 0;
+        height: 11px;
+        line-height: 10px;
+        span {
+          line-height: 18px;
+        }
+      }
+      tr:nth-child(4n+3) {
+        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+          border-top: dotted 1px #D9D9CB;
+          height: 11px;
+          background: #fefefe; /* Old browsers */
+          background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
+          background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
+          background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
+          background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
+          background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+        }
+      }
+      tr:nth-child(4n) {
+        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+          border-top: dotted 1px #D9D9CB;
+          height: 11px;
+          background: #fafafa; /* Old browsers */
+          background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
+          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+          background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+          background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
+          background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
+          background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
+          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+        }
+      }
+      tr:nth-child(2n) {
+        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+          border: none;
+        }
+      }
+    }
+  }
   .plan-todo {
-    background-position: -15px -79px;
+    background: transparent url("../img/planner/bg-plan-todo-left.png") no-repeat 0 0;
+    width:100%;
     height: 50%;
+    position:relative;
+    overflow:hidden;
     transition-property: height, transform;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
-    .day-plan-todo-task {
-      min-height: 30px;
+    &.middle {
+      height: 236px;
     }
-    .plan-todo-wrap {
-      height: 170px;
-      overflow-y: scroll;
-      margin-right: 20px;
+    &.open {
+      height:100%;
+      .plan-todo-wrap {
+        height: 400px;
+      }
+      .max {
+        display: none;
+      }
+      .todo-revert.min {
+        display: block;
+      }
+  
+      .todo-min.min {
+        display: none;
+      }
     }
-    .plan-todo-btn {
-      height: 30px;
+    &.closed {
+      transform: rotate(-30deg);
+      .plan-todo-btn {
+        .min {
+          display: none;
+        }
+        .todo-revert.max {
+          display: block;
+        }
+        .todo-max.max {
+          display: none;
+        }
+        .min {
+          display: none;
+        }
+      }
+      .plan-todo-tit {
+        text-align: right;
+      }
+    }
+    >div{
+      background: url("../img/planner/bg-plan-todo-right.png") no-repeat right 0;
+      overflow:hidden;
+      margin-left:39px;
+      padding:3px 10px 0 0;
+      .plan-todo-btn{
+        list-style:none;
+        overflow:hidden;
+        margin:0;
+        padding:0;
+        position:absolute;
+        top:4px;
+        right:4px;
+        li{
+          height:23px;
+          float:left;
+          margin-right:5px;
+          button{
+            background:url("../img/planner/btn-plan-todo.png") no-repeat 0 0;
+            border:none;
+            width:35px;
+            height:23px;
+            cursor:pointer;
+            &.min{
+              background-position:0 -30px;
+            }
+            &.max{
+              background-position:0 -53px;
+            }
+          }
+        }
+      }
+      .plan-todo-tit{
+        font-family:'hortensiaregular';
+        font-size:30px;
+        color:#c71414;
+        text-align:left;
+        margin:24px 71px 0 10px;
+        span{
+          font-weight:normal;
+          color:#000;
+        }
+      }
+      .plan-todo-wrap {
+        margin-top:23px;
+        height: 170px;
+        overflow:hidden;
+        overflow-y: scroll;
+        margin-right: 20px;
+        .day-plan-todo-task {
+          min-height: 30px;
+          box-shadow:none;
+          font-family:'hortensiaregular';
+          font-size:16px;
+          line-height:18px;
+          padding:0 35px 0 8px;
+          position:relative;
+          margin-bottom: 18px;
+          div{
+            display:none;
+            font:11px 'myriad_proregular';
+            color:#000;
+            text-align:center;
+            width:35px;
+            height:100%;
+            position:absolute;
+            top:-1px;
+            right:0;
+            vertical-align:middle;
+            p{
+              width:35px;
+              position:absolute;
+              top:50%;
+              left:0;
+              margin-top:-16px;
+            }
+            span{
+              font:16px 'orbi_sans_boldregular';
+            }
+          }
+          &:hover{
+            div{
+              display:table-cell;
+            }
+          }
+        }
+      }
     }
     .todo-revert {
       display: none;
     }
   }
-  .plan-todo.closed {
-    transform: rotate(-30deg);
-    .plan-todo-btn {
-      .min {
-        display: none;
-      }
-      .todo-revert.max {
-        display: block;
-      }
-      .todo-max.max {
-        display: none;
-      }
-      .min {
-        display: none;
-      }
-    }
-    .plan-todo-tit {
-      text-align: right;
-    }
-  }
-  .planner-book-after-vacation {
-    width: 271px;
-    height: 464px;
-    overflow: hidden;
-  }
-  .planner-book-afterv-table {
-    transition-property: height;
-    transition-duration: 1s;
-  }
-  .planner-book-afterv-table.closed {
-    height: 0;
-  }
-  .planner-book-afterv-table.half {
-    height: 230px;
-  }
-  .planner-book-afterv-table.full {
-    height: 460px;
-  }
-
-  .planner-book-timetable-table {
-    tr {
-      height: 10px;
-    }
-    hr.past::before {
-      background-image: url('../img/planner/bg-time-line.png');
-      width: 19px;
-      height: 13px;
-      display: block;
-      margin-left: -19px;
-      margin-top: -7px;
-      content: ".";
-      position: absolute;
-      color: transparent;
-    }
-    hr.past {
-      margin: 0;
-      height: 1px;
-      margin-top: -1px;
-      border-top: solid 1px #d72327;
-      background-color: #be1b1e;
-    }
-    tr td.planner-book-timetable-event-fl.past-slot {
-      background: #eee;
-    }
-    .planner-book-timetable-time-fl {
-      border-right: dotted 1px;
-      vertical-align: top;
-      padding-top: 0;
-      padding-bottom: 0;
-      height: 44px;
-      background: #ffffff; /* Old browsers */
-      background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
-      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-      background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-      background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
-      background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
-      background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
-      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
-    }
-
-    .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-      padding: 0;
-      height: 11px;
-      line-height: 10px;
-      span {
-        line-height: 18px;
-      }
-    }
-    tr:nth-child(4n+3) {
-      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-        border-top: dotted 1px #D9D9CB;
-        height: 11px;
-        background: #fefefe; /* Old browsers */
-        background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
-      }
-    }
-    tr:nth-child(4n) {
-      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-        border-top: dotted 1px #D9D9CB;
-        height: 11px;
-        background: #fafafa; /* Old browsers */
-        background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
-      }
-    }
-    tr:nth-child(2n) {
-      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-        border: none;
-      }
-    }
-  }
-
   .planner-task {
     cursor: move;
+    &.done{
+      border-top:1px solid #fff;
+      border-right:1px solid #c2e9b7;
+      border-bottom:1px solid #bce5b0;
+      border-left:1px solid #81b372;
+      background: #bfeab1;
+      background: -moz-linear-gradient(top, #d9f7cf, #a2db90);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9f7cf), color-stop(100%,#a2db90));
+      background: -webkit-linear-gradient(top, #d9f7cf, #a2db90);
+      background: -o-linear-gradient(top, #d9f7cf, #a2db90);
+      background: -ms-linear-gradient(top, #d9f7cf, #a2db90);
+      background: linear-gradient(top, #d9f7cf, #a2db90);
+      -moz-box-shadow: 1px 1px 1px rgba(113,181,93,1);
+      -webkit-box-shadow: 1px 1px 1px rgba(113,181,93,1);
+      box-shadow: 1px 1px 1px rgba(113,181,93,1);
+    }
+    &.regular{
+      border-top:1px solid #e2eff9;
+      border-right:1px solid #c8e0f1;
+      border-bottom:1px solid #c5def0;
+      border-left:1px solid #81a0b8;
+      background: #c4dff2;
+      background: -moz-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#dbedfa), color-stop(100%,#aed1ea));
+      background: -webkit-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -o-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -ms-linear-gradient(top, #dbedfa, #aed1ea);
+      background: linear-gradient(top, #dbedfa, #aed1ea);
+      -moz-box-shadow: 1px 1px 1px rgba(121,161,192,1);
+      -webkit-box-shadow: 1px 1px 1px rgba(121,161,192,1);
+      box-shadow: 1px 1px 1px rgba(121,161,192,1);
+    }
+    &.day-plan-task-active{
+      border-top:1px solid #ffffb5;
+      border-right:1px solid #eba64e;
+      border-bottom:1px solid #da9439;
+      border-left:1px solid #a97839;
+      background: #e39229;
+      background: -moz-linear-gradient(top, #f3a33c, #d38116);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3a33c), color-stop(100%,#d38116));
+      background: -webkit-linear-gradient(top, #f3a33c, #d38116);
+      background: -o-linear-gradient(top, #f3a33c, #d38116);
+      background: -ms-linear-gradient(top, #f3a33c, #d38116);
+      background: linear-gradient(top, #f3a33c, #d38116);
+      -moz-box-shadow: 1px 1px 1px rgba(125,75,12,1);
+      -webkit-box-shadow: 1px 1px 1px rgba(125,75,12,1);
+      box-shadow: 1px 1px 1px rgba(125,75,12,1);
+      color:#fff;
+      .duration{
+        display:table-cell;
+        background: #e39229;
+        background: -moz-linear-gradient(top, #ed710b, #bd3d04);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ed710b), color-stop(100%,#bd3d04));
+        background: -webkit-linear-gradient(top, #ed710b, #bd3d04);
+        background: -o-linear-gradient(top, #ed710b, #bd3d04);
+        background: -ms-linear-gradient(top, #ed710b, #bd3d04);
+        background: linear-gradient(top, #ed710b, #bd3d04);
+        border-top:1px solid #f9d0af;
+        border-bottom:1px solid #a13403;
+        border-left:1px dashed #f5dfb4;
+        color:#fff !important;
+      }
+    }
+    &.ui-draggable-dragging {
+      border-top: 1px solid #e2eff9;
+      border-right: 1px solid #c8e0f1;
+      border-bottom: 1px solid #c5def0;
+      border-left: 1px solid #81a0b8;
+      background: #c4dff2;
+      z-index: 2;
+      background: -moz-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dbedfa), color-stop(100%, #aed1ea));
+      background: -webkit-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -o-linear-gradient(top, #dbedfa, #aed1ea);
+      background: -ms-linear-gradient(top, #dbedfa, #aed1ea);
+      background: linear-gradient(top, #dbedfa, #aed1ea);
+      -moz-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+      -webkit-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+      box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
+    }
+    &.ui-draggable-dragging {
+      margin: 0;
+    }
   }
-
-  .plan-todo-tit {
-    margin-left: 25px;
-  }
-
   .day-plan-td-slot {
     user-select: none;
     height: 100%;
-  }
-
-  .planner-task.ui-draggable-dragging {
-    border-top: 1px solid #e2eff9;
-    border-right: 1px solid #c8e0f1;
-    border-bottom: 1px solid #c5def0;
-    border-left: 1px solid #81a0b8;
-    background: #c4dff2;
-    z-index: 2;
-    background: -moz-linear-gradient(top, #dbedfa, #aed1ea);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #dbedfa), color-stop(100%, #aed1ea));
-    background: -webkit-linear-gradient(top, #dbedfa, #aed1ea);
-    background: -o-linear-gradient(top, #dbedfa, #aed1ea);
-    background: -ms-linear-gradient(top, #dbedfa, #aed1ea);
-    background: linear-gradient(top, #dbedfa, #aed1ea);
-    -moz-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
-    -webkit-box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
-    box-shadow: 1px 1px 1px rgba(121, 161, 192, 1);
-  }
-
-  .planner-task.ui-draggable-dragging {
-    width: 217px;
-    margin: 0;
   }
 
   .drop-hover, .drop-hover td.planner-book-timetable-afterv-fl, .drop-hover td.planner-book-timetable-event-fl {
@@ -243,7 +515,6 @@
     -webkit-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
-    width: 210px;
   }
 
   .planner-task.regular.locked {
@@ -252,14 +523,16 @@
 
   .planner-task.regular, .planner-task.ui-draggable-dragging {
     vertical-align: middle;
-    width: 214px;
     padding-left: 4px;
     padding-right: 4px;
     margin: 0;
-    display: table-cell;
+    //display: table-cell;
     .duration {
       display: none;
     }
+  }
+  .planner-task.ui-draggable-dragging{
+    width:214px;
   }
 
 }
