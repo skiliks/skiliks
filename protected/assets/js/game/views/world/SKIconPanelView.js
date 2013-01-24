@@ -83,6 +83,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                                 el.effect("bounce", {times:3, direction:'left'}, 400, bounce_cb);
                             }
                         }, 1000);
+                        delete me.icon_lock[selector];
                     } else {
                         me.icon_lock[selector] = false;
                         el.removeClass('icon-active');
