@@ -859,22 +859,6 @@
             return undefined;
         },
         
-        /**
-         * @var SKMailPhrase phrase
-         */
-        removePhraseFromEmail: function(phrase) {
-            this.viewObject.removePhraseFromEmail(phrase);
-            
-            var phrases = this.newEmailUsedPhrases;
-            for (var i in phrases) {
-                // keep '==' not strict!
-                if (phrases[i].uid === phrase.uid) {
-                    phrases.splice(i, 1);
-                    return true;
-                }
-            }
-        },
-        
         uploadAttachmentsList: function() {
             SKApp.server.api(
                 'myDocuments/getList',
