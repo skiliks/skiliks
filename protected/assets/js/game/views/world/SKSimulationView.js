@@ -5,7 +5,8 @@
     window.SKSimulationView = Backbone.View.extend({
         'el':'body',
         'events':{
-            'click .btn-simulation-stop': 'doSimulationStop'
+            'click .btn-simulation-stop':      'doSimulationStop',
+            'click .btn-toggle-dialods-sound': 'doToggleDialodSound'
         },
         setupWindowEvents:function (window) {
             if (window.get('name') === 'plan') {
@@ -78,9 +79,11 @@
             this.icon_view = new SKIconPanelView({'el':this.$('.main-screen-icons')});
             if (this.simulation.isDebug()) {
                 this.debug_view = new SKDebugView({'el':this.$('.debug-panel')});
+                this.doToggleDialodSound();
             }
             var canvas = this.$('.canvas');
             this.updateTime();
+            this.delegateEvents();
         },
         'updateTime':function () {
             var parts = this.simulation.getGameTime().split(':');
@@ -107,6 +110,17 @@
 
         'doSimulationStop':function () {
             SKApp.user.stopSimulation();
+        },
+        doToggleDialodSound: function() {
+             if (SKApp.user.simulation.config.isMuteVideo === false) {
+                SKApp.user.simulation.config.isMuteVideo = true;
+                $('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
+                $('.btn-toggle-dialods-sound i').addClass('icon-volume-off');
+            } else {
+                SKApp.user.simulation.config.isMuteVideo = false;
+                $('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
+                $('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
+            }
         }
     });
 })();
