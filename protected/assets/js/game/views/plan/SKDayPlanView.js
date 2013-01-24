@@ -448,14 +448,17 @@ var SKDayPlanView;
         doUnSetTask:function (e) {
             var task_id = $(e.currentTarget).attr('data-task-id');
             var task = SKApp.user.simulation.dayplan_tasks.get(task_id);
-            SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
-            SKApp.user.simulation.todo_tasks.create({
-                title:task.get("title"),
-                date:task.get("date"),
-                id:task.get("task_id"),
-                duration:task.get("duration"),
-                day:task.get("day")
-            });
+            if(task.get("type") != 2) {
+                SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
+                SKApp.user.simulation.todo_tasks.create({
+                    title:task.get("title"),
+                    date:task.get("date"),
+                    id:task.get("task_id"),
+                    duration:task.get("duration"),
+                    day:task.get("day")
+                });
+            }
+
         },
         doMinimizeTodo:function () {
             this.$('.plan-todo').removeClass('open').removeClass('middle').addClass('closed');
