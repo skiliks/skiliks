@@ -5,7 +5,7 @@
     window.SKSimulationView = Backbone.View.extend({
         'el':'body',
         'events':{
-            'click .btn-simulation-stop': 'doSimulationStop'
+            'click .btn-simulation-stop':'doSimulationStop'
         },
         setupWindowEvents:function (window) {
             if (window.get('name') === 'plan') {
@@ -54,6 +54,7 @@
                 me.setupWindowEvents(window);
             });
             this.listenTo(simulation.documents, 'reset', function () {
+                var timeout = 0;
                 simulation.documents.each(function (doc) {
                     me.listenTo(doc, 'change:excel_url', function () {
                         me.preloadZoho(doc);
@@ -62,15 +63,31 @@
             });
             this.listenTo(simulation.documents, 'add', function (doc) {
                 me.listenTo(doc, 'change:excel_url', function () {
-                    me.preloadZoho(doc);  
+                    me.preloadZoho(doc);
                 });
             });
         },
-        preloadZoho: function (doc) {
-            this.$('.canvas').append($('<iframe />', {
-                src: doc.get('excel_url'),
-                id: 'excel-preload-' + doc.id
-            }).css({'left': '-1000px', 'position':'absolute'}));
+        /**
+         * Preloads excel with Zoho on simulation start
+         * @param doc
+         */
+        preloadZoho:function (doc) {
+            // Detecting time when we can start zoho (TODO: extract view)
+            var date = new Date();
+            this.zoho_end_date = this.zoho_end_date || date;
+            if (this.zoho_end_date < date) {
+                this.zoho_end_date = date;
+            }
+            setTimeout(function () {
+                this.$('.canvas').append($('<iframe />', {
+                    src:doc.get('excel_url'),
+                    id:'excel-preload-' + doc.id
+                }).css({
+                        'left':'-1000px',
+                        'position':'absolute'
+                    }));
+            }, (this.zoho_end_date - date));
+            this.zoho_end_date.setSeconds(this.zoho_end_date.getSeconds() + 10);
         },
         'render':function () {
             var login_html = _.template($('#simulation_template').html(), {});

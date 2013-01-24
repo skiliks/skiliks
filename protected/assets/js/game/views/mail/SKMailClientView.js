@@ -97,11 +97,11 @@
             
             // render phrases
             this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
-                me.renderPhrases()
+                me.renderPhrases();
             });
             
             // update inbox emails counter
-            this.listenTo(this.mailClient, 'mail:update_inbox_counter', function (event) {
+            this.listenTo(this.mailClient, 'mail:update_inbox_counter', function () {
                 var unreaded = me.mailClient.getInboxFolder().countUnreaded();
                 me.updateMailIconCounter(unreaded);
                 me.updateInboxFolderCounter(unreaded);
@@ -340,7 +340,7 @@
             
             // add move to trash behaviour {
             if (this.mailClient.aliasFolderInbox === this.mailClient.getActiveFolder().alias) {                
-                $('#FOLDER_TRASH').droppable({
+                this.$('#FOLDER_TRASH').droppable({
                     tolerance:"pointer",
                     drop: function( event, ui ) {
                         var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
@@ -1008,7 +1008,7 @@
                 width:'100%',
                 selectText:"Нет вложения.",
                 imagePosition:"left"
-            })
+            });
             // add attachments list }
 
             // bind recipients 
@@ -1124,21 +1124,22 @@
             var mainPhrasesHtml = '';
             var additionalPhrasesHtml = '';
 
-            for (var i in phrases) {
-                mainPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
-                    phraseUid:phrases[i].uid,
-                    phraseId:phrases[i].mySqlId,
-                    text:phrases[i].text
-                });
-            }
 
-            for (var i in addPhrases) {
-                additionalPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
-                    phraseUid:addPhrases[i].uid,
-                    phraseId:addPhrases[i].mySqlId,
-                    text:addPhrases[i].text
+            phrases.forEach(function (phrase) {
+                mainPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    phraseUid:phrase.uid,
+                    phraseId:phrase.mySqlId,
+                    text:phrase.text
                 });
-            }
+            });
+
+            addPhrases.forEach(function (phrase) {
+                additionalPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    phraseUid:phrase.uid,
+                    phraseId:phrase.mySqlId,
+                    text:phrase.text
+                });
+            });
 
             $("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
             $("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
