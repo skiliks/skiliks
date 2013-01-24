@@ -76,7 +76,8 @@
                 getFileCallback:function (file) {
                     file = decodeURIComponent(file);
                     file = file.replace(/.*\//,'');
-                    var window = new SKDocumentsWindow({subname:'documentsFiles', filename:file});
+                    var fileId = SKApp.user.simulation.documents.where({name:file})[0].get("id");
+                    var window = new SKDocumentsWindow({subname:'documentsFiles', filename:file, fileId:fileId});
                     window.open();
                 },
                 uiOptions:{
