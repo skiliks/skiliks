@@ -36,9 +36,9 @@ class GameTime
     public static function getTime($time) {
         $el = explode(':', $time);
         if(count($el) < 2) {
-            throw new CException("Не верный формат времени, нужно HH:MM:SS");
+            throw new CException("Неверный формат времени, нужно HH:MM:SS");
         } elseif(count($el) == 2) {
-            throw new CException("Фармат не нуждаеться в преобразовании! с HH:MM:SS в HH:MM");
+            throw new CException("Формат не нуждается в преобразовании! с HH:MM:SS в HH:MM");
         }
         return $el[0].':'.$el[1];
     }

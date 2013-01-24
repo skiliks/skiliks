@@ -10,8 +10,7 @@
 
     /**
      * Simulation class
-     * TODO: enable logging
-     * @type {SKSimulation}
+     * @type {Backbone.Model}
      */
     window.SKSimulation = Backbone.Model.extend({
         'initialize':function () {
@@ -48,7 +47,7 @@
         },
         'getGameSeconds':function () {
             var current_time_string = new Date();
-            var game_start_time = timeStringToMinutes(SKConfig.simulationStartTime)*60;
+            var game_start_time = timeStringToMinutes(SKConfig.simulationStartTime) * 60;
             return game_start_time +
                 Math.floor((current_time_string - this.start_time) / 1000 * SKConfig.skiliksSpeedFactor) +
                 this.skipped_minutes * 60;
@@ -68,6 +67,11 @@
             return pad(hours) + ':' + pad(minutes);
         },
 
+        /**
+         * Parses new events and adds them to event collection
+         *
+         * @param {Array} events
+         */
         parseNewEvents:function (events) {
             var me = this;
             events.forEach(function (event) {
@@ -81,7 +85,11 @@
                     type:event.eventType,
                     data:event.data
                 });
-                me.events.push(event_model);
+                if (me.events.canAddEvent(event_model)) {
+                    me.events.push(event_model);
+                } else {
+                    me.events.triggerEvent(event.data[0].code, 3, 0, 0);
+                }
                 me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
 
             });
@@ -97,7 +105,7 @@
                 if (undefined !== data.flagsState && undefined !== data.serverTime) {
                     me.updateFlagsForDev(data.flagsState, data.serverTime);
                 }
-                
+
                 if (data.result === 1 && data.events !== undefined) {
                     me.parseNewEvents(data.events, 'new');
                     me.getNewEvents();
@@ -115,7 +123,7 @@
                 me.dayplan_tasks.fetch();
                 me.documents.fetch();
                 me.trigger('start');
-                
+
                 me.events_timer = setInterval(function () {
                     me.getNewEvents();
                     me.trigger('tick');
@@ -129,7 +137,7 @@
             this.window_set.closeAll();
 
             var logs = this.windowLog.getAndClear();
-            
+
             SKApp.server.api('simulation/stop', {'logs':logs}, function () {
                 me.trigger('stop');
             });
@@ -148,7 +156,7 @@
         'isDebug':function () {
             return parseInt(this.get('stype'), 10) === 2;
         },
-        updateFlagsForDev: function(flagsState, serverTime) {
+        updateFlagsForDev:function (flagsState, serverTime) {
             // Please, don't do that
             var flagStateView = new SKFlagStateView();
             flagStateView.updateValues(flagsState, serverTime);

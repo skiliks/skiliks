@@ -3,7 +3,10 @@
 
 $(function () {
     "use strict";
-
+    /**
+     * @class
+     * @type {*}
+     */
     window.SKPhoneCallView = SKWindowView.extend({
         el:null,
         countMaxView: 1,
@@ -15,6 +18,13 @@ $(function () {
             'click #phone_reply':'reply',
             'click #phone_no_reply':'noReply'
         },SKWindowView.events),
+        initialize:function () {
+            var me;
+            this.listenTo(this.options.model_instance.get('sim_event'),'complete', function () {
+                this.options.model_instance.close();
+            });
+            SKWindowView.prototype.initialize.call(this);
+        },
         renderContent: function (window_el) {
             window_el.html(_.template($('#Phone_Call').html(), {call: this.options.event.get('data')}));
         },
@@ -27,16 +37,14 @@ $(function () {
         },
         reply: function(event) {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
-            this.options.model_instance.close();
-            SKApp.server.api('dialog/get', {'dialogId':dialogId}, function (data) {
-                SKApp.user.simulation.parseNewEvents(data.events);
+            var me = this;
+            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
             });
         },
         noReply: function(event) {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
-            this.options.model_instance.close();
-            SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
-                SKApp.user.simulation.parseNewEvents(data.events);
+            var me = this;
+            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
             });
         }
    });         

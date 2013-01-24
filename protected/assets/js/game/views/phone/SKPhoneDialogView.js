@@ -44,21 +44,14 @@ $(function () {
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
-            var event = this.options.event;
+            var event = this.options.model_instance.get('sim_event');
             var dialog_id = $(e.currentTarget).attr('data-id');
             var is_final = $(e.currentTarget).attr('data-is-final');
-
-            SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
-                if (data.result === 1) {
-                    me.options.model_instance.setLastDialog(dialog_id);
-                    /* TODO refactor */
-                    if (is_final) {
-                        me.options.model_instance.close();
-                    }
-                    SKApp.user.simulation.parseNewEvents(data.events);
-                    /*if (flag === 1) {
-                     me.closedialogController();
-                     } */
+            event.selectReplica(dialog_id, function () {
+                me.options.model_instance.setLastDialog(dialog_id);
+                /* TODO refactor */
+                if (is_final) {
+                    me.options.model_instance.close();
                 }
             });
         }

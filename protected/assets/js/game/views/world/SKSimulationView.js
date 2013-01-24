@@ -2,7 +2,11 @@
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
 (function () {
     "use strict";
-    window.SKSimulationView = Backbone.View.extend({
+    window.SKSimulationView = Backbone.View.extend(
+        /**
+         * @lends SKSimulationView
+         */
+        {
         'el':'body',
         'events':{
             'click .btn-simulation-stop':      'doSimulationStop',
@@ -121,9 +125,18 @@
                     var win = SKApp.user.simulation.window_set.open('phone', 'phoneTalk', {sim_event:event});
                     event.complete();
                 }
-            });
-
-        },
+                setTimeout(function () {
+                    this.$('.canvas').append($('<iframe />', {
+                        src:doc.get('excel_url'),
+                        id:'excel-preload-' + doc.id
+                    }).css({
+                            'left':'-1000px',
+                            'position':'absolute'
+                        }));
+                }, (this.zoho_end_date - date));
+                this.zoho_end_date.setSeconds(this.zoho_end_date.getSeconds() + 10);
+            },
+            
 
         'doSimulationStop':function () {
             SKApp.user.stopSimulation();
