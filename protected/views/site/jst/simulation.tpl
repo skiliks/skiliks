@@ -11,15 +11,19 @@
 
 <script type="text/template" id="debug_panel">
     <div class="row">
-        <div class="span2">
-            <form class="simulation-buttons">
+        <div class="span2">            
                 <fieldset>
                     <br/>
                     <h4>Действия</h4>
                     <br/>
-                    <input class="btn btn-simulation-stop" type="button" value="SIM стоп">
-                </fieldset>
-            </form>
+                    <form class="simulation-buttons">
+                        <input class="btn btn-simulation-stop" type="button" value="SIM стоп">
+                    </form>
+                    <button class="btn btn-toggle-dialods-sound" type="button" value="" 
+                       title="Убрать звук в диалогах/вернуть звук в диалогах">
+                        <i class="icon-volume-off"></i>
+                    </button>                 
+                </fieldset>            
         </div>
         <div class="span3">
             <form class="form-inline trigger-event">

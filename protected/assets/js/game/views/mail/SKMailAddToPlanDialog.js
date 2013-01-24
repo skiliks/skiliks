@@ -66,7 +66,7 @@
 
             if (0 === mailTasks.length) {
                 addToPlanDialog.message_window = new SKDialogView({
-                    'message':'Это письмо нельзя запланировать.',
+                    'message':'Это письмо уже запланировано.',
                     'buttons':[
                         {
                             'value':'Окей',
