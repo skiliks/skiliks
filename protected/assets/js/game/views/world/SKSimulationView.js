@@ -2,6 +2,10 @@
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
 (function () {
     "use strict";
+    /**
+     * @class
+     * @type {*}
+     */
     window.SKSimulationView = Backbone.View.extend(
         /**
          * @lends SKSimulationView
@@ -78,22 +82,13 @@
              * @param doc
              */
             preloadZoho:function (doc) {
-                // Detecting time when we can start zoho (TODO: extract view)
-                var date = new Date();
-                this.zoho_end_date = this.zoho_end_date || date;
-                if (this.zoho_end_date < date) {
-                    this.zoho_end_date = date;
-                }
-                setTimeout(function () {
-                    this.$('.canvas').append($('<iframe />', {
-                        src:doc.get('excel_url'),
-                        id:'excel-preload-' + doc.id
-                    }).css({
-                            'left':'-1000px',
-                            'position':'absolute'
-                        }));
-                }, (this.zoho_end_date - date));
-                this.zoho_end_date.setSeconds(this.zoho_end_date.getSeconds() + 10);
+                this.$('.canvas').append($('<iframe />', {
+                    src:doc.get('excel_url'),
+                    id:'excel-preload-' + doc.id
+                }).css({
+                        'left':'-1000px',
+                        'position':'absolute'
+                    }));
             },
             'render':function () {
                 var login_html = _.template($('#simulation_template').html(), {});
@@ -121,10 +116,10 @@
                             this.visit_view.options.event = event;
                             this.visit_view.render();
                         }
-                        event.complete();
+                        event.setStatus('in progress');
                     } else if (event.getTypeSlug() === 'immediate-phone') {
                         var win = SKApp.user.simulation.window_set.open('phone', 'phoneTalk', {sim_event:event});
-                        event.complete();
+                        event.setStatus('in progress');
                     }
                 });
             },

@@ -14,6 +14,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
+                    me.$('.phone').attr('data-event-id', event.cid);
                     me.startAnimation('.' + event.getTypeSlug(), function () {
                         if (event.getStatus() === 'waiting') {
                             event.setStatus('completed');
@@ -88,6 +89,9 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                                 el.effect("bounce", {times:3, direction:'left'}, 400, bounce_cb);
                             } else {
                                 me.icon_lock[selector] = false;
+                                if (end_cb !== undefined) {
+                                    end_cb();
+                                }
                             }
                         }, 1000);
                     } else {
@@ -121,7 +125,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         doPhoneTalkStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
+            var sim_event = this.sim_events.get($(e.currentTarget).parents('.phone').attr('data-event-id'));
             sim_event.setStatus('in progress');
             this.$('.phone').removeClass('icon-active');
             SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});

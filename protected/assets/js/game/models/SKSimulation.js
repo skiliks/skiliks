@@ -12,7 +12,9 @@
      * Simulation class
      * @type {Backbone.Model}
      */
-    window.SKSimulation = Backbone.Model.extend({
+    window.SKSimulation = Backbone.Model.extend(
+        /** @lends SKSimulation.prototype */
+        {
         'initialize':function () {
             this.events = new SKEventCollection();
             this.todo_tasks = new SKTodoCollection();
@@ -23,7 +25,7 @@
             this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
                 if (this.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
-                    this.stop();
+                    SKApp.user.stopSimulation();
                 }
             });
             this.dayplan_tasks = new SKDayTaskCollection();
@@ -75,7 +77,7 @@
         parseNewEvents:function (events) {
             var me = this;
             events.forEach(function (event) {
-                console.log('[SKSimulation] new event ', event.eventType, event.data);
+                //console.log('[SKSimulation] new event ', event.eventType, event.data);
                 if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                     // Crutch, sometimes server returns empty events
                     me.events.trigger('dialog:end');

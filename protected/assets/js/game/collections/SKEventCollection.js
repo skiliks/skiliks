@@ -47,14 +47,6 @@
                 });
                 return res;
             },
-            getByTypeSlug:function (type, completed) {
-                return this.filter(function (event) {
-                    if ((completed !== undefined ) && (event.completed !== completed)) {
-                        return false;
-                    }
-                    return (event.getTypeSlug() === type);
-                });
-            },
             /**
              *
              * @param {string} code
