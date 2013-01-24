@@ -14,9 +14,9 @@
             'click .phone_call':         'callToContact'
         }, SKWindowView.prototype.events),
         renderContent: function (window_el) {
-            window_el.html(_.template($('#Phone_Html').html(), _.defaults({windowID:this.windowID}, SKConfig)));
+            window_el.html(_.template($('#Phone_Html').html(), _.defaults(SKConfig)));
         },
-        getContacts: function (event) {
+        getContacts: function () {
             //$('#'+id+' .phone-screen')
             var contacts = new SKPhoneContactsCollection();
             contacts.fetch();
@@ -25,9 +25,8 @@
                 me.renderTPL('.phone-screen','#Phone_Contacts', {contacts:contacts});
             });
         },
-        getHistory: function (event) {
-            var id = $(event.currentTarget).attr('window_id');
-            
+        getHistory: function () {
+
             var history = SKApp.user.simulation.phone_history;
             
             history.readHistory();
@@ -38,9 +37,8 @@
                 me.renderTPL('.phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
             });
         },
-        getMenu: function(event){
-            var id = $(event.currentTarget).attr('window_id');
-            this.renderTPL('.phone-screen', '#Phone_Menu', {windowID:id});
+        getMenu: function(){
+            this.renderTPL('.phone-screen', '#Phone_Menu');
         },
         getCountViews : function(){
             return $('.'+this.windowClass).length;

@@ -1,11 +1,10 @@
 .canvas .sim-window.planner-book-main-div {
   width: 80%;
   min-width: 880px;
-  max-width: 1522px;
+  max-width: 1536px;
   position: relative;
   user-select: none;
   .sim-window-container {
-    height: 561px;
     overflow: hidden;
   }
   header {
@@ -123,7 +122,7 @@
   }
   .planner-book{
     background-color: #FFF;
-    height: 464px;
+    overflow:hidden;
     .mCustomScrollBox{
       overflow:visible;
     }
@@ -170,16 +169,30 @@
         height: 0;
       }
       .planner-book-afterv-table.half {
-        height: 230px;
+        height: 50%;
       }
       .planner-book-afterv-table.full {
-        height: 460px;
+        height: 100%;
       }
     }
     .planner-book-timetable{
       height: 460px;
       margin-top: 4px;
       overflow-y: hidden;
+    }
+    @media screen and (min-width: 1281px){
+      .planner-book-today{
+        height: 602px;
+      }
+      .planner-book-tomorrow{
+        height: 602px;
+      }
+      .planner-book-after-vacation{
+        height: 602px;
+      }
+      .planner-book-timetable{
+        height: 598px;
+      }
     }
     .planner-book-timetable-table{
       border-collapse: separate;
@@ -285,7 +298,7 @@
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
     &.middle {
-      height: 236px;
+      height: 50%;
     }
     &.open {
       height:100%;
@@ -301,6 +314,11 @@
   
       .todo-min.min {
         display: none;
+      }
+      @media screen and (min-width: 1281px) {
+        .plan-todo-wrap{
+          height: 529px;
+        }
       }
     }
     &.closed {
@@ -408,6 +426,11 @@
               display:table-cell;
             }
           }
+        }
+      }
+      @media screen and (min-width: 1281px) {
+        .plan-todo-wrap{
+          height: 228px;
         }
       }
     }
