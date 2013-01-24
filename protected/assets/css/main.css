@@ -1050,6 +1050,7 @@ mail-emulator-received-list-row
     min-height: 20px;
     padding-left: 21px;
     background:url("../img/planner/icon-task-locked.png") no-repeat 0 0;
+    cursor: no-drop;
 }
 
 .planner-popup{
