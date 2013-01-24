@@ -50,7 +50,7 @@
 
         renderTPL:function (element, template, userData) {
             var systemData = {assetsUrl:SKConfig.assetsUrl};
-            var data = _.defaults(userData, systemData);
+            var data = _.defaults(systemData, userData);
             var html = _.template($(template).html(), data);
             $(element).html(html);
         },
