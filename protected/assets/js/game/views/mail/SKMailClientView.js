@@ -163,7 +163,7 @@
         },
         
         updateInboxFolderCounter: function(counter) {
-            $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter').text(counter);
+            $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter').text('(' + counter + ')');
         },
         
         isCanBeClosed: function() {
@@ -301,11 +301,16 @@
                     if (alias === this.mailClient.aliasFolderInbox) {
                         counter = this.mailClient.getInboxFolder().countUnreaded();
                     }
+                    var counterCss = 'display: inline-block;';
+                    if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended) {
+                        counterCss = 'display: none;';
+                    }
 
                     html += _.template($('#MailClient_FolderLabel').html(), {
                         label:this.mailClient.folders[alias].name,
                         isActiveCssClass:isActiveCssClass,
                         counter:counter,
+                        counterCss: counterCss,
                         alias:alias
                     });
                 }

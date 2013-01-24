@@ -1110,7 +1110,8 @@ mail-emulator-received-list-row
 section.mail{
 	background:#fff url("../img/mail/bg-main.png") no-repeat;
     background-position: 0 -53px;
-	border:2px solid #454545;
+	border:2px solid #000;
+    border-width: 0 2px 2px 2px;
 	-webkit-border-radius:2px;
 	-moz-border-radius:2px;
 	border-radius:2px;
