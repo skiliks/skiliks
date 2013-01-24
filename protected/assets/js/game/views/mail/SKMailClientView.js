@@ -1215,6 +1215,7 @@
         },
         
         doRemovePhraseFromEmail: function(event) {
+            event.preventDefault();
             var phrase = this.mailClient.getUsedPhraseByUid($(event.currentTarget).data('uid'));
             
             if (undefined === phrase) {
@@ -1224,7 +1225,15 @@
                 throw 'Undefined phrase uid.';
             }
             
-            this.mailClient.removePhraseFromEmail(phrase);  
+            this.removePhraseFromEmail(phrase);
+            
+            var phrases = this.mailClient.newEmailUsedPhrases;
+            for (var i in phrases) {
+                // keep '==' not strict!
+                if (phrases[i].uid === phrase.uid) {
+                    phrases.splice(i, 1);
+                }
+            }
         },
 
         removePhraseFromEmail:function (phrase) {
