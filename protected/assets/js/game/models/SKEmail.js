@@ -174,7 +174,7 @@
         },
         
         getAttachmentId: function() {
-            if (undefined === typeof this.attachment) {
+            if ('undefined' === typeof this.attachment) {
                 return '';
             } else {
                 return this.attachment.fileMySqlId;

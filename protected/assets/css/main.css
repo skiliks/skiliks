@@ -3147,3 +3147,23 @@ tr.email-list-separator {
 #mailEmulatorMainScreen .tagInputField {
     cursor: text;
 }
+
+.mail-window .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 43px;
+    width:20px;
+    height:  20px;
+}
+
+.mail-window .btn-close button {
+    background: url("../img/planner/icon-close.png") no-repeat 0 0;
+    border:  none;
+    width:20px;
+    height:  20px;
+    cursor:pointer;
+}
+
+.mail-window .btn-close button:hover {
+    background-position: 0 -20px;
+}

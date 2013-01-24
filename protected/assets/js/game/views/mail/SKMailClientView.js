@@ -223,8 +223,8 @@
             if (folderAlias === this.mailClient.aliasFolderSended) {
                 this.updateSendedListView();
             }
-            if (folderAlias === this.mailClient.aliasFolderDrats) {
-                this.updateDratsListView();
+            if (folderAlias === this.mailClient.aliasFolderDrafts) {
+                this.updateDraftsListView();
             }
             if (folderAlias === this.mailClient.aliasFolderTrash) {
                 this.updateTrashListView();
@@ -376,6 +376,9 @@
             this.isSortingNotApplied = true;
             
             this.mailClient.setActiveFolder(folderAlias);
+            
+            // clean up phrases when render folders
+            this.mailClient.newEmailUsedPhrases = [];
              
             if (this.mailClient.aliasFolderInbox === folderAlias) {
                 if (isSwitchToFirst) {
