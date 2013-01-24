@@ -1403,12 +1403,11 @@
             var mailClientView = this;
             var mailClient = this.mailClient;
             
-            if (0 !== mailClient.availablePhrases.length ||
-                0 !== mailClient.availableAdditionalPhrases.length ||
+            if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) &&
                 0 !== mailClient.newEmailUsedPhrases.length ) {
                 // warning
                 this.message_window = new SKDialogView({
-                    'message': 'Если вы измените тему письма, то обновится список доступных фраз и очистится тескт письма.',
+                    'message': 'Если вы измените тему письма, то обновится список доступных фраз и очистится текст письма.',
                     'buttons': [
                         {
                             'value': 'Продолжить',
@@ -1416,7 +1415,6 @@
                                 mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                                 mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
                                 delete mailClient.message_window;
-                                ;
                             }
                         },
                         {
