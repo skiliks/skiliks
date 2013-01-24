@@ -594,11 +594,36 @@
             // make table sortable
             if (this.isSortingNotApplied && 
                 0 !== $('#' + this.mailClientIncomeFolderListId + ' table tbody tr').length) {
+                // add tablesorter filter for ouy specific date format {
+                $.tablesorter.addParser({
+                    id: "customDate",
+                    is: function(s) {
+                        //24.01.2006 01:30 would also be matched
+                        return /\d{1,2}.\d{1,2}.\d{1,4} \d{1,2}:\d{1,2}/.test(s);
+                    },
+                    format: function(s) {
+                        s = s.replace(/:/g," ");
+                        s = s.replace(/\./g," ");
+                        s = s.split(" ");
+
+                        return $.tablesorter.formatFloat(new Date(s[2], s[1]-1, s[0], s[3], s[4], 0).getTime());
+                    },
+                    type: "numeric"
+                });
+                // add tablesorter filter for ouy specific date format }
+                
+                // init table sorter
                 $('#' + this.mailClientIncomeFolderListId + ' table').tablesorter({
                     sortInitialOrder: 'desc',
-                    sortList: [[2,0],[0,0]]
+                        sortList: [[2,0],[0,0]],
+                        headers: { 
+                            2: { 
+                                sorter:'customDate' 
+                            } 
+                        } 
                 });
-                this.isSortingNotApplied = false;
+                
+                this.isSortingNotApplied = false; // we upply sorting, so let other see it
             } else {
                 $('#' + this.mailClientIncomeFolderListId + ' table').trigger('update');
             }
