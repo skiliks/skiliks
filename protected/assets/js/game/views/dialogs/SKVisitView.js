@@ -12,7 +12,7 @@
 
 
         },
-        'close': function () {
+        'close':function () {
             this.visitor_entrance_window.close();
             this.undelegateEvents();
             this.$el.html('');
@@ -41,9 +41,10 @@
                 'img_src': event.getImgSrc(),
                 'mute_attribute': muteTag
             }));
-            this.$('video').on('ended', function(){
+            this.$('video').on('ended', function () {
                 me.$('video').css('zIndex', 0);
                 if (my_replicas.length === 0) {
+                    me.options.event.complete();
                     me.close();
                 }
             });
@@ -54,17 +55,11 @@
             e.preventDefault();
             var dialog_id = $(e.currentTarget).attr('data-id');
             var is_final = $(e.currentTarget).attr('data-is-final');
-            SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
-                if (data.result === 1) {
-                    me.visitor_entrance_window.setLastDialog(dialog_id);
-                    /* TODO refactor */
-                    if (is_final) {
-                        me.close();
-                    }
-                    SKApp.user.simulation.parseNewEvents(data.events);
-                    /*if (flag === 1) {
-                     me.closedialogController();
-                     } */
+            this.options.event.selectReplica(dialog_id, function () {
+                me.visitor_entrance_window.setLastDialog(dialog_id);
+                /* TODO refactor */
+                if (is_final) {
+                    me.close();
                 }
             });
         },

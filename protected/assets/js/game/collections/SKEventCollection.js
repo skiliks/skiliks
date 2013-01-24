@@ -1,39 +1,80 @@
-/*global Backbone, _, SKEvent, SKApp*/
+/*global SKEventCollection:true, SKEvent, Backbone, _, SKApp*/
 (function () {
     "use strict";
-    window.SKEventCollection = Backbone.Collection.extend({
-        'model':SKEvent,
-        'getUnreadMailCount':function (cb) {
-            SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
-                if (data.result === 1) {
-                    var counter = data.unreaded;
-                    cb(counter);
+    /**
+     * @class List of events
+     */
+    window.SKEventCollection = Backbone.Collection.extend(
+        /**
+         * @lends SKEventCollection.prototype
+         */
+        {
+            'model':SKEvent,
+            'getUnreadMailCount':function (cb) {
+                SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
+                    if (data.result === 1) {
+                        var counter = data.unreaded;
+                        cb(counter);
+                    }
+                });
+            },
+            'getPlanTodoCount':function (cb) {
+                SKApp.server.api('todo/getCount', {}, function (data) {
+                    if (data.result === 1) {
+                        var counter = data.data;
+                        cb(counter);
+                    }
+                });
+            },
+
+            /**
+             * Returns true if simulation can accept event
+             *
+             * @param {SKEvent} event
+             * @returns {Boolean}
+             */
+            canAddEvent:function (event) {
+                if (!event.getTypeSlug().match(/(phone|visit)$/)) {
+                    return true;
                 }
-            });
-        },
-        'getPlanTodoCount':function (cb) {
-            SKApp.server.api('todo/getCount', {}, function (data) {
-                if (data.result === 1) {
-                    var counter = data.data;
-                    cb(counter);
+                var res = true;
+                this.each(function (ev) {
+                    if (ev.getTypeSlug().match(/(phone|visit)$/) &&
+                        (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
+                        ev.get('data')[0].code !== event.get('data')[0].code ) {
+                        res = false;
+                    }
+                });
+                return res;
+            },
+            getByTypeSlug:function (type, completed) {
+                return this.filter(function (event) {
+                    if ((completed !== undefined ) && (event.completed !== completed)) {
+                        return false;
+                    }
+                    return (event.getTypeSlug() === type);
+                });
+            },
+            /**
+             *
+             * @param {string} code
+             * @param {int} delay in minutes
+             * @param clear_events
+             * @param clear_assessment
+             */
+            'triggerEvent':function (code, delay, clear_events, clear_assessment) {
+                var cb;
+                if (arguments.length > 4) {
+                    cb = arguments[4];
+                } else {
+                    cb = undefined;
                 }
-            });
-        },
-        'getByTypeSlug':function (type, completed) {
-            return this.filter(function (event) {
-                if ((completed !== undefined ) && (event.completed !== completed)) {
-                    return false;
-                }
-                return (event.getTypeSlug() === type);
-            });
-        },
-        'triggerEvent': function (code, delay, clear_events, clear_assessment, cb) {
-            SKApp.server.api('events/start',{
-                eventCode:code,
-                delay:delay,
-                clearEvents:clear_events,
-                clearAssessment:clear_assessment
-            }, cb);
-        }
-    });
+                SKApp.server.api('events/start', {
+                    eventCode:code,
+                    delay:delay,
+                    clearEvents:clear_events,
+                    clearAssessment:clear_assessment
+                }, cb);
+            }
+        });
 })();

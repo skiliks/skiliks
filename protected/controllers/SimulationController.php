@@ -76,7 +76,7 @@ class SimulationController extends AjaxController
                 $newMinutes
             );
 
-            $simulation->deleteOldTriggers($newHours, $newMinutes);
+            //$simulation->deleteOldTriggers($newHours, $newMinutes);
 
             $this->sendJSON(array('result' => 1));
         } catch (Exception $e) {
