@@ -28,7 +28,7 @@
 <script type="text/template" id="MailClient_FolderLabel">
     <li id="FOLDER_<@= alias @>" data-alias="<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
         <label class="icon_<@= alias @>"><@= label @>
-            (<span class="counter"><@= counter @></span>)
+            <span class="counter" style="<@= counterCss @>">(<@= counter @>)</span>
         </label>
     </li>
 </script>
