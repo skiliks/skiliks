@@ -62,20 +62,20 @@
         <div class="phone-bl popup">
             <div class="phone-screen" id="phoneMainScreen">
 
-                <ul window_id="<@=windowID@>" class="phone-main-menu">
-                    <li window_id="<@=windowID@>" class="phone_get_contacts">
-                        <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                <ul class="phone-main-menu">
+                    <li class="phone_get_contacts">
+                        <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
 
-                        <p window_id="<@=windowID@>">Список контактов</p>
+                        <p>Список контактов</p>
                     </li>
-                    <li window_id="<@=windowID@>" class="phone_get_history">
-                        <img window_id="<@=windowID@>" src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
+                    <li class="phone_get_history">
+                        <img src="<@=assetsUrl@>/img/phone/icon-contact.png" alt="">
 
-                        <p window_id="<@=windowID@>">История Вызовов</p>
+                        <p>История Вызовов</p>
                     </li>
                 </ul>
             </div>
-            <p window_id="<@=windowID@>" class="phone-menu-btn phone_get_menu">меню</p>
+            <p class="phone-menu-btn phone_get_menu">меню</p>
 
         </div>
     </div>
@@ -110,8 +110,6 @@
 </script>
 
 <script type="text/template" id="Phone_Menu">
-    <div class="phone-popup-content">
-        <div class="phone-screen" id="phoneMainScreen">
 
             <ul class="phone-main-menu">
                 <li class="phone_get_contacts">
@@ -126,8 +124,6 @@
                 </li>
             </ul>
 
-        </div>
-    </div>
 </script>
 <!--dialogHTML-->
 <script type="text/template" id="Phone_Dialog">

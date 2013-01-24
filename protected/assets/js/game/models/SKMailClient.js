@@ -1,4 +1,4 @@
-/*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView*/
+/*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
 (function() {
     "use strict";
     window.SKMailClient = Backbone.Model.extend({
@@ -791,7 +791,12 @@
                 this.availableAdditionalPhrases.push(phrase);
             }
         },
-        
+
+        /**
+         * Receives and updates phrase list and message for email
+         *
+         * @param subjectId
+         */
         getAvailablePhrases: function(subjectId) {
             var mailClient = this;
             SKApp.server.api(
@@ -811,7 +816,7 @@
                 false
             ); 
             
-            // thow event there - because no matter success or fail request, phrases are need tobe reloaded
+            // throw event there - because no matter success or fail request, phrases are need tobe reloaded
             this.trigger('mail:available_phrases_reloaded');
         },
         
@@ -916,7 +921,12 @@
             
             return undefined;
         },
-        
+
+        /**
+         * What is it?
+         * @param emailToSave
+         * @return {Object}
+         */
         combineMailDataByEmailObject: function(emailToSave) {
             var mailId = '';
             if (this.activeScreen === this.screenWriteForward ||
@@ -934,7 +944,7 @@
                     phrases:    emailToSave.getPhrasesIdsString(),
                     receivers:  emailToSave.getRecipientIdsString(),
                     subject:    emailToSave.subject.characterSubjectId,
-                    time:	    SKApp.user.simulation.getGameTime()
+                    time:       SKApp.user.simulation.getGameTime()
                 };
         },
         
