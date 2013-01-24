@@ -45,6 +45,8 @@ $(function () {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
             var me = this;
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                var phone_history = SKApp.user.simulation.phone_history;
+                phone_history.fetch();
             });
         }
    });         

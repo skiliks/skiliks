@@ -34,7 +34,7 @@ $(function () {
             window_el.html(callInHtml);
             this.$('audio').on('ended', function(){
                 if (my_replicas.length === 0) {
-                    event.select(remote_replica.id, function () {
+                    event.selectReplica(remote_replica.id, function () {
                         me.options.model_instance.close();
                     });
                 }

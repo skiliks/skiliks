@@ -10,6 +10,7 @@
     };
 
     /**
+     * @extends Backbone.Model
      * @class Event model
      */
     window.SKEvent = Backbone.Model.extend(
@@ -17,14 +18,9 @@
          * @lends SKEvent.prototype
          */
         {
-            'initialize':function () {
-                this.completed = false;
-            },
             /**
              * Returns slug of event type
              *
-             * @memberOf SKEvent
-             * @return {string}
              */
             getTypeSlug:function () {
                 if (this.get('type') === 1) {
@@ -97,6 +93,11 @@
                 }
                 return audio_src ? SKConfig.storageURL + '/sounds/' + audio_src : undefined;
             },
+            /**
+             * @deprecated use selectReplica
+             * @param replica_id
+             * @param cb
+             */
             select:function (replica_id, cb) {
                 SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
                     if (data.result === 1) {
@@ -115,6 +116,12 @@
              * @param {'completed'|'in progress'|'waiting'} status
              */
             setStatus:function (status) {
+                console.trace();
+                console.log('[SKEvent] Event ' + status + ' ' + this.cid);
+                /**
+                 * @private
+                 * @type {"completed"|"in progress"|"waiting"}
+                 */
                 this.status = status;
                 if (this.status === 'completed') {
                     this.trigger('complete');
@@ -141,7 +148,7 @@
              * @param replica_id
              * @param cb
              */
-            selectReplica:function(replica_id, cb) {
+            selectReplica:function (replica_id, cb) {
                 this.complete();
                 SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
                     if (data.result === 1) {

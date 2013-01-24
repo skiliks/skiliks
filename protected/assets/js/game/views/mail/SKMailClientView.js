@@ -1393,7 +1393,7 @@
                 width:'100%',
                 selectText:"Нет вложения.",
                 imagePosition:"left"
-            })
+            });
             // add attachments list }
 
             this.delegateEvents();
