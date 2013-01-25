@@ -966,12 +966,9 @@ class ImportGameDataService
             
             // create entity if not exists {
             if (null === $mailTask) {
-                var_dump('new');
                 $mailTask = new MailTasksModel();
                 $mailTask->mail_id = $mail->id;
                 $mailTask->name    = $this->getCellValue($sheet, 'Task', $i);
-            } else {
-                var_dump('old');
             }
             // create entity if not exists }
             
@@ -979,7 +976,7 @@ class ImportGameDataService
             $mailTask->duration     = $this->getCellValue($sheet, 'Duration', $i);
             $mailTask->code         = $this->getCellValue($sheet, 'Mail code', $i);
             $mailTask->wr           = $this->getCellValue($sheet, 'Task W/R', $i);
-            $mailTask->categoey     = $this->getCellValue($sheet, 'Category', $i);
+            $mailTask->category     = $this->getCellValue($sheet, 'Category', $i);
             $mailTask->import_id    = $this->import_id;
             
             // save
