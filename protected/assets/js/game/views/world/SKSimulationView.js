@@ -42,6 +42,10 @@
                     var doc_view = new SKDocumentsListView({model_instance:window});
                     doc_view.render();
                 }
+                if (window.get('name') === 'visitor' && window.get('subname') === 'visitorEntrance') {
+                    var visitor_view = new SKVisitView({model_instance:window});
+                    visitor_view.render();
+                }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
                     var file = window.get('filename');
                     var document_view;
