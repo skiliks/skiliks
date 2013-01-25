@@ -1,4 +1,4 @@
-/*global SKVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global SKVisitView:true, SKWindowView, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
 (function () {
     "use strict";
     /**
@@ -8,10 +8,10 @@
     window.SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
-        'el':'body .visitor-door',
+        'el':'body .visitor_door',
         'events':{
-            'click .visitor-door .visitor-allow':'allow',
-            'click .visitor-door .visitor-deny':'deny'
+            'click .visitor_door .visitor-allow':'allow',
+            'click .visitor_door .visitor-deny':'deny'
         },
         'initialize':function () {
             var me = this;
@@ -20,12 +20,12 @@
 
         },
         'close':function () {
-            console.log("Click")
+            console.log("Click");
             $('.visitor_door').remove();
         },
         'render':function () {
             var event = this.options.event;
-            console.log(event)
+            console.log(event);
             //this.$el.html(_.template($('#visitor_door').html(), _.defaults(SKConfig)));
             this.renderTPL('.visitor_door', '#visit_door', {'visit':event.get('data')});
 
