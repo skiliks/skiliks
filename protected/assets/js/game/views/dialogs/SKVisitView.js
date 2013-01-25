@@ -1,7 +1,13 @@
-/*global Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global SKVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
 (function () {
     "use strict";
-    window.SKVisitView = Backbone.View.extend({
+    /**
+     * @class
+     * @type {*}
+     */
+    window.SKVisitView = Backbone.View.extend(
+        /** @lends SKVisitView.prototype */
+        {
         'el':'body .visitor-container',
         'events':{
             'click .replica-select':'doSelectReplica'
