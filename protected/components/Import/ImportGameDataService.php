@@ -51,7 +51,7 @@ class ImportGameDataService
             $character = Characters::model()->byCode($this->getCellValue($sheet, 'id_персонажа', $i))->find();
             
             // create entity if not exists {
-            if (!$character) {
+            if (null === $character) {
                 $character = new Characters();
             }
             // create entity if not exists }
@@ -1111,10 +1111,61 @@ class ImportGameDataService
      */
     public function importMyDocuments() 
     {
-        $fileName = '../media/xls/documents.csv';
+        $reader = $this->getReader();
         
-        $handle = $this->checkFileExists($fileName);
-        $index = 0;
+        // load sheet {
+        $reader->setLoadSheetsOnly('Documents');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Documents');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet, 3);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'id_персонажа', $i)) {
+                continue;
+            }
+
+            // try to find exists entity 
+            $document = MyDocumentsTemplateModel::model()
+                ->byCode($this->getCellValue($sheet, 'id_персонажа', $i))
+                ->find();
+            
+            // create entity if not exists {
+            if (null === $document) {
+                $document = new MyDocumentsTemplateModel();
+                $document->code = $this->getCellValue($sheet, 'Код', $i);
+            }
+            // create entity if not exists }
+            
+            // update data {
+            $document->fileName     = sprintf('%s.%s', $this->getCellValue($sheet, 'Документ', $i), $this->getCellValue($sheet, 'Формат', $i));
+            $document->srcFile      = $this->getCellValue($sheet, 'Привязка к файлу', $i);
+            $document->format       = $this->getCellValue($sheet, 'Формат', $i);
+            $document->type         = $this->getCellValue($sheet, 'type', $i);
+            $document->import_id    = $this->import_id;
+            
+            // save
+            $document->save();
+            
+            $importedRows++;
+        }
+        
+        // delete old unused data {
+        MyDocumentsTemplateModel::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+        
+        return array(
+            'imported_documents' => $importedRows, 
+            'errors' => false, 
+        );
+        
+        // ****
+        
         while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
             $index++;
             if ($index <= 2) continue;
@@ -1237,10 +1288,10 @@ class ImportGameDataService
      * @param PHPExcel_Sheet $sheet
      * @return void
      */
-    public function setColumnNumbersByNames($sheet)
+    public function setColumnNumbersByNames($sheet, $row = 1)
     {
         for ($i = 0; ; $i++) {
-            $row_title = $sheet->getCellByColumnAndRow($i, 1)->getValue();
+            $row_title = $sheet->getCellByColumnAndRow($i, $row)->getValue();
             if (null !== $row_title) {
                 $this->columnNoByName[$row_title] = $i;
             } else {
@@ -1420,7 +1471,7 @@ class ImportGameDataService
         #$result['mail_sending_time'] = $this->importMailSendingTime();
         #$result['tasks'] = $this->importTasks();
         #$result['mail_tasks'] = $this->importMailTasks();
-        #$result['my_documents'] = $this->importMyDocuments();
+        $result['my_documents'] = $this->importMyDocuments();
 //        $result['activity'] = $this->importActivity();
 //        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
 //        $result['dialog'] = $dialog_import->import();

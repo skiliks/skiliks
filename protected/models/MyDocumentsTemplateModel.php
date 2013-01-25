@@ -48,6 +48,11 @@ class MyDocumentsTemplateModel extends CActiveRecord
      */
     public $type;
     
+    /**
+     * @var string
+     */
+    public $import_id;
+    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
