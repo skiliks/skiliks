@@ -320,7 +320,7 @@ var SKDayPlanView;
                 },
                 'drop':function (event, ui) {
                     // clean up highlighting, it is duplicate but it nessesary to place it here too
-                    $('#plannerBook .drop-hover').removeClass('drop-hover');
+                    me.$('#plannerBook .drop-hover').removeClass('drop-hover');
                     
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
