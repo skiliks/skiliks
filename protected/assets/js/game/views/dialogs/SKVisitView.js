@@ -10,8 +10,8 @@
         {
         'el':'body .visitor_door',
         'events':{
-            'click .visitor_door .visitor-allow':'allow',
-            'click .visitor_door .visitor-deny':'deny'
+            "click body .visitor_door .visitor-allow":'allow',
+            "click body .visitor_door .visitor-deny":'deny'
         },
         'initialize':function () {
             var me = this;
@@ -31,12 +31,14 @@
 
         },
         'allow':function(e){
+            console.log("click");
             var dialogId = $(e.currentTarget).attr('data-dialog-id');
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
             });
             this.close();
         },
         'deny':function(e){
+            console.log("click");
             var dialogId = $(e.currentTarget).attr('data-dialog-id');
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
             });
