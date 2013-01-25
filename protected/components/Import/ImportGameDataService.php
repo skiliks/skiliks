@@ -934,58 +934,70 @@ class ImportGameDataService
      */
     public function importMailTasks() 
     {
-        $fileName = '../media/xls/mail_tasks.csv';
+        $reader = $this->getReader();
         
-        $characters = array();
-        $charactersList = Characters::model()->findAll();
-        foreach($charactersList as $characterItem) {
-            $characters[$characterItem->code] = $characterItem->id;
-        }
+        // load sheet {
+        $reader->setLoadSheetsOnly('M-T');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('M-T');
+        // load sheet }
         
-        $connection=Yii::app()->db; 
+        $this->setColumnNumbersByNames($sheet);
         
-        $handle = $this->checkFileExists($fileName);
-        $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            if ($index <= 1) continue;
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Mail code', $i)) {
+                continue;
+            }
             
-            // Mail code
-            $code       = $row[0];  // A
-            // Task
-            $task       = iconv("Windows-1251", "UTF-8", $row[1]); // B
-            // Duration
-            $duration   = $row[2]; // C
-            // Task W/R
-            $wr         = $row[3]; // D
-            // Category
-            $category   = $row[4]; // E
+            $mail = MailTemplateModel::model()
+                ->byCode($this->getCellValue($sheet, 'Mail code', $i))
+                ->find();
             
-            $mail = MailTemplateModel::model()->byCode($code)->find();
             if (!$mail) {
                 throw new Exception("cant find mail by code $code");
             }
+
+            // try to find exists entity 
+            $mailTask = MailTasksModel::model()
+                ->byMailId($mail->id)
+                ->byName($this->getCellValue($sheet, 'Task', $i))
+                ->find();
             
-            $model = MailTasksModel::model()->model()->byId($index-1)->find();
-            if (!$model) {
-                return array(
-                    'status' => False,
-                    'text'   => sprintf('Error on line %s, %s.', $index, $code),
-                );  
+            // create entity if not exists {
+            if (null === $mailTask) {
+                var_dump('new');
+                $mailTask = new MailTasksModel();
+                $mailTask->mail_id = $mail->id;
+                $mailTask->name    = $this->getCellValue($sheet, 'Task', $i);
+            } else {
+                var_dump('old');
             }
-            $model->name        = $task;
-            $model->duration    = $duration;
-            $model->code        = $code;
-            $model->wr          = $wr;
-            $model->category    = $category;
-            $model->save();
+            // create entity if not exists }
             
+            // update data {
+            $mailTask->duration     = $this->getCellValue($sheet, 'Duration', $i);
+            $mailTask->code         = $this->getCellValue($sheet, 'Mail code', $i);
+            $mailTask->wr           = $this->getCellValue($sheet, 'Task W/R', $i);
+            $mailTask->categoey     = $this->getCellValue($sheet, 'Category', $i);
+            $mailTask->import_id    = $this->import_id;
+            
+            // save
+            $mailTask->save();
+            
+            $importedRows++;
         }
-        fclose($handle);
+        
+        // delete old unused data {
+        MailTasksModel::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
         
         return array(
-            'status' => true,
-            'text'   => sprintf('%s mail tasks have been imported.', $index),
+            'imported_documents' => $importedRows, 
+            'errors' => false, 
         );  
     }
     
@@ -1123,13 +1135,13 @@ class ImportGameDataService
         
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            if (NULL === $this->getCellValue($sheet, 'id_персонажа', $i)) {
+            if (NULL === $this->getCellValue($sheet, 'Код', $i)) {
                 continue;
             }
 
             // try to find exists entity 
             $document = MyDocumentsTemplateModel::model()
-                ->byCode($this->getCellValue($sheet, 'id_персонажа', $i))
+                ->byCode($this->getCellValue($sheet, 'Код', $i))
                 ->find();
             
             // create entity if not exists {
@@ -1428,7 +1440,7 @@ class ImportGameDataService
         #$result['mail_events'] = $this->importMailEvents();
         #$result['mail_sending_time'] = $this->importMailSendingTime();
         #$result['tasks'] = $this->importTasks();
-        #$result['mail_tasks'] = $this->importMailTasks();
+        $result['mail_tasks'] = $this->importMailTasks();
         $result['my_documents'] = $this->importMyDocuments();
 //        $result['activity'] = $this->importActivity();
 //        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();

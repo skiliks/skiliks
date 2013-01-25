@@ -127,6 +127,18 @@ class MailTasksModel extends CActiveRecord
         ));
         return $this;
     }
+    
+    /**
+     * @param string $name
+     * @return MailTasksModel 
+     */
+    public function byName($name)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "name = '$name'"
+        ));
+        return $this;
+    }
 }
 
 
