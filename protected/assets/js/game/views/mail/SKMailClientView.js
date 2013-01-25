@@ -997,6 +997,8 @@
         },
 
         renderWriteCustomNewEmailScreen:function () {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var mailClientView = this;
             
             if (0 == this.mailClient.defaultRecipients.length) {
@@ -1310,7 +1312,8 @@
             emailToSave.attachment = this.getCurrentEmailAttachment();
 
             // phrases
-            var phrases = this.getCurrentEmailPhraseIds()
+            var phrases = this.getCurrentEmailPhraseIds();
+            emailToSave.phrases = [];
             for (var i in phrases) {
                 emailToSave.phrases.push(this.mailClient.getAvailablePhraseByMySqlId(phrases[i]));
             }
@@ -1589,6 +1592,8 @@
         },
         
         renderReplyScreen: function() {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForReplyToActiveEmail();
 
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1605,6 +1610,8 @@
         },
         
         renderReplyAllScreen: function() {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForReplyAllToActiveEmail();
             
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1621,6 +1628,8 @@
         },
 
         renderForwardEmailScreen:function () {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForForwardActiveEmail();
             // strange, sometimes responce return to lile JSON but like some response object
             // so we get JSON from it {
