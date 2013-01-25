@@ -25,10 +25,10 @@
     </div>
 </script>
 <script type="text/template" id="visit_door">
-    <div id="dialogControllerMainDiv" class="mail-emulator-main-div" style="position: absolute; z-index: 54; top: 20px; left: 670px;">
+    <div id="dialogControllerMainDiv" class="mail-emulator-main-div">
         <section class="visitor-income">
             <div class="visitor-img">
-                <img alt="" src="<@=assetsUrl@>/img/visitor/visitor-ch35.png">
+                <img alt="" src="<@=SKConfig.assetsUrl@>/img/visitor/visitor-ch<@=visit[0].ch_from@>.png">
             </div>
             <div class="visitor-rbl">
                 <button class="btn-close"></button>

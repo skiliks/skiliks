@@ -30,7 +30,7 @@
                 video_src = event.getVideoSrc(),
                 remote_replica = event.getRemoteReplica();
             if (this.visitor_entrance_window === undefined || !this.visitor_entrance_window.is_opened) {
-                this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
+                this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorTalk', sim_event:event});
                 this.visitor_entrance_window.open();
             } else {
                 this.visitor_entrance_window.set('sim_event', event);

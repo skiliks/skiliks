@@ -1,46 +1,42 @@
-/*global SKVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global SKVisitView:true, SKWindowView, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
 (function () {
     "use strict";
     /**
      * @class
-     * @type {*}
+     * @extends {SKWindowView}
+     * @type {SKWindowView}
      */
     window.SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
-        'el':'body .visitor-door',
-        'events':{
-            'click .visitor-door .visitor-allow':'allow',
-            'click .visitor-door .visitor-deny':'deny'
-        },
-        'initialize':function () {
-            var me = this;
-            $('#canvas').append($('<div class="visitor_door"></div>'));
-            this.render();
+            'events':_.defaults({
+                "click .visitor-allow":'allow',
+                "click .visitor-deny":'deny'
+            }, SKWindowView.prototype.events),
+            'initialize':function () {
+                var me = this;
+                SKWindowView.prototype.initialize.call(this);
+            },
+            'renderWindow':function (el) {
+                var event = this.options.model_instance.get('sim_event');
+                console.log(event);
+                //this.$el.html(_.template($('#visitor_door').html(), _.defaults(SKConfig)));
+                el.html(_.template($('#visit_door').html(), {'visit':event.get('data')}));
 
-        },
-        'close':function () {
-            console.log("Click")
-            $('.visitor_door').remove();
-        },
-        'render':function () {
-            var event = this.options.event;
-            console.log(event)
-            //this.$el.html(_.template($('#visitor_door').html(), _.defaults(SKConfig)));
-            this.renderTPL('.visitor_door', '#visit_door', {'visit':event.get('data')});
-
-        },
-        'allow':function(e){
-            var dialogId = $(e.currentTarget).attr('data-dialog-id');
-            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
-            });
-            this.close();
-        },
-        'deny':function(e){
-            var dialogId = $(e.currentTarget).attr('data-dialog-id');
-            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
-            });
-            this.close();
-        }
-    });
+            },
+            'allow':function (e) {
+                console.log("click");
+                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                });
+                this.options.model_instance.close();
+            },
+            'deny':function (e) {
+                console.log("click");
+                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                });
+                this.options.model_instance.close();
+            }
+        });
 })();
