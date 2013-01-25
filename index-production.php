@@ -16,7 +16,7 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header('Access-Control-Allow-Origin: *');
 
-defined('YII_DEBUG') or define('YII_DEBUG',true);
+defined('YII_DEBUG') or define('YII_DEBUG',false);
 
 require_once dirname(__FILE__).'/framework/yii.php';
 

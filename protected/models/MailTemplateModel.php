@@ -6,7 +6,9 @@
  * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
  * Связана с моделями:  MailCharacterThemesModel, Characters.
- * 
+ *
+ * @property string type_of_importance
+ * @property string import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTemplateModel extends CActiveRecord
@@ -113,7 +115,7 @@ class MailTemplateModel extends CActiveRecord
     }    
     
     /**
-      * @param ineger $receiverId
+      * @param integer $receiverId
      * @return \MailTemplateModel
      */
     public function byReceiverId($receiverId)

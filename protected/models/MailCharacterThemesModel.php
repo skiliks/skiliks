@@ -7,6 +7,7 @@
  * Связана с моделями: Characters
  *
  * @property MailTemplateModel letter
+ * @property string constructor_number
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailCharacterThemesModel extends CActiveRecord

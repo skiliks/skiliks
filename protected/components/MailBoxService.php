@@ -8,10 +8,11 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxService {
-    
+
     /**
      * Получить список папок и писем в них
-     * @return type 
+     * @param Simulations $simulation
+     * @return array
      */
     public static function getFolders($simulation) 
     {
@@ -63,17 +64,6 @@ class MailBoxService {
         $subject = mb_strtolower ($subject, 'UTF8');
         $subject = preg_replace("/^(re:)*/u", '', $subject);
         $subject = preg_replace("/^(fwd:)*/u", '', $subject);
-        return $subject;
-        
-        if (preg_match_all("/^(re:)*/u", $subject, $matches)) {
-            $re = $matches[0][0];
-            $re = explode(':', $re);
-            $count = count($re) - 1;
-            
-            // уберем решки впереди
-            $subject = preg_replace("/^(re:)*/u", '', $subject);
-            return $subject.$count;
-        }
         return $subject;
     }
 
@@ -564,8 +554,8 @@ class MailBoxService {
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type)
-            select :simId, id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type
             from mail_template
             where mail_template.code = '{$code}'";
         
