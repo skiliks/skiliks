@@ -100,6 +100,7 @@
                 }
                 var canvas = this.$('.canvas');
                 this.updateTime();
+                this.undelegateEvents();
                 this.delegateEvents();
             },
             'updateTime':function () {
