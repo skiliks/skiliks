@@ -1,4 +1,4 @@
-/*global _, Backbone, SKApp, SKVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
+/*global _, Backbone, SKApp, SKVisitView, SKImmediateVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
 glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 (function () {
     "use strict";

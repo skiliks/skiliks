@@ -5,72 +5,42 @@
      * @class
      * @type {*}
      */
-    window.SKVisitView = Backbone.View.extend(
+    window.SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
-        'el':'body .visitor-container',
+        'el':'body .visitor-door',
         'events':{
-            'click .replica-select':'doSelectReplica'
+            'click .visitor-door .visitor-allow':'allow',
+            'click .visitor-door .visitor-deny':'deny'
         },
         'initialize':function () {
             var me = this;
+            $('#canvas').append($('<div class="visitor_door"></div>'));
             this.render();
-
 
         },
         'close':function () {
-            this.visitor_entrance_window.close();
-            this.undelegateEvents();
-            this.$el.html('');
+            console.log("Click")
+            $('.visitor_door').remove();
         },
         'render':function () {
             var event = this.options.event;
-            var me = this,
-                my_replicas = event.getMyReplicas(),
-                video_src = event.getVideoSrc(),
-                remote_replica = event.getRemoteReplica();
-            if (this.visitor_entrance_window === undefined || !this.visitor_entrance_window.is_opened) {
-                this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
-                this.visitor_entrance_window.open();
-            } else {
-                this.visitor_entrance_window.set('sim_event', event);
-            }
-            console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
-            var muteTag = '';
-            if (true === SKApp.user.simulation.config.isMuteVideo) {
-                muteTag = 'muted';
-            }
-            this.$el.html(_.template($('#visit_template').html(), {
-                'remote_replica':remote_replica,
-                'my_replicas':my_replicas,
-                'video_src': video_src,
-                'img_src': event.getImgSrc(),
-                'mute_attribute': muteTag
-            }));
-            this.$('video').on('ended', function () {
-                me.$('video').css('zIndex', 0);
-                if (my_replicas.length === 0) {
-                    me.options.event.complete();
-                    me.close();
-                }
-            });
+            console.log(event)
+            //this.$el.html(_.template($('#visitor_door').html(), _.defaults(SKConfig)));
+            this.renderTPL('.visitor_door', '#visit_door', {'visit':event.get('data')});
 
         },
-        'doSelectReplica':function (e) {
-            var me = this;
-            e.preventDefault();
-            var dialog_id = $(e.currentTarget).attr('data-id');
-            var is_final = $(e.currentTarget).attr('data-is-final');
-            this.options.event.selectReplica(dialog_id, function () {
-                me.visitor_entrance_window.setLastDialog(dialog_id);
-                /* TODO refactor */
-                if (is_final) {
-                    me.close();
-                }
+        'allow':function(e){
+            var dialogId = $(e.currentTarget).attr('data-dialog-id');
+            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
             });
+            this.close();
         },
-        'nextDialog':function () {
-
+        'deny':function(e){
+            var dialogId = $(e.currentTarget).attr('data-dialog-id');
+            this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+            });
+            this.close();
         }
     });
 })();

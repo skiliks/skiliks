@@ -1,4 +1,4 @@
-/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKPhoneView, SKMailClientView
+/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
 (function () {
     "use strict";
@@ -112,7 +112,7 @@
                 SKApp.user.simulation.events.on('add', function (event) {
                     if (event.getTypeSlug() === 'immediate-visit') {
                         if (this.visit_view === undefined) {
-                            this.visit_view = new SKVisitView({'event':event});
+                            this.visit_view = new SKImmediateVisitView({'event':event});
                         } else {
                             this.visit_view.options.event = event;
                             this.visit_view.render();

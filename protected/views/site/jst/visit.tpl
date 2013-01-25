@@ -24,3 +24,20 @@
         </div>
     </div>
 </script>
+<script type="text/template" id="visit_door">
+    <div id="dialogControllerMainDiv" class="mail-emulator-main-div" style="position: absolute; z-index: 54; top: 20px; left: 670px;">
+        <section class="visitor-income">
+            <div class="visitor-img">
+                <img alt="" src="<@=assetsUrl@>/img/visitor/visitor-ch35.png">
+            </div>
+            <div class="visitor-rbl">
+                <button class="btn-close"></button>
+                <p class="visitor-name"><@=visit[0].title@></p>
+                <div class="visitor-btn">
+                    <a class="visitor-allow" data-dialog-id="<@=visit[1].id@>"><span><@=visit[1].text@></span></a><br>
+                    <a class="visitor-deny" data-dialog-id="<@=visit[2].id@>"><span><@=visit[2].text@></span></a><br>
+                </div>
+            </div>
+        </section>
+    </div>
+</script>
