@@ -6,7 +6,8 @@ $(function () {
     window.SKPhoneDialogView = SKWindowView.extend({
         title: "Телефон",
         'events':_.defaults({
-            'click .replica-select':   'doSelectReplica',
+            'click .phone-draw-menu':'getMenu',
+            'click .replica-select':   'doSelectReplica'
         }, SKWindowView.prototype.events),
         
         remove: function () {
@@ -40,7 +41,11 @@ $(function () {
                 }
             });
         },
-        
+        getMenu: function(event){
+            this.options.model_instance.close();
+            SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+        },
+
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
