@@ -2,7 +2,13 @@
 glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 (function () {
     "use strict";
-    window.SKIconPanelView = Backbone.View.extend({
+    /**
+     * @class
+     * @type {*}
+     */
+    window.SKIconPanelView = Backbone.View.extend(
+        /** @lends SKIconPanelView.prototype */
+        {
         initialize:function () {
             var me = this;
             me.icon_lock = {};
@@ -57,6 +63,11 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             me.setCounter('.plan', SKApp.user.simulation.todo_tasks.length);
 
         },
+        /**
+         * Changes counter value
+         * @param selector
+         * @param count
+         */
         setCounter:function (selector, count) {
             if (0 === this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
@@ -71,8 +82,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         /**
          * Starts icon animation
          *
-         * @param selector CSS selector of jQuery li element
-         * @param end_cb called when animation ends
+         * @param {string} selector CSS selector of jQuery li element
+         * @param {Function} end_cb called when animation ends
          */
         startAnimation:function (selector, end_cb) {
             var me = this;
@@ -135,7 +146,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
             sim_event.setStatus('in progress');
-            var visit_view = new SKVisitView({event:sim_event});
+            SKApp.user.simulation.window_set.toggle('visitor','visitorEntrance', {sim_event:sim_event});
             this.$('.door').removeClass('icon-active');
         },
         doPlanToggle:function (e) {
