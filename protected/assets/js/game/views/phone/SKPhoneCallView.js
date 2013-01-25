@@ -29,8 +29,9 @@ $(function () {
             window_el.html(_.template($('#Phone_Call').html(), {call: this.options.event.get('data')}));
         },
         getMenu: function(event){
-            var id = $(event.currentTarget).attr('window_id');
-            this.renderTPL('#'+id+' .phone-screen', '#Phone_Menu', {windowID:id});
+            //Todo: уточнить возможность у Антона
+            //var id = $(event.currentTarget).attr('window_id');
+            //this.renderTPL('#'+id+' .phone-screen', '#Phone_Menu', {windowID:id});
         },
         getCountViews: function(){
             return $('.'+this.windowClass).length;
