@@ -13,6 +13,9 @@ return array(
         'application.models.Assessment.*',
         'application.models.PullOfOptions.*',
         'application.models.Exceptions.*',
+        'application.models.Logs.*',
+        'application.models.Simulation.*',
+        'application.models.User.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
@@ -21,8 +24,7 @@ return array(
         'application.models.FlagsRules.*',
         'application.models.Mail.*',
         'application.models.MyDocuments.*',
-        'application.models.Simulation.*',
-        'application.models.User.*',*/
+        */
         'application.components.*',
         'application.components.Zoho.*',
         'application.components.Tools.*',
