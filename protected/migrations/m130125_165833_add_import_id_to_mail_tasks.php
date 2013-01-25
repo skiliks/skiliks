@@ -12,6 +12,6 @@ class m130125_165833_add_import_id_to_mail_tasks extends CDbMigration
 
 	public function down()
 	{
-		echo "m130125_165833_add_import_id_to_mail_tasks hasn`t SQL in migration down.\n";
+		$this->dropColumn('mail_tasks', 'import_id');
 	}
 }

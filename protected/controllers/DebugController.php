@@ -29,9 +29,10 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
+        echo 'start';
         $s = new ImportGameDataService();
         $s->importAll();
-        
+        echo '<br/>end.';
         echo '<pre>';
         //$import = new ImportGameDataService();
         //$result = $import->importCharactersPointsTitles();

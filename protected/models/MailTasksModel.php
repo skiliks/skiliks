@@ -48,6 +48,11 @@ class MailTasksModel extends CActiveRecord
      */
     public $category; // ?  
     
+    /**
+     * @var string
+     */
+    public $import_id;
+    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
