@@ -6,7 +6,8 @@ $(function () {
     window.SKPhoneDialogView = SKWindowView.extend({
         title: "Телефон",
         'events':_.defaults({
-            'click .replica-select':   'doSelectReplica',
+            'click .phone-draw-menu':'getMenu',
+            'click .replica-select':   'doSelectReplica'
         }, SKWindowView.prototype.events),
         
         remove: function () {
@@ -34,31 +35,28 @@ $(function () {
             window_el.html(callInHtml);
             this.$('audio').on('ended', function(){
                 if (my_replicas.length === 0) {
-                    event.select(remote_replica.id, function () {
+                    event.selectReplica(remote_replica.id, function () {
                         me.options.model_instance.close();
                     });
                 }
             });
         },
-        
+        getMenu: function(event){
+            this.options.model_instance.close();
+            SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+        },
+
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
-            var event = this.options.event;
+            var event = this.options.model_instance.get('sim_event');
             var dialog_id = $(e.currentTarget).attr('data-id');
             var is_final = $(e.currentTarget).attr('data-is-final');
-
-            SKApp.server.api('dialog/get', {'dialogId':dialog_id}, function (data) {
-                if (data.result === 1) {
-                    me.options.model_instance.setLastDialog(dialog_id);
-                    /* TODO refactor */
-                    if (is_final) {
-                        me.options.model_instance.close();
-                    }
-                    SKApp.user.simulation.parseNewEvents(data.events);
-                    /*if (flag === 1) {
-                     me.closedialogController();
-                     } */
+            event.selectReplica(dialog_id, function () {
+                me.options.model_instance.setLastDialog(dialog_id);
+                /* TODO refactor */
+                if (is_final) {
+                    me.options.model_instance.close();
                 }
             });
         }

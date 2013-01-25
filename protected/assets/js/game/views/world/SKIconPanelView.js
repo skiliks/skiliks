@@ -14,17 +14,17 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
+                    me.$('.phone').attr('data-event-id', event.cid);
                     me.startAnimation('.' + event.getTypeSlug(), function () {
-                        var dialogId = event.get('data')[2].id;
-                        // @todo: здесь сложно накручено но надо развязать 
-                        // и перенести игнорирование во вьюху SKPhoneCallView
-                        SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
-                            SKApp.user.simulation.parseNewEvents(data.events);
-                            var history = SKApp.user.simulation.phone_history;
+                        if (event.getStatus() === 'waiting') {
+                            event.setStatus('completed');
+                            event.ignore(function () {
+                                var history = SKApp.user.simulation.phone_history;
                                 history.fetch();
-                                // event will be linked later, if link event here - it will be handled twise
+                                // event will be linked later, if link event here - it will be handled twice
                                 me.setCounter('.phone', phone_history.where({'is_read': false}).length);
-                        });
+                            });
+                        }
                     });
                     
                 } else if (event.getTypeSlug() === 'visit') {
@@ -68,6 +68,12 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             
             this.$(selector + ' a span').html(count);
         },
+        /**
+         * Starts icon animation
+         *
+         * @param selector CSS selector of jQuery li element
+         * @param end_cb called when animation ends
+         */
         startAnimation:function (selector, end_cb) {
             var me = this;
             if (!(me.icon_lock[selector])) {
@@ -81,9 +87,13 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                         setTimeout(function () {
                             if (el.hasClass('icon-active')) {
                                 el.effect("bounce", {times:3, direction:'left'}, 400, bounce_cb);
+                            } else {
+                                me.icon_lock[selector] = false;
+                                if (end_cb !== undefined) {
+                                    end_cb();
+                                }
                             }
                         }, 1000);
-                        delete me.icon_lock[selector];
                     } else {
                         me.icon_lock[selector] = false;
                         el.removeClass('icon-active');
@@ -115,8 +125,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         doPhoneTalkStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.getByTypeSlug('phone', false)[0];
-            sim_event.complete();
+            var sim_event = this.sim_events.get($(e.currentTarget).parents('.phone').attr('data-event-id'));
+            sim_event.setStatus('in progress');
             this.$('.phone').removeClass('icon-active');
             SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});
         },
@@ -124,7 +134,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
-            sim_event.complete();
+            sim_event.setStatus('in progress');
             var visit_view = new SKVisitView({event:sim_event});
             this.$('.door').removeClass('icon-active');
         },
