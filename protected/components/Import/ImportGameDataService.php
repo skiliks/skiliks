@@ -1,6 +1,4 @@
 <?php
-require_once(__DIR__ . '/../../extensions/PHPExcel.php');
-
 /**
  * @author slavka
  */
@@ -18,7 +16,7 @@ class ImportGameDataService
     
     public function __construct()
     {
-        $this->filename = __DIR__ . '/../../../media/xls/activity.xlsx';
+        $this->filename = __DIR__ . '/../../../media/Scenario_v22.19_TP_Await_added.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
@@ -33,54 +31,56 @@ class ImportGameDataService
      */
     public function importCharacters()
     {
-        $fileName = '../media/xls/characters.csv';
+        $reader = $this->getReader();
         
-        $handle = $this->checkFileExists($fileName);
+        // load sheet {
+        $reader->setLoadSheetsOnly('Faces_new');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Faces_new');
+        // load sheet }
         
-        $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            if ($index == 1) {
+        $this->setColumnNumbersByNames($sheet);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'id_персонажа', $i)) {
                 continue;
             }
 
-            $code  = $row[0];
-            $title = iconv("Windows-1251", "UTF-8", $row[1]);
-            $fio   = iconv("Windows-1251", "UTF-8", $row[2]);
-            $email = $row[3];
-            $skype = $row[4];
-            $phone = $row[5];
+            // try to find exists entity 
+            $character = Characters::model()->byCode($this->getCellValue($sheet, 'id_персонажа', $i))->find();
             
-            $model = Characters::model()->byCode($code)->find();
-            if (!$model) {
-                $model = new Characters();
+            // create entity if not exists {
+            if (!$character) {
+                $character = new Characters();
             }
+            // create entity if not exists }
             
-            // set walues {
-            $model->code = $code;
-            $model->title = $title;
-            $model->fio = $fio;
-            $model->email = $email;
-            $model->skype = $skype;
-            $model->phone = $phone;
-            // set walues }
+            // update data {
+            $character->code      = $this->getCellValue($sheet, 'id_персонажа', $i);
+            $character->title     = $this->getCellValue($sheet, 'Должность', $i);
+            $character->fio       = $this->getCellValue($sheet, 'ФИО - short', $i);
+            $character->email     = $this->getCellValue($sheet, 'e-mail', $i);
+            $character->skype     = $this->getCellValue($sheet, 'skype', $i);
+            $character->phone     = $this->getCellValue($sheet, 'телефон', $i);
+            $character->import_id = $this->import_id;
             
-            // save {
-            if (!$model) {
-                $model->insert();
-            }
-            else {
-                $model->update();
-            }
-            // save }
+            // save
+            $character->save();
+            
+            $importedRows++;
         }
         
-        fclose($handle);
+        // delete old unused data {
+        Characters::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
         
         return array(
-            'status'  => true,
-            'counter' => $index,
-            'text'    => sprintf('%s records have been imported.', $index),
+            'imported_characters' => $importedRows, 
+            'errors' => false, 
         );
     }
     
@@ -1411,26 +1411,26 @@ class ImportGameDataService
     public function importAll() {
         $result = [];
         $dialog_import = new DialogImportService();
-        #$result['characters'] = $this->importCharacters();
-        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
-        $result['emails'] = $this->importEmails();
-        $result['emails_subjects'] = $this->importEmailSubjects();
+        $result['characters'] = $this->importCharacters();
+//        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+//        $result['emails'] = $this->importEmails();
+//        $result['emails_subjects'] = $this->importEmailSubjects();
         #$result['mail_attaches'] = $this->importMailAttaches();
         #$result['mail_events'] = $this->importMailEvents();
         #$result['mail_sending_time'] = $this->importMailSendingTime();
         #$result['tasks'] = $this->importTasks();
         #$result['mail_tasks'] = $this->importMailTasks();
         #$result['my_documents'] = $this->importMyDocuments();
-        $result['activity'] = $this->importActivity();
-        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
-        $result['dialog'] = $dialog_import->import();
+//        $result['activity'] = $this->importActivity();
+//        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+//        $result['dialog'] = $dialog_import->import();
         return $result;
     }
 
     /* ----- */
 
     /**
-     * @param string $fileName, 'media/xls/characters.csv'
+     * @param string $fileName, like 'media/xls/characters.csv'
      *
      * @throws Exception
      * @return file handler
