@@ -9,17 +9,13 @@
     window.SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
-            'events':{
+            'events':_.defaults({
                 "click .visitor-allow":'allow',
                 "click .visitor-deny":'deny'
-            },
+            }, SKWindowView.prototype.events),
             'initialize':function () {
                 var me = this;
                 SKWindowView.prototype.initialize.call(this);
-            },
-            'close':function () {
-                console.log("Click");
-                $('.visitor_door').remove();
             },
             'renderWindow':function (el) {
                 var event = this.options.model_instance.get('sim_event');
@@ -33,14 +29,14 @@
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 });
-                this.close();
+                this.options.model_instance.close();
             },
             'deny':function (e) {
                 console.log("click");
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 });
-                this.close();
+                this.options.model_instance.close();
             }
         });
 })();
