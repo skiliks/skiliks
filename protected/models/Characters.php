@@ -43,6 +43,11 @@ class Characters extends CActiveRecord
      */
     public $phone;
     
+    /**
+     * @var string
+     */
+    public $import_id;
+    
     const HERO_ID = 1;
     
     /* ----------------------------- */
