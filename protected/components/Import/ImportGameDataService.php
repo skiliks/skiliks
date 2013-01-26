@@ -1080,7 +1080,7 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet, 3);
         
         $importedRows = 0;
-        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+        for ($i = $sheet->getRowIterator(4); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Код', $i)) {
                 continue;
             }
@@ -1214,7 +1214,23 @@ class ImportGameDataService
             $importedRows++;
         }
         // Events from e-mails }
-        
+
+        // Create crutch events (Hello, Sergey) {
+        $event = EventsSamples::model()->byCode('T')->find();
+        if (!$event) {
+            $event       = new EventsSamples(); // Создаем событие
+            $event->code = 'T';
+        }
+
+        $event->title            = 'Какое-то событие';
+        $event->on_ignore_result = 7; // ничего
+        $event->on_hold_logic    = 1; // ничего
+        $event->trigger_time     = 0;
+        $event->import_id        = $this->import_id;
+        $event->save();
+        // }
+
+
         // delete old unused data {
         EventsSamples::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL', 
@@ -1342,11 +1358,10 @@ class ImportGameDataService
     }
 
     /**
-     * @return array()
-     */
-    /**
      * Import activity
      *
+     *
+     * @throws Exception
      * @return array
      */
     public function importActivity()
@@ -1426,21 +1441,21 @@ class ImportGameDataService
                 $values = array();
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
-                    // @todo: not clear jet
+                    // @todo: not clear yet
                     $values = Dialogs::model()->findAll();
                 } else {
                     $values = array(Dialogs::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {
-                    // @todo: not clear jet
+                    // @todo: not clear yet
                     $values = MailTemplateModel::model()->findAll();
                 } else {
                     $values = array(MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
                 }
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
-                    // @todo: not clear jet
+                    // @todo: not clear yet
                     $values = MyDocumentsTemplateModel::model()->findAll();
                 } else {
                     $values = array(MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
@@ -1449,14 +1464,15 @@ class ImportGameDataService
                 # TODO
                 $values = array(Window::model()->findByAttributes(array('subtype' => $xls_act_value)));
             } else {
-                return array('errors' => 'Can not handle type:' . $type);
+                throw new Exception('Can not handle type:' . $type);
             }
-            
+
             // update relation Activiti to Document, Dialog replic ro Email {
             foreach ($values as $value) {
+                assert(is_object($value));
                 $activityAction = ActivityAction::model()->findByAttributes(array(
                     'activity_id' => $activity->primaryKey,
-                    $type => $value->id
+                    $type => $value->primaryKey
                 ));
                 if ($activityAction === null) {
                     $activityAction = new ActivityAction();
@@ -1498,7 +1514,7 @@ class ImportGameDataService
         try {
             $dialog_import = new DialogImportService();
             $result['characters'] = $this->importCharacters();
-    //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+            //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
             $result['emails'] = $this->importEmails();
     //        $result['emails_subjects'] = $this->importEmailSubjects();
             #$result['mail_attaches'] = $this->importMailAttaches();
@@ -1508,9 +1524,9 @@ class ImportGameDataService
             $result['mail_tasks'] = $this->importMailTasks();
             $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
-    //        $result['activity'] = $this->importActivity();
-    //        $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
-    //        $result['dialog'] = $dialog_import->import();
+            $result['dialog'] = $dialog_import->import();
+            $result['activity'] = $this->importActivity();
+            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollback();

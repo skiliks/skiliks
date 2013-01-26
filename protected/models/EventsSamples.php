@@ -6,6 +6,7 @@
  * Содержит список событий, которые есть в системе.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property string import_id
  */
 class EventsSamples extends CActiveRecord
 {
@@ -117,7 +118,7 @@ class EventsSamples extends CActiveRecord
     public function byTriggerTimeGreaterThanZero()
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "trigger_time > 0"
+            'condition' => "trigger_time != null AND trigger_time != 0"
         ));
         return $this;
     }    
