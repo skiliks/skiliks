@@ -425,10 +425,7 @@ class ImportGameDataService
                 $counter['MS']++;
                 $source = 'outbox';
             } else {
-                return array(
-                    'status' => false,
-                    'text'   => "Ошибка: \$code = $code <br/> Line $index."
-                );
+                assert(false, 'Unknown code');
             }
             
             if (!isset($characters[$fromCode])) {                
@@ -520,16 +517,12 @@ class ImportGameDataService
                 $pointEntity = MailPointsModel::model()->byMailId($emailTemplateEntity->id)->byPointId($pointId)->find();
                 if (null === $pointEntity) {
                     $pointEntity = new MailPointsModel();
-                    $pointEntity->mail_id = $emailTemplateEntity->id;
-                    $pointEntity->point_id = $pointId;
-                    $pointEntity->add_value = $value;
-                    $pointEntity->insert();
                 }
-                else {
-                    $pointEntity->point_id = $pointId;
-                    $pointEntity->add_value = $value;
-                    $pointEntity->update();
-                }
+                $pointEntity->mail_id = $emailTemplateEntity->id;
+                $pointEntity->point_id = $pointId;
+                $pointEntity->add_value = $value;
+                $pointEntity->import_id = $this->import_id;
+                $pointEntity->save();
                 
                 $emailToPointIds[] = $pointEntity->id;
                 
