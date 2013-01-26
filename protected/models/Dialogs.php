@@ -7,6 +7,9 @@
  * 
  * Связана с моделями: Characters, CharactersStates, DialogSubtypes, EventsResults, EventsSamples.
  *
+ * @property Characters from_character
+ * @property Characters to_character
+ *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Dialogs extends CActiveRecord
@@ -278,6 +281,14 @@ class Dialogs extends CActiveRecord
             ));
         }    
         return $this;
+    }
+
+    public function relations()
+    {
+        return [
+            'from_character' => [self::BELONGS_TO, 'Characters', 'ch_from'],
+            'to_character' => [self::BELONGS_TO, 'Characters', 'ch_to'],
+        ];
     }
 }
 

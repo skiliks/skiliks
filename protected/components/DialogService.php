@@ -238,15 +238,15 @@ class DialogService {
     
     /**
      * Переводит диалог в массив
-     * @param type $dialog
+     * @param Dialogs $dialog
      * @return array
      */
     public static function dialogToArray($dialog) {
         return array(
             'id'                => $dialog->id,
-            'ch_from'           => $dialog->ch_from,
+            'ch_from'           => $dialog->from_character->code,
             'ch_from_state'     => $dialog->ch_from_state,
-            'ch_to'             => $dialog->ch_to,
+            'ch_to'             => $dialog->to_character->code,
             'ch_to_state'       => $dialog->ch_to_state,
             'dialog_subtype'    => $dialog->dialog_subtype,
             'text'              => $dialog->text,

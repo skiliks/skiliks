@@ -245,7 +245,7 @@ class DialogImportService {
     {
         $event = EventsSamples::model()->byCode($code)->find();
         if (null === $event) {
-            return ('0' === $code || '-' === $code) ? null : $this->eventT->id;
+            return ('0' === $code || '-' === $code) ? null : EventsSamples::model()->findByAttributes(['code' => 'T'])->primaryKey;
         } else {
             return $event->id;
         }
@@ -422,12 +422,12 @@ class DialogImportService {
 
     /**
      * Импорт Диалогов
-     * @param type $fileName
-     * @return int 
+     * @internal param \type $fileName
+     * @return int
      */
     public function import()
     {
-        $fileName = 'media/ALL_DIALOGUES.csv';
+        $fileName = '../media/ALL_DIALOGUES.csv';
         $this->resetCounters();
         
         try {
@@ -440,7 +440,7 @@ class DialogImportService {
         $this->importEventsFromLines(); // импортируем события        
         $this->importDialogsFromLines(); // импортируем диалоги
         $this->importMarksFromLines(); // загрузим оценки
-        $this->importReplica($fileName);
+        $this->importReplica(__DIR__ . '/../../' . $fileName);
         
         $events = EventsSamples::model()
             ->byIdsNotIn(implode(',', $this->importedEventsIds))
