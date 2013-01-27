@@ -113,13 +113,17 @@
                 this.$('.time .minute').text(parts[1]);
             },
             'addSimulationEvents':function () {
+                var me = this;
                 SKApp.user.simulation.events.on('add', function (event) {
                     if (event.getTypeSlug() === 'immediate-visit') {
-                        if (this.visit_view === undefined) {
-                            this.visit_view = new SKImmediateVisitView({'event':event});
+                        if (me.visit_view === undefined) {
+                            me.visit_view = new SKImmediateVisitView({'event':event});
+                            me.visit_view.visitor_entrance_window.on('close', function () {
+                                delete me.visit_view;
+                            });
                         } else {
-                            this.visit_view.options.event = event;
-                            this.visit_view.render();
+                            me.visit_view.options.event = event;
+                            me.visit_view.render();
                         }
                         event.setStatus('in progress');
                     } else if (event.getTypeSlug() === 'immediate-phone') {

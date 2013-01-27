@@ -1102,10 +1102,21 @@ class ImportGameDataService
             $document->srcFile      = $this->getCellValue($sheet, 'Привязка к файлу', $i);
             $document->format       = $this->getCellValue($sheet, 'Формат', $i);
             $document->type         = $this->getCellValue($sheet, 'type', $i);
+            $document->hidden         = 'start' === $document->type ? 0 : 1;
             $document->import_id    = $this->import_id;
             
             // save
             $document->save();
+
+            if ($document->format === 'xls') {
+                $excel = ExcelDocumentTemplate::model()->findByAttributes(['file_id' => $document->id]);
+                if (null === $excel) {
+                    $excel = new ExcelDocumentTemplate();
+                    $excel->name = 'unused, TODO: remove';
+                    $excel->file_id = $document->primaryKey;
+                }
+                $excel->save();
+            }
             
             $importedRows++;
         }
