@@ -819,37 +819,31 @@ class ImportGameDataService
     
     public function importTasks() 
     {
-        $fileName = '../media/xls/tasks.csv';
-        
-        $handle = $this->checkFileExists($fileName) ;
-        $index = 0;
+        $reader = $this->getReader();
+        // load sheet {
+        $reader->setLoadSheetsOnly('to-do-list');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('to-do-list');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 1);
+        // load sheet }
 
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            
-            if ($index == 1) continue;
-              
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             // Код
-            $code       = $row[0]; // A
+            $code       = $this->getCellValue($sheet, 'Код', $i);
+            if ($code === null)
+                continue;
             // Тип старта задачи
-            $startType  = $row[1]; // B
+            $startType  = $this->getCellValue($sheet, '', $i);
             // Список дел в to-do-list
-            $name       = iconv("Windows-1251", "UTF-8", $row[2]); // C
+            $name       = $this->getCellValue($sheet, 'Список дел в to-do-list', $i);
             // Жесткая
-            $startTime  = $row[3]; // D
-            if ($startTime != '') {
-                if (strstr($startTime, ':')) {
-                    $timeData = explode(':', $startTime);
-                    if (count($timeData) > 1) {
-                      $startTime = $timeData[0]*60 + $timeData[1];
-                    }
-                }
-            }
-            
+            $startTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet,'Жесткая', $i), 'hh:mm:ss');;
+
             // Категория
-            $category   = $row[4];  // E
+            $category   = $this->getCellValue($sheet, 'Категория', $i);
             // Мин.
-            $duration   = $row[5];  // F
+            $duration   = $this->getCellValue($sheet, 'Мин.', $i);
             
             $task = Tasks::model()->byCode($code)->find();
             if (!$task) {
@@ -860,21 +854,21 @@ class ImportGameDataService
             $task->title = $name;
             $task->start_time = $startTime;
             $task->duration = $duration;
-            if ($startTime > 0) {
+            if ($startTime !== null) {
                 $task->type = 2;
             } else {
                 $task->type = 1;
             }
             $task->start_type = $startType;
             $task->category = $category;
-            
+            $task->import_id = $this->import_id;
             $task->save();
         }
-        fclose($handle);
-        
+        Tasks::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
+
         return array(
             'status' => true,
-            'text'   => sprintf('%s tasks have been imported.', $index),
+            'text'   => sprintf('%s tasks have been imported.', Tasks::model()->count()),
         );  
     } 
     
@@ -952,112 +946,85 @@ class ImportGameDataService
      */
     public function importMailEvents() 
     {
-        $fileName = '../media/xls/mail2.csv';
-        $handle = $this->checkFileExists($fileName);
-        
-        $events = EventService::getAllCodesList();
-        
+        $reader = $this->getReader();
+        // load sheet {
+        $reader->setLoadSheetsOnly('Mail');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Mail');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 2);
+        // load sheet }
+
         $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $index++;
             if ($index <= 1) {
                 continue;
             }
-            
-            $code = $row[0];
-            $time = DateHelper::timeToTimstamp($row[2]);
-            
+
+            $code = $this->getCellValue($sheet, '№', $i);
+            $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet,'время отправки', $i), 'hh:mm:ss');;
+
             $event = EventsSamples::model()->byCode($code)->find();
             if (!$event) {
                 $event = new EventsSamples();
                 $event->code = $code;
             }
                 
-            $event->on_ignore_result = 0;	
+            $event->on_ignore_result = 7;
             $event->on_hold_logic = 1;
-            $event->trigger_time = $time; 
+            $event->trigger_time = $sendingTime;
+            $event->import_id = $this->import_id;
             $event->save();            
         }
-        fclose($handle);
-        
+
         return array(
             'status' => true,
             'text'   => sprintf('%s mail events have been imported.', $index),
         );    
     }
     
-    public function importMailSendingTime() 
-    {
-        $fileName = '../media/xls/mail2.csv';
-        $handle = $this->checkFileExists($fileName);
-        
-        $events = EventService::getAllCodesList();
-        
-        $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            if ($index <= 1) {
-                continue;
-            }
-            
-            $code = $row[0];
-            $date = DateHelper::dateStringToTimestamp($row[1]);
-            $time = DateHelper::timeToTimstamp($row[2]);
-            
-            $mail = MailTemplateModel::model()->byCode($code)->find();
-            if ($mail) {
-                $mail->sending_date = $date;
-                $mail->sending_date_str = $row[1];
-                $mail->sending_time = $time;
-                $mail->sending_time_str = $row[2];
-                $mail->save();
-            }
-            
-        }
-        fclose($handle);
-        
-        return array(
-            'status' => true,
-            'text'   => sprintf('%s mails have been updated.', $index),
-        );   
-    }
-    
     public function importMailAttaches()
     {
-        $fileName = '../media/xls/mail2.csv';
-        $handle = $this->checkFileExists($fileName);
-        
+        $reader = $this->getReader();
+        // load sheet {
+        $reader->setLoadSheetsOnly('Mail');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Mail');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 2);
+        // load sheet }
+
         $documents = MyDocumentsService::getAllCodes();
         $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
-            $index++;
-            if ($index <= 1) {
-                continue;
-            }
-            
-            $code = $row[0];
-            $attache = $row[11];
+        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
+            $code = $this->getCellValue($sheet, '№', $i);
+            $attache = $this->getCellValue($sheet, 'Вложение', $i);
             
             if ($attache == '' || $attache =='-') continue; // нет аттачей
                 
             $mail = MailTemplateModel::model()->byCode($code)->find();
-            if ($mail) {
-                if (isset($documents[$attache])) {
-                    $fileId = $documents[$attache];
-                    
-                    $attacheModel = MailAttachmentsTemplateModel::model()->byMailId($mail->id)->byFileId($fileId)->find();
-                    if (!$attacheModel) {
-                        $attacheModel = new MailAttachmentsTemplateModel();
-                        $attacheModel->mail_id = $mail->id;
-                        $attacheModel->file_id = $fileId;
-                        $attacheModel->insert();
-                     }
+                $fileId = $documents[$attache];
+
+                $attacheModel = MailAttachmentsTemplateModel::model()->byMailId($mail->id)->byFileId($fileId)->find();
+                if ($attacheModel === null) {
+                    $attacheModel = new MailAttachmentsTemplateModel();
                 }
-            }
-            
+                $attacheModel->mail_id = $mail->id;
+                $attacheModel->file_id = $fileId;
+                $attacheModel->import_id = $this->import_id;
+                $attacheModel->save();
+
         }
-        fclose($handle);
-        
+
+        // delete old unused data {
+        MailAttachmentsTemplateModel::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+
         return array(
             'status' => true,
             'text'   => sprintf('%s mail attaches have been imported.', $index),
@@ -1527,11 +1494,10 @@ class ImportGameDataService
             $result['characters'] = $this->importCharacters();
             //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
             $result['emails'] = $this->importEmails();
-    //        $result['emails_subjects'] = $this->importEmailSubjects();
-            #$result['mail_attaches'] = $this->importMailAttaches();
-            #$result['mail_events'] = $this->importMailEvents();
-            #$result['mail_sending_time'] = $this->importMailSendingTime();
-            #$result['tasks'] = $this->importTasks();
+            $result['emails_subjects'] = $this->importEmailSubjects();
+            $result['mail_attaches'] = $this->importMailAttaches();
+            $result['mail_events'] = $this->importMailEvents();
+            $result['tasks'] = $this->importTasks();
             $result['mail_tasks'] = $this->importMailTasks();
             $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
