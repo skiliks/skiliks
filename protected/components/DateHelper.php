@@ -63,7 +63,7 @@ class DateHelper {
      * @param string $time 12:24
      * @return false;
      */
-    public static function timeToTimstamp($time) {
+    public static function timeToTimestamp($time) {
         if (!strstr($time, ':')) return false;
             
         $eventTimeData = explode(':', $time);
