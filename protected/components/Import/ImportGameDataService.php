@@ -955,16 +955,13 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
 
-        $index = 0;
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
-            $index++;
-            if ($index <= 1) {
+            $code = $this->getCellValue($sheet, '№', $i);
+            if ($code === null) {
                 continue;
             }
-
-            $code = $this->getCellValue($sheet, '№', $i);
             $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet,'время отправки', $i), 'hh:mm:ss');;
-
+            assert($sendingTime !== null);
             $event = EventsSamples::model()->byCode($code)->find();
             if (!$event) {
                 $event = new EventsSamples();
@@ -980,7 +977,7 @@ class ImportGameDataService
 
         return array(
             'status' => true,
-            'text'   => sprintf('%s mail events have been imported.', $index),
+            'text'   => sprintf('%s mail events have been imported.', EventsSamples::model()->count('code LIKE "M%"')),
         );    
     }
     
@@ -1117,11 +1114,15 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet, 2);
         
         $importedRows = 0;
+        $this->importedEvents = [];
         
         // Events from dialogs {
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             
             $code = $this->getCellValue($sheet, 'Код события', $i);
+
+            if ($code === null)
+                continue;
             
             $isFirstRecordAboutEvent = (
                 $code != '-' &&                                          // code
@@ -1130,11 +1131,9 @@ class ImportGameDataService
                 (int)$this->getCellValue($sheet, '№ реплики в диалоге', $i) == 0 &&                                   // replica_number, 0 - first replica in dialog
                 false === in_array($code, $this->importedEvents)  // processed at first during current import
             );
-            
-            if (false === $isFirstRecordAboutEvent) {
-                continue; // ignore this line
-            }
-            
+            if ($isFirstRecordAboutEvent === false)
+                continue;
+
             $this->importedEvents[] = $code;
             
             $event = EventsSamples::model()->byCode($code)->find();
@@ -1146,52 +1145,18 @@ class ImportGameDataService
             $event->title            = $this->getCellValue($sheet, 'Наименование события', $i);
             $event->on_ignore_result = 7; // ничего
             $event->on_hold_logic    = 1; // ничего
-            $event->trigger_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i),'H:i');
+            $event->trigger_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i),'hh:mm:ss');
             $event->import_id        = $this->import_id;
-            
-            $event->save();
+
+            if ($event->validate()) {
+                $event->save();
+            } else {
+                throw new CException($event->getErrors());
+            }
             
             $importedRows++;
         }
         // Events from dialogs }
-        
-        // load sheet {
-        $reader->setLoadSheetsOnly('Mail');
-        $excel = $reader->load($this->filename);
-        $sheet = $excel->getSheetByName('Mail');
-        // load sheet }
-        
-        $this->setColumnNumbersByNames($sheet, 2);
-        
-        // Events from e-mails {
-        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) { 
-            
-             $code = $this->getCellValue($sheet, '№', $i);
-            
-            // add to events only inbox emails M1 .. M9 .. M22 etc.
-            if (false === in_array($code[0].$code[1], ['M1','M2','M3','M4','M5','M6','M7','M8','M9'])) {
-                continue;
-            } 
-            
-            $this->importedEvents[] = $code;
-            
-            $event = EventsSamples::model()->byCode($code)->find();
-            if (!$event) {
-                $event       = new EventsSamples(); // Создаем событие
-                $event->code = $code;
-            }
-            
-            $event->title            = $this->getCellValue($sheet, 'Письмо', $i);
-            $event->on_ignore_result = 7; // ничего
-            $event->on_hold_logic    = 1; // ничего
-            $event->trigger_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'время отправки', $i),'H:i');
-            $event->import_id        = $this->import_id;
-            
-            $event->save();
-            
-            $importedRows++;
-        }
-        // Events from e-mails }
 
         // Create crutch events (Hello, Sergey) {
         $event = EventsSamples::model()->byCode('T')->find();
@@ -1211,7 +1176,7 @@ class ImportGameDataService
 
         // delete old unused data {
         EventsSamples::model()->deleteAll(
-            'import_id <> :import_id OR import_id IS NULL', 
+            'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
         // delete old unused data }
@@ -1232,7 +1197,7 @@ class ImportGameDataService
         return uniqid();
     }
     
-    public function importActivityEfficiencyConditions()
+    private  function importActivityEfficiencyConditions()
     {
         $reader = $this->getReader();
         
@@ -1309,7 +1274,7 @@ class ImportGameDataService
      * @param int $row
      * @return void
      */
-    public function setColumnNumbersByNames($sheet, $row = 1)
+    private  function setColumnNumbersByNames($sheet, $row = 1)
     {
         for ($i = 0; ; $i++) {
             $row_title = $sheet->getCellByColumnAndRow($i, $row)->getValue();
@@ -1342,7 +1307,7 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    public function importActivity()
+    private  function importActivity()
     {
         $activity_types = array(
             'Documents_leg'   => 'document_id',
@@ -1505,6 +1470,7 @@ class ImportGameDataService
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $transaction->commit();
+
         } catch (Exception $e) {
             $transaction->rollback();
             throw $e;
@@ -1512,46 +1478,6 @@ class ImportGameDataService
         return $result;
     }
 
-    /* ----- */
 
-    /**
-     * @param string $fileName, like 'media/xls/characters.csv'
-     *
-     * @throws Exception
-     * @return file handler
-     *
-     * @throw Exception
-     */
-    private function checkFileExists($fileName) 
-    {
-        $handle = fopen($fileName, "r");
-        if (!$handle) {
-            throw new Exception("cant open $fileName");
-        }
-        
-        return $handle;
-    }
-    
-    /**
-     * 
-     * @param string $time
-     * @return integer
-     */
-    private function timeToInt($time) 
-    {
-        // for any kind of NULL value
-        if (null == $time) {
-            return NULL;
-        }
-        
-        if (strstr($time, ':')) {
-            $explodedTime = explode(':', $time);
-            if (isset($explodedTime[1])) {
-                return $explodedTime[0] * 60 + $explodedTime[1];
-            } else {
-                return (int)$time;
-            }                    
-        }
-    }
 }
 

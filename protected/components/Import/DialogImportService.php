@@ -437,7 +437,7 @@ class DialogImportService {
             return false;
         }
         
-        $this->importEventsFromLines(); // импортируем события        
+        //$this->importEventsFromLines(); // импортируем события
         $this->importDialogsFromLines(); // импортируем диалоги
         $this->importMarksFromLines(); // загрузим оценки
         $this->importReplica(__DIR__ . '/../../' . $fileName);

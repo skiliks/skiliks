@@ -6,7 +6,6 @@
  * Содержит список событий, которые есть в системе.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
- * @property string import_id
  */
 class EventsSamples extends CActiveRecord
 {
@@ -40,8 +39,13 @@ class EventsSamples extends CActiveRecord
      * In game minutes, time when event must be sheduled in game during sim start
      * @var integer
      */
-    public $trigger_time;     
-    
+    public $trigger_time;
+
+    /**
+     * @var string
+     */
+    public $import_id;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -118,7 +122,7 @@ class EventsSamples extends CActiveRecord
     public function byTriggerTimeGreaterThanZero()
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "trigger_time != null AND trigger_time != 0"
+            'condition' => "trigger_time is not null AND trigger_time != '00:00:00'"
         ));
         return $this;
     }    
@@ -137,7 +141,7 @@ class EventsSamples extends CActiveRecord
     /**
      * @return EventsSamples 
      */
-    public function byNotSendedTodayEmailCode()
+    public function byNotSentTodayEmailCode()
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "code NOT LIKE 'MS%'"
@@ -159,7 +163,7 @@ class EventsSamples extends CActiveRecord
     /**
      * @return EventsSamples 
      */
-    public function byNotSendedYesterdayEmailCode()
+    public function byNotSentYesterdayEmailCode()
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "code NOT LIKE 'MY%'"
