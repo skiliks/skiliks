@@ -1,5 +1,5 @@
 <?php
-class F4Flag2 extends SeleniumTestCase
+class F910Test extends SeleniumTestCase
 {
     public function testMyTestCase()
     {

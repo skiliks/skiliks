@@ -339,8 +339,8 @@ class SimulationService
         $events = EventsSamples::model()
             ->byNotDocumentCode()
             ->byNotPlanTaskCode()
-            ->byNotSendedTodayEmailCode()
-            ->byNotSendedYesterdayEmailCode()
+            ->byNotSentTodayEmailCode()
+            ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
             ->byTriggerTimeGreaterThanZero()
             ->findAll();
