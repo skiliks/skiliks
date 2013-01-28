@@ -4,7 +4,7 @@
     window.SKMailClientView = SKWindowView.extend({
         
         mailClient: undefined,
-        
+
         addClass: 'mail-window',
         
         mailClientScreenID:'mailEmulatorMainScreen',
@@ -1054,30 +1054,27 @@
             });
             // add attachments list }
 
-            // bind recipients
-            this.mailClient.on('recipients:update', function () {
-                $("#MailClient_RecipientsList").tagHandler({
-                    availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
-                    autocomplete:true,
-                    afterAdd:function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                            mailClientView.getCurentEmailRecipientIds(),
-                            'add'
-                        );
-                    },
-                    afterDelete:function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                            mailClientView.getCurentEmailRecipientIds(),
-                            'delete'
-                        );
-                    }
-                });
+            $("#MailClient_RecipientsList").tagHandler({
+                availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                autocomplete:true,
+                afterAdd:function (tag) {
+                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        mailClientView.getCurentEmailRecipientIds(),
+                        'add'
+                    );
+                },
+                afterDelete:function (tag) {
+                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        mailClientView.getCurentEmailRecipientIds(),
+                        'delete'
+                    );
+                }
+            });
 
-                // fills copyTo list
-                $("#MailClient_CopiesList").tagHandler({
-                    availableTags: mailClientView.mailClient.getFormatedCharacterList(),
-                    autocomplete:  true
-                });
+            // fills copyTo list
+            $("#MailClient_CopiesList").tagHandler({
+                availableTags: mailClientView.mailClient.getFormatedCharacterList(),
+                autocomplete:  true
             });
 
             // prevent custom text input
