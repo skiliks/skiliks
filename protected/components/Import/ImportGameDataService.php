@@ -18,7 +18,7 @@ class ImportGameDataService
     
     public function __construct()
     {
-        $this->filename = __DIR__ . '/../../../media/Scenario_v22.19_TP_Await_added.xlsx';
+        $this->filename = __DIR__ . '/../../../media/Scenario_v22.25_TP_Forma1_without_formulas.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
@@ -1099,8 +1099,123 @@ class ImportGameDataService
         );        
      }
      
+     /**
+      * 
+      */
+     public function importDialogReplics()
+     {
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet, 2);
+        
+        // getCharactersStates {
+        $charactersStates = [];
+        foreach(CharactersStates::model()->findAll() as $character) {
+             $charactersStates[$character->title] = $character->id;
+        }
+        // getCharactersStates }
+        
+        // DialogSubtypes    
+        $subtypes = [];
+        foreach(DialogSubtypes::model()->findAll() as $subtype) {
+            $subtypes[$subtype->title] = $subtype->id;
+        }
+        // DialogSubtypes
+        
+        $importedRows = 0;
+        
+        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
+            
+            // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
+            if (NULL == $this->getCellValue($sheet, 'id записи', $i)) {
+                continue;
+            }
+            
+            $dialog = Dialogs::model()
+                ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
+                ->find();
+            if (NULL === $dialog) {
+                $dialog           = new Dialogs(); // Создаем событие
+                $dialog->excel_id = $this->getCellValue($sheet, 'id записи', $i);
+            }
+            
+            // a lot of dialog properties: {
+            $dialog->code            = $this->getCellValue($sheet, 'Код события', $i);
+            $dialog->event_result    = 7; // ничего
+            $dialog->ch_from         = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
+            $dialog->ch_to           = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
+            
+            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-ОТ (+голос)', $i);
+            $dialog->ch_from_state   = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // why "1" ?
+            
+            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-КОМУ', $i);
+            $dialog->ch_to_state     = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // why "1" ?;
+            
+            $subtypeAlias = $this->getCellValue($sheet, 'Категория события', $i);
+            $dialog->dialog_subtype  = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // why "1" ?;
+            
+            $dialog->next_event      = $this->getNextEventId($this->getCellValue($sheet, 'Event_result_code', $i));
+            
+            $code = $this->getCellValue($sheet, 'Event_result_code', $i);
+            $dialog->next_event_code = ('-' == $code) ? NULL : $code;
+            $dialog->text            = $this->getCellValue($sheet, 'Реплика', $i);
+            $dialog->duration        = 0; // @todo: remove duration from model, deprecated property
+            $dialog->step_number     = $this->getCellValue($sheet, '№ шага в диалоге', $i);
+            $dialog->replica_number  = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
+            $dialog->delay           = $this->getCellValue($sheet, 'Длина реплики', $i);
+            
+            $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i))->find();
+            $dialog->flag            = (NULL === $flag) ? NULL : $flag->flag;
+            
+            $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
+            $dialog->demo            = $isUseInDemo; 
+            $dialog->type_of_init    = $this->getCellValue($sheet, 'Тип запуска', $i); 
+            
+            $sound = $this->getCellValue($sheet, 'Путь', $i); 
+            $dialog->sound           = ($sound == '#N/A' || $sound == '-') ? $file = NULL : $sound;
+            $dialog->import_id        = $this->import_id;
+            // a lot of dialog properties: }
+            
+            $dialog->save();
+            
+            $importedRows++;
+        }
+        
+        // delete old unused data {
+        Dialogs::model()->deleteAll(
+            'import_id <> :import_id OR import_id IS NULL',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+        
+        return array(
+            'imported_documents' => $importedRows, 
+            'errors' => false, 
+        );
+     }
+
     /**
-     * Импорт документов
+     * @param string $code
+     * @return integer | string
+     */
+    private function getNextEventId($code)
+    {
+        $event = EventsSamples::model()->byCode($code)->find();
+        if (null === $event) {
+            return null;
+        } else {
+            return $event->id;
+        }
+    }
+
+    /**
+     * 
      */
     public function importEventSamples() 
     {
@@ -1456,19 +1571,20 @@ class ImportGameDataService
         $result = [];
         $transaction=Yii::app()->db->beginTransaction();
         try {
-            $dialog_import = new DialogImportService();
+            //$dialog_import = new DialogImportService();
             $result['characters'] = $this->importCharacters();
-            //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
-            $result['emails'] = $this->importEmails();
-            $result['mail_attaches'] = $this->importMailAttaches();
-            $result['mail_events'] = $this->importMailEvents();
-            $result['tasks'] = $this->importTasks();
-            $result['mail_tasks'] = $this->importMailTasks();
-            $result['my_documents'] = $this->importMyDocuments();
-            $result['event_samples'] = $this->importEventSamples();
-            $result['dialog'] = $dialog_import->import();
-            $result['activity'] = $this->importActivity();
-            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+            // $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+//            $result['emails'] = $this->importEmails();
+//            $result['mail_attaches'] = $this->importMailAttaches();
+//            $result['mail_events'] = $this->importMailEvents();
+//            $result['tasks'] = $this->importTasks();
+//            $result['mail_tasks'] = $this->importMailTasks();
+//            $result['my_documents'] = $this->importMyDocuments();
+//            $result['event_samples'] = $this->importEventSamples();
+            $result['dialog'] = $this->importDialogReplics();
+            // $result['dialog'] = $dialog_import->import();
+//            $result['activity'] = $this->importActivity();
+//            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $transaction->commit();
 
         } catch (Exception $e) {

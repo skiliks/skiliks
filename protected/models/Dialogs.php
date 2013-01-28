@@ -55,6 +55,7 @@ class Dialogs extends CActiveRecord
     public $text; 
     
     /**
+     * @deprecated
      * In game minutes
      * @var integer
      */
