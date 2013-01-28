@@ -44,11 +44,7 @@
         },
         
         getFirstEmail: function() {
-            for (var i in this.emails) {
-                return this.emails[i];
-            }
-            
-            return undefined;
+            return this.emails[0];
         },
         
         countUnreaded: function() {
