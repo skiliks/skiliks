@@ -86,227 +86,123 @@ class ImportGameDataService
         );
     }
     
-    public function importCharactersPointsTitles() 
+    /**
+     * @return mixed array
+     */
+    public function importLearningGoals()
     {
-        $start_time = microtime(true);
-        $count_add_ceil = 0;
-        $count_edit_ceil = 0;
-        $count_add_title = 0;
-        $count_edit_title = 0;
-        $count_str = 0;
-        $count_col = 0;
-        $array_add_ceil = array();
-        $array_edit_ceil = array();
-        $array_add_title = array();
-        $array_edit_title = array();
-        $temp = array();
-
-        $filename = __DIR__ . '/../../../media/Forma1_new_170912_v3.xlsx';
-
-        if (file_exists($filename)) {
-            $SimpleXLSX = new SimpleXLSX($filename);
-            $xlsx_data = $SimpleXLSX->rows();
-        } else {
-            throw new Exception("Файл {$filename} не найден!");
-        }
-
-        $transaction = Yii::app()->db->beginTransaction();
-
-        try {
-            $db_parent = Yii::app()->db->createCommand()
-                ->select('id, parent_id, code, title, scale, type_scale')
-                ->from('characters_points_titles')
-                ->where(' parent_id IS NULL ')
-                ->queryAll();
-
-            unset($xlsx_data[0]);
-            unset($xlsx_data[count($xlsx_data)]);
-
-            $titles = array();
-            $titles_ceil = array();
-
-            foreach ($xlsx_data as $row) {
-                $pos = array_search(array($row[1], $row[2]), $titles_ceil);
-                if ($pos == false) {
-                    $titles_ceil[] = array($row[1], $row[2]);
-                    $pos = array_search(array($row[1], $row[2]), $titles_ceil);
-                    $titles[] = array($row[0], $pos, $row[3], $row[4], $row[5], $row[1]);
-                } else {
-                    $titles[] = array($row[0], $pos, $row[3], $row[4], $row[5], $row[1]);
-                }
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('Forma_1');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Forma_1');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
+                continue;
             }
-
-            $count_str = count($xlsx_data);
-            $count_col = count($xlsx_data[1]);
-
-            unset($xlsx_data);
-
-            $command = Yii::app()->db->createCommand();
-
-            foreach ($titles_ceil as $k1 => $title) {
-                $found = false;
-                //Поиск совпаденией и обновление записей по коду
-                foreach ($db_parent as $k2 => $data) {
-                    if ($data['code'] == $title[0]) {
-                        if ($data['title'] == $title[1]) {
-                            
-                        } else {
-                            //TODO:Изменить запись
-                            $command->update('characters_points_titles', array(
-                                'title' => $title[1]
-                                    ), 'id=:id', array(':id' => $data['id']));
-                            $array_edit_ceil[] = $title[0];
-                            $count_edit_ceil++;
-                        }
-                        $found = true;
-                        unset($titles_ceil[$k1]);
-                        unset($db_parent[$k2]);
-                    } else {
-                        
-                    }
-                }
-                if (!$found) {
-                    //TODO:Добавить запись
-                    $command->insert('characters_points_titles', array(
-                        'code' => $title[0],
-                        'title' => $title[1]
-                    ));
-                    //unset($db_data[$k1]);
-                    $count_add_ceil++;
-                    $array_add_ceil[] = $title[0];
-                }
-            }
-
-
-            $db_data = Yii::app()->db->createCommand()
-                ->select('p2.id, p1.code as p_code, p2.code, p2.title, p2.scale, p2.type_scale')
-                ->from('characters_points_titles p1')
-                ->join('characters_points_titles p2', 'p1.id = p2.parent_id')
-                ->queryAll();
-
-            $db_keys = Yii::app()->db->createCommand()
-                ->select('id, code')
-                ->from('characters_points_titles')
-                ->queryAll();
-
-            $keys = array();
-            foreach ($db_keys as $row) {
-                $keys[$row['code']] = $row['id'];
-            }
-
-            $type_scale = array('positive' => '1', 'negative' => '2', 'personal' => '3');
-            foreach ($titles as $k1 => $title) {
-                $found = false;
-                //Поиск совпаденией и обновление записей по коду
-                foreach ($db_data as $k2 => $data) {
-                    if ($data['code'] == $title[0]) {
-                        if ($data['title'] == $title[2] && $data['scale'] == $title[3] && $data['type_scale'] == $type_scale[$title[4]] && $data['p_code'] == $title[5]) {
-                        } else {
-                            //TODO:Изменить запись
-                            
-                            $command->update('characters_points_titles', array(
-                                'parent_id' => $keys[$title[5]],
-                                'title' => $title[2],
-                                'scale' => $title[3],
-                                'type_scale' => $type_scale[$title[4]]
-                                    ), 'id=:id', array(':id' => $data['id']));
-                            $count_edit_title++;
-                            $array_edit_title[] = $title[0];
-                        }
-                        $found = true;
-                        unset($titles[$k1]);
-                        unset($db_data[$k2]);
-                    } else {
-                        
-                    }
-                }
-                
-                if (!$found) {
-                    //TODO:Добавить запись
-                    $command->insert('characters_points_titles', array(
-                        'code' => $title[0],
-                        'title' => $title[2],
-                        'scale' => $title[3],
-                        'type_scale' => $title[4]
-                    ));
-                    $count_add_title++;
-                    $array_add_title[] = $title[0];
-                }
-            }
-
-            $transaction->commit();
-        } catch (Exception $e) {
-
-            $transaction->rollback();
             
-            return array(
-                'status' => false,
-                'text'   => $e->getMessage() . " в файле " . $e->getFile() . " на строке  " . $e->getLine() . '<br>',
-            );
+            // try to find exists entity 
+            $learningGoal = LearningGoal::model()
+                ->byCode($this->getCellValue($sheet, 'Номер цели обучения', $i))
+                ->find();
+
+            // create entity if not exists {
+            if (null === $learningGoal) {
+                $learningGoal = new LearningGoal();
+                $learningGoal->code = $this->getCellValue($sheet, 'Номер цели обучения', $i);
+            }
+            // create entity if not exists }
+            
+            // update data {
+            $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
+            $learningGoal->import_id = $this->import_id;
+            
+            // save
+            $learningGoal->save();
+            
+            $importedRows++;
+            
         }
         
-        $end_time = microtime(true);
-        
-        // ---
-        
-        $html = sprintf(
-            '<h3>Файл - %s </h3><br/>
-            Размер - %s Кбайт <br/>
-            Время последнего изменения файла  - %s <br/>
-            Количество обработаных строк данных - %s по %s колонки <br/>
-            Лишних наименований целей обучения в бд: %s <br/>
-            ',
-            $filename,
-            filesize($filename) / 1024,
-            date("d.m.Y H:i:s.", filemtime($filename)),
-            $count_str,
-            $count_col,
-            count($db_parent)
+        // delete old unused data {
+        LearningGoal::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
         );
-        
-        // if you want - you can fihish $html
-        /*echo "Время последнего изменения файла  - " . date("d.m.Y H:i:s.", filemtime($filename)) . " <br>";
-        echo "Время импорта - " . ($end_time - $start_time) . ' c. <br>';
-        echo "Количество обработаных строк данных - " . $count_str . " по " . $count_col . ' колонки <br>';
-        echo "Обновлено {$count_edit_ceil} наименований целей обучения <br>";
-        if ($array_edit_ceil != array()) {
-            echo "Cреди них : " . implode(" , ", $array_edit_ceil) . " <br>";
-        }
-        echo "Добавлено  {$count_add_ceil} наименованиий целей обучения <br>";
-        if ($array_add_ceil != array()) {
-            echo "Cреди них : " . implode(" , ", $array_add_ceil) . " <br>";
-        }
-        echo "Обновлено {$count_edit_title} наименованиий требуемого поведения <br>";
-        if ($array_edit_title != array()) {
-            echo "Cреди них : " . implode(" , ", $array_edit_title) . " <br>";
-        }
-        echo "Добавлено {$count_add_title} наименованиий требуемого поведения <br>";
-        if ($array_add_title != array()) {
-            echo "Cреди них : " . implode(" ,", $array_add_title) . " <br>";
-        }
-        echo "Лишних наименований целей обучения в бд " . count($db_parent) . '<br>';
-        if ($db_parent != array()) {
-            foreach ($db_parent as $t) {
-                $temp[] = $t['code'];
-            }
-            echo "Cреди них : " . implode(" , ", $temp) . " <br>";
-        }
-        echo "Лишних наименований требуемого поведения в бд " . count($db_data) . '<br>';
-        $temp = array();
-        if ($db_parent != array()) {
-            foreach ($db_data as $t) {
-                $temp[] = $t['code'];
-            }
-            echo "Cреди них : " . implode(" , ", $temp) . " <br>";
-        }
-        echo "</h3>";*/
+        // delete old unused data }
         
         return array(
-            'status' => true,
-            'text'   => $html,
-        );
+            'imported_learning_goals' => $importedRows, 
+            'errors' => false, 
+        );  
     }
-    
+
+    /**
+     * 
+     */
+    public function importCharactersPointsTitles() 
+    {
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('Forma_1');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Forma_1');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet);
+        
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Номер требуемого поведения', $i)) {
+                continue;
+            }
+            
+            // try to find exists entity 
+            $charactersPointsTitle = CharactersPointsTitles::model()
+                ->byCode($this->getCellValue($sheet, 'Номер требуемого поведения', $i))
+                ->find();
+
+            // create entity if not exists {
+            if (null === $charactersPointsTitle) {
+                $charactersPointsTitle = new CharactersPointsTitles();
+                $charactersPointsTitle->code = $this->getCellValue($sheet, 'Номер требуемого поведения', $i);
+            }
+            // create entity if not exists }
+            
+            // update data {
+            $charactersPointsTitle->title              = $this->getCellValue($sheet, 'Наименование требуемого поведения', $i);
+            $charactersPointsTitle->learning_goal_code = $this->getCellValue($sheet, 'Номер цели обучения', $i);
+            $charactersPointsTitle->scale              = $this->getCellValue($sheet, 'Единая шкала', $i); // Makr
+            $charactersPointsTitle->type_scale         = CharactersPointsTitles::getCharacterpointScaleId($this->getCellValue($sheet, 'Тип шкалы', $i));
+            $charactersPointsTitle->import_id          = $this->import_id;
+            
+            // save
+            $charactersPointsTitle->save();
+            
+            $importedRows++;
+            
+        }
+        
+        // delete old unused data {
+        CharactersPointsTitles::model()->deleteAll(
+            'import_id<>:import_id', 
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+        
+        return array(
+            'imported_character_point_titles' => $importedRows, 
+            'errors' => false, 
+        ); 
+    }
+
     public function importEmails()
     {
         $reader = $this->getReader();
@@ -1179,6 +1075,10 @@ class ImportGameDataService
             
             $sound = $this->getCellValue($sheet, 'Путь', $i); 
             $dialog->sound           = ($sound == '#N/A' || $sound == '-') ? $file = NULL : $sound;
+            
+            $isFinal = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i); 
+            $dialog->is_final         = ('да' === $isFinal) ? true : false;
+            
             $dialog->import_id        = $this->import_id;
             // a lot of dialog properties: }
             
@@ -1195,8 +1095,88 @@ class ImportGameDataService
         // delete old unused data }
         
         return array(
-            'imported_documents' => $importedRows, 
+            'imported_dialog_replics' => $importedRows, 
             'errors' => false, 
+        );
+     }
+     
+/**
+      * 
+      */
+     public function importDialogPoints()
+     {
+        $reader = $this->getReader();
+        
+        // load sheet {
+        $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        // load sheet }
+        
+        $this->setColumnNumbersByNames($sheet, 2);
+        
+        // link points to excelColums: pint titles placed in row 2 {        
+        $points = [];
+        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+            if (isset($this->columnNoByName[$point->code])) {
+                $points[] = $point;
+            }
+        }
+        // link points to excelColums }
+
+        $importedRows = 0;
+        
+        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
+            // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
+             if (NULL == $this->getCellValue($sheet, 'id записи', $i)) {
+                 continue;
+             }
+             
+            $dialog = Dialogs::model()
+                ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
+                ->find();
+            
+             if (NULL === $dialog) {
+                 throw new Exception('Try to use unexisi in DB dialog, with ExcelId '.$this->getCellValue($sheet, 'id записи', $i));
+             }
+                
+            foreach ($points as $point) {
+                $score = $this->getCellValue($sheet, $point->code, $i);
+
+                // ignore empty cells, but we must imort all "0" values!
+                if (NULL === $score  || '' === $score ){
+                   continue; 
+                }
+                
+                $charactersPoints = CharactersPoints::model()
+                    ->byDialog($dialog->id)
+                    ->byPoint($point->id)
+                    ->find();
+                if (NULL === $charactersPoints) {
+                    $charactersPoints = new CharactersPoints();
+                    $charactersPoints->dialog_id = $dialog->id;
+                    $charactersPoints->point_id  = $point->id;
+                }
+
+                $charactersPoints->add_value = $score;
+                $charactersPoints->import_id = $this->import_id;
+
+                $charactersPoints->save();
+
+                $importedRows++;
+            }
+        }
+        
+        // delete old unused data {
+        CharactersPoints::model()->deleteAll(
+            'import_id <> :import_id OR import_id IS NULL',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+        
+        return array(
+            'imported_characters_points' => $importedRows, 
+            'errors'                     => false, 
         );
      }
 
@@ -1572,8 +1552,12 @@ class ImportGameDataService
         $transaction=Yii::app()->db->beginTransaction();
         try {
             //$dialog_import = new DialogImportService();
-            $result['characters'] = $this->importCharacters();
-            // $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+//            $result['characters'] = $this->importCharacters();
+//            $result['learning_goals'] = $this->importLearningGoals();
+//            $result['characters_points_titles'] = $this->importCharactersPointsTitles()
+//            $result['dialog'] = $this->importDialogReplics();
+;
+            $result['character_points'] = $this->importDialogPoints();
 //            $result['emails'] = $this->importEmails();
 //            $result['mail_attaches'] = $this->importMailAttaches();
 //            $result['mail_events'] = $this->importMailEvents();
@@ -1581,7 +1565,7 @@ class ImportGameDataService
 //            $result['mail_tasks'] = $this->importMailTasks();
 //            $result['my_documents'] = $this->importMyDocuments();
 //            $result['event_samples'] = $this->importEventSamples();
-            $result['dialog'] = $this->importDialogReplics();
+            
             // $result['dialog'] = $dialog_import->import();
 //            $result['activity'] = $this->importActivity();
 //            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
