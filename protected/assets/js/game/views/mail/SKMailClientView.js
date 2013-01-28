@@ -1,4 +1,4 @@
-/*global Backbone, _, SKApp, SKAttachment */
+/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail */
 (function () {
     "use strict";
     window.SKMailClientView = SKWindowView.extend({
@@ -105,6 +105,7 @@
                 var unreaded = me.mailClient.getInboxFolder().countUnreaded();
                 me.updateMailIconCounter(unreaded);
                 me.updateInboxFolderCounter(unreaded);
+                console.log("Update counter");
             });
             
             // close with conditions action {
@@ -163,7 +164,13 @@
         },
         
         updateInboxFolderCounter: function(counter) {
-            $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter').text('(' + counter + ')');
+            var el = $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter');
+            if(counter !== 0){
+                el.text('(' + counter + ')');
+            }else{
+                el.text('');
+            }
+
         },
         
         isCanBeClosed: function() {
@@ -303,6 +310,9 @@
                     }
                     var counterCss = 'display: inline-block;';
                     if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended) {
+                        counterCss = 'display: none;';
+                    }
+                    if(counter === 0){
                         counterCss = 'display: none;';
                     }
 
@@ -566,7 +576,7 @@
             // Todo — move to events dictionary (GuGu)
             $('.email-list-line').click(function (event) {
                 // update lod data {
-                
+                console.log("Click mail!");
                 // if user click on same email line twice - open read email screen
                 // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
@@ -657,7 +667,7 @@
             this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
             
             // draggable: add move to trash behaviour {
-            $('.email-list-line').draggable("destroy");;
+            $('.email-list-line').draggable("destroy");
             $('.email-list-line').draggable({
               helper: function(event) {
                   return $('<div class="email-envelope"><table style="display: none;"></table></div>')
