@@ -1072,14 +1072,14 @@
                         );
                     }
                 });
+
+                // fills copyTo list
+                $("#MailClient_CopiesList").tagHandler({
+                    availableTags: mailClientView.mailClient.getFormatedCharacterList(),
+                    autocomplete:  true
+                });
             });
 
-            // fills copyTo list
-            $("#MailClient_CopiesList").tagHandler({
-                availableTags: mailClientView.mailClient.getFormatedCharacterList(),
-                autocomplete:  true
-            });
-            
             // prevent custom text input
             $("#MailClient_RecipientsList input").attr('readonly','readonly');
             $("#MailClient_CopiesList input").attr('readonly','readonly');
