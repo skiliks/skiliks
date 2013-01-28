@@ -743,6 +743,7 @@
             },
 
             reloadSubjects:function (recipientIds) {
+                this.messageForNewEmail = '';
                 SKApp.server.api(
                     'mail/getThemes',
                     {
@@ -771,6 +772,7 @@
             },
 
             setRegularAvailablePhrases:function (array) {
+                this.messageForNewEmail = '';
                 this.availablePhrases = []; // clean-up old phrases
 
                 for (var i in array) {
