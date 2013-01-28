@@ -1191,6 +1191,7 @@
             
             // some letter has predefine text, update it 
             // if there is no text - this.mailClient.messageForNewEmail is empty string
+            this.mailClient.newEmailUsedPhrases = [];
             $('#mailEmulatorNewLetterText').html(this.mailClient.messageForNewEmail.replace("\n", "<br />","g"));
             
             this.delegateEvents();
@@ -1245,7 +1246,7 @@
             var phrases = this.mailClient.newEmailUsedPhrases;
             for (var i in phrases) {
                 // keep '==' not strict!
-                if (phrases[i].uid === phrase.uid) {
+                if (phrases[i].uid == phrase.uid) {
                     phrases.splice(i, 1);
                 }
             }
