@@ -35,6 +35,7 @@
                 <p class="visitor-name"><@=visit[0].title@></p>
                 <div class="visitor-btn">
                     <a class="visitor-allow" data-dialog-id="<@=visit[1].id@>"><span><@=visit[1].text@></span></a><br>
+
                     <a class="visitor-deny" data-dialog-id="<@=visit[2].id@>"><span><@=visit[2].text@></span></a><br>
                 </div>
             </div>
