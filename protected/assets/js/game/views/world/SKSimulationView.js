@@ -47,7 +47,7 @@
                     visitor_view.render();
                 }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    var file = window.get('filename');
+                    var file = window.get('document').get('name');
                     var document_view;
                     if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
                         document_view = new SKXLSDisplayView({model_instance:window});

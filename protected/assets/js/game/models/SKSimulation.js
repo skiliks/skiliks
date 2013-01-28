@@ -120,7 +120,11 @@
             this.window_set = new SKWindowSet();
             var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
             win.open();
-            SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function () {
+            SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
+                if (data.result === 0) {
+                    alert('Ошибка при запуске симуляции.');
+                    SKApp.user.stopSimulation();
+                }
                 me.todo_tasks.fetch();
                 me.dayplan_tasks.fetch();
                 me.documents.fetch();

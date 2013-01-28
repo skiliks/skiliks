@@ -682,6 +682,7 @@ class ImportGameDataService
     /**
      * Requires characters, emails
      *
+     * @deprecated
      * @return array
      */
     public function importEmailSubjects()
@@ -1459,7 +1460,6 @@ class ImportGameDataService
             $result['characters'] = $this->importCharacters();
             //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
             $result['emails'] = $this->importEmails();
-            $result['emails_subjects'] = $this->importEmailSubjects();
             $result['mail_attaches'] = $this->importMailAttaches();
             $result['mail_events'] = $this->importMailEvents();
             $result['tasks'] = $this->importTasks();

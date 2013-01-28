@@ -18,21 +18,17 @@ class SimulationController extends AjaxController
      */
     public function actionStart()
     {
-        try {
-            // тип симуляции 1 - promo, 2 - dev
-            $simulationType = (int) Yii::app()->request->getParam('stype', 1);
-            SimulationService::simulationStart($simulationType);
+        // тип симуляции 1 - promo, 2 - dev
+        $simulationType = (int) Yii::app()->request->getParam('stype', 1);
+        SimulationService::simulationStart($simulationType);
 
-            $this->sendJSON(
-                array(
-                    'result' => 1,
-                    'speedFactor' =>
-                        Yii::app()->params['public']['skiliksSpeedFactor']
-                )
-            );
-        } catch (Exception $e) {
-            $this->returnErrorMessage($e->getMessage());
-        }
+        $this->sendJSON(
+            array(
+                'result' => 1,
+                'speedFactor' =>
+                    Yii::app()->params['public']['skiliksSpeedFactor']
+            )
+        );
     }
 
     /**
