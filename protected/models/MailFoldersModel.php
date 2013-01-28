@@ -19,7 +19,8 @@ class MailFoldersModel extends CActiveRecord
      */
     public $name;
     
-    const INBOX_ID = 1;
+    const INBOX_ID  = 1;
+    const SENDED_ID = 3;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
