@@ -199,19 +199,19 @@
                     return 'mailPlan';
                 }
                 if ('SCREEN_DRAFTS_LIST' === this.activeScreen) {
-                    return this.mailPreviewOrMailMail('mailPreview');
+                    return 'mailPreview';
                 }
                 if ('SCREEN_INBOX_LIST' === this.activeScreen) {
-                    return this.mailPreviewOrMailMail('mailPreview');
+                    return 'mailPreview';
                 }
                 if ('SCREEN_READ_EMAIL' === this.activeScreen) {
                     return 'mailPreview';
                 }
                 if ('SCREEN_SENDED_LIST' === this.activeScreen) {
-                    return this.mailPreviewOrMailMail('mailPreview');
+                    return 'mailPreview';
                 }
                 if ('SCREEN_TRASH_LIST' === this.activeScreen) {
-                    return this.mailPreviewOrMailMail('mailPreview');
+                    return 'mailPreview';
                 }
                 if ('SCREEN_WRITE_FORWARD' === this.activeScreen) {
                     return 'mailNew';
