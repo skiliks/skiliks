@@ -103,7 +103,7 @@ class PhoneService {
         $charactersList = Characters::model()->findAll();
         $characters = array();
         foreach($charactersList as $character) {
-            $characters[$character->id] = array( 
+            $characters[$character->id] = array(
                 'fio'   => $character->fio,
                 'title' => $character->title 
             );
