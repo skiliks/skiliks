@@ -23,6 +23,7 @@
             var me = this;
             contacts.on('reset', function () {
                 me.renderTPL('.phone-screen','#Phone_Contacts', {contacts:contacts});
+                me.$('.phone-screen').mCustomScrollbar();
             });
         },
         getHistory: function () {
