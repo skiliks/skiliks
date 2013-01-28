@@ -157,8 +157,7 @@ class EventsManager {
 
             // У нас одно событие           
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
-            assert(count($dialogs));
-            
+
             $data = array();
             foreach($dialogs as $dialog) {
                 $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);

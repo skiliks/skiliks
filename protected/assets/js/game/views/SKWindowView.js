@@ -1,13 +1,14 @@
 /*global Backbone, _, SKConfig*/
+/**
+ * @class SKWindowView
+ *
+ * @augments Backbone.View
+ */
+var SKWindowView;
 (function () {
     "use strict";
 
-    /**
-     * @class
-     * @extends {Backbone.Model}
-     * @property model_instance
-     */
-    window.SKWindowView = Backbone.View.extend(
+    SKWindowView = Backbone.View.extend(
         /** @lends SKWindowView.prototype */
         {
             Windows:{},
@@ -46,6 +47,10 @@
                 });
                 this.renderContent(this.$('.sim-window-content'));
             },
+            /**
+             * @abstract
+             * @param {jQuery} el
+             */
             renderTitle:function (el) {
                 // Do nothing
             },
@@ -64,10 +69,9 @@
                 var html = _.template($(template).html(), data);
                 $(element).html(html);
             },
-            /*
+            /**
              Creates window
 
-             @return window jquery element
              */
             render:function () {
                 var me = this;
