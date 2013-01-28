@@ -1049,7 +1049,7 @@ class ImportGameDataService
             $dialog->sound           = ($sound == '#N/A' || $sound == '-') ? $file = NULL : $sound;
             
             $isFinal = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i); 
-            $dialog->is_final         = ('да' === $isFinal) ? true : false;
+            $dialog->is_final_replica         = ('да' === $isFinal) ? true : false;
             
             $dialog->import_id        = $this->import_id;
             // a lot of dialog properties: }
