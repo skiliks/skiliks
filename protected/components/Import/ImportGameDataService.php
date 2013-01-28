@@ -1045,7 +1045,7 @@ class ImportGameDataService
             $dialog->demo            = $isUseInDemo; 
             $dialog->type_of_init    = $this->getCellValue($sheet, 'Тип запуска', $i); 
             
-            $sound = $this->getCellValue($sheet, 'Имя звук/видео файлаs', $i); 
+            $sound = $this->getCellValue($sheet, 'Имя звук/видео файла', $i); 
             $dialog->sound           = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
             
             $isFinal = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i); 
