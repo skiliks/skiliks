@@ -942,7 +942,7 @@ class MailBoxService {
         $message = self::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group'      => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
-            'sender'     => Characters::HERO_ID,
+            'sender'     => Characters::model()->findByPk(Characters::HERO_ID),
             'receivers'  => $sendMailOptions->getRecipientsArray(),
             'copies'     => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,

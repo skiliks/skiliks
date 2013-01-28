@@ -593,7 +593,7 @@ class ImportGameDataService
         $reader = $this->getReader();
         $reader->setLoadSheetsOnly('F-S-C');
         $excel = $reader->load($this->filename);
-        $sheet = $excel->getSheetByName('Mail');
+        $sheet = $excel->getSheetByName('F-S-C');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
@@ -609,11 +609,7 @@ class ImportGameDataService
 
         $html = '';
 
-        $index = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            $index++;
-            if ($index <= 1) continue;
-
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'Кому (код)', $i); // A
             if (!isset($characters[$characterCode])) {
@@ -625,25 +621,25 @@ class ImportGameDataService
 
             $characterId        = $characters[$characterCode];
             // Определим тему письма
-            $subjectText        = $row[2]; // C
+            $subjectText        = $this->getCellValue($sheet, 'Тема', $i);
             $subjectText        = StringTools::fixReAndFwd($subjectText);
             // Phone
-            $phone              = $row[3]; // D
+            $phone              = $this->getCellValue($sheet, 'Phone', $i);
             // Phone W/R
-            $phoneWr            = $row[4]; // E
+            $phoneWr            = $this->getCellValue($sheet, 'Phone W/R', $i);
             // Phone dialogue number
-            $phoneDialogNumber  = $row[5]; // F
+            $phoneDialogNumber  = $this->getCellValue($sheet, 'Phone dialogue number', $i);
             // Mail
-            $mail               = $row[6]; // G
+            $mail               = $this->getCellValue($sheet, 'Mail', $i);
             // Mail letter number
-            $mailCode           = $row[7]; // H
+            $mailCode           = $this->getCellValue($sheet, 'Mail letter number', $i);
             $mailCode           = ('' !== $mailCode) ? $mailCode : null;
             // Mail W/R
-            $wr                 = $row[8]; // I
+            $wr                 = $this->getCellValue($sheet, 'Mail W/R', $i);
             // Mail constructor number
-            $constructorNumber  = $row[9]; // J
+            $constructorNumber  = $this->getCellValue($sheet, 'Mail constructor number', $i);
             // Source of outbox email
-            $source             = $row[10]; // K
+            $source             = $this->getCellValue($sheet, 'Source', $i);
 
             // определить код темы
             //$subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
@@ -673,45 +669,15 @@ class ImportGameDataService
             $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
             $mailCharacterTheme->mail                   = $mail;
             $mailCharacterTheme->source                 = $source;
+            $mailCharacterTheme->import_id                 = $this->import_id;
 
-            try {
-                $mailCharacterTheme->save();
-                $characterMailThemesIds[] = $mailCharacterTheme->id;
-                // skip extra success messages
-                /*$html .= sprintf(
-                    'Succesfully imported - email from "%s", %s subject "%s" . [MySQL id: %s] <br/>',
-                    $row[1],
-                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
-                    $row[2],
-                    $mailCharacterTheme->id
-                );*/
-            } catch(CDbException $e) {
-                $html .= sprintf(
-                    'Error during import line %s. <br/> DB error message: %s <br/>',
-                    $index,
-                    $subjectText,
-                    $e->getMessage()
-                );
+            $mailCharacterTheme->save();
 
-            } catch(Exception $e) {
-                $html .= sprintf(
-                    'Error during import line %s. Error message: %s <br/>',
-                    $index,
-                    $e->getMessage()
-                );
-
-            }
         }
-        fclose($handle);
 
         // remove all old, unused characterMailThemes after import {
-        $oldThemes = MailCharacterThemesModel::model()->byIdsNotIn(implode(',', $characterMailThemesIds))->findAll();
-        foreach ($oldThemes as $oldTheme) {
-            $oldTheme->delete();
-        }
-        // remove all old, unused characterMailThemes after import }
+        MailCharacterThemesModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
-        $html .= "processed rows: ".($index-1)."  must be 113 (21 Dec 2012)<br/>";
         $html .= "Email from characters import finished! <br/>";
 
         return array(
@@ -720,7 +686,7 @@ class ImportGameDataService
         );
     }
 
-    public function importTasks()
+    private function importTasks()
     {
         $reader = $this->getReader();
         // load sheet {
@@ -968,7 +934,7 @@ class ImportGameDataService
             $document->fileName     = sprintf('%s.%s', $this->getCellValue($sheet, 'Документ', $i), $this->getCellValue($sheet, 'Формат', $i));
             $document->srcFile      = $this->getCellValue($sheet, 'Привязка к файлу', $i);
             $document->format       = $this->getCellValue($sheet, 'Формат', $i);
-            $document->type         = $this->getCellValue($sheet, 'type', $i);
+            $document->type         = $this->getCellValue($sheet, 'Type', $i);
             $document->hidden         = 'start' === $document->type ? 0 : 1;
             $document->import_id    = $this->import_id;
             
@@ -1569,7 +1535,7 @@ class ImportGameDataService
             $result['mail_tasks'] = $this->importMailTasks();
             $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
-            $result['dialog'] = $this->importDialogReplics();
+            //$result['dialog'] = $this->importDialogReplics();
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
 
