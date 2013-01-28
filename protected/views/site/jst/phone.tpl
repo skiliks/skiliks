@@ -34,13 +34,13 @@
 <script type="text/template" id="Phone_Contacts">
     <ul class="phone-contact-list">
         <@ contacts.each(function(model) { @>
-        <li id="contactLi_<@=model.get('id')@>" class="contact-li">
+        <li id="contactLi_<@=model.get('code')@>" class="contact-li">
             <table>
                 <tr>
                     <td class="hover-hide phone-contact-list-img"><img
-                            src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('id')@>.png" alt=""/></td>
+                            src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>.png" alt=""/></td>
                     <td class="hover-show phone-contact-list-img"><img alt=""
-                                                                       src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('id')@>-1.png">
+                                                                       src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>-1.png">
                     </td>
                     <td>
                         <p class="phone-contact-list-f0"><@=model.get('name')@></p>
@@ -48,7 +48,7 @@
                         <p class="phone-contact-list-f1"><@=model.get('title')@></p>
 
                         <p class="hover-show phone-contact-list-f1"><@=model.get('phone')@></p>
-                        <a class="hover-show phone_get_themes phone-call-btn" data-contact-id="<@=model.get('id')@>">Позвонить</a>
+                        <a class="hover-show phone_get_themes phone-call-btn" data-contact-id="<@=model.get('code')@>">Позвонить</a>
                     </td>
                 </tr>
             </table>
