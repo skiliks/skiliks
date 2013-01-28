@@ -128,7 +128,8 @@ class MailCharacterThemesModel extends CActiveRecord
     {
 
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "character_id = {$characterId}"
+            'condition' => "character_id = :characterId",
+            'params' => ['characterId' => $characterId]
         ));
         return $this;
     }

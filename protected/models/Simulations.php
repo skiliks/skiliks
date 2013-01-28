@@ -107,7 +107,7 @@ class Simulations extends CActiveRecord
 
         $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
         $unixtimeMins = round($variance/60) + $start_time[0] * 60 + $start_time[1];
-        return gmdate('H:i:s',$unixtimeMins*60);
+        return gmdate('H:i:s', $unixtimeMins*60);
     }
 
     public function deleteOldTriggers($newHours, $newMinutes) {
