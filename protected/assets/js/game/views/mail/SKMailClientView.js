@@ -1011,7 +1011,7 @@
             
             var mailClientView = this;
             
-            if (0 == this.mailClient.defaultRecipients.length) {
+            if (0 === this.mailClient.defaultRecipients.length) {
                 this.mailClient.updateRecipientsList();
             }
 
@@ -1053,22 +1053,24 @@
             });
             // add attachments list }
 
-            // bind recipients 
-            $("#MailClient_RecipientsList").tagHandler({
-                availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
-                autocomplete:true,
-                afterAdd:function (tag) {
-                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                        mailClientView.getCurentEmailRecipientIds(),
-                        'add'
-                    );
-                },
-                afterDelete:function (tag) {
-                    SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                        mailClientView.getCurentEmailRecipientIds(),
-                        'delete'
-                    );
-                }
+            // bind recipients
+            this.mailClient.on('recipients:update', function () {
+                $("#MailClient_RecipientsList").tagHandler({
+                    availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                    autocomplete:true,
+                    afterAdd:function (tag) {
+                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                            mailClientView.getCurentEmailRecipientIds(),
+                            'add'
+                        );
+                    },
+                    afterDelete:function (tag) {
+                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                            mailClientView.getCurentEmailRecipientIds(),
+                            'delete'
+                        );
+                    }
+                });
             });
 
             // fills copyTo list

@@ -11,6 +11,9 @@ var SKServer;
          * @lends SKServer.prototype
          */
         {
+            /**
+             * @private
+             */
             'api_root':'/index.php/',
             /**
              *
@@ -23,9 +26,16 @@ var SKServer;
                 var me = this,
                     cb = callback,
                     debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/),
-                    url = this.api_root + path;
+                    url = this.api_root + path,
+                    async = true;
                 if (params === undefined) {
                     params = {};
+                }
+                if (arguments.length === 4) {
+                    async = arguments[3];
+                }
+                if (async === false) {
+                    console.warn('Use of sync ajax request is very bad practice. Will remove this behavior');
                 }
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
@@ -38,7 +48,7 @@ var SKServer;
                     url:url,
                     type:"POST",
                     dataType:"json",
-                    async:true,
+                    async:async,
                     success:function (data) {
                         result = data;
                         if (typeof cb !== 'undefined') {
