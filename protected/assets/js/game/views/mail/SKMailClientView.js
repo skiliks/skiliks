@@ -355,11 +355,11 @@
             
             // add move to trash behaviour {
             if (this.mailClient.aliasFolderInbox === this.mailClient.getActiveFolder().alias) {                
-                this.$('#FOLDER_TRASH').droppable({
+                $('#FOLDER_TRASH').droppable({
                     tolerance:"pointer",
                     drop: function( event, ui ) {
                         var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
-                        mailClientView.doMoveToTrash(email)
+                        mailClientView.doMoveToTrash(email);
                     },
                     over: function (event, ui) {
                         $(this).addClass('over');
@@ -966,6 +966,7 @@
         },
         
         doMoveToInbox:function (email) {
+            console.log(email);
             SKApp.server.api(
                 'mail/move',
                 {
