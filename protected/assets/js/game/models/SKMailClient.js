@@ -686,9 +686,9 @@
 
                                 SKApp.user.simulation.mailClient.defaultRecipients.push(character);
                             }
-                            me.trigger('recipients:update');
                         }
-                    }
+                    },
+                    false
                 );
             },
 
