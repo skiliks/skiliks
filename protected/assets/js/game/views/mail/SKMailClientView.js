@@ -1,4 +1,4 @@
-/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail */
+/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail, SKDialogView */
 (function () {
     "use strict";
     window.SKMailClientView = SKWindowView.extend({
@@ -309,7 +309,7 @@
                         counter = this.mailClient.getInboxFolder().countUnreaded();
                     }
                     var counterCss = 'display: inline-block;';
-                    if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended) {
+                    if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended || alias === this.mailClient.aliasFolderTrash) {
                         counterCss = 'display: none;';
                     }
                     if(counter === 0){
@@ -577,6 +577,7 @@
             $('.email-list-line').click(function (event) {
                 // update lod data {
                 console.log("Click mail!");
+
                 // if user click on same email line twice - open read email screen
                 // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
@@ -1692,6 +1693,6 @@
             // get first email if email exist in folder }
 
             this.renderDraftsFolder();
-        },
+        }
     });
 })();

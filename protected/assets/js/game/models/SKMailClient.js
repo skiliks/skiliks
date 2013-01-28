@@ -923,7 +923,6 @@
                         mailId = this.activeEmail.mySqlId;
                     }
                 }
-                ;
 
                 return {
                     copies:emailToSave.getCopyToIdsString(),
