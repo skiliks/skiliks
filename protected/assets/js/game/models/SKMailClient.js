@@ -383,7 +383,7 @@
             },
 
             /**
-             * @return: mixed array, Skiliks API responce
+             * @return: $.xhr array, Skiliks API responce
              */
             getDataForReplyAllToActiveEmail:function () {
                 var mailClient = this;
@@ -394,7 +394,7 @@
                         id:mailClient.activeEmail.mySqlId
                     },
                     function (response) {
-                        if (1 == response.result) {
+                        if (1 === response.result) {
                             return response;
                         } else {
                             throw "Can`t initialize responce email. Model. #2";
@@ -666,11 +666,13 @@
             },
 
             updateRecipientsList:function () {
+                var me = this;
                 SKApp.server.api(
                     'mail/getReceivers',
                     {},
                     function (response) {
                         if (undefined !== response.data) {
+                            SKApp.user.simulation.mailClient.defaultRecipients = [];
                             for (var i in response.data) {
                                 var string = response.data[i];
 
@@ -684,9 +686,9 @@
 
                                 SKApp.user.simulation.mailClient.defaultRecipients.push(character);
                             }
+                            me.trigger('recipients:update');
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -703,8 +705,8 @@
             },
 
             /**
-             * @param array of integer recipientIds
-             * @param string action, 'add', 'delete' : add/delete decipient
+             * @param {Array.<integer>} recipientIds
+             * @param action
              */
             reloadSubjectsWithWarning:function (recipientIds, action) {
                 var mailClient = this;
@@ -921,7 +923,6 @@
                         mailId = this.activeEmail.mySqlId;
                     }
                 }
-                ;
 
                 return {
                     copies:emailToSave.getCopyToIdsString(),

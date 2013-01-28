@@ -102,7 +102,7 @@ class MyDocumentsTemplateModel extends CActiveRecord
     public function getMimeType() {
         
         // tweak for not ready files, in ready project we willn`t need it any more
-        if (in_array($this->srcFile, ['TP','MG'])) {
+        if (in_array($this->srcFile, ['TP', 'MG'])) {
             return 'plain/text';
         }
         
