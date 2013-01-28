@@ -565,7 +565,8 @@
             renderInitialScreen:function (folders, messages) {
                 // process and store in model AJAX data {
                 this.updateFolders(folders);
-                this.setEmailsToFolder(this.aliasFolderInbox, messages);
+                this.setEmailsToFolder(this.aliasFolderInbox,  messages[this.aliasFolderInbox.toLowerCase()]);
+                this.setEmailsToFolder(this.aliasFolderSended, messages[this.aliasFolderSended.toLowerCase()]);
                 // process and store in model AJAX data }
 
                 // mark INCOM foldes as active

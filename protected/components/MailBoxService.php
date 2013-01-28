@@ -18,8 +18,14 @@ class MailBoxService {
     {
         $folders = MailFoldersModel::getFoldersListForJson();
         
-        $messages = self::getMessages(array(
-            'folderId'   => $folders[MailFoldersModel::INBOX_ID]['id'], // inbox
+        $inboxMessages = self::getMessages(array(
+            'folderId'   => MailFoldersModel::INBOX_ID, // inbox
+            'receiverId' => Characters::HERO_ID,
+            'simId'      => $simulation->id
+        ));
+        
+        $sendedMessages = self::getMessages(array(
+            'folderId'   => MailFoldersModel::SENDED_ID, // inbox
             'receiverId' => Characters::HERO_ID,
             'simId'      => $simulation->id
         ));
@@ -31,7 +37,10 @@ class MailBoxService {
         
         return array(
             $folders,
-            $messages
+            [
+                'inbox'  => $inboxMessages,
+                'sended' => $sendedMessages
+            ]
         );
     }
     
