@@ -12,6 +12,9 @@ var SKApplication, SKApp;
     SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
+            /**
+             * @type {SKServer}
+             */
             server:new SKServer(),
             'session':new SKSession(),
             'initialize':function () {

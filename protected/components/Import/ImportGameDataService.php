@@ -468,7 +468,12 @@ class ImportGameDataService
             if ($subjectEntity === null) {
                 $subjectEntity = new MailCharacterThemesModel();
             }
-            $subjectEntity->character_id        = $fromCode;
+            if ($fromCode != 1) {
+                $subjectEntity->character_id        = Characters::model()->findByAttributes(['code' => $fromCode])->primaryKey;
+            } else {
+                $subjectEntity->character_id        = Characters::model()->findByAttributes(['code' => $toCode])->primaryKey;
+            }
+
             $subjectEntity->text                = $subject;
             $subjectEntity->letter_number       = $code;
             $subjectEntity->wr                  = 'W';
@@ -680,48 +685,49 @@ class ImportGameDataService
     }
 
     /**
-     * Requires characters, emails
+     * Requires characters, emails (F-S-C)
      *
-     * @deprecated
+     * @throws CException
+     * @throws Exception
      * @return array
      */
-    public function importEmailSubjects()
+    private  function importEmailSubjects()
     {
-        $fileName = __DIR__.'/../../../media/xls/mail_themes.csv';
-        
+        // load sheet {
+        $reader = $this->getReader();
+        $reader->setLoadSheetsOnly('F-S-C');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Mail');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 1);
+        // load sheet }
+
+
         $characterMailThemesIds = array(); // to remove all old characterMailThemes after import
-        
+
         $characters = array();
         $charactersList = Characters::model()->findAll();
         foreach($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
-        
-        $handle = fopen($fileName, "r");
-        if (!$handle) {
-            return array(
-                'status' => true,
-                'text'   => "cant open $fileName",
-            );
-        }
-        
+
         $html = '';
-        
+
         $index = 0;
-        while (($row = fgetcsv($handle, 5000, ";")) !== FALSE) {
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $index++;
             if ($index <= 1) continue;
-            
+
             // Определение кода персонажа
-            $characterCode = $row[0]; // A
-            if (!isset($characters[$characterCode])) { 
+            $characterCode = $this->getCellValue($sheet, 'Кому (код)', $i); // A
+            if (!isset($characters[$characterCode])) {
                 return array(
                     'status' => true,
                     'text'   => "cant find character by code $characterCode",
                 );
             }
 
-            $characterId        = $characters[$characterCode];  
+            $characterId        = $characters[$characterCode];
             // Определим тему письма
             $subjectText        = $row[2]; // C
             $subjectText        = StringTools::fixReAndFwd($subjectText);
@@ -742,7 +748,7 @@ class ImportGameDataService
             $constructorNumber  = $row[9]; // J
             // Source of outbox email
             $source             = $row[10]; // K
-            
+
             // определить код темы
             //$subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
             /*if (null === $subjectModel) {
@@ -750,17 +756,17 @@ class ImportGameDataService
                 $subjectModel->name = $subject;
                 $subjectModel->insert();
             }*/
-            
+
             $mailCharacterTheme = MailCharacterThemesModel::model()
                 ->byLetterNumber($mailCode)
                 ->byText($subjectText)
                 ->byCharacter($characterId)
                 ->find();
-            
+
             if (null === $mailCharacterTheme) {
                 $mailCharacterTheme = new MailCharacterThemesModel();
             }
-            
+
             $mailCharacterTheme->text                   = $subjectText;
             $mailCharacterTheme->letter_number          = $mailCode;
             $mailCharacterTheme->character_id           = $characterId;
@@ -771,7 +777,7 @@ class ImportGameDataService
             $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
             $mailCharacterTheme->mail                   = $mail;
             $mailCharacterTheme->source                 = $source;
-            
+
             try {
                 $mailCharacterTheme->save();
                 $characterMailThemesIds[] = $mailCharacterTheme->id;
@@ -790,35 +796,35 @@ class ImportGameDataService
                     $subjectText,
                     $e->getMessage()
                 );
-                
+
             } catch(Exception $e) {
                 $html .= sprintf(
                     'Error during import line %s. Error message: %s <br/>',
                     $index,
                     $e->getMessage()
                 );
-                
+
             }
         }
         fclose($handle);
-        
+
         // remove all old, unused characterMailThemes after import {
         $oldThemes = MailCharacterThemesModel::model()->byIdsNotIn(implode(',', $characterMailThemesIds))->findAll();
         foreach ($oldThemes as $oldTheme) {
             $oldTheme->delete();
         }
         // remove all old, unused characterMailThemes after import }
-        
+
         $html .= "processed rows: ".($index-1)."  must be 113 (21 Dec 2012)<br/>";
         $html .= "Email from characters import finished! <br/>";
-        
+
         return array(
             'status' => true,
             'text'   => $html,
-        );        
+        );
     }
-    
-    public function importTasks() 
+
+    public function importTasks()
     {
         $reader = $this->getReader();
         // load sheet {
@@ -1571,20 +1577,19 @@ class ImportGameDataService
         $result = [];
         $transaction=Yii::app()->db->beginTransaction();
         try {
-            //$dialog_import = new DialogImportService();
             $result['characters'] = $this->importCharacters();
-            // $result['characters_points_titles'] = $this->importCharactersPointsTitles();
-//            $result['emails'] = $this->importEmails();
-//            $result['mail_attaches'] = $this->importMailAttaches();
-//            $result['mail_events'] = $this->importMailEvents();
-//            $result['tasks'] = $this->importTasks();
-//            $result['mail_tasks'] = $this->importMailTasks();
-//            $result['my_documents'] = $this->importMyDocuments();
-//            $result['event_samples'] = $this->importEventSamples();
+            //        $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+            $result['emails'] = $this->importEmails();
+            $result['mail_attaches'] = $this->importMailAttaches();
+            $result['mail_events'] = $this->importMailEvents();
+            $result['email_subjects'] = $this->importEmailSubjects();
+            $result['tasks'] = $this->importTasks();
+            $result['mail_tasks'] = $this->importMailTasks();
+            $result['my_documents'] = $this->importMyDocuments();
+            $result['event_samples'] = $this->importEventSamples();
             $result['dialog'] = $this->importDialogReplics();
-            // $result['dialog'] = $dialog_import->import();
-//            $result['activity'] = $this->importActivity();
-//            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+            $result['activity'] = $this->importActivity();
+            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $transaction->commit();
 
         } catch (Exception $e) {

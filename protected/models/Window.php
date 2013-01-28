@@ -78,9 +78,9 @@ class Window extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('type',$this->type,true);
-        $criteria->compare('subtype',$this->subtype,true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('type', $this->type, true);
+        $criteria->compare('subtype', $this->subtype, true);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
