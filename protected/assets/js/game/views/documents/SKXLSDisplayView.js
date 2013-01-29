@@ -18,8 +18,7 @@
             });
         }, renderContent:function (el) {
             var me = this;
-            var fn = this.options.model_instance.get('filename');
-            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
+            var doc = this.options.model_instance.get('document');
             el.html(_.template($('#document_xls_template').html(), {
             }));
             setTimeout(function() {
@@ -28,18 +27,14 @@
 
         },
         doStartDrag: function (el) {
-            var fn = this.options.model_instance.get('filename');
-            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
             this.hideZohoIframe();
         },
         doEndDrag: function (el) {
-            var fn = this.options.model_instance.get('filename');
-            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
+            var doc = this.options.model_instance.get('document');
             this.displayZohoIframe(doc, el.find('.sim-window-content'));
         },
         hideZohoIframe:function () {
-            var fn = this.options.model_instance.get('filename');
-            var doc = SKApp.user.simulation.documents.where({name:fn})[0];
+            var doc = this.options.model_instance.get('document');
             $('#excel-preload-' + doc.id).css({'left':'-1000px','position':'absolute'});
         }, remove:function () {
             var me = this;
