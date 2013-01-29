@@ -1,10 +1,10 @@
-/*global Backbone, _, SKApp, SKAttachment */
+/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail, SKDialogView */
 (function () {
     "use strict";
     window.SKMailClientView = SKWindowView.extend({
         
         mailClient: undefined,
-        
+
         addClass: 'mail-window',
         
         mailClientScreenID:'mailEmulatorMainScreen',
@@ -105,6 +105,7 @@
                 var unreaded = me.mailClient.getInboxFolder().countUnreaded();
                 me.updateMailIconCounter(unreaded);
                 me.updateInboxFolderCounter(unreaded);
+                console.log("Update counter");
             });
             
             // close with conditions action {
@@ -163,7 +164,13 @@
         },
         
         updateInboxFolderCounter: function(counter) {
-            $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter').text('(' + counter + ')');
+            var el = $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter');
+            if(counter !== 0){
+                el.text('(' + counter + ')');
+            }else{
+                el.text('');
+            }
+
         },
         
         isCanBeClosed: function() {
@@ -302,7 +309,10 @@
                         counter = this.mailClient.getInboxFolder().countUnreaded();
                     }
                     var counterCss = 'display: inline-block;';
-                    if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended) {
+                    if (alias === this.mailClient.aliasFolderDrafts || alias === this.mailClient.aliasFolderSended || alias === this.mailClient.aliasFolderTrash) {
+                        counterCss = 'display: none;';
+                    }
+                    if(counter === 0){
                         counterCss = 'display: none;';
                     }
 
@@ -345,11 +355,11 @@
             
             // add move to trash behaviour {
             if (this.mailClient.aliasFolderInbox === this.mailClient.getActiveFolder().alias) {                
-                this.$('#FOLDER_TRASH').droppable({
+                $('#FOLDER_TRASH').droppable({
                     tolerance:"pointer",
                     drop: function( event, ui ) {
                         var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
-                        mailClientView.doMoveToTrash(email)
+                        mailClientView.doMoveToTrash(email);
                     },
                     over: function (event, ui) {
                         $(this).addClass('over');
@@ -566,7 +576,8 @@
             // Todo — move to events dictionary (GuGu)
             $('.email-list-line').click(function (event) {
                 // update lod data {
-                
+                console.log("Click mail!");
+
                 // if user click on same email line twice - open read email screen
                 // Do not change == to ===
                 if ($(event.currentTarget).data().emailId == mailClientView.mailClient.activeEmail.mySqlId) {
@@ -657,7 +668,7 @@
             this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
             
             // draggable: add move to trash behaviour {
-            $('.email-list-line').draggable("destroy");;
+            $('.email-list-line').draggable("destroy");
             $('.email-list-line').draggable({
               helper: function(event) {
                   return $('<div class="email-envelope"><table style="display: none;"></table></div>')
@@ -955,6 +966,7 @@
         },
         
         doMoveToInbox:function (email) {
+            console.log(email);
             SKApp.server.api(
                 'mail/move',
                 {
@@ -997,9 +1009,11 @@
         },
 
         renderWriteCustomNewEmailScreen:function () {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var mailClientView = this;
             
-            if (0 == this.mailClient.defaultRecipients.length) {
+            if (0 === this.mailClient.defaultRecipients.length) {
                 this.mailClient.updateRecipientsList();
             }
 
@@ -1041,7 +1055,6 @@
             });
             // add attachments list }
 
-            // bind recipients 
             $("#MailClient_RecipientsList").tagHandler({
                 availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                 autocomplete:true,
@@ -1064,7 +1077,7 @@
                 availableTags: mailClientView.mailClient.getFormatedCharacterList(),
                 autocomplete:  true
             });
-            
+
             // prevent custom text input
             $("#MailClient_RecipientsList input").attr('readonly','readonly');
             $("#MailClient_CopiesList input").attr('readonly','readonly');
@@ -1176,6 +1189,7 @@
             
             // some letter has predefine text, update it 
             // if there is no text - this.mailClient.messageForNewEmail is empty string
+            this.mailClient.newEmailUsedPhrases = [];
             $('#mailEmulatorNewLetterText').html(this.mailClient.messageForNewEmail.replace("\n", "<br />","g"));
             
             this.delegateEvents();
@@ -1230,7 +1244,7 @@
             var phrases = this.mailClient.newEmailUsedPhrases;
             for (var i in phrases) {
                 // keep '==' not strict!
-                if (phrases[i].uid === phrase.uid) {
+                if (phrases[i].uid == phrase.uid) {
                     phrases.splice(i, 1);
                 }
             }
@@ -1310,7 +1324,8 @@
             emailToSave.attachment = this.getCurrentEmailAttachment();
 
             // phrases
-            var phrases = this.getCurrentEmailPhraseIds()
+            var phrases = this.getCurrentEmailPhraseIds();
+            emailToSave.phrases = [];
             for (var i in phrases) {
                 emailToSave.phrases.push(this.mailClient.getAvailablePhraseByMySqlId(phrases[i]));
             }
@@ -1587,6 +1602,8 @@
         },
         
         renderReplyScreen: function() {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForReplyToActiveEmail();
 
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1603,6 +1620,8 @@
         },
         
         renderReplyAllScreen: function() {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForReplyAllToActiveEmail();
             
             // strange, sometimes responce return to lile JSON but like some response object
@@ -1619,6 +1638,8 @@
         },
 
         renderForwardEmailScreen:function () {
+            this.mailClient.newEmailUsedPhrases = [];
+            
             var response = this.mailClient.getDataForForwardActiveEmail();
             // strange, sometimes responce return to lile JSON but like some response object
             // so we get JSON from it {
@@ -1671,6 +1692,6 @@
             // get first email if email exist in folder }
 
             this.renderDraftsFolder();
-        },
+        }
     });
 })();

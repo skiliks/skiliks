@@ -13,11 +13,11 @@
     <script type="text/javascript">
         _.templateSettings.interpolate = /<@=(.+?)@>/g;
         _.templateSettings.evaluate = /<@(.+?)@>/g;
-
+        {if !$smarty.const.YII_DEBUG}
         Raven.config('https://bfd7395024f24728afdf79e9034bca04:2f8bec2e2c40493dbf7b07db88afc94f@app.getsentry.com/4572');
         window.onerror = Raven.process;
+        {/if}
     </script>
-
 
 {include "site/jst/world.tpl"}
 {include "site/jst/window.tpl"}

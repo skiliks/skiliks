@@ -68,7 +68,7 @@ class Tasks extends CActiveRecord
     
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return Tasks 
      */
     public static function model($className=__CLASS__)

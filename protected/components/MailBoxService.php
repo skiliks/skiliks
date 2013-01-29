@@ -8,17 +8,24 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxService {
-    
+
     /**
      * Получить список папок и писем в них
-     * @return type 
+     * @param Simulations $simulation
+     * @return array
      */
     public static function getFolders($simulation) 
     {
         $folders = MailFoldersModel::getFoldersListForJson();
         
-        $messages = self::getMessages(array(
-            'folderId'   => $folders[MailFoldersModel::INBOX_ID]['id'], // inbox
+        $inboxMessages = self::getMessages(array(
+            'folderId'   => MailFoldersModel::INBOX_ID, // inbox
+            'receiverId' => Characters::HERO_ID,
+            'simId'      => $simulation->id
+        ));
+        
+        $sendedMessages = self::getMessages(array(
+            'folderId'   => MailFoldersModel::SENDED_ID, // inbox
             'receiverId' => Characters::HERO_ID,
             'simId'      => $simulation->id
         ));
@@ -30,7 +37,10 @@ class MailBoxService {
         
         return array(
             $folders,
-            $messages
+            [
+                'inbox'  => $inboxMessages,
+                'sended' => $sendedMessages
+            ]
         );
     }
     
@@ -63,17 +73,6 @@ class MailBoxService {
         $subject = mb_strtolower ($subject, 'UTF8');
         $subject = preg_replace("/^(re:)*/u", '', $subject);
         $subject = preg_replace("/^(fwd:)*/u", '', $subject);
-        return $subject;
-        
-        if (preg_match_all("/^(re:)*/u", $subject, $matches)) {
-            $re = $matches[0][0];
-            $re = explode(':', $re);
-            $count = count($re) - 1;
-            
-            // уберем решки впереди
-            $subject = preg_replace("/^(re:)*/u", '', $subject);
-            return $subject.$count;
-        }
         return $subject;
     }
 
@@ -121,13 +120,28 @@ class MailBoxService {
         $list = array();
         $mailIds = array();
         foreach($messages as $message) {
-            $mailIds[] = (int)$message->id;
-            $senderId = (int)$message->sender_id;
-            $receiverId = (int)$message->receiver_id;
-            $users[$senderId] = $senderId;
-            $users[$receiverId] = $receiverId;
+            $senderId = [];
+            $receiverId = [];
+            
+            $mailIds[]    = (int)$message->id;
+            $senderId[]   = (int)$message->sender_id;
+            $receiverId[] = (int)$message->receiver_id;
+            $users[]      = $senderId[0];
+            $users[]      = $receiverId[0];
             $theme = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
 
+            // init additioonalrecipients {
+            $templateId = null;
+            if (NULL !== $message->template) {
+                $templateId = $message->template->id;
+            }
+            foreach (MailReceiversTemplateModel::model()->byMailId($templateId)->findAll() as $recipient) {
+                $receiverId[] = $recipient->receiver_id;
+                $users[]      = $recipient->receiver_id;
+            }
+            $receiverId = array_unique($receiverId);
+            // init additioonalrecipients }
+            
             $subject = $theme->text;
 
             $readed = $message->readed;
@@ -135,12 +149,12 @@ class MailBoxService {
             if ($folderId == 2 || $folderId == 3) $readed = 1;
             
             $item = array(
-                'id' => $message->id,
-                'subject' => $subject,
-                'sentAt' => GameTime::getDateTime($message->sent_at),
-                'sender' => $senderId,
-                'receiver' => $message->receiver_id,
-                'readed' => $readed,
+                'id'          => $message->id,
+                'subject'     => $subject,
+                'sentAt'      => GameTime::getDateTime($message->sent_at),
+                'sender'      => $senderId,
+                'receiver'    => $receiverId,
+                'readed'      => $readed,
                 'attachments' => 0
             );
 
@@ -152,9 +166,18 @@ class MailBoxService {
         
         // проставляем имена персонажей
         $characters = self::getCharacters($users);
-        foreach($list as $index=>$item) {
-            $list[$index]['sender'] = $characters[$list[$index]['sender']];
-            $list[$index]['receiver'] = $characters[$list[$index]['receiver']];
+        foreach($list as $i => $item) {
+            $senderText = [];
+            foreach ($item['sender'] as $senderId) {
+                $senderText[] = $characters[$senderId];
+            }
+            $list[$i]['sender'] = implode(',', $senderText);
+            
+            $recipientText = [];
+            foreach ($item['receiver'] as $senderId) {
+                $recipientText[] = $characters[$senderId];
+            }
+            $list[$i]['receiver'] = implode(',', $recipientText);
         }
         
         if ($orderType == 'ASC') $ordeFlag = SORT_ASC;
@@ -564,8 +587,8 @@ class MailBoxService {
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box 
-            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type)
-            select :simId, id, group_id, sender_id, sent_at, receiver_id, subject, message, subject_id, code, type
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type
             from mail_template
             where mail_template.code = '{$code}'";
         
@@ -952,7 +975,7 @@ class MailBoxService {
         $message = self::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group'      => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
-            'sender'     => Characters::HERO_ID,
+            'sender'     => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
             'receivers'  => $sendMailOptions->getRecipientsArray(),
             'copies'     => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,

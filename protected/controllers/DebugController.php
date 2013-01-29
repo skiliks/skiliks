@@ -29,7 +29,10 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        
+        echo 'start';
+        $s = new ImportGameDataService();
+        $s->importAll();
+        echo '<br/>end.';
         echo '<pre>';
         //$import = new ImportGameDataService();
         //$result = $import->importCharactersPointsTitles();
@@ -49,7 +52,7 @@ class DebugController extends AjaxController{
         }
         
         SimulationService::saveAgregatedPoints(3938);*/
-        MailBoxService::updateMsCoincidernce(696644, 6188);
+        //MailBoxService::updateMsCoincidernce(696644, 6188);
         /*
         $a = new EmailCoincidenceAnalizator();
         $a->setUserEmail(696644);

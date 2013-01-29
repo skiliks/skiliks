@@ -196,7 +196,7 @@ class LogHelper {
             ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
             ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
-            ->join('characters_points_titles p2', 'p2.id = p.parent_id')
+            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
             ->order('l.id');
          
@@ -224,7 +224,7 @@ class LogHelper {
             ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id 
             ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points 
             ->join('characters_points_titles p', 'p.id = mp.point_id')
-            ->join('characters_points_titles p2', 'p2.id = p.parent_id')
+            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
             ->order('l.id');
         
@@ -867,8 +867,6 @@ class LogHelper {
             ->queryAll();
 
         foreach ($data['data'] as  $k=>$row) {
-            $data['data'][$k]['start'] = date("d.m.Y H:i:s", $data['data'][$k]['start']);
-            $data['data'][$k]['end'] = date("d.m.Y H:i:s", $data['data'][$k]['end']);
             $data['data'][$k]['window'] = self::$screens[$data['data'][$k]['window']];
             $data['data'][$k]['sub_window'] = self::$subScreens[$data['data'][$k]['sub_window']];
         }

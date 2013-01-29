@@ -1,4 +1,4 @@
-/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKPhoneView, SKMailClientView
+/*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
 (function () {
     "use strict";
@@ -42,8 +42,12 @@
                     var doc_view = new SKDocumentsListView({model_instance:window});
                     doc_view.render();
                 }
+                if (window.get('name') === 'visitor' && window.get('subname') === 'visitorEntrance') {
+                    var visitor_view = new SKVisitView({model_instance:window});
+                    visitor_view.render();
+                }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    var file = window.get('filename');
+                    var file = window.get('document').get('name');
                     var document_view;
                     if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
                         document_view = new SKXLSDisplayView({model_instance:window});
@@ -109,13 +113,17 @@
                 this.$('.time .minute').text(parts[1]);
             },
             'addSimulationEvents':function () {
+                var me = this;
                 SKApp.user.simulation.events.on('add', function (event) {
                     if (event.getTypeSlug() === 'immediate-visit') {
-                        if (this.visit_view === undefined) {
-                            this.visit_view = new SKVisitView({'event':event});
+                        if (me.visit_view === undefined) {
+                            me.visit_view = new SKImmediateVisitView({'event':event});
+                            me.visit_view.visitor_entrance_window.on('close', function () {
+                                delete me.visit_view;
+                            });
                         } else {
-                            this.visit_view.options.event = event;
-                            this.visit_view.render();
+                            me.visit_view.options.event = event;
+                            me.visit_view.render();
                         }
                         event.setStatus('in progress');
                     } else if (event.getTypeSlug() === 'immediate-phone') {

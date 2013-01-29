@@ -96,24 +96,17 @@ class System
     {
         $list = array();
         
-        $behaviours = array();
-        foreach (CharactersPointsTitles::model()->findAll() as $behaviour) {
-            $behaviours[$behaviour->id] = $behaviour;
-        }
-        
         foreach ($behaviours as $behaviour) {
-            if (NULL !== $behaviour->parent_id) {
-                $list[] = array(
-                    'id'    => $behaviour->id,
-                    'cell'  => array(
-                        $behaviour->id, 
-                        (isset($behaviours[$behaviour->parent_id])) ? $behaviours[$behaviour->parent_id]->title : '--',
-                        $behaviour->code,
-                        $behaviour->title, 
-                        $behaviour->scale
-                    )
-                );
-            }
+            $list[] = array(
+                'id'    => $behaviour->id,
+                'cell'  => array(
+                    $behaviour->id, 
+                    (NULL !== $behaviour->laerning_goal) ? $behaviour->laerning_goal->title : '--',
+                    $behaviour->code,
+                    $behaviour->title, 
+                    $behaviour->scale
+                )
+            );
         }
         
         return $list;

@@ -28,11 +28,11 @@ class MailAttachmentsTemplateModel extends CActiveRecord
     public $file_id; // ?
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
      *
-     * @param type $className
-     * @return MailAttachmentsTemplateModel 
+     * @param string $className
+     * @return MailAttachmentsTemplateModel
      */
     public static function model($className=__CLASS__)
     {
