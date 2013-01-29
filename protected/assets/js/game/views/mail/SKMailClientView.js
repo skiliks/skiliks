@@ -124,7 +124,7 @@
                             {
                                 'value': 'Не сохранять',
                                 'onclick': function () {
-                                    mailClientView.renderInboxFolder();
+                                    mailClientView.renderActiveFolder();
                                 }
                             },
                             {
@@ -430,17 +430,20 @@
             );
         },
 
+        /**
+         * Renders Inbox folder content
+         */
         updateInboxListView:function () {
             // generate emails list {
-
+            var me = this;
             // We  use this 2 variables to separate emails to display unreaded emails first in list
             var emailsList = '';
             var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderInbox].emails; // to make code shorter
 
-            for (var key in incomingEmails) {
+            _.values(incomingEmails).forEach(function(incomingEmail) {
                 // check is email active
                 var isActiveCssClass = '';
-                if (incomingEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
+                if (parseInt(incomingEmail.mySqlId,10) === parseInt(me.mailClient.activeEmail.mySqlId,10)) {
                     // why 2 CSS classes? - this is works
                     isActiveCssClass = ' mail-emulator-received-list-string-selected active ';
                 }
@@ -448,17 +451,17 @@
                 // generate HTML by template
                 emailsList += _.template($('#MailClient_IncomeEmailLine').html(), {
 
-                    emailMySqlId:       incomingEmails[key].mySqlId,
-                    senderName:         incomingEmails[key].senderNameString,
-                    subject:            incomingEmails[key].subject.text,
-                    sendedAt:           incomingEmails[key].sendedAt,
-                    isHasAttachment:    incomingEmails[key].getIsHasAttachment(),
-                    isHasAttachmentCss: incomingEmails[key].getIsHasAttachmentCss(),
-                    isReadedCssClass:   incomingEmails[key].getIsReadedCssClass(),
+                    emailMySqlId:       incomingEmail.mySqlId,
+                    senderName:         incomingEmail.senderNameString,
+                    subject:            incomingEmail.subject.text,
+                    sendedAt:           incomingEmail.sendedAt,
+                    isHasAttachment:    incomingEmail.getIsHasAttachment(),
+                    isHasAttachmentCss: incomingEmail.getIsHasAttachmentCss(),
+                    isReadedCssClass:   incomingEmail.getIsReadedCssClass(),
                     isActiveCssClass:   isActiveCssClass
                 });
 
-            }
+            });
 
             // add emails list
             $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
@@ -643,6 +646,13 @@
             } else {
                 $('#' + this.mailClientIncomeFolderListId + ' table').trigger('update');
             }
+        },
+
+        /**
+         * Renders current fornder
+         */
+        renderActiveFolder: function () {
+            this.doRenderFolder(this.mailClient.getActiveFolder().alias);
         },
 
         renderInboxFolder:function () {
@@ -1343,7 +1353,7 @@
             if (false !== result) { // sync AJAX
 
                 this.updateFolderLabels();
-                this.renderInboxFolder();
+                this.renderActiveFolder();
                 
                 this.mailClient.setWindowsLog(
                     'mailMain', 
@@ -1357,7 +1367,7 @@
 
             if (false !== this.mailClient.sendNewCustomEmail(emailToSave)) { // sync AJAX
                 this.updateFolderLabels();
-                this.renderInboxFolder();
+                this.renderActiveFolder();
 
                 this.mailClient.setWindowsLog(
                     'mailMain', 
