@@ -6,6 +6,7 @@ class LoggingTest extends SeleniumTestCase
      */
     public function testMailLogging()
     {
+        $this->markTestIncomplete();
 
         # Login
         $session = $this->webdriver->session('firefox');
@@ -112,6 +113,7 @@ class LoggingTest extends SeleniumTestCase
     public function testDialogLogging()
     {
         # Login
+        $this->markTestIncomplete();
         $session = $this->webdriver->session('firefox');
         $session->open($this->browser_url . 'site/');
         # раскрыть окно на весь экран
@@ -272,6 +274,8 @@ class LoggingTest extends SeleniumTestCase
      */
     public function testTalkLogging()
     {
+
+        $this->markTestIncomplete();
 
         # Login
         $session = $this->webdriver->session('firefox');
