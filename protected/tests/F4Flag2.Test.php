@@ -43,8 +43,10 @@ class F4Flag2 extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', "//p[text()=\"- В чем именно ты не уверен?\"]")->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Я знаю, что ты справишься. Я тебе помогу, отвечу на все вопросы.\"]")->click();
         $this->waitForElement($session, 'xpath', "//p[text()=\"- Однако тебе все-таки придется выполнить это задание. Пересылаю тебе файл. Смотри внимательно и не тяни с вопросами. На все про все у тебя два часа.\"]")->click();
-        
-        
+
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         
         
         

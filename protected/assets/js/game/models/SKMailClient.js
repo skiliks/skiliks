@@ -145,7 +145,7 @@
             // @var string
             activeScreen:undefined,
 
-            // @var array of SkMailFolder
+            /** @var Array.<SKMailFolder> */
             folders:[],
 
             // @var array of SkCharacter
@@ -558,12 +558,18 @@
                 }
             },
 
+            /**
+             * Returns active folder
+             *
+             * @return {SKMailFolder|undefined}
+             */
             getActiveFolder:function () {
                 for (var i in this.folders) {
-                    if (this.folders[i].isActive == true) {
+                    if (this.folders[i].isActive) {
                         return this.folders[i];
                     }
                 }
+                return undefined;
             },
 
             renderInitialScreen:function (folders, messages) {
