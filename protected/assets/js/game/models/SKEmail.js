@@ -95,13 +95,22 @@
         },
         
         setSenderEmailAndNameStrings: function(string) {
-            this.senderNameString = string.substring(0, string.indexOf('<', string)).trim();
-            this.senderEmailString = string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
+            var senders = string.split(',');
+            for(var i in senders){
+                var senderNameString = senders[i].substring(0, senders[i].indexOf('<', senders[i])).trim();
+                this.senderNameString += ((parseInt(i, 0) === 0)?'':' ,')+senderNameString;
+                this.senderEmailString += ((parseInt(i, 0) === 0)?'':' ,')+senders[i].replace('<', '').replace('>', '').replace(senderNameString, '').trim();
+            }
         },
         
         setRecipientEmailAndNameStrings: function(string) {
-            this.recipientNameString = string.substring(0, string.indexOf('<', string)).trim();
-            this.recipientEmailString = string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
+            var recipients = string.split(',');
+            for(var i in recipients){
+                var recipientNameString = recipients[i].substring(0, recipients[i].indexOf('<', recipients[i])).trim();
+                this.recipientNameString += ((parseInt(i, 0) === 0)?'':' ,')+recipientNameString;
+                this.recipientEmailString += ((parseInt(i, 0) === 0)?'':' ,')+recipients[i].replace('<', '').replace('>', '').replace(recipientNameString, '').trim();
+            }
+
         },
         
         addSenderEmailAndNameStrings: function(string) {
