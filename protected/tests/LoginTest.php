@@ -8,6 +8,8 @@ class LoginTest extends SeleniumTestCase
      */
     public function testMyTestCase()
     {
+        $this->markTestIncomplete();
+
         $session = $this->webdriver->session('firefox');
         # после вызова open нужно сделать waitForElement, чтобы дождаться загрузки страницы
         $session->open($this->browser_url . 'site/');
