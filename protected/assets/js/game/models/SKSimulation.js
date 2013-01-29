@@ -159,7 +159,7 @@
                 var me = this;
                 clearInterval(this.events_timer);
 
-                this.window_set.closeAll();
+                this.window_set.deactivateActiveWindow();
 
                 var logs = this.windowLog.getAndClear();
 
