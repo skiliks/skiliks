@@ -182,7 +182,7 @@ var SKDayPlanView;
             this.setupDraggable();
         },
         calculateTaskHeigth: function(duration) {
-            return (Math.ceil(duration / 15) * 11);
+            return (Math.ceil(duration / 15) * 11)-2;
         },
         
         removeTodoTask:function (model) {
