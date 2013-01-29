@@ -95,12 +95,6 @@ class EventService {
         $code = false;
         $type = false;
         
-        // логирование плана
-        if ($eventCode == '#plog') {
-            DayPlanLogger::log($simId);
-            return false;
-        }
-        
         if (preg_match_all("/MY(\d+)/", $eventCode, $matches)) {
             $code= $eventCode;
             $type = 'MY'; // Message Yesterday

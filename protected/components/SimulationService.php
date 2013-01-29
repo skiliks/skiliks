@@ -399,8 +399,7 @@ class SimulationService
      */
     public static function simulationStop($simId)
     {
-        // залогируем состояние плана
-        DayPlanLogger::log($simId, DayPlanLogger::STOP);
+        $simulation = Simulations::model()->byId($simId)->find();
 
         // данные для логирования
 
@@ -420,6 +419,8 @@ class SimulationService
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
         SimulationService::saveAgregatedPoints($simId);
+        
+        DayPlanService::copyPlanToLog($simulation, 18*60); // 18-00 copy
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAgregate dorectly
