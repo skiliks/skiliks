@@ -215,7 +215,7 @@ class EmailAnalizer
         foreach ($this->userEmails as $mailId => $emailData) {
             if (null !== $emailData->getParentEmailId()) {
                 // sending time for sending message saved in seconds from 00:00:00 game day 1
-                $this->userEmails[$emailData->getParentEmailId()]->setAnsweredAt($emailData->email->sending_time);
+                $this->userEmails[$emailData->getParentEmailId()]->setAnsweredAt($emailData->email->sent_at);
                 $this->userEmails[$emailData->getParentEmailId()]->answerEmailId = $emailData->email->id;
             }
         }
