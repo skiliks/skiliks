@@ -934,7 +934,8 @@ class ImportGameDataService
             $document->fileName     = sprintf('%s.%s', $this->getCellValue($sheet, 'Документ', $i), $this->getCellValue($sheet, 'Формат', $i));
             
             // may be this is hack, but let it be {
-            $document->srcFile      = $document->fileName;
+            $document->srcFile      = StringTools::CyToEn($document->fileName); // cyrilic to latinitsa
+            $document->srcFile      = str_replace(' ', '_', $document->srcFile);
             $document->srcFile      = str_replace('.xls', '.xlsx', $document->srcFile);
             $document->srcFile      = str_replace('.doc', '.pdf', $document->srcFile);
             $document->srcFile      = str_replace('.ppt', '.pdf', $document->srcFile);
