@@ -226,7 +226,7 @@ class SimulationService
         }
   
         // add Point object
-        foreach (CharactersPointsTitles::model()->byIsBehaviour()->findAll() as $point) {
+        foreach (CharactersPointsTitles::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -339,8 +339,8 @@ class SimulationService
         $events = EventsSamples::model()
             ->byNotDocumentCode()
             ->byNotPlanTaskCode()
-            ->byNotSendedTodayEmailCode()
-            ->byNotSendedYesterdayEmailCode()
+            ->byNotSentTodayEmailCode()
+            ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
             ->byTriggerTimeGreaterThanZero()
             ->findAll();

@@ -7,6 +7,7 @@
  * Связана с моделями: Characters
  *
  * @property MailTemplateModel letter
+ * @property string constructor_number
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailCharacterThemesModel extends CActiveRecord
@@ -127,7 +128,8 @@ class MailCharacterThemesModel extends CActiveRecord
     {
 
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "character_id = {$characterId}"
+            'condition' => "character_id = :characterId",
+            'params' => ['characterId' => $characterId]
         ));
         return $this;
     }

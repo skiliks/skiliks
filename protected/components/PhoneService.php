@@ -7,25 +7,35 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class PhoneService {
-    
-    public function setHistory( $simId, $time, $from_id, $to_id, $dialog_subtype, $step_number, $replica_number ) {
+
+    /**
+     * @param $simId
+     * @param $time
+     * @param Characters $from_character
+     * @param Characters $to_character
+     * @param $dialog_subtype
+     * @param $step_number
+     * @param $replica_number
+     * @return bool
+     */
+    public function setHistory( $simId, $time, $from_character, $to_character, $dialog_subtype, $step_number, $replica_number ) {
         
         // проверка а не звонок ли это чтобы залогировать входящий вызов
             if ( $dialog_subtype == 1 && $step_number == 1 ) {                
                 if ( $replica_number == 1 ) {
                     $callType = 0; // входящее
-                }
-                
-                if ( $replica_number == 2 ) {
+                } else if ( $replica_number == 2 ) {
                     $callType = 2; // пропущенные
+                } else {
+                    assert(false);
                 }
                         
                 $phoneCalls = new PhoneCallsModel();
                 $phoneCalls->sim_id = $simId;
                 $phoneCalls->call_time = $time;
                 $phoneCalls->call_type = $callType;
-                $phoneCalls->from_id = $from_id;
-                $phoneCalls->to_id = $to_id;
+                $phoneCalls->from_id = $from_character->primaryKey;
+                $phoneCalls->to_id = $to_character->primaryKey;
                 $phoneCalls->insert();
                 return true;
                 
@@ -93,7 +103,7 @@ class PhoneService {
         $charactersList = Characters::model()->findAll();
         $characters = array();
         foreach($charactersList as $character) {
-            $characters[$character->id] = array( 
+            $characters[$character->id] = array(
                 'fio'   => $character->fio,
                 'title' => $character->title 
             );

@@ -248,8 +248,8 @@ class MailBoxModel extends CActiveRecord
         if (null === $main_subject) {
             $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
                 'id'   => $this->subject_obj->id,
-        ));
-    }
+            ));
+        }
         
         return MailCharacterThemesModel::model()->find(
             '(character_id=:sender_id OR character_id=:receiver_id) AND id=:subject_id',

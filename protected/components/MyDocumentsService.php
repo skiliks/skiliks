@@ -139,7 +139,7 @@ class MyDocumentsService
     /**
      * 
      * @param Simulations $simulation
-     * @return mixed array
+     * @return array[]
      */
     public static function getDocumentsList($simulation)
     {
@@ -151,9 +151,13 @@ class MyDocumentsService
 
         $list = array();
         foreach ($documents as $document) {
+            /**
+             * @var $document MyDocumentsModel
+             */
             $list[] = array(
                 'id' => $document->id,
-                'name' => $document->template->srcFile,
+                'name' => $document->template->fileName,
+                'srcFile' => $document->template->srcFile,
                 'mime' => $document->template->getMimeType()
             );
         }
@@ -216,8 +220,8 @@ class MyDocumentsService
     }
     
     /**
-     * @param tSimulation $simulation
-     * @param MyDocument $document
+     * @param Simulations $simulation
+     * @param MyDocumentsModel $document
      * 
      * @return integer || NULL
      */

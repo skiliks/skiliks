@@ -11,7 +11,7 @@
 <p>
     <ul>
         {foreach from=$links item=link}
-            <li><a href="/api/{$link['href']}">{$link['title']}</a></li>
+            <li><a href="{$link['href']}">{$link['title']}</a></li>
         {/foreach} 
     </ul>
 </p>

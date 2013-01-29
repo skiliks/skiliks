@@ -131,33 +131,33 @@ class EventsManager {
             if (count($triggers)>0) {  // если у нас много событий
                 $index = 0;
                 foreach($triggers as $trigger) {
-                    
+
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
                     if (null === $event) {
                         throw new CHttpException(200, 'Не могу определить конкретное событие for event '.$trigger->event_id, 5);
                     }
-                    
+
                     $trigger->delete(); // Убиваем обработанное событие
 
                     if ($index == 0) { $eventCode = $event->code; }
-                    
+
                     // проверим событие на флаги
                     if (!EventService::allowToRun($event->code, $simId, 1, 0)) {
                         continue; // событие не проходит по флагам -  не пускаем его
                     }
-                    
+
                     $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
                         $result['events'][] = $res;
                     }
-                    
+
                     $index++;
                 }
-            }            
-            
+            }
+
             // У нас одно событие           
             $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
-            
+
             $data = array();
             foreach($dialogs as $dialog) {
                 $data[(int)$dialog->excel_id] = DialogService::dialogToArray($dialog);

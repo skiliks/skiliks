@@ -49,7 +49,7 @@ class MailSettingsModel extends CActiveRecord
     {
         $result = false;
         
-        $MailSettingsEntity = self::model()->bySimulation($simId)->find();
+        $MailSettingsEntity = self::model()->bySimulation($simulation->id)->find();
         if (NULL !== $MailSettingsEntity) {
             $MailSettingsEntity->messageArriveSound = (int)$messageArriveSound;
             $MailSettingsEntity->update();

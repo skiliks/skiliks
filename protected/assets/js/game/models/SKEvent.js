@@ -116,7 +116,6 @@
              * @param {'completed'|'in progress'|'waiting'} status
              */
             setStatus:function (status) {
-                console.trace();
                 console.log('[SKEvent] Event ' + status + ' ' + this.cid);
                 /**
                  * @private

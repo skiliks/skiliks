@@ -1,76 +1,42 @@
-/*global SKVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+/*global SKVisitView:true, SKWindowView, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
 (function () {
     "use strict";
     /**
      * @class
-     * @type {*}
+     * @extends {SKWindowView}
+     * @type {SKWindowView}
      */
-    window.SKVisitView = Backbone.View.extend(
+    window.SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
-        'el':'body .visitor-container',
-        'events':{
-            'click .replica-select':'doSelectReplica'
-        },
-        'initialize':function () {
-            var me = this;
-            this.render();
+            'events':_.defaults({
+                "click .visitor-allow":'allow',
+                "click .visitor-deny":'deny'
+            }, SKWindowView.prototype.events),
+            'initialize':function () {
+                var me = this;
+                SKWindowView.prototype.initialize.call(this);
+            },
+            'renderWindow':function (el) {
+                var event = this.options.model_instance.get('sim_event');
+                console.log(event);
+                //this.$el.html(_.template($('#visitor_door').html(), _.defaults(SKConfig)));
+                el.html(_.template($('#visit_door').html(), {'visit':event.get('data')}));
 
-
-        },
-        'close':function () {
-            this.visitor_entrance_window.close();
-            this.undelegateEvents();
-            this.$el.html('');
-        },
-        'render':function () {
-            var event = this.options.event;
-            var me = this,
-                my_replicas = event.getMyReplicas(),
-                video_src = event.getVideoSrc(),
-                remote_replica = event.getRemoteReplica();
-            if (this.visitor_entrance_window === undefined || !this.visitor_entrance_window.is_opened) {
-                this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorEntrance', sim_event:event});
-                this.visitor_entrance_window.open();
-            } else {
-                this.visitor_entrance_window.set('sim_event', event);
+            },
+            'allow':function (e) {
+                console.log("click");
+                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                });
+                this.options.model_instance.close();
+            },
+            'deny':function (e) {
+                console.log("click");
+                var dialogId = $(e.currentTarget).attr('data-dialog-id');
+                this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
+                });
+                this.options.model_instance.close();
             }
-            console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
-            var muteTag = '';
-            if (true === SKApp.user.simulation.config.isMuteVideo) {
-                muteTag = 'muted';
-            }
-            this.$el.html(_.template($('#visit_template').html(), {
-                'remote_replica':remote_replica,
-                'my_replicas':my_replicas,
-                'video_src': video_src,
-                'img_src': event.getImgSrc(),
-                'mute_attribute': muteTag
-            }));
-            this.$('video').on('ended', function () {
-                me.$('video').css('zIndex', 0);
-                if (my_replicas.length === 0) {
-                    me.options.event.complete();
-                    me.close();
-                }
-            });
-
-        },
-        'doSelectReplica':function (e) {
-            var me = this;
-            e.preventDefault();
-            var dialog_id = $(e.currentTarget).attr('data-id');
-            var is_final = $(e.currentTarget).attr('data-is-final');
-            this.options.event.selectReplica(dialog_id, function () {
-                me.visitor_entrance_window.setLastDialog(dialog_id);
-                /* TODO refactor */
-                if (is_final) {
-                    me.close();
-                }
-            });
-        },
-        'nextDialog':function () {
-
-        }
-    });
+        });
 })();

@@ -11,6 +11,10 @@ $(function () {
         }, SKWindowView.prototype.events),
         
         remove: function () {
+            var event = this.options.model_instance.get('sim_event');
+            if (event.getStatus() !== 'completed') {
+                event.complete();
+            }
             this.off('dialog:end');
             SKWindowView.prototype.remove.call(this);
         },

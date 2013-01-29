@@ -48,6 +48,11 @@ class MailTasksModel extends CActiveRecord
      */
     public $category; // ?  
     
+    /**
+     * @var string
+     */
+    public $import_id;
+    
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
@@ -124,6 +129,18 @@ class MailTasksModel extends CActiveRecord
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "id = {$id}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * @param string $name
+     * @return MailTasksModel 
+     */
+    public function byName($name)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "name = '$name'"
         ));
         return $this;
     }
