@@ -901,13 +901,13 @@ class LogHelper {
 
         $sql = "SELECT 
                     d.sim_id,
-                    d.day,
-                    d.snapshot_time,
+                    CONCAT('день ', d.day) AS day,
+                    if (d.snapshot_time = 1, '11:00', '18:00') AS snapshot_time,
                     t.code,
                     t.title,
                     t.category,
                     d.date,
-                    0 as is_done,
+                    'нет' as is_done,
                     d.todo_count
                 FROM day_plan_log as d
                 left join tasks as t on (t.id = d.task_id)";
