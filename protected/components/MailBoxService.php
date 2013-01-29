@@ -120,13 +120,28 @@ class MailBoxService {
         $list = array();
         $mailIds = array();
         foreach($messages as $message) {
-            $mailIds[] = (int)$message->id;
-            $senderId = (int)$message->sender_id;
-            $receiverId = (int)$message->receiver_id;
-            $users[$senderId] = $senderId;
-            $users[$receiverId] = $receiverId;
+            $senderId = [];
+            $receiverId = [];
+            
+            $mailIds[]    = (int)$message->id;
+            $senderId[]   = (int)$message->sender_id;
+            $receiverId[] = (int)$message->receiver_id;
+            $users[]      = $senderId[0];
+            $users[]      = $receiverId[0];
             $theme = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
 
+            // init additioonalrecipients {
+            $templateId = null;
+            if (NULL !== $message->template) {
+                $templateId = $message->template->id;
+            }
+            foreach (MailReceiversTemplateModel::model()->byMailId($templateId)->findAll() as $recipient) {
+                $receiverId[] = $recipient->receiver_id;
+                $users[]      = $recipient->receiver_id;
+            }
+            $receiverId = array_unique($receiverId);
+            // init additioonalrecipients }
+            
             $subject = $theme->text;
 
             $readed = $message->readed;
@@ -134,12 +149,12 @@ class MailBoxService {
             if ($folderId == 2 || $folderId == 3) $readed = 1;
             
             $item = array(
-                'id' => $message->id,
-                'subject' => $subject,
-                'sentAt' => GameTime::getDateTime($message->sent_at),
-                'sender' => $senderId,
-                'receiver' => $message->receiver_id,
-                'readed' => $readed,
+                'id'          => $message->id,
+                'subject'     => $subject,
+                'sentAt'      => GameTime::getDateTime($message->sent_at),
+                'sender'      => $senderId,
+                'receiver'    => $receiverId,
+                'readed'      => $readed,
                 'attachments' => 0
             );
 
@@ -151,9 +166,18 @@ class MailBoxService {
         
         // проставляем имена персонажей
         $characters = self::getCharacters($users);
-        foreach($list as $index=>$item) {
-            $list[$index]['sender'] = $characters[$list[$index]['sender']];
-            $list[$index]['receiver'] = $characters[$list[$index]['receiver']];
+        foreach($list as $i => $item) {
+            $senderText = [];
+            foreach ($item['sender'] as $senderId) {
+                $senderText[] = $characters[$senderId];
+            }
+            $list[$i]['sender'] = implode(',', $senderText);
+            
+            $recipientText = [];
+            foreach ($item['receiver'] as $senderId) {
+                $recipientText[] = $characters[$senderId];
+            }
+            $list[$i]['receiver'] = implode(',', $recipientText);
         }
         
         if ($orderType == 'ASC') $ordeFlag = SORT_ASC;

@@ -339,8 +339,12 @@
                         email.is_has_attachment = (1 === parseInt(emailsData[id].attachments, 10));
                         email.sendedAt = emailsData[id].sentAt;
                         email.subject = subject;
-                        email.setSenderEmailAndNameStrings(emailsData[id].sender);
-                        email.setRecipientEmailAndNameStrings(emailsData[id].receiver);
+                        email.setSenderEmailAndNameStrings(emailsData[id].sender);                        
+                        
+                        var recipiens = emailsData[id].receiver.split(',');
+                        for (var i in recipiens) {                            
+                            email.addRecipientEmailAndNameStrings(recipiens[i])   
+                        }                         
 
                         if (undefined !== emailsData.reply) {
                             email.previouseEmailText = emailsData.reply;

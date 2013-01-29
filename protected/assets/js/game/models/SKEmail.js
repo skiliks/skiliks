@@ -51,19 +51,19 @@
         
         // @var string,
         // @todo: replace with link to SKCharacter
-        senderNameString: undefined,
+        senderNameString: '',
         
         // @var string,
         // @todo: replace with link to SKCharacter
-        senderEmailString: undefined,
+        senderEmailString: '',
         
         // @var string, 
         // @todo: replace with link to SKCharacter
-        recipientNameString: undefined,
+        recipientNameString: '',
         
         // @var string, 
         // @todo: replace with link to SKCharacter
-        recipientEmailString: undefined,
+        recipientEmailString: '',
         
         // @var string, 
         // @todo: replace with links to SKCharacters
@@ -103,6 +103,35 @@
             this.recipientNameString = string.substring(0, string.indexOf('<', string)).trim();
             this.recipientEmailString = string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
         },
+        
+        addSenderEmailAndNameStrings: function(string) {
+            var separator = '';
+            if ('' != this.senderNameString) {
+               separator = ' ,'; 
+            }
+            this.senderNameString += separator + string.substring(0, string.indexOf('<', string)).trim();
+            
+            var separator = '';
+            if ('' != this.senderNameString) {
+               separator = ' ,'; 
+            }
+            this.senderEmailString += separator + string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
+        },
+        
+        addRecipientEmailAndNameStrings: function(string) {
+            console.log('this.recipientNameString:', this.recipientNameString);
+            var separator = '';
+            if ('' != this.recipientNameString) {
+               separator = ' ,'; 
+            }
+            this.recipientNameString += separator + string.substring(0, string.indexOf('<', string)).trim();
+            
+            var separator = '';
+            if ('' != this.recipientNameString) {
+               separator = ' ,'; 
+            }
+            this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
+        },        
 
         /**
          */
