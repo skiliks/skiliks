@@ -2,6 +2,7 @@
  */
 (function() {
     "use strict";
+    /** @class */
     window.SKMailFolder = Backbone.Model.extend({
         // @var string
 

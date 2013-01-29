@@ -57,7 +57,8 @@ class MailReceiversModel extends CActiveRecord
     public function byMailId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$id}"
+            'condition' => "mail_id = :id",
+            'params' => ['id' => $id]
         ));
         return $this;
     }

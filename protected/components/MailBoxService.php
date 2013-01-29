@@ -135,9 +135,11 @@ class MailBoxService {
             if (NULL !== $message->template) {
                 $templateId = $message->template->id;
             }
-            foreach (MailReceiversTemplateModel::model()->byMailId($templateId)->findAll() as $recipient) {
-                $receiverId[] = $recipient->receiver_id;
-                $users[]      = $recipient->receiver_id;
+            if (null !== $templateId) {
+                foreach (MailReceiversTemplateModel::model()->byMailId($templateId)->findAll() as $recipient) {
+                    $receiverId[] = $recipient->receiver_id;
+                    $users[]      = $recipient->receiver_id;
+                }
             }
             $receiverId = array_unique($receiverId);
             // init additioonalrecipients }
