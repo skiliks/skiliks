@@ -421,6 +421,9 @@ class SimulationService
         SimulationService::saveAgregatedPoints($simId);
         
         DayPlanService::copyPlanToLog($simulation, 18*60); // 18-00 copy
+        
+        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $CheckConsolidatedBudget->calcPoints();
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAgregate dorectly
