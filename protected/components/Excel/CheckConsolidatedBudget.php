@@ -52,8 +52,10 @@ class CheckConsolidatedBudget
             ->bySimulation($this->simId)
             ->find();
         
-        if (null !== $simulationsExcelPoints) {
-            $this->userPoints = $simulationsExcelPoints->value;
+        if (0 === count($simulationsExcelPoints)) {
+            foreach (ExcelPointsFormulaModel::model()->findAll() as $formula) {
+                $this->userPointsMap[$formula->id] = 0;
+            }  
         }
     }
     
@@ -313,7 +315,14 @@ class CheckConsolidatedBudget
         // init configs }
         
         // get workSheets {
-        $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
+        try {
+            $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
+        } catch (Exception $e) {
+            $this->resetUserPoints();
+            $this->savePoints();
+            
+            return false;
+        }
         // 'wh' - worksheet
         $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
         $whProduction = $objPHPExcel->getSheetByName($worksheetNames['production']);
