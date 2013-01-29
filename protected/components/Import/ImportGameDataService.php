@@ -932,8 +932,16 @@ class ImportGameDataService
             
             // update data {
             $document->fileName     = sprintf('%s.%s', $this->getCellValue($sheet, 'Документ', $i), $this->getCellValue($sheet, 'Формат', $i));
-            $document->srcFile      = $this->getCellValue($sheet, 'Привязка к файлу', $i);
+            
+            // may be this is hack, but let it be {
+            $document->srcFile      = $document->fileName;
+            $document->srcFile      = str_replace('.xls', '.xlsx', $document->srcFile);
+            $document->srcFile      = str_replace('.doc', '.pdf', $document->srcFile);
+            $document->srcFile      = str_replace('.ppt', '.pdf', $document->srcFile);
+            // may be this is hack, but let it be }
+            
             $document->format       = $this->getCellValue($sheet, 'Формат', $i);
+            
             $document->type         = $this->getCellValue($sheet, 'Type', $i);
             $document->hidden         = 'start' === $document->type ? 0 : 1;
             $document->import_id    = $this->import_id;
