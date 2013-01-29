@@ -16,6 +16,8 @@
         /** @lends SKSimulation.prototype */
         {
         'initialize':function () {
+            var me = this;
+            
             this.events = new SKEventCollection();
             this.todo_tasks = new SKTodoCollection();
             this.phone_history = new SKPhoneHistoryCollection();
@@ -24,8 +26,13 @@
             });
             this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
-                if (this.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
+                if (me.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
                     SKApp.user.stopSimulation();
+                }
+                
+                // 11-00
+                if (660 == me.getGameMinutes()) {
+                    me.trigger('time:11-00');
                 }
             });
             this.dayplan_tasks = new SKDayTaskCollection();
@@ -36,6 +43,13 @@
             
             this.config = [];
             this.config.isMuteVideo = false;
+            
+            this.on('time:11-00', function () {
+                me.off('time:11-00');
+                SKApp.server.api('dayPlan/CopyPlan', {
+                    minutes: me.getGameMinutes()
+                }, function () {});
+            });
         },
         /**
          * Returns number of minutes past from the start of game

@@ -17,9 +17,10 @@ class DayPlanLogModel extends CActiveRecord
     public $id;
     
     /**
+     * user id
      * @var integer
      */
-    public $uid_id; // ??
+    public $uid; 
     
     /**
      * @var integer
@@ -41,7 +42,7 @@ class DayPlanLogModel extends CActiveRecord
     /**
      * @var integer
      */
-    public $snapshot_time; // ??
+    public $snapshot_time; // 1 - at 11:00, 2 - when simStop
     
     /**
      * simulations.id
