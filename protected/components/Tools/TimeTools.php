@@ -15,5 +15,10 @@ class TimeTools
     {
         return ceil($time / 30) * 30;
     }
+    
+    public static function minutesToTime($minutes)
+    {
+        return sprintf('%02s:%02s:00', floor($minutes/60), $minutes%60);
+    }
 }
 

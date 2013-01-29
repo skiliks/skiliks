@@ -290,6 +290,41 @@ class DayPlanService {
             return ['result' => 0, 'message' => $exc->getMessage()];
         }
     }
+    
+    /**
+     * @param Simulations $simulation
+     * @param integer $minutes
+     * @param integer $snapShotTime, 1 - at 11:00, 2 - when simStop
+     */
+    public static function copyPlanToLog($simulation, $minutes, $snapShotTime = 1)
+    {
+        $todoCount = Todo::model()->bySimulation($simulation->id)->count();
+        
+        // copy first 2 days to DayPlanLogModel
+        foreach (DayPlan::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+            $log = new DayPlanLogModel();
+            $log->uid           = $simulation->user_id;
+            $log->date          = $dayPlanItem->date;
+            $log->day           = $dayPlanItem->day;
+            $log->task_id       = $dayPlanItem->task_id;
+            $log->sim_id        = $simulation->id;
+            $log->todo_count    = $todoCount;
+            $log->snapshot_time = $snapShotTime;
+            $log->save();
+        }
+        
+        // copy after vacation list to DayPlanLogModel
+        foreach (DayPlanAfterVacation::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+            $log = new DayPlanLogModel();
+            $log->uid           = $simulation->user_id;
+            $log->day           = 3;
+            $log->task_id       = $dayPlanItem->task_id;
+            $log->sim_id        = $simulation->id;
+            $log->todo_count    = $todoCount;
+            $log->snapshot_time = $snapShotTime;
+            $log->save();
+        }
+    }
 }
 
 

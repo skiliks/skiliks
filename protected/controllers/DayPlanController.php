@@ -7,11 +7,24 @@
  */
 class DayPlanController extends AjaxController{
         
-    /** @method actionGet Получить список для плана дневной */
+    /** 
+     * @method actionGet Получить список для плана дневной 
+     */
     public function actionGet() {
         $plan = new DayPlanService();
         $json = $plan->get($this->getSimulationId());
         $this->sendJSON($json);
+    }
+    
+    /** 
+     * Copy current plan state to day_plan_log
+     */
+    public function actionCopyPlan() {
+        $minutes = (int)Yii::app()->request->getParam('minutes', false);
+        
+        DayPlanService::copyPlanToLog($this->getSimulationEntity(), $minutes);
+        
+        $this->sendJSON([ 'result' => 1 ]);
     }
     
     /**
