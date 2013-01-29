@@ -27,9 +27,11 @@ class F4Flag3 extends SeleniumTestCase
 
         #старт теста по параметрам заданным Антоном
 
-            
-        
-        
+
+
+        $this->markTestIncomplete(
+            'This test has not been implemented yet.'
+        );
         
         
                     }

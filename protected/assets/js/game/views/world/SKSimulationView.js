@@ -76,7 +76,7 @@
                     });
                 });
                 this.listenTo(simulation.documents, 'add', function (doc) {
-                    me.listenTo(doc, 'change:excel_url', function () {
+                    me.listenTo(doc, 'document:excel_uploaded', function () {
                         me.preloadZoho(doc);
                     });
                 });
