@@ -72,7 +72,7 @@
                 this.at(this.length - 1).activate();
             }
         },
-
+        //TODO:работает?
         'closeAll':function () {
             var name;
             if (arguments.length === 1) {
@@ -87,6 +87,18 @@
                     }
                 }
             });
+        },
+        'deactivateActiveWindow':function () {
+            this.getActiveWindow().deactivate();
+        },
+        'getActiveWindow':function () {
+            var count = this.models.length;
+            if(count > 0) {
+                return this.models[count-1];
+            }else{
+                throw new Error("No active windows!!");
+            }
         }
+
     });
 })();

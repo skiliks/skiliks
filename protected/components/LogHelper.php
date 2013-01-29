@@ -85,7 +85,7 @@ class LogHelper {
                         $seconds = $log[3] - 3600*$hours - 60*$minutes;
                         
                         $csv = array();
-                        $csv[] = date("d.m.Y H:i:s", time()); //Дата и время на сервере 
+                        $csv[] = gmdate("d.m.Y H:i:s", time()); //Дата и время на сервере
                         $csv[] = $simId; //id симуляции
                         $csv[] = $log[0]; //Активное окно
                         $csv[] = $log[1]; //Активное под окно
@@ -428,7 +428,7 @@ class LogHelper {
                     $log_obj = new LogDocuments();
                     $log_obj->sim_id=$simId;
                     $log_obj->file_id = $log[4]['fileId'];
-                    $log_obj->start_time=date("H:i:s", $log[3]);
+                    $log_obj->start_time=gmdate("H:i:s", $log[3]);
                     $log_obj->save();
                 } elseif( self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
                     
@@ -438,7 +438,7 @@ class LogHelper {
                         'sim_id' => $simId
                     ));
                     if(!$log_obj) continue;
-                    $log_obj->end_time = date("H:i:s", $log[3]);
+                    $log_obj->end_time = gmdate("H:i:s", $log[3]);
                     $log_obj->save();
                     continue;    
                 } else {
@@ -506,7 +506,7 @@ class LogHelper {
                     $log_obj->sim_id = $simId;
                     $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                     $log_obj->window = $log[1];
-                    $log_obj->start_time = date("H:i:s", $log[3]);
+                    $log_obj->start_time = gmdate("H:i:s", $log[3]);
                     $log_obj->save();
                     continue;
                     
@@ -523,7 +523,7 @@ class LogHelper {
                             'sim_id' => $simId
                         ));
                         if(!$log_obj) continue;
-                        $log_obj->end_time = date("H:i:s", $log[3]);
+                        $log_obj->end_time = gmdate("H:i:s", $log[3]);
                         $log_obj->mail_task_id = $log[4]['planId'];
                         $log_obj->save();
                         continue;
@@ -549,7 +549,7 @@ class LogHelper {
                             "sim_id" => $simId
                         ));
                         if(!$log_obj) continue;
-                        $log_obj->end_time = date("H:i:s", $log[3]);
+                        $log_obj->end_time = gmdate("H:i:s", $log[3]);
                         $log_obj->mail_task_id = $log[4]['planId'];
                         $log_obj->mail_id  = empty($log[4]['mailId'])?NULL:$log[4]['mailId'];
                         $log_obj->full_coincidence  = $result['full'];
@@ -567,14 +567,14 @@ class LogHelper {
                         'sim_id' => $simId
                     ));
                     if(!$log_obj) continue;
-                    $log_obj->end_time = date( "H:i:s", $log[3] );
+                    $log_obj->end_time = gmdate( "H:i:s", $log[3] );
                     $log_obj->save();
 
                     $log_obj = new LogMail();
                     $log_obj->sim_id = $simId;
                     $log_obj->mail_id = $log[4]['mailId'];
                     $log_obj->window = $log[1];
-                    $log_obj->start_time = date("H:i:s", $log[3]);
+                    $log_obj->start_time = gmdate("H:i:s", $log[3]);
                     $log_obj->save();
 
                 } else {
@@ -817,7 +817,7 @@ class LogHelper {
                     $log_window->sim_id = $simId;
                     $log_window->window = $log[0];
                     $log_window->sub_window = $log[1];
-                    $log_window->start_time  = date("H:i:s", $log[3]);
+                    $log_window->start_time  = gmdate("H:i:s", $log[3]);
                     $log_window->save();
                     continue;
                     
@@ -830,7 +830,7 @@ class LogHelper {
                         throw(new CException('Two or more active windows at one time. Achtung!'));
                     }
                     foreach ($windows as $window) {
-                        $window->end_time = date("H:i:s", $log[3]);
+                        $window->end_time = gmdate("H:i:s", $log[3]);
                         $window->save();
                     }
                 } elseif (self::ACTION_SWITCH == (string)$log[2]) {
@@ -871,7 +871,7 @@ class LogHelper {
             $data['data'][$k]['sub_window'] = self::$subScreens[$data['data'][$k]['sub_window']];
         }
         $headers = array(
-            'user_id'           => 'id_пользователя', 
+            'user_id'           => 'id_пользователя',
             'email'             => 'email',
             'start'             => 'дата старта симуляции',
             'end'               => 'дата окончания симуляции',                
@@ -982,7 +982,7 @@ class LogHelper {
                 $last_dialog->sim_id = $simId;
                 $last_dialog->dialog_id = $log[4]['dialogId'];
                 $last_dialog->last_id = $lastDialogIdAccordingExcel;
-                $last_dialog->start_time  = date("H:i:s", $log[3]);
+                $last_dialog->start_time  = gmdate("H:i:s", $log[3]);
                 $last_dialog->save();
                 continue;
 
@@ -992,7 +992,7 @@ class LogHelper {
                     continue;
                 }
                 foreach ($dialogs as $last_dialog) {
-                    $last_dialog->end_time = date("H:i:s", $log[3]);
+                    $last_dialog->end_time = gmdate("H:i:s", $log[3]);
                     $last_dialog->last_id = $lastDialogIdAccordingExcel;
                     $last_dialog->save();
                 }
