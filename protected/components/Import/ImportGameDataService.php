@@ -1202,16 +1202,13 @@ class ImportGameDataService
 
             if ($code === null)
                 continue;
-            
-            $isFirstRecordAboutEvent = (
-                $code != '-' &&                                          // code
-                $code != '' &&                                           // code
-                (int)$this->getCellValue($sheet, '№ шага в диалоге', $i) == 1 &&                                   // step_number, 1 - first step in dialog
-                (int)$this->getCellValue($sheet, '№ реплики в диалоге', $i) == 0 &&                                   // replica_number, 0 - first replica in dialog
-                false === in_array($code, $this->importedEvents)  // processed at first during current import
-            );
-            if ($isFirstRecordAboutEvent === false)
+
+            if ($code === '-' || $code === '') {
                 continue;
+            }
+            if (EventsSamples::model()->countByAttributes(['code' => $code])) {
+                continue;
+            }
 
             $this->importedEvents[] = $code;
             
