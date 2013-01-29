@@ -867,8 +867,6 @@ class LogHelper {
             ->queryAll();
 
         foreach ($data['data'] as  $k=>$row) {
-            $data['data'][$k]['start'] = date("d.m.Y H:i:s", $data['data'][$k]['start']);
-            $data['data'][$k]['end'] = date("d.m.Y H:i:s", $data['data'][$k]['end']);
             $data['data'][$k]['window'] = self::$screens[$data['data'][$k]['window']];
             $data['data'][$k]['sub_window'] = self::$subScreens[$data['data'][$k]['sub_window']];
         }
