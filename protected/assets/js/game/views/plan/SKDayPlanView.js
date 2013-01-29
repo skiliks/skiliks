@@ -6,7 +6,9 @@ var SKDayPlanView;
     /**
      * @type {SKDayPlanView}
      */
-    SKDayPlanView = SKWindowView.extend({
+    SKDayPlanView = SKWindowView.extend(
+        /** @lends SKDayPlanView.prototype */
+        {
         'addClass': 'planner-book-main-div',
         'events':_.defaults({
             'click .day-plan-todo-task':'doActivateTodo',
@@ -46,7 +48,7 @@ var SKDayPlanView;
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
                     $(this).data("startingScrollLeft", $(this).parent().scrollLeft());
                 },
-                stop:function (socketObj) {
+                stop:function () {
                         me.hideDayPlanSlot($(this));
                         var task_id = $(this).attr('data-task-id');
                         var prev_cell = $(this).parents('td');
@@ -56,7 +58,7 @@ var SKDayPlanView;
                         $(this).show();
 
                         // clean up highlighting, it is duplicate but it nessesary to place it here too
-                        $('#plannerBook .drop-hover').removeClass('drop-hover');
+                        me.$('.drop-hover').removeClass('drop-hover');
                 },
                 drag:function (event, ui) {
                     var st = parseInt($(this).data("startingScrollTop"), 10);
@@ -70,11 +72,11 @@ var SKDayPlanView;
                     
                     // crop text length    
                     me.overflowText(
-                        $('.planner-book .ui-draggable-dragging .title'),
+                        me.$('.ui-draggable-dragging .title'),
                         height, 
-                        $('.planner-book .ui-draggable-dragging .title')
+                        me.$('.ui-draggable-dragging .title')
                     );
-                    // set height aacording duration }
+                    // set height according duration }
 
                     ui.position.left -= $(this).parent().scrollLeft() - stl;
 
@@ -236,13 +238,13 @@ var SKDayPlanView;
                     var rowsCount = currentRow.parent().parent().find('tr').length;
                     
                     // autoscroll to bottom
-                    if (currentRow.index() < rowsCount && 0.75*rowsCount < currentRow.index()) {
+                    /* if (currentRow.index() < rowsCount && 0.75*rowsCount < currentRow.index()) {
                         currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'last');
                     }else
                     // autoscroll to top    
                         if (1 < currentRow.index() && currentRow.index() < 0.5*rowsCount) {
                         currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'first');
-                    }
+                    }  */
                     
                     // highlight time pieces {
                     $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')
@@ -410,6 +412,8 @@ var SKDayPlanView;
                 me.disableOldSlots();
             });
             me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
+            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
+            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDroppable();
             Hyphenator.run();
 
@@ -448,7 +452,7 @@ var SKDayPlanView;
         doUnSetTask:function (e) {
             var task_id = $(e.currentTarget).attr('data-task-id');
             var task = SKApp.user.simulation.dayplan_tasks.get(task_id);
-            if(task.get("type") != 2) {
+            if(parseInt(task.get("type"),10) !== 2) {
                 SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
                 SKApp.user.simulation.todo_tasks.create({
                     title:task.get("title"),

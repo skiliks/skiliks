@@ -7,6 +7,8 @@ class PasswordTest extends SeleniumTestCase
      * @large
      */
     public function testPasswordRecovery() {
+        $this->markTestIncomplete();
+
         $session = $this->webdriver->session('firefox');
         $session->open($this->browser_url . 'site.php');
         $element = $this->waitForElement($session, 'xpath', "//input[@value='Регистрация']");
