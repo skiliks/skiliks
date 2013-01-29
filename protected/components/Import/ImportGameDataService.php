@@ -978,7 +978,7 @@ class ImportGameDataService
      /**
       * 
       */
-     public function importDialogReplics()
+     private  function importDialogReplicas()
      {
         $reader = $this->getReader();
         
@@ -1534,7 +1534,7 @@ class ImportGameDataService
             $result['characters'] = $this->importCharacters();
             $result['learning_goals'] = $this->importLearningGoals();
             $result['characters_points_titles'] = $this->importCharactersPointsTitles();
-            $result['dialog'] = $this->importDialogReplics();            
+            $result['dialog'] = $this->importDialogReplicas();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();
             $result['mail_events'] = $this->importMailEvents();
