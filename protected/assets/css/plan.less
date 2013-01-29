@@ -125,20 +125,22 @@
     overflow:hidden;
     position:relative;
     padding-bottom:9px;
-    .mCustomScrollBox{
-      overflow:visible;
-    }
-    .mCSB_container {
-      margin-right: 0;
-    }
-    .mCSB_scrollTools {
-      margin-right: 0;
-      width:16px;
-      top:0;
-      right:-10px;
-      z-index: 1;
-      .mCSB_dragger {
-        height: 80px;
+    .planner-book-today, .planner-book-tomorrow, .planner-book-after-vacation {
+      .mCustomScrollBox{
+        overflow:visible;
+      }
+      .mCSB_container {
+        margin-right: 0;
+      }
+      .mCSB_scrollTools {
+        margin-right: 0;
+        width:16px;
+        top:0;
+        right:-10px;
+        z-index: 1;
+        .mCSB_dragger {
+          height: 80px;
+        }
       }
     }
     .planner-book-today {
@@ -196,6 +198,7 @@
         height: 598px;
       }
     }
+
     .planner-book-timetable-table{
       border-collapse: separate;
       table-layout: fixed;
@@ -393,8 +396,6 @@
       .plan-todo-wrap {
         margin-top:23px;
         height: 170px;
-        overflow:hidden;
-        overflow-y: scroll;
         margin-right: 20px;
         .day-plan-todo-task {
           min-height: 30px;
