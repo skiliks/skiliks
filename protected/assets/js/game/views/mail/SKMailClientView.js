@@ -382,7 +382,7 @@
              this.doRenderFolder(folderAlias);
         },
 
-        yj {
+        doRenderFolder:function (folderAlias, isSwitchToFirst) {
             if (undefined === isSwitchToFirst) {
                 isSwitchToFirst = true;
             }
