@@ -90,7 +90,7 @@
     padding-right: 32px;
     >div{
       background: url("../img/planner/bg-planner-book-left.png") no-repeat left bottom;
-      padding: 0 0 9px 25px;
+      padding: 0 0 0 25px;
       .btn-close{
         position:absolute;
         top:10px;
@@ -121,8 +121,10 @@
     }
   }
   .planner-book{
-    background-color: #FFF;
+    background: #FFF url("../img/planner/bg-planner-book-left.png") no-repeat -25px bottom;
     overflow:hidden;
+    position:relative;
+    padding-bottom:9px;
     .mCustomScrollBox{
       overflow:visible;
     }
@@ -290,11 +292,13 @@
   }
   .plan-todo {
     background: transparent url("../img/planner/bg-plan-todo-left.png") no-repeat 0 0;
-    width:100%;
+    width:33.15%;
     height: 50%;
-    position:relative;
+    position:absolute;
     overflow:hidden;
-    transition-property: height, transform;
+    bottom:0;
+    left:66.30%;
+    transition-property: height, transform, bottom;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
     &.middle {
@@ -303,7 +307,7 @@
     &.open {
       height:100%;
       .plan-todo-wrap {
-        height: 400px;
+        height: 405px;
       }
       .max {
         display: none;
@@ -323,6 +327,7 @@
     }
     &.closed {
       transform: rotate(-30deg);
+      bottom:-51%;
       .plan-todo-btn {
         .min {
           display: none;
@@ -343,6 +348,7 @@
     }
     >div{
       background: url("../img/planner/bg-plan-todo-right.png") no-repeat right 0;
+      height: 100%;
       overflow:hidden;
       margin-left:39px;
       padding:3px 10px 0 0;
@@ -352,7 +358,7 @@
         margin:0;
         padding:0;
         position:absolute;
-        top:4px;
+        top:6px;
         right:4px;
         li{
           height:23px;
@@ -529,8 +535,16 @@
     height: 100%;
   }
 
-  .drop-hover, .drop-hover td.planner-book-timetable-afterv-fl, .drop-hover td.planner-book-timetable-event-fl {
+  .drop-hover td.planner-book-timetable-afterv-fl, .drop-hover td.planner-book-timetable-event-fl {
     background: #adff2f !important;
+  }
+  .drop-hover{
+     &.plan-todo{
+      background-position:0 -612px;
+      div{
+        background-position:right -612px;
+      }
+    } 
   }
 
   td .planner-task.regular {
