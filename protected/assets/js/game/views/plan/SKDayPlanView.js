@@ -136,7 +136,7 @@ var SKDayPlanView;
             var prevRow = task_el.parents('tr');
             for (var j = 0; j < duration - 15; j += 15) {
                 prevRow = prevRow.next();
-                prevRow                              s
+                prevRow                              
                     .find('.planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl')
                     .show();
             }
