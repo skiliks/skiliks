@@ -301,8 +301,12 @@ class CheckConsolidatedBudget
         if (null === $documentId) {
             return false;
         }
+
+        $zohoDoc = new ZohoDocuments($this->simId, $documentId, null); // template name isn`t so important here
+
+        //$documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
+        $documentPath = $zohoDoc->getUserFilepath();
         
-        $documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
         if (null === $documentPath) {
             return false;
         }
@@ -320,14 +324,20 @@ class CheckConsolidatedBudget
         } catch (Exception $e) {
             $this->resetUserPoints();
             $this->savePoints();
-            
             return false;
         }
+        
         // 'wh' - worksheet
         $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
         $whProduction = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated']);
         // get workSheets }
+        
+        if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
+            $this->resetUserPoints();
+            $this->savePoints();
+            return false;   
+        }
         
         // start analyze {
         $this->resetUserPoints();
@@ -342,6 +352,8 @@ class CheckConsolidatedBudget
              ->checkNo8($whConsolidated)
              ->checkNo9($whConsolidated);
         // start analyze }
+        
+        
         
         // save results
         $this->savePoints();
