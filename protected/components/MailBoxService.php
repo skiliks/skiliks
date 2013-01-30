@@ -310,8 +310,7 @@ class MailBoxService {
 
         if (isset($params['receivers'])) {
             Logger::write(var_export($params['receivers'], true));
-            if (count($receivers)>1)
-                self::saveReceivers($receivers, $mailId);
+            self::saveReceivers($receivers, $mailId);
         }
 
         // учтем аттачмена
