@@ -15,6 +15,7 @@ class DialogTest extends SeleniumTestCase
     {
 
         # Login
+        $this->markTestIncomplete();
         $session = $this->webdriver->session('firefox');
         $this->startSimulation($session);
         $this->runEvent($session, "E1");

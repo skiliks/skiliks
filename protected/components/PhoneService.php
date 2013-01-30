@@ -55,7 +55,7 @@ class PhoneService {
      */
     public static function getThemes($id) {
 
-        $themes = MailCharacterThemesModel::model()->byCharacter($id)->byPhone()->findAll();
+        $themes = CommunicationTheme::model()->byCharacter($id)->byPhone()->findAll();
         $list = array();
         foreach($themes as $theme) {
             $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
@@ -142,7 +142,7 @@ class PhoneService {
         
         // нам передана тема
         if ($themeId > 0) {
-            $mailThemeModel = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($themeId)->byPhone()->find();
+            $mailThemeModel = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->byPhone()->find();
             if ($mailThemeModel) {
                 $eventCode = $mailThemeModel->phone_dialog_number;
                 if ($eventCode == '' || $eventCode == 'AUTO') {

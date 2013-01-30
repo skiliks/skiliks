@@ -4,7 +4,7 @@ logging = {
     menuMain.setActive('logging');
     
     $.ajax({
-        url: config.host.name+'index.php/Admin/Log',
+        url: 'http://'+location.host+'/Admin/Log',
         type: "GET",
         data: {data:'json', type:type},
         dataType: "json",
@@ -33,7 +33,7 @@ logging = {
         });
         $("#logging_div").jqGrid('navGrid','#logging_table',{del:false,add:false,edit:false,search:false});
         $("#logging_table").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
-        $("#location").append("<a href=\""+config.host.name+'index.php/Admin/Log?type='+type+'&data=csv'+"\">Save CSV</a>");
+        $("#location").append("<a href=\""+'http://'+location.host+'/Admin/Log?type='+type+'&data=csv'+"\">Save CSV</a>");
     }
     });
     
@@ -57,6 +57,7 @@ logging = {
     },
     Windows : function(){
         this.draw("Windows");
+        return false;
     },
     MailInDetail : function(){
         this.draw("MailInDetail");
