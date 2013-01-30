@@ -6,7 +6,7 @@
  * Содержит набор фраз, которые соответствуют конкретному персонажу
  * Также есть связь по коду конструктора писем. Поле code например B1 W1
  * 
- * Связана с моделями: MailCharacterThemesModel.
+ * Связана с моделями: CommunicationTheme.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

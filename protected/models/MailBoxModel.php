@@ -222,7 +222,7 @@ class MailBoxModel extends CActiveRecord
 
     public function relations() {
         return array(
-            'subject_obj' => array(self::BELONGS_TO, 'MailCharacterThemesModel', 'subject_id'),
+            'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
             'template' => array(self::BELONGS_TO, 'MailTemplateModel', 'template_id')
         );
     }
@@ -240,18 +240,18 @@ class MailBoxModel extends CActiveRecord
      */
     public function getCharacterTheme() {
         
-        $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
+        $main_subject = CommunicationTheme::model()->findByAttributes(array(
             'text' => $this->subject_obj->text
         ));
 
         // try to find subject for current simulation
         if (null === $main_subject) {
-            $main_subject = MailCharacterThemesModel::model()->findByAttributes(array(
+            $main_subject = CommunicationTheme::model()->findByAttributes(array(
                 'id'   => $this->subject_obj->id,
             ));
         }
         
-        return MailCharacterThemesModel::model()->find(
+        return CommunicationTheme::model()->find(
             '(character_id=:sender_id OR character_id=:receiver_id) AND id=:subject_id',
             array(
                 'sender_id'   => $this->sender_id,

@@ -254,7 +254,7 @@ class ImportGameDataService
         
         // Get all exist system mail_themes to avoid SQL queries againts each request {
         $existsMailThemes = array();
-        foreach (MailCharacterThemesModel::model()->findAll() as $mailTheme) {
+        foreach (CommunicationTheme::model()->findAll() as $mailTheme) {
             $existsMailThemes[$mailTheme->text] = $mailTheme;
         }
         // Get all mail_themes }
@@ -360,9 +360,9 @@ class ImportGameDataService
                 $time[1] = 0;
             }
             // themes update {
-            $subjectEntity = MailCharacterThemesModel::model()->findByAttributes(['text' => $subject]);
+            $subjectEntity = CommunicationTheme::model()->findByAttributes(['text' => $subject]);
             if ($subjectEntity === null) {
-                $subjectEntity = new MailCharacterThemesModel();
+                $subjectEntity = new CommunicationTheme();
             }
             if ($fromCode != 1) {
                 $subjectEntity->character_id        = Characters::model()->findByAttributes(['code' => $fromCode])->primaryKey;
@@ -520,7 +520,7 @@ class ImportGameDataService
        // points relations }
        
        // "theme" relations {
-       $emailSubjectEntities = MailCharacterThemesModel::model()
+       $emailSubjectEntities = CommunicationTheme::model()
             ->byIdsNotIn(implode(',', $emailSubjectsIds))
             ->findAll();
         
@@ -571,7 +571,7 @@ class ImportGameDataService
             $counter['mark-1']
         );
         MailTemplateModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
-        MailCharacterThemesModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
 
         return array(
@@ -649,34 +649,34 @@ class ImportGameDataService
                 $subjectModel->insert();
             }*/
 
-            $mailCharacterTheme = MailCharacterThemesModel::model()
+            $communicationTheme = CommunicationTheme::model()
                 ->byLetterNumber($mailCode)
                 ->byText($subjectText)
                 ->byCharacter($characterId)
                 ->find();
 
-            if (null === $mailCharacterTheme) {
-                $mailCharacterTheme = new MailCharacterThemesModel();
+            if (null === $communicationTheme) {
+                $communicationTheme = new CommunicationTheme();
             }
 
-            $mailCharacterTheme->text                   = $subjectText;
-            $mailCharacterTheme->letter_number          = $mailCode;
-            $mailCharacterTheme->character_id           = $characterId;
-            $mailCharacterTheme->wr                     = $wr;
-            $mailCharacterTheme->constructor_number     = $constructorNumber;
-            $mailCharacterTheme->phone                  = $phone;
-            $mailCharacterTheme->phone_wr               = $phoneWr;
-            $mailCharacterTheme->phone_dialog_number    = $phoneDialogNumber;
-            $mailCharacterTheme->mail                   = $mail;
-            $mailCharacterTheme->source                 = $source;
-            $mailCharacterTheme->import_id                 = $this->import_id;
+            $communicationTheme->text                   = $subjectText;
+            $communicationTheme->letter_number          = $mailCode;
+            $communicationTheme->character_id           = $characterId;
+            $communicationTheme->wr                     = $wr;
+            $communicationTheme->constructor_number     = $constructorNumber;
+            $communicationTheme->phone                  = $phone;
+            $communicationTheme->phone_wr               = $phoneWr;
+            $communicationTheme->phone_dialog_number    = $phoneDialogNumber;
+            $communicationTheme->mail                   = $mail;
+            $communicationTheme->source                 = $source;
+            $communicationTheme->import_id                 = $this->import_id;
 
-            $mailCharacterTheme->save();
+            $communicationTheme->save();
 
         }
 
         // remove all old, unused characterMailThemes after import {
-        MailCharacterThemesModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
         $html .= "Email from characters import finished! <br/>";
 
