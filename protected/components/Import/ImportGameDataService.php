@@ -979,7 +979,7 @@ class ImportGameDataService
      /**
       * 
       */
-     private  function importDialogReplicas()
+     public function importDialogReplicas()
      {
         $reader = $this->getReader();
         
@@ -1383,7 +1383,7 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    private  function importActivity()
+    public  function importActivity()
     {
         $activity_types = array(
             'Documents_leg'   => 'document_id',
@@ -1454,7 +1454,6 @@ class ImportGameDataService
             // 
             $type = $activity_types[$leg_type];
             $xls_act_value = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_action'], $i->key())->getValue();
-            
             # Converting XLS codes to our
             if ($xls_act_value === '-') {
                 $values = array();
@@ -1463,25 +1462,35 @@ class ImportGameDataService
                     // @todo: not clear yet
                     $values = Dialogs::model()->findAll();
                 } else {
-                    $values = array(Dialogs::model()->findByAttributes(array('code' => $xls_act_value)));
+                    $dialog = Dialogs::model()->findByAttributes(array('code' => $xls_act_value));
+                    if ($dialog === null) {
+                        assert($dialog, 'No such dialog: "' . $xls_act_value . '"');
+                    }
+                    $values = array($dialog);
                 }
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
                     $values = MailTemplateModel::model()->findAll();
                 } else {
-                    $values = array(MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
+                    $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
+                    assert($mail);
+                    $values = array($mail);
                 }
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
                     $values = MyDocumentsTemplateModel::model()->findAll();
                 } else {
-                    $values = array(MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value)));
+                    $document = MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
+                    assert($document);
+                    $values = array($document);
                 }
             } else if ($type === 'window_id') {
                 # TODO
-                $values = array(Window::model()->findByAttributes(array('subtype' => $xls_act_value)));
+                $window = Window::model()->findByAttributes(array('subtype' => $xls_act_value));
+                assert($window);
+                $values = array($window);
             } else {
                 throw new Exception('Can not handle type:' . $type);
             }
