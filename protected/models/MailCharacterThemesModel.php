@@ -116,7 +116,7 @@ class MailCharacterThemesModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_character_themes';
+            return 'communication_themes';
     }
     
     /**
