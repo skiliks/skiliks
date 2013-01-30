@@ -33,6 +33,7 @@
             $('.preventOtherClicks').click(function(){
                 if (me.isCloseWhenClickNotOnDialog) {
                     me.cleanUpDOM();
+                    me.trigger('click-prevent-click-element');
                 }
             });    
         },

@@ -15,6 +15,7 @@
             if (win.single === true && this.get(win)) {
                     throw 'Window already displayed';
             }
+            
             if (this.length) {
                 this.at(this.length - 1).deactivate();
             }

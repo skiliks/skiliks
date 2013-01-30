@@ -413,6 +413,10 @@ class SimulationService
         LogHelper::setWindowsLog($simId, $logs);
 
         LogHelper::setDialogs($simId, $logs);
+        
+        // Fix logs
+        LogHelper::fixLogWhenSimStop($simulation);
+        
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simId);
 
