@@ -67,16 +67,28 @@
               height:32px;
               span{
                 display:block;
-                background:#828181;
-                box-shadow:inset 1px 1px 0 #000;
-                width:10.5%;
-                height:2px;
-                margin:25px 1% 0;
+                background-image:url("../img/planner/bg-planner-stroke.png");
+                background-repeat:no-repeat;
+                width:32px;
+                height:3px;
+                margin-top:22px;
                 &.stroke-l{
+                  background-position:0 0;
                   float:left;
                 }
                 &.stroke-r{
+                  background-position:right 0;
                   float:right;
+                }
+              }
+              @media screen and (min-width: 1601px){
+                span{
+                  width:65px;
+                }
+              }
+              @media screen and (min-width: 1281px) and (max-width: 1600px){
+                span{
+                  width:55px;
                 }
               }
             }
