@@ -21,25 +21,35 @@
             /**
              * Returns slug of event type
              *
+             * Phone is phone call
+             * Visit is visit
+             *
+             * @return {'phone'|'immediate-phone'|'immediate-visit'|'visit'}
              */
             getTypeSlug:function () {
                 if (this.get('type') === 1) {
-                    if (this.get('data')[0].dialog_subtype === '1') {
+                    var first_replica = this.get('data')[0];
+                    if (first_replica.dialog_subtype === '1') {
                         return 'phone';
-                    } else if (this.get('data')[0].dialog_subtype === '2') {
+                    } else if (first_replica.dialog_subtype === '2') {
                         return 'immediate-phone';
-                    } else if (this.get('data')[0].dialog_subtype === '4') {
+                    } else if (first_replica.dialog_subtype === '4') {
                         return 'immediate-visit';
-                    } else if (this.get('data')[0].dialog_subtype === '5') {
+                    } else if (first_replica.dialog_subtype === '5') {
                         return 'visit';
                     } else {
-                        throw 'Incorrect subtype ' + this.get('data')[0].dialog_subtype;
+                        throw 'Incorrect subtype ' + first_replica.dialog_subtype;
                     }
                 } else if (event_types[this.get('type')] === undefined) {
                     throw 'Unknown event type: ' + this.get('type');
                 }
                 return event_types[this.get('type')];
             },
+
+            /**
+             * In dialogs returns replica of foreign character
+             * @return {SKDialogReplica}
+             */
             getRemoteReplica:function () {
                 var replicas = this.get('data');
                 var remote_replica = null;
@@ -50,6 +60,10 @@
                 });
                 return remote_replica;
             },
+            /**
+             * Returns array of player's answers
+             * @return {Array}
+             */
             getMyReplicas:function () {
                 var replicas = this.get('data');
                 var my_replicas = [];
@@ -60,6 +74,10 @@
                 });
                 return my_replicas;
             },
+            /**
+             * Returns absolute UPL to video background of image
+             * @return {String}
+             */
             getVideoSrc:function () {
                 var replicas = this.get('data');
                 var video_src;
@@ -71,6 +89,10 @@
                 }
                 return video_src ? SKConfig.storageURL + '/videos/' + video_src : undefined;
             },
+            /**
+             * Returns absolute UPL to image background of image
+             * @return {String}
+             */
             getImgSrc:function () {
                 var replicas = this.get('data');
                 var img_src = null;
@@ -108,6 +130,9 @@
                     }
                 });
             },
+            /**
+             * @return {'completed'|'in progress'|'waiting'}
+             */
             getStatus:function () {
                 return this.status || 'waiting';
             },
@@ -156,6 +181,9 @@
                     }
                 });
             },
+            /**
+             * Marks event as completed
+             */
             'complete':function () {
                 if (this.getStatus() === 'completed') {
                     throw 'This event is already completed';
