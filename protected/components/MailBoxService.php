@@ -124,7 +124,7 @@ class MailBoxService {
             $receiverId = (int)$message->receiver_id;
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
-            $theme = MailCharacterThemesModel::model()->byId($message->subject_id)->find();
+            $theme = CommunicationTheme::model()->byId($message->subject_id)->find();
 
             $subject = $theme->text;
 
@@ -208,7 +208,7 @@ class MailBoxService {
         // mark Readed
         $model->readed = 1;
         $model->save();
-        $themes = MailCharacterThemesModel::model()->byId($model->subject_id)->find();
+        $themes = CommunicationTheme::model()->byId($model->subject_id)->find();
         $subject = $themes->text;
 
         $message = array(
@@ -357,10 +357,10 @@ class MailBoxService {
 
         if (false !== $id && NULL !== $id) {
             // получить код набора фраз
-            $mailCharacterTheme = MailCharacterThemesModel::model()->byId($id)->find();
+            $communicationTheme = CommunicationTheme::model()->byId($id)->find();
             // Если у нас прописан какой-то конструктор
-            if ($mailCharacterTheme) {
-                $constructorNumber = $mailCharacterTheme->constructor_number;
+            if ($communicationTheme) {
+                $constructorNumber = $communicationTheme->constructor_number;
                 // получить фразы по коду
                 $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
 
@@ -394,7 +394,7 @@ class MailBoxService {
     }
 
     public function getMailPhrasesByCharacterAndTheme($characterId, $themeId) {
-        $model = MailCharacterThemesModel::model()->byCharacter($characterId)->byTheme($themeId)->find();
+        $model = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->find();
         if (!$model) return false;
         return $this->getMailPhrases($model->id);
     }
@@ -479,7 +479,7 @@ class MailBoxService {
         $themes = array();
         if (count($receivers) == 1) {
             // загрузка тем по одному персонажу
-            $models = MailCharacterThemesModel::model()
+            $models = CommunicationTheme::model()
                 ->byCharacter($receivers[0])
                 ->byMail()
                 ->findAll();
@@ -491,7 +491,7 @@ class MailBoxService {
 
         // если у нас более одного получателя
         if (count($receivers) > 1) {
-            $models = MailCharacterThemesModel::model()->byMail()->findAll();
+            $models = CommunicationTheme::model()->byMail()->findAll();
             $collection = array();
             foreach($models as $model) {
                 $collection[] = array(
@@ -516,7 +516,7 @@ class MailBoxService {
         if (count($themes) == 0) return array();
 
         // загрузка тем
-        $themeCollection = MailCharacterThemesModel::model()->byIds($themes)->findAll();
+        $themeCollection = CommunicationTheme::model()->byIds($themes)->findAll();
         $captions = array();
         foreach($themeCollection as $themeModel) {
             $captions[(int)$themeModel->id] = $themeModel->text;
@@ -772,7 +772,7 @@ class MailBoxService {
      * @return string
      */
     public static function getSubjectById($subjectId) {
-        $subjectModel = MailCharacterThemesModel::model()->byId($subjectId)->find();
+        $subjectModel = CommunicationTheme::model()->byId($subjectId)->find();
         if ($subjectModel) {
             return $subjectModel->text;
         }
@@ -787,7 +787,7 @@ class MailBoxService {
      * @return int
      */
     public static function createSubject($subject) {
-        $subjectModel = new MailCharacterThemesModel();
+        $subjectModel = new CommunicationTheme();
         $subjectModel->text = $subject;
         $subjectModel->insert();
         return $subjectModel->id;
@@ -795,7 +795,7 @@ class MailBoxService {
 
     public static function getSubjectIdByText($subjectText)
     {
-        $model = MailCharacterThemesModel::model()->byText($subjectText)->find();
+        $model = CommunicationTheme::model()->byText($subjectText)->find();
 
         return (null === $model) ? null : $model->id;
     }
@@ -892,7 +892,7 @@ class MailBoxService {
             $addData = self::getSigns();
         }
 
-        $characterTheme = MailCharacterThemesModel::model()->findByPk($characterThemeId);
+        $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
 
         if (NULL !== $characterTheme &&
             'TXT' === $characterTheme->constructor_number) {
@@ -996,7 +996,7 @@ class MailBoxService {
     /**
      * @param Simulations $simulation
      * @param MailBoxModel $messageToReply
-     * @param MailCharacterThemesModel $characterThemeModel
+     * @param CommunicationTheme $characterThemeModel
      * @return type
      */
     public static function getPhrasesDataForReply($messageToReply, $characterThemeModel)
@@ -1035,14 +1035,14 @@ class MailBoxService {
     }
 
     /**
-     * @params MailCharacterThemesModel $messageToReply
+     * @params CommunicationTheme $messageToReply
      */
     public static function getSubjectForRepryEmail($messageToReply)
     {
-        $previousEmalSubjectEntity = MailCharacterThemesModel::model()->findByPk($messageToReply->subject_id);
+        $previousEmalSubjectEntity = CommunicationTheme::model()->findByPk($messageToReply->subject_id);
 
         # TODO: refactor this. name is not unique
-        $subjectEntity = MailCharacterThemesModel::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find();// lowercase is important for search!
+        $subjectEntity = CommunicationTheme::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find();// lowercase is important for search!
 
         return $subjectEntity;
     }
@@ -1167,7 +1167,7 @@ class MailBoxService {
         $service = new MailBoxService();
 
         if (0 < $forwardSubjectId) {
-            $characterThemeModel = MailCharacterThemesModel::model()
+            $characterThemeModel = CommunicationTheme::model()
                 ->byCharacter($receiverId)
                 ->byTheme($forwardSubjectId)->find();
             if ($characterThemeModel) {
