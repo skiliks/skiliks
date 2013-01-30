@@ -51,7 +51,7 @@
             var listHtml = '';
             var addToPlanDialog = this;
 
-            addToPlanDialog.mailClient.setWindowsLog('mailPlan');
+            addToPlanDialog.mailClient.setWindowsLog('mailPlan', addToPlanDialog.mailClient.getActiveEmailId());
 
             // generate mail tasks list {
             this.getTasksToBePlanned();
