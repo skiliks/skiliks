@@ -5,6 +5,5 @@
 </script>
 <script type="text/template" id="document_pdf_template">
     <div class="pdf-container">
-        <canvas></canvas>
     </div>
 </script>
