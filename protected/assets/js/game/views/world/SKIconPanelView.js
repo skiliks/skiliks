@@ -9,6 +9,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
     window.SKIconPanelView = Backbone.View.extend(
         /** @lends SKIconPanelView.prototype */
         {
+        isPhoneAvailable: true,
+
         initialize:function () {
             var me = this;
             me.icon_lock = {};
@@ -38,6 +40,25 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     me.startAnimation('.door');
                 }
             });
+            
+            // Block phone when visit/call going {
+            events.on('add', function (event) {
+                if (event.getTypeSlug().match(/(phone|visit)$/))  {
+                    if ('in progress' === event.getStatus()) {
+                        me.doBlockingPhoneIcon();
+                    } else {                    
+                        event.on('in progress', function() {
+                            me.doBlockingPhoneIcon();
+                        });
+                    }
+                    
+                    event.on('complete', function() {
+                        me.doDeblockingPhoneIcon();
+                    });    
+                }
+            });
+            // Block phone when visit/call going }
+            
             var todo_tasks = SKApp.user.simulation.todo_tasks;
             todo_tasks.on('add remove reset', function () {
                 me.updatePlanCounter();
@@ -118,14 +139,13 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             }
         },
         events:{
-            'click .icons-panel .phone.icon-active a':'doPhoneTalkStart',
-            'click .icons-panel .door.icon-active a':'doDialogStart',
-
-            'click .icons-panel .plan a':'doPlanToggle',
-            'click .icons-panel .phone:not(.icon-active) a':'doPhoneToggle',
-            'click .icons-panel .mail a':'doMailToggle',
-            'click .icons-panel .door a':'doDoorToggle',
-            'click .icons-panel .documents a':'doDocumentsToggle'
+            'click .icons-panel .phone.icon-active a'       :'doPhoneTalkStart',
+            'click .icons-panel .door.icon-active a'        :'doDialogStart',
+            'click .icons-panel .plan a'                    :'doPlanToggle',
+            'click .icons-panel .phone:not(.icon-active) a' :'doPhoneToggle',
+            'click .icons-panel .mail a'                    :'doMailToggle',
+            'click .icons-panel .door a'                    :'doDoorToggle',
+            'click .icons-panel .documents a'               :'doDocumentsToggle'
         },
         render:function () {
             var me = this;
@@ -142,6 +162,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});
         },
         doDialogStart:function (e) {
+            console.log('doDialogStart');
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
@@ -155,7 +176,10 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         },
         doPhoneToggle:function (e) {
             e.preventDefault();
-            SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+            
+            if (this.isPhoneAvailable) {
+                SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+            }
         },
         doDoorToggle:function (e) {
             e.preventDefault();
@@ -176,6 +200,21 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 SKApp.user.simulation.mailClient.getActiveSubscreenName()
             );
 
+        },
+        /**
+         * Blocking phone icon when HERO talk by phone or speak with visitor
+         */
+        doBlockingPhoneIcon: function() {            
+            this.$('.phone').addClass('only-active');
+            this.isPhoneAvailable = false;
+        },
+        
+        /**
+         * Deblocking phone icon when HERO finished talk by phone or speak with visitor
+         */
+        doDeblockingPhoneIcon: function() {
+            this.$('.phone').removeClass('only-active');
+            this.isPhoneAvailable = true;
         }
     });
 })();

@@ -122,6 +122,11 @@
                  * @type {"completed"|"in progress"|"waiting"}
                  */
                 this.status = status;
+                
+                if (this.status === 'in progress') {
+                    this.trigger('in progress');
+                }
+                
                 if (this.status === 'completed') {
                     this.trigger('complete');
                 }
