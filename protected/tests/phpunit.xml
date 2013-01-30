@@ -3,6 +3,6 @@
         <includePath>../../framework</includePath>
     </php>
     <testSuite>
-        <directory>./</directory>
+        <directory>protected/tests</directory>
     </testSuite>
 </phpunit>
