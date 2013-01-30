@@ -18,6 +18,9 @@
             this.listenTo(this, 'mail:close', function () {
                 me.close();
             });
+            this.listenTo(this, 'click-prevent-click-element', function () {
+                me.doLogClose();
+            });
         },
 
         getTasksToBePlanned:function () {
@@ -41,7 +44,7 @@
             );
         },
         events:{
-            'click #MailClient_AddToPlanPopUp .mail-plan-btn':'doAddToPlan'
+            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan'
         },
 
         render:function () {
@@ -168,16 +171,19 @@
                 false
             );
         },
+        
+        doLogClose: function() {
+            this.mailClient.setWindowsLog(
+                'mailPreview',
+                this.mailClient.getActiveEmailId()
+            );   
+                console.log('DO CLOSE;');
+        },
 
         close:function () {
             if (undefined !== this.$el) {
                 this.cleanUpDOM();
             }
-
-            this.mailClient.setWindowsLog(
-                'mailPreview',
-                this.mailClient.getActiveEmailId()
-            );
         }
     });
 })();

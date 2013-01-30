@@ -29,11 +29,16 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        echo 'start';
-        $s = new ImportGameDataService();
-        $s->importAll();
-        echo '<br/>end.';
+        $simulation = Simulations::model()->findByPk(7444);
+        
         echo '<pre>';
+        
+        echo 'start';
+        LogHelper::fixLogWhenSimStop($simulation);
+        //$s = new ImportGameDataService();
+        //$s->importAll();
+        echo '<br/>end.';
+        
         //$import = new ImportGameDataService();
         //$result = $import->importCharactersPointsTitles();
         //var_dump($result);
