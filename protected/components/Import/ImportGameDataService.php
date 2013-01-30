@@ -1183,7 +1183,7 @@ class ImportGameDataService
     public function importEventSamples() 
     {
         $reader = $this->getReader();
-        
+
         // load sheet {
         $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
         $excel = $reader->load($this->filename);
@@ -1206,7 +1206,7 @@ class ImportGameDataService
             if ($code === '-' || $code === '') {
                 continue;
             }
-            if (EventsSamples::model()->countByAttributes(['code' => $code])) {
+            if (EventsSamples::model()->countByAttributes(['code' => $code, 'import_id' => $this->import_id])) {
                 continue;
             }
 
