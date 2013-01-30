@@ -412,7 +412,6 @@ var SKDayPlanView;
                 me.disableOldSlots();
             });
             me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
-            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
             me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDroppable();
             Hyphenator.run();
