@@ -22,30 +22,7 @@
             	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
             	<table>
             		<tr>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
+            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
             		</tr>
             	</table>
             </div>
@@ -55,30 +32,7 @@
             	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
             	<table>
             		<tr>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
+            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
             		</tr>
             	</table>
             </div>
@@ -88,30 +42,7 @@
             	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
             	<table>
             		<tr>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
-            			<td>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-l"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            				<span class="stroke-r"></span>
-            			</td>
+            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
             		</tr>
             	</table>
             </div>
