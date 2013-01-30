@@ -49,7 +49,7 @@
 
             var el = $('#phoneCallThemesDiv');
             if(el.length == 0) {
-                this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 14px; width: 330px;"></div>');
+                this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 14px; width: 330px; overflow: hidden; overflow-y: scroll;"></div>');
             }
 
             var contactId = $(event.currentTarget).attr('data-contact-id');
