@@ -55,18 +55,18 @@
              * @param clear_assessment
              */
             'triggerEvent':function (code, delay, clear_events, clear_assessment) {
-                var cb;
+                var callback;
                 if (arguments.length > 4) {
-                    cb = arguments[4];
+                    callback = arguments[4];
                 } else {
-                    cb = undefined;
+                    callback = undefined;
                 }
                 SKApp.server.api('events/start', {
                     eventCode:code,
                     delay:delay,
                     clearEvents:clear_events,
                     clearAssessment:clear_assessment
-                }, cb);
+                }, callback);
             }
         });
 })();
