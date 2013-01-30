@@ -770,7 +770,7 @@ class LogHelper {
             ->leftJoin('mail_attachments a', 'm.id = a.mail_id')
             ->leftJoin('my_documents d', 'a.file_id = d.id')
             ->leftJoin('my_documents_template t', 'd.template_id = t.id')
-            ->leftJoin('mail_character_themes s', 'm.subject_id = s.id')
+            ->leftJoin(MailCharacterThemesModel::model()->tableName() . ' s', 'm.subject_id = s.id')
             ->where('l.window = 13 AND l.mail_id IS NOT NULL')
             ->group('l.mail_id')
             ->order('l.id')
