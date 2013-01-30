@@ -10,7 +10,7 @@
  * @property string constructor_number
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCharacterThemesModel extends CActiveRecord
+class CommunicationTheme extends CActiveRecord
 {
      /**
      * @var integer
@@ -85,7 +85,7 @@ class MailCharacterThemesModel extends CActiveRecord
         $receiversArr = explode(',', $receivers);
 
         if (0 < count($receiversArr) && NULL != $mailThemeId) {
-            $characterTheme = MailCharacterThemesModel::model()
+            $characterTheme = CommunicationTheme::model()
                 ->byCharacter(reset($receiversArr))
                 ->byTheme($mailThemeId)
                 ->find();
@@ -104,7 +104,7 @@ class MailCharacterThemesModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public static function model($className=__CLASS__)
     {
@@ -122,7 +122,7 @@ class MailCharacterThemesModel extends CActiveRecord
     /**
      * Выбрать по заданному персонажу
      * @param int $characterId
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byCharacter($characterId)
     {
@@ -137,7 +137,7 @@ class MailCharacterThemesModel extends CActiveRecord
     /**
      * Выбрать по идентификатору записи
      * @param int $id
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byId($id)
     {
@@ -150,7 +150,7 @@ class MailCharacterThemesModel extends CActiveRecord
     /**
      * Выборка по набору тем
      * @param array $ids
-     * @return MailCharacterThemesModel
+     * @return CommunicationTheme
      */
     public function byIds($ids)
     {
@@ -163,7 +163,7 @@ class MailCharacterThemesModel extends CActiveRecord
     
     /**
      * @param string $ids
-     * @return \MailCharacterThemesModel
+     * @return \CommunicationTheme
      */
     public function byIdsNotIn($ids)
     {
@@ -175,7 +175,7 @@ class MailCharacterThemesModel extends CActiveRecord
     
     /**
      * Выбрать с признаком "телефон"
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byPhone($v = 1)
     {
@@ -188,7 +188,7 @@ class MailCharacterThemesModel extends CActiveRecord
     /**
      * Выбрать по заданной теме
      * @param int $themeId
-     * @return MailCharacterThemesModel
+     * @return CommunicationTheme
      */
     public function byTheme($themeId)
     {
@@ -199,7 +199,7 @@ class MailCharacterThemesModel extends CActiveRecord
     }
 
     /**
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byMail($v = 1)
     {
@@ -211,7 +211,7 @@ class MailCharacterThemesModel extends CActiveRecord
     
     /**
      * @param string $code, mail code 'M1', 'MS2' etc.
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byLetterNumber($code)
     {
@@ -223,7 +223,7 @@ class MailCharacterThemesModel extends CActiveRecord
     
     /**
      * @param string $text, like 'Служебная записка о сервере. Срочно!' e.g.
-     * @return MailCharacterThemesModel 
+     * @return CommunicationTheme
      */
     public function byText($text)
     {
