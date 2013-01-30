@@ -24,7 +24,7 @@ menuMain = {
                             '<b class="caret"></b>'+
                     '</a>'+
                     '<ul class="dropdown-menu">'+
-                            '<li><a href="#" onclick="logging.Windows()">Universal</a></li>'+
+                            '<li><a href="#" onclick="logging.Windows();return false;">Universal</a></li>'+
                             '<li><a href="#" onclick="logging.DayPlan()">Plan</a></li>'+
                             '<li><a href="#" onclick="logging.DialogPointsDetail()">Assessment - detail</a></li>'+
                             '<li><a href="#" onclick="logging.FullAggregate()">Assessment - aggregate</a></li>'+
