@@ -18,14 +18,19 @@ class ImportTest extends CDbTestCase
         $import->importLearningGoals();
     }
 
-    public function test_2_DialogImport() {
+    public function test_3_DialogImport() {
         $import = new ImportGameDataService();
         $import->importDialogReplicas();
-        $this->assertEquals(Dialogs::model()->count(), 800);
+        $this->assertEquals(Dialogs::model()->count(), 821);
         $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
     }
 
-    public function test_3_ActivityImport() {
+    public function test_4_EventsSamples() {
+        $import = new ImportGameDataService();
+        $import->importEventSamples();
+    }
+
+    public function test_5_ActivityImport() {
         $import = new ImportGameDataService();
         $import->importActivity();
     }
