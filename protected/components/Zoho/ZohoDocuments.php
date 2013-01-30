@@ -177,7 +177,7 @@ class ZohoDocuments
         }
 
         $pathToUserFile = sprintf(
-            'documents/%s/%s.%s',
+            'documents/zoho/%s/%s.%s',
             $path[0], // simId
             $path[1], // documentID,
             $extention
