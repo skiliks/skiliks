@@ -1051,7 +1051,10 @@ class LogHelper {
     }
     
     public static function getLegActionsDetail($return) {
+
+
                 # Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn :)
+
                 $sql = "SELECT DISTINCT l.sim_id
                           , CASE
                             WHEN a.dialog_id THEN
@@ -1085,7 +1088,10 @@ class LogHelper {
                             WHEN a.window_id THEN
                               w.subtype
                             END AS leg_action
-                          , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
+                          -- , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
+                          , x.group_id
+                          , l.mail_id
+                          , x.coincidence_mail_code
                           , i.category_id AS category
                           , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
                           , l.start_time AS start_time
@@ -1107,8 +1113,24 @@ class LogHelper {
             ON l.mail_id = x.id AND l.sim_id = x.sim_id
             ORDER BY
               l.id";
+
+        $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+            foreach($data['data'] as $k => $v) {
+                if($data['data'][$k]['group_id'] != 1 AND empty($data['data'][$k]['coincidence_mail_code'])){
+
+                }else{
+                    $data['data'][$k]['mail_id'] = '';
+                }
+                unset($data['data'][$k]['coincidence_mail_code']);
+                unset($data['data'][$k]['group_id']);
+            }
+        //$log_activity_action = LogActivityAction::model()->findAll();
+        //$activity_action = ActivityAction::model()->findAll();
+        //$window = Window::model()->findAll();
+        //$dialogs = Dialogs::model()->findAll();
+
         
-            $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+            //$data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
 
             $data['headers'] = array(
                 'sim_id' => 'id_симуляции',
