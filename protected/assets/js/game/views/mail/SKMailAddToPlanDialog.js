@@ -76,7 +76,7 @@
                             'onclick':function () {
                                 delete SKApp.user.simulation.mailClient.message_window;
                                 addToPlanDialog.mailClient.setWindowsLog(
-                                    'mailPreview',
+                                    'mailMain',
                                     addToPlanDialog.mailClient.getActiveEmailId()
                                 );
                             }
@@ -154,7 +154,6 @@
 
             addToPlanDialog.close();
 
-
             // mark email planned
             SKApp.server.api(
                 'mail/addToPlan',
@@ -166,6 +165,12 @@
                     // add to plan {
                     SKApp.user.simulation.todo_tasks.fetch();
                     // add to plan }
+                    
+                    addToPlanDialog.mailClient.setWindowsLog(
+                        'mailMain', 
+                        addToPlanDialog.mailClient.getActiveEmailId()
+                    )
+                    
                     SKApp.user.simulation.window_set.toggle('plan', 'plan'); // for logging
                 },
                 false
@@ -174,10 +179,9 @@
         
         doLogClose: function() {
             this.mailClient.setWindowsLog(
-                'mailPreview',
+                'mailMain',
                 this.mailClient.getActiveEmailId()
             );   
-                console.log('DO CLOSE;');
         },
 
         close:function () {
