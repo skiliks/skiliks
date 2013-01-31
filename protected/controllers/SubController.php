@@ -7,7 +7,6 @@ class SubController extends AjaxController
      */
     public function actionAdd()
     {
-        Yii::app()->setLanguage('ru');
         $email = Yii::app()->request->getParam('email', false);
 
         $result = array(
