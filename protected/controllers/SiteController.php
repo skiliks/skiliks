@@ -7,13 +7,29 @@ class SiteController extends AjaxController
      * So, we display error message for user if aout sscript call this action.
      */
     public function actionIndex()
-    {
-
+    {        
         $cs = Yii::app()->clientScript;
-        $assetsUrl = $this->getAssetsUrl();;
+        $assetsUrl = $this->getAssetsUrl();
+        
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
         $cs->registerCssFile($assetsUrl . "/css/style.css");
+        
         $this->render('index', ['assetsUrl' => $assetsUrl]);
+    }
+    
+    public function actionComingSoonSuccess()
+    {        
+        $cs = Yii::app()->clientScript;
+        $assetsUrl = $this->getAssetsUrl();
+        
+        $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
+        $cs->registerCssFile($assetsUrl . "/css/style.css");
+        
+Yii::app()->setLanguage('ru');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+        
+        $this->render('comming-soon-success', ['assetsUrl' => $assetsUrl]);
     }
 
     public function actionSite()

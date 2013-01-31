@@ -7,11 +7,12 @@ class SubController extends AjaxController
      */
     public function actionAdd()
     {
+        Yii::app()->setLanguage('ru');
         $email = Yii::app()->request->getParam('email', false);
 
         $result = array(
             'result'  => 1,
-            'message' => "Email {$email} has been successfully added!"
+            'message' => Yii::t('site', 'Email {email} has been successfully added!', ['{email}' => $email])
         );
         
         try {
@@ -21,13 +22,15 @@ class SubController extends AjaxController
                     'email'    => $email
                 ));
             } else {
-                throw new Exception("Invalid email - '{$email}'!");
+                throw new Exception(
+                    Yii::t('site', "Invalid email - '{email}'!", ['{email}' => $email])
+                );
             }
 
 
         } catch (CDbException $exc) {
             $result['result'] = 0;
-            $result['message'] = "Email - {$email} has been already added before!";
+            $result['message'] =  Yii::t('site', "Email - {email} has been already added before!", ['{email}' => $email]);
         } catch (Exception $exc) {
             $result['result'] = 0;
             $result['message'] = $exc->getMessage();
