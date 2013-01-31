@@ -47,6 +47,24 @@ class AjaxController extends CController
     }
     
     /**
+     * 
+     */
+    public function init()
+    {
+        parent::init();
+        $app = Yii::app();
+        if (in_array(Yii::app()->request->getParam('_lang'), ['en', 'ru']))
+        {
+            $app->language = Yii::app()->request->getParam('_lang');
+            $app->session['_lang'] = $app->language;
+        }
+        else if (isset($app->session['_lang']))
+        {
+            $app->language = $app->session['_lang'];
+        }
+    }
+    
+    /**
      * @deprecated
      * @return integer || HttpResponce
      */
