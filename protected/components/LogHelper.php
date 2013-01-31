@@ -1054,9 +1054,8 @@ class LogHelper {
 
 
                 # Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn :)
-
-                $sql = "SELECT DISTINCT l.sim_id
-                          , CASE
+                /*
+                       , CASE
                             WHEN a.dialog_id THEN
                               if(d.type_of_init != 'flex', 'System_dial_leg', 'Manual_dial_leg')
                             WHEN l.mail_id THEN
@@ -1088,9 +1087,21 @@ class LogHelper {
                             WHEN a.window_id THEN
                               w.subtype
                             END AS leg_action
-                          -- , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
-                          , x.group_id
+                          , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
+                 * */
+                $sql = "SELECT DISTINCT
+                            l.sim_id
+                          , '' as leg_type
+                          , '' as leg_action
                           , l.mail_id
+                          , d.code as dialog_code
+                          , x.code as mail_code
+                          , t.code as doc_code
+                          , a.window_id
+                          , w.subtype
+                          , d.type_of_init
+                          , a.dialog_id
+                          , x.group_id
                           , x.coincidence_mail_code
                           , i.category_id AS category
                           , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
@@ -1116,13 +1127,58 @@ class LogHelper {
 
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
             foreach($data['data'] as $k => $v) {
-                if($data['data'][$k]['group_id'] != 1 AND empty($data['data'][$k]['coincidence_mail_code'])){
+
+                if( !empty($data['data'][$k]['dialog_id']) ){
+                    if( $data['data'][$k]['type_of_init'] !== 'flex' ) {
+                        $data['data'][$k]['leg_type'] =  'System_dial_leg';
+                    } else {
+                        $data['data'][$k]['leg_type'] = 'Manual_dial_leg'; }
+                } elseif ( !empty($data['data'][$k]['mail_id']) ){
+                    //Logger::write($data['data'][$k]['group_id']);
+                    if($data['data'][$k]['group_id'] == 1) {
+                        $data['data'][$k]['leg_type'] = 'Inbox_leg';
+                    }else{
+                        $data['data'][$k]['leg_type'] = 'Outbox_leg';
+                    }
+                    //Logger::write($data['data'][$k]['leg_type']);
+                } else if(!empty($data['data'][$k]['document_id'])){
+                    $data['data'][$k]['leg_type'] = 'Documents_leg';
+                } else if(!empty($data['data'][$k]['window_id'])){
+                    $data['data'][$k]['leg_type'] = 'Window';
+                }
+
+                if( !empty($data['data'][$k]['dialog_id']) ){
+                    $data['data'][$k]['leg_action'] = $data['data'][$k]['dialog_code'];
+                } elseif ( !empty($data['data'][$k]['mail_id']) ){
+                    if($data['data'][$k]['group_id'] == 1) {
+                        $data['data'][$k]['leg_action'] = $data['data'][$k]['mail_code'];
+                    }else if($data['data'][$k]['group_id'] == 3){
+                        if(empty($data['data'][$k]['coincidence_mail_code'])) {
+                            $data['data'][$k]['leg_action'] = 'incorrect_sent';
+                        } else {
+                            $data['data'][$k]['leg_action'] = $data['data'][$k]['coincidence_mail_code'];
+                        }
+                    } else {
+                        $data['data'][$k]['leg_action'] = 'not_sent';
+                    }
+                } else if(!empty($data['data'][$k]['document_id'])){
+                    $data['data'][$k]['leg_action'] = $data['data'][$k]['doc_code'];
+                } else if(!empty($data['data'][$k]['window_id'])){
+                    $data['data'][$k]['leg_action'] = $data['data'][$k]['subtype'];
+                }
+
+                if($data['data'][$k]['group_id'] == 3 AND empty($data['data'][$k]['coincidence_mail_code'])){
 
                 }else{
                     $data['data'][$k]['mail_id'] = '';
                 }
+
                 unset($data['data'][$k]['coincidence_mail_code']);
                 unset($data['data'][$k]['group_id']);
+                unset($data['data'][$k]['dialog_id']);
+                unset($data['data'][$k]['type_of_init']);
+                unset($data['data'][$k]['document_id']);
+                unset($data['data'][$k]['window_id']);
             }
         //$log_activity_action = LogActivityAction::model()->findAll();
         //$activity_action = ActivityAction::model()->findAll();
