@@ -51,6 +51,8 @@ return array(
             // 'newDirMode'=>0777,
         ),
     ),
+    'sourceLanguage'    =>'en_US',
+    'language'          =>'ru_RU',
     'components' => array(
         'preload'=> array('log', 'RSentryException'),
         'cache' => array(
