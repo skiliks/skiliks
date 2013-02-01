@@ -7,6 +7,7 @@ class RegistrationTest extends SeleniumTestCase
      * @large
      */
     public function testRegistration() {
+        $this->markTestIncomplete();
         $session = $this->webdriver->session('firefox');
         $session->open($this->browser_url . 'site/');
         $element = $this->waitForElement($session, 'xpath', "//input[@value='Регистрация']");
