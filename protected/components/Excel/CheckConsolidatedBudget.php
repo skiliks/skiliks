@@ -296,7 +296,6 @@ class CheckConsolidatedBudget
      */
     public function calcPoints() 
     {
-        Yii::log('calcPoints start', 'warning');
         // check document {
         $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
         if (null === $documentId) {
@@ -313,7 +312,6 @@ class CheckConsolidatedBudget
             Yii::log('documentPath is NULL', 'warning');
             return false;
         }
-        Yii::log('documentPath is not NULL', 'warning');
         // check document }
         
         // init configs {
@@ -332,7 +330,6 @@ class CheckConsolidatedBudget
             Yii::log('crash PHPExcel_IOFactory::load', 'warning');
             return false;
         }
-        Yii::log('success PHPExcel_IOFactory::load', 'warning');
         
         // 'wh' - worksheet
         $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['Logistics']);
@@ -346,7 +343,6 @@ class CheckConsolidatedBudget
             Yii::log('no sheet', 'warning');
             return false;   
         }
-        Yii::log('process', 'warning');
         
         // start analyze {
         $this->resetUserPoints();
