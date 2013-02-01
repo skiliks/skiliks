@@ -308,8 +308,10 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
+            Yii::log('documentPath is NULL');
             return false;
         }
+        Yii::log('documentPath is not NULL');
         // check document }
         
         // init configs {
@@ -324,8 +326,11 @@ class CheckConsolidatedBudget
         } catch (Exception $e) {
             $this->resetUserPoints();
             $this->savePoints();
+            
+            Yii::log('crash PHPExcel_IOFactory::load');
             return false;
         }
+        Yii::log('success PHPExcel_IOFactory::load');
         
         // 'wh' - worksheet
         $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
@@ -336,8 +341,10 @@ class CheckConsolidatedBudget
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
             $this->resetUserPoints();
             $this->savePoints();
+            Yii::log('no sheet');
             return false;   
         }
+        Yii::log('process');
         
         // start analyze {
         $this->resetUserPoints();
