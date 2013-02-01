@@ -417,6 +417,9 @@ class SimulationService
         // Fix logs
         LogHelper::fixLogWhenSimStop($simulation);
         
+        // Make agregated activity log 
+        LogHelper::combineLogActivityAgregated($simulation);
+        
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalize($simId);
 
