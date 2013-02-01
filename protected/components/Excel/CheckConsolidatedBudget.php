@@ -299,7 +299,6 @@ class CheckConsolidatedBudget
         // check document {
         $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
         if (null === $documentId) {
-            Yii::log('$documentId is NULL', 'warning');
             return false;
         }
 
@@ -309,7 +308,6 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
-            Yii::log('documentPath is NULL', 'warning');
             return false;
         }
         // check document }
@@ -327,13 +325,10 @@ class CheckConsolidatedBudget
             $this->resetUserPoints();
             $this->savePoints();
             
-            Yii::log('crash PHPExcel_IOFactory::load', 'warning');
             return false;
         }
         
         // 'wh' - worksheet
-        exit(serialize(array_keys($worksheetNames['logistics'])));
-        
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistics']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated budget']);
