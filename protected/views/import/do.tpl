@@ -11,7 +11,7 @@
                 {foreach from=$import_val key=k item=v}
                     <tr>
                         <td>{$k}</td>
-                        <td>{$v}</td>
+                        <td>{$v|@var_export}</td>
                     </tr>
                 {/foreach}
             </table>

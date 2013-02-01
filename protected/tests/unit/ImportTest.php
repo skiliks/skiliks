@@ -54,7 +54,18 @@ class ImportTest extends CDbTestCase
         $import->importEventSamples();
     }
 
-    public function test_6_ActivityImport() {
+    public function test_6_Tasks() {
+        $import = new ImportGameDataService();
+        $import->importTasks();
+    }
+
+
+    public function test_7_MyDocuments() {
+        $import = new ImportGameDataService();
+        $import->importMyDocuments();
+    }
+
+    public function test_8_ActivityImport() {
         $import = new ImportGameDataService();
         $import->importActivity();
     }
