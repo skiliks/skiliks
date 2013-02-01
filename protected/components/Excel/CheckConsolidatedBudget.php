@@ -296,10 +296,11 @@ class CheckConsolidatedBudget
      */
     public function calcPoints() 
     {
+        Yii::log('calcPoints start', 'warning');
         // check document {
         $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
         if (null === $documentId) {
-            Yii::log('$documentId is NULL');
+            Yii::log('$documentId is NULL', 'warning');
             return false;
         }
 
@@ -309,10 +310,10 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
-            Yii::log('documentPath is NULL');
+            Yii::log('documentPath is NULL', 'warning');
             return false;
         }
-        Yii::log('documentPath is not NULL');
+        Yii::log('documentPath is not NULL', 'warning');
         // check document }
         
         // init configs {
@@ -328,10 +329,10 @@ class CheckConsolidatedBudget
             $this->resetUserPoints();
             $this->savePoints();
             
-            Yii::log('crash PHPExcel_IOFactory::load');
+            Yii::log('crash PHPExcel_IOFactory::load', 'warning');
             return false;
         }
-        Yii::log('success PHPExcel_IOFactory::load');
+        Yii::log('success PHPExcel_IOFactory::load', 'warning');
         
         // 'wh' - worksheet
         $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['logistic']);
@@ -342,10 +343,10 @@ class CheckConsolidatedBudget
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
             $this->resetUserPoints();
             $this->savePoints();
-            Yii::log('no sheet');
+            Yii::log('no sheet', 'warning');
             return false;   
         }
-        Yii::log('process');
+        Yii::log('process', 'warning');
         
         // start analyze {
         $this->resetUserPoints();
