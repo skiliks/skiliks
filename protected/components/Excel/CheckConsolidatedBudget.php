@@ -335,7 +335,7 @@ class CheckConsolidatedBudget
         Yii::log('success PHPExcel_IOFactory::load', 'warning');
         
         // 'wh' - worksheet
-        $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['Logistic']);
+        $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['Logistics']);
         $whProduction = $objPHPExcel->getSheetByName($worksheetNames['Production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['Consolidated budget']);
         // get workSheets }
