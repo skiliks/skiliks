@@ -1464,7 +1464,7 @@ class ImportGameDataService
                     $values = MailTemplateModel::model()->findAll();
                 } else {
                     $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
-                    assert($mail, 'Mail with id ' . $xls_act_value . ' not found');
+                    assert($mail);
                     $values = array($mail);
                 }
             } else if ($type === 'document_id') {
