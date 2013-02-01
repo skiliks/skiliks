@@ -805,7 +805,7 @@ class LogHelper {
         return true;
     }
     
-    public static function setWindowsLog( $simId, $logs ) {
+    public static function setWindowsLog( $simId, $logs, $isLastLog = false ) {
         if (!is_array($logs)) return false;
         foreach( $logs as $log ) {
 
@@ -823,7 +823,7 @@ class LogHelper {
                     
                 } elseif( self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2] ) {
                     $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
-                    if (0 == count($windows)) {
+                    if (0 == count($windows) && false === $isLastLog) {
                         throw(new CException('No active windows. Achtung!'.$simId));
                     }
                     if (1 < count($windows)) {
