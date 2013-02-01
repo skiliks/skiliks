@@ -44,6 +44,11 @@ class ImportTest extends CDbTestCase
         $import->importEmails();
     }
 
+    public function test_4_2_MailTasks() {
+        $import = new ImportGameDataService();
+        $import->importMailTasks();
+    }
+
     public function test_5_EventsSamples() {
         $import = new ImportGameDataService();
         $import->importEventSamples();

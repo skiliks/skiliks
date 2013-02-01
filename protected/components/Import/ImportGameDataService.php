@@ -813,7 +813,7 @@ class ImportGameDataService
         // load sheet }
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
-            $code = $this->getCellValue($sheet, '№', $i);
+            $code = $this->getCellValue($sheet, 'Mail_code', $i);
             if ($code === null) {
                 continue;
             }
