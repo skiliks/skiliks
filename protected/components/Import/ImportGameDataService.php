@@ -367,7 +367,7 @@ class ImportGameDataService
             }
             // themes update {
             $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id]);
-            assert($subjectEntity !== null, 'Subject ' . $subject_id . ' does not exists');
+            assert($subjectEntity !== null);
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
 

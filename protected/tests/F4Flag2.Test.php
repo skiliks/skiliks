@@ -3,6 +3,7 @@ class F4Flag2 extends SeleniumTestCase
 {
     public function testMyTestCase()
     {
+        $this->markTestIncomplete();
         # Login
         $session = $this->webdriver->session('firefox');
         $session->open($this->browser_url . 'site.php');
