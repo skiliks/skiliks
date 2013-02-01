@@ -332,7 +332,7 @@ class CheckConsolidatedBudget
         }
         
         // 'wh' - worksheet
-        Yii::log(serialize(array_keys($worksheetNames['logistics'])), 'warning');
+        throw new Exception(serialize(array_keys($worksheetNames['logistics'])));
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistics']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated budget']);
