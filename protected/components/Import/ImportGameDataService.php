@@ -673,7 +673,7 @@ class ImportGameDataService
         );
     }
 
-    private function importTasks()
+    public function importTasks()
     {
         $reader = $this->getReader();
         // load sheet {
@@ -686,11 +686,11 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             // Код
-            $code = $this->getCellValue($sheet, 'Код', $i);
+            $code = $this->getCellValue($sheet, 'Plan_code', $i);
             if ($code === null)
                 continue;
             // Тип старта задачи
-            $startType = $this->getCellValue($sheet, '', $i);
+            $startType = $this->getCellValue($sheet, 'Plan_type', $i);
             // Список дел в to-do-list
             $name = $this->getCellValue($sheet, 'Список дел в to-do-list', $i);
             // Жесткая
@@ -817,8 +817,7 @@ class ImportGameDataService
             if ($code === null) {
                 continue;
             }
-            $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'время отправки', $i), 'hh:mm:ss');
-            ;
+            $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Time', $i), 'hh:mm:ss');
             assert($sendingTime !== null);
             $event = EventsSamples::model()->byCode($code)->find();
             if (!$event) {
@@ -853,8 +852,8 @@ class ImportGameDataService
         $documents = MyDocumentsService::getAllCodes();
         $index = 0;
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
-            $code = $this->getCellValue($sheet, '№', $i);
-            $attache = $this->getCellValue($sheet, 'Вложение', $i);
+            $code = $this->getCellValue($sheet, 'Mail_code', $i);
+            $attache = $this->getCellValue($sheet, 'Attachment', $i);
 
             if ($attache == '' || $attache == '-') continue; // нет аттачей
 
@@ -899,40 +898,40 @@ class ImportGameDataService
         $sheet = $excel->getSheetByName('Documents');
         // load sheet }
 
-        $this->setColumnNumbersByNames($sheet, 3);
+        $this->setColumnNumbersByNames($sheet, 1);
 
         $importedRows = 0;
-        for ($i = $sheet->getRowIterator(4); $i->valid(); $i->next()) {
-            if (NULL === $this->getCellValue($sheet, 'Код', $i)) {
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Document_code', $i)) {
                 continue;
             }
 
             // try to find exists entity 
             $document = MyDocumentsTemplateModel::model()
-                ->byCode($this->getCellValue($sheet, 'Код', $i))
+                ->byCode($this->getCellValue($sheet, 'Document_code', $i))
                 ->find();
 
             // create entity if not exists {
             if (null === $document) {
                 $document = new MyDocumentsTemplateModel();
-                $document->code = $this->getCellValue($sheet, 'Код', $i);
+                $document->code = $this->getCellValue($sheet, 'Document_code', $i);
             }
             // create entity if not exists }
 
             // update data {
-            $document->fileName = sprintf('%s.%s', $this->getCellValue($sheet, 'Документ', $i), $this->getCellValue($sheet, 'Формат', $i));
+            $document->fileName = sprintf('%s.%s', $this->getCellValue($sheet, 'Document_name', $i), $this->getCellValue($sheet, 'Document_extension', $i));
 
             // may be this is hack, but let it be {
             $document->srcFile = StringTools::CyToEn($document->fileName); // cyrilic to latinitsa
             $document->srcFile = str_replace(' ', '_', $document->srcFile);
-            $document->srcFile = str_replace('.xls', '.xlsx', $document->srcFile);
-            $document->srcFile = str_replace('.doc', '.pdf', $document->srcFile);
-            $document->srcFile = str_replace('.ppt', '.pdf', $document->srcFile);
+            $document->srcFile = str_replace('.xlsx', '.xlsx', $document->srcFile);
+            $document->srcFile = str_replace('.docx', '.pdf', $document->srcFile);
+            $document->srcFile = str_replace('.pptx', '.pdf', $document->srcFile);
             // may be this is hack, but let it be }
 
-            $document->format = $this->getCellValue($sheet, 'Формат', $i);
+            $document->format = $this->getCellValue($sheet, 'Document_extension', $i);
 
-            $document->type = $this->getCellValue($sheet, 'Type', $i);
+            $document->type = $this->getCellValue($sheet, 'Document_type', $i);
             $document->hidden = 'start' === $document->type ? 0 : 1;
             $document->import_id = $this->import_id;
 
@@ -1544,7 +1543,6 @@ class ImportGameDataService
             $result['mail_tasks'] = $this->importMailTasks();
             $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
-            //$result['dialog'] = $this->importDialogReplics();
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
 
