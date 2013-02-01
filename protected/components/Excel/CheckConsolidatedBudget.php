@@ -332,7 +332,7 @@ class CheckConsolidatedBudget
         }
         
         // 'wh' - worksheet
-        throw new Exception(serialize(array_keys($worksheetNames['logistics'])));
+        var_dump(serialize(array_keys($worksheetNames['logistics']))); die;
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistics']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated budget']);
