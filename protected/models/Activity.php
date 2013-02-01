@@ -92,7 +92,7 @@ class Activity extends CActiveRecord
         return array(
             array('parent, grandparent, name', 'required'),
             array('category_id', 'length', 'max'=>10),
-            array('id, parent, grandparent', 'length', 'max'=>10),
+            array('id, parent, grandparent', 'length', 'max'=>255),
             array('name', 'length', 'max'=>255),
             array('import_id', 'length', 'max'=>255),
             // The following rule is used by search().
