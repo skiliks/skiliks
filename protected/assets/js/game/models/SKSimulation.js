@@ -107,7 +107,7 @@
             /**
              * Parses new events and adds them to event collection
              *
-             * @param {Array} events
+             * @param {Array.<Object>} events
              */
             parseNewEvents:function (events) {
                 var me = this;

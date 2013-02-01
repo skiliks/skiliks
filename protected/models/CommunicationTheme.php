@@ -8,6 +8,7 @@
  *
  * @property MailTemplateModel letter
  * @property string constructor_number
+ * @property string import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CommunicationTheme extends CActiveRecord
@@ -163,25 +164,26 @@ class CommunicationTheme extends CActiveRecord
     
     /**
      * @param string $ids
-     * @return \CommunicationTheme
+     * @return CommunicationTheme
      */
     public function byIdsNotIn($ids)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT IN ({$ids}) "
-        ));
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', explode(',',$ids));
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
-    
+
     /**
      * Выбрать с признаком "телефон"
+     * @param int $v
      * @return CommunicationTheme
      */
     public function byPhone($v = 1)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "phone = {$v}"
-        ));
+        $criteria = new CDbCriteria();
+        $criteria->compare('phone', $v);
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
 
@@ -199,6 +201,7 @@ class CommunicationTheme extends CActiveRecord
     }
 
     /**
+     * @param int $v
      * @return CommunicationTheme
      */
     public function byMail($v = 1)
