@@ -332,7 +332,8 @@ class CheckConsolidatedBudget
         }
         
         // 'wh' - worksheet
-        var_dump(serialize(array_keys($worksheetNames['logistics']))); die;
+        exit(serialize(array_keys($worksheetNames['logistics'])));
+        
         $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistics']);
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated budget']);
