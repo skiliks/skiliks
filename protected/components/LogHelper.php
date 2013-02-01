@@ -1050,46 +1050,13 @@ class LogHelper {
          return true;
     }
     
-    public static function getLegActionsDetail($return) {
-
-
-                # Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn :)
-                /*
-                       , CASE
-                            WHEN a.dialog_id THEN
-                              if(d.type_of_init != 'flex', 'System_dial_leg', 'Manual_dial_leg')
-                            WHEN l.mail_id THEN
-                              CASE
-                              WHEN x.group_id = 1 THEN
-                                'Inbox_leg'
-                              ELSE
-                                'Outbox_leg'
-                              END
-                            WHEN a.document_id THEN
-                              'Documents_leg'
-                            WHEN a.window_id THEN
-                              'Window'
-                            END AS leg_type
-                          , CASE
-                            WHEN a.dialog_id THEN
-                              d.code
-                            WHEN l.mail_id THEN
-                              CASE
-                              WHEN x.group_id = 1 THEN
-                                x.code
-                              WHEN x.group_id = 3 THEN
-                                if(x.coincidence_mail_code = null, 'incorrect_sent', x.coincidence_mail_code)
-                              ELSE
-                                'not_sent'
-                              END
-                            WHEN a.document_id THEN
-                              t.code
-                            WHEN a.window_id THEN
-                              w.subtype
-                            END AS leg_action
-                          , CASE WHEN x.group_id != 1 AND x.coincidence_mail_code = null THEN l.mail_id ELSE '' END AS mail_id
-                 * */
-                $sql = "SELECT DISTINCT
+    public static function getLegActionsDetail($return, $simulation = NULL, $isUnsetData = true) {
+        $simSql = '';
+        if (NULL !== $simulation) {
+           $simSql = sprintf(' WHERE l.sim_id = %s ', $simulation->id); 
+        }
+        
+        $sql = "SELECT DISTINCT
                             l.sim_id
                           , '' as leg_type
                           , '' as leg_action
@@ -1107,7 +1074,10 @@ class LogHelper {
                           , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
                           , l.start_time AS start_time
                           , ifnull(l.end_time, '00:00:00') AS end_time
-                          , timediff(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time
+                          , timediff(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time,
+                          l.activity_action_id,
+                          i.category_id,
+                          a.is_keep_last_category
             FROM
               log_activity_action AS l
             LEFT JOIN activity_action AS a
@@ -1122,15 +1092,16 @@ class LogHelper {
             ON i.id = a.activity_id
             LEFT JOIN mail_box AS x
             ON l.mail_id = x.id AND l.sim_id = x.sim_id
+            {$simSql}
             ORDER BY
               l.id";
 
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
             foreach($data['data'] as $k => $v) {
-
+                
                 if( !empty($data['data'][$k]['dialog_id']) ){
                     if( $data['data'][$k]['type_of_init'] !== 'flex' ) {
-                        $data['data'][$k]['leg_type'] =  'System_dial_leg';
+                        $data['data'][$k]['leg_type'] = 'System_dial_leg';
                     } else {
                         $data['data'][$k]['leg_type'] = 'Manual_dial_leg'; }
                 } elseif ( !empty($data['data'][$k]['mail_id']) ){
@@ -1167,26 +1138,25 @@ class LogHelper {
                     $data['data'][$k]['leg_action'] = $data['data'][$k]['subtype'];
                 }
 
+
+
                 if($data['data'][$k]['group_id'] == 3 AND empty($data['data'][$k]['coincidence_mail_code'])){
 
                 }else{
                     $data['data'][$k]['mail_id'] = '';
                 }
 
-                unset($data['data'][$k]['coincidence_mail_code']);
-                unset($data['data'][$k]['group_id']);
-                unset($data['data'][$k]['dialog_id']);
-                unset($data['data'][$k]['type_of_init']);
-                unset($data['data'][$k]['document_id']);
-                unset($data['data'][$k]['window_id']);
+                if ($isUnsetData) {
+                    unset($data['data'][$k]['coincidence_mail_code']);
+                    unset($data['data'][$k]['activity_action_id']);
+                    unset($data['data'][$k]['category_id']);
+                    unset($data['data'][$k]['group_id']);
+                    unset($data['data'][$k]['dialog_id']);
+                    unset($data['data'][$k]['type_of_init']);
+                    unset($data['data'][$k]['document_id']);
+                    unset($data['data'][$k]['window_id']);
+                }
             }
-        //$log_activity_action = LogActivityAction::model()->findAll();
-        //$activity_action = ActivityAction::model()->findAll();
-        //$window = Window::model()->findAll();
-        //$dialogs = Dialogs::model()->findAll();
-
-        
-            //$data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
 
             $data['headers'] = array(
                 'sim_id' => 'id_симуляции',
@@ -1293,12 +1263,57 @@ class LogHelper {
         
         $transaction->commit();
     }
-    
+
     /**
      * 
      * @param Simulations $simulation
      */
-    public static function combineActivityLog($simulation) {
+    public static function combineLogActivityAgregated($simulation) {
+        $agregatedActivity = NULL;
         
+        $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
+
+        foreach($data['data'] as $activityAction) {
+            if (NULL === $agregatedActivity) {
+                // init new agregatedActivity at first iteration
+                $agregatedActivity = new LogActivityActionAgregated();
+                
+                $agregatedActivity->sim_id             = $simulation->id;
+                $agregatedActivity->leg_type           = $activityAction['leg_type'];                
+                $agregatedActivity->leg_action         = $activityAction['leg_action'];
+                $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
+                $agregatedActivity->category           = $activityAction['category_id'];
+                $agregatedActivity->keep_last_category = $activityAction['is_keep_last_category'];
+                $agregatedActivity->start_time         = $activityAction['start_time'];
+                $agregatedActivity->end_time           = $activityAction['end_time'];
+                $agregatedActivity->duration           = $activityAction['diff_time'];
+            } else {
+                // IF previouse action activity the same with current 
+                // OR current activity action duration < 10 real seconds
+                // THEN prolong previouse actvity 
+                $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                $limit = Yii::app()->params['public']['skiliksSpeedFactor']*10; // 10 real seconds
+                if ( $agregatedActivity->activity_action_id === $activityAction['activity_action_id'] ||
+                    $actionDurationInGameSeconds < $limit ) {
+                    $agregatedActivity->end_time = $activityAction['end_time']; // prolong previouse activity
+                } else {
+                    // activity and, save it
+                    $agregatedActivity->save();
+                    
+                    // init new agregatedActivity for new activity
+                    $agregatedActivity = new LogActivityActionAgregated();
+
+                    $agregatedActivity->sim_id             = $simulation->id;
+                    $agregatedActivity->leg_type           = $activityAction['leg_type'];                
+                    $agregatedActivity->leg_action         = $activityAction['leg_action'];
+                    $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
+                    $agregatedActivity->category           = $activityAction['category_id'];
+                    $agregatedActivity->keep_last_category = $activityAction['is_keep_last_category'];
+                    $agregatedActivity->start_time         = $activityAction['start_time'];
+                    $agregatedActivity->end_time           = $activityAction['end_time'];
+                    $agregatedActivity->duration           = $activityAction['diff_time'];
+                }
+            }
+        }
     }
 }
