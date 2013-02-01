@@ -141,7 +141,7 @@ class CheckConsolidatedBudget
         $s2 = $this->SUM($whConsolidated, array('R'), array(10,11,12,13,14));
         $s3 = $this->SUM($whConsolidated, array('B','C','D','E','F','G','H','I','J','K','L','M'), array(6,7));
         $s4 = $this->SUM($whConsolidated, array('B','C','D','E','F','G','H','I','J','K','L','M'), array(10,11,12,13,14));
-        
+        Yii::log(sprintf('Check 3: %s, %s, %s, %s.', $s, $s2, $s3, $s4));
         $sum = $s1 + $s2 - $s3 - $s4;
         
         // for some reasons $sum is float and != 0, but = 0,00...001
