@@ -1293,4 +1293,12 @@ class LogHelper {
         
         $transaction->commit();
     }
+    
+    /**
+     * 
+     * @param Simulations $simulation
+     */
+    public static function combineActivityLog($simulation) {
+        
+    }
 }
