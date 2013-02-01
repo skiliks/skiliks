@@ -82,6 +82,9 @@ logging = {
     },
     LegActionsDetail: function(){
         this.draw("LegActionsDetail");
+    },
+    LegActionsAgregated: function(){
+        this.draw("LegActionsAgregated");
     }
     
 }

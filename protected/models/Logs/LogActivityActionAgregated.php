@@ -22,7 +22,7 @@ class LogActivityActionAgregated extends CActiveRecord
     
     public $category;
     
-    public $keep_last_category;
+    public $is_keep_last_category;
     
     /**
      * @var string 'hh:ii:ss'
@@ -41,6 +41,14 @@ class LogActivityActionAgregated extends CActiveRecord
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
+    public function updateDuration() {
+        $this->duration = TimeTools::secondsToTime(
+            (TimeTools::TimeToSeconds($this->end_time) - TimeTools::TimeToSeconds($this->start_time))
+        );
+    }
+
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
     /**
      *
      * @param type $className
@@ -54,7 +62,7 @@ class LogActivityActionAgregated extends CActiveRecord
     public function relations()
     {
         return array(
-            'activitiAction'  => array(self::BELONGS_TO, 'ActivityAction', 'activity_action_id'),
+            'activityAction'  => array(self::BELONGS_TO, 'ActivityAction', 'activity_action_id'),
             'simulation'      => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
         );
     }
