@@ -18,7 +18,7 @@ class ImportGameDataService
     
     public function __construct()
     {
-        $this->filename = __DIR__ . '/../../../media/Scenario_v22.25_TP_Forma1_without_formulas.xlsx';
+        $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
@@ -267,30 +267,35 @@ class ImportGameDataService
         $START_COL = $this->columnNoByName['Задержка прихода письма (минут от времени, когда была инициирована отправка)'] + 1;
         $END_COL = PHPExcel_Cell::columnIndexFromString($sheet->getHighestColumn());
         for($columnIndex = $START_COL; $columnIndex <= $END_COL; $columnIndex++) {
-            $pointsCodes[$columnIndex] = $sheet->getCellByColumnAndRow($columnIndex, 2)->getValue();
+            $code = $sheet->getCellByColumnAndRow($columnIndex, 2)->getValue();
+            if ($code === null) {
+                $END_COL = $columnIndex;
+                break;
+            }
+            $pointsCodes[$columnIndex] = $code;
             $counter['mark-codes']++;
         }
 
+
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
-            $code = $this->getCellValue($sheet,'№', $i);
+            $code = $this->getCellValue($sheet,'Mail_code', $i);
             if (null === $code) {
                 continue;
             }
-            $sendingDate = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($this->getCellValue($sheet,'дата отправки', $i)));
-            $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet,'время отправки', $i), 'hh:mm:ss');;
-            $fromCode = $this->getCellValue($sheet,'От кого (код)', $i);
-            $toCode = $this->getCellValue($sheet,'Кому (код)', $i);
-            $copies = $this->getCellValue($sheet,'Копия (код)', $i);
+            $sendingDate = date('Y-m-d',(int)PHPExcel_Shared_Date::ExcelToPHP($this->getCellValue($sheet,'Date', $i)));
+            $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet,'Time', $i), 'hh:mm:ss');;
+            $fromCode = $this->getCellValue($sheet,'From _code', $i);
+            $toCode = $this->getCellValue($sheet,'To_code', $i);
+            $copies = $this->getCellValue($sheet,'Copy_code', $i);
 
-            $subject = $this->getCellValue($sheet,'тема', $i);
-            $subject = StringTools::fixReAndFwd($subject);
+            $subject_id = $this->getCellValue($sheet,'Theme_id', $i);
             
             // Письмо
-            $message = $this->getCellValue($sheet,'Письмо', $i);
+            $message = $this->getCellValue($sheet,'Mail_body', $i);
             // Вложение
-            $attachment = $sheet->getCellByColumnAndRow($this->columnNoByName['Вложение'], $i->key())->getValue();
+            $attachment = $sheet->getCellByColumnAndRow($this->columnNoByName['Attachment'], $i->key())->getValue();
             
-            $typeOfImportance = trim($sheet->getCellByColumnAndRow($this->columnNoByName['Тип письма для оценки'], $i->key())->getValue());
+            $typeOfImportance = trim($sheet->getCellByColumnAndRow($this->columnNoByName['Mail_type_for_assessment'], $i->key())->getValue());
             
             if (false === isset($exists[$code])) {
                 $exists[$code] = 1;
@@ -360,30 +365,9 @@ class ImportGameDataService
                 $time[1] = 0;
             }
             // themes update {
-            $subjectEntity = CommunicationTheme::model()->findByAttributes(['text' => $subject]);
-            if ($subjectEntity === null) {
-                $subjectEntity = new CommunicationTheme();
-            }
-            if ($fromCode != 1) {
-                $subjectEntity->character_id        = Characters::model()->findByAttributes(['code' => $fromCode])->primaryKey;
-            } else {
-                $subjectEntity->character_id        = Characters::model()->findByAttributes(['code' => $toCode])->primaryKey;
-            }
-
-            $subjectEntity->text                = $subject;
-            $subjectEntity->letter_number       = $code;
-            $subjectEntity->wr                  = 'W';
-            $subjectEntity->wr                  = 'W';
-            $subjectEntity->constructor_number  = 'B1'; // base-default
-            $subjectEntity->phone               = 0;    // this is email
-            $subjectEntity->phone_dialog_number = '';   // this is email
-            $subjectEntity->mail                = 1;    // this is email
-            $subjectEntity->source              = $source;
-            $subjectEntity->import_id           = $this->import_id;
-            $subjectEntity->save();
-
-
-            $emailSubjectsIds[] = $subjectEntity->id;
+            $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id]);
+            assert($subjectEntity, 'Subject ' . $subject_id . ' does not exists');
+             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
             
             $emailTemplateEntity = MailTemplateModel::model()->findByAttributes(['code'=>$code]);
@@ -520,7 +504,10 @@ class ImportGameDataService
        // points relations }
        
        // "theme" relations {
-       $emailSubjectEntities = CommunicationTheme::model()
+        /**
+         * @var CommunicationTheme[] $emailSubjectEntities
+         */
+        $emailSubjectEntities = CommunicationTheme::model()
             ->byIdsNotIn(implode(',', $emailSubjectsIds))
             ->findAll();
         
@@ -587,19 +574,18 @@ class ImportGameDataService
      * @throws Exception
      * @return array
      */
-    private  function importEmailSubjects()
+    public function importEmailSubjects()
     {
         // load sheet {
         $reader = $this->getReader();
-        $reader->setLoadSheetsOnly('F-S-C');
+        $reader->setLoadSheetsOnly(['ALL Themes','Mail']);
         $excel = $reader->load($this->filename);
-        $sheet = $excel->getSheetByName('F-S-C');
+        $sheet = $excel->getSheetByName('ALL Themes');
+        $mail_sheet = $excel->getSheetByName('mail');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
 
-
-        $characterMailThemesIds = array(); // to remove all old characterMailThemes after import
 
         $characters = array();
         $charactersList = Characters::model()->findAll();
@@ -610,30 +596,31 @@ class ImportGameDataService
         $html = '';
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'Кому (код)', $i); // A
-            if (!isset($characters[$characterCode])) {
-                return array(
-                    'status' => true,
-                    'text'   => "cant find character by code $characterCode",
-                );
+            if ($characterCode === '') {
+                $characterCode = $this->getCellValue($sheet, 'От кого (код)', $i); // A
             }
-
             $characterId        = $characters[$characterCode];
             // Определим тему письма
-            $subjectText        = $this->getCellValue($sheet, 'Тема', $i);
+            $subjectText        = $this->getCellValue($sheet, 'Original_Theme_text', $i);
             $subjectText        = StringTools::fixReAndFwd($subjectText);
             // Phone
-            $phone              = $this->getCellValue($sheet, 'Phone', $i);
+            $phone              = $this->getCellValue($sheet, 'Theme_usage', $i) === 'phone';
             // Phone W/R
             $phoneWr            = $this->getCellValue($sheet, 'Phone W/R', $i);
             // Phone dialogue number
             $phoneDialogNumber  = $this->getCellValue($sheet, 'Phone dialogue number', $i);
             // Mail
-            $mail               = $this->getCellValue($sheet, 'Mail', $i);
+            $mail               = $this->getCellValue($sheet, 'Theme_usage', $i) === 'mail_outbox';
             // Mail letter number
             $mailCode           = $this->getCellValue($sheet, 'Mail letter number', $i);
             $mailCode           = ('' !== $mailCode) ? $mailCode : null;
+            $mailPrefix         = $this->getCellValue($sheet, 'Theme_prefix', $i);
+            if ($mailPrefix === '' || $mailPrefix === '-') {
+                $mailPrefix = null;
+            }
             // Mail W/R
             $wr                 = $this->getCellValue($sheet, 'Mail W/R', $i);
             // Mail constructor number
@@ -641,14 +628,10 @@ class ImportGameDataService
             // Source of outbox email
             $source             = $this->getCellValue($sheet, 'Source', $i);
 
-            // определить код темы
-            //$subjectModel = MailThemesModel::model()->byName($subject)->bySimIdNull()->find();
-            /*if (null === $subjectModel) {
-                $subjectModel = new MailThemesModel();
-                $subjectModel->name = $subject;
-                $subjectModel->insert();
-            }*/
 
+            /**
+             * @var CommunicationTheme $communicationTheme
+             */
             $communicationTheme = CommunicationTheme::model()
                 ->byLetterNumber($mailCode)
                 ->byText($subjectText)
@@ -668,6 +651,8 @@ class ImportGameDataService
             $communicationTheme->phone_wr               = $phoneWr;
             $communicationTheme->phone_dialog_number    = $phoneDialogNumber;
             $communicationTheme->mail                   = $mail;
+            $communicationTheme->mail_prefix            = $mailPrefix;
+            $communicationTheme->code                   = $themeId;
             $communicationTheme->source                 = $source;
             $communicationTheme->import_id                 = $this->import_id;
 
@@ -767,7 +752,7 @@ class ImportGameDataService
                 ->find();
             
             if (!$mail) {
-                throw new Exception("cant find mail by code $code");
+                throw new Exception("cant find mail by code $mail");
             }
 
             // try to find exists entity 
@@ -1010,16 +995,17 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             
             // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
-            if (NULL == $this->getCellValue($sheet, 'id записи', $i)) {
+            $dialog_excel_id = $this->getCellValue($sheet, 'id записи', $i);
+            if (NULL == $dialog_excel_id) {
                 continue;
             }
             
             $dialog = Dialogs::model()
-                ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
+                ->byExcelId($dialog_excel_id)
                 ->find();
             if (NULL === $dialog) {
                 $dialog           = new Dialogs(); // Создаем событие
-                $dialog->excel_id = $this->getCellValue($sheet, 'id записи', $i);
+                $dialog->excel_id = $dialog_excel_id;
             }
             
             // a lot of dialog properties: {
@@ -1038,10 +1024,10 @@ class ImportGameDataService
             
             $subtypeAlias = $this->getCellValue($sheet, 'Категория события', $i);
             $dialog->dialog_subtype  = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
+
+            $code = $this->getCellValue($sheet, '', $i);
+            $dialog->next_event      = $this->getNextEventId($code);
             
-            $dialog->next_event      = $this->getNextEventId($this->getCellValue($sheet, 'Event_result_code', $i));
-            
-            $code = $this->getCellValue($sheet, 'Event_result_code', $i);
             $dialog->next_event_code = ('-' == $code) ? NULL : $code;
             $dialog->text            = $this->getCellValue($sheet, 'Реплика', $i);
             $dialog->duration        = 0; // @todo: remove duration from model, deprecated property
@@ -1049,7 +1035,7 @@ class ImportGameDataService
             $dialog->replica_number  = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $dialog->delay           = $this->getCellValue($sheet, 'Длина реплики', $i);
             
-            $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i))->find();
+            $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов', $i, 1))->find();
             $dialog->flag            = (NULL === $flag) ? NULL : $flag->flag;
             
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
@@ -1366,14 +1352,15 @@ class ImportGameDataService
      * @param PHPExcel_Worksheet $sheet
      * @param string $columnName
      * @param PHPExcel_Worksheet_RowIterator $i
+     * @param int $increment
      * @return mixed
      */
-    private function getCellValue($sheet, $columnName, $i)
+    private function getCellValue($sheet, $columnName, $i, $increment = 0)
     {
         return $sheet->getCellByColumnAndRow(
-            $this->columnNoByName[$columnName], 
+            $this->columnNoByName[$columnName] + $increment,
             $i->key()
-        )->setDataType(PHPExcel_Cell_DataType::TYPE_STRING)->getValue();
+        )->setDataType(PHPExcel_Cell_DataType::TYPE_STRING)->getCalculatedValue();
     }
 
     /**
@@ -1474,7 +1461,7 @@ class ImportGameDataService
                     $values = MailTemplateModel::model()->findAll();
                 } else {
                     $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
-                    assert($mail);
+                    assert($mail, 'Mail with id ' . $xls_act_value . ' not found');
                     $values = array($mail);
                 }
             } else if ($type === 'document_id') {
@@ -1544,10 +1531,10 @@ class ImportGameDataService
             $result['learning_goals'] = $this->importLearningGoals();
             $result['characters_points_titles'] = $this->importCharactersPointsTitles();
             $result['dialog'] = $this->importDialogReplicas();
+            $result['email_subjects'] = $this->importEmailSubjects();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();
             $result['mail_events'] = $this->importMailEvents();
-            $result['email_subjects'] = $this->importEmailSubjects();
             $result['tasks'] = $this->importTasks();
             $result['mail_tasks'] = $this->importMailTasks();
             $result['my_documents'] = $this->importMyDocuments();
