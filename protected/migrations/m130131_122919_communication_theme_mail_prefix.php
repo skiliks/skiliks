@@ -10,6 +10,7 @@ class m130131_122919_communication_theme_mail_prefix extends CDbMigration
             'title' => 'string NOT NULL'
         ]);
         $this->addColumn('communication_themes', 'mail_prefix', 'string');
+        $this->update('communication_themes', ['mail_prefix' => null]);
         $this->addForeignKey(
             'communication_themes_mail_prefix', 'communication_themes', 'mail_prefix', 'mail_prefix', 'code',
             'CASCADE', 'CASCADE');
