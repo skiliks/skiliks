@@ -5,6 +5,7 @@ class AuthControllerTest extends ControllerTestCase {
      * @large
      */
     function testSimulationStart() {
+        $this->markTestIncomplete();
         $user = new Users();
         $user->email = 'andrey' . time() . '@kostenko.name';
         $user->password = md5('test');
