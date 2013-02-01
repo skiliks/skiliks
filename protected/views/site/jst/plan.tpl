@@ -125,6 +125,7 @@
 					<div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
 				</div>
 			</div>
+			<div style="clear:both;"></div>
         </div>
     </div>
 </script>

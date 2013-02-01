@@ -1,7 +1,5 @@
 .canvas .sim-window.planner-book-main-div {
-  width: 80%;
-  min-width: 970px;
-  max-width: 1536px;
+  width: 1010px;
   position: relative;
   user-select: none;
   .sim-window-container {
@@ -9,19 +7,19 @@
   }
   header {
     background: url("../img/planner/bg-planner-header-right.png") no-repeat right top;
-    height: 80px;
+    height: 84px;
     padding-right: 32px;
     border: none;
     >div {
       background: url("../img/planner/bg-planner-header-left.png") no-repeat left top;
       overflow: hidden;
-      padding: 4px 0 0 25px;
+      padding: 4px 0 4px 25px;
       .planner-book-head {
         background-color:#FFF;
         background-repeat:repeat-x;
         background-position:right 0;
         border-right: solid 1px #000;
-        width: 33.15%;
+        width: 316px;
         float: left;
         &.planner-book-today-head{
           background-image: url("../img/planner/planner_book_orange.png");
@@ -95,6 +93,16 @@
           }
         }
       }
+      @media screen and (min-width: 1300px) and (max-width: 1600px){
+        .planner-book-head{
+          width:383px;
+        }
+      }
+      @media screen and (min-width: 1601px){
+        .planner-book-head{
+          width:480px;
+        }
+      }
     }
   }
   .sim-window-content{
@@ -102,7 +110,7 @@
     padding-right: 32px;
     >div{
       background: url("../img/planner/bg-planner-book-left.png") no-repeat left bottom;
-      padding: 0 0 0 25px;
+      padding-left: 25px;
       .btn-close{
         position:absolute;
         top:10px;
@@ -134,52 +142,70 @@
   }
   .planner-book{
     background: #FFF url("../img/planner/bg-planner-book-left.png") no-repeat -25px bottom;
-    overflow:hidden;
     position:relative;
+    height: 464px;
     padding-bottom:9px;
     .planner-book-today, .planner-book-tomorrow, .planner-book-after-vacation {
-      .mCustomScrollBox{
-        overflow:visible;
-      }
-      .mCSB_container {
-        margin-right: 0;
-      }
       .mCSB_scrollTools {
         margin-right: 0;
         width:16px;
         top:0;
-        right:-10px;
         z-index: 1;
         .mCSB_dragger {
           height: 80px;
         }
+        .mCSB_draggerContainer{
+          .mCSB_draggerRail{
+            background:#000;
+          }
+        }
+      }
+      .mCSB_container{
+        margin-right:0;
       }
     }
     .planner-book-today {
-      border-right:1px solid #000;
-      width: 33.15%;
-      height: 464px;
-      float: left;
+      width: 326px;
+      height: 460px;
+      position:absolute;
+      top:0;
+      left:0;
     }
     .planner-book-tomorrow {
-      border-right:1px solid #000;
-      border-left:1px solid #000;
-      width: 33.15%;
-      height: 464px;
-      float: left;
+      width: 326px;
+      height: 460px;
+      position:absolute;
+      top:0;
+      left:318px;
     }
     .planner-book-after-vacation {
-      border-right:1px solid #000;
-      border-left:1px solid #000;
-      width: 33.15%;
-      height: 464px;
-      float: left;
-      overflow: hidden;
+      width: 325px;
+      height: 460px;
+      position:absolute;
+      top:0;
+      left:636px;
+      .mCSB_draggerRail{
+        width:1px;
+      }
       .planner-book-afterv-table {
-        margin-top: 4px;
         overflow-y: hidden;
         transition-property: height;
         transition-duration: 1s;
+        @media screen and (min-width: 1281px){
+          .planner-book-timetable-table{
+            border-right:1px solid #000;
+          }
+        }
+        @media screen and (min-width: 1300px) and (max-width: 1600px){
+          .planner-book-timetable-table{
+            width:382px;
+          }
+        }
+        @media screen and (min-width: 1601px){
+          .planner-book-timetable-table{
+            width:481px;
+          }
+        }
       }
       .planner-book-afterv-table.closed {
         height: 0;
@@ -193,28 +219,67 @@
     }
     .planner-book-timetable{
       height: 460px;
-      margin-top: 4px;
       overflow-y: hidden;
     }
     @media screen and (min-width: 1281px){
       .planner-book-today{
-        height: 602px;
+        height: 600px;
       }
       .planner-book-tomorrow{
-        height: 602px;
+        height: 600px;
       }
       .planner-book-after-vacation{
-        height: 602px;
+        height: 600px;
       }
       .planner-book-timetable{
-        height: 598px;
+        height: 600px;
+      }
+    }
+    @media screen and (min-width: 1300px) and (max-width:1600px){
+      .planner-book-today{
+        border-right:1px solid #000;
+        width:383px;
+      }
+      .planner-book-tomorrow{
+        border-right:1px solid #000;
+        border-left:1px solid #000;
+        width:383px;
+        left:384px;
+      }
+      .planner-book-after-vacation{
+        border-left:1px solid #000;
+        width:393px;
+        left:769px;
+      }
+      .planner-book-timetable{
+        width:383px;
+      }
+    }
+    @media screen and (min-width: 1601px){
+      .planner-book-today{
+        border-right:1px solid #000;
+        width:480px;
+      }
+      .planner-book-tomorrow{
+        border-right:1px solid #000;
+        border-left:1px solid #000;
+        width:480px;
+        left:481px;
+      }
+      .planner-book-after-vacation{
+        border-left:1px solid #000;
+        width:489px;
+        left:963px;
+      }
+      .planner-book-timetable{
+        width:480px;
       }
     }
 
     .planner-book-timetable-table{
       border-collapse: separate;
       table-layout: fixed;
-      width: 100%;
+      width: 316px;
       tr {
         height: 10px;
       }
@@ -304,15 +369,30 @@
         }
       }
     }
+    @media screen and (min-width: 1300px) and (max-width:1600px){
+      .planner-book-timetable-table{
+        width:383px;
+      }
+    }
+    @media screen and (min-width: 1601px){
+      .planner-book-timetable-table{
+        width:480px;
+      }
+    }
+  }
+  @media screen and (min-width: 1281px){
+    .planner-book{
+      height:600px;
+    }
   }
   .plan-todo {
     background: transparent url("../img/planner/bg-plan-todo-left.png") no-repeat 0 0;
-    width:33.15%;
+    width:333px;
     height: 50%;
     position:absolute;
     overflow:hidden;
     bottom:0;
-    left:66.30%;
+    right:0;
     transition-property: height, transform, bottom;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
@@ -374,11 +454,11 @@
         padding:0;
         position:absolute;
         top:6px;
-        right:4px;
+        right:6px;
         li{
           height:23px;
           float:left;
-          margin-right:5px;
+          margin-left:5px;
           button{
             background:url("../img/planner/btn-plan-todo.png") no-repeat 0 0;
             border:none;
@@ -454,6 +534,16 @@
     }
     .todo-revert {
       display: none;
+    }
+  }
+  @media screen and (min-width: 1300px) and (max-width:1600px){
+    .plan-todo{
+      width:400px;
+    }
+  }
+  @media screen and (min-width: 1601px){
+    .plan-todo{
+      width:496px;
     }
   }
   .planner-task {
@@ -584,4 +674,14 @@
     width:214px;
   }
 
+}
+@media screen and (min-width: 1300px) and (max-width: 1600px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1211px;
+  }
+}
+@media screen and (min-width: 1601px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1502px;
+  }
 }
