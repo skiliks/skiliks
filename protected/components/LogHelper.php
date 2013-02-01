@@ -1335,6 +1335,7 @@ class LogHelper {
                 l.sim_id
               , l.leg_type
               , l.leg_action
+              , ac.activity_id
               , l.category
               , if(l.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
               , l.start_time AS start_time
@@ -1342,6 +1343,8 @@ class LogHelper {
               , l.duration
             FROM
               log_activity_action_agregated AS l
+            LEFT JOIN activity_action AS a
+            ON l.activity_action_id = ac.id
             {$simSql}
             ORDER BY
               l.id";
@@ -1352,6 +1355,7 @@ class LogHelper {
                 'sim_id'                => 'id_симуляции',
                 'leg_type'              => 'Leg_type',
                 'leg_action'            => 'Leg_action',
+                'activity_id'           => 'activity ID',
                 'category'              => 'Category',
                 'is_keep_last_category' => 'Keep last category',
                 'start_time'            => 'Игровое время - start',
