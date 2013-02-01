@@ -1436,7 +1436,7 @@ class ImportGameDataService
 
             $activity->import_id = $this->import_id;
             if (false === $activity->validate()) {
-                return array('errors' => $activity->getErrors());
+                throw new Exception(print_r($activity->getErrors(),true));
             }
             $activity->save();
             // update activity values }
