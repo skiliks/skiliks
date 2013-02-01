@@ -39,7 +39,7 @@ return array (
   'No proper response from server. Please try again later.' => 'Неправильный ответ от сервера. Попробуйте чуть посже ещё раз.',
   'No response from server. Please try again later.' => 'Не ответа от сервера. Попробуйте чуть посже ещё раз.',
   'Our Clients' => 'Наши клиенты',
-  'Please enter a valid email address' => 'Пожалуйста, введите валидынй еиейл',
+  'Please enter a valid email address' => 'Пожалуйста, введите валидный емейл',
   'Results can be obtained and used immediately' => 'Моментально предоставляет готовые для использования результаты оценки',
   'Saves your time' => 'Экономит время',
   'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
