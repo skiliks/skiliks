@@ -1284,6 +1284,7 @@ class LogHelper {
                 $agregatedActivity->leg_type              = $activityAction['leg_type'];                
                 $agregatedActivity->leg_action            = $activityAction['leg_action'];
                 $agregatedActivity->activityAction        = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                $agregatedActivity->activity_action_id    = $activityAction['activity_action_id'];
                 $agregatedActivity->category              = $activityAction['category_id'];
                 $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
                 $agregatedActivity->start_time            = $activityAction['start_time'];
@@ -1311,6 +1312,7 @@ class LogHelper {
                     $agregatedActivity->leg_type              = $activityAction['leg_type'];                
                     $agregatedActivity->leg_action            = $activityAction['leg_action'];
                     $agregatedActivity->activityAction        = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                    $agregatedActivity->activity_action_id    = $activityAction['activity_action_id'];
                     $agregatedActivity->category              = $activityAction['category_id'];
                     $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
                     $agregatedActivity->start_time            = $activityAction['start_time'];
