@@ -299,6 +299,7 @@ class CheckConsolidatedBudget
         // check document {
         $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
         if (null === $documentId) {
+            Yii::log('$documentId is NULL');
             return false;
         }
 
