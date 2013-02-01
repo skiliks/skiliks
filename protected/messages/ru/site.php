@@ -23,7 +23,7 @@ return array (
   '2-3-hours game' => '2-3 часовая игра',
   'A tool to assess candidates and newcomers' => 'Отличный инструмент для оценки кандидатов и новых сотрудников',
   'Back to top' => 'Вверх страницы',
-  'Based on bestworking practices' => 'Основан на лучшей управленческой практике',
+  'Based on best working practices' => 'Основан на лучшей управленческой практике',
   'Based on mathematical methods not just feelings' => 'Использует математические методы анализа поведения, а не субъективные ощущения ',
   'Can be used by an unlimited number of applicants in any part of the world' => 'Позволяет тестировать любое количество людей в любой точке мира ',
   'Coming soon' => 'Скоро',
