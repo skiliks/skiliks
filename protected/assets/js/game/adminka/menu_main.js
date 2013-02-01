@@ -35,6 +35,7 @@ menuMain = {
                             '<li><a href="#" onclick="logging.Documents()">Documents</a></li>'+
                             '<li><a href="#" onclick="logging.Dialogs()">Dialogs</a></li>'+
                             '<li><a href="#" onclick="logging.LegActionsDetail()">Leg_actions - detail</a></li>'+
+                            '<li><a href="#" onclick="logging.LegActionsAgregated()">Leg_actions - agregated</a></li>'+
                             '<li><a href="#" onclick="logging.ExcelAssessmentDetail()">Excel assessment - detail</a></li>'+
                     '</ul>'+
             '</li>'+	

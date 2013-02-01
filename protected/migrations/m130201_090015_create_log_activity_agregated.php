@@ -32,6 +32,8 @@ class m130201_090015_create_log_activity_agregated extends CDbMigration
 
 	public function down()
 	{
-		
+		$this->dropForeignKey('log_activity_action_agregated_FK_activity_action', 'log_activity_action_agregated');
+		$this->dropForeignKey('log_activity_action_agregated_FK_simulations', 'log_activity_action_agregated');
+		$this->dropTable('log_activity_action_agregated');
 	}
 }

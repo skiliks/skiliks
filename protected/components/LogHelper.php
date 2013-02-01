@@ -1077,7 +1077,8 @@ class LogHelper {
                           , timediff(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time,
                           l.activity_action_id,
                           i.category_id,
-                          a.is_keep_last_category
+                          a.is_keep_last_category,
+                          a.activity_id
             FROM
               log_activity_action AS l
             LEFT JOIN activity_action AS a
@@ -1150,6 +1151,7 @@ class LogHelper {
                     unset($data['data'][$k]['coincidence_mail_code']);
                     unset($data['data'][$k]['activity_action_id']);
                     unset($data['data'][$k]['category_id']);
+                    unset($data['data'][$k]['activity_id']);
                     unset($data['data'][$k]['group_id']);
                     unset($data['data'][$k]['dialog_id']);
                     unset($data['data'][$k]['type_of_init']);
@@ -1278,24 +1280,26 @@ class LogHelper {
                 // init new agregatedActivity at first iteration
                 $agregatedActivity = new LogActivityActionAgregated();
                 
-                $agregatedActivity->sim_id             = $simulation->id;
-                $agregatedActivity->leg_type           = $activityAction['leg_type'];                
-                $agregatedActivity->leg_action         = $activityAction['leg_action'];
-                $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
-                $agregatedActivity->category           = $activityAction['category_id'];
-                $agregatedActivity->keep_last_category = $activityAction['is_keep_last_category'];
-                $agregatedActivity->start_time         = $activityAction['start_time'];
-                $agregatedActivity->end_time           = $activityAction['end_time'];
-                $agregatedActivity->duration           = $activityAction['diff_time'];
+                $agregatedActivity->sim_id                = $simulation->id;
+                $agregatedActivity->leg_type              = $activityAction['leg_type'];                
+                $agregatedActivity->leg_action            = $activityAction['leg_action'];
+                $agregatedActivity->activityAction        = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                $agregatedActivity->category              = $activityAction['category_id'];
+                $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
+                $agregatedActivity->start_time            = $activityAction['start_time'];
+                $agregatedActivity->end_time              = $activityAction['end_time'];
+                $agregatedActivity->duration              = $activityAction['diff_time'];
             } else {
                 // IF previouse action activity the same with current 
                 // OR current activity action duration < 10 real seconds
                 // THEN prolong previouse actvity 
                 $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
                 $limit = Yii::app()->params['public']['skiliksSpeedFactor']*10; // 10 real seconds
-                if ( $agregatedActivity->activity_action_id === $activityAction['activity_action_id'] ||
+                if ( $agregatedActivity->activityAction->activity_id === $activityAction['activity_id'] ||
                     $actionDurationInGameSeconds < $limit ) {
-                    $agregatedActivity->end_time = $activityAction['end_time']; // prolong previouse activity
+                    // prolong previouse activity :
+                    $agregatedActivity->end_time = $activityAction['end_time']; 
+                    $agregatedActivity->updateDuration();
                 } else {
                     // activity and, save it
                     $agregatedActivity->save();
@@ -1303,17 +1307,69 @@ class LogHelper {
                     // init new agregatedActivity for new activity
                     $agregatedActivity = new LogActivityActionAgregated();
 
-                    $agregatedActivity->sim_id             = $simulation->id;
-                    $agregatedActivity->leg_type           = $activityAction['leg_type'];                
-                    $agregatedActivity->leg_action         = $activityAction['leg_action'];
-                    $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
-                    $agregatedActivity->category           = $activityAction['category_id'];
-                    $agregatedActivity->keep_last_category = $activityAction['is_keep_last_category'];
-                    $agregatedActivity->start_time         = $activityAction['start_time'];
-                    $agregatedActivity->end_time           = $activityAction['end_time'];
-                    $agregatedActivity->duration           = $activityAction['diff_time'];
+                    $agregatedActivity->sim_id                = $simulation->id;
+                    $agregatedActivity->leg_type              = $activityAction['leg_type'];                
+                    $agregatedActivity->leg_action            = $activityAction['leg_action'];
+                    $agregatedActivity->activityAction        = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                    $agregatedActivity->category              = $activityAction['category_id'];
+                    $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
+                    $agregatedActivity->start_time            = $activityAction['start_time'];
+                    $agregatedActivity->end_time              = $activityAction['end_time'];
+                    $agregatedActivity->duration              = $activityAction['diff_time'];
                 }
             }
         }
+        
+        if (NULL !== $agregatedActivity) {
+            $agregatedActivity->save();
+        }
+    }
+    
+    public static function getLegActionsAgregated($return, $simulation = NULL) {
+        $simSql = '';
+        if (NULL !== $simulation) {
+           $simSql = sprintf(' WHERE l.sim_id = %s ', $simulation->id); 
+        }
+        
+        $sql = "SELECT
+                l.sim_id
+              , l.leg_type
+              , l.leg_action
+              , l.category
+              , if(l.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
+              , l.start_time AS start_time
+              , l.end_time
+              , l.duration
+            FROM
+              log_activity_action_agregated AS l
+            {$simSql}
+            ORDER BY
+              l.id";
+
+        $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
+
+            $data['headers'] = array(
+                'sim_id'                => 'id_симуляции',
+                'leg_type'              => 'Leg_type',
+                'leg_action'            => 'Leg_action',
+                'category'              => 'Category',
+                'is_keep_last_category' => 'Keep last category',
+                'start_time'            => 'Игровое время - start',
+                'end_time'              => 'Игровое время - end',
+                'duration'              => 'Разница времени');
+            
+            if(self::RETURN_DATA == $return) {
+                $data['title'] = "Логирование Leg_actions - agregated";
+                return $data;
+            } elseif (self::RETURN_CSV == $return) {
+                $csv = new ECSVExport($data['data'], true, true, ';');
+                $csv->setHeaders($data['headers']);
+                $content = $csv->toCSVutf8BOM();
+                $filename = 'data.csv';
+                Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+            } else {
+                throw new Exception('Не верный параметр $return = '.$return.' метода '.__CLASS__.'::'.__METHOD__);
+            }
+         return true;
     }
 }
