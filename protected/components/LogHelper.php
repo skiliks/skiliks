@@ -1095,7 +1095,7 @@ class LogHelper {
             ON l.mail_id = x.id AND l.sim_id = x.sim_id
             {$simSql}
             ORDER BY
-              l.id";
+              l.sim_id, l.start_time";
 
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
             foreach($data['data'] as $k => $v) {
