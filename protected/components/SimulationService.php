@@ -410,7 +410,7 @@ class SimulationService
         LogHelper::setDocumentsLog($simId, $logs); //Закрытие документа при стопе симуляции
         LogHelper::setMailLog($simId, $logs); //Закрытие ркна почты при стопе симуляции
         
-        LogHelper::setWindowsLog($simId, $logs);
+        LogHelper::setWindowsLog($simId, $logs, true);
 
         LogHelper::setDialogs($simId, $logs);
         
