@@ -14,9 +14,6 @@ class MailTest extends SeleniumTestCase
     public function testMail()
     {
 
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
         # Login
         $session = $this->webdriver->session('firefox');
         $session->open($this->browser_url . 'site/');
