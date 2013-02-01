@@ -1343,7 +1343,7 @@ class LogHelper {
               , l.duration
             FROM
               log_activity_action_agregated AS l
-            LEFT JOIN activity_action AS a
+            LEFT JOIN activity_action AS ac
             ON l.activity_action_id = ac.id
             {$simSql}
             ORDER BY
