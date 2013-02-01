@@ -94,7 +94,7 @@ class ActivityAction extends CActiveRecord
         $log_action = LogActivityAction::model()->findByAttributes(array(
             'activity_action_id' => $this->id,
             'sim_id' => $log->simulation->id,
-            'end_time' => ($this->end_time !== '00:00:00' ? $log->end_time : null)
+            'end_time' => ($log->end_time !== '00:00:00' ? $log->end_time : null)
         ));
         if (!$log_action) {
             $log_action = new LogActivityAction();
