@@ -279,7 +279,7 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet,'Mail_code', $i);
-            if (null === $code) {
+            if (null === $code || '' === $code) {
                 continue;
             }
             $sendingDate = date('Y-m-d',(int)PHPExcel_Shared_Date::ExcelToPHP($this->getCellValue($sheet,'Date', $i)));
@@ -326,7 +326,7 @@ class ImportGameDataService
                 $counter['MS']++;
                 $source = 'outbox';
             } else {
-                assert(false, 'Unknown code');
+                assert(false, 'Unknown code: ' . $code);
             }
             
             if (!isset($characters[$fromCode])) {                
@@ -598,9 +598,9 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             // Определение кода персонажа
-            $characterCode = $this->getCellValue($sheet, 'Кому (код)', $i); // A
-            if ($characterCode === '') {
-                $characterCode = $this->getCellValue($sheet, 'От кого (код)', $i); // A
+            $characterCode = $this->getCellValue($sheet, 'From_code', $i); // A
+            if ($characterCode === '' || $characterCode === '-') {
+                $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
             }
             $characterId        = $characters[$characterCode];
             // Определим тему письма
@@ -1009,7 +1009,7 @@ class ImportGameDataService
             }
             
             // a lot of dialog properties: {
-            $dialog->code            = $this->getCellValue($sheet, 'Код события', $i);
+            $dialog->code            = $this->getCellValue($sheet, 'Event_code', $i);
             $dialog->event_result    = 7; // ничего
             $from_character_code = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
             $dialog->ch_from         = Characters::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
@@ -1184,7 +1184,7 @@ class ImportGameDataService
         // Events from dialogs {
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             
-            $code = $this->getCellValue($sheet, 'Код события', $i);
+            $code = $this->getCellValue($sheet, 'Event_code', $i);
 
             if ($code === null)
                 continue;
@@ -1358,7 +1358,7 @@ class ImportGameDataService
     private function getCellValue($sheet, $columnName, $i, $increment = 0)
     {
         return $sheet->getCellByColumnAndRow(
-            $this->columnNoByName[$columnName] + $increment,
+                $this->columnNoByName[$columnName] + $increment,
             $i->key()
         )->setDataType(PHPExcel_Cell_DataType::TYPE_STRING)->getCalculatedValue();
     }
