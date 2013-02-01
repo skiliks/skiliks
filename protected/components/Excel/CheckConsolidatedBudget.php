@@ -332,9 +332,9 @@ class CheckConsolidatedBudget
         }
         
         // 'wh' - worksheet
-        $whLogistic = $objPHPExcel->getSheetByName($worksheetNames['Logistics']);
-        $whProduction = $objPHPExcel->getSheetByName($worksheetNames['Production']);
-        $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['Consolidated budget']);
+        $whLogistic     = $objPHPExcel->getSheetByName($worksheetNames['logistics']);
+        $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
+        $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated budget']);
         // get workSheets }
         
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
