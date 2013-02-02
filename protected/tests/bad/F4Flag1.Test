@@ -5,7 +5,7 @@ class F4Flag1 extends SeleniumTestCase
     {
         # Login
         $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site.php');
+        $session->open($this->browser_url);
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -31,19 +31,19 @@ class F4Flag1 extends SeleniumTestCase
 
         #добавление события
         $this->waitForElement($session, "id", "addTriggerSelect")->value(array("value" => str_split("E1.3")));
-        $this->waitForElement($session, "id", "addTriggerDelay")->value(array("value" => str_split("1")));
+        #$this->waitForElement($session, "id", "addTriggerDelay")->value(array("value" => str_split("1")));
         #клик на "создать событие"
         $session->element("xpath", "//input[@value='Создать']")->click();
         #ждем исчезновения черной полосы загрузки и в появившемся окне тригера кликаем ОК
-        sleep(3);
-        $session->element('css selector','.alert a.btn')->click();     
-        sleep(5);
+        sleep(10);
+        #$session->element('css selector','.alert a.btn')->click();     
+        #sleep(5);
         
         #2 ответа на диалог с Трутневым
 
-        $this->waitForElement($session, 'xpath', "//p[text()=\"-          Сергей, привет! Ты не мог бы мне помочь? У меня тут полный аврал. Крутько занята, только на тебя надежда. Будем делать бюджет, сводный.\"]", 5)->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"— Сергей, привет! Ты не мог бы мне помочь? У меня тут полный аврал. Крутько занята, только на тебя надежда. Будем делать бюджет, сводный.\"]", 5)->click();
         sleep(2);
-        $this->waitForElement($session, 'xpath', "//p[text()=\"- Я тебе сейчас перешлю файл, ты посмотри, и сразу приходи, если будут вопросы, разберемся.\"]")->click();
+        $this->waitForElement($session, 'xpath', "//p[text()=\"— Я тебе сейчас перешлю файл, ты посмотри, и сразу приходи, если будут вопросы, разберемся.\"]")->click();
         sleep(20);
         
     
