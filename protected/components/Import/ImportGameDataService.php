@@ -1467,7 +1467,7 @@ class ImportGameDataService
                 } else {
                     $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
                     if($mail !== null) {
-                        throw new Exception('No such mail: ' + $xls_act_value);
+                        throw new Exception('No such mail: ' . $xls_act_value);
                     }
                     $values = array($mail);
                 }
