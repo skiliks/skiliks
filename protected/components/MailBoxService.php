@@ -199,7 +199,8 @@ class MailBoxService {
 
     /**
      * Загрузка одиночного сообщения
-     * @param type $id
+     * @param int $id
+     * @return array
      */
     public static function getMessage($id) {
         $model = MailBoxModel::model()->byId($id)->find();
@@ -477,40 +478,14 @@ class MailBoxService {
         if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
 
         $themes = array();
-        if (count($receivers) == 1) {
-            // загрузка тем по одному персонажу
-            $models = CommunicationTheme::model()
-                ->byCharacter($receivers[0])
-                ->byMail()
-                ->findAll();
+        // загрузка тем по одному персонажу
+        $models = CommunicationTheme::model()
+            ->byCharacter($receivers[0])
+            ->byMail()
+            ->findAll();
 
-            foreach($models as $model) {
-                $themes[(int)$model->id] = (int)$model->id;
-            }
-        }
-
-        // если у нас более одного получателя
-        if (count($receivers) > 1) {
-            $models = CommunicationTheme::model()->byMail()->findAll();
-            $collection = array();
-            foreach($models as $model) {
-                $collection[] = array(
-                    'id' => (int)$model->id,
-                    'theme_id' => (int)$model->id
-                );
-            }
-
-            $processedItems = 0;
-            while($processedItems < 10) {
-                $index = rand(0, 10);
-
-                if (isset($collection[$index]))
-                    if (!isset($themes[$collection[$index]['id']])) {
-                        $themes[$collection[$index]['id']] = $collection[$index]['id'];
-
-                    }
-                $processedItems++;
-            }
+        foreach($models as $model) {
+            $themes[(int)$model->id] = (int)$model->id;
         }
 
         if (count($themes) == 0) return array();

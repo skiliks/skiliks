@@ -9,6 +9,7 @@
  * @property MailTemplateModel letter
  * @property string constructor_number
  * @property string import_id
+ * @property mixed|null mail_prefix
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CommunicationTheme extends CActiveRecord
@@ -206,9 +207,9 @@ class CommunicationTheme extends CActiveRecord
      */
     public function byMail($v = 1)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail = {$v}"
-        ));
+        $criteria = new CDbCriteria();
+        $criteria->compare('mail', $v);
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }
     

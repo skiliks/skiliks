@@ -8,6 +8,7 @@
  * 
  * Связана с моделями: MailTemplateModel, CharactersPointsTitles.
  *
+ * @property mixed import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailPointsModel extends CActiveRecord

@@ -15,6 +15,8 @@
  * @property Dialogs $dialog
  * @property MailTemplateModel $mail
  * @property MyDocumentsTemplateModel $document
+ * @property string import_id
+ * @property string leg_type
  */
 class ActivityAction extends CActiveRecord
 {
@@ -52,7 +54,7 @@ class ActivityAction extends CActiveRecord
         return array(
             array('activity_id', 'required'),
             array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly'=>true),
-            array('activity_id', 'length', 'max'=>10),
+            array('activity_id', 'length', 'max'=>255),
             array('import_id', 'length', 'max'=>255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
