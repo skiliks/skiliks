@@ -82,9 +82,9 @@ class MailReceiversModel extends CActiveRecord
      */
     public function byIdsNotIn($ids)
     {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => " `id` NOT  IN ({$ids})"
-        ));
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', explode(',', $ids));
+        $this->getDbCriteria()->mergeWith($criteria);
         return $this;
     }  
 }

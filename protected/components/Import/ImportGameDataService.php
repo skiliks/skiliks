@@ -293,8 +293,6 @@ class ImportGameDataService
 
             // Письмо
             $message = $this->getCellValue($sheet, 'Mail_body', $i);
-            // Вложение
-            $attachment = $sheet->getCellByColumnAndRow($this->columnNoByName['Attachment'], $i->key())->getValue();
 
             $typeOfImportance = trim($sheet->getCellByColumnAndRow($this->columnNoByName['Mail_type_for_assessment'], $i->key())->getValue());
 
@@ -312,20 +310,16 @@ class ImportGameDataService
                 $group = 1;
                 $type = 3;
                 $counter['MY']++;
-                $source = 'inbox';
             } else if (preg_match("/M\d+/", $code)) {
                 $type = 1;
                 $counter['M']++;
-                $source = 'inbox';
             } else if (preg_match("/MSY\d+/", $code)) {
                 $group = 3;
                 $type = 4;
                 $counter['MSY']++;
-                $source = 'outbox';
             } else if (preg_match("/MS\d+/", $code)) {
                 $type = 2;
                 $counter['MS']++;
-                $source = 'outbox';
             } else {
                 assert(false, 'Unknown code: ' . $code);
             }
@@ -401,6 +395,7 @@ class ImportGameDataService
                 if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
                 $pointId = $pointsInfo[$pointCode];
 
+                /** @var MailPointsModel $pointEntity */
                 $pointEntity = MailPointsModel::model()->byMailId($emailTemplateEntity->id)->byPointId($pointId)->find();
                 if (null === $pointEntity) {
                     $pointEntity = new MailPointsModel();
@@ -422,12 +417,9 @@ class ImportGameDataService
                 $columnIndex++;
             }
 
-            foreach ($receivers as $ind => $receiverCode) {
+            foreach (array_values($receivers) as $receiverCode) {
                 if (!isset($characters[$receiverCode])) {
-                    return array(
-                        'status' => false,
-                        'text' => "cant find receiver by code $receiverCode",
-                    );
+                    throw new Exception("cant find receiver by code $receiverCode");
                 }
                 $receiverId = $characters[$receiverCode];
 
@@ -448,7 +440,7 @@ class ImportGameDataService
                 if (!isset($characters[$characterCode])) {
                     return array(
                         'status' => false,
-                        'text' => "cant find chracter by code $characterCode",
+                        'text' => "cant find character by code $characterCode",
                     );
                 }
                 $characterId = $characters[$characterCode];
@@ -484,6 +476,7 @@ class ImportGameDataService
         // copy relations }
 
         // recipient relations {
+        /** @var MailReceiversModel[] $emailRecipientEntities */
         $emailRecipientEntities = MailReceiversModel::model()
             ->byIdsNotIn(implode(',', $emailToRecipientIds))
             ->findAll();
@@ -600,9 +593,9 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             // Определение кода персонажа
-            $characterCode = $this->getCellValue($sheet, 'From_code', $i); // A
+            $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
             if ($characterCode === '' || $characterCode === '-') {
-                $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
+                $characterCode = $this->getCellValue($sheet, 'From_code', $i); // A
             }
             $characterId = $characters[$characterCode];
             // Определим тему письма
@@ -618,6 +611,9 @@ class ImportGameDataService
             $mail = $this->getCellValue($sheet, 'Theme_usage', $i) === 'mail_outbox';
             // Mail letter number
             $mailCode = $this->getCellValue($sheet, 'Mail letter number', $i);
+            if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено' ) {
+                $mailCode = null;
+            }
             $mailCode = ('' !== $mailCode) ? $mailCode : null;
             $mailPrefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
             if ($mailPrefix === '' || $mailPrefix === '-') {
@@ -755,7 +751,7 @@ class ImportGameDataService
                 ->find();
 
             if (!$mail) {
-                throw new Exception("cant find mail by code $mail");
+                break;
             }
 
             // try to find exists entity 
@@ -1032,7 +1028,9 @@ class ImportGameDataService
             $dialog->next_event = $this->getNextEventId($code);
 
             $dialog->next_event_code = ('-' == $code) ? NULL : $code;
-            $dialog->text = $this->getCellValue($sheet, 'Реплика', $i);
+            $text = $this->getCellValue($sheet, 'Реплика', $i);
+            $text = preg_replace('/^ \s*-\s*/', ' — ', $text);
+            $dialog->text = $text;
             $dialog->duration = 0; // @todo: remove duration from model, deprecated property
             $dialog->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
@@ -1451,6 +1449,8 @@ class ImportGameDataService
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
                     $values = Dialogs::model()->findAll();
+                } else if ($xls_act_value === 'phone talk') {
+                    $values = [null];
                 } else {
                     $dialog = Dialogs::model()->findByAttributes(array('code' => $xls_act_value));
                     if ($dialog === null) {
@@ -1462,9 +1462,13 @@ class ImportGameDataService
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
                     $values = MailTemplateModel::model()->findAll();
+                } else if ($xls_act_value === 'incorrect_sent' or $xls_act_value === 'not_sent') {
+                    $values = [null];
                 } else {
                     $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
-                    assert($mail);
+                    if($mail !== null) {
+                        throw new Exception('No such mail: ' + $xls_act_value);
+                    }
                     $values = array($mail);
                 }
             } else if ($type === 'document_id') {
@@ -1487,22 +1491,23 @@ class ImportGameDataService
 
             // update relation Activiti to Document, Dialog replic ro Email {
             foreach ($values as $value) {
-                assert(is_object($value));
+                /** @var ActivityAction $activityAction */
                 $activityAction = ActivityAction::model()->findByAttributes(array(
                     'activity_id' => $activity->primaryKey,
-                    $type => $value->primaryKey
+                    $type => ($value !== null ? $value->primaryKey : null)
                 ));
                 if ($activityAction === null) {
                     $activityAction = new ActivityAction();
                 }
                 $activityAction->import_id = $this->import_id;
                 $activityAction->activity_id = $activity->id;
+                $activityAction->leg_type = $leg_type;
                 $activityAction->is_keep_last_category =
                     $sheet->getCellByColumnAndRow($this->columnNoByName['Keep last category'], $i->key())->getValue();
-                $activityAction->$type = $value->id;
+                $activityAction->$type = ($value !== null ? $value->primaryKey : null);
                 if (!$activityAction->validate()) {
                     $this->errors = $activityAction->getErrors();
-                    return array('errors' => $this->errors);
+                    throw new Exception(print_r($this->errors, true));
                 }
                 $activityAction->save();
             }
