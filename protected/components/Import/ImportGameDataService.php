@@ -1029,7 +1029,7 @@ class ImportGameDataService
 
             $dialog->next_event_code = ('-' == $code) ? NULL : $code;
             $text = $this->getCellValue($sheet, 'Реплика', $i);
-            $text = preg_replace('/^\s*-\s*/', ' — ', $text);
+            $text = preg_replace('/^\s*-[\s ]*/', ' — ', $text);
             $dialog->text = $text;
             $dialog->duration = 0; // @todo: remove duration from model, deprecated property
             $dialog->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
