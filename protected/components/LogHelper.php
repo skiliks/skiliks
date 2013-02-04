@@ -1062,14 +1062,14 @@ class LogHelper {
                 , '' as leg_action
                 , l.mail_id
                 , d.code as dialog_code
-                , x.code as mail_code
+                , mail_template.code as mail_code
                 , t.code as doc_code
                 , a.window_id
                 , w.subtype
                 , d.type_of_init
                 , a.dialog_id
                 , x.group_id
-                , x.coincidence_mail_code
+                , mail_template.code as coincidence_mail_code
                 , i.category_id AS category
                 , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
                 , l.start_time AS start_time
@@ -1093,6 +1093,8 @@ class LogHelper {
             ON i.id = a.activity_id
             LEFT JOIN mail_box AS x
             ON l.mail_id = x.id AND l.sim_id = x.sim_id
+            LEFT JOIN mail_template
+            ON mail_template.id = a.mail_id
             {$simSql}
             ORDER BY
               l.sim_id, l.start_time";
