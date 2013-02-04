@@ -587,6 +587,8 @@ class ImportGameDataService
             if ($characterCode !== '' || $characterCode !== '-') {
                 $characterCode = null;
                 $characterId = null;
+            } else {
+                $characterId = $characters[$characterCode];
             }
             // Определим тему письма
             $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
