@@ -29,12 +29,14 @@ class DebugController extends AjaxController{
     
     public function actionAe()
     {
-        $simulation = Simulations::model()->findByPk(7444);
+        $simulation = Simulations::model()->findByPk(7277);
         
         echo '<pre>';
         
         echo 'start';
-        LogHelper::fixLogWhenSimStop($simulation);
+        //$CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        //$CheckConsolidatedBudget->calcPoints();
+        //LogHelper::fixLogWhenSimStop($simulation);
         //$s = new ImportGameDataService();
         //$s->importAll();
         echo '<br/>end.';
