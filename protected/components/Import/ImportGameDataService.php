@@ -498,19 +498,6 @@ class ImportGameDataService
         unset($entity);
         // points relations }
 
-        // "theme" relations {
-        /**
-         * @var CommunicationTheme[] $emailSubjectEntities
-         */
-        $emailSubjectEntities = CommunicationTheme::model()
-            ->byIdsNotIn(implode(',', $emailSubjectsIds))
-            ->findAll();
-
-        foreach ($emailSubjectEntities as $entity) {
-            $entity->delete();
-        }
-        unset($entity);
-        // "theme" relations }
 
         // mail templates {
         $emailTemplates = MailTemplateModel::model()

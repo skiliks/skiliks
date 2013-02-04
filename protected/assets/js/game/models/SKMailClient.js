@@ -417,7 +417,7 @@
                         id:mailClient.activeEmail.mySqlId
                     },
                     function (response) {
-                        if (1 == response.result) {
+                        if (1 === response.result) {
                             return response;
                         } else {
                             throw "Can`t initialize responce email. Model. #3";
