@@ -1283,6 +1283,7 @@ section.mail>header nav ul li.active label:hover{
 .mail-window .actions li a.SAVE_TO_DRAFTS{
 	background-position:center -276px;
 }
+.mail-window .actions li a.SEND_DRAFT_EMAIL,
 .mail-window .actions li a.SEND_EMAIL{
 	background-position:center -237px;
 }
