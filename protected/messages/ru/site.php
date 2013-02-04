@@ -46,4 +46,7 @@ return array (
   'Skiliks - game the skills' => 'Skiliks - играй навыками',
   'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
   'Uses real work environment, tasks and decision making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
+  'Home' => 'Главная',
+  'About' => 'О нас',
+  'Product' => 'О продукте',
 );
