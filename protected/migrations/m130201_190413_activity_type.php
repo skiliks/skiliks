@@ -5,7 +5,7 @@ class m130201_190413_activity_type extends CDbMigration
 	public function up()
 	{
         $this->createTable('activity_type', [
-            'type' => 'VARCHAR(40) NOT NULL PRIMARY KEY'
+            'type' => 'VARCHAR(40) CHARACTER SET utf8 NOT NULL PRIMARY KEY '
         ]);
         $this->insert('activity_type', ['type' => 'Documents_leg']);
         $this->insert('activity_type', ['type' => 'Inbox_leg']);
