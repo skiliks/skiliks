@@ -160,6 +160,10 @@
                         alert('Ошибка при запуске симуляции.');
                         SKApp.user.stopSimulation();
                     }
+                    
+                    if ('undefined' != typeof data.simId) {
+                        me.id = data.simId
+                    }
                     me.todo_tasks.fetch();
                     me.dayplan_tasks.fetch();
                     me.documents.fetch();

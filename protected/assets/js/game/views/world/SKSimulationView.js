@@ -106,6 +106,13 @@
                 this.updateTime();
                 this.undelegateEvents();
                 this.delegateEvents();
+                
+                if (undefined !== SKApp.user.simulation.id) {
+                    this.$('#sim-id').text(SKApp.user.simulation.id);
+                }
+                if (undefined !== SKConfig.skiliksSpeedFactor) {
+                    this.$('#speed-factor').text(SKConfig.skiliksSpeedFactor);
+                }
             },
             'updateTime':function () {
                 var parts = this.simulation.getGameTime().split(':');

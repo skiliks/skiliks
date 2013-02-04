@@ -15,14 +15,19 @@
                 <fieldset>
                     <br/>
                     <h4>Действия</h4>
-                    <br/>
+                    <br/>                    
                     <form class="simulation-buttons">
                         <input class="btn btn-simulation-stop" type="button" value="SIM стоп">
                     </form>
                     <button class="btn btn-toggle-dialods-sound" type="button" value="" 
                        title="Убрать звук в диалогах/вернуть звук в диалогах">
                         <i class="icon-volume-off"></i>
-                    </button>                 
+                    </button> 
+                    <br/>
+                    <div>
+                        <strong>Sim id:</strong> <span id="sim-id"></span><br/>
+                        <strong>Speed factor:</strong> x<span id="speed-factor"><span></span>
+                    </div>
                 </fieldset>            
         </div>
         <div class="span3">
