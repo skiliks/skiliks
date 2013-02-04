@@ -584,7 +584,7 @@ class ImportGameDataService
             $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
-            if ($characterCode !== '' || $characterCode !== '-') {
+            if ($characterCode === '' || $characterCode === '-') {
                 $characterCode = null;
                 $characterId = null;
             } else {

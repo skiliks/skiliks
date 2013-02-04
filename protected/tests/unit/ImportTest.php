@@ -20,6 +20,7 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(Dialogs::model()->count(), 821);
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
             $import->importEmailSubjects();
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['character' => null]), 100);
             $this->assertEquals(CommunicationTheme::model()->countByAttributes(['phone' => 1]), 67);
             $this->assertEquals(CommunicationTheme::model()->countByAttributes(['mail' => 1]), 112);
             $import->importEmails();
