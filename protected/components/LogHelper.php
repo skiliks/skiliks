@@ -1058,7 +1058,7 @@ class LogHelper {
         
         $sql = "SELECT DISTINCT
                 l.sim_id
-                , '' as leg_type
+                , leg_type
                 , '' as leg_action
                 , l.mail_id
                 , d.code as dialog_code
@@ -1102,25 +1102,6 @@ class LogHelper {
         $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
             foreach($data['data'] as $k => $v) {
                 
-                if( !empty($data['data'][$k]['dialog_id']) ){
-                    if( $data['data'][$k]['type_of_init'] !== 'flex' ) {
-                        $data['data'][$k]['leg_type'] = 'System_dial_leg';
-                    } else {
-                        $data['data'][$k]['leg_type'] = 'Manual_dial_leg'; }
-                } elseif ( !empty($data['data'][$k]['mail_id']) ){
-                    //Logger::write($data['data'][$k]['group_id']);
-                    if($data['data'][$k]['group_id'] == 1) {
-                        $data['data'][$k]['leg_type'] = 'Inbox_leg';
-                    }else{
-                        $data['data'][$k]['leg_type'] = 'Outbox_leg';
-                    }
-                    //Logger::write($data['data'][$k]['leg_type']);
-                } else if(!empty($data['data'][$k]['document_id'])){
-                    $data['data'][$k]['leg_type'] = 'Documents_leg';
-                } else if(!empty($data['data'][$k]['window_id'])){
-                    $data['data'][$k]['leg_type'] = 'Window';
-                }
-
                 if( !empty($data['data'][$k]['dialog_id']) ){
                     $data['data'][$k]['leg_action'] = $data['data'][$k]['dialog_code'];
                 } elseif ( !empty($data['data'][$k]['mail_id']) ){
