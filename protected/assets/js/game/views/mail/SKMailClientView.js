@@ -45,6 +45,10 @@
             'click #mailEmulatorNewLetterText li'              : 'doRemovePhraseFromEmail',
             'click #MailClient_ContentBlock .mail-tags-bl li'  : 'doAddPhraseToEmail',
             'click .switch-size'                               : 'doSwitchNewLetterView'
+            
+            /*'keypress'                                    : 'doHandleKeypress',
+            'keyup'                                    : 'doHandleKeypress',
+            'keydown'                                    : 'doHandleKeypress'*/
         }, SKWindowView.prototype.events),
     
         doSwitchNewLetterView: function(event) {
@@ -144,6 +148,10 @@
                 }
             });
             // close with conditions action }
+            
+            $('body').keydown(function(e){
+                me.doHandleKeypress(e);
+            });
 
             // call parrent initialize();
             SKWindowView.prototype.initialize.call(this);
@@ -1702,6 +1710,19 @@
             // get first email if email exist in folder }
 
             this.renderDraftsFolder();
+        },
+        
+        doHandleKeypress: function(keyboardEvent) {
+            
+            // delete active email when Inbox list screen active only, by DEL press
+            if (this.mailClient.screenInboxList === this.mailClient.activeScreen &&
+                keyboardEvent.keyCode == 46) {
+                if ('undefined' !== typeof this.mailClient.activeEmail) {
+                   this.doMoveToTrashActiveEmail();
+                }
+            }
+            
         }
-    });
+        
+    }); 
 })();
