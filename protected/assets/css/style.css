@@ -107,13 +107,13 @@ a:focus, a:active {
 .content{
 	width:948px;
 	margin:0 auto;
-	padding-bottom:319px;
 	overflow:hidden;
+}
+html[lang=ru] .content{
 }
 @media screen and (max-width: 1263px){
 	.content{
 		width:925px;
-		padding-bottom:255px;
 	}
 }
 /* --------------- /main styles ---------*/
@@ -141,7 +141,11 @@ a:focus, a:active {
 	background:url("../img/icon-coming-soon.png") no-repeat 0 0;
 	width:157px;
 	height:42px;
-	text-indent:-9999px;
+	font:1.286em 'ProximaNova-Bold';
+	color:#fff;
+	line-height:40px;
+	text-indent:18px;
+	text-shadow:rgba(136,39,39,0.53) 0 1px 2px;
 	position:absolute;
 	top:26px;
 	left:235px;
@@ -198,8 +202,13 @@ a:focus, a:active {
 		background:url("../img/icon-coming-soon-min.png") no-repeat 0 0;
 		width:153px;
 		height:41px;
+		font-size:1.143em;
 		top:24px;
 		left:222px;
+	}
+	.container>header nav a{
+		font-size:1.143em;
+		line-height:1.778em;
 	}
 }
 /* --------------- header ---------*/
@@ -217,19 +226,36 @@ a:focus, a:active {
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
 }
 .features .video{
+	background:url("../img/img-video.png") no-repeat 0 0;
+	width:396px;
+	height:211px;
+	text-align:center;
 	float:right;
 	margin-top:30px;
+}
+.features .video p{
+	display:inline-block;
+	background:rgba(20,102,114,0.9);
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	font:1.214em "ProximaNova-Bold";
+	color:#fff;
+	line-height:2.353em;
+	margin-top:134px;
+	padding:0 16px;
 }
 .features ul{
 	list-style:none;
 	margin-top:24px;
 }
 .features ul li{
-	background:url("../img/icon-features.png") no-repeat 0 center;
+	background:url("../img/icon-features.png") no-repeat 0 0;
 	font:1.191em "ProximaNova-Regular";
 	color:#fff;
-	line-height:1.700em;
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
+	min-height:18px;
+	margin-bottom:7px;
 	padding-left:25px;
 }
 .features form{
@@ -267,11 +293,23 @@ a:focus, a:active {
 	box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset, 0 0 3px #23bfd5;
 }
 .features form div input[type=submit]{
-	background:url("../img/btn-notify.png") no-repeat 0 0;
+	background:#146672 url("../img/icon-btn-notify.png") no-repeat 17px 13px;
 	border:none;
-	width:134px;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+	font:1.214em "ProximaNova-Bold";
+	color:#fff;
+	text-align:left;
 	height:46px;
 	vertical-align:top;
+	padding:0 16px 0 42px;
+}
+html[lang=ru] .features form div input[type=text]{
+	width:153px;
+}
+html[lang=ru] .features form div input[type=submit]{
+	font-size:0.929em;
 }
 .features form div .error{
 	background:url("../img/bg-form-error.png") no-repeat 63px bottom;
@@ -307,14 +345,23 @@ a:focus, a:active {
 		font-size:2.538em;
 	}
 	.features .video{
+		background-image:url("../img/img-video-min.png");
+		width:375px;
+		height:200px;
 		margin-top:30px;
 	}
-	.features .video img{
-		width:375px;
+	.features .video p{
+		font-size:0.929em;
+		line-height:2.385em;
+		margin-top:125px;
+		padding:0 11px;
 	}
 	.features ul{
 		list-style:none;
 		margin-top:24px;
+	}
+	html[lang=ru] .features ul{
+		width:350px;
 	}
 	.features ul li{
 		background:url("../img/icon-features-min.png") no-repeat 0 center;
@@ -332,9 +379,11 @@ a:focus, a:active {
 	    padding:14px 5px 13px;
 	}
 	.features form div input[type=submit]{
-		background:url("../img/btn-notify-min.png") no-repeat 0 0;
-		width:129px;
+		background-image:url("../img/icon-btn-notify-min.png");
+		background-position:13px 15px;
+		font-size:0.929em;
 		height:44px;
+		padding:0 12px 0 32px;
 	}
 }
 /* --------------- /features ---------*/
@@ -347,6 +396,9 @@ a:focus, a:active {
 }
 .main-article article{
 	margin-top:44px;
+}
+html[lang=ru] .main-article article{
+	margin-top:15px;
 }
 .main-article article h3{
 	font:2.144em "ProximaNova-Bold";
@@ -497,6 +549,10 @@ a:focus, a:active {
 	}
 	.footer footer .copyright{
 		font-size:0.692em;
+	}
+	.footer footer nav a{
+		font-size:1.143em;
+		line-height:1.778em;
 	}
 }
 /* --------------- /footer ---------*/

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{Yii::t('site', 'en')}">
 	<head>
 		<meta charset="utf-8" />
         <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
@@ -19,7 +19,7 @@
 				
 				<p class="coming-soon">{Yii::t('site', 'Coming soon')}</p>
 				
-				<div class="language"><a href="#">Русский</a></div>
+				<div class="language"><a href="#">{Yii::t('site', 'Русский')}</a></div>
 				
 				<nav>
 					<a href="#">{Yii::t('site', 'Home')}</a>
@@ -37,7 +37,7 @@
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
 					
 					<div class="video">
-						{CHtml::image("$assetsUrl/img/img-video.png")}
+						<p>{Yii::t('site', 'Coming soon')}</p>
 					</div>
 					
 					<ul>
@@ -58,7 +58,7 @@
                                 <span>{Yii::t('site', 'Please enter a valid email address')}</span>
                             </p>
                         </div>
-                        <div><input type="submit" value="" /></div>
+                        <div><input type="submit" value="{Yii::t('site', 'Notify me')}" /></div>
                     </form>
                     <!-- FORM } -->
 				</section>
