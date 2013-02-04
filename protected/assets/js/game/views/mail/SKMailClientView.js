@@ -1149,7 +1149,7 @@
         },
 
         /**
-         * @param SKMailSubject subject
+         * @param {SKMailSubject} subject
          */
         renderSingleSubject:function (subject) {
             var listHtml = '<option selected value="'

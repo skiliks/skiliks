@@ -60,7 +60,7 @@ class LogManager
 
             } else {
 
-                throw new CException("Ошибка");//TODO:Описание доделать
+                throw new CException("Unknown action: " . $log[2]);//TODO:Описание доделать
             }
         }
 

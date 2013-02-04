@@ -93,19 +93,17 @@ class ActivityAction extends CActiveRecord
     }
 
     public function appendLog($log) {
-        $log_action = LogActivityAction::model()->findByAttributes(array(
-            'activity_action_id' => $this->id,
-            'sim_id' => $log->simulation->id,
-            'end_time' => ($log->end_time !== '00:00:00' ? $log->end_time : null)
-        ));
+        $log_search_criteria = new CDbCriteria();
+        $log_search_criteria->addColumnCondition([
+          'sim_id' => $log->simulation->id
+        ]);
+        $log_search_criteria->addCondition('end_time IS NULL OR end_time = :end_time');
+        $log_search_criteria->params['end_time'] = $log->end_time;
+        $log_action = LogActivityAction::model()->find($log_search_criteria);
         if (!$log_action) {
             $log_action = new LogActivityAction();
-            $log_action->activity_action_id = $this->id;
             $log_action->start_time = $log->start_time;
             $log_action->sim_id = $log->sim_id;
-            if (isset($log->mail_id)) {
-                $log_action->mail_id = $log->mail_id;
-            }
             if (isset($log->file_id)) {
                 $log_action->document_id = $log->file_id;
             }
@@ -114,17 +112,22 @@ class ActivityAction extends CActiveRecord
             }
 
         }
-
         # Drafts
         if (isset($log->mail_id)) {
+            $activity = ActivityAction::model()->findByPriority(['mail_id' => null], ['Inbox_leg', 'Outbox_leg']);
             $log_items = LogActivityAction::model()->findAllByAttributes(array(
-                'activity_action_id' => $this->id,
+                'activity_action_id' => $activity->primaryKey,
                 'sim_id' => $log->sim_id
             ));
             foreach ($log_items as $log_item) {
+
                 $log_item->mail_id = $log->mail_id;
                 $log_item->save();
             }
+        }
+        $log_action->activity_action_id = $this->id;
+        if (isset($log->mail_id)) {
+            $log_action->mail_id = $log->mail_id;
         }
         if ($log->end_time !== '00:00:00') {
             $log_action->end_time = $log->end_time;
@@ -135,12 +138,18 @@ class ActivityAction extends CActiveRecord
     /**
      * Order by numeric_id
      */
-    public function findByPriority($attrs) {
-        $result = $this->with([
+    public function findByPriority($attrs, $leg_types = null) {
+        $criteria = new CDbCriteria();
+        $criteria->with = [
             'activity' => [
                 'select' => false, 'order' => 'numeric_id', 'limit' => 1
             ]
-        ])->findByAttributes($attrs);
+        ];
+        $criteria->addColumnCondition($attrs);
+        if ($leg_types !== null) {
+            $criteria->addInCondition('leg_type', $leg_types);
+        }
+        $result = $this->find($criteria);
         return $result;
     }
 

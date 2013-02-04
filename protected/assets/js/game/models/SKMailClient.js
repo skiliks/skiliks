@@ -630,6 +630,11 @@
                 return windows[0];
             },
 
+            /**
+             *
+             * @param newSubscreen
+             * @param {integer} emailId
+             */
             setWindowsLog:function (newSubscreen, emailId) {
                 var window = this.getSimulationMailClientWindow();
 
@@ -949,7 +954,7 @@
             },
 
             sendNewCustomEmail:function (emailToSave) {
-
+                var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
                 }
@@ -957,13 +962,15 @@
                 SKApp.server.api(
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
-                    function (responce) {
+                    function (response) {
                         // keep non strict comparsion
-                        if (1 == responce.result) {
-                            SKApp.user.simulation.mailClient.getSendedFolderEmails();
+                        if (1 === response.result) {
+                            var window = me.getSimulationMailClientWindow();
+                            window.set('params', {'mailId': response.messageId});
+                            me.getSendedFolderEmails();
                         } else {
-                            SKApp.user.simulation.mailClient.message_window =
-                                SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                            me.message_window =
+                                me.message_window || new SKDialogView({
                                     'message':'Не удалось отправить письмо.',
                                     'buttons':[
                                         {
@@ -1032,6 +1039,8 @@
                     function (responce) {
                         // keep non strict comparsion
                         if (1 == responce.result) {
+                            var window = mailClient.getSimulationMailClientWindow();
+                            window.set('params', {'mailId': responce.messageId});
                             mailClient.getDraftsFolderEmails();
                         } else {
                             mailClient.message_window = new SKDialogView({
