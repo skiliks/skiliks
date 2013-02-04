@@ -1069,7 +1069,7 @@ class LogHelper {
                 , d.type_of_init
                 , a.dialog_id
                 , x.group_id
-                , x.coincidence_mail_code
+                , mail_template.code as coincidence_mail_code
                 , i.category_id AS category
                 , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
                 , l.start_time AS start_time
