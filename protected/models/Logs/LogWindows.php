@@ -67,7 +67,7 @@ class LogWindows extends CActiveRecord
         return 'log_windows';
     }
 
-    protected function beforeSave()
+    protected function afterSave()
     {
         /**
          * @var ActivityAction $activity_action

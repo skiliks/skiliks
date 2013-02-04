@@ -358,10 +358,20 @@ class SimulationService
 
         return $initedEvents;
     }
-    
-    public static function simulationStart($simulationType)
+
+    /**
+     * @param $simulationType
+     * @param Users $user
+     * @return Simulations
+     * @throws Exception
+     */
+    public static function simulationStart($simulationType, $user = null)
     {
-        $userId = SessionHelper::getUidBySid();
+        if ($user === null) {
+            $userId = SessionHelper::getUidBySid();
+        } else {
+            $userId = $user->primaryKey;
+        }
         if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }

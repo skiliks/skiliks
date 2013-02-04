@@ -170,6 +170,7 @@ class MailController extends AjaxController
 
         $this->sendJSON(array(
             'result' => (NULL === $email) ? 0 : 1,
+            'messageId' => $email->id
         ));
     }
 

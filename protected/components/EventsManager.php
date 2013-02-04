@@ -47,60 +47,9 @@ class EventsManager {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
+            $this->processLogs($simulation, Yii::app()->request->getParam('logs', null));
 
-            // данные для логирования {
-            LogHelper::setLog($simId, Yii::app()->request->getParam('logs', false));
-            $originalNotFilteregLogs = Yii::app()->request->getParam('logs', null); // used after standart logging
-            // to update phone call dialogs lastDialogId
 
-            $logs = LogHelper::logFilter(Yii::app()->request->getParam('logs', false)); //Фильтр нулевых отрезков всегда перед обработкой логов
-            /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
-            try {
-                LogHelper::setWindowsLog($simId, $logs);
-            } catch (CException $e) {
-                // @todo: handle
-            }
-            $log_manager = new LogManager();
-            $log_manager->setUniversalLog($simId, $logs);
-            LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
-            LogHelper::setMailLog($simId, $logs);
-            
-            LogHelper::setDialogs($simId, $logs);
-            // данные для логирования }
-            
-            // update phone call dialogs lastDialogId {
-            if(is_array($originalNotFilteregLogs)) {
-                $updatedDialogs = array();
-                foreach ($originalNotFilteregLogs as $data) {
-                    if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
-                        if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
-                            $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
-                            $updatedDialogs[] =  $data[4]['lastDialogId'];
-
-                            if (null!== $currentDialog &&$currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
-                                // update Phone call dialog last_id
-                                $callDialog = Dialogs::model()
-                                    ->byCode($currentDialog->code)
-                                    ->byStepNumber(1)
-                                    ->byReplicaNumber(0)
-                                    ->find();
-
-                                if (null !== $callDialog) {
-                                    $logRecord = LogDialogs::model()
-                                        ->bySimulationId($simId)
-                                        ->byDialogId($callDialog->id)
-                                        ->orderById('DESC')
-                                        ->find();
-                                    if (null !== $logRecord) {
-                                        $logRecord->last_id = $currentDialog->excel_id;
-                                        $logRecord->save();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             // update phone call dialogs lastDialogId }
             
             $simType  = $simulation->type; // определим тип симуляции
@@ -241,7 +190,74 @@ class EventsManager {
         }
 
     }
-    
+
+    /**
+     * Extracted logging-related code
+     *
+     * @param $simulation Simulations
+     * @param array $logs
+     */
+    public function processLogs($simulation, $logs)
+    {
+        $simId = $simulation->primaryKey;
+        // данные для логирования {
+        LogHelper::setLog($simId, $logs);
+        $originalNotFilteregLogs = $logs; // used after standart logging
+        // to update phone call dialogs lastDialogId
+
+        $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
+        /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
+        try {
+            LogHelper::setWindowsLog($simId, $logs);
+        } catch (CException $e) {
+            // @todo: handle
+        }
+        $log_manager = new LogManager();
+        $log_manager->setUniversalLog($simId, $logs);
+        LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
+        LogHelper::setMailLog($simId, $logs);
+
+        LogHelper::setDialogs($simId, $logs);
+        // данные для логирования }
+
+        // update phone call dialogs lastDialogId {
+        if (is_array($originalNotFilteregLogs)) {
+            $updatedDialogs = array();
+            foreach ($originalNotFilteregLogs as $data) {
+                if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
+                    if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
+                        /** @var Dialogs $currentDialog */
+                        $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
+                        $updatedDialogs[] = $data[4]['lastDialogId'];
+
+                        if (null !== $currentDialog && $currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
+                            // update Phone call dialog last_id
+                            /** @var $callDialog Dialogs */
+                            $callDialog = Dialogs::model()
+                                ->byCode($currentDialog->code)
+                                ->byStepNumber(1)
+                                ->byReplicaNumber(0)
+                                ->find();
+
+                            if (null !== $callDialog) {
+                                /** @var $logRecord LogDialogs */
+                                $logRecord = LogDialogs::model()
+                                    ->bySimulationId($simId)
+                                    ->byDialogId($callDialog->id)
+                                    ->orderById('DESC')
+                                    ->find();
+                                if (null !== $logRecord) {
+                                    $logRecord->last_id = $currentDialog->excel_id;
+                                    $logRecord->save();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public function processTasks($simId) {
         ###  определение событие типа todo
         // получаем игровое время

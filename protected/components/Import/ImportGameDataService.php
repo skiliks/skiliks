@@ -1481,10 +1481,13 @@ class ImportGameDataService
                     $values = array($document);
                 }
             } else if ($type === 'window_id') {
-                # TODO
-                $window = Window::model()->findByAttributes(array('subtype' => $xls_act_value));
-                assert($window);
-                $values = array($window);
+                if ($xls_act_value === 'all') {
+                    $values = Window::model()->findAll();
+                } else {
+                    $window = Window::model()->findByAttributes(array('subtype' => $xls_act_value));
+                    assert($window);
+                    $values = array($window);
+                }
             } else {
                 throw new Exception('Can not handle type:' . $type);
             }
