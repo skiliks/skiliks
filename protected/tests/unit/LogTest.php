@@ -16,6 +16,7 @@ class LogTest extends CDbTestCase
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $krutko = Characters::model()->findByAttributes(['code' => 4]);
+
         $message = $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 12, 'character_id' => $krutko->primaryKey])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M8']),
