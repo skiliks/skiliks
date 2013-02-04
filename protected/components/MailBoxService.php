@@ -1169,7 +1169,9 @@ class MailBoxService
             $characterThemeModel = CommunicationTheme::model()->findByAttributes([
                 'text' => $forwardSubjectText,
                 'character_id' => $receiverId,
-                'mail_prefix' => sprintf('fwd%s', $messageToForward->subject_obj->mail_prefix)]);
+                'mail_prefix' => 'fwd' .  (
+                    $messageToForward->subject_obj->mail_prefix !== null ? $messageToForward->subject_obj->mail_prefix : ''
+                )]);
             if ($characterThemeModel) {
                 $characterThemeId = $characterThemeModel->id;
                 if ($characterThemeModel->constructor_number === 'TXT') {
