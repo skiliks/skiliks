@@ -91,7 +91,7 @@ class ZohoDocuments
         $this->templateFilename = $templateFilename;
         $this->extention = $extention;
 
-        if (false === $this->checkIsUserFileExists()) {
+        if (false === $this->checkIsUserFileExists() && $this->templateFilename !== null) {
             $this->copyUserFileIfNotExists();
         }
     }
@@ -197,7 +197,7 @@ class ZohoDocuments
     {
         $attributeName = $this->extention . 'TemplatesDirPath';
         $path = sprintf(
-            '%s/%s',
+            __DIR__ . '/../../../%s/%s',
             $this->$attributeName,
             $this->templateFilename
         );

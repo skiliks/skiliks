@@ -5,7 +5,8 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailBoxService {
+class MailBoxService
+{
 
     /**
      * Получить список папок и писем в них
@@ -17,15 +18,15 @@ class MailBoxService {
         $folders = MailFoldersModel::getFoldersListForJson();
 
         $inboxMessages = self::getMessages(array(
-            'folderId'   => MailFoldersModel::INBOX_ID, // inbox
+            'folderId' => MailFoldersModel::INBOX_ID, // inbox
             'receiverId' => Characters::HERO_ID,
-            'simId'      => $simulation->id
+            'simId' => $simulation->id
         ));
 
         $sendedMessages = self::getMessages(array(
-            'folderId'   => MailFoldersModel::SENDED_ID, // inbox
+            'folderId' => MailFoldersModel::SENDED_ID, // inbox
             'receiverId' => Characters::HERO_ID,
-            'simId'      => $simulation->id
+            'simId' => $simulation->id
         ));
 
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simulation->id);
@@ -36,7 +37,7 @@ class MailBoxService {
         return array(
             $folders,
             [
-                'inbox'  => $inboxMessages,
+                'inbox' => $inboxMessages,
                 'sended' => $sendedMessages
             ]
         );
@@ -59,16 +60,17 @@ class MailBoxService {
         }
         $charactersCollection = $query->findAll();
 
-        foreach($charactersCollection as $character) {
-            $resultCharacters[$character->id] = $character->fio.' <'.$character->email.'>';
+        foreach ($charactersCollection as $character) {
+            $resultCharacters[$character->id] = $character->fio . ' <' . $character->email . '>';
         }
 
         return $resultCharacters;
     }
 
-    protected static function processSubject($subject) {
+    protected static function processSubject($subject)
+    {
         // новая сортировка
-        $subject = mb_strtolower ($subject, 'UTF8');
+        $subject = mb_strtolower($subject, 'UTF8');
         $subject = preg_replace("/^(re:)*/u", '', $subject);
         $subject = preg_replace("/^(fwd:)*/u", '', $subject);
         return $subject;
@@ -89,9 +91,9 @@ class MailBoxService {
      */
     public static function getMessages($params)
     {
-        $folderId   = $params['folderId'];
+        $folderId = $params['folderId'];
         $receiverId = $params['receiverId'];
-        $simId      = $params['simId'];
+        $simId = $params['simId'];
 
 
         $order = (isset($params['order'])) ? $params['order'] : false;
@@ -118,7 +120,7 @@ class MailBoxService {
         $list = array();
         $mailIds = array();
         $characters = self::getCharacters();
-        foreach($messages as $message) {
+        foreach ($messages as $message) {
             $mailIds[] = (int)$message->id;
             $senderId = (int)$message->sender_id;
             $receiverId = (int)$message->receiver_id;
@@ -139,7 +141,7 @@ class MailBoxService {
             if (count($receivers) == 0)
                 $receiversCollection[] = $characters[$receiverId];
 
-            foreach($receivers as $receiver) {
+            foreach ($receivers as $receiver) {
                 $receiversCollection[] = $characters[$receiver->receiver_id];
             }
 
@@ -166,7 +168,7 @@ class MailBoxService {
         // Добавим информацию о вложениях
         if (count($mailIds) > 0) {
             $attachments = MailAttachmentsModel::model()->byMailIds($mailIds)->findAll();
-            foreach($attachments as $attachment) {
+            foreach ($attachments as $attachment) {
                 if (isset($list[$attachment->mail_id])) {
                     $list[$attachment->mail_id]['attachments'] = 1;
                 }
@@ -176,22 +178,22 @@ class MailBoxService {
         // подготовка для сортировки на уровне php
         $receivers = array();
         foreach ($list as $key => $row) {
-            $subjects[$key]  = $row['subjectSort'];
+            $subjects[$key] = $row['subjectSort'];
             $senders[$key] = $row['sender'];
             $receivers[$key] = $row['receiver'];
 
         }
 
         if ($order == 'subject') {
-            array_multisort($subjects, $ordeFlag,  $list);
+            array_multisort($subjects, $ordeFlag, $list);
         }
 
         if ($order == 'sender') {
-            array_multisort($senders, $ordeFlag,  $list);
+            array_multisort($senders, $ordeFlag, $list);
         }
 
         if ($order == 'receiver') {
-            array_multisort($receivers, $ordeFlag,  $list);
+            array_multisort($receivers, $ordeFlag, $list);
         }
 
         return $list;
@@ -202,7 +204,8 @@ class MailBoxService {
      * @param int $id
      * @return array
      */
-    public static function getMessage($id) {
+    public static function getMessage($id)
+    {
         $model = MailBoxModel::model()->byId($id)->find();
         if (!$model) return array();
 
@@ -233,7 +236,7 @@ class MailBoxService {
         if (count($receivers) == 0)
             $receiversCollection[] = $characters[$message['receiver']];
 
-        foreach($receivers as $receiver) {
+        foreach ($receivers as $receiver) {
             $receiversCollection[] = $characters[$receiver->receiver_id];
         }
         $message['receiver'] = implode(',', $receiversCollection);
@@ -241,7 +244,7 @@ class MailBoxService {
         // загрузим копии
         $copies = MailCopiesModel::model()->byMailId($id)->findAll();
         $copiesCollection = array();
-        foreach($copies as $copy) {
+        foreach ($copies as $copy) {
             $copiesCollection[] = $characters[$copy->receiver_id];
         }
         $message['copies'] = implode(',', $copiesCollection);
@@ -256,7 +259,7 @@ class MailBoxService {
 
         $message['attachments'] = MailAttachmentsService::get($model->id);
 
-        if(!empty($message_id)){
+        if (!empty($message_id)) {
             $reply = MailBoxModel::model()->byId($message_id)->find();
             $message['reply'] = $reply->message;
         }
@@ -269,7 +272,8 @@ class MailBoxService {
      * @param array $params dictionary with elements letterType, subject
      * @return \MailBoxModel
      */
-    public static function sendMessage($params) {
+    public static function sendMessage($params)
+    {
 
         $subject_id = $params['subject_id'];
         $message_id = $params['message_id'];
@@ -293,7 +297,7 @@ class MailBoxService {
         $message->sent_at = GameTime::setTimeToday($params['time']); //TODO: Время, проверить
         $message->readed = 0;
         $message->letter_type = $params['letterType'];
-        if($letterType != 'new'){
+        if ($letterType != 'new') {
             $message->message_id = $message_id;
         }
         $message->sim_id = $params['simId'];
@@ -323,7 +327,7 @@ class MailBoxService {
         if (isset($params['phrases'])) {
             $phrases = explode(',', $params['phrases']);
 
-            foreach($phrases as $phraseId) {
+            foreach ($phrases as $phraseId) {
                 if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
                     $msg_model = new MailMessagesModel();
                     $msg_model->mail_id = $mailId;
@@ -333,19 +337,16 @@ class MailBoxService {
             }
         }
 
-        $logs = array(array(10,13,0,GameTime::timeToSeconds($params['time']), array('mailId'=>$mailId)));
-        LogHelper::setMailLog($params['simId'], $logs);
-
         return $message;
     }
 
 
-
-    public static function saveCopies($receivers, $mailId) {
+    public static function saveCopies($receivers, $mailId)
+    {
         $receivers = explode(',', $receivers);
-        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
+        if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
 
-        foreach($receivers as $receiverId) {
+        foreach ($receivers as $receiverId) {
             $model = new MailCopiesModel();
             $model->mail_id = $mailId;
             $model->receiver_id = $receiverId;
@@ -353,7 +354,8 @@ class MailBoxService {
         }
     }
 
-    public static function getMailPhrases($id = false) {
+    public static function getMailPhrases($id = false)
+    {
         $phrases = array();
 
         if (false !== $id && NULL !== $id) {
@@ -366,7 +368,7 @@ class MailBoxService {
                 $phrases = MailPhrasesModel::model()->byCode($constructorNumber)->findAll();
 
                 $list = array();
-                foreach($phrases as $model) {
+                foreach ($phrases as $model) {
                     $list[$model->id] = $model->name;
                 }
                 return $list;
@@ -374,27 +376,29 @@ class MailBoxService {
         }
 
         // конструтор не прописан - вернем дефолтовый
-        if (count($phrases)==0) $phrases = MailPhrasesModel::model()->byCode('B1')->findAll();
+        if (count($phrases) == 0) $phrases = MailPhrasesModel::model()->byCode('B1')->findAll();
         $list = array();
-        foreach($phrases as $model) {
+        foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }
 
         return $list;
     }
 
-    public static function getSigns() {
+    public static function getSigns()
+    {
         $phrases = MailPhrasesModel::model()->byCode('SYS')->findAll();
 
         $list = array();
-        foreach($phrases as $model) {
+        foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
         }
 
         return $list;
     }
 
-    public function getMailPhrasesByCharacterAndTheme($characterId, $themeId) {
+    public function getMailPhrasesByCharacterAndTheme($characterId, $themeId)
+    {
         $model = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->find();
         if (!$model) return false;
         return $this->getMailPhrases($model->id);
@@ -418,18 +422,20 @@ class MailBoxService {
      * @param int $mailId
      * @return string
      */
-    public static function buildMessage($mailId) {
+    public static function buildMessage($mailId)
+    {
         $mail = MailBoxModel::model()->findByPk($mailId);
         $characterTheme = $mail->getCharacterTheme();
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
             // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
             $mailTemplate = MailTemplateModel::model()->byCode($characterTheme->letter_number)->find();
             return $mailTemplate->message;
-        };
+        }
+        ;
         $models = MailMessagesModel::model()->byMail($mailId)->findAll();
 
         $phrases = array();
-        foreach($models as $model) {
+        foreach ($models as $model) {
             $phrases[] = $model->phrase_id;
         }
 
@@ -437,12 +443,12 @@ class MailBoxService {
         $phrasesCollection = MailPhrasesModel::model()->byIds($phrases)->findAll();
 
         $phrasesDictionary = array();
-        foreach($phrasesCollection as $phraseModel) {
+        foreach ($phrasesCollection as $phraseModel) {
             $phrasesDictionary[$phraseModel->id] = $phraseModel->name;
         }
 
         $collection = array();
-        foreach($phrases as $index => $phraseId) {
+        foreach ($phrases as $index => $phraseId) {
             $collection[] = $phrasesDictionary[$phraseId];
         }
 
@@ -454,12 +460,13 @@ class MailBoxService {
      * Сохранить получателей сообщения
      * @param array $receivers
      */
-    public static function saveReceivers($receivers, $mailId) {
+    public static function saveReceivers($receivers, $mailId)
+    {
         if (count($receivers) == 0) return false;
 
-        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
+        if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
 
-        foreach($receivers as $receiverId) {
+        foreach ($receivers as $receiverId) {
             $model = new MailReceiversModel();
             $model->mail_id = $mailId;
             $model->receiver_id = $receiverId;
@@ -474,8 +481,8 @@ class MailBoxService {
     public static function getThemes($receivers)
     {
         $receivers = explode(',', $receivers);
-        if ($receivers[count($receivers)-1] == ',') unset($receivers[count($receivers)-1]);
-        if ($receivers[count($receivers)-1] == '') unset($receivers[count($receivers)-1]);
+        if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
+        if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
 
         $themes = array();
         // загрузка тем по одному персонажу
@@ -484,7 +491,7 @@ class MailBoxService {
             ->byMail()
             ->findAll();
 
-        foreach($models as $model) {
+        foreach ($models as $model) {
             $themes[(int)$model->id] = (int)$model->id;
         }
 
@@ -493,14 +500,15 @@ class MailBoxService {
         // загрузка тем
         $themeCollection = CommunicationTheme::model()->byIds($themes)->findAll();
         $captions = array();
-        foreach($themeCollection as $themeModel) {
+        foreach ($themeCollection as $themeModel) {
             $captions[(int)$themeModel->id] = $themeModel->text;
         }
 
-        foreach($themes as $id => $themeId) {
+        foreach ($themes as $id => $themeId) {
             // remove all Fwd: and re:
             if (false === strpos($captions[$themeId], 're:') &&
-                false === strpos($captions[$themeId], 'Fwd:')) {
+                false === strpos($captions[$themeId], 'Fwd:')
+            ) {
                 $themes[$id] = $captions[$themeId];
             } else {
                 unset($themes[$id]);
@@ -529,7 +537,8 @@ class MailBoxService {
      * @param type $simId
      * @param type $code
      */
-    public static function copyMessageFromTemplateByCode($simId, $code) {
+    public static function copyMessageFromTemplateByCode($simId, $code)
+    {
         // проверим а вдруг у нас уже есть такое сообщение
         $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
         if ($mailModel) return $mailModel; // сообщение уже есть у нас
@@ -557,7 +566,8 @@ class MailBoxService {
         return self::_copyMessageSructure($mailModel, $simId);
     }
 
-    protected static function _copyMessageSructure($mail, $simId) {
+    protected static function _copyMessageSructure($mail, $simId)
+    {
         $connection = Yii::app()->db;
         $id = $mail->id;
         $templateId = $mail->template_id;
@@ -588,8 +598,7 @@ class MailBoxService {
             if (!$file) {
                 // документа еще нет в симуляции
                 $fileId = MyDocumentsService::copyToSimulation($simId, $row['file_id']);
-            }
-            else  {
+            } else {
                 $fileId = $file->id;
             }
 
@@ -619,7 +628,8 @@ class MailBoxService {
      * Копирование шаблонов писем в рамках заданной симуляции
      * @param int $simId
      */
-    public static function initMailBoxEmails($simId) {
+    public static function initMailBoxEmails($simId)
+    {
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
@@ -632,7 +642,7 @@ class MailBoxService {
 
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
-        foreach($mailCollection as $mail) {
+        foreach ($mailCollection as $mail) {
             self::_copyMessageSructure($mail, $simId);
         }
     }
@@ -669,7 +679,8 @@ class MailBoxService {
         $model->save();
     }
 
-    public static function getUnreadInfo($mailId, $simId) {
+    public static function getUnreadInfo($mailId, $simId)
+    {
         // получить колличество непрочитанных сообщений
         $model = MailBoxModel::model()->byId($mailId)->find();
         $folderId = (int)$model->group_id;
@@ -693,7 +704,8 @@ class MailBoxService {
         return $result;
     }
 
-    public static function getFoldersUnreadCount($simId) {
+    public static function getFoldersUnreadCount($simId)
+    {
         // добавляем информацию о колличестве непрочитанных сообщений в подпапках
         $sql = "SELECT COUNT( * ) AS count, group_id
                 FROM  `mail_box`
@@ -706,7 +718,7 @@ class MailBoxService {
         $data = $command->queryAll();
 
         $folders = array();
-        foreach($data as $row) {
+        foreach ($data as $row) {
             $folders[$row['group_id']] = $row['count'];
         }
 
@@ -720,17 +732,19 @@ class MailBoxService {
      * Определить идентификатор шаблона письма, на основании которого создано письмо
      * @param int $mailId
      */
-    public static function getTemplateId($mailId) {
+    public static function getTemplateId($mailId)
+    {
         $model = MailBoxModel::model()->byId($mailId)->find();
         if (!$model) throw new Exception("cant find mail by id = $mailId");
         return $model->template_id;
     }
 
-    public static function getTasks($templateId) {
+    public static function getTasks($templateId)
+    {
         $collection = MailTasksModel::model()->byMailId($templateId)->findAll();
 
         $tasks = array();
-        foreach($collection as $task) {
+        foreach ($collection as $task) {
             $tasks[] = array(
                 'id' => $task->id,
                 'name' => $task->name,
@@ -746,7 +760,8 @@ class MailBoxService {
      * @param int $subjectId
      * @return string
      */
-    public static function getSubjectById($subjectId) {
+    public static function getSubjectById($subjectId)
+    {
         $subjectModel = CommunicationTheme::model()->byId($subjectId)->find();
         if ($subjectModel) {
             return $subjectModel->text;
@@ -761,7 +776,8 @@ class MailBoxService {
      * @param string $subject
      * @return int
      */
-    public static function createSubject($subject) {
+    public static function createSubject($subject)
+    {
         $subjectModel = new CommunicationTheme();
         $subjectModel->text = $subject;
         $subjectModel->insert();
@@ -801,41 +817,43 @@ class MailBoxService {
      *
      * @param integer $mailId, It must by ID of MS (sended from user) email
      * @param integer $simId
+     * @return mixed
      */
-    public static function updateMsCoincidernce($mailId, $simId)
+    public static function updateMsCoincidence($mailId, $simId)
     {
-        $emailConsidenceAnalizator = new EmailCoincidenceAnalizator();
+        $emailConsidenceAnalizator = new EmailCoincidenceAnalyzer();
         $emailConsidenceAnalizator->setUserEmail($mailId);
         $result = $emailConsidenceAnalizator->checkCoinsidence();
-        $command = Yii::app()->db->createCommand();
 
         // update check MS email concidence
-        $command->update(
-            "log_mail" ,
-            array(
-                'full_coincidence'  => $result['full'],
-                'part1_coincidence' => $result['part1'],
-                'part2_coincidence' => $result['part2'],
-                'is_coincidence'    => $result['has_concidence'],
-            ),
-            "`mail_id` = {$mailId} AND `end_time` > '00:00:00' AND `sim_id` = {$simId} ORDER BY `window` DESC, `id` DESC LIMIT 1"
+        /** @var $log_mail LogMail */
+        $log_mail = LogMail::model()->find(
+            "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `window` DESC, `id` DESC",
+            [
+                'mailId' => $mailId,
+                'simId' => $simId
+            ]
         );
-
-        $command->update(
-            'mail_box',
-            array(
-                'code'        => $result['result_code'],
-                'template_id' => $result['result_template_id'],
-            ),
-            "`id` = {$mailId}"
-        );
+        /** @var $mail MailBoxModel */
+        $mail = MailBoxModel::model()->findByPk($mailId);
+        $mail->code = $result['result_code'];
+        $mail->template_id = $result['result_template_id'];
+        $mail->save();
+        if(!$log_mail) {
+            return $result;
+        }
+        $log_mail->full_coinsidence = $result['full'];
+        $log_mail->part1_coinsidence = $result['part1'];
+        $log_mail->part2_coinsidence = $result['part2'];
+        $log_mail->is_coinsidence = $result['has_concidence'];
+        $log_mail->save();
 
 
         $simulationEmail = MailBoxModel::model()->findByPk($mailId);
         if (null !== $simulationEmail) {
-            $simulationEmail->code                  = $result['result_code'];
-            $simulationEmail->template_id           = $result['result_template_id'];
-            $simulationEmail->coincidence_type      = $result['result_type'];
+            $simulationEmail->code = $result['result_code'];
+            $simulationEmail->template_id = $result['result_template_id'];
+            $simulationEmail->coincidence_type = $result['result_type'];
             $simulationEmail->coincidence_mail_code = $result['result_code'];
             $simulationEmail->save();
         }
@@ -853,7 +871,7 @@ class MailBoxService {
      */
     public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId)
     {
-        $data    = array();
+        $data = array();
         $addData = array();
         $message = '';
 
@@ -863,24 +881,25 @@ class MailBoxService {
         }
 
         if ((int)$characterThemeId == 0) {
-            $data    = self::getMailPhrases();
+            $data = self::getMailPhrases();
             $addData = self::getSigns();
         }
 
         $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
 
         if (NULL !== $characterTheme &&
-            'TXT' === $characterTheme->constructor_number) {
+            'TXT' === $characterTheme->constructor_number
+        ) {
             // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
             $mailTemplate = MailTemplateModel::model()->byCode($characterTheme->letter_number)->find();
             $message = $mailTemplate->message;
         } else {
-            $data    = self::getMailPhrases($characterThemeId);
+            $data = self::getMailPhrases($characterThemeId);
             $addData = self::getSigns();
         }
 
         return array(
-            'data'    => $data,
+            'data' => $data,
             'addData' => $addData,
             'message' => $message,
         );
@@ -904,16 +923,16 @@ class MailBoxService {
 
         $message = MailBoxService::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
-            'group'      => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender'     => Characters::HERO_ID,
-            'receivers'  => $sendMailOptions->getRecipientsArray(),
-            'copies'     => $sendMailOptions->copies,
+            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
+            'sender' => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
+            'receivers' => $sendMailOptions->getRecipientsArray(),
+            'copies' => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,
-            'phrases'    => $sendMailOptions->phrases,
-            'simId'      => $sendMailOptions->simulation->id,
+            'phrases' => $sendMailOptions->phrases,
+            'simId' => $sendMailOptions->simulation->id,
             'letterType' => $sendMailOptions->getLetterType(),
-            'fileId'     => $sendMailOptions->fileId,
-            'time'       => $sendMailOptions->time
+            'fileId' => $sendMailOptions->fileId,
+            'time' => $sendMailOptions->time
         ));
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($message);
@@ -929,15 +948,15 @@ class MailBoxService {
     {
         $message = self::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
-            'group'      => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
-            'sender'     => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
-            'receivers'  => $sendMailOptions->getRecipientsArray(),
-            'copies'     => $sendMailOptions->copies,
+            'group' => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
+            'sender' => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
+            'receivers' => $sendMailOptions->getRecipientsArray(),
+            'copies' => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,
-            'phrases'    => $sendMailOptions->phrases,
-            'simId'      => $sendMailOptions->simulation->id,
-            'time'       => $sendMailOptions->time,
-            'fileId'     => $sendMailOptions->fileId,
+            'phrases' => $sendMailOptions->phrases,
+            'simId' => $sendMailOptions->simulation->id,
+            'time' => $sendMailOptions->time,
+            'fileId' => $sendMailOptions->fileId,
             'letterType' => $sendMailOptions->getLetterType(),
         ));
 
@@ -957,7 +976,8 @@ class MailBoxService {
             $email->group_id == MailBoxModel::DRAFTS_FOLDER_ID ||
             $email->group_id == MailBoxModel::OUTBOX_FOLDER_ID ||
             $folderId == MailBoxModel::DRAFTS_FOLDER_ID ||
-            $folderId == MailBoxModel::OUTBOX_FOLDER_ID) {
+            $folderId == MailBoxModel::OUTBOX_FOLDER_ID
+        ) {
             return false;
         }
 
@@ -979,16 +999,18 @@ class MailBoxService {
         // validation
         if (NULL === $messageToReply ||
             MailBoxModel::DRAFTS_FOLDER_ID == $messageToReply->group_id ||
-            MailBoxModel::OUTBOX_FOLDER_ID == $messageToReply->group_id) {
+            MailBoxModel::OUTBOX_FOLDER_ID == $messageToReply->group_id
+        ) {
             return array();
-        };
+        }
+        ;
 
         // init default responce
         $result = array(
-            'message'          => NULL,
-            'data'             => array(),
+            'message' => NULL,
+            'data' => array(),
             'previouseMessage' => $messageToReply->message,
-            'addData'          => self::getSigns()
+            'addData' => self::getSigns()
         );
 
         if ($characterThemeModel) {
@@ -1017,7 +1039,7 @@ class MailBoxService {
         $previousEmalSubjectEntity = CommunicationTheme::model()->findByPk($messageToReply->subject_id);
 
         # TODO: refactor this. name is not unique
-        $subjectEntity = CommunicationTheme::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find();// lowercase is important for search!
+        $subjectEntity = CommunicationTheme::model()->byText('re: ' . $previousEmalSubjectEntity->text)->find(); // lowercase is important for search!
 
         return $subjectEntity;
     }
@@ -1029,7 +1051,7 @@ class MailBoxService {
     public static function getCopiesArrayForReplyAll($messageToReply)
     {
         $copiesIds = array();
-        $copies    = array();
+        $copies = array();
 
         $collection = MailReceiversModel::model()->byMailId($messageToReply->id)->findAll();
 
@@ -1076,9 +1098,9 @@ class MailBoxService {
         // Добавить новую задачу в план
         $task = new Task();
         $task->simulation = $simulation->id;
-        $task->title      = $mailTask->name;
-        $task->duration   = $mailTask->duration;
-        $task->category   = $mailTask->category;
+        $task->title = $mailTask->name;
+        $task->duration = $mailTask->duration;
+        $task->category = $mailTask->category;
         TodoService::createTask($task);
 
         TodoService::add($simulation->id, $task->id);
@@ -1103,12 +1125,13 @@ class MailBoxService {
 
         // update email folder {
         $email->group_id = MailBoxModel::OUTBOX_FOLDER_ID;
-        $email->save();;
+        $email->save();
+        ;
         // update email folder }
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
 
-        MailBoxService::updateMsCoincidernce($email->id, $simulation->id);
+        MailBoxService::updateMsCoincidence($email->id, $simulation->id);
 
         return true;
     }
@@ -1127,9 +1150,9 @@ class MailBoxService {
             );
         }
 
-        $forwardSubjectId  = $messageToForward->subject_id;
-        $sender            = $messageToForward->sender_id;
-        $receiverId        = $messageToForward->receiver_id;
+        $forwardSubjectId = $messageToForward->subject_id;
+        $sender = $messageToForward->sender_id;
+        $receiverId = $messageToForward->receiver_id;
 
         $forwardSubjectText = 'Fwd: ' . $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
@@ -1158,12 +1181,12 @@ class MailBoxService {
 
         if (!isset($result['phrases']) && !isset($result['text'])) {
             $result['phrases']['data'] = MailBoxService::getMailPhrases();
-        }  // берем дефолтные
+        } // берем дефолтные
         $result['phrases']['addData'] = MailBoxService::getSigns();
 
 
-        $result['result']    = 1;
-        $result['subject']   = $forwardSubjectText;
+        $result['result'] = 1;
+        $result['subject'] = $forwardSubjectText;
         $result['subjectId'] = $forwardSubjectId;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;

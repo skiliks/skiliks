@@ -16,6 +16,7 @@
  * @property int readed
  * @property mixed sim_id
  * @property MailTemplateModel template
+ * @property mixed letter_type
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBoxModel extends CActiveRecord

@@ -48,20 +48,24 @@ class MailTest extends SeleniumTestCase
                 break;
             }
         }
-        $this->waitForElement($session, 'css selector', '#MailClient_NewLetterSubject select')->click();
-        $this->waitForElement($session, 'xpath', '//li[text()="Жалоба"]')->click();
+        $this->waitForElement($session, 'xpath', '//option[text()="Жалоба"]')->click();
         sleep(10);
-        $phrase = $this->waitForElement($session, 'xpath', '//*[@id="mailEmulatorNewLetterTextVariants"]//a/span[text()="внес коррективы"]');
-        $session->moveto($phrase);
-        $session->buttondown();
-        $session->moveto($session->element('id', 'mailEmulatorNewLetterText'));
-        $session->buttonup();
-        $session->element('xpath', '//a[@onclick="mailEmulator.sendNewLetter()"]')->click();
+        $phrase = $this->waitForElement($session, 'xpath', '//a/span[text()="внес коррективы"]')->click();
+        $session->element('css selector', 'a.SEND_EMAIL')->click();
         sleep(10);
-        $this->waitForElement($session, 'xpath', '//a[@onclick="mailEmulator.drawNewLetter();"]')->click();
-        $this->waitForElement($session, 'css selector', '#mailEmulatorNewLetterReceiverBox')->click();
-        sleep(2);
-        $this->waitForElement($session, 'xpath', '//li[@onclick="mailEmulator.addReceiver(2)"]')->click();
+        $this->waitForElement($session, 'css selector', 'a.NEW_EMAIL')->click();
+        $this->waitForElement($session, 'css selector', '#MailClient_RecipientsList')->click();
+        $this->waitForElement($session, 'css selector', '.ui-menu-item a', 20);
+        /**
+         * @var PHPWebDriver_WebDriverElement[] $elements
+         */
+        $elements = $session->elements('css selector', '.ui-menu-item a');
+        foreach ($elements as $element) {
+            if (preg_match('/Денежная/', $element->text())) {
+                $element->click();
+                break;
+            }
+        }
         $this->waitForElement($session, 'css selector', '#mailEmulatorNewLetterThemeBox')->click();
         $this->waitForElement($session, 'xpath', '//li[@onclick="mailEmulator.addTheme(214)"]')->click();
         $phrase = $this->waitForElement($session, 'xpath', '//*[@id="mailEmulatorNewLetterTextVariants"]//a/span[text()="внес коррективы"]');
