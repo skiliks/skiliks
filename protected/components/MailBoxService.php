@@ -1158,7 +1158,7 @@ class MailBoxService
         $forwardSubjectText = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, 'fwd');
+        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, null);
 
         $result = array();
 
@@ -1169,9 +1169,7 @@ class MailBoxService
             $characterThemeModel = CommunicationTheme::model()->findByAttributes([
                 'text' => $forwardSubjectText,
                 'character_id' => $receiverId,
-                'mail_prefix' => 'fwd' .  (
-                    $messageToForward->subject_obj->mail_prefix !== null ? $messageToForward->subject_obj->mail_prefix : ''
-                )]);
+                'mail_prefix' => $messageToForward->subject_obj->mail_prefix]);
             if ($characterThemeModel) {
                 $characterThemeId = $characterThemeModel->id;
                 if ($characterThemeModel->constructor_number === 'TXT') {
@@ -1191,7 +1189,7 @@ class MailBoxService
 
         $result['result'] = 1;
         $result['subject'] = $forwardSubjectText;
-        $result['subjectId'] = $characterThemeId;
+        $result['subjectId'] = $forwardSubjectId;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
 
