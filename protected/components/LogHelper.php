@@ -1057,28 +1057,29 @@ class LogHelper {
         }
         
         $sql = "SELECT DISTINCT
-                            l.sim_id
-                          , '' as leg_type
-                          , '' as leg_action
-                          , l.mail_id
-                          , d.code as dialog_code
-                          , x.code as mail_code
-                          , t.code as doc_code
-                          , a.window_id
-                          , w.subtype
-                          , d.type_of_init
-                          , a.dialog_id
-                          , x.group_id
-                          , x.coincidence_mail_code
-                          , i.category_id AS category
-                          , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
-                          , l.start_time AS start_time
-                          , ifnull(l.end_time, '00:00:00') AS end_time
-                          , timediff(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time,
-                          l.activity_action_id,
-                          i.category_id,
-                          a.is_keep_last_category,
-                          a.activity_id
+                l.sim_id
+                , '' as leg_type
+                , '' as leg_action
+                , ac.activity_id
+                , l.mail_id
+                , d.code as dialog_code
+                , x.code as mail_code
+                , t.code as doc_code
+                , a.window_id
+                , w.subtype
+                , d.type_of_init
+                , a.dialog_id
+                , x.group_id
+                , x.coincidence_mail_code
+                , i.category_id AS category
+                , if(a.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
+                , l.start_time AS start_time
+                , ifnull(l.end_time, '00:00:00') AS end_time
+                , timediff(ifnull(l.end_time, '00:00:00'), l.start_time) AS diff_time,
+                l.activity_action_id,
+                i.category_id,
+                a.is_keep_last_category,
+                a.activity_id
             FROM
               log_activity_action AS l
             LEFT JOIN activity_action AS a
@@ -1161,15 +1162,16 @@ class LogHelper {
             }
 
             $data['headers'] = array(
-                'sim_id' => 'id_симуляции',
-                'leg_type' => 'Leg_type',
-                'leg_action' => 'Leg_action',
-                'mail_id'=>'id_исходящего письма',
-                'category' => 'Category',
+                'sim_id'                => 'id_симуляции',
+                'leg_type'              => 'Leg_type',
+                'leg_action'            => 'Leg_action',
+                'activity_id'           => 'activity ID',
+                'mail_id'               =>'id_исходящего письма',
+                'category'              => 'Category',
                 'is_keep_last_category' => 'Keep last category',
-                'start_time' => 'Игровое время - start',
-                'end_time' => 'Игровое время - end',
-                'diff_time' => 'Разница времени');
+                'start_time'            => 'Игровое время - start',
+                'end_time'              => 'Игровое время - end',
+                'diff_time'             => 'Разница времени');
             
             if(self::RETURN_DATA == $return) {
                 $data['title'] = "Логирование Leg_actions - detail";
@@ -1338,6 +1340,8 @@ class LogHelper {
               , l.leg_type
               , l.leg_action
               , ac.activity_id
+              , act.parent
+              , act.grandparent
               , l.category
               , if(l.is_keep_last_category = 0, 'yes', '') AS is_keep_last_category
               , l.start_time AS start_time
@@ -1347,6 +1351,8 @@ class LogHelper {
               log_activity_action_agregated AS l
             LEFT JOIN activity_action AS ac
             ON l.activity_action_id = ac.id
+            LEFT JOIN activity AS act
+            ON ac.activity_id = act.id
             {$simSql}
             ORDER BY
               l.id";
@@ -1358,6 +1364,8 @@ class LogHelper {
                 'leg_type'              => 'Leg_type',
                 'leg_action'            => 'Leg_action',
                 'activity_id'           => 'activity ID',
+                'parent'                => 'Parent',
+                'grandparent'           => 'Grandparent',
                 'category'              => 'Category',
                 'is_keep_last_category' => 'Keep last category',
                 'start_time'            => 'Игровое время - start',
