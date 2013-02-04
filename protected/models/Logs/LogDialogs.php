@@ -25,8 +25,8 @@ class LogDialogs extends CActiveRecord
     
     /**
      *
-     * @param type $className
-     * @return Characters
+     * @param string $className
+     * @return LogDialogs
      */
     public static function model($className=__CLASS__)
     {

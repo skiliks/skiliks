@@ -4,7 +4,7 @@
  *
  * @author slavka
  */
-class EmailCoincidenceAnalizator 
+class EmailCoincidenceAnalyzer
 {
     /**
      * @var MailBox

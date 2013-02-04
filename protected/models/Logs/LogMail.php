@@ -111,8 +111,11 @@ class LogMail extends CActiveRecord
         } else {
             $template = (null !== $this->mail) ? $this->mail->template : null;
         };
-        $activity_action = ActivityAction::model()->findByPriority(['mail_id' => $template !== null ? $template->primaryKey : null]);
-        if ($activity_action !== null) {
+        /** @var $activity_action ActivityAction */
+        $activity_action = ActivityAction::model()->findByPriority([
+            'mail_id' => $template !== null ? $template->primaryKey : null
+        ], ['Inbox_leg', 'Outbox_leg']);
+        if ($activity_action !== null && $this->end_time !== null) {
             $activity_action->appendLog($this);
         }
         parent::afterSave();
