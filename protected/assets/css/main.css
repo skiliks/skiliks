@@ -3168,3 +3168,9 @@ tr.email-list-separator {
 .mail-window .btn-close button:hover {
     background-position: 0 -20px;
 }
+
+.debug-panel form.trigger-event .alert {
+    position: absolute;
+    top: 10px;
+    left: 250px;
+}

@@ -37,10 +37,15 @@
                 target.elements.code.value,
                 target.elements.delay.value,
                 target.elements.clear_events.value,
-                target.elements.clear_assessment.value, function (data) {
+                target.elements.clear_assessment.value, 
+                function (data) {
                     if (data.result) {
                         window.scrollTo(0, 0);
+                        $('form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача добавлена а очередь!</div>');
+                     } else {
+                        $('form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача НЕ добавлена а очередь!</div>');
                     }
+                    $('form.trigger-event .alert').fadeOut(4000); 
                 }
             );
 
