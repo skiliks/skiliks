@@ -146,6 +146,43 @@ a:focus, a:active {
 	top:26px;
 	left:235px;
 }
+.container>header .language{
+	position:absolute;
+	top:18px;
+	right:160px;
+}
+.container>header .language a{
+	color:#fff;
+	text-decoration:none;
+}
+.container>header .language a:hover{
+	text-decoration:underline;
+}
+.container>header nav{
+	position:absolute;
+	bottom:0;
+	right:160px;
+}
+.container>header nav a{
+	display:block;
+	background:rgba(20,102,114,0.4);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	font:1.286em "ProximaNova-Regular";
+	color:#fff;
+	text-decoration:none;
+	line-height:1.778em;
+	float:left;
+	margin-left:11px;
+	padding:0 10px;
+}
+.container>header nav a:first-child{
+	margin-left:0;
+}
+.container>header nav a.active,.container>header nav a:hover{
+	background:rgba(20,102,114,1);
+}
 @media screen and (max-width: 1263px){
 	.container>header{
 		width:925px;
@@ -376,6 +413,7 @@ a:focus, a:active {
 	width:948px;
 	height:317px;
 	margin:0 auto;
+	position:relative;
 	overflow:hidden;
 }
 .footer footer .backtotop{
@@ -408,6 +446,28 @@ a:focus, a:active {
 	width:inherit;
 	height:inherit;
 	text-indent:-9999px;
+}
+.footer footer nav{
+	position:absolute;
+	top:200px;
+	right:123px;
+}
+.footer footer nav a{
+	display:block;
+	background:rgba(20,102,114,0.4);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	font:1.286em "ProximaNova-Regular";
+	color:#fff;
+	text-decoration:none;
+	line-height:1.778em;
+	float:left;
+	margin-left:11px;
+	padding:0 10px;
+}
+.footer footer nav a:hover{
+	background:rgba(20,102,114,1);;
 }
 .footer footer .copyright{
 	font:0.714em "ProximaNova-Regular";
