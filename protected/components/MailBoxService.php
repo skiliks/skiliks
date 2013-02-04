@@ -1122,9 +1122,7 @@ class MailBoxService
      */
     public static function sendDraft($simulation, $email)
     {
-        if (NULL == $email) {
-            return false;
-        }
+        assert($email);
 
         // update email folder {
         $email->group_id = MailBoxModel::OUTBOX_FOLDER_ID;
@@ -1156,7 +1154,7 @@ class MailBoxService
         $forwardSubjectId = $messageToForward->subject_id;
         $sender = $messageToForward->sender_id;
         $receiverId = $messageToForward->receiver_id;
-
+        $characterThemeId = null;
         $forwardSubjectText = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
@@ -1168,9 +1166,10 @@ class MailBoxService
         $service = new MailBoxService();
 
         if (0 < $forwardSubjectId) {
-            $characterThemeModel = CommunicationTheme::model()
-                ->byCharacter($receiverId)
-                ->byTheme($forwardSubjectId)->find();
+            $characterThemeModel = CommunicationTheme::model()->findByAttributes([
+                'text' => $forwardSubjectText,
+                'character_id' => $receiverId,
+                'mail_prefix' => 'fwd' . $messageToForward->subject_obj->mail_prefix]);
             if ($characterThemeModel) {
                 $characterThemeId = $characterThemeModel->id;
                 if ($characterThemeModel->constructor_number === 'TXT') {
