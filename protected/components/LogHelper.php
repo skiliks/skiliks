@@ -1060,7 +1060,6 @@ class LogHelper {
                 l.sim_id
                 , '' as leg_type
                 , '' as leg_action
-                , ac.activity_id
                 , l.mail_id
                 , d.code as dialog_code
                 , x.code as mail_code
@@ -1152,7 +1151,6 @@ class LogHelper {
                     unset($data['data'][$k]['coincidence_mail_code']);
                     unset($data['data'][$k]['activity_action_id']);
                     unset($data['data'][$k]['category_id']);
-                    unset($data['data'][$k]['activity_id']);
                     unset($data['data'][$k]['group_id']);
                     unset($data['data'][$k]['dialog_id']);
                     unset($data['data'][$k]['type_of_init']);
