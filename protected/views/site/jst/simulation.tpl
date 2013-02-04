@@ -23,7 +23,7 @@
                        title="Убрать звук в диалогах/вернуть звук в диалогах">
                         <i class="icon-volume-off"></i>
                     </button> 
-                    <br/>
+                    <br/><br/>
                     <div>
                         <strong>Sim id:</strong> <span id="sim-id"></span><br/>
                         <strong>Speed factor:</strong> x<span id="speed-factor"><span></span>

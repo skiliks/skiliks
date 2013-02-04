@@ -355,24 +355,26 @@ var SKDayPlanView;
          * Marks old slots and displays ruler
          */
         disableOldSlots:function () {
-            this.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
-                var time = SKApp.user.simulation.getGameTime();
-                var cell_hour = parseInt($(this).attr('data-hour'), 10);
-                var current_hour = parseInt(time.split(':')[0], 10);
-                var cell_minute = parseInt($(this).attr('data-minute'), 10);
-                var current_minute = parseInt(time.split(':')[1], 10);
-                if (cell_hour < current_hour || (cell_hour === current_hour && cell_minute < current_minute)) {
-                    $(this).addClass('past-slot');
-                }
-                $(this).find('.past').remove();
-                if (cell_hour === current_hour && cell_minute === parseInt(Math.floor(current_minute/15),10)*15) {
-                    if (cell_minute === current_minute) {
-                        $(this).prepend('<hr class="past" />');
-                    } else {
-                        $(this).append('<hr class="past" />');
+            if ('undefined' !== typeof SKApp.user.simulation) {
+                this.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
+                    var time = SKApp.user.simulation.getGameTime();
+                    var cell_hour = parseInt($(this).attr('data-hour'), 10);
+                    var current_hour = parseInt(time.split(':')[0], 10);
+                    var cell_minute = parseInt($(this).attr('data-minute'), 10);
+                    var current_minute = parseInt(time.split(':')[1], 10);
+                    if (cell_hour < current_hour || (cell_hour === current_hour && cell_minute < current_minute)) {
+                        $(this).addClass('past-slot');
                     }
-                }
-            });
+                    $(this).find('.past').remove();
+                    if (cell_hour === current_hour && cell_minute === parseInt(Math.floor(current_minute/15),10)*15) {
+                        if (cell_minute === current_minute) {
+                            $(this).prepend('<hr class="past" />');
+                        } else {
+                            $(this).append('<hr class="past" />');
+                        }
+                    }
+                });
+            }
         },
 
         /**
