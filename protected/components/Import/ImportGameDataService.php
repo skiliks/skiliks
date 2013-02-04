@@ -360,7 +360,10 @@ class ImportGameDataService
                 $time[1] = 0;
             }
             // themes update {
-            $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id]);
+            $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => $toId]);
+            if ($subjectEntity === null) {
+                $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => $fromId]);
+            }
             assert($subjectEntity !== null);
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
