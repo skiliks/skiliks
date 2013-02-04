@@ -540,7 +540,7 @@ class LogHelper {
                         );
                         
                         if (isset($log[4]) && isset($log[4]['mailId'])) {
-                            $result = MailBoxService::updateMsCoincidernce($log[4]['mailId'], $simId);
+                            $result = MailBoxService::updateMsCoincidence($log[4]['mailId'], $simId);
                         }
                         // check MS email concidence with mail_templates }
                         $log_obj = LogMail::model()->findByAttributes(array(
