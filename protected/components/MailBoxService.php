@@ -784,9 +784,9 @@ class MailBoxService
         return $subjectModel->id;
     }
 
-    public static function getSubjectIdByText($subjectText)
+    public static function getSubjectIdByText($subjectText, $mailPrefix = null)
     {
-        $model = CommunicationTheme::model()->byText($subjectText)->find();
+        $model = CommunicationTheme::model()->findByAttributes(['text' => $subjectText, 'mail_prefix' => $mailPrefix]);
 
         return (null === $model) ? null : $model->id;
     }
@@ -1154,10 +1154,10 @@ class MailBoxService
         $sender = $messageToForward->sender_id;
         $receiverId = $messageToForward->receiver_id;
 
-        $forwardSubjectText = 'Fwd: ' . $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
+        $forwardSubjectText = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText);
+        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, 'fwd');
 
         $result = array();
 
