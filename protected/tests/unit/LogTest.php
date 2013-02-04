@@ -78,7 +78,7 @@ class LogTest extends CDbTestCase
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         foreach ($mail_logs as $log) {
-            print_r($log->attributes);
+            //print_r($log);
         }
         $this->assertEquals(count($mail_logs), 4);
 
@@ -92,6 +92,9 @@ class LogTest extends CDbTestCase
             );
             /*$this->assertNotNull($log->end_time);*/
         }
+        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM73');
+        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'TM73');
+        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'TM73');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
