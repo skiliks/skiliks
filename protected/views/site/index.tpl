@@ -18,6 +18,14 @@
 				<h1><a href="/">Skiliks</a></h1>
 				
 				<p class="coming-soon">{Yii::t('site', 'Coming soon')}</p>
+				
+				<div class="language"><a href="#">Русский</a></div>
+				
+				<nav>
+					<a href="#">{Yii::t('site', 'Home')}</a>
+					<a href="#">{Yii::t('site', 'About')}</a>
+					<a href="#">{Yii::t('site', 'Product')}</a>
+				</nav>
 			</header>
 			<!--header end-->
 			
@@ -103,6 +111,12 @@
 				<div class="backtotop"><a href="#top">{Yii::t('site', 'Back to top')}</a></div>
 				
 				<div class="logo"><a href="/">Skiliks</a></div>
+				
+				<nav>
+					<a href="#">{Yii::t('site', 'Home')}</a>
+					<a href="#">{Yii::t('site', 'About')}</a>
+					<a href="#">{Yii::t('site', 'Product')}</a>
+				</nav>
 				
 				<p class="copyright">Copyright - Skiliks  - 2012</p>
 			</footer>
