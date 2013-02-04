@@ -1189,7 +1189,7 @@ class MailBoxService
 
         $result['result'] = 1;
         $result['subject'] = $forwardSubjectText;
-        $result['subjectId'] = $forwardSubjectId;
+        $result['subjectId'] = $characterThemeId;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
 
