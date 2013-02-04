@@ -362,7 +362,7 @@ class ImportGameDataService
             // themes update {
             $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => $toId]);
             if ($subjectEntity === null) {
-                $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => $fromId]);
+                $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => null]);
             }
             assert($subjectEntity !== null);
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
@@ -585,9 +585,11 @@ class ImportGameDataService
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
             if ($characterCode === '' || $characterCode === '-') {
-                $characterCode = $this->getCellValue($sheet, 'From_code', $i); // A
+                $characterCode = null;
+                $characterId = $characters[$characterCode];
+            } else {
+                $characterId = null;
             }
-            $characterId = $characters[$characterCode];
             // Определим тему письма
             $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
             $subjectText = StringTools::fixReAndFwd($subjectText);
