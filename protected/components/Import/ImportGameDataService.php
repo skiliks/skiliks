@@ -603,7 +603,7 @@ class ImportGameDataService
             $mail = $this->getCellValue($sheet, 'Theme_usage', $i) === 'mail_outbox';
             // Mail letter number
             $mailCode = $this->getCellValue($sheet, 'Mail letter number', $i);
-            if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено' ) {
+            if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено') {
                 $mailCode = null;
             }
             $mailCode = ('' !== $mailCode) ? $mailCode : null;
@@ -650,7 +650,7 @@ class ImportGameDataService
 
             foreach ($charactersList as $character) {
                 if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
-                     continue;
+                    continue;
                 }
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
                     'code' => $communicationTheme->code,
@@ -1244,7 +1244,7 @@ class ImportGameDataService
             $event->code = 'T';
         }
 
-        $event->title = 'Какое-то событие';
+        $event->title = 'Конечное событие';
         $event->on_ignore_result = 7; // ничего
         $event->on_hold_logic = 1; // ничего
         $event->trigger_time = 0;
@@ -1252,8 +1252,29 @@ class ImportGameDataService
         $event->save();
         // }
 
+        $reader = $this->getReader();
+        // load sheet {
+        $reader->setLoadSheetsOnly('to-do-list');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('to-do-list');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 1);
+        // load sheet }
 
-        // delete old unused data {
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $planCode = $this->getCellValue($sheet, 'Plan_code', $i);
+            $event = EventsSamples::model()->byCode($planCode)->find();
+            if (!$event) {
+                $event = new EventsSamples(); // Создаем событие
+            }
+            $event->code = $planCode;
+            $event->on_ignore_result = 7; // ничего
+            $event->on_hold_logic = 1; // ничего
+            $event->import_id = $this->import_id;
+            $event->save();
+        }
+
+            // delete old unused data {
         EventsSamples::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
@@ -1450,7 +1471,7 @@ class ImportGameDataService
 
             $activity->import_id = $this->import_id;
             if (false === $activity->validate()) {
-                throw new Exception(print_r($activity->getErrors(),true));
+                throw new Exception(print_r($activity->getErrors(), true));
             }
             $activity->save();
             // update activity values }
@@ -1482,7 +1503,7 @@ class ImportGameDataService
                     $values = [null];
                 } else {
                     $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
-                    if($mail === null) {
+                    if ($mail === null) {
                         throw new Exception('No such mail: ' . $xls_act_value);
                     }
                     $values = array($mail);
