@@ -15,7 +15,7 @@
             'events':{
                 'click .btn-simulation-stop':'doSimulationStop',
                 // TODO: move to SKDebugView
-                'click .btn-toggle-dialods-sound':'doToggleDialodSound'
+                'click .btn-toggle-dialods-sound':'doToggleDialogSound'
             },
             setupWindowEvents:function (window) {
                 if (window.get('name') === 'plan') {
@@ -101,7 +101,7 @@
                 this.icon_view = new SKIconPanelView({'el':this.$('.main-screen-icons')});
                 if (this.simulation.isDebug()) {
                     this.debug_view = new SKDebugView({'el':this.$('.debug-panel')});
-                    this.doToggleDialodSound();
+                    this.doToggleDialogSound();
                 }
                 var canvas = this.$('.canvas');
                 this.updateTime();
@@ -145,7 +145,7 @@
             'doSimulationStop':function () {
                 SKApp.user.stopSimulation();
             },
-            doToggleDialodSound:function () {
+            doToggleDialogSound:function () {
                 if (SKApp.user.simulation.config.isMuteVideo === false) {
                     SKApp.user.simulation.config.isMuteVideo = true;
                     this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
