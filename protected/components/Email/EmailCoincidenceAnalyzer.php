@@ -59,12 +59,7 @@ class EmailCoincidenceAnalyzer
         if (false === $this->userEmail->isSended()) {
             return $result;
         }
-        
-        $templates = MailTemplateModel::model()
-                ->byReceiverId($this->userEmail->receiver_id)
-                ->bySubjectId($this->userEmail->subject_id)
-                ->findAll();
-        
+
             foreach (MailTemplateModel::model()
                 ->byMS()
                 ->byReceiverId($this->userEmail->receiver_id)
