@@ -488,7 +488,7 @@ class MailBoxService
         // загрузка тем по одному персонажу
         if ($parentSubjectId !== null) {
             $models = CommunicationTheme::model()->findAllByAttributes([
-                'character_id' => $receivers[0],
+                'character_id' => count($receivers) ? $receivers[0] : null,
                 'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
             ]);
         } else {

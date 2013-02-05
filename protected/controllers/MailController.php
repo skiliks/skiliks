@@ -221,7 +221,7 @@ class MailController extends AjaxController
             'result'           => 1,
             'data'             => MailBoxService::getThemes(
                 Yii::app()->request->getParam('receivers', ''),
-                Yii::app()->request->getParam('parentSubjectId', 0)
+                Yii::app()->request->getParam('parentSubjectId', null)
             ),
             'characterThemeId' => CommunicationTheme::getCharacterThemeId(
                 Yii::app()->request->getParam('receivers', ''), 
