@@ -38,8 +38,7 @@ class AjaxController extends CController
     }
 
     /** 
-     * @deprecated
-     * @method void send JSON Writes JSON to output 
+     * @method void send JSON Writes JSON to output
      */
     protected function sendJSON($data, $status = 200)
     {
