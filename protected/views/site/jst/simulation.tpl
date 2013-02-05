@@ -22,7 +22,10 @@
                     <button class="btn btn-toggle-dialods-sound" type="button" value="" 
                        title="Убрать звук в диалогах/вернуть звук в диалогах">
                         <i class="icon-volume-off"></i>
-                    </button> 
+                    </button>
+                    <button class="btn btn-load-documents" type="button">
+                        Load docs
+                    </button>
                     <br/><br/>
                     <div>
                         <strong>Sim id:</strong> <span id="sim-id"></span><br/>

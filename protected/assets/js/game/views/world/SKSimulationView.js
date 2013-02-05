@@ -14,6 +14,7 @@
             'el':'body',
             'events':{
                 'click .btn-simulation-stop':'doSimulationStop',
+                // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound':'doToggleDialodSound'
             },
             setupWindowEvents:function (window) {
