@@ -650,7 +650,7 @@ class ImportGameDataService
 
         }
 
-        foreach (CommunicationTheme::model() as $theme) {
+        foreach (CommunicationTheme::model()->findAll() as $theme) {
             foreach ($charactersList as $character) {
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
                     'code' => $theme->code,
