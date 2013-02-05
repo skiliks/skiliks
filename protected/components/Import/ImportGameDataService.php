@@ -648,28 +648,25 @@ class ImportGameDataService
 
             $communicationTheme->save();
 
-        }
-
-        foreach (CommunicationTheme::model()->findAll() as $theme) {
             foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $theme->mail_prefix))) {
+                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
                      continue;
                 }
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
-                    'code' => $theme->code,
+                    'code' => $communicationTheme->code,
                     'character_id' => $character->primaryKey,
-                    'mail_prefix' => sprintf('fwd%s', $theme->mail_prefix)
+                    'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix)
                 ]);
                 if ($goodTheme !== null) {
                     continue;
                 }
                 $wrongTheme = new CommunicationTheme();
                 $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $theme->mail_prefix);
+                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
                 assert($wrongTheme->mail_prefix !== null);
                 $wrongTheme->wr = 'W';
-                $wrongTheme->code = $theme->code;
-                $wrongTheme->text = $theme->text;
+                $wrongTheme->code = $communicationTheme->code;
+                $wrongTheme->text = $communicationTheme->text;
                 $wrongTheme->constructor_number = 'B1';
                 $wrongTheme->character_id = $character->primaryKey;
                 $wrongTheme->import_id = $this->import_id;
@@ -1043,7 +1040,7 @@ class ImportGameDataService
             $subtypeAlias = $this->getCellValue($sheet, 'Категория события', $i);
             $dialog->dialog_subtype = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
 
-            $code = $this->getCellValue($sheet, '', $i);
+            $code = $this->getCellValue($sheet, 'Event_result_code', $i);
             $dialog->next_event = $this->getNextEventId($code);
 
             $dialog->next_event_code = ('-' == $code) ? NULL : $code;
