@@ -12,11 +12,17 @@ var SKWindowView;
         /** @lends SKWindowView.prototype */
         {
             Windows:{},
+            
             container:'.canvas',
+            
             'events':{
                 'click .win-close':'doWindowClose',
                 'mousedown':'doActivate'
             },
+            
+            isDisplaySettingsButton: true,
+            
+            isDisplayCloseWindowsButton: true,
 
             initialize:function () {
                 if (this.options.model_instance === undefined) {
@@ -30,7 +36,11 @@ var SKWindowView;
 
             renderWindow:function () {
                 var me = this;
-                this.$el.html(_.template($('#window_template').html(), {title:this.title}));
+                this.$el.html(_.template($('#window_template').html(), {
+                    title:                       this.title,
+                    isDisplaySettingsButton:     this.isDisplaySettingsButton,
+                    isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton
+                }));
                 this.renderTitle(this.$('header'));
                 this.$el.draggable({
                     handle:"header",

@@ -31,7 +31,9 @@
                 <img alt="" src="<@=SKConfig.assetsUrl@>/img/visitor/visitor-ch<@=visit[0].ch_from@>.png">
             </div>
             <div class="visitor-rbl">
-                <button class="btn-close"></button>
+                <@ if(isDisplayCloseWindowsButton){ @>
+                    <button class="btn-close"></button>
+                <@ } @>
                 <p class="visitor-name"><@=visit[0].title@></p>
                 <div class="visitor-btn">
                     <a class="visitor-allow" data-dialog-id="<@=visit[1].id@>"><span><@=visit[1].text@></span></a><br>
