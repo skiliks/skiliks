@@ -846,16 +846,13 @@ class MailBoxService
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
         $mail->save();
-        if(!$log_mail) {
-            return $result;
+        if($log_mail !== null) {
+            $log_mail->full_coinsidence = $result['full'];
+            $log_mail->part1_coinsidence = $result['part1'];
+            $log_mail->part2_coinsidence = $result['part2'];
+            $log_mail->is_coinsidence = $result['has_concidence'];
+            $log_mail->save();
         }
-        $log_mail->full_coinsidence = $result['full'];
-        $log_mail->part1_coinsidence = $result['part1'];
-        $log_mail->part2_coinsidence = $result['part2'];
-        $log_mail->is_coinsidence = $result['has_concidence'];
-        $log_mail->save();
-
-
         $simulationEmail = MailBoxModel::model()->findByPk($mailId);
         if (null !== $simulationEmail) {
             $simulationEmail->code = $result['result_code'];
