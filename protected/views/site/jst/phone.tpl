@@ -140,7 +140,9 @@
                         <@=remote_replica.title@><br>
                         <span class="post">&nbsp;</span>
                     </p>
-                    <a class="phone-call-end phone-draw-menu">Завершить</a>
+                    <@ if(isUserCanFinalizeCall){ @>
+                        <a class="phone-call-end phone-draw-menu">Завершить</a>
+                    <@ } @>
                 </div>
             </div>
 

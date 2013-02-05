@@ -4,7 +4,13 @@ $(function () {
     "use strict";
 
     window.SKPhoneDialogView = SKWindowView.extend({
+        
         title: "Телефон",
+        
+        isDisplayCloseWindowsButton: false,
+        
+        isUserCanFinalizeCall: false,
+        
         'events':_.defaults({
             'click .phone-draw-menu':'getMenu',
             'click .replica-select':   'doSelectReplica'
@@ -30,11 +36,19 @@ $(function () {
                 me = this,
                 my_replicas = event.getMyReplicas(),
                 remote_replica = event.getRemoteReplica();
-                console.log(remote_replica);
+                
+            // if several replics come from server - hide FinalizeCallButton
+            // ecse display FinalizeCallButton
+            // this.isUserCanFinalizeCall = false by default
+            if (my_replicas.length === 0) {
+                this.isUserCanFinalizeCall = true;
+            }
+
             var callInHtml = _.template($('#Phone_Dialog').html(), {
-                'remote_replica':remote_replica,
-                'my_replicas':my_replicas,
-                'audio_src': event.getAudioSrc()
+                'remote_replica':            remote_replica,
+                'my_replicas':               my_replicas,
+                'audio_src':                 event.getAudioSrc(),
+                isUserCanFinalizeCall: this.isUserCanFinalizeCall
             });
             window_el.html(callInHtml);
             this.$('audio').on('ended', function(){
@@ -45,9 +59,13 @@ $(function () {
                 }
             });
         },
-        getMenu: function(event){
-            this.options.model_instance.close();
-            SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+        getMenu: function(event) {
+            // block standartfuncxtionality if 
+            if (this.isUserCanFinalizeCall) {
+                this.options.model_instance.close();
+                SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+            }
+            event.preventDefault();
         },
 
         doSelectReplica:function (e) {
