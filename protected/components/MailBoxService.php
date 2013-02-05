@@ -488,7 +488,7 @@ class MailBoxService
         // загрузка тем по одному персонажу
         if ($parentSubjectId !== null) {
             $models = CommunicationTheme::model()->findAllByAttributes([
-                'character_id' => $receivers[0],
+                'character_id' => count($receivers) ? $receivers[0] : null,
                 'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
             ]);
         } else {
@@ -1049,7 +1049,7 @@ class MailBoxService
         $subjectEntity = CommunicationTheme::model()->findByAttributes([
             'text' => $previousEmalSubjectEntity->text,
             'mail_prefix' => 're'
-        ])->find(); // lowercase is important for search!
+        ]); // lowercase is important for search!
 
         return $subjectEntity;
     }
