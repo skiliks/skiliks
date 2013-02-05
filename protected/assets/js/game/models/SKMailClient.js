@@ -723,8 +723,9 @@
             /**
              * @param {Array.<integer>} recipientIds
              * @param action
+             * @param {undefined|SKMailSubject} parent_subject
              */
-            reloadSubjectsWithWarning:function (recipientIds, action) {
+            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject) {
                 var mailClient = this;
 
                 var checkValue = -1;
@@ -741,7 +742,7 @@
                                 'value':'Продолжить',
                                 'onclick':function () {
                                     delete mailClient.message_window;
-                                    mailClient.reloadSubjects(recipientIds);
+                                    mailClient.reloadSubjects(recipientIds, parent_subject);
                                 }
                             },
                             {
@@ -754,16 +755,22 @@
                         ]
                     });
                 } else {
-                    mailClient.reloadSubjects(recipientIds);
+                    mailClient.reloadSubjects(recipientIds, parent_subject);
                 }
             },
 
-            reloadSubjects:function (recipientIds) {
+            /**
+             *
+             * @param recipientIds
+             * @param parent_subject
+             */
+            reloadSubjects:function (recipientIds, parent_subject) {
                 this.messageForNewEmail = '';
                 SKApp.server.api(
                     'mail/getThemes',
                     {
-                        receivers:recipientIds.join(',') // implode()
+                        receivers:recipientIds.join(','), // implode()
+                        parentSubjectId: parent_subject !== undefined ? parent_subject.mySqlId : undefined
                     },
                     function (response) {
                         if (undefined !== response.data) {

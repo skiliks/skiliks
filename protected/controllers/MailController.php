@@ -217,12 +217,15 @@ class MailController extends AjaxController
      */
     public function actionGetThemes()
     {
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
             'result'           => 1,
-            'data'             => MailBoxService::getThemes(Yii::app()->request->getParam('receivers', '')),
+            'data'             => MailBoxService::getThemes(
+                Yii::app()->request->getParam('receivers', ''),
+                Yii::app()->request->getParam('parentSubjectId', 0)
+            ),
             'characterThemeId' => CommunicationTheme::getCharacterThemeId(
                 Yii::app()->request->getParam('receivers', ''), 
-                Yii::app()->request->getParam('forwardEmailId', 0)
+                Yii::app()->request->getParam('parentSubjectId', 0)
             ),
         ));
     }
