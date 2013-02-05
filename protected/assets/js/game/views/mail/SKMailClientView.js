@@ -205,7 +205,7 @@ var SKMailClientView;
              * @param el
              */
             renderTitle:function (el) {
-                el.html(_.template($('#MailClient_TitleHtml').html(), {}))
+                el.html(_.template($('#MailClient_TitleHtml').html(), {}));
                 this.delegateEvents();
             },
 
