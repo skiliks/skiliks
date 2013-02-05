@@ -32,6 +32,7 @@ class MailTest extends SeleniumTestCase
         # Enter Developer Mode - дождаться кнопки, кликнуть на кнопку
         $this->waitForElement($session, 'xpath', "//input[@value='Начать симуляцию developer']");
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
+        $this->markTestIncomplete();
         # one letter
         $this->waitForElement($session, 'xpath', '//a[@id="icons_email"]')->click();
         sleep(20);
