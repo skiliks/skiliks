@@ -652,6 +652,9 @@ class ImportGameDataService
 
         foreach (CommunicationTheme::model()->findAll() as $theme) {
             foreach ($charactersList as $character) {
+                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $theme->mail_prefix))) {
+                     continue;
+                }
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
                     'code' => $theme->code,
                     'character_id' => $character->primaryKey,
@@ -662,9 +665,11 @@ class ImportGameDataService
                 }
                 $wrongTheme = new CommunicationTheme();
                 $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = $mailPrefix;
+                $wrongTheme->mail_prefix = sprintf('fwd%s', $theme->mail_prefix);
                 $wrongTheme->wr = 'W';
-                $wrongTheme->code = $themeId;
+                $wrongTheme->code = $theme->code;
+                $wrongTheme->text = $theme->text;
+
                 $wrongTheme->character_id = $character->primaryKey;
                 $wrongTheme->import_id = $this->import_id;
                 $wrongTheme->save();
