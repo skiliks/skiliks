@@ -34,7 +34,7 @@ class MailTest extends SeleniumTestCase
         $session->element("xpath", "//input[@value='Начать симуляцию developer']")->click();
         # one letter
         $this->waitForElement($session, 'xpath', '//a[@id="icons_email"]')->click();
-        sleep(1);
+        sleep(20);
         $this->waitForElement($session, 'css selector', 'a.NEW_EMAIL')->click();
         $this->waitForElement($session, 'css selector', '#MailClient_RecipientsList')->click();
         $this->waitForElement($session, 'css selector', '.ui-menu-item a', 20);
