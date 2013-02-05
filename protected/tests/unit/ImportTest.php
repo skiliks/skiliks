@@ -27,7 +27,7 @@ class ImportTest extends CDbTestCase
             $import->importTasks();
             $import->importMyDocuments();
             $import->importActivity();
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']),4);
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']),43);
             $transaction->rollback();
         } catch (Exception $e) {
             $transaction->rollback();
