@@ -376,9 +376,10 @@ class MailController extends AjaxController
     }
     
     /**
+     * @deprecated is this method in use?
      * Добавление задачи в план
      */
-    public function actionGetTaskInfo()
+    /*public function actionGetTaskInfo()
     {
         $simulation = $this->getSimulationEntity();
         
@@ -388,16 +389,16 @@ class MailController extends AjaxController
         $emailTask = MailTasksModel::model()->findByPk(Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(array(
-            'result' => (NULL === $task) ? 0 : 1,
+            'result' => (NULL === $emailTask ) ? 0 : 1,
             'task' => [
-                'id'       => (NULL === $task) ? NULL : $emailTask->id,
-                'duration' => (NULL === $task) ? NULL : $emailTask->duration,
-                'day'      => (NULL === $task) ? NULL : $emailTask->day,
-                'text'     => (NULL === $task) ? NULL : $emailTask->name,
-                'date'     => (NULL === $task) ? NULL : $emailTask->date,
+                'id'       => (NULL === $emailTask ) ? NULL : $emailTask->id,
+                'duration' => (NULL === $emailTask ) ? NULL : $emailTask->duration,
+                'day'      => (NULL === $emailTask ) ? NULL : $emailTask->day,
+                'text'     => (NULL === $emailTask ) ? NULL : $emailTask->name,
+                'date'     => (NULL === $emailTask ) ? NULL : $emailTask->date,
             ]
         ));
-    }
+    }*/
 
     /**
      *  Отправить из черновиков
