@@ -1155,12 +1155,12 @@ class MailBoxService
             );
         }
 
-        $forwardSubjectId = $messageToForward->subject_id;
-        $sender = $messageToForward->sender_id;
-        $receiverId = $messageToForward->receiver_id;
-        $characterThemeId = null;
-        $forwardSubjectText = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
-        $forwardSubjectTextFull = $messageToForward->subject_obj->mail_prefix.': '.$messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
+        $forwardSubjectId       = $messageToForward->subject_id;
+        $sender                 = $messageToForward->sender_id;
+        $receiverId             = $messageToForward->receiver_id;
+        $characterThemeId       = null;
+        $forwardSubjectText     = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
+        $forwardSubjectTextFull = $messageToForward->subject_obj->getFormatedThemePrefix(); // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
         $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, null);

@@ -71,8 +71,11 @@ class CommunicationTheme extends CActiveRecord
      * "dialog" - new mail window was opened by dialog
      * "inbox"  - user write reply email
      */
-    public $source;   
+    public $source;  
     
+    public $mail_prefix;
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**
@@ -100,6 +103,13 @@ class CommunicationTheme extends CActiveRecord
         return $characterThemeId;
     }
 
+    /**
+     * @return string
+     */
+    public function getFormatedThemePrefix()
+    {
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd:'], $this->mail_prefix) . ' ' . $this->text;
+    }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
     
