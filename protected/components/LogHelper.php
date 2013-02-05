@@ -558,6 +558,7 @@ class LogHelper
                             $result = MailBoxService::updateMsCoincidence($log[4]['mailId'], $simId);
                         }
                         // check MS email concidence with mail_templates }
+                        /** @var $log_obj LogMail */
                         $log_obj = LogMail::model()->findByAttributes(array(
                             "mail_id" => null,
                             "end_time" => '00:00:00',

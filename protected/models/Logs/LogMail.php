@@ -27,22 +27,22 @@ class LogMail extends CActiveRecord
     /**
      * @var string, '-' or mail_template.code
      */
-    public $full_coinsidence;
+    public $full_coincidence;
     
     /**
      * @var string, '-' or mail_template.code
      */
-    public $part1_coinsidence;
+    public $part1_coincidence;
     
     /**
      * @var string, '-' or mail_template.code
      */    
-    public $part2_coinsidence;
+    public $part2_coincidence;
     
     /**
      * @var bool
      */
-    public $is_coinsidence;
+    public $is_coincidence;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
@@ -106,8 +106,8 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
-        if ($this->full_coinsidence !== null && $this->full_coinsidence !== '-') {
-            $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coinsidence]);
+        if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
+            $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coincidence]);
         } else {
             $template = (null !== $this->mail) ? $this->mail->template : null;
         };
