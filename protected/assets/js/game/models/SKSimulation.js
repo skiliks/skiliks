@@ -161,12 +161,14 @@
                         SKApp.user.stopSimulation();
                     }
                     
-                    if ('undefined' != typeof data.simId) {
-                        me.id = data.simId
+                    if ('undefined' !== typeof data.simId) {
+                        me.id = data.simId;
                     }
                     me.todo_tasks.fetch();
                     me.dayplan_tasks.fetch();
-                    me.documents.fetch();
+                    if (!me.isDebug()) {
+                        me.documents.fetch();
+                    }
                     me.trigger('start');
 
                     me.events_timer = setInterval(function () {
