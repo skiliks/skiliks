@@ -74,23 +74,23 @@ class CommunicationTheme extends CActiveRecord
     public $source;   
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
      * @param string $receivers, '1,2,3'
-     * @param integer $mailThemeId
-     * 
+     * @param $parentSubjectId
+     *
      * @return integer || NULL
      */
-    public static function getCharacterThemeId($receivers, $mailThemeId)
+    public static function getCharacterThemeId($receivers, $parentSubjectId)
     {
         $characterThemeId = NULL;
         $receiversArr = explode(',', $receivers);
 
-        if (0 < count($receiversArr) && NULL != $mailThemeId) {
-            $characterTheme = CommunicationTheme::model()
-                ->byCharacter(reset($receiversArr))
-                ->byTheme($mailThemeId)
-                ->find();
+        if (0 < count($receiversArr) && NULL != $parentSubjectId) {
+            $characterTheme = CommunicationTheme::model()->findByAttributes([
+                'character_id' => reset($receiversArr),
+                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
+            ]);
 
             if (null !== $characterTheme) {
                 $characterThemeId = $characterTheme->id;
