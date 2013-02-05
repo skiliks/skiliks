@@ -44,6 +44,7 @@ class ImportTest extends CDbTestCase
             $transaction->rollback();
         } catch (Exception $e) {
             $transaction->rollback();
+            throw $e;
         }
     }
 }
