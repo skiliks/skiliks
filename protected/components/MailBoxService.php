@@ -1049,7 +1049,7 @@ class MailBoxService
         $subjectEntity = CommunicationTheme::model()->findByAttributes([
             'text' => $previousEmalSubjectEntity->text,
             'mail_prefix' => 're'
-        ])->find(); // lowercase is important for search!
+        ]); // lowercase is important for search!
 
         return $subjectEntity;
     }
