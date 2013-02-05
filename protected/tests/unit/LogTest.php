@@ -15,15 +15,14 @@ class LogTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(1, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
-        $character = Characters::model()->findByAttributes(['code' => 5]);
+        $character = Characters::model()->findByAttributes(['code' => 9]);
 
         $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey])->primaryKey,
+            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
             'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies' => implode(',',[
-                Characters::model()->findByAttributes(['code' => 1])->primaryKey,
                 Characters::model()->findByAttributes(['code' => 2])->primaryKey,
                 Characters::model()->findByAttributes(['code' => 11])->primaryKey,
                 Characters::model()->findByAttributes(['code' => 12])->primaryKey,
@@ -47,12 +46,21 @@ class LogTest extends CDbTestCase
         $simulation_service->simulationStop($simulation->primaryKey);
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         foreach ($mail_logs as $log) {
             //print_r($log);
         }
         $this->assertEquals(count($mail_logs), 1);
-
+        foreach ($mail_logs as $log) {
+            printf("%8s\t%8s\t%10s\n",
+                $log->start_time,
+                $log->end_time,
+                $log->full_coincidence ?: '(empty)'
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
         $this->assertEquals(count($activity_actions), 4);
         foreach ($activity_actions as $log) {
             printf("%s\t%8s\t%10s\t%10s\n",
@@ -63,7 +71,7 @@ class LogTest extends CDbTestCase
             );
             /*$this->assertNotNull($log->end_time);*/
         }
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM8');
+        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
