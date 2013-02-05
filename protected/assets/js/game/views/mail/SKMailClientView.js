@@ -32,26 +32,26 @@ var SKMailClientView;
             isSortingNotApplied:true,
 
             events:_.defaults({
-                'click .NEW_EMAIL':'renderWriteCustomNewEmailScreen',
-                'click .REPLY_EMAIL':'renderReplyScreen',
+                'click .NEW_EMAIL':      'renderWriteCustomNewEmailScreen',
+                'click .REPLY_EMAIL':    'renderReplyScreen',
                 'click .REPLY_ALL_EMAIL':'renderReplyAllScreen',
-                'click .FORWARD_EMAIL':'renderForwardEmailScreen',
-                'click .ADD_TO_PLAN':'doAddToPlan',
-                'click .SAVE_TO_DRAFTS':'doSaveEmailToDrafts',
-                'click .SEND_EMAIL':'doSendEmail',
-                'click .MOVE_TO_TRASH':'doMoveToTrashActiveEmail',
-                'click #FOLDER_INBOX':'doRenderFolderByEvent',
-                'click #FOLDER_DRAFTS':'doRenderFolderByEvent',
-                'click #FOLDER_SENDED':'doRenderFolderByEvent',
-                'click #FOLDER_TRASH':'doRenderFolderByEvent',
+                'click .FORWARD_EMAIL':  'renderForwardEmailScreen',
+                'click .ADD_TO_PLAN':    'doAddToPlan',
+                'click .SAVE_TO_DRAFTS': 'doSaveEmailToDrafts',
+                'click .SEND_EMAIL':     'doSendEmail',
+                'click .MOVE_TO_TRASH':  'doMoveToTrashActiveEmail',
+                'click #FOLDER_INBOX':   'doRenderFolderByEvent',
+                'click #FOLDER_DRAFTS':  'doRenderFolderByEvent',
+                'click #FOLDER_SENDED':  'doRenderFolderByEvent',
+                'click #FOLDER_TRASH':   'doRenderFolderByEvent',
 
-                'click .SEND_DRAFT_EMAIL':'doSendDraft',
-                'click .save-attachment-icon':'doSaveAttachment',
-                'change #MailClient_NewLetterSubject select':'doUpdateMailPhrasesList',
-                '#MailClient_ContentBlock .mail-tags-bl li':'doAddPhraseToEmail',
-                'click #mailEmulatorNewLetterText li':'doRemovePhraseFromEmail',
-                'click #MailClient_ContentBlock .mail-tags-bl li':'doAddPhraseToEmail',
-                'click .switch-size':'doSwitchNewLetterView'
+                'click .SEND_DRAFT_EMAIL':                         'doSendDraft',
+                'click .save-attachment-icon':                     'doSaveAttachment',
+                'change #MailClient_NewLetterSubject select':      'doUpdateMailPhrasesList',
+                '#MailClient_ContentBlock .mail-tags-bl li':       'doAddPhraseToEmail',
+                'click #mailEmulatorNewLetterText li':             'doRemovePhraseFromEmail',
+                'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
+                'click .switch-size':                              'doSwitchNewLetterView'
 
                 /*'keypress'                                    : 'doHandleKeypress',
                  'keyup'                                    : 'doHandleKeypress',
@@ -1222,8 +1222,8 @@ var SKMailClientView;
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
                 this.mailClient.newEmailUsedPhrases = [];
-                $('#mailEmulatorNewLetterText').html(this.mailClient.messageForNewEmail.replace("\n", "<br />", "g"));
-
+                this.renderTXT(this.mailClient.messageForNewEmail);
+ 
                 this.delegateEvents();
             },
 
@@ -1489,8 +1489,15 @@ var SKMailClientView;
                 if (undefined !== text && '' !== text) {
                     text = '<pre><p style="color:blue;">' + text + '</p></pre>';
                 }
-                $(".previouse-message-text").html(text);
+                this.$(".previouse-message-text").html(text);
                 this.delegateEvents();
+            },
+            
+            renderTXT:function () {
+                if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
+                    $('#mailEmulatorNewLetterText').
+                        html(this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
+                }
             },
 
             /**
@@ -1504,17 +1511,21 @@ var SKMailClientView;
                         this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                         return  false;
                     }
+                    
+                    this.mailClient.messageForNewEmail = response.phrases.message;
 
                     this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
 
-                    var subject = new SKMailSubject();
-                    subject.text = response.subject;
-                    subject.mySqlId = response.subjectId;
+                    var subject                = new SKMailSubject();
+                    subject.text               = response.subject;
+                    subject.mySqlId            = response.subjectId;
                     subject.characterSubjectId = response.subjectId;
 
                     this.renderSingleSubject(subject);
 
                     this.renderPreviouseMessage(response.phrases.previouseMessage);
+                    
+                    this.renderTXT();                    
 
                     // even if there is one recipient,but it must be an array
                     var recipients = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)

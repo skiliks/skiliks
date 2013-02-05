@@ -3,7 +3,7 @@ return CMap::mergeArray(
     require(dirname(__FILE__) . '/base.php'),
     array('components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=127.0.0.1;dbname=skiliks_2',
+            'connectionString' => 'mysql:host=127.0.0.1;dbname=skiliks_4',
             'emulatePrepare' => true,
             'username' => 'root',
             'password' => '111',

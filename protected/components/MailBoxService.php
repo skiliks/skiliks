@@ -376,7 +376,9 @@ class MailBoxService
         }
 
         // конструтор не прописан - вернем дефолтовый
-        if (count($phrases) == 0) $phrases = MailPhrasesModel::model()->byCode('B1')->findAll();
+        if (count($phrases) == 0) {
+            $phrases = MailPhrasesModel::model()->byCode('B1')->findAll();           
+        };
         $list = array();
         foreach ($phrases as $model) {
             $list[$model->id] = $model->name;
@@ -1011,26 +1013,24 @@ class MailBoxService
 
         // init default responce
         $result = array(
-            'message' => NULL,
-            'data' => array(),
+            'message'          => '',
+            'data'             => self::getMailPhrases(),
             'previouseMessage' => $messageToReply->message,
-            'addData' => self::getSigns()
+            'addData'          => self::getSigns()
         );
 
         if ($characterThemeModel) {
             $characterThemeId = $characterThemeModel->id;
+            $mailTemplate = $characterThemeModel->getMailTemplate();
             if ($characterThemeModel->constructor_number === 'TXT') {
-                $result['message'] = $characterThemeModel->letter->message;
+                $result['message'] = (NULL === $mailTemplate) ? '' : $mailTemplate->message;
+                $result['data']    = [];
+                $result['addData'] = [];
             } else {
                 $result['data'] = self::getMailPhrases($characterThemeId);
             }
         }
         // get phrases }
-
-        // set defaults if there are no phrases
-        if (0 == count($result['data'])) {
-            $result['data'] = self::getMailPhrases();
-        }
 
         return $result;
     }
@@ -1160,6 +1160,7 @@ class MailBoxService
         $receiverId = $messageToForward->receiver_id;
         $characterThemeId = null;
         $forwardSubjectText = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
+        $forwardSubjectTextFull = $messageToForward->subject_obj->mail_prefix.': '.$messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
         $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, null);
@@ -1171,9 +1172,9 @@ class MailBoxService
 
         if (0 < $forwardSubjectId) {
             $characterThemeModel = CommunicationTheme::model()->findByAttributes([
-                'text' => $forwardSubjectText,
+                'text'         => $forwardSubjectText,
                 'character_id' => $receiverId,
-                'mail_prefix' => $messageToForward->subject_obj->mail_prefix]);
+                'mail_prefix'  => $messageToForward->subject_obj->mail_prefix]);
             if ($characterThemeModel) {
                 $characterThemeId = $characterThemeModel->id;
                 if ($characterThemeModel->constructor_number === 'TXT') {
@@ -1191,8 +1192,8 @@ class MailBoxService
         $result['phrases']['addData'] = MailBoxService::getSigns();
 
 
-        $result['result'] = 1;
-        $result['subject'] = $forwardSubjectText;
+        $result['result']    = 1;
+        $result['subject']   = $forwardSubjectTextFull;
         $result['subjectId'] = $forwardSubjectId;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;

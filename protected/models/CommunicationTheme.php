@@ -236,12 +236,25 @@ class CommunicationTheme extends CActiveRecord
         ));
         return $this;
     }
+    
+    /**
+     * @return MailTemplateModel | NULL
+     */
+    public function getMailTemplate() {
+        return MailTemplateModel::model()->find([
+            'condition' => 'code = :code',
+            'params'    => [
+                'code' => $this->letter_number
+            ]
+        ]);
+    }
 
     public function relations()
     {
-        return array(
+        return [];
+        /*return array(
             'letter' => array(self::BELONGS_TO, 'MailTemplateModel', 'letter_number')
-        );
+        );*/
     }
 }
 
