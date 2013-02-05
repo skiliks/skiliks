@@ -1131,7 +1131,7 @@ class MailBoxService
         // update email folder {
         $email->group_id = MailBoxModel::OUTBOX_FOLDER_ID;
         $email->save();
-        ;
+
         // update email folder }
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($email);
