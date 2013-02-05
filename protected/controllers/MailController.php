@@ -303,7 +303,7 @@ class MailController extends AjaxController
         $characters = MailBoxService::getCharacters();
         $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
 
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
             'result'      => 1,
             'subjectId'   => (null === $subjectEntity) ? null : $subjectEntity->id,
             'subject'     => (null === $subjectEntity) ? null : $subjectEntity->text,
