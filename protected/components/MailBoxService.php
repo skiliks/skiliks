@@ -478,7 +478,7 @@ class MailBoxService
      * Получение списка тем
      * @param string $receivers
      */
-    public static function getThemes($receivers)
+    public static function getThemes($receivers, $parentSubjectId = null)
     {
         $receivers = explode(',', $receivers);
         if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
@@ -486,10 +486,17 @@ class MailBoxService
 
         $themes = array();
         // загрузка тем по одному персонажу
-        $models = CommunicationTheme::model()
-            ->byCharacter($receivers[0])
-            ->byMail()
-            ->findAll();
+        if ($parentSubjectId !== null) {
+            $models = CommunicationTheme::model()->findAllByAttributes([
+                'character_id' => $receivers[0],
+                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
+            ]);
+        } else {
+            $models = CommunicationTheme::model()
+                ->byCharacter($receivers[0])
+                ->byMail()
+                ->findAll();
+        }
 
         foreach ($models as $model) {
             $themes[(int)$model->id] = (int)$model->id;
