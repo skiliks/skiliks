@@ -43,7 +43,7 @@ class EmailCoincidenceAnalyzer
      * 
      * @return mixed array
      */
-    public function checkCoinsidence() 
+    public function checkCoincidence()
     {
         $result = array(
             'full'               => '-',

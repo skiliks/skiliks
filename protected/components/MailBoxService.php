@@ -830,7 +830,7 @@ class MailBoxService
     {
         $emailConsidenceAnalizator = new EmailCoincidenceAnalyzer();
         $emailConsidenceAnalizator->setUserEmail($mailId);
-        $result = $emailConsidenceAnalizator->checkCoinsidence();
+        $result = $emailConsidenceAnalizator->checkCoincidence();
 
         // update check MS email concidence
         /** @var $log_mail LogMail */
