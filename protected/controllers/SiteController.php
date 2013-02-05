@@ -7,28 +7,19 @@ class SiteController extends AjaxController
      * So, we display error message for user if aout sscript call this action.
      */
     public function actionIndex()
-    {        
-        $cs = Yii::app()->clientScript;
+    {
         $assetsUrl = $this->getAssetsUrl();
-        
-        $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
-        $cs->registerCssFile($assetsUrl . "/css/style.css");
-        
+
         $this->render('index', ['assetsUrl' => $assetsUrl]);
     }
-    
+
     public function actionComingSoonSuccess()
-    {        
+    {
         $cs = Yii::app()->clientScript;
         $assetsUrl = $this->getAssetsUrl();
-        
+
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
         $cs->registerCssFile($assetsUrl . "/css/style.css");
-        
-Yii::app()->setLanguage('ru');
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-        
         $this->render('comming-soon-success', ['assetsUrl' => $assetsUrl]);
     }
 
@@ -39,7 +30,7 @@ ini_set('display_errors', '1');
         $assetsUrl = $this->getAssetsUrl();
         $config = Yii::app()->params['public'];
         $config['assetsUrl'] = $assetsUrl;
-        
+
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui.css");
         $cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap.css");
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui-1.8.23.slider.css");
@@ -48,9 +39,9 @@ ini_set('display_errors', '1');
         $cs->registerCssFile($assetsUrl . "/js/elfinder-2.0-rc1/css/theme.css");
         $cs->registerCssFile($assetsUrl . "/css/tag-handler.css");
         $cs->registerCssFile($assetsUrl . "/css/main.css");
-        $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
-        $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/plan.less");
-        $cs->registerLinkTag( 'stylesheet/less', 'text/css', $assetsUrl . "/css/documents.less");
+        $cs->registerLinkTag('stylesheet/less', 'text/css', $assetsUrl . "/css/simulation.less");
+        $cs->registerLinkTag('stylesheet/less', 'text/css', $assetsUrl . "/css/plan.less");
+        $cs->registerLinkTag('stylesheet/less', 'text/css', $assetsUrl . "/css/documents.less");
 
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery-ui-1.8.24.custom.js");
@@ -62,7 +53,7 @@ ini_set('display_errors', '1');
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mCustomScrollbar.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.mousewheel.min.js");
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.tablesorter.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/pdf.js");
@@ -76,7 +67,7 @@ ini_set('display_errors', '1');
         $cs->registerScriptFile($assetsUrl . "/js/elfinder-2.0-rc1/js/elfinder.min.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/tag-handler/jquery.taghandler.min.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKWindow.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKWindowLog.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/window/SKMailWindow.js");
@@ -107,10 +98,10 @@ ini_set('display_errors', '1');
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/SKWindowView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/windows/SKSingleWindowView.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailAddToPlanDialog.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/mail/SKMailClientView.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailTask.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailPhrase.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKCharacter.js");
@@ -135,9 +126,9 @@ ini_set('display_errors', '1');
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneDialogView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/phone/SKPhoneCallView.js");
-        
+
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKLoginView.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");        
+        $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKApplicationView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationStartView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKSimulationView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKDebugView.js");
@@ -157,7 +148,7 @@ ini_set('display_errors', '1');
 
         //плагины
         $cs->registerScriptFile($assetsUrl . "/js/game/adminka/jgridController.js");
-
+        $this->layout = false;
         $this->render('site', ['config' => CJSON::encode($config), 'assetsUrl' => $assetsUrl]);
     }
 
