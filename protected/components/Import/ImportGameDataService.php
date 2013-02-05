@@ -666,10 +666,11 @@ class ImportGameDataService
                 $wrongTheme = new CommunicationTheme();
                 $wrongTheme->mail = 1;
                 $wrongTheme->mail_prefix = sprintf('fwd%s', $theme->mail_prefix);
+                assert($wrongTheme->mail_prefix !== null);
                 $wrongTheme->wr = 'W';
                 $wrongTheme->code = $theme->code;
                 $wrongTheme->text = $theme->text;
-
+                $wrongTheme->constructor_number = 'B1';
                 $wrongTheme->character_id = $character->primaryKey;
                 $wrongTheme->import_id = $this->import_id;
                 $wrongTheme->save();
