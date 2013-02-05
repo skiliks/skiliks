@@ -35,4 +35,15 @@ class ImportTest extends CDbTestCase
             $transaction->rollback();
         }
     }
+
+    public function test_subject_import() {
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $import = new ImportGameDataService();
+            $import->importEmailSubjects();
+            $transaction->rollback();
+        } catch (Exception $e) {
+            $transaction->rollback();
+        }
+    }
 }

@@ -650,6 +650,27 @@ class ImportGameDataService
 
         }
 
+        foreach (CommunicationTheme::model() as $theme) {
+            foreach ($charactersList as $character) {
+                $goodTheme = CommunicationTheme::model()->findByAttributes([
+                    'code' => $theme->code,
+                    'character_id' => $character->primaryKey,
+                    'mail_prefix' => sprintf('fwd%s', $theme->mail_prefix)
+                ]);
+                if ($goodTheme !== null) {
+                    continue;
+                }
+                $wrongTheme = new CommunicationTheme();
+                $wrongTheme->mail = 1;
+                $wrongTheme->mail_prefix = $mailPrefix;
+                $wrongTheme->wr = 'W';
+                $wrongTheme->code = $themeId;
+                $wrongTheme->character_id = $character->primaryKey;
+                $wrongTheme->import_id = $this->import_id;
+                $wrongTheme->save();
+            }
+        }
+
         // remove all old, unused characterMailThemes after import {
         CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
