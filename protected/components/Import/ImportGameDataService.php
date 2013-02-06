@@ -359,12 +359,26 @@ class ImportGameDataService
                 $time[0] = 0;
                 $time[1] = 0;
             }
-            // themes update {
-            $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => $toId]);
-            if ($subjectEntity === null) {
-                $subjectEntity = CommunicationTheme::model()->findByAttributes(['code' => $subject_id, 'character_id' => null]);
+            $themePrefix = $this->getCellValue($sheet, 'Theme_prefix', $i);
+            if ($themePrefix === '-') {
+                $themePrefix = null;
             }
-            assert($subjectEntity !== null);
+            // themes update {
+            $subjectEntity = CommunicationTheme::model()->findByAttributes([
+                'code' => $subject_id,
+                'character_id' => $toId,
+                'mail_prefix' => $themePrefix
+            ]);
+            if ($subjectEntity === null) {
+                $subjectEntity = CommunicationTheme::model()->findByAttributes([
+                    'code' => $subject_id,
+                    'character_id' => null,
+                    'mail_prefix' => $themePrefix
+                ]);
+            }
+            if ($subjectEntity === null) {
+                throw new Exception('No subject');
+            }
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
 
@@ -655,9 +669,11 @@ class ImportGameDataService
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
                     'code' => $communicationTheme->code,
                     'character_id' => $character->primaryKey,
-                    'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix)
+                    'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix),
                 ]);
                 if ($goodTheme !== null) {
+                    $goodTheme->import_id = $this->import_id;
+                    $goodTheme->save();
                     continue;
                 }
                 $wrongTheme = new CommunicationTheme();
