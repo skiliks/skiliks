@@ -61,12 +61,22 @@ class PhoneServiceTest extends CDbTestCase {
         
         // init test data {
         $time = '09:06';
+        $dialogCode = 'RST10';
+        
+        $replica = Dialogs::model()->find([
+            'condition'  => " code = :code AND step_number = :sn AND replica_number = :rn  ",
+            'params'     => [
+                'code' => $dialogCode,
+                'sn'   => 1,
+                'rn'   => 2,
+            ]
+        ]);
         
         $eventsManager = new EventsManager();
-        $eventsManager->startEvent($simulation->id, 'RST10', 0, 0, 0); // init call from friend
+        $eventsManager->startEvent($simulation->id, $dialogCode, 0, 0, 0); // init call from friend
         
         $dialogService = new DialogService();
-        $dialogService->getDialog($simulation->id, 	991, $time); // init ignore call fron friend
+        $dialogService->getDialog($simulation->id, 	$replica->id , $time); // init ignore call fron friend
         
         $toCharacter = Characters::model()->findByPk(28); // friend
         
