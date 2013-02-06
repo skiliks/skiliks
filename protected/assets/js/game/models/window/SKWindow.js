@@ -58,7 +58,7 @@
             if (this.is_opened) {
                 throw "Window is already opened";
             }
-            this.set('zindex', Math.max(Math.max.apply(this, this.simulation.window_set.pluck('zindex')),0));
+            this.set('zindex', Math.max(Math.max.apply(this, this.simulation.window_set.pluck('zindex')) + 1,0));
             this.is_opened = true;
             this.simulation.window_set.showWindow(this);
             this.trigger('open', this.get('name'), this.get('subname'));
