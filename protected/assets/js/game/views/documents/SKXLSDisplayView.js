@@ -9,7 +9,7 @@
         displayZohoIframe:function (doc, el) {
             var me = this;
             $('#excel-preload-' + doc.id).show().css({
-                'zIndex':el.parents('.sim-window').css('zIndex') + 1,
+                'zIndex':parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
                 'width':el.width() - 6,
                 'height':el.height(),
                 'left':me.$el[0].offsetLeft,
@@ -21,6 +21,9 @@
             var doc = this.options.model_instance.get('document');
             el.html(_.template($('#document_xls_template').html(), {
             }));
+            me.listenTo(this.options.model_instance, 'change:zindex', function () {
+                me.displayZohoIframe(doc, el);
+            });
             setTimeout(function() {
                 me.displayZohoIframe(doc, el);
             }, 0);
