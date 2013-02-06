@@ -6,6 +6,11 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DebugController extends AjaxController{
+
+    public function actionIndex(){
+
+        echo Dialogs::model()->findByAttributes(['code' => 'ET1.1', 'replica_number'=>2])->id;
+    }
     
     /**
      * @deprecated

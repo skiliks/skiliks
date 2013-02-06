@@ -79,7 +79,7 @@ class DialogService {
 
             $isDialog = EventService::isDialog($currentDialog->next_event_code);
 
-            if (null !== $dialog && ($isDialog || false === $dialog->isEvent())) {
+            if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
                  // сразу же отдадим реплики по этому событию - моментально
                 $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
