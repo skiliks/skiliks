@@ -2,7 +2,7 @@
 (function () {
     "use strict";
     /**
-     * @class
+     * @class SKMailClient
      */
     window.SKMailClient = Backbone.Model.extend(
         /** @lends SKMailClient.prototype */
