@@ -36,6 +36,7 @@ var SKDebugView;
                 SKApp.user.simulation.setTime(hours, minutes);
             },
             'doEventTrigger':function (event) {
+                var me = this;
                 var target = event.currentTarget;
                 event.preventDefault();
                 SKApp.user.simulation.events.triggerEvent(
@@ -46,11 +47,11 @@ var SKDebugView;
                     function (data) {
                         if (data.result) {
                             window.scrollTo(0, 0);
-                            this.$('form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача добавлена а очередь!</div>');
+                            me.$('form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача добавлена а очередь!</div>');
                         } else {
-                            this.$('form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача НЕ добавлена а очередь!</div>');
+                            me.$('form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Задача НЕ добавлена а очередь!</div>');
                         }
-                        this.$('form.trigger-event .alert').fadeOut(4000);
+                        me.$('form.trigger-event .alert').fadeOut(4000);
                     }
                 );
 
