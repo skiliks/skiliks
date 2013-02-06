@@ -1067,7 +1067,7 @@ class MailBoxService
 
         foreach ($collection as $model) {
             // exclude our hero from copies
-            if (Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey !== (int)$model->receiver_id) {
+            if (Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey !== $model->receiver_id) {
                 $copiesIds[] = $model->receiver_id;
             }
         }

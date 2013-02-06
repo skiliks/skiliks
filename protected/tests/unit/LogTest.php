@@ -79,7 +79,9 @@ class LogTest extends CDbTestCase
         $mgr->processLogs($simulation, [
             [10, 11, 'activated', 32820],
             [10, 11, 'deactivated', 32880],
-            [10, 11, 'activated', 32880, ['mailId' => $draft_message2->primaryKey]], # Send draft
+            [10, 11, 'activated', 32880, ['mailId' => $draft_message->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey]], # Send draft
             [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
             [1, 1, 'activated', 32940],
             [1, 1, 'deactivated', 33000],
@@ -90,7 +92,7 @@ class LogTest extends CDbTestCase
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        $this->assertEquals(count($mail_logs), 4);
+        $this->assertEquals(count($mail_logs), 5);
         foreach ($mail_logs as $log) {
             printf("%8s\t%8s\t%6d\t%10s\n",
                 $log->start_time,
@@ -103,11 +105,12 @@ class LogTest extends CDbTestCase
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
         printf("\n");
-        $this->assertEquals(count($activity_actions), 10);
+        $this->assertEquals(count($activity_actions), 11);
         foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\n",
+            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
                 $log->start_time,
                 $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->activityAction->leg_type,
                 $log->activityAction->activity_id,
                 $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
             );
