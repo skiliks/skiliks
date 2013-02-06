@@ -10,9 +10,11 @@ class LogTest extends CDbTestCase
 {
     public function test_log_reply_all()
     {
+        // $this->markTestSkipped();
+        
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
@@ -85,9 +87,11 @@ class LogTest extends CDbTestCase
     }
     public function test_log_m8_forward()
     {
+        // $this->markTestSkipped();
+        
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $krutko = Characters::model()->findByAttributes(['code' => 4]);
@@ -147,9 +151,11 @@ class LogTest extends CDbTestCase
 
     public function test_log_activity()
     {
+        // $this->markTestSkipped();
+        
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $message = $mail->sendMessage([
@@ -242,5 +248,153 @@ class LogTest extends CDbTestCase
             $this->assertRegExp('/\d{2}:\d{2}:\d{2}/', $log->end_time);
         }
 
+    }
+    
+    public function testActivityLogAgregated() 
+    {
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        
+        // init LogActivityActions {
+        
+        $mainMainWindow = Window::model()->find([
+            'condition' => ' type = :type AND subtype = :subtype ',
+            'params'    => [
+                'type'    => 'main screen',
+                'subtype' => 'main screen'
+            ]
+        ]);
+        
+        $planPlanWindow = Window::model()->find([
+            'condition' => ' type = :type AND subtype = :subtype ',
+            'params'    => [
+                'type'    => 'plan',
+                'subtype' => 'plan'
+            ]
+        ]);
+        
+        $mainMainWindowActivityAction = ActivityAction::model()->find([
+            'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
+            'params'    => [
+                'window_id'    => $mainMainWindow->id,
+                'activity_id'  => 'A_wait'
+            ]
+        ]);
+        
+        $planPlanWindowActivityAction = ActivityAction::model()->find([
+            'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
+            'params'    => [
+                'window_id'    => $planPlanWindow->id,
+                'activity_id'  => 'T1.1'
+            ]
+        ]);
+        
+        $mails = [];
+        
+        $docs = [];
+        
+        // 1. mainMain 1 minute, is A_wait
+        // Initial action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:00:00';
+        $logItem->end_time           = '09:01:00';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();
+        
+        // 2. mainMain 4 minutes, add to A_wait
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:01:00';
+        $logItem->end_time           = '09:04:00';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();
+        
+        // 3. mainMain 2 minutes, add to A_wait
+        // Big (> speed*10 real seconds) but same as previouse action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:04:00';
+        $logItem->end_time           = '09:06:00';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();
+        
+        // 4. plan plan 1 minute, add to A_wait
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:06:00';
+        $logItem->end_time           = '09:07:00';
+        $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->save();
+        
+        // 5. mainMain 1 minute, add to A_wait
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:07:00';
+        $logItem->end_time           = '09:08:00';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();
+        
+        // 6. plan plan 10 minutes, add as T1.1
+        // new Big activity must produce new agregated log record
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:08:00';
+        $logItem->end_time           = '09:18:00';
+        $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->save();
+        
+        // 7. mainMain 1 minute, add to T1.1
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:18:00';
+        $logItem->end_time           = '09:19:00';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();        
+        
+        // 8. plan plan 1 minute, add to A_wait
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:19:00';
+        $logItem->end_time           = '09:19:24';
+        $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->save();
+        
+        // 9. mainMain 1 minute, add to A_wait
+        // Small (< speed*10 real seconds) action must be added to previouse action
+        $logItem                     = new LogActivityAction();
+        $logItem->sim_id             = $simulation->id;
+        $logItem->start_time         = '09:19:24';
+        $logItem->end_time           = '09:19:52';
+        $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->save();
+        
+        // init LogActivityActions }
+        
+        // make LogActivityAgregated:
+        LogHelper::combineLogActivityAgregated($simulation);
+        
+        // get ActivityAgregated logs
+        $logs = LogActivityActionAgregated::model()->findAll( 'sim_id = :sim_id',  [
+            'sim_id' => $simulation->id
+        ]);
+        
+        // asserts:
+        $this->assertEquals(2, count($logs), 'Wrong logs number.');
+        
+        // 1. A_wait
+        $this->assertEquals('09:00:00', $logs[0]->start_time, 'Wrong start_time.');
+        $this->assertEquals('09:08:00', $logs[0]->end_time,   'Wrong end_time.');
+        
+        // 2. T1.1
+        $this->assertEquals('09:08:00', $logs[1]->start_time, 'Wrong start_time.');
+        $this->assertEquals('09:19:52', $logs[1]->end_time,   'Wrong end_time.');
     }
 }

@@ -14,8 +14,8 @@
  * The followings are the available model relations:
  * @property Simulations $sim
  * @property ActivityAction $activityAction
- * @property mixed mail_id
- * @property mixed document_id
+ * @property mixed mail_id, MailBox id
+ * @property mixed document_id, MyDocument id
  */
 class LogActivityAction extends CActiveRecord
 {
