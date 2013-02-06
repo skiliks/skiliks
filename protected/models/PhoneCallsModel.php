@@ -26,11 +26,18 @@ class PhoneCallsModel extends CActiveRecord
      */
     public $call_time; 
     
+    const IN_CALL     = 0;
+    const OUT_CALL    = 1;
+    const MISSED_CALL = 2;
+    
     /**
-     * 0, 1, 2
+     * 0 - in call
+     * 1 - out call
+     * 2 - missed call
+     * 
      * @var integer
      */
-    public $call_type; // ?
+    public $call_type;
     
     /**
      * character.id
