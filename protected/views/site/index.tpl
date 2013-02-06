@@ -19,12 +19,12 @@
 				
 				<p class="coming-soon">{Yii::t('site', 'Coming soon')}</p>
 				
-				<div class="language"><a href="#">{Yii::t('site', 'Русский')}</a></div>
+				<div class="language"><a href="?_lang={Yii::t('site', 'ru')}">{Yii::t('site', 'Русский')}</a></div>
 				
 				<nav>
-					<a href="#">{Yii::t('site', 'Home')}</a>
+					<a href="#" class="active">{Yii::t('site', 'Home')}</a>
 					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="#">{Yii::t('site', 'Product')}</a>
+					<a href="product">{Yii::t('site', 'Product')}</a>
 				</nav>
 			</header>
 			<!--header end-->
@@ -115,7 +115,7 @@
 				<nav>
 					<a href="#">{Yii::t('site', 'Home')}</a>
 					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="#">{Yii::t('site', 'Product')}</a>
+					<a href="product">{Yii::t('site', 'Product')}</a>
 				</nav>
 				
 				<p class="copyright">Copyright - Skiliks  - 2012</p>
