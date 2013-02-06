@@ -1063,10 +1063,9 @@ class ImportGameDataService
             $text = $this->getCellValue($sheet, 'Реплика', $i);
             $text = preg_replace('/^\s*-[\s ]*/', ' — ', $text);
             $dialog->text = $text;
-            $dialog->duration = 0; // @todo: remove duration from model, deprecated property
             $dialog->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
-            $dialog->delay = $this->getCellValue($sheet, 'Длина реплики', $i);
+            $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
             $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов', $i, 1))->find();
             $dialog->flag = (NULL === $flag) ? NULL : $flag->flag;

@@ -79,7 +79,7 @@ class DialogService {
 
             $isDialog = EventService::isDialog($currentDialog->next_event_code);
 
-            if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && 0 == (int)$dialog->delay) {
+            if (null !== $dialog && ($isDialog || false === $dialog->isEvent())) {
                  // сразу же отдадим реплики по этому событию - моментально
                 $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
@@ -243,8 +243,6 @@ class DialogService {
             'dialog_subtype'    => $dialog->dialog_subtype,
             'text'              => $dialog->text,
             'sound'             => $dialog->sound,
-            'duration'          => $dialog->duration,
-            
             'step_number'       => $dialog->step_number,
             'replica_number'    => $dialog->replica_number,
             'next_event_code'   => $dialog->next_event_code,
@@ -294,12 +292,12 @@ class DialogService {
                     $characterStates[$dialog->ch_to_state]->title,
                     $dialogSubtypes[$dialog->dialog_subtype]->title,
                     $dialog->text,
-                    $dialog->duration,
+                    $dialog->delay,
                     (7 == $dialog->event_result) ? "нет результата" : $dialog->event_result,
                     $dialog->step_number,
                     $dialog->replica_number,
                     (isset($events[$dialog->next_event])) ? $events[$dialog->next_event]->code : '-',
-                    $dialog->delay,
+                    0,
                     (1 == $dialog->is_final_replica) ? "да" : "нет",
                 )
             );
