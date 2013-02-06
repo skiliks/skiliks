@@ -10,18 +10,22 @@
 class EventServiceTest extends PHPUnit_Framework_TestCase {
 
     public function test_add_by_code() {
-        $code = "S1.1";
-        $time = "11:05:00";
-        $standard_time = "11:10:00";
+
+        $events = [
+            ['code'=>'S1.1', 'time'=>'11:05:00', 'standard_time'=>'11:10:00'],
+            ['code'=>'S1.2', 'time'=>'11:10:00', 'standard_time'=>'11:20:00']
+        ];
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
 
-        EventService::addByCode($code, $simulation->id, $time);
+        foreach($events as $e){
+            EventService::addByCode($e['code'], $simulation->id, $e['time']);
+            $event = EventsSamples::model()->byCode($e['code'])->find();
+            $event = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $this->assertEquals($e['standard_time'], $event->trigger_time);
+        }
 
-        $event = EventsSamples::model()->byCode($code)->find();
-        $event = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
-        $this->assertEquals($standard_time, $event->trigger_time);
     }
 
 }
