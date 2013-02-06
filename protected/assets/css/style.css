@@ -68,9 +68,15 @@ body {
 	font: 14px "ProximaNova-Regular", Arial, "Helvetica CY", "Nimbus Sans L", sans-serif;
 	line-height:14px;
 }
+body.inner{
+	background-image:url("../img/bg-top-inner.jpg");
+}
 @media screen and (max-width: 1263px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
+	}
+	body.inner{
+		background-image:url("../img/bg-top-inner-min.jpg");
 	}
 }
 .container{
@@ -78,12 +84,10 @@ body {
 }
 .container.main-page{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
-	height:1572px;
 }
 @media screen and (max-width: 1263px){
 	.container.main-page{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
-		height:1520px;
 	}
 }
 input, select, button, textarea {
@@ -108,12 +112,12 @@ a:focus, a:active {
 	width:948px;
 	margin:0 auto;
 	overflow:hidden;
-}
-html[lang=ru] .content{
+	padding-bottom:317px;
 }
 @media screen and (max-width: 1263px){
 	.content{
 		width:925px;
+		padding-bottom:310px;
 	}
 }
 /* --------------- /main styles ---------*/
@@ -153,7 +157,7 @@ html[lang=ru] .content{
 .container>header .language{
 	position:absolute;
 	top:18px;
-	right:160px;
+	right:126px;
 }
 .container>header .language a{
 	color:#fff;
@@ -164,8 +168,8 @@ html[lang=ru] .content{
 }
 .container>header nav{
 	position:absolute;
-	bottom:0;
-	right:160px;
+	top:60px;
+	right:126px;
 }
 .container>header nav a{
 	display:block;
@@ -173,13 +177,13 @@ html[lang=ru] .content{
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
-	font:1.286em "ProximaNova-Regular";
+	font:1.071em "ProximaNova-Regular";
 	color:#fff;
 	text-decoration:none;
-	line-height:1.778em;
+	line-height:1.800em;
 	float:left;
-	margin-left:11px;
-	padding:0 10px;
+	margin-left:9px;
+	padding:0 8px;
 }
 .container>header nav a:first-child{
 	margin-left:0;
@@ -206,9 +210,18 @@ html[lang=ru] .content{
 		top:24px;
 		left:222px;
 	}
+	.container>header .language{
+		font-size:0.692em;
+		top:11px;
+		right:186px;
+	}
+	.container>header nav{
+		top:48px;
+		right:186px;
+	}
 	.container>header nav a{
-		font-size:1.143em;
-		line-height:1.778em;
+		font-size:0.858em;
+		line-height:1.571em;
 	}
 }
 /* --------------- header ---------*/
@@ -415,7 +428,7 @@ html[lang=ru] .main-article article{
 
 @media screen and (max-width: 1263px){
 	.main-article{
-		width:410px;
+		width:380px;
 		margin-left:283px;
 	}
 }
@@ -432,13 +445,12 @@ html[lang=ru] .main-article article{
 }
 .clients ul{
 	list-style:none;
-	margin-top:25px;
 	overflow:hidden;
 }
 .clients ul li{
 	float:left;
 	height:85px;
-	margin:0 30px 27px 0;
+	margin:27px 30px 0 0;
 }
 .clients ul li a{
 	display:block;
@@ -455,6 +467,172 @@ html[lang=ru] .main-article article{
 	}
 }
 /* --------------- /clients ---------*/
+
+/* --------------- product ---------*/
+.product{
+	margin-top:35px;
+}
+.product h2{
+	font:2.606em 'ProximaNova-Bold';
+	color:#fff;
+	text-align:center;
+	text-shadow:0 0 7px rgba(0,0,0,0.14);
+	margin-bottom:30px;
+}
+.product h6{
+	font:1.600em "ProximaNova-Regular";
+	color:#fff;
+	text-align:center;
+}
+.product>table{
+	width:100%;
+	table-layout:fixed;
+	margin-top:25px;
+}
+.product>table col{
+	width:33.33%;
+}
+.product>table td{
+	background:url("../img/icon-product-table-dot.png") no-repeat center 0;
+	font:1.190em "ProximaNova-Regular";
+	color:#fff;
+	text-align:center;
+	line-height:1.400em;
+	padding:65px 16px 0;
+}
+.product>table tr td:first-child{
+	padding-left:0;
+}
+.product>table tr td:last-child{
+	padding-right:0;
+}
+.product section{
+	background:url("../img/bg-product-section.png") no-repeat center 0;
+	margin-top:5px;
+	padding-top:122px;
+}
+.product section h3{
+	font:2.142em 'ProximaNova-Bold';
+	color:#fff;
+	text-align:center;
+	text-shadow:0 0 7px rgba(0,0,0,0.14);
+}
+.product section table{
+	table-layout:fixed;
+	width:100%;
+	margin-top:35px;
+}
+.product section table col{
+	width:50%;
+}
+.product section table tr th:first-child,.product section table tr td:first-child{
+	background-position:left bottom;
+	padding-right:49px;
+	padding-left:45px;
+}
+.product section table tr th:last-child,.product section table tr td:last-child{
+	background-position:right bottom;
+	padding-left:49px;
+	padding-right:45px;
+}
+.product section table th{
+	background:url("../img/bg-product-section-table-title.png") no-repeat 0 0;
+	height:134px;
+	font:3.422em "ProximaNova-Regular";
+	color:#fff;
+	line-height:134px;
+	text-align:center;
+}
+html[lang=ru] .product section table th{
+	font-size:3.200em;
+}
+.product section table td{
+	background-image:url("../img/bg-product-section-table-cell.png");
+	background-repeat:no-repeat;
+	text-align:center;
+	padding-bottom:40px;
+}
+.product section table td h6{
+	font:1.309em 'ProximaNova-Bold';
+	color:#3d4041;
+	line-height:1.091em;
+	margin-top:40px;
+}
+.product section table td h6:first-child{
+	margin-top:20px;
+}
+.product section table td p{
+	font:1.071em "ProximaNova-Regular";
+	color:#3d4041;
+	line-height:1.333em;
+	margin-top:20px;
+}
+@media screen and (max-width: 1263px){
+	.product{
+		margin-top:6px;
+	}
+	.product h2{
+		font-size:2.084em;
+		margin-bottom:26px;
+	}
+	.product h6{
+		font-size:1.333em;
+	}
+	.product>table{
+		margin-top:21px;
+	}
+	.product>table td{
+		background-image:url("../img/icon-product-table-dot-min.png");
+		font-size:0.952em;
+		line-height:1.400em;
+		padding:53px 13px 0;
+	}
+	.product section{
+		background-image:url("../img/bg-product-section-min.png");
+		margin-top:10px;
+		padding-top:99px;
+	}
+	.product section h3{
+		font-size:1.714em;
+	}
+	.product section table{
+		width:775px;
+		margin:28px auto 0;
+	}
+	.product section table col{
+		width:50%;
+	}
+	.product section table tr th:first-child,.product section table tr td:first-child{
+		padding-right:33px;
+		padding-left:30px;
+	}
+	.product section table tr th:last-child,.product section table tr td:last-child{
+		padding-left:30px;
+		padding-right:33px;
+	}
+	.product section table th,html[lang=ru] .product section table th{
+		background:url("../img/bg-product-section-table-title-min.png") no-repeat 0 0;
+		height:108px;
+		font-size:2.737em;
+		line-height:108px;
+	}
+	.product section table td{
+		background-image:url("../img/bg-product-section-table-cell-min.png");
+		padding-bottom:34px;
+	}
+	.product section table td h6{
+		font-size:1.047em;
+		margin-top:32px;
+	}
+	.product section table td h6:first-child{
+		margin-top:17px;
+	}
+	.product section table td p{
+		font-size:0.856em;
+		margin-top:17px;
+	}
+}
+/* --------------- /product ---------*/
 
 /* --------------- footer ---------*/
 .footer{
@@ -510,13 +688,13 @@ html[lang=ru] .main-article article{
 	-webkit-border-radius:3px;
 	-moz-border-radius:3px;
 	border-radius:3px;
-	font:1.286em "ProximaNova-Regular";
+	font:1.071em "ProximaNova-Regular";
 	color:#fff;
 	text-decoration:none;
-	line-height:1.778em;
+	line-height:1.800em;
 	float:left;
-	margin-left:11px;
-	padding:0 10px;
+	margin-left:9px;
+	padding:0 8px;
 }
 .footer footer nav a:hover{
 	background:rgba(20,102,114,1);;
@@ -551,8 +729,8 @@ html[lang=ru] .main-article article{
 		font-size:0.692em;
 	}
 	.footer footer nav a{
-		font-size:1.143em;
-		line-height:1.778em;
+		font-size:0.858em;
+		line-height:1.571em;
 	}
 }
 /* --------------- /footer ---------*/
