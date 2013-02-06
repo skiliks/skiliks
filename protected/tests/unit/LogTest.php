@@ -19,21 +19,46 @@ class LogTest extends CDbTestCase
         $mail = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
+        $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $copies = [
+            Characters::model()->findByAttributes(['code' => 2])->primaryKey,
+            Characters::model()->findByAttributes(['code' => 11])->primaryKey,
+            Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+        ];
         $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
+            'subject_id' => $subject_id,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
             'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies' => implode(',',[
-                Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
+            'copies' => implode(',', $copies),
             'time' => '11:00:00',
             'group' => 3,
             'letterType' => 'new',
             'simId' => $simulation->primaryKey
         ]);
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray($character->primaryKey);
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->time = '11:00:00';
+        $sendMailOptions->copies     = null;
+        $sendMailOptions->phrases    = null;
+        $sendMailOptions->fileId     = 0;
+        $sendMailOptions->subject_id    = $subject_id;
+        $sendMailOptions->setLetterType('new');
+        $draft_message = MailBoxService::saveDraft($sendMailOptions);
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray($character->primaryKey);
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->time = '11:00:00';
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = null;
+        $sendMailOptions->fileId     = 0;
+        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 6, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $sendMailOptions->setLetterType('new');
+        $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
+
         $mgr->processLogs($simulation, [
             [1, 1, 'activated', 32400],
             [1, 1, 'deactivated', 32460],
@@ -41,6 +66,23 @@ class LogTest extends CDbTestCase
             [10, 11, 'deactivated', 32520],
             [10, 13, 'activated', 32520], # Send mail
             [10, 13, 'deactivated', 32580, ['mailId' => $message->primaryKey]],
+            [10, 11, 'activated', 32580],
+            [10, 11, 'deactivated', 32640],
+            [10, 13, 'activated', 32640], # Send draft
+            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32700],
+            [10, 11, 'deactivated', 32760],
+            [10, 13, 'activated', 32760], # Send draft
+            [10, 13, 'deactivated', 32820, ['mailId' => $draft_message2->primaryKey]],
+        ]);
+        MailBoxService::sendDraft($simulation, $draft_message2);
+        $mgr->processLogs($simulation, [
+            [10, 11, 'activated', 32820],
+            [10, 11, 'deactivated', 32880],
+            [10, 11, 'activated', 32880, ['mailId' => $draft_message->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
             [1, 1, 'activated', 32940],
             [1, 1, 'deactivated', 33000],
         ]);
@@ -50,24 +92,25 @@ class LogTest extends CDbTestCase
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40', '');
+        $this->assertEquals(count($mail_logs), 5);
         foreach ($mail_logs as $log) {
-            //print_r($log);
-        }
-        $this->assertEquals(count($mail_logs), 1);
-        foreach ($mail_logs as $log) {
-            printf("%8s\t%8s\t%10s\n",
+            printf("%8s\t%8s\t%6d\t%10s\n",
                 $log->start_time,
                 $log->end_time,
+                $log->mail->template_id,
                 $log->full_coincidence ?: '(empty)'
             );
             /*$this->assertNotNull($log->end_time);*/
         }
-        $this->assertEquals(count($activity_actions), 4);
+        $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
+        $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
+        printf("\n");
+        $this->assertEquals(count($activity_actions), 11);
         foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\n",
+            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
                 $log->start_time,
                 $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->activityAction->leg_type,
                 $log->activityAction->activity_id,
                 $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
             );
@@ -401,4 +444,6 @@ class LogTest extends CDbTestCase
         $this->assertEquals('09:08:00', $logs[1]->start_time, 'Wrong start_time.');
         $this->assertEquals('09:19:52', $logs[1]->end_time,   'Wrong end_time.');
     }
+
+
 }
