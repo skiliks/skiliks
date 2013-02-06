@@ -203,17 +203,25 @@ var SKDayPlanView;
                     // Reverting old element location
                     var task_id = ui.draggable.attr('data-task-id');
                     var prev_cell = ui.draggable.parents('td');
+                    
+                    var oldTask = {};
+                    oldTask = ui.draggable.find('.title').text() + '';
+                    
                     if (prev_cell.length) {
+                        oldTask = SKApp.user.simulation.dayplan_tasks.get(task_id).get('title') + '';
+                         
                         SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
                     }
 
                     if (ui.draggable.parents('.plan-todo').length) {
-                        SKApp.user.simulation.todo_tasks.get(task_id).destroy();
+                        oldTask = SKApp.user.simulation.todo_tasks.get(task_id).get('title') + '';
+
+                        SKApp.user.simulation.todo_tasks.get(task_id).destroy(); 
                     }
 
-                    //Appending to new location
+                    // Appending to new location
                     SKApp.user.simulation.dayplan_tasks.create({
-                        title:    ui.draggable.find('.title').text(),
+                        title:    oldTask,
                         date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
                         task_id:  task_id,
                         duration: ui.draggable.attr('data-task-duration'),
@@ -279,7 +287,6 @@ var SKDayPlanView;
                     me.$('.planner-book-afterv-table').addClass('drop-hover');
                 },
                 'drop':function (event, ui) {
-                    console.log('2');
                     me.$('.planner-book-after-vacation .day-plan-td-slot').each(function () {
                         var duration = ui.draggable.attr('data-task-duration');
                         var day = $(this).parents('div[data-day-id]').attr('data-day-id');
@@ -288,6 +295,7 @@ var SKDayPlanView;
                             // Reverting old element location
                             var task_id = ui.draggable.attr('data-task-id');
                             var prev_cell = ui.draggable.parents('td');
+                            
                             if (prev_cell.length) {
                                 SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
                             }
@@ -323,18 +331,21 @@ var SKDayPlanView;
                 'drop':function (event, ui) {
                     // clean up highlighting, it is duplicate but it nessesary to place it here too
                     me.$('#plannerBook .drop-hover').removeClass('drop-hover');
+                    var task_id = ui.draggable.attr('data-task-id');
+                    
+                    var oldTask = {};
+                    oldTask = SKApp.user.simulation.dayplan_tasks.get(task_id).get('title');
                     
                     // Reverting old element location
-                    var task_id = ui.draggable.attr('data-task-id');
                     SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
 
                     //Appending to new location
                     SKApp.user.simulation.todo_tasks.create({
-                        title:ui.draggable.find('.title').text(),
-                        date:$(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
-                        id:task_id,
-                        duration:ui.draggable.attr('data-task-duration'),
-                        day:$(this).parents('div[data-day-id]').attr('data-day-id')
+                        title:    oldTask,
+                        date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
+                        id:       task_id,
+                        duration: ui.draggable.attr('data-task-duration'),
+                        day:      $(this).parents('div[data-day-id]').attr('data-day-id')
                     });
                 }
             });
