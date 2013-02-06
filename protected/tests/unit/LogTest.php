@@ -50,7 +50,7 @@ class LogTest extends CDbTestCase
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
+        $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40', '');
         foreach ($mail_logs as $log) {
             //print_r($log);
         }
