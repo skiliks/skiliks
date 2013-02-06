@@ -7,7 +7,10 @@ class SendMailOptions
 {
      public $simulation = NULL;
      public $senderId   = NULL;
-     public $messageId  = NULL;
+    /**
+     * @var MailTemplateModel $messageId
+     */
+    public $messageId  = NULL;
      public $time       = NULL;
      public $fileId     = NULL;
      public $subject_id  = NULL;
