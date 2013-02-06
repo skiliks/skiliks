@@ -266,8 +266,6 @@ class SimulationService
             
             $existAssassment->save();
         }
-
-        //3313 - read most of not-spam emails } 
     }
     
     /**
