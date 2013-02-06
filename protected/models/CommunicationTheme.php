@@ -106,9 +106,9 @@ class CommunicationTheme extends CActiveRecord
     /**
      * @return string
      */
-    public function getFormatedThemePrefix()
+    public function getFormattedThemePrefix()
     {
-        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd:'], $this->mail_prefix) . ' ' . $this->text;
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $this->mail_prefix) . '' . $this->text;
     }
 
     /** ------------------------------------------------------------------------------------------------------------ **/
