@@ -12,6 +12,8 @@
  */
 class Simulations extends CActiveRecord
 {
+    const SIMULATION_DAY_DATE = '10.09.2012';
+    
     /**
      * @var integer
      */
@@ -50,6 +52,13 @@ class Simulations extends CActiveRecord
      */
     public $type; // 1 - promotion mode (for users), 2 - develop mode (to debug)
     
+    /** ------------------------------------------------------------------------------------------------------------ **/
+    
+    public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE) {
+        return $date.' | '.$time;
+    }
+
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**

@@ -48,8 +48,8 @@ class DialogService {
         $phone->setHistory(
                 $simId,
                 $time,
-                Characters::model()->findByAttributes(['code' => 1]),
                 $currentDialog->to_character,
+                Characters::model()->findByAttributes(['code' => Characters::HERO_ID]),
                 $currentDialog->dialog_subtype,
                 $currentDialog->step_number,
                 $currentDialog->replica_number

@@ -112,24 +112,20 @@ class PhoneService {
         $items = PhoneCallsModel::model()->bySimulation($simulation->id)->findAll();
         $list = array();
         foreach($items as $item) {
-            // входящие
-            if ($item->call_type == 0) {
+            if ($item->call_type == PhoneCallsModel::IN_CALL) {
                 $characterId = $item->from_id;
-            }
-
-            if ($item->call_type == 1) {
-                // исходящие
+            }            
+            if ($item->call_type == PhoneCallsModel::OUT_CALL) {                
                 $characterId = $item->to_id;
             }
-
-            if ($item->call_type == 2) {
+            if ($item->call_type == PhoneCallsModel::MISSED_CALL) {
                 $characterId = $item->from_id;
             }
 
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date' => "10.09.2012 | ".$item->call_time,
-                'type' => $item->call_type  // 2 = miss
+                'date' => Simulations::formatDateForMissedCalls($item->call_time),
+                'type' => $item->call_type
             );
         }
         
