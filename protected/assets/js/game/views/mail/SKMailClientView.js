@@ -1712,13 +1712,14 @@ var SKMailClientView;
             },
 
             doSendDraft:function () {
+                var me = this;
                 SKApp.server.api(
                     'mail/sendDraft',
                     {
                         id:this.mailClient.activeEmail.mySqlId
                     },
                     function (response) {
-                        if (1 != response.result) {
+                        if (1 !== response.result) {
                             // display message for user
                             SKApp.user.simulation.mailClient.message_window =
                                 SKApp.user.simulation.mailClient.message_window || new SKDialogView({
@@ -1732,9 +1733,13 @@ var SKMailClientView;
                                         }
                                     ]
                                 });
+                        } else {
+                            me.mailClient.setWindowsLog(
+                                'mailMain',
+                                me.mailClient.getActiveEmailId()
+                            );
                         }
-                    },
-                    false
+                    }
                 );
 
                 this.mailClient.getDraftsFolderEmails();
