@@ -52,24 +52,23 @@
             border-spacing:0;
             width:100%;
             table-layout:fixed;
-            margin-top:5px;
             position:absolute;
-            top:37px;
+            top:34px;
             left:0;
             .col{
               
             }
             td{
-              background:url("../img/planner/bg-header-sk.png") no-repeat center 0;
+              background:url("../img/planner/bg-header-sk.png") no-repeat 41px 0;
               width:33.3%;
-              height:32px;
+              height:43px;
               span{
                 display:block;
                 background-image:url("../img/planner/bg-planner-stroke.png");
                 background-repeat:no-repeat;
                 width:32px;
                 height:3px;
-                margin-top:22px;
+                margin-top:26px;
                 &.stroke-l{
                   background-position:0 0;
                   float:left;
@@ -96,11 +95,17 @@
       @media screen and (min-width: 1300px) and (max-width: 1600px){
         .planner-book-head{
           width:383px;
+          div table td{
+            background-position:52px 0;
+          }
         }
       }
       @media screen and (min-width: 1601px){
         .planner-book-head{
           width:480px;
+          div table td{
+            background-position:68px 0;
+          }
         }
       }
     }
@@ -479,14 +484,14 @@
         font-size:30px;
         color:#c71414;
         text-align:left;
-        margin:24px 71px 0 10px;
+        margin:32px 71px 0 10px;
         span{
           font-weight:normal;
           color:#000;
         }
       }
       .plan-todo-wrap {
-        margin-top:23px;
+        margin-top:15px;
         height: 170px;
         .day-plan-todo-task {
           min-height: 30px;
