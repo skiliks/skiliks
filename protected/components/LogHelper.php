@@ -164,13 +164,12 @@ class LogHelper
 
     /**
      * Пишет лог для Логирование расчета оценки - детально
-     * @param int $dialogId ID - диалога
-     * @param int $simId ID - Симуляции
-     * @param int $pointId ID - Поинта с таблицы `characters_points_titles`
+     * @param int $dialogId ID - диалог
+     * @param int $simId ID    - Симуляция
+     * @param int $pointId ID  - Поинт с таблицы `characters_points_titles`
      */
     public static function setLogDoialogPoint($dialogId, $simId, $pointId)
     {
-
         $comand = Yii::app()->db->createCommand();
         $comand->insert("log_dialog_points", array(
             'sim_id' => $simId,

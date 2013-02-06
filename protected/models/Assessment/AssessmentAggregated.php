@@ -16,7 +16,7 @@ class AssessmentAggregated extends CActiveRecord
     public $sim_id;    
     
     /**
-     * characters_points.id
+     * characters_points_title.id
      * @var integer
      */
     public $point_id;
@@ -56,6 +56,18 @@ class AssessmentAggregated extends CActiveRecord
     }
     
     /**
+     * 
+     * @param Simulations $simulation
+     * @return array of AssessmentAgregated
+     */
+    public function findAllInSimulation($simulation)
+    {
+        return $this->model()->findAll('sim_id =:id',[
+            'id' => $simulation->id
+        ]);
+    }
+    
+    /**
      * @param string $className
      * @return AssassmentAgregated
      */
@@ -70,6 +82,14 @@ class AssessmentAggregated extends CActiveRecord
     public function tableName()
     {
             return 'assessment_aggregated';
+    }
+    
+    public function relations()
+    {
+        return array(
+            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'point' => array(self::BELONGS_TO, 'CharactersPointsTitles', 'point_id'),
+        );
     }
 }
 

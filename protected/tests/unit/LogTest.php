@@ -250,6 +250,10 @@ class LogTest extends CDbTestCase
 
     }
     
+    /**
+     * Проверяет правильность агрегирования (схлопывания) 
+     * данных из log activity actions (detailed) в log activity actions (agregated)
+     */
     public function testActivityLogAgregated() 
     {
         // init simulation
