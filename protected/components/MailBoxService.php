@@ -492,13 +492,15 @@ class MailBoxService
         if ($parentSubjectId !== null) {
             $models = CommunicationTheme::model()->findAllByAttributes([
                 'character_id' => count($receivers) ? $receivers[0] : null,
-                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
+                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code,
+                'mail' => 1
             ]);
         } else {
-            $models = CommunicationTheme::model()
-                ->byCharacter($receivers[0])
-                ->byMail()
-                ->findAll();
+            $models = CommunicationTheme::model()->findAllByAttributes([
+                'character_id' => $receivers[0],
+                'mail_prefix' => null,
+                'mail' => 1
+            ]);
         }
 
         foreach ($models as $model) {
@@ -1065,7 +1067,7 @@ class MailBoxService
 
         foreach ($collection as $model) {
             // exclude our hero from copies
-            if (Characters::HERO_ID !== (int)$model->receiver_id) {
+            if (Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey !== (int)$model->receiver_id) {
                 $copiesIds[] = $model->receiver_id;
             }
         }
@@ -1161,7 +1163,7 @@ class MailBoxService
         $receiverId             = $messageToForward->receiver_id;
         $characterThemeId       = null;
         $forwardSubjectText     = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
-        $forwardSubjectTextFull = $messageToForward->subject_obj->getFormatedThemePrefix(); // 'Fwd: ' with space-symbol,
+        $forwardSubjectTextFull = $messageToForward->subject_obj->getFormattedThemePrefix(); // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
         $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, null);
