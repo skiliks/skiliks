@@ -116,7 +116,7 @@ var SKMailClientView;
                     var unreaded = me.mailClient.getInboxFolder().countUnreaded();
                     me.updateMailIconCounter(unreaded);
                     me.updateInboxFolderCounter(unreaded);
-                    console.log("Update counter");
+                    //console.log("Update counter");
                 });
 
                 // close with conditions action {
@@ -594,7 +594,7 @@ var SKMailClientView;
                 // Todo — move to events dictionary (GuGu)
                 $('.email-list-line').click(function (event) {
                     // update lod data {
-                    console.log("Click mail!");
+                    //console.log("Click mail!");
 
                     // if user click on same email line twice - open read email screen
                     // Do not change == to ===
@@ -994,7 +994,7 @@ var SKMailClientView;
             },
 
             doMoveToInbox:function (email) {
-                console.log(email);
+                //console.log(email);
                 SKApp.server.api(
                     'mail/move',
                     {
@@ -1086,17 +1086,26 @@ var SKMailClientView;
                 $("#MailClient_RecipientsList").tagHandler({
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
-                    afterAdd:function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                    onAdd:function (tag) {
+                        var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
                             'add'
                         );
+                        return add;
                     },
-                    afterDelete:function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                    afterDelete:function(tag){
+                        //$("#mailEmulatorNewLetterText").html('');
+                    },
+                    afterAdd:function(tag){
+                        $("#mailEmulatorNewLetterText").html('');
+                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
+                    },
+                    onDelete:function (tag) {
+                        var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
                             'delete'
                         );
+                        return del;
                     }
                 });
 
@@ -1449,7 +1458,9 @@ var SKMailClientView;
             doUpdateMailPhrasesList:function () {
                 var mailClientView = this;
                 var mailClient = this.mailClient;
-
+                console.log("mailClient.availablePhrases.length : "+mailClient.availablePhrases.length);
+                console.log("mailClient.availableAdditionalPhrases.length : "+mailClient.availableAdditionalPhrases.length);
+                console.log("mailClient.newEmailUsedPhrases.length : "+mailClient.newEmailUsedPhrases.length);
                 if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) &&
                     0 !== mailClient.newEmailUsedPhrases.length) {
                     // warning
@@ -1619,15 +1630,22 @@ var SKMailClientView;
                     $("#MailClient_RecipientsList").tagHandler({
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true,
-                        afterAdd:function (tag) {
-                            SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        onAdd:function (tag) {
+                            var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
                                 'add',
                                 subject
                             );
+                            return add;
                         },
-                        afterDelete:function (tag) {
-                            SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        afterDelete:function(tag){
+                            $("#mailEmulatorNewLetterText").html('');
+                        },
+                        afterAdd:function(tag){
+                            $("#mailEmulatorNewLetterText").html('');
+                        },
+                        onDelete:function (tag) {
+                            return SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
                                 'delete',
                                 subject

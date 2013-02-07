@@ -624,7 +624,7 @@
                 }
 
                 if (1 < windows.length) {
-                    console.log('There is two or more active window object for mailClient.');
+                    //console.log('There is two or more active window object for mailClient.');
                 }
 
                 return windows[0];
@@ -734,7 +734,7 @@
                 }
 
                 // display warning only if user add extra recipients
-                if (checkValue < recipientIds.length && 0 < this.newEmailUsedPhrases.lenght) {
+                if (checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length) {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                         'buttons':[
@@ -742,20 +742,25 @@
                                 'value':'Продолжить',
                                 'onclick':function () {
                                     delete mailClient.message_window;
-                                    mailClient.reloadSubjects(recipientIds, parent_subject);
+                                    if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                                    $("#mailEmulatorNewLetterText").html('');
+
                                 }
                             },
                             {
                                 'value':'Вернуться',
                                 'onclick':function () {
-                                    this.trigger('mail:return_last_subject');
+                                    //mailClient.trigger('mail:return_last_subject');
                                     delete mailClient.message_window;
+
                                 }
                             }
                         ]
                     });
+                    return false;
                 } else {
-                    mailClient.reloadSubjects(recipientIds, parent_subject);
+                    if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                    return true;
                 }
             },
 
@@ -766,6 +771,7 @@
              */
             reloadSubjects:function (recipientIds, parent_subject) {
                 this.messageForNewEmail = '';
+                var me = this;
                 SKApp.server.api(
                     'mail/getThemes',
                     {
@@ -786,12 +792,11 @@
 
                                 SKApp.user.simulation.mailClient.availableSubjects.push(subject);
                             }
+                            me.trigger('mail:subject_list_in_model_updated');
                         }
                     },
                     false
                 );
-
-                this.trigger('mail:subject_list_in_model_updated');
             },
 
             setRegularAvailablePhrases:function (array) {

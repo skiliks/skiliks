@@ -39,7 +39,7 @@
                 } else {
                     this.visitor_entrance_window.set('sim_event', event);
                 }
-                console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
+                //console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
                 var muteTag = '';
                 if (true === SKApp.user.simulation.config.isMuteVideo) {
                     muteTag = 'muted';
