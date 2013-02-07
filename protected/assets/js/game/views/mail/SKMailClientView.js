@@ -1087,9 +1087,14 @@ var SKMailClientView;
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
                     onAdd:function (tag) {
+                        var me = this;
                         var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
-                            'add'
+                            'add',
+                            undefined,
+                            function(){
+                                $("#MailClient_RecipientsList")[0].addTag(tag);
+                            }
                         );
                         return add;
                     },
@@ -1472,6 +1477,7 @@ var SKMailClientView;
                                 'onclick':function () {
                                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                                     mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
+                                    $('#mailEmulatorNewLetterText').html('');
                                     delete mailClient.message_window;
                                 }
                             },
@@ -1487,7 +1493,11 @@ var SKMailClientView;
                 } else {
                     // standart way
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
-                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
+                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function(){
+
+                            $('#mailEmulatorNewLetterText').html('');
+
+                    });
                 }
             },
 
