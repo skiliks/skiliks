@@ -552,7 +552,7 @@ class LogHelper
                             'part2' => '-',
                             'has_concidence' => 0,
                         );
-
+                        
                         if (isset($log[4]) && isset($log[4]['mailId'])) {
                             $result = MailBoxService::updateMsCoincidence($log[4]['mailId'], $simId);
                         }
