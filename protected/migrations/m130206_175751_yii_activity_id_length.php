@@ -4,8 +4,8 @@ class m130206_175751_yii_activity_id_length extends CDbMigration
 {
 	public function up()
 	{
-        #$this->alterColumn('activity', 'id', 'VARCHAR(60) CHARACTER SET utf8 NOT NULL');
-        #$this->alterColumn('activity_action', 'activity_id', 'VARCHAR(60) CHARACTER SET utf8 NOT NULL');
+        $this->alterColumn('activity', 'id', 'VARCHAR(60) CHARACTER SET utf8 NOT NULL');
+        $this->alterColumn('activity_action', 'activity_id', 'VARCHAR(60) CHARACTER SET utf8 NOT NULL');
         $this->addForeignKey('activity_action_action_id', 'activity_action', 'activity_id', 'activity', 'id', 'CASCADE', 'CASCADE');
 	}
 
