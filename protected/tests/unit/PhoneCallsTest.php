@@ -51,6 +51,8 @@ class PhoneServiceTest extends CDbTestCase {
     
     /**
      * Проверяет правильность имени персонажа при пропущеном звонке
+     * 
+     * @group g1
      */
     public function testSetCallHistory() 
     {
@@ -60,26 +62,30 @@ class PhoneServiceTest extends CDbTestCase {
         $simulation = $simulationService->simulationStart(1, $user);
         
         // init test data {
-        $time = '09:06';
-        $dialogCode = 'RST10';
+        $time = ['09:06', '11:45', '11:50'];
+        $dialogCode = ['RST10', 'RST3', 'ET1.1'];
+        $replicas = [];
+        $toCharacters = [];
         
-        $replica = Dialogs::model()->find([
-            'condition'  => " code = :code AND step_number = :sn AND replica_number = :rn  ",
-            'params'     => [
-                'code' => $dialogCode,
-                'sn'   => 1,
-                'rn'   => 2,
-            ]
-        ]);
-        
-        $eventsManager = new EventsManager();
-        $eventsManager->startEvent($simulation->id, $dialogCode, 0, 0, 0); // init call from friend
-        
-        $dialogService = new DialogService();
-        $dialogService->getDialog($simulation->id, 	$replica->id , $time); // init ignore call fron friend
-        
-        $toCharacter = Characters::model()->findByPk(28); // friend
-        
+        for ($i = 0; $i < 2; $i++) {
+            $replicas[$i] = Dialogs::model()->find([
+                'condition'  => " code = :code AND step_number = :sn AND replica_number = :rn  ",
+                'params'     => [
+                    'code' => $dialogCode[$i],
+                    'sn'   => 1,
+                    'rn'   => 2,
+                ]
+            ]);
+            
+            $eventsManager = new EventsManager();
+            $eventsManager->startEvent($simulation->id, $dialogCode[$i], 0, 0, 0); // init call from friend
+
+            $dialogService = new DialogService();
+            $dialogService->getDialog($simulation->id, 	$replicas[$i]->id , $time[$i]); // init ignore call fron friend
+
+
+            $toCharacters[$i] = Characters::model()->findByPk($replicas[$i]->ch_to); // friend
+        }        
         
         // init test data }
         
@@ -89,13 +95,24 @@ class PhoneServiceTest extends CDbTestCase {
         // assertions:
 
         // we have just one missed call
-        $this->assertEquals(1, count($missedCalls));
+        $this->assertEquals(2, count($missedCalls));
         
         // check this call values
-        $missedCall = reset($missedCalls);        
-        $this->assertTrue(in_array($missedCall['name'], [$toCharacter->fio, $toCharacter->title]), 'Wrong character call from name');
-        $this->assertEquals(Simulations::formatDateForMissedCalls($time.':00'), $missedCall['date'], 'Wrong call date');
-        $this->assertEquals(2, $missedCall['type'], 'Wrong call type');  
+       
+        for ($i = 0; $i < 2; $i++) {
+            $this->assertTrue(  
+                in_array($missedCalls[$i]['name'], 
+                [$toCharacters[$i]->fio, $toCharacters[$i]->title]),       
+                'Wrong character call from name '.$missedCalls[$i]['name'].' i='.$i);
+            $this->assertEquals(
+                $missedCalls[$i]['date'],          
+                Simulations::formatDateForMissedCalls($time[$i].':00'), 
+                'Wrong call date'.' i='.$i);
+            $this->assertEquals(
+                $missedCalls[$i]['type'],          
+                2,                                                     
+                'Wrong call type'.' i='.$i);  
+        }
     }
 }
 
