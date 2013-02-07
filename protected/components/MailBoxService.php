@@ -483,6 +483,10 @@ class MailBoxService
      */
     public static function getThemes($receivers, $parentSubjectId = null)
     {
+        if(empty($receivers)){
+            return [];
+        }
+
         $receivers = explode(',', $receivers);
         if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
         if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
