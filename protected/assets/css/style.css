@@ -271,9 +271,12 @@ a:focus, a:active {
 	margin-bottom:7px;
 	padding-left:25px;
 }
+.features ul li:last-child{
+	margin-bottom:0;
+}
 .features form{
 	height:46px;
-	margin-top:30px;
+	margin-top:20px;
 }
 .features form div{
 	float:left;
@@ -538,10 +541,13 @@ html[lang=ru] .main-article article{
 .product section table th{
 	background:url("../img/bg-product-section-table-title.png") no-repeat 0 0;
 	height:134px;
-	font:3.422em "ProximaNova-Regular";
+	font:normal 3.422em "ProximaNova-Regular";
 	color:#fff;
 	line-height:134px;
 	text-align:center;
+}
+.product section table th h5{
+	font-weight:normal;
 }
 html[lang=ru] .product section table th{
 	font-size:3.200em;
