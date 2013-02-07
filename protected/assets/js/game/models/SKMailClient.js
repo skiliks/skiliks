@@ -725,7 +725,7 @@
              * @param action
              * @param {undefined|SKMailSubject} parent_subject
              */
-            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject) {
+            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback) {
                 var mailClient = this;
 
                 var checkValue = -1;
@@ -744,7 +744,9 @@
                                     delete mailClient.message_window;
                                     if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
                                     $("#mailEmulatorNewLetterText").html('');
-
+                                    if ('add' === action) {
+                                        callback();
+                                    }
                                 }
                             },
                             {
@@ -760,6 +762,7 @@
                     return false;
                 } else {
                     if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                    $("#mailEmulatorNewLetterText").html('');
                     return true;
                 }
             },

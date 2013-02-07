@@ -1087,9 +1087,14 @@ var SKMailClientView;
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
                     onAdd:function (tag) {
+                        var me = this;
                         var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
-                            'add'
+                            'add',
+                            undefined,
+                            function(){
+                                me.addTag(tag);
+                            }
                         );
                         return add;
                     },
