@@ -134,6 +134,11 @@ class LogTest extends CDbTestCase
         }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
         $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_incorrect_send');
+        $this->assertEquals($activity_actions[10]->activityAction->activity_id, 'A_not_sent');
+        $log_display = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
+        $this->assertEquals(count($activity_actions), count($log_display['data']));
+        $this->assertEquals($log_display['data'][8]['activity_id'], 'A_incorrect_send');
+        $this->assertEquals($log_display['data'][10]['activity_id'], 'A_not_sent');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
@@ -143,6 +148,93 @@ class LogTest extends CDbTestCase
             $time = $log_end_time;
             $this->assertRegExp('/\d{2}:\d{2}:\d{2}/', $log->end_time);
         }
+
+    }
+
+    public function test_two_new_letters()
+    {
+        // $this->markTestSkipped();
+
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $mgr = new EventsManager();
+        $mail = new MailBoxService();
+        $character = Characters::model()->findByAttributes(['code' => 9]);
+
+        $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $copies = [
+            Characters::model()->findByAttributes(['code' => 2])->primaryKey,
+            Characters::model()->findByAttributes(['code' => 11])->primaryKey,
+            Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+        ];
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray($character->primaryKey);
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->time = '11:00:00';
+        $sendMailOptions->copies     = null;
+        $sendMailOptions->phrases    = null;
+        $sendMailOptions->fileId     = 0;
+        $sendMailOptions->subject_id    = $subject_id;
+        $sendMailOptions->setLetterType('new');
+        $draft_message = MailBoxService::saveDraft($sendMailOptions);
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray($character->primaryKey);
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->time = '11:00:00';
+        $sendMailOptions->copies     = implode(',', $copies);
+        $sendMailOptions->phrases    = null;
+        $sendMailOptions->fileId     = 0;
+        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 6, 'character_id' => $character->primaryKey, 'mail_prefix' => 'fwd'])->primaryKey;
+        $sendMailOptions->setLetterType('new');
+        $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
+
+        $mgr->processLogs($simulation, [
+            [1, 1, 'activated', 32400],
+            [1, 1, 'deactivated', 32460],
+            [10, 11, 'activated', 32460],
+            [10, 11, 'deactivated', 32580],
+            [10, 11, 'activated', 32580],
+            [10, 11, 'deactivated', 32640],
+            [10, 13, 'activated', 32640], # Send draft
+            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32700],
+            [10, 11, 'deactivated', 32760],
+            [10, 13, 'activated', 32760], # Send draft
+            [10, 13, 'deactivated', 32790, ['mailId' => $draft_message2->primaryKey]],
+            [10, 11, 'activated', 32790],
+            [10, 11, 'deactivated', 32805],
+            [10, 11, 'activated', 32805, ['mailId' => $draft_message->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
+            [1, 1, 'activated', 32940],
+            [1, 1, 'deactivated', 33000],
+        ]);
+        MailBoxService::sendDraft($simulation, $draft_message2);
+
+        $simulation_service->simulationStop($simulation->primaryKey);
+        $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        /** @var $mail_logs LogMail[] */
+        $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $this->assertEquals(4, count($mail_logs));
+        foreach ($activity_actions as $log) {
+            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
+                $log->start_time,
+                $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->activityAction->leg_type,
+                $log->activityAction->activity_id,
+                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'A_not_sent');
+        $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_incorrect_send');
+        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_not_sent');
+        $this->assertEquals($activity_actions[7]->activityAction->activity_id, 'A_incorrect_send');
 
     }
     public function test_log_m8_forward()
@@ -309,7 +401,9 @@ class LogTest extends CDbTestCase
         }
 
     }
-    
+
+
+
     /**
      * Проверяет правильность агрегирования (схлопывания) 
      * данных из log activity actions (detailed) в log activity actions (agregated)
