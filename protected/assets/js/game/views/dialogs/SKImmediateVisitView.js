@@ -41,14 +41,17 @@
                 }
                 //console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
                 var muteTag = '';
+                var autoplay = 'autoplay="autoplay"';
                 if (true === SKApp.user.simulation.config.isMuteVideo) {
-                    muteTag = 'muted';
+                    muteTag = 'muted muted="muted"';
+                    autoplay = '';
                 }
                 this.$el.html(_.template($('#visit_template').html(), {
                     'remote_replica':remote_replica,
                     'my_replicas':my_replicas,
                     'video_src':video_src,
                     'img_src':event.getImgSrc(),
+                    'autoplay': autoplay,
                     'mute_attribute':muteTag
                 }));
                 this.$('video').on('ended', function () {
