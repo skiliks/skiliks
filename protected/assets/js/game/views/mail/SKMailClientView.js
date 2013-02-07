@@ -1093,7 +1093,7 @@ var SKMailClientView;
                             'add',
                             undefined,
                             function(){
-                                me.addTag(tag);
+                                $("#MailClient_RecipientsList")[0].addTag(tag);
                             }
                         );
                         return add;
@@ -1477,6 +1477,7 @@ var SKMailClientView;
                                 'onclick':function () {
                                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                                     mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
+                                    $('#mailEmulatorNewLetterText').html('');
                                     delete mailClient.message_window;
                                 }
                             },
@@ -1492,7 +1493,11 @@ var SKMailClientView;
                 } else {
                     // standart way
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
-                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId());
+                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function(){
+
+                            $('#mailEmulatorNewLetterText').html('');
+
+                    });
                 }
             },
 

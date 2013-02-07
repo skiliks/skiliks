@@ -833,7 +833,7 @@
              *
              * @param subjectId
              */
-            getAvailablePhrases:function (subjectId) {
+            getAvailablePhrases:function (subjectId, callback) {
                 var mailClient = this;
                 SKApp.server.api(
                     'mail/getPhrases',
@@ -847,6 +847,11 @@
                             mailClient.setAdditionalAvailablePhrases(response.addData);
 
                             mailClient.messageForNewEmail = response.message;
+
+                            if(typeof callback == 'function'){
+                                callback();
+                            }
+
                         }
                     },
                     false
