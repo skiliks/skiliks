@@ -198,8 +198,6 @@ class EmailAnalizer
                     $this->userEmails[$mailId]->setPlanedAt($logMailLine->start_time);
                 } 
 
-                //var_dump($logMailLine->id);
-
                 // add planned mail_task.id
                 if (null !== $logMailLine->mail_task_id) {
 
@@ -285,6 +283,7 @@ class EmailAnalizer
             
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
+                
                 if ($this->isMailTaskHasRightAction($emailData->email->template_id)) {
                     $possibleRightActions++;
                 }
@@ -292,6 +291,7 @@ class EmailAnalizer
                 if (true === $emailData->getIsPlaned()) {
                     // is user add to plan right mail_task ?
                     if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
+
                         $doneRightActions++;
                     // is user add to plan wrong mail_task ?
                     } elseif (true === $this->isWrongMailTaskAction($emailData->getPlanedTaskId())) {
@@ -299,7 +299,7 @@ class EmailAnalizer
                     }
                     // else are Neutral tasks
                 }
-            } else {
+            } else {                
                 // -> no needs to add task to plan
                 if (true === $emailData->getIsPlaned() && false === $this->isNeutralMailTaskAction($emailData->getPlanedTaskId())) {
                     // but user has add it to plan - wrong action
@@ -441,7 +441,6 @@ class EmailAnalizer
             $wrongActions++;
         }
         foreach ($this->full_coincidence_reply_all as $coincidence) {
-            //var_dump($emailData->email->id);
             if (!in_array($coincidence, $this->template_reply_all)) {
                 $wrongActions++;
             }

@@ -1,7 +1,7 @@
 <script type="text/template" id="visit_template">
     <div class="visit-background-container">
         <@ if (video_src) { @>
-        <video class="visit-background" src="<@= video_src @>" autoplay="autoplay" <@= mute_attribute @>></video>
+        <video class="visit-background" src="<@= video_src @>" <@= autoplay @> <@= mute_attribute @>></video>
         <@ } @>
         <@ if (img_src) { @>
         <img class="visit-background" src="<@= img_src @>" />
