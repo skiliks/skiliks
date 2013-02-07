@@ -162,7 +162,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});
         },
         doDialogStart:function (e) {
-            console.log('doDialogStart');
+            //console.log('doDialogStart');
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
