@@ -483,6 +483,10 @@ class MailBoxService
      */
     public static function getThemes($receivers, $parentSubjectId = null)
     {
+        if(empty($receivers)){
+            return [];
+        }
+
         $receivers = explode(',', $receivers);
         if ($receivers[count($receivers) - 1] == ',') unset($receivers[count($receivers) - 1]);
         if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
@@ -838,8 +842,8 @@ class MailBoxService
         $result = $emailConsidenceAnalizator->checkCoincidence();
 
         // update check MS email concidence
-        /** @var $log_mail LogMail */
-        $log_mail = LogMail::model()->find(
+        /** @var $log_mails LogMail[] */
+        $log_mails = LogMail::model()->findAll(
             "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `window` DESC, `id` DESC",
             [
                 'mailId' => $mailId,
@@ -851,7 +855,7 @@ class MailBoxService
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
         $mail->save();
-        if($log_mail !== null) {
+        foreach ($log_mails as $log_mail) {
             $log_mail->full_coincidence = $result['full'];
             $log_mail->part1_coincidence = $result['part1'];
             $log_mail->part2_coincidence = $result['part2'];

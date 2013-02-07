@@ -71,7 +71,7 @@ body {
 body.inner{
 	background-image:url("../img/bg-top-inner.jpg");
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
@@ -85,7 +85,7 @@ body.inner{
 .container.main-page{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.container.main-page{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
 	}
@@ -114,10 +114,16 @@ a:focus, a:active {
 	overflow:hidden;
 	padding-bottom:317px;
 }
-@media screen and (max-width: 1263px){
+.main-page .content{
+	height:1157px;
+}
+@media screen and (max-width: 1280px){
 	.content{
 		width:925px;
 		padding-bottom:310px;
+	}
+	.main-page .content{
+		height:1117px;
 	}
 }
 /* --------------- /main styles ---------*/
@@ -191,7 +197,7 @@ a:focus, a:active {
 .container>header nav a.active,.container>header nav a:hover{
 	background:rgba(20,102,114,1);
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.container>header{
 		width:925px;
 		height:58px;
@@ -352,7 +358,7 @@ html[lang=ru] .features form div input[type=submit]{
 	margin-top:23px;
 }
 
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.features{
 		width:738px;
 		margin-top:27px;
@@ -429,7 +435,7 @@ html[lang=ru] .main-article article{
 	line-height:1.500em;
 }
 
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.main-article{
 		width:380px;
 		margin-left:283px;
@@ -440,7 +446,7 @@ html[lang=ru] .main-article article{
 /* --------------- clients ---------*/
 .clients{
 	width:491px;
-	margin-top:142px;
+	margin-top:105px;
 }
 .clients h3{
 	font:2.144em "ProximaNova-Bold";
@@ -458,12 +464,12 @@ html[lang=ru] .main-article article{
 .clients ul li a{
 	display:block;
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.clients{
-		margin-top:134px;
+		margin-top:74px;
 	}
 	.clients ul li{
-		margin:0 20px 20px 0;
+		margin:15px 17px 0 0;
 	}
 	.clients ul li a img{
 		width:90%;
@@ -573,7 +579,7 @@ html[lang=ru] .product section table th{
 	line-height:1.333em;
 	margin-top:20px;
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.product{
 		margin-top:6px;
 	}
@@ -659,7 +665,7 @@ html[lang=ru] .product section table th{
 	margin-top:145px;
 	padding:0 8px;
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.footer footer .backtotop{
 		margin-top:108px;
 	}
@@ -712,7 +718,7 @@ html[lang=ru] .product section table th{
 	line-height:1.167em;
 	margin-top:20px;
 }
-@media screen and (max-width: 1263px){
+@media screen and (max-width: 1280px){
 	.footer{
 		background:url("../img/bg-footer-min.png") no-repeat center 0;
 		margin-top:-310px;

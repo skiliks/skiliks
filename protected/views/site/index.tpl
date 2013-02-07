@@ -81,7 +81,7 @@
 						<ul>
 							<li>{Yii::t('site', 'Focused on key skills')}</li>
 							<li>{Yii::t('site', 'Based on best working practices')}</li>
-							<li>{Yii::t('site', 'Uses real work environment, tasks and decision making situations')}</li>
+							<li>{Yii::t('site', 'Uses real work environment, tasks and decision<br />making situations')}</li>
 							<li>{Yii::t('site', 'Based on mathematical methods not just feelings')}</li>
 						</ul>
 					</article>
