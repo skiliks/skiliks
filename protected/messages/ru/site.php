@@ -45,7 +45,7 @@ return array (
   'Simulation aimed at testing manager’s skills' => 'Деловая симуляция, позволяющая оценить управленческие навыки',
   'Skiliks - game the skills' => 'Skiliks - играй навыками',
   'The easiest &amp; most reliable way to discover your people management skills!' => 'Самый простой и надежный способ проверить навыки менеджеров!',
-  'Uses real work environment, tasks and decision making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
+  'Uses real work environment, tasks and decision<br />making situations' => 'Максимально приближен к реальному деловому окружению, задачам и ситуациям',
   'Русский' => 'English',
   'Home' => 'Главная',
   'About' => 'О нас',
