@@ -43,11 +43,11 @@ class EventsManager {
         
     }
     
-    public function getState($simulation) {
+    public function getState($simulation, $logs) {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
-            $this->processLogs($simulation, Yii::app()->request->getParam('logs', null));
+            $this->processLogs($simulation, $logs);
 
 
             // update phone call dialogs lastDialogId }
@@ -68,10 +68,12 @@ class EventsManager {
             }
             // обработка задач }
             
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]); // получить ближайшее событие
+            // получить ближайшее событие
+            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]); 
             
             if (count($triggers) == 0) { 
-                throw new CHttpException(200, 'Нет ближайших событий', 4); // @todo: investigate - "No events" is exception ?
+                // @todo: investigate - "No events" is exception ?
+                throw new CHttpException(200, 'Нет ближайших событий', 4); 
             }
             
             $result = array('result' => 1);
@@ -83,7 +85,11 @@ class EventsManager {
 
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
                     if (null === $event) {
-                        throw new CHttpException(200, 'Не могу определить конкретное событие for event '.$trigger->event_id, 5);
+                        throw new CHttpException(
+                            200, 
+                            'Не могу определить конкретное событие for event '.$trigger->event_id, 
+                            5
+                        );
                     }
 
                     $trigger->delete(); // Убиваем обработанное событие
@@ -115,7 +121,12 @@ class EventsManager {
             // теперь подчистим список
             $resultList = $data;
             foreach ($data as $dialogId => $dialog) {
-                $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
+                $flagInfo = FlagsService::checkRule(
+                    $dialog['code'], 
+                    $simId, $dialog['step_number'], 
+                    $dialog['replica_number'], 
+                    $dialogId
+                );
                 
                 if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
                     break; // нечего чистиить все выполняется
@@ -123,7 +134,8 @@ class EventsManager {
                 if ($flagInfo['ruleExists']) {  // у нас есть такое правило
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
                         if (isset($resultList[ $flagInfo['recId'] ])) {
-                            unset($resultList[ $flagInfo['recId'] ]); // правило не выполняется для определнной записи - убьем ее
+                            // правило не выполняется для определнной записи - убьем ее
+                            unset($resultList[ $flagInfo['recId'] ]); 
                         }
                         continue;
                     }

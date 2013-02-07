@@ -247,7 +247,7 @@ class SimulationService
                 ->bySimId($simId)
                 ->byPoint($agrPoint->mark->id)
                 ->find();
-            // check, is in some fantastic way such value exists in DB }
+            // check, if in some fantastic way such value exists in DB }
             
             // init Log record {
             if (null == $existAssassment) {
@@ -441,9 +441,9 @@ class SimulationService
         $CheckConsolidatedBudget->calcPoints();
 
         // @todo: this is trick
-        // write all mail outbox/inbox scores to AssessmentAgregate dorectly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simId);
-        $simulation = Simulations::model()->byId($simId)->find();
+        // write all mail outbox/inbox scores to AssessmentAgregate directly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+        
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
     }
