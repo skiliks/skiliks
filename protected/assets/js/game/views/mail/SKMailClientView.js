@@ -1617,7 +1617,7 @@ var SKMailClientView;
              * @param {Object} response API response
              */
             doUpdateScreenFromForwardEmailData:function (response) {
-                var me = this;
+
                 if (1 == response.result) {
                     if (null == response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
@@ -1635,7 +1635,7 @@ var SKMailClientView;
                     this.renderSingleSubject(subject);
 
                     this.renderPreviouseMessage(response.phrases.previouseMessage);
-
+                    var me = this;
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
@@ -1644,22 +1644,26 @@ var SKMailClientView;
                             var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
                                 'add',
-                                subject
+                                undefined,
+                                function(){
+                                    $("#MailClient_RecipientsList")[0].addTag(tag);
+                                }
                             );
                             return add;
                         },
                         afterDelete:function(tag){
-                            $("#mailEmulatorNewLetterText").html('');
+                            //$("#mailEmulatorNewLetterText").html('');
                         },
                         afterAdd:function(tag){
                             $("#mailEmulatorNewLetterText").html('');
+                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds());
                         },
                         onDelete:function (tag) {
-                            return SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                            var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'delete',
-                                subject
+                                'delete'
                             );
+                            return del;
                         }
                     });
 
