@@ -8,10 +8,12 @@
  */
 class MailBoxTest extends CDbTestCase
 {
-    public function testSubjects() {
+    public function testSubjects() 
+    {
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
+        
         $mail = new MailBoxService();
         $events = new EventsManager();
         $character = Characters::model()->findByAttributes(['code' => 9]);
@@ -32,7 +34,7 @@ class MailBoxTest extends CDbTestCase
             'simId' => $simulation->primaryKey
         ]);
         $events->startEvent($simulation->id,'M31', false, false,0);
-        $events->getState($simulation);
+        $events->getState($simulation, []);
         $folders = MailBoxService::getFolders($simulation);
         $this->assertEquals(count($folders),2);
         $this->assertEquals(count($folders[0]),4);
@@ -40,10 +42,29 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(count($folders[1]['sended']),2);
         $inbox_letters = array_values($folders[1]['inbox']);
         $sent_letters = array_values($folders[1]['sended']);
-        print_r($inbox_letters);
+        
+        // print_r($inbox_letters);
+        
         $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
         $this->assertEquals('Форма отчетности для производства', $inbox_letters[1]['subject']);
         $this->assertEquals('Re: Срочно жду бюджет логистики', $inbox_letters[4]['subject']);
 
+    }
+    
+    /**
+     * 
+     */
+    public function testForward() 
+    {
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        
+        $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);
+        
+        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
+        
+        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text);
     }
 }

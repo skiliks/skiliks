@@ -800,11 +800,11 @@ class MailBoxService
         return $subjectModel->id;
     }
 
-    public static function getSubjectIdByText($subjectText, $mailPrefix = null)
+    public static function getSubjectByText($subjectText, $mailPrefix = null)
     {
         $model = CommunicationTheme::model()->findByAttributes(['text' => $subjectText, 'mail_prefix' => $mailPrefix]);
 
-        return (null === $model) ? null : $model->id;
+        return (null === $model) ? null : $model;
     }
 
     /**
@@ -1162,35 +1162,43 @@ class MailBoxService
             );
         }
 
-        $forwardSubjectId       = $messageToForward->subject_id;
         $sender                 = $messageToForward->sender_id;
         $receiverId             = $messageToForward->receiver_id;
         $characterThemeId       = null;
-        $forwardSubjectText     = $messageToForward->subject_obj->text; // 'Fwd: ' with space-symbol,
-        $forwardSubjectTextFull = $messageToForward->subject_obj->getFormattedThemePrefix(); // 'Fwd: ' with space-symbol,
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubjectId = MailBoxService::getSubjectIdByText($forwardSubjectText, null);
+        $forwardSubject = CommunicationTheme::model()->find(
+            'text = :text AND character_id = :character_id  AND (letter_number NOT LIKE \'MSY%\' OR letter_number IS NULL)',[
+            'text'         => $messageToForward->subject_obj->text, 
+            'character_id' => $receiverId
+        ]);
+        
+        if (NULL === $forwardSubject) {
+            return array(
+                'result' => 0,
+                'error'  => 'Can`t find subject for forward email.'
+            );
+        }
 
         $result = array();
 
         // загрузить фразы по старой теме
         $service = new MailBoxService();
 
-        if (0 < $forwardSubjectId) {
-            $characterThemeModel = CommunicationTheme::model()->findByAttributes([
-                'text'         => $forwardSubjectText,
+        if (0 < $forwardSubject->id) {
+            /*$characterThemeModel = CommunicationTheme::model()->findByAttributes([
+                'text'         => $forwardSubject->text,
                 'character_id' => $receiverId,
-                'mail_prefix'  => $messageToForward->subject_obj->mail_prefix]);
-            if ($characterThemeModel) {
-                $characterThemeId = $characterThemeModel->id;
-                if ($characterThemeModel->constructor_number === 'TXT') {
-                    $result['text'] = $characterThemeModel->letter->message;
+                'mail_prefix'  => $messageToForward->subject_obj->mail_prefix]);*/
+            /*if ($characterThemeModel) {
+                $characterThemeId = $characterThemeModel->id;*/
+                if ($forwardSubject->constructor_number === 'TXT') {
+                    $result['text'] = $forwardSubject->getMailTemplate()->message;
                 } else {
-                    $result['phrases']['data'] = MailBoxService::getMailPhrases($characterThemeId);
-                    $result['subjectId'] = $characterThemeId; //$subjectId;
+                    $result['phrases']['data'] = MailBoxService::getMailPhrases($forwardSubject->id);
+                    $result['subjectId'] = $forwardSubject->id;
                 }
-            }
+            //}
         }
 
         if (!isset($result['phrases']) && !isset($result['text'])) {
@@ -1200,8 +1208,8 @@ class MailBoxService
 
 
         $result['result']    = 1;
-        $result['subject']   = $forwardSubjectTextFull;
-        $result['subjectId'] = $forwardSubjectId;
+        $result['subject']   = $forwardSubject->getFormattedThemePrefix();
+        $result['subjectId'] = $forwardSubject->id;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
 
