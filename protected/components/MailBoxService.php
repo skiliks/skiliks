@@ -494,12 +494,16 @@ class MailBoxService
         $themes = array();
         // загрузка тем по одному персонажу
         if ($parentSubjectId !== null) {
-            $models = CommunicationTheme::model()->findAllByAttributes([
-                'character_id' => count($receivers) ? $receivers[0] : null,
-                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code,
-                'mail' => 1
-            ]);
+            // this is FWD
+            $id = CommunicationTheme::getCharacterThemeId(
+                Yii::app()->request->getParam('receivers', ''), 
+                Yii::app()->request->getParam('parentSubjectId', 0)
+            );
+            
+            $models = [];
+            $models[] = CommunicationTheme::model()->findByPk($id);
         } else {
+            // this is NEW mail
             $models = CommunicationTheme::model()->findAllByAttributes([
                 'character_id' => $receivers[0],
                 'mail_prefix' => null,
@@ -508,27 +512,7 @@ class MailBoxService
         }
 
         foreach ($models as $model) {
-            $themes[(int)$model->id] = (int)$model->id;
-        }
-
-        if (count($themes) == 0) return array();
-
-        // загрузка тем
-        $themeCollection = CommunicationTheme::model()->byIds($themes)->findAll();
-        $captions = array();
-        foreach ($themeCollection as $themeModel) {
-            $captions[(int)$themeModel->id] = $themeModel->text;
-        }
-
-        foreach ($themes as $id => $themeId) {
-            // remove all Fwd: and re:
-            if (false === strpos($captions[$themeId], 're:') &&
-                false === strpos($captions[$themeId], 'Fwd:')
-            ) {
-                $themes[$id] = $captions[$themeId];
-            } else {
-                unset($themes[$id]);
-            }
+            $themes[(int)$model->id] = $model->getFormattedTheme();
         }
 
         return $themes;
@@ -1139,7 +1123,7 @@ class MailBoxService
         }
         
         return CommunicationTheme::model()->find(
-            'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix  AND (letter_number NOT LIKE \'MSY%\' OR letter_number IS NULL)',[
+            'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
             'mail_prefix'  => $mail_prefix, 
             'text'         => $messageToForward->subject_obj->text,
             'character_id' => $messageToForward->receiver_id
