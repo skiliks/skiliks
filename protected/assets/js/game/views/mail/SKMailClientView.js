@@ -31,6 +31,8 @@ var SKMailClientView;
             // but hasn`t internal method to check is it binded to element or not
             isSortingNotApplied:true,
 
+            parentSubject:undefined,
+
             events:_.defaults({
                 'click .NEW_EMAIL':      'renderWriteCustomNewEmailScreen',
                 'click .REPLY_EMAIL':    'renderReplyScreen',
@@ -1541,7 +1543,7 @@ var SKMailClientView;
                     subject.text               = response.subject;
                     subject.mySqlId            = response.subjectId;
                     subject.characterSubjectId = response.subjectId;
-
+                    this.parentSubject = subject;
                     this.renderSingleSubject(subject);
 
                     this.renderPreviouseMessage(response.phrases.previouseMessage);
@@ -1644,7 +1646,7 @@ var SKMailClientView;
                             var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
                                 'add',
-                                undefined,
+                                subject,
                                 function(){
                                     $("#MailClient_RecipientsList")[0].addTag(tag);
                                 }
@@ -1656,7 +1658,7 @@ var SKMailClientView;
                         },
                         afterAdd:function(tag){
                             $("#mailEmulatorNewLetterText").html('');
-                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds());
+                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds(), subject);
                         },
                         onDelete:function (tag) {
                             var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
