@@ -94,7 +94,6 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
             initialize:function () {
                 var me = this;
                 this.mailClient = SKApp.user.simulation.mailClient;
-
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox);

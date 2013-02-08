@@ -6,8 +6,10 @@ function testSimulation(email, password, server, cb, fail_cb) {
         "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
         "assetsUrl":"\/assets\/3259e654"
     };
-
+    buster.log(server.requests.length);
     SKApp.session.login('asd', '123');
+    var success = sinon.spy();
+    SKApp.session.on('login:success', success);
     SKApp.session.on('login:success', function () {
         var simulation = SKApp.user.startSimulation(1);
         simulation.on('start', function () {
@@ -32,4 +34,5 @@ function testSimulation(email, password, server, cb, fail_cb) {
         { "Content-Type": "application/json" },
         JSON.stringify({ result: 1 })
     );
+    success.once();
 }
