@@ -41,6 +41,7 @@
             if (!this.has('id')) {
                 this.set('id', this.get('subname'));
             }
+
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
         },
