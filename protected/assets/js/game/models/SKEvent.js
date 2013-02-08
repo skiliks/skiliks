@@ -121,7 +121,10 @@
              * @param cb
              */
             select:function (replica_id, cb) {
-                SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
+                SKApp.server.api('dialog/get', {
+                    'dialogId':replica_id,
+                    'time':    SKApp.user.simulation.getGameTime()
+                }, function (data) {
                     if (data.result === 1) {
                         if (cb) {
                             cb(data);
@@ -164,7 +167,10 @@
                 var dialogId = this.get('data')[2].id;
                 // @todo: здесь сложно накручено но надо развязать
                 // и перенести игнорирование во вьюху SKPhoneCallView
-                SKApp.server.api('dialog/get', {'dialogId':dialogId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
+                SKApp.server.api('dialog/get', {
+                    'dialogId': dialogId, 
+                    'time':     SKApp.user.simulation.getGameTime()
+                }, function (data) {
                     SKApp.user.simulation.parseNewEvents(data.events);
                     if (cb !== undefined) {
                         cb();
@@ -179,7 +185,10 @@
              */
             selectReplica:function (replica_id, cb) {
                 this.complete();
-                SKApp.server.api('dialog/get', {'dialogId':replica_id}, function (data) {
+                SKApp.server.api('dialog/get', {
+                    'dialogId': replica_id,
+                    'time':     SKApp.user.simulation.getGameTime()
+                }, function (data) {
                     if (data.result === 1) {
                         cb();
                         SKApp.user.simulation.parseNewEvents(data.events);

@@ -4,14 +4,14 @@
  *
  * @author slavka
  */
-class EmailAnalizerTest extends CDbTestCase
+class EmailAnalyzerTest extends CDbTestCase
 {
     /**
      * 
      */
     public function test_3313_AllEmailsReadedCase()
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
@@ -63,7 +63,7 @@ class EmailAnalizerTest extends CDbTestCase
      */
     public function test_3313_AllInitialEmailsReadedCase()
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
@@ -341,7 +341,7 @@ class EmailAnalizerTest extends CDbTestCase
      */
     public function test_3313_NoEmailsReadedCase()
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
