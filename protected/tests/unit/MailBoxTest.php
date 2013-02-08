@@ -10,7 +10,7 @@ class MailBoxTest extends CDbTestCase
 {
     public function testSubjects() 
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -53,7 +53,7 @@ class MailBoxTest extends CDbTestCase
     
     public function testSubjectsForReReCase() 
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -98,7 +98,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        $this->markTestSkipped();
+        // $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
