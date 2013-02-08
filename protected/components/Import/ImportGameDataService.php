@@ -23,6 +23,9 @@ class ImportGameDataService
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
 
+    public function setFilename($name) {
+        $this->filename = __DIR__ . '/../../../media/'.$name;
+    }
 
     /**
      * Import characters, requires nothing
@@ -482,14 +485,17 @@ class ImportGameDataService
 
         // remove old entities {
         // copy relations {
-        $emailCopyEntities = MailCopiesTemplateModel::model()
-            ->byIdsNotIn(implode(',', $emailToCopyIds))
-            ->findAll();
-
-        foreach ($emailCopyEntities as $entity) {
-            $entity->delete();
-        }
-        unset($entity);
+        if (0 !== count($emailToCopyIds)) {
+            $emailCopyEntities = MailCopiesTemplateModel::model()
+                ->byIdsNotIn(implode(',', $emailToCopyIds))
+                ->findAll();
+        
+            foreach ($emailCopyEntities as $entity) {
+                $entity->delete();
+            }
+            
+            unset($entity);
+        }   
         // copy relations }
 
         // recipient relations {
@@ -505,24 +511,28 @@ class ImportGameDataService
         // recipient relations }
 
         // points relations {
-        $emailPointsEntities = MailPointsModel::model()
-            ->byIdsNotIn(implode(',', $emailToPointIds))
-            ->findAll();
+        if (0 !== count($emailToPointIds)) {
+            $emailPointsEntities = MailPointsModel::model()
+                ->byIdsNotIn(implode(',', $emailToPointIds))
+                ->findAll();
 
-        foreach ($emailPointsEntities as $entity) {
-            $entity->delete();
+            foreach ($emailPointsEntities as $entity) {
+                $entity->delete();
+            }
+            unset($entity);
         }
-        unset($entity);
         // points relations }
 
 
         // mail templates {
-        $emailTemplates = MailTemplateModel::model()
-            ->byIdsNotIn(implode(',', $emailIds))
-            ->findAll();
+        if (0 !== count($emailIds)) {
+            $emailTemplates = MailTemplateModel::model()
+                ->byIdsNotIn(implode(',', $emailIds))
+                ->findAll();
 
-        foreach ($emailTemplates as $emailTemplate) {
-            $emailTemplate->delete();
+            foreach ($emailTemplates as $emailTemplate) {
+                $emailTemplate->delete();
+            }
         }
         // mail templates }
         // remove old entities }
