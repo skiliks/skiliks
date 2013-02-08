@@ -12,7 +12,7 @@
  */
 class Simulations extends CActiveRecord
 {
-    const SIMULATION_DAY_DATE = '10.09.2012';
+    const SIMULATION_DAY_DATE = '04.10.2012';
     
     const TYPE_PROMOTION = 1;
     const TYPE_DEVELOP   = 2;
