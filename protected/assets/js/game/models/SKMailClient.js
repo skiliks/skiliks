@@ -731,6 +731,8 @@
                 var checkValue = -1;
                 if ('add' === action) {
                     checkValue = 1;
+                } else if('add_fwd' === action) {
+                    checkValue = 1;
                 }
 
                 // display warning only if user add extra recipients
@@ -742,9 +744,11 @@
                                 'value':'Продолжить',
                                 'onclick':function () {
                                     delete mailClient.message_window;
-                                    if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                                    if('add' === action || 'delete' === action) {
+                                        if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                                    }
                                     $("#mailEmulatorNewLetterText").html('');
-                                    if ('add' === action) {
+                                    if ('add' === action || 'add_fwd' === action) {
                                         callback();
                                     }
                                 }
@@ -761,7 +765,9 @@
                     });
                     return false;
                 } else {
-                    if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                    if('add' === action || 'delete' === action){
+                        if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
+                    }
                     $("#mailEmulatorNewLetterText").html('');
                     return true;
                 }
