@@ -428,7 +428,7 @@ class MailBoxService
     public static function buildMessage($mailId)
     {
         $mail = MailBoxModel::model()->findByPk($mailId);
-        $characterTheme = $mail->getCharacterTheme();
+        $characterTheme = $mail->subject_obj;
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
             // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
             $mailTemplate = MailTemplateModel::model()->byCode($characterTheme->letter_number)->find();
@@ -1048,11 +1048,25 @@ class MailBoxService
     public static function getSubjectForRepryEmail($messageToReply)
     {
         $previousEmalSubjectEntity = CommunicationTheme::model()->findByPk($messageToReply->subject_id);
+        
+        $mail_prefix = 're';
+        
+        switch($messageToReply->subject_obj->mail_prefix) {
+            case 're': 
+                $mail_prefix = 'rere';
+                break;
+            case 'rere': 
+                $mail_prefix = 'rerere';
+                break;
+            case 'rerere': 
+                $mail_prefix = 'rererere';
+                break;
+        }
 
         # TODO: refactor this. name is not unique
         $subjectEntity = CommunicationTheme::model()->findByAttributes([
-            'text' => $previousEmalSubjectEntity->text,
-            'mail_prefix' => 're'
+            'text'        => $previousEmalSubjectEntity->text,
+            'mail_prefix' => $mail_prefix
         ]); // lowercase is important for search!
 
         return $subjectEntity;

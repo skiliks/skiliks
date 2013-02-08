@@ -239,7 +239,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * @return type
      */
-    public function getCharacterTheme() {
+    /*public function getCharacterTheme() {
         
         $main_subject = CommunicationTheme::model()->findByAttributes(array(
             'text' => $this->subject_obj->text
@@ -259,7 +259,7 @@ class MailBoxModel extends CActiveRecord
                 'receiver_id' => $this->receiver_id,
                 'subject_id'  => $main_subject->primaryKey,
         ));
-    }
+    }*/
     
     /**
      * Выбрать по заданной папкe
