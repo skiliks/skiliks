@@ -7,13 +7,12 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DialogService {
-    
-    public function __construct() {
-        
-    }
-    
+class DialogService
+{    
     public function getDialog($simId, $dialogId, $time) {
+     assert($time !== NULL);
+     assert($time !== false);
+     
         if ($dialogId == 0) {
             return
                 [
@@ -246,7 +245,7 @@ class DialogService {
             'step_number'       => $dialog->step_number,
             'replica_number'    => $dialog->replica_number,
             'next_event_code'   => $dialog->next_event_code,
-            'is_final_replica'   => $dialog->is_final_replica,
+            'is_final_replica'  => $dialog->is_final_replica,
             'code'              => $dialog->code
         );
     }
