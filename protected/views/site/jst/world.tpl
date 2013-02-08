@@ -54,23 +54,4 @@
 <!-- suppress HtmlUnknownTag -->
 
 <script type="text/template" id="dialog_template">    
-    <div id="messageSystemMessageDiv">
-        <div class="mail-popup">
-            <div class="mail-popup-tit"><img src="<@= SKConfig.assetsUrl @>/img/mail/type-system-message.png" alt=""></div>
-            <p class="mail-popup-text"><@= title @></p>
-            <table class="mail-popup-btn">
-                <tbody>
-                <tr>
-                    <@ buttons.forEach(function (button) { @>
-                    <td>
-                        <div class="mail-popup-button" data-button-id="<@= button.id @>">
-                            <div><@= button.value @></div>
-                        </div>
-                    </td>
-                    <@ }) @>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 </script>

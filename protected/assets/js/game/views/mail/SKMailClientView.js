@@ -1,6 +1,6 @@
 /*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail, SKDialogView */
 var SKMailClientView;
-(function () {
+define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/SKMailAddToPlanDialog"], function () {
     "use strict";
     /**
      * @class
@@ -87,7 +87,8 @@ var SKMailClientView;
             },
 
             doAddToPlan:function () {
-                SKApp.user.simulation.mailClient.addToPlanDialogObject.render();
+                var dialog = new SKMailAddToPlanDialog();
+                dialog.render();
             },
 
             initialize:function () {
@@ -1818,4 +1819,5 @@ var SKMailClientView;
             }
 
         });
-})();
+    return SKMailClientView;
+});

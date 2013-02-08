@@ -1,5 +1,5 @@
 /*global Backbone, _ */
-(function () {
+define(["jquery/jquery.topzindex.min", "text!game/jst/world/dialog.jst"], function (topzindex, dialog_template) {
     "use strict";
     /**
      * List of user's phrases added to letter
@@ -43,7 +43,7 @@
             // must be first to get Z-index under dialog HTML block
             this.renderPreventClickElement();
             
-            this.$el = $(_.template($('#dialog_template').html(), {
+            this.$el = $(_.template(dialog_template, {
                 title: this.options.message,
                 buttons: this.options.buttons
             }));
@@ -85,4 +85,4 @@
             }
         }
     });
-})();
+});

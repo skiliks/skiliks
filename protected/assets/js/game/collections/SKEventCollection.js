@@ -1,5 +1,5 @@
 /*global SKEventCollection:true, SKEvent, Backbone, _, SKApp*/
-(function () {
+define(["game/models/SKEvent"], function () {
     "use strict";
     /**
      * @class List of events
@@ -69,4 +69,4 @@
                 }, callback);
             }
         });
-})();
+});

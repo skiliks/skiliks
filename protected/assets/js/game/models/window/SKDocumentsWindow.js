@@ -2,7 +2,7 @@
  * Documents window subclass
  * @type {SKWindow}
  */
-(function () {
+require(["game/models/window/SKWindow"],function () {
     "use strict";
     window.SKDocumentsWindow = window.SKWindow.extend({
         single: false,
