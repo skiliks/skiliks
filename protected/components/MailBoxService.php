@@ -129,7 +129,7 @@ class MailBoxService
             /** @var $theme CommunicationTheme */
             $theme = CommunicationTheme::model()->byId($message->subject_id)->find();
 
-            $subject = $theme->getFormattedThemePrefix();
+            $subject = $theme->getFormattedTheme();
 
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
@@ -1118,6 +1118,33 @@ class MailBoxService
 
         return $result;
     }
+    
+    public static function getSubectForForwardEmail($messageToForward)
+    {
+        $mail_prefix = 'fwd';
+        
+        switch($messageToForward->subject_obj->mail_prefix) {
+            case 're': 
+                $mail_prefix = 'fwdre';
+                break;
+            case 'rere': 
+                $mail_prefix = 'fwdrere';
+                break;
+            case 'fwd': 
+                $mail_prefix = 'fwdfwd';
+                break;
+            case 'rerere': 
+                $mail_prefix = 'fwdrerere';
+                break;
+        }
+        
+        return CommunicationTheme::model()->find(
+            'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix  AND (letter_number NOT LIKE \'MSY%\' OR letter_number IS NULL)',[
+            'mail_prefix'  => $mail_prefix, 
+            'text'         => $messageToForward->subject_obj->text,
+            'character_id' => $messageToForward->receiver_id
+        ]);
+    }
 
     /**
      * @params CommunicationTheme $messageToReply
@@ -1134,6 +1161,9 @@ class MailBoxService
                 break;
             case 'rere': 
                 $mail_prefix = 'rerere';
+                break;
+            case 'fwd': 
+                $mail_prefix = 'refwd';
                 break;
             case 'rerere': 
                 $mail_prefix = 'rererere';
@@ -1253,16 +1283,11 @@ class MailBoxService
             );
         }
 
-        $sender                 = $messageToForward->sender_id;
-        $receiverId             = $messageToForward->receiver_id;
-        $characterThemeId       = null;
+        $sender           = $messageToForward->sender_id;
+        $characterThemeId = null;
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubject = CommunicationTheme::model()->find(
-            'text = :text AND character_id = :character_id  AND (letter_number NOT LIKE \'MSY%\' OR letter_number IS NULL)',[
-            'text'         => $messageToForward->subject_obj->text, 
-            'character_id' => $receiverId
-        ]);
+        $forwardSubject = self::getSubectForForwardEmail($messageToForward);
         
         if (NULL === $forwardSubject) {
             return array(
@@ -1277,12 +1302,6 @@ class MailBoxService
         $service = new MailBoxService();
 
         if (0 < $forwardSubject->id) {
-            /*$characterThemeModel = CommunicationTheme::model()->findByAttributes([
-                'text'         => $forwardSubject->text,
-                'character_id' => $receiverId,
-                'mail_prefix'  => $messageToForward->subject_obj->mail_prefix]);*/
-            /*if ($characterThemeModel) {
-                $characterThemeId = $characterThemeModel->id;*/
                 if ($forwardSubject->constructor_number === 'TXT') {
                     $result['text'] = $forwardSubject->getMailTemplate()->message;
                 } else {
@@ -1299,7 +1318,7 @@ class MailBoxService
 
 
         $result['result']    = 1;
-        $result['subject']   = $forwardSubject->getFormattedThemePrefix();
+        $result['subject']   = $forwardSubject->getFormattedTheme();
         $result['subjectId'] = $forwardSubject->id;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
