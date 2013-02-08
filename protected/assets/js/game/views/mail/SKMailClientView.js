@@ -1108,7 +1108,10 @@ var SKMailClientView;
                     onDelete:function (tag) {
                         var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
-                            'delete'
+                            'delete',
+                            function(){
+                                $("#MailClient_RecipientsList")[0].removeTag(this);
+                            }
                         );
                         return del;
                     }
@@ -1643,7 +1646,7 @@ var SKMailClientView;
                         onAdd:function (tag) {
                             var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'add',
+                                'add_fwd',
                                 undefined,
                                 function(){
                                     $("#MailClient_RecipientsList")[0].addTag(tag);
@@ -1656,12 +1659,15 @@ var SKMailClientView;
                         },
                         afterAdd:function(tag){
                             $("#mailEmulatorNewLetterText").html('');
-                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds());
+                            //SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds());
                         },
                         onDelete:function (tag) {
                             var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'delete'
+                                'delete_fwd',
+                                function(){
+                                    $("#MailClient_RecipientsList")[0].removeTag(this);
+                                }
                             );
                             return del;
                         }
