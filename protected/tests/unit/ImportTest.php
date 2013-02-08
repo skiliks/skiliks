@@ -13,6 +13,7 @@ class ImportTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $import = new ImportGameDataService();
+            $import->setFilename('forUnitTests.xlsx');
             $import->importCharacters();
             $import->importCharactersPointsTitles();
             $import->importLearningGoals();
@@ -25,15 +26,18 @@ class ImportTest extends CDbTestCase
             $import->importMyDocuments();
             $import->importActivity();
             
+            // events
             $this->assertNotNull(EventsSamples::model()->findByAttributes([
                 'code' => 'P5'
             ]));
             
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['character_id' => null]), 41);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['phone' => 1]), 67);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['mail' => 1]), 4083);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']),43);
+            // CommunicationTheme
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['character_id' => null]), 2);
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['phone' => 1]), 2);
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['mail' => 1]), 22);
+            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']), 9);
             
+            // Dialogs
             $this->assertEquals(
                 Dialogs::model()->findByAttributes([
                     'code'             => 'E1',
@@ -41,9 +45,10 @@ class ImportTest extends CDbTestCase
                     'excel_id'         => 12
                 ])->next_event_code, 
                 'E1.2');
-            $this->assertEquals(Dialogs::model()->count(), 821);
+            $this->assertEquals(Dialogs::model()->count(), 19);
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
             
+            // end.
             $transaction->rollback();
         } catch (Exception $e) {
             $transaction->rollback();
