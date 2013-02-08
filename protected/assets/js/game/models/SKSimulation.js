@@ -74,34 +74,15 @@
                     this.skipped_minutes * 60;
             },
             'getGameTime':function (is_seconds) {
-                is_seconds = is_seconds || false;
-                function pad(num) {
-                    var s = "0" + num;
-                    return s.substr(s.length - 2);
-                }
-                if(is_seconds) {
-
                     var sh    = this.getGameSeconds();
                     var h   = Math.floor(sh / 3600);
                     var m = Math.floor((sh - (h * 3600)) / 60);
                     var s = sh - (h * 3600) - (m * 60);
-
                     if (h   < 10) {h   = "0"+h;}
                     if (m < 10) {m = "0"+m;}
                     if (s < 10) {s = "0"+s;}
-                    var time    = h+':'+m+':'+s;
+                    var time    = h+':'+m+(is_seconds?':'+s:'');
                     return time;
-
-                }else{
-                    var mins = this.getGameMinutes();
-                    var hours = Math.floor(mins / 60);
-                    if (hours > 24) {
-                        throw 'Simulation must be stopped at this time';
-                    }
-                    var minutes = (mins % 60);
-                    return pad(hours) + ':' + pad(minutes);
-                }
-
             },
 
             /**
