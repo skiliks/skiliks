@@ -1473,11 +1473,10 @@ var SKMailClientView;
             doUpdateMailPhrasesList:function () {
                 var mailClientView = this;
                 var mailClient = this.mailClient;
-                console.log("mailClient.availablePhrases.length : "+mailClient.availablePhrases.length);
-                console.log("mailClient.availableAdditionalPhrases.length : "+mailClient.availableAdditionalPhrases.length);
-                console.log("mailClient.newEmailUsedPhrases.length : "+mailClient.newEmailUsedPhrases.length);
-                if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) &&
-                    0 !== mailClient.newEmailUsedPhrases.length) {
+                //console.log("mailClient.availablePhrases.length : "+mailClient.availablePhrases.length);
+                //console.log("mailClient.availableAdditionalPhrases.length : "+mailClient.availableAdditionalPhrases.length);
+                //console.log("mailClient.newEmailUsedPhrases.length : "+mailClient.newEmailUsedPhrases.length);
+                if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) && mailClient.isNotEmptySubject()) {
                     // warning
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените тему письма, то обновится список доступных фраз и очистится текст письма.',
