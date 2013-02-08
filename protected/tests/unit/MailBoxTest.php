@@ -10,7 +10,7 @@ class MailBoxTest extends CDbTestCase
 {
     public function testSubjects() 
     {
-        // $this->markTestSkipped();
+        $this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -53,6 +53,8 @@ class MailBoxTest extends CDbTestCase
     
     public function testSubjectsForReReCase() 
     {
+        $this->markTestSkipped();
+        
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
@@ -96,7 +98,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        // $this->markTestSkipped();
+        $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
@@ -108,5 +110,12 @@ class MailBoxTest extends CDbTestCase
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
         
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text);
+    }
+    
+    public function testSimStart() 
+    {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);  
     }
 }
