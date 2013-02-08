@@ -1095,7 +1095,8 @@ var SKMailClientView;
                             'add',
                             undefined,
                             function(){
-                                $("#MailClient_RecipientsList")[0].addTag(tag);
+                                //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
+                                $("#MailClient_RecipientsList")[0].addTag(me, tag);
                             }
                         );
                         return add;
@@ -1108,9 +1109,16 @@ var SKMailClientView;
                         SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
                     },
                     onDelete:function (tag) {
+                        var me = this;
                         var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurentEmailRecipientIds(),
-                            'delete'
+                            'delete',
+                            undefined,
+                            function(){
+                                //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
+                                $("#MailClient_RecipientsList")[0].removeTag(me);
+                            },
+                            me
                         );
                         return del;
                     }
@@ -1663,7 +1671,13 @@ var SKMailClientView;
                         onDelete:function (tag) {
                             var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'delete'
+                                'delete',
+                                undefined,
+                                function(){
+                                        //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
+                                    $("#MailClient_RecipientsList")[0].removeTag(me);
+                                },
+                                me
                             );
                             return del;
                         }
