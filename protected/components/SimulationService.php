@@ -426,16 +426,9 @@ class SimulationService
         // данные для логирования
 
         $logs_src = Yii::app()->request->getParam('logs', array());
+        $events_manager = new EventsManager();
+        $events_manager->processLogs($simulation, $logs_src);
 
-        $logs = LogHelper::logFilter($logs_src); //Фильтр нулевых отрезков всегда перед обработкой логов
-        //TODO: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview
-        LogHelper::setDocumentsLog($simId, $logs); //Закрытие документа при стопе симуляции
-        LogHelper::setMailLog($simId, $logs); //Закрытие ркна почты при стопе симуляции
-        
-        LogHelper::setWindowsLog($simId, $logs, true);
-
-        LogHelper::setDialogs($simId, $logs);
-        
         // Fix logs
         LogHelper::fixLogWhenSimStop($simulation);
         

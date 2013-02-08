@@ -732,9 +732,16 @@
                 if ('add' === action) {
                     checkValue = 1;
                 }
-
+                //console.log('checkValue <= recipientIds.length');
+                //console.log(checkValue <= recipientIds.length);
+                //console.log('0 < this.newEmailUsedPhrases.length');
+                //console.log(0 < this.newEmailUsedPhrases.length);
+                //console.log('this.isNotEmptySubject()');
+                //console.log(this.isNotEmptySubject());
+                //console.log('checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length*/ && this.isNotEmptySubject()');
+                //console.log(checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length && this.isNotEmptySubject());
                 // display warning only if user add extra recipients
-                if (checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length) {
+                if (checkValue <= recipientIds.length &&  this.isNotEmptySubject()) {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                         'buttons':[
@@ -1094,6 +1101,13 @@
 
             openWindow:function () {
                 this.getDataForInitialScreen();
+            },
+            isNotEmptySubject:function(){
+                if($("#MailClient_NewLetterSubject select option:selected").val() !== "" && $("#MailClient_NewLetterSubject select option:selected").val() !== "0"){
+                    return true;
+                }else{
+                    return false;
+                }
             }
         });
 })();
