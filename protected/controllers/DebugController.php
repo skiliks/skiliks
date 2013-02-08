@@ -42,8 +42,8 @@ class DebugController extends AjaxController{
         //$CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         //$CheckConsolidatedBudget->calcPoints();
         //LogHelper::fixLogWhenSimStop($simulation);
-        //$s = new ImportGameDataService();
-        //$s->importAll();
+        $s = new ImportGameDataService();
+        $s->importAll();
         echo '<br/>end.';
         
         //$import = new ImportGameDataService();

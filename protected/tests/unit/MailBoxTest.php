@@ -10,7 +10,7 @@ class MailBoxTest extends CDbTestCase
 {
     public function testSubjects() 
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -43,17 +43,27 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(count($folders[1]),2);
         $this->assertEquals(count($folders[1]['sended']),2);
         $inbox_letters = array_values($folders[1]['inbox']);
+        $inbox_letters = array_values($folders[1]['inbox']);
         $sent_letters = array_values($folders[1]['sended']);
         
+        foreach ($inbox_letters as $inbox_letter) {
+            if ('форма отчетности для производства' == $inbox_letter['subjectSort']) {
+                $m1 = $inbox_letter;
+            }
+            if (' срочно жду бюджет логистики' == $inbox_letter['subjectSort']) {
+                $m2 = $inbox_letter;
+            }
+        }
+        
         $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
-        $this->assertEquals('Форма отчетности для производства', $inbox_letters[1]['subject']);
-        $this->assertEquals('Re: Срочно жду бюджет логистики', $inbox_letters[4]['subject']);
+        $this->assertEquals('Форма отчетности для производства', $m1['subject']);
+        $this->assertEquals('Re: Срочно жду бюджет логистики', $m2['subject']);
 
     }
     
     public function testSubjectsForReReCase() 
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -90,7 +100,7 @@ class MailBoxTest extends CDbTestCase
         
         $this->assertNotNull($subjectEntity);
         
-        $this->assertEquals('Re: Re: Срочно жду бюджет логистики', $subjectEntity->getFormattedThemePrefix());
+        $this->assertEquals('Re: Re: Срочно жду бюджет логистики', $subjectEntity->getFormattedTheme());
     }    
     
     /**
@@ -98,24 +108,29 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         
-        $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);
-        
-        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
+        // random email case{       
+        $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);        
+        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);      
         
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text);
-    }
-    
-    public function testSimStart() 
-    {
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);  
+        // random email case }
+        
+        // case 2, M61 {      
+        $email = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M61']);
+        $email->group_id = 1;
+        $email->save();        
+        $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $email);
+        
+        // var_dump($resultDataM61);
+        
+        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$email->subject_obj->text);
+        // case 2, M61 }
     }
 }
