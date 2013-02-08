@@ -581,6 +581,38 @@ class MailBoxService
 
         return self::_copyMessageSructure($mailModel, $simId);
     }
+    
+    /**
+     * This method must be use at simStart only and must be removed/updated after release
+     * plain SQL to make code faster
+     * 
+     * @param Email $mail
+     * @param integer $simId
+     * @param type $documents
+     * @return string
+     */
+    protected static function _getCopyMessageSructureSql($mail, $simId, $documents) 
+    {
+        $sql = '';
+        
+        // mail_copies
+        $sql .= "insert into mail_copies (mail_id, receiver_id)".
+            " select {$mail->id}, receiver_id from mail_copies_template".
+            " where mail_id='{$mail->template_id}';";
+            
+        // mail mail_receivers
+        $sql .= "insert into mail_receivers (mail_id, receiver_id)".
+            " select {$mail->id}, receiver_id from mail_receivers_template".
+            " where mail_id='{$mail->template_id}';";
+            
+        // mail mail_attachments
+        if(isset($documents[$mail->template_id])) {
+            $sql .= "insert into mail_attachments (mail_id, file_id)".
+                " values ({$mail->id}, {$documents[$mail->template_id]});";
+        }
+            
+        return $sql;
+    }
 
     protected static function _copyMessageSructure($mail, $simId)
     {
@@ -646,21 +678,66 @@ class MailBoxService
      */
     public static function initMailBoxEmails($simId)
     {
+        $profiler = new SimpleProfiler(false);
+        $profiler->startTimer();    
+        $profiler->render('r1: ');
+        
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
             select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
             from mail_template";
-
+        $profiler->render('r2: ');
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
         $command->execute();
-
+        $profiler->render('r3: ');
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
-        foreach ($mailCollection as $mail) {
-            self::_copyMessageSructure($mail, $simId);
+        $profiler->render('r4: ');
+        
+        // prepare all doc templates
+        $documentTemplates = [];
+        foreach (MyDocumentsTemplateModel::model()->findAll() as $documentTemplate) {
+            $documentTemplates[$documentTemplate->id] = $documentTemplate;
         }
+        
+        // prepare all docs
+        $myDocs = [];
+        foreach (MyDocumentsModel::model()->findAllByAttributes(['sim_id' => $simId]) as $myDocument) {
+            $myDocs[$myDocument->template_id] = $myDocument;
+        }
+        
+        // init MyDocs for docTemplate in current simumation, if proper MyDoc isn`t exist
+        $docIds = [];
+        foreach (MailAttachmentsTemplateModel::model()->findAll() as $mailAttachment) {
+            if (false === isset($myDocs[$mailAttachment->file_id])) {
+                $doc = new MyDocumentsModel();
+                $doc->sim_id      = $simId;
+                $doc->template_id = $documentTemplates[$mailAttachment->file_id]->id;
+                $doc->fileName    = $documentTemplates[$mailAttachment->file_id]->fileName;
+                $doc->save();
+                
+                $myDocs[$mailAttachment->file_id] = $doc;
+            }
+            
+            $docIds[$mailAttachment->mail_id] = $myDocs[$mailAttachment->file_id]->id;
+        }
+        
+        unset($myDocs, $documentTemplates);
+        
+        $sql = '';
+        foreach ($mailCollection as $mail) {
+            // plain SQL to make code faster
+            $sql .= self::_getCopyMessageSructureSql($mail, $simId, $docIds);
+        }
+        $profiler->render('r5: '); // 0.92
+        
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+        
+        $profiler->render('r6: '); // 4.95
     }
 
     /**
@@ -1020,7 +1097,7 @@ class MailBoxService
 
         // init default responce
         $result = array(
-            'message'          => '',
+               'message'          => '',
             'data'             => self::getMailPhrases(),
             'previouseMessage' => $messageToReply->message,
             'addData'          => self::getSigns()

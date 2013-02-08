@@ -365,39 +365,53 @@ class SimulationService
      */
     public static function simulationStart($simulationType, $user = null)
     {
+        $profiler = new SimpleProfiler(false);
+        $profiler->startTimer();        
+        
         if ($user === null) {
             $userId = SessionHelper::getUidBySid();
         } else {
             $userId = $user->primaryKey;
         }
+        $profiler->render('1: ');
+        
         if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
+        $profiler->render('2: ');
         
         // Создаем новую симуляцию
         $simulation = SimulationService::initSimulationEntity($userId, $simulationType);
+        $profiler->render('3: ');
         
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
-
+        $profiler->render('4: ');
+        
         //@todo: increase speed
-        SimulationService::initEventTriggers($simulation); // 3 seconds 
-
+        SimulationService::initEventTriggers($simulation); 
+        $profiler->render('5: '); // 3.10 ~ 3.17
+        
         // предустановка задач в todo!
         SimulationService::fillTodo($simulation->id);
-
+        $profiler->render('6: ');
+        
         // скопируем документы
         MyDocumentsService::init($simulation->id);
+        $profiler->render('7: ');
 
         // @todo: increase speed
         // Установим дефолтовые значения для mail client
-        MailBoxService::initDefaultSettings($simulation->id); // 4 seconds
+        MailBoxService::initDefaultSettings($simulation->id); 
+        $profiler->render('8: ');
         
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
+        $profiler->render('9: '); // 3.51 ~ 4.14
 
         // проставим дефолтовые значени флагов для симуляции пользователя
         FlagsService::initDefaultValues($simulation->id);
+        $profiler->render('10: '); // 1.09 ~ 1.90
         
         return $simulation;
     }
