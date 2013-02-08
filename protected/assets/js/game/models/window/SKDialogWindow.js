@@ -2,7 +2,7 @@
  * Documents window subclass
  * @type {SKWindow}
  */
-(function () {
+define(["game/models/window/SKWindow"],function () {
     "use strict";
     window.SKDialogWindow = window.SKWindow.extend({
         'initialize':function () {
@@ -35,4 +35,4 @@
             this.get('params').lastDialogId = dialogId;
         }
     });
-})();
+});

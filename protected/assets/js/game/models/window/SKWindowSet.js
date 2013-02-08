@@ -1,5 +1,5 @@
 /*global console, Backbone, SKWindow, SKDialogWindow, _*/
-(function() {
+define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"],function () {
     "use strict";
     window.SKWindowSet = Backbone.Collection.extend({
         model: SKWindow,
@@ -8,7 +8,7 @@
             'phone/phoneCall': SKDialogWindow
         },
         comparator:function(window) {
-            return this.get('zindex')
+            return this.get('zindex');
         },
         'initialize':function () {
         },
@@ -34,6 +34,8 @@
                     windows[0].trigger('refresh');
                 }
             } else {
+
+
                 var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                 var win = new WindowType(_.extend({name:name, subname:subname}, params));
                 win.open();
@@ -103,4 +105,4 @@
         }
 
     });
-})();
+});

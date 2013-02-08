@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session, SKDocument */
 
-(function () {
+define(["game/models/SKDocument"],function () {
     "use strict";
     window.SKDocumentCollection = Backbone.Collection.extend({
         model: SKDocument,
@@ -12,4 +12,4 @@
             }
         }
     });
-})();
+});

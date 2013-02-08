@@ -38,7 +38,6 @@
             if (! (this.get('subname') in screensSub)) {
                 throw 'Unknown subscreen';
             }
-            window_id[window_id] = this;
             if (!this.has('id')) {
                 this.set('id', this.get('subname'));
             }

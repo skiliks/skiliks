@@ -1,7 +1,6 @@
-/*global Backbone:false, console, SKServer, SKSession */
+/*global Backbone:false*/
 
-var SKApplication, SKApp;
-(function () {
+define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKSession) {
     "use strict";
     /**
      * @class SKApplication
@@ -9,7 +8,7 @@ var SKApplication, SKApp;
      * @augments Backbone.Model
      * @property {SKServer} server
      */
-    SKApplication = Backbone.Model.extend(
+    window.SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
             /**
@@ -63,5 +62,6 @@ var SKApplication, SKApp;
      *
      * @type {SKApplication}
      */
-    SKApp = new window.SKApplication();
-})();
+    window.SKApp = new SKApplication();
+    return SKApplication;
+});

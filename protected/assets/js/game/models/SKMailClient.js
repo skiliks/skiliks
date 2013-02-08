@@ -1,5 +1,5 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
-(function () {
+define(["game/models/SKMailFolder"], function () {
     "use strict";
     /**
      * @class SKMailClient
@@ -178,9 +178,6 @@
             // @var undefined | SKEmail
             lastNotSavedEmail:undefined,
 
-            // @var SKMailAddToPlanDialog
-            addToPlanDialogObject:new SKMailAddToPlanDialog(),
-
             // @var array of SKMailTAsk
             availaleActiveEmailTasks:[],
 
@@ -242,7 +239,7 @@
                 this.folders[this.aliasFolderTrash] = new SKMailFolder();
                 this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
 
-                this.addToPlanDialogObject.mailClient = this;
+
             },
 
             getMailTaskByMySqlId:function (id) {
@@ -1109,5 +1106,6 @@
                 }
             }
         });
-})();
+    return window.SKMailClient;
+});
 

@@ -1,6 +1,6 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
-(function () {
+define(["game/views/mail/SKMailClientView"], function () {
     "use strict";
     /**
      * @class
@@ -157,4 +157,4 @@
                 }
             }
         });
-})();
+});
