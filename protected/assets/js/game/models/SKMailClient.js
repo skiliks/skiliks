@@ -725,7 +725,7 @@
              * @param action
              * @param {undefined|SKMailSubject} parent_subject
              */
-            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback) {
+            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag) {
                 var mailClient = this;
 
                 var checkValue = -1;
@@ -746,6 +746,8 @@
                                     $("#mailEmulatorNewLetterText").html('');
                                     if ('add' === action) {
                                         callback();
+                                    }else{
+                                        $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                     }
                                 }
                             },
