@@ -8,7 +8,7 @@
  */
 class MailBoxTest extends CDbTestCase
 {
-    public function testSubjects() 
+    public function testSubjectsForInitialEmails() 
     {
         //$this->markTestSkipped();
         
@@ -61,6 +61,35 @@ class MailBoxTest extends CDbTestCase
 
     }
     
+    public function testSubjectForNewEmail() 
+    {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(1, $user); 
+        
+        // one recipient case :
+        $subjects = MailBoxService::getThemes('11', NULL); 
+        $id = CommunicationTheme::getCharacterThemeId('11', 0);
+        
+        $this->assertEquals(count($subjects), 3);
+        $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
+        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects));
+        $this->assertTrue(in_array('Прочее', $subjects));
+        
+        $this->assertNull($id);
+        
+        // several recipients case :
+        $subjects_2 = MailBoxService::getThemes('11,26,24', NULL); 
+        $id_2 = CommunicationTheme::getCharacterThemeId('11', 0);
+        
+        $this->assertEquals(count($subjects_2), 3);
+        $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects_2));
+        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects_2));
+        $this->assertTrue(in_array('Прочее', $subjects_2));
+        
+        $this->assertNull($id_2);
+    }
+    
     public function testSubjectsForReReCase() 
     {
         //$this->markTestSkipped();
@@ -108,7 +137,10 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        //$this->markTestSkipped();
+        $import = new ImportGameDataService();
+        $import->importAll();
+        
+        ////$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
@@ -119,7 +151,7 @@ class MailBoxTest extends CDbTestCase
         $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);        
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);      
         
-        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text);
+        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
         // random email case }
         
         // case 2, M61 {      
@@ -128,9 +160,7 @@ class MailBoxTest extends CDbTestCase
         $email->save();        
         $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $email);
         
-        // var_dump($resultDataM61);
-        
-        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$email->subject_obj->text);
+        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$email->subject_obj->text, 'M61');
         // case 2, M61 }
     }
 }
