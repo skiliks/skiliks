@@ -137,10 +137,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        $import = new ImportGameDataService();
-        $import->importAll();
-        
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();

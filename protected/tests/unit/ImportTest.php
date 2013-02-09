@@ -29,7 +29,7 @@ class ImportTest extends CDbTestCase
             // events
             $this->assertNotNull(EventsSamples::model()->findByAttributes([
                 'code' => 'P5'
-            ]));
+            ])); 
             
             // CommunicationTheme
             $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['character_id' => null]));
