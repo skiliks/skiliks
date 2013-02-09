@@ -1667,7 +1667,7 @@ var SKMailClientView;
                         afterAdd:function(tag){
                             //$("#mailEmulatorNewLetterText").html('');
                             SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds(), subject);
-                            SKApp.user.simulation.mailClient.getAvailablePhrases(subject.characterSubjectId);
+                            SKApp.user.simulation.mailClient.getAvailablePhrases(SKApp.user.simulation.mailClient.availableSubjects[0].characterSubjectId);
                         },
                         onDelete:function (tag) {
                             var el = this;
