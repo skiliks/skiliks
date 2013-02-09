@@ -729,7 +729,7 @@
                 var mailClient = this;
 
                 var checkValue = -1;
-                if ('add' === action) {
+                if ('add' === action || 'add_fwd' === action) {
                     checkValue = 1;
                 }
                 //console.log('checkValue <= recipientIds.length');
@@ -742,6 +742,7 @@
                 //console.log(checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length && this.isNotEmptySubject());
                 // display warning only if user add extra recipients
                 if (checkValue <= recipientIds.length &&  this.isNotEmptySubject()) {
+                    if(action !== 'add_fwd' && action !== 'delete_fwd') {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
                         'buttons':[
@@ -751,9 +752,9 @@
                                     delete mailClient.message_window;
                                     if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
                                     $("#mailEmulatorNewLetterText").html('');
-                                    if ('add' === action) {
+                                    if ('add' === action || 'add_fwd' === action) {
                                         callback();
-                                    }else{
+                                    }else if('delete'){
                                         $("#MailClient_RecipientsList")[0].removeTag(el_tag);
                                     }
                                 }
@@ -767,11 +768,15 @@
                                 }
                             }
                         ]
-                    });
+                    });}else{
+                        if(action === 'delete_fwd' || action === 'add_fwd'){return true;}
+                    }
                     return false;
                 } else {
-                    if(recipientIds.length !== 0){mailClient.reloadSubjects(recipientIds, parent_subject);}
-                    $("#mailEmulatorNewLetterText").html('');
+                    mailClient.reloadSubjects(recipientIds, parent_subject);
+                    if(action !== 'add_fwd' && action !== 'delete_fwd') {
+                        $("#mailEmulatorNewLetterText").html('');
+                    }
                     return true;
                 }
             },
@@ -782,6 +787,7 @@
              * @param parent_subject
              */
             reloadSubjects:function (recipientIds, parent_subject) {
+                if(recipientIds.length <= 0){ return; }
                 this.messageForNewEmail = '';
                 var me = this;
                 SKApp.server.api(
