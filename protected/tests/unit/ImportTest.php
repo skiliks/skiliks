@@ -32,10 +32,10 @@ class ImportTest extends CDbTestCase
             ]));
             
             // CommunicationTheme
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['character_id' => null]), 2);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['phone' => 1]), 2);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['mail' => 1]), 66);
-            $this->assertEquals(CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']), 9);
+            $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['character_id' => null]));
+            $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['phone' => 1]));
+            $this->assertEquals(63, CommunicationTheme::model()->countByAttributes(['mail' => 1]));
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
             
             // Dialogs
             $this->assertEquals(
@@ -45,7 +45,7 @@ class ImportTest extends CDbTestCase
                     'excel_id'         => 12
                 ])->next_event_code, 
                 'E1.2');
-            $this->assertEquals(Dialogs::model()->count(), 19);
+            $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
             
             // end.
