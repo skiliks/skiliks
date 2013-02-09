@@ -1478,6 +1478,7 @@ var SKMailClientView;
                 //console.log("mailClient.newEmailUsedPhrases.length : "+mailClient.newEmailUsedPhrases.length);
                 if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) && mailClient.isNotEmptySubject()) {
                     // warning
+                    if(mailClient.activeScreen !== "SCREEN_WRITE_FORWARD") {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените тему письма, то обновится список доступных фраз и очистится текст письма.',
                         'buttons':[
@@ -1498,7 +1499,7 @@ var SKMailClientView;
                                 }
                             }
                         ]
-                    });
+                    });}
                 } else {
                     // standart way
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
@@ -1652,7 +1653,7 @@ var SKMailClientView;
                         onAdd:function (tag) {
                             var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'add',
+                                'add_fwd',
                                 subject,
                                 function(){
                                     $("#MailClient_RecipientsList")[0].addTag(tag);
@@ -1664,17 +1665,19 @@ var SKMailClientView;
                             //$("#mailEmulatorNewLetterText").html('');
                         },
                         afterAdd:function(tag){
-                            $("#mailEmulatorNewLetterText").html('');
+                            //$("#mailEmulatorNewLetterText").html('');
                             SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds(), subject);
+                            SKApp.user.simulation.mailClient.getAvailablePhrases(subject.characterSubjectId);
                         },
                         onDelete:function (tag) {
+                            var el = this;
                             var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurentEmailRecipientIds(),
-                                'delete',
+                                'delete_fwd',
                                 undefined,
                                 function(){
                                         //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
-                                    $("#MailClient_RecipientsList")[0].removeTag(me);
+                                    $("#MailClient_RecipientsList")[0].removeTag(el);
                                 },
                                 me
                             );
