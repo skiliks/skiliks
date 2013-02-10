@@ -4,7 +4,8 @@
     window.SKWindowSet = Backbone.Collection.extend({
         model: SKWindow,
         window_classes: {
-            'phone/phoneTalk': SKDialogWindow
+            'phone/phoneTalk': SKDialogWindow,
+            'phone/phoneCall': SKDialogWindow
         },
         comparator:function(window) {
             return this.get('zindex')
