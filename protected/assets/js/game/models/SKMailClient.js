@@ -1,5 +1,5 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
-define(["game/models/SKMailFolder"], function () {
+define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
     "use strict";
     /**
      * @class SKMailClient

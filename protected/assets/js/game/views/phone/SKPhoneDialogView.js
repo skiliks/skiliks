@@ -1,6 +1,6 @@
 /*global _, SKWindowView, SKDialogWindow, SKApp */
 
-$(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
 
     window.SKPhoneDialogView = SKWindowView.extend({

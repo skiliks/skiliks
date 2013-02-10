@@ -1,4 +1,6 @@
 function testSimulation(email, password, server, cb, fail_cb) {
+    _.templateSettings.interpolate = /<@=(.+?)@>/g;
+    _.templateSettings.evaluate = /<@(.+?)@>/g;
     SKConfig = {
         "skiliksSpeedFactor":8,
         "simulationStartTime":"9:00",
@@ -11,9 +13,13 @@ function testSimulation(email, password, server, cb, fail_cb) {
     var success = sinon.spy();
     SKApp.session.on('login:success', success);
     SKApp.session.on('login:success', function () {
+        buster.log("login success");
         var simulation = SKApp.user.startSimulation(1);
+        var success = sinon.spy();
+        simulation.on('start', success);
         simulation.on('start', function () {
             cb(function () {
+                buster.assert.defined(SKApp.user);
                 SKApp.user.stopSimulation();
             });
 
@@ -23,6 +29,8 @@ function testSimulation(email, password, server, cb, fail_cb) {
             { "Content-Type": "application/json" },
             JSON.stringify({ result: 1 })
         );
+        buster.assert.calledOnce(success);
+
     });
     SKApp.session.on('login:failure', function () {
         if (fail_cb !== undefined) {
@@ -34,5 +42,5 @@ function testSimulation(email, password, server, cb, fail_cb) {
         { "Content-Type": "application/json" },
         JSON.stringify({ result: 1 })
     );
-    success.once();
+    buster.assert.calledOnce(success);
 }

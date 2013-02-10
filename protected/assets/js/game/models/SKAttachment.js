@@ -1,7 +1,7 @@
 /* 
  * 
  */
-(function() {
+define([], function() {
     "use strict";
     window.SKAttachment = Backbone.Model.extend({
         // @var string, 'D1', 'D2'
@@ -40,4 +40,5 @@
             return '';
         }
     });
-})();
+    return window.SKAttachment;
+});
