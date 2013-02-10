@@ -366,8 +366,8 @@ define([
                 this.$('#' + this.mailClientFoldersListId).html(html);
 
                 // droppable {
-                $('#FOLDER_INBOX').droppable("destroy");
-                $('#FOLDER_TRASH').droppable("destroy");
+                this.$('#FOLDER_INBOX').droppable("destroy");
+                this.$('#FOLDER_TRASH').droppable("destroy");
 
                 // add restore from trash behaviour {
                 if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
