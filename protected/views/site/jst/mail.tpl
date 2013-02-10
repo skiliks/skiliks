@@ -1,71 +1,8 @@
+
 <!-- MailClient { -->
 
-<script type="text/template" id="MailClient_TitleHtml">
-    <div class="header-inner">
-        <h1>Почта</h1>
-        <ul class="actions"></ul>
-        <div class="btn-close win-close">
-            <button></button>
-        </div>
-    </div>
-</script>
-<!-- MailClient_BasicHtml: -->
-<script type="text/template" id="MailClient_BasicHtml">
-    <div id="<@= id @>" class="mail-emulator-main-div">
-        <section class="mail">
-            <nav>
-                <ul id="MailClient_FolderLabels"></ul>
-            </nav>
-            <div id="mailEmulatorContentDiv" class="r">
-                <div id="<@= contentBlockId @>" class="mail-bg"></div>
-            </div>
 
-        </section>
-    </div>
-</script>
-
-<!-- MailClient_Folderlabel: -->
-<script type="text/template" id="MailClient_FolderLabel">
-    <li id="FOLDER_<@= alias @>" data-alias="<@= alias @>" class="<@= isActiveCssClass @> ui-droppable">
-        <label class="icon_<@= alias @>"><@= label @>
-            <span class="counter" style="<@= counterCss @>">(<@= counter @>)</span>
-        </label>
-    </li>
-</script>
-
-<!-- MailClient_IncomeFolderSceleton: -->
-<script type="text/template" id="MailClient_IncomeFolderSceleton">
-    <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
-        <table id="mlTitle" class="ml ml-title sortable-table">
-            <colgroup>
-                <col class="col0">
-                <col class="col1">
-                <col class="col2">
-                <col class="col3">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>
-                        <span>От кого</span>
-                    </th>
-                    <th>
-                        <span>Тема</span>
-                    </th>
-                    <th>
-                        <span>Дата получения</span>
-                    </th>
-                    <th>
-                        <div class="attachmentIcon"></div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="<@= emailPreviewId @>" class="previouse-message-text"></div>
-</script>
-
+{*
 <!-- MailClient_TrashFolderSceleton: -->
 <script type="text/template" id="MailClient_TrashFolderSceleton">
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
@@ -131,21 +68,6 @@
     <div id="<@= emailPreviewId @>" class="pre"></div>
 </script>
 
-<!-- MailClient_IncomeEmailLine: -->
-<script type="text/template" id="MailClient_IncomeEmailLine">
-    <tr data-email-id="<@= emailMySqlId @>"
-        class="email-list-line <@= isReadedCssClass @> mail-emulator-received-list-string
-          mail-emulator-received-list-string-selected <@= isActiveCssClass @> ui-draggable">
-        <td class="col0 mail-emulator-received-list-cell-sender"><@= senderName @></td>
-        <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
-        <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
-        <td class="col3 mail-emulator-received-list-cell-attach">
-            <span style="display: none;"><@= isHasAttachment @></span> <!-- for sorting purposes -->
-            <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
-        </td>
-    </tr>
-</script>
-
 <!-- MailClient_TrashEmailLine: -->
 <script type="text/template" id="MailClient_TrashEmailLine">
     <tr data-email-id="<@= emailMySqlId @>"
@@ -178,42 +100,6 @@
 
 <!-- MailClient_EmailPreview: -->
 <script type="text/template" id="MailClient_EmailPreview">
-    <div class="mail-view-header">
-        <table>
-            <tbody>
-            <tr>
-                <th>От кого:</th>
-                <td><strong><@= senderName @></strong></td>
-            </tr>
-            <tr>
-                <th>Кому:</th>
-                <td><@= recipientName @></td>
-            </tr>
-            <tr>
-                <th>Копия:</th>
-                <td><@= copyNamesLine @></td>
-            </tr>
-            <tr>
-                <th>Тема:</th>
-                <td><@= subject @></td>
-            </tr>
-            <tr>
-                <th>Вложение:</th>
-                <td>
-                    <@= attachmentFileName @>
-                           <span class="save-attachment-icon" 
-                                 data-document-id="<@= attachmentId @>" 
-                                 style="<@= isHasAttachmentCss @>">
-                           </span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="readed-email-text" style="overflow-y: scroll; height: <@= height @>; padding: 7px 15px 15px 15px">
-        <pre><@= text @></pre>
-        <div class="previouse-message-text"></div>
-    </div>    
 </script>
 
 <!-- MailClient_ReadEmailSceleton: -->
@@ -223,9 +109,7 @@
 
 <!-- MailClient_ActionIcon: -->
 <script type="text/template" id="MailClient_ActionIcon">
-    <li id="mailEmulatorReceivedButton">
-        <a class="<@= iconCssClass @>"><@= label @></a>
-    </li>
+
 </script>
 
 <!-- MailClient_NewEmailScreen_Sceleton: -->
@@ -348,4 +232,4 @@
     </div>
 </script>
 
-<!-- MailClient } -->
+<!-- MailClient } -->        *}

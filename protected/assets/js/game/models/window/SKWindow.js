@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp */
 
-(function () {
+define([], function () {
     "use strict";
     var screens = {
         'mainScreen':1,
@@ -112,5 +112,5 @@
         }
     });
     window.SKWindow.window_set = {};
-
-})();
+    return SKWindow;
+});

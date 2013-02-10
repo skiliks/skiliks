@@ -1,6 +1,27 @@
-/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail, SKDialogView */
+/*global Backbone, _, SKApp, SKAttachment, SKMailSubject */
 var SKMailClientView;
-define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/SKMailAddToPlanDialog"], function () {
+define([
+        "game/views/SKDialogView",
+        "game/views/SKWindowView",
+        "game/views/mail/SKMailAddToPlanDialog",
+        "game/models/SKEmail",
+        "game/models/SKAttachment",
+
+
+        "text!game/jst/mail/title.jst",
+        "text!game/jst/mail/content.jst",
+        "text!game/jst/mail/folder_label.jst",
+        "text!game/jst/mail/income_line.jst",
+        "text!game/jst/mail/income_folder_skeleton.jst",
+        "text!game/jst/mail/action.jst",
+        "text!game/jst/mail/preview.jst"
+], function (
+    SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
+
+    mail_client_title_template, mail_client_content_template,
+    folder_label_template, mail_client_income_line_template,
+    income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template
+    ) {
     "use strict";
     /**
      * @class
@@ -207,7 +228,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
              * @param el
              */
             renderTitle:function (el) {
-                el.html(_.template($('#MailClient_TitleHtml').html(), {}));
+                el.html(_.template(mail_client_title_template, {}));
                 this.delegateEvents();
             },
 
@@ -215,7 +236,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
              * Display (create if not exist) MailClient screen base
              */
             renderContent:function (el) {
-                var mailClientWindowBasicHtml = _.template($('#MailClient_BasicHtml').html(), {
+                var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id:this.mailClientScreenID,
                     contentBlockId:this.mailClientContentBlockId
                 });
@@ -277,7 +298,6 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                     function (response) {
                         if (1 === response.result) {
                             // update email {
-
                             var email = SKApp.user.simulation.mailClient.getEmailByMySqlId(response.data.id);
 
                             // update attachment object
@@ -333,7 +353,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                             counterCss = 'display: none;';
                         }
 
-                        html += _.template($('#MailClient_FolderLabel').html(), {
+                        html += _.template(folder_label_template, {
                             label:this.mailClient.folders[alias].name,
                             isActiveCssClass:isActiveCssClass,
                             counter:counter,
@@ -343,7 +363,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                     }
                 }
 
-                $('#' + this.mailClientFoldersListId).html(html);
+                this.$('#' + this.mailClientFoldersListId).html(html);
 
                 // droppable {
                 $('#FOLDER_INBOX').droppable("destroy");
@@ -466,7 +486,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                     }
 
                     // generate HTML by template
-                    emailsList += _.template($('#MailClient_IncomeEmailLine').html(), {
+                    emailsList += _.template(mail_client_income_line_template, {
 
                         emailMySqlId:incomingEmail.mySqlId,
                         senderName:incomingEmail.senderNameString,
@@ -481,7 +501,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                 });
 
                 // add emails list
-                $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
+                this.$('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
             },
@@ -679,7 +699,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                 this.unhideFoldersBlock();
 
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_IncomeFolderSceleton').html(), {
+                var sceleton = _.template(income_folder_skeleton_template, {
                     listId:this.mailClientIncomeFolderListId,
                     emailPreviewId:this.mailClientInboxFolderEmailPreviewId
                 });
@@ -698,8 +718,8 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                 this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
 
                 // draggable: add move to trash behaviour {
-                $('.email-list-line').draggable("destroy");
-                $('.email-list-line').draggable({
+                this.$('.email-list-line').draggable("destroy");
+                this.$('.email-list-line').draggable({
                     helper:function (event) {
                         return $('<div class="email-envelope"><table style="display: none;"></table></div>')
                             .find('table').append($(event.target).closest('tr').clone()).end();
@@ -808,7 +828,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                     attachmentId = email.attachment.id;
                 }
 
-                var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
+                var emailPreviewTemplate = _.template(mail_client_email_preview_template, {
                     emailMySqlId:email.mySqlId,
                     senderName:email.senderNameString,
                     recipientName:email.recipientNameString, //this.mailClient.heroNameEmail,
@@ -823,7 +843,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
                     height:height
                 });
 
-                $('#' + id).html(emailPreviewTemplate);
+                this.$('#' + id).html(emailPreviewTemplate);
 
                 this.renderPreviouseMessage(email.previouseEmailText);
             },
@@ -892,7 +912,7 @@ define(["game/views/SKDialogView", "game/views/SKWindowView", "game/views/mail/S
 
                 // conpose HTML code {
                 // declarate action_icon just avoid long strings
-                var action_icon = $('#MailClient_ActionIcon').html();
+                var action_icon = mail_client_action_template;
 
                 if (addButtonNewEmail) {
                     iconsListHtml += _.template(action_icon, {

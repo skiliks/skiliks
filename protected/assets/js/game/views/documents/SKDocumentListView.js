@@ -6,7 +6,7 @@
  * @augments window.SKWindowView
  */
 var SKDocumentsListView;
-(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
     var SKElFinderTransport = {
         init:function (fm) {
@@ -119,4 +119,4 @@ var SKDocumentsListView;
                 }).elfinder('instance');
             }
         });
-})();
+});

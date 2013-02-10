@@ -5,7 +5,7 @@
  * @augments Backbone.View
  */
 var SKWindowView;
-(function () {
+define(["text!game/jst/window.jst"], function (window_template) {
     "use strict";
 
     SKWindowView = Backbone.View.extend(
@@ -36,7 +36,7 @@ var SKWindowView;
 
             renderWindow:function () {
                 var me = this;
-                this.$el.html(_.template($('#window_template').html(), {
+                this.$el.html(_.template(window_template, {
                     title:                       this.title,
                     isDisplaySettingsButton:     this.isDisplaySettingsButton,
                     isDisplayCloseWindowsButton: this.isDisplayCloseWindowsButton
@@ -108,4 +108,5 @@ var SKWindowView;
                 this.options.model_instance.setOnTop();
             }
         });
-})();
+    return SKWindowView;
+});

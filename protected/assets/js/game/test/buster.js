@@ -13,7 +13,7 @@ config["My Tests"] = {
     ],
     sources: [
         "text.js",
-        "game/jst/*/*.jst",    // Paths are relative to config file
+        "game/jst/**/*.jst",    // Paths are relative to config file
         "game/models/**/*.js",    // Paths are relative to config file
         "game/models/*.js",    // Paths are relative to config file
         "game/collections/**/*.js",    // Paths are relative to config file

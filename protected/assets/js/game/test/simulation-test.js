@@ -8,6 +8,7 @@ var spec = describe('simulation', function(run) {
             var clock;
             timeout = 1000;
             before(function () {
+                SKApp = new SKApplication();
                 server = sinon.fakeServer.create();
                 clock = sinon.useFakeTimers();
                 //this.timeout = 10000;

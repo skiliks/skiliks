@@ -14,9 +14,9 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
             /**
              * @type {SKServer}
              */
-            server:new SKServer(),
-            'session':new SKSession(),
             'initialize':function () {
+                this.server = new SKServer();
+                this.session = new SKSession();
                 this.__defineSetter__('user', function (user) {
                     if (typeof(this._user) !== 'undefined') {
                         throw 'User is already exists';
