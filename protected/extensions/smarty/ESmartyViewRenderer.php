@@ -39,7 +39,7 @@ class ESmartyViewRenderer extends CApplicationComponent implements IViewRenderer
 	 * @var string path alias of the directory where the Smarty.class.php file can be found.
 	 * Also plugins and sysplugins directory should be there.
 	 */
-	public $smartyDir = 'application.vendors.Smarty';
+	public $smartyDir = 'application.vendors.smarty';
 
 	/**
 	 * @var array A list of the prefilters to be attached
