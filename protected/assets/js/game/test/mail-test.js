@@ -110,6 +110,7 @@ var spec = describe('mail client', function (run) {
             it("displays and hides window", function (done) {
                 buster.log("Start");
                 testSimulation('asd', '123', server, function (cb) {
+
                     buster.log('Sim started2');
                     buster.assert.defined(SKWindow);
                     var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
@@ -145,6 +146,7 @@ var spec = describe('mail client', function (run) {
 
                     assert.calledOnce(spy);
                     mail.$el.find('.NEW_EMAIL').click();
+                    buster.log(server.requests[server.requests.length - 1]);
                     //buster.log(mail.$el.html());
                     expect(1).toBe(1);
                     cb();
