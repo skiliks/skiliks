@@ -139,11 +139,13 @@ var spec = describe('mail client', function (run) {
                             }
                         }));
 
+                    /* 4 letters at sim start */
+                    expect(mail.$('.mail-emulator-received-list-cell-sender').length).toBe(4);
                     expect(mail.mailClient.getInboxFolder().name).toBe('Входящие');
 
                     assert.calledOnce(spy);
                     mail.$el.find('.NEW_EMAIL').click();
-                    buster.log(mail.$el.html());
+                    //buster.log(mail.$el.html());
                     expect(1).toBe(1);
                     cb();
                     done();

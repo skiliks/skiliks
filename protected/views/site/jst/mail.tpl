@@ -2,7 +2,7 @@
 <!-- MailClient { -->
 
 
-{*
+
 <!-- MailClient_TrashFolderSceleton: -->
 <script type="text/template" id="MailClient_TrashFolderSceleton">
     <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
@@ -107,14 +107,6 @@
     <div id="<@= emailPreviewId @>" class="pre" style="padding-top: 25px;"></div>
 </script>
 
-<!-- MailClient_ActionIcon: -->
-<script type="text/template" id="MailClient_ActionIcon">
-
-</script>
-
-<!-- MailClient_NewEmailScreen_Sceleton: -->
-<script type="text/template" id="MailClient_NewEmailScreen_Sceleton">
-</script>
 
 <!-- MailClient_PhraseItem -->
 <script type="text/template" id="MailClient_PhraseItem">
@@ -123,11 +115,6 @@
             <span><@= text @></span>
         </a>
     </li>
-</script>
-
-<!-- MailClient_PhraseItem -->
-<script type="text/template" id="MailClient_AttachmentOptionItem">
-
 </script>
 
 <!-- MailClient_AddToPlanPopUp -->
@@ -159,4 +146,4 @@
     </div>
 </script>
 
-<!-- MailClient } -->        *}
+<!-- MailClient } -->
