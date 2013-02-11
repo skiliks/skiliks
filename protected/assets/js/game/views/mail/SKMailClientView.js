@@ -16,7 +16,6 @@ define([
         "text!game/jst/mail/action.jst",
         "text!game/jst/mail/preview.jst",
         "text!game/jst/mail/new_email.jst",
-        "text!game/jst/mail/new_email.jst",
         "text!game/jst/mail/phrase.jst"
 
     ], function (
