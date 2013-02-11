@@ -494,14 +494,15 @@ class MailBoxService
         $themes = array();
         // загрузка тем по одному персонажу
         if ($parentSubjectId !== null) {
-            // this is FWD
-            $id = CommunicationTheme::getCharacterThemeId(
-                Yii::app()->request->getParam('receivers', ''), 
-                Yii::app()->request->getParam('parentSubjectId', 0)
-            );
+            $parentSubject = CommunicationTheme::model()->findByPk($parentSubjectId);
             
-            $models = [];
-            $models[] = CommunicationTheme::model()->findByPk($id);
+            $models = [];            
+            $models[] = CommunicationTheme::model()->find(
+                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
+                'mail_prefix'  => $parentSubject->getPrefixForForward(), 
+                'text'         => $parentSubject->text,
+                'character_id' => $receivers[0]
+            ]);
         } else {
             // this is NEW mail
             $models = CommunicationTheme::model()->findAllByAttributes([
@@ -1103,28 +1104,15 @@ class MailBoxService
         return $result;
     }
     
+    /**
+     * @param MailBox $messageToForward
+     * @return CommunicationTheme
+     */
     public static function getSubectForForwardEmail($messageToForward)
     {
-        $mail_prefix = 'fwd';
-        
-        switch($messageToForward->subject_obj->mail_prefix) {
-            case 're': 
-                $mail_prefix = 'fwdre';
-                break;
-            case 'rere': 
-                $mail_prefix = 'fwdrere';
-                break;
-            case 'fwd': 
-                $mail_prefix = 'fwdfwd';
-                break;
-            case 'rerere': 
-                $mail_prefix = 'fwdrerere';
-                break;
-        }
-        
         return CommunicationTheme::model()->find(
             'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
-            'mail_prefix'  => $mail_prefix, 
+            'mail_prefix'  => $messageToForward->subject_obj->getPrefixForForward(), 
             'text'         => $messageToForward->subject_obj->text,
             'character_id' => $messageToForward->receiver_id
         ]);
@@ -1280,7 +1268,9 @@ class MailBoxService
             );
         }
 
-        $result = array();
+        $result = [
+            'parentSubjectId'   => $messageToForward->subject_obj->id,
+        ];
 
         // загрузить фразы по старой теме
         $service = new MailBoxService();

@@ -32,10 +32,14 @@ class ImportTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['character_id' => null]));
+            $this->assertEquals(18, CommunicationTheme::model()->countByAttributes(['character_id' => null]));
             $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['phone' => 1]));
-            $this->assertEquals(63, CommunicationTheme::model()->countByAttributes(['mail' => 1]));
-            $this->assertEquals(36, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
+            $this->assertEquals(124, CommunicationTheme::model()->countByAttributes(['mail' => 1]));
+            $this->assertEquals(55, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
             
             // Dialogs
             $this->assertEquals(

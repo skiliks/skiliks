@@ -601,6 +601,9 @@ class ImportGameDataService
         foreach ($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
+        
+        $nullCharacter = new Characters();
+        $charactersList[] = $nullCharacter;
 
         $html = '';
 
@@ -616,7 +619,7 @@ class ImportGameDataService
             }
             // Определим тему письма
             $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
-            $subjectText = StringTools::fixReAndFwd($subjectText);
+            //$subjectText = StringTools::fixReAndFwd($subjectText);
             // Phone
             $phone = $this->getCellValue($sheet, 'Theme_usage', $i) === 'phone';
             // Phone W/R
@@ -642,10 +645,9 @@ class ImportGameDataService
             // Source of outbox email
             $source = $this->getCellValue($sheet, 'Source', $i);
 
-
             /**
              * @var CommunicationTheme $communicationTheme
-             */
+             */            
             $communicationTheme = CommunicationTheme::model()
                 ->byLetterNumber($mailCode)
                 ->byText($subjectText)
@@ -674,20 +676,19 @@ class ImportGameDataService
 
             // add fwd for all themes without fwd {
             foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
-                    continue;
+                if (!MailPrefix::model()->findByPk(sprintf('fwd', $communicationTheme->mail_prefix))) {
+                    throw new Exception('MailPrefix '.'fwd'.$communicationTheme->mail_prefix.' not found.');
                 }
                 $goodTheme = CommunicationTheme::model()->findByAttributes([
-                    'code' => $communicationTheme->code,
+                    'code'         => $communicationTheme->code,
                     'character_id' => $character->primaryKey,
-                    'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix),
+                    'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
                 ]);
                 if ($goodTheme !== null) {
                     $goodTheme->import_id = $this->import_id;
                     $goodTheme->save();
                     continue;
-                }
-                
+                }                
                 
                 $wrongTheme = new CommunicationTheme();
                 $wrongTheme->mail = 1;
