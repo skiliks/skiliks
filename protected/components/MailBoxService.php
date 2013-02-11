@@ -494,15 +494,9 @@ class MailBoxService
         $themes = array();
         // загрузка тем по одному персонажу
         if ($parentSubjectId !== null) {
-            // this is FWD
-            /*$id = CommunicationTheme::getCharacterThemeId(
-                Yii::app()->request->getParam('receivers', ''), 
-                Yii::app()->request->getParam('parentSubjectId', 0)
-            );*/
-            
-            $models = [];
-            //$models[] = CommunicationTheme::model()->findByPk($id);
             $parentSubject = CommunicationTheme::model()->findByPk($parentSubjectId);
+            
+            $models = [];            
             $models[] = CommunicationTheme::model()->find(
                 'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
                 'mail_prefix'  => $parentSubject->getPrefixForForward(), 

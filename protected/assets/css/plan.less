@@ -203,7 +203,7 @@
         }
         @media screen and (min-width: 1300px) and (max-width: 1600px){
           .planner-book-timetable-table{
-            width:382px;
+            width:385px;
           }
         }
         @media screen and (min-width: 1601px){
@@ -427,7 +427,7 @@
     }
     &.closed {
       transform: rotate(-30deg);
-      bottom:-51%;
+      bottom:-200px;
       .plan-todo-btn {
         .min {
           display: none;
@@ -442,8 +442,14 @@
           display: none;
         }
       }
-      .plan-todo-tit {
+      .plan-todo-tit{
         text-align: right;
+        span:first-child{
+          display:none;
+        }
+      }
+      .plan-todo-wrap{
+        display:none;
       }
     }
     >div{
@@ -484,8 +490,8 @@
         font-size:30px;
         color:#c71414;
         text-align:left;
-        margin:32px 71px 0 10px;
-        span{
+        margin:32px 50px 0 10px;
+        .dayPlanTodoNum{
           font-weight:normal;
           color:#000;
         }
@@ -551,11 +557,17 @@
   @media screen and (min-width: 1300px) and (max-width:1600px){
     .plan-todo{
       width:400px;
+      &.closed{
+        bottom:-280px;
+      }
     }
   }
   @media screen and (min-width: 1601px){
     .plan-todo{
       width:496px;
+      &.closed{
+        bottom:-305px;
+      }
     }
   }
   .planner-task {
