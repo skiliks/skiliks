@@ -712,6 +712,7 @@ class MailBoxService
         unset($myDocs, $documentTemplates);
         
         $sql = '';
+
         foreach ($mailCollection as $mail) {
             // plain SQL to make code faster
             $sql .= self::_getCopyMessageSructureSql($mail, $simId, $docIds);
