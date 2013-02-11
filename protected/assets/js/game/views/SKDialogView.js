@@ -85,4 +85,5 @@ define(["jquery/jquery.topzindex.min", "text!game/jst/world/dialog.jst"], functi
             }
         }
     });
+    return window.SKDialogView;
 });

@@ -7,7 +7,8 @@ define([
     "game/views/documents/SKPDFDisplayView",
     "game/views/documents/SKXLSDisplayView",
     "game/views/phone/SKPhoneView",
-    "game/views/phone/SKPhoneCallView"
+    "game/views/phone/SKPhoneCallView",
+    "game/views/phone/SKPhoneDialogView"
     ], function () {
     "use strict";
     /**
