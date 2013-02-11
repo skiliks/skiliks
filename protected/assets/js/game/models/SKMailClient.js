@@ -732,14 +732,7 @@
                 if ('add' === action || 'add_fwd' === action) {
                     checkValue = 1;
                 }
-                //console.log('checkValue <= recipientIds.length');
-                //console.log(checkValue <= recipientIds.length);
-                //console.log('0 < this.newEmailUsedPhrases.length');
-                //console.log(0 < this.newEmailUsedPhrases.length);
-                //console.log('this.isNotEmptySubject()');
-                //console.log(this.isNotEmptySubject());
-                //console.log('checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length*/ && this.isNotEmptySubject()');
-                //console.log(checkValue <= recipientIds.length && 0 < this.newEmailUsedPhrases.length && this.isNotEmptySubject());
+                console.log('parent_subject: ', parent_subject);
                 // display warning only if user add extra recipients
                 if (checkValue <= recipientIds.length &&  this.isNotEmptySubject()) {
                     if(action !== 'add_fwd' && action !== 'delete_fwd') {
@@ -786,7 +779,7 @@
              * @param recipientIds
              * @param parent_subject
              */
-            reloadSubjects:function (recipientIds, parent_subject) {
+            reloadSubjects:function (recipientIds, subject) {
                 if(recipientIds.length <= 0){ return; }
                 this.messageForNewEmail = '';
                 var me = this;
@@ -794,7 +787,7 @@
                     'mail/getThemes',
                     {
                         receivers:recipientIds.join(','), // implode()
-                        parentSubjectId: parent_subject !== undefined ? parent_subject.mySqlId : undefined
+                        parentSubjectId: subject !== undefined ? subject.parentMySqlId : undefined
                     },
                     function (response) {
                         if (undefined !== response.data) {

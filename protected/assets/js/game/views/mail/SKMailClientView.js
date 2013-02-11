@@ -1095,14 +1095,13 @@ var SKMailClientView;
                             'add',
                             undefined,
                             function(){
-                                //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
                                 $("#MailClient_RecipientsList")[0].addTag(me, tag);
                             }
                         );
                         return add;
                     },
                     afterDelete:function(tag){
-                        //$("#mailEmulatorNewLetterText").html('');
+                        //
                     },
                     afterAdd:function(tag){
                         $("#mailEmulatorNewLetterText").html('');
@@ -1115,7 +1114,6 @@ var SKMailClientView;
                             'delete',
                             undefined,
                             function(){
-                                //$("#MailClient_RecipientsList").appand('<li class="tagItem">'+tag+'</li>');
                                 $("#MailClient_RecipientsList")[0].removeTag(me);
                             },
                             me
@@ -1640,6 +1638,7 @@ var SKMailClientView;
                     var subject = new SKMailSubject();
                     subject.text = response.subject;
                     subject.mySqlId = response.subjectId;
+                    subject.parentMySqlId = response.parentSubjectId;
                     subject.characterSubjectId = response.subjectId;
 
                     this.renderSingleSubject(subject);
@@ -1662,10 +1661,9 @@ var SKMailClientView;
                             return add;
                         },
                         afterDelete:function(tag){
-                            //$("#mailEmulatorNewLetterText").html('');
+                            //
                         },
                         afterAdd:function(tag){
-                            //$("#mailEmulatorNewLetterText").html('');
                             SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds(), subject);
                             SKApp.user.simulation.mailClient.getAvailablePhrases(SKApp.user.simulation.mailClient.availableSubjects[0].characterSubjectId);
                         },

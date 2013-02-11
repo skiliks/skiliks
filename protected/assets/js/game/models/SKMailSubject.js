@@ -11,6 +11,12 @@
         id : undefined,
         
         // @var integer
+        mySqlId : undefined,
+        
+        // @var integer
+        parentMySqlId : undefined,
+        
+        // @var integer
         characterSubjectId : undefined,
 
         // @var string, 
