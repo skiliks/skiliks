@@ -10,9 +10,6 @@ class ImportTest extends CDbTestCase
 {
     public function test_Full_Import()
     {
-        $import = new ImportGameDataService();
-        $import->importAll();
-        
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $import = new ImportGameDataService();
