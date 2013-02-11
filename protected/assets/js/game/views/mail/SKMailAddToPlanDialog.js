@@ -190,4 +190,5 @@ define(["game/views/SKDialogView"], function () {
             }
         }
     });
+    return window.SKMailAddToPlanDialog;
 });
