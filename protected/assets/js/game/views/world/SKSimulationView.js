@@ -1,6 +1,15 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
-(function () {
+define([
+    "game/views/mail/SKMailClientView",
+    "game/views/documents/SKDocumentListView",
+    "game/views/plan/SKDayPlanView",
+    "game/views/documents/SKPDFDisplayView",
+    "game/views/documents/SKXLSDisplayView",
+    "game/views/phone/SKPhoneView",
+    "game/views/phone/SKPhoneCallView",
+    "game/views/phone/SKPhoneDialogView"
+    ], function () {
     "use strict";
     /**
      * @class
@@ -157,4 +166,4 @@
                 }
             }
         });
-})();
+});

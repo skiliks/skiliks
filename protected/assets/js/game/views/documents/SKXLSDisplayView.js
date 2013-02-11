@@ -1,7 +1,7 @@
 /*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
 
-(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
 
     window.SKXLSDisplayView = SKWindowView.extend({
@@ -45,4 +45,4 @@
             SKWindowView.prototype.remove.call(this);
         }
     });
-})();
+});

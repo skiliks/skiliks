@@ -15,7 +15,7 @@
         },
         'doSubmit': function (event) {
             event.preventDefault();
-            SKApp.session.login($('#login').val(), $('#pass').val())
+            SKApp.session.login($('#login').val(), $('#pass').val());
         }
     });
 })();

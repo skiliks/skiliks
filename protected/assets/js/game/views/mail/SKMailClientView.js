@@ -1,6 +1,31 @@
-/*global Backbone, _, SKApp, SKAttachment, SKWindowView, SKMailSubject, SKEmail, SKDialogView */
+/*global Backbone, _, SKApp, SKAttachment, SKMailSubject */
 var SKMailClientView;
-(function () {
+define([
+        "game/views/SKDialogView",
+        "game/views/SKWindowView",
+        "game/views/mail/SKMailAddToPlanDialog",
+        "game/models/SKEmail",
+        "game/models/SKAttachment",
+
+
+        "text!game/jst/mail/title.jst",
+        "text!game/jst/mail/content.jst",
+        "text!game/jst/mail/folder_label.jst",
+        "text!game/jst/mail/income_line.jst",
+        "text!game/jst/mail/income_folder_skeleton.jst",
+        "text!game/jst/mail/action.jst",
+        "text!game/jst/mail/preview.jst",
+        "text!game/jst/mail/new_email.jst",
+        "text!game/jst/mail/phrase.jst"
+
+    ], function (
+        SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
+
+        mail_client_title_template, mail_client_content_template,
+        folder_label_template, mail_client_income_line_template,
+        income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template,
+        mail_client_new_email_template, mail_client_phrase_template
+    ) {
     "use strict";
     /**
      * @class
@@ -87,13 +112,13 @@ var SKMailClientView;
             },
 
             doAddToPlan:function () {
-                SKApp.user.simulation.mailClient.addToPlanDialogObject.render();
+                var dialog = new SKMailAddToPlanDialog();
+                dialog.render();
             },
 
             initialize:function () {
                 var me = this;
                 this.mailClient = SKApp.user.simulation.mailClient;
-
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox);
@@ -207,7 +232,7 @@ var SKMailClientView;
              * @param el
              */
             renderTitle:function (el) {
-                el.html(_.template($('#MailClient_TitleHtml').html(), {}));
+                el.html(_.template(mail_client_title_template, {}));
                 this.delegateEvents();
             },
 
@@ -215,7 +240,7 @@ var SKMailClientView;
              * Display (create if not exist) MailClient screen base
              */
             renderContent:function (el) {
-                var mailClientWindowBasicHtml = _.template($('#MailClient_BasicHtml').html(), {
+                var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id:this.mailClientScreenID,
                     contentBlockId:this.mailClientContentBlockId
                 });
@@ -277,7 +302,6 @@ var SKMailClientView;
                     function (response) {
                         if (1 === response.result) {
                             // update email {
-
                             var email = SKApp.user.simulation.mailClient.getEmailByMySqlId(response.data.id);
 
                             // update attachment object
@@ -333,7 +357,7 @@ var SKMailClientView;
                             counterCss = 'display: none;';
                         }
 
-                        html += _.template($('#MailClient_FolderLabel').html(), {
+                        html += _.template(folder_label_template, {
                             label:this.mailClient.folders[alias].name,
                             isActiveCssClass:isActiveCssClass,
                             counter:counter,
@@ -343,11 +367,11 @@ var SKMailClientView;
                     }
                 }
 
-                $('#' + this.mailClientFoldersListId).html(html);
+                this.$('#' + this.mailClientFoldersListId).html(html);
 
                 // droppable {
-                $('#FOLDER_INBOX').droppable("destroy");
-                $('#FOLDER_TRASH').droppable("destroy");
+                this.$('#FOLDER_INBOX').droppable("destroy");
+                this.$('#FOLDER_TRASH').droppable("destroy");
 
                 // add restore from trash behaviour {
                 if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
@@ -466,7 +490,7 @@ var SKMailClientView;
                     }
 
                     // generate HTML by template
-                    emailsList += _.template($('#MailClient_IncomeEmailLine').html(), {
+                    emailsList += _.template(mail_client_income_line_template, {
 
                         emailMySqlId:incomingEmail.mySqlId,
                         senderName:incomingEmail.senderNameString,
@@ -481,7 +505,7 @@ var SKMailClientView;
                 });
 
                 // add emails list
-                $('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
+                this.$('#' + this.mailClientIncomeFolderListId + ' table tbody').html(emailsList);
 
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
             },
@@ -679,7 +703,7 @@ var SKMailClientView;
                 this.unhideFoldersBlock();
 
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_IncomeFolderSceleton').html(), {
+                var sceleton = _.template(income_folder_skeleton_template, {
                     listId:this.mailClientIncomeFolderListId,
                     emailPreviewId:this.mailClientInboxFolderEmailPreviewId
                 });
@@ -698,8 +722,8 @@ var SKMailClientView;
                 this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
 
                 // draggable: add move to trash behaviour {
-                $('.email-list-line').draggable("destroy");
-                $('.email-list-line').draggable({
+                this.$('.email-list-line').draggable("destroy");
+                this.$('.email-list-line').draggable({
                     helper:function (event) {
                         return $('<div class="email-envelope"><table style="display: none;"></table></div>')
                             .find('table').append($(event.target).closest('tr').clone()).end();
@@ -808,7 +832,7 @@ var SKMailClientView;
                     attachmentId = email.attachment.id;
                 }
 
-                var emailPreviewTemplate = _.template($('#MailClient_EmailPreview').html(), {
+                var emailPreviewTemplate = _.template(mail_client_email_preview_template, {
                     emailMySqlId:email.mySqlId,
                     senderName:email.senderNameString,
                     recipientName:email.recipientNameString, //this.mailClient.heroNameEmail,
@@ -823,7 +847,7 @@ var SKMailClientView;
                     height:height
                 });
 
-                $('#' + id).html(emailPreviewTemplate);
+                this.$('#' + id).html(emailPreviewTemplate);
 
                 this.renderPreviouseMessage(email.previouseEmailText);
             },
@@ -892,7 +916,7 @@ var SKMailClientView;
 
                 // conpose HTML code {
                 // declarate action_icon just avoid long strings
-                var action_icon = $('#MailClient_ActionIcon').html();
+                var action_icon = mail_client_action_template;
 
                 if (addButtonNewEmail) {
                     iconsListHtml += _.template(action_icon, {
@@ -1048,7 +1072,7 @@ var SKMailClientView;
                 }
 
                 // get template
-                var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+                var htmlSceleton = _.template(mail_client_new_email_template, {});
 
                 this.hideFoldersBlock();
 
@@ -1077,7 +1101,7 @@ var SKMailClientView;
                     });
                 }
 
-                $("#MailClient_NewLetterAttachment div.list").ddslick({
+                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
                     data:attachmentsListHtml,
                     width:'100%',
                     selectText:"Нет вложения.",
@@ -1085,7 +1109,7 @@ var SKMailClientView;
                 });
                 // add attachments list }
 
-                $("#MailClient_RecipientsList").tagHandler({
+                this.$("#MailClient_RecipientsList").tagHandler({
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
                     onAdd:function (tag) {
@@ -1223,7 +1247,7 @@ var SKMailClientView;
 
 
                 phrases.forEach(function (phrase) {
-                    mainPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    mainPhrasesHtml += _.template(mail_client_phrase_template, {
                         phraseUid:phrase.uid,
                         phraseId:phrase.mySqlId,
                         text:phrase.text
@@ -1231,7 +1255,7 @@ var SKMailClientView;
                 });
 
                 addPhrases.forEach(function (phrase) {
-                    additionalPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    additionalPhrasesHtml += _.template(mail_client_phrase_template, {
                         phraseUid:phrase.uid,
                         phraseId:phrase.mySqlId,
                         text:phrase.text
@@ -1428,7 +1452,7 @@ var SKMailClientView;
                 }
 
                 // get template
-                var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+                var htmlSceleton = _.template(mail_client_new_email_template, {});
 
                 this.hideFoldersBlock();
 
@@ -1457,7 +1481,7 @@ var SKMailClientView;
                     });
                 }
 
-                $("#MailClient_NewLetterAttachment div.list").ddslick({
+                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
                     data:attachmentsListHtml,
                     width:'100%',
                     selectText:"Нет вложения.",
@@ -1818,4 +1842,5 @@ var SKMailClientView;
             }
 
         });
-})();
+    return SKMailClientView;
+});

@@ -1,11 +1,11 @@
 /*global Backbone:false, console, SKApp, SKSimulation */
 
-(function () {
+define(['game/models/SKSimulation'],function (SKSimulation) {
     "use strict";
     /**
      * @class User object
      */
-    window.SKUser = Backbone.Model.extend(
+    var SKUser = Backbone.Model.extend(
         /** @lends SKUser */
         {
             /**
@@ -42,4 +42,5 @@
                 });
             }
         });
-})();
+    return SKUser;
+});

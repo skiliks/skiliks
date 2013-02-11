@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session, SKDayTask */
 
-(function () {
+define(["game/models/SKDayTask"], function () {
     "use strict";
     window.SKDayTaskCollection = Backbone.Collection.extend({
         model:SKDayTask,
@@ -52,4 +52,4 @@
 
         }
     });
-})();
+});

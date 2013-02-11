@@ -1,12 +1,9 @@
-/*global Backbone:false, console, session, SKDialogView */
-
 /**
  * @class
  */
-var SKServer;
-(function () {
+define(["jquery/jquery.cookies"], function () {
     "use strict";
-    SKServer = Backbone.Model.extend(
+    var SKServer = Backbone.Model.extend(
         /**
          * @lends SKServer.prototype
          */
@@ -14,7 +11,7 @@ var SKServer;
             /**
              * @private
              */
-            'api_root':'/index.php/',
+            'api_root': '/index.php/',
             /**
              *
              * @param {String} path
@@ -56,7 +53,7 @@ var SKServer;
                         }
                     },
                     error:function () {
-                        me.message_window = me.message_window || new SKDialogView({
+                        me.message_window = me.message_window || new window.SKDialogView({
                             'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
                             'buttons':[
                                 {
@@ -72,5 +69,5 @@ var SKServer;
                 return result;
             }
         });
-
-})();
+    return SKServer;
+});

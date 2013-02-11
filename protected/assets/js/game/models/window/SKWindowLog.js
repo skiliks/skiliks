@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session */
 
-(function () {
+define(["game/models/window/SKWindow"],function () {
     "use strict";
     window.SKWindowLog = Backbone.Model.extend({
         'initialize': function () {
@@ -28,4 +28,4 @@
             return log;
         }
     });
-})();
+});

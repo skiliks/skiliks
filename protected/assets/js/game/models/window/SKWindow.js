@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp */
 
-(function () {
+define([], function () {
     "use strict";
     var screens = {
         'mainScreen':1,
@@ -38,10 +38,10 @@
             if (! (this.get('subname') in screensSub)) {
                 throw 'Unknown subscreen';
             }
-            window_id[window_id] = this;
             if (!this.has('id')) {
                 this.set('id', this.get('subname'));
             }
+
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
         },
@@ -112,5 +112,5 @@
         }
     });
     window.SKWindow.window_set = {};
-
-})();
+    return SKWindow;
+});

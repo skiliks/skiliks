@@ -1,5 +1,5 @@
 /*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView*/
-(function () {
+define(["game/models/SKApplication", "game/views/world/SKSimulationStartView"], function () {
     "use strict";
     window.SKApplicationView = Backbone.View.extend({
         'el':'body',
@@ -31,7 +31,5 @@
         }
     });
 
-    $(function () {
-        window.AppView = new window.SKApplicationView();
-    });
-})();
+    return SKApplicationView;
+});
