@@ -1,7 +1,7 @@
 /* 
  * 
  */
-(function() {
+define([] ,function() {
     "use strict";
     window.SKEmail = Backbone.Model.extend({
         // @var integer, MySQL id
@@ -272,4 +272,5 @@
             return string;
         }
     });
-})();
+    return window.SKEmail;
+});

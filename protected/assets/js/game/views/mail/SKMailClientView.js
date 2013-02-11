@@ -14,13 +14,17 @@ define([
         "text!game/jst/mail/income_line.jst",
         "text!game/jst/mail/income_folder_skeleton.jst",
         "text!game/jst/mail/action.jst",
-        "text!game/jst/mail/preview.jst"
-], function (
-    SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
+        "text!game/jst/mail/preview.jst",
+        "text!game/jst/mail/new_email.jst",
+        "text!game/jst/mail/new_email.jst",
+        "text!game/jst/mail/phrase.jst"
+    ], function (
+        SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
 
-    mail_client_title_template, mail_client_content_template,
-    folder_label_template, mail_client_income_line_template,
-    income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template
+        mail_client_title_template, mail_client_content_template,
+        folder_label_template, mail_client_income_line_template,
+        income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template,
+        mail_client_new_email_template, mail_client_phrase_template
     ) {
     "use strict";
     /**
@@ -1068,7 +1072,7 @@ define([
                 }
 
                 // get template
-                var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+                var htmlSceleton = _.template(mail_client_new_email_template, {});
 
                 this.hideFoldersBlock();
 
@@ -1097,7 +1101,7 @@ define([
                     });
                 }
 
-                $("#MailClient_NewLetterAttachment div.list").ddslick({
+                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
                     data:attachmentsListHtml,
                     width:'100%',
                     selectText:"Нет вложения.",
@@ -1105,7 +1109,7 @@ define([
                 });
                 // add attachments list }
 
-                $("#MailClient_RecipientsList").tagHandler({
+                this.$("#MailClient_RecipientsList").tagHandler({
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
                     onAdd:function (tag) {
@@ -1243,7 +1247,7 @@ define([
 
 
                 phrases.forEach(function (phrase) {
-                    mainPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    mainPhrasesHtml += _.template(mail_client_phrase_template, {
                         phraseUid:phrase.uid,
                         phraseId:phrase.mySqlId,
                         text:phrase.text
@@ -1251,7 +1255,7 @@ define([
                 });
 
                 addPhrases.forEach(function (phrase) {
-                    additionalPhrasesHtml += _.template($("#MailClient_PhraseItem").html(), {
+                    additionalPhrasesHtml += _.template(mail_client_phrase_template, {
                         phraseUid:phrase.uid,
                         phraseId:phrase.mySqlId,
                         text:phrase.text
@@ -1448,7 +1452,7 @@ define([
                 }
 
                 // get template
-                var htmlSceleton = _.template($("#MailClient_NewEmailScreen_Sceleton").html(), {});
+                var htmlSceleton = _.template(mail_client_new_email_template, {});
 
                 this.hideFoldersBlock();
 
@@ -1477,7 +1481,7 @@ define([
                     });
                 }
 
-                $("#MailClient_NewLetterAttachment div.list").ddslick({
+                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
                     data:attachmentsListHtml,
                     width:'100%',
                     selectText:"Нет вложения.",
