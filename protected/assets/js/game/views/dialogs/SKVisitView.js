@@ -1,5 +1,5 @@
 /*global SKVisitView:true, SKWindowView, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
-(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
     /**
      * @class

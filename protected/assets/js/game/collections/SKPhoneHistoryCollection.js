@@ -1,6 +1,6 @@
 /*global SKApp, Backbone, _, SKTodoTask, SKPhoneHistory */
 
-(function () {
+define(["game/models/SKPhoneHistory"],function () {
     "use strict";
     window.SKPhoneHistoryCollection = Backbone.Collection.extend({
         model: SKPhoneHistory,
@@ -20,4 +20,4 @@
             });
         }
     });
-})();
+});

@@ -1,7 +1,16 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
 /*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection */
 
-(function () {
+define([
+    "game/models/SKMailClient",
+    "game/collections/SKEventCollection",
+    "game/collections/SKTodoCollection",
+    "game/collections/SKPhoneHistoryCollection",
+    "game/collections/SKDayTaskCollection",
+    "game/collections/SKDocumentCollection",
+    "game/models/window/SKWindowLog",
+    "game/models/window/SKWindowSet"
+],function (SKMailClient) {
     "use strict";
     function timeStringToMinutes(str) {
         var parts = str.split(':');
@@ -12,7 +21,7 @@
      * Simulation class
      * @type {Backbone.Model}
      */
-    window.SKSimulation = Backbone.Model.extend(
+    var SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
             'initialize':function () {
@@ -138,8 +147,7 @@
                 win.open();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
                     if (data.result === 0) {
-                        alert('Ошибка при запуске симуляции.');
-                        SKApp.user.stopSimulation();
+                        throw 'Ошибка при запуске симуляции.';
                     }
                     
                     if ('undefined' !== typeof data.simId) {
@@ -190,4 +198,5 @@
                 flagStateView.updateValues(flagsState, serverTime);
             }
         });
-})();
+    return SKSimulation;
+});
