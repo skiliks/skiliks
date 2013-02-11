@@ -92,7 +92,7 @@ class CommunicationTheme extends CActiveRecord
         if (0 < count($receiversArr) && NULL != $parentSubjectId) {
             $characterTheme = CommunicationTheme::model()->findByAttributes([
                 'character_id' => reset($receiversArr),
-                'code' => CommunicationTheme::model()->findByPk($parentSubjectId)->code
+                'code'         => CommunicationTheme::model()->findByPk($parentSubjectId)->code
             ]);
 
             if (null !== $characterTheme) {
@@ -109,6 +109,31 @@ class CommunicationTheme extends CActiveRecord
     public function getFormattedTheme()
     {
         return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $this->mail_prefix) . '' . $this->text;
+    }
+    
+    /**
+     * 
+     */
+    public function getPrefixForForward()
+    {
+        $mail_prefix = 'fwd';
+        
+        switch($this->mail_prefix) {
+            case 're': 
+                $mail_prefix = 'fwdre';
+                break;
+            case 'rere': 
+                $mail_prefix = 'fwdrere';
+                break;
+            case 'fwd': 
+                $mail_prefix = 'fwdfwd';
+                break;
+            case 'rerere': 
+                $mail_prefix = 'fwdrerere';
+                break;
+        }
+        
+        return $mail_prefix;
     }
 
     /** ------------------------------------------------------------------------------------------------------------ **/

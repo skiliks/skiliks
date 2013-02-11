@@ -63,6 +63,8 @@ class MailBoxTest extends CDbTestCase
     
     public function testSubjectForNewEmail() 
     {
+        //$this->markTestSkipped();
+        
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user); 
@@ -137,42 +139,62 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        //$this->markTestSkipped();
+        // $this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
-        
+        /*
         // random email case{       
         $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);        
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);      
         
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
+        $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'random email case');
         // random email case }
+        */
         
         // case 2, M61 {      
-        $email = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M61']);
-        $email->group_id = 1;
-        $email->save();        
-        $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $email);
+        $emailM61 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M61']);
+        $emailM61->group_id = 1;
+        $emailM61->save();        
+        $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $emailM61);
         
-        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$email->subject_obj->text, 'M61');
+        $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
+        $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
+        
+        $subject = MailBoxService::getThemes('18', $emailM61->subject_id);
         // case 2, M61 }
+        
+        // case 2, M62 {      
+        $emailM62 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M62']);
+        $emailM62->group_id = 1;
+        $emailM62->save();        
+        $resultDataM62 = MailBoxService::getForwardMessageData($simulation, $emailM62);
+        
+        $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
+        $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
+        
+        $subject = MailBoxService::getThemes('18', $emailM62->subject_id);
+        // case 2, M62 }
     }
 
-    public function testGetPhrases() {
-        //$simulation_service = new SimulationService();
-        //$user = Users::model()->findByAttributes(['email' => 'asd']);
-        //$simulation = $simulation_service->simulationStart(1, $user);
+    public function testGetPhrases()
+    {      
+        //$this->markTestSkipped();
+        
         $ch = Characters::model()->findByAttributes(['fio'=>'Денежная Р.Р.']);
         $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
         $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R1']);
         $data= [];
+        
         foreach($mail_phrases as $phrase){
             $data[$phrase->id] = $phrase->name;
         }
+        
         $phrases = MailBoxService::getPhrases($theme->id, 0);
+        
         $this->assertEquals($data, $phrases['data']);
     }
 }
