@@ -121,7 +121,7 @@
 						</li>
 					</ul>
                     	
-					<p class="plan-todo-tit">Сделать <span class="dayPlanTodoNum"></span></p>
+					<p class="plan-todo-tit"><span class="plan-todo-tit-hide">Сделать</span> <span class="dayPlanTodoNum"></span></p>
 					<div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
 				</div>
 			</div>
