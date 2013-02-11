@@ -18,6 +18,7 @@ define([
         "text!game/jst/mail/new_email.jst",
         "text!game/jst/mail/new_email.jst",
         "text!game/jst/mail/phrase.jst"
+
     ], function (
         SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
 

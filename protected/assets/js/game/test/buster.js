@@ -6,6 +6,8 @@ config["My Tests"] = {
     rootPath: "../..",
     libs: [
         "jquery/*.js",
+        "jquery.ddslick.min.js",
+        "tag-handler/jquery.taghandler.min.js",
         "underscore.js",
         "backbone.js",
         "require.js",
