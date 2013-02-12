@@ -1550,11 +1550,11 @@ class ImportGameDataService
                 } else if ($xls_act_value === 'phone talk') {
                     $values = [null];
                 } else {
-                    $dialog = Dialogs::model()->findByAttributes(array('code' => $xls_act_value));
-                    if ($dialog === null) {
-                        assert($dialog, 'No such dialog: "' . $xls_act_value . '"');
+                    $dialogs = Dialogs::model()->findAllByAttributes(array('code' => $xls_act_value));
+                    if (count($dialogs) === 0) {
+                        assert($dialogs, 'No such dialog: "' . $xls_act_value . '"');
                     }
-                    $values = array($dialog);
+                    $values = $dialogs;
                 }
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {

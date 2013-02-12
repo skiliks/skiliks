@@ -14,6 +14,7 @@ class MailTest extends SeleniumTestCase
     public function testMail()
     {
 
+        $this->markTestIncomplete();
         # Login
         $session = $this->webdriver->session('firefox',
             array("browserName" => "phantomjs",
@@ -43,7 +44,6 @@ class MailTest extends SeleniumTestCase
         $this->waitForElement($session, 'css selector', 'a.NEW_EMAIL')->click();
         $this->waitForElement($session, 'css selector', '#MailClient_RecipientsList')->click();
         $this->waitForElement($session, 'css selector', '.ui-menu-item a', 20);
-        $this->markTestIncomplete();
         /**
          * @var PHPWebDriver_WebDriverElement[] $elements
          */
