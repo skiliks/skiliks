@@ -59,7 +59,7 @@ define([], function () {
             return screensSub[this.get('subname')];
         },
         'updateUid': function() {
-            this.window_uid = _.unique('window_')
+            this.window_uid = parseInt(_.unique());
         },
 
         /**
