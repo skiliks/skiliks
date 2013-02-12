@@ -7,6 +7,7 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
      *
      * @augments Backbone.Model
      * @property {SKServer} server
+     * @property {SKUser} user
      */
     window.SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */

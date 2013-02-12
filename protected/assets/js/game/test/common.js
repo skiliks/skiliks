@@ -24,7 +24,7 @@ function testSimulation(email, password, server, cb, fail_cb) {
             });
 
         });
-        server.requests[1].respond(
+        server.requests[server.requests.length - 1].respond(
             200,
             { "Content-Type": "application/json" },
             JSON.stringify({ result: 1 })
@@ -37,7 +37,7 @@ function testSimulation(email, password, server, cb, fail_cb) {
             fail_cb();
         }
     });
-    server.requests[0].respond(
+    server.requests[server.requests.length - 1].respond(
         200,
         { "Content-Type": "application/json" },
         JSON.stringify({ result: 1 })
