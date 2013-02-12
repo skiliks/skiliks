@@ -44,7 +44,8 @@ define(["game/views/SKDialogView"], function () {
             );
         },
         events:{
-            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan'
+            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan',
+            'click .mail-plan-item': 'doSelectItem'
         },
 
         render:function () {
@@ -58,13 +59,13 @@ define(["game/views/SKDialogView"], function () {
 
             var mailTasks = SKApp.user.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
-            for (var i in mailTasks) {
+            mailTasks.forEach(function (mailTask) {
                 listHtml += _.template($('#MailClient_AddToPlanItem').html(), {
-                    id:mailTasks[i].mySqlId,
-                    text:mailTasks[i].label,
-                    duration:mailTasks[i].getFormatedDuration()
+                    id:mailTask.mySqlId,
+                    text:mailTask.label,
+                    duration:mailTask.getFormatedDuration()
                 });
-            }
+            });
             // generate mail tasks list }
 
             if (0 === mailTasks.length) {
@@ -128,7 +129,7 @@ define(["game/views/SKDialogView"], function () {
         },
 
         setSelectedMailTaskByMySqlId:function (id) {
-            this.selectedMailTask = this.mailClient.getMailTaskByMySqlId(id);
+            this.selectedMailTask = SKApp.user.simulation.mailClient.getMailTaskByMySqlId(id);
         },
 
         doAddToPlan:function () {
@@ -170,11 +171,15 @@ define(["game/views/SKDialogView"], function () {
                         'mailMain',
                         SKApp.user.simulation.mailClient.getActiveEmailId()
                     );
-                    
+
                     SKApp.user.simulation.window_set.toggle('plan', 'plan'); // for logging
                 },
                 false
             );
+        },
+
+        doSelectItem: function () {
+            this.selectItem($(this).attr('data-task-id'));
         },
         
         doLogClose: function() {
