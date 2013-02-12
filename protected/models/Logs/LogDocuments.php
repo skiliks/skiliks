@@ -79,6 +79,8 @@ class LogDocuments extends CActiveRecord
         $activity_action = ActivityAction::model()->findByAttributes(array('document_id' => $this->file->template_id));
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
+        }else{
+            throw new CException("The document must have id");//TODO:Проверить
         }
         parent::afterSave();
     }
