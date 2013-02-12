@@ -1,6 +1,6 @@
 /*global SKApp, Backbone, _, SKTodoTask */
 
-(function () {
+define(["game/models/SKTodoTask"], function () {
     "use strict";
     window.SKTodoCollection = Backbone.Collection.extend({
         model:SKTodoTask,
@@ -15,4 +15,4 @@
             }
         }
     });
-})();
+});

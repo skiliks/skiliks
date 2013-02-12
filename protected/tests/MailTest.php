@@ -14,9 +14,14 @@ class MailTest extends SeleniumTestCase
     public function testMail()
     {
 
+        $this->markTestIncomplete();
         # Login
-        $session = $this->webdriver->session('firefox');
-        $session->open($this->browser_url . 'site/');
+        $session = $this->webdriver->session('firefox',
+            array("browserName" => "phantomjs",
+            "version" => "",
+            "platform" => "ANY",
+            "javascriptEnabled" => True));
+        $session->open($this->browser_url . '/site/');
         # раскрыть окно на весь экран
         $session->window()->maximize();
         # из-за черной полосы загрузки, пришлось добавить временное ожидание
@@ -39,7 +44,6 @@ class MailTest extends SeleniumTestCase
         $this->waitForElement($session, 'css selector', 'a.NEW_EMAIL')->click();
         $this->waitForElement($session, 'css selector', '#MailClient_RecipientsList')->click();
         $this->waitForElement($session, 'css selector', '.ui-menu-item a', 20);
-        $this->markTestIncomplete();
         /**
          * @var PHPWebDriver_WebDriverElement[] $elements
          */

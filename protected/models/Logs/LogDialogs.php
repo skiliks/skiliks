@@ -38,6 +38,8 @@ class LogDialogs extends CActiveRecord
         $activity_action = ActivityAction::model()->findByPriority(array('dialog_id' => $this->dialog_id));
         if (null !== $activity_action) {
             $activity_action->appendLog($this);
+        }else{
+            throw new CException("The dialogue should have an id");//TODO:Проверить
         }
         parent::afterSave();
     }

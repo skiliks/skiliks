@@ -1,7 +1,7 @@
 /*global SKWindow, SKApp, _, SKWindowView
  */
 
-$(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
     /**
      * @class

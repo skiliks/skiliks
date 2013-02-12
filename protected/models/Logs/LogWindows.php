@@ -45,8 +45,15 @@ class LogWindows extends CActiveRecord
      * '00:00::00' current game day
      * @var string
      */
-    public $end_time;        
-    
+    public $end_time;
+
+
+    /**
+     * windows unique ID - currently used to determine several mail new windows
+     * @var string, md5
+     */
+    public $window_uid;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     /**

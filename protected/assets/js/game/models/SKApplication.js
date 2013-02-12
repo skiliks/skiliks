@@ -1,7 +1,6 @@
-/*global Backbone:false, console, SKServer, SKSession */
+/*global Backbone:false*/
 
-var SKApplication, SKApp;
-(function () {
+define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKSession) {
     "use strict";
     /**
      * @class SKApplication
@@ -9,15 +8,15 @@ var SKApplication, SKApp;
      * @augments Backbone.Model
      * @property {SKServer} server
      */
-    SKApplication = Backbone.Model.extend(
+    window.SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
             /**
              * @type {SKServer}
              */
-            server:new SKServer(),
-            'session':new SKSession(),
             'initialize':function () {
+                this.server = new SKServer();
+                this.session = new SKSession();
                 this.__defineSetter__('user', function (user) {
                     if (typeof(this._user) !== 'undefined') {
                         throw 'User is already exists';
@@ -63,5 +62,6 @@ var SKApplication, SKApp;
      *
      * @type {SKApplication}
      */
-    SKApp = new window.SKApplication();
-})();
+    window.SKApp = new SKApplication();
+    return SKApplication;
+});
