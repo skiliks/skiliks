@@ -1,7 +1,7 @@
 <?php
 
 class m130211_092932_add_prefixes extends CDbMigration
-{
+{ 
 	public function up()
 	{
         $this->insert('mail_prefix', [

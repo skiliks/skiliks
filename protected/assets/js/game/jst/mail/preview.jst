@@ -1,0 +1,36 @@
+<div class="mail-view-header">
+    <table>
+        <tbody>
+        <tr>
+            <th>От кого:</th>
+            <td><strong><@= senderName @></strong></td>
+        </tr>
+        <tr>
+            <th>Кому:</th>
+            <td><@= recipientName @></td>
+        </tr>
+        <tr>
+            <th>Копия:</th>
+            <td><@= copyNamesLine @></td>
+        </tr>
+        <tr>
+            <th>Тема:</th>
+            <td><@= subject @></td>
+        </tr>
+        <tr>
+            <th>Вложение:</th>
+            <td>
+                <@= attachmentFileName @>
+                           <span class="save-attachment-icon"
+                                 data-document-id="<@= attachmentId @>"
+                                 style="<@= isHasAttachmentCss @>">
+                           </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div class="readed-email-text" style="overflow-y: scroll; height: <@= height @>; padding: 7px 15px 15px 15px">
+<pre><@= text @></pre>
+<div class="previouse-message-text"></div>
+</div>

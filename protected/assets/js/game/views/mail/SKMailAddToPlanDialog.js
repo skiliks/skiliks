@@ -1,5 +1,5 @@
 /*global Backbone, _, SKDialogView, SKApp, SKMailTask */
-(function () {
+define(["game/views/SKDialogView"], function () {
     "use strict";
     window.SKMailAddToPlanDialog = SKDialogView.extend({
         /**
@@ -27,7 +27,7 @@
             return SKApp.server.api(
                 'mail/toPlan',
                 {
-                    id:this.mailClient.activeEmail.mySqlId
+                    id: SKApp.user.simulation.mailClient.activeEmail.mySqlId
                 },
                 function (response) {
                     SKApp.user.simulation.mailClient.availaleActiveEmailTasks = [];
@@ -51,7 +51,7 @@
             var listHtml = '';
             var addToPlanDialog = this;
 
-            addToPlanDialog.mailClient.setWindowsLog('mailPlan', addToPlanDialog.mailClient.getActiveEmailId());
+            SKApp.user.simulation.mailClient.setWindowsLog('mailPlan', SKApp.user.simulation.mailClient.getActiveEmailId());
 
             // generate mail tasks list {
             this.getTasksToBePlanned();
@@ -75,9 +75,9 @@
                             'value':'Окей',
                             'onclick':function () {
                                 delete SKApp.user.simulation.mailClient.message_window;
-                                addToPlanDialog.mailClient.setWindowsLog(
+                                SKApp.user.simulation.mailClient.setWindowsLog(
                                     'mailMain',
-                                    addToPlanDialog.mailClient.getActiveEmailId()
+                                    SKApp.user.simulation.mailClient.getActiveEmailId()
                                 );
                             }
                         }
@@ -165,11 +165,11 @@
                     // add to plan {
                     SKApp.user.simulation.todo_tasks.fetch();
                     // add to plan }
-                    
-                    addToPlanDialog.mailClient.setWindowsLog(
-                        'mailMain', 
-                        addToPlanDialog.mailClient.getActiveEmailId()
-                    )
+
+                    SKApp.user.simulation.mailClient.setWindowsLog(
+                        'mailMain',
+                        SKApp.user.simulation.mailClient.getActiveEmailId()
+                    );
                     
                     SKApp.user.simulation.window_set.toggle('plan', 'plan'); // for logging
                 },
@@ -190,4 +190,5 @@
             }
         }
     });
-})();
+    return window.SKMailAddToPlanDialog;
+});

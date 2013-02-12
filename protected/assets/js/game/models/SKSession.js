@@ -1,8 +1,8 @@
-/*global Backbone:false, console, SKApp, SKUser */
+/*global Backbone:false, console, SKApp */
 
-(function () {
+define(["game/models/SKUser"], function (SKUser) {
     "use strict";
-    window.SKSession = Backbone.Model.extend({
+    var SKSession = Backbone.Model.extend({
         'check':function () {
             var me = this;
             SKApp.server.api('auth/checkSession', {}, function (data) {
@@ -28,9 +28,14 @@
                 'email':email,
                 'pass':pass
             }, function (data) {
-                SKApp.user = new SKUser(data.simulations);
-                me.trigger('login:success');
+                if (data.result === 1) {
+                    SKApp.user = new SKUser(data.simulations);
+                    me.trigger('login:success');
+                } else {
+                    throw 'Incorrect password';
+                }
             });
         }
     });
-})();
+    return SKSession;
+});

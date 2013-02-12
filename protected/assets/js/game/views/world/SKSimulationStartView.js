@@ -1,5 +1,5 @@
 /*global _, Backbone, simulation, SKSettingsView, SKLoginView, SKApp, session, world, $*/
-(function () {
+define(["game/views/world/SKSimulationView"],function () {
     "use strict";
     window.SKSimulationStartView = Backbone.View.extend({
         'el': 'body',
@@ -40,4 +40,4 @@
             SKApp.user.logout();
         }
     });
-})();
+});

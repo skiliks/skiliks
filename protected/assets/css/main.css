@@ -1321,17 +1321,22 @@ section.mail>header nav ul li.active label:hover{
 	font-weight:normal;
 	text-shadow:#f5ede0 0 0 1px;
 	width:310px;
-	padding:10px 15px 10px 20px;
+	height:36px;
+	padding:0 15px 0 20px;
+	margin-top:8px;
 	vertical-align:middle;
     display: inline-block;
+    overflow:hidden;
 }
 .mail-plan-item span{
 	text-align:center;
 	text-shadow:#f5ede0 0 0 1px;
-	padding:0px 10px 5px 0px;
+	padding:0px 10px 0 0px;
+	margin-top:8px;
 	vertical-align:middle;
     display: inline-block;
     width: 30px;
+    height:36px;
 }
 
 #mailEmulatorMainScreen,
