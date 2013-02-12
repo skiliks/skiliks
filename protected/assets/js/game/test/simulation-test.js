@@ -70,9 +70,7 @@ var spec = describe('simulation', function(run) {
             it("starts simulation two times", function (done) {
                 buster.log("Start");
                 testSimulation('asd', '123', server, function (cb) {
-                    testSimulation('asd', '123', server, function (cb) {
-
-                    });
+                    buster.log("started");
                 });
             });
         });
