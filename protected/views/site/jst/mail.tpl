@@ -133,7 +133,7 @@
 
 <!-- MailClient_AddToPlanItem -->
 <script type="text/template" id="MailClient_AddToPlanItem">
-    <div class="mail-plan-item mail-task-<@= id @>" onclick="SKApp.user.simulation.mailClient.addToPlanDialogObject.selectItem(<@= id @>);">
+    <div class="mail-plan-item mail-task-<@= id @>" data-task-id="<@= id @>">
         <label><@= text @></label>
         <span><@= duration @></span>
     </div>
