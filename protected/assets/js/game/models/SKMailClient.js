@@ -637,7 +637,13 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                 SKApp.user.simulation.windowLog.deactivate(window);
 
-                window.updateUid();
+                if ((window.get('subname') == 'mailNew' && 'mailMain' == newSubscreen) ||
+                    (window.get('subname') == 'mailMain' && 'mailNew' == newSubscreen)) {
+                    window.updateUid();
+                } else {
+                    // do not change window_uid!
+                }
+
                 window.set('subname', newSubscreen);
                 window.set('params', {'mailId':emailId});
 
@@ -729,7 +735,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 if ('add' === action || 'add_fwd' === action) {
                     checkValue = 1;
                 }
-                console.log('parent_subject: ', parent_subject);
                 // display warning only if user add extra recipients
                 if (checkValue <= recipientIds.length &&  this.isNotEmptySubject()) {
                     if(action !== 'add_fwd' && action !== 'delete_fwd') {
