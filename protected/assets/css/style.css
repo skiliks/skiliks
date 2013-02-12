@@ -646,6 +646,17 @@ html[lang=ru] .product section table th{
 }
 /* --------------- /product ---------*/
 
+/* --------------- team ---------*/
+.team {
+    margin: 50px 0;
+}
+.team p {
+    margin: 10px 0;
+    font: 1.190em/1.400em "ProximaNova-Regular";
+    color: #fff;
+}
+/* --------------- /team ---------*/
+
 /* --------------- footer ---------*/
 .footer{
 	background:url("../img/bg-footer.png") no-repeat center 0;
