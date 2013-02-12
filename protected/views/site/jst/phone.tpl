@@ -133,11 +133,11 @@
             <div class="phone-screen">
                 <div class="phone-call">
                     <div class="phone-call-img"><img alt=""
-                                                     src="<@= SKConfig.assetsUrl @>/img/phone/icon-call-ch<@=remote_replica.ch_from@>.png">
+                                                     src="<@= SKConfig.assetsUrl @>/img/phone/icon-call-ch<@= (remote_replica !== null  ? remote_replica.ch_from : my_replicas[0].ch_to ) @>.png">
                     </div>
                     <p class="phone-call-text">
-                        <span class="name"><@=remote_replica.name@></span><br>
-                        <@=remote_replica.title@><br>
+                        <span class="name"><@= (remote_replica !== null  ? remote_replica.name : my_replicas[0].remote_name) @></span><br>
+                        <@= (remote_replica !== null  ? remote_replica.title : my_replicas[0].remote_title)@><br>
                         <span class="post">&nbsp;</span>
                     </p>
                     <@ if(isUserCanFinalizeCall){ @>
@@ -150,7 +150,9 @@
         </div>
 
         <div class="phone-reply-field">
+            <@ if (remote_replica !== null) { @>
             <p class="phone-reply-ch max"><@=remote_replica.text@></p>
+            <@ } @>
 
             <ul class="phone-reply-h" id="phoneAnswers">
                 <@ my_replicas.forEach(function (replica) { @>

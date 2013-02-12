@@ -166,10 +166,19 @@ class DialogService
         ###################
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Characters::model()->byId($characterId)->find();
+            $character = Characters::model()->findByAttributes(['code' => $characterId]);
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;
+            }
+        }
+
+        if (isset($data[0]['ch_to'])) {
+            $characterId = $data[0]['ch_to'];
+            $character = Characters::model()->findByAttributes(['code' => $characterId]);
+            if ($character) {
+                $data[0]['remote_title'] = $character->title;
+                $data[0]['remote_name'] = $character->fio;
             }
         }
 
