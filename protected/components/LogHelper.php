@@ -836,8 +836,9 @@ class LogHelper
                 $log_window = new LogWindows();
                 $log_window->sim_id = $simId;
                 $log_window->window = $log[0];
-                $log_window->sub_window = $log[1];
                 $log_window->start_time = gmdate("H:i:s", $log[3]);
+                $log_window->sub_window = $log[1];
+                $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
                 $log_window->save();
                 continue;
 

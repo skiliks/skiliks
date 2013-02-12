@@ -26,7 +26,11 @@ define([], function () {
             'documentsFiles':42
     };
     window.SKWindow = Backbone.Model.extend({
+
         single: true,
+
+        window_uid: undefined,
+
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
             if (window_id in SKApp.user.simulation.window_set) {
@@ -42,6 +46,9 @@ define([], function () {
                 this.set('id', this.get('subname'));
             }
 
+            // generate unique ID, like 'window_n' where n positive integer
+            this.window_uid = _.uniqueId('window_');
+
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
         },
@@ -51,6 +58,10 @@ define([], function () {
         'getSubwindowId': function () {
             return screensSub[this.get('subname')];
         },
+        'updateUid': function() {
+            this.window_uid = _.unique('window_')
+        },
+
         /**
          * Opens a window
          */

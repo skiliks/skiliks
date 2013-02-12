@@ -102,7 +102,7 @@ class AjaxController extends CController
     }
     
     /**
-     * @deprecated
+     *
      * @return Simulations || HttpJsonResponce (Error)
      */
     public function getSimulationEntity()
@@ -139,8 +139,7 @@ class AjaxController extends CController
 
 
     /**
-     * @deprecated
-     * We handle Yii rroes and savethem to Yii.log. 
+     * We handle Yii errors and save them to Yii.log.
      * User see just standard notice
      * 
      * @param string $message
