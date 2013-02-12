@@ -43,6 +43,12 @@ class LogMail extends CActiveRecord
      * @var bool
      */
     public $is_coincidence;
+
+    /**
+     * windows unique ID - currently used to determine several mail new windows
+     * @var string, md5
+     */
+    public $window_uid;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     

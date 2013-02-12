@@ -47,7 +47,6 @@ class LogWindows extends CActiveRecord
      */
     public $end_time;
 
-
     /**
      * windows unique ID - currently used to determine several mail new windows
      * @var string, md5
