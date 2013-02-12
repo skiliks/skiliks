@@ -54,7 +54,9 @@ define(["game/views/SKWindowView"], function () {
             this.$('audio').on('ended', function(){
                 if (my_replicas.length === 0) {
                     event.selectReplica(remote_replica.id, function () {
-                        me.options.model_instance.close();
+                        if (remote_replica.is_final_replica === "1") {
+                            me.options.model_instance.close();
+                        }
                     });
                 }
             });
