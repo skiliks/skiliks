@@ -110,7 +110,7 @@
                 replicas.forEach(function (replica) {
                     audio_src = audio_src || replica.sound;
                 });
-                if (!audio_src.match(/\.wav/)) {
+                if (audio_src !== null && !audio_src.match(/\.wav/)) {
                     audio_src = null;
                 }
                 return audio_src ? SKConfig.storageURL + '/sounds/' + audio_src : undefined;
