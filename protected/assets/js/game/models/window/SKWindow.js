@@ -46,8 +46,7 @@ define([], function () {
                 this.set('id', this.get('subname'));
             }
 
-            // generate unique ID, like 'window_n' where n positive integer
-            this.window_uid = _.uniqueId('window_');
+            this.updateUid();
 
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
@@ -59,7 +58,8 @@ define([], function () {
             return screensSub[this.get('subname')];
         },
         'updateUid': function() {
-            this.window_uid = parseInt(_.unique());
+            this.window_uid = _.uniqueId();
+            console.log('this.window_uid: ', this.window_uid);
         },
 
         /**

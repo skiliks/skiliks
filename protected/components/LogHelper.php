@@ -443,9 +443,9 @@ class LogHelper
                 } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
 
                     $log_obj = LogDocuments::model()->findByAttributes(array(
-                        'file_id' => $log[4]['fileId'],
+                        'file_id'  => $log[4]['fileId'],
                         'end_time' => '00:00:00',
-                        'sim_id' => $simId
+                        'sim_id'   => $simId
                     ));
                     if (!$log_obj) continue;
                     $log_obj->end_time = gmdate("H:i:s", $log[3]);
@@ -521,6 +521,7 @@ class LogHelper
                     $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                     $log_obj->window = $log[1];
                     $log_obj->start_time = gmdate("H:i:s", $log[3]);
+                    $log_obj->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
                     $log_obj->save();
                     continue;
 
@@ -559,9 +560,9 @@ class LogHelper
                         // check MS email concidence with mail_templates }
                         /** @var $log_obj LogMail */
                         $log_obj = LogMail::model()->findByAttributes(array(
-                            "mail_id" => null,
+                            "mail_id"  => null,
                             "end_time" => '00:00:00',
-                            "sim_id" => $simId
+                            "sim_id"   => $simId
                         ));
                         if (!$log_obj) continue;
                         $log_obj->end_time = gmdate("H:i:s", $log[3]);
