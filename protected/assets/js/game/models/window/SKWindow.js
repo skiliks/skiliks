@@ -59,7 +59,6 @@ define([], function () {
         },
         'updateUid': function() {
             this.window_uid = _.uniqueId();
-            console.log('this.window_uid: ', this.window_uid);
         },
 
         /**
