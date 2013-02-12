@@ -533,9 +533,11 @@ class LogHelper
                     if ($log[1] != 13) {
                         // reply, or close mail-plan, or close mail-main
                         $log_obj = LogMail::model()->findByAttributes(array(
-                            'mail_id' => empty($log[4]['mailId']) ? NULL : $log[4]['mailId'], //todo:Добавлена проверка, хотя mailId должен быть в данной ситуации всегда
-                            'end_time' => '00:00:00',
-                            'sim_id' => $simId
+                            //todo:Добавлена проверка, хотя mailId должен быть в данной ситуации всегда
+                            // в случае закрыния окна mailMain из пустой папки "Корзина" например mailId нет.
+                            'mail_id'    => empty($log[4]['mailId']) ? NULL : $log[4]['mailId'],
+                            'end_time'   => '00:00:00',
+                            'sim_id'     => $simId
                         ));
                         if (!$log_obj) continue;
                         $log_obj->end_time = gmdate("H:i:s", $log[3]);
@@ -557,22 +559,29 @@ class LogHelper
                         if (isset($log[4]) && isset($log[4]['mailId'])) {
                             $result = MailBoxService::updateMsCoincidence($log[4]['mailId'], $simId);
                         }
+
+                        if (false == isset($log['window_uid'])) {
+                            throw new Exception('Window id isn`t set for mail  with ID '.$log[4]['planId'].';');
+                        }
                         // check MS email concidence with mail_templates }
                         /** @var $log_obj LogMail */
-                        $log_obj = LogMail::model()->findByAttributes(array(
-                            "mail_id"  => null,
-                            "end_time" => '00:00:00',
-                            "sim_id"   => $simId
+                        $log_objs = LogMail::model()->findAllByAttributes(array(
+                            "mail_id"    => null,
+                          //"end_time"   => '00:00:00',
+                            'window_uid' => $log['window_uid'],
+                            "sim_id"     => $simId
                         ));
-                        if (!$log_obj) continue;
-                        $log_obj->end_time = gmdate("H:i:s", $log[3]);
-                        $log_obj->mail_task_id = $log[4]['planId'];
-                        $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
-                        $log_obj->full_coincidence = $result['full'];
-                        $log_obj->part1_coincidence = $result['part1'];
-                        $log_obj->part2_coincidence = $result['part2'];
-                        $log_obj->is_coincidence = $result['has_concidence'];
-                        $log_obj->save();
+
+                        foreach ($log_objs as $log_obj) {
+                            $log_obj->end_time = gmdate("H:i:s", $log[3]);
+                            $log_obj->mail_task_id = $log[4]['planId'];
+                            $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
+                            $log_obj->full_coincidence = $result['full'];
+                            $log_obj->part1_coincidence = $result['part1'];
+                            $log_obj->part2_coincidence = $result['part2'];
+                            $log_obj->is_coincidence = $result['has_concidence'];
+                            $log_obj->save();
+                        }
                         continue;
 
                     }
