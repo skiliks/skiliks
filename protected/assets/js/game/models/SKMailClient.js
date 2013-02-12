@@ -637,8 +637,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                 SKApp.user.simulation.windowLog.deactivate(window);
 
+                window.updateUid();
                 window.set('subname', newSubscreen);
-
                 window.set('params', {'mailId':emailId});
 
                 SKApp.user.simulation.windowLog.activate(window);
