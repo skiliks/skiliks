@@ -43,20 +43,15 @@
                     this.visitor_entrance_window.set('sim_event', event);
                 }
 
-                var muteTag = '';
-                var autoplay = 'autoplay="autoplay"';
-                if (true === SKApp.user.simulation.config.isMuteVideo) {
-                    muteTag = 'muted muted="muted"';
-                    autoplay = '';
-                }
                 this.$el.html(_.template($('#visit_template').html(), {
                     'remote_replica':remote_replica,
                     'my_replicas':my_replicas,
                     'video_src':video_src,
-                    'img_src':event.getImgSrc(),
-                    'autoplay': autoplay,
-                    'mute_attribute':muteTag
+                    'img_src':event.getImgSrc()
                 }));
+                if (true === SKApp.user.simulation.config.isMuteVideo) {
+                    this.$('video').attr('muted', 'muted');
+                }
                 this.$('video').on('ended', function () {
                     me.$('video').css('zIndex', 0);
                     if (my_replicas.length === 0) {

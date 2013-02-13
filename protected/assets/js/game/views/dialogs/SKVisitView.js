@@ -44,4 +44,5 @@ define(["game/views/SKWindowView"], function () {
                 this.options.model_instance.close();
             }
         });
-})();
+    return window.SKVisitView;
+});
