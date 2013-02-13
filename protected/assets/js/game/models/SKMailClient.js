@@ -199,19 +199,19 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     return 'mailPlan';
                 }
                 if ('SCREEN_DRAFTS_LIST' === this.activeScreen) {
-                    return 'mailPreview';
+                    return 'mailMain';
                 }
                 if ('SCREEN_INBOX_LIST' === this.activeScreen) {
-                    return 'mailPreview';
+                    return 'mailMain';
                 }
                 if ('SCREEN_READ_EMAIL' === this.activeScreen) {
                     return 'mailPreview';
                 }
                 if ('SCREEN_SENDED_LIST' === this.activeScreen) {
-                    return 'mailPreview';
+                    return 'mailMain';
                 }
                 if ('SCREEN_TRASH_LIST' === this.activeScreen) {
-                    return 'mailPreview';
+                    return 'mailMain';
                 }
                 if ('SCREEN_WRITE_FORWARD' === this.activeScreen) {
                     return 'mailNew';
@@ -644,6 +644,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     window.window_uid = parseInt(this.window_uid);
                 }
 
+                window.set('id', newSubscreen);
                 window.set('subname', newSubscreen);
                 window.set('params', {'mailId':emailId});
 
