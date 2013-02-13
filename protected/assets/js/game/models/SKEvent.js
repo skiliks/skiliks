@@ -184,13 +184,16 @@
              * @param cb
              */
             selectReplica:function (replica_id, cb) {
-                this.complete();
+                var me = this;
                 SKApp.server.api('dialog/get', {
                     'dialogId': replica_id,
                     'time':     SKApp.user.simulation.getGameTime()
                 }, function (data) {
                     if (data.result === 1) {
                         cb();
+                        if (me.getStatus() !== 'completed') {
+                            me.complete();
+                        }
                         SKApp.user.simulation.parseNewEvents(data.events);
                     }
                 });
