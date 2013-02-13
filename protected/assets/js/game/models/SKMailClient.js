@@ -911,7 +911,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 return undefined;
             },
 
-            uploadAttachmentsList:function () {
+            uploadAttachmentsList:function (cb) {
                 SKApp.server.api(
                     'myDocuments/getList',
                     {},
@@ -925,9 +925,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                                 SKApp.user.simulation.mailClient.availableAttachments.push(attach);
                             }
+                            cb();
                         }
-                    },
-                    false
+                    }
                 );
 
 
