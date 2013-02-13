@@ -242,13 +242,21 @@ a:focus, a:active {
 	position:absolute;
 }
 .heroes-comment.right{
-	-webkit-transform: rotate(-27deg);
+	-moz-transform:rotate(-27deg);
+    -ms-transform:rotate(-27deg);
+    -webkit-transform:rotate(-27deg);
+    -o-transform:rotate(-27deg);
+    transform:rotate(-27deg);
 	top:648px;
 	left:50%;
 	margin-left:504px;
 }
 .heroes-comment.left{
-	-webkit-transform: rotate(30deg);
+	-moz-transform:rotate(30deg);
+    -ms-transform:rotate(30deg);
+    -webkit-transform:rotate(30deg);
+    -o-transform:rotate(30deg);
+    transform:rotate(30deg);
 	top:762px;
 	left:50%;
 	margin-left:-610px;
