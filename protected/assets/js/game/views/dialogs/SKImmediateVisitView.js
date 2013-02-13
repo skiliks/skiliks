@@ -5,19 +5,21 @@
      * @class
      * @type {*}
      */
-    window.SKImmediateVisitView = Backbone.View.extend(
+    window.SKImmediateVisitView = Backbone.View.extend({
         /** @lends SKImmediateVisitView.prototype */
-        {
             'el':'body .visitor-container',
+
             'events':{
                 'click .replica-select':'doSelectReplica'
             },
+
             'initialize':function () {
                 var me = this;
                 this.render();
 
 
             },
+
             'close':function () {
                 this.visitor_entrance_window.close();
                 if (this.options.event.getStatus() !== 'completed') {
@@ -27,6 +29,7 @@
                 this.undelegateEvents();
                 this.$el.html('');
             },
+
             'render':function () {
                 var event = this.options.event;
                 var me = this,
@@ -39,7 +42,7 @@
                 } else {
                     this.visitor_entrance_window.set('sim_event', event);
                 }
-                //console.log('SKApp.user.simulation.config.isMuteVideo: ', SKApp.user.simulation.config.isMuteVideo);
+
                 var muteTag = '';
                 var autoplay = 'autoplay="autoplay"';
                 if (true === SKApp.user.simulation.config.isMuteVideo) {
@@ -63,6 +66,7 @@
                 });
 
             },
+
             'doSelectReplica':function (e) {
                 var me = this;
                 e.preventDefault();

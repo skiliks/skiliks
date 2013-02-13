@@ -13,11 +13,10 @@
      * @extends Backbone.Model
      * @class Event model
      */
-    window.SKEvent = Backbone.Model.extend(
+    window.SKEvent = Backbone.Model.extend({
         /**
          * @lends SKEvent.prototype
          */
-        {
             /**
              * Returns slug of event type
              *
@@ -60,6 +59,7 @@
                 });
                 return remote_replica;
             },
+
             /**
              * Returns array of player's answers
              * @return {Array}
@@ -74,6 +74,7 @@
                 });
                 return my_replicas;
             },
+
             /**
              * Returns absolute UPL to video background of image
              * @return {String}
@@ -89,6 +90,7 @@
                 }
                 return video_src ? SKConfig.storageURL + '/videos/' + video_src : undefined;
             },
+
             /**
              * Returns absolute UPL to image background of image
              * @return {String}
@@ -104,6 +106,7 @@
                 }
                 return img_src ? SKConfig.storageURL + '/dialog_images/' + img_src : undefined;
             },
+
             getAudioSrc:function () {
                 var replicas = this.get('data');
                 var audio_src = null;
@@ -115,6 +118,7 @@
                 }
                 return audio_src ? SKConfig.storageURL + '/sounds/' + audio_src : undefined;
             },
+
             /**
              * @deprecated use selectReplica
              * @param replica_id
@@ -133,12 +137,14 @@
                     }
                 });
             },
+
             /**
              * @return {'completed'|'in progress'|'waiting'}
              */
             getStatus:function () {
                 return this.status || 'waiting';
             },
+
             /**
              *
              * @param {'completed'|'in progress'|'waiting'} status
@@ -159,6 +165,7 @@
                     this.trigger('complete');
                 }
             },
+
             ignore:function (cb) {
                 if (this.getTypeSlug() !== 'phone') {
                     throw 'You can ignore only phone calls';
@@ -177,6 +184,7 @@
                     }
                 });
             },
+
             /**
              * Selects replica in dialog
              *
@@ -198,6 +206,7 @@
                     }
                 });
             },
+        
             /**
              * Marks event as completed
              */

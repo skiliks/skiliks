@@ -6,10 +6,22 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
      * @class
      * @type {*}
      */
-    window.SKIconPanelView = Backbone.View.extend(
+    window.SKIconPanelView = Backbone.View.extend({
         /** @lends SKIconPanelView.prototype */
-        {
+
         isPhoneAvailable: true,
+
+        defaultBouncesNo: 10, // icon animated 10 times
+
+        events:{
+            'click .icons-panel .phone.icon-active a'       :'doPhoneTalkStart',
+            'click .icons-panel .door.icon-active a'        :'doDialogStart',
+            'click .icons-panel .plan a'                    :'doPlanToggle',
+            'click .icons-panel .phone:not(.icon-active) a' :'doPhoneToggle',
+            'click .icons-panel .mail a'                    :'doMailToggle',
+            'click .icons-panel .door a'                    :'doDoorToggle',
+            'click .icons-panel .documents a'               :'doDocumentsToggle'
+        },
 
         initialize:function () {
             var me = this;
@@ -23,17 +35,30 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
                     me.$('.phone').attr('data-event-id', event.cid);
-                    me.startAnimation('.' + event.getTypeSlug(), function () {
-                        if (event.getStatus() === 'waiting') {
-                            event.setStatus('completed');
-                            event.ignore(function () {
-                                var history = SKApp.user.simulation.phone_history;
-                                history.fetch();
-                                // event will be linked later, if link event here - it will be handled twice
-                                me.setCounter('.phone', phone_history.where({'is_read': false}).length);
-                            });
-                        }
-                    });
+
+                    var data = event.get('data');
+
+                    if (undefined == data[2]) {
+                        // user can`t ignore call
+                        var callbackFunction = function () {
+                            me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
+                        };
+                    } else {
+                        // user can ignore call
+                        var callbackFunction = function () {
+                            if (event.getStatus() === 'waiting') {
+                                event.setStatus('completed');
+                                event.ignore(function () {
+                                    var history = SKApp.user.simulation.phone_history;
+                                    history.fetch();
+                                    // event will be linked later, if link event here - it will be handled twice
+                                    me.setCounter('.phone', phone_history.where({'is_read': false}).length);
+                                });
+                            }
+                        };
+                    }
+
+                    me.startAnimation('.' + event.getTypeSlug(), callbackFunction,  me.getPhoneBounces(data));
                     
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.cid);
@@ -73,17 +98,28 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             });
             this.render();
         },
+
+        getPhoneBounces: function(data){
+            if (undefined == data[2]) {
+                return 2;
+            } else {
+                return this.defaultBouncesNo;
+            }
+        },
+
         updateMailCounter: function () {
             var me = this;
             this.sim_events.getUnreadMailCount(function (count) {
                 me.setCounter('.mail', count);
             });
         },
+
         updatePlanCounter: function () {
             var me = this;
             me.setCounter('.plan', SKApp.user.simulation.todo_tasks.length);
 
         },
+
         /**
          * Changes counter value
          * @param selector
@@ -100,19 +136,28 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             
             this.$(selector + ' a span').html(count);
         },
+
         /**
          * Starts icon animation
          *
          * @param {string} selector CSS selector of jQuery li element
          * @param {Function} end_cb called when animation ends
          */
-        startAnimation:function (selector, end_cb) {
+        startAnimation:function (selector, end_cb, bounces) {
+            // define bounce_counter
+            if (undefined == bounces) {
+                var bounce_counter = this.defaultBouncesNo;
+            } else {
+                var bounce_counter = bounces;
+            }
+
             var me = this;
             if (!(me.icon_lock[selector])) {
                 me.icon_lock[selector] = true;
                 var el = me.$(selector);
                 el.addClass('icon-active');
-                var bounce_counter = 10;
+
+                // define callback {
                 var bounce_cb = function () {
                     if (bounce_counter > 0) {
                         bounce_counter--;
@@ -134,35 +179,34 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                         }
                     }
                 };
-                bounce_cb();
+                // define callback }
 
+                // run callback
+                bounce_cb();
             }
         },
-        events:{
-            'click .icons-panel .phone.icon-active a'       :'doPhoneTalkStart',
-            'click .icons-panel .door.icon-active a'        :'doDialogStart',
-            'click .icons-panel .plan a'                    :'doPlanToggle',
-            'click .icons-panel .phone:not(.icon-active) a' :'doPhoneToggle',
-            'click .icons-panel .mail a'                    :'doMailToggle',
-            'click .icons-panel .door a'                    :'doDoorToggle',
-            'click .icons-panel .documents a'               :'doDocumentsToggle'
-        },
+
         render:function () {
             var me = this;
             this.$el.html(_.template($('#icon_panel').html(), {}));
             me.updateMailCounter();
             me.updatePlanCounter();
         },
+
         doPhoneTalkStart:function (e) {
             e.preventDefault();
             e.stopPropagation();
-            var sim_event = this.sim_events.get($(e.currentTarget).parents('.phone').attr('data-event-id'));
+            this.runPhoneTalkStart($(e.currentTarget).parents('.phone').attr('data-event-id'));
+        },
+
+        runPhoneTalkStart: function(sim_event_id) {
+            var sim_event = this.sim_events.get(sim_event_id);
             sim_event.setStatus('in progress');
             this.$('.phone').removeClass('icon-active');
             SKApp.user.simulation.window_set.toggle('phone','phoneCall', {sim_event:sim_event});
         },
+
         doDialogStart:function (e) {
-            //console.log('doDialogStart');
             e.preventDefault();
             e.stopPropagation();
             var sim_event = this.sim_events.get($(e.currentTarget).parents('.door').attr('data-event-id'));
@@ -174,6 +218,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             e.preventDefault();
             SKApp.user.simulation.window_set.toggle('plan','plan');
         },
+
         doPhoneToggle:function (e) {
             e.preventDefault();
             
@@ -184,12 +229,14 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         doDoorToggle:function (e) {
             e.preventDefault();
         },
+
         doDocumentsToggle:function (e) {
             e.preventDefault();
             SKApp.user.simulation.window_set.toggle('documents','documents');
 
             this.$('.documents').removeClass('icon-active');
         },
+
         doMailToggle:function (e) {
             e.preventDefault();
             this.$('.mail').removeClass('icon-active');
@@ -201,6 +248,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             );
 
         },
+
         /**
          * Blocking phone icon when HERO talk by phone or speak with visitor
          */

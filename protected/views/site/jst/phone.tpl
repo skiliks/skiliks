@@ -98,8 +98,13 @@
                     <span class="post">&nbsp;</span>
                 </p>
                 <ul class="phone-call-in-btn">
-                    <li><a id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
-                    <li><a id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
+                    <@ if (undefined != call[1]) { @>
+                        <li><a id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
+                    <@ } @>
+
+                    <@ if (undefined != call[2]) { @>
+                        <li><a id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
+                    <@ } @>
                 </ul>
             </div>
 
