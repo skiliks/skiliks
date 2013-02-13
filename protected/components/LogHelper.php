@@ -511,7 +511,7 @@ class LogHelper
         foreach ($logs as $log) {
 
             if (in_array($log[0], self::$codes_mail) || in_array($log[1], self::$codes_mail)) {
-
+                assert($log['window_uid']);
                 if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
                     if ((int)$log[1] === 11 && empty($log[4]['mailId'])) { #Opening mail main does not add to mail log!
                         continue;
@@ -838,7 +838,7 @@ class LogHelper
     {
         if (!is_array($logs)) return false;
         foreach ($logs as $log) {
-
+            assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
                 if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
                     throw(new CException('Previous window is still activated'));

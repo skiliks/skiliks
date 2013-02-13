@@ -151,6 +151,54 @@ class LogTest extends CDbTestCase
 
     }
 
+
+    public function testE2Logging() {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $mgr = new EventsManager();
+        $first_dialog = Dialogs::model()->findByAttributes(['excel_id' => 135]);
+        $last_dialog = Dialogs::model()->findByAttributes(['excel_id' => 135]);
+        $mgr->processLogs($simulation, [
+            [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+            [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+        ]);
+        $simulation_service->simulationStop($simulation->primaryKey);
+        $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        foreach ($log_windows as $log) {
+            printf("%s\t%8s\t%s\n",
+                $log->start_time,
+                $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->window
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+        $log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        foreach ($log_dialogs as $log) {
+            printf("%s\t%8s\t%s\n",
+                $log->start_time,
+                $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->dialog_id
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+        //$this->assertEquals(count($log_dialogs), 2);
+
+        $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        foreach ($activity_actions as $log) {
+            printf("%5d\t%s\t%8s\t%10s\t%10s\n",
+                $log->id,
+                $log->start_time,
+                $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->activityAction->activity_id,
+                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+        $this->assertEquals(count($activity_actions), 1);
+
+    }
+
     public function test_two_new_letters()
     {
         // $this->markTestSkipped();
