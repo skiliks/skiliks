@@ -12,13 +12,18 @@ define(["game/views/SKDialogView"], function () {
 
         isCloseWhenClickNotOnDialog:true,
 
+        events:{
+            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan',
+            'click .mail-plan-item':                            'doSelectItem'
+        },
+
         initialize:function () {
             var me = this;
 
             this.listenTo(this, 'mail:close', function () {
                 me.close();
             });
-            this.listenTo(this, 'click-prevent-click-element', function () {
+            this.listenTo(this, '.click-prevent-click-element', function () {
                 me.doLogClose();
             });
         },
@@ -42,10 +47,6 @@ define(["game/views/SKDialogView"], function () {
                 },
                 false
             );
-        },
-        events:{
-            'click #MailClient_AddToPlanPopUp .mail-plan-btn' : 'doAddToPlan',
-            'click .mail-plan-item': 'doSelectItem'
         },
 
         render:function () {
@@ -178,8 +179,8 @@ define(["game/views/SKDialogView"], function () {
             );
         },
 
-        doSelectItem: function () {
-            this.selectItem($(this).attr('data-task-id'));
+        doSelectItem: function (events) {
+            this.selectItem($(events.currentTarget).attr('data-task-id'));
         },
         
         doLogClose: function() {

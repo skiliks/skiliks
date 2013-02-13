@@ -184,6 +184,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             // @var string
             messageForNewEmail:'',
 
+            // @var integer, to keep window_uid when user switched to mailPlan or mailNew
+            window_uid: undefined,
+
             // -------------------------------------------------
             /**
              * @return string,
@@ -620,10 +623,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     throw 'There is no active window object for mailClient.';
                 }
 
-                if (1 < windows.length) {
-                    //console.log('There is two or more active window object for mailClient.');
-                }
-
                 return windows[0];
             },
 
@@ -637,11 +636,13 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                 SKApp.user.simulation.windowLog.deactivate(window);
 
-                if ((window.get('subname') == 'mailNew' && 'mailMain' == newSubscreen) ||
-                    (window.get('subname') == 'mailMain' && 'mailNew' == newSubscreen)) {
+                if ((window.get('subname') == 'mailMain' && 'mailNew' == newSubscreen) ||
+                    (window.get('subname') == 'mailMain' && 'mailPlan' == newSubscreen)) {
+                    this.window_uid = parseInt(window.window_uid);
                     window.updateUid();
-                } else {
-                    // do not change window_uid!
+                } else if ((window.get('subname') == 'mailNew' && 'mailMain' == newSubscreen) ||
+                    (window.get('subname') == 'mailPlan' && 'mailMain' == newSubscreen)) {
+                    window.window_uid = parseInt(this.window_uid);
                 }
 
                 window.set('subname', newSubscreen);
