@@ -1,6 +1,7 @@
 /*global _, SKWindowView, SKDialogWindow, SKApp */
 
 define(["game/views/SKWindowView"], function () {
+
     "use strict";
 
     window.SKPhoneDialogView = SKWindowView.extend({
@@ -24,6 +25,7 @@ define(["game/views/SKWindowView"], function () {
             this.off('dialog:end');
             SKWindowView.prototype.remove.call(this);
         },
+
         initialize:function() {
             var me = this;
             this.listenTo(this.options.model_instance, 'refresh', function () {
@@ -31,6 +33,7 @@ define(["game/views/SKWindowView"], function () {
             });
             SKWindowView.prototype.initialize.call(this);
         },
+
         renderContent:function (window_el) {
             var event = this.options.model_instance.get('sim_event'),
                 me = this,
@@ -38,10 +41,13 @@ define(["game/views/SKWindowView"], function () {
                 remote_replica = event.getRemoteReplica();
                 
             // if several replics come from server - hide FinalizeCallButton
-            // ecse display FinalizeCallButton
+            // else display FinalizeCallButton
             // this.isUserCanFinalizeCall = false by default
-            if (my_replicas.length === 0) {
+            //event.get('data').length < 2
+            if (event.get('data')[0].code == 'None' || event.get('data')[0].code == 'Auto') {
                 this.isUserCanFinalizeCall = true;
+            } else {
+                this.isUserCanFinalizeCall = false;
             }
 
             var callInHtml = _.template($('#Phone_Dialog').html(), {
@@ -61,6 +67,7 @@ define(["game/views/SKWindowView"], function () {
                 }
             });
         },
+
         getMenu: function(event) {
             // block standartfuncxtionality if 
             if (this.isUserCanFinalizeCall) {
