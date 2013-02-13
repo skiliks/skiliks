@@ -8,6 +8,7 @@
  * @property integer $sim_id
  * @property integer $activity_action_id
  * @property integer $window
+ * @property string $window_uid
  * @property string $start_time
  * @property string $end_time
  *
