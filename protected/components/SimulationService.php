@@ -429,9 +429,7 @@ class SimulationService
         $events_manager = new EventsManager();
         $events_manager->processLogs($simulation, $logs_src);
 
-        // Fix logs
-        LogHelper::fixLogWhenSimStop($simulation);
-        
+
         // Make agregated activity log 
         LogHelper::combineLogActivityAgregated($simulation);
         

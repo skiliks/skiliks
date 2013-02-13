@@ -1,6 +1,7 @@
 <?php
 class LoggingTest extends SeleniumTestCase
 {
+
     /**
      * @large
      */

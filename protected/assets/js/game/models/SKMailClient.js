@@ -247,8 +247,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
             getMailTaskByMySqlId:function (id) {
                 for (var i in this.availaleActiveEmailTasks) {
-                    // kepp non strict comparson!
-                    if (this.availaleActiveEmailTasks[i].mySqlId == id) {
+                    if (parseInt(this.availaleActiveEmailTasks[i].mySqlId, 10) === parseInt(id,10)) {
                         return this.availaleActiveEmailTasks[i];
                     }
                 }
@@ -343,7 +342,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                         
                         var recipiens = emailsData[id].receiver.split(',');
                         for (var i in recipiens) {                            
-                            email.addRecipientEmailAndNameStrings(recipiens[i])   
+                            email.addRecipientEmailAndNameStrings(recipiens[i]);
                         }                         
 
                         if (undefined !== emailsData.reply) {
@@ -911,7 +910,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 return undefined;
             },
 
-            uploadAttachmentsList:function () {
+            uploadAttachmentsList:function (cb) {
                 SKApp.server.api(
                     'myDocuments/getList',
                     {},
@@ -925,9 +924,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                                 SKApp.user.simulation.mailClient.availableAttachments.push(attach);
                             }
+                            cb();
                         }
-                    },
-                    false
+                    }
                 );
 
 

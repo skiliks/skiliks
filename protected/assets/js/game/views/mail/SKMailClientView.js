@@ -1081,8 +1081,6 @@ define([
 
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
-                // add attachments list {
-                this.mailClient.uploadAttachmentsList();
 
                 var attachmentsListHtml = [];
 
@@ -1093,20 +1091,23 @@ define([
                     imageSrc:""
                 });
 
-                for (var i in this.mailClient.availableAttachments) {
-                    attachmentsListHtml.push({
-                        text:this.mailClient.availableAttachments[i].label,
-                        value:this.mailClient.availableAttachments[i].fileId,
-                        imageSrc:this.mailClient.availableAttachments[i].getIconImagePath()
+                // add attachments list {
+                this.mailClient.uploadAttachmentsList(function () {
+                    for (var i in mailClientView.mailClient.availableAttachments) {
+                        attachmentsListHtml.push({
+                            text:mailClientView.mailClient.availableAttachments[i].label,
+                            value:mailClientView.mailClient.availableAttachments[i].fileId,
+                            imageSrc:mailClientView.mailClient.availableAttachments[i].getIconImagePath()
+                        });
+                    }
+                    mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
+                        data:attachmentsListHtml,
+                        width:'100%',
+                        selectText:"Нет вложения.",
+                        imagePosition:"left"
                     });
-                }
-
-                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
-                    data:attachmentsListHtml,
-                    width:'100%',
-                    selectText:"Нет вложения.",
-                    imagePosition:"left"
                 });
+
                 // add attachments list }
 
                 this.$("#MailClient_RecipientsList").tagHandler({
@@ -1461,8 +1462,6 @@ define([
 
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
-                // add attachments list {
-                this.mailClient.uploadAttachmentsList();
 
                 var attachmentsListHtml = [];
 
@@ -1473,13 +1472,16 @@ define([
                     imageSrc:""
                 });
 
-                for (var i in this.mailClient.availableAttachments) {
-                    attachmentsListHtml.push({
-                        text:this.mailClient.availableAttachments[i].label,
-                        value:this.mailClient.availableAttachments[i].fileId,
-                        imageSrc:this.mailClient.availableAttachments[i].getIconImagePath()
-                    });
-                }
+                // add attachments list {
+                this.mailClient.uploadAttachmentsList(function () {
+                    for (var i in mailClientView.mailClient.availableAttachments) {
+                        attachmentsListHtml.push({
+                            text:mailClientView.mailClient.availableAttachments[i].label,
+                            value:mailClientView.mailClient.availableAttachments[i].fileId,
+                            imageSrc:mailClientView.mailClient.availableAttachments[i].getIconImagePath()
+                        });
+                    }
+                });
 
                 this.$("#MailClient_NewLetterAttachment div.list").ddslick({
                     data:attachmentsListHtml,

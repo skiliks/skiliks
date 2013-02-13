@@ -1045,22 +1045,25 @@ class LogHelper
         return true;
     }
 
-    public static function getDialogs($return)
+    public static function getDialogs($return, $simulation = null)
     {
 
-        $data['data'] = Yii::app()->db->createCommand()
+        $command = Yii::app()->db->createCommand()
             ->select("l.sim_id,
-                    d.code as code, 
+                    d.code as code,
                     s.title as category,
                     if(d.type_of_init != 'flex', 'System_dial', 'Manual_dial') as type_of_init,
-                    l.last_id, 
-                    l.start_time, 
+                    l.last_id,
+                    l.start_time,
                     l.end_time")
             ->from('log_dialogs l')
             ->leftJoin('dialogs d', 'l.dialog_id = d.id')
             ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
-            ->order("l.id")
-            ->queryAll();
+            ->order("l.id");
+        if ($simulation !== null) {
+            $command->where('l.sim_id=:sim_id', ['sim_id' => $simulation->primaryKey]);
+        }
+        $data['data'] = $command->queryAll();
 
         $data['headers'] = array(
             'sim_id' => 'id_симуляции',
