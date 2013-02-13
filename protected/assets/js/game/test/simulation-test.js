@@ -71,6 +71,7 @@ var spec = describe('simulation', function(run) {
                 buster.log("Start");
                 testSimulation('asd', '123', server, function (cb) {
                     buster.log("started");
+                    cb();
                 });
             });
         });
