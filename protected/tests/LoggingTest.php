@@ -1,8 +1,18 @@
 <?php
 class LoggingTest extends CWebTestCase
 {
+    protected function setUp()
+    {
+        $this->setBrowser('firefox');
+        $this->setBrowserUrl(Yii::app()->params['frontendUrl']);
+        parent::setUp();
+    }
+
     public function testE2_4_2_9() {
+
+        $this->open('/site/');
         $this->setSpeed("2000");
+        $this->waitForVisible('id=login');
         $this->type("id=login", "asd");
         $this->type("id=pass", "123");
         $this->click("css=input.btn.btn-primary");
