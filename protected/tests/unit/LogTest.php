@@ -71,36 +71,36 @@ class LogTest extends CDbTestCase
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
 
         $mgr->processLogs($simulation, [
-            [1, 1, 'activated', 32400],
-            [1, 1, 'deactivated', 32460],
-            [10, 11, 'activated', 32460],
-            [10, 11, 'deactivated', 32520],
-            [10, 13, 'activated', 32520], # Send mail
-            [10, 13, 'deactivated', 32580, ['mailId' => $message->primaryKey]],
-            [10, 11, 'activated', 32580],
-            [10, 11, 'deactivated', 32640],
-            [10, 13, 'activated', 32640], # Send draft
-            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32700],
-            [10, 11, 'deactivated', 32760],
-            [10, 13, 'activated', 32760], # Send draft
-            [10, 13, 'deactivated', 32790, ['mailId' => $draft_message2->primaryKey]],
-            [10, 11, 'activated', 32790],
-            [10, 11, 'deactivated', 32805],
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [10, 11, 'activated', 32460, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32520, 'window_uid' => 2],
+            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
+            [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
+            [10, 11, 'activated', 32580, 'window_uid' => 4 ],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 4 ],
+            [10, 13, 'activated', 32640, 'window_uid' => 5 ], # Send draft
+            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32700, 'window_uid' => 6],
+            [10, 11, 'deactivated', 32760, 'window_uid' => 6],
+            [10, 13, 'activated', 32760, 'window_uid' => 7], # Send draft
+            [10, 13, 'deactivated', 32790, 'window_uid' => 7, ['mailId' => $draft_message2->primaryKey]],
+            [10, 11, 'activated', 32790, 'window_uid' => 8],
+            [10, 11, 'deactivated', 32805, 'window_uid' => 8],
         ]);
         MailBoxService::sendDraft($simulation, $draft_message2);
         MailBoxService::sendDraft($simulation, $draft_message3);
         $mgr->processLogs($simulation, [
-            [10, 13, 'activated', 32805], # Send draft
-            [10, 13, 'deactivated', 32820, ['mailId' => $draft_message3->primaryKey]],
-            [10, 11, 'activated', 32820],
-            [10, 11, 'deactivated', 32880],
-            [10, 11, 'activated', 32880, ['mailId' => $draft_message->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
-            [1, 1, 'activated', 32940],
-            [1, 1, 'deactivated', 33000],
+            [10, 13, 'activated', 32805, 'window_uid' => 1], # Send draft
+            [10, 13, 'deactivated', 32820, 'window_uid' => 1, ['mailId' => $draft_message3->primaryKey]],
+            [10, 11, 'activated', 32820, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32880, 'window_uid' => 2],
+            [10, 11, 'activated', 32880, 'window_uid' => 3, ['mailId' => $draft_message->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32910, 'window_uid' => 3, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32910, 'window_uid' => 4, ['mailId' => $draft_message2->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32940, 'window_uid' => 4, ['mailId' => $draft_message2->primaryKey]],
+            [1, 1, 'activated', 32940, 'window_uid' => 5],
+            [1, 1, 'deactivated', 33000, 'window_uid' => 5],
         ]);
 
         $simulation_service->simulationStop($simulation->primaryKey);
@@ -240,26 +240,26 @@ class LogTest extends CDbTestCase
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
         $mgr->processLogs($simulation, [
-            [1, 1, 'activated', 32400],
-            [1, 1, 'deactivated', 32460],
-            [10, 11, 'activated', 32460],
-            [10, 11, 'deactivated', 32580],
-            [10, 11, 'activated', 32580],
-            [10, 11, 'deactivated', 32640],
-            [10, 13, 'activated', 32640], # Send draft
-            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32700],
-            [10, 11, 'deactivated', 32760],
-            [10, 13, 'activated', 32760], # Send draft
-            [10, 13, 'deactivated', 32790, ['mailId' => $draft_message2->primaryKey]],
-            [10, 11, 'activated', 32790],
-            [10, 11, 'deactivated', 32805],
-            [10, 11, 'activated', 32805, ['mailId' => $draft_message->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
-            [1, 1, 'activated', 32940],
-            [1, 1, 'deactivated', 33000],
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [10, 11, 'activated', 32460, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32580, 'window_uid' => 2],
+            [10, 11, 'activated', 32580, 'window_uid' => 3],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 3],
+            [10, 13, 'activated', 32640, 'window_uid' => 4], # Send draft
+            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey], 'window_uid' => 4],
+            [10, 11, 'activated', 32700, 'window_uid' => 5],
+            [10, 11, 'deactivated', 32760, 'window_uid' => 5],
+            [10, 13, 'activated', 32760, 'window_uid' => 6], # Send draft
+            [10, 13, 'deactivated', 32790, ['mailId' => $draft_message2->primaryKey], 'window_uid' => 6],
+            [10, 11, 'activated', 32790, 'window_uid' => 7],
+            [10, 11, 'deactivated', 32805, 'window_uid' => 7],
+            [10, 11, 'activated', 32805, ['mailId' => $draft_message->primaryKey], 'window_uid' => 8], # Send draft
+            [10, 11, 'deactivated', 32910, ['mailId' => $draft_message->primaryKey], 'window_uid' => 8],
+            [10, 11, 'activated', 32910, ['mailId' => $draft_message2->primaryKey], 'window_uid' => 9], # Send draft
+            [10, 11, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey], 'window_uid' => 9],
+            [1, 1, 'activated', 32940, 'window_uid' => 10],
+            [1, 1, 'deactivated', 33000, 'window_uid' => 10],
         ]);
         MailBoxService::sendDraft($simulation, $draft_message2);
 
@@ -307,14 +307,14 @@ class LogTest extends CDbTestCase
             'simId' => $simulation->primaryKey
         ]);
         $mgr->processLogs($simulation, [
-            [1, 1, 'activated', 32400],
-            [1, 1, 'deactivated', 32460],
-            [10, 11, 'activated', 32460],
-            [10, 11, 'deactivated', 32520],
-            [10, 13, 'activated', 32520], # Send mail
-            [10, 13, 'deactivated', 32580, ['mailId' => $message->primaryKey]],
-            [1, 1, 'activated', 32940],
-            [1, 1, 'deactivated', 33000],
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [10, 11, 'activated', 32460, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32520, 'window_uid' => 2],
+            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
+            [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
+            [1, 1, 'activated', 32940, 'window_uid' => 4],
+            [1, 1, 'deactivated', 33000, 'window_uid' => 4],
         ]);
 
         $simulation_service->simulationStop($simulation->primaryKey);
@@ -391,29 +391,29 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
         $mgr->processLogs($simulation, [
-            [1, 1, 'activated', 32400],
-            [1, 1, 'deactivated', 32460],
-            [10, 11, 'activated', 32460],
-            [10, 11, 'deactivated', 32520],
-            [10, 13, 'activated', 32520], # Send mail
-            [10, 13, 'deactivated', 32580, ['mailId' => $message->primaryKey]],
-            [10, 11, 'activated', 32580],
-            [10, 11, 'deactivated', 32640],
-            [10, 13, 'activated', 32640], # Send draft
-            [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32700],
-            [10, 11, 'deactivated', 32760],
-            [10, 13, 'activated', 32760], # Send draft
-            [10, 13, 'deactivated', 32820, ['mailId' => $draft_message2->primaryKey]],
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [10, 11, 'activated', 32460, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32520, 'window_uid' => 2],
+            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
+            [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
+            [10, 11, 'activated', 32580, 'window_uid' => 4],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 4],
+            [10, 13, 'activated', 32640, 'window_uid' => 5], # Send draft
+            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32700, 'window_uid' => 6],
+            [10, 11, 'deactivated', 32760, 'window_uid' => 6],
+            [10, 13, 'activated', 32760, 'window_uid' => 7], # Send draft
+            [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $draft_message2->primaryKey]],
         ]);
         MailBoxService::sendDraft($simulation, $draft_message2);
         $mgr->processLogs($simulation, [
-            [10, 11, 'activated', 32820],
-            [10, 11, 'deactivated', 32880],
-            [10, 13, 'activated', 32880], # Send draft
-            [10, 13, 'deactivated', 32940, ['mailId' => $draft_message2->primaryKey]],
-            [1, 1, 'activated', 32940],
-            [1, 1, 'deactivated', 33000],
+            [10, 11, 'activated', 32820, 'window_uid' => 1],
+            [10, 11, 'deactivated', 32880, 'window_uid' => 1],
+            [10, 13, 'activated', 32880, 'window_uid' => 2], # Send draft
+            [10, 13, 'deactivated', 32940, 'window_uid' => 2, ['mailId' => $draft_message2->primaryKey]],
+            [1, 1, 'activated', 32940, 'window_uid' => 3],
+            [1, 1, 'deactivated', 33000, 'window_uid' => 3],
         ]);
 
         $simulation_service->simulationStop($simulation->primaryKey);
