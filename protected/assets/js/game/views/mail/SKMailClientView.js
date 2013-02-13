@@ -1566,7 +1566,7 @@ define([
                         this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                         return  false;
                     }
-                    
+
                     this.mailClient.messageForNewEmail = response.phrases.message;
 
                     this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
@@ -1579,17 +1579,18 @@ define([
                     this.renderSingleSubject(subject);
 
                     this.renderPreviouseMessage(response.phrases.previouseMessage);
-                    
-                    this.renderTXT();                    
+
+                    this.renderTXT();
 
                     // even if there is one recipient,but it must be an array
-                    var recipients = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
+                    var recipient = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
                         .getFormatedForMailToName()];
 
+                    $("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
-                        assignedTags:recipients,
-                        availableTags:recipients,
+                        assignedTags: recipient,
+                        availableTags: recipient,
                         allowAdd:false,
                         allowEdit:false
                     });
