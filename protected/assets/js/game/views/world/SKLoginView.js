@@ -8,7 +8,6 @@
         },
         'events': {
             'submit form.login-form': 'doSubmit',
-            'click .btn.register': 'doRegister'
         },
         'render': function () {
             var login_html = _.template($('#login_template').html(), {});
