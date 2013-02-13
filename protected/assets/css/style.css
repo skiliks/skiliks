@@ -54,6 +54,7 @@ nav ul {
 /* --------------- main styles ---------*/
 @font-face {font-family: 'ProximaNova-Regular';src: url('../fonts/24F05C_4_0.eot');src: url('../fonts/24F05C_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_4_0.woff') format('woff'),url('../fonts/24F05C_4_0.ttf') format('truetype');}
 @font-face {font-family: 'ProximaNova-Bold';src: url('../fonts/24F05C_5_0.eot');src: url('../fonts/24F05C_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/24F05C_5_0.woff') format('woff'),url('../fonts/24F05C_5_0.ttf') format('truetype');}
+@font-face {font-family: 'SegoePrint';src: url('../fonts/25D0FC_0_0.eot');src: url('../fonts/25D0FC_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/25D0FC_0_0.woff') format('woff'),url('../fonts/25D0FC_0_0.ttf') format('truetype');}
 html {
 	overflow-y: scroll;
 }
@@ -112,6 +113,7 @@ a:focus, a:active {
 	width:948px;
 	margin:0 auto;
 	overflow:hidden;
+	position:relative;
 	padding-bottom:317px;
 }
 .main-page .content{
@@ -230,7 +232,33 @@ a:focus, a:active {
 		line-height:1.571em;
 	}
 }
-/* --------------- header ---------*/
+/* --------------- /header ---------*/
+
+/* --------------- heroes comments ---------*/
+.heroes-comment{
+	font:12px/22px 'SegoePrint';
+	color:rgba(20,102,114,0.6);
+	width:190px;
+	position:absolute;
+}
+.heroes-comment.right{
+	-webkit-transform: rotate(-27deg);
+	top:648px;
+	left:50%;
+	margin-left:504px;
+}
+.heroes-comment.left{
+	-webkit-transform: rotate(30deg);
+	top:762px;
+	left:50%;
+	margin-left:-610px;
+}
+@media screen and (max-width: 1280px){
+	.heroes-comment{
+		display:none;
+	}
+}
+/* --------------- /heroes comments ---------*/
 
 /* --------------- features ---------*/
 .features{
