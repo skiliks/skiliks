@@ -190,12 +190,12 @@ class SimulationServiceTest extends CDbTestCase
         // logging
         
         $logs = [
-            0 => [10, 13, 'activated', 32500],
-            1 => [10, 13, 'deactivated', 32600, 4 => ['mailId' => $ms_27->id]],
-            2 => [10, 13, 'activated', 32700],
-            3 => [10, 13, 'deactivated', 32800, 4 => ['mailId' => $ms_28->id]],
-            4 => [10, 13, 'activated', 32900],
-            5 => [10, 13, 'deactivated', 33000, 4 => ['mailId' => $ms_29->id]],
+            0 => [10, 13, 'activated', 32500, 'window_uid' => 1],
+            1 => [10, 13, 'deactivated', 32600, 'window_uid' => 1, 4 => ['mailId' => $ms_27->id]],
+            2 => [10, 13, 'activated', 32700, 'window_uid' => 2],
+            3 => [10, 13, 'deactivated', 32800, 'window_uid' => 2, 4 => ['mailId' => $ms_28->id]],
+            4 => [10, 13, 'activated', 32900, 'window_uid' => 3],
+            5 => [10, 13, 'deactivated', 33000, 'window_uid' => 3, 4 => ['mailId' => $ms_29->id]],
         ];
         
         $event = new EventsManager();
