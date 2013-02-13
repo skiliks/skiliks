@@ -52,7 +52,8 @@ define(["jquery/jquery.cookies"], function () {
                             cb(data);
                         }
                     },
-                    error:function () {
+                    error:function (jqXHR, textStatus, errorThrown) {
+                        console.log(url + ' error ' + errorThrown);
                         me.message_window = me.message_window || new window.SKDialogView({
                             'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
                             'buttons':[

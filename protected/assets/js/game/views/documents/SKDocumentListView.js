@@ -103,7 +103,6 @@ define(["game/views/SKWindowView"], function () {
                             ['back', 'forward'],
                             // ['reload'],
                             // ['home', 'up'],
-                            ['open', 'download', 'getfile'],
                             ['info'],
                             ['quicklook'],
                             ['view']

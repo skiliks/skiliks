@@ -102,7 +102,7 @@ define([
             parseNewEvents:function (events) {
                 var me = this;
                 events.forEach(function (event) {
-                    //console.log('[SKSimulation] new event ', event.eventType, event.data);
+                    console.log('[SKSimulation] new event ', event.eventType, event.data);
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                         // Crutch, sometimes server returns empty events
                         me.events.trigger('dialog:end');

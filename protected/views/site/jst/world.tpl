@@ -43,7 +43,6 @@
 
             <div class="form-actions"><input type="submit"
                                              value="Вход" class="btn btn-primary">&nbsp;
-                <input type="button" onclick="register.drawDefault();" value="Регистрация" class="btn">
                 <input type="button" onclick="register.lostPass();" value="Забыли пароль?"
                        class="btn">
             </div>
