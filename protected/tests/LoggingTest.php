@@ -1,5 +1,5 @@
 <?php
-class LoggingTest extends CWebTestCase
+class LoggingTest extends SeleniumTestCase
 {
 
     /**
