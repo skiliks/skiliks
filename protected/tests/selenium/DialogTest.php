@@ -6,7 +6,7 @@
  * Time: 16:17
  * To change this template use File | Settings | File Templates.
  */
-class DialogTest extends CWebTestCase
+class SelDialogTest extends CWebTestCase
 {
     protected function setUp()
     {
