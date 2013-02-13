@@ -21,7 +21,7 @@ class DialogueDelayTest extends CDbTestCase {
         //Запуск T7.1
         $this->setTime($simulation, 11, 12);
         $event->startEvent($simulation->id, 'T7.1', false, false, 0);
-        for($i=0;$i<4;$i++){
+        for($i=0;$i<20;$i++){
             $json = $event->getState($simulation, false);
             if(!empty($json['events'][0]['eventType']) && $json['events'][0]['eventType'] == 1){
                 Logger::write(var_export($json, true));
