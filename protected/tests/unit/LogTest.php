@@ -161,7 +161,7 @@ class LogTest extends CDbTestCase
         $last_dialog = Dialogs::model()->findByAttributes(['excel_id' => 135]);
         $mgr->processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
-            [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+            [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
         $simulation_service->simulationStop($simulation->primaryKey);
         $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -175,10 +175,11 @@ class LogTest extends CDbTestCase
         }
         $log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         foreach ($log_dialogs as $log) {
-            printf("%s\t%8s\t%s\n",
+            printf("%s\t%8s\t%5d\t%5d\n",
                 $log->start_time,
                 $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->dialog_id
+                $log->dialog_id,
+                $log->last_id
             );
             /*$this->assertNotNull($log->end_time);*/
         }
@@ -199,6 +200,9 @@ class LogTest extends CDbTestCase
 
     }
 
+    /**
+     * Проверяет, нормально ли работает поочередная отправка двух писем с сохранением в черновики
+     */
     public function test_two_new_letters()
     {
         // $this->markTestSkipped();
@@ -244,8 +248,6 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
             [10, 11, 'deactivated', 32580, 'window_uid' => 2],
-            [10, 11, 'activated', 32580, 'window_uid' => 3],
-            [10, 11, 'deactivated', 32640, 'window_uid' => 3],
             [10, 13, 'activated', 32640, 'window_uid' => 4], # Send draft
             [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey], 'window_uid' => 4],
             [10, 11, 'activated', 32700, 'window_uid' => 5],
@@ -285,7 +287,40 @@ class LogTest extends CDbTestCase
         $this->assertEquals($activity_actions[7]->activityAction->activity_id, 'A_incorrect_send');
 
     }
-    public function test_log_m8_forward()
+
+    public function testE2_9_Logging() {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $mgr = new EventsManager();
+        $first_dialog = Dialogs::model()->findByAttributes(['excel_id' => 192]);
+        $last_dialog = Dialogs::model()->findByAttributes(['excel_id' => 200]);
+        $mgr->processLogs($simulation, [
+            [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+            [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
+        ]);
+        $simulation_service->simulationStop($simulation->primaryKey);
+        $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        foreach ($log_windows as $log) {
+            printf("%s\t%8s\t%s\n",
+                $log->start_time,
+                $log->end_time !== null ? $log->end_time : '(empty)',
+                $log->window
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+        $log_dialogs = LogHelper::getDialogs(LogHelper::RETURN_DATA, $simulation);
+        foreach ($log_dialogs['data'] as $log) {
+            printf("%s\t%8s\t%5s\t%5d\n",
+                $log['start_time'],
+                $log['end_time'] !== null ? $log['end_time'] : '(empty)',
+                $log['code'],
+                $log['last_id']
+            );
+            /*$this->assertNotNull($log->end_time);*/
+        }
+
+    }public function test_log_m8_forward()
     {
         // $this->markTestSkipped();
         
@@ -313,7 +348,7 @@ class LogTest extends CDbTestCase
             [10, 11, 'deactivated', 32520, 'window_uid' => 2],
             [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
             [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
-            [1, 1, 'activated', 32940, 'window_uid' => 4],
+            [1, 1, 'activated', 32580, 'window_uid' => 4],
             [1, 1, 'deactivated', 33000, 'window_uid' => 4],
         ]);
 
@@ -322,7 +357,7 @@ class LogTest extends CDbTestCase
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         foreach ($mail_logs as $log) {
-            //print_r($log);
+            print_r($log->attributes);
         }
         $this->assertEquals(count($mail_logs), 1);
 
