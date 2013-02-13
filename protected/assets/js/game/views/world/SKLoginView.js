@@ -1,4 +1,4 @@
-/*global Backbone, _, sender */
+/*global Backbone, _, SKApp */
 (function() {
     "use strict";
     window.SKLoginView = Backbone.View.extend({
@@ -7,7 +7,8 @@
             this.render();
         },
         'events': {
-            'submit form.login-form': 'doSubmit'
+            'submit form.login-form': 'doSubmit',
+            'click .btn.register': 'doRegister'
         },
         'render': function () {
             var login_html = _.template($('#login_template').html(), {});

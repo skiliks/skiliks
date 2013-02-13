@@ -97,8 +97,8 @@ class ActivityAction extends CActiveRecord
         $log_search_criteria->addColumnCondition([
           'sim_id' => $log->simulation->id
         ]);
-        $log_search_criteria->addCondition('end_time IS NULL OR end_time = :end_time');
-        $log_search_criteria->params['end_time'] = $log->end_time;
+        $log_search_criteria->addCondition('start_time = :start_time');
+        $log_search_criteria->params['start_time'] = $log->start_time;
         $log_action = LogActivityAction::model()->find($log_search_criteria);
         if (!$log_action) {
             $log_action = new LogActivityAction();
