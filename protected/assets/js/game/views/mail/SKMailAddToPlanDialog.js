@@ -161,7 +161,7 @@ define(["game/views/SKDialogView"], function () {
                 'mail/addToPlan',
                 {
                     id:        addToPlanDialog.selectedMailTask.mySqlId,
-                    messageId: addToPlanDialog.mailClient.activeEmail.mySqlId
+                    messageId: SKApp.user.simulation.mailClient.activeEmail.mySqlId
                 },
                 function (response) {
                     // add to plan {
@@ -184,9 +184,9 @@ define(["game/views/SKDialogView"], function () {
         },
         
         doLogClose: function() {
-            this.mailClient.setWindowsLog(
+            SKApp.user.simulation.mailClient.setWindowsLog(
                 'mailMain',
-                this.mailClient.getActiveEmailId()
+                SKApp.user.simulation.mailClient.getActiveEmailId()
             );   
         },
 

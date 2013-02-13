@@ -39,6 +39,8 @@ class LogHelper
     const MAIL_NEW = 'mail new';
     const MAIL_PLAN = 'mail plan';
 
+    const MAIL_NEW_WINDOW_TYPE_ID = 13;
+
     protected static $subScreens = array(
         1 => 'main screen',
         3 => 'plan',
@@ -845,7 +847,7 @@ class LogHelper
                 }
                 $log_window = new LogWindows();
                 $log_window->sim_id = $simId;
-                $log_window->window = $log[0];
+                $log_window->window = $log[1];
                 $log_window->start_time = gmdate("H:i:s", $log[3]);
                 $log_window->sub_window = $log[1];
                 $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;

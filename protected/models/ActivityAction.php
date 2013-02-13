@@ -93,6 +93,7 @@ class ActivityAction extends CActiveRecord
     }
 
     public function appendLog($log) {
+        // get log_action {
         $log_search_criteria = new CDbCriteria();
         $log_search_criteria->addColumnCondition([
           'sim_id' => $log->simulation->id
@@ -100,6 +101,9 @@ class ActivityAction extends CActiveRecord
         $log_search_criteria->addCondition('end_time IS NULL OR end_time = :end_time');
         $log_search_criteria->params['end_time'] = $log->end_time;
         $log_action = LogActivityAction::model()->find($log_search_criteria);
+        // get log_action }
+
+        // init log_action if not exists {
         if (!$log_action) {
             $log_action = new LogActivityAction();
             $log_action->start_time = $log->start_time;
@@ -112,6 +116,13 @@ class ActivityAction extends CActiveRecord
             }
 
         }
+        // init log_action if not exists }
+
+        // add window_uid. Currently I`m not sure that window_uid exists in ely log (e.g. DocumentLog)
+        if (isset($log->window_uid)) {
+            $log_action->window_uid = $log->window_uid;
+        }
+
         # Drafts
         if (isset($log->mail_id)) {
             $activity = ActivityAction::model()->findByPriority(['mail_id' => null], ['Inbox_leg', 'Outbox_leg']);
@@ -133,6 +144,20 @@ class ActivityAction extends CActiveRecord
             $log_action->end_time = $log->end_time;
         };
         $log_action->save();
+
+        // update chain of new mail window logs, with same window_uid {
+        if ($log instanceof LogMail && LogHelper::MAIL_NEW_WINDOW_TYPE_ID == $log->window) {
+            $activityActionLogs = LogActivityAction::model()->findAllByAttributes([
+                'sim_id'     => $log->simulation->id,
+                'window_uid' => $log->window_uid
+            ]);
+            foreach ($activityActionLogs as $activityActionLog) {
+                $activityActionLog->mail_id            = $log->mail_id;
+                $activityActionLog->activity_action_id = $this->id;
+                $activityActionLog->save();
+            }
+        }
+        // update chain of new mail window logs, with same window_uid }
     }
 
     /**
