@@ -8,6 +8,12 @@
  */
 class MailBoxTest extends CDbTestCase
 {
+    /**
+     * 1. Проверяет темы для письма которое инициализитуются при старте симуляции,
+     *    с темой "Форма отчетности для производства"
+     * 2. Проверяет тему письма M31 "Re: Срочно жду бюджет логистики"
+     * 3. Проверяет тему у MS письма "Re: срочно! Отчетность"
+     */
     public function testSubjectsForInitialEmails() 
     {
         //$this->markTestSkipped();
@@ -60,7 +66,21 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals('Re: Срочно жду бюджет логистики', $m2['subject']);
 
     }
-    
+
+    /**
+     * 1. Проверяет темы для нового письма к Василию Бобру.
+     * Проверяет что тем 3, и что это темы
+     *  - 'Бюджет производства прошлого года'
+     *  - 'Бюджет производства 02: коррективы'
+     *  - 'Прочее'
+     *
+     * 2. Проверяет темы для нового письма к Василию Бобру и ещё двум получателям одновременно.
+     * Проверяет что тем 3, и что это темы
+     *  - 'Бюджет производства прошлого года'
+     *  - 'Бюджет производства 02: коррективы'
+     *  - 'Прочее'
+     * Кейс 2 нужен чтоб видеть, что для выбора тем имеет значение только первый получатель
+     */
     public function testSubjectForNewEmail() 
     {
         //$this->markTestSkipped();
@@ -91,7 +111,11 @@ class MailBoxTest extends CDbTestCase
         
         $this->assertNull($id_2);
     }
-    
+
+    /**
+     * 1. Проверяет тему письма, которое является ответом на M31.
+     * Тема нового письма должна быть 'Re: Re: Срочно жду бюджет логистики'
+     */
     public function testSubjectsForReReCase() 
     {
         //$this->markTestSkipped();
@@ -135,7 +159,13 @@ class MailBoxTest extends CDbTestCase
     }    
     
     /**
-     * 
+     * Проверяет темы для писем-перенаправлений:
+     * 1. Проверяет что для случайнио выбранного письма из списка писем с темой "ххх",
+     *    тема форварда будет выглядеть как "Fwd: ххх"
+     *
+     * 2. M61 - форвард для письма с одним Re:
+     *
+     * 3. M62 - форвард для письма с двумя Re:
      */
     public function testForward() 
     {
@@ -145,7 +175,7 @@ class MailBoxTest extends CDbTestCase
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
-        /*
+
         // random email case{       
         $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);        
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);      
@@ -153,8 +183,7 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
         $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'random email case');
         // random email case }
-        */
-        
+
         // case 2, M61 {      
         $emailM61 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M61']);
         $emailM61->group_id = 1;
@@ -167,7 +196,7 @@ class MailBoxTest extends CDbTestCase
         $subject = MailBoxService::getThemes('18', $emailM61->subject_id);
         // case 2, M61 }
         
-        // case 2, M62 {      
+        // case 3, M62 {
         $emailM62 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M62']);
         $emailM62->group_id = 1;
         $emailM62->save();        
@@ -177,9 +206,13 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
         
         $subject = MailBoxService::getThemes('18', $emailM62->subject_id);
-        // case 2, M62 }
+        // case 3, M62 }
     }
 
+    /**
+     * 1. Проверяет что для нового письма Денежной на тему "'Сводный бюджет" возвращается непустой набор
+     *    правильных фраз
+     */
     public function testGetPhrases()
     {      
         //$this->markTestSkipped();
@@ -194,8 +227,13 @@ class MailBoxTest extends CDbTestCase
         }
         
         $phrases = MailBoxService::getPhrases($theme->id, 0);
-        
+
         $this->assertEquals($data, $phrases['data']);
+        $this->assertEquals(count($data), count($phrases['data']));
+
+        foreach ($phrases['data'] as $phrase) {
+            $this->assertTrue(in_array($phrase, $data));
+        }
     }
 }
 

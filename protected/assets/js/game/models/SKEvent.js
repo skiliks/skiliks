@@ -206,7 +206,7 @@
                     }
                 });
             },
-        
+
             /**
              * Marks event as completed
              */
