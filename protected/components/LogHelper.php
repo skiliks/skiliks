@@ -1262,7 +1262,7 @@ class LogHelper
 
     public static function fixUniversalLogWindocOpenAndCloseTime($simulation)
     {
-        $previouseItem = null;
+        $previousItem = null;
 
         $list = LogWindows::model()->findAll([
             'order' => 'start_time ASC',
@@ -1274,14 +1274,14 @@ class LogHelper
         $transaction = $connection->beginTransaction(); // to avoid many single UPDATEs
 
         foreach ($list as $logWindowsItem) {
-            if (null !== $previouseItem) {
-                if ($logWindowsItem->start_time !== $previouseItem->end_time) {
-                    $logWindowsItem->start_time = $previouseItem->end_time;
-                    $logWindowsItem->save();
+            if (null !== $previousItem) {
+                if ($logWindowsItem->start_time !== $previousItem->end_time) {
+                    $previousItem->end_time = $logWindowsItem->start_time;
+                    $previousItem->save();
                 }
             }
 
-            $previouseItem = $logWindowsItem;
+            $previousItem = $logWindowsItem;
         }
 
         $transaction->commit();
