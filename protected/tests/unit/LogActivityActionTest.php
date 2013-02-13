@@ -16,28 +16,28 @@ class LogActivityActionTest extends CDbTestCase {
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
-            [1, 1, 'activated', 32400]
+            [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [1, 1, 'deactivated', 39735],
-            [20, 24, 'activated', 39735, ['dialogId' => 1, 'lastDialogId'=>1]]
+            [1, 1, 'deactivated', 39735, 'window_uid' => 1],
+            [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId'=>1]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [20, 24, 'deactivated', 40493, ['dialogId' => 1, 'lastDialogId'=>2]],
-            [1, 1, 'activated', 40493],
-            [1, 1, 'deactivated', 40493],
-            [20, 23, 'activated', 40493, ['dialogId' => 4, 'lastDialogId'=>4]]
+            [20, 24, 'deactivated', 40493, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId'=>2]],
+            [1, 1, 'activated', 40493, 'window_uid' => 3],
+            [1, 1, 'deactivated', 40493, 'window_uid' => 3],
+            [20, 23, 'activated', 40493, 'window_uid' => 4, ['dialogId' => 4, 'lastDialogId'=>4]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [20, 23, 'deactivated', 43992, ['dialogId' => 4, 'lastDialogId'=>824]],
-            [1, 1, 'activated', 43992],
-            [1, 1, 'deactivated', 44002]
+            [20, 23, 'deactivated', 43992, 'window_uid' => 4, ['dialogId' => 4, 'lastDialogId'=>824]],
+            [1, 1, 'activated', 43992, 'window_uid' => 5],
+            [1, 1, 'deactivated', 44002, 'window_uid' => 5]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
@@ -127,47 +127,47 @@ class LogActivityActionTest extends CDbTestCase {
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
-            [1, 1, 'activated', 32400]
+            [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [1, 1, 'deactivated', 43339],
-            [20, 24, 'activated', 43339, ['dialogId' => 128, 'lastDialogId'=>128]]
+            [1, 1, 'deactivated', 43339, 'window_uid' => 1],
+            [20, 24, 'activated', 43339, 'window_uid' => 2, ['dialogId' => 128, 'lastDialogId'=>128]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [20, 24, 'deactivated', 43370, ['dialogId' => 128, 'lastDialogId'=>129]]
-        ]);
-        $this->assertEquals(0, $json['result']);
-        unset($json);
-
-        $json = $event->getState($simulation, [
-            [1, 1, 'activated', 43370],
-            [1, 1, 'deactivated', 43370],
-            [20, 23, 'activated', 43370, ['dialogId' => 141, 'lastDialogId'=>141]],
-            [20, 23, 'deactivated', 43404, ['dialogId' => 141, 'lastDialogId'=>141]],
-            [1, 1, 'activated', 43404],
-            [1, 1, 'deactivated', 43404],
-            [20, 23, 'activated', 43404, ['dialogId' => 142, 'lastDialogId'=>142]]
+            [20, 24, 'deactivated', 43370, 'window_uid' => 2, ['dialogId' => 128, 'lastDialogId'=>129]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
 
         $json = $event->getState($simulation, [
-            [20, 23, 'deactivated', 43572, ['dialogId' => 142, 'lastDialogId'=>147]],
-            [1, 1, 'activated', 43572],
-            [1, 1, 'deactivated', 43572],
-            [20, 23, 'activated', 43572, ['dialogId' => 163, 'lastDialogId'=>163]]
+            [1, 1, 'activated', 43370, 'window_uid' => 3],
+            [1, 1, 'deactivated', 43370, 'window_uid' => 3],
+            [20, 23, 'activated', 43370, 'window_uid' => 4, ['dialogId' => 141, 'lastDialogId'=>141]],
+            [20, 23, 'deactivated', 43404, 'window_uid' => 4, ['dialogId' => 141, 'lastDialogId'=>141]],
+            [1, 1, 'activated', 43404, 'window_uid' => 5],
+            [1, 1, 'deactivated', 43404, 'window_uid' => 5],
+            [20, 23, 'activated', 43404, 'window_uid' => 6, ['dialogId' => 142, 'lastDialogId'=>142]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
 
         $json = $event->getState($simulation, [
-            [20, 23, 'deactivated', 43765, ['dialogId' => 163, 'lastDialogId'=>168]],
-            [1, 1, 'activated', 43765],
-            [1, 1, 'deactivated', 44444]
+            [20, 23, 'deactivated', 43572, 'window_uid' => 6, ['dialogId' => 142, 'lastDialogId'=>147]],
+            [1, 1, 'activated', 43572, 'window_uid' => 7],
+            [1, 1, 'deactivated', 43572, 'window_uid' => 7],
+            [20, 23, 'activated', 43572, 'window_uid' => 8, ['dialogId' => 163, 'lastDialogId'=>163]]
+        ]);
+        $this->assertEquals(0, $json['result']);
+        unset($json);
+
+        $json = $event->getState($simulation, [
+            [20, 23, 'deactivated', 43765, 'window_uid' => 8, ['dialogId' => 163, 'lastDialogId'=>168]],
+            [1, 1, 'activated', 43765, 'window_uid' => 9],
+            [1, 1, 'deactivated', 44444, 'window_uid' => 9]
         ]);
 
         $this->assertEquals(0, $json['result']);
