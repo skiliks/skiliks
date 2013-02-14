@@ -25,9 +25,10 @@ class MailFoldersModel extends CActiveRecord
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
+     * @depracated: so far mail/getFolders is deprecated too
      * @return mixed array
      */
-    public static function getFoldersListForJson()
+    /*public static function getFoldersListForJson()
     {
         $folders = self::model()->findAll(array('limit' => 4));
         
@@ -43,7 +44,7 @@ class MailFoldersModel extends CActiveRecord
         }
         
         return $list;   
-    }
+    }*/
 
 
     /** ------------------------------------------------------------------------------------------------------------ **/

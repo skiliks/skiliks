@@ -140,7 +140,7 @@ define([] ,function() {
                separator = ' ,'; 
             }
             this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
-        },        
+        },
 
         /**
          */

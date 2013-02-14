@@ -80,7 +80,17 @@ define(["game/views/SKWindowView"], function () {
                 if(data.data === 'ok'){
                     SKApp.user.simulation.getNewEvents();
                 }else{
-                    console.log("fail");
+                    SKApp.user.simulation.mailClient.message_window = new SKDialogView({
+                        'message':'Вы уже обсудили этот вопрос!',
+                        'buttons':[
+                            {
+                                'value':'Окей',
+                                'onclick':function () {
+                                    delete SKApp.user.simulation.mailClient.message_window;
+                                }
+                            }
+                        ]
+                    });
                 }
 
             });
