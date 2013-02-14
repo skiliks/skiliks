@@ -68,12 +68,19 @@ class PhoneService {
                $trigger = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);//Logger::write($dialog->next_event_code);
                if($trigger !== null){
                    $manager->startEvent($simId, $dialog->next_event_code, 0, 0, 0);
-                   $dialog_cancel = Dialogs::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
-                   $cancel_event = EventsSamples::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
-                   $cur_event = EventsTriggers::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
-                   if($cur_event !== null){
-                       $cur_event->delete();
-                   }
+                   do{
+                       $dialog_cancel = Dialogs::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
+                       if($dialog_cancel === null || empty($dialog_cancel->next_event_code)){ break; }
+                       $cancel_event = EventsSamples::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
+                       $cur_event = EventsTriggers::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
+                       if($cur_event !== null){
+                           $cur_event->delete();
+                           $dialog_code = $dialog_cancel->next_event_code;
+                       }else{
+                           throw new CException("{$dialog_cancel->next_event_code} event has already happened");
+                       }
+                   }while(!empty($dialog_cancel->next_event_code));
+
                 }else{
                    return 'fail';
                }
