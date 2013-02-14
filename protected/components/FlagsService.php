@@ -72,11 +72,11 @@ class FlagsService
     public static function compareFlags($simulationFlags, $rules)
     {
         foreach ($rules as $rule) {
-            if (false === isset($simulationFlags[$flag->flag_code])) {
+            if (false === isset($simulationFlags[$rule->flag_code])) {
                 return false;
             }
 
-            if ($simulationFlags[$flag->flag_code] != $rule->value) {
+            if ($simulationFlags[$rule->flag_code] != $rule->value) {
                 return false;
             }
         }
@@ -104,15 +104,15 @@ class FlagsService
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }*/
-        $rule = FlagBlockReplica::model()->findAllByAttributes(
+        $rule = FlagBlockReplica::model()->findAllByAttributes([
             'replica_id' => $excelId
-        );
+        ]);
 
         $result['ruleExists']    = true;
         $result['recId']         = (int)$excelId;
         $result['stepNumber']    = $stepNumber;
         $result['replicaNumber'] = $replicaNumber;
-        $result['compareResult'] = false;
+        $result['compareResult'] = true;
 
         // получим флаги для этого правила
         //$flags = FlagsService::getFlags($ruleModel->getId());
@@ -122,12 +122,13 @@ class FlagsService
 
         // получить флаги в рамках симуляции
         $simulationFlags = SimulationService::getFlags($simId);
-        if (count($simulationFlags) == 0)
+        if (count($simulationFlags) == 0){
             return $result; // у нас пока нет установленных флагов - не чего сравнивать
+        }
 
         // проверить на совпадение флагов с теми что есть в симуляции
-        if (FlagsService::compareFlags($simulationFlags, $rule)) {
-            $result['compareResult'] = true;
+        if (false === FlagsService::compareFlags($simulationFlags, $rule)) {
+             $result['compareResult'] = false;
         }
 
         return $result;
@@ -144,8 +145,8 @@ class FlagsService
         if (!$model) {
             $model = new SimulationFlagsModel();
             $model->sim_id = $simId;
+            $model->flag = $flag;
         }
-        $model->flag = $flag;
         $model->value = $value;
         $model->save();
     }

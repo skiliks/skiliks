@@ -7,7 +7,7 @@
  * @property string $flag_code
  * @property string $mail_code
  */
-class FlagRunEmail extends CActiveRecord
+class FlagRunMail extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
