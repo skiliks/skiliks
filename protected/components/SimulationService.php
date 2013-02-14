@@ -36,11 +36,12 @@ class SimulationService
     }
     
     /**
+     * @deprecated: never used use FlagService::setFlag instead this
      * Установка флага в рамках симуляции
      * @param int $simId
      * @param string $flag 
      */
-    public static function setFlag($simId, $flag) {
+    /*public static function setFlag($simId, $flag) {
         $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
         if (!$model) {
             $model = new SimulationFlagsModel();
@@ -50,7 +51,7 @@ class SimulationService
         
         $model->value = 1;
         $model->save();
-    }
+    }*/
     
     /**
      * Получить список флагов в рамках симуляции

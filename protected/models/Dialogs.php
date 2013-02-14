@@ -128,7 +128,12 @@ class Dialogs extends CActiveRecord
      * Replica initialization type: dialog, icon, time, flex etc.
      * @var string
      */
-    public $type_of_init;     
+    public $type_of_init;
+
+    /**
+     * @var string | NULL
+     */
+    public $flag_to_swith;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     

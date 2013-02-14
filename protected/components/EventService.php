@@ -246,27 +246,23 @@ class EventService {
      * @param string $code 
      * @return true
      */
-    public static function allowToRun($code, $simId, $stepNumber = false, $replicaNumber = false) {
-        $ruleModel = FlagsService::getRuleByCode($code, $stepNumber, $replicaNumber);
-        if (!$ruleModel) {
+    public static function allowToRun($replica, $simId) {
+        $rules = FlagBlockReplica::model()->findAllByAttributes(
+            'replica_id' => $replica->excel_id
+        );
+
+        if (NULL === $rules) {
             return true; // нет правил для данного события
         }    
-        
-        // получим флаги для этого правила
-        $flags = FlagsService::getFlags($ruleModel->id);
-        if (count($flags) == 0) {
-            return true; // для данного кода нет правил
-        }    
-        
-        // получить флаги в рамках симуляции
+
         $simulationFlags = SimulationService::getFlags($simId);
-        if (count($simulationFlags)==0) {
-            // todo: event that allowed when FXX = 0 is possible, bu this method will return false
+        if (count($simulationFlags) == 0) {
+            // todo: event that allowed when FXX = 0 is possible, but this method will return false
             return false; // у нас пока нет установленных флагов - не чего сравнивать
         }    
         
         // проверить на совпадение флагов с теми что есть в симуляции
-        $result = FlagsService::compareFlags($simulationFlags, $flags);
+        $result = FlagsService::compareFlags($simulationFlags, $rules);
         return $result;
     }
     
