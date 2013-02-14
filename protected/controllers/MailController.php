@@ -9,9 +9,10 @@ class MailController extends AjaxController
 {
 
     /**
+     * @deprecated: use getMessages instead of this.
      * Отдачи состава папок
      */
-    public function actionGetFolders()
+    /*public function actionGetFolders()
     {
         $simulation = $this->getSimulationEntity();
 
@@ -22,7 +23,7 @@ class MailController extends AjaxController
             'folders'  => $folders,
             'messages' => $messages,
         ));
-    }
+    }*/
 
     /**
      * Возвращает колличество непрочитанных писем во входящих
