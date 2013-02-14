@@ -899,6 +899,45 @@ class ImportGameDataService
         );
     }
 
+    public function importFlags() {
+        $reader = $this->getReader();
+        // load sheet {
+        $reader->setLoadSheetsOnly('Flags');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Flags');
+        $this->columnNoByName = [];
+        $this->setColumnNumbersByNames($sheet, 1);
+        // load sheet }
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $code = $this->getCellValue($sheet, 'Flag_code', $i);
+            if ($code === null) {
+                continue;
+            }
+            $flag = Flag::model()->findByAttributes(['code' => $code]);
+            if ($flag === null) {
+                $flag = new Flag();
+            }
+            //$flag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flag->code = $code;
+            $flag->description = $this->getCellValue($sheet, 'Flag_name', $i);
+            $flag->import_id = $this->import_id;
+            $flag->save();
+            if ($this->getCellValue($sheet, 'Flag_run_type', $i) === 'dialog') {
+                $run_code = Dialogs::model()->findByAttributes(['excel_id' => $this->getCellValue($sheet, 'Run_code', $i)])->primaryKey;
+                $flag_rule = FlagsRulesModel::model()->findByAttributes(['rec_id' => $run_code]);
+                if ($flag_rule === null) {
+                    $flag_rule = new FlagsRulesModel();
+                }
+                $flag_rule->rec_id = $run_code;
+                $flag_rule->save();
+                $flag_rule_content = FlagsRulesContentModel::model()->findByAttributes(['flag' => $code]);
+                $flag_rule_content->flag = $flag->code;
+                $flag_rule_content->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+                $flag_rule_content->save();
+            }
+        }
+    }
+
     /**
      * Импорт событий из писем
      */
