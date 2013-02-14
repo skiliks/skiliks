@@ -922,19 +922,7 @@ class ImportGameDataService
             $flag->description = $this->getCellValue($sheet, 'Flag_name', $i);
             $flag->import_id = $this->import_id;
             $flag->save();
-            if ($this->getCellValue($sheet, 'Flag_run_type', $i) === 'dialog') {
-                $run_code = Dialogs::model()->findByAttributes(['excel_id' => $this->getCellValue($sheet, 'Run_code', $i)])->primaryKey;
-                $flag_rule = FlagsRulesModel::model()->findByAttributes(['rec_id' => $run_code]);
-                if ($flag_rule === null) {
-                    $flag_rule = new FlagsRulesModel();
-                }
-                $flag_rule->rec_id = $run_code;
-                $flag_rule->save();
-                $flag_rule_content = FlagsRulesContentModel::model()->findByAttributes(['flag' => $code]);
-                $flag_rule_content->flag = $flag->code;
-                $flag_rule_content->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-                $flag_rule_content->save();
-            }
+            Flag::model()->deleteAll('import_id <> :import_id', ['import_id' => $this->import_id]);
         }
     }
 
@@ -1748,6 +1736,7 @@ class ImportGameDataService
             $result['event_samples'] = $this->importEventSamples();
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+            $result['flags'] = $this->importFlags();
 
             $transaction->commit();
 
