@@ -11,7 +11,8 @@ define(["game/views/SKWindowView"], function () {
             'click .phone_get_history':  'getHistory',
             'click .phone_get_menu':     'getMenu',
             'click .phone_get_themes':   'getThemes',
-            'click .phone_call':         'callToContact'
+            'click .phone_call':         'callToContact',
+            'click .phone_call_back':    'callbackContact'
         }, SKWindowView.prototype.events),
         renderContent: function (window_el) {
             window_el.html(_.template($('#Phone_Html').html(), _.defaults(SKConfig)));
@@ -69,6 +70,19 @@ define(["game/views/SKWindowView"], function () {
             this.options.model_instance.close();
             SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
                 SKApp.user.simulation.parseNewEvents(data.events);
+            });
+
+        },
+        callbackContact:function(e){
+            var dialog_code = $(e.currentTarget).attr('data-dialog-code');
+            this.options.model_instance.close();
+            SKApp.server.api('phone/callback', {'dialog_code':dialog_code, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
+                if(data.data === 'ok'){
+                    SKApp.user.simulation.getNewEvents();
+                }else{
+                    console.log("fail");
+                }
+
             });
 
         }

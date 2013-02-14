@@ -51,7 +51,8 @@ class DialogService
                 Characters::model()->findByAttributes(['code' => Characters::HERO_ID]),
                 $currentDialog->dialog_subtype,
                 $currentDialog->step_number,
-                $currentDialog->replica_number
+                $currentDialog->replica_number,
+                $currentDialog->code
         );
         ############################################################
 
