@@ -1719,6 +1719,92 @@ class ImportGameDataService
         return $result;
     }
 
+    public function inportFlagsRules() {
+        echo __METHOD__."\n";
 
+        $reader = $this->getReader();
+
+        // load sheet {
+        $reader->setLoadSheetsOnly('Flags');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Flags');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $importedFlagToRunMailRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('mail' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // try to find exists entity {
+            $mailFlag = FlagMail::model()->findByAttributes([
+                'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
+                'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
+            ]);
+            // try to find exists entity }
+
+            // create entity if not exists {
+            if (null === $mailFlag) {
+                $mailFlag = new FlagMail();
+                $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $mailFlag->mail_code = $this->getCellValue($sheet, 'Run_code', $i);
+                $mailFlag->import_id = $this->import_id;
+                $mailFlag->save();
+            }
+            // create entity if not exists }
+
+            $importedFlagToRunMailRows++;
+        }
+
+        $importedFlagBlockReplica = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('dialog' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // try to find exists entity {
+            $flagBlockReplica = FlagBlockReplica::model()->findByAttributes([
+                'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
+                'replica_id' => $this->getCellValue($sheet, 'Run_code', $i),
+            ]);
+            // try to find exists entity }
+
+            // create entity if not exists {
+            if (null === $flagBlockReplica) {
+                $flagBlockReplica = new FlagBlockReplica();
+                $flagBlockReplica->flag_code  = $this->getCellValue($sheet, 'Flag_code', $i);
+                $flagBlockReplica->replica_id = $this->getCellValue($sheet, 'Run_code', $i);
+            }
+            // create entity if not exists }
+
+            $flagBlockReplica->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagBlockReplica->import_id = $this->import_id;
+            $flagBlockReplica->save();
+
+            $importedFlagBlockReplica++;
+        }
+
+        // delete old unused data {
+        FlagMail::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+
+        FlagBlockReplica::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        echo __METHOD__." end \n";
+
+        return array(
+            'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
+            'imported_Flag_block_replica' => $importedFlagBlockReplica,
+            'errors' => false,
+        );
+    }
 }
 
