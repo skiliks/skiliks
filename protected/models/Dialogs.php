@@ -111,13 +111,7 @@ class Dialogs extends CActiveRecord
      * @var string
      */
     public $next_event_code;    
-    
-    /**
-     * "F1", "F2", ...
-     * @var string
-     */
-    public $flag; 
-    
+
     /**
      * Is this replica used in demo
      * @var boolean (integer)
@@ -131,9 +125,10 @@ class Dialogs extends CActiveRecord
     public $type_of_init;
 
     /**
+     * "F1", "F2", ...
      * @var string | NULL
      */
-    public $flag_to_swith;
+    public $flag_to_switch;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     

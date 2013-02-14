@@ -247,9 +247,9 @@ class EventService {
      * @return true
      */
     public static function allowToRun($replica, $simId) {
-        $rules = FlagBlockReplica::model()->findAllByAttributes(
+        $rules = FlagBlockReplica::model()->findAllByAttributes([
             'replica_id' => $replica->excel_id
-        );
+        ]);
 
         if (NULL === $rules) {
             return true; // нет правил для данного события

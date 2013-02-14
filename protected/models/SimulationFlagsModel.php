@@ -38,7 +38,7 @@ class SimulationFlagsModel extends CActiveRecord
         // @1229
         // send email if exist emails related to flag $this->flag {
         if (1 == $this->value) {
-            // MailBoxService::sendEmailsRelatedToFlag($this->simulation, $this->flag);
+            MailBoxService::sendEmailsRelatedToFlag($this->simulation, $this->flag);
             // @todo check is email come to frontend
         }
         // send email if exist emails related to flag $this->flag }

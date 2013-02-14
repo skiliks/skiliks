@@ -56,12 +56,12 @@ class EventsManager {
             $gameTime = $simulation->getGameTime();
 
             // обработка задач {
-            $task = $this->processTasks($simId);
+            $task = false; //$this->processTasks($simId);
             if ($task) {
                 return [
-                    'result' => 1, 
-                    'data' => $task, 
-                    'eventType' => 'task', 
+                    'result'     => 1,
+                    'data'       => $task,
+                    'eventType'  => 'task',
                     'serverTime' => $gameTime
                 ];
  
@@ -70,10 +70,10 @@ class EventsManager {
             
             // получить ближайшее событие
             $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]); 
-            
+
             if (count($triggers) == 0) { 
                 // @todo: investigate - "No events" is exception ?
-                throw new CHttpException(200, 'Нет ближайших событий', 4); 
+                throw new CHttpException(200, 'Нет ближайших событий', 4);
             }
             
             $result = array('result' => 1);
@@ -84,6 +84,7 @@ class EventsManager {
                 foreach($triggers as $trigger) {
 
                     $event = EventsSamples::model()->byId($trigger->event_id)->find();
+
                     if (null === $event) {
                         throw new CHttpException(
                             200, 
@@ -97,11 +98,11 @@ class EventsManager {
                     if ($index == 0) { $eventCode = $event->code; }
 
                     // проверим событие на флаги
-                    $dialogFirstReplica = Dialogs::model()->findByAttribute(
-                        'code'           => $code,
+                    $dialogFirstReplica = Dialogs::model()->findByAttributes([
+                        'code'           => $event->code,
                         'step_number'    => 1,
                         'replica_number' => 0
-                    );
+                    ]);
 
                     if (NULL !== $dialogFirstReplica) {
                         // this is dialog
@@ -133,19 +134,20 @@ class EventsManager {
             foreach ($data as $dialogId => $dialog) {
                 $flagInfo = FlagsService::checkRule(
                     $dialog['code'], 
-                    $simId, $dialog['step_number'], 
-                    $dialog['replica_number'], 
-                    $dialogId
+                    $simId,
+                    $dialog['step_number'],
+                    $dialog['replica_number'],
+                    $dialog['excel_id']
                 );
-                
+
                 if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
-                    break; // нечего чистиить все выполняется
+                    break; // нечего чистить все выполняется
                 }
                 if ($flagInfo['ruleExists']) {  // у нас есть такое правило
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
                         if (isset($resultList[ $flagInfo['recId'] ])) {
                             // правило не выполняется для определнной записи - убьем ее
-                            unset($resultList[ $flagInfo['recId'] ]); 
+                            unset($resultList[ $flagInfo['recId'] ]);
                         }
                         continue;
                     }
@@ -153,6 +155,7 @@ class EventsManager {
                         // правило выполняется но нужно удалить ненужную реплику
                         foreach($resultList as $key=>$val) {
                             if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
+
                                 unset($resultList[$key]); break;
                             }
                         }
@@ -178,6 +181,7 @@ class EventsManager {
                         EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
                     }
                 }
+
                 unset($resultList[$index]['step_number']);
                 unset($resultList[$index]['replica_number']);
                 unset($resultList[$index]['next_event_code']);

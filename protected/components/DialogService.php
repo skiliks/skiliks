@@ -32,12 +32,13 @@ class DialogService
         $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
         // set flag 1, @1229
-        if (NULL !== $currentDialog->flag_to_swith) {
-            FlagsService::setFlag($simId, $currentDialog->flag_to_swith, 1);
+
+        if (NULL !== $currentDialog->flag_to_switch) {
+            FlagsService::setFlag($simId, $currentDialog->flag_to_switch, 1);
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
-        $eventRunResult = EventService::allowToRun($simId, $currentDialog->excel_id); /*$currentDialog->code, , $currentDialog->step_number, $currentDialog->replica_number*/
+        $eventRunResult = EventService::allowToRun($currentDialog, $simId); /*$currentDialog->code, , $currentDialog->step_number, $currentDialog->replica_number*/
         if ($eventRunResult['compareResult'] === false) {
             return $this->sendJSON(array('result' => 1, 'data' => array())); // событие не проходит по флагам -  не пускаем его
         }
@@ -255,7 +256,8 @@ class DialogService
             'replica_number'    => $dialog->replica_number,
             'next_event_code'   => $dialog->next_event_code,
             'is_final_replica'  => $dialog->is_final_replica,
-            'code'              => $dialog->code
+            'code'              => $dialog->code,
+            'excel_id'          => $dialog->excel_id
         );
     }
     

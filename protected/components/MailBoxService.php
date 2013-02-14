@@ -938,15 +938,15 @@ class MailBoxService
 
         // switch flag if necessary {
         // @1229
-//        if (NULL !== $result['result_code']) {
-//            $flags = FlagRumMail::model()->findAllByAttribute([
-//                'mail_code' => $result['result_code']
-//            ]);
-//
-//            foreach ($flags as $flag) {
-//                FlagsService::setFlag($simId, $flag->flag_code, 1);
-//            }
-//        }
+        if (NULL !== $result['result_code']) {
+            $flags = FlagRumMail::model()->findAllByAttribute([
+                'mail_code' => $result['result_code']
+            ]);
+
+            foreach ($flags as $flag) {
+                FlagsService::setFlag($simId, $flag->flag_code, 1);
+            }
+        }
         // switch flag if necessary }
 
         // update logs {
@@ -1341,9 +1341,9 @@ class MailBoxService
      * @param string $flag, like 'F1', 'F2'
      */
     public static function sendEmailsRelatedToFlag($simulation, $flag) {
-        $mailCodes = FlagRunMail::model()->findAllByAttributes(
+        $mailCodes = FlagRunMail::model()->findAllByAttributes([
             'flag_code' => $flag
-        );
+        ]);
 
         foreach ($mailCodes as $mailCode) {
             $email = MailBoxService::copyMessageFromTemplateByCode($simulation->id, $mailCode);
