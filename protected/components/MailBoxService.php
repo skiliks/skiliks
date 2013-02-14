@@ -9,24 +9,25 @@ class MailBoxService
 {
 
     /**
+     * @deprecated: use getMessages instead of this
      * Получить список папок и писем в них
      * @param Simulations $simulation
      * @return array
      */
-    public static function getFolders($simulation)
+    /*public static function getFolders($simulation)
     {
         $folders = MailFoldersModel::getFoldersListForJson();
 
         $inboxMessages = self::getMessages(array(
-            'folderId' => MailFoldersModel::INBOX_ID, // inbox
+            'folderId'  => MailFoldersModel::INBOX_ID, // inbox
             'receiverId' => Characters::HERO_ID,
-            'simId' => $simulation->id
+            'simId'      => $simulation->id
         ));
 
         $sendedMessages = self::getMessages(array(
-            'folderId' => MailFoldersModel::SENDED_ID, // inbox
+            'folderId'   => MailFoldersModel::SENDED_ID, // inbox
             'receiverId' => Characters::HERO_ID,
-            'simId' => $simulation->id
+            'simId'      => $simulation->id
         ));
 
         $unreadInfo = MailBoxService::getFoldersUnreadCount($simulation->id);
@@ -41,7 +42,7 @@ class MailBoxService
                 'sended' => $sendedMessages
             ]
         );
-    }
+    }*/
 
     /**
      * Загрузка персонажей
@@ -91,9 +92,9 @@ class MailBoxService
      */
     public static function getMessages($params)
     {
-        $folderId = $params['folderId'];
+        $folderId   = $params['folderId'];
         $receiverId = $params['receiverId'];
-        $simId = $params['simId'];
+        $simId      = $params['simId'];
 
 
         $order = (isset($params['order'])) ? $params['order'] : false;
@@ -135,24 +136,37 @@ class MailBoxService
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
             if ($folderId == 2 || $folderId == 3) $readed = 1;
 
-            // загрузим ка получателей
+            // загрузим ка получателей {
             $receivers = MailReceiversModel::model()->byMailId($message->id)->findAll();
-            $receiversCollection = array();
+            $receiversCollection = [];
 
-            if (count($receivers) == 0)
+            if (count($receivers) == 0) {
                 $receiversCollection[] = $characters[$receiverId];
+            }
 
             foreach ($receivers as $receiver) {
                 $receiversCollection[] = $characters[$receiver->receiver_id];
             }
+            // загрузим ка получателей }
+
+            // copy {
+            $copies = MailCopiesModel::model()->byMailId($message->id)->findAll();
+            $copiesCollection = [];
+
+            foreach ($copies as $copy) {
+                $copiesCollection[] = $characters[$copy->receiver_id];
+            }
+            // copy }
 
             $item = array(
-                'id' => $message->id,
-                'subject' => $subject,
-                'sentAt' => GameTime::getDateTime($message->sent_at),
-                'sender' => $characters[$senderId],
-                'receiver' => implode(',', $receiversCollection),
-                'readed' => $readed,
+                'id'          => $message->id,
+                'subject'     => $subject,
+                'text'        => $message->message,
+                'sentAt'      => GameTime::getDateTime($message->sent_at),
+                'sender'      => $characters[$senderId],
+                'receiver'    => implode(',', $receiversCollection),
+                'copy'        => implode(',', $copiesCollection),
+                'readed'      => $readed,
                 'attachments' => 0
             );
 
@@ -171,7 +185,10 @@ class MailBoxService
             $attachments = MailAttachmentsModel::model()->byMailIds($mailIds)->findAll();
             foreach ($attachments as $attachment) {
                 if (isset($list[$attachment->mail_id])) {
-                    $list[$attachment->mail_id]['attachments'] = 1;
+                    $myDocument = MyDocumentsModel::model()->findByPk($attachment->file_id);
+                    $list[$attachment->mail_id]['attachments']    = 1;
+                    $list[$attachment->mail_id]['attachmentName'] = $myDocument->fileName;
+                    $list[$attachment->mail_id]['attachmentId']   = $attachment->id;
                 }
             }
         }

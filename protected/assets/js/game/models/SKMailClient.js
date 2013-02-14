@@ -294,11 +294,18 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
          *   2 => ...
          * }
              */
-            updateFolders:function (data) {
+            updateFolders: function (data) {
                 this.getInboxFolder().name = data[this.codeFolderInbox].name;
                 this.getDraftsFolder().name = data[this.codeFolderDrafts].name;
                 this.getSendedFolder().name = data[this.codeFolderSended].name;
                 this.getTrashFolder().name = data[this.codeFolderTrash].name;
+            },
+
+            initFolderNames: function () {
+                this.getInboxFolder().name  = 'Входящие';
+                this.getDraftsFolder().name = 'Черновики';
+                this.getSendedFolder().name = 'Отправленные';
+                this.getTrashFolder().name  = 'Корзина';
             },
 
             getFolderAliasById:function (folderId) {
@@ -332,18 +339,30 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                         var subject = new SKMailSubject();
                         subject.text = emailsData[id].subject;
 
-                        var email = new SKEmail();
-                        email.mySqlId = emailsData[id].id;
-                        email.is_readed = (1 === parseInt(emailsData[id].readed, 10));
+                        var email               = new SKEmail();
+                        email.mySqlId           = emailsData[id].id;
+                        email.text              = emailsData[id].text;
+                        email.is_readed         = (1 === parseInt(emailsData[id].readed, 10));
                         email.is_has_attachment = (1 === parseInt(emailsData[id].attachments, 10));
-                        email.sendedAt = emailsData[id].sentAt;
-                        email.subject = subject;
-                        email.setSenderEmailAndNameStrings(emailsData[id].sender);                        
-                        
+                        email.sendedAt          = emailsData[id].sentAt;
+                        email.subject           = subject;
+                        email.setSenderEmailAndNameStrings(emailsData[id].sender);
+
+                        var attachment = new SKAttachment();
+                        attachment.label       = emailsData[id].attachmentName;
+                        attachment.fileMySqlId = emailsData[id].attachmentId;
+
+                        email.attachment = attachment;
+
                         var recipiens = emailsData[id].receiver.split(',');
                         for (var i in recipiens) {                            
                             email.addRecipientEmailAndNameStrings(recipiens[i]);
-                        }                         
+                        }
+
+                        var copies = emailsData[id].copy.split(',');
+                        for (var i in copies) {
+                            email.copyTo = this.getRecipientByMySqlId(parseInt(copies[i]));
+                        }
 
                         if (undefined !== emailsData.reply) {
                             email.previouseEmailText = emailsData.reply;
@@ -431,12 +450,13 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
              */
 
             getDataForInitialScreen:function () {
-                SKApp.server.api(
+                this.renderInitialScreen([],[]);
+                /*SKApp.server.api(
                     'mail/getFolders',
                     {},
                     function (data) {
                         SKApp.user.simulation.mailClient.renderInitialScreen(data.folders, data.messages);
-                    });
+                    });*/
             },
 
             // todo: combine all getXxxFolderEmails() to one method.
@@ -450,8 +470,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateInboxFolderEmails(responce.messages);
-                    },
-                    false
+                    }
                 );
             },
 
@@ -572,17 +591,23 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             },
 
             renderInitialScreen:function (folders, messages) {
+                this.initFolderNames();
                 // process and store in model AJAX data {
-                this.updateFolders(folders);
-                this.setEmailsToFolder(this.aliasFolderInbox,  messages[this.aliasFolderInbox.toLowerCase()]);
-                this.setEmailsToFolder(this.aliasFolderSended, messages[this.aliasFolderSended.toLowerCase()]);
+                /*this.updateFolders(folders);*/
+                //this.setEmailsToFolder(this.aliasFolderInbox,  messages[this.aliasFolderInbox.toLowerCase()]);
+                //this.setEmailsToFolder(this.aliasFolderSended, messages[this.aliasFolderSended.toLowerCase()]);
                 // process and store in model AJAX data }
 
                 // mark INCOM foldes as active
                 this.folders[this.aliasFolderInbox].isActive = true;
 
+                this.getInboxFolderEmails();
+                this.getDraftsFolderEmails();
+                this.getSendedFolderEmails();
+                this.getTrashFolderEmails();
+
                 // set as active first letter in Inbox folder {
-                var emails = this.folders[this.aliasFolderInbox].emails;
+                /*var emails = this.folders[this.aliasFolderInbox].emails;
                 if (0 < emails.length) {
                     for (var key in emails) {
                         if (emails.hasOwnProperty(key)) {
@@ -590,7 +615,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                             break;
                         }
                     }
-                }
+                }*/
                 // set as active first letter in Inbox folder }
                 this.trigger('init_completed');
             },
@@ -1101,8 +1126,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 }
             },
 
-            openWindow:function () {
+            openWindow: function () {
                 this.getDataForInitialScreen();
+                //this.trigger('init_completed');
             },
             isNotEmptySubject:function(){
                 if($("#MailClient_NewLetterSubject select option:selected").val() !== "" && $("#MailClient_NewLetterSubject select option:selected").val() !== "0"){
