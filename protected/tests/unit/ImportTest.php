@@ -8,6 +8,10 @@
  */
 class ImportTest extends CDbTestCase
 {
+    public function test_flags() {
+        $import = new ImportGameDataService();
+        $import->importFlags();
+    }
     public function test_Full_Import()
     {
         $transaction = Yii::app()->db->beginTransaction();
@@ -25,7 +29,8 @@ class ImportTest extends CDbTestCase
             $import->importTasks();
             $import->importMyDocuments();
             $import->importActivity();
-            
+            $import->importFlags();
+
             // events
             $this->assertNotNull(EventsSamples::model()->findByAttributes([
                 'code' => 'P5'

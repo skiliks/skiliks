@@ -1531,7 +1531,11 @@ define([
                                 'onclick':function () {
                                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                                     mailClient.getAvailablePhrases(mailClient.newEmailSubjectId);
-                                    $('#mailEmulatorNewLetterText').html('');
+                                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function(){
+
+                                        $('#mailEmulatorNewLetterText').html('');
+
+                                    });
                                     delete mailClient.message_window;
                                 }
                             },
