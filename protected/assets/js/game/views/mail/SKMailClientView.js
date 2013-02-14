@@ -85,43 +85,12 @@ define([
                  'keydown'                                    : 'doHandleKeypress'*/
             }, SKWindowView.prototype.events),
 
-            doSwitchNewLetterView:function (event) {
-                if ($(event.currentTarget).hasClass('min')) {
-                    // maximize {
-                    $(event.currentTarget).removeClass('min');
-                    $(event.currentTarget).removeClass('max');
-
-                    $('.mail-view-header').addClass('min');
-                    $('.mail-new-text').addClass('max');
-                    $('.mail-new-text-scroll').addClass('max');
-                    // maximize }
-                } else {
-                    // minimize {
-                    $(event.currentTarget).removeClass('max');
-                    $(event.currentTarget).removeClass('min');
-
-                    $('.mail-view-header').removeClass('min');
-                    $('.mail-new-text').removeClass('max');
-                    $('.mail-new-text-scroll').removeClass('max');
-                    // minimize }
-                }
-            },
-
-            doSaveAttachment:function (event) {
-                this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
-            },
-
-            doAddToPlan:function () {
-                var dialog = new SKMailAddToPlanDialog();
-                dialog.render();
-            },
-
             initialize:function () {
                 var me = this;
                 this.mailClient = SKApp.user.simulation.mailClient;
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
-                    me.doRenderFolder(me.mailClient.aliasFolderInbox);
+                    me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                 });
 
                 // render character subjects list
@@ -189,6 +158,37 @@ define([
 
                 // call parrent initialize();
                 SKWindowView.prototype.initialize.call(this);
+            },
+
+            doSwitchNewLetterView:function (event) {
+                if ($(event.currentTarget).hasClass('min')) {
+                    // maximize {
+                    $(event.currentTarget).removeClass('min');
+                    $(event.currentTarget).removeClass('max');
+
+                    $('.mail-view-header').addClass('min');
+                    $('.mail-new-text').addClass('max');
+                    $('.mail-new-text-scroll').addClass('max');
+                    // maximize }
+                } else {
+                    // minimize {
+                    $(event.currentTarget).removeClass('max');
+                    $(event.currentTarget).removeClass('min');
+
+                    $('.mail-view-header').removeClass('min');
+                    $('.mail-new-text').removeClass('max');
+                    $('.mail-new-text-scroll').removeClass('max');
+                    // minimize }
+                }
+            },
+
+            doSaveAttachment:function (event) {
+                this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
+            },
+
+            doAddToPlan:function () {
+                var dialog = new SKMailAddToPlanDialog();
+                dialog.render();
             },
 
             updateMailIconCounter:function (counter) {
@@ -294,7 +294,7 @@ define([
                 // do we have full data for current email ? }
 
                 // if NOT - send request to get copies string and attachment for current email
-                SKApp.server.api(
+                /*SKApp.server.api(
                     'mail/getMessage',
                     {
                         emailId:emailId
@@ -330,7 +330,14 @@ define([
                             );
 
                         }
-                    });
+                    });*/
+
+                // render preview
+                me.renderEmaiPreviewScreen(
+                    email,
+                    me.mailClientInboxFolderEmailPreviewId,
+                    '140px'
+                );
             },
 
             updateFolderLabels:function () {
@@ -423,9 +430,15 @@ define([
                 this.doRenderFolder(folderAlias);
             },
 
-            doRenderFolder:function (folderAlias, isSwitchToFirst) {
+            doRenderFolder:function (folderAlias, isSwitchToFirst, isInitialRender) {
+                var mailClientView = this;
+
                 if (undefined === isSwitchToFirst) {
                     isSwitchToFirst = true;
+                }
+
+                if (undefined === isInitialRender) {
+                    isInitialRender = false;
                 }
 
                 // script will assign table sotder for new folder
@@ -465,10 +478,17 @@ define([
                 }
 
                 this.updateFolderLabels();
-                this.mailClient.setWindowsLog(
-                    'mailMain',
-                    this.mailClient.getActiveEmailId()
-                );
+
+                if (false == isInitialRender) {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailMain',
+                        mailClientView.mailClient.getActiveEmailId()
+                    );
+                } else {
+                    // @todo: fix this trick
+                    // this is trick, but to fox it we need change out window manager activation/deactiovation logic
+                    setTimeout("SKApp.user.simulation.mailClient.setWindowsLog('mailMain', SKApp.user.simulation.mailClient.getActiveEmailId() );", 500);
+                }
             },
 
             /**
@@ -829,22 +849,22 @@ define([
                 var attachmentId = '';
                 if (undefined !== email.attachment) {
                     attachmentLabel = email.attachment.label;
-                    attachmentId = email.attachment.id;
+                    attachmentId    = email.attachment.id;
                 }
 
                 var emailPreviewTemplate = _.template(mail_client_email_preview_template, {
-                    emailMySqlId:email.mySqlId,
-                    senderName:email.senderNameString,
-                    recipientName:email.recipientNameString, //this.mailClient.heroNameEmail,
-                    copyNamesLine:email.copyToString,
-                    subject:email.subject.text,
-                    text:email.text,
-                    sendedAt:email.sendedAt,
-                    isHasAttachmentCss:email.getIsHasAttachmentCss(),
-                    isReadedCssClass:email.getIsReadedCssClass(),
-                    attachmentFileName:attachmentLabel,
-                    attachmentId:attachmentId,
-                    height:height
+                    emailMySqlId:       email.mySqlId,
+                    senderName:         email.senderNameString,
+                    recipientName:      email.recipientNameString, //this.mailClient.heroNameEmail,
+                    copyNamesLine:      email.copyToString,
+                    subject:            email.subject.text,
+                    text:               email.text,
+                    sendedAt:           email.sendedAt,
+                    isHasAttachmentCss: email.getIsHasAttachmentCss(),
+                    isReadedCssClass:   email.getIsReadedCssClass(),
+                    attachmentFileName: attachmentLabel,
+                    attachmentId:       attachmentId,
+                    height:             height
                 });
 
                 this.$('#' + id).html(emailPreviewTemplate);
