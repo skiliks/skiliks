@@ -12,8 +12,10 @@
                     </td>
                     <td>
                         <p class="phone-contact-list-f0"><@=model.get('name')@></p>
-
                         <p class="phone-contact-list-f1"><@=model.get('date')@></p>
+                        <@ if(model.get('type') === '2') { @>
+                        <a class="phone_call_back phone-call-btn" data-dialog-code="<@=model.get('dialog_code')@>">Позвонить</a>
+                        <@ } @>
                     </td>
                 </tr>
                 </tbody>

@@ -49,7 +49,13 @@ class PhoneCallsModel extends CActiveRecord
      * character.id
      * @var integer
      */
-    public $to_id; 
+    public $to_id;
+
+    /**
+     * phone_calls.id
+     * @var integer
+     */
+    public $dialog_code;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     

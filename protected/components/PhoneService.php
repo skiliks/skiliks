@@ -18,7 +18,14 @@ class PhoneService {
      * @param $replica_number
      * @return bool
      */
-    public function setHistory( $simId, $time, $from_character, $to_character, $dialog_subtype, $step_number, $replica_number ) {
+    public function setHistory(
+        $simId,
+        $time,
+        $from_character,
+        $to_character,
+        $dialog_subtype,
+        $step_number,
+        $replica_number, $dialog_code) {
         
         // проверка а не звонок ли это чтобы залогировать входящий вызов
             if ( $dialog_subtype == 1 && $step_number == 1 ) {                
@@ -36,6 +43,7 @@ class PhoneService {
                 $phoneCalls->call_type = $callType;
                 $phoneCalls->from_id = $from_character->primaryKey;
                 $phoneCalls->to_id = $to_character->primaryKey;
+                $phoneCalls->dialog_code = $dialog_code;
                 $phoneCalls->insert();
                 return true;
                 
@@ -48,6 +56,38 @@ class PhoneService {
             
     }
 
+    public function callBack($simId, $dialog_code) {
+
+       //$template = EventsSamples::model()->findAllByAttributes(['code'=>$dialog_code]);
+       //$event = EventsTriggers::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);
+
+           $dialog = Dialogs::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
+           $manager = new EventsManager();
+           if(!empty($dialog->next_event_code)){
+               $event = EventsSamples::model()->findByAttributes(['code'=>$dialog->next_event_code]);
+               $trigger = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);//Logger::write($dialog->next_event_code);
+               if($trigger !== null){
+                   $manager->startEvent($simId, $dialog->next_event_code, 0, 0, 0);
+                   $dialog_cancel = Dialogs::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
+                   $cancel_event = EventsSamples::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
+                   $cur_event = EventsTriggers::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
+                   if($cur_event !== null){
+                       $cur_event->delete();
+                   }
+                }else{
+                   return 'fail';
+               }
+
+
+           //$dialog_event2 = EventsSamples::model()->findByAttributes(['code'=>$dialog_replica->next_event_code]);
+           //EventsTriggers::model()->deleteAll(['event_id' => $template->id, 'sim_id' => $simId]);
+
+           return 'ok';
+
+       } else{
+           return 'fail';
+       }
+    }
     /**
      * Получить список тем для телефона.
      * @param int $id
@@ -125,7 +165,8 @@ class PhoneService {
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
                 'date' => Simulations::formatDateForMissedCalls($item->call_time),
-                'type' => $item->call_type
+                'type' => $item->call_type,
+                'dialog_code' => $item->dialog_code
             );
         }
         

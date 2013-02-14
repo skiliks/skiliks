@@ -124,7 +124,7 @@ class EventsSamples extends CActiveRecord
     public function byTriggerTimeGreaterThanZero()
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "trigger_time is not null AND trigger_time != '00:00:00'"
+            'condition' => "trigger_time is not null AND code != ''"
         ));
         return $this;
     }    
