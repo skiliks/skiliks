@@ -235,5 +235,28 @@ class MailBoxTest extends CDbTestCase
             $this->assertTrue(in_array($phrase, $data));
         }
     }
+
+    public function testGetPhrasesFWD()
+    {
+        //$this->markTestSkipped();
+
+        $ch = Characters::model()->findByAttributes(['fio'=>'Трутнев С.']);
+        $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
+        $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R6']);
+        $data= [];
+
+        foreach($mail_phrases as $phrase){
+            $data[$phrase->id] = $phrase->name;
+        }
+
+        $phrases = MailBoxService::getPhrases(0, $theme->id);
+
+        $this->assertEquals($data, $phrases['data']);
+        $this->assertEquals(count($data), count($phrases['data']));
+
+        foreach ($phrases['data'] as $phrase) {
+            $this->assertTrue(in_array($phrase, $data));
+        }
+    }
 }
 
