@@ -927,7 +927,7 @@ class MailBoxService
             "`mail_id` = :mailId AND `end_time` > '00:00:00' AND `sim_id` = :simId ORDER BY `window` DESC, `id` DESC",
             [
                 'mailId' => $mailId,
-                'simId' => $simId
+                'simId'  => $simId
             ]
         );
         /** @var $mail MailBoxModel */
@@ -935,6 +935,21 @@ class MailBoxService
         $mail->code = $result['result_code'];
         $mail->template_id = $result['result_template_id'];
         $mail->save();
+
+        // switch flag if necessary {
+        // @1229
+//        if (NULL !== $result['result_code']) {
+//            $flags = FlagRumMail::model()->findAllByAttribute([
+//                'mail_code' => $result['result_code']
+//            ]);
+//
+//            foreach ($flags as $flag) {
+//                FlagsService::setFlag($simId, $flag->flag_code, 1);
+//            }
+//        }
+        // switch flag if necessary }
+
+        // update logs {
         foreach ($log_mails as $log_mail) {
             $log_mail->full_coincidence = $result['full'];
             $log_mail->part1_coincidence = $result['part1'];
@@ -942,7 +957,10 @@ class MailBoxService
             $log_mail->is_coincidence = $result['has_concidence'];
             $log_mail->save();
         }
+        // update logs }
+
         $simulationEmail = MailBoxModel::model()->findByPk($mailId);
+
         if (null !== $simulationEmail) {
             $simulationEmail->code = $result['result_code'];
             $simulationEmail->template_id = $result['result_template_id'];
@@ -1316,5 +1334,28 @@ class MailBoxService
         $result['phrases']['previouseMessage'] = $messageToForward->message;
 
         return $result;
+    }
+
+    /**
+     * @param Simulations $simulation
+     * @param string $flag, like 'F1', 'F2'
+     */
+    public static function sendEmailsRelatedToFlag($simulation, $flag) {
+        $mailCodes = FlagRunMail::model()->findAllByAttributes(
+            'flag_code' => $flag
+        );
+
+        foreach ($mailCodes as $mailCode) {
+            $email = MailBoxService::copyMessageFromTemplateByCode($simulation->id, $mailCode);
+            if (NULL === $email) {
+                throw new Exception("cant copy mail by code $mailCode");
+            }
+
+            // process not received email only
+            if (MailBoxModel::NOT_RECEIVED_EMAILS_GROUP_ID == $email->group_id) {
+                $email->group_id = MailBoxModel::INBOX_FOLDER_ID;
+                $email->save();
+            }
+        }
     }
 }

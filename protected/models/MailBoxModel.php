@@ -29,7 +29,8 @@ class MailBoxModel extends CActiveRecord
     const DRAFTS_FOLDER_ID = 2;
     const OUTBOX_FOLDER_ID = 3;
     const TRASH_FOLDER_ID  = 4;
-    
+    const NOT_RECEIVED_EMAILS_GROUP_ID  = 5;
+
     const INBOX_FOLDER_ALIAS  = 'inbox';
     const DRAFTS_FOLDER_ALIAS = 'drafts';
     const OUTBOX_FOLDER_ALIAS = 'outbox';

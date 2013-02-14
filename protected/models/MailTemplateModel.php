@@ -67,8 +67,13 @@ class MailTemplateModel extends CActiveRecord
      * @var string
      * 'none', 'spam', '2_min', 'plan', 'info', 'first_category', ...
      */
-    public $type_of_impportance;  
-    
+    public $type_of_impportance;
+
+    /**
+     * @var string
+     */
+    public $flag_to_switch;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**

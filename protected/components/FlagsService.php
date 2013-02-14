@@ -64,17 +64,21 @@ class FlagsService
 
     /**
      * Сравнение флагов из симуляции с флагами из правила
-     * @param type $simulationFlags
-     * @param type $flags 
-     * @return true
+     * @param mixed array $simulationFlags
+     * @param array if FlagBlockReplica $rules
+     *
+     * @return boolean
      */
-    public static function compareFlags($simulationFlags, $flags) 
+    public static function compareFlags($simulationFlags, $rules)
     {
-        foreach ($flags as $flag => $value) {
-            if (!isset($simulationFlags[$flag]))
+        foreach ($rules as $rule) {
+            if (false === isset($simulationFlags[$flag->flag_code])) {
                 return false;
-            if ($simulationFlags[$flag] != $value)
+            }
+
+            if ($simulationFlags[$flag->flag_code] != $rule->value) {
                 return false;
+            }
         }
         return true;
     }
@@ -94,22 +98,25 @@ class FlagsService
         $result = array();
 
         // определим код правила
-        $ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
+        /*$ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
 
         if (null === $ruleModel) {
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
-        }
+        }*/
+        $rule = FlagBlockReplica::model()->findAllByAttributes(
+            'replica_id' => $excelId
+        );
 
-        $result['ruleExists'] = true;
-        $result['recId'] = (int) $ruleModel->getRecordId();
-        $result['stepNumber'] = $ruleModel->getStepNo();
-        $result['replicaNumber'] = $ruleModel->getReplicaNo();
+        $result['ruleExists']    = true;
+        $result['recId']         = (int)$excelId;
+        $result['stepNumber']    = $stepNumber;
+        $result['replicaNumber'] = $replicaNumber;
         $result['compareResult'] = false;
 
         // получим флаги для этого правила
-        $flags = FlagsService::getFlags($ruleModel->getId());
-        if (count($flags) == 0) {
+        //$flags = FlagsService::getFlags($ruleModel->getId());
+        if (count($rule) == 0) {
             return $result; // для данного кода нет правил
         }
 
@@ -119,7 +126,7 @@ class FlagsService
             return $result; // у нас пока нет установленных флагов - не чего сравнивать
 
         // проверить на совпадение флагов с теми что есть в симуляции
-        if (FlagsService::compareFlags($simulationFlags, $flags)) {
+        if (FlagsService::compareFlags($simulationFlags, $rule)) {
             $result['compareResult'] = true;
         }
 

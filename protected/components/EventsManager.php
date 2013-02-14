@@ -97,8 +97,18 @@ class EventsManager {
                     if ($index == 0) { $eventCode = $event->code; }
 
                     // проверим событие на флаги
-                    if (!EventService::allowToRun($event->code, $simId, 1, 0)) {
-                        continue; // событие не проходит по флагам -  не пускаем его
+                    $dialogFirstReplica = Dialogs::model()->findByAttribute(
+                        'code'           => $code,
+                        'step_number'    => 1,
+                        'replica_number' => 0
+                    );
+
+                    if (NULL !== $dialogFirstReplica) {
+                        // this is dialog
+                        // check flags
+                        if (!EventService::allowToRun($dialogFirstReplica, $simId)) {
+                            continue; // событие не проходит по флагам -  не пускаем его
+                        }
                     }
 
                     $res = EventService::processLinkedEntities($event->code, $simId);

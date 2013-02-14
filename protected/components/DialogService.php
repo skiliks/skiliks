@@ -31,14 +31,13 @@ class DialogService
         $simType = SimulationService::getType($simId); // определим тип симуляции
         $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
-        // проверим флаги
-        if ($currentDialog->flag != '') {
-            // если для данной реплики установлен флаг - установим флаг в рамках симуляции
-            SimulationService::setFlag($simId, $currentDialog->flag);
+        // set flag 1, @1229
+        if (NULL !== $currentDialog->flag_to_swith) {
+            FlagsService::setFlag($simId, $currentDialog->flag_to_swith, 1);
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
-        $eventRunResult = EventService::allowToRun($currentDialog->code, $simId, $currentDialog->step_number, $currentDialog->replica_number);
+        $eventRunResult = EventService::allowToRun($simId, $currentDialog->excel_id); /*$currentDialog->code, , $currentDialog->step_number, $currentDialog->replica_number*/
         if ($eventRunResult['compareResult'] === false) {
             return $this->sendJSON(array('result' => 1, 'data' => array())); // событие не проходит по флагам -  не пускаем его
         }
@@ -116,7 +115,7 @@ class DialogService
         // теперь подчистим список
         $resultList = $data;
         foreach ($data as $dialogId => $dialog) {
-
+            // @1229
             $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
 
             if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
