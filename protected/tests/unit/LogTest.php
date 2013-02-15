@@ -10,7 +10,7 @@ class LogTest extends CDbTestCase
 {
     public function test_log_reply_all()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -91,16 +91,16 @@ class LogTest extends CDbTestCase
         MailBoxService::sendDraft($simulation, $draft_message2);
         MailBoxService::sendDraft($simulation, $draft_message3);
         $mgr->processLogs($simulation, [
-            [10, 13, 'activated', 32805, 'window_uid' => 1], # Send draft
-            [10, 13, 'deactivated', 32820, 'window_uid' => 1, ['mailId' => $draft_message3->primaryKey]],
-            [10, 11, 'activated', 32820, 'window_uid' => 2],
-            [10, 11, 'deactivated', 32880, 'window_uid' => 2],
-            [10, 11, 'activated', 32880, 'window_uid' => 3, ['mailId' => $draft_message->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32910, 'window_uid' => 3, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32910, 'window_uid' => 4, ['mailId' => $draft_message2->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32940, 'window_uid' => 4, ['mailId' => $draft_message2->primaryKey]],
-            [1, 1, 'activated', 32940, 'window_uid' => 5],
-            [1, 1, 'deactivated', 33000, 'window_uid' => 5],
+            [10, 13, 'activated', 32805, 'window_uid' => 11], # Send draft
+            [10, 13, 'deactivated', 32820, 'window_uid' => 11, ['mailId' => $draft_message3->primaryKey]],
+            [10, 11, 'activated', 32820, 'window_uid' => 12],
+            [10, 11, 'deactivated', 32880, 'window_uid' => 12],
+            [10, 11, 'activated', 32880, 'window_uid' => 13, ['mailId' => $draft_message->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32910, 'window_uid' => 13, ['mailId' => $draft_message->primaryKey]],
+            [10, 11, 'activated', 32910, 'window_uid' => 14, ['mailId' => $draft_message2->primaryKey]], # Send draft
+            [10, 11, 'deactivated', 32940, 'window_uid' => 14, ['mailId' => $draft_message2->primaryKey]],
+            [1, 1, 'activated', 32940, 'window_uid' => 15],
+            [1, 1, 'deactivated', 33000, 'window_uid' => 15],
         ]);
 
         $simulation_service->simulationStop($simulation->primaryKey);
@@ -109,8 +109,10 @@ class LogTest extends CDbTestCase
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $this->assertEquals(6, count($mail_logs));
-        foreach ($mail_logs as $log) {
-            printf("%8s\t%8s\t%6d\t%10s\n",
+        echo "\n";
+        foreach ($mail_logs as $i =>  $log) {
+            printf("%8s\t %8s\t%8s\t%6d\t%10s\n",
+                $i,
                 $log->start_time,
                 $log->end_time,
                 $log->mail->template_id,
@@ -120,10 +122,11 @@ class LogTest extends CDbTestCase
         }
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
-        printf("\n");
         $this->assertEquals(count($activity_actions), 13);
-        foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
+        echo "\n";
+        foreach ($activity_actions as $i => $log) {
+            printf("%s\t%8s\t%8s\t%10s\t%10s\t%10s\n",
+                $i,
                 $log->start_time,
                 $log->end_time !== null ? $log->end_time : '(empty)',
                 $log->activityAction->leg_type,
@@ -133,11 +136,11 @@ class LogTest extends CDbTestCase
             /*$this->assertNotNull($log->end_time);*/
         }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
-        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_incorrect_send');
+        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_wait');
         $this->assertEquals($activity_actions[10]->activityAction->activity_id, 'A_not_sent');
         $log_display = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
         $this->assertEquals(count($activity_actions), count($log_display['data']));
-        $this->assertEquals($log_display['data'][8]['activity_id'], 'A_incorrect_send');
+        $this->assertEquals($log_display['data'][8]['activity_id'], 'A_wait');
         $this->assertEquals($log_display['data'][10]['activity_id'], 'A_not_sent');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
@@ -205,7 +208,7 @@ class LogTest extends CDbTestCase
      */
     public function test_two_new_letters()
     {
-        // $this->markTestSkipped();
+        // //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -231,6 +234,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->subject_id    = $subject_id;
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
+        
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -282,13 +286,16 @@ class LogTest extends CDbTestCase
             /*$this->assertNotNull($log->end_time);*/
         }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'A_not_sent');
-        $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_incorrect_send');
+        $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_not_sent');
         $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_not_sent');
-        $this->assertEquals($activity_actions[7]->activityAction->activity_id, 'A_incorrect_send');
+        $this->assertEquals($activity_actions[7]->activityAction->activity_id, 'A_not_sent');
 
     }
 
     public function testE2_9_Logging() {
+
+        //$this->markTestSkipped();
+
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
@@ -320,9 +327,11 @@ class LogTest extends CDbTestCase
             /*$this->assertNotNull($log->end_time);*/
         }
 
-    }public function test_log_m8_forward()
+    }
+
+    public function test_log_m8_forward()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -386,7 +395,7 @@ class LogTest extends CDbTestCase
 
     public function test_log_activity()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -493,6 +502,8 @@ class LogTest extends CDbTestCase
      */
     public function testActivityLogAgregated() 
     {
+        //$this->markTestSkipped();
+
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
