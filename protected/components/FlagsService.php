@@ -157,8 +157,9 @@ class FlagsService
      */
     public static function initDefaultValues($simId) 
     {
-        for ($index = 1; $index <= 22; $index++) {
-            self::setFlag($simId, 'F' . $index, 0);
+        $flags = Flag::model()->findAll();
+        foreach ($flags as $flag) {
+            self::setFlag($simId, $flag->code, 0);
         }
     }
 
