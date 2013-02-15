@@ -96,8 +96,9 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 function alignWindow() {
                     me.$el.center();
                 }
-
-                alignWindow();
+                setTimeout(function() {
+                    alignWindow();
+                });
 
             },
 
