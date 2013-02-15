@@ -412,42 +412,34 @@ class ImportGameDataService
             $emailTemplateEntity->type = $type;
             $emailTemplateEntity->type_of_importance = $typeOfImportance;
             $emailTemplateEntity->import_id = $this->import_id;
-
-            $flag = $this->getCellValue($sheet, 'Переключение флагов 1', $i); //FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов', $i, 1))->find();
-            $emailTemplateEntity->flag_to_switch = (NULL == $flag) ? NULL : $flag;
-
             $emailTemplateEntity->save();
             $emailIds[] = $emailTemplateEntity->id;
 
             // учтем поинты (оценки, marks)
-            //$columnIndex = $START_COL;
-            $points = CharactersPointsTitles::model()->findAll();
-            foreach ($points as $point) {
-                $value = $this->getCellValue($sheet, $point->code, $i, 1);
-
+            $columnIndex = $START_COL;
+            while ($columnIndex < $END_COL) {
+                $value = $sheet->getCellByColumnAndRow($columnIndex, $i->key())->getValue();
+                ;
                 if ($value === null || $value === "") {
-                    //$columnIndex++;
+                    $columnIndex++;
                     continue;
                 }
-                /*$pointCode = $pointsCodes[$columnIndex];*/
-                //if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
-                /*$pointId = $pointsInfo[$pointCode];*/
+                $pointCode = $pointsCodes[$columnIndex];
+                if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
+                $pointId = $pointsInfo[$pointCode];
 
                 /** @var MailPointsModel $pointEntity */
-                $mailPointEntity = MailPointsModel::model()
-                    ->byMailId($emailTemplateEntity->id)
-                    ->byPointId($point->id)
-                ->find();
-                if (null === $mailPointEntity) {
-                    $mailPointEntity = new MailPointsModel();
+                $pointEntity = MailPointsModel::model()->byMailId($emailTemplateEntity->id)->byPointId($pointId)->find();
+                if (null === $pointEntity) {
+                    $pointEntity = new MailPointsModel();
                 }
-                $mailPointEntity->mail_id   = $emailTemplateEntity->id;
-                $mailPointEntity->point_id  = $point->id;
-                $mailPointEntity->add_value = $value;
-                $mailPointEntity->import_id = $this->import_id;
-                $mailPointEntity->save();
+                $pointEntity->mail_id = $emailTemplateEntity->id;
+                $pointEntity->point_id = $pointId;
+                $pointEntity->add_value = $value;
+                $pointEntity->import_id = $this->import_id;
+                $pointEntity->save();
 
-                $emailToPointIds[] = $mailPointEntity->id;
+                $emailToPointIds[] = $pointEntity->id;
 
                 if (1 == (int)$value) {
                     $counter['mark-1']++;
@@ -455,7 +447,7 @@ class ImportGameDataService
                     $counter['mark-0']++;
                 }
 
-                //$columnIndex++;
+                $columnIndex++;
             }
 
             foreach (array_values($receivers) as $receiverCode) {
@@ -1174,6 +1166,9 @@ class ImportGameDataService
             $dialog->ch_to_state = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // 1 is "me"
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
+            if (!isset($subtypes[$subtypeAlias])) {
+                throw new Exception('Unknown dialog type: '. $subtypeAlias);
+            }
             $dialog->dialog_subtype = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
 
             $code = $this->getCellValue($sheet, 'Event_result_code', $i);
@@ -1187,8 +1182,8 @@ class ImportGameDataService
             $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
-            $flag = $this->getCellValue($sheet, 'Переключение флагов 1', $i); //FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов', $i, 1))->find();
-            $dialog->flag_to_switch = (NULL == $flag) ? NULL : $flag;
+            $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i, 1))->find();
+            $dialog->flag = (NULL === $flag) ? NULL : $flag->flag;
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $dialog->demo = $isUseInDemo;
@@ -1744,7 +1739,6 @@ class ImportGameDataService
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $result['flags'] = $this->importFlags();
-            $result['flags_rules'] = $this->importFlagRules();
 
             $transaction->commit();
 
@@ -1755,7 +1749,7 @@ class ImportGameDataService
         return $result;
     }
 
-    public function importFlagRules() {
+    public function inportFlagsRules() {
         echo __METHOD__."\n";
 
         $reader = $this->getReader();
@@ -1775,7 +1769,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $mailFlag = FlagRunMail::model()->findByAttributes([
+            $mailFlag = FlagMail::model()->findByAttributes([
                 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
                 'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
@@ -1783,7 +1777,7 @@ class ImportGameDataService
 
             // create entity if not exists {
             if (null === $mailFlag) {
-                $mailFlag = new FlagRunMail();
+                $mailFlag = new FlagMail();
                 $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
                 $mailFlag->mail_code = $this->getCellValue($sheet, 'Run_code', $i);
                 $mailFlag->import_id = $this->import_id;
@@ -1823,7 +1817,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        FlagRunMail::model()->deleteAll(
+        FlagMail::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
