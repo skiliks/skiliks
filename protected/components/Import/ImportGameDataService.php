@@ -927,6 +927,10 @@ class ImportGameDataService
             $flag->save();
             Flag::model()->deleteAll('import_id <> :import_id', ['import_id' => $this->import_id]);
         }
+        return [
+            'status' => true,
+            'text' => sprintf("imported %d flags", Flag::model()->count())
+        ];
     }
 
     /**
