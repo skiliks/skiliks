@@ -281,7 +281,7 @@ class ImportGameDataService
         $index = 0;
         $pointsCodes = array();
 
-        /*$START_COL = $this->columnNoByName['Time'] + 1;
+        $START_COL = $this->columnNoByName['Задержка прихода письма'] + 1;
         $END_COL = PHPExcel_Cell::columnIndexFromString($sheet->getHighestColumn());
         for ($columnIndex = $START_COL; $columnIndex <= $END_COL; $columnIndex++) {
             $code = $sheet->getCellByColumnAndRow($columnIndex, 2)->getValue();
@@ -291,7 +291,7 @@ class ImportGameDataService
             }
             $pointsCodes[$columnIndex] = $code;
             $counter['mark-codes']++;
-        }*/
+        }
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Mail_code', $i);
