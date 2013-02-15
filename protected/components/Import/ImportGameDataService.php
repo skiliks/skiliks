@@ -691,10 +691,10 @@ class ImportGameDataService
 
             $communicationTheme->save();
 
-            if ($communicationTheme->mail === "1" && $communicationTheme->character_id !== null) {
+            if ($communicationTheme->mail == "1") {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
-                    if (!MailPrefix::model()->findByPk(sprintf('fwd', $communicationTheme->mail_prefix))) {
+                    if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
                         throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
                     }
                     $goodTheme = CommunicationTheme::model()->findByAttributes([
