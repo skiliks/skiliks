@@ -281,7 +281,7 @@ class ImportGameDataService
         $index = 0;
         $pointsCodes = array();
 
-        /*$START_COL = $this->columnNoByName['Time'] + 1;
+        $START_COL = $this->columnNoByName['Задержка прихода письма'] + 1;
         $END_COL = PHPExcel_Cell::columnIndexFromString($sheet->getHighestColumn());
         for ($columnIndex = $START_COL; $columnIndex <= $END_COL; $columnIndex++) {
             $code = $sheet->getCellByColumnAndRow($columnIndex, 2)->getValue();
@@ -291,7 +291,7 @@ class ImportGameDataService
             }
             $pointsCodes[$columnIndex] = $code;
             $counter['mark-codes']++;
-        }*/
+        }
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Mail_code', $i);
@@ -1183,7 +1183,7 @@ class ImportGameDataService
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
             $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i, 1))->find();
-            $dialog->flag = (NULL === $flag) ? NULL : $flag->flag;
+            $dialog->flag_to_switch = (NULL === $flag) ? NULL : $flag->flag;
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $dialog->demo = $isUseInDemo;
