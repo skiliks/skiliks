@@ -470,7 +470,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateInboxFolderEmails(responce.messages);
-                    }
+                    },
+                    false
                 );
             },
 
