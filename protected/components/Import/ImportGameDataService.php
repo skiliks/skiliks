@@ -1741,6 +1741,7 @@ class ImportGameDataService
             $result['activity'] = $this->importActivity();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $result['flags'] = $this->importFlags();
+            $result['flag_rules'] = $this->importFlagsRules();
 
             $transaction->commit();
 
@@ -1751,7 +1752,7 @@ class ImportGameDataService
         return $result;
     }
 
-    public function inportFlagsRules() {
+    public function importFlagsRules() {
         echo __METHOD__."\n";
 
         $reader = $this->getReader();
@@ -1771,7 +1772,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $mailFlag = FlagMail::model()->findByAttributes([
+            $mailFlag = FlagRunMail::model()->findByAttributes([
                 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
                 'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
@@ -1779,7 +1780,7 @@ class ImportGameDataService
 
             // create entity if not exists {
             if (null === $mailFlag) {
-                $mailFlag = new FlagMail();
+                $mailFlag = new FlagRunMail();
                 $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
                 $mailFlag->mail_code = $this->getCellValue($sheet, 'Run_code', $i);
                 $mailFlag->import_id = $this->import_id;
@@ -1813,13 +1814,14 @@ class ImportGameDataService
 
             $flagBlockReplica->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
             $flagBlockReplica->import_id = $this->import_id;
+
             $flagBlockReplica->save();
 
             $importedFlagBlockReplica++;
         }
 
         // delete old unused data {
-        FlagMail::model()->deleteAll(
+        FlagRunMail::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
