@@ -1,35 +1,3 @@
-<!DOCTYPE html>
-<html lang="{Yii::t('site', 'en')}">
-	<head>
-		<meta charset="utf-8" />
-        <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
-		<title>{Yii::t('site', 'Skiliks - game the skills')}</title>
-
-		<!--[if IE]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-    </head>
-
-	<body class="inner">
-		<div class="container" id="top">
-			
-			<!--header-->
-			<header>
-				<h1><a href="/">Skiliks</a></h1>
-				
-				<div class="language"><a href="?_lang={Yii::t('site', 'ru')}">{Yii::t('site', 'Русский')}</a></div>
-				
-				<nav>
-					<a href="../">{Yii::t('site', 'Home')}</a>
-					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="product" class="active">{Yii::t('site', 'Product')}</a>
-				</nav>
-			</header>
-			<!--header end-->
-			
-			<!--content-->
-			<div class="content">
-				
 				<!--product-->
 				<article class="product">
 					<hgroup>
@@ -93,27 +61,3 @@
 					</section>
 				</article>
 				<!--product end-->
-				
-			</div>
-			<!--content end-->
-		</div>
-		
-		<!--footer-->
-		<div class="footer">
-			<footer>
-				<div class="backtotop"><a href="#top">{Yii::t('site', 'Back to top')}</a></div>
-				
-				<div class="logo"><a href="/">Skiliks</a></div>
-				
-				<nav>
-					<a href="../">{Yii::t('site', 'Home')}</a>
-					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="product">{Yii::t('site', 'Product')}</a>
-				</nav>
-				
-				<p class="copyright">Copyright - Skiliks  - 2012</p>
-			</footer>
-		</div>
-		<!--footer end-->
-	</body>
-</html>

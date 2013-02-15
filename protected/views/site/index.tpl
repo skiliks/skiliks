@@ -1,40 +1,3 @@
-<!DOCTYPE html>
-<html lang="{Yii::t('site', 'en')}">
-	<head>
-		<meta charset="utf-8" />
-        <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
-		<title>{Yii::t('site', 'Skiliks - game the skills')}</title>
-
-		<!--[if IE]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
-    </head>
-
-	<body>
-		<div class="container main-page" id="top">
-			
-			<!--header-->
-			<header>
-				<h1><a href="/">Skiliks</a></h1>
-				
-				<p class="coming-soon">{Yii::t('site', 'Coming soon')}</p>
-				
-				<div class="language"><a href="?_lang={Yii::t('site', 'ru')}">{Yii::t('site', 'Русский')}</a></div>
-				
-				<nav>
-					<a href="#" class="active">{Yii::t('site', 'Home')}</a>
-					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="product">{Yii::t('site', 'Product')}</a>
-				</nav>
-			</header>
-			<!--header end-->
-			
-			<p class="heroes-comment right">{Yii::t('site', '&quot;Remarkably comprehensive<br />&nbsp;and deep assessment of<br />&nbsp;&nbsp;&nbsp;skills - now I know what<br />&nbsp;&nbsp;I can expect from<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcomers&quot;')}</p>
-			<p class="heroes-comment left">{Yii::t('site', '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;')}</p>
-			
-			<!--content-->
-			<div class="content">
-				
 				<!--features-->
 				<section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
@@ -103,28 +66,7 @@
 					</ul>
 				</section>
 				<!--clients end-->
-				
-			</div>
-			<!--content end-->
-		</div>
 		
-		<!--footer-->
-		<div class="footer">
-			<footer>
-				<div class="backtotop"><a href="#top">{Yii::t('site', 'Back to top')}</a></div>
-				
-				<div class="logo"><a href="/">Skiliks</a></div>
-				
-				<nav>
-					<a href="#">{Yii::t('site', 'Home')}</a>
-					<a href="#">{Yii::t('site', 'About')}</a>
-					<a href="product">{Yii::t('site', 'Product')}</a>
-				</nav>
-				
-				<p class="copyright">Copyright - Skiliks  - 2012</p>
-			</footer>
-		</div>
-		<!--footer end-->
         {literal}
         <script type="text/javascript">
             $(document).ready(function(){
@@ -177,5 +119,3 @@
             }
         </script>
         {/literal}
-	</body>
-</html>
