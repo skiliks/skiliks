@@ -28,6 +28,10 @@ class FlagBlockReplica extends CActiveRecord
 		return 'flag_block_replica';
 	}
 
+    public function primaryKey() {
+        return array('flag_code', 'replica_id');
+    }
+
 	/**
 	 * @return array relational rules.
 	 */
