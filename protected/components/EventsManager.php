@@ -122,7 +122,11 @@ class EventsManager {
             }
 
             // У нас одно событие           
-            $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->byDemo($simType)->findAll();
+            $dialogs = Dialogs::model()
+                ->byCode($eventCode)
+                ->byStepNumber(1)
+                ->byDemo($simType)
+                ->findAll();
 
             $data = array();
             foreach($dialogs as $dialog) {
@@ -153,12 +157,13 @@ class EventsManager {
                     }
                     else {
                         // правило выполняется но нужно удалить ненужную реплику
-                        foreach($resultList as $key=>$val) {
+                        /*foreach($resultList as $key=>$val) {
                             if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
 
-                                unset($resultList[$key]); break;
+                                unset($resultList[$key]);
+                                break;
                             }
-                        }
+                        }*/
                     }
                     
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
@@ -169,7 +174,7 @@ class EventsManager {
                 }
                 
             }
-            
+
             $data = array();
             // а теперь пройдемся по тем кто выжил и позапускаем события
             foreach($resultList as $index=>$dialog) {
