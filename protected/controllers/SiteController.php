@@ -88,7 +88,7 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
 
 
-        $cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKImmediateVisitView.js");
+        //$cs->registerScriptFile($assetsUrl . "/js/game/views/dialogs/SKImmediateVisitView.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKLoginView.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/views/world/SKDebugView.js");
