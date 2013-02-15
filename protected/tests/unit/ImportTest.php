@@ -17,7 +17,7 @@ class ImportTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $import = new ImportGameDataService();
-            $import->setFilename('forUnitTests.xlsx');
+            $import->setFilename('scenario.xlsx');
             $import->importCharacters();
             $import->importCharactersPointsTitles();
             $import->importLearningGoals();

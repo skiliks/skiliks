@@ -938,14 +938,8 @@ class MailBoxService
 
         // switch flag if necessary {
         // @1229
-        if (NULL !== $result['result_code']) {
-            $flags = FlagRunMail::model()->findAllByAttributes([
-                'mail_code' => $result['result_code']
-            ]);
-
-            foreach ($flags as $flag) {
-                FlagsService::setFlag($simId, $flag->flag_code, 1);
-            }
+        if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
+            FlagsService::setFlag($simId, $mail->template->flag_to_switch, 1);
         }
         // switch flag if necessary }
 
@@ -1341,21 +1335,25 @@ class MailBoxService
      * @param string $flag, like 'F1', 'F2'
      */
     public static function sendEmailsRelatedToFlag($simulation, $flag) {
-        $mailCodes = FlagRunMail::model()->findAllByAttributes([
+        $mailFlags = FlagRunMail::model()->findAllByAttributes([
             'flag_code' => $flag
         ]);
 
-        foreach ($mailCodes as $mailCode) {
-            $email = MailBoxService::copyMessageFromTemplateByCode($simulation->id, $mailCode);
-            if (NULL === $email) {
+        foreach ($mailFlags as $mailFlag) {
+            //$email = MailBoxService::copyMessageFromTemplateByCode($simulation->id, $mailCode->flag_code);
+
+            $em = new EventsManager();
+            $em->startEvent($simulation->id, $mailFlag->mail_code, false, false, 0);
+
+            /*if (NULL === $email) {
                 throw new Exception("cant copy mail by code $mailCode");
             }
 
             // process not received email only
-            if (MailBoxModel::NOT_RECEIVED_EMAILS_GROUP_ID == $email->group_id) {
+            if (false !== $email && MailBoxModel::NOT_RECEIVED_EMAILS_GROUP_ID == $email->group_id) {
                 $email->group_id = MailBoxModel::INBOX_FOLDER_ID;
                 $email->save();
-            }
+            }*/
         }
     }
 }
