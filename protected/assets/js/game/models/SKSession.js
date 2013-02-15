@@ -30,6 +30,9 @@ define(["game/models/SKUser"], function (SKUser) {
             }, function (data) {
                 if (data.result === 1) {
                     SKApp.user = new SKUser(data.simulations);
+                    SKApp.user.on('logout', function () {
+                        delete SKApp.user;
+                    });
                     me.trigger('login:success');
                 } else {
                     throw 'Incorrect password';

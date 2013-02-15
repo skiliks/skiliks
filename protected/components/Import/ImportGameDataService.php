@@ -23,8 +23,9 @@ class ImportGameDataService
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
 
-    public function setFilename($name) {
-        $this->filename = __DIR__ . '/../../../media/'.$name;
+    public function setFilename($name)
+    {
+        $this->filename = __DIR__ . '/../../../media/' . $name;
     }
 
     /**
@@ -36,7 +37,7 @@ class ImportGameDataService
      */
     public function importCharacters()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -85,7 +86,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_characters' => $importedRows,
@@ -98,7 +99,7 @@ class ImportGameDataService
      */
     public function importLearningGoals()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -146,7 +147,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_learning_goals' => $importedRows,
@@ -159,7 +160,7 @@ class ImportGameDataService
      */
     public function importCharactersPointsTitles()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -210,7 +211,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_character_point_titles' => $importedRows,
@@ -220,7 +221,7 @@ class ImportGameDataService
 
     public function importEmails()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
         // load sheet {
@@ -502,13 +503,13 @@ class ImportGameDataService
             $emailCopyEntities = MailCopiesTemplateModel::model()
                 ->byIdsNotIn(implode(',', $emailToCopyIds))
                 ->findAll();
-        
+
             foreach ($emailCopyEntities as $entity) {
                 $entity->delete();
             }
-            
+
             unset($entity);
-        }   
+        }
         // copy relations }
 
         // recipient relations {
@@ -582,7 +583,7 @@ class ImportGameDataService
         MailTemplateModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
@@ -599,7 +600,7 @@ class ImportGameDataService
      */
     public function importEmailSubjects()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         // load sheet {
         $reader = $this->getReader();
@@ -617,7 +618,7 @@ class ImportGameDataService
         foreach ($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
-        
+
         $nullCharacter = new Characters();
         $charactersList[] = $nullCharacter;
 
@@ -663,7 +664,7 @@ class ImportGameDataService
 
             /**
              * @var CommunicationTheme $communicationTheme
-             */            
+             */
             $communicationTheme = CommunicationTheme::model()
                 ->byLetterNumber($mailCode)
                 ->byText($subjectText)
@@ -690,66 +691,68 @@ class ImportGameDataService
 
             $communicationTheme->save();
 
-            // add fwd for all themes without fwd {
-            foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('fwd', $communicationTheme->mail_prefix))) {
-                    throw new Exception('MailPrefix '.'fwd'.$communicationTheme->mail_prefix.' not found.');
+            if ($communicationTheme->mail === "1" && $communicationTheme->character_id !== null) {
+                // add fwd for all themes without fwd {
+                foreach ($charactersList as $character) {
+                    if (!MailPrefix::model()->findByPk(sprintf('fwd', $communicationTheme->mail_prefix))) {
+                        throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
+                    }
+                    $goodTheme = CommunicationTheme::model()->findByAttributes([
+                        'code' => $communicationTheme->code,
+                        'character_id' => $character->primaryKey,
+                        'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix),
+                    ]);
+                    if ($goodTheme !== null) {
+                        $goodTheme->import_id = $this->import_id;
+                        $goodTheme->save();
+                        continue;
+                    }
+
+                    $wrongTheme = new CommunicationTheme();
+                    $wrongTheme->mail = 1;
+                    $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
+                    assert($wrongTheme->mail_prefix !== null);
+                    $wrongTheme->wr = 'W';
+                    $wrongTheme->code = $communicationTheme->code;
+                    $wrongTheme->text = $communicationTheme->text;
+                    $wrongTheme->constructor_number = 'B1';
+                    $wrongTheme->character_id = $character->primaryKey;
+                    $wrongTheme->import_id = $this->import_id;
+                    $wrongTheme->save();
                 }
-                $goodTheme = CommunicationTheme::model()->findByAttributes([
-                    'code'         => $communicationTheme->code,
-                    'character_id' => $character->primaryKey,
-                    'mail_prefix'  => sprintf('fwd%s', $communicationTheme->mail_prefix),
-                ]);
-                if ($goodTheme !== null) {
-                    $goodTheme->import_id = $this->import_id;
-                    $goodTheme->save();
-                    continue;
-                }                
-                
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = $character->primaryKey;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->save();
+                // add fwd for all themes without fwd }
+
+                // add re for all themes without fwd {
+                foreach ($charactersList as $character) {
+                    if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
+                        continue;
+                    }
+                    $goodTheme = CommunicationTheme::model()->findByAttributes([
+                        'code' => $communicationTheme->code,
+                        'character_id' => $character->primaryKey,
+                        'mail_prefix' => sprintf('re%s', $communicationTheme->mail_prefix),
+                    ]);
+                    if ($goodTheme !== null) {
+                        $goodTheme->import_id = $this->import_id;
+                        $goodTheme->save();
+                        continue;
+                    }
+
+
+                    $wrongTheme = new CommunicationTheme();
+                    $wrongTheme->mail = 1;
+                    $wrongTheme->mail_prefix = sprintf('re%s', $communicationTheme->mail_prefix);
+                    assert($wrongTheme->mail_prefix !== null);
+                    $wrongTheme->wr = 'W';
+                    $wrongTheme->code = $communicationTheme->code;
+                    $wrongTheme->text = $communicationTheme->text;
+                    $wrongTheme->constructor_number = 'B1';
+                    $wrongTheme->character_id = $character->primaryKey;
+                    $wrongTheme->import_id = $this->import_id;
+                    $wrongTheme->save();
+                }
+                // add re for all themes without fwd }
             }
-            // add fwd for all themes without fwd }
-            
-            // add re for all themes without fwd {
-            foreach ($charactersList as $character) {
-                if (!MailPrefix::model()->findByPk(sprintf('re%s', $communicationTheme->mail_prefix))) {
-                    continue;
-                }
-                $goodTheme = CommunicationTheme::model()->findByAttributes([
-                    'code' => $communicationTheme->code,
-                    'character_id' => $character->primaryKey,
-                    'mail_prefix' => sprintf('re%s', $communicationTheme->mail_prefix),
-                ]);
-                if ($goodTheme !== null) {
-                    $goodTheme->import_id = $this->import_id;
-                    $goodTheme->save();
-                    continue;
-                }
-                
-                
-                $wrongTheme = new CommunicationTheme();
-                $wrongTheme->mail = 1;
-                $wrongTheme->mail_prefix = sprintf('re%s', $communicationTheme->mail_prefix);
-                assert($wrongTheme->mail_prefix !== null);
-                $wrongTheme->wr = 'W';
-                $wrongTheme->code = $communicationTheme->code;
-                $wrongTheme->text = $communicationTheme->text;
-                $wrongTheme->constructor_number = 'B1';
-                $wrongTheme->character_id = $character->primaryKey;
-                $wrongTheme->import_id = $this->import_id;
-                $wrongTheme->save();
-            }
-            // add re for all themes without fwd }
         }
 
         // remove all old, unused characterMailThemes after import {
@@ -757,7 +760,7 @@ class ImportGameDataService
 
         $html .= "Email from characters import finished! <br/>";
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
@@ -767,7 +770,7 @@ class ImportGameDataService
 
     public function importTasks()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
         // load sheet {
@@ -817,7 +820,7 @@ class ImportGameDataService
         }
         Tasks::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
@@ -830,7 +833,7 @@ class ImportGameDataService
      */
     public function importMailTasks()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -890,7 +893,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_documents' => $importedRows,
@@ -898,7 +901,8 @@ class ImportGameDataService
         );
     }
 
-    public function importFlags() {
+    public function importFlags()
+    {
         $reader = $this->getReader();
         // load sheet {
         $reader->setLoadSheetsOnly('Flags');
@@ -930,7 +934,7 @@ class ImportGameDataService
      */
     public function importMailEvents()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
         // load sheet {
@@ -961,7 +965,7 @@ class ImportGameDataService
             $event->save();
         }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
@@ -971,7 +975,7 @@ class ImportGameDataService
 
     public function importMailAttaches()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
         // load sheet {
@@ -1011,7 +1015,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
@@ -1024,7 +1028,7 @@ class ImportGameDataService
      */
     public function importMyDocuments()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1094,7 +1098,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_documents' => $importedRows,
@@ -1107,7 +1111,7 @@ class ImportGameDataService
      */
     public function importDialogReplicas()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1167,7 +1171,7 @@ class ImportGameDataService
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {
-                throw new Exception('Unknown dialog type: '. $subtypeAlias);
+                throw new Exception('Unknown dialog type: ' . $subtypeAlias);
             }
             $dialog->dialog_subtype = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
 
@@ -1212,7 +1216,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_dialog_replics' => $importedRows,
@@ -1225,7 +1229,7 @@ class ImportGameDataService
      */
     public function importDialogPoints()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1296,7 +1300,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_characters_points' => $importedRows,
@@ -1323,7 +1327,7 @@ class ImportGameDataService
      */
     public function importEventSamples()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1414,14 +1418,14 @@ class ImportGameDataService
             $event->save();
         }
 
-            // delete old unused data {
+        // delete old unused data {
         EventsSamples::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_documents' => $importedRows,
@@ -1441,7 +1445,7 @@ class ImportGameDataService
 
     private function importActivityEfficiencyConditions()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1492,7 +1496,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'imported_activityEfficiencyConditions' => $importedRows,
@@ -1556,7 +1560,7 @@ class ImportGameDataService
      */
     public function importActivity()
     {
-        echo __METHOD__."\n";
+        echo __METHOD__ . "\n";
 
         $activity_types = array(
             'Documents_leg' => 'document_id',
@@ -1709,7 +1713,7 @@ class ImportGameDataService
         Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
             'activity_actions' => $activity_actions,
@@ -1751,8 +1755,9 @@ class ImportGameDataService
         return $result;
     }
 
-    public function inportFlagsRules() {
-        echo __METHOD__."\n";
+    public function inportFlagsRules()
+    {
+        echo __METHOD__ . "\n";
 
         $reader = $this->getReader();
 
@@ -1798,7 +1803,7 @@ class ImportGameDataService
 
             // try to find exists entity {
             $flagBlockReplica = FlagBlockReplica::model()->findByAttributes([
-                'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
+                'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
                 'replica_id' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
             // try to find exists entity }
@@ -1806,7 +1811,7 @@ class ImportGameDataService
             // create entity if not exists {
             if (null === $flagBlockReplica) {
                 $flagBlockReplica = new FlagBlockReplica();
-                $flagBlockReplica->flag_code  = $this->getCellValue($sheet, 'Flag_code', $i);
+                $flagBlockReplica->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
                 $flagBlockReplica->replica_id = $this->getCellValue($sheet, 'Run_code', $i);
             }
             // create entity if not exists }
@@ -1830,10 +1835,10 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__." end \n";
+        echo __METHOD__ . " end \n";
 
         return array(
-            'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
+            'imported_Flag_to_run_mail' => $importedFlagToRunMailRows,
             'imported_Flag_block_replica' => $importedFlagBlockReplica,
             'errors' => false,
         );
