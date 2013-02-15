@@ -5,7 +5,8 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"],func
         model: SKWindow,
         window_classes: {
             'phone/phoneTalk': SKDialogWindow,
-            'phone/phoneCall': SKDialogWindow
+            'phone/phoneCall': SKDialogWindow,
+            'visitor/visitorTalk': SKDialogWindow
         },
         comparator:function(window) {
             return this.get('zindex');

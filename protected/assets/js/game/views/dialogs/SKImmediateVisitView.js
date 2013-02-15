@@ -1,49 +1,33 @@
 /*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
-(function () {
+define(["game/views/SKWindowView"], function () {
     "use strict";
     /**
      * @class
      * @type {*}
      */
-    window.SKImmediateVisitView = Backbone.View.extend({
+    window.SKImmediateVisitView = SKWindowView.extend(
         /** @lends SKImmediateVisitView.prototype */
-            'el':'body .visitor-container',
+        {     'el':'body .visitor-container',
 
-            'events':{
+            'events':_.defaults({
                 'click .replica-select':'doSelectReplica'
-            },
+            }, SKWindowView.prototype.events),
 
             'initialize':function () {
                 var me = this;
-                this.render();
-
-
+                this.listenTo(this.options.model_instance, 'refresh', function () {
+                    me.render();
+                });
+                SKWindowView.prototype.initialize.call(this);
             },
 
-            'close':function () {
-                this.visitor_entrance_window.close();
-                if (this.options.event.getStatus() !== 'completed') {
-                    this.options.event.complete();
-                }
-                this.unbind();
-                this.undelegateEvents();
-                this.$el.html('');
-            },
-
-            'render':function () {
-                var event = this.options.event;
+            'renderWindow':function (el) {
+                var event = this.options.model_instance.get('sim_event');
                 var me = this,
                     my_replicas = event.getMyReplicas(),
                     video_src = event.getVideoSrc(),
                     remote_replica = event.getRemoteReplica();
-                if (this.visitor_entrance_window === undefined || !this.visitor_entrance_window.is_opened) {
-                    this.visitor_entrance_window = new SKDialogWindow({name:'visitor', subname:'visitorTalk', sim_event:event});
-                    this.visitor_entrance_window.open();
-                } else {
-                    this.visitor_entrance_window.set('sim_event', event);
-                }
-
-                this.$el.html(_.template($('#visit_template').html(), {
+                el.html(_.template($('#visit_template').html(), {
                     'remote_replica':remote_replica,
                     'my_replicas':my_replicas,
                     'video_src':video_src,
@@ -55,8 +39,8 @@
                 this.$('video').on('ended', function () {
                     me.$('video').css('zIndex', 0);
                     if (my_replicas.length === 0) {
-                        me.options.event.complete();
-                        me.close();
+                        me.options.model_instance.complete();
+                        me.options.model_instance.close();
                     }
                 });
 
@@ -67,13 +51,13 @@
                 e.preventDefault();
                 var dialog_id = $(e.currentTarget).attr('data-id');
                 var is_final = $(e.currentTarget).attr('data-is-final');
-                this.options.event.selectReplica(dialog_id, function () {
-                    me.visitor_entrance_window.setLastDialog(dialog_id);
-                    /* TODO refactor */
+                me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
+                    me.options.model_instance.setLastDialog(dialog_id);
                     if (is_final) {
-                        me.close();
+                        me.options.model_instance.close();
                     }
                 });
             }
         });
-})();
+    return window.SKImmediateVisitView;
+});

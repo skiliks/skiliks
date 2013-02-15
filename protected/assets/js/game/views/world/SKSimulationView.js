@@ -9,7 +9,8 @@ define([
     "game/views/phone/SKPhoneView",
     "game/views/phone/SKPhoneCallView",
     "game/views/phone/SKPhoneDialogView",
-    "game/views/dialogs/SKVisitView"
+    "game/views/dialogs/SKVisitView",
+    "game/views/dialogs/SKImmediateVisitView"
     ], function () {
     "use strict";
     /**
@@ -56,6 +57,10 @@ define([
                 if (window.get('name') === 'visitor' && window.get('subname') === 'visitorEntrance') {
                     var visitor_view = new SKVisitView({model_instance:window});
                     visitor_view.render();
+                }
+                if (window.get('name') === 'visitor' && window.get('subname') === 'visitorTalk') {
+                    var visitor_talk = new SKImmediateVisitView({model_instance:window});
+                    visitor_talk.render();
                 }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
                     var file = window.get('document').get('name');
@@ -134,15 +139,7 @@ define([
                 var me = this;
                 SKApp.user.simulation.events.on('add', function (event) {
                     if (event.getTypeSlug() === 'immediate-visit') {
-                        if (me.visit_view === undefined) {
-                            me.visit_view = new SKImmediateVisitView({'event':event});
-                            me.visit_view.visitor_entrance_window.on('close', function () {
-                                delete me.visit_view;
-                            });
-                        } else {
-                            me.visit_view.options.event = event;
-                            me.visit_view.render();
-                        }
+                        var win = SKApp.user.simulation.window_set.open('visitor', 'visitorTalk', {sim_event:event});
                         event.setStatus('in progress');
                     } else if (event.getTypeSlug() === 'immediate-phone') {
                         var win = SKApp.user.simulation.window_set.open('phone', 'phoneTalk', {sim_event:event});
