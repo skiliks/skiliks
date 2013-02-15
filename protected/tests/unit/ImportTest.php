@@ -17,7 +17,7 @@ class ImportTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $import = new ImportGameDataService();
-            $import->setFilename('scenario.xlsx');
+            $import->setFilename('forUnitTests.xlsx');
             $import->importCharacters();
             $import->importCharactersPointsTitles();
             $import->importLearningGoals();
@@ -37,14 +37,14 @@ class ImportTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(41, CommunicationTheme::model()->countByAttributes(['character_id' => null]));
-            $this->assertEquals(2, CommunicationTheme::model()->countByAttributes(['phone' => 1]));
-            $this->assertEquals(124, CommunicationTheme::model()->countByAttributes(['mail' => 1]));
-            $this->assertEquals(55, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
+            $this->assertEquals(15, CommunicationTheme::model()->countByAttributes(['character_id' => null]), 'Character');
+            $this->assertEquals(3, CommunicationTheme::model()->countByAttributes(['phone' => 1]), 'Phones');
+            $this->assertEquals(95, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
+            $this->assertEquals(40, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
             $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
             $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
-            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
-            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
+            $this->assertEquals(0, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
+            $this->assertEquals(0, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
             
             // Dialogs
             $this->assertEquals(
@@ -57,8 +57,9 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
 
-            // Flags
-            $this->assertTrue(count(Dialogs::model()->findByAttributes(['flag_to_switch' => 'F1'])) > 0);
+            $this->assertEquals(21, count(FlagBlockReplica::model()->findAll()), 'block replica');
+            $this->assertEquals(4, count(Flag::model()->findAll()), 'flags');
+            $this->assertEquals(0, count(FlagRunMail::model()->findAll()), 'run mail');
 
             // end.
             $transaction->rollback();
