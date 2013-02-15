@@ -939,7 +939,7 @@ class MailBoxService
         // switch flag if necessary {
         // @1229
         if (NULL !== $result['result_code']) {
-            $flags = FlagRumMail::model()->findAllByAttribute([
+            $flags = FlagRunMail::model()->findAllByAttribute([
                 'mail_code' => $result['result_code']
             ]);
 
