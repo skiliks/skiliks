@@ -311,6 +311,8 @@ class ImportGameDataService
             // Письмо
             $message = $this->getCellValue($sheet, 'Mail_body', $i);
 
+            $flag = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
+
             $typeOfImportance = trim($sheet->getCellByColumnAndRow($this->columnNoByName['Mail_type_for_assessment'], $i->key())->getValue());
 
             if (false === isset($exists[$code])) {
@@ -413,6 +415,8 @@ class ImportGameDataService
             $emailTemplateEntity->type = $type;
             $emailTemplateEntity->type_of_importance = $typeOfImportance;
             $emailTemplateEntity->import_id = $this->import_id;
+            $emailTemplateEntity->flag_to_switch = (NULL == $flag) ? NULL : $flag;
+
             $emailTemplateEntity->save();
             $emailIds[] = $emailTemplateEntity->id;
 
@@ -927,6 +931,10 @@ class ImportGameDataService
             $flag->save();
             Flag::model()->deleteAll('import_id <> :import_id', ['import_id' => $this->import_id]);
         }
+        return [
+            'status' => true,
+            'text' => sprintf("imported %d flags", Flag::model()->count())
+        ];
     }
 
     /**

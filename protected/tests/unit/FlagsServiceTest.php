@@ -1,13 +1,69 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 2/15/13
- * Time: 11:24 AM
- * To change this template use File | Settings | File Templates.
- */
-class Flags_2_Test extends CDbTestCase
+
+class FlagServiceTest extends CDbTestCase
 {
+    public function testDialogFlagSet()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(2, $user);
+
+        $dialogService = new DialogService();
+
+        $dialogService->getDialog(
+            $simulation->id,
+            Dialogs::model()->byExcelId(35)->find()->id,
+            '11:00'
+        );
+        $dialogService->getDialog(
+            $simulation->id,
+            Dialogs::model()->byExcelId(50)->find()->id,
+            '11:00'
+        );
+        $dialogService->getDialog(
+            $simulation->id,
+            Dialogs::model()->byExcelId(70)->find()->id,
+            '11:00'
+        );
+
+        $flags = FlagsService::getFlagsState($simulation);
+
+        $this->assertEquals($flags['F3'], '1');
+        $this->assertEquals($flags['F4'], '1');
+        $this->assertEquals($flags['F13'], '1');
+    }
+
+    public function testSentMailFlagSet()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(2, $user);
+
+        $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
+        $msgParams = [
+            'simId' => $simulation->id,
+            'subject_id' => 10495,
+            'message_id' => 0,
+            'receivers' => '12',
+            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
+            'sender' => $senderId,
+            'time' => '11:00',
+            'letterType' => null
+        ];
+
+        $mail = MailBoxService::sendMessage($msgParams);
+        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+
+        $msgParams['subject_id'] = 10498;
+        $mail = MailBoxService::sendMessage($msgParams);
+        MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
+
+        $flags = FlagsService::getFlagsState($simulation);
+
+        $this->assertEquals($flags['F30'], '1');
+        $this->assertEquals($flags['F31'], '1');
+    }
+
     /**
      * Проверяет что на фронтенд попадают только правильные реплики по диалогу S2
      */
@@ -45,7 +101,7 @@ class Flags_2_Test extends CDbTestCase
 //        }
     }
 
-    public function testBlokDialog()
+    public function testBlockDialog()
     {
         $this->markTestSkipped();
 
