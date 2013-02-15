@@ -104,7 +104,7 @@ class FlagsService
             $result['ruleExists'] = false;
             return $result; // для данного диалога не задано правила
         }*/
-        $rule = FlagBlockReplica::model()->findAllByAttributes([
+        $rules = FlagBlockReplica::model()->findAllByAttributes([
             'replica_id' => $excelId
         ]);
 
@@ -116,7 +116,7 @@ class FlagsService
 
         // получим флаги для этого правила
         //$flags = FlagsService::getFlags($ruleModel->getId());
-        if (count($rule) == 0) {
+        if (count($rules) == 0) {
             return $result; // для данного кода нет правил
         }
 
@@ -127,7 +127,7 @@ class FlagsService
         }
 
         // проверить на совпадение флагов с теми что есть в симуляции
-        if (false === FlagsService::compareFlags($simulationFlags, $rule)) {
+        if (false === FlagsService::compareFlags($simulationFlags, $rules)) {
              $result['compareResult'] = false;
         }
 
