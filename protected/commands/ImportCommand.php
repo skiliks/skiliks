@@ -13,6 +13,7 @@ class ImportCommand
     }
 
     public function run() {
+        ini_set('memory_limit','200M');
         echo "\nStart 'Import all'. \n";
         $import = new ImportGameDataService();
         $import->importAll();
