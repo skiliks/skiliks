@@ -1182,8 +1182,10 @@ class ImportGameDataService
             $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
-            $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i, 1))->find();
-            $dialog->flag_to_switch = (NULL === $flag) ? NULL : $flag->flag;
+            $flag = Flag::model()->findByAttributes([
+                'code' => $this->getCellValue($sheet, 'Переключение флагов 1', $i)
+            ]);
+            $dialog->flag_to_switch = (NULL === $flag) ? NULL : $flag->code;
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $dialog->demo = $isUseInDemo;

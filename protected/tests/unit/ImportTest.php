@@ -56,7 +56,10 @@ class ImportTest extends CDbTestCase
                 'E1.2');
             $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
-            
+
+            // Flags
+            $this->assertTrue(count(Dialogs::model()->findByAttributes(['flag_to_switch' => 'F1'])) > 0);
+
             // end.
             $transaction->rollback();
         } catch (Exception $e) {
