@@ -1183,7 +1183,7 @@ class ImportGameDataService
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
             $flag = FlagsRulesContentModel::model()->byFlagName($this->getCellValue($sheet, 'Переключение флагов 1', $i, 1))->find();
-            $dialog->flag = (NULL === $flag) ? NULL : $flag->flag;
+            $dialog->flag_to_switch = (NULL === $flag) ? NULL : $flag->flag;
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $dialog->demo = $isUseInDemo;
