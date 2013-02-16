@@ -1258,38 +1258,6 @@ class LogHelper
         return true;
     }
 
-    public static function fixLogWhenSimStop($simulation)
-    {
-        self::fixUniversalLogWindocOpenAndCloseTime($simulation);
-    }
-
-    public static function fixUniversalLogWindocOpenAndCloseTime($simulation)
-    {
-        $previousItem = null;
-
-        $list = LogWindows::model()->findAll([
-            'order' => 'start_time ASC',
-            'condition' => 'sim_id=:sim_id',
-            'params' => [':sim_id' => $simulation->id]
-        ]);
-
-        $connection = Yii::app()->db;
-        $transaction = $connection->beginTransaction(); // to avoid many single UPDATEs
-
-        foreach ($list as $logWindowsItem) {
-            if (null !== $previousItem) {
-                if ($logWindowsItem->start_time !== $previousItem->end_time) {
-                    $previousItem->end_time = $logWindowsItem->start_time;
-                    $previousItem->save();
-                }
-            }
-
-            $previousItem = $logWindowsItem;
-        }
-
-        $transaction->commit();
-    }
-
     /**
      *
      * @param Simulations $simulation
