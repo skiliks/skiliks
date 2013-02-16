@@ -55,7 +55,6 @@ define(["game/views/SKWindowView"], function (SKWindowView) {
                 me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
                     me.options.model_instance.setLastDialog(dialog_id);
                     if (is_final) {
-                        event.complete();
                         me.options.model_instance.close();
                     }
                 });
