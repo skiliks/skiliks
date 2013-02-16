@@ -101,6 +101,9 @@ class FlagServiceTest extends CDbTestCase
 //        }
     }
 
+    /**
+     * Проверяет что диалог прокируется если не выставлен флаг
+     */
     public function testBlockDialog()
     {
         $this->markTestSkipped();
@@ -119,6 +122,9 @@ class FlagServiceTest extends CDbTestCase
         $this->assertFalse(isset($result['events']));
     }
 
+    /**
+     * Проверяет что письмо M10 отправляется по флагу F14
+     */
     public function testSendEmailAfterFladSwitched()
     {
         $simulation_service = new SimulationService();
@@ -135,7 +141,7 @@ class FlagServiceTest extends CDbTestCase
         $e = new EventsManager();
         $result = $e->getState($simulation, []);
 
-        var_dump($result);
+        //var_dump($email->group_id, $result);
 
         //$this->assertEquals('1', $email->group_id);
     }
