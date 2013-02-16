@@ -179,9 +179,10 @@ class PhoneService {
         
         // нам передана тема
         if ($themeId > 0) {
-            $mailThemeModel = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->byPhone()->find();
-            if ($mailThemeModel) {
-                $eventCode = $mailThemeModel->phone_dialog_number;
+            /** @var $communicationTheme CommunicationTheme */
+            $communicationTheme = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->byPhone()->find();
+            if ($communicationTheme) {
+                $eventCode = $communicationTheme->phone_dialog_number;
                 if ($eventCode == '' || $eventCode == 'AUTO') {
 
                     // выдаем автоответчик

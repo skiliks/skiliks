@@ -37,14 +37,14 @@ class ImportTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(15, CommunicationTheme::model()->countByAttributes(['character_id' => null]), 'Character');
+            $this->assertEquals(25, CommunicationTheme::model()->countByAttributes(['character_id' => null]), 'Character');
             $this->assertEquals(3, CommunicationTheme::model()->countByAttributes(['phone' => 1]), 'Phones');
-            $this->assertEquals(95, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
-            $this->assertEquals(40, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
+            $this->assertEquals(184, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
+            $this->assertEquals(55, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
             $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
-            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
-            $this->assertEquals(0, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
-            $this->assertEquals(0, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
+            $this->assertEquals(18, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
+            $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
             
             // Dialogs
             $this->assertEquals(
@@ -57,7 +57,7 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
 
-            $this->assertEquals(21, count(FlagBlockReplica::model()->findAll()), 'block replica');
+            $this->assertEquals(2, count(FlagBlockReplica::model()->findAll()), 'block replica');
             $this->assertEquals(4, count(Flag::model()->findAll()), 'flags');
             $this->assertEquals(0, count(FlagRunMail::model()->findAll()), 'run mail');
 
