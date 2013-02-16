@@ -13,7 +13,7 @@ class PhoneController extends AjaxController{
      */
     public function actionGetContacts() 
     {
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
             'result' => 1,
             'data'   => Characters::model()->getContactsList()
         ));
@@ -24,7 +24,7 @@ class PhoneController extends AjaxController{
      */
     public function actionGetThemes() 
     {
-        return $this->sendJSON(array(
+        $this->sendJSON(array(
             'result' => 1,
             'data'   => PhoneService::getThemes((int)Yii::app()->request->getParam('id', 0))
         ));

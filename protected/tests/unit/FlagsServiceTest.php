@@ -2,6 +2,9 @@
 
 class FlagServiceTest extends CDbTestCase
 {
+    /**
+     * Проверяет, устанавливаются ли флаги, при выборе определенной реплики
+     */
     public function testDialogFlagSet()
     {
         $simulationService = new SimulationService();
@@ -33,6 +36,9 @@ class FlagServiceTest extends CDbTestCase
         $this->assertEquals($flags['F13'], '1');
     }
 
+    /**
+     * Тест на установку флага, при отправке правильного письма
+     */
     public function testSentMailFlagSet()
     {
         $simulationService = new SimulationService();

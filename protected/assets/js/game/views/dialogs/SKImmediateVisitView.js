@@ -1,5 +1,5 @@
 /*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
-define(["game/views/SKWindowView"], function () {
+define(["game/views/SKWindowView"], function (SKWindowView) {
     "use strict";
     /**
      * @class
@@ -33,14 +33,15 @@ define(["game/views/SKWindowView"], function () {
                     'video_src':video_src,
                     'img_src':event.getImgSrc()
                 }));
+                el.find('.visit-background-container').css('width', screen.availWidth);
                 if (true === SKApp.user.simulation.config.isMuteVideo) {
                     this.$('video').attr('muted', 'muted');
                 }
                 this.$('video').on('ended', function () {
                     me.$('video').css('zIndex', 0);
                     if (my_replicas.length === 0) {
-                        me.options.model_instance.complete();
-                        me.options.model_instance.close();
+                        event.complete();
+                        me.remove();
                     }
                 });
 

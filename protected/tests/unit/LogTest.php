@@ -8,6 +8,9 @@
  */
 class LogTest extends CDbTestCase
 {
+    /**
+     * Проверяет работу ответа всем на письмо M1
+     */
     public function test_log_reply_all()
     {
         //$this->markTestSkipped();
@@ -154,7 +157,9 @@ class LogTest extends CDbTestCase
 
     }
 
-
+    /**
+     * Проверка того, что E2 логируется одной записью, а не двумя
+     */
     public function testE2Logging() {
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -292,6 +297,9 @@ class LogTest extends CDbTestCase
 
     }
 
+    /**
+     * Проверка того, что в E2.9 правильный last_dialog_id (только серверная часть)
+     */
     public function testE2_9_Logging() {
 
         //$this->markTestSkipped();
