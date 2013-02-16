@@ -54,8 +54,6 @@ class ExcelDocumentService {
             $transaction->rollBack();
             throw new Exception($e->getMessage());
         }
-        
-        return false;
     }
     
     /**

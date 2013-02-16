@@ -7,7 +7,7 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class PhoneService {
-
+    const CALL_TYPE_OUTGOING = 1;
     /**
      * @param $simId
      * @param $time
@@ -95,7 +95,8 @@ class PhoneService {
      */
     public static function getThemes($id) {
 
-        $themes = CommunicationTheme::model()->byCharacter($id)->byPhone()->findAll();
+        $character = Characters::model()->findByAttributes(['code' => $id]);
+        $themes = CommunicationTheme::model()->byCharacter($character->primaryKey)->byPhone()->findAll();
         $list = array();
         foreach($themes as $theme) {
             $list[] = ['themeId' => $theme->id, 'themeTitle' => $theme->text];
@@ -114,9 +115,9 @@ class PhoneService {
         $model = new PhoneCallsModel();
         $model->sim_id      = $simId;
         $model->call_time   = $time;
-        $model->call_type   = 1;
-        $model->from_id     = 1;
-        $model->to_id       = $characterId; // какому персонажу мы звоним
+        $model->call_type   = self::CALL_TYPE_OUTGOING;
+        $model->from_id     = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
+        $model->to_id       = Characters::model()->findByAttributes(['code' => $characterId])->primaryKey; // какому персонажу мы звоним
         $model->insert();
     }
     
@@ -180,7 +181,8 @@ class PhoneService {
         // нам передана тема
         if ($themeId > 0) {
             /** @var $communicationTheme CommunicationTheme */
-            $communicationTheme = CommunicationTheme::model()->byCharacter($characterId)->byTheme($themeId)->byPhone()->find();
+            $character = Characters::model()->findByAttributes(['code' => $characterId]);
+            $communicationTheme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byTheme($themeId)->byPhone()->find();
             if ($communicationTheme) {
                 $eventCode = $communicationTheme->phone_dialog_number;
                 if ($eventCode == '' || $eventCode == 'AUTO') {
@@ -211,7 +213,8 @@ class PhoneService {
                     // сгенерируем событие
 
                     // проверим а позволяют ли флаги нам запускать реплику
-                    $eventRunResult = EventService::allowToRun($eventCode, $simulation->id, 1, 0);
+                    $replica = Dialogs::model()->getFirstReplica($eventCode);
+                    $eventRunResult = EventService::allowToRun($replica, $simulation->id);
                     if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
                         // событие не проходит по флагам -  не пускаем его
                         return array(
@@ -222,7 +225,7 @@ class PhoneService {
 
 
                     $data = EventService::getReplicaByCode($eventCode, $simulation->id);
-                    
+
                     $result = array(
                         'result' => 1,
                         'events' => array(
@@ -236,7 +239,7 @@ class PhoneService {
                 }
             }
         }
-        
+        // WTF? This dos not even work
         if (null === $result) {
 
             // регистрируем исходящий вызов
