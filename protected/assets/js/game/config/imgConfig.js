@@ -1,3 +1,0 @@
-imgConfig = {
-    sizeFactor:1
-}

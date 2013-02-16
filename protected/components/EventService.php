@@ -240,11 +240,13 @@ class EventService {
         
         return $data;
     }
-    
+
     /**
      * Проверяет а можем ли мы запускать это событие
-     * @param string $code 
-     * @return true
+     * @param $replica Dialogs
+     * @param $simId
+     * @internal param string $code
+     * @return boolean
      */
     public static function allowToRun($replica, $simId) {
         $rules = FlagBlockReplica::model()->findAllByAttributes([

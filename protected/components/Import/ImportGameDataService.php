@@ -642,13 +642,14 @@ class ImportGameDataService
             $subjectText = $this->getCellValue($sheet, 'Original_Theme_text', $i);
             //$subjectText = StringTools::fixReAndFwd($subjectText);
             // Phone
-            $phone = $this->getCellValue($sheet, 'Theme_usage', $i) === 'phone';
+            $themeUsage = $this->getCellValue($sheet, 'Theme_usage', $i);
+            $phone = $themeUsage === 'phone';
             // Phone W/R
             $phoneWr = $this->getCellValue($sheet, 'Phone W/R', $i);
             // Phone dialogue number
             $phoneDialogNumber = $this->getCellValue($sheet, 'Phone dialogue number', $i);
             // Mail
-            $mail = $this->getCellValue($sheet, 'Theme_usage', $i) === 'mail_outbox';
+            $mail = $themeUsage === 'mail_outbox' || $themeUsage === 'mail_inbox';
             // Mail letter number
             $mailCode = $this->getCellValue($sheet, 'Mail letter number', $i);
             if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено') {
@@ -695,7 +696,7 @@ class ImportGameDataService
 
             $communicationTheme->save();
 
-            if ($communicationTheme->mail == "1") {
+            if ($communicationTheme->mail) {
                 // add fwd for all themes without fwd {
                 foreach ($charactersList as $character) {
                     if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {

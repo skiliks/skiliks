@@ -1,4 +1,0 @@
-imgConfigAnimations = {
-    'animation':{
-    }
-};
