@@ -277,6 +277,19 @@ class Dialogs extends CActiveRecord
         return $this;
     }
 
+    /**
+     * Gets first replica of the dialog
+     * @param $code
+     * @return Dialogs
+     */
+    public function getFirstReplica($code) {
+        $criteria = new CDbCriteria();
+        $criteria->compare('code', $code);
+        $criteria->compare('step_number', 1);
+        $criteria->order = 'replica_number';
+        return $this->find($criteria);
+    }
+
     public function relations()
     {
         return [
