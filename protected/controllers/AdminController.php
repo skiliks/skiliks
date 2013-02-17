@@ -90,12 +90,13 @@ class AdminController extends AjaxController
             "js/game/adminka/skiliks/logging/logging.js",
             "js/game/adminka/starter.js",
         ];
+        /* Please, read the docs. It can be do using registerScriptFile */
         foreach ($scripts as $path) {
             $jsScriptsAtTheEndOfBody .= sprintf(
                 '<script type="text/javascript" src="%s/%s"></script>', $assetsUrl, $path
             );
         }
-
+        $this->layout = false;
         $this->render(
             'index',
             [
