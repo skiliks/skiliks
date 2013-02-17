@@ -13,10 +13,11 @@ class MailBoxTest extends CDbTestCase
      *    с темой "Форма отчетности для производства"
      * 2. Проверяет тему письма M31 "Re: Срочно жду бюджет логистики"
      * 3. Проверяет тему у MS письма "Re: срочно! Отчетность"
+     * 3. Проверяет тему у MSY письма "Отчет для Правления"
      */
     public function testSubjectsForInitialEmails() 
     {
-        //$this->markTestSkipped();
+        ////$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -43,25 +44,55 @@ class MailBoxTest extends CDbTestCase
         ]);
         $events->startEvent($simulation->id,'M31', false, false,0);
         $events->getState($simulation, []);
-        $folders = MailBoxService::getFolders($simulation);
-        $this->assertEquals(count($folders),2);
-        $this->assertEquals(count($folders[0]),4);
-        $this->assertEquals(count($folders[1]),2);
-        $this->assertEquals(count($folders[1]['sended']),2);
-        $inbox_letters = array_values($folders[1]['inbox']);
-        $inbox_letters = array_values($folders[1]['inbox']);
-        $sent_letters = array_values($folders[1]['sended']);
-        
+
+        // get letters from golders to checl them {
+        $folderInbox = MailBoxService::getMessages([
+            'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
+            'receiverId' => NULL,
+            'simId'      => $simulation->id
+        ]);
+
+        $folderOutbox = MailBoxService::getMessages([
+            'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
+            'receiverId' => NULL,
+            'simId'      => $simulation->id
+        ]);
+
+        $folderDrafts = MailBoxService::getMessages([
+            'folderId'   => MailBoxModel::DRAFTS_FOLDER_ID,
+            'receiverId' => NULL,
+            'simId'      => $simulation->id
+        ]);
+
+        $folderTrash = MailBoxService::getMessages([
+            'folderId'   => MailBoxModel::TRASH_FOLDER_ID,
+            'receiverId' => NULL,
+            'simId'      => $simulation->id
+        ]);
+        // get letters from golders to checl them }
+
+        $this->assertEquals(5, count($folderInbox));
+        $this->assertEquals(2, count($folderOutbox));
+        $this->assertEquals(0, count($folderDrafts));
+        $this->assertEquals(0, count($folderTrash));
+
+        $inbox_letters = array_values($folderInbox);
+        $sent_letters = array_values($folderOutbox);
+
+        // fing target messages to check by template code {
         foreach ($inbox_letters as $inbox_letter) {
-            if ('форма отчетности для производства' == $inbox_letter['subjectSort']) {
+            if ('MY2' == $inbox_letter['template']) {
                 $m1 = $inbox_letter;
             }
-            if (' срочно жду бюджет логистики' == $inbox_letter['subjectSort']) {
+            if ('M31' == $inbox_letter['template']) {
                 $m2 = $inbox_letter;
             }
         }
-        
+        // fing target messages to check by template code }
+
+        $this->assertEquals('Отчет для Правления', $sent_letters[0]['subject']);
         $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
+
         $this->assertEquals('Форма отчетности для производства', $m1['subject']);
         $this->assertEquals('Re: Срочно жду бюджет логистики', $m2['subject']);
 
@@ -83,7 +114,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectForNewEmail() 
     {
-        //$this->markTestSkipped();
+        ////$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -118,7 +149,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectsForReReCase() 
     {
-        //$this->markTestSkipped();
+        ////$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -169,7 +200,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testForward() 
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();

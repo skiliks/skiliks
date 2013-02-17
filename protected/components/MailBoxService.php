@@ -162,6 +162,7 @@ class MailBoxService
                 'id'          => $message->id,
                 'subject'     => $subject,
                 'text'        => $message->message,
+                'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
                 'sender'      => $characters[$senderId],
                 'receiver'    => implode(',', $receiversCollection),
