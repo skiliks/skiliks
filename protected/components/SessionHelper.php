@@ -3,7 +3,7 @@
 
 
 /**
- * Хелпер по работе с сессиями.
+ *  Анхелпер по работе с сессиями.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -27,6 +27,7 @@ final class SessionHelper {
      * Получить uid по sid.
      * @param string $sid
      * @return int
+     * @deprecated
      */
     public static function getUidBySid() {
         $sid = Yii::app()->request->getParam('sid');

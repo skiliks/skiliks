@@ -80,23 +80,19 @@ class MailBoxService
 
     /**
      * Crazy code!
-     * 1. $params - options more stable, if there is a lot of them - object with options
+     * 1. better three params — code is more readable
      * 2. a lot of plain code - this is sure not OOP style
      *
      * Получение списка собщений
      *
-     * @param $params
-     * @internal param int $folderId
-     * @internal param int $receiverId
+     * @param $simulation Simulations
+     * @param $folderId integer
+     * @param $orderField
+     * @param bool $orderType mixed
      * @return array
      */
-    public static function getMessages($params)
+    public static function getMessages($simulation, $folderId, $orderField = null, $orderType = false)
     {
-        $folderId   = $params['folderId'];
-        $receiverId = $params['receiverId'];
-        $simId      = $params['simId'];
-
-
         $order = (isset($params['order'])) ? $params['order'] : false;
         if ($order == -1) {
             $order = false;
@@ -106,12 +102,11 @@ class MailBoxService
         if ($order == 'sender') $orderField = 'sender_id';
         //if ($order == 'time') $orderField = 'receiving_date'; TODO:Могут быть проблемы из-за того что уже нет столбца receiving_date в mail_template
 
-        $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
         if ($orderType == 0) $orderType = 'ASC';
         else $orderType = 'DESC';
 
         $model = MailBoxModel::model();
-        $model->bySimulation($params['simId']);
+        $model->bySimulation($simulation->primaryKey);
 
         $model->byFolder($folderId);
         if ($orderField) $model->orderBy($orderField, $orderType);

@@ -52,16 +52,16 @@ class MailController extends AjaxController
     public function actionGetMessages()
     {
         $simulation = $this->getSimulationEntity(); 
-        $folderId = (int) Yii::app()->request->getParam('folderId', false);
+        $folderId = (int) Yii::app()->request->getParam('folderId');
 
-        $messages = MailBoxService::getMessages(array(
-            'folderId'   => $folderId,
-            'receiverId' => SessionHelper::getUidBySid(),
-            'order'      => Yii::app()->request->getParam('order', false),
-            'orderType'  => Yii::app()->request->getParam('order_type', 'ASC'),
-            'uid'        => SessionHelper::getUidBySid(),
-            'simId'      => $simulation->id            
-        ));
+        $order = Yii::app()->request->getParam('order', false);
+        $orderType = Yii::app()->request->getParam('order_type', 'ASC');
+        $messages = MailBoxService::getMessages(
+            $simulation,
+            $folderId,
+            $order,
+            $orderType
+        );
 
         $this->sendJSON(array(
             'result'   => 1,

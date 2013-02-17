@@ -141,7 +141,10 @@ class Simulations extends CActiveRecord
 
     public function relations()
     {
-        return ['events_triggers' => [self::HAS_MANY, 'EventsTriggers', 'sim_id']];
+        return [
+            'user' => [self::BELONGS_TO, 'Users', 'user_id'],
+            'events_triggers' => [self::HAS_MANY, 'EventsTriggers', 'sim_id']
+        ];
     }
 
     /**
