@@ -198,7 +198,7 @@ class FlagServiceTest extends CDbTestCase
     /**
      * Проверяет что письмо M10 отправляется по флагу F14
      */
-    public function testSendEmailAfterFladSwitched()
+    public function testSendEmailAfterFlagSwitched()
     {
         ////$this->markTestSkipped();
 

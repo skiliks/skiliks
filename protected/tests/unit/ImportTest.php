@@ -57,7 +57,7 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
 
-            $this->assertEquals(21, count(FlagBlockReplica::model()->findAll()), 'block replica');
+            $this->assertEquals(2, count(FlagBlockReplica::model()->findAll()), 'block replica');
             $this->assertEquals(4, count(Flag::model()->findAll()), 'flags');
             $this->assertEquals(0, count(FlagRunMail::model()->findAll()), 'run mail');
 
