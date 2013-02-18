@@ -1785,6 +1785,19 @@ class ImportGameDataService
                 continue;
             }
 
+            $emailEvent = EventsSamples::model()->findByAttributes([
+                'code' => $this->getCellValue($sheet, 'Run_code', $i)
+            ]);
+
+            if (NULL === $emailEvent) {
+                throw new Exception('Can`t find event sample for email '.$this->getCellValue($sheet, 'Run_code', $i));
+            }
+
+            // we run, immediatly after flag was switched, email without trigger time only
+            if ('00:00:00' != $emailEvent->trigger_time) {
+                continue;
+            }
+
             // try to find exists entity {
             $mailFlag = FlagRunMail::model()->findByAttributes([
                 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
