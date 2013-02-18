@@ -84,6 +84,8 @@ class EventsManager {
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
                     unset($triggers[$key]);
+                } else {
+                    var_dump($trigger->event_sample->code);
                 }
             }
 
