@@ -214,8 +214,8 @@ class PhoneService {
 
                     // проверим а позволяют ли флаги нам запускать реплику
                     $replica = Dialogs::model()->getFirstReplica($eventCode);
-                    $eventRunResult = EventService::allowToRun($replica, $simulation->id);
-                    if ($eventRunResult['compareResult'] === false || $eventRunResult===false) {
+                    //$eventRunResult = EventService::allow To Run($replica, $simulation->id);
+                    if (false == FlagsService::isAllowToStartDialog($simulation, $eventCode)) {
                         // событие не проходит по флагам -  не пускаем его
                         return array(
                             'result' => 1, 

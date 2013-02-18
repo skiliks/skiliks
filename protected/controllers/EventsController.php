@@ -17,8 +17,6 @@ class EventsController extends AjaxController {
         
     }
     
-    
-    
     /**
      * Возврат списка доступных событий в системе
      */

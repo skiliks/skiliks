@@ -31,6 +31,37 @@ class FlagsService
     }
 
     /**
+     * @param Simulations $simulation
+     * @param string $dialogCode, 'E1.1'
+     *
+     * @return bool
+     */
+    public static function isAllowToStartDialog($simulation, $dialogCode)
+    {
+        $flags = FlagBlockDialog::model()->findAllByAttributes([
+            'dialog_code' => $dialogCode
+        ]);
+
+        // no flags - dialog is allowed to run
+        if (NULL === $flags) {
+            return true;
+        }
+
+        //  flags comparison {
+        $currentFlagState = SimulationService::getFlags($simulation->id);
+
+        foreach ($flags as $flag) {
+            if ($flag->value != $currentFlagState[$flag->flag_code]) {
+                return false;
+            }
+        }
+        //  flags comparison }
+
+        // pass comparison - dialog is allowed to run
+        return true;
+    }
+
+    /**
      * @param integer $ruleId
      * @return array
      */
