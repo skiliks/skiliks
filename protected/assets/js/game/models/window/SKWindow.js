@@ -122,5 +122,5 @@ define([], function () {
         }
     });
     window.SKWindow.window_set = {};
-    return SKWindow;
+    return window.SKWindow;
 });

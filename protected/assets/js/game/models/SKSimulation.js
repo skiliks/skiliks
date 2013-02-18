@@ -65,11 +65,7 @@ define([
              * Returns number of minutes past from the start of game
              */
             'getGameMinutes':function () {
-                var time_string = new Date();
-                var game_start_time = timeStringToMinutes(SKConfig.simulationStartTime);
-                return game_start_time +
-                    Math.floor((time_string - this.start_time) / ( 1000 * 60) * SKConfig.skiliksSpeedFactor) +
-                    this.skipped_minutes;
+                return Math.floor(this.getGameSeconds()/60);
             },
             /**
              * Return game time in seconds

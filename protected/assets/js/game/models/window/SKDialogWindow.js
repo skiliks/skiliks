@@ -2,9 +2,9 @@
  * Documents window subclass
  * @type {SKWindow}
  */
-define(["game/models/window/SKWindow"],function () {
+define(["game/models/window/SKWindow"],function (SKWindow) {
     "use strict";
-    window.SKDialogWindow = window.SKWindow.extend({
+    window.SKDialogWindow = SKWindow.extend({
         'initialize':function () {
             window.SKWindow.prototype.initialize.call(this);
             this.set('code', this.get('sim_event').get('data')[0].code);

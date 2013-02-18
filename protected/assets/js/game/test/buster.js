@@ -2,7 +2,7 @@ var config = module.exports;
 
 config["My Tests"] = {
     autoRun: false,
-    env: "browser",        // or "node"
+    env: "browser",
     rootPath: "../..",
     libs: [
         "jquery/*.js",
