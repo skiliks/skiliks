@@ -80,7 +80,7 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testBlockReplica()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);

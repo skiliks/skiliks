@@ -39,10 +39,6 @@ class DialogService
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
-        //$eventRunResult = EventService::allow To Run($currentDialog, $simId); /*$currentDialog->code, , $currentDialog->step_number, $currentDialog->replica_number*/
-        //var_dump($currentDialog->code);
-        //var_dump(FlagsService::isAllowToStartDialog($simulation, $currentDialog->code));
-
 
         if (false == FlagsService::isAllowToStartDialog($simulation, $currentDialog->code)) {
             // событие не проходит по флагам -  не пускаем его
