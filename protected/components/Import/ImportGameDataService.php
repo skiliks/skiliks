@@ -1739,20 +1739,20 @@ class ImportGameDataService
         $result = [];
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $result['characters'] = $this->importCharacters();
-            $result['learning_goals'] = $this->importLearningGoals();
-            $result['characters_points_titles'] = $this->importCharactersPointsTitles();
-            $result['dialog'] = $this->importDialogReplicas();
-            $result['email_subjects'] = $this->importEmailSubjects();
-            $result['emails'] = $this->importEmails();
-            $result['mail_attaches'] = $this->importMailAttaches();
-            $result['mail_events'] = $this->importMailEvents();
-            $result['tasks'] = $this->importTasks();
-            $result['mail_tasks'] = $this->importMailTasks();
-            $result['my_documents'] = $this->importMyDocuments();
-            $result['event_samples'] = $this->importEventSamples();
-            $result['activity'] = $this->importActivity();
-            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
+//            $result['characters'] = $this->importCharacters();
+//            $result['learning_goals'] = $this->importLearningGoals();
+//            $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+//            $result['dialog'] = $this->importDialogReplicas();
+//            $result['email_subjects'] = $this->importEmailSubjects();
+//            $result['emails'] = $this->importEmails();
+//            $result['mail_attaches'] = $this->importMailAttaches();
+//            $result['mail_events'] = $this->importMailEvents();
+//            $result['tasks'] = $this->importTasks();
+//            $result['mail_tasks'] = $this->importMailTasks();
+//            $result['my_documents'] = $this->importMyDocuments();
+//            $result['event_samples'] = $this->importEventSamples();
+//            $result['activity'] = $this->importActivity();
+//            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $result['flags'] = $this->importFlags();
             $result['flag_rules'] = $this->importFlagsRules();
 
@@ -1807,7 +1807,7 @@ class ImportGameDataService
 
         $importedFlagBlockReplica = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            if ('dialog' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+            if ('replica' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
                 continue;
             }
 
@@ -1822,7 +1822,7 @@ class ImportGameDataService
             if (null === $flagBlockReplica) {
                 $flagBlockReplica = new FlagBlockReplica();
                 $flagBlockReplica->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
-                $flagBlockReplica->replica_id = $this->getCellValue($sheet, 'Run_code', $i);
+                $flagBlockReplica->replica_id = (int)$this->getCellValue($sheet, 'Run_code', $i);
             }
             // create entity if not exists }
 
@@ -1834,6 +1834,37 @@ class ImportGameDataService
             $importedFlagBlockReplica++;
         }
 
+        // for Dialogs {
+        $importedFlagBlockDialog = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('dialog' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // try to find exists entity {
+            $flagBlockDialog = FlagBlockDialog::model()->findByAttributes([
+                'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
+                'dialog_code' => $this->getCellValue($sheet, 'Run_code', $i),
+            ]);
+            // try to find exists entity }
+
+            // create entity if not exists {
+            if (null === $flagBlockDialog) {
+                $flagBlockDialog = new FlagBlockDialog();
+                $flagBlockDialog->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $flagBlockDialog->dialog_code = $this->getCellValue($sheet, 'Run_code', $i);
+            }
+            // create entity if not exists }
+
+            $flagBlockDialog->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagBlockDialog->import_id = $this->import_id;
+
+            $flagBlockDialog->save();
+
+            $importedFlagBlockDialog++;
+        }
+        // for Dialogs }
+
         // delete old unused data {
         FlagRunMail::model()->deleteAll(
             'import_id<>:import_id',
@@ -1844,13 +1875,19 @@ class ImportGameDataService
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
+
+        FlagBlockDialog::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
         // delete old unused data }
 
         echo __METHOD__ . " end \n";
 
         return array(
-            'imported_Flag_to_run_mail' => $importedFlagToRunMailRows,
+            'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
             'imported_Flag_block_replica' => $importedFlagBlockReplica,
+            'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
             'errors' => false,
         );
     }
