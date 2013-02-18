@@ -16,7 +16,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
 		<meta charset="utf-8" />
-        <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<title><?php echo Yii::t('site', 'Skiliks - game the skills') ?></title>
 
 		<!--[if IE]>
@@ -31,7 +31,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
     <?php } else {?>
     <body class="inner">
     <?php } ?>
-    	
 		<div class="container<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?> main-page<?php } ?><?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?> team-page<?php } ?>" id="top">
 			
 			<!--header-->
@@ -72,9 +71,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<div class="logo"><a href="/">Skiliks</a></div>
 				
 				<nav>
-					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
-					<a href="team"><?php echo Yii::t('site', 'About') ?></a>
-					<a href="product"><?php echo Yii::t('site', 'Product') ?></a>
+					<a href="/"><?php echo Yii::t('site', 'Home') ?></a>
+					<a href="#"><?php echo Yii::t('site', 'About') ?></a>
+					<a href="/product"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 			
 				<p class="copyright">Copyright - Skiliks  - 2012</p>
