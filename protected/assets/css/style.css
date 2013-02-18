@@ -72,12 +72,18 @@ body {
 body.inner{
 	background-image:url("../img/bg-top-inner.jpg");
 }
+body.inner-team{
+	background-image:url("../img/bg-top-inner-team.jpg");
+}
 @media screen and (max-width: 1280px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
 	}
 	body.inner{
 		background-image:url("../img/bg-top-inner-min.jpg");
+	}
+	body.inner-team{
+		background-image:url("../img/bg-top-inner-team-min.jpg");
 	}
 }
 .container{
@@ -683,13 +689,162 @@ html[lang=ru] .product section table th{
 /* --------------- /product ---------*/
 
 /* --------------- team ---------*/
-.team {
-    margin: 50px 0;
+.team-page{
+    background:url("../img/bg-team-container.png") no-repeat center 760px;
 }
-.team p {
-    margin: 10px 0;
-    font: 1.190em/1.400em "ProximaNova-Regular";
-    color: #fff;
+.team-page .content{
+	width:980px;
+	height:1335px;
+}
+.team{
+	width:980px;
+	margin:36px auto 0;
+}
+.team article{
+	width:715px;
+	color:#fff;
+	text-align:center;
+	margin:0 auto;
+}
+.team article h2{
+	font:2.619em "ProximaNova-Bold";
+	text-shadow:0 0 7px rgba(0,0,0,,0.14);
+	margin-bottom:15px;
+}
+.team article p{
+	font-size:1.071em;
+	line-height:1.333em;
+}
+.team .team-list{
+	list-style:none;
+	text-align:center;
+	margin-top:18px;
+}
+.team .team-list li{
+	display:inline-block;
+	background-repeat:no-repeat;
+	background-position:0 bottom;
+	width:448px;
+	height:153px;
+	text-align:left;
+	margin:0 5px 4px;
+	padding:36px 0 0 30px;
+	vertical-align:top;
+}
+.team .team-list li.maria{
+	background-image:url("../img/bg-team-maria.png");
+}
+.team .team-list li.alyona{
+	background-image:url("../img/bg-team-alyona.png");
+}
+.team .team-list li.tony{
+	background-image:url("../img/bg-team-tony.png");
+}
+.team .team-list li.andrii{
+	background-image:url("../img/bg-team-andrii.png");
+}
+.team .team-list li.others{
+	background-image:url("../img/bg-team-others.png");
+}
+.team .team-list li h4{
+	font:1.666em "ProximaNova-Bold";
+	color:#146672;
+}
+.team .team-list li p{
+	font-size:0.952em;
+	color:#29313d;
+	line-height:1.500em;
+}
+.team .team-values{
+	width:500px;
+	text-align:center;
+	margin:57px auto 0;
+}
+.team .team-values h3{
+	font:2.619em "ProximaNova-Bold";
+	color:#146672;
+}
+.team .team-values ul{
+	list-style:none;
+}
+.team .team-values ul li{
+	background:url("../img/bg-team-values-item.png") no-repeat center 0;
+	font-size:1.071em;
+	color:#29313d;
+	line-height:1.333em;
+	margin-top:15px;
+	padding-top:84px;
+}
+.team .team-values ul li:first-child{
+	background:none;
+	padding-top:0;
+}
+@media screen and (max-width: 1280px){
+	.team-page{
+	    background:url("../img/bg-team-container-min.png") no-repeat center 608px;
+	}
+	.team-page .content{
+		width:783px;
+		height:1025px;
+	}
+	.team{
+		width:783px;
+		margin-top:29px;
+	}
+	.team article{
+		width:575px;
+	}
+	.team article h2{
+		font:2.095em;
+		margin-bottom:15px;
+	}
+	.team article p{
+		font-size:0.857em;
+	}
+	.team .team-list{
+		margin-top:14px;
+	}
+	.team .team-list li{
+		width:360px;
+		height:123px;
+		margin:0 2px 2px;
+		padding:29px 0 0 24px;
+	}
+	.team .team-list li.maria{
+		background-image:url("../img/bg-team-maria-min.png");
+	}
+	.team .team-list li.alyona{
+		background-image:url("../img/bg-team-alyona-min.png");
+	}
+	.team .team-list li.tony{
+		background-image:url("../img/bg-team-tony-min.png");
+	}
+	.team .team-list li.andrii{
+		background-image:url("../img/bg-team-andrii-min.png");
+	}
+	.team .team-list li.others{
+		background-image:url("../img/bg-team-others-min.png");
+	}
+	.team .team-list li h4{
+		font-size:1.334em;
+	}
+	.team .team-list li p{
+		font-size:0.762em;
+	}
+	.team .team-values{
+		width:395px;
+		text-align:center;
+		margin:48px auto 0;
+	}
+	.team .team-values h3{
+		font-size:2.095em;
+	}
+	.team .team-values ul li{
+		background-image:url("../img/bg-team-values-item-min.png");
+		font-size:0.857em;
+		margin-top:10px;
+		padding-top:67px;
+	}
 }
 /* --------------- /team ---------*/
 
