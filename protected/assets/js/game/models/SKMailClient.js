@@ -460,7 +460,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             },
 
             // todo: combine all getXxxFolderEmails() to one method.
-            getInboxFolderEmails:function () {
+            getInboxFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
                     {
@@ -470,12 +470,12 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateInboxFolderEmails(responce.messages);
-                    },
-                    false
+                        cb();
+                    }
                 );
             },
 
-            getDraftsFolderEmails:function () {
+            getDraftsFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
                     {
@@ -485,12 +485,12 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
-                    },
-                    false
+                        cb();
+                    }
                 );
             },
 
-            getSendedFolderEmails:function () {
+            getSendedFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
                     {
@@ -500,12 +500,12 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateSendedFolderEmails(responce.messages);
-                    },
-                    false
+                        cb();
+                    }
                 );
             },
 
-            getTrashFolderEmails:function () {
+            getTrashFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
                     {
@@ -515,8 +515,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateTrashFolderEmails(responce.messages);
-                    },
-                    false
+                        cb();
+                    }
                 );
             },
 
@@ -592,6 +592,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             },
 
             renderInitialScreen:function (folders, messages) {
+                var me = this;
                 this.initFolderNames();
                 // process and store in model AJAX data {
                 /*this.updateFolders(folders);*/
@@ -601,11 +602,17 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
                 // mark INCOM foldes as active
                 this.folders[this.aliasFolderInbox].isActive = true;
-
-                this.getInboxFolderEmails();
-                this.getDraftsFolderEmails();
-                this.getSendedFolderEmails();
-                this.getTrashFolderEmails();
+                var folder_to_load = 4;
+                var onSent = function () {
+                    folder_to_load--;
+                    if (folder_to_load === 0) {
+                        me.trigger('init_completed');
+                    }
+                };
+                this.getInboxFolderEmails(onSent);
+                this.getDraftsFolderEmails(onSent);
+                this.getSendedFolderEmails(onSent);
+                this.getTrashFolderEmails(onSent);
 
                 // set as active first letter in Inbox folder {
                 /*var emails = this.folders[this.aliasFolderInbox].emails;
@@ -618,7 +625,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     }
                 }*/
                 // set as active first letter in Inbox folder }
-                this.trigger('init_completed');
             },
 
             /**
