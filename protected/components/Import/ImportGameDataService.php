@@ -1884,12 +1884,12 @@ class ImportGameDataService
 
         echo __METHOD__ . " end \n";
 
-        return array(
+        return [
             'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
             'imported_Flag_block_replica' => $importedFlagBlockReplica,
             'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
             'errors' => false,
-        );
+        ];
     }
 }
 
