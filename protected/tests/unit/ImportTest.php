@@ -30,6 +30,7 @@ class ImportTest extends CDbTestCase
             $import->importMyDocuments();
             $import->importActivity();
             $import->importFlags();
+            $import->importFlagsRules();
 
             // events
             $this->assertNotNull(EventsSamples::model()->findByAttributes([
@@ -57,9 +58,10 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(19, Dialogs::model()->count());
             $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
 
-            $this->assertEquals(2, count(FlagBlockReplica::model()->findAll()), 'block replica');
+            $this->assertEquals(0, count(FlagBlockReplica::model()->findAll()), 'block replica');
+            $this->assertEquals(6, count(FlagBlockDialog::model()->findAll()), 'block replica');
             $this->assertEquals(4, count(Flag::model()->findAll()), 'flags');
-            $this->assertEquals(0, count(FlagRunMail::model()->findAll()), 'run mail');
+            $this->assertEquals(1, count(FlagRunMail::model()->findAll()), 'run mail');
 
             // end.
             $transaction->rollback();
