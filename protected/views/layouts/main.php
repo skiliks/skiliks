@@ -16,7 +16,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 <html lang="<?php echo Yii::t('site', 'en') ?>">
 	<head>
 		<meta charset="utf-8" />
-        <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<title><?php echo Yii::t('site', 'Skiliks - game the skills') ?></title>
 
 		<!--[if IE]>
@@ -29,8 +29,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
     <?php } else {?>
     <body class="inner">
     <?php } ?>
-    	
-		<div class="container<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?> main-page<?php } ?>" id="top">
+
+		<div class="container<?php if (Yii::app()->request->requestUri == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?> main-page<?php } ?>" id="top">
 			
 			<!--header-->
 			<header>
@@ -41,9 +41,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<div class="language"><a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a></div>
 				
 				<nav>
-					<a href="../"  <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Home') ?></a>
+					<a href="/"  <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="#"><?php echo Yii::t('site', 'About') ?></a>
-					<a href="product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
+					<a href="/product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 			</header>
 			<!--header end-->
@@ -70,9 +70,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<div class="logo"><a href="/">Skiliks</a></div>
 				
 				<nav>
-					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
+					<a href="/"><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="#"><?php echo Yii::t('site', 'About') ?></a>
-					<a href="product"><?php echo Yii::t('site', 'Product') ?></a>
+					<a href="/product"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 			
 				<p class="copyright">Copyright - Skiliks  - 2012</p>

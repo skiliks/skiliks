@@ -9,6 +9,9 @@ var spec = describe('simulation', function(run) {
             before(function () {
                 SKApp = new SKApplication();
                 server = sinon.fakeServer.create();
+                server.respondWith("POST", "/index.php/events/getState",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:0})]);
                 timers = sinon.useFakeTimers();
             });
             after(function () {
