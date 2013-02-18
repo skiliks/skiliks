@@ -16,21 +16,16 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase {
         $simulation = $simulation_service->simulationStart(1, $user);
         $standard = [
             'result' => 1,
-            'events' => [
-                [
-                    'result' => 1,
-                    'data' => [],
-                    'eventType' => 1
-                ]
-            ]
+            'events' => []
         ];
-        $this->assertEquals(
-            (new DialogService())->getDialog(
-                $simulation->id,
-                Dialogs::model()->findByAttributes(['code' => 'ET1.1', 'replica_number'=>2])->id,
-                '11:00'),
-                $standard
-        );
+
+        $res = (new DialogService())->getDialog(
+            $simulation->id,
+            Dialogs::model()->findByAttributes(['code' => 'ET1.1', 'replica_number'=>2])->id,
+            '11:00');
+
+        $this->assertEquals($res, $standard);
+
         $this->assertEquals(
             (new DialogService())->getDialog(
                 $simulation->id,
