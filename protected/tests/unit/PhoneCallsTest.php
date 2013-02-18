@@ -125,18 +125,14 @@ class PhoneServiceTest extends CDbTestCase {
         $simulation = $simulationService->simulationStart(1, $user);
 
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
-        $characterId = 3; // Трутнев
-        $themeId = 61161; // Задача отдела логистики
+        $characterCode = 3; // Трутнев
 
-        $themes = PhoneService::getThemes($characterId);
-        $theme = array_filter($themes, function($t) use ($themeId) {
-            return $t['themeId'] == $themeId;
-        });
+        $character = Characters::model()->findByAttributes(['code' => $characterCode]);
+        $theme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byText('Задача отдела логистики: статус')->byPhone()->find();
 
-        $this->assertCount(1, $theme);
-        $theme = reset($theme);
+        $this->assertInstanceOf('CommunicationTheme', $theme);
 
-        $result = PhoneService::call($simulation, $theme['themeId'], $characterId, $time);
+        $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
         $this->assertEquals(1, $result['result']);
         $this->assertEquals(1, $result['events'][0]['result']);
 
