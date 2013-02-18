@@ -99,6 +99,8 @@ define([
          * @type {SKMailClientView} SKMailClientView
          */
         run(function () {
+            _.templateSettings.interpolate = /<@=(.+?)@>/g;
+            _.templateSettings.evaluate = /<@(.+?)@>/g;
             var server;
             before(function () {
                 server = sinon.fakeServer.create();
@@ -110,7 +112,10 @@ define([
                         JSON.stringify({result:1})]);
                 server.respondWith("POST", "/index.php/mail/getMessages",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({result:1})]);
+                        JSON.stringify({
+                            result:1,
+                            messages: inbox
+                        })]);
                 server.respondWith("POST", "/index.php/simulation/start",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
@@ -132,9 +137,9 @@ define([
                 server.restore();
             });
 
-            it("displays and hides window", function (done) {
+            it("mail client displayed", function (done) {
                 buster.log("Start");
-                window.SKConfig = {'simulationStartTime': '9:00'};
+                window.SKConfig = {'simulationStartTime':'9:00'};
                 SKApp.user = {};
                 SKApp.user.simulation = new SKSimulation();
                 SKApp.user.simulation.start();
@@ -150,6 +155,8 @@ define([
                 var spy = sinon.spy();
                 mail.mailClient.on('init_completed', spy);
                 server.respond();
+                buster.log(mail.$el.html());
+                buster.log(server.requests);
                 assert.defined(mail.mailClient.getEmailByMySqlId(916046));
                 var message = {
                     "result":1,
@@ -168,7 +175,6 @@ define([
                 /* 4 letters at sim start */
                 expect(mail.$('.mail-emulator-received-list-cell-sender').length).toBe(4);
                 expect(mail.mailClient.getInboxFolder().name).toBe('Входящие');
-
                 assert.calledOnce(spy);
                 mail.$el.find('.NEW_EMAIL').click();
                 server.respond();

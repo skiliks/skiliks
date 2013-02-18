@@ -600,7 +600,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 //this.setEmailsToFolder(this.aliasFolderSended, messages[this.aliasFolderSended.toLowerCase()]);
                 // process and store in model AJAX data }
 
-                // mark INCOM foldes as active
+                // mark INCOME foldes as active
                 this.folders[this.aliasFolderInbox].isActive = true;
                 var folder_to_load = 4;
                 var onSent = function () {
