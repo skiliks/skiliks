@@ -7,6 +7,8 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testDialogFlagSet()
     {
+        //$this->markTestSkipped();
+
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
@@ -41,6 +43,8 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testSentMailFlagSet()
     {
+        //$this->markTestSkipped();
+
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
@@ -112,7 +116,7 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testBlockDialog()
     {
-        $this->markTestSkipped();
+        $this->markTestSkipped(); // S
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -139,6 +143,8 @@ class FlagServiceTest extends CDbTestCase
 
         FlagsService::setFlag($simulation->id, 'F14', 1);
 
+        sleep(0.5);
+
         $email = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M10'
@@ -149,6 +155,7 @@ class FlagServiceTest extends CDbTestCase
 
         //var_dump($email->group_id, $result);
 
-        //$this->assertEquals('1', $email->group_id);
+        $this->assertEquals('1', $email->group_id);
+        $this->assertEquals(1, count($result['events']));
     }
 }
