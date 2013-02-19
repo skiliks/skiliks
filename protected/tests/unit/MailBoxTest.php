@@ -71,7 +71,7 @@ class MailBoxTest extends CDbTestCase
         ]);
         // get letters from golders to checl them }
 
-        $this->assertEquals(5, count($folderInbox));
+        $this->assertEquals(4, count($folderInbox));
         $this->assertEquals(2, count($folderOutbox));
         $this->assertEquals(0, count($folderDrafts));
         $this->assertEquals(0, count($folderTrash));

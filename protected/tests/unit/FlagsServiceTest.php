@@ -183,7 +183,7 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testBlockDialogByPhone()
     {
-        //$this->markTestSkipped();
+        ////$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -244,7 +244,6 @@ class FlagServiceTest extends CDbTestCase
         $i = 0;
         while (true) {
             $state = $e->getState($simulation, []);
-            print_r($state);
             $i++;
             if ($state['result'] == 0) {
                 break;
@@ -260,8 +259,5 @@ class FlagServiceTest extends CDbTestCase
         ]);
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
         $this->assertEquals('not received', $timed_bad_email->getGroupName());
-
-
-
     }
 }

@@ -161,8 +161,6 @@ class EmailAnalizer
                 $this->userEmails[$email->id]->setTypeOfImportance(
                     $this->mailTemplate[$email->code]->type_of_importance
                 );
-                
-                //var_dump($email->code, $this->userEmails[$email->id]->typeOfImportance);
             }
             
             if (isset($this->rightMailTasks[$email->code])) {
@@ -225,7 +223,6 @@ class EmailAnalizer
             if ($this->isInbox($emailData->email) || $this->isInTrash($emailData->email)) {                
                 $this->userInboxEmails[$mailId] = $emailData;
             } elseif ($this->isOutbox($emailData->email)) {
-                //var_dump($mailId);
                 $this->userOutboxEmails[$mailId] = $emailData;
             }
 
@@ -338,7 +335,6 @@ class EmailAnalizer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $emailData) {
-            //var_dump($emailData->email->id);
             if (true === $emailData->getIsSpam() && true === $emailData->getIsReaded()) {
                 
                 $wrongActions++;
@@ -370,8 +366,7 @@ class EmailAnalizer
             
             if (true === $emailData->isNeedToActInTwoMinutes()) {
                 $possibleRightActions++;
-                //var_dump($mailId);
-                
+
                 if ($emailData->isAnsweredByMinutes($delta)) {
                     $doneRightActions++;
                 }
