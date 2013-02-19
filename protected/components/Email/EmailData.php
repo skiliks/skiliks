@@ -195,7 +195,6 @@ class EmailData
      * @return string, format 'hh:ii:ss'
      */
     public function getAnsweredAt() {
-         //var_dump($this->answeredAt);
          return ((int)date("H", strtotime($this->answeredAt)))*60 + ((int) date("i", strtotime($this->answeredAt)));
     }
     

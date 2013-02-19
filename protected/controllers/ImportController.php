@@ -6,7 +6,6 @@ class ImportController extends AjaxController
     public function actionIndex()
     {
         $links = [['href' => $this->createUrl('do'), 'title' => 'Начать импорт']];
-        //var_dump($links);
         $this->render('index', array('links'=>$links));
     }
 
