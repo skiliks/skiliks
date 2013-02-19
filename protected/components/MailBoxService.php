@@ -1341,20 +1341,8 @@ class MailBoxService
         ]);
 
         foreach ($mailFlags as $mailFlag) {
-            //$email = MailBoxService::copyMessageFromTemplateByCode($simulation->id, $mailCode->flag_code);
-
             $em = new EventsManager();
             $em->startEvent($simulation->id, $mailFlag->mail_code, false, false, 0);
-
-            /*if (NULL === $email) {
-                throw new Exception("cant copy mail by code $mailCode");
-            }
-
-            // process not received email only
-            if (false !== $email && MailBoxModel::NOT_RECEIVED_EMAILS_GROUP_ID == $email->group_id) {
-                $email->group_id = MailBoxModel::INBOX_FOLDER_ID;
-                $email->save();
-            }*/
         }
     }
 }

@@ -114,5 +114,39 @@ class PhoneServiceTest extends CDbTestCase {
                 'Wrong call type'.' i='.$i);  
         }
     }
+
+    /**
+     * Проверяет исходящие звонки. В роли собеседника выбран Трутнев
+     */
+    public function testOutgoingCall()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(1, $user);
+
+        $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
+        $characterCode = 3; // Трутнев
+
+        $character = Characters::model()->findByAttributes(['code' => $characterCode]);
+        $theme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byText('Задача отдела логистики: статус')->byPhone()->find();
+
+        $this->assertInstanceOf('CommunicationTheme', $theme);
+
+        $result = PhoneService::call($simulation, $theme->id, $characterCode, $time);
+        $this->assertEquals(1, $result['result']);
+        $this->assertEquals(1, $result['events'][0]['result']);
+
+        $this->assertEquals(575, $result['events'][0]['data'][0]['id']);
+        $this->assertEquals(3, $result['events'][0]['data'][0]['ch_from']);
+        $this->assertEquals(1, $result['events'][0]['data'][0]['ch_to']);
+        $this->assertEquals('T7.1', $result['events'][0]['data'][0]['code']);
+        $this->assertEquals(561, $result['events'][0]['data'][0]['excel_id']);
+
+        $this->assertEquals(576, $result['events'][0]['data'][1]['id']);
+        $this->assertEquals(1, $result['events'][0]['data'][1]['ch_from']);
+        $this->assertEquals(3, $result['events'][0]['data'][1]['ch_to']);
+        $this->assertEquals('T7.1', $result['events'][0]['data'][1]['code']);
+        $this->assertEquals(562, $result['events'][0]['data'][1]['excel_id']);
+    }
 }
 

@@ -1,64 +1,40 @@
-<!DOCTYPE html>
-<html lang="{Yii::t('site', 'en')}">
-    <head>
-        <meta charset="utf-8" />
-        <link href="../../../favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <title>{Yii::t('site', 'Skiliks - game the skills')}</title>
-
-        <!--[if IE]>
-            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-    </head>
-
-    <body class="inner">
-        <div class="container" id="top">
-
-            <!--header-->
-            <header>
-                <h1><a href="/">Skiliks</a></h1>
-
-                <div class="language"><a href="?_lang={Yii::t('site', 'ru')}">{Yii::t('site', 'Русский')}</a></div>
-
-                <nav>
-                    <a href="../">{Yii::t('site', 'Home')}</a>
-                    <a href="#">{Yii::t('site', 'About')}</a>
-                    <a href="product">{Yii::t('site', 'Product')}</a>
-                </nav>
-            </header>
-            <!--header end-->
-
-            <!--content-->
-            <div class="content">
-
-                <!--team-->
-                <article class="team">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at nulla risus. Curabitur sapien diam, faucibus nec pretium sit amet, faucibus quis turpis. Fusce at consequat dolor. Maecenas sit amet augue et leo iaculis posuere eu quis odio. Phasellus hendrerit, nunc pulvinar tempor tempus, dolor arcu congue nulla, id venenatis dui urna nec lorem. Pellentesque condimentum tempor scelerisque. Maecenas eget quam nisi, venenatis rhoncus sem. Etiam scelerisque rutrum erat a porttitor. Integer sit amet metus at nisl vestibulum suscipit non et lorem.</p>
-                    <p>Vivamus vitae accumsan velit. Nullam mi lorem, tincidunt vitae pretium sed, scelerisque et magna. In sagittis felis sit amet sapien sagittis consequat. Nullam eros odio, molestie ac feugiat quis, fermentum elementum mi. Mauris scelerisque cursus imperdiet. Nullam dictum rutrum velit, et fringilla arcu rhoncus non. Cras quis urna lectus.</p>
-                    <p>Ut quis turpis a eros condimentum euismod. Vivamus placerat fermentum lorem, eu cursus quam vestibulum nec. Phasellus scelerisque rhoncus dolor sagittis pretium. Sed lacus quam, porttitor porta laoreet at, fermentum ut magna. Quisque ut hendrerit ligula. Suspendisse potenti. In hac habitasse platea dictumst. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque est nisi, euismod vitae luctus sit amet, convallis nec nunc.</p>
-                    <p>Vivamus fringilla, eros sed semper blandit, diam massa condimentum nunc, vitae congue felis metus scelerisque tortor. Pellentesque ornare gravida arcu ut facilisis. In a neque mi, sit amet pretium urna. Nulla ullamcorper tortor quis mauris ullamcorper posuere. Integer non convallis enim. Vestibulum purus nunc, consequat eget semper vel, ultricies nec magna. Nulla ligula magna, condimentum in volutpat ut, volutpat sit amet elit. Vivamus vitae egestas nibh.</p>
-                </article>
-                <!--team end-->
-
-            </div>
-            <!--content end-->
-        </div>
-
-        <!--footer-->
-        <div class="footer">
-            <footer>
-                <div class="backtotop"><a href="#top">{Yii::t('site', 'Back to top')}</a></div>
-
-                <div class="logo"><a href="/">Skiliks</a></div>
-
-                <nav>
-                    <a href="../">{Yii::t('site', 'Home')}</a>
-                    <a href="#">{Yii::t('site', 'About')}</a>
-                    <a href="product">{Yii::t('site', 'Product')}</a>
-                </nav>
-
-                <p class="copyright">Copyright - Skiliks  - 2012</p>
-            </footer>
-        </div>
-        <!--footer end-->
-    </body>
-</html>
+<section class="team">
+	<article>
+		<h2>{Yii::t('site', 'Meet the Team')}</h2>
+		<p>{Yii::t('site', 'As managers we know the issue of hiring and developing professionals. As consultants and continuous improvement practitioners we know the way this issue can be solved. So we decided to create the product that would help managers of any level in any business to build their teams with much more confidence and without time-consuming assessment process.')}</p>
+	</article>
+	
+	<ul class="team-list">
+		<li class="maria">
+			<h4>{Yii::t('site', 'Maria Gorina')}</h4> 
+			<p>{Yii::t('site', 'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br />… simply The Boss &amp; Visionary')}</p>
+		</li>
+		<li class="alyona">
+			<h4>{Yii::t('site', 'Alyona  Levina')}</h4> 
+			<p>{Yii::t('site', 'Never gives up in front of any mission<br />Master of social contacts<br />Creativity and visuals pioneer<br />Black belt in continuous improvement')}</p>
+		</li>
+		<li class="tony">
+			<h4>{Yii::t('site', 'Tony Pryanichnikov')}</h4> 
+			<p>{Yii::t('site', 'Analytical engine,<br />Master of details and algorithms,<br />So lazy that nothing escapes of<br />being optimised and automated<br />Exceptional in producing managerial kicks')}</p>
+		</li>
+		<li class="andrii">
+			<h4>{Yii::t('site', 'Andrii Kostenko')}</h4> 
+			<p>#define TECHNOLOGY_KNOWLEDGE "best"<br />#define MIND "beautiful"<br />#define HANDS "magic"<br />#define TRUE FALSE</p>
+		</li>
+		<li class="others">
+			<h4>{Yii::t('site', 'Others')}</h4> 
+			<p>{Yii::t('site', 'Management, psychology,<br />teaching, assessment experts')}</p>
+		</li>
+	</ul>
+	
+	<section class="team-values">
+		<h3>{Yii::t('site', 'Our Values')}</h3>
+		
+		<ul>
+			<li>{Yii::t('site', 'We love people and we are eager to help them in realising their aims, we are happy to see them doing it in a smart way and with inspiration')}</li>
+			<li>{Yii::t('site', 'We love creating simple things that solve complicated issues')}</li>
+			<li>{Yii::t('site', 'We adore good design and facilitating technology')}</li>
+			<li>{Yii::t('site', 'We value professionalism in every field')}</li>
+		</ul> 
+	</section>
+</section>

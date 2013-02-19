@@ -6,6 +6,15 @@ class EventsManager {
 
     }
 
+    /**
+     * @param $simId
+     * @param $eventCode
+     * @param $clearEvents
+     * @param $clearAssessment
+     * @param $delay
+     * @return array
+     * @throws Exception
+     */
     public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
 
             $event = EventsSamples::model()->byCode($eventCode)->find();
@@ -39,19 +48,20 @@ class EventsManager {
             }
             
             return ['result' => 1];
-
-        
     }
-    
+
+    /**
+     * @param $simulation
+     * @param $logs
+     * @return array
+     * @throws CHttpException
+     */
     public function getState($simulation, $logs) {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
             $this->processLogs($simulation, $logs);
 
-
-            // update phone call dialogs lastDialogId }
-            
             $simType  = $simulation->type; // определим тип симуляции
             $gameTime = $simulation->getGameTime();
 
@@ -69,7 +79,13 @@ class EventsManager {
             // обработка задач }
             
             // получить ближайшее событие
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]); 
+            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
+
+            foreach ($triggers as $key => $trigger) {
+                if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
+                    unset($triggers[$key]);
+                }
+            }
 
             if (count($triggers) == 0) { 
                 // @todo: investigate - "No events" is exception ?
@@ -98,7 +114,7 @@ class EventsManager {
                     if ($index == 0) { $eventCode = $event->code; }
 
                     // проверим событие на флаги
-                    $dialogFirstReplica = Dialogs::model()->findByAttributes([
+                    /*$dialogFirstReplica = Dialogs::model()->findByAttributes([
                         'code'           => $event->code,
                         'step_number'    => 1,
                         'replica_number' => 0
@@ -107,10 +123,10 @@ class EventsManager {
                     if (NULL !== $dialogFirstReplica) {
                         // this is dialog
                         // check flags
-                        if (!EventService::allowToRun($dialogFirstReplica, $simId)) {
+                        if (!EventService::allow To Run($dialogFirstReplica, $simId)) {
                             continue; // событие не проходит по флагам -  не пускаем его
                         }
-                    }
+                    }*/
 
                     $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
