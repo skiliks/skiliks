@@ -251,11 +251,8 @@ class MailController extends AjaxController
      */
     public function actionMarkRead()
     {
-        $simulation = $this->getSimulationEntity();
-        
         return $this->sendJSON(array(
-            'result'  => (int)MailBoxService::markReaded((int)Yii::app()->request->getParam('id', 0)),
-            'folders' => MailBoxService::getFolders($simulation),
+            'result'  => (int)MailBoxService::markReaded((int)Yii::app()->request->getParam('id', 0))
         ));
     }
 

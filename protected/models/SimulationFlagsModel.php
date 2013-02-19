@@ -30,10 +30,12 @@ class SimulationFlagsModel extends CActiveRecord
     /**
      * @var integer
      */
-    public $value;    
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
+    public $value;
 
+    /**
+     * sends Email if it is immediate
+     * @return void
+     */
     public function afterSave() {
         // @1229
         // send email if exist emails related to flag $this->flag {
@@ -48,7 +50,7 @@ class SimulationFlagsModel extends CActiveRecord
 
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return SimulationFlagsModel 
      */
     public static function model($className=__CLASS__)
@@ -66,6 +68,7 @@ class SimulationFlagsModel extends CActiveRecord
     
     /**
      * Выбрать согласно заданной симуляции
+     * @deprecated SQL injection
      * @param int $simId
      * @return SimulationFlagsModel 
      */
@@ -79,6 +82,7 @@ class SimulationFlagsModel extends CActiveRecord
     
     /**
      * Выбрать по заданному флагу
+     * @deprecated SQL injection
      * @param string $flag
      * @return SimulationFlagsModel 
      */

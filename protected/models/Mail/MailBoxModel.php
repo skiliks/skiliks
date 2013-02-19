@@ -35,15 +35,21 @@ class MailBoxModel extends CActiveRecord
     const DRAFTS_FOLDER_ALIAS = 'drafts';
     const OUTBOX_FOLDER_ALIAS = 'outbox';
     const TRASH_FOLDER_ALIAS  = 'trash';
-    
+    const NOT_RECEIVED_FOLDER_ALIAS  = 'not received';
+
     const TYPE_REPLY    = 'reply';
     const TYPE_REPLY_ALL = 'replyAll';
-    
+
+    /**
+     * TODO: make THIS private
+     * @var array<int>
+     */
     public static $folderIdToAlias = array(
         self::INBOX_FOLDER_ID  => self::INBOX_FOLDER_ALIAS,
         self::DRAFTS_FOLDER_ID => self::DRAFTS_FOLDER_ALIAS,
         self::OUTBOX_FOLDER_ID => self::OUTBOX_FOLDER_ALIAS,
         self::TRASH_FOLDER_ID  => self::TRASH_FOLDER_ALIAS,
+        self::NOT_RECEIVED_EMAILS_GROUP_ID => self::NOT_RECEIVED_FOLDER_ALIAS
     );
     
     /**
@@ -352,6 +358,10 @@ class MailBoxModel extends CActiveRecord
             'order' => "$fieldName $direction"
         ));
         return $this;
+    }
+
+    public function getGroupName() {
+        return self::$folderIdToAlias[$this->group_id];
     }
 }
 
