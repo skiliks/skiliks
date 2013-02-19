@@ -89,6 +89,7 @@ class EventsManager {
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
+                    $trigger->delete();
                     unset($triggers[$key]);
                 }
                 if(false === FlagsService::isAllowToSendMail($simulation, $trigger->event_sample->code)) {
