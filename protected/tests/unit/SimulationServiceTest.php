@@ -33,7 +33,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor1122() 
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -104,7 +104,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor4124() 
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
