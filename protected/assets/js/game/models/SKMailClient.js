@@ -366,8 +366,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                             email.copyTo = this.getRecipientByMySqlId(parseInt(copies[i]));
                         }
 
-                        if (undefined !== emailsData.reply) {
-                            email.previouseEmailText = emailsData.reply;
+                        if (undefined !== emailsData[id].reply) {
+                            email.previouseEmailText = emailsData[id].reply;
                         }
 
                         this.folders[folderAlias].emails.push(email);

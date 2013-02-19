@@ -37,13 +37,13 @@ class EmailCoincidenceAnalyzer
         $this->userEmail = MailBoxModel::model()->findByPk($userEmailId);
         
         return (null !== $this->userEmail);
-    }    
+    }
 
     /**
-     * 
-     * @return mixed array
+     * @param bool $strict Allow only sent messages
+     * @return array
      */
-    public function checkCoincidence()
+    public function checkCoincidence($strict = true)
     {
         $result = array(
             'full'               => '-',
@@ -56,7 +56,7 @@ class EmailCoincidenceAnalyzer
         ); 
         
         // not sended email can`t has any coinsidence by business logic
-        if (false === $this->userEmail->isSended()) {
+        if ($strict && false === $this->userEmail->isSended()) {
             return $result;
         }
 
