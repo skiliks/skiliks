@@ -8,10 +8,14 @@
  */
 class ImportTest extends CDbTestCase
 {
-    public function test_flags() {
-        $import = new ImportGameDataService();
-        $import->importFlags();
-    }
+    /**
+     * Проверяет результаты импорта:
+     * 1. Создание событий для планировщика
+     * 2. Создание тем гибких комуникаций: origin, re ,fwd, fwdfwd, fwdrere, fwdrerere, rererere
+     * 3. Создание диалогов
+     * 4. Создание флагов
+     * 5. Создание правил для флагов: блокировка диалога, блокировка реплики, блокировка письма, инициализация отправки письма
+     */
     public function test_Full_Import()
     {
         $transaction = Yii::app()->db->beginTransaction();
@@ -24,6 +28,7 @@ class ImportTest extends CDbTestCase
             $import->importDialogReplicas();
             $import->importEmailSubjects();
             $import->importEmails();
+            $import->importMailEvents();
             $import->importMailTasks();
             $import->importEventSamples();
             $import->importTasks();
@@ -61,7 +66,8 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(0, count(FlagBlockReplica::model()->findAll()), 'block replica');
             $this->assertEquals(6, count(FlagBlockDialog::model()->findAll()), 'block replica');
             $this->assertEquals(4, count(Flag::model()->findAll()), 'flags');
-            $this->assertEquals(1, count(FlagRunMail::model()->findAll()), 'run mail');
+            $this->assertEquals(0, count(FlagRunMail::model()->findAll()), 'run mail');
+            $this->assertEquals(1, count(FlagBlockMail::model()->findAll()), 'block mail');
 
             // end.
             $transaction->rollback();
