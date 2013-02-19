@@ -92,6 +92,7 @@ class EventsManager {
                     unset($triggers[$key]);
                 }
                 if(false === FlagsService::isAllowToSendMail($simulation, $trigger->event_sample->code)) {
+                    $trigger->delete();
                     unset($triggers[$key]);
                 }
             }

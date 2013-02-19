@@ -241,12 +241,25 @@ class FlagServiceTest extends CDbTestCase
         $this->assertEquals('inbox', $email->getGroupName());
         $this->assertEquals('not received', $time_email->getGroupName());
         SimulationService::setSimulationClockTime($simulation, 16, 0);
-        while ($e->getState($simulation, [])['result']);
+        $i = 0;
+        while (true) {
+            $state = $e->getState($simulation, []);
+            print_r($state);
+            $i++;
+            if ($state['result'] == 0) {
+                break;
+            }
+        };
         $timed_good_email = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M8'
+        ]);
+        $timed_bad_email = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
-        $this->assertEquals('not received', $timed_good_email->getGroupName());
+        $this->assertEquals('inbox', $timed_good_email->getGroupName());
+        $this->assertEquals('not received', $timed_bad_email->getGroupName());
 
 
 
