@@ -27,6 +27,22 @@ class Logger {
         file_put_contents($filename, $data, FILE_APPEND);
         file_put_contents($filename, "\r\n", FILE_APPEND);
     }
+
+    public static function logMailCode($data) {
+        if(!is_array($data)){ return; }
+
+        $filename = __DIR__.'/../runtime/logger.log';
+        if(!empty($data['events']) and is_array($data['events'])){
+            foreach($data['events'] as $mail) {
+                if($mail['eventType'] === 'M'){
+                    file_put_contents($filename, $mail['id'], FILE_APPEND);
+                    file_put_contents($filename, ",", FILE_APPEND);
+                }
+
+            }
+        }
+
+    }
 }
 
 

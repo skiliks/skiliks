@@ -209,7 +209,7 @@ class FlagServiceTest extends CDbTestCase
     }
 
     /**
-     * Проверяет что письмо M10 отправляется по флагу F14
+     * Проверяет что письмо M31 отправляется по флагу F30, а M9 при флаге M16 — нет
      */
     public function testSendEmailAfterFlagSwitched()
     {
@@ -219,17 +219,36 @@ class FlagServiceTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
 
-        FlagsService::setFlag($simulation->id, 'F14', 1);
+        FlagsService::setFlag($simulation->id, 'F30', 1);
+        FlagsService::setFlag($simulation->id, 'F16', 1);
 
         $e = new EventsManager();
         $result = $e->getState($simulation, []);
+        $this->assertEquals(1, count($result['events']));
+        $result = $e->getState($simulation, []);
+        $this->assertEquals(0, $result['result']);
 
+        /** @var $email MailBoxModel */
         $email = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id,
-            'code'   => 'M10'
+            'code'   => 'M31'
         ]);
+        /** @var $time_email MailBoxModel */
+        $time_email = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M9'
+        ]);
+        $this->assertEquals('inbox', $email->getGroupName());
+        $this->assertEquals('not received', $time_email->getGroupName());
+        SimulationService::setSimulationClockTime($simulation, 16, 0);
+        while ($e->getState($simulation, [])['result']);
+        $timed_good_email = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M9'
+        ]);
+        $this->assertEquals('not received', $timed_good_email->getGroupName());
 
-        $this->assertEquals(1, $email->group_id);
-        $this->assertEquals(1, count($result['events']));
+
+
     }
 }

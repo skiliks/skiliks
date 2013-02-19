@@ -90,6 +90,7 @@ define([
                 this.mailClient = SKApp.user.simulation.mailClient;
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
+                    console.log("doRenderFolder");
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                 });
 
@@ -240,6 +241,7 @@ define([
              * Display (create if not exist) MailClient screen base
              */
             renderContent:function (el) {
+                console.log("renderContent");
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id:this.mailClientScreenID,
                     contentBlockId:this.mailClientContentBlockId

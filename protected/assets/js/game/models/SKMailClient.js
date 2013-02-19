@@ -343,6 +343,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                         email.mySqlId           = emailsData[id].id;
                         email.text              = emailsData[id].text;
                         email.is_readed         = (1 === parseInt(emailsData[id].readed, 10));
+                        console.log(emailsData[id].readed);
+                        console.log((1 === parseInt(emailsData[id].readed, 10)));
                         email.is_has_attachment = (1 === parseInt(emailsData[id].attachments, 10));
                         email.sendedAt          = emailsData[id].sentAt;
                         email.subject           = subject;
@@ -560,12 +562,24 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             setActiveEmail:function (email) {
                 // active email or readed or new writed in any case
                 if (undefined !== email) {
+                    if(!email.is_readed){
+                        SKApp.server.api(
+                            'mail/MarkRead',
+                            {
+                                id:email.mySqlId
+                            },
+                            function () {
+
+                            }
+                        );
+                    }
                     email.is_readed = true;
                 }
-
+                console.log(email);
                 this.trigger('mail:update_inbox_counter');
 
                 this.activeEmail = email;
+
             },
 
             setActiveFolder:function (alias) {
