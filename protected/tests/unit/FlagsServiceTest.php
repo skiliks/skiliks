@@ -246,7 +246,7 @@ class FlagServiceTest extends CDbTestCase
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
-        $this->assertEquals('inbox', $timed_good_email->getGroupName());
+        $this->assertEquals('not received', $timed_good_email->getGroupName());
 
 
 

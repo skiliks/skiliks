@@ -36,10 +36,10 @@ class SimulationFlagsModel extends CActiveRecord
      * sends Email if it is immediate
      * @return void
      */
-    public function beforeSave() {
+    public function afterSave() {
         // @1229
         // send email if exist emails related to flag $this->flag {
-        if (null === $this->id && 1 == $this->value) {
+        if (1 == $this->value) {
             MailBoxService::sendEmailsRelatedToFlag($this->simulation, $this->flag);
             // @todo check is email come to frontend
         }
