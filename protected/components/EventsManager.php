@@ -51,7 +51,12 @@ class EventsManager {
     }
 
     /**
-     * @param $simulation
+     * Этот монстр делает такое:
+     *
+     * 1. Процессит логи
+     * 2. Берет первое событие из EventTriggers
+     * 3. Проверяет по флагам, можно ли отдать это событие
+     * @param $simulation Simulations
      * @param $logs
      * @return array
      * @throws CHttpException
@@ -79,10 +84,14 @@ class EventsManager {
             // обработка задач }
             
             // получить ближайшее событие
+            /** @var $triggers EventsTriggers[] */
             $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
+                    unset($triggers[$key]);
+                }
+                if(false === FlagsService::isAllowToSendMail($simulation, $trigger->event_sample->code)) {
                     unset($triggers[$key]);
                 }
             }
@@ -112,21 +121,6 @@ class EventsManager {
                     $trigger->delete(); // Убиваем обработанное событие
 
                     if ($index == 0) { $eventCode = $event->code; }
-
-                    // проверим событие на флаги
-                    /*$dialogFirstReplica = Dialogs::model()->findByAttributes([
-                        'code'           => $event->code,
-                        'step_number'    => 1,
-                        'replica_number' => 0
-                    ]);
-
-                    if (NULL !== $dialogFirstReplica) {
-                        // this is dialog
-                        // check flags
-                        if (!EventService::allow To Run($dialogFirstReplica, $simId)) {
-                            continue; // событие не проходит по флагам -  не пускаем его
-                        }
-                    }*/
 
                     $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
