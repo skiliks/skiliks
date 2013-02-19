@@ -632,7 +632,7 @@ class ImportGameDataService
             $themeId = $this->getCellValue($sheet, 'Original_Theme_id', $i); // A
             // Определение кода персонажа
             $characterCode = $this->getCellValue($sheet, 'To_code', $i); // A
-            if ($characterCode === '' || $characterCode === '-') {
+            if ($characterCode === '' || $characterCode === '-' || NULL == $characterCode) {
                 $characterCode = null;
                 $characterId = null;
             } else {
@@ -959,6 +959,7 @@ class ImportGameDataService
             if ($code === null) {
                 continue;
             }
+
             $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Time', $i), 'hh:mm:ss');
             assert($sendingTime !== null);
             $event = EventsSamples::model()->byCode($code)->find();
