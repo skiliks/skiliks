@@ -956,6 +956,7 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Mail_code', $i);
+
             if ($code === null) {
                 continue;
             }
@@ -1816,21 +1817,23 @@ class ImportGameDataService
                 // create entity if not exists }
 
                 $importedFlagToRunMailRows++;
-            } else {
-                $mailTemplate = MailTemplateModel::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
-                $mailFlag = FlagBlockMail::model()->findByAttributes([
-                    'mail_template_id' => $mailTemplate->primaryKey,
-                    'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
-                ]);
-                if (null === $mailFlag) {
-                    $mailFlag = new FlagBlockMail();
-                }
-                $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
-                $mailFlag->mail_template_id = $mailTemplate->primaryKey;
-                $mailFlag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
-                $mailFlag->import_id = $this->import_id;
-                $mailFlag->save();
             }
+
+            // Flag bloks mail alvays {
+            $mailTemplate = MailTemplateModel::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
+            $mailFlag = FlagBlockMail::model()->findByAttributes([
+                'mail_template_id' => $mailTemplate->primaryKey,
+                'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
+            ]);
+            if (null === $mailFlag) {
+                $mailFlag = new FlagBlockMail();
+            }
+            $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $mailFlag->mail_template_id = $mailTemplate->primaryKey;
+            $mailFlag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $mailFlag->import_id = $this->import_id;
+            $mailFlag->save();
+            // Flag bloks mail alvays }
         }
 
         $importedFlagBlockReplica = 0;
