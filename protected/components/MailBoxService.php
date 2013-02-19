@@ -89,6 +89,7 @@ class MailBoxService
             $mailIds[] = (int)$message->id;
             $senderId = (int)$message->sender_id;
             $receiverId = (int)$message->receiver_id;
+            $messageId = $message->message_id;
             $users[$senderId] = $senderId;
             $users[$receiverId] = $receiverId;
             /** @var $theme CommunicationTheme */
@@ -125,7 +126,7 @@ class MailBoxService
             $item = array(
                 'id'          => $message->id,
                 'subject'     => $subject,
-                'text'        => $message->message,
+                'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
                 'sender'      => $characters[$senderId],
@@ -134,6 +135,11 @@ class MailBoxService
                 'readed'      => $readed,
                 'attachments' => 0
             );
+
+            if (!empty($messageId)) {
+                $reply = MailBoxModel::model()->byId($messageId)->find();
+                $item['reply'] = $reply->message;
+            }
 
             $item['subjectSort'] = self::processSubject($subject);
 
@@ -288,7 +294,14 @@ class MailBoxService
         $message->insert();
 
         $mailId = $message->id;
-        //Создаем лог в ручную
+
+        $emailConsidenceAnalizator = new EmailCoincidenceAnalyzer();
+        $emailConsidenceAnalizator->setUserEmail($mailId);
+        $result = $emailConsidenceAnalizator->checkCoincidence(false);
+
+        $message->code = $result['result_code'];
+        $message->template_id = $result['result_template_id'];
+        $message->save();
 
         // сохранение копий
         if (isset($params['copies'])) {
@@ -895,14 +908,9 @@ class MailBoxService
                 'simId'  => $simId
             ]
         );
-        /** @var $mail MailBoxModel */
-        $mail = MailBoxModel::model()->findByPk($mailId);
-        $mail->code = $result['result_code'];
-        $mail->template_id = $result['result_template_id'];
-        $mail->save();
 
         // switch flag if necessary {
-        // @1229
+        $mail = MailBoxModel::model()->findByPk($mailId);
         if (NULL !== $mail->template && NULL !== $mail->template->flag_to_switch) {
             FlagsService::setFlag($simId, $mail->template->flag_to_switch, 1);
         }
@@ -921,8 +929,6 @@ class MailBoxService
         $simulationEmail = MailBoxModel::model()->findByPk($mailId);
 
         if (null !== $simulationEmail) {
-            $simulationEmail->code = $result['result_code'];
-            $simulationEmail->template_id = $result['result_template_id'];
             $simulationEmail->coincidence_type = $result['result_type'];
             $simulationEmail->coincidence_mail_code = $result['result_code'];
             $simulationEmail->save();
