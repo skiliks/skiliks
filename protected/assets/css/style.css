@@ -708,7 +708,7 @@ html[lang=ru] .product section table th{
 }
 .team article h2{
 	font:2.619em "ProximaNova-Bold";
-	text-shadow:0 0 7px rgba(0,0,0,,0.14);
+	text-shadow: 0 0 7px rgba(0,0,0,0.14);
 	margin-bottom:15px;
 }
 .team article p{
