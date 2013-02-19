@@ -42,6 +42,7 @@ class MailBoxTest extends CDbTestCase
             'letterType' => 'new',
             'simId' => $simulation->primaryKey
         ]);
+        FlagsService::setFlag($simulation->id, 'F30', 1);
         $events->startEvent($simulation->id,'M31', false, false,0);
         $events->getState($simulation, []);
 
@@ -71,7 +72,7 @@ class MailBoxTest extends CDbTestCase
         ]);
         // get letters from golders to checl them }
 
-        $this->assertEquals(4, count($folderInbox));
+        $this->assertEquals(5, count($folderInbox));
         $this->assertEquals(2, count($folderOutbox));
         $this->assertEquals(0, count($folderDrafts));
         $this->assertEquals(0, count($folderTrash));
