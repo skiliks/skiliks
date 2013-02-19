@@ -12,6 +12,8 @@ class DialogService
     public function getDialog($simId, $dialogId, $time) {
      assert($time !== NULL);
      assert($time !== false);
+
+        $simulation = Simulations::model()->findByPk($simId);
      
         if ($dialogId == 0) {
             return
@@ -32,15 +34,19 @@ class DialogService
         $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
         // set flag 1, @1229
-
         if (NULL !== $currentDialog->flag_to_switch) {
             FlagsService::setFlag($simId, $currentDialog->flag_to_switch, 1);
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
-        $eventRunResult = EventService::allowToRun($currentDialog, $simId); /*$currentDialog->code, , $currentDialog->step_number, $currentDialog->replica_number*/
-        if ($eventRunResult['compareResult'] === false) {
-            return $this->sendJSON(array('result' => 1, 'data' => array())); // событие не проходит по флагам -  не пускаем его
+
+        if (false == FlagsService::isAllowToStartDialog($simulation, $currentDialog->code)) {
+            // событие не проходит по флагам -  не пускаем его
+            return [
+                'result' => 1,
+                'data'   => [],
+                'events' => []
+            ];
         }
 
         $phone = new PhoneService();
@@ -92,6 +98,7 @@ class DialogService
                 if ($res) {
                     // убьем такое событие чтобы оно не произошло позже
                     EventService::deleteByCode($currentDialog->next_event_code, $simId);
+
                     $result['events'][] = $res;
                 }
                 else {
@@ -117,9 +124,15 @@ class DialogService
         $resultList = $data;
         foreach ($data as $dialogId => $dialog) {
             // @1229
+            if (false == FlagsService::isAllowToStartDialog($simulation, $dialog['code'])) {
+                // событие не проходит по флагам -  не пускаем его
+                unset($resultList[$dialogId]);
+                continue;
+            }
+
             $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
 
-            if ($flagInfo['ruleExists']===true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
+            if ($flagInfo['ruleExists'] === true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
                 break;  // нечего чистиить все выполняется, for current dialog replic
             }
 
@@ -133,7 +146,8 @@ class DialogService
                     // правило выполняется но нужно удалить ненужную реплику
                     foreach($resultList as $key=>$val) {
                         if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
-                            unset($resultList[$key]); break;
+                            unset($resultList[$key]);
+                            break;
                         }
                     }
                 }
@@ -183,11 +197,17 @@ class DialogService
             }
         }
 
-        $result['events'][] = [
-            'result' => 1,
-            'data' => $data,
-            'eventType' => 1
-        ];
+        if (0 < count($data)) {
+            $result['events'][] = [
+                'result'    => 1,
+                'data'      => $data,
+                'eventType' => 1
+            ];
+        }
+//
+//        if (false === isset($result['events'])) {
+//            $result['events'] = [];
+//        }
 
         return $result;
 
