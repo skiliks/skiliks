@@ -232,7 +232,7 @@ class FlagsService
         ]);
 
         // no flags - dialog is allowed to run
-        if (NULL === $flags) {
+        if (0 === count($flags)) {
             return true;
         }
 
