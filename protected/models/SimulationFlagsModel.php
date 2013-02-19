@@ -30,14 +30,16 @@ class SimulationFlagsModel extends CActiveRecord
     /**
      * @var integer
      */
-    public $value;    
-    
-    /** ------------------------------------------------------------------------------------------------------------ **/
+    public $value;
 
-    public function afterSave() {
+    /**
+     * sends Email if it is immediate
+     * @return void
+     */
+    public function beforeSave() {
         // @1229
         // send email if exist emails related to flag $this->flag {
-        if (1 == $this->value) {
+        if (null === $this->id && 1 == $this->value) {
             MailBoxService::sendEmailsRelatedToFlag($this->simulation, $this->flag);
             // @todo check is email come to frontend
         }
@@ -48,7 +50,7 @@ class SimulationFlagsModel extends CActiveRecord
 
     /**
      *
-     * @param type $className
+     * @param string $className
      * @return SimulationFlagsModel 
      */
     public static function model($className=__CLASS__)
@@ -66,6 +68,7 @@ class SimulationFlagsModel extends CActiveRecord
     
     /**
      * Выбрать согласно заданной симуляции
+     * @deprecated SQL injection
      * @param int $simId
      * @return SimulationFlagsModel 
      */
@@ -79,6 +82,7 @@ class SimulationFlagsModel extends CActiveRecord
     
     /**
      * Выбрать по заданному флагу
+     * @deprecated SQL injection
      * @param string $flag
      * @return SimulationFlagsModel 
      */

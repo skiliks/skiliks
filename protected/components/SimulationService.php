@@ -54,13 +54,12 @@ class SimulationService
     }*/
     
     /**
-     * Получить список флагов в рамках симуляции
+     * Получить список флагов диалогов в рамках симуляции
      * @param int $simId
      * @return array
      */
     public static function getFlags($simId) {
-        $flags = SimulationFlagsModel::model()->bySimulation($simId)->findAll();
-        
+        $flags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id'=>$simId]);
         $list = array();
         foreach($flags as $flag) {
             $list[$flag->flag] = $flag->value;

@@ -49,9 +49,8 @@ class FlagsService
 
         //  flags comparison {
         $currentFlagState = SimulationService::getFlags($simulation->id);
-
         foreach ($flags as $flag) {
-            if ($flag->value != $currentFlagState[$flag->flag_code]) {
+            if (isset($currentFlagState[$flag->flag_code]) && $flag->value != $currentFlagState[$flag->flag_code]) {
                 return false;
             }
         }
@@ -220,6 +219,35 @@ class FlagsService
 
         $flagInfo['action'] = 'break';
         return $flagInfo;
+    }
+
+    public static function isAllowToSendMail($simulation, $mailCode)
+    {
+        $mail_template = MailTemplateModel::model()->findByAttributes(['code' => $mailCode]);
+        if ($mail_template === null) {
+            return true;
+        }
+        $flags = FlagBlockMail::model()->findAllByAttributes([
+            'mail_template_id' => $mail_template->primaryKey
+        ]);
+
+        // no flags - dialog is allowed to run
+        if (NULL === $flags) {
+            return true;
+        }
+
+        //  flags comparison {
+        $currentFlagState = SimulationService::getFlags($simulation->id);
+
+        foreach ($flags as $flag) {
+            if (isset($currentFlagState[$flag->flag_code]) && $flag->value != $currentFlagState[$flag->flag_code]) {
+                return false;
+            }
+        }
+        //  flags comparison }
+
+        // pass comparison - dialog is allowed to run
+        return true;
     }
 }
 

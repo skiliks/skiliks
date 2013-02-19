@@ -9,42 +9,6 @@ class MailBoxService
 {
 
     /**
-     * @deprecated: use getMessages instead of this
-     * Получить список папок и писем в них
-     * @param Simulations $simulation
-     * @return array
-     */
-    /*public static function getFolders($simulation)
-    {
-        $folders = MailFoldersModel::getFoldersListForJson();
-
-        $inboxMessages = self::getMessages(array(
-            'folderId'  => MailFoldersModel::INBOX_ID, // inbox
-            'receiverId' => Characters::HERO_ID,
-            'simId'      => $simulation->id
-        ));
-
-        $sendedMessages = self::getMessages(array(
-            'folderId'   => MailFoldersModel::SENDED_ID, // inbox
-            'receiverId' => Characters::HERO_ID,
-            'simId'      => $simulation->id
-        ));
-
-        $unreadInfo = MailBoxService::getFoldersUnreadCount($simulation->id);
-        foreach ($unreadInfo as $folderId => $count) {
-            $folders[$folderId]['unreaded'] = $count;
-        }
-
-        return array(
-            $folders,
-            [
-                'inbox' => $inboxMessages,
-                'sended' => $sendedMessages
-            ]
-        );
-    }*/
-
-    /**
      * Загрузка персонажей
      *
      * @param array $ids

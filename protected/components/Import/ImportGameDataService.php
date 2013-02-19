@@ -1785,6 +1785,7 @@ class ImportGameDataService
                 continue;
             }
 
+            /** @var $emailEvent EventsSamples */
             $emailEvent = EventsSamples::model()->findByAttributes([
                 'code' => $this->getCellValue($sheet, 'Run_code', $i)
             ]);
@@ -1794,28 +1795,41 @@ class ImportGameDataService
             }
 
             // we run, immediatly after flag was switched, email without trigger time only
-            if ('00:00:00' != $emailEvent->trigger_time) {
-                continue;
-            }
+            if ('00:00:00' == $emailEvent->trigger_time) {
 
-            // try to find exists entity {
-            $mailFlag = FlagRunMail::model()->findByAttributes([
-                'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
-                'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
-            ]);
-            // try to find exists entity }
+                // try to find exists entity {
+                $mailFlag = FlagRunMail::model()->findByAttributes([
+                    'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
+                    'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
+                ]);
+                // try to find exists entity }
 
-            // create entity if not exists {
-            if (null === $mailFlag) {
-                $mailFlag = new FlagRunMail();
+                // create entity if not exists {
+                if (null === $mailFlag) {
+                    $mailFlag = new FlagRunMail();
+                }
                 $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
                 $mailFlag->mail_code = $this->getCellValue($sheet, 'Run_code', $i);
                 $mailFlag->import_id = $this->import_id;
                 $mailFlag->save();
-            }
-            // create entity if not exists }
+                // create entity if not exists }
 
-            $importedFlagToRunMailRows++;
+                $importedFlagToRunMailRows++;
+            } else {
+                $mailTemplate = MailTemplateModel::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
+                $mailFlag = FlagBlockMail::model()->findByAttributes([
+                    'mail_template_id' => $mailTemplate->primaryKey,
+                    'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
+                ]);
+                if (null === $mailFlag) {
+                    $mailFlag = new FlagBlockMail();
+                }
+                $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $mailFlag->mail_template_id = $mailTemplate->primaryKey;
+                $mailFlag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+                $mailFlag->import_id = $this->import_id;
+                $mailFlag->save();
+            }
         }
 
         $importedFlagBlockReplica = 0;
@@ -1880,6 +1894,10 @@ class ImportGameDataService
 
         // delete old unused data {
         FlagRunMail::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        FlagBlockMail::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
