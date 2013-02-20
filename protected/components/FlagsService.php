@@ -8,29 +8,6 @@
 class FlagsService 
 {
     /**
-     * Определяет правило по заданному коду события
-     * @param string $code
-     * @param int $stepNumber, dialog step no
-     * @param int $replicaNumber, dialog replica no
-     * @param int $excelId, dialog excel id
-     * @return FlagsRulesModel 
-     */
-    public static function getRuleByCode($code, $stepNumber = false, $replicaNumber = false, $excelId = null) 
-    {
-        if ($stepNumber !== false && $replicaNumber !== false) {
-            $request = FlagsRulesModel::model()
-                    ->byName($code)
-                    ->byStepNumber($stepNumber)
-                    ->byReplicaNumber($replicaNumber)
-                    ->byRecordIdOrNullOrZero($excelId);
-
-            return $request->find();
-        }
-
-        return FlagsRulesModel::model()->byName($code)->find();
-    }
-
-    /**
      * @param Simulations $simulation
      * @param string $dialogCode, 'E1.1'
      *
@@ -60,22 +37,6 @@ class FlagsService
         return true;
     }
 
-    /**
-     * @param integer $ruleId
-     * @return array
-     */
-    public static function getFlags($ruleId) 
-    {
-        $rules = FlagsRulesContentModel::model()->byRule($ruleId)->findAll();
-
-        $list = array();
-        foreach ($rules as $rule) {
-            $list[$rule->getFlagName()] = $rule->getValue();
-        }
-
-        return $list;
-    }
-    
     /**
      * @param Simulations  $simulation
      * @return mixed array
@@ -127,13 +88,6 @@ class FlagsService
     {
         $result = array();
 
-        // определим код правила
-        /*$ruleModel = self::getRuleByCode($code, $stepNumber, $replicaNumber, $excelId);
-
-        if (null === $ruleModel) {
-            $result['ruleExists'] = false;
-            return $result; // для данного диалога не задано правила
-        }*/
         $rules = FlagBlockReplica::model()->findAllByAttributes([
             'replica_id' => $excelId
         ]);
@@ -144,9 +98,7 @@ class FlagsService
         $result['replicaNumber'] = $replicaNumber;
         $result['compareResult'] = true;
 
-        // получим флаги для этого правила
-        //$flags = FlagsService::getFlags($ruleModel->getId());
-        if (count($rules) == 0) {
+         if (count($rules) == 0) {
             return $result; // для данного кода нет правил
         }
 

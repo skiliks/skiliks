@@ -90,7 +90,6 @@ define([
                 this.mailClient = SKApp.user.simulation.mailClient;
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
-                    console.log("doRenderFolder");
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                 });
 
@@ -113,7 +112,6 @@ define([
                     var unreaded = me.mailClient.getInboxFolder().countUnreaded();
                     me.updateMailIconCounter(unreaded);
                     me.updateInboxFolderCounter(unreaded);
-                    //console.log("Update counter");
                 });
 
                 // close with conditions action {
@@ -241,7 +239,6 @@ define([
              * Display (create if not exist) MailClient screen base
              */
             renderContent:function (el) {
-                console.log("renderContent");
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
                     id:this.mailClientScreenID,
                     contentBlockId:this.mailClientContentBlockId
@@ -642,7 +639,6 @@ define([
                 // Todo — move to events dictionary (GuGu)
                 $('.email-list-line').click(function (event) {
                     // update lod data {
-                    //console.log("Click mail!");
 
                     // if user click on same email line twice - open read email screen
                     // Do not change == to ===
@@ -1042,7 +1038,6 @@ define([
             },
 
             doMoveToInbox:function (email) {
-                //console.log(email);
                 SKApp.server.api(
                     'mail/move',
                     {
@@ -1519,9 +1514,7 @@ define([
             doUpdateMailPhrasesList:function () {
                 var mailClientView = this;
                 var mailClient = this.mailClient;
-                //console.log("mailClient.availablePhrases.length : "+mailClient.availablePhrases.length);
-                //console.log("mailClient.availableAdditionalPhrases.length : "+mailClient.availableAdditionalPhrases.length);
-                //console.log("mailClient.newEmailUsedPhrases.length : "+mailClient.newEmailUsedPhrases.length);
+
                 if ((0 !== mailClient.availablePhrases.length || 0 !== mailClient.availableAdditionalPhrases.length) && mailClient.isNotEmptySubject()) {
                     // warning
                     if(mailClient.activeScreen !== "SCREEN_WRITE_FORWARD") {

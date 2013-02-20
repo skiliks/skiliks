@@ -12,6 +12,8 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testSimulationStart()
     {
+        //$this->markTestSkipped();
+
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -100,7 +102,7 @@ class SimulationServiceTest extends CDbTestCase
     }
     
     /**
-     * 
+     * Проверяет правильность оценки по 4124
      */
     public function testCalculateAgregatedPointsFor4124() 
     {
@@ -254,6 +256,96 @@ class SimulationServiceTest extends CDbTestCase
         }
         
         $this->assertTrue($is_4124_scored, '4124 not scored!');
-    } 
+    }
+
+    /**
+     * Проверяет склейку детального логировнания в агрегированное:
+     * 1. Если суммарная активность по activity превышает 10 реальных секунд
+     * - то все записи по activity логруются отдельными строками агрегированного лога
+     * 2. Если суммарная активность по activity НЕ превышает 10 реальных секунд
+     * - то все записи по activity склаиваются с предыдущим activity
+     */
+    public function testActionsAgregationMechanism()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        $time = 32000;
+        $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
+
+        $n = 10;
+        for ($i = 0; $i < $n; $i++) {
+            // add set of short by time user-actions {
+            $logs = [
+                0 => [1, 1, 'activated',   $time,     'window_uid' => 100],
+                1 => [1, 1, 'deactivated', $time + 10, 'window_uid' => 100],
+                2 => [3, 3, 'activated',   $time + 10, 'window_uid' => 200],
+                3 => [3, 3, 'deactivated', $time + 20, 'window_uid' => 200],
+            ];
+
+            $time = $time + 20;
+
+            $event = new EventsManager();
+            $event->getState($simulation, $logs);
+            // add set of short by time user-actions }
+
+            // add short by time user-action {
+            if (2 == $i) {
+                $logs = [
+                    0 => [40, 41, 'activated',   $time,     'window_uid' => 300],
+                    1 => [40, 41, 'deactivated', $time + round($speedFactor/2), 'window_uid' => 300],
+                ];
+
+                $event = new EventsManager();
+                $event->getState($simulation, $logs);
+
+                $time = $time + round($speedFactor/2);
+
+            }
+            // add short by time user-action }
+        }
+
+        LogHelper::combineLogActivityAgregated($simulation);
+
+        $agregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $this->assertEquals($n*2, count($agregatedLogs), 'Total');
+
+        $res = [
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:14'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'main screen', 'duration' => '00:00:10'],
+            ['action' => 'plan',        'duration' => '00:00:10'],
+        ];
+
+        $j = 0;
+        foreach ($agregatedLogs as $agregatedLog) {
+            $this->assertEquals($res[$j]['action'],   $agregatedLog->leg_action, 'type, iteration '.$j);
+            $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,  'duration, iteration '.$j);
+            $j++;
+        }
+    }
 }
 
