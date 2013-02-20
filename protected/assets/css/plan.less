@@ -178,19 +178,21 @@
       left:0;
     }
     .planner-book-tomorrow {
+      border-left:1px solid #000;
       background:#fff;
       width: 326px;
       height: 460px;
       position:absolute;
       top:0;
-      left:318px;
+      left:317px;
     }
     .planner-book-after-vacation {
+      border-left:1px solid #000;
       width: 325px;
       height: 460px;
       position:absolute;
       top:0;
-      left:636px;
+      left:635px;
       .mCSB_draggerRail{
         width:1px;
       }
@@ -244,17 +246,13 @@
     }
     @media screen and (min-width: 1300px) and (max-width:1600px){
       .planner-book-today{
-        border-right:1px solid #000;
         width:373px;
       }
       .planner-book-tomorrow{
-        border-right:1px solid #000;
-        border-left:1px solid #000;
         width:363px;
         left:364px;
       }
       .planner-book-after-vacation{
-        border-left:1px solid #000;
         width:373px;
         left:729px;
       }
@@ -264,17 +262,13 @@
     }
     @media screen and (min-width: 1601px){
       .planner-book-today{
-        border-right:1px solid #000;
         width:480px;
       }
       .planner-book-tomorrow{
-        border-right:1px solid #000;
-        border-left:1px solid #000;
         width:480px;
         left:481px;
       }
       .planner-book-after-vacation{
-        border-left:1px solid #000;
         width:489px;
         left:963px;
       }
@@ -284,9 +278,10 @@
     }
 
     .planner-book-timetable-table{
+      border-right:1px solid #000;
       border-collapse: separate;
       table-layout: fixed;
-      width: 316px;
+      width: 317px;
       tr {
         height: 10px;
       }
@@ -423,7 +418,7 @@
       .todo-min.min {
         display: none;
       }
-      @media screen and (min-width: 1281px) {
+      @media screen and (min-height: 768px) {
         .plan-todo-wrap{
           height: 543px;
         }
@@ -454,6 +449,11 @@
       }
       .plan-todo-wrap{
         display:none;
+      }
+    }
+    @media screen and (min-height: 768px) {
+      &.closed{
+        bottom:-260px;
       }
     }
     >div{
