@@ -37,7 +37,6 @@ define(["game/views/SKWindowView"], function () {
             },
             
             'deny':function (e) {
-                //console.log("click");
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 });

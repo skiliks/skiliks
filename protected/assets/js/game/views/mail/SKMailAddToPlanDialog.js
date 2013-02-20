@@ -29,6 +29,8 @@ define(["game/views/SKDialogView"], function () {
         },
 
         getTasksToBePlanned:function () {
+            var me = this;
+
             return SKApp.server.api(
                 'mail/toPlan',
                 {
@@ -44,19 +46,24 @@ define(["game/views/SKDialogView"], function () {
 
                         SKApp.user.simulation.mailClient.availaleActiveEmailTasks.push(task);
                     });
-                },
-                false
+
+                    me.continueRender();
+                }
             );
         },
 
         render:function () {
-            var listHtml = '';
-            var addToPlanDialog = this;
-
+            console.log('new way!');
             SKApp.user.simulation.mailClient.setWindowsLog('mailPlan', SKApp.user.simulation.mailClient.getActiveEmailId());
 
             // generate mail tasks list {
             this.getTasksToBePlanned();
+        },
+
+        continueRender: function() {
+            console.log('continueRender!');
+            var listHtml = '';
+            var addToPlanDialog = this;
 
             var mailTasks = SKApp.user.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
@@ -91,7 +98,7 @@ define(["game/views/SKDialogView"], function () {
 
             var me = this;
 
-            // preventOtherClicks 
+            // preventOtherClicks
             me.renderPreventClickElement();
 
             // render dialog {
@@ -174,8 +181,7 @@ define(["game/views/SKDialogView"], function () {
                     );
 
                     SKApp.user.simulation.window_set.toggle('plan', 'plan'); // for logging
-                },
-                false
+                }
             );
         },
 
