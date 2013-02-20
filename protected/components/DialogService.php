@@ -32,7 +32,7 @@ class DialogService
         $gameTime = SimulationService::getGameTime($simId);
         $simType = SimulationService::getType($simId); // определим тип симуляции
         $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
-
+        EventService::deleteByCode($currentDialog->code, $simId);
         // set flag 1, @1229
         if (NULL !== $currentDialog->flag_to_switch) {
             FlagsService::setFlag($simId, $currentDialog->flag_to_switch, 1);
