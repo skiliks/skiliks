@@ -28,4 +28,21 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
 
     }
 
+    /*
+     * Проверка на то что если E1 был запущен, то его уже нет в стеке событий
+     */
+    public function testEventNotStart() {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(1, $user);
+        $dialog = new DialogService();
+        $dialog_cancel = Dialogs::model()->findByAttributes(['code'=>'S1.1', 'replica_number'=> 1]);
+        $dialog->getDialog($simulation->id, $dialog_cancel->id, '9:05');
+        $dialog_call = Dialogs::model()->findByAttributes(['code'=>'E1', 'replica_number'=> 0]);
+        $dialog->getDialog($simulation->id, $dialog_call->id, '9:06');
+        $event = EventsSamples::model()->findByAttributes(['code'=>'E1']);
+        $res = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id'=>$simulation->id]);
+        $this->assertEquals(null, $res);
+    }
+
 }
