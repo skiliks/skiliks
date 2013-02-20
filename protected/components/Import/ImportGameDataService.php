@@ -667,6 +667,8 @@ class ImportGameDataService
             // Source of outbox email
             $source = $this->getCellValue($sheet, 'Source', $i);
 
+            $usage = $this->getCellValue($sheet, 'Theme_usage', $i);
+
             /**
              * @var CommunicationTheme $communicationTheme
              */
@@ -692,6 +694,7 @@ class ImportGameDataService
             $communicationTheme->mail_prefix = $mailPrefix;
             $communicationTheme->code = $themeId;
             $communicationTheme->source = $source;
+            $communicationTheme->theme_usage = $usage;
             $communicationTheme->import_id = $this->import_id;
 
             $communicationTheme->save();

@@ -17,7 +17,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectsForInitialEmails() 
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -115,7 +115,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectForNewEmail() 
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -150,7 +150,7 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectsForReReCase() 
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -209,9 +209,12 @@ class MailBoxTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         // random email case{       
-        $randomFirstEmail = MailBoxModel::model()->find('sim_id = :sim_id', ['sim_id' => $simulation->id]);        
-        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);      
-        
+        $randomFirstEmail = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M8'
+        ]);
+        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
+
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
         $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'random email case');
         // random email case }
@@ -221,7 +224,7 @@ class MailBoxTest extends CDbTestCase
         $emailM61->group_id = 1;
         $emailM61->save();        
         $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $emailM61);
-        
+
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
         $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
         

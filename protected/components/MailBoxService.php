@@ -484,18 +484,22 @@ class MailBoxService
             $parentSubject = CommunicationTheme::model()->findByPk($parentSubjectId);
             
             $models = [];            
-            $models[] = CommunicationTheme::model()->find(
-                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
+            $model = CommunicationTheme::model()->find(
+                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND theme_usage NOT LIKE :outbox_old ', [
                 'mail_prefix'  => $parentSubject->getPrefixForForward(), 
                 'text'         => $parentSubject->text,
-                'character_id' => $receivers[0]
+                'character_id' => $receivers[0],
+                'outbox_old'   => 'mail_outbox_old'
             ]);
+            if (NULL !== $model) {
+                $models[] = $model;
+            }
         } else {
             // this is NEW mail
-            $models = CommunicationTheme::model()->findAllByAttributes([
+            $models = CommunicationTheme::model()->findAll(
+                'character_id = :character_id AND mail_prefix IS NULL AND mail = 1 AND theme_usage NOT LIKE :outbox_old ', [
                 'character_id' => $receivers[0],
-                'mail_prefix' => null,
-                'mail' => 1
+                'outbox_old'   => 'mail_outbox_old'
             ]);
         }
 
