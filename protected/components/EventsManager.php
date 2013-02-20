@@ -50,6 +50,21 @@ class EventsManager {
             return ['result' => 1];
     }
 
+    public function waitEvent($simId, $eventCode) {
+        $event = EventsSamples::model()->byCode($eventCode)->find();
+        $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+
+        if (!$eventsTriggers) {
+            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers->sim_id = $simId;
+            $eventsTriggers->event_id = $event->id;
+            $eventsTriggers->trigger_time = SimulationService::getGameTime($simId);
+            $eventsTriggers->insert();
+        }
+
+        return ['result' => 1];
+    }
+
     /**
      * Этот монстр делает такое:
      *
