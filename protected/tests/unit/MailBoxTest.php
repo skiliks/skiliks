@@ -268,6 +268,11 @@ class MailBoxTest extends CDbTestCase
         }
     }
 
+    /**
+     * Проверяет что для письма Трутнев С. на тему "FWD:форма по задаче от логистики, срочно!" возвращается непустой набор
+     * правильных фраз и равен R6
+     *
+     */
     public function testGetPhrasesFWD()
     {
         //$this->markTestSkipped();
