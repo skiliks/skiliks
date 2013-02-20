@@ -1119,7 +1119,8 @@ class LogHelper
                 l.activity_action_id,
                 i.category_id,
                 a.is_keep_last_category,
-                a.activity_id
+                a.activity_id,
+                l.window_uid
             FROM
               log_activity_action AS l
             LEFT JOIN activity_action AS a
@@ -1179,6 +1180,7 @@ class LogHelper
                 unset($data['data'][$k]['type_of_init']);
                 unset($data['data'][$k]['document_id']);
                 unset($data['data'][$k]['window_id']);
+                unset($data['data'][$k]['window_uid']);
             }
         }
 
@@ -1268,30 +1270,44 @@ class LogHelper
 
         $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
 
+        // collect time by window id {
+        $durationByWindowUid = [];
+        foreach ($data['data'] as $activityAction) {
+
+            $id = $activityAction['window_uid'];
+            $durationByWindowUid[$id] = (isset($durationByWindowUid[$id]))
+                ? $durationByWindowUid[$id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
+                : TimeTools::TimeToSeconds($activityAction['diff_time']);
+        }
+        // collect time by window id }
+
         foreach ($data['data'] as $activityAction) {
             if (NULL === $agregatedActivity) {
                 // init new agregatedActivity at first iteration
                 $agregatedActivity = new LogActivityActionAgregated();
 
-                $agregatedActivity->sim_id = $simulation->id;
-                $agregatedActivity->leg_type = $activityAction['leg_type'];
-                $agregatedActivity->leg_action = $activityAction['leg_action'];
-                $agregatedActivity->activityAction = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
-                $agregatedActivity->category = $activityAction['category_id'];
+                $agregatedActivity->sim_id =                $simulation->id;
+                $agregatedActivity->leg_type =              $activityAction['leg_type'];
+                $agregatedActivity->leg_action =            $activityAction['leg_action'];
+                $agregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                $agregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
+                $agregatedActivity->category =              $activityAction['category_id'];
                 $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                $agregatedActivity->start_time = $activityAction['start_time'];
-                $agregatedActivity->end_time = $activityAction['end_time'];
-                $agregatedActivity->duration = $activityAction['diff_time'];
+                $agregatedActivity->start_time =            $activityAction['start_time'];
+                $agregatedActivity->end_time =              $activityAction['end_time'];
+                $agregatedActivity->duration =              $activityAction['diff_time'];
             } else {
-                // IF previouse action activity the same with current 
+                // IF previouse action activity the same with current
                 // OR current activity action duration < 10 real seconds
-                // THEN prolong previouse actvity 
-                $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                // THEN prolong previouse actvity
+
+                $id = $activityAction['window_uid'];
+                $actionDurationInGameSeconds = $durationByWindowUid[$id];
                 $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
+
                 if ($agregatedActivity->activityAction->activity_id === $activityAction['activity_id'] ||
-                    $actionDurationInGameSeconds < $limit
-                ) {
+                    $actionDurationInGameSeconds < $limit )
+                {
                     // prolong previouse activity :
                     $agregatedActivity->end_time = $activityAction['end_time'];
                     $agregatedActivity->updateDuration();
@@ -1302,16 +1318,16 @@ class LogHelper
                     // init new agregatedActivity for new activity
                     $agregatedActivity = new LogActivityActionAgregated();
 
-                    $agregatedActivity->sim_id = $simulation->id;
-                    $agregatedActivity->leg_type = $activityAction['leg_type'];
-                    $agregatedActivity->leg_action = $activityAction['leg_action'];
-                    $agregatedActivity->activityAction = ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                    $agregatedActivity->activity_action_id = $activityAction['activity_action_id'];
-                    $agregatedActivity->category = $activityAction['category_id'];
+                    $agregatedActivity->sim_id =                $simulation->id;
+                    $agregatedActivity->leg_type =              $activityAction['leg_type'];
+                    $agregatedActivity->leg_action =            $activityAction['leg_action'];
+                    $agregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                    $agregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
+                    $agregatedActivity->category =              $activityAction['category_id'];
                     $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                    $agregatedActivity->start_time = $activityAction['start_time'];
-                    $agregatedActivity->end_time = $activityAction['end_time'];
-                    $agregatedActivity->duration = $activityAction['diff_time'];
+                    $agregatedActivity->start_time =            $activityAction['start_time'];
+                    $agregatedActivity->end_time =              $activityAction['end_time'];
+                    $agregatedActivity->duration =              $activityAction['diff_time'];
                 }
             }
         }

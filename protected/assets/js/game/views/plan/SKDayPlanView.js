@@ -10,31 +10,38 @@ define(["game/views/SKWindowView"], function () {
         /** @lends SKDayPlanView.prototype */
         {
         'addClass': 'planner-book-main-div',
-        'events':_.defaults({
-            'click .day-plan-todo-task':'doActivateTodo',
-            'dblclick .plan-todo .day-plan-todo-task':'doSetTask',
-            'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
-            'click .todo-min':'doMinimizeTodo',
-            'click .todo-max':'doMaximizeTodo',
-            'click .todo-revert':'doRestoreTodo'
-        }, SKWindowView.prototype.events),
+        'events':_.defaults(
+            {
+                'click .day-plan-todo-task':                                         'doActivateTodo',
+                'dblclick .plan-todo .day-plan-todo-task':                           'doSetTask',
+                'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
+                'click .todo-min':                                                   'doMinimizeTodo',
+                'click .todo-max':                                                   'doMaximizeTodo',
+                'click .todo-revert':                                                'doRestoreTodo'
+            },
+            SKWindowView.prototype.events
+        ),
+
         setupDraggable:function () {
             var me = this,
             elements = this.$('.planner-task:not(.locked)');
+
             elements.draggable("destroy");
+            var d31 = new Date();
             elements.draggable({
-                containment:this.$('.planner-book'),
-                stack:".planner-book",
+                addClasses: 'dragget-task',
                 appendTo:".planner-book",
+                containment:this.$('.planner-book'),
+                cursorAt:{ top:4 },
+                delay: 0,
                 helper:'clone',
+                revert: "invalid",
                 scope: "tasks",
+                scroll:true,
                 snap:'td.planner-book-timetable-event-fl',
                 snapMode:'inner',
                 snapTolerance:11,
-                scroll:true,
-                cursorAt:{ top:4 },
-                addClasses: 'dragget-task',
-                revert: "invalid",
+                stack:".planner-book",
                 start:function () {
                     me.showDayPlanSlot($(this));
                     
@@ -79,7 +86,6 @@ define(["game/views/SKWindowView"], function () {
                     // set height according duration }
 
                     ui.position.left -= $(this).parent().scrollLeft() - stl;
-
                 }
             });
         },
@@ -428,7 +434,6 @@ define(["game/views/SKWindowView"], function () {
             me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
             this.setupDroppable();
             Hyphenator.run();
-
         },
         doActivateTodo:function (e) {
             var has_class = $(e.currentTarget).hasClass('day-plan-task-active');
