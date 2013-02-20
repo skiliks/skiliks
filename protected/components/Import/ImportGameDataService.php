@@ -1643,13 +1643,13 @@ class ImportGameDataService
             // update activity values }
 
             // Try to find parent activity in DB
-            $parentActivity = ActivityParent::model()->findByPk($activity->parent);
-
-            // Create one if not exists
-            if ($parentActivity === null) {
-                $parentActivity = new ActivityParent();
-                $activity->id = $activity->parent;
-            }
+//            $parentActivity = ActivityParent::model()->findByPk($activity->parent);
+//
+//            // Create one if not exists
+//            if ($parentActivity === null) {
+//                $parentActivity = new ActivityParent();
+//                $activity->id = $activity->parent;
+//            }
 
             // 
             $type = $activity_types[$leg_type];
