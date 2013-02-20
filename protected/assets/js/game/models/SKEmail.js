@@ -128,7 +128,6 @@ define([] ,function() {
         },
         
         addRecipientEmailAndNameStrings: function(string) {
-            //console.log('this.recipientNameString:', this.recipientNameString);
             var separator = '';
             if ('' != this.recipientNameString) {
                separator = ' ,'; 
