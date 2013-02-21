@@ -4,6 +4,7 @@
 define([
     "game/models/SKMailClient",
     "game/collections/SKEventCollection",
+    "game/models/SKEvent",
     "game/collections/SKTodoCollection",
     "game/collections/SKPhoneHistoryCollection",
     "game/collections/SKDayTaskCollection",

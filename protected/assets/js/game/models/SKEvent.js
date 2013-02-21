@@ -1,5 +1,5 @@
 /*global SKEvent:true, Backbone, SKConfig, SKApp*/
-(function () {
+define([], function () {
     "use strict";
     var event_types = {
         'M':'mail',
@@ -217,4 +217,5 @@
                 this.setStatus('completed');
             }
         });
-})();
+    return SKEvent;
+});

@@ -56,7 +56,6 @@ return array(
     'components' => array(
         'preload'=> array('log', 'RSentryException'),
         'assetManager' => [
-            'basePath'=>realpath(dirname(__FILE__).'/../../images/assets'),
             'linkAssets' => true,
         ],
         'cache' => array(
