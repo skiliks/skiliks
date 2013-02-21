@@ -92,7 +92,7 @@ class ActivityAction extends CActiveRecord
         );
     }
 
-    public function appendLog($log) {
+        public function appendLog($log) {
         // get log_action {
         $log_search_criteria = new CDbCriteria();
         $log_search_criteria->addColumnCondition([
@@ -125,10 +125,15 @@ class ActivityAction extends CActiveRecord
 
         # Drafts
         if (isset($log->mail_id)) {
-            $activity = ActivityAction::model()->findByPriority(['mail_id' => null], ['Inbox_leg', 'Outbox_leg']);
+            $activity = ActivityAction::model()->findByPriority(
+                ['mail_id' => null],
+                ['Inbox_leg', 'Outbox_leg'],
+                $log->simulation
+            );
+
             $log_items = LogActivityAction::model()->findAllByAttributes(array(
                 'activity_action_id' => $activity->primaryKey,
-                'sim_id' => $log->sim_id
+                'sim_id'             => $log->sim_id
             ));
             foreach ($log_items as $log_item) {
 
@@ -163,18 +168,58 @@ class ActivityAction extends CActiveRecord
     /**
      * Order by numeric_id
      */
-    public function findByPriority($attrs, $leg_types = null) {
+    public function findByPriority($attrs, $leg_types = null, $simulation = NULL) {
         $criteria = new CDbCriteria();
         $criteria->with = [
             'activity' => [
-                'select' => false, 'order' => 'category_id, numeric_id', 'limit' => 1
+                'select' => false,
+                'order' => 'category_id, numeric_id',
+                'limit' => 1
             ]
         ];
         $criteria->addColumnCondition($attrs);
+
         if ($leg_types !== null) {
             $criteria->addInCondition('leg_type', $leg_types);
         }
+
+        // @1224
+        // remove activities for already closed activity parent {
+//        if (NULL !== $simulation) {
+//            // get finished parent actions
+//            $completedParents = SimulationCompletedParent::model()->findAllByAttributes([
+//                'sim_id' => $simulation->id
+//            ]);
+//
+//            // collect finished parent actions ids (codes)
+//            $parent_ids = [];
+//            foreach ($completedParents as $completedParent) {
+//                $parent_ids[] = "'".$completedParent->parent_code."'";
+//            }
+//
+//            // get activities related to finished parent actions
+//            $activitiesForCompletedParent = [];
+//            if (0 != count($parent_ids)) {
+//                $activitiesForCompletedParent = Activity::model()->findAll(
+//                    ' parent IN ('.implode(',', $parent_ids).') '
+//                );
+//            }
+//
+//            // collect ids (codes) for activities related to finished parent actions
+//            $activity_codes_for_completed_parent = [];
+//            foreach ($activitiesForCompletedParent as $activityForCompletedParent) {
+//                $activity_codes_for_completed_parent[] = $activityForCompletedParent->id;
+//            }
+//
+//            // add criteria for activityAction.activity_id
+//            if (0 != count($activity_codes_for_completed_parent)) {
+//                $criteria->addNotInCondition('activity_id', $activity_codes_for_completed_parent);
+//            }
+//        }
+        // remove activities for already closed activity parent }
+
         $result = $this->find($criteria);
+
         return $result;
     }
 

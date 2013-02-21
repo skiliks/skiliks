@@ -78,7 +78,11 @@ class LogWindows extends CActiveRecord
         /**
          * @var ActivityAction $activity_action
          */
-        $activity_action = ActivityAction::model()->findByPriority(array('window_id' => $this->sub_window));
+        $activity_action = ActivityAction::model()->findByPriority(
+            ['window_id' => $this->sub_window],
+            null,
+            $this->simulation
+        );
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
         }
