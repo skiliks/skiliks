@@ -22,7 +22,7 @@ class EventsManager {
             
             // если надо очищаем очерель событий для текущей симуляции
             if ($clearEvents) {
-                EventsTriggers::model()->deleteAll("sim_id={$simId}");
+                EventTrigger::model()->deleteAll("sim_id={$simId}");
             }
             
             // если надо очищаем оценки  для текущей симуляции
@@ -32,7 +32,7 @@ class EventsManager {
 
             $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), $delay);
 
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
@@ -40,7 +40,7 @@ class EventsManager {
             else {
                 
                 // Добавляем событие
-                $eventsTriggers = new EventsTriggers();
+                $eventsTriggers = new EventTrigger();
                 $eventsTriggers->sim_id = $simId;
                 $eventsTriggers->event_id = $event->id;
                 $eventsTriggers->trigger_time = $gameTime;
@@ -52,10 +52,10 @@ class EventsManager {
 
     public function waitEvent($simId, $eventCode, $eventTime) {
         $event = EventSample::model()->byCode($eventCode)->find();
-        $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
 
         if (!$eventsTriggers) {
-            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers = new EventTrigger();
             $eventsTriggers->sim_id = $simId;
             $eventsTriggers->event_id = $event->id;
             $eventsTriggers->trigger_time = $eventTime ?: $event->trigger_time;
@@ -99,8 +99,8 @@ class EventsManager {
             // обработка задач }
             
             // получить ближайшее событие
-            /** @var $triggers EventsTriggers[] */
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
+            /** @var $triggers EventTrigger[] */
+            $triggers = EventTrigger::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {

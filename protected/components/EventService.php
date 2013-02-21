@@ -17,7 +17,7 @@ class EventService {
      * @param type $triggerTime 
      */
     public static function addToQueue($simId, $eventId, $triggerTime) {
-        $eventTriggers = new EventsTriggers();
+        $eventTriggers = new EventTrigger();
         $eventTriggers->sim_id = $simId;
         $eventTriggers->event_id = $eventId;
         $eventTriggers->trigger_time = $triggerTime;
@@ -56,14 +56,14 @@ class EventService {
             if (!$eventTime) $eventTime = $event->trigger_time;
             
             // проверим а есть ли такой триггер
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $eventTime; 
                 $eventsTriggers->save();
                 return true;
             }
             
-            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers = new EventTrigger();
             $eventsTriggers->sim_id         = $simId;
             $eventsTriggers->event_id       = $event->id;
             $eventsTriggers->trigger_time   = $eventTime; 
@@ -75,7 +75,7 @@ class EventService {
         $event = EventSample::model()->byCode($code)->find();
         if (!$event) return false; // нет у нас такого события
         
-        $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
         if (!$eventsTriggers) return false;
         $eventsTriggers->delete();
         return true;
