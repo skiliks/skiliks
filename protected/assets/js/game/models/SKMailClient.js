@@ -619,7 +619,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     if (folder_to_load === 0) {
                         me.trigger('init_completed');
                     }
-                    buster.log(folder_to_load);
                     return folder_to_load;
                 };
 
