@@ -286,6 +286,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             },
 
             /**
+             * Is it used?
              * Init folder names by server data
              * data = array {
          *   1 => array(
@@ -383,7 +384,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             // ---------------------------------------------
 
             /**
-             * @return: mixed array, Skiliks API responce
+             * @return: $.xhr array, Skiliks API responce
              */
             getDataForReplyToActiveEmail:function () {
                 var mailClient = this;
@@ -451,12 +452,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
 
             getDataForInitialScreen:function () {
                 this.renderInitialScreen([],[]);
-                /*SKApp.server.api(
-                    'mail/getFolders',
-                    {},
-                    function (data) {
-                        SKApp.user.simulation.mailClient.renderInitialScreen(data.folders, data.messages);
-                    });*/
             },
 
             // todo: combine all getXxxFolderEmails() to one method.
@@ -823,7 +818,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             /**
              *
              * @param recipientIds
-             * @param parent_subject
+             * @param subject
              */
             reloadSubjects:function (recipientIds, subject) {
                 if(recipientIds.length <= 0){ return; }
@@ -886,6 +881,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
              * Receives and updates phrase list and message for email
              *
              * @param subjectId
+             * @param callback
              */
             getAvailablePhrases:function (subjectId, callback) {
                 var mailClient = this;
@@ -1149,11 +1145,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 //this.trigger('init_completed');
             },
             isNotEmptySubject:function(){
-                if($("#MailClient_NewLetterSubject select option:selected").val() !== "" && $("#MailClient_NewLetterSubject select option:selected").val() !== "0"){
-                    return true;
-                }else{
-                    return false;
-                }
+                return this.$("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
+                    this.$("#MailClient_NewLetterSubject select option:selected").val() !== "0";
             }
         });
     return window.SKMailClient;

@@ -43,6 +43,7 @@ define(["game/views/SKWindowView"], function () {
                 snapTolerance:11,
                 stack:".planner-book",
                 start:function () {
+                    console.log('drag start');
                     me.showDayPlanSlot($(this));
                     
                     var task_id = $(this).attr('data-task-id');
@@ -239,7 +240,7 @@ define(["game/views/SKWindowView"], function () {
                 },
                 over:function (event, ui) {
                     me.$('td.planner-book-timetable-event-fl').removeClass('drop-hover');
-                    
+
                     // go last tr under dragged task {
                     var currentRow = $(this).parents('tr');
                     var duration = parseInt(ui.draggable.attr('data-task-duration'), 10);
@@ -247,25 +248,25 @@ define(["game/views/SKWindowView"], function () {
                         currentRow = currentRow.next();
                     }
                     // go last tr under dragged task }
-                    
+
                     // count time pieces
                     var rowsCount = currentRow.parent().parent().find('tr').length;
-                    
+
                     // autoscroll to bottom
                     /* if (currentRow.index() < rowsCount && 0.75*rowsCount < currentRow.index()) {
                         currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'last');
                     }else
-                    // autoscroll to top    
+                    // autoscroll to top
                         if (1 < currentRow.index() && currentRow.index() < 0.5*rowsCount) {
                         currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'first');
                     }  */
-                    
+
                     // highlight time pieces {
                     $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')
                         .removeClass('drop-hover');
-                        
+
                     $(this).parent().parent().parent().parent()
-                        .find('tr').addClass('drop-hover');  
+                        .find('tr').addClass('drop-hover');
                     // highlight time pieces }
                 },
                 /**
@@ -277,7 +278,8 @@ define(["game/views/SKWindowView"], function () {
                 accept:function (draggable) {
                     var duration = parseInt(draggable.attr('data-task-duration'), 10);
                     var day = $(this).parents('div[data-day-id]').attr('data-day-id');
-                    var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
+                    var parent = $(this).parent();
+                    var time = parent.attr('data-hour') + ':' + parent.attr('data-minute');
 
                     return SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }

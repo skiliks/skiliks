@@ -124,10 +124,10 @@ define([
                         JSON.stringify({result:0})]);
                 server.respondWith("POST", "/index.php/todo/get",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({result:0})]);
+                        JSON.stringify({result:1})]);
                 server.respondWith("POST", "/index.php/dayPlan/get",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({result:0})]);
+                        JSON.stringify({result:1})]);
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication();
@@ -141,22 +141,28 @@ define([
                 buster.log("Start");
                 window.SKConfig = {'simulationStartTime':'9:00'};
                 SKApp.user = {};
-                SKApp.user.simulation = new SKSimulation();
-                SKApp.user.simulation.start();
+
+                var simulation = SKApp.user.simulation = new SKSimulation();
+                simulation.start();
                 buster.log('Sim started2');
                 buster.assert.defined(SKWindow);
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
                 buster.log('called');
-                buster.assert.defined(SKApp.user.simulation.mailClient);
+                buster.assert.defined(simulation.mailClient);
+                var render_spy = sinon.spy(simulation.mailClient, "renderInitialScreen");
                 var mail = new SKMailClientView({model_instance:mail_window});
-                buster.log('created');
-                mail.render();
                 var spy = sinon.spy();
                 mail.mailClient.on('init_completed', spy);
+                buster.log('created');
+                mail.render();
+                assert.calledOnce(render_spy);
+
                 server.respond();
+
+                assert.calledOnce(spy);
                 buster.log(mail.$el.html());
-                buster.log(server.requests);
+                //buster.log(server.requests);
                 assert.defined(mail.mailClient.getEmailByMySqlId(916046));
                 var message = {
                     "result":1,
