@@ -38,7 +38,7 @@ class ImportTest extends CDbTestCase
             $import->importFlagsRules();
 
             // events
-            $this->assertNotNull(EventsSamples::model()->findByAttributes([
+            $this->assertNotNull(EventSample::model()->findByAttributes([
                 'code' => 'P5'
             ])); 
             

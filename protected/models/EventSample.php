@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class EventsSamples extends CActiveRecord
+class EventSample extends CActiveRecord
 {
     /**
      * @var integer
@@ -51,7 +51,7 @@ class EventsSamples extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public static function model($className=__CLASS__)
     {
@@ -83,7 +83,7 @@ class EventsSamples extends CActiveRecord
     /**
      * Ограничить выборку записей
      * @param int $limit
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function limit($limit = 5)
     {
@@ -97,7 +97,7 @@ class EventsSamples extends CActiveRecord
     /**
      * Выбрать события по коду
      * @param string $code
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byCode($code)
     {
@@ -108,7 +108,7 @@ class EventsSamples extends CActiveRecord
     }
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byNotDocumentCode()
     {
@@ -119,7 +119,7 @@ class EventsSamples extends CActiveRecord
     }    
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byTriggerTimeGreaterThanZero()
     {
@@ -130,7 +130,7 @@ class EventsSamples extends CActiveRecord
     }    
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byNotPlanTaskCode()
     {
@@ -141,7 +141,7 @@ class EventsSamples extends CActiveRecord
     }    
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byNotSentTodayEmailCode()
     {
@@ -152,7 +152,7 @@ class EventsSamples extends CActiveRecord
     }    
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byNotTerminatorCode()
     {
@@ -163,7 +163,7 @@ class EventsSamples extends CActiveRecord
     }    
     
     /**
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byNotSentYesterdayEmailCode()
     {
@@ -176,7 +176,7 @@ class EventsSamples extends CActiveRecord
     /**
      * Выбрать событие по коду с учетом like.
      * @param string $code
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function likeCode($code)
     {
@@ -189,7 +189,7 @@ class EventsSamples extends CActiveRecord
     /**
      * Выбрать событие по id
      * @param int $id
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function byId($id)
     {
@@ -203,7 +203,7 @@ class EventsSamples extends CActiveRecord
      * Выбрать событие, попадающее в заданный интервал времени
      * @param int $fromTime от
      * @param int $toTime до
-     * @return EventsSamples 
+     * @return EventSample 
      */
     public function nearest($fromTime, $toTime)
     {

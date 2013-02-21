@@ -35,7 +35,7 @@ class EventService {
         if ($code == 'T') return false; // финальная реплика
         
         // проверить есть ли событие по такому коду и если есть то создать его
-        $event = EventsSamples::model()->byCode($code)->find();
+        $event = EventSample::model()->byCode($code)->find();
         if ($event) {
             // попробуем вытащить delay из диалога
             if ($eventTime) {
@@ -72,7 +72,7 @@ class EventService {
     }
     
     public static function deleteByCode($code, $simId) {
-        $event = EventsSamples::model()->byCode($code)->find();
+        $event = EventSample::model()->byCode($code)->find();
         if (!$event) return false; // нет у нас такого события
         
         $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
@@ -204,7 +204,7 @@ class EventService {
      * Получение кодов всех событий
      */
     public static function getAllCodesList() {
-        $events = EventsSamples::model()->findAll();
+        $events = EventSample::model()->findAll();
         $list = array();
         foreach($events as $event) {
             $list[$event->code] = $event->id;
@@ -296,7 +296,7 @@ class EventService {
         $events = array();
         
         $codes = array();
-        foreach (EventsSamples::model()->findAll() as $event) {
+        foreach (EventSample::model()->findAll() as $event) {
             if (false === in_array($event->code, $codes)) {
                 $codes[] = $event->code;
                 $events[] = array(

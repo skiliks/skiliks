@@ -966,9 +966,9 @@ class ImportGameDataService
 
             $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Time', $i), 'hh:mm:ss');
             assert($sendingTime !== null);
-            $event = EventsSamples::model()->byCode($code)->find();
+            $event = EventSample::model()->byCode($code)->find();
             if (!$event) {
-                $event = new EventsSamples();
+                $event = new EventSample();
                 $event->code = $code;
             }
 
@@ -983,7 +983,7 @@ class ImportGameDataService
 
         return array(
             'status' => true,
-            'text' => sprintf('%s mail events have been imported.', EventsSamples::model()->count('code LIKE "M%"')),
+            'text' => sprintf('%s mail events have been imported.', EventSample::model()->count('code LIKE "M%"')),
         );
     }
 
@@ -1328,7 +1328,7 @@ class ImportGameDataService
      */
     private function getNextEventId($code)
     {
-        $event = EventsSamples::model()->byCode($code)->find();
+        $event = EventSample::model()->byCode($code)->find();
         if (null === $event) {
             return null;
         } else {
@@ -1367,15 +1367,15 @@ class ImportGameDataService
             if ($code === '-' || $code === '') {
                 continue;
             }
-            if (EventsSamples::model()->countByAttributes(['code' => $code, 'import_id' => $this->import_id])) {
+            if (EventSample::model()->countByAttributes(['code' => $code, 'import_id' => $this->import_id])) {
                 continue;
             }
 
             $this->importedEvents[] = $code;
 
-            $event = EventsSamples::model()->byCode($code)->find();
+            $event = EventSample::model()->byCode($code)->find();
             if (!$event) {
-                $event = new EventsSamples(); // Создаем событие
+                $event = new EventSample(); // Создаем событие
                 $event->code = $code;
             }
 
@@ -1396,9 +1396,9 @@ class ImportGameDataService
         // Events from dialogs }
 
         // Create crutch events (Hello, Sergey) {
-        $event = EventsSamples::model()->byCode('T')->find();
+        $event = EventSample::model()->byCode('T')->find();
         if (!$event) {
-            $event = new EventsSamples(); // Создаем событие
+            $event = new EventSample(); // Создаем событие
             $event->code = 'T';
         }
 
@@ -1421,9 +1421,9 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $planCode = $this->getCellValue($sheet, 'Plan_code', $i);
-            $event = EventsSamples::model()->byCode($planCode)->find();
+            $event = EventSample::model()->byCode($planCode)->find();
             if (!$event) {
-                $event = new EventsSamples(); // Создаем событие
+                $event = new EventSample(); // Создаем событие
             }
             $event->code = $planCode;
             $event->on_ignore_result = 7; // ничего
@@ -1433,7 +1433,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        EventsSamples::model()->deleteAll(
+        EventSample::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
@@ -1849,8 +1849,8 @@ class ImportGameDataService
                 continue;
             }
 
-            /** @var $emailEvent EventsSamples */
-            $emailEvent = EventsSamples::model()->findByAttributes([
+            /** @var $emailEvent EventSample */
+            $emailEvent = EventSample::model()->findByAttributes([
                 'code' => $this->getCellValue($sheet, 'Run_code', $i)
             ]);
 
