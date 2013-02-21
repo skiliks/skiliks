@@ -32,19 +32,19 @@ class UniversalLog extends CActiveRecord
     public $file_id;
 
     /**
-     * dialogs.id
+     * dialog.id
      * @var int
      */
     public $dialog_id;
 
     /**
-     * dialogs.id
+     * dialog.id
      * @var int
      */
     public $last_dialog_id;
 
     /**
-     * dialogs.id
+     * dialog.id
      * @var int
      */
     public $activity_action_id;

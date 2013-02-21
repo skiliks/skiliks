@@ -1008,7 +1008,7 @@ class LogHelper
             if (empty($log[4]['dialogId'])) continue;
 
             $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : null;
-            $last_dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
+            $last_dialog = Dialog::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
             $lastDialogIdAccordingExcel = (null === $last_dialog) ? null : $last_dialog->excel_id;
 
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {

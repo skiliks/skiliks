@@ -153,7 +153,7 @@ class EventsManager {
             }
 
             // У нас одно событие           
-            $dialogs = Dialogs::model()
+            $dialogs = Dialog::model()
                 ->byCode($eventCode)
                 ->byStepNumber(1)
                 ->byDemo($simType)
@@ -301,13 +301,13 @@ class EventsManager {
                 if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
                     if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
                         /** @var Dialogs $currentDialog */
-                        $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
+                        $currentDialog = Dialog::model()->findByPk($data[4]['lastDialogId']);
                         $updatedDialogs[] = $data[4]['lastDialogId'];
 
                         if (null !== $currentDialog && $currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
                             // update Phone call dialog last_id
                             /** @var $callDialog Dialogs */
-                            $callDialog = Dialogs::model()
+                            $callDialog = Dialog::model()
                                 ->byCode($currentDialog->code)
                                 ->byStepNumber(1)
                                 ->byReplicaNumber(0)

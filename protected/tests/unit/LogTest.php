@@ -181,8 +181,8 @@ class LogTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
-        $first_dialog = Dialogs::model()->findByAttributes(['excel_id' => 135]);
-        $last_dialog = Dialogs::model()->findByAttributes(['excel_id' => 135]);
+        $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
+        $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
         $mgr->processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
@@ -328,8 +328,8 @@ class LogTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
-        $first_dialog = Dialogs::model()->findByAttributes(['excel_id' => 192]);
-        $last_dialog = Dialogs::model()->findByAttributes(['excel_id' => 200]);
+        $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 192]);
+        $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 200]);
         $mgr->processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
