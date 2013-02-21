@@ -58,7 +58,7 @@ define(["jquery/jquery.topzindex.min", "text!game/jst/world/dialog.jst"], functi
             
             this.$el.topZIndex();
             
-            $('body').prepend(this.$el);
+            $('#canvas').prepend(this.$el);
         },
         
         'events': {
