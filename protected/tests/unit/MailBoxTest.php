@@ -49,25 +49,21 @@ class MailBoxTest extends CDbTestCase
         // get letters from golders to checl them {
         $folderInbox = MailBoxService::getMessages([
             'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
-            'receiverId' => NULL,
             'simId'      => $simulation->id
         ]);
 
         $folderOutbox = MailBoxService::getMessages([
             'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
-            'receiverId' => NULL,
             'simId'      => $simulation->id
         ]);
 
         $folderDrafts = MailBoxService::getMessages([
             'folderId'   => MailBoxModel::DRAFTS_FOLDER_ID,
-            'receiverId' => NULL,
             'simId'      => $simulation->id
         ]);
 
         $folderTrash = MailBoxService::getMessages([
             'folderId'   => MailBoxModel::TRASH_FOLDER_ID,
-            'receiverId' => NULL,
             'simId'      => $simulation->id
         ]);
         // get letters from golders to checl them }

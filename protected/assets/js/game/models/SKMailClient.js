@@ -335,6 +335,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             setEmailsToFolder:function (folderAlias, emailsData) {
                 var me = this;
                 this.folders[folderAlias].emails = [];
+                console.log(folderAlias, emailsData, this.folders[folderAlias].emails.length);
 
                 for (var id in emailsData) {
                     if (emailsData.hasOwnProperty(id)) {
@@ -471,7 +472,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         me.updateInboxFolderEmails(responce.messages);
-                        cb();
+                        if (undefined != cb) {
+                            cb();
+                        }
                     }
                 );
             },
@@ -486,7 +489,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
-                        cb();
+                        if (undefined != cb) {
+                            cb();
+                        }
                     }
                 );
             },
@@ -501,7 +506,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateSendedFolderEmails(responce.messages);
-                        cb();
+                        if (undefined != cb) {
+                            cb();
+                        }
                     }
                 );
             },
@@ -516,7 +523,9 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     },
                     function (responce) {
                         SKApp.user.simulation.mailClient.updateTrashFolderEmails(responce.messages);
-                        cb();
+                        if (undefined != cb) {
+                            cb();
+                        }
                     }
                 );
             },
