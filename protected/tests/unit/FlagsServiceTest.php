@@ -54,7 +54,7 @@ class FlagServiceTest extends CDbTestCase
             'simId' => $simulation->id,
             'subject_id' => 10495,
             'message_id' => 0,
-            'receivers' => '12',
+            'receivers' => Characters::model()->findByAttributes(['code' => '12'])->primaryKey,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
             'sender' => $senderId,
             'time' => '11:00',
@@ -173,7 +173,7 @@ class FlagServiceTest extends CDbTestCase
         $r = $e->getState($simulation, []);
 
         $dialog = new DialogService();
-        $json = $dialog->getDialog($simulation->id, 433, '09:10:00');
+        $json = $dialog->getDialog($simulation->id, Dialogs::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
 
         $this->assertEquals(0, count($json['events']));
     }
