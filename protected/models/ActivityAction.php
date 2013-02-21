@@ -14,7 +14,7 @@
  * @property Activity $activity
  * @property Dialogs $dialog
  * @property MailTemplateModel $mail
- * @property MyDocumentsTemplateModel $document
+ * @property DocumentTemplate $document
  * @property string import_id
  * @property string leg_type
  */
@@ -73,7 +73,7 @@ class ActivityAction extends CActiveRecord
             'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
             'dialog' => array(self::BELONGS_TO, 'Dialogs', 'dialog_id'),
             'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
-            'document' => array(self::BELONGS_TO, 'MyDocumentsTemplateModel', 'document_id'),
+            'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
         );
     }
 

@@ -633,7 +633,7 @@ class MailBoxService
                 $attachment->insert();
 
                 // проверим тип документа
-                $fileTemplate = MyDocumentsTemplateModel::model()->byId($row['file_id'])->find();
+                $fileTemplate = DocumentTemplate::model()->byId($row['file_id'])->find();
                 if ($fileTemplate->type != 'start') {
                     $file = MyDocumentsModel::model()->byId($fileId)->find();
                     if ($file) {
@@ -674,7 +674,7 @@ class MailBoxService
         
         // prepare all doc templates
         $documentTemplates = [];
-        foreach (MyDocumentsTemplateModel::model()->findAll() as $documentTemplate) {
+        foreach (DocumentTemplate::model()->findAll() as $documentTemplate) {
             $documentTemplates[$documentTemplate->id] = $documentTemplate;
         }
         

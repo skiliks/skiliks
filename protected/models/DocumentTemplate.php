@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MyDocumentsTemplateModel extends CActiveRecord
+class DocumentTemplate extends CActiveRecord
 {
     const CONSOLIDATED_BUDGET_ID = 33;
     
@@ -58,11 +58,11 @@ class MyDocumentsTemplateModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MyDocumentsTemplateModel 
+     * @return DocumentTemplate
      */
     public static function model($className=__CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -76,7 +76,7 @@ class MyDocumentsTemplateModel extends CActiveRecord
     /**
      * Выбрать документ по коду
      * @param string $code
-     * @return MyDocumentsTemplateModel 
+     * @return DocumentTemplate
      */
     public function byCode($code)
     {
@@ -89,7 +89,7 @@ class MyDocumentsTemplateModel extends CActiveRecord
     /**
      * Выбрать заданный документ
      * @param int $id
-     * @return MyDocumentsTemplateModel 
+     * @return DocumentTemplate
      */
     public function byId($id)
     {
@@ -128,7 +128,7 @@ class MyDocumentsTemplateModel extends CActiveRecord
     /**
      * Выбрать по заданному набору шаблонов документов
      * @param array $ids
-     * @return MyDocumentsTemplateModel 
+     * @return DocumentTemplate
      */
     public function byIds($ids)
     {

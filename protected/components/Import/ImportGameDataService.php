@@ -1061,13 +1061,13 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $document = MyDocumentsTemplateModel::model()
+            $document = DocumentTemplate::model()
                 ->byCode($this->getCellValue($sheet, 'Document_code', $i))
                 ->find();
 
             // create entity if not exists {
             if (null === $document) {
-                $document = new MyDocumentsTemplateModel();
+                $document = new DocumentTemplate();
                 $document->code = $this->getCellValue($sheet, 'Document_code', $i);
             }
             // create entity if not exists }
@@ -1106,7 +1106,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        MyDocumentsTemplateModel::model()->deleteAll(
+        DocumentTemplate::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -1677,9 +1677,9 @@ class ImportGameDataService
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = MyDocumentsTemplateModel::model()->findAll();
+                    $values = DocumentTemplate::model()->findAll();
                 } else {
-                    $document = MyDocumentsTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
+                    $document = DocumentTemplate::model()->findByAttributes(array('code' => $xls_act_value));
                     assert($document);
                     $values = array($document);
                 }

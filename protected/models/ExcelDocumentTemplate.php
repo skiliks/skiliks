@@ -5,7 +5,7 @@
 /**
  * Модель шаблона документа Excel
  * 
- * Связана с моделями:  MyDocumentsTemplateModel.
+ * Связана с моделями:  DocumentTemplate.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -49,7 +49,7 @@ class ExcelDocumentTemplate extends CActiveRecord
     public function relations()
     {
         return [
-            'template' => [self::BELONGS_TO, 'MyDocumentsTemplateModel', 'file_id']
+            'template' => [self::BELONGS_TO, 'DocumentTemplate', 'file_id']
         ];
     }
 

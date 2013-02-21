@@ -4,11 +4,11 @@
 /**
  * Модель моих документов
  *
- * Связана с моделями:  Simulations, MyDocumentsTemplateModel.
+ * Связана с моделями:  Simulations, DocumentTemplate.
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  *
- * @property MyDocumentsTemplateModel template
+ * @property DocumentTemplate template
  */
 class MyDocumentsModel extends CActiveRecord
 {
@@ -143,7 +143,7 @@ class MyDocumentsModel extends CActiveRecord
     public function relations()
     {
         return [
-           'template' => [self::BELONGS_TO, 'MyDocumentsTemplateModel', 'template_id']
+           'template' => [self::BELONGS_TO, 'DocumentTemplate', 'template_id']
         ];
     }
 

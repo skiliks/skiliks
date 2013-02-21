@@ -80,7 +80,7 @@ class MyDocumentsService
      */
     public static function getTemplateIdByCode($code)
     {
-        $document = MyDocumentsTemplateModel::model()->byCode($code)->find();
+        $document = DocumentTemplate::model()->byCode($code)->find();
 
         if (!$document)
             return false;
@@ -92,7 +92,7 @@ class MyDocumentsService
      */
     public static function getAllCodes()
     {
-        $documents = MyDocumentsTemplateModel::model()->findAll();
+        $documents = DocumentTemplate::model()->findAll();
 
         $list = array();
         foreach ($documents as $document) {
@@ -168,7 +168,7 @@ class MyDocumentsService
             // this document not null because any simulation must have consolidated budget
             $document = MyDocumentsModel::model()
                 ->bySimulation($simulation->id)
-                ->byTemplateId(MyDocumentsTemplateModel::CONSOLIDATED_BUDGET_ID)
+                ->byTemplateId(DocumentTemplate::CONSOLIDATED_BUDGET_ID)
                 ->find();
         }
         

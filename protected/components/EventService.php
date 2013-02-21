@@ -174,9 +174,9 @@ class EventService {
         
         if ($type == 'D') {
             // определить документ по коду
-            $documentTemplateModel = MyDocumentsTemplateModel::model()->byCode($code)->find();
-            if (!$documentTemplateModel) return false;
-            $templateId = $documentTemplateModel->id;
+            $documentTemplate = DocumentTemplate::model()->byCode($code)->find();
+            if (!$documentTemplate) return false;
+            $templateId = $documentTemplate->id;
             
             $document = MyDocumentsModel::model()->byTemplateId($templateId)->bySimulation($simId)->find();
             if (!$document) return false;

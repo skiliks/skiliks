@@ -5,7 +5,7 @@
 /**
  * Шаблоны вложений писем.
  *
- * Связана с моделями: MyDocumentsTemplateModel, MailTemplateModel.
+ * Связана с моделями: MyDocumentTemplate, MailTemplateModel.
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
