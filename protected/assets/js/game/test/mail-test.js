@@ -43,49 +43,6 @@ var inbox = {
         "subjectSort":"\u0442\u0440\u0443\u0434\u043e\u0432\u043e\u0439 \u0434\u043e\u0433\u043e\u0432\u043e\u0440"
     }
 };
-var folder_structure = {
-    "result":1,
-    "folders":{
-        "1":{
-            "id":1,
-            "folderId":1,
-            "name":"\u0412\u0445\u043e\u0434\u044f\u0449\u0438\u0435",
-            "unreaded":"3"
-        },
-        "2":{
-            "id":2,
-            "folderId":2,
-            "name":"\u0427\u0435\u0440\u043d\u043e\u0432\u0438\u043a\u0438",
-            "unreaded":0
-        },
-        "3":{
-            "id":3,
-            "folderId":3,
-            "name":"\u0418\u0441\u0445\u043e\u0434\u044f\u0449\u0438\u0435",
-            "unreaded":0
-        },
-        "4":{
-            "id":4,
-            "folderId":4,
-            "name":"\u041a\u043e\u0440\u0437\u0438\u043d\u0430",
-            "unreaded":0
-        }
-    },
-    "messages":{
-        "inbox":inbox,
-        "sended":{
-            "915994":{
-                "id":"915994",
-                "subject":"\u041e\u0442\u0447\u0435\u0442 \u0434\u043b\u044f \u041f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f",
-                "sentAt":"03.10.2012 16:20", "sender":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412. <fedorov.av@skiliks.com>",
-                "receiver":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420. <denezhnaya.rr@skiliks.com>",
-                "readed":1,
-                "attachments":1,
-                "subjectSort":"\u043e\u0442\u0447\u0435\u0442 \u0434\u043b\u044f \u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u044f"
-            }
-        }
-    }
-};
 
 define([
     "game/models/SKApplication",
@@ -139,7 +96,7 @@ define([
 
             it("mail client displayed", function (done) {
                 buster.log("Start");
-                window.SKConfig = {'simulationStartTime':'9:00'};
+                window.SKConfig = {'simulationStartTime':'9:00', "skiliksSpeedFactor":8 };
                 SKApp.user = {};
 
                 var simulation = SKApp.user.simulation = new SKSimulation();
@@ -150,36 +107,20 @@ define([
                 mail_window.open();
                 buster.log('called');
                 buster.assert.defined(simulation.mailClient);
-                var render_spy = sinon.spy(simulation.mailClient, "renderInitialScreen");
                 var mail = new SKMailClientView({model_instance:mail_window});
                 var spy = sinon.spy();
                 mail.mailClient.on('init_completed', spy);
                 buster.log('created');
                 mail.render();
-                assert.calledOnce(render_spy);
-
                 server.respond();
 
-                assert.calledOnce(spy);
-                buster.log(mail.$el.html());
-                //buster.log(server.requests);
+                assert.calledOnce(spy, 'Init completed triggered');
+                //buster.log(mail.$el.html());
                 assert.defined(mail.mailClient.getEmailByMySqlId(916046));
-                var message = {
-                    "result":1,
-                    "data":{
-                        "id":"916046",
-                        "subject":"\u041f\u043e \u0446\u0435\u043d\u043e\u0432\u043e\u0439 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435",
-                        "message":"\u0414\u043e\u0431\u0440\u044b\u0439 \u0434\u0435\u043d\u044c! \n\n\u042f \u043d\u0435\u043c\u043d\u043e\u0433\u043e \u0441 \u043e\u043f\u0435\u0440\u0435\u0436\u0435\u043d\u0438\u0435\u043c \u0441\u0434\u0435\u043b\u0430\u043b\u0430 \u0440\u0430\u0431\u043e\u0442\u0443 \u043f\u043e \u0446\u0435\u043d\u043e\u0432\u043e\u0439 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435 (\u0432\u0447\u0435\u0440\u0430 \u0432\u044b\u0434\u0430\u043b\u0441\u044f \u0441\u0432\u043e\u0431\u043e\u0434\u043d\u044b\u0439 \u0432\u0435\u0447\u0435\u0440). \u041c\u043d\u0435 \u043a\u0430\u0436\u0435\u0442\u0441\u044f, \u0447\u0442\u043e \u044f \u043e\u0442\u0440\u0430\u0437\u0438\u043b\u0430 \u0432\u0441\u0435 \u043c\u044b\u0441\u043b\u0438, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043c\u044b \u043e\u0431\u0441\u0443\u0436\u0434\u0430\u043b\u0438 \u043d\u0430 \u0443\u0441\u0442\u0430\u043d\u043e\u0432\u043e\u0447\u043d\u043e\u0439 \u0432\u0441\u0442\u0440\u0435\u0447\u0435. \u0411\u0443\u0434\u0435\u0442 \u0432\u0440\u0435\u043c\u044f \u0432 \u043e\u0442\u043f\u0443\u0441\u043a\u0435 - \u043f\u043e\u0441\u043c\u043e\u0442\u0440\u0438\u0442\u0435. \n\n\u0421 \u0443\u0432\u0430\u0436\u0435\u043d\u0438\u0435\u043c, \u041c\u0430\u0440\u0438\u043d\u0430 \u041a\u0440\u0443\u0442\u044c\u043a\u043e  \n\u0412\u0435\u0434\u0443\u0449\u0438\u0439 \u0430\u043d\u0430\u043b\u0438\u0442\u0438\u043a \u043e\u0442\u0434\u0435\u043b\u0430 \u0430\u043d\u0430\u043b\u0438\u0437\u0430 \u0438 \u043f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f", "sentAt":"03.10.2012 10:32", "sender":"\u041a\u0440\u0443\u0442\u044c\u043a\u043e \u041c. <krutko.ma@skiliks.com>",
-                        "receiver":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412. <fedorov.av@skiliks.com>",
-                        "copies":"",
-                        "attachments":{
-                            "id":"221763",
-                            "name":"\u0426\u0435\u043d\u043e\u0432\u0430\u044f \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430.xlsx"
-                        }
-                    }
-                };
+
                 /* 4 letters at sim start */
                 expect(mail.$('.mail-emulator-received-list-cell-sender').length).toBe(4);
+                expect(mail.$('tr[data-email-id=916048] td.mail-emulator-received-list-cell-theme').text()).toBe('Новая система мотивации');
                 expect(mail.mailClient.getInboxFolder().name).toBe('Входящие');
                 assert.calledOnce(spy);
                 mail.$el.find('.NEW_EMAIL').click();
