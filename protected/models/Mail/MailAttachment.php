@@ -9,7 +9,7 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailAttachmentsModel extends CActiveRecord
+class MailAttachment extends CActiveRecord
 {
     /**
      * @var integer
@@ -32,7 +32,7 @@ class MailAttachmentsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailAttachmentsModel 
+     * @return MailAttachment
      */
     public static function model($className=__CLASS__)
     {
@@ -50,7 +50,7 @@ class MailAttachmentsModel extends CActiveRecord
     /**
      * Выбрать по заданному письму
      * @param int $mailId
-     * @return MailAttachmentsModel 
+     * @return MailAttachment
      */
     public function byMailId($mailId)
     {
@@ -63,7 +63,7 @@ class MailAttachmentsModel extends CActiveRecord
     /**
      * Выбрать по заданному набору писем
      * @param array $mailIds
-     * @return MailAttachmentsModel 
+     * @return MailAttachment
      */
     public function byMailIds($mailIds)
     {
