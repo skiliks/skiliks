@@ -15,14 +15,14 @@ class UserService {
      * @return array
      */
     public static function getGroups($uid) {
-        $userGroupsCollection = UserGroupsModel::model()->byUser($uid)->findAll();
+        $userGroupsCollection = UserGroup::model()->byUser($uid)->findAll();
         $groups = array();
         foreach($userGroupsCollection as $group) {
             $groups[] = $group->gid;
         }
        
         if (count($groups) > 0) {
-            $groupsCollection = GroupsModel::model()->byIds($groups)->findAll();
+            $groupsCollection = Group::model()->byIds($groups)->findAll();
         }
         else $groupsCollection = array();
         
@@ -36,7 +36,7 @@ class UserService {
     }
     
     public static function addGroupToUser($uid, $gid) {
-        $userGroups = new UserGroupsModel();
+        $userGroups = new UserGroup();
         $userGroups->uid = $uid;
         $userGroups->gid = $gid;
         $userGroups->insert();
@@ -49,7 +49,7 @@ class UserService {
      * @return bool
      */
     public static function isMemberOfGroup($uid, $gid) {
-        return (1 === (int)UserGroupsModel::model()->byUser($uid)->byGroup($gid)->count());
+        return (1 === (int)UserGroup::model()->byUser($uid)->byGroup($gid)->count());
     }
     
     /**
