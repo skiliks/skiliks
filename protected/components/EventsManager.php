@@ -267,9 +267,12 @@ class EventsManager {
     public function processLogs($simulation, $logs)
     {
         $simId = $simulation->primaryKey;
+
         // данные для логирования {
         LogHelper::setLog($simId, $logs);
+
         $originalNotFilteregLogs = $logs; // used after standart logging
+
         // to update phone call dialogs lastDialogId
 
         $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
@@ -323,6 +326,7 @@ class EventsManager {
                 }
             }
         }
+        // update phone call dialogs lastDialogId }
     }
 
     public function processTasks($simId) {

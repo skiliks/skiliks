@@ -12,7 +12,10 @@ class EventsController extends AjaxController {
      */
     public function actionGetState() {
         $event = new EventsManager();
-        $json = $event->getState($this->getSimulationEntity(), Yii::app()->request->getParam('logs', null));
+        $json = $event->getState(
+            $this->getSimulationEntity(),
+            Yii::app()->request->getParam('logs', null)
+        );
         $this->sendJSON($json);
         
     }
