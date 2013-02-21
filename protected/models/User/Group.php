@@ -3,13 +3,11 @@
 
 
 /**
- * Шаблон соответствий имен файлов для конкретного файл в системе.
+ * Содержит группы пользователей, используемые в системе.
  *
- * Связана с моделями: MyDocumentsTemplateModel.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ViewerTemplateModel extends CActiveRecord
+class Group extends CActiveRecord
 {
     /**
      * @var integer
@@ -17,22 +15,16 @@ class ViewerTemplateModel extends CActiveRecord
     public $id;
     
     /**
-     * my_documents_tamplate.id
-     * @var integer
-     */
-    public $file_id;
-    
-    /**
      * @var string
      */
-    public $filePath;
+    public $name;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
      * @param type $className
-     * @return ViewerTemplateModel
+     * @return Group
      */
     public static function model($className=__CLASS__)
     {
@@ -44,18 +36,19 @@ class ViewerTemplateModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'viewer_template';
+            return 'groups';
     }
     
     /**
-     * Выбрать по заданному файлу
-     * @param int $fileId
-     * @return ViewerTemplateModel 
+     * Выбрать по набору групп
+     * @param array $ids массив идентификаторов групп
+     * @return Group
      */
-    public function byFile($fileId)
+    public function byIds($ids)
     {
+        $ids = implode(',', $ids);
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "file_id = {$fileId}"
+            'condition' => "id in ({$ids})"
         ));
         return $this;
     }

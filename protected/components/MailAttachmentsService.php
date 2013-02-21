@@ -16,7 +16,7 @@ class MailAttachmentsService {
      * @return type 
      */
     public static function refresh($mailId, $fileId) {
-        $model = MailAttachmentsModel::model()->byMailId($mailId)->find();
+        $model = MailAttachment::model()->byMailId($mailId)->find();
         if ($model) {
             if ($fileId == 0) {
                 // удаляем файл
@@ -30,7 +30,7 @@ class MailAttachmentsService {
         
         if ($fileId == 0) return false;
         
-        $model = new MailAttachmentsModel();
+        $model = new MailAttachment();
         $model->mail_id = $mailId;
         $model->file_id = $fileId;
         return $model->insert();
@@ -41,7 +41,7 @@ class MailAttachmentsService {
      * @param int $mailId 
      */
     public static function get($mailId) {
-        $model = MailAttachmentsModel::model()->byMailId($mailId)->find();
+        $model = MailAttachment::model()->byMailId($mailId)->find();
         if (!$model) return false;
         
         $fileId = $model->file_id;

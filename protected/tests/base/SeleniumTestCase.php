@@ -112,7 +112,7 @@ class SeleniumTestCase extends CDbTestCase
         $user->password = md5('111');
         $user->is_active = true;
         $user->save();
-        $group = new UserGroupsModel();
+        $group = new UserGroup();
         $group->uid = $user->primaryKey;
         $group->gid = 2;
         $group->save();

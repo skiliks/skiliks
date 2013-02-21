@@ -153,7 +153,7 @@ class MailBoxService
 
         // Добавим информацию о вложениях
         if (count($mailIds) > 0) {
-            $attachments = MailAttachmentsModel::model()->byMailIds($mailIds)->findAll();
+            $attachments = MailAttachment::model()->byMailIds($mailIds)->findAll();
             foreach ($attachments as $attachment) {
                 if (isset($list[$attachment->mail_id])) {
                     $myDocument = MyDocumentsModel::model()->findByPk($attachment->file_id);
@@ -627,7 +627,7 @@ class MailBoxService
             }
 
             if ($fileId > 0) {
-                $attachment = new MailAttachmentsModel();
+                $attachment = new MailAttachment();
                 $attachment->mail_id = $id;
                 $attachment->file_id = $fileId;
                 $attachment->insert();
