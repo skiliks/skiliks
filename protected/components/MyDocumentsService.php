@@ -100,41 +100,6 @@ class MyDocumentsService
         }
         return $list;
     }
-
-    /**
-     * @param integer $fileId
-     * 
-     * @throws Exception
-     * 
-     * @return array of string, paths to file pages (images)
-     */
-    public static function getDocumentPages($fileId)
-    {
-        // получить шаблон файла
-        $templateId = self::getTemplate($fileId);
-        $pages = array();
-        $fileId = 0;
-        
-        if (!$templateId) {
-            throw new Exception("Немогу определить шаблон для файла {$fileId}");
-        }
-
-        $items = ViewerTemplateModel::model()->byFile($templateId)->findAll();
-
-        foreach($items as $item) {
-            $fileId = $item->file_id;
-            $pages[] = $item->filePath;
-        }
-
-        // получим кода файлов
-        $file = MyDocumentsTemplateModel::model()->byId($fileId)->find();
-
-        foreach($pages as $index => $page) {
-            $pages[$index] = $file->code.'/'.$page;
-        }
-        
-        return $pages;
-    }
     
     /**
      * 
