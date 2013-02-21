@@ -1,7 +1,4 @@
 <?php
-
-
-
 /**
  * Модель групп польщзователя
  *
@@ -9,7 +6,7 @@
  * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UserGroupsModel extends CActiveRecord
+class UserGroup extends CActiveRecord
 {
     /**
      * @var integer
@@ -33,7 +30,7 @@ class UserGroupsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return UserGroupsModel
+     * @return UserGroup
      */
     public static function model($className=__CLASS__)
     {
@@ -51,7 +48,7 @@ class UserGroupsModel extends CActiveRecord
     /**
      * Выбрать по заданному пользователю
      * @param int $uid
-     * @return UserGroupsModel 
+     * @return UserGroup
      */
     public function byUser($uid)
     {
@@ -64,7 +61,7 @@ class UserGroupsModel extends CActiveRecord
     /**
      * Выбрать по заданной группе
      * @param int $gid
-     * @return UserGroupsModel 
+     * @return UserGroup
      */
     public function byGroup($gid)
     {

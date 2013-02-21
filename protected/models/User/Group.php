@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class GroupsModel extends CActiveRecord
+class Group extends CActiveRecord
 {
     /**
      * @var integer
@@ -24,7 +24,7 @@ class GroupsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return GroupsModel
+     * @return Group
      */
     public static function model($className=__CLASS__)
     {
@@ -42,7 +42,7 @@ class GroupsModel extends CActiveRecord
     /**
      * Выбрать по набору групп
      * @param array $ids массив идентификаторов групп
-     * @return GroupsModel 
+     * @return Group
      */
     public function byIds($ids)
     {
