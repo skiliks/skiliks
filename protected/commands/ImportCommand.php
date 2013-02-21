@@ -12,11 +12,13 @@ class ImportCommand
 
     }
 
-    public function run() {
+    public function run($args) {
         ini_set('memory_limit','500M');
-        echo "\nStart 'Import all'. \n";
+        $method = isset($args[0]) ? $args[0] : 'All';
+
+        echo "\nStart 'Import $method'. \n";
         $import = new ImportGameDataService();
-        $import->importAll();
-        echo "\n'Import all' complete. \n";
+        $import->{'import'.$method}();
+        echo "\n'Import $method' complete. \n";
     }
 }
