@@ -1642,15 +1642,6 @@ class ImportGameDataService
             $activity->save();
             // update activity values }
 
-            // Try to find parent activity in DB
-//            $parentActivity = ActivityParent::model()->findByPk($activity->parent);
-//
-//            // Create one if not exists
-//            if ($parentActivity === null) {
-//                $parentActivity = new ActivityParent();
-//                $activity->id = $activity->parent;
-//            }
-
             // 
             $type = $activity_types[$leg_type];
             $xls_act_value = $sheet->getCellByColumnAndRow($this->columnNoByName['Leg_action'], $i->key())->getValue();
@@ -1745,6 +1736,64 @@ class ImportGameDataService
         );
     }
 
+    public function importActivityParentEnding()
+    {
+        echo __METHOD__ . "\n";
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $reader->setLoadSheetsOnly('Parent_ending');
+        $excel = $reader->load($this->filename);
+        $sheet = $excel->getSheetByName('Parent_ending');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $types = [
+            'id_записи' => 'dialog_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $updatedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $parentCode = $this->getCellValue($sheet, 'Parent', $i);
+            $endType = $this->getCellValue($sheet, 'Parent_end_type', $i);
+            $endCode = $this->getCellValue($sheet, 'Parent_end_code', $i);
+
+            if ($endType == 'id_записи') {
+                $entity = Dialogs::model()->byExcelId($endCode)->find();
+            } elseif ($endType == 'outbox' || $endType == 'inbox') {
+                $entity = MailTemplateModel::model()->byCode($endCode)->find();
+            }
+
+            if (isset($entity)) {
+                $parentActivity = new ActivityParent();
+                $parentActivity->parent_code = $parentCode;
+                $parentActivity->import_id = $this->import_id;
+                $parentActivity->{$types[$endType]} = $entity->id;
+                $parentActivity->save();
+
+                $updatedRows++;
+            }
+        }
+
+        // delete old unused data {
+        ActivityParent::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'updated_activityActions' => $updatedRows,
+            'errors' => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -1766,6 +1815,7 @@ class ImportGameDataService
             $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
             $result['activity'] = $this->importActivity();
+            $result['activity_parent_ending'] = $this->importActivityParentEnding();
             $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $result['flags'] = $this->importFlags();
             $result['flag_rules'] = $this->importFlagsRules();
