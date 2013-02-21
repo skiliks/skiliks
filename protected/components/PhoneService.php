@@ -58,12 +58,13 @@ class PhoneService {
 
     public function callBack($simId, $dialog_code) {
 
-       //$template = EventsSamples::model()->findAllByAttributes(['code'=>$dialog_code]);
-       //$event = EventsTriggers::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);
+       $template = EventsSamples::model()->findAllByAttributes(['code'=>'S1.2']);//todo:Костыль
+       $ev = EventsTriggers::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);//todo:Костыль
 
            $dialog = Dialogs::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
+        if($ev === null and $dialog->next_event_code == 'E1'){ return 'fail'; }//todo:Костыль
            $manager = new EventsManager();
-           if(!empty($dialog->next_event_code)){
+           if(!empty($dialog->next_event_code)) {
                $event = EventsSamples::model()->findByAttributes(['code'=>$dialog->next_event_code]);
                $trigger = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);//Logger::write($dialog->next_event_code);
                if($trigger !== null){
