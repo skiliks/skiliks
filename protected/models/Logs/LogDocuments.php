@@ -76,7 +76,11 @@ class LogDocuments extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByAttributes(array('document_id' => $this->file->template_id));
+        $activity_action = ActivityAction::model()->findByAttributes(
+            ['document_id' => $this->file->template_id],
+            null,
+            $this->simulation
+        );
         if ($activity_action !== null) {
             $activity_action->appendLog($this);
         }else{
