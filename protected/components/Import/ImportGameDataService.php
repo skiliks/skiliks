@@ -667,6 +667,8 @@ class ImportGameDataService
             // Source of outbox email
             $source = $this->getCellValue($sheet, 'Source', $i);
 
+            $usage = $this->getCellValue($sheet, 'Theme_usage', $i);
+
             /**
              * @var CommunicationTheme $communicationTheme
              */
@@ -692,6 +694,7 @@ class ImportGameDataService
             $communicationTheme->mail_prefix = $mailPrefix;
             $communicationTheme->code = $themeId;
             $communicationTheme->source = $source;
+            $communicationTheme->theme_usage = $usage;
             $communicationTheme->import_id = $this->import_id;
 
             $communicationTheme->save();
@@ -1638,6 +1641,15 @@ class ImportGameDataService
             }
             $activity->save();
             // update activity values }
+
+            // Try to find parent activity in DB
+//            $parentActivity = ActivityParent::model()->findByPk($activity->parent);
+//
+//            // Create one if not exists
+//            if ($parentActivity === null) {
+//                $parentActivity = new ActivityParent();
+//                $activity->id = $activity->parent;
+//            }
 
             // 
             $type = $activity_types[$leg_type];

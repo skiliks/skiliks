@@ -110,7 +110,7 @@ define([
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                     } else {
-                        me.events.triggerEvent(event.data[0].code, 3, 0, 0);
+                        me.events.wait(event.data[0].code);
                     }
                     me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
 
@@ -130,7 +130,6 @@ define([
 
                     if (data.result === 1 && data.events !== undefined) {
                         me.parseNewEvents(data.events, 'new');
-                        me.getNewEvents();
                     }
                 });
             },

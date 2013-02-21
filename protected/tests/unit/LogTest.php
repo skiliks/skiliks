@@ -49,7 +49,10 @@ class LogTest extends CDbTestCase
         $sendMailOptions->fileId     = 0;
         $sendMailOptions->subject_id    = $subject_id;
         $sendMailOptions->setLetterType('new');
+
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
+
+
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -60,7 +63,10 @@ class LogTest extends CDbTestCase
         $sendMailOptions->fileId     = 0;
         $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 6, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $sendMailOptions->setLetterType('new');
+
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
+
+
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -71,7 +77,9 @@ class LogTest extends CDbTestCase
         $sendMailOptions->fileId     = 0;
         $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 8, 'character_id' => $character->primaryKey, 'mail_prefix' => 'fwd'])->primaryKey;
         $sendMailOptions->setLetterType('new');
+
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
+
 
         $mgr->processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
@@ -91,8 +99,10 @@ class LogTest extends CDbTestCase
             [10, 11, 'activated', 32790, 'window_uid' => 8],
             [10, 11, 'deactivated', 32805, 'window_uid' => 8],
         ]);
+
         MailBoxService::sendDraft($simulation, $draft_message2);
         MailBoxService::sendDraft($simulation, $draft_message3);
+
         $mgr->processLogs($simulation, [
             [10, 13, 'activated', 32805, 'window_uid' => 11], # Send draft
             [10, 13, 'deactivated', 32820, 'window_uid' => 11, ['mailId' => $draft_message3->primaryKey]],
@@ -107,37 +117,43 @@ class LogTest extends CDbTestCase
         ]);
 
         $simulation_service->simulationStop($simulation->primaryKey);
+
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $this->assertEquals(6, count($mail_logs));
-        echo "\n";
-        foreach ($mail_logs as $i =>  $log) {
-            printf("%8s\t %8s\t%8s\t%6d\t%10s\n",
-                $i,
-                $log->start_time,
-                $log->end_time,
-                $log->mail->template_id,
-                $log->full_coincidence ?: '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+
+//        echo "\n";
+//        foreach ($mail_logs as $i =>  $log) {
+//            printf("%8s\t %8s\t%8s\t%6d\t%10s\n",
+//                $i,
+//                $log->start_time,
+//                $log->end_time,
+//                $log->mail->template_id,
+//                $log->full_coincidence ?: '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
+
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
         $this->assertEquals(count($activity_actions), 13);
-        echo "\n";
-        foreach ($activity_actions as $i => $log) {
-            printf("%s\t%8s\t%8s\t%10s\t%10s\t%10s\n",
-                $i,
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->activityAction->leg_type,
-                $log->activityAction->activity_id,
-                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+
+//        echo "\n";
+//        foreach ($activity_actions as $i => $log) {
+//            printf("%s\t%8s\t%8s\t%10s\t%10s\t%10s\n",
+//                $i,
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->activityAction->leg_type,
+//                $log->activityAction->activity_id,
+//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
+
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
         $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_wait');
         $this->assertEquals($activity_actions[10]->activityAction->activity_id, 'A_not_sent');
@@ -173,37 +189,41 @@ class LogTest extends CDbTestCase
         ]);
         $simulation_service->simulationStop($simulation->primaryKey);
         $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($log_windows as $log) {
-            printf("%s\t%8s\t%s\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->window
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+
+//        foreach ($log_windows as $log) {
+//            printf("%s\t%8s\t%s\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->window
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
+
         $log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($log_dialogs as $log) {
-            printf("%s\t%8s\t%5d\t%5d\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->dialog_id,
-                $log->last_id
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+
+//        foreach ($log_dialogs as $log) {
+//            printf("%s\t%8s\t%5d\t%5d\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->dialog_id,
+//                $log->last_id
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
+
         //$this->assertEquals(count($log_dialogs), 2);
 
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($activity_actions as $log) {
-            printf("%5d\t%s\t%8s\t%10s\t%10s\n",
-                $log->id,
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->activityAction->activity_id,
-                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($activity_actions as $log) {
+//            printf("%5d\t%s\t%8s\t%10s\t%10s\n",
+//                $log->id,
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->activityAction->activity_id,
+//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
         $this->assertEquals(count($activity_actions), 1);
 
     }
@@ -280,16 +300,16 @@ class LogTest extends CDbTestCase
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $this->assertEquals(4, count($mail_logs));
-        foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->activityAction->leg_type,
-                $log->activityAction->activity_id,
-                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($activity_actions as $log) {
+//            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->activityAction->leg_type,
+//                $log->activityAction->activity_id,
+//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'A_not_sent');
         $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_not_sent');
         $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_not_sent');
@@ -316,14 +336,14 @@ class LogTest extends CDbTestCase
         ]);
         $simulation_service->simulationStop($simulation->primaryKey);
         $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($log_windows as $log) {
-            printf("%s\t%8s\t%s\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->window
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($log_windows as $log) {
+//            printf("%s\t%8s\t%s\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->window
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
         $log_dialogs = LogHelper::getDialogs(LogHelper::RETURN_DATA, $simulation);
         foreach ($log_dialogs['data'] as $log) {
             printf("%s\t%8s\t%5s\t%5d\n",
@@ -337,6 +357,9 @@ class LogTest extends CDbTestCase
 
     }
 
+    /**
+     * Правильность логирования пересылки письма М8 к Крутько
+     */
     public function test_log_m8_forward()
     {
         //$this->markTestSkipped();
@@ -373,21 +396,21 @@ class LogTest extends CDbTestCase
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($mail_logs as $log) {
-            print_r($log->attributes);
-        }
+//        foreach ($mail_logs as $log) {
+//            print_r($log->attributes);
+//        }
         $this->assertEquals(count($mail_logs), 1);
 
         $this->assertEquals(count($activity_actions), 4);
-        foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->activityAction->activity_id,
-                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($activity_actions as $log) {
+//            printf("%s\t%8s\t%10s\t%10s\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->activityAction->activity_id,
+//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM8');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
@@ -401,6 +424,9 @@ class LogTest extends CDbTestCase
 
     }
 
+    /**
+     *
+     */
     public function test_log_activity()
     {
         //$this->markTestSkipped();
@@ -472,21 +498,21 @@ class LogTest extends CDbTestCase
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        foreach ($mail_logs as $log) {
-            //print_r($log);
-        }
+//        foreach ($mail_logs as $log) {
+//            //print_r($log);
+//        }
         $this->assertEquals(count($mail_logs), 4);
 
         $this->assertEquals(count($activity_actions), 10);
-        foreach ($activity_actions as $log) {
-            printf("%s\t%8s\t%10s\t%10s\n",
-                $log->start_time,
-                $log->end_time !== null ? $log->end_time : '(empty)',
-                $log->activityAction->activity_id,
-                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($activity_actions as $log) {
+//            printf("%s\t%8s\t%10s\t%10s\n",
+//                $log->start_time,
+//                $log->end_time !== null ? $log->end_time : '(empty)',
+//                $log->activityAction->activity_id,
+//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
+//            );
+//            /*$this->assertNotNull($log->end_time);*/
+//        }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM73');
         $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'TM73');
         $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'TM73');
@@ -501,8 +527,6 @@ class LogTest extends CDbTestCase
         }
 
     }
-
-
 
     /**
      * Проверяет правильность агрегирования (схлопывания) 
@@ -562,6 +586,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:00:00';
         $logItem->end_time           = '09:01:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 1;
         $logItem->save();
         
         // 2. mainMain 4 minutes, add to A_wait
@@ -571,6 +596,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:01:00';
         $logItem->end_time           = '09:04:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 2;
         $logItem->save();
         
         // 3. mainMain 2 minutes, add to A_wait
@@ -580,6 +606,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:04:00';
         $logItem->end_time           = '09:06:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 3;
         $logItem->save();
         
         // 4. plan plan 1 minute, add to A_wait
@@ -589,6 +616,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:06:00';
         $logItem->end_time           = '09:07:00';
         $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->window_uid         = 4;
         $logItem->save();
         
         // 5. mainMain 1 minute, add to A_wait
@@ -598,6 +626,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:07:00';
         $logItem->end_time           = '09:08:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 5;
         $logItem->save();
         
         // 6. plan plan 10 minutes, add as T1.1
@@ -607,6 +636,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:08:00';
         $logItem->end_time           = '09:18:00';
         $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->window_uid         = 6;
         $logItem->save();
         
         // 7. mainMain 1 minute, add to T1.1
@@ -616,6 +646,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:18:00';
         $logItem->end_time           = '09:19:00';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 7;
         $logItem->save();        
         
         // 8. plan plan 1 minute, add to A_wait
@@ -625,6 +656,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:19:00';
         $logItem->end_time           = '09:19:24';
         $logItem->activity_action_id = $planPlanWindowActivityAction->id;
+        $logItem->window_uid         = 8;
         $logItem->save();
         
         // 9. mainMain 1 minute, add to A_wait
@@ -634,6 +666,7 @@ class LogTest extends CDbTestCase
         $logItem->start_time         = '09:19:24';
         $logItem->end_time           = '09:19:52';
         $logItem->activity_action_id = $mainMainWindowActivityAction->id;
+        $logItem->window_uid         = 9;
         $logItem->save();
         
         // init LogActivityActions }
