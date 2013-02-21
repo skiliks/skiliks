@@ -42,6 +42,15 @@ class EventsController extends AjaxController {
             Yii::app()->request->getParam('delay', 0)        );
         $this->sendJSON($json);
     }
+
+    public function actionWait() {
+        $manager = new EventsManager();
+        $json = $manager->waitEvent(
+            $this->getSimulationId(),
+            Yii::app()->request->getParam('eventCode', false)
+        );
+        $this->sendJSON($json);
+    }
 }
         
 

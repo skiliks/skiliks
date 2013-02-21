@@ -67,6 +67,16 @@ define(["game/models/SKEvent"], function () {
                     clearEvents:clear_events,
                     clearAssessment:clear_assessment
                 }, callback);
+            },
+
+            /**
+             *
+             * @param {string} code
+             */
+            'wait': function(code) {
+                SKApp.server.api('events/wait', {
+                    eventCode: code
+                });
             }
         });
 });

@@ -10,6 +10,8 @@
  * @property string constructor_number
  * @property string import_id
  * @property mixed|null mail_prefix
+ * @property string theme_usage, used to filter MSY themes from new mail themes list
+ *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class CommunicationTheme extends CActiveRecord
