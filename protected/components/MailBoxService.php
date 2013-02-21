@@ -57,9 +57,7 @@ class MailBoxService
     public static function getMessages($params)
     {
         $folderId   = $params['folderId'];
-        $receiverId = $params['receiverId'];
         $simId      = $params['simId'];
-
 
         $order = (isset($params['order'])) ? $params['order'] : false;
         if ($order == -1) {

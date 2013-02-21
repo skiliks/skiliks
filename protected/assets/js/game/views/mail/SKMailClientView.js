@@ -722,8 +722,8 @@ define([
 
                 // set HTML sceleton {
                 var sceleton = _.template(income_folder_skeleton_template, {
-                    listId:this.mailClientIncomeFolderListId,
-                    emailPreviewId:this.mailClientInboxFolderEmailPreviewId
+                    listId:         this.mailClientIncomeFolderListId,
+                    emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
                 this.$('#' + this.mailClientContentBlockId).html(sceleton);
@@ -1006,6 +1006,8 @@ define([
             },
 
             doMoveToTrash:function (email) {
+                var me = this;
+
                 SKApp.server.api(
                     'mail/move',
                     {
@@ -1017,27 +1019,37 @@ define([
                     false
                 );
 
-                this.mailClient.getInboxFolderEmails();
-                this.mailClient.getTrashFolderEmails();
+                var updateFolderRender = function() {
+                    me.mailClient.setActiveEmail(undefined);
+                    var inboxEmails = me.mailClient.getInboxFolder().emails;
 
-                this.mailClient.setActiveEmail(undefined);
-                var inboxEmails = this.mailClient.getInboxFolder().emails;
-                for (var i in inboxEmails) {
-                    this.mailClient.setActiveEmail(inboxEmails[i]);
-                    break;
-                }
+                    for (var i in inboxEmails) {
+                        me.mailClient.setActiveEmail(inboxEmails[i]);
+                        break;
+                    }
 
-                // logging:
-                this.mailClient.setWindowsLog(
-                    'mailMain',
-                    this.mailClient.getActiveEmailId()
+                    // logging:
+                    me.mailClient.setWindowsLog(
+                        'mailMain',
+                        me.mailClient.getActiveEmailId()
+                    );
+
+                    me.updateFolderLabels();
+                    me.renderInboxFolder();
+                };
+
+                this.mailClient.getTrashFolderEmails(
+                    this.mailClient.getInboxFolderEmails(
+                        updateFolderRender
+                    )
                 );
 
-                this.updateFolderLabels();
-                this.renderInboxFolder();
+
             },
 
             doMoveToInbox:function (email) {
+                var me = this;
+
                 SKApp.server.api(
                     'mail/move',
                     {
@@ -1049,24 +1061,29 @@ define([
                     false
                 );
 
-                this.mailClient.getInboxFolderEmails();
-                this.mailClient.getTrashFolderEmails();
+                var updateFolderRender = function() {
+                    me.mailClient.setActiveEmail(undefined);
+                    var trashEmails = me.mailClient.getTrashFolder().emails;
+                    for (var i in trashEmails) {
+                        me.mailClient.setActiveEmail(trashEmails[i]);
+                        break;
+                    }
 
-                this.mailClient.setActiveEmail(undefined);
-                var trashEmails = this.mailClient.getTrashFolder().emails;
-                for (var i in trashEmails) {
-                    this.mailClient.setActiveEmail(trashEmails[i]);
-                    break;
+                    // logging:
+                    me.mailClient.setWindowsLog(
+                        'mailMain',
+                        me.mailClient.getActiveEmailId()
+                    );
+
+                    me.updateFolderLabels();
+                    me.renderTrashFolder();
                 }
 
-                // logging:
-                this.mailClient.setWindowsLog(
-                    'mailMain',
-                    this.mailClient.getActiveEmailId()
+                this.mailClient.getInboxFolderEmails(
+                    this.mailClient.getTrashFolderEmails(
+                        updateFolderRender
+                    )
                 );
-
-                this.updateFolderLabels();
-                this.renderTrashFolder();
             },
 
             hideFoldersBlock:function () {
