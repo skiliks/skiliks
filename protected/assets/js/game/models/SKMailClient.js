@@ -333,6 +333,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
              * @param emailsData
              */
             setEmailsToFolder:function (folderAlias, emailsData) {
+                var me = this;
                 this.folders[folderAlias].emails = [];
 
                 for (var id in emailsData) {
@@ -365,7 +366,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                         if (emailData.copy !== undefined) {
                             var copies = emailData.copy.split(',');
                             copies.forEach(function(copy) {
-                                email.copyTo = this.getRecipientByMySqlId(parseInt(copy, 10));
+                                email.copyTo = me.getRecipientByMySqlId(parseInt(copy, 10));
                             });
                         }
 
@@ -619,7 +620,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     if (folder_to_load === 0) {
                         me.trigger('init_completed');
                     }
-                    buster.log(folder_to_load);
                     return folder_to_load;
                 };
 
