@@ -11,6 +11,7 @@
  * @property string $window_uid
  * @property string $start_time
  * @property string $end_time
+ * @property integer $is_final_activity
  *
  * The followings are the available model relations:
  * @property Simulations $sim
