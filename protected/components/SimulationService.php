@@ -330,7 +330,7 @@ class SimulationService
     /**
      * @param Simulation $simulation
      * 
-     * @return array of EventsTriggers
+     * @return array of EventTrigger
      */
     public static function initEventTriggers($simulation)
     {
@@ -346,7 +346,7 @@ class SimulationService
         $initedEvents = array();
         $i = 0;
         foreach ($events as $event) {
-            $initedEvents[$i] = new EventsTriggers();
+            $initedEvents[$i] = new EventTrigger();
             $initedEvents[$i]->sim_id = $simulation->id;
             $initedEvents[$i]->event_id = $event->id;
             $initedEvents[$i]->trigger_time = $event->trigger_time;

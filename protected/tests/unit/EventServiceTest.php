@@ -22,7 +22,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
         foreach($events as $e){
             EventService::addByCode($e['code'], $simulation->id, $e['time']);
             $event = EventSample::model()->byCode($e['code'])->find();
-            $event = EventsTriggers::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+            $event = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             $this->assertEquals($e['standard_time'], $event->trigger_time);
         }
 
@@ -44,7 +44,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
         $dialog->getDialog($simulation->id, $dialog_call->id, '9:06');
         $event = EventSample::model()->findByAttributes(['code'=>'E1']);
 
-        $res = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id'=>$simulation->id]);
+        $res = EventTrigger::model()->findByAttributes(['event_id' => $event->id, 'sim_id'=>$simulation->id]);
 
         $this->assertEquals(null, $res);
     }
