@@ -214,7 +214,7 @@ class EventService {
     }
     
     public static function getReplicaByCode($eventCode, $simId) {
-        $dialogs = Dialogs::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+        $dialogs = Dialog::model()->byCode($eventCode)->byStepNumber(1)->findAll();
             
         $data = array();
         foreach($dialogs as $dialog) {

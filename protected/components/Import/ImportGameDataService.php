@@ -1161,11 +1161,11 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialogs::model()
+            $dialog = Dialog::model()
                 ->byExcelId($dialog_excel_id)
                 ->find();
             if (NULL === $dialog) {
-                $dialog = new Dialogs(); // Создаем событие
+                $dialog = new Dialog(); // Создаем событие
                 $dialog->excel_id = $dialog_excel_id;
             }
 
@@ -1224,7 +1224,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        Dialogs::model()->deleteAll(
+        Dialog::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
@@ -1272,7 +1272,7 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialogs::model()
+            $dialog = Dialog::model()
                 ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
                 ->find();
 
@@ -1651,11 +1651,11 @@ class ImportGameDataService
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = Dialogs::model()->findAll();
+                    $values = Dialog::model()->findAll();
                 } else if ($xls_act_value === 'phone talk') {
                     $values = [null];
                 } else {
-                    $dialogs = Dialogs::model()->findAllByAttributes(array('code' => $xls_act_value));
+                    $dialogs = Dialog::model()->findAllByAttributes(array('code' => $xls_act_value));
                     if (count($dialogs) === 0) {
                         assert($dialogs, 'No such dialog: "' . $xls_act_value . '"');
                     }
@@ -1763,7 +1763,7 @@ class ImportGameDataService
             $endCode = $this->getCellValue($sheet, 'Parent_end_code', $i);
 
             if ($endType == 'id_записи') {
-                $entity = Dialogs::model()->byExcelId($endCode)->find();
+                $entity = Dialog::model()->byExcelId($endCode)->find();
             } elseif ($endType == 'outbox' || $endType == 'inbox') {
                 $entity = MailTemplateModel::model()->byCode($endCode)->find();
             }

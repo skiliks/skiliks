@@ -5,7 +5,7 @@
 /**
  * Хранит значение оценки поведения для конкретного диалога.
  * 
- * Связана с моделями: CharactersPointsTitles, Dialogs
+ * Связана с моделями: CharactersPointsTitles, Dialog
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -17,7 +17,7 @@ class CharactersPoints extends CActiveRecord
     public $id;
     
     /**
-     * dialogs.id
+     * dialog.id
      * @var integer
      */
     public $dialog_id;
