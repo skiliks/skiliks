@@ -17,6 +17,7 @@ return array(
         'application.models.Simulation.*',
         'application.models.User.*',
         'application.models.Mail.*',
+        'application.models.Activities.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',

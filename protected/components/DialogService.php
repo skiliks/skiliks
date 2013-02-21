@@ -308,7 +308,7 @@ class DialogService
         }
         
         $events = array();
-        foreach (EventsSamples::model()->findAll() as $event) {
+        foreach (EventSample::model()->findAll() as $event) {
             $events[$event->id] = $event;
         }
         

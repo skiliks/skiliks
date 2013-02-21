@@ -17,7 +17,6 @@ class DialogueDelayTest extends CDbTestCase {
         MailBoxModel::model()->deleteAll();
         $event = new EventsManager();
 
-        //$code['T7.1'] = EventsSamples::model()->byCode('T7.1');
         //Запуск T7.1
         $this->setTime($simulation, 11, 12);
         $event->startEvent($simulation->id, 'T7.1', false, false, 0);

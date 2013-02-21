@@ -58,19 +58,19 @@ class PhoneService {
 
     public function callBack($simId, $dialog_code) {
 
-       $template = EventsSamples::model()->findAllByAttributes(['code'=>'S1.2']);//todo:Костыль
+       $template = EventSample::model()->findAllByAttributes(['code'=>'S1.2']);//todo:Костыль
        $ev = EventsTriggers::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);//todo:Костыль
 
            $dialog = Dialog::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
         if($ev === null and $dialog->next_event_code == 'E1'){ return 'fail'; }//todo:Костыль
            $manager = new EventsManager();
            if(!empty($dialog->next_event_code)) {
-               $event = EventsSamples::model()->findByAttributes(['code'=>$dialog->next_event_code]);
+               $event = EventSample::model()->findByAttributes(['code'=>$dialog->next_event_code]);
                $trigger = EventsTriggers::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);//Logger::write($dialog->next_event_code);
                if($trigger !== null){
                    $manager->startEvent($simId, $dialog->next_event_code, 0, 0, 0);
                    $dialog_cancel = Dialog::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
-                   $cancel_event = EventsSamples::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
+                   $cancel_event = EventSample::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
                    $cur_event = EventsTriggers::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
                    if($cur_event !== null){
                        $cur_event->delete();
@@ -78,10 +78,6 @@ class PhoneService {
                 }else{
                    return 'fail';
                }
-
-
-           //$dialog_event2 = EventsSamples::model()->findByAttributes(['code'=>$dialog_replica->next_event_code]);
-           //EventsTriggers::model()->deleteAll(['event_id' => $template->id, 'sim_id' => $simId]);
 
            return 'ok';
 

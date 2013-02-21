@@ -334,7 +334,7 @@ class SimulationService
      */
     public static function initEventTriggers($simulation)
     {
-        $events = EventsSamples::model()
+        $events = EventSample::model()
             ->byNotDocumentCode()
             ->byNotPlanTaskCode()
             ->byNotSentTodayEmailCode()

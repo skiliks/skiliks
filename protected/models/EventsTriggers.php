@@ -121,7 +121,7 @@ class EventsTriggers extends CActiveRecord
     public function relations()
     {
         return [
-            'event_sample' => [self::BELONGS_TO, 'EventsSamples', 'event_id']
+            'event_sample' => [self::BELONGS_TO, 'EventSample', 'event_id']
         ];
     }
 }

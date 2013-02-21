@@ -17,7 +17,7 @@ class EventsManager {
      */
     public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
 
-            $event = EventsSamples::model()->byCode($eventCode)->find();
+            $event = EventSample::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
             
             // если надо очищаем очерель событий для текущей симуляции
@@ -51,7 +51,7 @@ class EventsManager {
     }
 
     public function waitEvent($simId, $eventCode, $eventTime) {
-        $event = EventsSamples::model()->byCode($eventCode)->find();
+        $event = EventSample::model()->byCode($eventCode)->find();
         $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
 
         if (!$eventsTriggers) {
@@ -126,7 +126,7 @@ class EventsManager {
                 $index = 0;
                 foreach($triggers as $trigger) {
 
-                    $event = EventsSamples::model()->byId($trigger->event_id)->find();
+                    $event = EventSample::model()->byId($trigger->event_id)->find();
 
                     if (null === $event) {
                         throw new CHttpException(
@@ -355,7 +355,7 @@ class EventsManager {
     
     public function getList() {
         
-        $eventsSamples = EventsSamples::model()->findAll();
+        $eventsSamples = EventSample::model()->findAll();
         $data = [];
         foreach($eventsSamples as $event) {
             $data[] = [
