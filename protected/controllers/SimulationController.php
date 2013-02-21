@@ -36,7 +36,10 @@ class SimulationController extends AjaxController
      */
     public function actionStop()
     {
-        SimulationService::simulationStop($this->getSimulationId());
+        SimulationService::simulationStop(
+            $this->getSimulationEntity(),
+            Yii::app()->request->getParam('logs', array())
+        );
 
         $this->sendJSON(array('result' => 1));
     }

@@ -419,13 +419,9 @@ class SimulationService
     /**
      * @param Simulation $simulation
      */
-    public static function simulationStop($simId)
+    public static function simulationStop($simulation, $logs_src = array())
     {
-        $simulation = Simulations::model()->byId($simId)->find();
-
         // данные для логирования
-
-        $logs_src = Yii::app()->request->getParam('logs', array());
         $events_manager = new EventsManager();
         $events_manager->processLogs($simulation, $logs_src);
 
@@ -434,11 +430,11 @@ class SimulationService
         LogHelper::combineLogActivityAgregated($simulation);
         
         // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalize($simId);
+        SimulationService::saveEmailsAnalize($simulation->id);
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
-        SimulationService::saveAgregatedPoints($simId);
+        SimulationService::saveAgregatedPoints($simulation->id);
         
         DayPlanService::copyPlanToLog($simulation, 18*60); // 18-00 copy
         

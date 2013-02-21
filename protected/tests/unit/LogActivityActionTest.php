@@ -110,7 +110,7 @@ class LogActivityActionTest extends CDbTestCase {
                 'diff_time' => '00:00:10',
                 'activity_id' => 'A_wait',
             ));
-        $simulation_service->simulationStop($simulation->id);
+        $simulation_service->simulationStop($simulation);
         $res = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
         $this->assertEquals($st, $res['data']);
 
@@ -172,7 +172,7 @@ class LogActivityActionTest extends CDbTestCase {
 
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $simulation_service->simulationStop($simulation->id);
+        $simulation_service->simulationStop($simulation);
         $res2 = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
         $tmp = array (
             0 =>
