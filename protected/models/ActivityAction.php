@@ -163,8 +163,10 @@ class ActivityAction extends CActiveRecord
     /**
      * Order by numeric_id
      */
-    public function findByPriority($attrs, $leg_types = null) {
+    public function findByPriority($attrs, $leg_types = null, $simulation = NULL)
+    {
         $criteria = new CDbCriteria();
+
         $criteria->with = [
             'activity' => [
                 'with' => 'category',
@@ -173,11 +175,50 @@ class ActivityAction extends CActiveRecord
                 'limit' => 1
             ]
         ];
+
         $criteria->addColumnCondition($attrs);
+
         if ($leg_types !== null) {
             $criteria->addInCondition('leg_type', $leg_types);
         }
+
+        // @1224
+        // remove activities for already closed activity parent {
+        // if (NULL !== $simulation) {
+        // // get finished parent actions
+        // $completedParents = SimulationCompletedParent::model()->findAllByAttributes([
+        // 'sim_id' => $simulation->id
+        // ]);
+        //
+        // // collect finished parent actions ids (codes)
+        // $parent_ids = [];
+        // foreach ($completedParents as $completedParent) {
+        // $parent_ids[] = "'".$completedParent->parent_code."'";
+        // }
+        //
+        // // get activities related to finished parent actions
+        // $activitiesForCompletedParent = [];
+        // if (0 != count($parent_ids)) {
+        // $activitiesForCompletedParent = Activity::model()->findAll(
+        // ' parent IN ('.implode(',', $parent_ids).') '
+        // );
+        // }
+        //
+        // // collect ids (codes) for activities related to finished parent actions
+        // $activity_codes_for_completed_parent = [];
+        // foreach ($activitiesForCompletedParent as $activityForCompletedParent) {
+        // $activity_codes_for_completed_parent[] = $activityForCompletedParent->id;
+        // }
+        //
+        // // add criteria for activityAction.activity_id
+        // if (0 != count($activity_codes_for_completed_parent)) {
+        // $criteria->addNotInCondition('activity_id', $activity_codes_for_completed_parent);
+        // }
+        // }
+        // remove activities for already closed activity parent }
+
         $result = $this->find($criteria);
+
         return $result;
     }
 

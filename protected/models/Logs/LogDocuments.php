@@ -76,7 +76,7 @@ class LogDocuments extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByAttributes(
+        $activity_action = ActivityAction::model()->findByPriority(
             ['document_id' => $this->file->template_id],
             null,
             $this->simulation
