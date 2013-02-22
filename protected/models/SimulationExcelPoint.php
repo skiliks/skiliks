@@ -10,7 +10,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsExcelPoints extends CActiveRecord
+class SimulationExcelPoint extends CActiveRecord
 {
     /**
      * @var integer
@@ -38,7 +38,7 @@ class SimulationsExcelPoints extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return SimulationsExcelPoints 
+     * @return SimulationExcelPoint
      */
     public static function model($className=__CLASS__)
     {
@@ -56,7 +56,7 @@ class SimulationsExcelPoints extends CActiveRecord
     /**
      * Выбрать по заданной симуляции
      * @param int $simId
-     * @return SimulationsExcelPoints 
+     * @return SimulationExcelPoint
      */
     public function bySimulation($simId)
     {
@@ -70,7 +70,7 @@ class SimulationsExcelPoints extends CActiveRecord
     /**
      * Выбрать по заданной формуле
      * @param int $formulaId
-     * @return SimulationsExcelPoints 
+     * @return SimulationExcelPoint
      */
     public function byFormula($formulaId)
     {

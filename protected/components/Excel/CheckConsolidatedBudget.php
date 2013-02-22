@@ -48,7 +48,7 @@ class CheckConsolidatedBudget
         $this->userPoints = 0;
         $this->userPointsMap = array();
         
-        $simulationsExcelPoints = SimulationsExcelPoints::model()
+        $simulationsExcelPoints = SimulationExcelPoint::model()
             ->bySimulation($this->simId)
             ->find();
         
