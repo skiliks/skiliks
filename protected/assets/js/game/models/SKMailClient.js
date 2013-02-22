@@ -1160,6 +1160,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 this.getDataForInitialScreen();
                 //this.trigger('init_completed');
             },
+            /**
+             * To rewrite
+             * @return {Boolean}
+             */
             isNotEmptySubject:function(){
                 return $("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
                     $("#MailClient_NewLetterSubject select option:selected").val() !== "0";
