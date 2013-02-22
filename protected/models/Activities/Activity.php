@@ -10,6 +10,8 @@
  * @property string $name
  * @property integer $category_id
  * @prorerty string $import_id
+ * @property ActivityParent parentActivity
+ * @property ActivityCategory category
  *
  * The followings are the available model relations:
  * @property ActivityAction[] $activityActions
@@ -111,6 +113,7 @@ class Activity extends CActiveRecord
         return array(
             'category' => array(self::BELONGS_TO, 'ActivityCategory', 'category_id'),
             'activityActions' => array(self::HAS_MANY, 'ActivityAction', 'activity_id'),
+            'parentActivity' => [self::BELONGS_TO, 'ActivityParent', 'parent']
         );
     }
 

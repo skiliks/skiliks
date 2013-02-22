@@ -8,6 +8,7 @@
  * Связана с моделями: Users.
  *
  * @property int difficulty
+ * @property SimulationCompletedParent[] completed_parent_activities
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Simulations extends CActiveRecord
@@ -143,7 +144,8 @@ class Simulations extends CActiveRecord
     {
         return [
             'user' => [self::BELONGS_TO, 'Users', 'user_id'],
-            'events_triggers' => [self::HAS_MANY, 'EventTrigger', 'sim_id']
+            'events_triggers' => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id']
         ];
     }
 
