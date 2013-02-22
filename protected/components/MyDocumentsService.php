@@ -133,15 +133,14 @@ class MyDocumentsService
     /**
      * 
      * @param Simulations $simulation
-     * @param integer || NULL $fileId
+     * @param MyDocumentsModel $file
      * 
      * @return boolean
      */
-    public static function makeDocumentVisibleInSimulation($simulation, $fileId)
+    public static function makeDocumentVisibleInSimulation($simulation, $file)
     {
         $file = MyDocumentsModel::model()
-            ->findByAttributes(['sim_id' => $simulation->id, 'id' => $fileId]);
-        
+            ->findByAttributes(['sim_id' => $simulation->id, 'id' => $file->primaryKey]);
         $file->hidden = 0;
         $file->save();
         $status = true;

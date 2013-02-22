@@ -354,7 +354,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                         var attachment = new SKAttachment();
                         attachment.label       = emailData.attachmentName;
-                        attachment.fileMySqlId = emailData.attachmentId;
+                        attachment.fileMySqlId = emailData.attachmentFileId;
 
                         email.attachment = attachment;
 
