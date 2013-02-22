@@ -31,6 +31,14 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 if (event.getTypeSlug() === 'mail') {
                     me.startAnimation('.' + event.getTypeSlug());
                     me.updateMailCounter();
+
+                    if (event.get('type') === 'MS') {
+                        SKApp.user.simulation.mailClient.on('init_completed', function() {
+                            this.view.on('render_finished', function() {
+                                this.renderWriteCustomNewEmailScreen();
+                            });
+                        });
+                    }
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
                 } else if (event.getTypeSlug() === 'phone') {
