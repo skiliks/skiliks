@@ -28,15 +28,15 @@ class MyDocumentsController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $fileId = (int) Yii::app()->request->getParam('attachmentId', null);
-        $file   = MyDocumentsModel::model()->byId($fileId)->find();
+        $fileId = (int) Yii::app()->request->getParam('attachmentId');
+        $file   = MyDocumentsModel::model()->findByPk($fileId);
         
         $this->sendJSON(array(
             'result' => (int)MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $fileId),
             'file'   => [
-                    'id'   => (null === $file) ? null : $file->id,
-                    'name' => (null === $file) ? null : $file->fileName,
-                    'mime' => (null === $file) ? null : $file->template->getMimeType(),
+                    'id'   => $file->id,
+                    'name' => $file->fileName,
+                    'mime' => $file->template->getMimeType(),
                 ] 
         ));
     }

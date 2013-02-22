@@ -166,6 +166,7 @@ class EventsManager {
             
             // теперь подчистим список
             $resultList = $data;
+            $defaultDialogs = [];
             foreach ($data as $dialogId => $dialog) {
                 $flagInfo = FlagsService::checkRule(
                     $dialog['code'], 
@@ -187,23 +188,23 @@ class EventsManager {
                         continue;
                     }
                     else {
-                        // правило выполняется но нужно удалить ненужную реплику
-                        /*foreach($resultList as $key=>$val) {
-                            if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
-
-                                unset($resultList[$key]);
-                                break;
-                            }
-                        }*/
+                        $ruleDependentExists = true;
                     }
-                    
+
+                    // Это условие вообще может ли выполниться?
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
                         //у нас не выполняется все событие полностью
                         $resultList = array();
                         break;
                     }
+                } elseif ($dialog['replica_number'] != 0) {
+                    $defaultDialogs[$dialogId] = $dialog;
                 }
-                
+            }
+
+            // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
+            if (isset($ruleDependentExists)) {
+                $resultList = array_diff_key($resultList, $defaultDialogs);
             }
 
             $data = array();

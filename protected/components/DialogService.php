@@ -122,6 +122,7 @@ class DialogService
         ###################
         // теперь подчистим список
         $resultList = $data;
+        $defaultDialogs = [];
         foreach ($data as $dialogId => $dialog) {
             // @1229
             if (false == FlagsService::isAllowToStartDialog($simulation, $dialog['code'])) {
@@ -143,6 +144,7 @@ class DialogService
                     continue;
                 }
                 else {
+                    $ruleDependentExists = true;
                     // правило выполняется но нужно удалить ненужную реплику
                     foreach($resultList as $key=>$val) {
                         if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
@@ -157,7 +159,14 @@ class DialogService
                     $resultList = array();
                     break;
                 }
+            } elseif ($dialog['replica_number'] != 0) {
+                $defaultDialogs[$dialogId] = $dialog;
             }
+        }
+
+        // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
+        if (isset($ruleDependentExists)) {
+            $resultList = array_diff_key($resultList, $defaultDialogs);
         }
 
         $data = [];
