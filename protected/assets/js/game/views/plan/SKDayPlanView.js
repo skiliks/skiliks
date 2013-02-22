@@ -190,7 +190,7 @@ define(["game/views/SKWindowView"], function () {
             this.setupDraggable();
         },
         calculateTaskHeigth: function(duration) {
-            return (Math.ceil(duration / 15) * 11)-2;
+            return (Math.ceil(duration / 30) * 23)-3;
         },
         
         removeTodoTask:function (model) {
