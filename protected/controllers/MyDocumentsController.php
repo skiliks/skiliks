@@ -32,7 +32,7 @@ class MyDocumentsController extends AjaxController
         $file   = MyDocumentsModel::model()->findByPk($fileId);
         
         $this->sendJSON(array(
-            'result' => (int)MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $fileId),
+            'result' => (int)MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file),
             'file'   => [
                     'id'   => $file->id,
                     'name' => $file->fileName,
