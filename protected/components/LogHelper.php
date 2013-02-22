@@ -894,7 +894,8 @@ class LogHelper
             ->leftJoin('simulations s', 's.id = l.sim_id')
             ->leftJoin('users u', 'u.id = s.user_id')
             ->leftJoin('window w', 'w.id = l.window')
-            ->order('l.id')
+            ->order('l.id DESC')
+            ->limit(4000)
             ->queryAll();
 
         $headers = array(
