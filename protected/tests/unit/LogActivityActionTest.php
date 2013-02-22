@@ -281,4 +281,22 @@ class LogActivityActionTest extends CDbTestCase {
         $this->assertEquals($tmp, $res2['data']);
     }
 
+    /*
+       Leg_actions (both Detail & Aggregate) - учитывает,
+       куда входят M47, принадлежащие нескольким Activity
+       SK-1225,1342
+     */
+    /*
+    public function testActivityPriority() {
+
+        $transaction = Yii::app()->db->beginTransaction();
+        try{
+        $activity = new Activity();
+        $activity->id = "ACT1";
+        $a
+        }catch (CException $e){
+
+        }
+    }*/
+
 }
