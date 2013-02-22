@@ -19,7 +19,7 @@ class SelDialogTest extends CWebTestCase
 
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
-        $this->setSpeed("1000");
+        $this->setSpeed("100");
         $this->waitForVisible('id=login');
         $this->type("id=login", "asd");
         $this->type("id=pass", "123");
@@ -40,21 +40,54 @@ class SelDialogTest extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        $this->type("id=addTriggerSelect", "E2");
-        $this->click("css=input.btn.btn-primary");
+        /* $this->type("id=addTriggerSelect", "E1.2");
+         $this->click("css=input.btn.btn-primary");
+         sleep(15);
+         $this->click("link=— Марина, есть срочная работа.");
+         sleep(15);
+         $this->click("link=exact:— Закончила? Теперь слушай сюда. Если мы не сдадим бюджет Денежной через два часа, она нас обоих уволит. Пересылаю тебе файл, приступай немедленно.");
+         sleep(15);*/
+
+        // send message MS21
+
+        $this->click("id=icons_email");
         sleep(15);
-        $this->click("css=a.replica-select");
+        $this->click("link=новое письмо");
         sleep(15);
-        $this->click("link=— Да, прямо сейчас проконтролирую, как идет подготовка.");
-        $this->click("link=— Марина, срочно пересылай мне презентацию для Генерального! Босс сам звонил и интересовался!");
-        $this->click("link=— Давай мы все-таки посмотрим, что у тебя там получается с учетом требований Босса. Шли мне презентацию прямо сейчас.");
-        $this->click("link=— Ясно, ты не успеваешь…Придется перенести встречу с Боссом на завтра. Уж точно лучше, чем краснеть у него на ковре.");
+        $this->click("xpath=//*[@id='MailClient_RecipientsList']");
         sleep(15);
-        $this->click("link=— Еще раз, добрый день, Валерий Семенович!");
-        $this->click("link=— Валерий Семенович, прошу меня извинить, но обстоятельства сильнее меня! Мы не успеем представить презентацию сегодня.");
-        $this->click("//a[contains(text(),'— Простите,  Валерий Семенович, но если бы наш отдел персонала быстрее подбирал нужных людей, я бы справился и с большей нагрузкой. А так многое приходится делать самому. Естественно, что я не успеваю.')]");
+
+        $this->waitForVisible("xpath=(//*[contains(text(),'Крутько')])");
+        sleep(15);
+        $this->mouseOver("xpath=(//*[contains(text(),'Крутько')])");
+        sleep(15);
+        $this->clickAndWait("xpath=(//*[contains(text(),'Крутько')])");
+        sleep(15);
+
+
+        //аааааааааааааааааааааааааааааааааааааааааааааа
+        $this->mouseOver("xpath=(//*[contains(text(),'Сводный')])");
+        sleep(15);
+        $this->clickAndWait("css=select.origin");
+        sleep(15);
+
+        // $this->click("css=label.dd-selected-text");
+        // sleep(15);
+
+        // call E1.2.1 - it's good works!
+
+        /*$this->click("id=icons_phone");
+        sleep(15);
+        $this->click("xpath=//div[@id='phoneMainScreen']/ul/li[1]");
+        sleep(15);
+        $this->click("xpath=(//a[contains(text(),'Позвонить')])[3]");
+        sleep(15);
+        $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
+        sleep(30);
+*/
         $this->click("css=input.btn.btn-simulation-stop");
         sleep(15);
         $this->click("css=input.btn.logout");
     }
 }
+
