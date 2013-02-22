@@ -92,7 +92,7 @@ class FlagsService
             'replica_id' => $excelId
         ]);
 
-        $result['ruleExists']    = true;
+        $result['ruleExists']    = !!count($rules);
         $result['recId']         = (int)$excelId;
         $result['stepNumber']    = $stepNumber;
         $result['replicaNumber'] = $replicaNumber;
