@@ -1,4 +1,4 @@
-receiver = {
+/*receiver = {
     commands : {
                 //login
                 auth: 1,
@@ -479,24 +479,12 @@ receiver = {
                     simulation.parseNewEvents(data,'new');
                     simulation.getNewEvents(true);
                 }
-                //принудительная синхронизация времени сервера с фронтом, комментирую во избежание прыжков времени
-                /*
-                if(parseFloat(data['serverTime'])>0){
-                    var unixtimeMins = parseFloat(data['serverTime']);
-                    var clockH = Math.floor(unixtimeMins/60);
-                    var clockM = unixtimeMins-(clockH*60);
-                    timer.setTimeTo(clockH, clockM);
-                }*/
             },
             dialogsGetSelect: function(data)
             {
                 if(data['result']==1){
-                    /*dialogController.draw(data['data']);*/
                     simulation.parseNewEvents(data);
                 }
-                /*if(typeof(data['data'])=='undefined' || php.count(data['data'])==0){
-                    dialogController.draw('close');
-                }*/
             },
             addTriggerGetList: function(data)
             {
@@ -843,11 +831,6 @@ receiver = {
                 if(data['result']==1){
                     simulation.parseNewEvents(data);
                 }
-                /*if(data['result']==1 && php.count(data['data'])>0){
-                    simulation.parseNewEvents(data);
-                }else{
-                    simulation.drawDefaultLocation();
-                }*/
             },
             timerSetNewTime: function(data)
             {
@@ -961,3 +944,4 @@ receiver = {
                 }
             }
 }
+*/

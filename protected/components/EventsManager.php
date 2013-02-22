@@ -280,6 +280,7 @@ class EventsManager {
         // to update phone call dialogs lastDialogId
 
         $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
+
         /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
         try {
             LogHelper::setWindowsLog($simId, $logs);
@@ -288,6 +289,7 @@ class EventsManager {
         }
         $log_manager = new LogManager();
         $log_manager->setUniversalLog($simId, $logs);
+
         LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
         LogHelper::setMailLog($simId, $logs);
 
