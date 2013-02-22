@@ -1,5 +1,5 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
-define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter" ], function () {
     "use strict";
     /**
      * @class SKMailClient
@@ -335,7 +335,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             setEmailsToFolder:function (folderAlias, emailsData) {
                 var me = this;
                 this.folders[folderAlias].emails = [];
-                console.log(folderAlias, emailsData, this.folders[folderAlias].emails.length);
 
                 for (var id in emailsData) {
                     if (emailsData.hasOwnProperty(id)) {
@@ -747,7 +746,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     {},
                     function (response) {
                         if (undefined !== response.data) {
-                            SKApp.user.simulation.mailClient.defaultRecipients = [];
+                            me.defaultRecipients = [];
                             for (var i in response.data) {
                                 var string = response.data[i];
 
@@ -759,7 +758,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                                 character.email = character.email.replace('<', '');
                                 character.email = character.email.replace('>', '');
 
-                                SKApp.user.simulation.mailClient.defaultRecipients.push(character);
+                                me.defaultRecipients.push(character);
                             }
                         }
                     },
