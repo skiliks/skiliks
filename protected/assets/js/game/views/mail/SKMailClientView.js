@@ -88,9 +88,12 @@ define([
             initialize:function () {
                 var me = this;
                 this.mailClient = SKApp.user.simulation.mailClient;
+                this.mailClient.view = this;
+
                 // init View according model
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
+                    me.trigger('render_finished');
                 });
 
                 // render character subjects list
@@ -224,6 +227,7 @@ define([
             remove:function () {
                 SKWindowView.prototype.remove.call(this);
                 this.mailClient.setActiveScreen(undefined);
+                this.mailClient.view = null;
             },
 
             /**
