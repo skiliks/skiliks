@@ -1111,7 +1111,7 @@ define([
                 this.hideFoldersBlock();
 
                 // render HTML sceleton
-                $("#" + this.mailClientContentBlockId).html(htmlSceleton);
+                this.$("#" + this.mailClientContentBlockId).html(htmlSceleton);
 
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
@@ -1154,7 +1154,7 @@ define([
                             'add',
                             undefined,
                             function(){
-                                $("#MailClient_RecipientsList")[0].addTag(me, tag);
+                                this.$("#MailClient_RecipientsList")[0].addTag(me, tag);
                             }
                         );
                         return add;
@@ -1173,7 +1173,7 @@ define([
                             'delete',
                             undefined,
                             function(){
-                                $("#MailClient_RecipientsList")[0].removeTag(me);
+                                this.$("#MailClient_RecipientsList")[0].removeTag(me);
                             },
                             me
                         );
@@ -1182,14 +1182,14 @@ define([
                 });
 
                 // fills copyTo list
-                $("#MailClient_CopiesList").tagHandler({
+                this.$("#MailClient_CopiesList").tagHandler({
                     availableTags:mailClientView.mailClient.getFormatedCharacterList(),
                     autocomplete:true
                 });
 
                 // prevent custom text input
-                $("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                $("#MailClient_CopiesList input").attr('readonly', 'readonly');
+                this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
+                this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
 
                 this.delegateEvents();
 
