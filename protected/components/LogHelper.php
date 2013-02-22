@@ -785,12 +785,13 @@ class LogHelper
                 , if(m.group_id = 3, 'Да', 'Нет') AS send
                 , ifnull(group_concat(DISTINCT r.receiver_id), '-') AS receivers
                 , ifnull(group_concat(DISTINCT c.receiver_id), '-') AS copies
-                , ifnull(s.text, '-') AS subject
+                , s.text as subject
                 , ifnull(t.code, '-') AS code
                 , l.full_coincidence
                 , l.part1_coincidence
                 , l.part2_coincidence
                 , if(l.is_coincidence = 1, 'Да', 'Нет') AS is_coincidence
+                , s.mail_prefix
                 ")
             ->from('log_mail l')
             ->leftJoin('mail_box m', 'l.mail_id = m.id')
@@ -804,6 +805,10 @@ class LogHelper
             ->group('l.mail_id')
             ->order('l.id')
             ->queryAll();
+        foreach ($data['data'] as $key => $value){
+            $data['data'][$key]['subject'] = self::getFormattedTheme($value['subject'], $value['mail_prefix']);
+            unset($data['data'][$key]['mail_prefix']);
+        }
         $headers = array(
             'sim_id' => 'id_симуляции',
             'mail_id' => 'id_исходящего письма',
@@ -1456,5 +1461,13 @@ class LogHelper
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
         }
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    private static function getFormattedTheme($text, $prefix)
+    {
+        return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix) . '' . $text;
     }
 }

@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 13.02.13
- * Time: 16:17
+ * User: tania
+ * Date: 2/22/13
+ * Time: 5:58 PM
  * To change this template use File | Settings | File Templates.
  */
 class SelDialogTest extends CWebTestCase
@@ -58,3 +58,4 @@ class SelDialogTest extends CWebTestCase
         $this->click("css=input.btn.logout");
     }
 }
+

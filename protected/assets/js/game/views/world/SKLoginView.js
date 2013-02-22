@@ -7,7 +7,7 @@ define([], function() {
             this.render();
         },
         'events': {
-            'submit form.login-form': 'doSubmit',
+            'submit form.login-form': 'doSubmit'
         },
         'render': function () {
             var login_html = _.template($('#login_template').html(), {});

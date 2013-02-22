@@ -15,7 +15,8 @@ var inbox = {"result":1, "messages":{
         "attachments":1,
         "subjectSort":"\u043f\u043e \u0446\u0435\u043d\u043e\u0432\u043e\u0439 \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435",
         "attachmentName":"\u0426\u0435\u043d\u043e\u0432\u0430\u044f \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430.xlsx",
-        "attachmentId":"37837"
+        "attachmentId":"37837",
+        "attachmentFileId": "236255"
     }, "996242":{
         "id":"996242",
         "subject":"\u0424\u043e\u0440\u043c\u0430 \u043e\u0442\u0447\u0435\u0442\u043d\u043e\u0441\u0442\u0438 \u0434\u043b\u044f \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0441\u0442\u0432\u0430",
@@ -139,7 +140,7 @@ define([
                 mail.render();
                 server.respond();
                 var attachment_button = mail.$('#MailClient_IncomeFolder_EmailPreview .save-attachment-icon');
-                expect(attachment_button.attr('data-document-id')).toEqual(37837);
+                expect(attachment_button.attr('data-document-id')).toEqual(236255);
                 attachment_button.click();
                 server.respond();
             });

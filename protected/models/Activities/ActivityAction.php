@@ -102,7 +102,7 @@ class ActivityAction extends CActiveRecord
         $log_search_criteria->params['start_time'] = $log->start_time;
         $log_action = LogActivityAction::model()->find($log_search_criteria);
         // get log_action }
-
+        $this->saveParentActivity($log);
         // init log_action if not exists {
         if (!$log_action) {
             $log_action = new LogActivityAction();
@@ -243,5 +243,31 @@ class ActivityAction extends CActiveRecord
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,
         ));
+    }
+
+    public function saveParentActivity($activity_action) {
+
+        if( !empty($activity_action->mail_id) ) {
+        $mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
+        if(empty($mail_template) || empty($mail_template->id)){ return; }
+            $parents_mail = ActivityParent::model()->findAllByAttributes(['mail_id'=>$mail_template->id]);
+            foreach($parents_mail as $k => $parent){
+                $sim_parent = new SimulationCompletedParent();
+                $sim_parent->sim_id = $activity_action->sim_id;
+                $sim_parent->parent_code = $parent->parent_code;
+                $sim_parent->save();
+            }
+        } elseif( !empty( $activity_action->dialog_id ) ){
+            //$mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
+            $parents_dialogs = ActivityParent::model()->findAllByAttributes(['dialog_id'=>$activity_action->dialog_id]);
+            if(empty($parents_dialogs)){ return; }
+            foreach($parents_dialogs as $k => $parent) {
+                $parents = new SimulationCompletedParent();
+                $parents->sim_id = $activity_action->sim_id;
+                $parents->parent_code = $parent->parent_code;
+                $parents->save();
+            }
+        }
+
     }
 }
