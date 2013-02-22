@@ -10,7 +10,7 @@
 			<p>{Yii::t('site', 'Iron lady<br />Effectiveness champion<br />Mentor to everyone<br />Structure wizard<br />… simply The Boss &amp; Visionary')}</p>
 		</li>
 		<li class="alyona">
-			<h4>{Yii::t('site', 'Alyona  Levina')}</h4> 
+			<h4>{Yii::t('site', 'Leah Levin')}</h4> 
 			<p>{Yii::t('site', 'Never gives up in front of any mission<br />Master of social contacts<br />Creativity and visuals pioneer<br />Black belt in continuous improvement')}</p>
 		</li>
 		<li class="tony">
