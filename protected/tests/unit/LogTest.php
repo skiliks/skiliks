@@ -116,7 +116,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 33000, 'window_uid' => 15],
         ]);
 
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
 
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -187,7 +187,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
         $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_windows as $log) {
@@ -294,7 +294,7 @@ class LogTest extends CDbTestCase
         ]);
         MailBoxService::sendDraft($simulation, $draft_message2);
 
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
@@ -334,7 +334,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
         $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
@@ -392,7 +392,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 33000, 'window_uid' => 4],
         ]);
 
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -494,7 +494,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 33000, 'window_uid' => 3],
         ]);
 
-        $simulation_service->simulationStop($simulation->primaryKey);
+        $simulation_service->simulationStop($simulation);
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);

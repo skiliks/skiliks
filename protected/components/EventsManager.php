@@ -50,7 +50,7 @@ class EventsManager {
             return ['result' => 1];
     }
 
-    public function waitEvent($simId, $eventCode) {
+    public function waitEvent($simId, $eventCode, $eventTime) {
         $event = EventsSamples::model()->byCode($eventCode)->find();
         $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
 
@@ -58,7 +58,7 @@ class EventsManager {
             $eventsTriggers = new EventsTriggers();
             $eventsTriggers->sim_id = $simId;
             $eventsTriggers->event_id = $event->id;
-            $eventsTriggers->trigger_time = SimulationService::getGameTime($simId);
+            $eventsTriggers->trigger_time = $eventTime ?: $event->trigger_time;
             $eventsTriggers->insert();
         }
 
@@ -121,6 +121,7 @@ class EventsManager {
             $result = array('result' => 1);
 
             $eventCode = false;
+            $eventTime = '00:00:00';
             if (count($triggers)>0) {  // если у нас много событий
                 $index = 0;
                 foreach($triggers as $trigger) {
@@ -137,7 +138,10 @@ class EventsManager {
 
                     $trigger->delete(); // Убиваем обработанное событие
 
-                    if ($index == 0) { $eventCode = $event->code; }
+                    if ($index == 0) {
+                        $eventCode = $event->code;
+                        $eventTime = $trigger->trigger_time;
+                    }
 
                     $res = EventService::processLinkedEntities($event->code, $simId);
                     if ($res) {
@@ -240,7 +244,7 @@ class EventsManager {
 
             $result['serverTime'] = $gameTime;
             if (count($resultList) > 0) {
-                $result['events'][] = array('result' => 1, 'eventType' => 1, 'data' => $data);
+                $result['events'][] = array('result' => 1, 'eventType' => 1, 'eventTime' => $eventTime, 'data' => $data);
             }
             
             $result['flagsState'] = FlagsService::getFlagsState($simulation);
@@ -267,9 +271,12 @@ class EventsManager {
     public function processLogs($simulation, $logs)
     {
         $simId = $simulation->primaryKey;
+
         // данные для логирования {
         LogHelper::setLog($simId, $logs);
+
         $originalNotFilteregLogs = $logs; // used after standart logging
+
         // to update phone call dialogs lastDialogId
 
         $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
@@ -323,6 +330,7 @@ class EventsManager {
                 }
             }
         }
+        // update phone call dialogs lastDialogId }
     }
 
     public function processTasks($simId) {

@@ -73,9 +73,10 @@ define(["game/models/SKEvent"], function () {
              *
              * @param {string} code
              */
-            'wait': function(code) {
+            'wait': function(code, originalTime) {
                 SKApp.server.api('events/wait', {
-                    eventCode: code
+                    eventCode: code,
+                    eventTime: originalTime
                 });
             }
         });
