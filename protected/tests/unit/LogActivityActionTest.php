@@ -283,7 +283,7 @@ class LogActivityActionTest extends CDbTestCase {
 
     /*
        Leg_actions (both Detail & Aggregate) - учитывает,
-       куда входят M47, принадлежащие нескольким Activity
+       куда входят plan, принадлежащие нескольким Activity
        SK-1225,1342
      */
 
