@@ -1161,8 +1161,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 //this.trigger('init_completed');
             },
             isNotEmptySubject:function(){
-                return this.$("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
-                    this.$("#MailClient_NewLetterSubject select option:selected").val() !== "0";
+                return $("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
+                    $("#MailClient_NewLetterSubject select option:selected").val() !== "0";
             }
         });
     return window.SKMailClient;
