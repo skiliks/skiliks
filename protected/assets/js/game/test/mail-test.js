@@ -66,7 +66,13 @@ define([
                         JSON.stringify({result:1})]);
                 server.respondWith("POST", "/index.php/mail/getReceivers",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({result:1})]);
+                        JSON.stringify({
+                            result:1,
+                            data: {
+                                1: 'bob <bob@skiliks.com>',
+                                2: 'john <john@skiliks.com>'
+                            }
+                        })]);
                 server.respondWith("POST", "/index.php/mail/getMessages",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({
@@ -88,24 +94,19 @@ define([
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication();
+                window.SKConfig = {'simulationStartTime':'9:00', "skiliksSpeedFactor":8 };
+                SKApp.user = {};
                 this.timeout = 1000;
             });
             after(function () {
                 server.restore();
             });
 
-            it("mail client displayed", function (done) {
-                buster.log("Start");
-                window.SKConfig = {'simulationStartTime':'9:00', "skiliksSpeedFactor":8 };
-                SKApp.user = {};
-
+            it("can display mail client", function () {
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
-                buster.log('Sim started2');
-                buster.assert.defined(SKWindow);
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
-                buster.log('called');
                 buster.assert.defined(simulation.mailClient);
                 var mail = new SKMailClientView({model_instance:mail_window});
                 var spy = sinon.spy();
@@ -123,14 +124,30 @@ define([
                 expect(mail.$('tr[data-email-id=916048] td.mail-emulator-received-list-cell-theme').text()).toBe('Новая система мотивации');
                 expect(mail.mailClient.getInboxFolder().name).toBe('Входящие');
                 assert.calledOnce(spy);
+                server.respond();
+            });
+
+            it("has characters", function () {
+                var client = new SKMailClient();
+                client.updateRecipientsList();
+                expect(client.getFormatedCharacterList()).toEqual(["bob, bob@skiliks.com (1)", "john, john@skiliks.com (2)"]);
+            });
+            it("can create new letter", function () {
+                var simulation = SKApp.user.simulation = new SKSimulation();
+                simulation.start();
+                var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
+                mail_window.open();
+                var mail = new SKMailClientView({model_instance:mail_window});
+                mail.render();
+                server.respond();
                 mail.$el.find('.NEW_EMAIL').click();
                 server.respond();
-                //server.requests[server.requests.length - 1].respond(200, { "Content-Type": "application/json" }, JSON.stringify({result:1}));
-                //buster.log(mail.$el.html());
-                expect(1).toBe(1);
-                mail.remove();
-                done();
-
+                expect(mail.$('.SEND_EMAIL').length, 1);
+                mail.$('#MailClient_RecipientsList').focus();
+                server.respond();
+                buster.log(mail.mailClient.getFormatedCharacterList());
+                buster.log(mail.$('.mail-view.new').html());
+                buster.log($('body').html());
             });
         });
     });
