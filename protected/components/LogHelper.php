@@ -275,7 +275,7 @@ class LogHelper
         // update mailLogData.out_mail_code }
 
         foreach ($data['data'] as $k => $row) {
-            $data['data'][$k]['scale'] = Strings::toWin(str_replace('.', ',', $data['data'][$k]['scale']));
+            $data['data'][$k]['scale'] = str_replace('.', ',', $data['data'][$k]['scale']);
             $data['data'][$k]['out_mail_code'] = '-';
             $data['data'][$k]['add_value'] = str_replace('.', ',', $data['data'][$k]['add_value']);
             $data['data'][$k]['type_scale'] = str_replace('.', ',', $data['data'][$k]['type_scale']);

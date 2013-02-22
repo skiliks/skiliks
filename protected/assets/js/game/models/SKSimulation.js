@@ -110,7 +110,7 @@ define([
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                     } else {
-                        me.events.wait(event.data[0].code);
+                        me.events.wait(event.data[0].code, event.eventTime);
                     }
                     me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
 
