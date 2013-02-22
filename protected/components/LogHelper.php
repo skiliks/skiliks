@@ -1255,6 +1255,25 @@ class LogHelper
     }
 
     /**
+     * Медот сделан чтоб упростить почтение (понимание что он делает) условного оператора в combineLogActivityAgregated
+     * теперь название говорит само за себя и комментарий там не нужен
+     *
+     * @param mixed array$activityAction
+     * @param string $previouseGroupId
+     * @return bool
+     */
+    public static function isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit) {
+        $code = $activityAction['coincidence_mail_code'];
+
+        // email read more than $limit seconds on total, can break any other activity during aggregation
+        if (NULL !== $code && $durationByMailCode[$code] < $limit) {
+            return false;
+        }
+
+        return (NULL !== $activityAction['group_id']);
+    }
+
+    /**
      * @param Simulations $simulation
      *
      * Documentation: Создание агрегированного лога для activity
@@ -1262,84 +1281,121 @@ class LogHelper
      */
     public static function combineLogActivityAgregated($simulation)
     {
-        $agregatedActivity = NULL;
+        $aggregatedActivity = NULL;
 
         $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
 
-        $mainSreenWindow = Window::model()->findByAttributes([
+        // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
+        // Особенности логики, пункт 1 {
+        // Collect main windows subtypes
+        $mainScreenWindow = Window::model()->findByAttributes([
             'type'    => 'main screen',
             'subtype' => 'main screen'
         ]);
 
+        $mainMailWindow = Window::model()->findByAttributes([
+            'type'    => 'mail',
+            'subtype' => 'mail main'
+        ]);
+
+        $mainPhoneWindow = Window::model()->findByAttributes([
+            'type'    => 'phone',
+            'subtype' => 'phone main'
+        ]);
+
+        $mainDocumentWindow = Window::model()->findByAttributes([
+            'type'    => 'documents',
+            'subtype' => 'documents main'
+        ]);
+
+        $mainWindowLegActions = [$mainScreenWindow->subtype, $mainMailWindow->subtype, $mainPhoneWindow->subtype, $mainDocumentWindow->subtype];
+        // Особенности логики, пункт 1 }
+
         // collect time by window id {
         $durationByWindowUid = [];
+        $durationByMailCode = [];
         foreach ($data['data'] as $activityAction) {
-            $id = $activityAction['window_uid'];
-            $durationByWindowUid[$id] = (isset($durationByWindowUid[$id]))
-                ? $durationByWindowUid[$id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
+            $w_id = $activityAction['window_uid'];
+            $durationByWindowUid[$w_id] = (isset($durationByWindowUid[$w_id]))
+                ? $durationByWindowUid[$w_id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
+                : TimeTools::TimeToSeconds($activityAction['diff_time']);
+
+            $m_code = $activityAction['coincidence_mail_code'];
+            $durationByMailCode[$m_code]= (isset($durationByMailCode[$m_code]))
+                ? $durationByMailCode[$m_code] + TimeTools::TimeToSeconds($activityAction['diff_time'])
                 : TimeTools::TimeToSeconds($activityAction['diff_time']);
         }
-
         // collect time by window id }
 
-        foreach ($data['data'] as $activityAction) {
-            if (NULL === $agregatedActivity) {
-                // init new agregatedActivity at first iteration
-                $agregatedActivity = new LogActivityActionAgregated();
+        $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
-                $agregatedActivity->sim_id =                $simulation->id;
-                $agregatedActivity->leg_type =              $activityAction['leg_type'];
-                $agregatedActivity->leg_action =            $activityAction['leg_action'];
-                $agregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                $agregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
-                $agregatedActivity->category =              $activityAction['category_id'];
-                $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                $agregatedActivity->start_time =            $activityAction['start_time'];
-                $agregatedActivity->end_time =              $activityAction['end_time'];
-                $agregatedActivity->duration =              $activityAction['diff_time'];
+        foreach ($data['data'] as $activityAction) {
+            if (NULL === $aggregatedActivity) {
+                // init new aggregatedActivity at first iteration
+                $aggregatedActivity = new LogActivityActionAgregated();
+
+                $aggregatedActivity->sim_id =                $simulation->id;
+                $aggregatedActivity->leg_type =              $activityAction['leg_type'];
+                $aggregatedActivity->leg_action =            $activityAction['leg_action'];
+                $aggregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                $aggregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
+                $aggregatedActivity->category =              $activityAction['category_id'];
+                $aggregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
+                $aggregatedActivity->start_time =            $activityAction['start_time'];
+                $aggregatedActivity->end_time =              $activityAction['end_time'];
+                $aggregatedActivity->duration =              $activityAction['diff_time'];
             } else {
 
                 // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
                 // Особенности логики, пункт 1 {
-                if ($activityAction['window_id'] == $mainSreenWindow->id) {
-                    $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                $mail_code = $activityAction['coincidence_mail_code'];
+
+                if (NULL === $mail_code) {
+                    if (in_array($activityAction['leg_action'], $mainWindowLegActions) ||
+                        self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
+
+                        $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+
+                    }  else {
+                        $id = $activityAction['window_uid'];
+                        $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                    }
                 } else {
-                    $id = $activityAction['window_uid'];
-                    $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                    $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
                 }
                 // Особенности логики, пункт 1 }
 
-                $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
-
-                if ($agregatedActivity->activityAction->activity_id === $activityAction['activity_id'] ||
+                if ($aggregatedActivity->activityAction->activity_id == $activityAction['activity_id'] ||
                     $actionDurationInGameSeconds < $limit )
                 {
-                    // prolong previouse activity :
-                    $agregatedActivity->end_time = $activityAction['end_time'];
-                    $agregatedActivity->updateDuration();
+                    // prolong previous activity :
+                    $aggregatedActivity->end_time = $activityAction['end_time'];
+                    $aggregatedActivity->updateDuration();
                 } else {
                     // activity and, save it
-                    $agregatedActivity->save();
+                    $aggregatedActivity->save();
 
-                    // init new agregatedActivity for new activity
-                    $agregatedActivity = new LogActivityActionAgregated();
+                    // init new aggregatedActivity for new activity
+                    $aggregatedActivity = new LogActivityActionAgregated();
 
-                    $agregatedActivity->sim_id =                $simulation->id;
-                    $agregatedActivity->leg_type =              $activityAction['leg_type'];
-                    $agregatedActivity->leg_action =            $activityAction['leg_action'];
-                    $agregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                    $agregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
-                    $agregatedActivity->category =              $activityAction['category_id'];
-                    $agregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                    $agregatedActivity->start_time =            $activityAction['start_time'];
-                    $agregatedActivity->end_time =              $activityAction['end_time'];
-                    $agregatedActivity->duration =              $activityAction['diff_time'];
+                    $aggregatedActivity->sim_id =                $simulation->id;
+                    $aggregatedActivity->leg_type =              $activityAction['leg_type'];
+                    $aggregatedActivity->leg_action =            $activityAction['leg_action'];
+                    $aggregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
+                    $aggregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
+                    $aggregatedActivity->category =              $activityAction['category_id'];
+                    $aggregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
+                    $aggregatedActivity->start_time =            $activityAction['start_time'];
+                    $aggregatedActivity->end_time =              $activityAction['end_time'];
+                    $aggregatedActivity->duration =              $activityAction['diff_time'];
                 }
             }
+
+            $previousGroupId = $activityAction['group_id'];
         }
 
-        if (NULL !== $agregatedActivity) {
-            $agregatedActivity->save();
+        if (NULL !== $aggregatedActivity) {
+            $aggregatedActivity->save();
         }
     }
 
