@@ -120,12 +120,25 @@ class LogMail extends CActiveRecord
         /** @var $activity_action ActivityAction */
         $activity_action = null;
         if ($template !== null){
+            // If mail is correct MS
             $activity_action = ActivityAction::model()->findByPriority(
                 ['mail_id' => $template->primaryKey ],
                 ['Inbox_leg', 'Outbox_leg'],
                 $this->simulation
             );
+            foreach (ActivityParent::model()->findAllByAttributes(['mail_id' => $template->primaryKey]) as $parent) {
+                if (!SimulationCompletedParent::model()->countByAttributes([
+                    'sim_id' => $this->sim_id, 'parent_code' => $parent->parent_code
+                ])) {
+                    $simulationCompletedParent = new SimulationCompletedParent();
+                    $simulationCompletedParent->sim_id = $this->sim_id;
+                    $simulationCompletedParent->parent_code = $parent->parent_code;
+                    $simulationCompletedParent->save();
+                }
+            };
+
         } else {
+            // If mail is incorrect MS or not sent
             if ($this->mail !== null) {
                 if ($this->mail->isSended()) {
                     $activity_action = ActivityAction::model()->findByPriority(
@@ -136,7 +149,7 @@ class LogMail extends CActiveRecord
                 } else {
                     $activity_action = ActivityAction::model()->findByPriority([
                         'activity_id' => 'A_not_sent'
-                    ]);
+                    ], NULL, $this->simulation);
                 }
             }
         }
@@ -154,6 +167,11 @@ class LogMail extends CActiveRecord
         );
     }
 
+    /**
+     * @deprecated SQL injection
+     * @param $v
+     * @return LogMail
+     */
     public function byWindow($v)
     {
         $this->getDbCriteria()->mergeWith(array(

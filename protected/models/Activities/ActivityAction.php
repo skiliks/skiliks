@@ -100,9 +100,9 @@ class ActivityAction extends CActiveRecord
         ]);
         $log_search_criteria->addCondition('start_time = :start_time');
         $log_search_criteria->params['start_time'] = $log->start_time;
+        /** @var $log_action LogActivityAction */
         $log_action = LogActivityAction::model()->find($log_search_criteria);
         // get log_action }
-        $this->saveParentActivity($log);
         // init log_action if not exists {
         if (!$log_action) {
             $log_action = new LogActivityAction();
@@ -117,6 +117,12 @@ class ActivityAction extends CActiveRecord
 
         }
         // init log_action if not exists }
+        // We do not decrease activity priority {
+        if ($log_action->activity_action_id !== null &&
+            $log_action->activityAction->activity->category->priority < $this->activity->category->priority) {
+            return;
+        }
+        // }
 
         // add window_uid. Currently I`m not sure that window_uid exists in ely log (e.g. DocumentLog)
         if (isset($log->window_uid)) {
@@ -125,7 +131,7 @@ class ActivityAction extends CActiveRecord
 
         # Drafts
         if (isset($log->mail_id)) {
-            $activity = ActivityAction::model()->findByPriority(['mail_id' => null], ['Inbox_leg', 'Outbox_leg']);
+            $activity = ActivityAction::model()->findByPriority(['mail_id' => null], ['Inbox_leg', 'Outbox_leg'], $log->simulation);
             $log_items = LogActivityAction::model()->findAllByAttributes(array(
                 'activity_action_id' => $activity->primaryKey,
                 'sim_id' => $log->sim_id
@@ -136,7 +142,9 @@ class ActivityAction extends CActiveRecord
                 $log_item->save();
             }
         }
+
         $log_action->activity_action_id = $this->id;
+
         if (isset($log->mail_id)) {
             $log_action->mail_id = $log->mail_id;
         }
@@ -153,7 +161,7 @@ class ActivityAction extends CActiveRecord
             ]);
             foreach ($activityActionLogs as $activityActionLog) {
                 $activityActionLog->mail_id            = $log->mail_id;
-                $activityActionLog->activity_action_id = $this->id;
+                //$activityActionLog->activity_action_id = $this->id;
                 $activityActionLog->save();
             }
         }
@@ -162,8 +170,12 @@ class ActivityAction extends CActiveRecord
 
     /**
      * Order by numeric_id
+     * @param $attrs mixed
+     * @param $leg_types array
+     * @param $simulation Simulations
+     * @return ActivityAction
      */
-    public function findByPriority($attrs, $leg_types = null, $simulation = NULL)
+    public function findByPriority($attrs, $leg_types, $simulation)
     {
         $criteria = new CDbCriteria();
 
@@ -182,46 +194,22 @@ class ActivityAction extends CActiveRecord
             $criteria->addInCondition('leg_type', $leg_types);
         }
 
-        // @1224
-        // remove activities for already closed activity parent {
-        // if (NULL !== $simulation) {
-        // // get finished parent actions
-        // $completedParents = SimulationCompletedParent::model()->findAllByAttributes([
-        // 'sim_id' => $simulation->id
-        // ]);
-        //
-        // // collect finished parent actions ids (codes)
-        // $parent_ids = [];
-        // foreach ($completedParents as $completedParent) {
-        // $parent_ids[] = "'".$completedParent->parent_code."'";
-        // }
-        //
-        // // get activities related to finished parent actions
-        // $activitiesForCompletedParent = [];
-        // if (0 != count($parent_ids)) {
-        // $activitiesForCompletedParent = Activity::model()->findAll(
-        // ' parent IN ('.implode(',', $parent_ids).') '
-        // );
-        // }
-        //
-        // // collect ids (codes) for activities related to finished parent actions
-        // $activity_codes_for_completed_parent = [];
-        // foreach ($activitiesForCompletedParent as $activityForCompletedParent) {
-        // $activity_codes_for_completed_parent[] = $activityForCompletedParent->id;
-        // }
-        //
-        // // add criteria for activityAction.activity_id
-        // if (0 != count($activity_codes_for_completed_parent)) {
-        // $criteria->addNotInCondition('activity_id', $activity_codes_for_completed_parent);
-        // }
-        // }
-        // remove activities for already closed activity parent }
+        // get finished parent actions
 
+        // collect finished parents
+        $completedParents = $simulation->completed_parent_activities;
+        $parentIds = array_map(function ($parent) { return $parent->parent_code; }, $completedParents);
+        // get excluded activities
+        $excludedActivitiesCriteria = new CDbCriteria();
+        $excludedActivitiesCriteria->addInCondition('parent', $parentIds);
+        $excludedActivities = Activity::model()->findAll($excludedActivitiesCriteria);
+
+        $excludedActivityIds = array_map(function ($activity) { return $activity->primaryKey; }, $excludedActivities);
+        $criteria->addNotInCondition('activity_id', $excludedActivityIds);
         $result = $this->find($criteria);
 
         return $result;
     }
-
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -245,29 +233,5 @@ class ActivityAction extends CActiveRecord
         ));
     }
 
-    public function saveParentActivity($activity_action) {
 
-        if( !empty($activity_action->mail_id) ) {
-        $mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
-        if(empty($mail_template) || empty($mail_template->id)){ return; }
-            $parents_mail = ActivityParent::model()->findAllByAttributes(['mail_id'=>$mail_template->id]);
-            foreach($parents_mail as $k => $parent){
-                $sim_parent = new SimulationCompletedParent();
-                $sim_parent->sim_id = $activity_action->sim_id;
-                $sim_parent->parent_code = $parent->parent_code;
-                $sim_parent->save();
-            }
-        } elseif( !empty( $activity_action->dialog_id ) ){
-            //$mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
-            $parents_dialogs = ActivityParent::model()->findAllByAttributes(['dialog_id'=>$activity_action->dialog_id]);
-            if(empty($parents_dialogs)){ return; }
-            foreach($parents_dialogs as $k => $parent) {
-                $parents = new SimulationCompletedParent();
-                $parents->sim_id = $activity_action->sim_id;
-                $parents->parent_code = $parent->parent_code;
-                $parents->save();
-            }
-        }
-
-    }
 }
