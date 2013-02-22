@@ -287,19 +287,19 @@ class SimulationService
      * must be called at once, when simulation starts
      * @param integer $simulationId
      */
-    public static function fillTodo($simulationId)
+    public static function fillTodo($simulation)
     {
-        $tasks = Tasks::model()->byStartType('start')->findAll();
+        $tasks = Task::model()->byStartType('start')->findAll();
 
         foreach ($tasks as $task) {
             // @todo: crazy tweak, works for current SimScenario only
             if ($task->code != 'P017') {
                 // @todo: add attribute 'is_predefined' for task model.
                 // set it true for 'P017'
-                TodoService::add($simulationId, $task->id);
+                TodoService::add($simulation, $task);
             } else {
                 $dayPlan = new DayPlan();
-                $dayPlan->sim_id  = $simulationId;
+                $dayPlan->sim_id  = $simulation->id;
                 $dayPlan->date    = $task->start_time;
                 $dayPlan->day     = 1;
                 $dayPlan->task_id = $task->id;
@@ -393,7 +393,7 @@ class SimulationService
         $profiler->render('5: '); // 3.10 ~ 3.17
         
         // предустановка задач в todo!
-        SimulationService::fillTodo($simulation->id);
+        SimulationService::fillTodo($simulation);
         $profiler->render('6: ');
         
         // скопируем документы

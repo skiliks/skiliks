@@ -807,9 +807,9 @@ class ImportGameDataService
             // Мин.
             $duration = $this->getCellValue($sheet, 'Мин.', $i);
 
-            $task = Tasks::model()->byCode($code)->find();
+            $task = Task::model()->byCode($code)->find();
             if (!$task) {
-                $task = new Tasks();
+                $task = new Task();
                 $task->code = $code;
             }
 
@@ -826,13 +826,13 @@ class ImportGameDataService
             $task->import_id = $this->import_id;
             $task->save();
         }
-        Tasks::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
+        Task::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
 
         echo __METHOD__ . " end \n";
 
         return array(
             'status' => true,
-            'text' => sprintf('%s tasks have been imported.', Tasks::model()->count()),
+            'text' => sprintf('%s tasks have been imported.', Task::model()->count()),
         );
     }
 
