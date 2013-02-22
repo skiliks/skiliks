@@ -264,6 +264,7 @@ class SimulationServiceTest extends CDbTestCase
      * - то все записи по activity логруются отдельными строками агрегированного лога
      * 2. Если суммарная активность по activity НЕ превышает 10 реальных секунд
      * - то все записи по activity склаиваются с предыдущим activity
+     * 3. Проверяет "особенность №1": логи главного окна должны сколеиватся без учёта принадлежности к window_iud
      */
     public function testActionsAgregationMechanism()
     {
@@ -277,17 +278,24 @@ class SimulationServiceTest extends CDbTestCase
         $time = 32000;
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
 
+        $email = MailBoxModel::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'group_id' => MailBoxModel::INBOX_FOLDER_ID
+        ]);
+
         $n = 10;
         for ($i = 0; $i < $n; $i++) {
             // add set of short by time user-actions {
             $logs = [
-                0 => [1, 1, 'activated',   $time,     'window_uid' => 100],
-                1 => [1, 1, 'deactivated', $time + 10, 'window_uid' => 100],
-                2 => [3, 3, 'activated',   $time + 10, 'window_uid' => 200],
-                3 => [3, 3, 'deactivated', $time + 20, 'window_uid' => 200],
+                0 => [10, 11, 'activated'  , $time     , ['mailId' => $email->id], 'window_uid' => 100],
+                1 => [10, 11, 'deactivated', $time + 10, ['mailId' => $email->id], 'window_uid' => 100],
+                2 => [3 , 3 , 'activated'  , $time + 10,                           'window_uid' => 200],
+                3 => [3 , 3 , 'deactivated', $time + 20,                           'window_uid' => 200],
+                4 => [1 , 1 , 'activated'  , $time + 20,                           'window_uid' => 400],
+                5 => [1 , 1 , 'deactivated', $time + 30,                           'window_uid' => 400],
             ];
 
-            $time = $time + 20;
+            $time = $time + 30;
 
             $event = new EventsManager();
             $event->getState($simulation, $logs);
@@ -296,14 +304,18 @@ class SimulationServiceTest extends CDbTestCase
             // add short by time user-action {
             if (2 == $i) {
                 $logs = [
-                    0 => [40, 41, 'activated',   $time,     'window_uid' => 300],
+                    0 => [40, 41, 'activated'  , $time                        , 'window_uid' => 300],
                     1 => [40, 41, 'deactivated', $time + round($speedFactor/2), 'window_uid' => 300],
+                    2 => [1 , 1 , 'activated'  , $time + round($speedFactor/2), 'window_uid' => 400],
+
+                    // make duration more than 10 real seconds
+                    3 => [1 , 1 , 'deactivated', $time + $speedFactor*11      , 'window_uid' => 400],
                 ];
 
                 $event = new EventsManager();
                 $event->getState($simulation, $logs);
 
-                $time = $time + round($speedFactor/2);
+                $time = $time + $speedFactor*11;
 
             }
             // add short by time user-action }
@@ -315,30 +327,31 @@ class SimulationServiceTest extends CDbTestCase
             'sim_id' => $simulation->id
         ]);
 
-        $this->assertEquals($n*2, count($agregatedLogs), 'Total');
-
         $res = [
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:14'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
-            ['action' => 'main screen', 'duration' => '00:00:10'],
-            ['action' => 'plan',        'duration' => '00:00:10'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:24'], // short activity aggregated
+            ['action' => 'main screen', 'duration' => '00:01:24'], // long activity stand alone
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
+            ['action' => 'MY1'        , 'duration' => '00:00:10'],
+            ['action' => 'plan'       , 'duration' => '00:00:20'],
         ];
+
+        $this->assertEquals(count($res), count($agregatedLogs), 'Total');
 
         $j = 0;
         foreach ($agregatedLogs as $agregatedLog) {

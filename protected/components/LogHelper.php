@@ -1255,8 +1255,10 @@ class LogHelper
     }
 
     /**
-     *
      * @param Simulations $simulation
+     *
+     * Documentation: Создание агрегированного лога для activity
+     * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
      */
     public static function combineLogActivityAgregated($simulation)
     {
@@ -1264,15 +1266,20 @@ class LogHelper
 
         $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
 
+        $mainSreenWindow = Window::model()->findByAttributes([
+            'type'    => 'main screen',
+            'subtype' => 'main screen'
+        ]);
+
         // collect time by window id {
         $durationByWindowUid = [];
         foreach ($data['data'] as $activityAction) {
-
             $id = $activityAction['window_uid'];
             $durationByWindowUid[$id] = (isset($durationByWindowUid[$id]))
                 ? $durationByWindowUid[$id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
                 : TimeTools::TimeToSeconds($activityAction['diff_time']);
         }
+
         // collect time by window id }
 
         foreach ($data['data'] as $activityAction) {
@@ -1291,12 +1298,17 @@ class LogHelper
                 $agregatedActivity->end_time =              $activityAction['end_time'];
                 $agregatedActivity->duration =              $activityAction['diff_time'];
             } else {
-                // IF previouse action activity the same with current
-                // OR current activity action duration < 10 real seconds
-                // THEN prolong previouse actvity
 
-                $id = $activityAction['window_uid'];
-                $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
+                // Особенности логики, пункт 1 {
+                if ($activityAction['window_id'] == $mainSreenWindow->id) {
+                    $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                } else {
+                    $id = $activityAction['window_uid'];
+                    $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                }
+                // Особенности логики, пункт 1 }
+
                 $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
                 if ($agregatedActivity->activityAction->activity_id === $activityAction['activity_id'] ||
