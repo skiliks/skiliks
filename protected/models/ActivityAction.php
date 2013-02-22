@@ -167,7 +167,7 @@ class ActivityAction extends CActiveRecord
         $criteria = new CDbCriteria();
         $criteria->with = [
             'activity' => [
-                'select' => false, 'order' => 'category_id, numeric_id', 'limit' => 1
+                'select' => false, 'order' => 'activity_category.priority, activity.numeric_id', 'limit' => 1
             ]
         ];
         $criteria->addColumnCondition($attrs);
