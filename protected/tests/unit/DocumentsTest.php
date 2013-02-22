@@ -8,5 +8,8 @@
  */
 class DocumentsTest extends CDbTestCase
 {
-
+    public function testNothing() {
+        // just to prevent failure for DocumentsTest
+        // PHPunit throw failure if there are no test methods in test class
+    }
 }
