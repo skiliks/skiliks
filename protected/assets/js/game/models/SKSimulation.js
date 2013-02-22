@@ -4,6 +4,7 @@
 define([
     "game/models/SKMailClient",
     "game/collections/SKEventCollection",
+    "game/models/SKEvent",
     "game/collections/SKTodoCollection",
     "game/collections/SKPhoneHistoryCollection",
     "game/collections/SKDayTaskCollection",
@@ -32,6 +33,9 @@ define([
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.events.on('event:plan', function () {
                     SKApp.user.simulation.todo_tasks.fetch();
+                });
+                this.events.on('event:mail', function () {
+                    me.getNewEvents();
                 });
                 this.on('tick', function () {
                     //noinspection JSUnresolvedVariable
@@ -97,7 +101,7 @@ define([
             parseNewEvents:function (events) {
                 var me = this;
                 events.forEach(function (event) {
-                    console.log('[SKSimulation] new event ', event.eventType, event.data);
+                    //console.log('[SKSimulation] new event ', event.eventType, event.data);
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                         // Crutch, sometimes server returns empty events
                         me.events.trigger('dialog:end');

@@ -2,7 +2,7 @@
  * Documents window subclass
  * @type {SKWindow}
  */
-require(["game/models/window/SKWindow"],function () {
+define(["game/models/window/SKWindow"],function () {
     "use strict";
     window.SKDocumentsWindow = window.SKWindow.extend({
         single: false,
@@ -29,4 +29,4 @@ require(["game/models/window/SKWindow"],function () {
             this.set('params', {'fileId':fileId});
         }
     });
-})();
+});

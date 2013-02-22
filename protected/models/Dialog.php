@@ -5,14 +5,14 @@
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  * 
- * Связана с моделями: Characters, CharactersStates, DialogSubtypes, EventsResults, EventsSamples.
+ * Связана с моделями: Characters, CharactersStates, DialogSubtypes, EventsResults, EventSample.
  *
  * @property Characters from_character
  * @property Characters to_character
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Dialogs extends CActiveRecord
+class Dialog extends CActiveRecord
 {
     /**
      * @var integer
@@ -135,7 +135,7 @@ class Dialogs extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return Dialogs 
+     * @return Dialog
      */
     public static function model($className=__CLASS__)
     {
@@ -176,7 +176,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать по заданному идентификатору диалога
      * @param int $id
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byId($id)
     {
@@ -200,7 +200,7 @@ class Dialogs extends CActiveRecord
      * Выбрать по коду и номеру шага.
      * @param string $code
      * @param int $stepNumber
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byCodeAndStepNumber($code, $stepNumber)
     {
@@ -213,7 +213,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать по номеру шага
      * @param int $stepNumber
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byStepNumber($stepNumber)
     {
@@ -226,7 +226,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать по номеру реплики
      * @param int $replicaNumber
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byReplicaNumber($replicaNumber)
     {
@@ -239,7 +239,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать по коду диалога
      * @param string $code
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byCode($code)
     {
@@ -252,7 +252,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать по полю excel_id - это исходный номер из эксель документа
      * @param int $excelId
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byExcelId($excelId)
     {
@@ -265,7 +265,7 @@ class Dialogs extends CActiveRecord
     /**
      * Выбрать реплики для демо режима
      * @param int $simulationType
-     * @return Dialogs 
+     * @return Dialog 
      */
     public function byDemo($simulationType)
     {
@@ -280,7 +280,7 @@ class Dialogs extends CActiveRecord
     /**
      * Gets first replica of the dialog
      * @param $code
-     * @return Dialogs
+     * @return Dialog
      */
     public function getFirstReplica($code) {
         $criteria = new CDbCriteria();

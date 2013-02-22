@@ -1,21 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "log_documents".
+ * This is the model class for table "activity_parent".
  *
- * The followings are the available columns in table 'log_documents':
+ * The followings are the available columns in table 'activity_parent':
  * @property integer $id
- * @property integer $sim_id
- * @property integer $file_id
- * @property string $start_time
- * @property string $end_time
+ * @property string $import_id
+ * @property string $parent_code
+ * @property integer $dialog_id
+ * @property integer $mail_id
  */
-class LogDocuments extends CActiveRecord
+class ActivityParent extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LogDocuments the static model class
+	 * @return ActivityParent the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +27,7 @@ class LogDocuments extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'log_documents';
+		return 'activity_parent';
 	}
 
 	/**
@@ -38,12 +38,13 @@ class LogDocuments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, file_id, start_time', 'required'),
-			array('sim_id, file_id', 'numerical', 'integerOnly'=>true),
-			array('end_time', 'safe'),
+			array('parent_code', 'required'),
+			array('id, dialog_id, mail_id', 'numerical', 'integerOnly'=>true),
+			array('import_id', 'length', 'max'=>14),
+			array('parent_code', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, file_id, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, import_id, parent_code, dialog_id, mail_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,10 +55,8 @@ class LogDocuments extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return [
-            'file' => [self::BELONGS_TO, 'MyDocumentsModel', 'file_id'],
-            'simulation' => [self::BELONGS_TO, 'Simulations', 'sim_id']
-		];
+		return array(
+		);
 	}
 
 	/**
@@ -67,27 +66,12 @@ class LogDocuments extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'sim_id' => 'Sim',
-			'file_id' => 'File',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
+			'import_id' => 'Import',
+			'parent_code' => 'Parent Code',
+			'dialog_id' => 'Dialog',
+			'mail_id' => 'Mail',
 		);
 	}
-
-    protected function afterSave()
-    {
-        $activity_action = ActivityAction::model()->findByPriority(
-            ['document_id' => $this->file->template_id],
-            null,
-            $this->simulation
-        );
-        if ($activity_action !== null) {
-            $activity_action->appendLog($this);
-        }else{
-            throw new CException("The document must have id");//TODO:Проверить
-        }
-        parent::afterSave();
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -101,10 +85,10 @@ class LogDocuments extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('import_id',$this->import_id,true);
+		$criteria->compare('parent_code',$this->parent_code,true);
+		$criteria->compare('dialog_id',$this->dialog_id);
+		$criteria->compare('mail_id',$this->mail_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

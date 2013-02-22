@@ -109,8 +109,8 @@ class Activity extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
+            'category' => array(self::BELONGS_TO, 'ActivityCategory', 'category_id'),
             'activityActions' => array(self::HAS_MANY, 'ActivityAction', 'activity_id'),
-            'categoryActions' => [self::HAS_ONE, 'ActivityCategory', 'code']
         );
     }
 

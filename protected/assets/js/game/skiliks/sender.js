@@ -1,4 +1,4 @@
-sender = {
+/*sender = {
             commands : {
                 //login
                 auth: 1,
@@ -786,3 +786,4 @@ sender = {
                 this.sendCommand(command, this.urls.charactersPointsTitlesSelectsRequest, this.commands.charactersPointsTitlesSelectsRequest);
             }
 }
+    */

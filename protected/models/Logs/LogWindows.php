@@ -28,13 +28,7 @@ class LogWindows extends CActiveRecord
      * @var integer
      */
     public $window;
-    
-    /**
-     * See LogHelper subwindow codes
-     * @var integer
-     */
-    public $sub_window;
-    
+
     /**
      * '00:00::00' current game day
      * @var string
@@ -79,7 +73,7 @@ class LogWindows extends CActiveRecord
          * @var ActivityAction $activity_action
          */
         $activity_action = ActivityAction::model()->findByPriority(
-            ['window_id' => $this->sub_window],
+            ['window_id' => $this->window],
             null,
             $this->simulation
         );

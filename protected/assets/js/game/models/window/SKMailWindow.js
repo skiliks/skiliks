@@ -2,7 +2,7 @@
  * Mail window subclass
  * @type {SKWindow}
  */
-require(["game/models/window/SKWindow"],function () {
+define(["game/models/window/SKWindow"],function () {
     "use strict";
     window.SKMailWindow = window.SKWindow.extend({
         'initialize':function (subname, mailId) {

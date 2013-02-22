@@ -1,5 +1,5 @@
 /*global Backbone, _, SKApp */
-(function() {
+define([], function() {
     "use strict";
     window.SKLoginView = Backbone.View.extend({
         'el': 'body',
@@ -18,4 +18,4 @@
             SKApp.session.login($('#login').val(), $('#pass').val());
         }
     });
-})();
+});

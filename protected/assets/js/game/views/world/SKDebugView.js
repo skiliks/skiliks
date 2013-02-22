@@ -1,6 +1,6 @@
 /*global _, Backbone, SKApp*/
 var SKDebugView;
-(function () {
+define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
     "use strict";
     /** @class */
     SKDebugView = Backbone.View.extend(
@@ -16,7 +16,7 @@ var SKDebugView;
                 'click .btn-load-documents':'doLoadDocs'
             },
             'render':function () {
-                this.$el.html(_.template($('#debug_panel').html(), {}));
+                this.$el.html(_.template(debug_template, {}));
             },
             'doSetTime':function (event) {
                 var target = event.currentTarget;
@@ -57,4 +57,4 @@ var SKDebugView;
 
             }
         });
-})();
+});

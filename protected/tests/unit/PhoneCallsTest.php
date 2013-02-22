@@ -68,7 +68,7 @@ class PhoneServiceTest extends CDbTestCase {
         $toCharacters = [];
         
         for ($i = 0; $i < 2; $i++) {
-            $replicas[$i] = Dialogs::model()->find([
+            $replicas[$i] = Dialog::model()->find([
                 'condition'  => " code = :code AND step_number = :sn AND replica_number = :rn  ",
                 'params'     => [
                     'code' => $dialogCode[$i],

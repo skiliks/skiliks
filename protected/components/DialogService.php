@@ -78,7 +78,7 @@ class DialogService
         if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
             // смотрим а не является ли следующее событие у нас диалогом
             // if next event has delay it can`t statr immediatly
-            $dialog = Dialogs::model()->byCode($currentDialog->next_event_code)
+            $dialog = Dialog::model()->byCode($currentDialog->next_event_code)
                 ->byStepNumber(1)
                 ->find('', array('order' => 'replica_number'));
             $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
@@ -87,7 +87,7 @@ class DialogService
 
             if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
                  // сразу же отдадим реплики по этому событию - моментально
-                $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
+                $dialogs = Dialog::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
                     $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                 }
@@ -112,7 +112,7 @@ class DialogService
             if ($currentDialog->is_final_replica != 1) {
                 // если нет, то нам надо продолжить диалог
                 // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                $dialogs = Dialogs::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
+                $dialogs = Dialog::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
                     $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                 }
@@ -122,6 +122,7 @@ class DialogService
         ###################
         // теперь подчистим список
         $resultList = $data;
+        $defaultDialogs = [];
         foreach ($data as $dialogId => $dialog) {
             // @1229
             if (false == FlagsService::isAllowToStartDialog($simulation, $dialog['code'])) {
@@ -143,6 +144,7 @@ class DialogService
                     continue;
                 }
                 else {
+                    $ruleDependentExists = true;
                     // правило выполняется но нужно удалить ненужную реплику
                     foreach($resultList as $key=>$val) {
                         if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
@@ -157,7 +159,14 @@ class DialogService
                     $resultList = array();
                     break;
                 }
+            } elseif ($dialog['replica_number'] != 0) {
+                $defaultDialogs[$dialogId] = $dialog;
             }
+        }
+
+        // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
+        if (isset($ruleDependentExists)) {
+            $resultList = array_diff_key($resultList, $defaultDialogs);
         }
 
         $data = [];
@@ -224,10 +233,10 @@ class DialogService
     /**
      * Получение модели диалога
      * @param int $dialogId
-     * @return Dialogs
+     * @return Dialog
      */
     public static function get($dialogId) {
-        $dialog = Dialogs::model()->byId($dialogId)->find();
+        $dialog = Dialog::model()->byId($dialogId)->find();
         if (!$dialog) throw new Exception("Не могу загрузить модель диалога id : $dialogId", 7);
         return $dialog;    
     }
@@ -235,16 +244,20 @@ class DialogService
     /**
      * Загрузить диалог по коду
      * @param string $code
-     * @return Dialogs
+     * @return Dialog
      */
     public static function getByCode($code) {
-        $dialog = Dialogs::model()->byCode($code)->find();
+        $dialog = Dialog::model()->byCode($code)->find();
         if (!$dialog) throw new Exception("Не могу загрузить модель диалога code : $code", 701);
         return $dialog;    
     }
-    
+
+    /**
+     * @param string $code
+     * @return array|bool|CActiveRecord|mixed|null
+     */
     public static function getFirstReplicaByCode($code) {
-        $dialog = Dialogs::model()->byCode($code)->byStepNumber(1)->byReplicaNumber(0)->find();
+        $dialog = Dialog::model()->byCode($code)->byStepNumber(1)->byReplicaNumber(0)->find();
         if (!$dialog) return false; //throw new Exception("Не могу загрузить модель диалога code : $code", 701);
         return $dialog;    
     }
@@ -304,12 +317,12 @@ class DialogService
         }
         
         $events = array();
-        foreach (EventsSamples::model()->findAll() as $event) {
+        foreach (EventSample::model()->findAll() as $event) {
             $events[$event->id] = $event;
         }
         
         $codes = array();
-        foreach (Dialogs::model()->findAll() as $dialog) {
+        foreach (Dialog::model()->findAll() as $dialog) {
             $codes[] = $dialog->code;
             $dialogs[] = array(
                 'id'    => $dialog->id,

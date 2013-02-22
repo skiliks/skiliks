@@ -58,7 +58,6 @@ class MailController extends AjaxController
         $orderType = Yii::app()->request->getParam('order_type', 'ASC');
         $messages = MailBoxService::getMessages(array(
             'folderId'   => $folderId,
-            'receiverId' => SessionHelper::getUidBySid(),
             'order'      => Yii::app()->request->getParam('order', false),
             'orderType'  => Yii::app()->request->getParam('order_type', 'ASC'),
             'uid'        => SessionHelper::getUidBySid(),
@@ -277,13 +276,23 @@ class MailController extends AjaxController
     public function actionMove()
     {
         $simulation = $this->getSimulationEntity();
+
         try {
             return $this->sendJSON(array(
                 'result'  => MailBoxService::moveToFolder(
                     MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('messageId', 0)), 
                     Yii::app()->request->getParam('folderId', NULL)
                 ),
-                'folders' => MailBoxService::getFolders($simulation),
+                'folders' => [
+                    'inbox' => MailBoxService::getMessages([
+                        'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
+                        'simId'     => $simulation->id
+                    ]),
+                    'sended' => MailBoxService::getMessages([
+                        'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
+                        'simId'     => $simulation->id
+                    ]),
+                ]
             ));
         } catch (Exception $e) {
             $this->returnErrorMessage($e->getMessage());

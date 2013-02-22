@@ -12,9 +12,9 @@
  *
  * The followings are the available model relations:
  * @property Activity $activity
- * @property Dialogs $dialog
+ * @property Dialog $dialog
  * @property MailTemplateModel $mail
- * @property MyDocumentsTemplateModel $document
+ * @property DocumentTemplate $document
  * @property string import_id
  * @property string leg_type
  */
@@ -71,9 +71,9 @@ class ActivityAction extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
-            'dialog' => array(self::BELONGS_TO, 'Dialogs', 'dialog_id'),
-            'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
-            'document' => array(self::BELONGS_TO, 'MyDocumentsTemplateModel', 'document_id'),
+            'dialog'   => array(self::BELONGS_TO, 'Dialog', 'dialog_id'),
+            'mail'     => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
+            'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
         );
     }
 
@@ -85,10 +85,10 @@ class ActivityAction extends CActiveRecord
         return array(
             'id' => 'ID',
             'activity_id' => 'Activity',
-            'dialog_id' => 'Dialog',
-            'mail_id' => 'Mail',
+            'dialog_id'   => 'Dialog',
+            'mail_id'     => 'Mail',
             'document_id' => 'Document',
-            'window_id' => 'Window'
+            'window_id'   => 'Window'
         );
     }
 
@@ -163,20 +163,62 @@ class ActivityAction extends CActiveRecord
     /**
      * Order by numeric_id
      */
-    public function findByPriority($attrs, $leg_types = null) {
+    public function findByPriority($attrs, $leg_types = null, $simulation = NULL)
+    {
         $criteria = new CDbCriteria();
+
         $criteria->with = [
             'activity' => [
+                'with' => 'category',
                 'select' => false,
-                'order' => 'activity_category.priority, activity.numeric_id',
+                'order' => 'category.priority, activity.numeric_id',
                 'limit' => 1
             ]
         ];
+
         $criteria->addColumnCondition($attrs);
+
         if ($leg_types !== null) {
             $criteria->addInCondition('leg_type', $leg_types);
         }
+
+        // @1224
+        // remove activities for already closed activity parent {
+        // if (NULL !== $simulation) {
+        // // get finished parent actions
+        // $completedParents = SimulationCompletedParent::model()->findAllByAttributes([
+        // 'sim_id' => $simulation->id
+        // ]);
+        //
+        // // collect finished parent actions ids (codes)
+        // $parent_ids = [];
+        // foreach ($completedParents as $completedParent) {
+        // $parent_ids[] = "'".$completedParent->parent_code."'";
+        // }
+        //
+        // // get activities related to finished parent actions
+        // $activitiesForCompletedParent = [];
+        // if (0 != count($parent_ids)) {
+        // $activitiesForCompletedParent = Activity::model()->findAll(
+        // ' parent IN ('.implode(',', $parent_ids).') '
+        // );
+        // }
+        //
+        // // collect ids (codes) for activities related to finished parent actions
+        // $activity_codes_for_completed_parent = [];
+        // foreach ($activitiesForCompletedParent as $activityForCompletedParent) {
+        // $activity_codes_for_completed_parent[] = $activityForCompletedParent->id;
+        // }
+        //
+        // // add criteria for activityAction.activity_id
+        // if (0 != count($activity_codes_for_completed_parent)) {
+        // $criteria->addNotInCondition('activity_id', $activity_codes_for_completed_parent);
+        // }
+        // }
+        // remove activities for already closed activity parent }
+
         $result = $this->find($criteria);
+
         return $result;
     }
 

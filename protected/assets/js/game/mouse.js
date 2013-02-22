@@ -1,7 +1,5 @@
-mouse = {
-    /**
-     * получаемкоординаты мышки)  старая функа
-     */
+/*mouse = {
+    // получаемкоординаты мышки)  старая функа
     getMouseXY: function(e) {
         if (IE) { // grab the x-y pos.s if browser is IE
           mouseX = event.clientX + document.body.scrollLeft;
@@ -18,9 +16,8 @@ mouse = {
         return true;
     },
 
-    /**
-     * получаемкоординаты мышки)
-     */
+
+    // получаемкоординаты мышки)
     mouseLayerXY: function (e)
     {
         if (!e) {e = window.event;e.target = e.srcElement}
@@ -65,9 +62,8 @@ mouse = {
 
       return "";
     },
-    /**
-     * определяем сдвиги для карты
-     */
+
+    // определяем сдвиги для карты
     mapOffsets : function(e)
     {
         var mouseXtemp = mouseX;
@@ -91,3 +87,4 @@ mouse = {
         if(mapOffsetY>(mapSizeY-config.activeFrame.height)){mapOffsetY=(mapSizeY-config.activeFrame.height);}
     }
 }
+*/

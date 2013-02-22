@@ -143,7 +143,7 @@ class Simulations extends CActiveRecord
     {
         return [
             'user' => [self::BELONGS_TO, 'Users', 'user_id'],
-            'events_triggers' => [self::HAS_MANY, 'EventsTriggers', 'sim_id']
+            'events_triggers' => [self::HAS_MANY, 'EventTrigger', 'sim_id']
         ];
     }
 
