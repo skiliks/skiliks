@@ -79,7 +79,6 @@ class SiteController extends AjaxController
 
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailTask.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailPhrase.js");
-        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKCharacter.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailSubject.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
 

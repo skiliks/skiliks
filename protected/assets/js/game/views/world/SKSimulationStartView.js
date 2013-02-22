@@ -1,5 +1,5 @@
 /*global _, Backbone, simulation, SKSettingsView, SKLoginView, SKApp, session, world, $*/
-define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView"],function () {
+define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "game/views/world/SKDebugView"],function () {
     "use strict";
     window.SKSimulationStartView = Backbone.View.extend({
         'el': 'body',
