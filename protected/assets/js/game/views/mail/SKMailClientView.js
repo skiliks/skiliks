@@ -847,7 +847,7 @@ define([
                 var attachmentId = '';
                 if (undefined !== email.attachment) {
                     attachmentLabel = email.attachment.label;
-                    attachmentId    = email.attachment.id;
+                    attachmentId    = email.attachment.fileMySqlId;
                 }
 
                 var emailPreviewTemplate = _.template(mail_client_email_preview_template, {

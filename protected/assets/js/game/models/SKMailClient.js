@@ -714,18 +714,22 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     function (response) {
                         // and display message for user
-                        SKApp.user.simulation.mailClient.message_window = new SKDialogView({
-                            'message':'Файл был успешно сохранён в папку Мои документы.',
-                            'buttons':[
-                                {
-                                    'value':'Окей',
-                                    'onclick':function () {
-                                        delete SKApp.user.simulation.mailClient.message_window;
+                        if (response.result === 1) {
+                            SKApp.user.simulation.mailClient.message_window = new SKDialogView({
+                                'message':'Файл был успешно сохранён в папку Мои документы.',
+                                'buttons':[
+                                    {
+                                        'value':'Окей',
+                                        'onclick':function () {
+                                            delete SKApp.user.simulation.mailClient.message_window;
+                                        }
                                     }
-                                }
-                            ]
-                        });
-                        SKApp.user.simulation.documents.fetch();
+                                ]
+                            });
+                            SKApp.user.simulation.documents.fetch();
+                        } else {
+                            throw 'Can not add document';
+                        }
                     });
             },
 
