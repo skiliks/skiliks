@@ -9,7 +9,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Tasks extends CActiveRecord
+class Task extends CActiveRecord
 {
     /**
      * @var integer

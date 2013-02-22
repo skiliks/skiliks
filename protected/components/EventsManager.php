@@ -347,7 +347,7 @@ class EventsManager {
         if (!$dayPlan) return false;
         
         // загружаем таску
-        $task = Tasks::model()->byId($dayPlan->task_id)->find();
+        $task = Task::model()->byId($dayPlan->task_id)->find();
         if (!$task) return false;
         
         return [

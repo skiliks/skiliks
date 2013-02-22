@@ -185,7 +185,7 @@ class EventService {
         }
         
         if ($type == 'P') {
-            $task = Tasks::model()->byCode($code)->find();
+            $task = Task::model()->byCode($code)->find();
             if (!$task) return false;
             
             TodoService::add($simId, $task->id);

@@ -31,7 +31,7 @@ class DayPlanService {
     protected function _loadTasksTitle($ids) {
         if (count($ids)==0) return false;
         
-        $tasksCollection = Tasks::model()->byIds($ids)->findAll();
+        $tasksCollection = Task::model()->byIds($ids)->findAll();
         $tasks = array();
         foreach($tasksCollection as $task) {
             $tasks[$task->id] = array(
@@ -213,7 +213,7 @@ class DayPlanService {
      */
     protected function _canAddTask($taskId, $time) {
         // получить длительность задачи
-        $task = Tasks::model()->byId($taskId)->find();
+        $task = Task::model()->byId($taskId)->find();
         if (!$task) throw new Exception("cant find task by id {$taskId}");
 
         $end = GameTime::addMinutesTime($time, $task->duration);

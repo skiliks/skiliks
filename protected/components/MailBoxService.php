@@ -1207,13 +1207,15 @@ class MailBoxService
 
         // Добавить новую задачу в план
         $task = new Task();
-        $task->simulation = $simulation->id;
+        $task->sim_id = $simulation->id;
         $task->title = $mailTask->name;
         $task->duration = $mailTask->duration;
         $task->category = $mailTask->category;
-        TodoService::createTask($task);
+        $task->save();
 
-        TodoService::add($simulation->id, $task->id);
+        $task->id = $task->id;
+
+        TodoService::add($simulation, $task);
 
         $email->plan = 1;
         $email->save();

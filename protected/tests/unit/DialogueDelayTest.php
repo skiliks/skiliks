@@ -9,11 +9,19 @@
 
 class DialogueDelayTest extends CDbTestCase {
 
-    public function testDelay(){
+    /**
+     *
+     */
+    public function testDelay()
+    {
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
-        Tasks::model()->deleteAll();
+
+        // we need transaction - this test delete empty Task table
+        $transaction = Yii::app()->db->beginTransaction();
+
+        Task::model()->deleteAll();
         MailBoxModel::model()->deleteAll();
         $event = new EventsManager();
 
@@ -58,9 +66,18 @@ class DialogueDelayTest extends CDbTestCase {
             }
         }
         $this->assertEquals('S1.2',$json['events'][0]['data'][0]['code']);
-        $simulation_service->simulationStop($simulation);
+
+        $transaction->rollback();
     }
 
+    /**
+     * Service method
+     *
+     * @param $simulation
+     * @param $newHours
+     * @param $newMinutes
+     * @param bool $s
+     */
     public function setTime($simulation, $newHours, $newMinutes, $s = true){
         SimulationService::setSimulationClockTime(
             $simulation,
