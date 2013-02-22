@@ -13,7 +13,7 @@
  * @property mixed trigger_time
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class EventsTriggers extends CActiveRecord
+class EventTrigger extends CActiveRecord
 {
     /**
      * @var integer
@@ -43,7 +43,7 @@ class EventsTriggers extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return EventsTriggers
+     * @return EventTrigger
      */
     public static function model($className=__CLASS__)
     {
@@ -62,7 +62,7 @@ class EventsTriggers extends CActiveRecord
      * Вернуть ближайшее событие
      * @param $simId
      * @param $triggerTime
-     * @return EventsTriggers
+     * @return EventTrigger
      */
     public function nearest($simId, $triggerTime)
     {
@@ -78,7 +78,7 @@ class EventsTriggers extends CActiveRecord
      * Выбрать заданное событие в рамках заданной симуляции
      * @param int $simId
      * @param int $eventId
-     * @return EventsTriggers 
+     * @return EventTrigger 
      */
     public function bySimIdAndEventId($simId, $eventId)
     {
@@ -93,7 +93,7 @@ class EventsTriggers extends CActiveRecord
      * Выбрать событие заданное по коду в рамках симуляции
      * @param int $simId
      * @param string $eventCode
-     * @return EventsTriggers 
+     * @return EventTrigger 
      */
     public function bySimIdAndEventCode($simId, $eventCode)
     {
@@ -107,7 +107,7 @@ class EventsTriggers extends CActiveRecord
     /**
      * Выбрать по идентификатору события
      * @param int $eventId
-     * @return EventsTriggers 
+     * @return EventTrigger 
      */
     public function byEvent($eventId)
     {
@@ -121,7 +121,7 @@ class EventsTriggers extends CActiveRecord
     public function relations()
     {
         return [
-            'event_sample' => [self::BELONGS_TO, 'EventsSamples', 'event_id']
+            'event_sample' => [self::BELONGS_TO, 'EventSample', 'event_id']
         ];
     }
 }

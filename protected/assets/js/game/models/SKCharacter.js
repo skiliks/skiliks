@@ -1,7 +1,7 @@
 /* 
  * 
  */
-(function() {
+define([], function() {
     "use strict";
     window.SKCharacter = Backbone.Model.extend({
         // @var integer, MySQL id
@@ -34,4 +34,4 @@
             return this.name + ' <' + this.email + '>, ';
         }
     });
-})();
+});

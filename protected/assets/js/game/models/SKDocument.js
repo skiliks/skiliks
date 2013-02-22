@@ -1,7 +1,7 @@
 /*global Backbone:false, console, SKApp, session */
 
 var SKDocument;
-(function () {
+define([], function () {
     "use strict";
     var _excel_cache = {};
     /**
@@ -30,4 +30,4 @@ var SKDocument;
             sync:function (method, model, options) {
             }
         });
-})();
+});

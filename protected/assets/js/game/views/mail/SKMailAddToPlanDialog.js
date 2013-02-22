@@ -53,7 +53,6 @@ define(["game/views/SKDialogView"], function () {
         },
 
         render:function () {
-            console.log('new way!');
             SKApp.user.simulation.mailClient.setWindowsLog('mailPlan', SKApp.user.simulation.mailClient.getActiveEmailId());
 
             // generate mail tasks list {
@@ -61,7 +60,6 @@ define(["game/views/SKDialogView"], function () {
         },
 
         continueRender: function() {
-            console.log('continueRender!');
             var listHtml = '';
             var addToPlanDialog = this;
 

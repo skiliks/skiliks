@@ -231,9 +231,9 @@ class AjaxController extends CController
             ->publish(
                 Yii::getPathOfAlias('application.assets'),
                 false, 
-                -1, 
-                Yii::app()->params['assetsDebug']
-            );
+                -1,
+                true
+        );
     }
 }
 

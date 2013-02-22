@@ -308,7 +308,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'assesment_detailed.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -372,7 +372,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'assesments_agregated.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -416,7 +416,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'assesment_agregated.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -498,7 +498,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'documents_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -649,7 +649,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'mail_inbox_detailed.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -726,7 +726,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'mail_inbox_agregated.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -737,7 +737,6 @@ class LogHelper
 
     public static function getMailOutDetail($return)
     {
-
         $data['data'] = Yii::app()
             ->db
             ->createCommand()
@@ -768,7 +767,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'mail_outbox_detailed.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -778,7 +777,6 @@ class LogHelper
 
     public static function getMailOutAggregate($return)
     {
-
         $data['data'] = Yii::app()
             ->db
             ->createCommand()
@@ -828,7 +826,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'mail_outbox_agregated.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -847,9 +845,8 @@ class LogHelper
                 }
                 $log_window = new LogWindows();
                 $log_window->sim_id = $simId;
-                $log_window->window = $log[1];
+                $log_window->window = $log[1]; // this is ID of Window table
                 $log_window->start_time = gmdate("H:i:s", $log[3]);
-                $log_window->sub_window = $log[1];
                 $log_window->window_uid = (isset($log['window_uid'])) ? $log['window_uid'] : NULL;
                 $log_window->save();
                 continue;
@@ -881,7 +878,6 @@ class LogHelper
 
     public static function getWindows($return)
     {
-
         $data['data'] = Yii::app()
             ->db
             ->createCommand()
@@ -890,30 +886,28 @@ class LogHelper
                     , s.start
                     , s.end
                     , s.id
-                    , l.window
-                    , l.sub_window
+                    , w.type
+                    , w.subtype
                     , l.start_time
                     , l.end_time")
             ->from('log_windows l')
             ->leftJoin('simulations s', 's.id = l.sim_id')
             ->leftJoin('users u', 'u.id = s.user_id')
-            ->order('l.id')
+            ->leftJoin('window w', 'w.id = l.window')
+            ->order('l.id DESC')
+            ->limit(4000)
             ->queryAll();
 
-        foreach ($data['data'] as $k => $row) {
-            $data['data'][$k]['window'] = self::$screens[$data['data'][$k]['window']];
-            $data['data'][$k]['sub_window'] = self::$subScreens[$data['data'][$k]['sub_window']];
-        }
         $headers = array(
-            'user_id' => 'id_пользователя',
-            'email' => 'email',
-            'start' => 'дата старта симуляции',
-            'end' => 'дата окончания симуляции',
-            'id' => 'id_симуляции',
-            'window' => 'Активное окно',
-            'sub_window' => 'Активное подокно',
+            'user_id'    => 'id_пользователя',
+            'email'      => 'email',
+            'start'      => 'дата старта симуляции',
+            'end'        => 'дата окончания симуляции',
+            'id'         => 'id_симуляции',
+            'type'       => 'Активное окно',
+            'subtype'    => 'Активное подокно',
             'start_time' => 'Игровое время - start',
-            'end_time' => 'Игровое время - end'
+            'end_time'   => 'Игровое время - end'
         );
         if (self::RETURN_DATA == $return) {
             $data['headers'] = $headers;
@@ -923,7 +917,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'universal_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -992,7 +986,7 @@ class LogHelper
                 return $row;
             });
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'day_plan_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -1008,7 +1002,7 @@ class LogHelper
             if (empty($log[4]['dialogId'])) continue;
 
             $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : null;
-            $last_dialog = Dialogs::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
+            $last_dialog = Dialog::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
             $lastDialogIdAccordingExcel = (null === $last_dialog) ? null : $last_dialog->excel_id;
 
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
@@ -1082,7 +1076,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($data['headers']);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'dialogs_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -1203,7 +1197,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($data['headers']);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'leg_action_detailed_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -1251,7 +1245,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($data['headers']);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'excel_assesment_detailed_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -1261,8 +1255,10 @@ class LogHelper
     }
 
     /**
-     *
      * @param Simulations $simulation
+     *
+     * Documentation: Создание агрегированного лога для activity
+     * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
      */
     public static function combineLogActivityAgregated($simulation)
     {
@@ -1270,15 +1266,20 @@ class LogHelper
 
         $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
 
+        $mainSreenWindow = Window::model()->findByAttributes([
+            'type'    => 'main screen',
+            'subtype' => 'main screen'
+        ]);
+
         // collect time by window id {
         $durationByWindowUid = [];
         foreach ($data['data'] as $activityAction) {
-
             $id = $activityAction['window_uid'];
             $durationByWindowUid[$id] = (isset($durationByWindowUid[$id]))
                 ? $durationByWindowUid[$id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
                 : TimeTools::TimeToSeconds($activityAction['diff_time']);
         }
+
         // collect time by window id }
 
         foreach ($data['data'] as $activityAction) {
@@ -1297,12 +1298,17 @@ class LogHelper
                 $agregatedActivity->end_time =              $activityAction['end_time'];
                 $agregatedActivity->duration =              $activityAction['diff_time'];
             } else {
-                // IF previouse action activity the same with current
-                // OR current activity action duration < 10 real seconds
-                // THEN prolong previouse actvity
 
-                $id = $activityAction['window_uid'];
-                $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
+                // Особенности логики, пункт 1 {
+                if ($activityAction['window_id'] == $mainSreenWindow->id) {
+                    $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                } else {
+                    $id = $activityAction['window_uid'];
+                    $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                }
+                // Особенности логики, пункт 1 }
+
                 $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
                 if ($agregatedActivity->activityAction->activity_id === $activityAction['activity_id'] ||
@@ -1388,7 +1394,7 @@ class LogHelper
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($data['headers']);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'data.csv';
+            $filename = 'leg_action_agregated_log.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);

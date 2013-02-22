@@ -6,7 +6,7 @@
  * @augments window.SKWindowView
  */
 var SKDocumentsListView;
-define(["game/views/SKWindowView"], function () {
+define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], function () {
     "use strict";
     var SKElFinderTransport = {
         init:function (fm) {

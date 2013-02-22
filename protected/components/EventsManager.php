@@ -17,12 +17,12 @@ class EventsManager {
      */
     public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
 
-            $event = EventsSamples::model()->byCode($eventCode)->find();
+            $event = EventSample::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
             
             // если надо очищаем очерель событий для текущей симуляции
             if ($clearEvents) {
-                EventsTriggers::model()->deleteAll("sim_id={$simId}");
+                EventTrigger::model()->deleteAll("sim_id={$simId}");
             }
             
             // если надо очищаем оценки  для текущей симуляции
@@ -32,7 +32,7 @@ class EventsManager {
 
             $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), $delay);
 
-            $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
@@ -40,7 +40,7 @@ class EventsManager {
             else {
                 
                 // Добавляем событие
-                $eventsTriggers = new EventsTriggers();
+                $eventsTriggers = new EventTrigger();
                 $eventsTriggers->sim_id = $simId;
                 $eventsTriggers->event_id = $event->id;
                 $eventsTriggers->trigger_time = $gameTime;
@@ -51,11 +51,11 @@ class EventsManager {
     }
 
     public function waitEvent($simId, $eventCode, $eventTime) {
-        $event = EventsSamples::model()->byCode($eventCode)->find();
-        $eventsTriggers = EventsTriggers::model()->bySimIdAndEventId($simId, $event->id)->find();
+        $event = EventSample::model()->byCode($eventCode)->find();
+        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
 
         if (!$eventsTriggers) {
-            $eventsTriggers = new EventsTriggers();
+            $eventsTriggers = new EventTrigger();
             $eventsTriggers->sim_id = $simId;
             $eventsTriggers->event_id = $event->id;
             $eventsTriggers->trigger_time = $eventTime ?: $event->trigger_time;
@@ -99,8 +99,8 @@ class EventsManager {
             // обработка задач }
             
             // получить ближайшее событие
-            /** @var $triggers EventsTriggers[] */
-            $triggers = EventsTriggers::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
+            /** @var $triggers EventTrigger[] */
+            $triggers = EventTrigger::model()->nearest($simId, $gameTime)->findAll(['limit' => 1]);
 
             foreach ($triggers as $key => $trigger) {
                 if(false === FlagsService::isAllowToStartDialog($simulation, $trigger->event_sample->code)) {
@@ -126,7 +126,7 @@ class EventsManager {
                 $index = 0;
                 foreach($triggers as $trigger) {
 
-                    $event = EventsSamples::model()->byId($trigger->event_id)->find();
+                    $event = EventSample::model()->byId($trigger->event_id)->find();
 
                     if (null === $event) {
                         throw new CHttpException(
@@ -153,7 +153,7 @@ class EventsManager {
             }
 
             // У нас одно событие           
-            $dialogs = Dialogs::model()
+            $dialogs = Dialog::model()
                 ->byCode($eventCode)
                 ->byStepNumber(1)
                 ->byDemo($simType)
@@ -166,6 +166,7 @@ class EventsManager {
             
             // теперь подчистим список
             $resultList = $data;
+            $defaultDialogs = [];
             foreach ($data as $dialogId => $dialog) {
                 $flagInfo = FlagsService::checkRule(
                     $dialog['code'], 
@@ -187,23 +188,23 @@ class EventsManager {
                         continue;
                     }
                     else {
-                        // правило выполняется но нужно удалить ненужную реплику
-                        /*foreach($resultList as $key=>$val) {
-                            if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
-
-                                unset($resultList[$key]);
-                                break;
-                            }
-                        }*/
+                        $ruleDependentExists = true;
                     }
-                    
+
+                    // Это условие вообще может ли выполниться?
                     if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
                         //у нас не выполняется все событие полностью
                         $resultList = array();
                         break;
                     }
+                } elseif ($dialog['replica_number'] != 0) {
+                    $defaultDialogs[$dialogId] = $dialog;
                 }
-                
+            }
+
+            // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
+            if (isset($ruleDependentExists)) {
+                $resultList = array_diff_key($resultList, $defaultDialogs);
             }
 
             $data = array();
@@ -280,6 +281,7 @@ class EventsManager {
         // to update phone call dialogs lastDialogId
 
         $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
+
         /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
         try {
             LogHelper::setWindowsLog($simId, $logs);
@@ -288,6 +290,7 @@ class EventsManager {
         }
         $log_manager = new LogManager();
         $log_manager->setUniversalLog($simId, $logs);
+
         LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
         LogHelper::setMailLog($simId, $logs);
 
@@ -301,13 +304,13 @@ class EventsManager {
                 if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
                     if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
                         /** @var Dialogs $currentDialog */
-                        $currentDialog = Dialogs::model()->findByPk($data[4]['lastDialogId']);
+                        $currentDialog = Dialog::model()->findByPk($data[4]['lastDialogId']);
                         $updatedDialogs[] = $data[4]['lastDialogId'];
 
                         if (null !== $currentDialog && $currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
                             // update Phone call dialog last_id
                             /** @var $callDialog Dialogs */
-                            $callDialog = Dialogs::model()
+                            $callDialog = Dialog::model()
                                 ->byCode($currentDialog->code)
                                 ->byStepNumber(1)
                                 ->byReplicaNumber(0)
@@ -355,7 +358,7 @@ class EventsManager {
     
     public function getList() {
         
-        $eventsSamples = EventsSamples::model()->findAll();
+        $eventsSamples = EventSample::model()->findAll();
         $data = [];
         foreach($eventsSamples as $event) {
             $data[] = [

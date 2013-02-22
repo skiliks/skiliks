@@ -17,6 +17,7 @@ return array(
         'application.models.Simulation.*',
         'application.models.User.*',
         'application.models.Mail.*',
+        'application.models.Activities.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
         'application.models.Dialog.*',
@@ -55,6 +56,9 @@ return array(
     'language'          =>'ru_RU',
     'components' => array(
         'preload'=> array('log', 'RSentryException'),
+        'assetManager' => [
+            'linkAssets' => true,
+        ],
         'cache' => array(
             'class' => 'CDbCache',
             'connectionID' => 'db',
@@ -107,7 +111,6 @@ return array(
             'simulationEndTime' => '18:00',
             'storageURL' => 'http://storage.skiliks.com/v1/'
         ],
-        'assetsDebug' => false,
         'zoho' => array(
             'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',

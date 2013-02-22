@@ -38,7 +38,7 @@ class ImportTest extends CDbTestCase
             $import->importFlagsRules();
 
             // events
-            $this->assertNotNull(EventsSamples::model()->findByAttributes([
+            $this->assertNotNull(EventSample::model()->findByAttributes([
                 'code' => 'P5'
             ])); 
             
@@ -54,14 +54,14 @@ class ImportTest extends CDbTestCase
             
             // Dialogs
             $this->assertEquals(
-                Dialogs::model()->findByAttributes([
+                Dialog::model()->findByAttributes([
                     'code'             => 'E1',
                     'is_final_replica' => 1,
                     'excel_id'         => 12
                 ])->next_event_code, 
                 'E1.2');
-            $this->assertEquals(19, Dialogs::model()->count());
-            $this->assertNotNull(Dialogs::model()->findByAttributes(['code' => 'S12.3']));
+            $this->assertEquals(19, Dialog::model()->count());
+            $this->assertNotNull(Dialog::model()->findByAttributes(['code' => 'S12.3']));
 
             $this->assertEquals(0, count(FlagBlockReplica::model()->findAll()), 'block replica');
             $this->assertEquals(6, count(FlagBlockDialog::model()->findAll()), 'block replica');

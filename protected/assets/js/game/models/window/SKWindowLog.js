@@ -8,6 +8,11 @@ define(["game/models/window/SKWindow"],function () {
         },
         'activate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
+
+            if (NaN == window.window_uid) {
+                throw 'window.window_uid is NAN!';
+            }
+
             this.log.push({
                 0: window.getWindowId(),
                 1: window.getSubwindowId(),
@@ -24,6 +29,11 @@ define(["game/models/window/SKWindow"],function () {
         },
         'deactivate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
+
+            if (NaN == window.window_uid) {
+                throw 'window.window_uid is NAN!';
+            }
+
             this.log.push({
                 0: window.getWindowId(),
                 1: window.getSubwindowId(),

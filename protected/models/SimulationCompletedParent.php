@@ -1,21 +1,19 @@
 <?php
 
 /**
- * This is the model class for table "log_documents".
+ * This is the model class for table "simulation_completed_parent".
  *
- * The followings are the available columns in table 'log_documents':
+ * The followings are the available columns in table 'simulation_completed_parent':
  * @property integer $id
  * @property integer $sim_id
- * @property integer $file_id
- * @property string $start_time
- * @property string $end_time
+ * @property string $parent_code
  */
-class LogDocuments extends CActiveRecord
+class SimulationCompletedParent extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LogDocuments the static model class
+	 * @return SimulationCompletedParent the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +25,7 @@ class LogDocuments extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'log_documents';
+		return 'simulation_completed_parent';
 	}
 
 	/**
@@ -38,12 +36,12 @@ class LogDocuments extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, file_id, start_time', 'required'),
-			array('sim_id, file_id', 'numerical', 'integerOnly'=>true),
-			array('end_time', 'safe'),
+			array('sim_id', 'required'),
+			array('sim_id', 'numerical', 'integerOnly'=>true),
+			array('parent_code', 'length', 'max'=>5),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, file_id, start_time, end_time', 'safe', 'on'=>'search'),
+			array('id, sim_id, parent_code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,10 +52,8 @@ class LogDocuments extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return [
-            'file' => [self::BELONGS_TO, 'MyDocumentsModel', 'file_id'],
-            'simulation' => [self::BELONGS_TO, 'Simulations', 'sim_id']
-		];
+		return array(
+		);
 	}
 
 	/**
@@ -68,26 +64,9 @@ class LogDocuments extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'sim_id' => 'Sim',
-			'file_id' => 'File',
-			'start_time' => 'Start Time',
-			'end_time' => 'End Time',
+			'parent_code' => 'Parent Code',
 		);
 	}
-
-    protected function afterSave()
-    {
-        $activity_action = ActivityAction::model()->findByPriority(
-            ['document_id' => $this->file->template_id],
-            null,
-            $this->simulation
-        );
-        if ($activity_action !== null) {
-            $activity_action->appendLog($this);
-        }else{
-            throw new CException("The document must have id");//TODO:Проверить
-        }
-        parent::afterSave();
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -102,9 +81,7 @@ class LogDocuments extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('parent_code',$this->parent_code,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
