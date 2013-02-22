@@ -13,7 +13,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 'click .set-time':'doSetTime',
                 'submit .form-set-time':'doFormSetTime',
                 'submit .trigger-event':'doEventTrigger',
-                'click .btn-load-documents':'doLoadDocs',
+                'click .btn-load-documents':'doLoadDocs'
             },
             'render':function () {
                 this.$el.html(_.template(debug_template, {}));

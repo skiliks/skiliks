@@ -1,5 +1,5 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
-define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter" ], function () {
     "use strict";
     /**
      * @class SKMailClient
@@ -746,7 +746,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                     {},
                     function (response) {
                         if (undefined !== response.data) {
-                            SKApp.user.simulation.mailClient.defaultRecipients = [];
+                            me.defaultRecipients = [];
                             for (var i in response.data) {
                                 var string = response.data[i];
 
@@ -758,7 +758,7 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                                 character.email = character.email.replace('<', '');
                                 character.email = character.email.replace('>', '');
 
-                                SKApp.user.simulation.mailClient.defaultRecipients.push(character);
+                                me.defaultRecipients.push(character);
                             }
                         }
                     },
@@ -1161,8 +1161,8 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
                 //this.trigger('init_completed');
             },
             isNotEmptySubject:function(){
-                return this.$("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
-                    this.$("#MailClient_NewLetterSubject select option:selected").val() !== "0";
+                return $("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
+                    $("#MailClient_NewLetterSubject select option:selected").val() !== "0";
             }
         });
     return window.SKMailClient;
