@@ -140,7 +140,7 @@ define([
                 mail.render();
                 server.respond();
                 var attachment_button = mail.$('#MailClient_IncomeFolder_EmailPreview .save-attachment-icon');
-                expect(attachment_button.attr('data-document-id')).toEqual(37837);
+                expect(attachment_button.attr('data-document-id')).toEqual(236255);
                 attachment_button.click();
                 server.respond();
             });
