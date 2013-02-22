@@ -335,7 +335,6 @@ define(["game/models/SKMailFolder","game/models/SKMailSubject"], function () {
             setEmailsToFolder:function (folderAlias, emailsData) {
                 var me = this;
                 this.folders[folderAlias].emails = [];
-                console.log(folderAlias, emailsData, this.folders[folderAlias].emails.length);
 
                 for (var id in emailsData) {
                     if (emailsData.hasOwnProperty(id)) {

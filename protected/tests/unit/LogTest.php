@@ -176,10 +176,14 @@ class LogTest extends CDbTestCase
     /**
      * Проверка того, что E2 логируется одной записью, а не двумя
      */
-    public function testE2Logging() {
+    public function testE2Logging()
+    {
+        //$this->markTestSkipped();
+
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
         $mgr = new EventsManager();
         $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
         $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
@@ -233,7 +237,7 @@ class LogTest extends CDbTestCase
      */
     public function test_two_new_letters()
     {
-        // //$this->markTestSkipped();
+        //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -345,15 +349,14 @@ class LogTest extends CDbTestCase
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
         $log_dialogs = LogHelper::getDialogs(LogHelper::RETURN_DATA, $simulation);
-        foreach ($log_dialogs['data'] as $log) {
-            printf("%s\t%8s\t%5s\t%5d\n",
-                $log['start_time'],
-                $log['end_time'] !== null ? $log['end_time'] : '(empty)',
-                $log['code'],
-                $log['last_id']
-            );
-            /*$this->assertNotNull($log->end_time);*/
-        }
+//        foreach ($log_dialogs['data'] as $log) {
+//            printf("%s\t%8s\t%5s\t%5d\n",
+//                $log['start_time'],
+//                $log['end_time'] !== null ? $log['end_time'] : '(empty)',
+//                $log['code'],
+//                $log['last_id']
+//            );
+//        }
 
     }
 
@@ -691,5 +694,55 @@ class LogTest extends CDbTestCase
         $this->assertEquals('09:19:52', $logs[1]->end_time,   'Wrong end_time.');
     }
 
+    /**
+     * Проверяет что при работе с почтой в лог Universal попадают правильные имена (window.id) для Window и Subwindow
+     */
+    public function testLogMail()
+    {
+        ////$this->markTestSkipped();
 
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        $logs = [];
+        $logs[0][0] = 1;
+        $logs[0][1] = 1;
+        $logs[0][2]	= 'activated';
+        $logs[0][3]	= 32400;
+        $logs[0]['window_uid'] = 587;
+        $logs[1][0]	= 1;
+        $logs[1][1]	= 1;
+        $logs[1][2]	= 'deactivated';
+        $logs[1][3]	= 32552;
+        $logs[1]['window_uid'] = 587;
+        $logs[2][0]	= 10;
+        $logs[2][1]	= 11;
+        $logs[2][2]	= 'activated';
+        $logs[2][3]	= 32553;
+        $logs[2]['window_uid'] = 614;
+        $logs[3][0]	= 10;
+        $logs[3][1]	= 11;
+        $logs[3][2]	= 'deactivated';
+        $logs[3][3]	= 32559;
+        $logs[3]['window_uid'] = 614;
+        $logs[4][0]	= 10;
+        $logs[4][1]	= 11;
+        $logs[4][2] = 'activated';
+        $logs[4][3]	= 32559;
+        $logs[4]['window_uid'] = 615;
+
+
+        $e = new EventsManager();
+
+        $e->getState($simulation, $logs);
+
+        $windowLogs = LogWindows::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $this->assertEquals(1,  $windowLogs[0]->window, 'main screen');
+        $this->assertEquals(11, $windowLogs[1]->window, 'mail screen 1');
+        $this->assertEquals(11, $windowLogs[2]->window, 'mail screen 2');
+    }
 }

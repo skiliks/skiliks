@@ -43,7 +43,6 @@ define(["game/views/SKWindowView"], function () {
                 snapTolerance:11,
                 stack:".planner-book",
                 start:function () {
-                    console.log('drag start');
                     me.showDayPlanSlot($(this));
                     
                     var task_id = $(this).attr('data-task-id');
