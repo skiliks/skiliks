@@ -58,7 +58,7 @@ class PhoneService {
 
     public function callBack($simId, $dialog_code) {
 
-       $template = EventSample::model()->findAllByAttributes(['code'=>'S1.2']);//todo:Костыль
+       $template = EventSample::model()->findByAttributes(['code'=>'S1.2']);//todo:Костыль
        $ev = EventTrigger::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);//todo:Костыль
 
            $dialog = Dialog::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
