@@ -13,7 +13,7 @@ final class ExcelDocument
     private $file = null;
     
     protected $zohoDocument = null;
-    
+
     public function loadByFile($simId, $file) {
         // получим документ из шаблонов
         $documentTemplate = ExcelDocumentTemplate::model()->byFile($file->template_id)->find();

@@ -158,6 +158,7 @@ class MailBoxService
                     $list[$attachment->mail_id]['attachments']    = 1;
                     $list[$attachment->mail_id]['attachmentName'] = $myDocument->fileName;
                     $list[$attachment->mail_id]['attachmentId']   = $attachment->id;
+                    $list[$attachment->mail_id]['attachmentFileId']   = $attachment->file_id;
                 }
             }
         }
