@@ -249,6 +249,7 @@ class ActivityAction extends CActiveRecord
 
         if( !empty($activity_action->mail_id) ) {
         $mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
+        if(empty($mail_template) || empty($mail_template->id)){ return; }
             $parents_mail = ActivityParent::model()->findAllByAttributes(['mail_id'=>$mail_template->id]);
             foreach($parents_mail as $k => $parent){
                 $sim_parent = new SimulationCompletedParent();
@@ -259,6 +260,7 @@ class ActivityAction extends CActiveRecord
         } elseif( !empty( $activity_action->dialog_id ) ){
             //$mail_template = MailTemplateModel::model()->findByAttributes(['id'=>$activity_action->mail_id]);
             $parents_dialogs = ActivityParent::model()->findAllByAttributes(['dialog_id'=>$activity_action->dialog_id]);
+            if(empty($parents_dialogs)){ return; }
             foreach($parents_dialogs as $k => $parent) {
                 $parents = new SimulationCompletedParent();
                 $parents->sim_id = $activity_action->sim_id;
