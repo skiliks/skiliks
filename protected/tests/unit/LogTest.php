@@ -517,8 +517,8 @@ class LogTest extends CDbTestCase
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM73');
-        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'TM73');
-        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'TM73');
+        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_already_used');
+        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_already_used');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
