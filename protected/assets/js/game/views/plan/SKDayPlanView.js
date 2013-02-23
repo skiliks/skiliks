@@ -366,7 +366,7 @@ define(["game/views/SKWindowView"], function () {
                 me.$('.plan-todo-wrap .plan-todo-inner').append(todo_task);
             });
             this.setupDraggable();
-
+            this.$('.plan-todo-wrap').mCustomScrollbar("update");
         },
 
         /**
@@ -446,6 +446,7 @@ define(["game/views/SKWindowView"], function () {
             }
         },
         doSetTask:function (e) {
+            this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var me = this;
             var task_id = $(e.currentTarget).attr('data-task-id');
             var task = SKApp.user.simulation.todo_tasks.get(task_id);
@@ -468,6 +469,7 @@ define(["game/views/SKWindowView"], function () {
             });
         },
         doUnSetTask:function (e) {
+            this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var task_id = $(e.currentTarget).attr('data-task-id');
             var task = SKApp.user.simulation.dayplan_tasks.get(task_id);
             if(parseInt(task.get("type"),10) !== 2) {
