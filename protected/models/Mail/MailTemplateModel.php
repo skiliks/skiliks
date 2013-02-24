@@ -9,6 +9,7 @@
  *
  * @property string type_of_importance
  * @property string import_id
+ * @property ActivityParent[] termination_parent_actions
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTemplateModel extends CActiveRecord
@@ -153,6 +154,13 @@ class MailTemplateModel extends CActiveRecord
             'condition' => "code like 'MS%'"
         ));
         return $this;
+    }
+
+    public function relations()
+    {
+        return [
+            'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id']
+        ];
     }
 }
 

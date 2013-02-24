@@ -112,6 +112,7 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
+        /** @var $template MailTemplateModel|null */
         if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
             $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coincidence]);
         } else {
@@ -126,14 +127,10 @@ class LogMail extends CActiveRecord
                 ['Inbox_leg', 'Outbox_leg'],
                 $this->simulation
             );
-            foreach (ActivityParent::model()->findAllByAttributes(['mail_id' => $template->primaryKey]) as $parent) {
-                if (!SimulationCompletedParent::model()->countByAttributes([
-                    'sim_id' => $this->sim_id, 'parent_code' => $parent->parent_code
-                ])) {
-                    $simulationCompletedParent = new SimulationCompletedParent();
-                    $simulationCompletedParent->sim_id = $this->sim_id;
-                    $simulationCompletedParent->parent_code = $parent->parent_code;
-                    $simulationCompletedParent->save();
+
+            foreach ($template->termination_parent_actions as $parent_action) {
+                if (!$parent_action->isTerminatedInSimulation($this->simulation)) {
+                    $parent_action->terminateInSimulation($this->simulation);
                 }
             };
 
