@@ -70,7 +70,6 @@ class AdminController extends AjaxController
             ->registerScriptFile($assetsUrl . "/js/jquery/jquery.hotkeys.js")
             ->registerScriptFile($assetsUrl . "/js/jquery/jquery.balloon.js")
             ->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js")
-            ->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js")
             ->registerScriptFile($assetsUrl . "/js/jgrid/js/jquery.jqGrid.min.js")
             ->registerScriptFile($assetsUrl . "/js/jgrid/js/i18n/grid.locale-ru.js")
             ->registerScriptFile($assetsUrl . "/js/game/lib/php.js");
