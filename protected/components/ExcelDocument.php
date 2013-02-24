@@ -28,13 +28,13 @@ final class ExcelDocument
         
         return $this;
     }
-    
+
     /**
      * Add url for Zoho-docunebt iframe
-     * 
+     *
      * @param Simulations $simulation
-     * @param integer $fileId
-     * 
+     * @param MyDocumentsModel $file
+     *
      * @return array of strings
      */
     public function populateFrontendResult($simulation, $file)

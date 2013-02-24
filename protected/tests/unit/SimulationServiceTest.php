@@ -15,9 +15,9 @@ class SimulationServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         $simulationFlags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 

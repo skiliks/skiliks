@@ -13,7 +13,8 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 'click .set-time':'doSetTime',
                 'submit .form-set-time':'doFormSetTime',
                 'submit .trigger-event':'doEventTrigger',
-                'click .btn-load-documents':'doLoadDocs'
+                'click .btn-load-documents':'doLoadDocs',
+                'click .btn-simulation-stop-logs':'doSimStopAndLoadLogs'
             },
             'render':function () {
                 this.$el.html(_.template(debug_template, {}));
@@ -55,6 +56,12 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                     }
                 );
 
+            },
+            doSimStopAndLoadLogs:function () {
+                SKApp.user.simulation.on('stop', function () {
+                    window.location.href = '/admin/displayLog?simulation=' + this.id;
+                });
+                SKApp.user.stopSimulation();
             }
         });
 });

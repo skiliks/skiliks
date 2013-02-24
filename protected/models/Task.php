@@ -114,11 +114,12 @@ class Task extends CActiveRecord
         ));
         return $this;
     }
-    
+
     /**
      * Выбрать конкретную задачу
-     * @param int $id
-     * @return Tasks 
+     * @deprecated
+     * @param $simId
+     * @return Tasks
      */
     public function bySimId($simId)
     {
@@ -127,11 +128,13 @@ class Task extends CActiveRecord
         ));
         return $this;
     }
-    
+
     /**
      * Выбрать конкретную задачу
-     * @param int $id
-     * @return Tasks 
+     * @param $simId
+     * @internal param int $id
+     * @deprecated
+     * @return Tasks
      */
     public function bySimIdOrNull($simId)
     {
@@ -144,6 +147,7 @@ class Task extends CActiveRecord
     /**
      * Выбрать конкретную задачу
      * @param int $id
+     * @deprecated
      * @return Tasks 
      */
     public function byId($id)

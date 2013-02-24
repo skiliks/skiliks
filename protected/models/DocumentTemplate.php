@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DocumentTemplate extends CActiveRecord
+class DocumentTemplate extends CActiveRecord implements IGameAction
 {
     const CONSOLIDATED_BUDGET_ID = 33;
     
@@ -97,6 +97,12 @@ class DocumentTemplate extends CActiveRecord
             'condition' => "id = {$id}"
         ));
         return $this;
+    }
+
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     public function getMimeType() {

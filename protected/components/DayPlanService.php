@@ -300,9 +300,9 @@ class DayPlanService {
     {
         $todoCount = Todo::model()->bySimulation($simulation->id)->count();
         
-        // copy first 2 days to DayPlanLogModel
+        // copy first 2 days to DayPlanLog
         foreach (DayPlan::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
-            $log = new DayPlanLogModel();
+            $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
             $log->date          = $dayPlanItem->date;
             $log->day           = $dayPlanItem->day;
@@ -313,9 +313,9 @@ class DayPlanService {
             $log->save();
         }
         
-        // copy after vacation list to DayPlanLogModel
+        // copy after vacation list to DayPlanLog
         foreach (DayPlanAfterVacation::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
-            $log = new DayPlanLogModel();
+            $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
             $log->day           = 3;
             $log->task_id       = $dayPlanItem->task_id;
