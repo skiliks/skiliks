@@ -233,6 +233,37 @@ class LogTest extends CDbTestCase
     }
 
     /**
+     * Проверяет, отображаются ли залогированные документы
+     */
+    public function testLogDocuments()
+    {
+        $mgr = new EventsManager();
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
+        $document  = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->primaryKey,
+            'sim_id' => $simulation->primaryKey]);
+        $mgr->processLogs($simulation, [
+        [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
+            [40, 41, 'activated', 32460, 'window_uid' => 2],
+            [40, 41, 'deactivated', 32520, 'window_uid' => 2],
+            [40, 42, 'activated', 32520, 'window_uid' => 3, ['fileId' => $document->primaryKey]], # Send mail
+            [40, 42, 'deactivated', 32580, 'window_uid' => 3, ['fileId' => $document->primaryKey]],
+            [40, 41, 'activated', 32580, 'window_uid' => 2],
+            [40, 41, 'deactivated', 32640, 'window_uid' => 2],
+            [40, 42, 'activated', 32640, 'window_uid' => 4, ['fileId' => $document->primaryKey]], # Send mail
+            [40, 42, 'deactivated', 32700, 'window_uid' => 4, ['fileId' => $document->primaryKey]],
+        ]);
+        //$activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //array_map(function ($action) {$action->dump();}, $activityActions);
+        $result = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
+        $this->assertEquals($result['data'][2]['leg_action'], 'D1');
+    }
+
+    /**
      * Проверяет, нормально ли работает поочередная отправка двух писем с сохранением в черновики
      */
     public function test_two_new_letters()
@@ -243,7 +274,6 @@ class LogTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
-        $mail = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
         $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
