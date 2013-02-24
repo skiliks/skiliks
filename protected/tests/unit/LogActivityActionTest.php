@@ -367,6 +367,8 @@ class LogActivityActionTest extends CDbTestCase
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
+            $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 516]);
+            $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 523]);
 
             $logs = [
                 [1, 1, 'activated', 32400, 'window_uid' => 1],
@@ -379,16 +381,24 @@ class LogActivityActionTest extends CDbTestCase
                 [10, 11, 'deactivated', 32640, 'window_uid' => 4],
                 [10, 13, 'activated', 32640, 'window_uid' => 3], # Send mail
                 [10, 13, 'deactivated', 32720, 'window_uid' => 3, ['mailId' => $message1->primaryKey]],
+                [20, 23, 'activated', 32720, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 32780, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'activated', 32780, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 32840, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
 
             ];
             $event = new EventsManager();
             $event->processLogs($simulation, $logs);
             $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+            /** @var $activity_actions LogActivityAction[] */
             $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+            array_map(function ($i) {$i->dump();}, $activity_actions);
             // Test for insert
-            $this->assertCount(1, $simulation->completed_parent_activities);
+            $this->assertCount(2, $simulation->completed_parent_activities);
             $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
+            $this->assertEquals($activity_actions[5]->activityAction->activity_id, 'T2');
+            $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_already_used');
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();

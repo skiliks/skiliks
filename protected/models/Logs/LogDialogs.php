@@ -6,6 +6,8 @@
  * @property datetime start_time
  * @property datetime end_time
  * @property integer last_id
+ * @property Dialog dialog
+ * @property Simulations simulation
  */
 class LogDialogs extends CActiveRecord
 {
@@ -42,6 +44,15 @@ class LogDialogs extends CActiveRecord
             $this->simulation
         );
 
+        if ($this->getLastReplica()) {
+            foreach ($this->getLastReplica()->termination_parent_actions as $parent_action) {
+                if (!$parent_action->isTerminatedInSimulation($this->simulation)) {
+                    $parent_action->terminateInSimulation($this->simulation);
+                }
+            };
+        }
+
+
         if (null !== $activity_action) {
             $activity_action->appendLog($this);
         }else{
@@ -54,6 +65,7 @@ class LogDialogs extends CActiveRecord
     {
         return array(
             'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'dialog' => [self::BELONGS_TO, 'Dialog', 'dialog_id']
         );
     }
 
@@ -87,6 +99,15 @@ class LogDialogs extends CActiveRecord
             'condition' => "dialog_id = {$dialogId}"
         ));
         return $this;
+    }
+
+    /**
+     * Returns last replica object
+     * @return Dialog
+     */
+    public function getLastReplica()
+    {
+        return Dialog::model()->findByAttributes(['excel_id' => $this->last_id]);
     }
     
     /**

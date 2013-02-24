@@ -94,4 +94,28 @@ class ActivityParent extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * Returns true if parent is already terminated in simulation
+     * @param $simulation Simulations
+     * @return bool
+     */
+    public function isTerminatedInSimulation($simulation)
+    {
+        return SimulationCompletedParent::model()->countByAttributes([
+            'sim_id' => $simulation->primaryKey, 'parent_code' => $this->parent_code
+        ]);
+    }
+
+    /**
+     * Terminates parent activity in given simulation
+     * @param $simulation Simulations
+     */
+    public function terminateInSimulation($simulation)
+    {
+        $simulationCompletedParent = new SimulationCompletedParent();
+        $simulationCompletedParent->sim_id = $simulation->primaryKey;
+        $simulationCompletedParent->parent_code = $this->parent_code;
+        $simulationCompletedParent->save();
+    }
 }

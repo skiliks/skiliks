@@ -9,6 +9,7 @@
  *
  * @property Characters from_character
  * @property Characters to_character
+ * @property ActivityParent[] termination_parent_actions
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -295,6 +296,7 @@ class Dialog extends CActiveRecord
         return [
             'from_character' => [self::BELONGS_TO, 'Characters', 'ch_from'],
             'to_character' => [self::BELONGS_TO, 'Characters', 'ch_to'],
+            'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'dialog_id']
         ];
     }
 }

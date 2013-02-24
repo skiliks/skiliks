@@ -84,6 +84,18 @@ class LogActivityAction extends CActiveRecord
 		);
 	}
 
+    /**
+     * Prints all needed info in one row
+     */
+    public function dump() {
+        printf("%s  %8s  %-15s\t%-10s\n",
+                $this->start_time,
+                $this->end_time !== null ? $this->end_time : '—',
+                $this->activityAction->activity_id,
+                $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
+            );
+    }
+
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
