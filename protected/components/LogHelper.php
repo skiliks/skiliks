@@ -1157,7 +1157,7 @@ class LogHelper
                 } else {
                     $data['data'][$k]['leg_action'] = 'not_sent';
                 }
-            } else if (!empty($data['data'][$k]['document_id'])) {
+            } else if (!empty($data['data'][$k]['doc_code'])) {
                 $data['data'][$k]['leg_action'] = $data['data'][$k]['doc_code'];
             } else if (!empty($data['data'][$k]['window_id'])) {
                 $data['data'][$k]['leg_action'] = $data['data'][$k]['subtype'];
