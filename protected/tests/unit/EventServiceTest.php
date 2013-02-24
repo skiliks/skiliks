@@ -2,15 +2,15 @@
 
 class EventServiceTest extends PHPUnit_Framework_TestCase {
 
-    public function test_add_by_code() {
+    public function testAddByCode() {
 
         $events = [
             ['code'=>'S1.1', 'time'=>'11:05:00', 'standard_time'=>'11:10:00'],
             ['code'=>'S1.2', 'time'=>'11:10:00', 'standard_time'=>'11:20:00']
         ];
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulationService->simulationStart(1, $user);
 
         foreach($events as $e){
             EventService::addByCode($e['code'], $simulation->id, $e['time']);
@@ -26,9 +26,9 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testProcessLinkedEntities()
     {
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulationService->simulationStart(1, $user);
         $result = EventService::processLinkedEntities('T2', $simulation->primaryKey);
         $this->assertEquals($result, false);
         $result = EventService::processLinkedEntities('P5', $simulation->primaryKey);
@@ -39,6 +39,9 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
         $result = EventService::processLinkedEntities('MY1', $simulation->primaryKey);
         $this->assertEquals($result['eventType'], 'MY');
         $this->assertEquals(MailBoxModel::model()->findByPk($result['id'])->code, 'MY1');
+        $result = EventService::processLinkedEntities('M10', $simulation->primaryKey);
+        $this->assertEquals($result['eventType'], 'M');
+        $this->assertEquals(MailBoxModel::model()->findByPk($result['id'])->code, 'M10');
 
     }
 
