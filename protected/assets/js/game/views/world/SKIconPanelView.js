@@ -33,8 +33,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     me.updateMailCounter();
 
                     if (event.get('type') === 'MS') {
-                        SKApp.user.simulation.mailClient.on('init_completed', function() {
-                            this.view.on('render_finished', function() {
+                        SKApp.user.simulation.mailClient.once('init_completed', function() {
+                            this.view.once('render_finished', function() {
                                 this.renderWriteCustomNewEmailScreen();
                             });
                         });
