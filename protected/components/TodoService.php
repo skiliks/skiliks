@@ -9,8 +9,8 @@ class TodoService
 {
     /**
      * Добавить задачу в список todo
-     * @param int $simId
-     * @param int $taskId 
+     * @param Simulations $simulation
+     * @param $task
      */
     public static function add($simulation, $task)
     {

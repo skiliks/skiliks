@@ -91,6 +91,7 @@ class EventService {
      * @return type 
      */
     public static function processLinkedEntities($eventCode, $simId) {
+        $simulation = Simulations::model()->findByPk($simId);
         // анализ писем
         $code = false;
         $type = false;
@@ -185,10 +186,14 @@ class EventService {
         }
         
         if ($type == 'P') {
-            $task = Task::model()->byCode($code)->find();
-            if (!$task) return false;
+            $task = Task::model()->findByAttributes(['code' => $code]);
+
+            // Example of how not to do:
+            // if (!$task) return false;
+            // Example of how to do:
+            assert($task);
             
-            TodoService::add($simId, $task->id);
+            TodoService::add($simulation, $task);
             
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
         }
