@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: Тугай
- * Date: 06.02.13
- * Time: 13:17
- * To change this template use File | Settings | File Templates.
- */
 
 class EventServiceTest extends PHPUnit_Framework_TestCase {
 
@@ -25,6 +18,27 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
             $event = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             $this->assertEquals($e['standard_time'], $event->trigger_time);
         }
+
+    }
+
+    /*
+     * Проверка того, что T2 и события типа P нормально приходят
+     */
+    public function testProcessLinkedEntities()
+    {
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(1, $user);
+        $result = EventService::processLinkedEntities('T2', $simulation->primaryKey);
+        $this->assertEquals($result, false);
+        $result = EventService::processLinkedEntities('P5', $simulation->primaryKey);
+        $this->assertEquals($result['eventType'], 'P');
+        $this->assertEquals(Task::model()->findByPk($result['id'])->code, 'P5');
+        $result = EventService::processLinkedEntities('MS33', $simulation->primaryKey);
+        $this->assertEquals($result['eventType'], 'MS');
+        $result = EventService::processLinkedEntities('MY1', $simulation->primaryKey);
+        $this->assertEquals($result['eventType'], 'MY');
+        $this->assertEquals(MailBoxModel::model()->findByPk($result['id'])->code, 'MY1');
 
     }
 

@@ -69,7 +69,7 @@ class Task extends CActiveRecord
     /**
      *
      * @param string $className
-     * @return Tasks 
+     * @return Task
      */
     public static function model($className=__CLASS__)
     {
@@ -83,11 +83,11 @@ class Task extends CActiveRecord
     {
             return 'tasks';
     }
-    
+
     /**
      * Выбрать согласно набору задач
-     * @param array $ids
-     * @return Tasks 
+     * @param $titles
+     * @return Task
      */
     public function byTitles($titles)
     {
