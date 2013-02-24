@@ -77,7 +77,7 @@ class FlagServiceTest extends CDbTestCase
 
     /**
      * Проверяет что на фронтенд попадают только правильные реплики по диалогу S2
-     * @todo: функционал не готов
+     *
      */
     public function testBlockReplica()
     {
@@ -112,7 +112,7 @@ class FlagServiceTest extends CDbTestCase
             }
         }
         // case 2
-        // @todo: finalize
+
 
         FlagsService::setFlag($simulation->id, 'F1', 1);
 
