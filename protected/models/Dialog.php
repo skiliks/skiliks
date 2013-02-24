@@ -13,7 +13,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Dialog extends CActiveRecord
+class Dialog extends CActiveRecord implements IGameAction
 {
     /**
      * @var integer
@@ -142,6 +142,12 @@ class Dialog extends CActiveRecord
     {
             return parent::model($className);
     }
+
+    public function getCode()
+    {
+        return $this->code;
+    }
+
     /**
      * @todo; fix this dirty trick
      * probebly we need aliaces for dialog_subtype instead of ids

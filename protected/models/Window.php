@@ -8,7 +8,7 @@
  * @property string $type
  * @property string $subtype
  */
-class Window extends CActiveRecord
+class Window extends CActiveRecord implements IGameAction
 {
     /**
      * Returns the static model of the specified AR class.
@@ -65,6 +65,10 @@ class Window extends CActiveRecord
             'type' => 'Type',
             'subtype' => 'Subtype',
         );
+    }
+
+    public function getCode(){
+        return $this->subtype;
     }
 
     /**

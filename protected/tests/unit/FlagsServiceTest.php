@@ -10,6 +10,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulationService = new SimulationService();
+        /** @var $user Users */
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 

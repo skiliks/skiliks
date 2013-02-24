@@ -63,6 +63,7 @@ class MyDocumentsModel extends CActiveRecord
     {
             return 'my_documents';
     }
+
     
     /**
      * Выбрать по заданному идентификатору симуляции

@@ -9,6 +9,7 @@
  *
  * @property int difficulty
  * @property SimulationCompletedParent[] completed_parent_activities
+ * @prorepty LogWindows[] log_windows
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Simulations extends CActiveRecord
@@ -145,6 +146,11 @@ class Simulations extends CActiveRecord
         return [
             'user' => [self::BELONGS_TO, 'Users', 'user_id'],
             'events_triggers' => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'log_windows' => [self::HAS_MANY, 'LogWindows', 'sim_id', 'order' => 'start_time'],
+            'log_mail' => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time'],
+            'log_plan' => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time'],
+            'log_dialogs' => [self::HAS_MANY, 'LogDialogs', 'sim_id', 'order' => 'start_time'],
+            'log_activity_actions' => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time'],
             'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id']
         ];
     }

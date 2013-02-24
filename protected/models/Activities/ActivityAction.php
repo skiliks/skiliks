@@ -17,21 +17,22 @@
  * @property DocumentTemplate $document
  * @property string import_id
  * @property string leg_type
+ * @property Window window
  */
 class ActivityAction extends CActiveRecord
 {
-    
+
     /**
      * @var bool
      */
     public $is_keep_last_category;
-    
+
     /**
      * Returns the static model of the specified AR class.
      * @param string $className active record class name.
      * @return ActivityAction the static model class
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
@@ -53,12 +54,12 @@ class ActivityAction extends CActiveRecord
         // will receive user inputs.
         return array(
             array('activity_id', 'required'),
-            array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly'=>true),
-            array('activity_id', 'length', 'max'=>255),
-            array('import_id', 'length', 'max'=>255),
+            array('dialog_id, mail_id, document_id', 'numerical', 'integerOnly' => true),
+            array('activity_id', 'length', 'max' => 255),
+            array('import_id', 'length', 'max' => 255),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, activity_id, dialog_id, mail_id, document_id, import_id, window_id', 'safe', 'on'=>'search'),
+            array('id, activity_id, dialog_id, mail_id, document_id, import_id, window_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -71,9 +72,10 @@ class ActivityAction extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
-            'dialog'   => array(self::BELONGS_TO, 'Dialog', 'dialog_id'),
-            'mail'     => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
+            'dialog' => array(self::BELONGS_TO, 'Dialog', 'dialog_id'),
+            'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
             'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
+            'window' => array(self::BELONGS_TO, 'Window', 'window_id'),
         );
     }
 
@@ -85,18 +87,19 @@ class ActivityAction extends CActiveRecord
         return array(
             'id' => 'ID',
             'activity_id' => 'Activity',
-            'dialog_id'   => 'Dialog',
-            'mail_id'     => 'Mail',
+            'dialog_id' => 'Dialog',
+            'mail_id' => 'Mail',
             'document_id' => 'Document',
-            'window_id'   => 'Window'
+            'window_id' => 'Window'
         );
     }
 
-    public function appendLog($log) {
+    public function appendLog($log)
+    {
         // get log_action {
         $log_search_criteria = new CDbCriteria();
         $log_search_criteria->addColumnCondition([
-          'sim_id' => $log->simulation->id
+            'sim_id' => $log->simulation->id
         ]);
         $log_search_criteria->addCondition('start_time = :start_time');
         $log_search_criteria->params['start_time'] = $log->start_time;
@@ -119,7 +122,8 @@ class ActivityAction extends CActiveRecord
         // init log_action if not exists }
         // We do not decrease activity priority {
         if ($log_action->activity_action_id !== null &&
-            $log_action->activityAction->activity->category->priority < $this->activity->category->priority) {
+            $log_action->activityAction->activity->category->priority < $this->activity->category->priority
+        ) {
             return;
         }
         // }
@@ -150,17 +154,18 @@ class ActivityAction extends CActiveRecord
         }
         if ($log->end_time !== '00:00:00') {
             $log_action->end_time = $log->end_time;
-        };
+        }
+        ;
         $log_action->save();
 
         // update chain of new mail window logs, with same window_uid {
         if ($log instanceof LogMail && LogHelper::MAIL_NEW_WINDOW_TYPE_ID == $log->window) {
             $activityActionLogs = LogActivityAction::model()->findAllByAttributes([
-                'sim_id'     => $log->simulation->id,
+                'sim_id' => $log->simulation->id,
                 'window_uid' => $log->window_uid
             ]);
             foreach ($activityActionLogs as $activityActionLog) {
-                $activityActionLog->mail_id            = $log->mail_id;
+                $activityActionLog->mail_id = $log->mail_id;
                 //$activityActionLog->activity_action_id = $this->id;
                 $activityActionLog->save();
             }
@@ -169,13 +174,33 @@ class ActivityAction extends CActiveRecord
     }
 
     /**
+     * Returns action
+     * @return IGameAction|null
+     */
+    public function getAction()
+    {
+        if ($this->mail !== null) {
+            return $this->mail;
+        } else if ($this->window !== null) {
+            return $this->window;
+        } else if ($this->dialog !== null) {
+            return $this->dialog;
+        } else if ($this->document !== null) {
+            return $this->document;
+        } else {
+            # Special case activities
+            return null;
+        }
+    }
+
+    /**
      * Order by numeric_id
      * @param $attrs mixed
-     * @param $leg_types array
+     * @param $legTypes array
      * @param $simulation Simulations
      * @return ActivityAction
      */
-    public function findByPriority($attrs, $leg_types, $simulation)
+    public function findByPriority($attrs, $legTypes, $simulation)
     {
         $criteria = new CDbCriteria();
 
@@ -190,21 +215,25 @@ class ActivityAction extends CActiveRecord
 
         $criteria->addColumnCondition($attrs);
 
-        if ($leg_types !== null) {
-            $criteria->addInCondition('leg_type', $leg_types);
+        if ($legTypes !== null) {
+            $criteria->addInCondition('leg_type', $legTypes);
         }
 
         // get finished parent actions
 
         // collect finished parents
         $completedParents = $simulation->completed_parent_activities;
-        $parentIds = array_map(function ($parent) { return $parent->parent_code; }, $completedParents);
+        $parentIds = array_map(function ($parent) {
+            return $parent->parent_code;
+        }, $completedParents);
         // get excluded activities
         $excludedActivitiesCriteria = new CDbCriteria();
         $excludedActivitiesCriteria->addInCondition('parent', $parentIds);
         $excludedActivities = Activity::model()->findAll($excludedActivitiesCriteria);
 
-        $excludedActivityIds = array_map(function ($activity) { return $activity->primaryKey; }, $excludedActivities);
+        $excludedActivityIds = array_map(function ($activity) {
+            return $activity->primaryKey;
+        }, $excludedActivities);
         $criteria->addNotInCondition('activity_id', $excludedActivityIds);
         $result = $this->find($criteria);
 
@@ -220,16 +249,16 @@ class ActivityAction extends CActiveRecord
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
 
-        $criteria=new CDbCriteria;
+        $criteria = new CDbCriteria;
 
-        $criteria->compare('id',$this->id);
-        $criteria->compare('activity_id',$this->activity_id,true);
-        $criteria->compare('dialog_id',$this->dialog_id);
-        $criteria->compare('mail_id',$this->mail_id);
-        $criteria->compare('document_id',$this->document_id);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('activity_id', $this->activity_id, true);
+        $criteria->compare('dialog_id', $this->dialog_id);
+        $criteria->compare('mail_id', $this->mail_id);
+        $criteria->compare('document_id', $this->document_id);
 
         return new CActiveDataProvider($this, array(
-            'criteria'=>$criteria,
+            'criteria' => $criteria,
         ));
     }
 

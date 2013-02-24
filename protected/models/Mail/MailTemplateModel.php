@@ -12,7 +12,7 @@
  * @property ActivityParent[] termination_parent_actions
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailTemplateModel extends CActiveRecord
+class MailTemplateModel extends CActiveRecord implements IGameAction
 {
     /**
      * @var integer
@@ -85,6 +85,11 @@ class MailTemplateModel extends CActiveRecord
     public static function model($className=__CLASS__)
     {
             return parent::model($className);
+    }
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     /**

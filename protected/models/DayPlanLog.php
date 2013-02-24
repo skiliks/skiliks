@@ -9,7 +9,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DayPlanLogModel extends CActiveRecord
+class DayPlanLog extends CActiveRecord
 {
     /**
      * @var integer
@@ -59,7 +59,7 @@ class DayPlanLogModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return DayPlanLogModel 
+     * @return DayPlanLog
      */
     public static function model($className=__CLASS__)
     {
@@ -78,7 +78,7 @@ class DayPlanLogModel extends CActiveRecord
      * Выборка по симуляции
      * 
      * @param int $simId
-     * @return DayPlanLogModel 
+     * @return DayPlanLog
      */
     public function bySimulation($simId)
     {

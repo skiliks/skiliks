@@ -70,15 +70,15 @@ class LogWindows extends CActiveRecord
     protected function afterSave()
     {
         /**
-         * @var ActivityAction $activity_action
+         * @var ActivityAction $activityAction
          */
-        $activity_action = ActivityAction::model()->findByPriority(
+        $activityAction = ActivityAction::model()->findByPriority(
             ['window_id' => $this->window],
             null,
             $this->simulation
         );
-        if ($activity_action !== null) {
-            $activity_action->appendLog($this);
+        if ($activityAction !== null) {
+            $activityAction->appendLog($this);
         }
         parent::afterSave();
     }
@@ -87,6 +87,7 @@ class LogWindows extends CActiveRecord
     {
         return array(
             'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
         );
     }
 }
