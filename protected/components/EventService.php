@@ -12,9 +12,9 @@ class EventService {
     /**
      * Поставить событие в очередь
      * 
-     * @param type $simId
-     * @param type $eventId
-     * @param type $triggerTime 
+     * @param mixed $simId
+     * @param mixed $eventId
+     * @param string $triggerTime
      */
     public static function addToQueue($simId, $eventId, $triggerTime) {
         $eventTriggers = new EventTrigger();
@@ -23,12 +23,13 @@ class EventService {
         $eventTriggers->trigger_time = $triggerTime;
         $eventTriggers->insert();
     }
-    
+
     /**
      * Добавить событие в симуляцию по коду
      * @param string $code
      * @param int $simId
-     * @return type 
+     * @param bool $eventTime
+     * @return bool
      */
     public static function addByCode($code, $simId, $eventTime = false) {
         if ( ($code == '') || ($code == '-') ) return false;
@@ -84,11 +85,13 @@ class EventService {
     public static function isDialog($code) {
         return preg_match_all("/E(.*)+/", $code, $matches);
     }
-    
+
     /**
      * Обработка связанных сущностей типа почты, плана...
-     * @param type $dialog
-     * @return type 
+     * @param $eventCode
+     * @param $simId
+     * @throws Exception
+     * @return array
      */
     public static function processLinkedEntities($eventCode, $simId) {
         $simulation = Simulations::model()->findByPk($simId);
@@ -248,7 +251,7 @@ class EventService {
 
     /**
      * Проверяет а можем ли мы запускать это событие
-     * @param $replica Dialogs
+     * @param $replica Dialog
      * @param $simId
      * @internal param string $code
      * @return boolean
