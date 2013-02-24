@@ -55,7 +55,6 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/jquery/jquery.tablesorter.js");
 
         $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
-        $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap-alert.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/pdf.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/lib/hyphenate.js");
         $cs->registerScriptFile($assetsUrl . "/js/underscore.js");
