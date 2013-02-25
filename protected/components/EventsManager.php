@@ -248,7 +248,7 @@ class EventsManager {
                 $result['events'][] = array('result' => 1, 'eventType' => 1, 'eventTime' => $eventTime, 'data' => $data);
             }
             
-            $result['flagsState'] = FlagsService::getFlagsState($simulation);
+            $result['flagsState'] = FlagsService::getFlagsStateForJs($simulation);
             
             return $result;
         } catch (CHttpException $exc) {
@@ -257,7 +257,7 @@ class EventsManager {
                 'message'    => $exc->getMessage(),
                 'code'       => $exc->getCode(),
                 'serverTime' => $gameTime,
-                'flagsState' => FlagsService::getFlagsState($simulation)
+                'flagsState' => FlagsService::getFlagsStateForJs($simulation)
             ];
         }
 

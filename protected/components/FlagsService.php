@@ -47,10 +47,26 @@ class FlagsService
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
             foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+                $result[$flag->flag] = $flag->value;
+            }
+        }        
+        return $result;
+    }
+
+    /**
+     * @param Simulations  $simulation
+     * @return mixed array
+     */
+    public static function getFlagsStateForJs(Simulations $simulation) {
+        $result = [];
+
+        // display flags for developers only ! :) no chanses for cheatting
+        if ($simulation->isDevelopMode()) {
+            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;
             }
-        }        
+        }
         return $result;
     }
 

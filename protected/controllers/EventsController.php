@@ -26,7 +26,7 @@ class EventsController extends AjaxController {
 
         $json = [
             'result' => FlagsService::switchFlag($simulation, $flagName),
-            'flags'  => FlagsService::getFlagsState($simulation)
+            'flags'  => FlagsService::getFlagsStateForJs($simulation)
         ];
 
         $this->sendJSON($json);
