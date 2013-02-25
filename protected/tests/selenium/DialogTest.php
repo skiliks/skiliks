@@ -19,7 +19,7 @@ class SelDialogTest extends CWebTestCase
 
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
-        $this->setSpeed("100");
+        $this->setSpeed("1000");
         $this->waitForVisible('id=login');
         $this->type("id=login", "asd");
         $this->type("id=pass", "123");
@@ -40,21 +40,21 @@ class SelDialogTest extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        /* $this->type("id=addTriggerSelect", "E1.2");
-         $this->click("css=input.btn.btn-primary");
-         sleep(15);
-         $this->click("link=— Марина, есть срочная работа.");
-         sleep(15);
-         $this->click("link=exact:— Закончила? Теперь слушай сюда. Если мы не сдадим бюджет Денежной через два часа, она нас обоих уволит. Пересылаю тебе файл, приступай немедленно.");
-         sleep(15);*/
+        $this->type("id=addTriggerSelect", "E1.2");
+        $this->click("css=input.btn.btn-primary");
+        sleep(15);
+        $this->click("link=— Марина, есть срочная работа.");
+        sleep(15);
+        $this->click("link=exact:— Закончила? Теперь слушай сюда. Если мы не сдадим бюджет Денежной через два часа, она нас обоих уволит. Пересылаю тебе файл, приступай немедленно.");
+        sleep(15);
 
         // send message MS21
-
+        $this->markTestIncomplete();
         $this->click("id=icons_email");
         sleep(15);
         $this->click("link=новое письмо");
         sleep(15);
-        $this->click("xpath=//*[@id='MailClient_RecipientsList']");
+        $this->click("id=MailClient_RecipientsList");
         sleep(15);
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Крутько')])");
@@ -64,20 +64,18 @@ class SelDialogTest extends CWebTestCase
         $this->click("xpath=(//*[contains(text(),'Крутько')])");
         sleep(5);
 
-        // here is the error! the themes of message not load
-        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/select");
+        $this->select("css=select.origin", "Сводный бюджет: файл");
+        sleep(5);
+        $this->click("//div[@class='mail-popup']//td[1]/div['Продолжить']");
+        sleep(5);
+        $this->select("xpath=//*[@id='undefined']/div/a/label","//*[@id='undefined']/ul/li[8]/a/label");
+        sleep(5);
 
-        $this->waitForVisible("xpath=(//*[contains(text(),Сводный')])");
-        sleep(15);
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный')])");
-        sleep(15);
-        $this->clickAndWait("xpath=(//*[contains(text(),'Сводный')])");
-        sleep(15);
-
+        $this->click("xpath=(//a[contains(text(),'отправить')])");
+        sleep(5);
 
         // call E1.2.1 - it's good works!
-
-        /*$this->click("id=icons_phone");
+        $this->click("id=icons_phone");
         sleep(15);
         $this->click("xpath=//div[@id='phoneMainScreen']/ul/li[1]");
         sleep(15);
@@ -85,7 +83,7 @@ class SelDialogTest extends CWebTestCase
         sleep(15);
         $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         sleep(30);
-*/
+
         $this->click("css=input.btn.btn-simulation-stop");
         sleep(15);
         $this->click("css=input.btn.logout");
