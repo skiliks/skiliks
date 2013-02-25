@@ -88,11 +88,11 @@ class FlagsSK1338Test extends CWebTestCase
 
         // change time to 13:50
         $this->click("xpath=(//*[contains(text(),'13:00')])");
-        sleep(5);
+        sleep(15);
 
         // call E1.2.1 - it's good works!
         $this->click("id=icons_phone");
-        sleep(15);
+        sleep(25);
         $this->click("xpath=//div[@id='phoneMainScreen']/ul/li[1]");
         sleep(15);
         $this->click("xpath=(//a[contains(text(),'Позвонить')])[3]");
