@@ -18,7 +18,7 @@ class TimeTools
     
     public static function minutesToTime($minutes)
     {
-        return sprintf('%02s:%02s:00', floor($minutes/60), $minutes%s);
+        return sprintf('%02s:%02s:00', floor($minutes/60), $minutes%60);
     }
     
     public static function secondsToTime($seconds)

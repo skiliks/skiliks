@@ -270,7 +270,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testActionsAgregationMechanism()
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -391,6 +391,382 @@ class SimulationServiceTest extends CDbTestCase
             //echo "\n", $agregatedLog->leg_action, ' :: ', $agregatedLog->duration;
             $this->assertEquals($res[$j]['action'],   $agregatedLog->leg_action, 'type, iteration '.$j);
             $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,  'duration, iteration '.$j);
+            $j++;
+        }
+    }
+
+    public function testActionsAgregationMechanism_2()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        $data['data'] = [];
+
+        $action1 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'A_wait',
+            'window_id'   => 1
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Window',
+            'leg_action'            => 'main screen',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => NULL,
+            'window_id'             => 1,
+            'subtype'               => 'main screen',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:00:00',
+            'end_time'              => '09:07:19',
+            'diff_time'             => '00:07:19',
+            'activity_action_id'    => $action1->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_wait',
+            'window_uid'            => 100,
+        ];
+
+        $action41 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'A_wait',
+            'window_id'   => 41
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Window',
+            'leg_action'            => 'documents main',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => NULL,
+            'window_id'             => 41,
+            'subtype'               => 'documents main',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:07:20',
+            'end_time'              => '09:08:03',
+            'diff_time'             => '00:00:43',
+            'activity_action_id'    => $action41->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_wait',
+            'window_uid'            => 101,
+        ];
+
+        $actionTRS6 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'TRS6',
+            'mail_id'     => NULL
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Documents_leg',
+            'leg_action'            => 'D1',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => 'D1',
+            'window_id'             => 42,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => '2_min',
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:08:03',
+            'end_time'              => '09:11:58',
+            'diff_time'             => '00:03:55',
+            'activity_action_id'    => $actionTRS6->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'TRS6',
+            'window_uid'            => 102,
+        ];
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Window',
+            'leg_action'            => 'documents main',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => NULL,
+            'window_id'             => 41,
+            'subtype'               => 'documents main',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:11:58',
+            'end_time'              => '09:12:41',
+            'diff_time'             => '00:00:43',
+            'activity_action_id'    => $action41->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_wait',
+            'window_uid'            => 103,
+        ];
+
+        $action21 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'A_wait',
+            'window_id'   => 21
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Window',
+            'leg_action'            => 'mail main',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => NULL,
+            'window_id'             => 11,
+            'subtype'               => 'mail main',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:12:41',
+            'end_time'              => '09:12:50',
+            'diff_time'             => '00:00:09',
+            'activity_action_id'    => $action21->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_wait',
+            'window_uid'            => 104,
+        ];
+
+        $actionAMY1 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'AMY1',
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Inbox_leg',
+            'leg_action'            => '',
+            'mail_id'               => 1,
+            'dialog_code'           => NULL,
+            'mail_code'             => 'MY1',
+            'doc_code'              => NULL,
+            'window_id'             => 11,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => 1,
+            'coincidence_mail_code' => 'MY1',
+            'category'              => 3,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:12:50',
+            'end_time'              => '09:13:03',
+            'diff_time'             => '00:00:13',
+            'activity_action_id'    => $actionAMY1->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'AMY1',
+            'window_uid'            => 104,
+        ];
+
+        $actionTRS6m = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'TRS6',
+            'document_id' => NULL
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Outbox_leg',
+            'leg_action'            => 'MS48',
+            'mail_id'               => 2,
+            'dialog_code'           => NULL,
+            'mail_code'             => 'MS48',
+            'doc_code'              => NULL,
+            'window_id'             => 13,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => 3,
+            'coincidence_mail_code' => 'MS48',
+            'category'              => '2_min',
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:13:03',
+            'end_time'              => '09:14:49',
+            'diff_time'             => '00:01:46',
+            'activity_action_id'    => $actionTRS6m->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'TRS6',
+            'window_uid'            => 106,
+        ];
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Inbox_leg',
+            'leg_action'            => 'MY1',
+            'mail_id'               => 1,
+            'dialog_code'           => NULL,
+            'mail_code'             => 'MY1',
+            'doc_code'              => NULL,
+            'window_id'             => 11,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => 1,
+            'coincidence_mail_code' => 'MY1',
+            'category'              => 3,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:14:49',
+            'end_time'              => '09:15:00',
+            'diff_time'             => '00:00:11',
+            'activity_action_id'    => $actionAMY1->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'AMY1',
+            'window_uid'            => 104,
+        ];
+
+        $actionAMSY10 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'AMSY10',
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Outbox_leg',
+            'leg_action'            => 'MSY10',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => 'MSY10',
+            'doc_code'              => NULL,
+            'window_id'             => 11,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => 3,
+            'coincidence_mail_code' => NULL,
+            'category'              => 2,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:15:00',
+            'end_time'              => '09:15:14',
+            'diff_time'             => '00:00:14',
+            'activity_action_id'    => $actionAMSY10->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'AMSY10',
+            'window_uid'            => 104,
+        ];
+
+        $actionAU = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'A_already_used',
+            'document_id' => NULL
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Outbox_leg',
+            'leg_action'            => 'MS48',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => 'MS48',
+            'doc_code'              => NULL,
+            'window_id'             => 13,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => 3,
+            'coincidence_mail_code' => 'MS48',
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:15:14',
+            'end_time'              => '09:15:43',
+            'diff_time'             => '00:00:29',
+            'activity_action_id'    => $actionAU->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_already_used',
+            'window_uid'            => 104,
+        ];
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Window',
+            'leg_action'            => 'documents main',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => NULL,
+            'window_id'             => 41,
+            'subtype'               => 'documents main',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 5,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:15:43',
+            'end_time'              => '09:16:28',
+            'diff_time'             => '00:00:45',
+            'activity_action_id'    => $action41->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'A_wait',
+            'window_uid'            => 110,
+        ];
+
+        $actionT321 = ActivityAction::model()->findByAttributes([
+            'activity_id' => 'T3.2.1',
+        ]);
+
+        $data['data'][] = [
+            'sim_id'                => $simulation->id,
+            'leg_type'              => 'Documents_leg',
+            'leg_action'            => 'D1',
+            'mail_id'               => NULL,
+            'dialog_code'           => NULL,
+            'mail_code'             => NULL,
+            'doc_code'              => 'D1',
+            'window_id'             => 42,
+            'subtype'               => '',
+            'type_of_init'          => NULL,
+            'dialog_id'             => NULL,
+            'group_id'              => NULL,
+            'coincidence_mail_code' => NULL,
+            'category'              => 1,
+            'is_keep_last_category' => 0,
+            'start_time'            => '09:16:29',
+            'end_time'              => '09:20:55',
+            'diff_time'             => '00:04:26',
+            'activity_action_id'    => $actionT321->id,
+            'category_id'           => NULL,
+            'activity_id'           => 'T3.2.1',
+            'window_uid'            => 111,
+        ];
+
+        LogHelper::combineLogActivityAgregated($simulation, $data);
+
+        $agregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        $this->assertEquals(4, count($agregatedLogs), 'Total');
+
+        $res = [
+            ['action' => 'main screen', 'duration' => '00:08:03'],
+            ['action' => 'D1'         , 'duration' => '00:05:00'],
+            ['action' => 'MS48'       , 'duration' => '00:03:25'],
+            ['action' => 'D1'         , 'duration' => '00:04:26'],
+        ];
+
+        $j = 0;
+        foreach ($agregatedLogs as $agregatedLog) {
+            $this->assertEquals($res[$j]['action'],   $agregatedLog->leg_action, 'type, iteration '.$j);
+            $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,   'duration, iteration '.$j);
             $j++;
         }
     }
