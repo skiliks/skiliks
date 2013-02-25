@@ -295,7 +295,7 @@ class LogActivityActionTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $activity = new Activity();
-            $activity->id = "WINP";
+            $activity->id = "WINPA";
             $activity->parent = 'WIN';
             $activity->grandparent = "WINALL";
             $activity->name = "Name1";
@@ -308,7 +308,7 @@ class LogActivityActionTest extends CDbTestCase
             $activity_action->window_id = 3;
             $activity_action->leg_type = "Window";
             $activity_action->save();
-            $db = Activity::model()->findByAttributes(['id' => 'WINP']);
+            $db = Activity::model()->findByAttributes(['id' => 'WINPA']);
             $this->assertNotNull($db);
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => 'WINPA']);
             $this->assertNotNull($db2);
@@ -316,15 +316,15 @@ class LogActivityActionTest extends CDbTestCase
             $user = Users::model()->findByAttributes(['email' => 'asd']);
             $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
             $logs = [
-                [3, 3, 'activated', 37526, ['window_uid' => 130]],
-                [3, 3, 'deactivated', 37548, ['window_uid' => 130]]
+                [3, 3, 'activated', 37526, 'window_uid' => 130],
+                [3, 3, 'deactivated', 37548, 'window_uid' => 130]
             ];
             $event = new EventsManager();
             $event->processLogs($simulation, $logs);
             $log_action = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
             $this->assertEquals($activity_action->id, $log_action->activity_action_id);
             $res_activity = ActivityAction::model()->findByAttributes(['id' => $log_action->activity_action_id]);
-            $this->assertEquals('WINP', $res_activity->activity_id);
+            $this->assertEquals('WINPA', $res_activity->activity_id);
             $simulation_service->simulationStop($simulation);
             $transaction->rollback();
         } catch (CException $e) {
