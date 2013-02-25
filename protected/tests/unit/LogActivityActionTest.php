@@ -345,7 +345,6 @@ class LogActivityActionTest extends CDbTestCase
             $simulation_service = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
             $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
-            $mgr = new EventsManager();
             $mail = new MailBoxService();
             $message1 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
@@ -367,6 +366,16 @@ class LogActivityActionTest extends CDbTestCase
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
+            $message3 = $mail->sendMessage([
+                'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
+                'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
+                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'time' => '11:00:00',
+                'group' => 3,
+                'letterType' => 'new',
+                'simId' => $simulation->primaryKey
+            ]);
             $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 516]);
             $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 523]);
 
@@ -379,17 +388,23 @@ class LogActivityActionTest extends CDbTestCase
                 [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message1->primaryKey]],
                 [10, 11, 'activated', 32580, 'window_uid' => 4],
                 [10, 11, 'deactivated', 32640, 'window_uid' => 4],
-                [10, 13, 'activated', 32640, 'window_uid' => 3], # Send mail
-                [10, 13, 'deactivated', 32720, 'window_uid' => 3, ['mailId' => $message1->primaryKey]],
-                [20, 23, 'activated', 32720, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
-                [20, 23, 'deactivated', 32780, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
-                [20, 23, 'activated', 32780, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
-                [20, 23, 'deactivated', 32840, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [10, 13, 'activated', 32640, 'window_uid' => 5], # Send mail
+                [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $message2->primaryKey]],
+                [10, 11, 'activated', 32700, 'window_uid' => 6],
+                [10, 11, 'deactivated', 32760, 'window_uid' => 6],
+                [10, 13, 'activated', 32760, 'window_uid' => 7], # Send mail
+                [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $message3->primaryKey]],
+                [20, 23, 'activated', 32820, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 32880, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
+                [20, 23, 'activated', 32880, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 32940, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
+                [20, 23, 'activated', 32940, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 33000, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
 
             ];
             $event = new EventsManager();
             $event->processLogs($simulation, $logs);
-            $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+            LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
             /** @var $activity_actions LogActivityAction[] */
             $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->id]);
             array_map(function ($i) {$i->dump();}, $activity_actions);
@@ -397,8 +412,8 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertCount(2, $simulation->completed_parent_activities);
             $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
-            $this->assertEquals($activity_actions[5]->activityAction->activity_id, 'T2');
-            $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_already_used');
+            $this->assertEquals('T2', $activity_actions[7]->activityAction->activity_id);
+            $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_already_used');
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();
