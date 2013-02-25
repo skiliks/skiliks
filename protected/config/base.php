@@ -102,7 +102,7 @@ return array(
     // application-level parameters that can be accessed
     // using Yii::app()->params['paramName']
     'params' => array(
-        'frontendUrl' => 'http://front.skiliks.loc/',
+        'frontendUrl' => 'http://skiliks.loc/',
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor' => 8,
