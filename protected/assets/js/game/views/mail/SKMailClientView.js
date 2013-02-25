@@ -1191,8 +1191,8 @@ define([
                 this.$("#MailClient_CopiesList").tagHandler({
                     availableTags:mailClientView.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
-                    minChars: 2,
-                    allowAdd: false
+                    allowAdd: false,
+                    msgNoNewTag: "Вы не можете написать письмо данному получателю"
                 });
 
 
