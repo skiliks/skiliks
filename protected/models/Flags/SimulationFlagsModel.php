@@ -97,6 +97,7 @@ class SimulationFlagsModel extends CActiveRecord
     public function relations() {
         return array(
             'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'flagObj'    => array(self::BELONGS_TO, 'Flag', 'flag'),
         );
     }
 }

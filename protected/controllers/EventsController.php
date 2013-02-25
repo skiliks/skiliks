@@ -19,6 +19,18 @@ class EventsController extends AjaxController {
         $this->sendJSON($json);
         
     }
+
+    public function actionSwitchFlag() {
+        $simulation = $this->getSimulationEntity();
+        $flagName = Yii::app()->request->getParam('flagName', null);
+
+        $json = [
+            'result' => FlagsService::switchFlag($simulation, $flagName),
+            'flags'  => FlagsService::getFlagsState($simulation)
+        ];
+
+        $this->sendJSON($json);
+    }
     
     /**
      * Возврат списка доступных событий в системе

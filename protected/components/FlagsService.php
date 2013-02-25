@@ -47,8 +47,9 @@ class FlagsService
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
             foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
-                $result[$flag->flag] = $flag->value;
-            }        
+                $result[$flag->flag]['value'] = $flag->value;
+                $result[$flag->flag]['name'] = $flag->flagObj->description;
+            }
         }        
         return $result;
     }
@@ -199,6 +200,28 @@ class FlagsService
         //  flags comparison }
 
         // pass comparison - dialog is allowed to run
+        return true;
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @param string $flagName
+     * @return bool
+     */
+    public static function switchFlag($simulation, $flagName) {
+        $flag = SimulationFlagsModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'flag'   => $flagName
+        ]);
+
+        if (NULL === $flag) {
+            return false;
+        }
+
+        $value = (1 == $flag->value) ? 0 : 1; // inversion
+
+        self::setFlag($simulation->id, $flagName, $value);
+
         return true;
     }
 }
