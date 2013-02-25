@@ -5,7 +5,7 @@
  * Date: 2/24/13
  * Time: 5:26 PM
  */
-class MailTest extends CWebTestCase
+class SeleniumMailTest extends CWebTestCase
 {
     protected function setUp()
     {
@@ -58,8 +58,7 @@ class MailTest extends CWebTestCase
         $this->click("//div[@class='mail-popup']//td[1]/div['Продолжить']");
         $this->select("css=select.origin", "Срочно жду бюджет логистики");
 
-        if ($this->isTextPresent('Срочно жду бюджет логистики') == true)
-            echo "Беда, для Крутько все еще отображаются темы как для Трудякина";
+        $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
 
         $this->click("css=input.btn.btn-simulation-stop");
         sleep(15);
