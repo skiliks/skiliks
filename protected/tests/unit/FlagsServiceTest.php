@@ -83,9 +83,10 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
+        /** @var $user Users */
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulationService->simulationStart(1, $user);
         //$dialog = new DialogService();
         // case 1
 
@@ -163,9 +164,9 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped(); // S
 
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulationService->simulationStart(1, $user);
 
         FlagsService::setFlag($simulation->id, 'F4', 0);
 
@@ -220,9 +221,9 @@ class FlagServiceTest extends CDbTestCase
     {
         ////$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $simulation = $simulationService->simulationStart(1, $user);
 
         // Case 1: block event
         $e = new EventsManager();
@@ -284,10 +285,12 @@ class FlagServiceTest extends CDbTestCase
                 break;
             }
         };
+        /** @var $timed_good_email MailBoxModel */
         $timed_good_email = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M8'
         ]);
+        /** @var $timed_bad_email MailBoxModel */
         $timed_bad_email = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M9'

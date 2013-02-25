@@ -1151,6 +1151,8 @@ define([
                 this.$("#MailClient_RecipientsList").tagHandler({
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
+                    allowAdd: false,
+                    msgNoNewTag: "Вы не можете написать письмо данному получателю",
                     onAdd:function (tag) {
                         var me = this;
                         var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
@@ -1188,12 +1190,11 @@ define([
                 // fills copyTo list
                 this.$("#MailClient_CopiesList").tagHandler({
                     availableTags:mailClientView.mailClient.getFormatedCharacterList(),
-                    autocomplete:true
+                    autocomplete:true,
+                    minChars: 2,
+                    allowAdd: false
                 });
 
-                // prevent custom text input
-                this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
 
                 this.delegateEvents();
 
