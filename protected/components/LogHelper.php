@@ -42,8 +42,8 @@ class LogHelper
     const MAIL_NEW_WINDOW_TYPE_ID = 13;
 
     protected static $subScreens = array(
-        1 => 'main screen',
-        3 => 'plan',
+        1 =>  'main screen',
+        3 =>  'plan',
         11 => 'mail main',
         12 => 'mail preview',
         13 => 'mail new',
@@ -1184,16 +1184,16 @@ class LogHelper
         }
 
         $data['headers'] = array(
-            'sim_id' => 'id_симуляции',
-            'leg_type' => 'Leg_type',
-            'leg_action' => 'Leg_action',
-            'activity_id' => 'activity ID',
-            'mail_id' => 'id_исходящего письма',
-            'category' => 'Category',
+            'sim_id'                => 'id_симуляции',
+            'leg_type'              => 'Leg_type',
+            'leg_action'            => 'Leg_action',
+            'activity_id'           => 'activity ID',
+            'mail_id'               => 'id_исходящего письма',
+            'category'              => 'Category',
             'is_keep_last_category' => 'Keep last category',
-            'start_time' => 'Игровое время - start',
-            'end_time' => 'Игровое время - end',
-            'diff_time' => 'Разница времени');
+            'start_time'            => 'Игровое время - start',
+            'end_time'              => 'Игровое время - end',
+            'diff_time'             => 'Разница времени');
 
         if (self::RETURN_DATA == $return) {
             $data['title'] = "Логирование Leg_actions - detail";
@@ -1284,11 +1284,13 @@ class LogHelper
      * Documentation: Создание агрегированного лога для activity
      * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
      */
-    public static function combineLogActivityAgregated($simulation)
+    public static function combineLogActivityAgregated($simulation, $data = null)
     {
         $aggregatedActivity = NULL;
 
-        $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
+        if (null === $data) {
+            $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
+        }
 
         // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
         // Особенности логики, пункт 1 {
@@ -1354,23 +1356,26 @@ class LogHelper
                 // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
                 // Особенности логики, пункт 1 {
                 $mail_code = $activityAction['coincidence_mail_code'];
+                $id = $activityAction['window_uid'];
 
                 if (NULL === $mail_code) {
                     if (in_array($activityAction['leg_action'], $mainWindowLegActions) ||
                         self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
-
                         $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
-
-                    }  else {
-                        $id = $activityAction['window_uid'];
+                    } else {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
+                    if (MailBoxModel::OUTBOX_FOLDER_ID == $activityAction['group_id']) {
+                        $actionDurationInGameSeconds = $durationByWindowUid[$id];
+                    } else {
+                        $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
+                    }
                 }
+
                 // Особенности логики, пункт 1 }
 
-                if ($aggregatedActivity->activityAction->activity_id == $activityAction['activity_id'] ||
+                if ($aggregatedActivity->leg_action == $activityAction['leg_action'] ||
                     $actionDurationInGameSeconds < $limit )
                 {
                     // prolong previous activity :
