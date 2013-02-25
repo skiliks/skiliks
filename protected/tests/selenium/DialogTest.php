@@ -61,18 +61,19 @@ class SelDialogTest extends CWebTestCase
         sleep(15);
         $this->mouseOver("xpath=(//*[contains(text(),'Крутько')])");
         sleep(15);
-        $this->clickAndWait("xpath=(//*[contains(text(),'Крутько')])");
+        $this->click("xpath=(//*[contains(text(),'Крутько')])");
+        sleep(5);
+
+        // here is the error! the themes of message not load
+        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/select");
+
+        $this->waitForVisible("xpath=(//*[contains(text(),Сводный')])");
         sleep(15);
-
-
-        //аааааааааааааааааааааааааааааааааааааааааааааа
         $this->mouseOver("xpath=(//*[contains(text(),'Сводный')])");
         sleep(15);
-        $this->clickAndWait("css=select.origin");
+        $this->clickAndWait("xpath=(//*[contains(text(),'Сводный')])");
         sleep(15);
 
-        // $this->click("css=label.dd-selected-text");
-        // sleep(15);
 
         // call E1.2.1 - it's good works!
 
