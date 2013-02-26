@@ -121,8 +121,14 @@ return array(
             'users' => [
                 ['gugu', 'gfhjkm'],
                 ['slavka', '1'],
+                ['asd', '123'],
                 ['vad', '123'],
-                ['listepo', '111111']
+                ['listepo', '111111'],
+                ['tony', '123'],
+                ['leah', '123'],
+                ['masha', '123'],
+                ['tatiana', '123'],
+                ['ahmed@zoho.com', 'zoho', 1]
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),

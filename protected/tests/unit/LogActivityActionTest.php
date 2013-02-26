@@ -398,8 +398,6 @@ class LogActivityActionTest extends CDbTestCase
                 [20, 23, 'deactivated', 32880, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
                 [20, 23, 'activated', 32880, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
                 [20, 23, 'deactivated', 32940, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
-                [20, 23, 'activated', 32940, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
-                [20, 23, 'deactivated', 33000, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
 
             ];
             $event = new EventsManager();
@@ -413,7 +411,6 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
             $this->assertEquals('T2', $activity_actions[7]->activityAction->activity_id);
-            $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_already_used');
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();

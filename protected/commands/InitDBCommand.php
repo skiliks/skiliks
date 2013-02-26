@@ -13,7 +13,10 @@ class InitDBCommand extends CConsoleCommand {
         $user = Yii::app()->db->username;
         $password = Yii::app()->db->password;
         $escCommand = str_replace("\"","\\\"", $command);
-        $mysqlCmd = "$mysql -u $user -p$password -e \"$escCommand\"";
+        $mysqlCmd = "$mysql -u $user -e \"$escCommand\"";
+        if ($password) {
+            $mysqlCmd .= " -p$password";
+        }
         if ($database !== null) {
             $mysqlCmd .= " -D$database";
         }
@@ -34,7 +37,11 @@ class InitDBCommand extends CConsoleCommand {
         $runner->addCommands($commandPath);
         $commandPath = Yii::getFrameworkPath() . DIRECTORY_SEPARATOR . 'cli' . DIRECTORY_SEPARATOR . 'commands';
         $runner->addCommands($commandPath);
-        $args = array('yiic', 'createadmin', '--email=' . $user[0], '--password=' . $user[1]);
+        $args = array(
+            'yiic',
+            'createuser',
+            '--email=' . $user[0], '--password=' . $user[1], '--isAdmin=' . (isset($user[2]) ? "false" : "true")
+        );
         $runner->run($args);
     }
     public function actionIndex($database, $forceDelete = false)
