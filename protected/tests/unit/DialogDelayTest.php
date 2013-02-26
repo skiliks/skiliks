@@ -16,13 +16,13 @@ class DialogDelayTest extends CDbTestCase {
     {
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_DEVELOP, $user);
 
         // we need transaction - this test delete empty Task table
         $transaction = Yii::app()->db->beginTransaction();
 
-        Task::model()->deleteAll();
-        MailBoxModel::model()->deleteAll();
+        //Task::model()->deleteAll();
+        //MailBoxModel::model()->deleteAll();
         $event = new EventsManager();
 
         //Запуск T7.1

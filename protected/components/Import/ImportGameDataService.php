@@ -1806,13 +1806,13 @@ class ImportGameDataService
             $result['learning_goals'] = $this->importLearningGoals();
             $result['characters_points_titles'] = $this->importCharactersPointsTitles();
             $result['dialog'] = $this->importDialogReplicas();
+            $result['my_documents'] = $this->importMyDocuments();
             $result['email_subjects'] = $this->importEmailSubjects();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();
             $result['mail_events'] = $this->importMailEvents();
             $result['tasks'] = $this->importTasks();
             $result['mail_tasks'] = $this->importMailTasks();
-            $result['my_documents'] = $this->importMyDocuments();
             $result['event_samples'] = $this->importEventSamples();
             $result['activity'] = $this->importActivity();
             $result['activity_parent_ending'] = $this->importActivityParentEnding();

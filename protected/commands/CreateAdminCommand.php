@@ -26,5 +26,13 @@ class CreateAdminCommand extends CConsoleCommand {
             $userGroup->gid = $group->primaryKey;
             $userGroup->save();
         }
+        $group = Group::model()->findByAttributes(['name' => 'promo']);
+        $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
+        if ($userGroup === null) {
+            $userGroup = new UserGroup();
+            $userGroup->uid = $user->primaryKey;
+            $userGroup->gid = $group->primaryKey;
+            $userGroup->save();
+        }
     }
 }
