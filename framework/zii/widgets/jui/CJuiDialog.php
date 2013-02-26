@@ -13,7 +13,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
 /**
  * CJuiDialog displays a dialog widget.
  *
- * CJuiDialog encapsulates the {@link http://jqueryui.com/demos/dialog/ JUI Dialog}
+ * CJuiDialog encapsulates the {@link http://jqueryui.com/demos/dialog/ JUI Replica}
  * plugin.
  *
  * To use this widget, you may insert the following code in a view:
@@ -22,7 +22,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *     'id'=>'mydialog',
  *     // additional javascript options for the dialog plugin
  *     'options'=>array(
- *         'title'=>'Dialog box 1',
+ *         'title'=>'Replica box 1',
  *         'autoOpen'=>false,
  *     ),
  * ));
@@ -39,7 +39,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  *
  * By configuring the {@link options} property, you may specify the options
  * that need to be passed to the JUI dialog plugin. Please refer to
- * the {@link http://jqueryui.com/demos/dialog/ JUI Dialog} documentation
+ * the {@link http://jqueryui.com/demos/dialog/ JUI Replica} documentation
  * for possible options (name-value pairs).
  *
  * @author Sebastian Thierer <sebathi@gmail.com>

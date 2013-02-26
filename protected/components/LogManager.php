@@ -48,7 +48,7 @@ class LogManager
                 }
                 foreach ($universal_logs as $universal_log) {
                     if(!empty($log['lastDialogId'])){
-                        $dialog = Dialog::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
+                        $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
                     }
                     $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
                     $universal_log->end_time = date("H:i:s", $log[3]);
