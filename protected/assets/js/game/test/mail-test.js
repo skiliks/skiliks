@@ -83,6 +83,14 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
 
+                server.respondWith("POST", "/index.php/mail/saveDraft",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+
+                server.respondWith("POST", "/index.php/mail/sendDraft",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:1})]);
+
                 server.respondWith("POST", "/index.php/mail/MarkRead",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
@@ -168,18 +176,64 @@ define([
                 expect(client.getFormatedCharacterList()).toEqual(["bob", "john"]);
             });
 
-            it("can save draft", function () {
+            it("can save draft and send draft", function () {
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
-                var mail = new SKMailClientView({model_instance:mail_window});
-                mail.render();
+
+                var mailView = new SKMailClientView({model_instance:mail_window});
+
+                mailView.render();
                 server.respond();
-                var attachment_button = mail.$('#MailClient_IncomeFolder_EmailPreview .save-attachment-icon');
-                expect(attachment_button.attr('data-document-id')).toEqual(236255);
-                attachment_button.click();
+
+                mailView.$el.find('.NEW_EMAIL').click();
+                $('body').append(mailView.$el);
+
                 server.respond();
+
+                expect(mailView.$('.SEND_EMAIL').length, 1);
+
+                mailView.$el.find('ul.ui-autocomplete:eq(0) a[data-character-id=1]').click();
+
+                // check recipients
+                expect(SKApp.user.simulation.mailClient.defaultRecipients.length).toBe(2);
+
+                server.respond();
+
+                mailView.mailClient.reloadSubjects([1]);
+
+                $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
+
+                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
+
+                // check subjects
+                expect(SKApp.user.simulation.mailClient.availableSubjects.length).toBe(2);
+
+                mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').focus();
+                mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').attr("selected","selected");
+
+                mailView.doUpdateMailPhrasesList();
+
+                mailView.$el.find('.SAVE_TO_DRAFTS').click();
+
+                // check that email saved
+                expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/saveDraft');
+                console.log('Email has been saved!');
+
+                server.respond();
+
+                mailView.$el.find('#FOLDER_DRAFTS').click();
+                server.respond();
+
+                expect(mailView.$el.find('.email-list-line').length).toBe(4);
+
+                mailView.$el.find('.SEND_DRAFT_EMAIL').click();
+                server.respond();
+
+                expect(server.requests[server.requests.length-4].url).toBe('/index.php/mail/sendDraft');
+                console.log('Draft has been sended!');
+
             });
 
             it("can create and send new letter (phrases)", function () {
