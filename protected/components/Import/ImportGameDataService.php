@@ -1757,6 +1757,7 @@ class ImportGameDataService
             $result['flags'] = $this->importFlags();
             $result['dialog'] = $this->importDialogReplicas();
             $result['my_documents'] = $this->importMyDocuments();
+            $result['character_points'] = $this->importDialogPoints();
             $result['email_subjects'] = $this->importEmailSubjects();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();

@@ -51,7 +51,7 @@ class SimulationServiceTest extends CDbTestCase
         
         // get 1122
         $pointFor_1122 = CharactersPointsTitles::model()->find('code = :code', ['code' => '1122']);  
-        
+        $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
             LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
@@ -60,6 +60,7 @@ class SimulationServiceTest extends CDbTestCase
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_1122->id
             ]);
+            $this->assertNotNull($dialogsPoint);
             
             if ($dialogsPoint->add_value === '1') {
                 $count_1++;

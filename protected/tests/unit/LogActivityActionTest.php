@@ -341,9 +341,9 @@ class LogActivityActionTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $simulation_service = new SimulationService();
+            $simulationService = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
-            $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+            $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
             $mail = new MailBoxService();
             $message1 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
