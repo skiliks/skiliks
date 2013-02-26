@@ -117,6 +117,14 @@ return array(
             'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
+        'initial_data' => [
+            'users' => [
+                ['gugu', 'gfhjkm'],
+                ['slavka', '1'],
+                ['vad', '123'],
+                ['listepo', '111111']
+            ]
+        ],
         'analizer' => array(
              'excel' => array(
                  'consolidatedBudget' => array(
