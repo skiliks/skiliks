@@ -1149,6 +1149,7 @@ define([
                 // add attachments list }
 
                 this.$("#MailClient_RecipientsList").tagHandler({
+                    className: 'tagHandler recipients-list-widget',
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
                     onAdd:function (tag) {
@@ -1185,11 +1186,24 @@ define([
                     }
                 });
 
+                this.$('#MailClient_RecipientsList input').focus();
+                this.$('#MailClient_RecipientsList input').blur();
+
+                // add IDs to lists of recipients and copies - to simplify testing
+                this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
+
                 // fills copyTo list
                 this.$("#MailClient_CopiesList").tagHandler({
+                    className: 'tagHandler copy-list-widget',
                     availableTags:mailClientView.mailClient.getFormatedCharacterList(),
                     autocomplete:true
                 });
+
+                this.$('#MailClient_CopiesList input').focus();
+                this.$('#MailClient_CopiesList input').blur();
+
+                // add IDs to lists of recipients and copies - to simplify testing
+                this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
                 // prevent custom text input
                 this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
@@ -1200,6 +1214,15 @@ define([
                 this.mailClient.setActiveScreen(this.mailClient.screenWriteNewCustomEmail);
 
                 this.mailClient.setWindowsLog('mailNew');
+            },
+
+            updateIdsForCharacterlist: function(elements) {
+                var me = this;
+               // items appended to body, so this.$ not works
+               $(elements).each(function(){
+                    var character = me.mailClient.getRecipientByName($(this).text());
+                    $(this).attr('data-character-id', character.excelId);
+                });
             },
 
             getCurentEmailRecipientIds:function () {
@@ -1629,6 +1652,7 @@ define([
                     $("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
+                        className: 'recipients-list',
                         assignedTags: recipient,
                         availableTags: recipient,
                         allowAdd:false,
@@ -1648,6 +1672,7 @@ define([
                     }
 
                     $("#MailClient_CopiesList").tagHandler({
+                        className: 'copy-list',
                         assignedTags:copies,
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true
@@ -1714,6 +1739,7 @@ define([
                     var me = this;
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
+                        className: 'recipients-list',
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true,
                         onAdd:function (tag) {
@@ -1751,6 +1777,7 @@ define([
                     });
 
                     $("#MailClient_CopiesList").tagHandler({
+                        className: 'copy-list',
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true
                     });

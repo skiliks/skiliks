@@ -23,7 +23,7 @@ define([], function() {
          * @return string
          */
         getFormatedForMailToName: function() {
-            return this.name + ', ' + this.email + ' (' + this.mySqlId + ')';
+            return this.name; // + ', ' + this.email + ' (' + this.mySqlId + ')';
         },
         
         /* 
