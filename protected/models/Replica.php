@@ -168,7 +168,7 @@ class Replica extends CActiveRecord implements IGameAction
      */
     public function tableName()
     {
-            return 'dialogs';
+            return 'replica';
     }
     
     // old function
