@@ -1,5 +1,5 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
-define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter" ], function () {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function () {
     "use strict";
     /**
      * @class SKMailClient
@@ -743,6 +743,16 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return undefined;
             },
 
+            getRecipientByName:function (name) {
+                for (var i in this.defaultRecipients) {
+                    // keep non strict!
+                    if (name == this.defaultRecipients[i].name) {
+                        return this.defaultRecipients[i];
+                    }
+                }
+                return undefined;
+            },
+
             updateRecipientsList:function () {
                 var me = this;
                 SKApp.server.api(
@@ -1148,7 +1158,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     false
                 );
-
                 return true;
             },
 

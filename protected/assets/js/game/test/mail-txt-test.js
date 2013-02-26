@@ -113,10 +113,10 @@ define([
                 server.respondWith("POST", "/index.php/mail/getPhrases",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({
-                            "result": 1,
-                            "data":{"1":"phrase 1", "2":"phrase 2", "3":"phrase 3"},
-                            "addData":{"3613":".","3614":",","3615":":","3616":"\"","3617":"-","3618":";"},
-                            "message":""}
+                                "result":  1,
+                                "data":    [],
+                                "addData": [],
+                                "message": "Dummy message."}
                         )]);
 
                 server.respondWith("POST", "/index.php/mail/sendMessage",
@@ -133,56 +133,12 @@ define([
                 SKApp.user = {};
                 this.timeout = 1000;
             });
+
             after(function () {
                 server.restore();
             });
 
-            it("can display mail client", function () {
-                var simulation = SKApp.user.simulation = new SKSimulation();
-                simulation.start();
-                var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
-                mail_window.open();
-                buster.assert.defined(simulation.mailClient);
-                var mail = new SKMailClientView({model_instance:mail_window});
-                var spy = sinon.spy();
-                mail.mailClient.on('init_completed', spy);
-                buster.log('created');
-                mail.render();
-                server.respond();
-
-                assert.calledOnce(spy, 'Init completed triggered');
-                //buster.log(mail.$el.html());
-                assert.defined(mail.mailClient.getEmailByMySqlId(996241));
-
-                /* 4 letters at sim start */
-                expect(mail.$('.mail-emulator-received-list-cell-sender').length).toBe(4);
-                expect(mail.$('tr[data-email-id=996241] td.mail-emulator-received-list-cell-theme').text()).toBe('По ценовой политике');
-                expect(mail.mailClient.getInboxFolder().name).toBe('Входящие');
-                assert.calledOnce(spy);
-                server.respond();
-            });
-
-            it("has characters", function () {
-                var client = new SKMailClient();
-                client.updateRecipientsList();
-                expect(client.getFormatedCharacterList()).toEqual(["bob", "john"]);
-            });
-
-            it("can save draft", function () {
-                var simulation = SKApp.user.simulation = new SKSimulation();
-                simulation.start();
-                var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
-                mail_window.open();
-                var mail = new SKMailClientView({model_instance:mail_window});
-                mail.render();
-                server.respond();
-                var attachment_button = mail.$('#MailClient_IncomeFolder_EmailPreview .save-attachment-icon');
-                expect(attachment_button.attr('data-document-id')).toEqual(236255);
-                attachment_button.click();
-                server.respond();
-            });
-
-            it("can create and send new letter (phrases)", function () {
+            it("can create and send new letter (text constructor)", function () {
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
@@ -211,8 +167,6 @@ define([
 
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
-                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
-
                 // check subjects
                 expect(SKApp.user.simulation.mailClient.availableSubjects.length).toBe(2);
 
@@ -224,7 +178,10 @@ define([
                 server.respond();
 
                 // check phrases
-                expect(SKApp.user.simulation.mailClient.availablePhrases.length).toBe(3);
+                expect(SKApp.user.simulation.mailClient.availablePhrases.length).toBe(0);
+
+                // test TXT constructor
+                expect(mailView.$el.find('#mailEmulatorNewLetterText').text()).toBe('Dummy message.');
 
                 mailView.$el.find('.SEND_EMAIL').click();
 
