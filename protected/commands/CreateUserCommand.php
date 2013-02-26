@@ -3,10 +3,10 @@
  * Created admin user
  */
 
-class CreateAdminCommand extends CConsoleCommand
+class CreateUserCommand extends CConsoleCommand
 {
 
-    public function actionIndex($email, $password)
+    public function actionIndex($email, $password, $isAdmin="true")
     {
         $user = Users::model()->findByAttributes(['email' => $email]);
         if ($user === null) {
@@ -16,13 +16,15 @@ class CreateAdminCommand extends CConsoleCommand
         $user->is_active = true;
         $user->password = md5($password);
         $user->save();
-        $group = Group::model()->findByAttributes(['name' => 'developer']);
-        $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
-        if ($userGroup === null) {
-            $userGroup = new UserGroup();
-            $userGroup->uid = $user->primaryKey;
-            $userGroup->gid = $group->primaryKey;
-            $userGroup->save();
+        if ($isAdmin == 'true') {
+            $group = Group::model()->findByAttributes(['name' => 'developer']);
+            $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
+            if ($userGroup === null) {
+                $userGroup = new UserGroup();
+                $userGroup->uid = $user->primaryKey;
+                $userGroup->gid = $group->primaryKey;
+                $userGroup->save();
+            }
         }
         $group = Group::model()->findByAttributes(['name' => 'promo']);
         $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
