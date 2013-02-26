@@ -1166,7 +1166,7 @@ define([
                         return add;
                     },
                     afterDelete:function(tag){
-                        //
+                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
                     },
                     afterAdd:function(tag){
                         $("#mailEmulatorNewLetterText").html('');
