@@ -9,10 +9,10 @@ class SimpleProfiler
     public $isEnabled = false;
     
     public $timers = [];
-    
+
     /**
-     * 
-     * @param type $isEnabled
+     *
+     * @param bool $isEnabled
      */
     public function __construct($isEnabled = false)
     {
