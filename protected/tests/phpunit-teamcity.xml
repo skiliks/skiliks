@@ -4,7 +4,7 @@
     </php>
     <logging>
         <log type="coverage-html"
-             target="report/html"
+             target="../../doc/coverage"
              title="Skiliks"
              charset="UTF-8"
              yui="true"
