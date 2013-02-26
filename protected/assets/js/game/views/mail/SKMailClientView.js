@@ -16,7 +16,10 @@ define([
         "text!game/jst/mail/action.jst",
         "text!game/jst/mail/preview.jst",
         "text!game/jst/mail/new_email.jst",
-        "text!game/jst/mail/phrase.jst"
+        "text!game/jst/mail/phrase.jst",
+        "text!game/jst/mail/sended_folder_sceleton.jst",
+        "text!game/jst/mail/send_mail_line.jst",
+        "text!game/jst/mail/read_email_sceleton.jst"
 
     ], function (
         SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
@@ -24,7 +27,8 @@ define([
         mail_client_title_template, mail_client_content_template,
         folder_label_template, mail_client_income_line_template,
         income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template,
-        mail_client_new_email_template, mail_client_phrase_template
+        mail_client_new_email_template, mail_client_phrase_template , mail_sender_folder_sceleton_template,
+        send_mail_line, read_mail_sceleton
     ) {
     "use strict";
     /**
@@ -583,7 +587,7 @@ define([
                     }
 
                     // generate HTML by template
-                    emailsList += _.template($('#MailClient_SendedEmailLine').html(), {
+                    emailsList += _.template(send_mail_line, {
 
                         emailMySqlId:sendedEmails[key].mySqlId,
                         recipientName:sendedEmails[key].getFormatedRecipientsString(),
@@ -618,16 +622,16 @@ define([
                     }
 
                     // generate HTML by template
-                    emailsList += _.template($('#MailClient_SendedEmailLine').html(), {
+                    emailsList += _.template(send_mail_line, {
 
-                        emailMySqlId:draftEmails[key].mySqlId,
-                        recipientName:draftEmails[key].getFormatedRecipientsString(),
-                        subject:draftEmails[key].subject.text,
-                        sendedAt:draftEmails[key].sendedAt,
-                        isHasAttachment:draftEmails[key].getIsHasAttachment(),
-                        isHasAttachmentCss:draftEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass:true,
-                        isActiveCssClass:isActiveCssClass
+                        emailMySqlId:        draftEmails[key].mySqlId,
+                        recipientName:       draftEmails[key].getFormatedRecipientsString(),
+                        subject:             draftEmails[key].subject.text,
+                        sendedAt:            draftEmails[key].sendedAt,
+                        isHasAttachment:     draftEmails[key].getIsHasAttachment(),
+                        isHasAttachmentCss:  draftEmails[key].getIsHasAttachmentCss(),
+                        isReadedCssClass:    true,
+                        isActiveCssClass:    isActiveCssClass
                     });
                 }
 
@@ -791,9 +795,9 @@ define([
                 this.unhideFoldersBlock();
 
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_SendedFolderSceleton').html(), {
-                    listId:this.mailClientIncomeFolderListId,
-                    emailPreviewId:this.mailClientInboxFolderEmailPreviewId
+                var sceleton = _.template(mail_sender_folder_sceleton_template, {
+                    listId:         this.mailClientIncomeFolderListId,
+                    emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
                 $('#' + this.mailClientContentBlockId).html(sceleton);
@@ -819,9 +823,9 @@ define([
                 this.unhideFoldersBlock();
 
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_SendedFolderSceleton').html(), {
-                    listId:this.mailClientIncomeFolderListId,
-                    emailPreviewId:this.mailClientInboxFolderEmailPreviewId
+                var sceleton = _.template(mail_sender_folder_sceleton_template, {
+                    listId:         this.mailClientIncomeFolderListId,
+                    emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
                 $('#' + this.mailClientContentBlockId).html(sceleton);
@@ -876,7 +880,7 @@ define([
 
             renderReadEmail:function (email) {
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_ReadEmailSceleton').html(), {
+                var sceleton = _.template(read_mail_sceleton, {
                     emailPreviewId:this.mailClientReadEmailContentBoxId
                 });
 
@@ -1656,12 +1660,18 @@ define([
                     $("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
-                        className: 'recipients-list',
+                        className: 'tagHandler recipients-list-widget',
                         assignedTags: recipient,
                         availableTags: recipient,
                         allowAdd:false,
                         allowEdit:false
                     });
+
+                    this.$('#MailClient_RecipientsLis').focus();
+                    this.$('#MailClient_RecipientsLis').blur();
+
+                    // add IDs to lists of recipients and copies - to simplify testing
+                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
 
                     // add copies if they exests {
                     var copies = [];
@@ -1676,11 +1686,17 @@ define([
                     }
 
                     $("#MailClient_CopiesList").tagHandler({
-                        className: 'copy-list',
+                        className: 'tagHandler copy-list-widget',
                         assignedTags:copies,
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true
                     });
+
+                    this.$('#MailClient_CopiesList').focus();
+                    this.$('#MailClient_CopiesList').blur();
+
+                    // add IDs to lists of recipients and copies - to simplify testing
+                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
                     // prevent custom text input
                     $("#MailClient_RecipientsList input").attr('readonly', 'readonly');
@@ -1743,7 +1759,7 @@ define([
                     var me = this;
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
-                        className: 'recipients-list',
+                        className: 'tagHandler recipients-list-widget',
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true,
                         onAdd:function (tag) {
@@ -1780,15 +1796,27 @@ define([
                         }
                     });
 
+                    this.$('#MailClient_RecipientsList').focus();
+                    this.$('#MailClient_RecipientsList').blur();
+
+                    // add IDs to lists of recipients and copies - to simplify testing
+                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
+
                     $("#MailClient_CopiesList").tagHandler({
-                        className: 'copy-list',
+                        className: 'tagHandler copy-list-widget',
                         availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete:true
                     });
+
+                    this.$('#MailClient_CopiesList').focus();
+                    this.$('#MailClient_CopiesList').blur();
+
+                    // add IDs to lists of recipients and copies - to simplify testing
+                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
+
                     // prevent custom text input
                     $("#MailClient_RecipientsList input").attr('readonly', 'readonly');
                     $("#MailClient_CopiesList input").attr('readonly', 'readonly');
-
                     // add copies if they exests }
 
                     // add phrases {
