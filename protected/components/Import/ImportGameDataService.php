@@ -1164,7 +1164,7 @@ class ImportGameDataService
                 $flag = Flag::model()->findByAttributes([
                     'code' => $flagCode
                 ]);
-                assert($flag, 'Flag for ' . $flagCode);
+                //assert($flag, 'Flag for ' . $flagCode);
                 $dialog->flag_to_switch = $flag->code;
             } else {
                 $dialog->flag_to_switch = null;
