@@ -22,16 +22,14 @@
     </style>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script>
-        var prefix = 'http://ci.dev.skiliks.com';
-        var xml = '/httpAuth/app/rest/buildTypes/id:bt2/builds/';
+        var prefix = 'ci.php?params=';
+        var xml = '/httpAuth/app/rest/buildTypes/id:bt3/builds/';
         function ci_call(url, result) {
             $.ajax({
                 url:prefix + url,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader ("Authorization", "Basic Z3VndTpnZmhqa20=");
-                },
                 success: result
             });
+
         }
         function update_tc(){
             ci_call(xml, function (data) {
@@ -61,7 +59,11 @@
                         ci_call(changes_url, function(data) {
                             $(data).find('change').each(function() {
                                 ci_call($(this).attr('href'), function(data) {
-                                    $('#author').html('Fixed by ' + $(data).find('change').attr('username'));
+                                    if ($(data).find('change').attr('username') !== undefined) {
+                                        $('#author').html('Fixed by ' + $(data).find('change').attr('username'));
+                                    } else {
+                                        $('#author').html('');
+                                    }
                                 })
                             })
                         })
