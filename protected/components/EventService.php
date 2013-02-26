@@ -185,7 +185,7 @@ class EventService {
             $document = MyDocumentsModel::model()->byTemplateId($templateId)->bySimulation($simId)->find();
             if (!$document) return false;
             
-            return array('result' => 1, 'eventType' => $type, 'id' => $document->id);
+            return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);
         }
         
         if ($type == 'P') {
