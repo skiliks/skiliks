@@ -1,0 +1,17 @@
+<phpunit bootstrap="bootstrap.php" strict="false">
+    <php>
+        <includePath>../../framework</includePath>
+    </php>
+    <logging>
+        <log type="coverage-html"
+             target="report/html"
+             title="Skiliks"
+             charset="UTF-8"
+             yui="true"
+             highlight="true"
+             lowUpperBound="35" highLowerBound="70" />
+    </logging>
+    <testSuite>
+        <directory>protected/tests</directory>
+    </testSuite>
+</phpunit>
