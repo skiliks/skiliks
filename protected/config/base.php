@@ -125,6 +125,7 @@ return array(
                 ['listepo', '111111']
             ]
         ],
+        'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
         'analizer' => array(
              'excel' => array(
                  'consolidatedBudget' => array(
