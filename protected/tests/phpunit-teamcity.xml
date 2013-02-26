@@ -1,4 +1,4 @@
-<phpunit bootstrap="bootstrap.php" strict="false">
+<phpunit bootstrap="bootstrap.php" strict="false" printer="PHPUnit_Extensions_TeamCity_TestListener">
     <php>
         <includePath>../../framework</includePath>
     </php>
