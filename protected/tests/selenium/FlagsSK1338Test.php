@@ -47,7 +47,7 @@ class FlagsSK1338Test extends CWebTestCase
         sleep(15);
         $this->click("link=— Марина, есть срочная работа.");
         $this->click("link=exact:— Закончила? Теперь слушай сюда. Если мы не сдадим бюджет Денежной через два часа, она нас обоих уволит. Пересылаю тебе файл, приступай немедленно.");
-        sleep(5);
+        sleep(10);
 
         // send message MS21
         $this->click("id=icons_email");
