@@ -4,6 +4,9 @@
  */
 return [
     'dialogs' => [
-        'key' => ['value', 1, 2, 3]
+        'key' => [
+            'key1' => 'value',
+            'key2' => 'value'
+        ]
     ]
 ];
