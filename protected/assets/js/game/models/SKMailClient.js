@@ -851,7 +851,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param subject
              */
             reloadSubjects:function (recipientIds, subject) {
-                if(recipientIds.length <= 0){ return; }
+                if(recipientIds.length <= 0) {
+                    $("#MailClient_NewLetterSubject option[value!='0']").remove();
+                    return;
+                }
                 this.messageForNewEmail = '';
                 var me = this;
                 SKApp.server.api(

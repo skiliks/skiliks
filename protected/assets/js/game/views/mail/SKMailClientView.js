@@ -1152,6 +1152,8 @@ define([
                     className: 'tagHandler recipients-list-widget',
                     availableTags:SKApp.user.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete:true,
+                    allowAdd: false,
+                    msgNoNewTag: "Вы не можете написать письмо данному получателю",
                     onAdd:function (tag) {
                         var me = this;
                         var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
@@ -1165,7 +1167,7 @@ define([
                         return add;
                     },
                     afterDelete:function(tag){
-                        //
+                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
                     },
                     afterAdd:function(tag){
                         $("#mailEmulatorNewLetterText").html('');
@@ -1196,7 +1198,9 @@ define([
                 this.$("#MailClient_CopiesList").tagHandler({
                     className: 'tagHandler copy-list-widget',
                     availableTags:mailClientView.mailClient.getFormatedCharacterList(),
-                    autocomplete:true
+                    autocomplete:true,
+                    allowAdd: false,
+                    msgNoNewTag: "Вы не можете написать письмо данному получателю"
                 });
 
                 this.$('#MailClient_CopiesList input').focus();
