@@ -41,6 +41,10 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     }
                 } else if (event.getTypeSlug() === 'document') {
                     me.startAnimation('.documents');
+
+                    if (event.get('type') === 'D') {
+                        me.documentId = event.get('data')['id'];
+                    }
                 } else if (event.getTypeSlug() === 'phone') {
                     me.$('.phone').attr('data-event-id', event.cid);
 
@@ -240,7 +244,13 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         doDocumentsToggle:function (e) {
             e.preventDefault();
-            SKApp.user.simulation.window_set.toggle('documents','documents');
+
+            if (this.documentId) {
+                this.doDocumentViewShow(this.documentId);
+                this.documentId = null;
+            } else {
+                SKApp.user.simulation.window_set.toggle('documents','documents');
+            }
 
             this.$('.documents').removeClass('icon-active');
         },
@@ -255,6 +265,16 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                 SKApp.user.simulation.mailClient.getActiveSubscreenName()
             );
 
+        },
+
+        doDocumentViewShow: function(docId) {
+            var document = SKApp.user.simulation.documents.where({id: docId})[0];
+            var window = new SKDocumentsWindow({
+                subname: 'documentsFiles',
+                document: document,
+                fileId: document.get('id')
+            });
+            window.open();
         },
 
         /**
