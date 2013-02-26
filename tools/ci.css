@@ -1,0 +1,44 @@
+/*
+    Styles for http://kostenko.name/ci.html
+*/
+
+body {
+    font-family: Georgia, sans-serif;
+    letter-spacing: -0.2em;
+    margin: 0;
+    padding:0;
+}
+
+.success {
+    background-color: #8f8;
+}
+
+.failure {
+    background-color: #f88;
+}
+
+#status {
+    margin-top:10%;
+    text-align: center;
+    font-size: 6em;
+    padding:0.5em;
+}
+
+.failure #status {
+    background-color: #fcbebe;
+}
+
+.success #status {
+    background-color: #3ee33e;
+}
+
+#author {
+    text-align: center;
+    font-size: 7em;
+    padding: 0.5em;
+}
+
+.success #author {
+    font-size: 8em;
+    font-style: italic;
+}
