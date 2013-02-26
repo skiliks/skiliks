@@ -80,14 +80,14 @@
     {/foreach}
 </table>
 
-<h1 id="dialog-log">Dialog log</h1>
+<h1 id="dialog-log">Replica log</h1>
 
 <table class="table table-striped mail-log">
     <thead>
     <tr>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Dialog code</th>
+        <th>Replica code</th>
         <th>Result replica</th>
     </tr>
     </thead>

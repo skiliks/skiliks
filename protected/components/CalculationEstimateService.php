@@ -23,7 +23,7 @@ class CalculationEstimateService
         }
         
         // получить duration
-        $dialog = Dialog::model()->byId($dialogId)->find();
+        $dialog = Replica::model()->byId($dialogId)->find();
         if (!$dialog) throw new Exception ("Cant find dialog for {$dialogId}");
         $duration += (int)$dialog->delay;
         
@@ -32,7 +32,7 @@ class CalculationEstimateService
         
         
         // 2) к записи, если таковая существует, которая имеет code = code записи, полученной с фронта,  
-        $dialogCollection = Dialog::model()->byCode($dialog->code)->byStepNumber($dialog->step_number)->byReplicaNumber(0)->findAll();
+        $dialogCollection = Replica::model()->byCode($dialog->code)->byStepNumber($dialog->step_number)->byReplicaNumber(0)->findAll();
         foreach($dialogCollection as $curDialog) {
             $duration += (int)$curDialog['delay'];
             $dialogs[] = $curDialog['id'];

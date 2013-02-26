@@ -18,17 +18,17 @@ class FlagServiceTest extends CDbTestCase
 
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(35)->find()->id,
+            Replica::model()->byExcelId(35)->find()->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(50)->find()->id,
+            Replica::model()->byExcelId(50)->find()->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(70)->find()->id,
+            Replica::model()->byExcelId(70)->find()->id,
             '11:00'
         );
 
@@ -93,7 +93,7 @@ class FlagServiceTest extends CDbTestCase
         $e = new EventsManager();
         $e->startEvent($simulation->id, 'S2', false, false, 0);
 
-        /*$dialogs = Dialog::model()->findAllByAttributes([
+        /*$dialogs = Replica::model()->findAllByAttributes([
             'code'        => 'S2',
             'step_number' => 1
         ]);*/
@@ -209,7 +209,7 @@ class FlagServiceTest extends CDbTestCase
         $r = $e->getState($simulation, []);
 
         $dialog = new DialogService();
-        $json = $dialog->getDialog($simulation->id, Dialog::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
+        $json = $dialog->getDialog($simulation->id, Replica::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
 
         $this->assertEquals(0, count($json['events']));
     }

@@ -12,7 +12,6 @@ class LogActivityActionTest extends CDbTestCase
 
     public function testActivityActionDetail()
     {
-
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
@@ -303,29 +302,29 @@ class LogActivityActionTest extends CDbTestCase
             $activity->numeric_id = 10000;
             $activity->type = "Activity";
             $activity->save();
-            $activity_action = new ActivityAction();
-            $activity_action->activity_id = "WINPA";
-            $activity_action->window_id = 3;
-            $activity_action->leg_type = "Window";
-            $activity_action->save();
+            $activityAction = new ActivityAction();
+            $activityAction->activity_id = "WINPA";
+            $activityAction->window_id = 3;
+            $activityAction->leg_type = "Window";
+            $activityAction->save();
             $db = Activity::model()->findByAttributes(['id' => 'WINPA']);
             $this->assertNotNull($db);
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => 'WINPA']);
             $this->assertNotNull($db2);
-            $simulation_service = new SimulationService();
+            $simulationService = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
-            $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+            $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
             $logs = [
                 [3, 3, 'activated', 37526, 'window_uid' => 130],
                 [3, 3, 'deactivated', 37548, 'window_uid' => 130]
             ];
             $event = new EventsManager();
             $event->processLogs($simulation, $logs);
-            $log_action = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
-            $this->assertEquals($activity_action->id, $log_action->activity_action_id);
-            $res_activity = ActivityAction::model()->findByAttributes(['id' => $log_action->activity_action_id]);
-            $this->assertEquals('WINPA', $res_activity->activity_id);
-            $simulation_service->simulationStop($simulation);
+            $logAction = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
+            $this->assertEquals($activityAction->id, $logAction->activity_action_id);
+            $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
+            $this->assertEquals('WINPA', $resActivity->activity_id);
+            $simulationService->simulationStop($simulation);
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();
@@ -376,8 +375,8 @@ class LogActivityActionTest extends CDbTestCase
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
-            $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 516]);
-            $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 523]);
+            $first_dialog = Replica::model()->findByAttributes(['excel_id' => 516]);
+            $last_dialog = Replica::model()->findByAttributes(['excel_id' => 523]);
 
             $logs = [
                 [1, 1, 'activated', 32400, 'window_uid' => 1],

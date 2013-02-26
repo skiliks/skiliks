@@ -1120,11 +1120,11 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialog::model()
+            $dialog = Replica::model()
                 ->byExcelId($dialog_excel_id)
                 ->find();
             if (NULL === $dialog) {
-                $dialog = new Dialog(); // Создаем событие
+                $dialog = new Replica(); // Создаем событие
                 $dialog->excel_id = $dialog_excel_id;
             }
 
@@ -1189,7 +1189,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        Dialog::model()->deleteAll(
+        Replica::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
@@ -1233,7 +1233,7 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialog::model()
+            $dialog = Replica::model()
                 ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
                 ->find();
 
@@ -1604,11 +1604,11 @@ class ImportGameDataService
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = Dialog::model()->findAll();
+                    $values = Replica::model()->findAll();
                 } else if ($xls_act_value === 'phone talk') {
                     $values = [null];
                 } else {
-                    $dialogs = Dialog::model()->findAllByAttributes(array('code' => $xls_act_value));
+                    $dialogs = Replica::model()->findAllByAttributes(array('code' => $xls_act_value));
                     if (count($dialogs) === 0) {
                         assert($dialogs, 'No such dialog: "' . $xls_act_value . '"');
                     }
@@ -1648,7 +1648,7 @@ class ImportGameDataService
                 throw new Exception('Can not handle type:' . $type);
             }
 
-            // update relation Activiti to Document, Dialog replic ro Email {
+            // update relation Activiti to Document, Replica replic ro Email {
             foreach ($values as $value) {
                 /** @var ActivityAction $activityAction */
                 $activityAction = ActivityAction::model()->findByAttributes(array(
@@ -1670,7 +1670,7 @@ class ImportGameDataService
                 }
                 $activityAction->save();
             }
-            // update relation Activity to Document, Dialog replic ro Email }
+            // update relation Activity to Document, Replica replic ro Email }
 
             $activity_actions++;
         }
@@ -1712,7 +1712,7 @@ class ImportGameDataService
             $endCode = $this->getCellValue($sheet, 'Parent_end_code', $i);
 
             if ($endType == 'id_записи') {
-                $entity = Dialog::model()->byExcelId($endCode)->find();
+                $entity = Replica::model()->byExcelId($endCode)->find();
             } elseif ($endType == 'outbox' || $endType == 'inbox') {
                 $entity = MailTemplateModel::model()->byCode($endCode)->find();
             }
