@@ -16,7 +16,7 @@ class FlagsSK1341Test extends CWebTestCase
     }
 
     public function testSK1341() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("3000");
