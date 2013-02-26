@@ -51,11 +51,13 @@ class FlagServiceTest extends CDbTestCase
         $simulation = $simulationService->simulationStart(2, $user);
 
         $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
+        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
         $msgParams = [
             'simId' => $simulation->id,
-            'subject_id' => 10495,
+            'subject_id' => CommunicationTheme::model()->findByAttributes([
+                'code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>null])->primaryKey,
             'message_id' => 0,
-            'receivers' => Characters::model()->findByAttributes(['code' => '12'])->primaryKey,
+            'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
             'sender' => $senderId,
             'time' => '11:00',
@@ -65,7 +67,7 @@ class FlagServiceTest extends CDbTestCase
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        $msgParams['subject_id'] = 10498;
+        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes(['code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>'rere'])->primaryKey;
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 

@@ -38,9 +38,9 @@ class SimulationServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
         
         // init conts
         // get all replics that change score for behaviour '1122'
