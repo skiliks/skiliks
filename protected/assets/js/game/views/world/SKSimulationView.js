@@ -3,22 +3,19 @@
 
 var SKSimulationView;
 
-/*    "game/views/mail/SKMailClientView",
- "game/views/documents/SKDocumentListView",
- "game/views/plan/SKDayPlanView",
- "game/views/documents/SKPDFDisplayView",
- "game/views/documents/SKXLSDisplayView",
- "game/views/phone/SKPhoneView",
- "game/views/phone/SKPhoneCallView",
- "game/views/phone/SKPhoneDialogView",
- "game/views/dialogs/SKVisitView",
- "game/views/dialogs/SKImmediateVisitView",
- "game/views/world/SKDebugView"
- */
 
 define([
-    "game/views/mail/SKMailClientView",
-    "game/views/documents/SKDocumentListView"
+     "game/views/mail/SKMailClientView",
+     "game/views/documents/SKDocumentListView",
+     "game/views/plan/SKDayPlanView",
+     "game/views/documents/SKPDFDisplayView",
+     "game/views/documents/SKXLSDisplayView",
+     "game/views/phone/SKPhoneView",
+     "game/views/phone/SKPhoneCallView",
+     "game/views/phone/SKPhoneDialogView",
+     "game/views/dialogs/SKVisitView",
+     "game/views/dialogs/SKImmediateVisitView",
+     "game/views/world/SKDebugView"
     ], function () {
     "use strict";
     /**

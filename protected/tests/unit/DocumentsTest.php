@@ -8,29 +8,55 @@
  */
 class DocumentsTest extends CDbTestCase
 {
+    /**
+     * Checks if user can open attachment from e-mail
+     */
     public function testCanOpenDocument()
     {
         // $this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
             'order'      => 'name',
             'orderType'  => 'ASC',
             'simId'      => $simulation->id
         )));
-        $tmp_messages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
-        $attachment_id = $tmp_messages[0]['attachmentFileId'];
-        $file = MyDocumentsModel::model()->findByPk($attachment_id);
+        $tmpMessages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
+        $attachmentId = $tmpMessages[0]['attachmentFileId'];
+        $file = MyDocumentsModel::model()->findByPk($attachmentId);
         $this->assertEquals(MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file), true);
-        $name = $tmp_messages[0]['attachmentName'];
+        $name = $tmpMessages[0]['attachmentName'];
         $this->assertCount(1,array_filter(
             MyDocumentsService::getDocumentsList($simulation),
             function ($doc) use ($name) {
                 return $doc['name'] === $name;
             }));
+    }
+
+    /**
+     * Checks if user can open excel
+     */
+    public function testCanOpenExcel()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
+        $file = MyDocumentsModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $documentTemplate->primaryKey
+        ]);
+        $zoho = $this->getMock('ZohoDocuments', ['sendDocumentToZoho'] , [$simulation->primaryKey, $file->primaryKey, $file->template->srcFile]);
+        $zoho->sendDocumentToZoho();
+        $result = array(
+            'result'           => 1,
+            'filedId'          => $file->id,
+            'excelDocumentUrl' => $zoho->getUrl(),
+        );
+        print_r($result);
     }
 }
