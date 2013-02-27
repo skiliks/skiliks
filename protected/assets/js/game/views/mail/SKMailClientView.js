@@ -1237,8 +1237,7 @@ define([
             getCurentEmailRecipientIds:function () {
                 var list = [];
                 var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
-
-                var valuesArray = $("#MailClient_RecipientsList li.tagItem").get();
+                var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
 
                 for (var i in valuesArray) {
                     for (var j in defaultRecipients) {
@@ -1294,19 +1293,19 @@ define([
                 var listHtml = '<option selected value="'
                     + subject.characterSubjectId + '">' + subject.getText() + '</option>';
 
-                $("#MailClient_NewLetterSubject select").html(listHtml);
-                $("#MailClient_NewLetterSubject select").attr("disabled", true);
+                this.$("#MailClient_NewLetterSubject select").html(listHtml);
+                this.$("#MailClient_NewLetterSubject select").attr("disabled", true);
             },
 
             getCurentEmailSubjectId:function () {
                 // removeAttr - for reply, replyAll, forward cases
-                $("#MailClient_NewLetterSubject select option:selected").removeAttr("disabled");
+                this.$("#MailClient_NewLetterSubject select option:selected").removeAttr("disabled");
 
-                return $("#MailClient_NewLetterSubject select option:selected").val();
+                return this.$("#MailClient_NewLetterSubject select option:selected").val();
             },
 
             getCurentEmailSubjectText:function () {
-                return $("#MailClient_NewLetterSubject select option:selected").text();
+                return this.$("#MailClient_NewLetterSubject select option:selected").text();
             },
 
             renderPhrases:function () {
@@ -1486,33 +1485,33 @@ define([
             },
 
             doSaveEmailToDrafts:function () {
+                var me = this;
                 var emailToSave = this.generateNewEmailObject();
 
-                var result = this.mailClient.saveToDraftsEmail(emailToSave);
-                if (false !== result) { // sync AJAX
+                this.mailClient.saveToDraftsEmail(emailToSave, function () {
+                    me.updateFolderLabels();
+                    me.renderActiveFolder();
 
-                    this.updateFolderLabels();
-                    this.renderActiveFolder();
-
-                    this.mailClient.setWindowsLog(
+                    me.mailClient.setWindowsLog(
                         'mailMain',
-                        this.mailClient.getActiveEmailId()
+                        me.mailClient.getActiveEmailId()
                     );
-                }
+                });
             },
 
-            doSendEmail:function () {
+            doSendEmail: function () {
+                var me = this;
                 var emailToSave = this.generateNewEmailObject();
 
-                if (false !== this.mailClient.sendNewCustomEmail(emailToSave)) { // sync AJAX
+                this.mailClient.sendNewCustomEmail(emailToSave, function () {
                     this.updateFolderLabels();
                     this.renderActiveFolder();
 
-                    this.mailClient.setWindowsLog(
+                    me.mailClient.setWindowsLog(
                         'mailMain',
-                        this.mailClient.getActiveEmailId()
+                        me.mailClient.getActiveEmailId()
                     );
-                }
+                });
             },
 
             renderWriteEmailScreen:function (iconsList) {
@@ -1528,7 +1527,7 @@ define([
                 this.hideFoldersBlock();
 
                 // render HTML sceleton
-                $("#" + this.mailClientContentBlockId).html(htmlSceleton);
+                this.$("#" + this.mailClientContentBlockId).html(htmlSceleton);
 
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
@@ -1601,7 +1600,7 @@ define([
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                     mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function(){
 
-                            $('#mailEmulatorNewLetterText').html('');
+                            mailClientView.$('#mailEmulatorNewLetterText').html('');
 
                     });
                 }
@@ -1632,7 +1631,6 @@ define([
              */
             doUpdateScreenFromReplyEmailData:function (response) {
                 if (1 == response.result) {
-
                     if (null == response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                         this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
@@ -1658,9 +1656,9 @@ define([
                     var recipient = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
                         .getFormatedForMailToName()];
 
-                    $("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
+                    this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
                     // set recipients
-                    $("#MailClient_RecipientsList").tagHandler({
+                    this.$("#MailClient_RecipientsList").tagHandler({
                         className: 'tagHandler recipients-list-widget',
                         assignedTags: recipient,
                         availableTags: recipient,
@@ -1668,8 +1666,8 @@ define([
                         allowEdit:false
                     });
 
-                    this.$('#MailClient_RecipientsLis').focus();
-                    this.$('#MailClient_RecipientsLis').blur();
+                    this.$('#MailClient_RecipientsList').focus();
+                    this.$('#MailClient_RecipientsList').blur();
 
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
@@ -1700,8 +1698,8 @@ define([
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
                     // prevent custom text input
-                    $("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                    $("#MailClient_CopiesList input").attr('readonly', 'readonly');
+                    this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
+                    this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
                     // add copies if they exests }
 
                     // add phrases {

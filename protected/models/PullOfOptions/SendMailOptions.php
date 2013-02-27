@@ -5,22 +5,22 @@
  */
 class SendMailOptions
 {
-     public $simulation = NULL;
-     public $senderId   = NULL;
+    public $simulation = NULL;
+    public $senderId   = NULL;
     /**
      * @var MailTemplateModel $messageId
      */
     public $messageId  = NULL;
-     public $time       = NULL;
-     public $fileId     = NULL;
-     public $subject_id  = NULL;
+    public $time       = NULL;
+    public $fileId     = NULL;
+    public $subject_id  = NULL;
+
+    public $copies     = array();
+    public $phrases    = array();
      
-     public $copies     = array();
-     public $phrases    = array();
+    private $letterType = NULL;
      
-     private $letterType = NULL;
-     
-     private $recipients  = array();
+    private $recipients  = array();
      
      /**
       * @return bool

@@ -51,7 +51,8 @@ class FlagsSK1341Test extends CWebTestCase
         sleep(10);
 
         $this->click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->click("link=новое письмо");
+        sleep(10);
+        $this->click("xpath=//div[@class='NEW_EMAIL']");
         sleep(15);
 
         $this->click(Yii::app()->params['test_mappings']['mail']['to_whom']);
@@ -84,17 +85,11 @@ class FlagsSK1341Test extends CWebTestCase
         $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         sleep(15);
 
-        // some replics from dialog E1.2.1
-        //$this->assertTextPresent("Марина, ну как у");
-        //
-
         // verifing the value of F3'
         $this->assertText("xpath=//div[@class='debug-panel']/div[@class='row']/div[@class='span3'][2]/form[@class='form-inline form-flags']/fieldset/table[@class='table table-bordered'][2]/tbody/tr/td[5]","1");
         sleep(2);
 
         $this->click("css=input.btn.btn-simulation-stop");
-        //sleep(15);
-        // $this->click("css=input.btn.logout");
 
     }
 }
