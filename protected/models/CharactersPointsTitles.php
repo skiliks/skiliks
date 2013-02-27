@@ -74,6 +74,21 @@ class CharactersPointsTitles extends CActiveRecord
     }
 
     /**
+     * User representation if type scale
+     * @return string
+     */
+    public function getTypeScaleTitle()
+    {
+        if ($this->isPositive()) {
+            return 'Положительная';
+        } else if ($this->isNegative()) {
+            return 'Отрицательная';
+        } else if ($this->isPersonal()) {
+            return 'Персональная';
+        }
+    }
+
+    /**
      * Amaizing! Id for property without table in DB.
      * @param string $name
      * @return int|null
