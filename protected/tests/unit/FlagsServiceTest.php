@@ -67,7 +67,10 @@ class FlagServiceTest extends CDbTestCase
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes(['code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>'rere'])->primaryKey;
+        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes([
+            'code'=>55, 'character_id' => $receiverId,
+            'mail_prefix'=>'rere', 'theme_usage' => 'mail_outbox'
+        ])->primaryKey;
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
