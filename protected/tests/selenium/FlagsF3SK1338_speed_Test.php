@@ -6,7 +6,7 @@
  * Time: 5:51 PM
  * To change this template use File | Settings | File Templates.
  */
-class FlagsSK1338Test extends CWebTestCase
+class FlagsF3SK1338Test extends CWebTestCase
 {
     protected function setUp()
     {
