@@ -257,6 +257,8 @@ class MailBoxService
     /**
      * Sends message in the internal mail client
      *
+     * @deprecated, (it use array), use sendMessagePro instead of sendMessage
+     *
      * @param array $params dictionary with elements letterType, subject
      * @return \MailBoxModel
      */

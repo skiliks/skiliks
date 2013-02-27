@@ -178,8 +178,8 @@ class SimulationService
                 // @todo: handle exception
             }
         }
+        //3313 - read most of not-spam emails }
 
-        
         $b_3333 = $emailAnalizer->check_3333();
         if (isset($b_3333['obj']) && 
             isset($b_3333['positive']) &&
@@ -196,7 +196,25 @@ class SimulationService
                 // @todo: handle exception
             }
         }
-        //3313 - read most of not-spam emails } 
+
+        //3326 - write not a lot of wrong emails {
+        $b_3326 = $emailAnalizer->check_3326();
+        if (isset($b_3326['obj']) &&
+            isset($b_3326['positive']) &&
+            true === $b_3326['obj'] instanceof CharactersPointsTitles)
+        {
+            $emailResultsFor_3326 = new SimulationsMailPointsModel();
+            $emailResultsFor_3326->sim_id        = $simId;
+            $emailResultsFor_3326->point_id      = $b_3326['obj']->id;
+            $emailResultsFor_3326->scale_type_id = $b_3326['obj']->type_scale;
+            $emailResultsFor_3326->value         = $b_3326['positive'];
+            try {
+                $emailResultsFor_3326->save();
+            } catch (Exception $e) {
+                // @todo: handle exception
+            }
+        }
+        //3326 - write not a lot of wrong emails }
     }
     
     /**
@@ -209,13 +227,7 @@ class SimulationService
         $data = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
         
         $behaviours = array();
-        
-        /**
-         * $line:
-            'p_code'           => 'Номер поведения',
-            'add_value'      => 'Проявление',
-         */
-          
+
         foreach ($data['data'] as $line) {
             $pointCode = $line['code'];
             if (false === isset($behaviours[$pointCode])) {

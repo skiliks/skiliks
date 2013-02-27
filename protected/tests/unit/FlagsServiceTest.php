@@ -89,34 +89,22 @@ class FlagServiceTest extends CDbTestCase
         /** @var $user Users */
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
-        //$dialog = new DialogService();
         // case 1
 
         $e = new EventsManager();
         $e->startEvent($simulation->id, 'S2', false, false, 0);
 
-        /*$dialogs = Replica::model()->findAllByAttributes([
-            'code'        => 'S2',
-            'step_number' => 1
-        ]);*/
-
-        /*$ids = [];
-        foreach ($dialogs as $dialog) {
-            $ids[] = $dialog->excel_id;
-        }*/
         $data = [];
         //case 1
         $result = $e->getState($simulation, []);
-        //$result = $dialog->getDialog($simulation->id, '134', '12:00:00');
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
                 $this->assertFalse(in_array($replica['excel_id'], $data));
                 $data[] = $replica['excel_id'];
             }
         }
+
         // case 2
-
-
         FlagsService::setFlag($simulation->id, 'F1', 1);
 
         $e = new EventsManager();
@@ -129,6 +117,7 @@ class FlagServiceTest extends CDbTestCase
                $data[] = $replica['excel_id'];
            }
         }
+
         //case3
         FlagsService::setFlag($simulation->id, 'F1', 0);
         FlagsService::setFlag($simulation->id, 'F2', 1);
@@ -143,6 +132,7 @@ class FlagServiceTest extends CDbTestCase
                 $data[] = $replica['excel_id'];
             }
         }
+
         //case 4
         FlagsService::setFlag($simulation->id, 'F2', 0);
         FlagsService::setFlag($simulation->id, 'F12', 1);

@@ -8,11 +8,14 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"],func
             'phone/phoneCall': SKDialogWindow,
             'visitor/visitorTalk': SKDialogWindow
         },
+
+        'initialize':function () {
+        },
+
         comparator:function(window) {
             return this.get('zindex');
         },
-        'initialize':function () {
-        },
+
         'showWindow':function (win) {
             if (win.single === true && this.get(win)) {
                     throw 'Window already displayed';
@@ -77,6 +80,7 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"],func
                 this.at(this.length - 1).activate();
             }
         },
+
         //TODO:работает?
         'closeAll':function () {
             var name;
@@ -93,9 +97,11 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"],func
                 }
             });
         },
+
         'deactivateActiveWindow':function () {
             this.getActiveWindow().deactivate();
         },
+
         'getActiveWindow':function () {
             var count = this.models.length;
             if(count > 0) {

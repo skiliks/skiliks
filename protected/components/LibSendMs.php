@@ -1,11 +1,335 @@
 <?php
+/**
+ * Сервисный класс для облегчения отправки писем в юнит тестах
+ */
 class LibSendMs
 {
+    /**
+     * @param Simulations $simulation
+     * @param string $msCode
+     * @param integer $time, frontend time im seconds
+     * @param integer $windowId
+     * @param integer $subWindowId
+     * @param integer $windowUid, better set-up value manually - even in test
+     * @param integer $duration
+     *
+     * @return MailBoxModel
+     */
+    public static function sendMsByCode($simulation, $msCode,
+        $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10)
+    {
+        switch($msCode) {
+            case 'MS10' : $email = self::sendMs10_w($simulation); break;
+            case 'MS20' : $email = self::sendMs20_r($simulation); break;
+            case 'MS21' : $email = self::sendMs21_w($simulation); break;
+            case 'MS22' : $email = self::sendMs22_w($simulation); break;
+            case 'MS23' : $email = self::sendMs23_w($simulation); break;
+            case 'MS25' : $email = self::sendMs25_r($simulation); break;
+            case 'MS27' : $email = self::sendMs27_w($simulation); break;
+            case 'MS28' : $email = self::sendMs28_r($simulation); break;
+            case 'MS29' : $email = self::sendMs29_r($simulation); break;
+            case 'MS30' : $email = self::sendMs30_w($simulation); break;
+            case 'MS32' : $email = self::sendMs32_w($simulation); break;
+            case 'MS35' : $email = self::sendMs35_r($simulation); break;
+            case 'MS36' : $email = self::sendMs36_r($simulation); break;
+            case 'MS37' : $email = self::sendMs37_r($simulation); break;
+            case 'MS39' : $email = self::sendMs39_r($simulation); break;
+            case 'MS40' : $email = self::sendMs40_r($simulation); break;
+            case 'MS48' : $email = self::sendMs48_r($simulation); break;
+            case 'MS49' : $email = self::sendMs49_w($simulation); break;
+            case 'MS50' : $email = self::sendMs50_w($simulation); break;
+            case 'MS51' : $email = self::sendMs51_r($simulation); break;
+            case 'MS53' : $email = self::sendMs53_r($simulation); break;
+            case 'MS54' : $email = self::sendMs54_w($simulation); break;
+            case 'MS55' : $email = self::sendMs55_r($simulation); break;
+            case 'MS57' : $email = self::sendMs57_r($simulation); break;
+            case 'MS58' : $email = self::sendMs58_w($simulation); break;
+            case 'MS60' : $email = self::sendMs60_r($simulation); break;
+            case 'MS61' : $email = self::sendMs61_r($simulation); break;
+            case 'MS69' : $email = self::sendMs69_r($simulation); break;
+            case 'MS74' : $email = self::sendMs74_n($simulation); break;
+            case 'MS76' : $email = self::sendMs76_n($simulation); break;
+
+            default     : $email = NULL;
+        }
+
+        // update logs, optional
+        if (null !== $time && null !== $email) {
+
+            if (NULL == $windowUid) {
+                $windowUid = rand(1000,9999) + rand(100,999); // for test cases
+            }
+
+            $logs = [];
+            $fakeUID = rand(1000,9999);
+
+            $logs[] = [$windowId, $subWindowId, 'deactivated', $time, 'window_uid' => $windowUid];
+            $logs[] = [10       , 13          ,  'activated' , $time, 'window_uid' => $fakeUID];
+
+            // set write an email duration :) 10 game seconds
+            $time = $time + $duration;
+            $logs[] = [10       , 13          , 'deactivated', $time, 'window_uid' => $fakeUID, 4 => ['mailId' => $email->id]];
+            $logs[] = [$windowId, $subWindowId, 'activated'  , $time, 'window_uid' => $windowUid];
+
+            $event = new EventsManager();
+            $event->processLogs($simulation, $logs);
+        }
+        // set-up logs }
+
+        return $email;
+    }
+
+    /**
+     * We haven`t and probably woudn`t have MS to "Неизвестная"
+     * So all MS to "Неизвестная" are wrong
+     *
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendNotMs($simulation)
+    {
+        $randomSubjectForCharacter40 = CommunicationTheme::model()->findByAttributes([
+            'character_id' => 40
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('40'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $randomSubjectForCharacter40->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs10_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS10'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D10'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs20_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS20'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs21_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 4,
+            'letter_number' => 'MS21'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D1'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('4'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs22_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 3,
+            'letter_number' => 'MS22'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D1'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('3'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs23_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 3,
+            'letter_number' => 'MS23'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D3'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('3'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs25_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 6,
+            'letter_number' => 'MS25'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D4'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('6'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs28_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 11,
+            'letter_number' => 'MS28'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D8'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('11'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
      /**
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs27($simulation)
+    public static function sendMs27_w($simulation)
     {
         $emailFromSysadmin = MailBoxModel::model()
             ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
@@ -24,6 +348,7 @@ class LibSendMs
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
         $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
 
         return MailBoxService::sendMessagePro($sendMailOptions);
     }
@@ -32,36 +357,7 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs28($simulation) {
-        $subject = CommunicationTheme::model()->find(
-            'text = :text AND letter_number = :letter_number',[
-            'text'          => 'Бюджет производства прошлого года',
-            'letter_number' => 'MS28'
-        ]);
-
-        $attachment = MyDocumentsModel::model()->find(
-            'sim_id = :sim_id AND fileName = \'Бюджет производства_01_итог.xlsx\'',[
-            'sim_id' => $simulation->id
-        ]);
-
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('11'); // Трутнев
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->time       = '09:02';
-        $sendMailOptions->messageId  = 0;
-        $sendMailOptions->copies     = '';
-        $sendMailOptions->phrases    = '';
-        $sendMailOptions->fileId     = $attachment->id;
-        $sendMailOptions->subject_id = $subject->id;
-
-        return MailBoxService::sendMessagePro($sendMailOptions);
-    }
-
-    /**
-     * @param Simulation $simulation
-     * @return MailBoxModel
-     */
-    public static function sendMs29($simulation)
+    public static function sendMs29_r($simulation)
     {
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[
@@ -73,7 +369,7 @@ class LibSendMs
         $sendMailOptions->setRecipientsArray('3'); // Трутнев
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:03';
-        $sendMailOptions->messageId  = 0;
+        $sendMailOptions->messageId  = '';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
         $sendMailOptions->subject_id = $subject->id;
@@ -85,9 +381,8 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs30($simulation)
+    public static function sendMs30_w($simulation)
     {
-        $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
         $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
@@ -100,7 +395,7 @@ class LibSendMs
             'message_id' => 0,
             'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => $senderId,
+            'sender' => Characters::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -112,22 +407,20 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs32($simulation)
+    public static function sendMs32_w($simulation)
     {
-        $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
         $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
             'simId' => $simulation->id,
             'subject_id' => CommunicationTheme::model()->findByAttributes([
-                'code'=>55,
                 'character_id' => $receiverId,
-                'mail_prefix'=>'rere'
+                'letter_number'=>'MS32'
             ])->primaryKey,
             'message_id' => 0,
             'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => $senderId,
+            'sender' => Characters::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -139,7 +432,119 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs40($simulation)
+    public static function sendMs35_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS35'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D18'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs36_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS36'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D19'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs37_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 4,
+            'letter_number' => 'MS37'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('4'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs39_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 4,
+            'letter_number' => 'MS39'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('4'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs40_r($simulation)
     {
         $mailService = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
@@ -169,7 +574,155 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs55($simulation)
+    public static function sendMs48_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS48'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs49_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 9,
+            'letter_number' => 'MS49'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('9'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs50_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS50'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs51_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 7,
+            'letter_number' => 'MS51'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('7'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs53_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 2,
+            'letter_number' => 'MS53'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D20'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('2'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs54_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 3,
+            'letter_number' => 'MS54'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('3'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs55_r($simulation)
     {
         $mail = new MailBoxService();
 
@@ -183,5 +736,194 @@ class LibSendMs
             'letterType' => 'new',
             'simId' => $simulation->primaryKey
         ]);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs57_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 4,
+            'letter_number' => 'MS57'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('4'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs58_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 3,
+            'letter_number' => 'MS58'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('3'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs60_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 12,
+            'letter_number' => 'MS60'
+        ]);
+
+        $message = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M75'
+        ]);
+
+        // user can reply to received email only
+        $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
+        $message->save();
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('12'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = $message->id;
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs61_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 22,
+            'letter_number' => 'MS61'
+        ]);
+
+        $message = MailBoxModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M76'
+        ]);
+
+        // user can reply to received email only
+        $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
+        $message->save();
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('22'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = $message->id;
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs69_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 12,
+            'letter_number' => 'MS69'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D2'
+        ]);
+
+        $doc = MyDocumentsModel::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('12'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs74_n($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 4,
+            'letter_number' => 'MS74'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('4'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs76_n($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 12,
+            'letter_number' => 'MS76'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('12'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
     }
 }
