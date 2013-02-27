@@ -39,5 +39,13 @@ class SeleniumTestHelper extends CWebTestCase
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->click(Yii::app()->params['test_mappings']['dev']['event_crete']);
     }
+
+    // проверка значения флага
+    // flag_numb - локатор к ячейке с проверяемым значением флага в таблице флагов в дев-режиме
+    // flag_value - 1 или 0 (значения флагов)
+    public function assert_flags($flag_numb, $flag_value)
+    {
+        $this->assertText(flag_numb,flag_value);
+    }
 }
 
