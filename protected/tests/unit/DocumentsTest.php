@@ -36,4 +36,27 @@ class DocumentsTest extends CDbTestCase
                 return $doc['name'] === $name;
             }));
     }
+
+    /**
+     * Checks if user can open excel
+     */
+    public function testCanOpenExcel()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
+        $file = MyDocumentsModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $documentTemplate->primaryKey
+        ]);
+        $zoho = $this->getMock('ZohoDocuments', ['sendDocumentToZoho'] , [$simulation->primaryKey, $file->primaryKey, $file->template->srcFile]);
+        $zoho->sendDocumentToZoho();
+        $result = array(
+            'result'           => 1,
+            'filedId'          => $file->id,
+            'excelDocumentUrl' => $zoho->getUrl(),
+        );
+        print_r($result);
+    }
 }
