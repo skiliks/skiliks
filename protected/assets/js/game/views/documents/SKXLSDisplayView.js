@@ -1,10 +1,11 @@
 /*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
 
+var SKXLSDisplayView;
 define(["game/views/SKWindowView"], function () {
     "use strict";
 
-    window.SKXLSDisplayView = SKWindowView.extend({
+    SKXLSDisplayView = SKWindowView.extend({
         title:'Мои документы',
         displayZohoIframe:function (doc, el) {
             var me = this;
@@ -45,4 +46,6 @@ define(["game/views/SKWindowView"], function () {
             SKWindowView.prototype.remove.call(this);
         }
     });
+
+    return SKXLSDisplayView;
 });

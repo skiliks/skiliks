@@ -1,5 +1,6 @@
 /*global Backbone, _, SKApp, SKAttachment, SKMailSubject */
 var SKMailClientView;
+
 define([
         "game/views/SKDialogView",
         "game/views/SKWindowView",
@@ -1944,5 +1945,6 @@ define([
             }
 
         });
+
     return SKMailClientView;
 });

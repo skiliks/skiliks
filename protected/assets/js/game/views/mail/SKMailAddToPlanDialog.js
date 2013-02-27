@@ -1,7 +1,11 @@
 /*global Backbone, _, SKDialogView, SKApp, SKMailTask */
-define(["game/views/SKDialogView"], function () {
+
+var SKMailAddToPlanDialog;
+
+define(["game/views/SKDialogView", "game/models/SKMailTask"], function () {
     "use strict";
-    window.SKMailAddToPlanDialog = SKDialogView.extend({
+
+    SKMailAddToPlanDialog = SKDialogView.extend({
         /**
          * Used to add reverce link from view to it`s model
          * @param mailClient SKMailClient
@@ -200,5 +204,6 @@ define(["game/views/SKDialogView"], function () {
             }
         }
     });
-    return window.SKMailAddToPlanDialog;
+
+    return SKMailAddToPlanDialog;
 });

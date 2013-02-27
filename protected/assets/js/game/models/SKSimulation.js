@@ -1,6 +1,8 @@
 /*global Backbone:false, console, SKApp, SKConfig, SKWindowSet, SKWindow, SKEventCollection, SKEvent, SKWindowLog, SKMailClient */
 /*global SKTodoCollection, SKDayTaskCollection, SKPhoneHistoryCollection, SKDocumentCollection */
 
+var SKSimulation;
+
 define([
     "game/models/SKMailClient",
     "game/collections/SKEventCollection",
@@ -22,7 +24,7 @@ define([
      * Simulation class
      * @type {Backbone.Model}
      */
-    var SKSimulation = Backbone.Model.extend(
+    SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
             'initialize':function () {
@@ -101,7 +103,7 @@ define([
             parseNewEvents:function (events) {
                 var me = this;
                 events.forEach(function (event) {
-                    console.log('[SKSimulation] new event ', event.eventType /*,event.data*/);
+                    // console.log('[SKSimulation] new event ', event.eventType);
                     if (event.eventType === 1 && (event.data === undefined || event.data.length === 0)) {
                         // Crutch, sometimes server returns empty events
                         me.events.trigger('dialog:end');
@@ -117,7 +119,6 @@ define([
                         me.events.wait(event.data[0].code, event.eventTime);
                     }
                     me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
-
                 });
             },
             'getNewEvents':function () {
@@ -127,15 +128,12 @@ define([
                     logs:logs,
                     timeString:this.getGameMinutes()
                 }, function (data) {
-                    console.log(' 1 >> ');
                     // update flags for dev mode
                     if (undefined !== data.flagsState && undefined !== data.serverTime) {
                         me.updateFlagsForDev(data.flagsState, data.serverTime);
-                        console.log(' F >> ');
                     }
 
                     if (data.result === 1 && data.events !== undefined) {
-                        console.log(' 2 >> ');
                         me.parseNewEvents(data.events, 'new');
                     }
                 });
