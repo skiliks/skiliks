@@ -469,8 +469,13 @@ class LogTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
+        $theme = CommunicationTheme::model()->findByAttributes([
+            'code' => 38,
+            'character_id' => Characters::model()->findByAttributes(['code'=>20])->primaryKey,
+            'mail_prefix' => 're'
+        ]);
         $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey,
+            'subject_id' => $theme->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M74']),
             'receivers' => Characters::model()->findByAttributes(['code' => 20])->primaryKey,
             'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
@@ -487,7 +492,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey;
+        $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
         $sendMailOptions = new SendMailOptions();
@@ -498,7 +503,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey;
+        $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
         $mgr->processLogs($simulation, [
@@ -537,18 +542,10 @@ class LogTest extends CDbTestCase
         $this->assertEquals(count($mail_logs), 4);
 
         $this->assertEquals(count($activity_actions), 10);
-//        foreach ($activity_actions as $log) {
-//            printf("%s\t%8s\t%10s\t%10s\n",
-//                $log->start_time,
-//                $log->end_time !== null ? $log->end_time : '(empty)',
-//                $log->activityAction->activity_id,
-//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-//            );
-//            /*$this->assertNotNull($log->end_time);*/
-//        }
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM73');
-        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_already_used');
-        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_already_used');
+        array_map(function ($a) {$a->dump(); }, $activity_actions);
+        $this->assertEquals('TM73', $activity_actions[2]->activityAction->activity_id);
+        $this->assertEquals('A_already_used', $activity_actions[6]->activityAction->activity_id);
+        $this->assertEquals('A_already_used', $activity_actions[8]->activityAction->activity_id);
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
