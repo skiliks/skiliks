@@ -52,8 +52,10 @@ class FlagsSK1341Test extends CWebTestCase
 
         $this->click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(10);
-        $this->click("xpath=//div[@class='NEW_EMAIL']");
-        sleep(15);
+        $this->waitForVisible("xpath=//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'новое письмо')]");
+        sleep(2);
+        $this->click("xpath=//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'новое письмо')]");
+        sleep(2);
 
         $this->click(Yii::app()->params['test_mappings']['mail']['to_whom']);
 
