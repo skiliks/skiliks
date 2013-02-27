@@ -149,6 +149,66 @@ var receivers = {
     }
 };
 
+var files = {
+    "result":1,
+    "data":[
+        {
+            "id":"572",
+            "name":"\u0411\u044e\u0434\u0436\u0435\u0442 \u043f\u0440\u043e\u0438\u0437\u0432\u043e\u0434\u0441\u0442\u0432\u0430_01_\u0438\u0442\u043e\u0433.xlsx",
+            "srcFile":"byudzhet_proizvodstva_01_itog.xlsx",
+            "mime":"application\/vnd.ms-excel"
+        },
+        {
+            "id":"575",
+            "name":"\u041a\u0432\u0430\u0440\u0442\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u043b\u0430\u043d_01_Q4.pptx",
+            "srcFile":"kvartalnyj_plan_01_Q4.pdf",
+            "mime":"application\/pdf"
+        },
+        {
+            "id":"571",
+            "name":"\u041c\u0435\u0442\u043e\u0434\u0438\u043a\u0430 \u0444\u043e\u0440\u043c\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f \u0441\u0432\u043e\u0434\u043d\u043e\u0433\u043e \u0431\u044e\u0434\u0436\u0435\u0442\u0430.docx",
+            "srcFile":"metodika_formirovaniya_svodnogo_byudzheta.pdf",
+            "mime":"application\/pdf"
+        },
+        {
+            "id":"574",
+            "name":"\u041e\u043f\u0438\u0441\u0430\u043d\u0438\u0435 \u043f\u043e\u0437\u0438\u0446\u0438\u0438 - \u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a.docx",
+            "srcFile":"opisanie_pozitsii_-_analitik.pdf",
+            "mime":"application\/pdf"
+        },
+        {
+            "id":"577",
+            "name":"\u041e\u0440\u0433_\u0441\u0442\u0440\u0443\u043a\u0442\u0443\u0440\u0430 \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438.pptx",
+            "srcFile":"org_struktura_kompanii.pdf",
+            "mime":"application\/pdf"
+        },
+        {
+            "id":"578",
+            "name":"\u041f\u0440\u0435\u0437\u0435\u043d\u0442\u0430\u0446\u0438\u044f_ \u0413\u0414_00_\u043a\u043e\u043c\u043c\u0435\u043d\u0442\u0430\u0440\u0438\u0438 \u0413\u0414.pptx",
+            "srcFile":"prezentatsiya__gd_00_kommentarii_gd.pdf",
+            "mime":"application\/pdf"
+        },
+        {
+            "id":"579",
+            "name":"\u0421\u0432\u043e\u0434\u043d\u044b\u0439 \u0431\u044e\u0434\u0436\u0435\u0442_01_\u0438\u0442\u043e\u0433.xlsx",
+            "srcFile":"svodnyj_byudzhet_01_itog.xlsx",
+            "mime":"application\/vnd.ms-excel"
+        },
+        {
+            "id":"573",
+            "name":"\u0421\u0432\u043e\u0434\u043d\u044b\u0439 \u0431\u044e\u0434\u0436\u0435\u0442_02_v23.xlsx",
+            "srcFile":"svodnyj_byudzhet_02_v23.xlsx",
+            "mime":"application\/vnd.ms-excel"
+        },
+        {
+            "id":"576",
+            "name":"\u0426\u0435\u043b\u0438 \u0438 \u043f\u043e\u043a\u0430\u0437\u0430\u0442\u0435\u043b\u0438 \u043f\u043e\u0434\u0440\u0430\u0437\u0434\u0435\u043b\u0435\u043d\u0438\u044f.pptx",
+            "srcFile":"tseli_i_pokazateli_podrazdeleniya.pdf",
+            "mime":"application\/pdf"
+        }
+    ]
+};
+
 define([
     "game/models/SKApplication",
     "game/models/SKSimulation",
@@ -177,7 +237,7 @@ define([
 
                 server.respondWith("POST", "/index.php/myDocuments/getList",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({result:1})]);
+                        JSON.stringify(files)]);
 
                 server.respondWith("POST", "/index.php/mail/getMessages",
                     [200, { "Content-Type":"application/json" },
@@ -247,12 +307,15 @@ define([
                 mail.render();
                 server.respond();
                 expect(mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').text()).toBe('срочно! Отчетность');
-                mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
+                mail.$el.find('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
                 server.respond();
-                mail.$('.REPLY_ALL_EMAIL').click();
+                mail.$el.find('.REPLY_ALL_EMAIL').click();
+                //mail.renderReplyAllScreen();
+                console.log(mail.$el.find('#MailClient_RecipientsList').html());
                 server.respond();
-                mail.$('.SEND_EMAIL').click();
-                server.respond();
+
+                //mail.$('.SEND_EMAIL').click();
+                //server.respond();
                 //console.log(server.requests);
             });
 
@@ -260,8 +323,11 @@ define([
              //   console.log($('#MailClient_NewLetterSubject').val());
                 var client = new SKMailClient();
                 client.updateRecipientsList();
+                server.respond();
                 expect(client.getFormatedCharacterList()).toEqual(["Федоров А.В.", "Денежная Р.Р.", "Трутнев С.", "Крутько М.", "Лошадкин М.", "Босс В.С.", "Долгова Н.Т.", "Олег Разумный", "Скоробей А.М.", "Железный С.", "Василий Бобр", "Егор Трудякин", "Людовкина С.", "Василий Хозин", "Точных А.", "Семенова О.", "Анна Жукова", "Адвокатов Ю.", "Фаина Гольц", "Каменский В.", "Васильев А.", "Юрий Мягков", "Петрашевич И.", "Антон Серков", "Доброхотов И.", "Анжела Блеск", "Любимая жена", "Петр Погодкин", "Олег Скоркин", "Серега", "Степанов С.", "Маринка", "О.И.Иванова", "Горбатюк Е.Д."]);
-           });
+
+            });
+
         });
     });
 });

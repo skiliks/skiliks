@@ -172,6 +172,19 @@ class Simulations extends CActiveRecord
         return $result;
     }
 
+    public function getAssessmentRules()
+    {
+        $assessmentRules = $this->simulation_assessment_rules;
+        $result = [];
+        foreach ($assessmentRules as $assessmentRule) {
+            if($assessmentRule != null){
+
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * Выбрать по идентификатору
      * @param int $id
