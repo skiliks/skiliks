@@ -830,6 +830,17 @@ CREATE TABLE `excel_points_formula` (
 -- Dumping data for table `excel_points_formula`
 --
 
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (1,'=SUM(Логистика!B6:M7)+SUM(Логистика!B10:M14)');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (2,'=SUM(Производство!B6:M7)+SUM(Производство!B10:M14)');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (3,'=SUM(Сводный!N6:Q7)+SUM(Сводный!N10:Q14)-SUM(Сводный!B6:M7)-SUM(Сводный!B10:M14)');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (4,'=SUM(Сводный!R6:R7)+SUM(Сводный!R10:R14)-SUM(Сводный!B6:M7)-SUM(Сводный!B10:M14)');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (5,'=SUM(Сводный!N16:Q16)-(SUM(Сводный!B8:M8)-SUM(Сводный!B15:M15))');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (6,'=Сводный!R16-(SUM(Сводный!B8:M8)-SUM(Сводный!B15:M15))');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (7,'=Сводный!R18');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (8,'=SUM(Сводный!N19:Q19)');
+INSERT INTO `excel_points_formula` (`id`,`formula`) VALUES (9,'=SUM(Сводный!N20:Q20)');
+
+
 LOCK TABLES `excel_points_formula` WRITE;
 /*!40000 ALTER TABLE `excel_points_formula` DISABLE KEYS */;
 /*!40000 ALTER TABLE `excel_points_formula` ENABLE KEYS */;

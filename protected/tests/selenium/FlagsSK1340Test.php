@@ -16,7 +16,7 @@ class FlagsSK1340Test extends CWebTestCase
     }
 
     public function testSK1340() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("3000");
@@ -47,7 +47,11 @@ class FlagsSK1340Test extends CWebTestCase
         $this->click("xpath=//form/fieldset/div[2]/div/input[2]");
         $this->waitForVisible("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'А мне что делать?')])");
+        $this->click("xpath=(//*[contains(text(),'А мне что делать?')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
         $this->click("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
 
         sleep(10);
@@ -83,17 +87,11 @@ class FlagsSK1340Test extends CWebTestCase
         $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         sleep(15);
 
-        // some replics from dialog E1.2.1
-        //$this->assertTextPresent("Марина, ну как у");
-        //
-
         // verifing the value of F3'
         $this->assertText("xpath=//div[@class='debug-panel']/div[@class='row']/div[@class='span3'][2]/form[@class='form-inline form-flags']/fieldset/table[@class='table table-bordered'][2]/tbody/tr/td[5]","1");
         sleep(2);
 
         $this->click("css=input.btn.btn-simulation-stop");
-        //sleep(15);
-        // $this->click("css=input.btn.logout");
     }
 }
 
