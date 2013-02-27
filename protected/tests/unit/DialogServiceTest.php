@@ -21,7 +21,7 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase {
 
         $res = (new DialogService())->getDialog(
             $simulation->id,
-            Dialog::model()->findByAttributes(['code' => 'ET1.1', 'replica_number'=>2])->id,
+            Replica::model()->findByAttributes(['code' => 'ET1.1', 'replica_number'=>2])->id,
             '11:00');
 
         $this->assertEquals($res, $standard);
@@ -29,7 +29,7 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(
             (new DialogService())->getDialog(
                 $simulation->id,
-                Dialog::model()->findByAttributes(['code' => 'S1.1', 'replica_number'=>2])->id,
+                Replica::model()->findByAttributes(['code' => 'S1.1', 'replica_number'=>2])->id,
                 '11:05'),
             $standard
         );
