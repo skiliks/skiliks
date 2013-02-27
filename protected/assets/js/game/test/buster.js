@@ -31,7 +31,6 @@ config["My Tests"] = {
     extensions: [require('buster-amd')],
     "buster-amd": {
         "pathMapper": function (path) {
-            console.log(path);
             return path.replace(/\.js$/, "").replace(/^\//, "");
         }
     }

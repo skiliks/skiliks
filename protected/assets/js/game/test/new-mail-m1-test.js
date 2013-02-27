@@ -249,11 +249,14 @@ define([
                 expect(mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').text()).toBe('срочно! Отчетность');
                 mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
                 server.respond();
-                mail.$('.REPLY_ALL_EMAIL').click();
+                mail.renderReplyAllScreen();
                 server.respond();
-                mail.$('.SEND_EMAIL').click();
+                var email = mail.generateNewEmailObject();
+                var validationDialogResult = mail.mailClient.validationDialogResult(email);
+                expect(validationDialogResult).toBe(true);
+                mail.doSendEmail();
                 server.respond();
-                //console.log(server.requests);
+                console.log(server.requests[server.requests.length-1]);
             });
 
             it("has characters for replyAll", function () {
