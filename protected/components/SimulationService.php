@@ -342,8 +342,8 @@ class SimulationService
                 $satisfies = false;
 
                 if ($condition->dialog_id) {
-                    /** @var Dialog $dialog */
-                    $dialog = Dialog::model()->findByPk($condition->dialog_id);
+                    /** @var Replica $dialog */
+                    $dialog = Replica::model()->findByPk($condition->dialog_id);
 
                     $satisfies = LogDialogs::model()
                         ->bySimulationId($simId)
@@ -476,9 +476,9 @@ class SimulationService
 
         // @todo: increase speed
         // Установим дефолтовые значения для mail client
-        MailBoxService::initDefaultSettings($simulation->id); 
+        MailBoxService::initDefaultSettings($simulation->id);
         $profiler->render('8: ');
-        
+
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
         $profiler->render('9: '); // 3.51 ~ 4.14

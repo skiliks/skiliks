@@ -27,7 +27,7 @@ class MailBoxTest extends CDbTestCase
         $events = new EventsManager();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
-        $message = $mail->sendMessage([
+        $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
@@ -258,7 +258,7 @@ class MailBoxTest extends CDbTestCase
         }
         
         $phrases = MailBoxService::getPhrases($theme->id, 0);
-
+        $this->assertNotEmpty($data);
         $this->assertEquals($data, $phrases['data']);
         $this->assertEquals(count($data), count($phrases['data']));
 

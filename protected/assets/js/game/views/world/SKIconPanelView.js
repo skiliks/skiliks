@@ -50,7 +50,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
                     var data = event.get('data');
 
-                    if (undefined == data[2]) {
+                    if (undefined == data[2] && this.isPhoneAvailable == true) {
                         // user can`t ignore call
                         var callbackFunction = function () {
                             me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
@@ -58,7 +58,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     } else {
                         // user can ignore call
                         var callbackFunction = function () {
-                            if (event.getStatus() === 'waiting') {
+                            if (event.getStatus() === 'waiting' && undefined !== data[2]) {
                                 event.setStatus('completed');
                                 event.ignore(function () {
                                     var history = SKApp.user.simulation.phone_history;
@@ -66,6 +66,8 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                                     // event will be linked later, if link event here - it will be handled twice
                                     me.setCounter('.phone', phone_history.where({'is_read': false}).length);
                                 });
+                            } else {
+                                me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
                             }
                         };
                     }

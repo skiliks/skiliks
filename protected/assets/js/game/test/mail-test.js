@@ -218,7 +218,7 @@ define([
                 mailView.$el.find('.SAVE_TO_DRAFTS').click();
 
                 // check that email saved
-                expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/saveDraft');
+                expect(server.requests[server.requests.length-1].url).toBe('/index.php/mail/saveDraft');
                 console.log('Email has been saved!');
 
                 server.respond();

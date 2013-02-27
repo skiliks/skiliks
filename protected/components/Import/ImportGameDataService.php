@@ -147,6 +147,44 @@ class ImportGameDataService
         );
     }
 
+    public function importMailConstructor()
+    {
+        echo __METHOD__ . "\n";
+
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Constructor');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $importedRows = 0;
+        $endCol = PHPExcel_Cell::columnIndexFromString($sheet->getHighestDataColumn());
+        for ($col = 0; $col < $endCol; $col++) {
+            $constructorCode = $sheet->getCellByColumnAndRow($col, 1)->getValue();
+            $constructor = MailConstructor::model()->findByAttributes(['code' => $constructorCode]);
+            if ($constructor === null) {
+                $constructor = new MailConstructor();
+            }
+            $constructor->code = $constructorCode;
+            $constructor->import_id = $this->import_id;
+            $constructor->save();
+            for ($row = 2; $row < $sheet->getHighestDataRow(); $row++) {
+                $phraseValue = $sheet->getCellByColumnAndRow($col, $row)->getValue();
+                $phrase = MailPhrasesModel::model()->findByAttributes(['code' => $constructorCode, 'name' => $phraseValue]);
+                if ($phrase === null) {
+                    $phrase = new MailPhrasesModel();
+                }
+                $phrase->code = $constructor->code;
+                $phrase->name = $phraseValue;
+                $phrase->import_id = $this->import_id;
+                $phrase->save();
+                $importedRows ++;
+            }
+        }
+
+        echo __METHOD__ . " end\n";
+        return ['ok' => 1];
+    }
     /**
      *
      */
@@ -1864,6 +1902,7 @@ class ImportGameDataService
             $result['dialog'] = $this->importDialogReplicas();
             $result['my_documents'] = $this->importMyDocuments();
             $result['character_points'] = $this->importDialogPoints();
+            $result['constructor'] = $this->importMailConstructor();
             $result['email_subjects'] = $this->importEmailSubjects();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();
