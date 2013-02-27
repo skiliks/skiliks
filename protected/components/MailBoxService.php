@@ -262,7 +262,6 @@ class MailBoxService
      */
     public static function sendMessage($params)
     {
-
         $subject_id = $params['subject_id'];
         $message_id = $params['message_id'];
         assert($message_id !== null);
@@ -323,6 +322,10 @@ class MailBoxService
                 }
             }
         }
+
+        MailBoxService::updateMsCoincidence($message->id, $params['simId']);
+
+        $message->refresh();
 
         return $message;
     }
@@ -1001,16 +1004,16 @@ class MailBoxService
 
         $message = MailBoxService::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
-            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
-            'receivers' => $sendMailOptions->getRecipientsArray(),
-            'copies' => $sendMailOptions->copies,
+            'group'      => MailBoxModel::OUTBOX_FOLDER_ID,
+            'sender'     => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
+            'receivers'  => $sendMailOptions->getRecipientsArray(),
+            'copies'     => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,
-            'phrases' => $sendMailOptions->phrases,
-            'simId' => $sendMailOptions->simulation->id,
+            'phrases'    => $sendMailOptions->phrases,
+            'simId'      => $sendMailOptions->simulation->id,
             'letterType' => $sendMailOptions->getLetterType(),
-            'fileId' => $sendMailOptions->fileId,
-            'time' => $sendMailOptions->time
+            'fileId'     => $sendMailOptions->fileId,
+            'time'       => $sendMailOptions->time
         ));
 
         MailBoxService::updateRelatedEmailForByReplyToAttribute($message);
