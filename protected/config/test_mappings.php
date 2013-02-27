@@ -76,7 +76,8 @@ return [
         'kamenskiy' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
         'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[16]/",
         'loshadkin' => "//ul[contains(@class,'ui-autocomplete')]/li[17]/",
-        'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/"
+        'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/",
+        'lludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[19]/"
     ],
 
 
