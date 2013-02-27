@@ -15,7 +15,7 @@ class SeleniumMailTest extends CWebTestCase
     }
 
     public function test_Mail_new_first_to_deleted() {
-
+        //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("1000");

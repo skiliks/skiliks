@@ -18,10 +18,15 @@ class ExcelDocumentController extends AjaxController
         $id = Yii::app()->request->getParam('id', NULL);
         $file = MyDocumentsModel::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         assert($file);
+        $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile);
+        $zoho->sendDocumentToZoho();
+        $result = array(
+            'result'           => 1,
+            'filedId'          => $file->id,
+            'excelDocumentUrl' => $zoho->getUrl(),
+        );
         $this->sendJSON(
-            ExcelFactory::getDocument()
-                ->loadByFile($simulation->id, $file)
-                ->populateFrontendResult($simulation, $file)
+            $result
         );
     }
 

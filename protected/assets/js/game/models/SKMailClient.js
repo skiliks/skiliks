@@ -1059,7 +1059,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 };
             },
 
-            sendNewCustomEmail:function (emailToSave) {
+            sendNewCustomEmail:function (emailToSave, cb) {
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
@@ -1088,8 +1088,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     ]
                                 });
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -1129,9 +1128,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     return false;
                 }
                 // validation }
+                return true;
             },
 
-            saveToDraftsEmail:function (emailToSave) {
+            saveToDraftsEmail:function (emailToSave, cb) {
 
                 var mailClient = this;
 
@@ -1148,6 +1148,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             var window = mailClient.getSimulationMailClientWindow();
                             window.set('params', {'mailId': responce.messageId});
                             mailClient.getDraftsFolderEmails();
+                            cb();
                         } else {
                             mailClient.message_window = new SKDialogView({
                                 'message':'Не удалось сохранить письмо.',
@@ -1161,8 +1162,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 ]
                             });
                         }
-                    },
-                    false
+                    }
                 );
                 return true;
             },

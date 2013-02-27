@@ -22,10 +22,10 @@ define(["game/models/window/SKWindow"],function () {
                 'window_uid': window.window_uid
         });
             
-            console.log('[SKWindow] Activated window ' + window.get('name') + '/' + window.get('subname') +
-                ' :: ' + window.window_uid + ' at ' +
-                SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
-            );
+            //console.log('[SKWindow] Activated window ' + window.get('name') + '/' + window.get('subname') +
+            //    ' :: ' + window.window_uid + ' at ' +
+            //    SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
+            //);
         },
         'deactivate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
@@ -43,10 +43,10 @@ define(["game/models/window/SKWindow"],function () {
                 'window_uid': window.window_uid
             });
             
-            console.log('[SKWindow] Deactivated window ' + window.get('name') + '/' + window.get('subname') +
-                ' :: ' + window.window_uid + ' at '
-                + SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
-            );
+            //console.log('[SKWindow] Deactivated window ' + window.get('name') + '/' + window.get('subname') +
+            //    ' :: ' + window.window_uid + ' at '
+            //    + SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
+            //);
         },
         'getAndClear': function () {
             var log = this.log;

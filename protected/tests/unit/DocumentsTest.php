@@ -36,4 +36,31 @@ class DocumentsTest extends CDbTestCase
                 return $doc['name'] === $name;
             }));
     }
+
+    /**
+     * Checks if user can open excel
+     */
+    public function testCanOpenExcel()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
+        $file = MyDocumentsModel::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'template_id' => $documentTemplate->primaryKey
+        ]);
+        $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile);
+        $zoho->response = "﻿HTTP/1.1 302 Found
+Strict-Transport-Security: max-age=432000
+Set-Cookie: zscookcsr=d9d5b062-7748-4484-85ed-da9bc82fc14f; Path=/
+Set-Cookie: JSESSIONID=2245B8142B2DB13921082FAB5D7BB741; Path=/
+Location: https://sheet.zoho.com/editor.do?doc=c2826da1f9894a54366f67ddf2326ff00c1ce3234acde876
+Content-Type: text/html;charset=UTF-8
+Content-Length: 0
+Date: Wed, 27 Feb 2013 17:06:17 GMT
+Server: ZGS";
+        $this->assertEquals($zoho->getUrl(), 'https://sheet.zoho.com/editor.do?doc=c2826da1f9894a54366f67ddf2326ff00c1ce3234acde876');
+    }
+
 }
