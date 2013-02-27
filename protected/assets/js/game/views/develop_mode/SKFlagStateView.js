@@ -1,7 +1,8 @@
 /*global Backbone, _ */
-(function () {
+var SKFlagStateView;
+define([], function () {
     "use strict";
-    window.SKFlagStateView = Backbone.View.extend({
+    SKFlagStateView = Backbone.View.extend({
         initialize: function () {},
 
         'el': '.form-flags',
@@ -83,8 +84,8 @@
                 
                 n++;
             }
-
-            // this.delegateEvents();
         }
     });
-})();
+
+    return SKFlagStateView;
+})
