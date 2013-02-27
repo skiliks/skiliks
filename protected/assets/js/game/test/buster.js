@@ -1,32 +1,38 @@
 var config = module.exports;
 var path = require('path');
-//noinspection JSCheckFunctionSignatures
 config["My Tests"] = {
     autoRun: false,
     env: "browser",
-    rootPath: path.join("..", ".."),
+    rootPath: "../..",
     libs: [
-        path.join("jquery", "*.js"),
+        "jquery/*.js",
         "jquery.ddslick.min.js",
-        path.join("tag-handler", "jquery.taghandler.min.js"),
+        "tag-handler/jquery.taghandler.min.js",
         "underscore.js",
         "backbone.js",
         "require.js",
+        "game/test/common.js"
     ],
     sources: [
         "text.js",
-        path.join("game", "jst", "**", "*.jst"),    // Paths are relative to config file
-        path.join("game", "models", "**", "*.js"),    // Paths are relative to config file
-        path.join("game", "models", "*.js"),    // Paths are relative to config file
-        path.join("game", "collections", "**", "*.js"),    // Paths are relative to config file
-        path.join("game", "collections", "*.js"),
-        path.join("game", "views", "mail", "*.js"),    // Paths are relative to config file
-        path.join("game", "views", "*.js"),
-        path.join("game", "views", "world", "*.js")
+        "game/jst/**/*.jst",    // Paths are relative to config file
+        "game/models/**/*.js",    // Paths are relative to config file
+        "game/models/*.js",    // Paths are relative to config file
+        "game/collections/**/*.js",    // Paths are relative to config file
+        "game/collections/*.js",
+        "game/views/mail/*.js",    // Paths are relative to config file
+        "game/views/*.js",
+        "game/views/world/*.js"
 
     ],
     tests: [
-        path.join("game", "test", "*-test.js")
+        "game/test/*-test.js"
     ],
-    extensions: [require('buster-amd')]
+    extensions: [require('buster-amd')],
+    "buster-amd": {
+        "pathMapper": function (path) {
+            console.log(path);
+            return path.replace(/\.js$/, "").replace(/^\//, "");
+        }
+    }
 };
