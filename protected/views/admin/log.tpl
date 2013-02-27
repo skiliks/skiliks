@@ -143,3 +143,20 @@
         </tr>
     {/foreach}
 </table>
+
+<h1 id="simulation-assessment-rules">Simulation Assessment Rules</h1>
+
+<table class="table table-striped mail-log">
+    <thead>
+    <tr>
+        <th>Activity ID</th>
+        <th>Scores</th>
+    </tr>
+    </thead>
+    {foreach $simulation->getAssessmentRules() as $typeScale => $assessmentPoint}
+        <tr>
+            <td>test</td>
+            <td>test</td>
+        </tr>
+    {/foreach}
+</table>
