@@ -1,5 +1,6 @@
 /*global Backbone:false, console, SKApp */
 
+var SKWindow;
 define([], function () {
     "use strict";
     var screens = {
@@ -25,9 +26,11 @@ define([], function () {
             'documents':41,
             'documentsFiles':42
     };
-    window.SKWindow = Backbone.Model.extend({
+    SKWindow = Backbone.Model.extend({
 
         single: true,
+
+        window_set: {},
 
         window_uid: undefined,
 
@@ -121,6 +124,6 @@ define([], function () {
             this.simulation.windowLog.activate(this);
         }
     });
-    window.SKWindow.window_set = {};
-    return window.SKWindow;
+
+    return SKWindow;
 });

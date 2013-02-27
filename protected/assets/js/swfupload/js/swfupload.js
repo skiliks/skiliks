@@ -467,14 +467,14 @@ SWFUpload.prototype.callFlash = function (functionName, argumentArray) {
    ***************************** */
 
 // WARNING: this function does not work in Flash Player 10
-// Public: selectFile causes a File Selection Dialog window to appear.  This
+// Public: selectFile causes a File Selection Replica window to appear.  This
 // dialog only allows 1 file to be selected.
 SWFUpload.prototype.selectFile = function () {
 	this.callFlash("SelectFile");
 };
 
 // WARNING: this function does not work in Flash Player 10
-// Public: selectFiles causes a File Selection Dialog window to appear/ This
+// Public: selectFiles causes a File Selection Replica window to appear/ This
 // dialog allows the user to select any number of files
 // Flash Bug Warning: Flash limits the number of selectable files based on the combined length of the file names.
 // If the selection name length is too long the dialog will fail in an unpredictable manner.  There is no work-around

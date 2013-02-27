@@ -1,4 +1,7 @@
 /*global SKVisitView:true, SKWindowView, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+
+var SKVisitView;
+
 define(["game/views/SKWindowView"], function () {
     "use strict";
     /**
@@ -6,7 +9,7 @@ define(["game/views/SKWindowView"], function () {
      * @extends {SKWindowView}
      * @type {SKWindowView}
      */
-    window.SKVisitView = SKWindowView.extend(
+    SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
         {
             isDisplayCloseWindowsButton: false,
@@ -43,5 +46,5 @@ define(["game/views/SKWindowView"], function () {
                 this.options.model_instance.close();
             }
         });
-    return window.SKVisitView;
+    return SKVisitView;
 });

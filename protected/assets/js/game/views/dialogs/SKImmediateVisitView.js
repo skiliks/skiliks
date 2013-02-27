@@ -1,11 +1,14 @@
 /*global SKImmediateVisitView:true, Backbone, _, SKApp, SKConfig, SKDialogWindow*/
+
+var SKImmediateVisitView;
+
 define(["game/views/SKWindowView"], function (SKWindowView) {
     "use strict";
     /**
      * @class
      * @type {*}
      */
-    window.SKImmediateVisitView = SKWindowView.extend(
+    SKImmediateVisitView = SKWindowView.extend(
         /** @lends SKImmediateVisitView.prototype */
         {     'el':'body .visitor-container',
 
@@ -60,5 +63,5 @@ define(["game/views/SKWindowView"], function (SKWindowView) {
                 });
             }
         });
-    return window.SKImmediateVisitView;
+    return SKImmediateVisitView;
 });

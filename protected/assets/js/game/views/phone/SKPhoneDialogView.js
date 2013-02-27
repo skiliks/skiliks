@@ -1,10 +1,12 @@
 /*global _, SKWindowView, SKDialogWindow, SKApp */
 
+var SKPhoneDialogView;
+
 define(["game/views/SKWindowView"], function () {
 
     "use strict";
 
-    window.SKPhoneDialogView = SKWindowView.extend({
+    SKPhoneDialogView = SKWindowView.extend({
         
         title: "Телефон",
         
@@ -93,4 +95,6 @@ define(["game/views/SKWindowView"], function () {
             });
         }
     });
+
+    return SKPhoneDialogView;
 });
