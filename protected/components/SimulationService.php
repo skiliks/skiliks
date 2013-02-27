@@ -230,8 +230,8 @@ class SimulationService
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
-        }  
-        
+        }
+
         return $behaviours;
     }
     
@@ -254,6 +254,8 @@ class SimulationService
                 $existAssassment = new AssessmentAggregated();
                 $existAssassment->sim_id   = $simId;
                 $existAssassment->point_id = $agrPoint->mark->id;
+            } else {
+                continue; // assessment has been saved
             }
             // init Log record }
             

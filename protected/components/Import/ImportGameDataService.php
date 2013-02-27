@@ -286,7 +286,7 @@ class ImportGameDataService
             }
             $sendingDate = date('Y-m-d', (int)PHPExcel_Shared_Date::ExcelToPHP($this->getCellValue($sheet, 'Date', $i)));
             $sendingTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Time', $i), 'hh:mm:ss');
-            ;
+
             $fromCode = $this->getCellValue($sheet, 'From _code', $i);
             $toCode = $this->getCellValue($sheet, 'To_code', $i);
             $copies = $this->getCellValue($sheet, 'Copy_code', $i);
@@ -368,20 +368,44 @@ class ImportGameDataService
                 $themePrefix = null;
             }
             // themes update {
+            // for MSx
             $subjectEntity = CommunicationTheme::model()->findByAttributes([
-                'code' => $subject_id,
+                'code'         => $subject_id,
                 'character_id' => $toId,
-                'mail_prefix' => $themePrefix
+                'mail_prefix'  => $themePrefix,
+                'theme_usage'  => 'mail_outbox'
             ]);
+
+            // for MSYx
             if ($subjectEntity === null) {
                 $subjectEntity = CommunicationTheme::model()->findByAttributes([
-                    'code' => $subject_id,
-                    'character_id' => null,
-                    'mail_prefix' => $themePrefix
+                    'code'         => $subject_id,
+                    'character_id' => $toId,
+                    'mail_prefix'  => $themePrefix,
+                    'theme_usage'  => 'mail_outbox_old'
                 ]);
             }
+
+            // for Mx
             if ($subjectEntity === null) {
-                throw new Exception('No subject');
+                $subjectEntity = CommunicationTheme::model()->findByAttributes([
+                    'code'         => $subject_id,
+                    'character_id' => $toId,
+                    'mail_prefix'  => $themePrefix,
+                    'theme_usage'  => 'mail_inbox'
+                ]);
+            }
+
+            if ($subjectEntity === null) {
+                $subjectEntity = CommunicationTheme::model()->findByAttributes([
+                    'code'         => $subject_id,
+                    'character_id' => null,
+                    'mail_prefix'  => $themePrefix
+                ]);
+            }
+
+            if ($subjectEntity === null) {
+                throw new Exception('No subject for mail code '.$code.', theme id '.$subject_id);
             }
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }

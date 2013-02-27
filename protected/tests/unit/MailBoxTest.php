@@ -294,5 +294,75 @@ class MailBoxTest extends CDbTestCase
             $this->assertTrue(in_array($phrase, $data));
         }
     }
+
+    /**
+     * Обнаружен баг с разпознание писем у которых конструктор ТХТ
+     * Тест предназначен чтоб выявить и устранить причину этого бага
+     */
+    public function testMailCoincidenceForEmailWithTxtConstructor()
+    {
+        //$this->markTestSkipped();
+        
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init conts
+        // get all replics that change score for behaviour '4124'
+        $replicsFor_4124 = Replica::model()->findAll('excel_id IN (332, 336)');
+
+        $count_0 = 0;
+        $count_1 = 0;
+
+        // get 4124
+        $pointFor_4124 = CharactersPointsTitles::model()->find('code = :code', ['code' => '4124']);
+
+        // init dialog logs
+        foreach($replicsFor_4124 as $dialogEntity) {
+            LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+
+            $dialogsPoint = CharactersPoints::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
+                'dialog_id' => $dialogEntity->id,
+                'point_id'  => $pointFor_4124->id
+            ]);
+
+            if ($dialogsPoint->add_value === '1') {
+                $count_1++;
+            }
+            if ($dialogsPoint->add_value === '0') { // not else!
+                $count_0++;
+            }
+        }
+        $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
+
+        // init inbox email from sysadmin
+        $emailFromSysadmin = MailBoxModel::model()
+            ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
+        $emailFromSysadmin->update('group_id = 1');
+
+        // init MS emails:
+        // MS27 {
+        $subject = CommunicationTheme::model()->find(
+            'text = :text AND letter_number = :letter_number',[
+            'text'          => '!проблема с сервером!',
+            'letter_number' => 'MS27'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('3'); // Трутнев
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->messageId  = $emailFromSysadmin->id;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
+
+        $count_0++; // this is 0 point email
+        // MS27 }
+
+        $this->assertEquals('MS27', $ms_27->code);
+    }
 }
 
