@@ -73,6 +73,7 @@ class ZohoDocuments
      * @param integer $fileId
      * @param string $templateFilename
      * @param string $extention
+     * @return ZohoDocuments
      */
     public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
     {
@@ -119,8 +120,10 @@ class ZohoDocuments
     {
         // make folder for simulation user files
         if (false === is_dir($this->getDocDirPath())) {
-            @mkdir($this->getDocDirPath());
+            @mkdir($this->getDocDirPath(), 0777, true);
         }
+
+        assert(is_writable($this->getDocDirPath()));
 
         $templateFilePath = $this->getTemplateFilePath();
         copy($templateFilePath, $this->getUserFilepath());

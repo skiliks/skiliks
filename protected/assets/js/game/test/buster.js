@@ -1,32 +1,32 @@
 var config = module.exports;
-
+var path = require('path');
+//noinspection JSCheckFunctionSignatures
 config["My Tests"] = {
     autoRun: false,
     env: "browser",
-    rootPath: "../..",
+    rootPath: path.join("..", ".."),
     libs: [
-        "jquery/*.js",
+        path.join("jquery", "*.js"),
         "jquery.ddslick.min.js",
-        "tag-handler/jquery.taghandler.min.js",
+        path.join("tag-handler", "jquery.taghandler.min.js"),
         "underscore.js",
         "backbone.js",
         "require.js",
-        "game/test/common.js"
     ],
     sources: [
         "text.js",
-        "game/jst/**/*.jst",    // Paths are relative to config file
-        "game/models/**/*.js",    // Paths are relative to config file
-        "game/models/*.js",    // Paths are relative to config file
-        "game/collections/**/*.js",    // Paths are relative to config file
-        "game/collections/*.js",
-        "game/views/mail/*.js",    // Paths are relative to config file
-        "game/views/*.js",
-        "game/views/world/*.js"
+        path.join("game", "jst", "**", "*.jst"),    // Paths are relative to config file
+        path.join("game", "models", "**", "*.js"),    // Paths are relative to config file
+        path.join("game", "models", "*.js"),    // Paths are relative to config file
+        path.join("game", "collections", "**", "*.js"),    // Paths are relative to config file
+        path.join("game", "collections", "*.js"),
+        path.join("game", "views", "mail", "*.js"),    // Paths are relative to config file
+        path.join("game", "views", "*.js"),
+        path.join("game", "views", "world", "*.js")
 
     ],
     tests: [
-        "game/test/*-test.js"
+        path.join("game", "test", "*-test.js")
     ],
     extensions: [require('buster-amd')]
 };
