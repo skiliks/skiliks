@@ -2,11 +2,11 @@
 /**
  * Created by JetBrains PhpStorm.
  * User: tania
- * Date: 13.02.13
- * Time: 16:17
+ * Date: 2/22/13
+ * Time: 5:58 PM
  * To change this template use File | Settings | File Templates.
  */
-class SelDialogTest extends CWebTestCase
+class DialogTest extends CWebTestCase
 {
     protected function setUp()
     {
@@ -15,11 +15,12 @@ class SelDialogTest extends CWebTestCase
         parent::setUp();
     }
 
-    public function testSK1388() {
+    public function testE2_4_2_9() {
+        // next line for not running the test
         $this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
-        $this->setSpeed("2000");
+        $this->setSpeed("1000");
         $this->waitForVisible('id=login');
         $this->type("id=login", "asd");
         $this->type("id=pass", "123");
@@ -40,72 +41,19 @@ class SelDialogTest extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-
-
-        $this->type("id=addTriggerSelect", "E1.2");
+        $this->type("id=addTriggerSelect", "E2");
         $this->click("css=input.btn.btn-primary");
         sleep(15);
-        $this->click("link=— Марина, есть срочная работа.");
+        $this->click("css=a.replica-select");
         sleep(15);
-        $this->click("link=exact:— Закончила? Теперь слушай сюда. Если мы не сдадим бюджет Денежной через два часа, она нас обоих уволит. Пересылаю тебе файл, приступай немедленно.");
+        $this->click("link=— Да, прямо сейчас проконтролирую, как идет подготовка.");
+        $this->click("link=— Марина, срочно пересылай мне презентацию для Генерального! Босс сам звонил и интересовался!");
+        $this->click("link=— Давай мы все-таки посмотрим, что у тебя там получается с учетом требований Босса. Шли мне презентацию прямо сейчас.");
+        $this->click("link=— Ясно, ты не успеваешь…Придется перенести встречу с Боссом на завтра. Уж точно лучше, чем краснеть у него на ковре.");
         sleep(15);
-
-        // send message MS21
-        $this->click("id=icons_email");
-        sleep(15);
-        //$this->click("link=новое письмо");
-        //sleep(15);
-        $this->click("id=MailClient_RecipientsList");
-        sleep(15);
-
-        $this->waitForVisible("xpath=(//*[contains(text(),'Крутько')])");
-        sleep(15);
-        $this->mouseOver("xpath=(//*[contains(text(),'Крутько')])");
-        sleep(15);
-        $this->click("xpath=(//*[contains(text(),'Крутько')])");
-        sleep(15);
-
-        $this->select("css=select.origin", "Сводный бюджет: файл");
-        sleep(5);
-
-       // sometimes there is a 500 error, that's why next 2 rows nedd to be uncomment
-       // $this->click("//div[@class='mail-popup']//td[1]/div['Продолжить']");
-       // sleep(5);
-
-        $this->click("xpath=//*[@id='undefined']/div/a");
-        sleep(15);
-        $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        sleep(15);
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        sleep(15);
-        $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
-        sleep(5);
-
-        $this->click("xpath=(//a[contains(text(),'отправить')])");
-        sleep(5);
-
-        // change time to 13:50
-        $this->click("xpath=(//*[contains(text(),'13:00')])");
-        sleep(5);
-
-        // call E1.2.1 - it's good works!
-        $this->click("id=icons_phone");
-        sleep(15);
-        $this->click("xpath=//div[@id='phoneMainScreen']/ul/li[1]");
-        sleep(15);
-        $this->click("xpath=(//a[contains(text(),'Позвонить')])[3]");
-        sleep(15);
-        $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
-        sleep(30);
-
-        // some replics from dialog E1.2.1
-        $this->verifyTextPresent("1");
-
-        $this->click("link=exact:— Марина, ну как у тебя");
-        $this->click("link=exact:— Я про сводный");
-        $this->click("link=exact:— Отлично, и сразу");
-        sleep(15);
-
+        $this->click("link=— Еще раз, добрый день, Валерий Семенович!");
+        $this->click("link=— Валерий Семенович, прошу меня извинить, но обстоятельства сильнее меня! Мы не успеем представить презентацию сегодня.");
+        $this->click("//a[contains(text(),'— Простите,  Валерий Семенович, но если бы наш отдел персонала быстрее подбирал нужных людей, я бы справился и с большей нагрузкой. А так многое приходится делать самому. Естественно, что я не успеваю.')]");
         $this->click("css=input.btn.btn-simulation-stop");
         sleep(15);
         $this->click("css=input.btn.logout");

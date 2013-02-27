@@ -45,7 +45,8 @@ return [
 
 
     'dev' => [
-        '' => '',
+        'event_input' => "id=addTriggerSelect",
+        'event_create' => "css=input.btn.btn-primary"
     ],
 
 
