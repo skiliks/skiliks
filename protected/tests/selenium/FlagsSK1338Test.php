@@ -17,7 +17,7 @@ class FlagsSK1338Test extends CWebTestCase
 
     public function testSK1338() {
         // next line for not running the test
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("1000");
@@ -92,8 +92,6 @@ class FlagsSK1338Test extends CWebTestCase
         sleep(2);
 
         $this->click("css=input.btn.btn-simulation-stop");
-       //sleep(15);
-       // $this->click("css=input.btn.logout");
     }
 }
 

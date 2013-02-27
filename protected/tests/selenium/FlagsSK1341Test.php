@@ -16,7 +16,7 @@ class FlagsSK1341Test extends CWebTestCase
     }
 
     public function testSK1341() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("3000");
@@ -84,17 +84,11 @@ class FlagsSK1341Test extends CWebTestCase
         $this->click("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         sleep(15);
 
-        // some replics from dialog E1.2.1
-        //$this->assertTextPresent("Марина, ну как у");
-        //
-
         // verifing the value of F3'
         $this->assertText("xpath=//div[@class='debug-panel']/div[@class='row']/div[@class='span3'][2]/form[@class='form-inline form-flags']/fieldset/table[@class='table table-bordered'][2]/tbody/tr/td[5]","1");
         sleep(2);
 
         $this->click("css=input.btn.btn-simulation-stop");
-        //sleep(15);
-        // $this->click("css=input.btn.logout");
 
     }
 }

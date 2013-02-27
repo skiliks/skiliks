@@ -89,13 +89,7 @@ class FlagsSK1339Test extends CWebTestCase
         $this->assertText("xpath=//div[@class='debug-panel']/div[@class='row']/div[@class='span3'][2]/form[@class='form-inline form-flags']/fieldset/table[@class='table table-bordered'][2]/tbody/tr/td[5]","1");
         sleep(2);
 
-        //$this->click("xpath=(//*[contains(text(),'Марина, ну как у')])");
-        //$this->click("xpath=(//*[contains(text(),'Я про сводный')])");
-        //$this->click("xpath=(//*[contains(text(),'Отлично, и сразу')])");
-
         $this->click("css=input.btn.btn-simulation-stop");
-        //sleep(15);
-        //$this->click("css=input.btn.logout");
     }
 }
 
