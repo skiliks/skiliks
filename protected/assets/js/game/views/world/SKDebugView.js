@@ -6,29 +6,35 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
     SKDebugView = Backbone.View.extend(
         /** @lends SKDebugView.prototype */
         {
+            'events':{
+                'click .set-time':                 'doSetTime',
+                'submit .form-set-time':           'doFormSetTime',
+                'submit .trigger-event':           'doEventTrigger',
+                'click .btn-load-documents':       'doLoadDocs',
+                'click .btn-simulation-stop-logs': 'doSimStopAndLoadLogs',
+                'click .send-email-ms':            'doSendMs'
+            },
+
             'initialize':function () {
                 this.render();
             },
-            'events':{
-                'click .set-time':'doSetTime',
-                'submit .form-set-time':'doFormSetTime',
-                'submit .trigger-event':'doEventTrigger',
-                'click .btn-load-documents':'doLoadDocs',
-                'click .btn-simulation-stop-logs':'doSimStopAndLoadLogs'
-            },
+
             'render':function () {
                 this.$el.html(_.template(debug_template, {}));
             },
+
             'doSetTime':function (event) {
                 var target = event.currentTarget;
                 event.preventDefault();
-                var hour = $(target).attr('data-hour');
+                var hour   = $(target).attr('data-hour');
                 var minute = $(target).attr('data-minute');
                 SKApp.user.simulation.setTime(hour, minute);
             },
+
             'doLoadDocs':function (event) {
                 SKApp.user.simulation.documents.fetch();
             },
+
             'doFormSetTime':function (event) {
                 var target = event.currentTarget;
                 event.preventDefault();
@@ -36,6 +42,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 var minutes = target.elements.minutes.value;
                 SKApp.user.simulation.setTime(hours, minutes);
             },
+
             'doEventTrigger':function (event) {
                 var me = this;
                 var target = event.currentTarget;
@@ -57,11 +64,39 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 );
 
             },
+
             doSimStopAndLoadLogs:function () {
                 SKApp.user.simulation.on('stop', function () {
                     window.location.href = '/admin/displayLog?simulation=' + this.id;
                 });
                 SKApp.user.stopSimulation();
+            },
+
+            doSendMs: function(event) {
+                event.preventDefault(event);
+                event.stopPropagation(event);
+
+                var target = event.currentTarget;
+
+                SKApp.server.api(
+                    'mail/sendMsInDevMode',
+                    {
+                        msCode      : $(target).text(),
+                        time        : SKApp.user.simulation.getGameSeconds(),
+                        windowId    : SKApp.user.simulation.window_set.getActiveWindow().getWindowId(),
+                        subWindowId : SKApp.user.simulation.window_set.getActiveWindow().getSubwindowId(),
+                        windowUid   : SKApp.user.simulation.window_set.getActiveWindow().window_uid
+                    },
+                    function (response) {
+                        if (response.result) {
+                            $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).text() + '" отправлено!</div>');
+                            window.scrollTo(0, 0);
+                        } else {
+                            $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).text() + '" НЕ отправлено!</div>');
+                        }
+                        $('body form.trigger-event .alert').fadeOut(4000)
+                    }
+                );
             }
         });
 

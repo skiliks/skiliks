@@ -6,6 +6,7 @@
             <li><a href="#activity-log">Activity</a></li>
             <li><a href="#mail-log">Mail</a></li>
             <li><a href="#dialog-log">Dialogs</a></li>
+            <li><a href="#assessment-rules">Simulation Assessment Rules</a></li>
         </ul>
     </div>
 </div>
@@ -140,6 +141,23 @@
         <tr>
             <td>{$typeScale}</td>
             <td>{$assessmentPoint}</td>
+        </tr>
+    {/foreach}
+</table>
+
+<h1 id="assessment-rules">Simulation Assessment Rules</h1>
+
+<table class="table table-striped mail-log">
+    <thead>
+    <tr>
+        <th>Activity ID</th>
+        <th>Scores</th>
+    </tr>
+    </thead>
+    {foreach $simulation->getAssessmentRules() as $id => $rule}
+        <tr>
+            <td>{$rule->assessmentRule->activity_id}</td>
+            <td>{$rule->assessmentRule->value}</td>
         </tr>
     {/foreach}
 </table>

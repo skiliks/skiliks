@@ -22,7 +22,12 @@ class LogTest extends CDbTestCase
         $mail = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
-        $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 5,
+            'character_id' => $character->primaryKey,
+            'mail_prefix' => 're',
+            'theme_usage' => 'mail_outbox'
+        ])->primaryKey;
         $copies = [
             Characters::model()->findByAttributes(['code' => 2])->primaryKey,
             Characters::model()->findByAttributes(['code' => 11])->primaryKey,
@@ -61,7 +66,11 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 6, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes([
+            'code' => 6,
+            'character_id' => $character->primaryKey,
+            'theme_usage' => 'mail_outbox',
+            'mail_prefix' => 're'])->primaryKey;
         $sendMailOptions->setLetterType('new');
 
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
@@ -75,7 +84,10 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 8, 'character_id' => $character->primaryKey, 'mail_prefix' => 'fwd'])->primaryKey;
+        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes([
+            'code' => 8,
+            'character_id' => $character->primaryKey,
+            'mail_prefix' => 'fwd'])->primaryKey;
         $sendMailOptions->setLetterType('new');
 
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
@@ -393,7 +405,7 @@ class LogTest extends CDbTestCase
     /**
      * Правильность логирования пересылки письма М8 к Крутько
      */
-    public function test_log_m8_forward()
+    public function testLogM8Forward()
     {
         //$this->markTestSkipped();
         
@@ -405,7 +417,11 @@ class LogTest extends CDbTestCase
         $krutko = Characters::model()->findByAttributes(['code' => 4]);
 
         $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 12, 'character_id' => $krutko->primaryKey])->primaryKey,
+            'subject_id' => CommunicationTheme::model()->findByAttributes([
+                'code' => 12,
+                'character_id' => $krutko->primaryKey,
+                'theme_usage' => 'mail_outbox'
+            ])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M8']),
             'receivers' => $krutko->primaryKey,
             'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
@@ -472,7 +488,8 @@ class LogTest extends CDbTestCase
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
             'character_id' => Characters::model()->findByAttributes(['code'=>20])->primaryKey,
-            'mail_prefix' => 're'
+            'mail_prefix' => 're',
+            'theme_usage' => 'mail_outbox'
         ]);
         $message = $mail->sendMessage([
             'subject_id' => $theme->primaryKey,
@@ -548,11 +565,11 @@ class LogTest extends CDbTestCase
         $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity_id);
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
-            $log_start_time = new DateTime($log->start_time);
-            $log_end_time = new DateTime($log->end_time);
-            $this->assertGreaterThanOrEqual($log_start_time, $log_end_time);
-            $this->assertEquals($time, $log_start_time); # checks that there are no time holes
-            $time = $log_end_time;
+            $logStartTime = new DateTime($log->start_time);
+            $logEndTime = new DateTime($log->end_time);
+            $this->assertGreaterThanOrEqual($logStartTime, $logEndTime);
+            $this->assertEquals($time, $logStartTime); # checks that there are no time holes
+            $time = $logEndTime;
             $this->assertRegExp('/\d{2}:\d{2}:\d{2}/', $log->end_time);
         }
 
