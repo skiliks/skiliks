@@ -1148,6 +1148,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             var window = mailClient.getSimulationMailClientWindow();
                             window.set('params', {'mailId': responce.messageId});
                             mailClient.getDraftsFolderEmails();
+                            cb();
                         } else {
                             mailClient.message_window = new SKDialogView({
                                 'message':'Не удалось сохранить письмо.',
