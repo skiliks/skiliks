@@ -1,0 +1,43 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: vad
+ * Date: 27.02.13
+ * Time: 17:07
+ * To change this template use File | Settings | File Templates.
+ */
+class SeleniumTestHelper extends CWebTestCase
+{
+    public function start_simulation()
+    {
+        $this->deleteAllVisibleCookies();
+        $this->open('/site/');
+        $this->setSpeed("1000");
+        $this->waitForVisible('id=login');
+        $this->type("id=login", "vad");
+        $this->type("id=pass", "123");
+        $this->click("css=input.btn.btn-primary");
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible("xpath=//input[@value='Начать симуляцию developer']")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+
+        $this->click("xpath=//input[@value='Начать симуляцию developer']");
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible("id=addTriggerSelect")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+    }
+    public function run_event($event)
+    {
+        $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
+        $this->click(Yii::app()->params['test_mappings']['dev']['event_crete']);
+    }
+}
+
