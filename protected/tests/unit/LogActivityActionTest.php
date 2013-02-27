@@ -135,16 +135,21 @@ class LogActivityActionTest extends CDbTestCase
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
-
+        $call = Replica::model()->findByAttributes(['excel_id' => 124]);
+        $callReply = Replica::model()->findByAttributes(['excel_id' => 125]);
+        $E2StartReplica = Replica::model()->findByAttributes(['excel_id' => 135]);
+        $E2EndReplica = Replica::model()->findByAttributes(['excel_id' => 142]);
+        $E24StartReplica = Replica::model()->findByAttributes(['excel_id' => 157]);
+        $E24EndReplica = Replica::model()->findByAttributes(['excel_id' => 162]);
         unset($json);
         $json = $event->getState($simulation, [
             [1, 1, 'deactivated', 43339, 'window_uid' => 1],
-            [20, 24, 'activated', 43339, 'window_uid' => 2, ['dialogId' => 128, 'lastDialogId' => 128]]
+            [20, 24, 'activated', 43339, 'window_uid' => 2, ['dialogId' => $call->primaryKey, 'lastDialogId' => $call->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = $event->getState($simulation, [
-            [20, 24, 'deactivated', 43370, 'window_uid' => 2, ['dialogId' => 128, 'lastDialogId' => 129]]
+            [20, 24, 'deactivated', 43370, 'window_uid' => 2, ['dialogId' => $call->primaryKey, 'lastDialogId' => $callReply->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
@@ -152,26 +157,26 @@ class LogActivityActionTest extends CDbTestCase
         $json = $event->getState($simulation, [
             [1, 1, 'activated', 43370, 'window_uid' => 3],
             [1, 1, 'deactivated', 43370, 'window_uid' => 3],
-            [20, 23, 'activated', 43370, 'window_uid' => 4, ['dialogId' => 141, 'lastDialogId' => 141]],
-            [20, 23, 'deactivated', 43404, 'window_uid' => 4, ['dialogId' => 141, 'lastDialogId' => 141]],
+            [20, 23, 'activated', 43370, 'window_uid' => 4, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2StartReplica->primaryKey]],
+            [20, 23, 'deactivated', 43404, 'window_uid' => 4, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2StartReplica->primaryKey]],
             [1, 1, 'activated', 43404, 'window_uid' => 5],
             [1, 1, 'deactivated', 43404, 'window_uid' => 5],
-            [20, 23, 'activated', 43404, 'window_uid' => 6, ['dialogId' => 142, 'lastDialogId' => 142]]
+            [20, 23, 'activated', 43404, 'window_uid' => 6, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2StartReplica->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
 
         $json = $event->getState($simulation, [
-            [20, 23, 'deactivated', 43572, 'window_uid' => 6, ['dialogId' => 142, 'lastDialogId' => 147]],
+            [20, 23, 'deactivated', 43572, 'window_uid' => 6, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2EndReplica->primaryKey]],
             [1, 1, 'activated', 43572, 'window_uid' => 7],
             [1, 1, 'deactivated', 43572, 'window_uid' => 7],
-            [20, 23, 'activated', 43572, 'window_uid' => 8, ['dialogId' => 163, 'lastDialogId' => 163]]
+            [20, 23, 'activated', 43572, 'window_uid' => 8, ['dialogId' => $E24StartReplica->primaryKey, 'lastDialogId' => $E24StartReplica->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
 
         $json = $event->getState($simulation, [
-            [20, 23, 'deactivated', 43765, 'window_uid' => 8, ['dialogId' => 163, 'lastDialogId' => 168]],
+            [20, 23, 'deactivated', 43765, 'window_uid' => 8, ['dialogId' => $E24StartReplica->primaryKey, 'lastDialogId' => $E24EndReplica->primaryKey]],
             [1, 1, 'activated', 43765, 'window_uid' => 9],
             [1, 1, 'deactivated', 44444, 'window_uid' => 9]
         ]);

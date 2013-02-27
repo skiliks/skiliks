@@ -1059,7 +1059,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 };
             },
 
-            sendNewCustomEmail:function (emailToSave) {
+            sendNewCustomEmail:function (emailToSave, cb) {
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
@@ -1088,8 +1088,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                     ]
                                 });
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -1129,6 +1128,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     return false;
                 }
                 // validation }
+                return true;
             },
 
             saveToDraftsEmail:function (emailToSave) {
