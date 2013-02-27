@@ -1131,7 +1131,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return true;
             },
 
-            saveToDraftsEmail:function (emailToSave) {
+            saveToDraftsEmail:function (emailToSave, cb) {
 
                 var mailClient = this;
 
@@ -1161,8 +1161,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                 ]
                             });
                         }
-                    },
-                    false
+                    }
                 );
                 return true;
             },
