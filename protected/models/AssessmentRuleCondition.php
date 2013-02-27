@@ -12,7 +12,7 @@
  * The followings are the available model relations:
  * @property MailTemplateModel $mail
  * @property AssessmentRule $assessmentRule
- * @property Replica $dialog
+ * @property Replica $replica
  */
 class AssessmentRuleCondition extends CActiveRecord
 {
