@@ -20,7 +20,7 @@ return array(
         'application.models.Activities.*',
         /*'application.models.Characters.*',
         'application.models.DayPlan.*',
-        'application.models.Dialog.*',
+        'application.models.Replica.*',
         'application.models.Events.*',
         'application.models.Excel*',
         'application.models.FlagsRules.*',
@@ -36,7 +36,7 @@ return array(
         'application.components.Base.*',
         'application.components.ApiMethods.*',
         /*'application.components.DayPlan.*',
-        'application.components.Dialog.*',
+        'application.components.Replica.*',
         'application.components.Excel.*',
         'application.components.Mail.*',*/
         'application.extensions.*',
@@ -117,6 +117,21 @@ return array(
             'templatesDirPath'    => 'documents/zoho',
             'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
+        'initial_data' => [
+            'users' => [
+                ['gugu', 'gfhjkm'],
+                ['slavka', '1'],
+                ['asd', '123'],
+                ['vad', '123'],
+                ['listepo', '111111'],
+                ['tony', '123'],
+                ['leah', '123'],
+                ['masha', '123'],
+                ['tatiana', '123'],
+                ['ahmed@zoho.com', 'zoho', 1]
+            ]
+        ],
+        'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
         'analizer' => array(
              'excel' => array(
                  'consolidatedBudget' => array(

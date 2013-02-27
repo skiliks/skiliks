@@ -54,10 +54,10 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
         $simulation = $simulation_service->simulationStart(1, $user);
 
         $dialog = new DialogService();
-        $dialog_cancel = Dialog::model()->findByAttributes(['code'=>'S1.1', 'replica_number'=> 1]);
+        $dialog_cancel = Replica::model()->findByAttributes(['code'=>'S1.1', 'replica_number'=> 1]);
 
         $dialog->getDialog($simulation->id, $dialog_cancel->id, '9:05');
-        $dialog_call = Dialog::model()->findByAttributes(['code'=>'E1', 'replica_number'=> 0]);
+        $dialog_call = Replica::model()->findByAttributes(['code'=>'E1', 'replica_number'=> 0]);
         $dialog->getDialog($simulation->id, $dialog_call->id, '9:06');
         $event = EventSample::model()->findByAttributes(['code'=>'E1']);
 

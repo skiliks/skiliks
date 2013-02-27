@@ -1,24 +1,31 @@
 /*global Backbone, _, $, SKApp, SKDebugView, SKIconPanelView, SKPhoneDialogView, SKVisitView, SKImmediateVisitView, SKPhoneView, SKMailClientView
  SKPhoneCallView, SKDocumentsListView, SKXLSDisplayView, SKPDFDisplayView, SKDayPlanView */
+
+var SKSimulationView;
+
+/*    "game/views/mail/SKMailClientView",
+ "game/views/documents/SKDocumentListView",
+ "game/views/plan/SKDayPlanView",
+ "game/views/documents/SKPDFDisplayView",
+ "game/views/documents/SKXLSDisplayView",
+ "game/views/phone/SKPhoneView",
+ "game/views/phone/SKPhoneCallView",
+ "game/views/phone/SKPhoneDialogView",
+ "game/views/dialogs/SKVisitView",
+ "game/views/dialogs/SKImmediateVisitView",
+ "game/views/world/SKDebugView"
+ */
+
 define([
     "game/views/mail/SKMailClientView",
-    "game/views/documents/SKDocumentListView",
-    "game/views/plan/SKDayPlanView",
-    "game/views/documents/SKPDFDisplayView",
-    "game/views/documents/SKXLSDisplayView",
-    "game/views/phone/SKPhoneView",
-    "game/views/phone/SKPhoneCallView",
-    "game/views/phone/SKPhoneDialogView",
-    "game/views/dialogs/SKVisitView",
-    "game/views/dialogs/SKImmediateVisitView",
-    "game/views/world/SKDebugView"
+    "game/views/documents/SKDocumentListView"
     ], function () {
     "use strict";
     /**
      * @class
      * @type {*}
      */
-    window.SKSimulationView = Backbone.View.extend(
+    SKSimulationView = Backbone.View.extend(
         /**
          * @lends SKSimulationView
          */
@@ -142,7 +149,7 @@ define([
                     if (event.getTypeSlug() === 'immediate-visit') {
                         var win = SKApp.user.simulation.window_set.open('visitor', 'visitorTalk', {sim_event:event});
                         event.setStatus('in progress');
-                    } else if (event.getTypeSlug() === 'immediate-phone') {
+                      } else if (event.getTypeSlug() === 'immediate-phone') {
                         var win = SKApp.user.simulation.window_set.open('phone', 'phoneTalk', {sim_event:event});
                         event.setStatus('in progress');
                     }
@@ -165,4 +172,6 @@ define([
                 }
             }
         });
+
+    return SKSimulationView;
 });

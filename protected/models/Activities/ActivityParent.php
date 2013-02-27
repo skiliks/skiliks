@@ -68,7 +68,7 @@ class ActivityParent extends CActiveRecord
 			'id' => 'ID',
 			'import_id' => 'Import',
 			'parent_code' => 'Parent Code',
-			'dialog_id' => 'Dialog',
+			'dialog_id' => 'Replica',
 			'mail_id' => 'Mail',
 		);
 	}

@@ -1,9 +1,10 @@
 /* 
  * 
  */
+var SKAttachment;
 define([], function() {
     "use strict";
-    window.SKAttachment = Backbone.Model.extend({
+    SKAttachment = Backbone.Model.extend({
         // @var string, 'D1', 'D2'
         code: undefined,
 
@@ -40,5 +41,5 @@ define([], function() {
             return '';
         }
     });
-    return window.SKAttachment;
+    return SKAttachment;
 });
