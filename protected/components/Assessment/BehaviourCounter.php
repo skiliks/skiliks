@@ -65,7 +65,7 @@ class BehaviourCounter
         } else {
             $total = $this->total;
         }
-        
+
         return ($this->score/$total)*$this->mark->scale;
     }
 }
