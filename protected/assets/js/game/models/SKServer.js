@@ -32,7 +32,7 @@ define(["jquery/jquery.cookies"], function () {
                     async = arguments[3];
                 }
                 if (async === false) {
-                    console.warn('Use of sync ajax request is very bad practice. Will remove this behavior');
+                    console.warn('Use of sync ajax request for '+ url +' is very bad practice. Will remove this behavior');
                 }
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];

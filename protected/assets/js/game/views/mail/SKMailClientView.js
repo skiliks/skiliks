@@ -1485,19 +1485,18 @@ define([
             },
 
             doSaveEmailToDrafts:function () {
+                var me = this;
                 var emailToSave = this.generateNewEmailObject();
 
-                var result = this.mailClient.saveToDraftsEmail(emailToSave);
-                if (false !== result) { // sync AJAX
+                this.mailClient.saveToDraftsEmail(emailToSave, function () {
+                    me.updateFolderLabels();
+                    me.renderActiveFolder();
 
-                    this.updateFolderLabels();
-                    this.renderActiveFolder();
-
-                    this.mailClient.setWindowsLog(
+                    me.mailClient.setWindowsLog(
                         'mailMain',
-                        this.mailClient.getActiveEmailId()
+                        me.mailClient.getActiveEmailId()
                     );
-                }
+                });
             },
 
             doSendEmail: function () {
@@ -1601,7 +1600,7 @@ define([
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
                     mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function(){
 
-                            $('#mailEmulatorNewLetterText').html('');
+                            mailClientView.$('#mailEmulatorNewLetterText').html('');
 
                     });
                 }
