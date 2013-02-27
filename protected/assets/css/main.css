@@ -2716,6 +2716,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 }
 .phone-call-end:hover{
 	background-position:0 -35px;
+	color:#fff;
 }
 .phone-call-in-btn{
 	list-style:none;
@@ -2836,6 +2837,9 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	text-shadow:rgba(0,0,0,0.28) 1px 1px 0;
 	text-transform:uppercase;
 	margin-top:5px;
+}
+.phone-call-btn:hover{
+	color:#fff;
 }
 .phone-screen-scroll{
 	background:#000;
