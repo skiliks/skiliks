@@ -1,5 +1,6 @@
 <?php
 /**
+ * @property CharactersPointsTitles point
  * @author slavka
  */
 class AssessmentAggregated extends CActiveRecord
@@ -69,7 +70,7 @@ class AssessmentAggregated extends CActiveRecord
     
     /**
      * @param string $className
-     * @return AssassmentAgregated
+     * @return AssessmentAggregated
      */
     public static function model($className=__CLASS__)
     {
