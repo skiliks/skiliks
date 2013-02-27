@@ -102,6 +102,18 @@ class LogDialogs extends CActiveRecord
     }
 
     /**
+     * @param int $replicaId
+     * @return LogDialogs
+     */
+    public function byLastReplicaId($replicaId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "last_id = {$replicaId}"
+        ));
+        return $this;
+    }
+
+    /**
      * Returns last replica object
      * @return Replica
      */

@@ -8,6 +8,7 @@
 /.idea
 /assets/
 /documents/zoho
-
+/protected/assets/js/game/node_modules/*
+/protected/assets/js/game/node_modules/
 /.idea/modules.xml
 atlassian-ide-plugin.xml

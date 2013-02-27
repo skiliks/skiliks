@@ -121,6 +121,9 @@ class LogActivityActionTest extends CDbTestCase
         //Logger::write(var_export($res, true));
     }
 
+    /*
+     * Проверка логов Leg_action detail для E2
+     */
     public function testActivityAction2()
     {
 
@@ -132,6 +135,7 @@ class LogActivityActionTest extends CDbTestCase
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
+
         unset($json);
         $json = $event->getState($simulation, [
             [1, 1, 'deactivated', 43339, 'window_uid' => 1],

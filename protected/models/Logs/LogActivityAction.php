@@ -118,4 +118,28 @@ class LogActivityAction extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * @param int $simulationId
+     * @return LogActivityAction
+     */
+    public function bySimulationId($simulationId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = {$simulationId}"
+        ));
+        return $this;
+    }
+
+    /**
+     * @param int $mailId
+     * @return LogActivityAction
+     */
+    public function byMailId($mailId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
 }
