@@ -464,7 +464,7 @@ class SimulationService
 
         // @todo: increase speed
         // Установим дефолтовые значения для mail client
-        //MailBoxService::initDefaultSettings($simulation->id);
+        MailBoxService::initDefaultSettings($simulation->id);
         $profiler->render('8: ');
 
         // Copy email templates
