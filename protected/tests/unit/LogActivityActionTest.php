@@ -122,6 +122,9 @@ class LogActivityActionTest extends CDbTestCase
         //Logger::write(var_export($res, true));
     }
 
+    /*
+     * Проверка логов Leg_action detail для E2
+     */
     public function testActivityAction2()
     {
 
