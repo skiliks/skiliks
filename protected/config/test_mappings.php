@@ -30,7 +30,8 @@ return [
 
 
     'phone' => [
-        '' => '',
+        'reply' => "//a[@id='phone_reply']",
+        'no_reply' => "//a[@id='phone_no_reply']"
     ],
 
 
@@ -46,7 +47,11 @@ return [
 
     'dev' => [
         'event_input' => "id=addTriggerSelect",
-        'event_create' => "css=input.btn.btn-primary"
+        'event_create' => "css=input.btn.btn-primary",
+        'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
+        'positive_evaluation' => "",
+        'negative_evaluation' => "",
+        'persinal_evaluation' => ""
     ],
 
 
@@ -80,12 +85,5 @@ return [
         'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/a",
         'ludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[19]/a"
     ],
-
-
-    'dialogs' => [
-        'key' => [
-            'key1' => 'value',
-        ]
-    ]
 
 ];
