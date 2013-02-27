@@ -1767,6 +1767,88 @@ class ImportGameDataService
         );
     }
 
+    public function importAssessmentRules()
+    {
+        echo __METHOD__ . "\n";
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Result_rules');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        // delete old unused data {
+        AssessmentRuleCondition::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        AssessmentRule::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        $types = [
+            'id_записи' => 'dialog_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $rules = 0;
+        $conditions = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Rule_id', $i);
+            $type = $this->getCellValue($sheet, 'Result_type', $i);
+            $code = $this->getCellValue($sheet, 'Result_code', $i);
+
+            if (empty($ruleId)) {
+                break;
+            }
+
+            if ($type == 'id_записи') {
+                $entity = Replica::model()->byExcelId($code)->find();
+            } elseif ($type == 'outbox' || $type == 'inbox') {
+                $entity = MailTemplateModel::model()->byCode($code)->find();
+            } else {
+                $entity = null;
+            }
+
+            $rule = AssessmentRule::model()->findByPk($ruleId);
+            if (empty($rule)) {
+                $rule = new AssessmentRule();
+                $rule->id = $ruleId;
+                $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+                $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
+                $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
+                $rule->import_id = $this->import_id;
+
+                $rule->save();
+                $rules++;
+            }
+
+            if (isset($entity)) {
+                $condition = new AssessmentRuleCondition();
+                $condition->assessment_rule_id = $rule->id;
+                $condition->{$types[$type]} = $entity->id;
+                $condition->import_id = $this->import_id;
+
+                $condition->save();
+                $conditions++;
+            }
+        }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'assessment_rules' => $rules,
+            'assessment_rule_conditions' => $conditions,
+            'errors' => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -1791,8 +1873,8 @@ class ImportGameDataService
             $result['event_samples'] = $this->importEventSamples();
             $result['activity'] = $this->importActivity();
             $result['activity_parent_ending'] = $this->importActivityParentEnding();
-            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
             $result['flag_rules'] = $this->importFlagsRules();
+            $result['assessment_rules'] = $this->importAssessmentRules();
 
             $transaction->commit();
 

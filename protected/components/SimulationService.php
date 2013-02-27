@@ -309,6 +309,66 @@ class SimulationService
             }
         }
     }
+
+    /**
+     * Fills executed assessment rules according to user actions
+     * @param int $simId
+     */
+    public static function setFinishedAssessmentRules($simId)
+    {
+        $allRules = AssessmentRule::model()->findAll();
+        $done = [];
+
+        /** @var $rule AssessmentRule */
+        foreach ($allRules as $rule) {
+            if (isset($done[$rule->id])) {
+                continue;
+            }
+
+            $conditions = $rule->assessmentRuleConditions;
+            foreach ($conditions as $condition) {
+                $satisfies = false;
+
+                if ($condition->dialog_id) {
+                    /** @var Dialog $dialog */
+                    $dialog = Dialog::model()->findByPk($condition->dialog_id);
+
+                    $satisfies = LogDialogs::model()
+                        ->bySimulationId($simId)
+                        ->byLastReplicaId($dialog->excel_id)
+                        ->exists();
+                } elseif ($condition->mail_id) {
+                    /** @var MailBoxModel $mail */
+                    $mail = MailBoxModel::model()->findByAttributes([
+                        'sim_id' => $simId,
+                        'template_id' => $condition->mail_id
+                    ]);
+
+                    $satisfies = LogActivityAction::model()
+                        ->bySimulationId($simId)
+                        ->byMailId($mail->id)
+                        ->exists();
+                }
+
+                if ($rule->operation === 'AND' && $satisfies ||
+                    $rule->operation === 'OR' && !$satisfies
+                ) {
+                    continue;
+                }
+
+                break;
+            }
+
+            if (!empty($satisfies)) {
+                $sar = new SimulationAssessmentRule();
+                $sar->sim_id = $simId;
+                $sar->assessment_rule_id = $rule->id;
+                $sar->save();
+
+                $done[$rule->id] = $rule->value;
+            }
+        }
+    }
     
     /**
      * @param integer $userId
@@ -437,6 +497,8 @@ class SimulationService
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
         SimulationService::saveAgregatedPoints($simulation->id);
+
+        SimulationService::setFinishedAssessmentRules($simulation->id);
         
         DayPlanService::copyPlanToLog($simulation, 18*60); // 18-00 copy
         

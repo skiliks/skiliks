@@ -64,7 +64,7 @@ class InitDBCommand extends CConsoleCommand
         if ($forceDelete) {
             $this->mysql("DROP DATABASE $database");
         }
-        $this->mysql("CREATE DATABASE $database");
+        $this->mysql("CREATE DATABASE $database CHARSET utf8 COLLATE utf8_general_ci");
         $this->mysql("source db.sql", $database);
         $this->runMigrationTool();
         $import = new ImportGameDataService();

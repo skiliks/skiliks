@@ -225,7 +225,7 @@ DROP TABLE IF EXISTS `activity_type`;
 CREATE TABLE `activity_type` (
   `type` varchar(40) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1004,7 +1004,7 @@ CREATE TABLE `learning_goals` (
   `title` text,
   `import_id` varchar(14) NOT NULL DEFAULT '00000000000000',
   PRIMARY KEY (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1077,7 +1077,7 @@ CREATE TABLE `log_activity_action_agregated` (
   KEY `log_activity_action_agregated_FK_simulations` (`sim_id`),
   CONSTRAINT `log_activity_action_agregated_FK_activity_action` FOREIGN KEY (`activity_action_id`) REFERENCES `activity_action` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `log_activity_action_agregated_FK_simulations` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1144 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1144 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1510,7 +1510,7 @@ DROP TABLE IF EXISTS `mail_prefix`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mail_prefix` (
   `code` varchar(255) NOT NULL,
-  `title` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2114,7 +2114,7 @@ CREATE TABLE `universal_log` (
   CONSTRAINT `universal_log_mail_id` FOREIGN KEY (`mail_id`) REFERENCES `mail_box` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `universal_log_sim_id` FOREIGN KEY (`sim_id`) REFERENCES `simulations` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `universal_log_window_id` FOREIGN KEY (`window_id`) REFERENCES `window` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

@@ -20,7 +20,7 @@ class SeleniumMailTest extends CWebTestCase
         $this->open('/site/');
         $this->setSpeed("1000");
         $this->waitForVisible('id=login');
-        $this->type("id=login", "asd");
+        $this->type("id=login", "vad");
         $this->type("id=pass", "123");
         $this->click("css=input.btn.btn-primary");
         for ($second = 0; ; $second++) {
@@ -41,22 +41,22 @@ class SeleniumMailTest extends CWebTestCase
         }
 
         //маппинги Трудякина и Крутько в выпадающем списке адресатов
-        $trudyakin="//ul[contains(@class,'ui-autocomplete')]/li[13]/a";
-        $krutko="//ul[contains(@class,'ui-autocomplete')]/li[15]/a";
+        $trudyakin = Yii::app()->params['test_mappings']['mail_contacts']['trudyakin'];
+        $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->click("id=icons_email");
-        $this->click("link=новое письмо");
-        $this->click("id=MailClient_RecipientsList");
+        $this->click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->click(Yii::app()->params['test_mappings']['mail']['new_letter']);
+        $this->click(Yii::app()->params['test_mappings']['mail']['to_whom']);
         $this->waitForElementPresent($trudyakin);
         $this->mouseOver($trudyakin);
         $this->click($trudyakin);
-	    $this->click("//input[@type='text']");
+	    $this->click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
         $this->mouseOver($krutko);
         $this->click($krutko);
         $this->select("css=select.origin", "Срочно жду бюджет логистики");
-        $this->click("css=li.tagItem");
-        $this->click("//div[@class='mail-popup']//td[1]/div['Продолжить']");
-        $this->select("css=select.origin", "Срочно жду бюджет логистики");
+        $this->click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
+        $this->click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
+        $this->select("css=select.origin", "Сводный бюджет: файл");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
 
