@@ -5,7 +5,7 @@
  * Date: 2/24/13
  * Time: 5:26 PM
  */
-class SeleniumMailTest extends CWebTestCase
+class SeleniumMailTest extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -14,31 +14,9 @@ class SeleniumMailTest extends CWebTestCase
         parent::setUp();
     }
 
-    public function test_Mail_new_first_to_deleted() {
-
-        $this->deleteAllVisibleCookies();
-        $this->open('/site/');
-        $this->setSpeed("1000");
-        $this->waitForVisible('id=login');
-        $this->type("id=login", "vad");
-        $this->type("id=pass", "123");
-        $this->click("css=input.btn.btn-primary");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=//input[@value='Начать симуляцию developer']")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
-        $this->click("xpath=//input[@value='Начать симуляцию developer']");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("id=addTriggerSelect")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
+    public function testSK1253()
+    {
+        $this->start_simulation();
 
         //маппинги Трудякина и Крутько в выпадающем списке адресатов
         $trudyakin = Yii::app()->params['test_mappings']['mail_contacts']['trudyakin'];
