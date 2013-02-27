@@ -52,7 +52,7 @@ class ZohoDocuments
      *
      * @var string
      */
-    protected $response = null;
+    public  $response = null;
 
     /**
      * Filename - used to make user file if it not exists
