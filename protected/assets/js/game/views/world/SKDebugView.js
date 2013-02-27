@@ -64,4 +64,6 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 SKApp.user.stopSimulation();
             }
         });
+
+    return SKDebugView;
 });

@@ -5,7 +5,7 @@
 /**
  * Хранит значение оценки поведения для конкретного диалога.
  * 
- * Связана с моделями: CharactersPointsTitles, Dialog
+ * Связана с моделями: CharactersPointsTitles, Replica
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

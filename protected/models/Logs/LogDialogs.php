@@ -6,7 +6,7 @@
  * @property datetime start_time
  * @property datetime end_time
  * @property integer last_id
- * @property Dialog dialog
+ * @property Replica dialog
  * @property Simulations simulation
  */
 class LogDialogs extends CActiveRecord
@@ -65,7 +65,7 @@ class LogDialogs extends CActiveRecord
     {
         return array(
             'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
-            'dialog' => [self::BELONGS_TO, 'Dialog', 'dialog_id']
+            'dialog' => [self::BELONGS_TO, 'Replica', 'dialog_id']
         );
     }
 
@@ -102,12 +102,24 @@ class LogDialogs extends CActiveRecord
     }
 
     /**
+     * @param int $replicaId
+     * @return LogDialogs
+     */
+    public function byLastReplicaId($replicaId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "last_id = {$replicaId}"
+        ));
+        return $this;
+    }
+
+    /**
      * Returns last replica object
-     * @return Dialog
+     * @return Replica
      */
     public function getLastReplica()
     {
-        return Dialog::model()->findByAttributes(['excel_id' => $this->last_id]);
+        return Replica::model()->findByAttributes(['excel_id' => $this->last_id]);
     }
     
     /**

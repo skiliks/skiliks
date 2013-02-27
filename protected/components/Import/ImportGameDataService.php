@@ -39,11 +39,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Faces_new');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Faces_new');
         // load sheet }
 
@@ -101,11 +97,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Forma_1');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         // load sheet }
 
@@ -162,11 +154,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Forma_1');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
         // load sheet }
 
@@ -223,10 +211,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('Mail');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
@@ -607,11 +592,8 @@ class ImportGameDataService
         echo __METHOD__ . "\n";
 
         // load sheet {
-        $reader = $this->getReader();
-        $reader->setLoadSheetsOnly(['ALL Themes', 'Mail']);
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL Themes');
-        $mail_sheet = $excel->getSheetByName('mail');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
@@ -780,10 +762,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('to-do-list');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('to-do-list');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
@@ -843,11 +822,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('M-T');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('M-T');
         // load sheet }
 
@@ -911,10 +886,7 @@ class ImportGameDataService
 
     public function importFlags()
     {
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('Flags');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
@@ -948,10 +920,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('Mail');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
@@ -991,10 +960,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('Mail');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 2);
@@ -1044,11 +1010,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Documents');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Documents');
         // load sheet }
 
@@ -1127,11 +1089,8 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
         // load sheet {
-        $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         // load sheet }
 
@@ -1161,11 +1120,11 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialog::model()
+            $dialog = Replica::model()
                 ->byExcelId($dialog_excel_id)
                 ->find();
             if (NULL === $dialog) {
-                $dialog = new Dialog(); // Создаем событие
+                $dialog = new Replica(); // Создаем событие
                 $dialog->excel_id = $dialog_excel_id;
             }
 
@@ -1200,10 +1159,16 @@ class ImportGameDataService
             $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
-            $flag = Flag::model()->findByAttributes([
-                'code' => $this->getCellValue($sheet, 'Переключение флагов 1', $i)
-            ]);
-            $dialog->flag_to_switch = (NULL === $flag) ? NULL : $flag->code;
+            $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
+            if ($flagCode !== '') {
+                $flag = Flag::model()->findByAttributes([
+                    'code' => $flagCode
+                ]);
+                //assert($flag, 'Flag for ' . $flagCode);
+                $dialog->flag_to_switch = $flag->code;
+            } else {
+                $dialog->flag_to_switch = null;
+            }
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $dialog->demo = $isUseInDemo;
@@ -1224,7 +1189,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        Dialog::model()->deleteAll(
+        Replica::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
@@ -1245,11 +1210,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         // load sheet }
 
@@ -1272,7 +1233,7 @@ class ImportGameDataService
                 continue;
             }
 
-            $dialog = Dialog::model()
+            $dialog = Replica::model()
                 ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
                 ->find();
 
@@ -1343,11 +1304,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('ALL DIALOGUES(E+T+RS+RV)');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
         // load sheet }
 
@@ -1410,10 +1367,6 @@ class ImportGameDataService
         $event->save();
         // }
 
-        $reader = $this->getReader();
-        // load sheet {
-        $reader->setLoadSheetsOnly('to-do-list');
-        $excel = $reader->load($this->filename);
         $sheet = $excel->getSheetByName('to-do-list');
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
@@ -1461,11 +1414,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Activities');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Activities');
         // load sheet }
 
@@ -1525,12 +1474,22 @@ class ImportGameDataService
     {
         PHPExcel_Settings::setCacheStorageMethod($this->cache_method);
 
-        $reader = PHPExcel_IOFactory::createReader('Excel2007');
+        if (!isset($this->reader)) {
+            $this->reader = PHPExcel_IOFactory::createReader('Excel2007');
 
-        // prevet read string "11:00" like "0.45833333333333" even by getValue() 
-        $reader->setReadDataOnly(true);
+            // prevent read string "11:00" like "0.45833333333333" even by getValue()
+            $this->reader->setReadDataOnly(true);
+        }
 
-        return $reader;
+        return $this->reader;
+    }
+
+    private function getExcel()
+    {
+        if (!isset($this->excel)) {
+            $this->excel = $this->getReader()->load($this->filename);
+        }
+        return $this->excel;
     }
 
     /**
@@ -1585,13 +1544,7 @@ class ImportGameDataService
             'Window' => 'window_id'
         );
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Leg_actions');
-        $excel = $reader->load($this->filename);
-        $sheet = $excel->getSheetByName('Leg_actions');
-        // load sheet }
+        $sheet = $this->getExcel()->getSheetByName('Leg_actions');
 
         // save colums numbers by column titles 
         $this->setColumnNumbersByNames($sheet);
@@ -1651,11 +1604,11 @@ class ImportGameDataService
             } else if ($type === 'dialog_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = Dialog::model()->findAll();
+                    $values = Replica::model()->findAll();
                 } else if ($xls_act_value === 'phone talk') {
                     $values = [null];
                 } else {
-                    $dialogs = Dialog::model()->findAllByAttributes(array('code' => $xls_act_value));
+                    $dialogs = Replica::model()->findAllByAttributes(array('code' => $xls_act_value));
                     if (count($dialogs) === 0) {
                         assert($dialogs, 'No such dialog: "' . $xls_act_value . '"');
                     }
@@ -1695,7 +1648,7 @@ class ImportGameDataService
                 throw new Exception('Can not handle type:' . $type);
             }
 
-            // update relation Activiti to Document, Dialog replic ro Email {
+            // update relation Activiti to Document, Replica replic ro Email {
             foreach ($values as $value) {
                 /** @var ActivityAction $activityAction */
                 $activityAction = ActivityAction::model()->findByAttributes(array(
@@ -1717,7 +1670,7 @@ class ImportGameDataService
                 }
                 $activityAction->save();
             }
-            // update relation Activity to Document, Dialog replic ro Email }
+            // update relation Activity to Document, Replica replic ro Email }
 
             $activity_actions++;
         }
@@ -1740,11 +1693,7 @@ class ImportGameDataService
     {
         echo __METHOD__ . "\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Parent_ending');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Parent_ending');
         // load sheet }
 
@@ -1763,7 +1712,7 @@ class ImportGameDataService
             $endCode = $this->getCellValue($sheet, 'Parent_end_code', $i);
 
             if ($endType == 'id_записи') {
-                $entity = Dialog::model()->byExcelId($endCode)->find();
+                $entity = Replica::model()->byExcelId($endCode)->find();
             } elseif ($endType == 'outbox' || $endType == 'inbox') {
                 $entity = MailTemplateModel::model()->byCode($endCode)->find();
             }
@@ -1794,6 +1743,88 @@ class ImportGameDataService
         );
     }
 
+    public function importAssessmentRules()
+    {
+        echo __METHOD__ . "\n";
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Result_rules');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        // delete old unused data {
+        AssessmentRuleCondition::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        AssessmentRule::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        $types = [
+            'id_записи' => 'dialog_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $rules = 0;
+        $conditions = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Rule_id', $i);
+            $type = $this->getCellValue($sheet, 'Result_type', $i);
+            $code = $this->getCellValue($sheet, 'Result_code', $i);
+
+            if (empty($ruleId)) {
+                break;
+            }
+
+            if ($type == 'id_записи') {
+                $entity = Replica::model()->byExcelId($code)->find();
+            } elseif ($type == 'outbox' || $type == 'inbox') {
+                $entity = MailTemplateModel::model()->byCode($code)->find();
+            } else {
+                $entity = null;
+            }
+
+            $rule = AssessmentRule::model()->findByPk($ruleId);
+            if (empty($rule)) {
+                $rule = new AssessmentRule();
+                $rule->id = $ruleId;
+                $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+                $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
+                $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
+                $rule->import_id = $this->import_id;
+
+                $rule->save();
+                $rules++;
+            }
+
+            if (isset($entity)) {
+                $condition = new AssessmentRuleCondition();
+                $condition->assessment_rule_id = $rule->id;
+                $condition->{$types[$type]} = $entity->id;
+                $condition->import_id = $this->import_id;
+
+                $condition->save();
+                $conditions++;
+            }
+        }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'assessment_rules' => $rules,
+            'assessment_rule_conditions' => $conditions,
+            'errors' => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -1805,8 +1836,10 @@ class ImportGameDataService
             $result['characters'] = $this->importCharacters();
             $result['learning_goals'] = $this->importLearningGoals();
             $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+            $result['flags'] = $this->importFlags();
             $result['dialog'] = $this->importDialogReplicas();
             $result['my_documents'] = $this->importMyDocuments();
+            $result['character_points'] = $this->importDialogPoints();
             $result['email_subjects'] = $this->importEmailSubjects();
             $result['emails'] = $this->importEmails();
             $result['mail_attaches'] = $this->importMailAttaches();
@@ -1816,9 +1849,8 @@ class ImportGameDataService
             $result['event_samples'] = $this->importEventSamples();
             $result['activity'] = $this->importActivity();
             $result['activity_parent_ending'] = $this->importActivityParentEnding();
-            $result['activity_efficiency_conditions'] = $this->importActivityEfficiencyConditions();
-            $result['flags'] = $this->importFlags();
             $result['flag_rules'] = $this->importFlagsRules();
+            $result['assessment_rules'] = $this->importAssessmentRules();
 
             $transaction->commit();
 
@@ -1833,11 +1865,7 @@ class ImportGameDataService
     public function importFlagsRules() {
         echo __METHOD__."\n";
 
-        $reader = $this->getReader();
-
-        // load sheet {
-        $reader->setLoadSheetsOnly('Flags');
-        $excel = $reader->load($this->filename);
+        $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
         // load sheet }
 

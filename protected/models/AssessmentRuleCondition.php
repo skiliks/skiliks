@@ -1,21 +1,25 @@
 <?php
 
 /**
- * This is the model class for table "activity_parent".
+ * This is the model class for table "assessment_rule_conditions".
  *
- * The followings are the available columns in table 'activity_parent':
+ * The followings are the available columns in table 'assessment_rule_conditions':
  * @property integer $id
- * @property string $import_id
- * @property string $parent_code
+ * @property integer $assessment_rule_id
  * @property integer $dialog_id
  * @property integer $mail_id
+ *
+ * The followings are the available model relations:
+ * @property MailTemplateModel $mail
+ * @property AssessmentRule $assessmentRule
+ * @property Dialog $dialog
  */
-class ActivityParent extends CActiveRecord
+class AssessmentRuleCondition extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ActivityParent the static model class
+	 * @return AssessmentRuleCondition the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +31,7 @@ class ActivityParent extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'activity_parent';
+		return 'assessment_rule_conditions';
 	}
 
 	/**
@@ -38,13 +42,11 @@ class ActivityParent extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('parent_code', 'required'),
-			array('id, dialog_id, mail_id', 'numerical', 'integerOnly'=>true),
-			array('import_id', 'length', 'max'=>14),
-			array('parent_code', 'length', 'max'=>10),
+			array('assessment_rule_id', 'required'),
+			array('assessment_rule_id, dialog_id, mail_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, import_id, parent_code, dialog_id, mail_id', 'safe', 'on'=>'search'),
+			array('id, assessment_rule_id, dialog_id, mail_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -56,6 +58,9 @@ class ActivityParent extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
+			'assessmentRule' => array(self::BELONGS_TO, 'AssessmentRule', 'assessment_rule_id'),
+			'dialog' => array(self::BELONGS_TO, 'Dialog', 'dialog_id'),
 		);
 	}
 
@@ -66,9 +71,8 @@ class ActivityParent extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'import_id' => 'Import',
-			'parent_code' => 'Parent Code',
-			'dialog_id' => 'Replica',
+			'assessment_rule_id' => 'Assessment Rule',
+			'dialog_id' => 'Dialog',
 			'mail_id' => 'Mail',
 		);
 	}
@@ -85,8 +89,7 @@ class ActivityParent extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('import_id',$this->import_id,true);
-		$criteria->compare('parent_code',$this->parent_code,true);
+		$criteria->compare('assessment_rule_id',$this->assessment_rule_id);
 		$criteria->compare('dialog_id',$this->dialog_id);
 		$criteria->compare('mail_id',$this->mail_id);
 
@@ -94,28 +97,4 @@ class ActivityParent extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Returns true if parent is already terminated in simulation
-     * @param $simulation Simulations
-     * @return bool
-     */
-    public function isTerminatedInSimulation($simulation)
-    {
-        return SimulationCompletedParent::model()->countByAttributes([
-            'sim_id' => $simulation->primaryKey, 'parent_code' => $this->parent_code
-        ]);
-    }
-
-    /**
-     * Terminates parent activity in given simulation
-     * @param $simulation Simulations
-     */
-    public function terminateInSimulation($simulation)
-    {
-        $simulationCompletedParent = new SimulationCompletedParent();
-        $simulationCompletedParent->sim_id = $simulation->primaryKey;
-        $simulationCompletedParent->parent_code = $this->parent_code;
-        $simulationCompletedParent->save();
-    }
 }
