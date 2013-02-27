@@ -1,10 +1,13 @@
 /*global Backbone, SKMailClientView, SKMailFolder, SKMailSubject, SKEmail, SKApp, SKDialogView, SKMailAddToPlanDialog*/
+
+var SKMailClient;
+
 define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function () {
     "use strict";
     /**
      * @class SKMailClient
      */
-    window.SKMailClient = Backbone.Model.extend(
+    SKMailClient = Backbone.Model.extend(
         /** @lends SKMailClient.prototype */
         {
 
@@ -1185,6 +1188,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     $("#MailClient_NewLetterSubject select option:selected").val() !== "0";
             }
         });
-    return window.SKMailClient;
+    return SKMailClient;
 });
 

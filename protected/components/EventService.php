@@ -222,7 +222,7 @@ class EventService {
     }
     
     public static function getReplicaByCode($eventCode, $simId) {
-        $dialogs = Dialog::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+        $dialogs = Replica::model()->byCode($eventCode)->byStepNumber(1)->findAll();
             
         $data = array();
         foreach($dialogs as $dialog) {
@@ -251,7 +251,7 @@ class EventService {
 
     /**
      * Проверяет а можем ли мы запускать это событие
-     * @param $replica Dialog
+     * @param $replica Replica
      * @param $simId
      * @internal param string $code
      * @return boolean

@@ -9,6 +9,13 @@
         </ul>
     </div>
 </div>
+
+<h1 id="simulation-info">Simulation</h1>
+<dl>
+    <dt>Id</dt>
+    <dd>{$simulation.primaryKey}</dd>
+</dl>
+
 <h1 id="universal-log">Universal log</h1>
 
 <table class="table table-striped universal-log">
@@ -87,7 +94,7 @@
     <tr>
         <th>Start Time</th>
         <th>End Time</th>
-        <th>Dialog code</th>
+        <th>Replica code</th>
         <th>Result replica</th>
     </tr>
     </thead>
@@ -97,6 +104,42 @@
             <td>{$log_dialog->end_time}</td>
             <td>{$log_dialog->dialog->code}</td>
             <td>{$log_dialog->last_id}</td>
+        </tr>
+    {/foreach}
+</table>
+
+<h1 id="assessment-result">Assessment result</h1>
+
+<table class="table table-striped mail-log">
+    <thead>
+    <tr>
+        <th>Point ID</th>
+        <th>Value</th>
+        <th>Type Scale</th>
+    </tr>
+    </thead>
+    {foreach $simulation->assessment_points as $assessmentPoint}
+        <tr>
+            <td>{$assessmentPoint->point->title}</td>
+            <td>{$assessmentPoint->value}</td>
+            <td>{$assessmentPoint->point->type_scale}</td>
+        </tr>
+    {/foreach}
+</table>
+
+<h1 id="simulation-points">Simulation points</h1>
+
+<table class="table table-striped mail-log">
+    <thead>
+    <tr>
+        <th>Шкала</th>
+        <th>Оценка</th>
+    </tr>
+    </thead>
+    {foreach $simulation->getAssessmentResults() as $typeScale => $assessmentPoint}
+        <tr>
+            <td>{$typeScale}</td>
+            <td>{$assessmentPoint}</td>
         </tr>
     {/foreach}
 </table>

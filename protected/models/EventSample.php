@@ -15,7 +15,7 @@ class EventSample extends CActiveRecord
     public $id;
     
     /**
-     * Dialog code, 'ET1.1', 'E8' ...
+     * Replica code, 'ET1.1', 'E8' ...
      * @var string
      */
     public $code;

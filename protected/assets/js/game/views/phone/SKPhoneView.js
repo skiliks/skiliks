@@ -1,10 +1,11 @@
 /*global SKWindow, _, SKWindowView, SKConfig, SKApp, SKPhoneContactsCollection
  */
+var SKPhoneView;
 
 define(["game/views/SKWindowView"], function () {
     "use strict";
 
-    window.SKPhoneView = SKWindowView.extend({
+    SKPhoneView = SKWindowView.extend({
         title: "Телефон",
         events:_.defaults({
             'click .phone_get_contacts': 'getContacts',
@@ -97,4 +98,6 @@ define(["game/views/SKWindowView"], function () {
 
         }
     });
+
+    return SKPhoneView;
 });

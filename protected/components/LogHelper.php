@@ -203,7 +203,7 @@ class LogHelper
 		')
             ->from('log_dialog_points l')
             ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
-            ->join('dialogs d', 'd.id = c.dialog_id and d.id = l.dialog_id')
+            ->join('replica d', 'd.id = c.dialog_id and d.id = l.dialog_id')
             ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
             ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
@@ -1007,7 +1007,7 @@ class LogHelper
             if (empty($log[4]['dialogId'])) continue;
 
             $lastDialogIdInMySQL = isset($log[4]['lastDialogId']) ? $log[4]['lastDialogId'] : null;
-            $last_dialog = Dialog::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
+            $last_dialog = Replica::model()->findByAttributes(['id' => $lastDialogIdInMySQL, 'is_final_replica' => 1]);
             $lastDialogIdAccordingExcel = (null === $last_dialog) ? null : $last_dialog->excel_id;
 
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
@@ -1056,7 +1056,7 @@ class LogHelper
                     l.start_time,
                     l.end_time")
             ->from('log_dialogs l')
-            ->leftJoin('dialogs d', 'l.dialog_id = d.id')
+            ->leftJoin('replica d', 'l.dialog_id = d.id')
             ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
             ->order("l.id");
         if ($simulation !== null) {
@@ -1126,7 +1126,7 @@ class LogHelper
             ON l.activity_action_id = a.id
             LEFT JOIN window AS w
             ON w.id = a.window_id
-            LEFT JOIN dialogs AS d
+            LEFT JOIN replica AS d
             ON d.id = a.dialog_id
             LEFT JOIN my_documents_template AS t
             ON t.id = a.document_id
