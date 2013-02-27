@@ -1,13 +1,15 @@
 /*global SKWindow, SKApp, _, SKWindowView
  */
 
+var SKPhoneCallView;
+
 define(["game/views/SKWindowView"], function () {
     "use strict";
     /**
      * @class
      * @type {*}
      */
-    window.SKPhoneCallView = SKWindowView.extend({
+    SKPhoneCallView = SKWindowView.extend({
 
         el:null,
 
@@ -86,5 +88,7 @@ define(["game/views/SKWindowView"], function () {
                 me.options.model_instance.close();
             });
         }
-   });         
+   });
+
+    return SKPhoneCallView;
 });

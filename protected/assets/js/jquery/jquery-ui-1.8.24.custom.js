@@ -6037,13 +6037,13 @@ $.widget( "ui.buttonset", {
 
 }( jQuery ) );
 /*!
- * jQuery UI Dialog 1.8.24
+ * jQuery UI Replica 1.8.24
  *
  * Copyright 2012, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
  * http://jquery.org/license
  *
- * http://docs.jquery.com/UI/Dialog
+ * http://docs.jquery.com/UI/Replica
  *
  * Depends:
  *	jquery.ui.core.js

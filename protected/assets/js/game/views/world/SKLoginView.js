@@ -1,7 +1,10 @@
 /*global Backbone, _, SKApp */
+
+var SKLoginView;
+
 define([], function() {
     "use strict";
-    window.SKLoginView = Backbone.View.extend({
+    SKLoginView = Backbone.View.extend({
         'el': 'body',
         'initialize': function () {
             this.render();
@@ -18,4 +21,6 @@ define([], function() {
             SKApp.session.login($('#login').val(), $('#pass').val());
         }
     });
+
+    return SKLoginView;
 });

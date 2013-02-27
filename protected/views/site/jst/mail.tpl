@@ -36,38 +36,6 @@
     <div id="<@= emailPreviewId @>" class="pre"></div>
 </script>
 
-<!-- MailClient_SendedFolderSceleton: -->
-<script type="text/template" id="MailClient_SendedFolderSceleton">
-    <div id="<@= listId @>" style="height: 250px; overflow: hidden; overflow-y: scroll;">
-        <table id="mlTitle" class="ml ml-title">
-            <colgroup>
-                <col class="col0">
-                <col class="col1">
-                <col class="col2">
-                <col class="col3">
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>
-                        <span id="mailEmulatorReceivedListSortSender">Кому</span>
-                    </th>
-                    <th>
-                        <span>Тема</span>
-                    </th>
-                    <th>
-                        <span id="mailEmulatorReceivedListSortTime">Дата отправки</span>
-                    </th>
-                    <th>
-                        <div class="attachmentIcon"></div>
-                    </th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    <div id="<@= emailPreviewId @>" class="pre"></div>
-</script>
-
 <!-- MailClient_TrashEmailLine: -->
 <script type="text/template" id="MailClient_TrashEmailLine">
     <tr data-email-id="<@= emailMySqlId @>"
@@ -83,30 +51,9 @@
     </tr>
 </script>
 
-<!-- MailClient_SendedEmailLine: -->
-<script type="text/template" id="MailClient_SendedEmailLine">
-    <tr data-email-id="<@= emailMySqlId @>"
-        class="email-list-line <@= isReadedCssClass @> mail-emulator-received-list-string
-          mail-emulator-received-list-string-selected <@= isActiveCssClass @> ui-draggable">
-        <td class="col0 mail-emulator-received-list-cell-sender"><@= recipientName @></td>
-        <td class="col1 mail-emulator-received-list-cell-theme"><@= subject @></td>
-        <td class="col2 mail-emulator-received-list-cell-time"><@= sendedAt @></td>
-        <td class="col3 mail-emulator-received-list-cell-attach">
-            <span style="display: none;"><@= isHasAttachment @></span> <!-- for sorting purposes -->
-            <div class="attachmentIcon" style="<@= isHasAttachmentCss @>"></div>
-        </td>
-    </tr>
-</script>
-
 <!-- MailClient_EmailPreview: -->
 <script type="text/template" id="MailClient_EmailPreview">
 </script>
-
-<!-- MailClient_ReadEmailSceleton: -->
-<script type="text/template" id="MailClient_ReadEmailSceleton">
-    <div id="<@= emailPreviewId @>" class="pre" style="padding-top: 25px;"></div>
-</script>
-
 
 <!-- MailClient_PhraseItem -->
 <script type="text/template" id="MailClient_PhraseItem">
