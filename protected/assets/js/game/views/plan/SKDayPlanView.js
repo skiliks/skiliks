@@ -1,4 +1,6 @@
+
 var SKDayPlanView;
+
 /*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView*/
 define(["game/views/SKWindowView"], function () {
     "use strict";
@@ -501,4 +503,6 @@ define(["game/views/SKWindowView"], function () {
             this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
         }
     });
+
+    return SKDayPlanView;
 });

@@ -1,7 +1,11 @@
 /*global _, Backbone, simulation, SKSettingsView, SKLoginView, SKApp, session, world, $*/
-define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "game/views/world/SKDebugView"],function () {
+
+var SKSimulationStartView;
+
+define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "game/views/world/SKDebugView"],
+    function (SKSimulationView) {
     "use strict";
-    window.SKSimulationStartView = Backbone.View.extend({
+    SKSimulationStartView = Backbone.View.extend({
         'el': 'body',
         'initialize': function () {
             this.render();
@@ -27,7 +31,6 @@ define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "ga
                 delete me.simulation_view;
                 me.render();
             });
-
         },
         'doSettings': function () {
             var view = new SKSettingsView({'el': this.$el});
@@ -40,4 +43,6 @@ define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "ga
             SKApp.user.logout();
         }
     });
+
+    return SKSimulationStartView;
 });
