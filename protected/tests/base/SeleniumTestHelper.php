@@ -45,7 +45,9 @@ class SeleniumTestHelper extends CWebTestCase
     // flag_value - 1 или 0 (значения флагов)
     public function assert_flags($flag_numb, $flag_value)
     {
-        $this->assertText(flag_numb,flag_value);
+        $this->assertText($flag_numb,$flag_value);
+
+        // по нормальному тут еще надо сделать ожидание появления флага ...
     }
 }
 
