@@ -265,7 +265,7 @@ define([
                             subject: "1278",
                             time: "09:00"
                         });
-                        xhr.respond(200, {'result':1});
+                        xhr.respond(200,  { "Content-Type": "application/json" }, JSON.stringify({'result':1}));
                         done();
                     });
                 server.respond();
