@@ -5,11 +5,11 @@
 return [
 
     'icons' => [
-        'todo' => '',
-        'phone' => '',
+        'todo' => 'id=icons_todo',
+        'phone' => 'id=icons_phone',
         'mail' => "id=icons_email",
-        'visit' => '',
-        'documents' => ''
+        'visit' => 'id=icons_visit',
+        'documents' => 'id=icons_documents'
     ],
 
 
@@ -60,24 +60,25 @@ return [
 
 
     'mail_contacts' => [
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[2]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[3]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[4]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[5]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[6]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[7]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[8]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[9]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[10]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[11]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[12]/",
+        'advokatov' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/a",
+        'blesk' => "//ul[contains(@class,'ui-autocomplete')]/li[2]/a",
+        'jukova' => "//ul[contains(@class,'ui-autocomplete')]/li[3]/a",
+        'serkov' => "//ul[contains(@class,'ui-autocomplete')]/li[4]/a",
+        'boss' => "//ul[contains(@class,'ui-autocomplete')]/li[5]/a",
+        'bobr' => "//ul[contains(@class,'ui-autocomplete')]/li[6]/a",
+        'hozin' => "//ul[contains(@class,'ui-autocomplete')]/li[7]/a",
+        'vasilyev' => "//ul[contains(@class,'ui-autocomplete')]/li[8]/a",
+        'gorbatuk' => "//ul[contains(@class,'ui-autocomplete')]/li[9]/a",
+        'denejnaya' => "//ul[contains(@class,'ui-autocomplete')]/li[10]/a",
+        'dobrohotov' => "//ul[contains(@class,'ui-autocomplete')]/li[11]/a",
+        'dolgova' => "//ul[contains(@class,'ui-autocomplete')]/li[12]/a",
         'trudyakin' => "//ul[contains(@class,'ui-autocomplete')]/li[13]/a",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[14]/",
-        'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[16]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[17]/",
-        '' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/"
+        'jeleznyi' => "//ul[contains(@class,'ui-autocomplete')]/li[14]/a",
+        'kamenskiy' => "//ul[contains(@class,'ui-autocomplete')]/li[15]/a",
+        'krutko' => "//ul[contains(@class,'ui-autocomplete')]/li[16]/a",
+        'loshadkin' => "//ul[contains(@class,'ui-autocomplete')]/li[17]/a",
+        'lubimaya' => "//ul[contains(@class,'ui-autocomplete')]/li[18]/a",
+        'ludovkina' => "//ul[contains(@class,'ui-autocomplete')]/li[19]/a"
     ],
 
 

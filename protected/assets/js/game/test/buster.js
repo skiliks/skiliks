@@ -1,5 +1,5 @@
 var config = module.exports;
-
+var path = require('path');
 config["My Tests"] = {
     autoRun: false,
     env: "browser",
@@ -28,5 +28,11 @@ config["My Tests"] = {
     tests: [
         "game/test/*-test.js"
     ],
-    extensions: [require('buster-amd')]
+    extensions: [require('buster-amd')],
+    "buster-amd": {
+        "pathMapper": function (path) {
+            console.log(path);
+            return path.replace(/\.js$/, "").replace(/^\//, "");
+        }
+    }
 };

@@ -60,7 +60,7 @@ class EmailCoincidenceAnalyzer
             return $result;
         }
 
-            foreach (MailTemplateModel::model()
+        foreach (MailTemplateModel::model()
                 ->byMS()
                 ->byReceiverId($this->userEmail->receiver_id)
                 ->bySubjectId($this->userEmail->subject_id)
@@ -107,7 +107,7 @@ class EmailCoincidenceAnalyzer
            $this->emailTemplatesByCodeFull[$indexFull]   = $mailTemplate;
            $this->emailTemplatesByCodePart1[$indexPart1] = $mailTemplate;
            $this->emailTemplatesByCodePart2[$indexPart2] = $mailTemplate;
-           
+
            unset($mailRecipientId);
            unset($mailCopyId);
            unset($mailAttachId);
@@ -166,8 +166,8 @@ class EmailCoincidenceAnalyzer
         unset($mailCopyId);
         unset($mailAttachId);    
         
-        // check 
-        
+        // check
+
         if (isset($this->emailTemplatesByCodeFull[$indexFull])) {
             $result['full'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
