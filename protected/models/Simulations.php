@@ -9,6 +9,7 @@
  *
  * @property int difficulty
  * @property SimulationCompletedParent[] completed_parent_activities
+ * @property AssessmentAggregated[] assessment_points
  * @prorepty LogWindows[] log_windows
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -151,8 +152,24 @@ class Simulations extends CActiveRecord
             'log_plan' => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time'],
             'log_dialogs' => [self::HAS_MANY, 'LogDialogs', 'sim_id', 'order' => 'start_time'],
             'log_activity_actions' => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time'],
-            'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id']
+            'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
+            'assessment_points' => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
         ];
+    }
+
+    public function getAssessmentResults()
+    {
+        $assessmentPoints = $this->assessment_points;
+        $result = [];
+        foreach ($assessmentPoints as $assessmentPoint) {
+            if (!isset($result[$assessmentPoint->point->type_scale])) {
+                $result[$assessmentPoint->point->type_scale] = 0;
+            }
+            $typeScale = $assessmentPoint->point->type_scale;
+            $result[$typeScale] += $assessmentPoint->value;
+        }
+
+        return $result;
     }
 
     /**
