@@ -244,31 +244,6 @@ class MailBoxModel extends CActiveRecord
     }
 
     /**
-     * @return type
-     */
-    /*public function getCharacterTheme() {
-        
-        $main_subject = CommunicationTheme::model()->findByAttributes(array(
-            'text' => $this->subject_obj->text
-        ));
-
-        // try to find subject for current simulation
-        if (null === $main_subject) {
-            $main_subject = CommunicationTheme::model()->findByAttributes(array(
-                'id'   => $this->subject_obj->id,
-            ));
-        }
-        
-        return CommunicationTheme::model()->find(
-            '(character_id=:sender_id OR character_id=:receiver_id) AND id=:subject_id',
-            array(
-                'sender_id'   => $this->sender_id,
-                'receiver_id' => $this->receiver_id,
-                'subject_id'  => $main_subject->primaryKey,
-        ));
-    }*/
-    
-    /**
      * Выбрать по заданной папкe
      * @param int $folderId
      * @return MailBoxModel 
