@@ -18,17 +18,17 @@ class FlagServiceTest extends CDbTestCase
 
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(35)->find()->id,
+            Replica::model()->byExcelId(35)->find()->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(50)->find()->id,
+            Replica::model()->byExcelId(50)->find()->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Dialog::model()->byExcelId(70)->find()->id,
+            Replica::model()->byExcelId(70)->find()->id,
             '11:00'
         );
 
@@ -51,11 +51,13 @@ class FlagServiceTest extends CDbTestCase
         $simulation = $simulationService->simulationStart(2, $user);
 
         $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
+        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
         $msgParams = [
             'simId' => $simulation->id,
-            'subject_id' => 10495,
+            'subject_id' => CommunicationTheme::model()->findByAttributes([
+                'code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>null])->primaryKey,
             'message_id' => 0,
-            'receivers' => Characters::model()->findByAttributes(['code' => '12'])->primaryKey,
+            'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
             'sender' => $senderId,
             'time' => '11:00',
@@ -65,7 +67,7 @@ class FlagServiceTest extends CDbTestCase
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        $msgParams['subject_id'] = 10498;
+        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes(['code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>'rere'])->primaryKey;
         $mail = MailBoxService::sendMessage($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
@@ -93,7 +95,7 @@ class FlagServiceTest extends CDbTestCase
         $e = new EventsManager();
         $e->startEvent($simulation->id, 'S2', false, false, 0);
 
-        /*$dialogs = Dialog::model()->findAllByAttributes([
+        /*$dialogs = Replica::model()->findAllByAttributes([
             'code'        => 'S2',
             'step_number' => 1
         ]);*/
@@ -209,7 +211,7 @@ class FlagServiceTest extends CDbTestCase
         $r = $e->getState($simulation, []);
 
         $dialog = new DialogService();
-        $json = $dialog->getDialog($simulation->id, Dialog::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
+        $json = $dialog->getDialog($simulation->id, Replica::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
 
         $this->assertEquals(0, count($json['events']));
     }

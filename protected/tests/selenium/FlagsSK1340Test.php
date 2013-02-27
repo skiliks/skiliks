@@ -49,7 +49,7 @@ class FlagsSK1340Test extends CWebTestCase
         $this->click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->click("xpath=(//*[contains(text(),' А ты будешь выполнять только одну задачу')])");
-        sleep(55);
+        sleep(10);
 
         // send message MS21
         $this->click("id=icons_email");
