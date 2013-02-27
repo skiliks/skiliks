@@ -16,7 +16,7 @@ class FlagsSK1341Test extends CWebTestCase
     }
 
     public function testSK1341() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->setSpeed("3000");
@@ -51,7 +51,8 @@ class FlagsSK1341Test extends CWebTestCase
         sleep(10);
 
         $this->click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->click("link=новое письмо");
+        sleep(10);
+        $this->click("xpath=//div[@class='NEW_EMAIL']");
         sleep(15);
 
         $this->click(Yii::app()->params['test_mappings']['mail']['to_whom']);
