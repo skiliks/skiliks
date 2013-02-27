@@ -154,6 +154,7 @@ class Simulations extends CActiveRecord
             'log_activity_actions' => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time'],
             'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_points' => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
+            'simulation_assessment_rules' => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
         ];
     }
 
@@ -175,14 +176,12 @@ class Simulations extends CActiveRecord
     public function getAssessmentRules()
     {
         $assessmentRules = $this->simulation_assessment_rules;
-        $result = [];
+        /*$result = [];
         foreach ($assessmentRules as $assessmentRule) {
-            if($assessmentRule != null){
+            $result[] = ['activity_id' => $assessmentRule->assessment_rule_id];
+        }*/
 
-            }
-        }
-
-        return $result;
+        return $assessmentRules;
     }
 
     /**
