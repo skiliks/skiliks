@@ -47,6 +47,8 @@ class FlagsSK1340Test extends CWebTestCase
         $this->click("xpath=//form/fieldset/div[2]/div/input[2]");
         $this->waitForVisible("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'А мне что делать?')])");
+        $this->click("xpath=(//*[contains(text(),'А мне что делать?')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");

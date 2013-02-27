@@ -75,6 +75,7 @@ class FlagsSK1338Test extends CWebTestCase
 
         // call E1.2.1 - it's good works!
         $this->click("id=icons_phone");
+        //$this->click("xpath=//div[@class='phone icon_active']");
         sleep(2);
         $this->click("xpath=//div[@id='phoneMainScreen']/ul/li[1]");
         sleep(2);
