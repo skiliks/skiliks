@@ -13,7 +13,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Dialog extends CActiveRecord implements IGameAction
+class Replica extends CActiveRecord implements IGameAction
 {
     /**
      * @var integer
@@ -62,7 +62,7 @@ class Dialog extends CActiveRecord implements IGameAction
     public $event_result;   
     
     /**
-     * Dialog code, 'ET1.1', 'E8' ...
+     * Replica code, 'ET1.1', 'E8' ...
      * @var string
      */
     public $code;
@@ -136,7 +136,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      *
      * @param type $className
-     * @return Dialog
+     * @return Replica
      */
     public static function model($className=__CLASS__)
     {
@@ -168,7 +168,7 @@ class Dialog extends CActiveRecord implements IGameAction
      */
     public function tableName()
     {
-            return 'dialogs';
+            return 'replica';
     }
     
     // old function
@@ -183,7 +183,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать по заданному идентификатору диалога
      * @param int $id
-     * @return Dialog 
+     * @return Replica
      */
     public function byId($id)
     {
@@ -207,7 +207,7 @@ class Dialog extends CActiveRecord implements IGameAction
      * Выбрать по коду и номеру шага.
      * @param string $code
      * @param int $stepNumber
-     * @return Dialog 
+     * @return Replica
      */
     public function byCodeAndStepNumber($code, $stepNumber)
     {
@@ -220,7 +220,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать по номеру шага
      * @param int $stepNumber
-     * @return Dialog 
+     * @return Replica
      */
     public function byStepNumber($stepNumber)
     {
@@ -233,7 +233,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать по номеру реплики
      * @param int $replicaNumber
-     * @return Dialog 
+     * @return Replica
      */
     public function byReplicaNumber($replicaNumber)
     {
@@ -246,7 +246,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать по коду диалога
      * @param string $code
-     * @return Dialog 
+     * @return Replica
      */
     public function byCode($code)
     {
@@ -259,7 +259,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать по полю excel_id - это исходный номер из эксель документа
      * @param int $excelId
-     * @return Dialog 
+     * @return Replica
      */
     public function byExcelId($excelId)
     {
@@ -272,7 +272,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Выбрать реплики для демо режима
      * @param int $simulationType
-     * @return Dialog 
+     * @return Replica
      */
     public function byDemo($simulationType)
     {
@@ -287,7 +287,7 @@ class Dialog extends CActiveRecord implements IGameAction
     /**
      * Gets first replica of the dialog
      * @param $code
-     * @return Dialog
+     * @return Replica
      */
     public function getFirstReplica($code) {
         $criteria = new CDbCriteria();

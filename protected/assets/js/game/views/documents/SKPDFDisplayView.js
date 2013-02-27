@@ -70,4 +70,6 @@ define(["game/views/SKWindowView"], function () {
                 );
             }
         });
+
+    return SKPDFDisplayView;
 });

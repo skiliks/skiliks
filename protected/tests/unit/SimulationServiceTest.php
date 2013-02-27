@@ -38,20 +38,20 @@ class SimulationServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
         
         // init conts
         // get all replics that change score for behaviour '1122'
-        $replicsFor_1122 = Dialog::model()->findAll('excel_id IN (210, 214, 311, 323, 424, 710, 714, 715, 766, 770, 211, 213, 235, 312, 322, 423, 521, 653, 656, 711, 713, 767, 769, 771)');
+        $replicsFor_1122 = Replica::model()->findAll('excel_id IN (210, 214, 311, 323, 424, 710, 714, 715, 766, 770, 211, 213, 235, 312, 322, 423, 521, 653, 656, 711, 713, 767, 769, 771)');
         
         $count_0 = 0;
         $count_1 = 0;
         
         // get 1122
         $pointFor_1122 = CharactersPointsTitles::model()->find('code = :code', ['code' => '1122']);  
-        
+        $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
             LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
@@ -60,6 +60,7 @@ class SimulationServiceTest extends CDbTestCase
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_1122->id
             ]);
+            $this->assertNotNull($dialogsPoint);
             
             if ($dialogsPoint->add_value === '1') {
                 $count_1++;
@@ -115,7 +116,7 @@ class SimulationServiceTest extends CDbTestCase
         
         // init conts
         // get all replics that change score for behaviour '4124'
-        $replicsFor_4124 = Dialog::model()->findAll('excel_id IN (332, 336)');
+        $replicsFor_4124 = Replica::model()->findAll('excel_id IN (332, 336)');
         
         $count_0 = 0;
         $count_1 = 0;

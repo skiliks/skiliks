@@ -185,8 +185,8 @@ class LogTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         $mgr = new EventsManager();
-        $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
-        $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 135]);
+        $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
+        $last_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
         $mgr->processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
@@ -362,8 +362,8 @@ class LogTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
-        $first_dialog = Dialog::model()->findByAttributes(['excel_id' => 192]);
-        $last_dialog = Dialog::model()->findByAttributes(['excel_id' => 200]);
+        $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
+        $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
         $mgr->processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
@@ -460,17 +460,22 @@ class LogTest extends CDbTestCase
     /**
      *
      */
-    public function test_log_activity()
+    public function testLogActivity()
     {
         //$this->markTestSkipped();
         
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
+        $theme = CommunicationTheme::model()->findByAttributes([
+            'code' => 38,
+            'character_id' => Characters::model()->findByAttributes(['code'=>20])->primaryKey,
+            'mail_prefix' => 're'
+        ]);
         $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey,
+            'subject_id' => $theme->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M74']),
             'receivers' => Characters::model()->findByAttributes(['code' => 20])->primaryKey,
             'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
@@ -487,9 +492,9 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey;
+        $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
-        $draft_message = MailBoxService::saveDraft($sendMailOptions);
+        $draftMessage = MailBoxService::saveDraft($sendMailOptions);
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray(Characters::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -498,9 +503,9 @@ class LogTest extends CDbTestCase
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes(['code' => 38])->primaryKey;
+        $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
-        $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
+        $draftMessage2 = MailBoxService::saveDraft($sendMailOptions);
         $mgr->processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
@@ -511,44 +516,36 @@ class LogTest extends CDbTestCase
             [10, 11, 'activated', 32580, 'window_uid' => 4],
             [10, 11, 'deactivated', 32640, 'window_uid' => 4],
             [10, 13, 'activated', 32640, 'window_uid' => 5], # Send draft
-            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draft_message->primaryKey]],
+            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draftMessage->primaryKey]],
             [10, 11, 'activated', 32700, 'window_uid' => 6],
             [10, 11, 'deactivated', 32760, 'window_uid' => 6],
             [10, 13, 'activated', 32760, 'window_uid' => 7], # Send draft
-            [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $draft_message2->primaryKey]],
+            [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $draftMessage2->primaryKey]],
         ]);
-        MailBoxService::sendDraft($simulation, $draft_message2);
+        MailBoxService::sendDraft($simulation, $draftMessage2);
         $mgr->processLogs($simulation, [
             [10, 11, 'activated', 32820, 'window_uid' => 1],
             [10, 11, 'deactivated', 32880, 'window_uid' => 1],
             [10, 13, 'activated', 32880, 'window_uid' => 2], # Send draft
-            [10, 13, 'deactivated', 32940, 'window_uid' => 2, ['mailId' => $draft_message2->primaryKey]],
+            [10, 13, 'deactivated', 32940, 'window_uid' => 2, ['mailId' => $draftMessage2->primaryKey]],
             [1, 1, 'activated', 32940, 'window_uid' => 3],
             [1, 1, 'deactivated', 33000, 'window_uid' => 3],
         ]);
 
-        $simulation_service->simulationStop($simulation);
+        $simulationService->simulationStop($simulation);
         $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($mail_logs as $log) {
 //            //print_r($log);
 //        }
-        $this->assertEquals(count($mail_logs), 4);
+        $this->assertEquals(count($mailLogs), 4);
 
-        $this->assertEquals(count($activity_actions), 10);
-//        foreach ($activity_actions as $log) {
-//            printf("%s\t%8s\t%10s\t%10s\n",
-//                $log->start_time,
-//                $log->end_time !== null ? $log->end_time : '(empty)',
-//                $log->activityAction->activity_id,
-//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-//            );
-//            /*$this->assertNotNull($log->end_time);*/
-//        }
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM73');
-        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_already_used');
-        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_already_used');
+        $this->assertEquals(count($activityActions), 10);
+        array_map(function ($a) {$a->dump(); }, $activityActions);
+        $this->assertEquals('TM73', $activityActions[2]->activityAction->activity_id);
+        $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity_id);
+        $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity_id);
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);

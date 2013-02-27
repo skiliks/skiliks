@@ -54,14 +54,14 @@ class ImportTest extends CDbTestCase
             
             // Dialogs
             $this->assertEquals(
-                Dialog::model()->findByAttributes([
+                Replica::model()->findByAttributes([
                     'code'             => 'E1',
                     'is_final_replica' => 1,
                     'excel_id'         => 12
                 ])->next_event_code, 
                 'E1.2');
-            $this->assertEquals(19, Dialog::model()->count());
-            $this->assertNotNull(Dialog::model()->findByAttributes(['code' => 'S12.3']));
+            $this->assertEquals(19, Replica::model()->count());
+            $this->assertNotNull(Replica::model()->findByAttributes(['code' => 'S12.3']));
 
             $this->assertEquals(0, count(FlagBlockReplica::model()->findAll()), 'block replica');
             $this->assertEquals(6, count(FlagBlockDialog::model()->findAll()), 'block replica');

@@ -815,7 +815,7 @@
 	<keyword match="DHPrivateKeySpec" />
 	<keyword match="DHPublicKey" />
 	<keyword match="DHPublicKeySpec" />
-	<keyword match="Dialog" />
+	<keyword match="Replica" />
 	<keyword match="Dictionary" />
 	<keyword match="DigestException" />
 	<keyword match="DigestInputStream" />
