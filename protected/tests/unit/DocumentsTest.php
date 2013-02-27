@@ -8,25 +8,28 @@
  */
 class DocumentsTest extends CDbTestCase
 {
+    /**
+     * Checks if user can open attachment from e-mail
+     */
     public function testCanOpenDocument()
     {
         // $this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
             'order'      => 'name',
             'orderType'  => 'ASC',
             'simId'      => $simulation->id
         )));
-        $tmp_messages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
-        $attachment_id = $tmp_messages[0]['attachmentFileId'];
-        $file = MyDocumentsModel::model()->findByPk($attachment_id);
+        $tmpMessages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
+        $attachmentId = $tmpMessages[0]['attachmentFileId'];
+        $file = MyDocumentsModel::model()->findByPk($attachmentId);
         $this->assertEquals(MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file), true);
-        $name = $tmp_messages[0]['attachmentName'];
+        $name = $tmpMessages[0]['attachmentName'];
         $this->assertCount(1,array_filter(
             MyDocumentsService::getDocumentsList($simulation),
             function ($doc) use ($name) {

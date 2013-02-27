@@ -23,19 +23,6 @@ class MyDocumentsService
         $command->execute();
     }
 
-    public static function copyToSimulation($simId, $fileId)
-    {
-        $sql = "insert into my_documents (sim_id, fileName, template_id, hidden)
-            select :simId, fileName, id, hidden from my_documents_template where id = :fileId ";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
-        $command->bindParam(":fileId", $fileId, PDO::PARAM_INT);
-        $command->execute();
-        return $connection->getLastInsertID();
-    }
-
     /**
      * Проверяет существует ли заданный файл в рамках симуляции
      * @param int $simId
@@ -149,7 +136,7 @@ class MyDocumentsService
     }
     
     /**
-     * @param Simulation $simulation
+     * @param Simulations $simulation
      * @param integer $fileId
      * 
      * @return mixed array
