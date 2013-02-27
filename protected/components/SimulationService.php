@@ -330,8 +330,8 @@ class SimulationService
                 $satisfies = false;
 
                 if ($condition->dialog_id) {
-                    /** @var Dialog $dialog */
-                    $dialog = Dialog::model()->findByPk($condition->dialog_id);
+                    /** @var Replica $dialog */
+                    $dialog = Replica::model()->findByPk($condition->dialog_id);
 
                     $satisfies = LogDialogs::model()
                         ->bySimulationId($simId)
