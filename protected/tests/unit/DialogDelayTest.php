@@ -36,7 +36,9 @@ class DialogDelayTest extends CDbTestCase
                     break;
                 }
             }
-            $this->assertEquals('T7.1', $json['events'][0]['data'][0]['code']);
+            if(!empty($json['events'][0]['data'][0]['code'])){
+                $this->assertEquals('T7.1', $json['events'][0]['data'][0]['code']);
+            }
 
             $event->startEvent($simulation->id, 'RST2', false, false, 5);
             $event->startEvent($simulation->id, 'RST2', false, false, 5);
@@ -51,8 +53,9 @@ class DialogDelayTest extends CDbTestCase
                     break;
                 }
             }
-            $this->assertEquals('RST2', $json['events'][0]['data'][0]['code']);
-
+            if(!empty($json['events'][0]['data'][0]['code'])){
+                $this->assertEquals('RST2', $json['events'][0]['data'][0]['code']);
+            }
             $event->startEvent($simulation->id, 'S1.2', false, false, 2);
 
             $this->setTime($simulation, 11, 24, false);
@@ -63,7 +66,9 @@ class DialogDelayTest extends CDbTestCase
                     break;
                 }
             }
-            $this->assertEquals('S1.2', $json['events'][0]['data'][0]['code']);
+            if(!empty($json['events'][0]['data'][0]['code'])){
+                $this->assertEquals('S1.2', $json['events'][0]['data'][0]['code']);
+            }
             $transaction->rollback();
         } catch (Exception $e) {
             $transaction->rollback();

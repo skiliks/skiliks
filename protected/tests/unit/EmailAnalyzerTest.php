@@ -44,7 +44,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3313'
         ]);
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -96,7 +96,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3313'
         ]);
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -145,7 +145,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->end_time     = '09:06:00';
         $log->save();
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result_3322 = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -194,7 +194,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);        
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result_3322 = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -258,7 +258,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->end_time     = '09:06:00';
         $log->save();
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result_3322 = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -307,7 +307,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result_3322 = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -340,7 +340,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3313'
         ]);
         
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result = SimulationMailPoint::model()->findByAttributes([
             'sim_id'   => $simulation->id,
