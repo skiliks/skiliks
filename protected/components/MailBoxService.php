@@ -489,7 +489,7 @@ class MailBoxService
             
             $models = [];            
             $model = CommunicationTheme::model()->find(
-                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND theme_usage NOT LIKE :outbox_old ', [
+                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND (theme_usage NOT LIKE :outbox_old OR theme_usage is null)', [
                 'mail_prefix'  => $parentSubject->getPrefixForForward(), 
                 'text'         => $parentSubject->text,
                 'character_id' => $receivers[0],

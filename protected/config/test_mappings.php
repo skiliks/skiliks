@@ -117,5 +117,21 @@ return [
         'MS76' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[28]"
     ],
 
+    'set_time' => [
+        'set_hours' => "//*[@id='setTimeHours']",
+        'set_minutes' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[2]",
+        'submit_time' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[3]",
+        '0h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[1]',
+        '10h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[2]',
+        '11h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[3]',
+        '12h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[4]',
+        '13h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[5]',
+        '14h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[6]',
+        '15h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[7]',
+        '16h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[8]',
+        '17h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[9]',
+        '17h50m' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[10]'
+    ],
+
 
 ];
