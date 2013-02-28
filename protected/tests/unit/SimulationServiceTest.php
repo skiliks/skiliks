@@ -777,7 +777,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -830,7 +830,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -865,7 +865,7 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -932,7 +932,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -998,7 +998,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -1023,14 +1023,14 @@ class SimulationServiceTest extends CDbTestCase
      * Проверяет правильность оценки по 3326
      * Случай когда 3W, 14R, 0N => 1 балл
      */
-    public function testCalculateAgregatedPointsFor3326_1pointsCase1()
+    public function testCalculateAgregatedPointsFor3326Part1pointsCase1()
     {
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -1068,7 +1068,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -1093,14 +1093,14 @@ class SimulationServiceTest extends CDbTestCase
      * Проверяет правильность оценки по 3326
      * Случай когда 0W, 13R, 0N (total R = 13) => 2 балла
      */
-    public function testCalculateAgregatedPointsFor3326_2pointsCase2()
+    public function testCalculateAgregatedPointsFor3326Part2pointsCase2()
     {
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
+        $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -1133,7 +1133,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation
@@ -1198,7 +1198,7 @@ class SimulationServiceTest extends CDbTestCase
         $event->processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
 
         // check calculation

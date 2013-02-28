@@ -55,7 +55,7 @@ class SimulationService
      * 
      * @param integer $simId
      */
-    public static function saveEmailsAnalize($simId) 
+    public static function saveEmailsAnalyze($simId)
     {
         // init emails in analizer
         $emailAnalizer = new EmailAnalizer($simId);
@@ -488,7 +488,7 @@ class SimulationService
         LogHelper::combineLogActivityAgregated($simulation);
         
         // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
