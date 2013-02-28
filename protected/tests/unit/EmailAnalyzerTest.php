@@ -141,8 +141,8 @@ class EmailAnalyzerTest extends CDbTestCase
             ]
         );
         
-        $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
-        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);        
+        $email = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
+        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
         $mailPlanWindow = Window::model()->find('subtype = \'mail plan\'');
@@ -254,7 +254,7 @@ class EmailAnalyzerTest extends CDbTestCase
             ]
         );
         
-        $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
+        $email = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
