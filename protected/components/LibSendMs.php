@@ -19,36 +19,37 @@ class LibSendMs
         $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10)
     {
         switch($msCode) {
-            case 'MS10' : $email = self::sendMs10_w($simulation); break;
-            case 'MS20' : $email = self::sendMs20_r($simulation); break;
-            case 'MS21' : $email = self::sendMs21_w($simulation); break;
-            case 'MS22' : $email = self::sendMs22_w($simulation); break;
-            case 'MS23' : $email = self::sendMs23_w($simulation); break;
-            case 'MS25' : $email = self::sendMs25_r($simulation); break;
-            case 'MS27' : $email = self::sendMs27_w($simulation); break;
-            case 'MS28' : $email = self::sendMs28_r($simulation); break;
-            case 'MS29' : $email = self::sendMs29_r($simulation); break;
-            case 'MS30' : $email = self::sendMs30_w($simulation); break;
-            case 'MS32' : $email = self::sendMs32_w($simulation); break;
-            case 'MS35' : $email = self::sendMs35_r($simulation); break;
-            case 'MS36' : $email = self::sendMs36_r($simulation); break;
-            case 'MS37' : $email = self::sendMs37_r($simulation); break;
-            case 'MS39' : $email = self::sendMs39_r($simulation); break;
-            case 'MS40' : $email = self::sendMs40_r($simulation); break;
-            case 'MS48' : $email = self::sendMs48_r($simulation); break;
-            case 'MS49' : $email = self::sendMs49_w($simulation); break;
-            case 'MS50' : $email = self::sendMs50_w($simulation); break;
-            case 'MS51' : $email = self::sendMs51_r($simulation); break;
-            case 'MS53' : $email = self::sendMs53_r($simulation); break;
-            case 'MS54' : $email = self::sendMs54_w($simulation); break;
-            case 'MS55' : $email = self::sendMs55_r($simulation); break;
-            case 'MS57' : $email = self::sendMs57_r($simulation); break;
-            case 'MS58' : $email = self::sendMs58_w($simulation); break;
-            case 'MS60' : $email = self::sendMs60_r($simulation); break;
-            case 'MS61' : $email = self::sendMs61_r($simulation); break;
-            case 'MS69' : $email = self::sendMs69_r($simulation); break;
-            case 'MS74' : $email = self::sendMs74_n($simulation); break;
-            case 'MS76' : $email = self::sendMs76_n($simulation); break;
+            case 'MS10'  : $email = self::sendMs10_w($simulation); break;
+            case 'MS20'  : $email = self::sendMs20_r($simulation); break;
+            case 'MS21'  : $email = self::sendMs21_w($simulation); break;
+            case 'MS22'  : $email = self::sendMs22_w($simulation); break;
+            case 'MS23'  : $email = self::sendMs23_w($simulation); break;
+            case 'MS25'  : $email = self::sendMs25_r($simulation); break;
+            case 'MS27'  : $email = self::sendMs27_w($simulation); break;
+            case 'MS28'  : $email = self::sendMs28_r($simulation); break;
+            case 'MS29'  : $email = self::sendMs29_r($simulation); break;
+            case 'MS30'  : $email = self::sendMs30_w($simulation); break;
+            case 'MS32'  : $email = self::sendMs32_w($simulation); break;
+            case 'MS35'  : $email = self::sendMs35_r($simulation); break;
+            case 'MS36'  : $email = self::sendMs36_r($simulation); break;
+            case 'MS37'  : $email = self::sendMs37_r($simulation); break;
+            case 'MS39'  : $email = self::sendMs39_r($simulation); break;
+            case 'MS40'  : $email = self::sendMs40_r($simulation); break;
+            case 'MS48'  : $email = self::sendMs48_r($simulation); break;
+            case 'MS49'  : $email = self::sendMs49_w($simulation); break;
+            case 'MS50'  : $email = self::sendMs50_w($simulation); break;
+            case 'MS51'  : $email = self::sendMs51_r($simulation); break;
+            case 'MS53'  : $email = self::sendMs53_r($simulation); break;
+            case 'MS54'  : $email = self::sendMs54_w($simulation); break;
+            case 'MS55'  : $email = self::sendMs55_r($simulation); break;
+            case 'MS57'  : $email = self::sendMs57_r($simulation); break;
+            case 'MS58'  : $email = self::sendMs58_w($simulation); break;
+            case 'MS60'  : $email = self::sendMs60_r($simulation); break;
+            case 'MS61'  : $email = self::sendMs61_r($simulation); break;
+            case 'MS69'  : $email = self::sendMs69_r($simulation); break;
+            case 'MS74'  : $email = self::sendMs74_n($simulation); break;
+            case 'MS76'  : $email = self::sendMs76_n($simulation); break;
+            case 'notMS' : $email = self::sendNotMs($simulation); break;
 
             default     : $email = NULL;
         }
