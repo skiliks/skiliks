@@ -15,7 +15,7 @@ class FlagsF3SK1339Test extends CWebTestCase
         parent::setUp();
     }
 
-    public function testSK1338() {
+    public function testSK1339() {
         // next line for not running the test
         //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
