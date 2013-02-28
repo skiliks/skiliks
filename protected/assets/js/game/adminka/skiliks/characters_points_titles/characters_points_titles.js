@@ -9,8 +9,8 @@ charactersPointsTitles = {
     drawGrid: function (data){
         var customParams = this.params;
         customParams['colModel'][1]['editoptions']['value'] = "'"+data['characters_points_titles']+"'";
-        customParams['colModel'][1]['surl'] = "'"+config.host.name+"index.php/charactersPointsTitles/getCharactersPointsTitlesHtml'";
-        
+        customParams['colModel'][1]['surl'] = "'"+config.host.name+"index.php/heroBehaviour/getHeroBehaviourHtml'";
+
         jgridController.setParams(customParams);
         grid = jgridController.getHTML();
         

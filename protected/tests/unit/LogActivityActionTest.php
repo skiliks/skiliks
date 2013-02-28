@@ -361,8 +361,8 @@ class LogActivityActionTest extends CDbTestCase
             $message1 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
                 'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',
@@ -372,8 +372,8 @@ class LogActivityActionTest extends CDbTestCase
             $message2 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
                 'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',
@@ -383,8 +383,8 @@ class LogActivityActionTest extends CDbTestCase
             $message3 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
                 'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',

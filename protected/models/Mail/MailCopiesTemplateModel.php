@@ -5,8 +5,6 @@
 /**
  * Шаблон персонажей, которые идут копией к конкретному письму.
  *
- * Связана с моделями: Characters, MailTemplateModel.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailCopiesTemplateModel extends CActiveRecord

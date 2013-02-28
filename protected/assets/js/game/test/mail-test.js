@@ -275,6 +275,8 @@ define([
 
                 mailView.doUpdateMailPhrasesList();
 
+                console.log(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length);
+
                 server.respond();
 
                 // check phrases

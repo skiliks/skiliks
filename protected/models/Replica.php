@@ -4,11 +4,9 @@
 
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
- * 
- * Связана с моделями: Characters, DialogSubtype, EventsResults, EventSample.
  *
- * @property Characters from_character
- * @property Characters to_character
+ * @property Character from_character
+ * @property Character to_character
  * @property ActivityParent[] termination_parent_actions
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
@@ -288,8 +286,8 @@ class Replica extends CActiveRecord implements IGameAction
     public function relations()
     {
         return [
-            'from_character' => [self::BELONGS_TO, 'Characters', 'ch_from'],
-            'to_character' => [self::BELONGS_TO, 'Characters', 'ch_to'],
+            'from_character'             => [self::BELONGS_TO, 'Character', 'ch_from'],
+            'to_character'               => [self::BELONGS_TO, 'Character', 'ch_to'],
             'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'dialog_id']
         ];
     }

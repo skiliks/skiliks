@@ -40,7 +40,7 @@ class EmailAnalyzerTest extends CDbTestCase
             ]
         );
         
-        $point = CharactersPointsTitles::model()->findByAttributes([
+        $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'
         ]);
         
@@ -92,7 +92,7 @@ class EmailAnalyzerTest extends CDbTestCase
             ]
         );*/
 
-        $point = CharactersPointsTitles::model()->findByAttributes([
+        $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'
         ]);
         
@@ -118,11 +118,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $point_3322 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
         ]);
         
-        $point_3324 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3324 = HeroBehaviour::model()->findByAttributes([
             'code' => '3324'
         ]);
 
@@ -173,11 +173,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $point_3322 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
         ]);
         
-        $point_3324 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3324 = HeroBehaviour::model()->findByAttributes([
             'code' => '3324'
         ]);
 
@@ -222,11 +222,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $point_3322 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
         ]);
         
-        $point_3324 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3324 = HeroBehaviour::model()->findByAttributes([
             'code' => '3324'
         ]);
 
@@ -286,11 +286,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $point_3322 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
         ]);
         
-        $point_3324 = CharactersPointsTitles::model()->findByAttributes([
+        $point_3324 = HeroBehaviour::model()->findByAttributes([
             'code' => '3324'
         ]);
 
@@ -336,7 +336,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $point = CharactersPointsTitles::model()->findByAttributes([
+        $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'
         ]);
         

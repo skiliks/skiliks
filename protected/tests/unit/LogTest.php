@@ -20,7 +20,7 @@ class LogTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
-        $character = Characters::model()->findByAttributes(['code' => 9]);
+        $character = Character::model()->findByAttributes(['code' => 9]);
 
         $subject_id = CommunicationTheme::model()->findByAttributes([
             'code' => 5,
@@ -29,15 +29,15 @@ class LogTest extends CDbTestCase
             'theme_usage' => 'mail_outbox'
         ])->primaryKey;
         $copies = [
-            Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-            Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-            Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ];
         $message = $mail->sendMessage([
             'subject_id' => $subject_id,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies' => implode(',', $copies),
             'time' => '11:00:00',
             'group' => 3,
@@ -130,7 +130,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service->simulationStop($simulation);
 
-        $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
         /** @var $mail_logs LogMail[] */
@@ -204,7 +204,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
         $simulation_service->simulationStop($simulation);
-        //$log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_windows = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
@@ -215,7 +215,7 @@ class LogTest extends CDbTestCase
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
 
-        //$log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_dialogs = LogDialog::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_dialogs as $log) {
 //            printf("%s\t%8s\t%5d\t%5d\n",
@@ -286,13 +286,13 @@ class LogTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
-        $character = Characters::model()->findByAttributes(['code' => 9]);
+        $character = Character::model()->findByAttributes(['code' => 9]);
 
         $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $copies = [
-            Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-            Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-            Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ];
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
@@ -341,7 +341,7 @@ class LogTest extends CDbTestCase
         MailBoxService::sendDraft($simulation, $draft_message2);
 
         $simulation_service->simulationStop($simulation);
-        $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -381,7 +381,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
         $simulation_service->simulationStop($simulation);
-        $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $log_windows = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
 //                $log->start_time,
@@ -414,7 +414,7 @@ class LogTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
-        $krutko = Characters::model()->findByAttributes(['code' => 4]);
+        $krutko = Character::model()->findByAttributes(['code' => 4]);
 
         $message = $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes([
@@ -424,7 +424,7 @@ class LogTest extends CDbTestCase
             ])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M8']),
             'receivers' => $krutko->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
             'group' => 3,
             'letterType' => 'new',
@@ -442,7 +442,7 @@ class LogTest extends CDbTestCase
         ]);
 
         $simulation_service->simulationStop($simulation);
-        $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($mail_logs as $log) {
@@ -487,22 +487,22 @@ class LogTest extends CDbTestCase
         $mail = new MailBoxService();
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
-            'character_id' => Characters::model()->findByAttributes(['code'=>20])->primaryKey,
+            'character_id' => Character::model()->findByAttributes(['code'=>20])->primaryKey,
             'mail_prefix' => 're',
             'theme_usage' => 'mail_outbox'
         ]);
         $message = $mail->sendMessage([
             'subject_id' => $theme->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M74']),
-            'receivers' => Characters::model()->findByAttributes(['code' => 20])->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'receivers' => Character::model()->findByAttributes(['code' => 20])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
             'group' => 3,
             'letterType' => 'new',
             'simId' => $simulation->primaryKey
         ]);
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray(Characters::model()->findByAttributes(['code' => 20])->primaryKey);
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'M74']);
         $sendMailOptions->time = '11:00:00';
@@ -513,7 +513,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray(Characters::model()->findByAttributes(['code' => 20])->primaryKey);
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'M74']);
         $sendMailOptions->time = '11:00:00';
@@ -550,7 +550,7 @@ class LogTest extends CDbTestCase
         ]);
 
         $simulationService->simulationStop($simulation);
-        $logs = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($mail_logs as $log) {
@@ -781,7 +781,7 @@ class LogTest extends CDbTestCase
 
         $e->getState($simulation, $logs);
 
-        $windowLogs = LogWindows::model()->findAllByAttributes([
+        $windowLogs = LogWindow::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
 

@@ -10,7 +10,7 @@
  * @property mixed start_time
  * @property int sim_id
  */
-class LogWindows extends CActiveRecord 
+class LogWindow extends CActiveRecord
 {
     /**
      * @var integer
@@ -52,7 +52,7 @@ class LogWindows extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return Characters
+     * @return
      */
     public static function model($className=__CLASS__)
     {

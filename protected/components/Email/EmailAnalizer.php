@@ -231,7 +231,7 @@ class EmailAnalizer
         /**
          * Get character points
          */        
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             $this->points[$point->id] = $point;
         }
         unset($point);
@@ -306,8 +306,8 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3322 = CharactersPointsTitles::model()->byCode('3322')->positive()->find();
-        $behave_3324 = CharactersPointsTitles::model()->byCode('3324')->negative()->find();
+        $behave_3322 = HeroBehaviour::model()->byCode('3322')->positive()->find();
+        $behave_3324 = HeroBehaviour::model()->byCode('3324')->negative()->find();
         
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
 
@@ -342,7 +342,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3325 = CharactersPointsTitles::model()->byCode('3325')->negative()->find();
+        $behave_3325 = HeroBehaviour::model()->byCode('3325')->negative()->find();
         
         return array(
             'negative' => $wrongActions * $behave_3325->scale,
@@ -374,7 +374,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3323 = CharactersPointsTitles::model()->byCode('3323')->positive()->find();
+        $behave_3323 = HeroBehaviour::model()->byCode('3323')->positive()->find();
          
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
@@ -407,7 +407,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3313 = CharactersPointsTitles::model()->byCode('3313')->positive()->find();
+        $behave_3313 = HeroBehaviour::model()->byCode('3313')->positive()->find();
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $mark = 0;
@@ -442,7 +442,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3333 = CharactersPointsTitles::model()->byCode('3333')->positive()->find();
+        $behave_3333 = HeroBehaviour::model()->byCode('3333')->positive()->find();
         
         return array(
             'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
@@ -466,7 +466,7 @@ class EmailAnalizer
         $limitToGet2points = $configs['limitToGet2points'];
 
         $rightMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
-        $behave_3326 = CharactersPointsTitles::model()->byCode('3326')->positive()->find();
+        $behave_3326 = HeroBehaviour::model()->byCode('3326')->positive()->find();
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only

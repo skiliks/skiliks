@@ -5,8 +5,6 @@
 /**
  * Шаблон набора писем. Копируется в рамках симуляции в почтовый ящик польщзователя.
  *
- * Связана с моделями:  CommunicationTheme, Characters.
- *
  * @property string type_of_importance
  * @property string import_id
  * @property ActivityParent[] termination_parent_actions

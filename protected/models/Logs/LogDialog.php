@@ -9,7 +9,7 @@
  * @property Replica dialog
  * @property Simulation simulation
  */
-class LogDialogs extends CActiveRecord
+class LogDialog extends CActiveRecord
 {
     public $id;
     
@@ -28,7 +28,7 @@ class LogDialogs extends CActiveRecord
     /**
      *
      * @param string $className
-     * @return LogDialogs
+     * @return LogDialog
      */
     public static function model($className=__CLASS__)
     {
@@ -79,7 +79,7 @@ class LogDialogs extends CActiveRecord
     
     /**
      * @param int $simulationId
-     * @return LogDialogs 
+     * @return LogDialog
      */
     public function bySimulationId($simulationId)
     {
@@ -91,7 +91,7 @@ class LogDialogs extends CActiveRecord
     
     /**
      * @param int $dialogId
-     * @return LogDialogs 
+     * @return LogDialog
      */
     public function byDialogId($dialogId)
     {
@@ -103,7 +103,7 @@ class LogDialogs extends CActiveRecord
 
     /**
      * @param int $replicaId
-     * @return LogDialogs
+     * @return LogDialog
      */
     public function byLastReplicaId($replicaId)
     {
@@ -124,7 +124,7 @@ class LogDialogs extends CActiveRecord
     
     /**
      * @param string $sort
-     * @return LogDialogs 
+     * @return LogDialog
      */
     public function orderById($sort = 'DESC')
     {

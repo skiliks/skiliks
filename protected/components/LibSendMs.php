@@ -384,7 +384,7 @@ class LibSendMs
      */
     public static function sendMs30_w($simulation)
     {
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
             'simId' => $simulation->id,
@@ -396,7 +396,7 @@ class LibSendMs
             'message_id' => 0,
             'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => Characters::HERO_ID,
+            'sender' => Character::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -410,7 +410,7 @@ class LibSendMs
      */
     public static function sendMs32_w($simulation)
     {
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
             'simId' => $simulation->id,
@@ -421,7 +421,7 @@ class LibSendMs
             'message_id' => 0,
             'receivers' => $receiverId,
             'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => Characters::HERO_ID,
+            'sender' => Character::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -558,7 +558,7 @@ class LibSendMs
             'subject_id' => $subject->id,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers'  => '9',
-            'sender'     => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies'     => '1,11,12',
             'time'       => '11:00:00',
             'group'      => 3,
@@ -726,8 +726,8 @@ class LibSendMs
         return $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-            'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
             'group' => 3,
             'letterType' => 'new',

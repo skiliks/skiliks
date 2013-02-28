@@ -69,7 +69,7 @@ class SimulationService
         if (isset($b_3322_3324['3322']) && 
             isset($b_3322_3324['3322']['obj']) && 
             isset($b_3322_3324['3322']['positive']) &&
-            true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
+            true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour) 
             {
             $emailResultsFor_3322 = new SimulationMailPoint();
             $emailResultsFor_3322->sim_id        = $simId;
@@ -86,7 +86,7 @@ class SimulationService
         if (isset($b_3322_3324['3324']) && 
             isset($b_3322_3324['3324']['obj']) && 
             isset($b_3322_3324['3324']['negative']) &&
-            true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3324 = new SimulationMailPoint();
             $emailResultsFor_3324->sim_id        = $simId;
@@ -106,7 +106,7 @@ class SimulationService
             
         if (isset($b_3325['obj']) && 
             isset($b_3325['negative']) &&
-            true === $b_3325['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3325['obj'] instanceof HeroBehaviour)  
             {
 
             $emailResultsFor_3325 = new SimulationMailPoint();
@@ -127,7 +127,7 @@ class SimulationService
             
         if (isset($b_3323['obj']) && 
             isset($b_3323['positive']) &&
-            true === $b_3323['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3323['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3323 = new SimulationMailPoint();
             $emailResultsFor_3323->sim_id        = $simId;
@@ -147,7 +147,7 @@ class SimulationService
             
         if (isset($b_3313['obj']) && 
             isset($b_3313['positive']) &&
-            true === $b_3313['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3313['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3313 = new SimulationMailPoint();
             $emailResultsFor_3313->sim_id        = $simId;
@@ -165,7 +165,7 @@ class SimulationService
         $b_3333 = $emailAnalizer->check_3333();
         if (isset($b_3333['obj']) && 
             isset($b_3333['positive']) &&
-            true === $b_3333['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3333['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3333 = new SimulationMailPoint();
             $emailResultsFor_3333->sim_id = $simId;
@@ -183,7 +183,7 @@ class SimulationService
         $b_3326 = $emailAnalizer->check_3326();
         if (isset($b_3326['obj']) &&
             isset($b_3326['positive']) &&
-            true === $b_3326['obj'] instanceof CharactersPointsTitles)
+            true === $b_3326['obj'] instanceof HeroBehaviour)
         {
             $emailResultsFor_3326 = new SimulationMailPoint();
             $emailResultsFor_3326->sim_id        = $simId;
@@ -220,7 +220,7 @@ class SimulationService
         }
   
         // add Point object
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -327,7 +327,7 @@ class SimulationService
                     /** @var Replica $dialog */
                     $dialog = Replica::model()->findByPk($condition->dialog_id);
 
-                    $satisfies = LogDialogs::model()
+                    $satisfies = LogDialog::model()
                         ->bySimulationId($simId)
                         ->byLastReplicaId($dialog->excel_id)
                         ->exists();
