@@ -2,7 +2,15 @@
 
 var SKImmediateVisitView;
 
-define(["game/views/SKWindowView"], function (SKWindowView) {
+define([
+        "game/views/SKWindowView",
+
+        'text!game/jst/visit/visit_template.jst'
+    ], function (
+        SKWindowView,
+
+        visitTpl
+    ) {
     "use strict";
     /**
      * @class
@@ -30,7 +38,7 @@ define(["game/views/SKWindowView"], function (SKWindowView) {
                     my_replicas = event.getMyReplicas(),
                     video_src = event.getVideoSrc(),
                     remote_replica = event.getRemoteReplica();
-                el.html(_.template($('#visit_template').html(), {
+                el.html(_.template(visitTpl, {
                     'remote_replica':remote_replica,
                     'my_replicas':my_replicas,
                     'video_src':video_src,

@@ -2,7 +2,15 @@
 
 var SKVisitView;
 
-define(["game/views/SKWindowView"], function () {
+define([
+        'game/views/SKWindowView',
+
+        'text!game/jst/visit/visit_door.jst'
+    ], function (
+        SKWindowView,
+
+        visitDoorTpl
+    ) {
     "use strict";
     /**
      * @class
@@ -26,7 +34,7 @@ define(["game/views/SKWindowView"], function () {
             
             'renderWindow':function (el) {
                 var event = this.options.model_instance.get('sim_event');
-                el.html(_.template($('#visit_door').html(), {
+                el.html(_.template(visitDoorTpl, {
                     'visit' :                     event.get('data'),
                     isDisplayCloseWindowsButton : this.isDisplayCloseWindowsButton
                 }));
