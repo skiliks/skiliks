@@ -5,8 +5,6 @@
 /**
  * Вложения писем в рамках конкретной симуляции.
  *
- * Связана с моделями: MyDocumentsModel, MailBoxModel.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailAttachment extends CActiveRecord

@@ -4,8 +4,6 @@
 /**
  * Модель настроек почты в рамках симуляции
  *
- * Связана с моделями:  Simulations.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailSettingsModel extends CActiveRecord
@@ -40,7 +38,7 @@ class MailSettingsModel extends CActiveRecord
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $messageArriveSound
      * 
      * @return boolean

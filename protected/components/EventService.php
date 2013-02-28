@@ -94,7 +94,7 @@ class EventService {
      * @return array
      */
     public static function processLinkedEntities($eventCode, $simId) {
-        $simulation = Simulations::model()->findByPk($simId);
+        $simulation = Simulation::model()->findByPk($simId);
         // анализ писем
         $code = false;
         $type = false;
@@ -182,7 +182,7 @@ class EventService {
             if (!$documentTemplate) return false;
             $templateId = $documentTemplate->id;
             
-            $document = MyDocumentsModel::model()->byTemplateId($templateId)->bySimulation($simId)->find();
+            $document = MyDocument::model()->byTemplateId($templateId)->bySimulation($simId)->find();
             if (!$document) return false;
             
             return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);

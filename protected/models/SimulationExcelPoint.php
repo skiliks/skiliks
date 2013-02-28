@@ -5,8 +5,6 @@
 /**
  * Оценки набранные за Excel в результате проверки конктрольных формул
  * в рамках конкретной симуляции
- * 
- * Связана с моделями:  Simulations, ExcelPointsFormulaModel
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

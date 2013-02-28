@@ -437,14 +437,14 @@ class LogHelper
 
                 if (self::ACTION_OPEN == (string)$log[2] OR self::ACTION_ACTIVATED == (string)$log[2]) {
 
-                    $log_obj = new LogDocuments();
+                    $log_obj = new LogDocument();
                     $log_obj->sim_id = $simId;
                     $log_obj->file_id = $log[4]['fileId'];
                     $log_obj->start_time = gmdate("H:i:s", $log[3]);
                     $log_obj->save();
                 } elseif (self::ACTION_CLOSE == (string)$log[2] OR self::ACTION_DEACTIVATED == (string)$log[2]) {
 
-                    $log_obj = LogDocuments::model()->findByAttributes(array(
+                    $log_obj = LogDocument::model()->findByAttributes(array(
                         'file_id'  => $log[4]['fileId'],
                         'end_time' => '00:00:00',
                         'sim_id'   => $simId
@@ -1279,7 +1279,7 @@ class LogHelper
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      *
      * Documentation: Создание агрегированного лога для activity
      * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774

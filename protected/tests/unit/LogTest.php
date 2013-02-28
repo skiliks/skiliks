@@ -17,7 +17,7 @@ class LogTest extends CDbTestCase
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $character = Characters::model()->findByAttributes(['code' => 9]);
@@ -194,7 +194,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $mgr = new EventsManager();
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
@@ -204,7 +204,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
         $simulation_service->simulationStop($simulation);
-        $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
@@ -215,7 +215,7 @@ class LogTest extends CDbTestCase
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
 
-        $log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_dialogs as $log) {
 //            printf("%s\t%8s\t%5d\t%5d\n",
@@ -247,14 +247,14 @@ class LogTest extends CDbTestCase
     /**
      * Проверяет, отображаются ли залогированные документы
      */
-    public function testLogDocuments()
+    public function testLogDocument()
     {
         $mgr = new EventsManager();
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
-        $document  = MyDocumentsModel::model()->findByAttributes([
+        $document  = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->primaryKey,
             'sim_id' => $simulation->primaryKey]);
         $mgr->processLogs($simulation, [
@@ -284,7 +284,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
@@ -372,7 +372,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
@@ -411,7 +411,7 @@ class LogTest extends CDbTestCase
         
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $krutko = Characters::model()->findByAttributes(['code' => 4]);
@@ -482,7 +482,7 @@ class LogTest extends CDbTestCase
         
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
         $theme = CommunicationTheme::model()->findByAttributes([
@@ -586,7 +586,7 @@ class LogTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init LogActivityActions {
         
@@ -747,7 +747,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $logs = [];
         $logs[0][0] = 1;

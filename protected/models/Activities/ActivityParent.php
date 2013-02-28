@@ -97,7 +97,7 @@ class ActivityParent extends CActiveRecord
 
     /**
      * Returns true if parent is already terminated in simulation
-     * @param $simulation Simulations
+     * @param $simulation Simulation
      * @return bool
      */
     public function isTerminatedInSimulation($simulation)
@@ -109,7 +109,7 @@ class ActivityParent extends CActiveRecord
 
     /**
      * Terminates parent activity in given simulation
-     * @param $simulation Simulations
+     * @param $simulation Simulation
      */
     public function terminateInSimulation($simulation)
     {

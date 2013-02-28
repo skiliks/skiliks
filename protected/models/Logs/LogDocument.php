@@ -10,12 +10,12 @@
  * @property string $start_time
  * @property string $end_time
  */
-class LogDocuments extends CActiveRecord
+class LogDocument extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LogDocuments the static model class
+	 * @return LogDocument the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -55,8 +55,8 @@ class LogDocuments extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return [
-            'file' => [self::BELONGS_TO, 'MyDocumentsModel', 'file_id'],
-            'simulation' => [self::BELONGS_TO, 'Simulations', 'sim_id']
+            'file' => [self::BELONGS_TO, 'MyDocument', 'file_id'],
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id']
 		];
 	}
 

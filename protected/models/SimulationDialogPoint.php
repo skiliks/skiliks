@@ -3,12 +3,10 @@
 
 /**
  * Оценки, набранные в ходе выбора диалоговых реплик в рамках конкретной симуляции
- * 
- * Связана с моделями:  Simulations, CharactersPointsTitles
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsDialogsPoints extends CActiveRecord
+class SimulationDialogPoint extends CActiveRecord
 {
     /**
      * @var integer
@@ -62,7 +60,7 @@ class SimulationsDialogsPoints extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return SimulationsDialogsPoints 
+     * @return SimulationDialogPoint
      */
     public static function model($className=__CLASS__)
     {
@@ -81,7 +79,7 @@ class SimulationsDialogsPoints extends CActiveRecord
      * Выбрать согласно заданной симуляции и оценке
      * @param int $simId
      * @param int $pointId
-     * @return SimulationsDialogsPoints 
+     * @return SimulationDialogPoint
      */
     public function bySimulationAndPoint($simId, $pointId)
     {

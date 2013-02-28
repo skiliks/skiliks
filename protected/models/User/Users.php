@@ -81,7 +81,7 @@ class Users extends CActiveRecord
     public function relations()
     {
         return array(
-            'simulations' => array(self::HAS_MANY, 'Simulations', 'user_id', 'order' => 'id DESC')
+            'simulations' => array(self::HAS_MANY, 'Simulation', 'user_id', 'order' => 'id DESC')
         );
     }
 
