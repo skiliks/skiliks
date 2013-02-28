@@ -257,6 +257,8 @@ class MailBoxService
     /**
      * Sends message in the internal mail client
      *
+     * @deprecated, (it use array), use sendMessagePro instead of sendMessage
+     *
      * @param array $params dictionary with elements letterType, subject
      * @return \MailBoxModel
      */
@@ -673,19 +675,19 @@ class MailBoxService
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
         $profiler->render('r4: ');
-        
+
         // prepare all doc templates
         $documentTemplates = [];
         foreach (DocumentTemplate::model()->findAll() as $documentTemplate) {
             $documentTemplates[$documentTemplate->id] = $documentTemplate;
         }
-        
+
         // prepare all docs
         $myDocs = [];
         foreach (MyDocumentsModel::model()->findAllByAttributes(['sim_id' => $simId]) as $myDocument) {
             $myDocs[$myDocument->template_id] = $myDocument;
         }
-        
+
         // init MyDocs for docTemplate in current simumation, if proper MyDoc isn`t exist
         $docIds = [];
         foreach (MailAttachmentsTemplateModel::model()->findAll() as $mailAttachment) {
@@ -695,15 +697,15 @@ class MailBoxService
                 $doc->template_id = $documentTemplates[$mailAttachment->file_id]->id;
                 $doc->fileName    = $documentTemplates[$mailAttachment->file_id]->fileName;
                 $doc->save();
-                
+
                 $myDocs[$mailAttachment->file_id] = $doc;
             }
-            
+
             $docIds[$mailAttachment->mail_id] = $myDocs[$mailAttachment->file_id]->id;
         }
-        
+
         unset($myDocs, $documentTemplates);
-        
+
         $sql = '';
 
         foreach ($mailCollection as $mail) {
@@ -711,11 +713,11 @@ class MailBoxService
             $sql .= self::_getCopyMessageSructureSql($mail, $simId, $docIds);
         }
         $profiler->render('r5: '); // 0.92
-        
+
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->execute();
-        
+
         $profiler->render('r6: '); // 4.95
     }
 

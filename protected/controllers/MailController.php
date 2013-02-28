@@ -7,24 +7,6 @@
  */
 class MailController extends AjaxController
 {
-
-    /**
-     * @deprecated: use getMessages instead of this.
-     * Отдачи состава папок
-     */
-    /*public function actionGetFolders()
-    {
-        $simulation = $this->getSimulationEntity();
-
-        list($folders, $messages) = MailBoxService::getFolders($simulation);
-
-        return $this->sendJSON(array(
-            'result'   => 1,
-            'folders'  => $folders,
-            'messages' => $messages,
-        ));
-    }*/
-
     /**
      * Возвращает колличество непрочитанных писем во входящих
      */
@@ -434,5 +416,27 @@ class MailController extends AjaxController
         $this->sendJSON(
             MailBoxService::getForwardMessageData($simulation, $messageToForward)
         );
+    }
+
+    public function actionSendMsInDevMode()
+    {
+        $msCode = Yii::app()->request->getParam('msCode', NULL);
+        $time = (int)Yii::app()->request->getParam('time', NULL);
+        $windowId = (int)Yii::app()->request->getParam('windowId', NULL);
+        $subWindowId = (int)Yii::app()->request->getParam('subWindowId', NULL);
+        $windowUid = (int)Yii::app()->request->getParam('windowUid', NULL);
+
+        $simulation = $this->getSimulationEntity();
+        $message = LibSendMs::sendMsByCode($simulation, $msCode, $time, $windowId, $subWindowId, $windowUid);
+
+        if (NULL !== $message) {
+            $this->sendJSON([
+                'result' => 1
+            ]);
+        } else {
+            $this->sendJSON([
+                'result' => 0
+            ]);
+        }
     }
 }

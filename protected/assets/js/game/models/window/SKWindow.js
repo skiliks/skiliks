@@ -54,12 +54,15 @@ define([], function () {
             this.is_opened = false;
             this.simulation = SKApp.user.simulation;
         },
+
         'getWindowId': function () {
             return screens[this.get('name')];
         },
+
         'getSubwindowId': function () {
             return screensSub[this.get('subname')];
         },
+
         'updateUid': function() {
             this.window_uid = _.uniqueId();
         },

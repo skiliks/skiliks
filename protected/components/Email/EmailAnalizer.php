@@ -209,7 +209,7 @@ class EmailAnalizer
          * Update (add) replied at
          */
         foreach ($this->userEmails as $mailId => $emailData) {
-            if (null !== $emailData->getParentEmailId()) {
+            if (null !== $emailData->getParentEmailId() && 0 != $emailData->getParentEmailId()) {
                 // sending time for sending message saved in seconds from 00:00:00 game day 1
                 $this->userEmails[$emailData->getParentEmailId()]->setAnsweredAt($emailData->email->sent_at);
                 $this->userEmails[$emailData->getParentEmailId()]->answerEmailId = $emailData->email->id;
@@ -448,11 +448,91 @@ class EmailAnalizer
             'obj'      => $behave_3333,
         );
     }
-    
+
+    /**
+     * 3325 - read spam
+     *
+     * @param integer $delta
+     *
+     * @return mixed array
+     */
+    public function check_3326()
+    {
+        $configs = Yii::app()->params['analizer']['emails']['3326'];
+
+        $limitToGetPoints  = $configs['limitToGetPoints'];
+        $limitToGet1points = $configs['limitToGet1points'];
+        $limitToGet2points = $configs['limitToGet2points'];
+
+        $rigthMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
+        $behave_3326 = CharactersPointsTitles::model()->byCode('3326')->positive()->find();
+
+        // gather statistic  {
+        $userRightEmails = 0;
+        $userWrongEmails = 0;
+        $userNoMatterEmails = 0;
+        $userTotalEmails = count($this->userOutboxEmails);
+
+        foreach ($this->userOutboxEmails as $emailData) {
+            // @todo: remove trick
+            // ignore MSY letters
+            if (strstr($emailData->email->code, 'MSY')) {
+                continue;
+            }
+
+            if ('R' == $emailData->email->subject_obj->wr) {
+                $userRightEmails++;
+            }
+            if ('W' == $emailData->email->subject_obj->wr) {
+                $userWrongEmails++;
+            }
+            if ('N' == $emailData->email->subject_obj->wr) {
+                $userNoMatterEmails++;
+            }
+
+            $userTotalEmails++;
+        }
+        // gather statistic }
+
+        // 0 points if user had send too less emails (no matter W or R, or N)
+        if (($userRightEmails + $userNoMatterEmails)/$rigthMsNumber < (float)$limitToGetPoints) {
+            return array(
+                'positive' => 0,
+                'obj'      => $behave_3326,
+            );
+        }
+
+        // 2 points
+        if ($userWrongEmails/$userRightEmails < $limitToGet2points) {
+            return array(
+                'positive' => 2,
+                'obj'      => $behave_3326,
+            );
+        }
+
+        // 1 point
+        if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
+            return array(
+                'positive' => 1,
+                'obj'      => $behave_3326,
+            );
+        }
+
+        // user write too much not right emails
+        return array(
+            'positive' => 0,
+            'obj'      => $behave_3326,
+        );
+    }
+
+    /**
+     * Codes of point codes that must be calculated in specific way
+     * @return array
+     */
     public function getExceptionPointCodes()
     {
         return array(
-            '3313', '3322', '3323', '3324', '3325'
+            '3313', '3322', '3323', '3324', '3325', '3326'
         );
     }
 

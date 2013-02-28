@@ -85,7 +85,7 @@ class SimulationServiceTest extends CDbTestCase
         
         foreach ($assessments as $assessment) {  
             if ($assessment->point->code === '1122') {
-                // check 1122 is rigth
+                // check 1122 is right
                 // floor because 8.3333 is not equals to 8.3333333333333 in phpunit! :)
                 $this->assertEquals(
                     floor($assessment->value*1000), 
@@ -149,68 +149,17 @@ class SimulationServiceTest extends CDbTestCase
         
         // init MS emails:        
         // MS27 {
-        $subject = CommunicationTheme::model()->find(
-            'text = :text AND letter_number = :letter_number',[
-                'text'          => '!проблема с сервером!',
-                'letter_number' => 'MS27'
-        ]);
-        
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('3'); // Трутнев
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = $emailFromSysadmin->id;
-        $sendMailOptions->time       = '09:01';
-        $sendMailOptions->copies     = '';
-        $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subject->id;
-        $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
-        
+        $ms_27 = LibSendMs::sendMs27_w($simulation);
         $count_0++; // this is 0 point email
         // MS27 }
         
         // MS28 {
-        $subject = CommunicationTheme::model()->find(
-            'text = :text AND letter_number = :letter_number',[
-                'text'          => 'Бюджет производства прошлого года',
-                'letter_number' => 'MS28'
-        ]);
-        
-        $attachment = MyDocumentsModel::model()->find(
-            'sim_id = :sim_id AND fileName = \'Бюджет производства_01_итог.xlsx\'',[
-            'sim_id' => $simulation->id
-        ]);
-        
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('11'); // Трутнев
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->time       = '09:02';
-        $sendMailOptions->messageId  = 0;
-        $sendMailOptions->copies     = '';
-        $sendMailOptions->phrases    = '';
-        $sendMailOptions->fileId     = $attachment->id;
-        $sendMailOptions->subject_id = $subject->id;
-        $ms_28 = MailBoxService::sendMessagePro($sendMailOptions);
-        
+        $ms_28 = LibSendMs::sendMs28_r($simulation);
         $count_1++; // this is 1 point email
         // MS28 }
         
         // MS29 {
-        $subject = CommunicationTheme::model()->find(
-            'text = :text AND letter_number = :letter_number',[
-                'text'          => 'задача: бюджет производства прошлого года',
-                'letter_number' => 'MS29'
-        ]);
-        
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('3'); // Трутнев
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->time       = '09:03';
-        $sendMailOptions->messageId  = 0;
-        $sendMailOptions->copies     = '';
-        $sendMailOptions->phrases    = '';
-        $sendMailOptions->subject_id = $subject->id;
-        $ms_29 = MailBoxService::sendMessagePro($sendMailOptions);
-        
+        $ms_29 = LibSendMs::sendMs29_r($simulation);
         $count_0++; // this is 0 point email
         // MS29 }
         
@@ -770,6 +719,308 @@ class SimulationServiceTest extends CDbTestCase
             $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,   'duration, iteration '.$j);
             $j++;
         }
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 11 W, 14R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase1()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[10] = LibSendMs::sendMs10_w($simulation);
+        $ms[21] = LibSendMs::sendMs21_w($simulation);
+        $ms[21] = LibSendMs::sendMs22_w($simulation);
+        $ms[23] = LibSendMs::sendMs23_w($simulation);
+        $ms[27] = LibSendMs::sendMs27_w($simulation);
+        $ms[30] = LibSendMs::sendMs30_w($simulation);
+        $ms[32] = LibSendMs::sendMs32_w($simulation);
+        $ms[49] = LibSendMs::sendMs49_w($simulation);
+        $ms[50] = LibSendMs::sendMs50_w($simulation);
+        $ms[54] = LibSendMs::sendMs54_w($simulation);
+        $ms[58] = LibSendMs::sendMs58_w($simulation);
+
+        $ms[20] = LibSendMs::sendMs20_r($simulation);
+        $ms[20] = LibSendMs::sendMs28_r($simulation);
+        $ms[35] = LibSendMs::sendMs35_r($simulation);
+        $ms[36] = LibSendMs::sendMs36_r($simulation);
+        $ms[37] = LibSendMs::sendMs37_r($simulation);
+        $ms[39] = LibSendMs::sendMs39_r($simulation);
+        $ms[48] = LibSendMs::sendMs48_r($simulation);
+        $ms[51] = LibSendMs::sendMs51_r($simulation);
+        $ms[53] = LibSendMs::sendMs53_r($simulation);
+        $ms[55] = LibSendMs::sendMs55_r($simulation);
+        $ms[57] = LibSendMs::sendMs57_r($simulation);
+        $ms[69] = LibSendMs::sendMs60_r($simulation);
+        $ms[69] = LibSendMs::sendMs61_r($simulation);
+        $ms[69] = LibSendMs::sendMs69_r($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0 W, 1R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase2()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[20] = LibSendMs::sendMs20_r($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 0R, 0N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase3()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 14R, 0N => 2 балла
+     */
+    public function testCalculateAgregatedPointsFor3326_2pointsCase()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[20] = LibSendMs::sendMs20_r($simulation);
+        $ms[20] = LibSendMs::sendMs28_r($simulation);
+        $ms[35] = LibSendMs::sendMs35_r($simulation);
+        $ms[36] = LibSendMs::sendMs36_r($simulation);
+        $ms[37] = LibSendMs::sendMs37_r($simulation);
+        $ms[39] = LibSendMs::sendMs39_r($simulation);
+        $ms[48] = LibSendMs::sendMs48_r($simulation);
+        $ms[51] = LibSendMs::sendMs51_r($simulation);
+        $ms[53] = LibSendMs::sendMs53_r($simulation);
+        $ms[55] = LibSendMs::sendMs55_r($simulation);
+        $ms[57] = LibSendMs::sendMs57_r($simulation);
+        $ms[69] = LibSendMs::sendMs60_r($simulation);
+        $ms[69] = LibSendMs::sendMs61_r($simulation);
+        $ms[69] = LibSendMs::sendMs69_r($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 3W, 14R, 0N => 1 балл
+     */
+    public function testCalculateAgregatedPointsFor3326_1pointsCase()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[20] = LibSendMs::sendMs20_r($simulation);
+        $ms[20] = LibSendMs::sendMs28_r($simulation);
+        $ms[35] = LibSendMs::sendMs35_r($simulation);
+        $ms[36] = LibSendMs::sendMs36_r($simulation);
+        $ms[37] = LibSendMs::sendMs37_r($simulation);
+        $ms[39] = LibSendMs::sendMs39_r($simulation);
+        $ms[48] = LibSendMs::sendMs48_r($simulation);
+        $ms[51] = LibSendMs::sendMs51_r($simulation);
+        $ms[53] = LibSendMs::sendMs53_r($simulation);
+        $ms[55] = LibSendMs::sendMs55_r($simulation);
+        $ms[57] = LibSendMs::sendMs57_r($simulation);
+        $ms[69] = LibSendMs::sendMs60_r($simulation);
+        $ms[69] = LibSendMs::sendMs61_r($simulation);
+        $ms[69] = LibSendMs::sendMs69_r($simulation);
+
+        $ms[50] = LibSendMs::sendMs50_w($simulation);
+        $ms[54] = LibSendMs::sendMs54_w($simulation);
+        $ms[58] = LibSendMs::sendMs58_w($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(1, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
     }
 }
 
