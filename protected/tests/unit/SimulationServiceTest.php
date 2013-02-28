@@ -143,7 +143,7 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
         
         // init inbox email from sysadmin
-        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
 
         // init MS emails:        
         // MS27 {

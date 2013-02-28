@@ -18,13 +18,25 @@ class ImportGameDataService
 
     public function __construct()
     {
-        $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
+        $files = glob(__DIR__ . '/../../../media/scenario*.xlsx');
+        $files = array_combine($files, array_map("filemtime", $files));
+        arsort($files);
+
+        $this->filename = key($files);
+
+        echo "\nImport from file {$this->filename}.\n";
+
+        // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3;
     }
 
     public function setFilename($name)
     {
+        $name = str_replace('..', '', $name);
+        $name = str_replace('/', '', $name);
+        $name = str_replace('\\', '', $name);
+
         $this->filename = __DIR__ . '/../../../media/' . $name;
     }
 

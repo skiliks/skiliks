@@ -530,13 +530,13 @@ class MailBoxService
 
     /**
      * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
-     * @param type $simId
+     * @param Simulation $simulation
      * @param type $code
      */
-    public static function copyMessageFromTemplateByCode($simId, $code)
+    public static function copyMessageFromTemplateByCode($simulation, $code)
     {
         // проверим а вдруг у нас уже есть такое сообщение
-        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
+        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simulation->id)->find();
         if ($mailModel) return $mailModel; // сообщение уже есть у нас
 
 
@@ -553,13 +553,20 @@ class MailBoxService
             where mail_template.code = '{$code}'";
 
         $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $command->bindParam(":simId", $simulation->id, PDO::PARAM_INT);
         $command->execute();
 
-        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simId)->find();
+        $mailModel = MailBoxModel::model()->byCode($code)->bySimulation($simulation->id)->find();
         if (!$mailModel) return false; // что-то пошло не так - письмо не скопировалось в симуляцию
 
-        return self::_copyMessageSructure($mailModel, $simId);
+        // move from 5 (not send) to inbox (1)
+        if (MailBoxModel::NOT_RECEIVED_EMAILS_GROUP_ID == $mailModel->group_id) {
+            $mailModel->group_id = MailBoxModel::INBOX_FOLDER_ID;
+            $mailModel->save();
+            $mailModel->refresh();
+        }
+
+        return self::_copyMessageSructure($mailModel, $simulation->id);
     }
     
     /**
@@ -667,7 +674,7 @@ class MailBoxService
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
             select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
-            from mail_template where group_id IN (1,3)";
+            from mail_template where group_id IN (1,3) ";
         $profiler->render('r2: ');
 
         $command = $connection->createCommand($sql);
@@ -715,14 +722,12 @@ class MailBoxService
         foreach ($mailCollection as $mail) {
             // plain SQL to make code faster
             $sql .= self::_getCopyMessageSructureSql($mail, $simId, $docIds);
+
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $command->execute();
         }
-        $profiler->render('r5: '); // 0.92
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->execute();
-
-        $profiler->render('r6: '); // 4.95
+        $profiler->render('r5: '); // 5
     }
 
     /**
@@ -1228,6 +1233,7 @@ class MailBoxService
 
         $email->plan = 1;
         $email->save();
+        $email->refresh();
 
         return $task;
     }
