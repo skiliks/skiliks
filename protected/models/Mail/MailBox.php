@@ -13,11 +13,11 @@
  * @property mixed sending_date
  * @property int readed
  * @property mixed sim_id
- * @property MailTemplateModel template
+ * @property MailTemplate template
  * @property mixed letter_type
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailBoxModel extends CActiveRecord
+class MailBox extends CActiveRecord
 {
     const COINCIDENCE_FULL   = 'full';
     const COINCIDENCE_PART_1 = 'part1';
@@ -206,7 +206,7 @@ class MailBoxModel extends CActiveRecord
      * @return boolean
      */
     public function isSended() {
-        return MailBoxModel::OUTBOX_FOLDER_ID == $this->group_id;
+        return MailBox::OUTBOX_FOLDER_ID == $this->group_id;
     }
 
     /**
@@ -219,7 +219,7 @@ class MailBoxModel extends CActiveRecord
     /**
      *
      * @param string $className
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public static function model($className=__CLASS__)
     {
@@ -229,7 +229,7 @@ class MailBoxModel extends CActiveRecord
     public function relations() {
         return array(
             'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
-            'template' => array(self::BELONGS_TO, 'MailTemplateModel', 'template_id')
+            'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id')
         );
     }
 
@@ -244,7 +244,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать по заданной папкe
      * @param int $folderId
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function byFolder($folderId)
     {
@@ -257,7 +257,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать по заданному получателю
      * @param int $receiverId
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function byReceiver($receiverId)
     {
@@ -270,7 +270,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать в рамках заданной симуляции
      * @param int $simId
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function bySimulation($simId)
     {
@@ -283,7 +283,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать по отправителю
      * @param int $senderId
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function bySender($senderId)
     {
@@ -296,7 +296,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать конкретное письмо
      * @param int $id
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function byId($id)
     {
@@ -309,7 +309,7 @@ class MailBoxModel extends CActiveRecord
     /**
      * Выбрать письмо по коду
      * @param string $code
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function byCode($code)
     {
@@ -323,7 +323,7 @@ class MailBoxModel extends CActiveRecord
      * Сортировать по заданному полю в заданном направлении
      * @param string $fieldName
      * @param string $direction
-     * @return MailBoxModel 
+     * @return MailBox 
      */
     public function orderBy($fieldName, $direction)
     {

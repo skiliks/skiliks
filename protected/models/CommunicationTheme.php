@@ -4,7 +4,7 @@
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
  *
- * @property MailTemplateModel letter
+ * @property MailTemplate letter
  * @property string constructor_number
  * @property string import_id
  * @property mixed|null mail_prefix
@@ -273,10 +273,10 @@ class CommunicationTheme extends CActiveRecord
     }
     
     /**
-     * @return MailTemplateModel | NULL
+     * @return MailTemplate | NULL
      */
     public function getMailTemplate() {
-        return MailTemplateModel::model()->find([
+        return MailTemplate::model()->find([
             'condition' => 'code = :code',
             'params'    => [
                 'code' => $this->letter_number
@@ -288,7 +288,7 @@ class CommunicationTheme extends CActiveRecord
     {
         return [];
         /*return array(
-            'letter' => array(self::BELONGS_TO, 'MailTemplateModel', 'letter_number')
+            'letter' => array(self::BELONGS_TO, 'MailTemplate', 'letter_number')
         );*/
     }
 }

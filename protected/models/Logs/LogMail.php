@@ -113,9 +113,9 @@ class LogMail extends CActiveRecord
 
     protected function afterSave()
     {
-        /** @var $template MailTemplateModel|null */
+        /** @var $template MailTemplate|null */
         if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
-            $template = MailTemplateModel::model()->findByAttributes(['code' => $this->full_coincidence]);
+            $template = MailTemplate::model()->findByAttributes(['code' => $this->full_coincidence]);
         } else {
             $template = (null !== $this->mail) ? $this->mail->template : null;
         };
@@ -160,7 +160,7 @@ class LogMail extends CActiveRecord
     public function relations()
     {
         return array(
-            'mail' => array(self::BELONGS_TO, 'MailBoxModel', 'mail_id'),
+            'mail'       => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
             'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
         );

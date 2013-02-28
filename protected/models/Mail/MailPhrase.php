@@ -10,7 +10,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailPhrasesModel extends CActiveRecord
+class MailPhrase extends CActiveRecord
 {
     /**
      * @var integer
@@ -44,7 +44,7 @@ class MailPhrasesModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailPhrasesModel 
+     * @return MailPhrase 
      */
     public static function model($className=__CLASS__)
     {
@@ -63,7 +63,7 @@ class MailPhrasesModel extends CActiveRecord
     /**
      * Выбрать фразы по заданному набору
      * @param array $ids
-     * @return MailPhrasesModel 
+     * @return MailPhrase 
      */
     public function byIds($ids)
     {
@@ -79,7 +79,7 @@ class MailPhrasesModel extends CActiveRecord
     /**
      * Выбрать по заданному соответствию персонаж - тема
      * @param int $id
-     * @return MailPhrasesModel 
+     * @return MailPhrase 
      */
     public function byCharacterThemes($id)
     {
@@ -92,7 +92,7 @@ class MailPhrasesModel extends CActiveRecord
     /**
      * Выбрать по типу фразы
      * @param int $type
-     * @return MailPhrasesModel 
+     * @return MailPhrase 
      */
     public function byType($type)
     {
@@ -105,7 +105,7 @@ class MailPhrasesModel extends CActiveRecord
     /**
      * Выбрать фразу по коду
      * @param string $code
-     * @return MailPhrasesModel 
+     * @return MailPhrase 
      */
     public function byCode($code)
     {

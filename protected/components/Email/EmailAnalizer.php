@@ -104,7 +104,7 @@ class EmailAnalizer
         /**
          * Get mail folder ids
          */
-        foreach (MailFoldersModel::model()->findAll($this->simId) as $mailFolder) {
+        foreach (MailFolder::model()->findAll($this->simId) as $mailFolder) {
             if ('Входящие' === trim($mailFolder->name)) {
                 $this->inboxEmailFolderId = (int)$mailFolder->id;
             }
@@ -125,7 +125,7 @@ class EmailAnalizer
         
         
         // get mail templates
-        foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
+        foreach(MailTemplate::model()->findAll() as $mailTemplate) {
             $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
             if($mailTemplate->type_of_importance === "reply_all") {
                 $this->template_reply_all[] = $mailTemplate->code;
@@ -134,19 +134,19 @@ class EmailAnalizer
         unset($mailTemplate);        
         
         // populate with right Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('R')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('R')->findAll() as $mailTask) {
             $this->rightMailTasks[$mailTask->code] = $mailTask;
         }
         unset($mailTask);
         
         // populate with wrong Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('W')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('W')->findAll() as $mailTask) {
             $this->wrongMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
         
         // populate with neutral Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('N')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('N')->findAll() as $mailTask) {
             $this->neutralMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
@@ -154,7 +154,7 @@ class EmailAnalizer
         /**
          * Get emails
          */
-        foreach (MailBoxModel::model()->bySimulation($this->simId)->findAll() as $email) {
+        foreach (MailBox::model()->bySimulation($this->simId)->findAll() as $email) {
             $this->userEmails[$email->id] = new EmailData($email);
             
             if (isset($this->mailTemplate[$email->code])) {
@@ -239,7 +239,7 @@ class EmailAnalizer
         /**
          * Get mail points
          */        
-        foreach (MailPointsModel::model()->findAll() as $point) {
+        foreach (MailPoint::model()->findAll() as $point) {
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
@@ -608,7 +608,7 @@ class EmailAnalizer
      */
     private function isMailTaskHasRightAction($mailTemplateId)
     {
-        $taskWays = MailTasksModel::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+        $taskWays = MailTask::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
        
         return (0 < count($taskWays) && null !== $taskWays);
     }
@@ -632,7 +632,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isInbox($email)
@@ -641,7 +641,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isInTrash($email)
@@ -650,7 +650,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isOutbox($email)

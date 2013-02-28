@@ -23,8 +23,6 @@ class DialogDelayTest extends CDbTestCase
 
             // we need transaction - this test delete empty Task table
 
-            //Task::model()->deleteAll();
-            //MailBoxModel::model()->deleteAll();
             $event = new EventsManager();
 
             //Запуск T7.1

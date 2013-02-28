@@ -9,7 +9,7 @@
  * @property mixed import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailPointsModel extends CActiveRecord
+class MailPoint extends CActiveRecord
 {
     /**
      * @var integer
@@ -39,7 +39,7 @@ class MailPointsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailPointsModel 
+     * @return MailPoint
      */
     public static function model($className=__CLASS__)
     {
@@ -57,7 +57,7 @@ class MailPointsModel extends CActiveRecord
     /**
      * По заданному письму
      * @param int $id
-     * @return MailPointsModel 
+     * @return MailPoint
      */
     public function byMailId($id)
     {
@@ -70,7 +70,7 @@ class MailPointsModel extends CActiveRecord
     /**
      * По заданной оценке
      * @param int $pointId
-     * @return MailPointsModel 
+     * @return MailPoint
      */
     public function byPointId($pointId)
     {
@@ -82,7 +82,7 @@ class MailPointsModel extends CActiveRecord
     
     /**
      * @param string $ids
-     * @return \MailTemplateModel
+     * @return MailTemplate
      */
     public function byIdsNotIn($ids)
     {

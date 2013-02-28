@@ -38,10 +38,10 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($result['eventType'], 'MS');
         $result = EventService::processLinkedEntities('MY1', $simulation->primaryKey);
         $this->assertEquals($result['eventType'], 'MY');
-        $this->assertEquals(MailBoxModel::model()->findByPk($result['id'])->code, 'MY1');
+        $this->assertEquals(MailBox::model()->findByPk($result['id'])->code, 'MY1');
         $result = EventService::processLinkedEntities('M10', $simulation->primaryKey);
         $this->assertEquals($result['eventType'], 'M');
-        $this->assertEquals(MailBoxModel::model()->findByPk($result['id'])->code, 'M10');
+        $this->assertEquals(MailBox::model()->findByPk($result['id'])->code, 'M10');
 
     }
 

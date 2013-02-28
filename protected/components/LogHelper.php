@@ -686,7 +686,7 @@ class LogHelper
         }
 
         $mailTask = array();
-        foreach (MailTasksModel::model()->findAll() as $line) {
+        foreach (MailTask::model()->findAll() as $line) {
             $mailTask[$line->id] = $line;
         }
 
@@ -1366,7 +1366,7 @@ class LogHelper
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    if (MailBoxModel::OUTBOX_FOLDER_ID == $activityAction['group_id']) {
+                    if (MailBox::OUTBOX_FOLDER_ID == $activityAction['group_id']) {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
                         $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
