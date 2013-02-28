@@ -19,7 +19,6 @@ return [
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'popup' => "",
-
     ],
 
 
@@ -81,7 +80,7 @@ return [
         'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
         'positive_evaluation' => "",
         'negative_evaluation' => "",
-        'persinal_evaluation' => ""
+        'personal_evaluation' => ""
     ],
 
 

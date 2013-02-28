@@ -58,6 +58,48 @@ class SeleniumTestHelper extends CWebTestCase
         $this->mouseOver($theme);
         $this->click($theme);
     }
+
+    // ответить на входящий звонок, когда телефон активен (мигает)
+    public function reply_call ()
+    {
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+    }
+
+    // не ответить на входящий звонок, когда телефон активен (мигает)
+    public function no_reply_call ()
+    {
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        sleep(2);
+    }
+
+    // создание письма, когда мейл-клиент активен (мигает)
+    public function write_mail_active()
+    {
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+    }
     /*
     // проверка значения флага
     // flag_numb - локатор к ячейке с проверяемым значением флага в таблице флагов в дев-режиме
