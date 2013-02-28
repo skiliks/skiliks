@@ -666,11 +666,15 @@ class MailBoxService
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
             select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
-            from mail_template";
+            from mail_template where group_id = :groupId";
         $profiler->render('r2: ');
+
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $inboxId = MailBoxModel::INBOX_FOLDER_ID;
+        $command->bindParam(":groupId", $inboxId, PDO::PARAM_INT);
         $command->execute();
+
         $profiler->render('r3: ');
         // теперь скопируем информацию о копиях писем
         $mailCollection = MailBoxModel::model()->bySimulation($simId)->findAll();
