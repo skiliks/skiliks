@@ -100,6 +100,12 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(2);
     }
+
+    public function optimal_click ($loc)
+    {
+        $this->waitForVisible($loc);
+        $this->click($loc);
+    }
     /*
     // проверка значения флага
     // flag_numb - локатор к ячейке с проверяемым значением флага в таблице флагов в дев-режиме

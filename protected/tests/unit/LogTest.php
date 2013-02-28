@@ -204,7 +204,7 @@ class LogTest extends CDbTestCase
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
         $simulation_service->simulationStop($simulation);
-        $log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_windows = LogWindows::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
@@ -215,7 +215,7 @@ class LogTest extends CDbTestCase
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
 
-        $log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        //$log_dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_dialogs as $log) {
 //            printf("%s\t%8s\t%5d\t%5d\n",
