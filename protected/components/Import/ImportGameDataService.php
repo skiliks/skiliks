@@ -1470,63 +1470,6 @@ class ImportGameDataService
         return uniqid();
     }
 
-    private function importActivityEfficiencyConditions()
-    {
-        echo __METHOD__ . "\n";
-
-        $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Activities');
-        // load sheet }
-
-        $this->setColumnNumbersByNames($sheet);
-
-        $importedRows = 0;
-        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            // try to find exists entity {
-            $activityEfficiencyCondition = ActivityEfficiencyCondition::model()
-                ->byActivityId($this->getCellValue($sheet, 'Activity_code', $i))
-                ->byType($this->getCellValue($sheet, 'Result_type', $i))
-                ->byResultCode($this->getCellValue($sheet, 'Result_code', $i))
-                ->find();
-            // try to find exists entity }
-
-            // create entity if not exists {
-            if (null === $activityEfficiencyCondition) {
-                $activityEfficiencyCondition = new ActivityEfficiencyCondition();
-                $activityEfficiencyCondition->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
-                $activityEfficiencyCondition->type = $this->getCellValue($sheet, 'Result_type', $i);
-                $activityEfficiencyCondition->result_code = $this->getCellValue($sheet, 'Result_code', $i);
-            }
-            // create entity if not exists }
-
-            // update data {
-            $activityEfficiencyCondition->operation = $this->getCellValue($sheet, 'Result_operation', $i);
-            $activityEfficiencyCondition->efficiency_value = $this->getCellValue($sheet, 'All_Result_value', $i);
-            $activityEfficiencyCondition->fail_less_coeficient = $this->getCellValue($sheet, 'Fail_Less_Coef', $i);
-            $activityEfficiencyCondition->import_id = $this->import_id;
-            // update data }
-
-            // save
-            $activityEfficiencyCondition->save();
-
-            $importedRows++;
-        }
-
-        // delete old unused data {
-        ActivityEfficiencyCondition::model()->deleteAll(
-            'import_id<>:import_id',
-            array('import_id' => $this->import_id)
-        );
-        // delete old unused data }
-
-        echo __METHOD__ . " end \n";
-
-        return array(
-            'imported_activityEfficiencyConditions' => $importedRows,
-            'errors' => false,
-        );
-    }
-
     /**
      * @return PHPExcel_Reader_Excel2003XML
      */
@@ -1544,6 +1487,10 @@ class ImportGameDataService
         return $this->reader;
     }
 
+    /**
+     * Returns cached excel file
+     * @return PHPExcel
+     */
     private function getExcel()
     {
         if (!isset($this->excel)) {
