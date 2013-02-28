@@ -12,7 +12,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testSimulationStart()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulationService = new SimulationService();
@@ -35,7 +35,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor1122() 
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulationService = new SimulationService();
@@ -107,7 +107,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor4124() 
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -220,7 +220,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testActionsAgregationMechanism()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -347,7 +347,7 @@ class SimulationServiceTest extends CDbTestCase
 
     public function testActionsAgregationMechanism_2()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -727,7 +727,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase1()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -806,7 +806,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase2()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -859,7 +859,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase3()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -894,7 +894,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase4()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -961,7 +961,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_2pointsCase1()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -1027,7 +1027,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_1pointsCase1()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -1097,7 +1097,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_2pointsCase2()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -1162,7 +1162,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase5()
     {
-        $this->markTestSkipped();
+        //$this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
