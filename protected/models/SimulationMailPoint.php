@@ -5,8 +5,6 @@
 /**
  * Оценки, набранные за использование почтой в рамках конкретной симуляции
  *
- * Связана с моделями:  Simulations, CharactersPointsTitles
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class SimulationMailPoint extends CActiveRecord

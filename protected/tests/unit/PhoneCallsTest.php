@@ -45,7 +45,7 @@ class PhoneServiceTest extends CDbTestCase {
         // check this call values
         $missedCall = reset($missedCalls);        
         $this->assertTrue(in_array($missedCall['name'], [$toCharacter->fio, $toCharacter->title]), 'Wrong character call from name');
-        $this->assertEquals(Simulations::formatDateForMissedCalls($time, '04.10.2012'), $missedCall['date'], 'Wrong call date');
+        $this->assertEquals(Simulation::formatDateForMissedCalls($time, '04.10.2012'), $missedCall['date'], 'Wrong call date');
         $this->assertEquals(2, $missedCall['type'], 'Wrong call type');       
     }
     
@@ -106,7 +106,7 @@ class PhoneServiceTest extends CDbTestCase {
                 'Wrong character call from name '.$missedCalls[$i]['name'].' i='.$i);
             $this->assertEquals(
                 $missedCalls[$i]['date'],          
-                Simulations::formatDateForMissedCalls($time[$i].':00', '04.10.2012'), 
+                Simulation::formatDateForMissedCalls($time[$i].':00', '04.10.2012'),
                 'Wrong call date'.' i='.$i);
             $this->assertEquals(
                 $missedCalls[$i]['type'],          

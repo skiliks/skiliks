@@ -197,7 +197,7 @@ class ActivityAction extends CActiveRecord
      * Order by numeric_id
      * @param $attrs mixed
      * @param $legTypes array
-     * @param $simulation Simulations
+     * @param $simulation Simulation
      * @return ActivityAction
      */
     public function findByPriority($attrs, $legTypes, $simulation)

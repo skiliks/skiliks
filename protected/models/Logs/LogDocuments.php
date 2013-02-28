@@ -56,7 +56,7 @@ class LogDocuments extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return [
             'file' => [self::BELONGS_TO, 'MyDocumentsModel', 'file_id'],
-            'simulation' => [self::BELONGS_TO, 'Simulations', 'sim_id']
+            'simulation' => [self::BELONGS_TO, 'Simulation', 'sim_id']
 		];
 	}
 

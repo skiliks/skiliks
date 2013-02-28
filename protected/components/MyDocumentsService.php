@@ -90,7 +90,7 @@ class MyDocumentsService
     
     /**
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return array[]
      */
     public static function getDocumentsList($simulation)
@@ -119,7 +119,7 @@ class MyDocumentsService
     
     /**
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param MyDocumentsModel $file
      * 
      * @return boolean
@@ -136,7 +136,7 @@ class MyDocumentsService
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $fileId
      * 
      * @return mixed array
@@ -166,7 +166,7 @@ class MyDocumentsService
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param MyDocumentsModel $document
      * 
      * @return integer || NULL

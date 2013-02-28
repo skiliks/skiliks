@@ -4,8 +4,6 @@
 /**
  * Модель моих документов
  *
- * Связана с моделями:  Simulations, DocumentTemplate.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  *
  * @property DocumentTemplate template

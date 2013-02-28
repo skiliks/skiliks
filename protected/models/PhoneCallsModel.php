@@ -2,8 +2,7 @@
 
 /**
  * Какие звонки и когда были совершены в рамках симуляции
- * 
- * Связана с моделями:  Simulations, Characters.
+
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

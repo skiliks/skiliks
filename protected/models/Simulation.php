@@ -2,17 +2,15 @@
 
 /**
  * Модель симуляции.
- * 
- * Связана с моделями: Users.
  *
  * @property int difficulty
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_points
  * @prorepty LogWindows[] log_windows
- * 
+ *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Simulations extends CActiveRecord
+class Simulation extends CActiveRecord
 {
     const SIMULATION_DAY_DATE = '04.10.2012';
     
@@ -69,7 +67,7 @@ class Simulations extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return Simulations 
+     * @return Simulation
      */
     public static function model($className=__CLASS__)
     {
@@ -87,7 +85,7 @@ class Simulations extends CActiveRecord
     /**
      * Выбрать по заданному пользователю.
      * @param int $uid
-     * @return Simulations 
+     * @return Simulation
      */
     public function byUid($uid)
     {
@@ -99,7 +97,7 @@ class Simulations extends CActiveRecord
     
     /**
      * Выбрать ближайшую симуляцию
-     * @return Simulations 
+     * @return Simulation
      */
     public function nearest()
     {
@@ -186,7 +184,7 @@ class Simulations extends CActiveRecord
     /**
      * Выбрать по идентификатору
      * @param int $id
-     * @return Simulations 
+     * @return Simulation
      */
     public function byId($id)
     {

@@ -13,13 +13,13 @@ class SimulationService
      * @return int
      */
     public static function getType($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         if (!$simulation) return false;
         return $simulation->type;
     }
     
     public static function getUid($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         if (!$simulation) return false;
         return $simulation->user_id;
     }
@@ -31,7 +31,7 @@ class SimulationService
      * @return int игровое время
      */
     public static function getGameTime($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         return $simulation->getGameTime();
     }
     
@@ -386,11 +386,11 @@ class SimulationService
      * @param integer $userId
      * @param integer $simulationType
      * 
-     * @return Simulations
+     * @return Simulation
      */
     public static function initSimulationEntity($userId, $simulationType)
     {
-        $simulation = new Simulations();
+        $simulation = new Simulation();
         $simulation->user_id = $userId;
         $simulation->status = 1;
         $simulation->start = GameTime::setNowDateTime();
@@ -434,7 +434,7 @@ class SimulationService
     /**
      * @param $simulationType
      * @param Users $user
-     * @return Simulations
+     * @return Simulation
      * @throws Exception
      */
     public static function simulationStart($simulationType, $user = null)
@@ -532,7 +532,7 @@ class SimulationService
      *
      * There are no internal simulation time stored anywhere :)
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $newHours
      * @param integer $newMinutes
      */

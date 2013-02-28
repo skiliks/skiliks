@@ -1279,7 +1279,7 @@ class LogHelper
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      *
      * Documentation: Создание агрегированного лога для activity
      * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774

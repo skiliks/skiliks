@@ -14,7 +14,7 @@ class LogActivityActionTest extends CDbTestCase
     {
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -129,7 +129,7 @@ class LogActivityActionTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -322,7 +322,7 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertNotNull($db2);
             $simulationService = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+            $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
             $logs = [
                 [3, 3, 'activated', 37526, 'window_uid' => 130],
                 [3, 3, 'deactivated', 37548, 'window_uid' => 130]
@@ -352,7 +352,7 @@ class LogActivityActionTest extends CDbTestCase
         try {
             $simulationService = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+            $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
             $mail = new MailBoxService();
             $message1 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,

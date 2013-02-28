@@ -16,7 +16,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $randomSpamMailTemplate = MailTemplateModel::model()->findByAttributes([
             'type_of_importance' => 'spam'
@@ -68,7 +68,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $randomSpamMailTemplate = MailTemplateModel::model()->findByAttributes([
             'type_of_importance' => 'spam'
@@ -120,7 +120,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3322'
@@ -183,7 +183,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3322'
@@ -233,7 +233,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3322'
@@ -296,7 +296,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3322'
@@ -346,7 +346,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3313'

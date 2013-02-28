@@ -5,7 +5,7 @@
 class LibSendMs
 {
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param string $msCode
      * @param integer $time, frontend time im seconds
      * @param integer $windowId

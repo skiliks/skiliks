@@ -6,8 +6,6 @@
  * Именно здесь хранится информация какое событие и когда должно произойти в 
  * рамках конкретной симуляции.
  *
- * Связана с моделями: Simulations, EventsSamples.
- * 
  * @property int sim_id
  * @property mixed event_id
  * @property mixed trigger_time

@@ -8,7 +8,7 @@
 class FlagsService 
 {
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param string $dialogCode, 'E1.1'
      *
      * @return bool
@@ -38,10 +38,10 @@ class FlagsService
     }
 
     /**
-     * @param Simulations  $simulation
+     * @param Simulation  $simulation
      * @return mixed array
      */
-    public static function getFlagsState(Simulations $simulation) {
+    public static function getFlagsState(Simulation $simulation) {
         $result = [];
         
         // display flags for developers only ! :) no chanses for cheatting
@@ -54,10 +54,10 @@ class FlagsService
     }
 
     /**
-     * @param Simulations  $simulation
+     * @param Simulation  $simulation
      * @return mixed array
      */
-    public static function getFlagsStateForJs(Simulations $simulation) {
+    public static function getFlagsStateForJs(Simulation $simulation) {
         $result = [];
 
         // display flags for developers only ! :) no chanses for cheatting
