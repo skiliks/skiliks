@@ -17,9 +17,9 @@ class CalculationEstimateService
         
         // Case 1
         $duration = 0;
-        $dialogsDurations = SimulationsDialogsDurations::model()->bySimulation($simId)->find();
-        if ($dialogsDurations) {
-            $duration = $dialogsDurations->duration;
+        $dialogDuration = SimulationDialogDuration::model()->bySimulation($simId)->find();
+        if ($dialogDuration) {
+            $duration = $dialogDuration->duration;
         }
         
         // получить duration
@@ -39,15 +39,15 @@ class CalculationEstimateService
         }
         
         // и добавить в simulations_dialogs_durations
-        if ($dialogsDurations) {
-            $dialogsDurations->duration = (int)$duration;
-            $dialogsDurations->save();
+        if ($dialogDuration) {
+            $dialogDuration->duration = (int)$duration;
+            $dialogDuration->save();
         }
         else {
-            $dialogsDurations = new SimulationsDialogsDurations();
-            $dialogsDurations->sim_id = $simId;
-            $dialogsDurations->duration = (int)$duration;
-            $dialogsDurations->insert();
+            $dialogDuration = new SimulationDialogDuration();
+            $dialogDuration->sim_id = $simId;
+            $dialogDuration->duration = (int)$duration;
+            $dialogDuration->insert();
         }
         
         $dialogsStr = implode(',', $dialogs);
@@ -107,9 +107,9 @@ class CalculationEstimateService
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId => $item) {
             LogHelper::setLogDoialogPoint($dialogId, $simId, $pointId);
-            $dialogsPoints = SimulationsDialogsPoints::model()->bySimulationAndPoint($simId, $pointId)->find();
+            $dialogsPoints = SimulationDialogPoint::model()->bySimulationAndPoint($simId, $pointId)->find();
             if (!$dialogsPoints) {
-                $dialogsPoints = new SimulationsDialogsPoints();
+                $dialogsPoints = new SimulationDialogPoint();
                 $dialogsPoints->sim_id      = $simId;
                 $dialogsPoints->point_id    = $pointId;
             }

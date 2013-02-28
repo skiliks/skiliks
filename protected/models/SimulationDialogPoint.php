@@ -6,7 +6,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsDialogsPoints extends CActiveRecord
+class SimulationDialogPoint extends CActiveRecord
 {
     /**
      * @var integer
