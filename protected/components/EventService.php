@@ -149,7 +149,7 @@ class EventService {
         
         if ($type == 'M') {
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
-            $mailModel = MailBoxService::copyMessageFromTemplateByCode($simId, $code);
+            $mailModel = MailBoxService::copyMessageFromTemplateByCode($simulation, $code);
             if (!$mailModel) {
                 throw new Exception("cant copy mail by code $code");
             }

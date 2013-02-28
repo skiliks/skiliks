@@ -277,16 +277,17 @@ class EmailAnalizer
         
         // inbox + trashCan
         foreach ($this->userInboxEmails as $mailId => $emailData) {
-            
+
             // need to be planed?
             if (true === $emailData->isNeedToBePlaned()) {
                 
                 if ($this->isMailTaskHasRightAction($emailData->email->template_id)) {
                     $possibleRightActions++;
                 }
-                
+
                 if (true === $emailData->getIsPlaned()) {
                     // is user add to plan right mail_task ?
+
                     if ($emailData->getPlanedTaskId() === $emailData->getRightPlanedTaskId()) {
 
                         $doneRightActions++;
@@ -308,8 +309,8 @@ class EmailAnalizer
         $behave_3322 = CharactersPointsTitles::model()->byCode('3322')->positive()->find();
         $behave_3324 = CharactersPointsTitles::model()->byCode('3324')->negative()->find();
         
-        $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
-        
+        $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
+
         return array(
             '3322' => array(
                 'positive' => ($doneRightActions / $possibleRightActions) * $behave_3322->scale,
@@ -505,7 +506,7 @@ class EmailAnalizer
         // 2 points
         if ($userWrongEmails/$userRightEmails < $limitToGet2points) {
             return array(
-                'positive' => 2,
+                'positive' => $behave_3326->scale,
                 'obj'      => $behave_3326,
             );
         }
@@ -513,7 +514,7 @@ class EmailAnalizer
         // 1 point
         if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
             return array(
-                'positive' => 1,
+                'positive' => $behave_3326*0.5,
                 'obj'      => $behave_3326,
             );
         }

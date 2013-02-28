@@ -7,33 +7,29 @@
 class EmailAnalyzerTest extends CDbTestCase
 {
     /**
-     * 
+     * Тест оценки 3313:
+     * - все письма прочтены
      */
-    public function test_3313_AllEmailsReadedCase()
+    public function test_3313_ReadAllEmailsCase()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
-        
-        $randomSpamMailTemplate = MailTemplateModel::model()->findByAttributes([
-            'type_of_importance' => 'spam'
-        ]);
-        
+
         // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1
-            ], 
-            'sim_id = :sim_id AND group_id = :group_id', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
+        $emailTemplates = MailTemplateModel::model()->findAll(
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
+
+        foreach ($emailTemplates as $emailTemplate) {
+            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+        }
+        // move all not received emails to inbox }
         
-        // mark all inbox emails readed
+        // mark all inbox emails as read
         MailBoxModel::model()->updateAll([
                 'readed' => 1
             ], 
@@ -57,13 +53,14 @@ class EmailAnalyzerTest extends CDbTestCase
         
         $this->assertEquals($result->value, 1);
     }
-    
+
     /**
-     * 
+     * Тест оценки 3313:
+     * - 4 начальных письма прочтены
      */
-    public function test_3313_AllInitialEmailsReadedCase()
+    public function test_3313_ReadAllInitialEmailsCase()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();
@@ -73,9 +70,19 @@ class EmailAnalyzerTest extends CDbTestCase
         $randomSpamMailTemplate = MailTemplateModel::model()->findByAttributes([
             'type_of_importance' => 'spam'
         ]);
+
+        // move all not received emails to inbox
+        $emailTemplates = MailTemplateModel::model()->findAll(
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
+        );
+
+        foreach ($emailTemplates as $emailTemplate) {
+            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+        }
+        // move all not received emails to inbox }
         
-        // mark all inbox emails readed
-        MailBoxModel::model()->updateAll([
+        // mark all inbox emails as read
+        /*MailBoxModel::model()->updateAll([
                 'readed' => 1
             ], 
             'sim_id = :sim_id AND group_id = :group_id', 
@@ -83,19 +90,8 @@ class EmailAnalyzerTest extends CDbTestCase
                 'sim_id'   => $simulation->id,
                 'group_id' => 1
             ]
-        );
-        
-        // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1
-            ], 
-            'sim_id = :sim_id AND group_id = :group_id', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
-        );
-        
+        );*/
+
         $point = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3313'
         ]);
@@ -109,9 +105,9 @@ class EmailAnalyzerTest extends CDbTestCase
         
         $this->assertEquals($result->value, 0);
     }
-    
+
     /**
-     * 
+     * Тест оценки 3322/3324:
      */
     public function test_3322_3324_OneFromOneEmailsPlannedRigthCase()
     {
@@ -129,21 +125,13 @@ class EmailAnalyzerTest extends CDbTestCase
         $point_3324 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3324'
         ]);
-        
-        // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1,
-             ], 
-            'sim_id = :sim_id AND group_id = :group_id AND code IN (\'M3\')', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
-        );
-        
+
         $email = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
+        $email->readed = 1;
+        $email->save();
+        $email->refresh();
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
-        $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
+        MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
         $mailPlanWindow = Window::model()->find('subtype = \'mail plan\'');
         
@@ -172,9 +160,9 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals($result_3322->value, $point_3322->scale, '3322 1');
         $this->assertEquals($result_3324->value, 0, '3324 1');
     }
-    
+
     /**
-     * 
+     * Тест оценки 3322/3324:
      */
     public function test_3322_3324_OneFromOneEmailsNotPlannedRigthCase()
     {
@@ -192,17 +180,16 @@ class EmailAnalyzerTest extends CDbTestCase
         $point_3324 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3324'
         ]);
-        
+
         // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1,
-             ], 
-            'sim_id = :sim_id AND group_id = :group_id AND code IN (\'M3\')', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
+        $emailTemplates = MailTemplateModel::model()->findAll(
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
+
+        foreach ($emailTemplates as $emailTemplate) {
+            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+        }
+        // move all not received emails to inbox }
         
         $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);        
@@ -222,9 +209,9 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals($result_3322->value, 0, '3322 3');
         $this->assertEquals($result_3324->value, 0, '3324 3');
     }
-    
+
     /**
-     * 
+     * Тест оценки 3322/3324:
      */
     public function test_3322_3324_OneFromOneEmailsPlannedWrongCase()
     {
@@ -242,19 +229,20 @@ class EmailAnalyzerTest extends CDbTestCase
         $point_3324 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3324'
         ]);
-        
+
         // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1,
-             ], 
-            'sim_id = :sim_id AND group_id = :group_id AND code IN (\'M3\')', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
+        /*$emailTemplates = MailTemplateModel::model()->findAll(
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
+
+        foreach ($emailTemplates as $emailTemplate) {
+            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+        }*/
+        // move all not received emails to inbox }
         
         $email = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
+        $email->readed = 1;
+        $email->save();
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
@@ -285,9 +273,9 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals($result_3322->value, 0, '3322 1');
         $this->assertEquals($result_3324->value, $point_3324->scale, '3324 2');
     }
-    
+
     /**
-     * 
+     * Тест оценки 3322/3324:
      */
     public function test_3322_3324_OneFromOneEmailsNotPlannedWrongCase()
     {
@@ -305,17 +293,16 @@ class EmailAnalyzerTest extends CDbTestCase
         $point_3324 = CharactersPointsTitles::model()->findByAttributes([
             'code' => '3324'
         ]);
-        
+
         // move all not received emails to inbox
-        MailBoxModel::model()->updateAll([
-                'group_id' => 1,
-             ], 
-            'sim_id = :sim_id AND group_id = :group_id AND code IN (\'M3\')', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 5
-            ]
+        $emailTemplates = MailTemplateModel::model()->findAll(
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
+
+        foreach ($emailTemplates as $emailTemplate) {
+            MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
+        }
+        // move all not received emails to inbox }
         
         $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
         $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
@@ -337,11 +324,12 @@ class EmailAnalyzerTest extends CDbTestCase
     }
     
     /**
-     * 
+     * Тест оценки 3313:
+     * - кейс "нет прочитанных писем"
      */
-    public function test_3313_NoEmailsReadedCase()
+    public function test_3313_NoReadEmailsCase()
     {
-        // $this->markTestSkipped();
+        //$this->markTestSkipped();
         
         // init simulation
         $simulation_service = new SimulationService();

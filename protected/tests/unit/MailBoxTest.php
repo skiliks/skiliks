@@ -177,7 +177,7 @@ class MailBoxTest extends CDbTestCase
         
         $events->startEvent($simulation->id, 'M31', false, false,0);
 
-        MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M31');
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
         $messageToReply = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id, 
@@ -210,7 +210,7 @@ class MailBoxTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // random email case{
-        $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
+        $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
 
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
@@ -218,7 +218,7 @@ class MailBoxTest extends CDbTestCase
         // random email case }
 
         // case 2, M61 {      
-        $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M61');
+        $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
         $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $emailM61);
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
@@ -228,7 +228,7 @@ class MailBoxTest extends CDbTestCase
         // case 2, M61 }
         
         // case 3, M62 {
-        $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M62');
+        $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
         $resultDataM62 = MailBoxService::getForwardMessageData($simulation, $emailM62);
         
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
@@ -335,7 +335,7 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
 
         // init inbox email from sysadmin
-        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
 
         // init MS emails:
         // MS27 {

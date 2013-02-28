@@ -333,7 +333,7 @@ class LibSendMs
      */
     public static function sendMs27_w($simulation)
     {
-        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
 
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[
@@ -792,7 +792,7 @@ class LibSendMs
             'letter_number' => 'MS60'
         ]);
 
-        $message = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M75');
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 
         // user can reply to received email only
         $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
@@ -821,7 +821,7 @@ class LibSendMs
             'letter_number' => 'MS61'
         ]);
 
-        $message = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M76');
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M76');
 
         // user can reply to received email only
         $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
