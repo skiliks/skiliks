@@ -18,7 +18,7 @@ class F4_SK1413_P_T3_Test extends SeleniumTestHelper
 
     public function testSK1413_PT3() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->type("id=addTriggerSelect", "E1.3");

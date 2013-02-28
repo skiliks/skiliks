@@ -49,26 +49,6 @@ class F4_SK1413_P_T1_Test extends SeleniumTestHelper
         $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
 
-       /* while(($this->verifyTextPresent("Аналитик"))==false)
-        {
-            $this->optimal_click("css=li.icon-active.phone a");
-            sleep(10);
-            if (($this->verifyTextPresent("Аналитик"))==true)
-            {
-                $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-                $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-                sleep(2);
-                break;
-            }
-            else
-            {
-                $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-                $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-                sleep(2);
-            }
-        }*/
-
-
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
         $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
 
