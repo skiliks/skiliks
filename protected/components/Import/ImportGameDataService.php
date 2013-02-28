@@ -182,6 +182,18 @@ class ImportGameDataService
             }
         }
 
+        // delete old unused data {
+        MailPhrasesModel::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        MailConstructor::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+
         echo __METHOD__ . " end\n";
         return ['ok' => 1];
     }
@@ -1158,19 +1170,11 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet, 2);
 
-        // getCharactersStates {
-        $charactersStates = [];
-        foreach (CharactersStates::model()->findAll() as $character) {
-            $charactersStates[$character->title] = $character->id;
-        }
-        // getCharactersStates }
-
-        // DialogSubtypes    
+        // DialogSubtype
         $subtypes = [];
-        foreach (DialogSubtypes::model()->findAll() as $subtype) {
+        foreach (DialogSubtype::model()->findAll() as $subtype) {
             $subtypes[$subtype->title] = $subtype->id;
         }
-        // DialogSubtypes
 
         $importedRows = 0;
 
@@ -1197,12 +1201,6 @@ class ImportGameDataService
             $dialog->ch_from = Characters::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
             $to_character_code = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
             $dialog->ch_to = Characters::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
-
-            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-ОТ (+голос)', $i);
-            $dialog->ch_from_state = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // 1 is "me"
-
-            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-КОМУ', $i);
-            $dialog->ch_to_state = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // 1 is "me"
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {
@@ -1780,7 +1778,15 @@ class ImportGameDataService
             }
 
             if (isset($entity)) {
-                $parentActivity = new ActivityParent();
+                $parentActivity = ActivityParent::model()->findByAttributes([
+                    'parent_code' => $parentCode,
+                    $types[$endType] => $entity->id
+                ]);
+
+                if (empty($parentActivity)) {
+                    $parentActivity = new ActivityParent();
+                }
+
                 $parentActivity->parent_code = $parentCode;
                 $parentActivity->import_id = $this->import_id;
                 $parentActivity->{$types[$endType]} = $entity->id;
@@ -1818,17 +1824,6 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet);
 
-        // delete old unused data {
-        AssessmentRuleCondition::model()->deleteAll(
-            'import_id <> :import_id',
-            array('import_id' => $this->import_id)
-        );
-        AssessmentRule::model()->deleteAll(
-            'import_id <> :import_id',
-            array('import_id' => $this->import_id)
-        );
-        // delete old unused data }
-
         $types = [
             'id_записи' => 'dialog_id',
             'outbox' => 'mail_id',
@@ -1846,6 +1841,20 @@ class ImportGameDataService
                 break;
             }
 
+            $rule = AssessmentRule::model()->findByPk($ruleId);
+            if (empty($rule)) {
+                $rule = new AssessmentRule();
+                $rule->id = $ruleId;
+            }
+
+            $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+            $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
+            $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
+            $rule->import_id = $this->import_id;
+
+            $rule->save();
+            $rules++;
+
             if ($type == 'id_записи') {
                 $entity = Replica::model()->byExcelId($code)->find();
             } elseif ($type == 'outbox' || $type == 'inbox') {
@@ -1854,21 +1863,16 @@ class ImportGameDataService
                 $entity = null;
             }
 
-            $rule = AssessmentRule::model()->findByPk($ruleId);
-            if (empty($rule)) {
-                $rule = new AssessmentRule();
-                $rule->id = $ruleId;
-                $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
-                $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
-                $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
-                $rule->import_id = $this->import_id;
-
-                $rule->save();
-                $rules++;
-            }
-
             if (isset($entity)) {
-                $condition = new AssessmentRuleCondition();
+                $condition = AssessmentRuleCondition::model()->findByAttributes([
+                    'assessment_rule_id' => $rule->id,
+                    $types[$type] => $entity->id
+                ]);
+
+                if (empty($condition)) {
+                    $condition = new AssessmentRuleCondition();
+                }
+
                 $condition->assessment_rule_id = $rule->id;
                 $condition->{$types[$type]} = $entity->id;
                 $condition->import_id = $this->import_id;
@@ -1877,6 +1881,17 @@ class ImportGameDataService
                 $conditions++;
             }
         }
+
+        // delete old unused data {
+        AssessmentRuleCondition::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        AssessmentRule::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
 
         echo __METHOD__ . " end \n";
 

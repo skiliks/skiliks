@@ -306,14 +306,9 @@ class DialogService
         foreach (Characters::model()->findAll() as $character) {
             $characters[$character->id] = $character;
         }
-        
-        $characterStates = array();
-        foreach (CharactersStates::model()->findAll() as $characterState) {
-            $characterStates[$characterState->id] = $characterState;
-        }
-        
+
         $dialogSubtypes = array();
-        foreach (DialogSubtypes::model()->findAll() as $dialogSubtype) {
+        foreach (DialogSubtype::model()->findAll() as $dialogSubtype) {
             $dialogSubtypes[$dialogSubtype->id] = $dialogSubtype;
         }
         
@@ -331,9 +326,9 @@ class DialogService
                     $dialog->id, 
                     $dialog->code, 
                     $characters[$dialog->ch_from]->title,
-                    $characterStates[$dialog->ch_from_state]->title,
+                    '-',
                     $characters[$dialog->ch_to]->title,
-                    $characterStates[$dialog->ch_to_state]->title,
+                    '-',
                     $dialogSubtypes[$dialog->dialog_subtype]->title,
                     $dialog->text,
                     $dialog->delay,
