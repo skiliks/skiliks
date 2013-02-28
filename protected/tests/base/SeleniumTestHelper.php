@@ -41,15 +41,19 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
+    // звонок по телефону, когда телефон не активен (не движется)
     public function call_phone ($whom, $theme)
     {
-        $this->click("id=icons_phone");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->waitForElementPresent($whom);
         $this->mouseOver($whom);
         $this->click($whom);
-        //theme    -------  $this->waitForElementPresent("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         $this->waitForElementPresent($theme);
         $this->mouseOver($theme);
         $this->click($theme);
