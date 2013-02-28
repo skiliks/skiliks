@@ -11,7 +11,7 @@ define([], function() {
         // @var string,
         label: undefined,
 
-        // @var excelDocument | wordDocument | poverPointDocument
+        // @var myDocument
         document: undefined,
         
         // @var integer
@@ -21,8 +21,8 @@ define([], function() {
          * @return string
          */
         getFileName: function() {
-            // this is temporari version
-            // when excelDocument | wordDocument | poverPointDocument will be ready 
+            // this is temporary version
+            // when myDocument will be ready
             // code must det titles from this objects
             return this.title;
         },

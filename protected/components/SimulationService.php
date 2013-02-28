@@ -13,13 +13,13 @@ class SimulationService
      * @return int
      */
     public static function getType($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         if (!$simulation) return false;
         return $simulation->type;
     }
     
     public static function getUid($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         if (!$simulation) return false;
         return $simulation->user_id;
     }
@@ -31,35 +31,17 @@ class SimulationService
      * @return int игровое время
      */
     public static function getGameTime($simId) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         return $simulation->getGameTime();
     }
-    
-    /**
-     * @deprecated: never used use FlagService::setFlag instead this
-     * Установка флага в рамках симуляции
-     * @param int $simId
-     * @param string $flag 
-     */
-    /*public static function setFlag($simId, $flag) {
-        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
-        if (!$model) {
-            $model = new SimulationFlagsModel();
-            $model->sim_id = $simId;
-            $model->flag = $flag;
-        }
-        
-        $model->value = 1;
-        $model->save();
-    }*/
-    
+
     /**
      * Получить список флагов диалогов в рамках симуляции
      * @param int $simId
      * @return array
      */
     public static function getFlags($simId) {
-        $flags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id'=>$simId]);
+        $flags = SimulationFlag::model()->findAllByAttributes(['sim_id'=>$simId]);
         $list = array();
         foreach($flags as $flag) {
             $list[$flag->flag] = $flag->value;
@@ -89,7 +71,7 @@ class SimulationService
             isset($b_3322_3324['3322']['positive']) &&
             true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
             {
-            $emailResultsFor_3322 = new SimulationsMailPointsModel();
+            $emailResultsFor_3322 = new SimulationMailPoint();
             $emailResultsFor_3322->sim_id        = $simId;
             $emailResultsFor_3322->point_id      = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
@@ -106,7 +88,7 @@ class SimulationService
             isset($b_3322_3324['3324']['negative']) &&
             true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3324 = new SimulationsMailPointsModel();
+            $emailResultsFor_3324 = new SimulationMailPoint();
             $emailResultsFor_3324->sim_id        = $simId;
             $emailResultsFor_3324->point_id      = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
@@ -127,7 +109,7 @@ class SimulationService
             true === $b_3325['obj'] instanceof CharactersPointsTitles)  
             {
 
-            $emailResultsFor_3325 = new SimulationsMailPointsModel();
+            $emailResultsFor_3325 = new SimulationMailPoint();
             $emailResultsFor_3325->sim_id        = $simId;
             $emailResultsFor_3325->point_id      = $b_3325['obj']->id;
             $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
@@ -147,7 +129,7 @@ class SimulationService
             isset($b_3323['positive']) &&
             true === $b_3323['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3323 = new SimulationsMailPointsModel();
+            $emailResultsFor_3323 = new SimulationMailPoint();
             $emailResultsFor_3323->sim_id        = $simId;
             $emailResultsFor_3323->point_id      = $b_3323['obj']->id;
             $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
@@ -167,7 +149,7 @@ class SimulationService
             isset($b_3313['positive']) &&
             true === $b_3313['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3313 = new SimulationsMailPointsModel();
+            $emailResultsFor_3313 = new SimulationMailPoint();
             $emailResultsFor_3313->sim_id        = $simId;
             $emailResultsFor_3313->point_id      = $b_3313['obj']->id;
             $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
@@ -185,7 +167,7 @@ class SimulationService
             isset($b_3333['positive']) &&
             true === $b_3333['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3333 = new SimulationsMailPointsModel();
+            $emailResultsFor_3333 = new SimulationMailPoint();
             $emailResultsFor_3333->sim_id = $simId;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
             $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
@@ -203,7 +185,7 @@ class SimulationService
             isset($b_3326['positive']) &&
             true === $b_3326['obj'] instanceof CharactersPointsTitles)
         {
-            $emailResultsFor_3326 = new SimulationsMailPointsModel();
+            $emailResultsFor_3326 = new SimulationMailPoint();
             $emailResultsFor_3326->sim_id        = $simId;
             $emailResultsFor_3326->point_id      = $b_3326['obj']->id;
             $emailResultsFor_3326->scale_type_id = $b_3326['obj']->type_scale;
@@ -288,7 +270,7 @@ class SimulationService
     public static function copyMailInboxOutboxScoreToAssessmentAgregated($simId)
     {
         // add mail inbox/outbox points
-        foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+        foreach (SimulationMailPoint::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
             $assassment = new AssessmentAggregated();
             $assassment->sim_id   = $simId;
             $assassment->point_id = $emailBehaviour->point_id;
@@ -356,10 +338,12 @@ class SimulationService
                         'template_id' => $condition->mail_id
                     ]);
 
-                    $satisfies = LogActivityAction::model()
-                        ->bySimulationId($simId)
-                        ->byMailId($mail->id)
-                        ->exists();
+                    $satisfies = $mail ?
+                        LogMail::model()
+                            ->bySimId($simId)
+                            ->byMailBoxId($mail->id)
+                            ->exists() :
+                        false;
                 }
 
                 if ($rule->operation === 'AND' && $satisfies ||
@@ -386,11 +370,11 @@ class SimulationService
      * @param integer $userId
      * @param integer $simulationType
      * 
-     * @return Simulations
+     * @return Simulation
      */
     public static function initSimulationEntity($userId, $simulationType)
     {
-        $simulation = new Simulations();
+        $simulation = new Simulation();
         $simulation->user_id = $userId;
         $simulation->status = 1;
         $simulation->start = GameTime::setNowDateTime();
@@ -434,7 +418,7 @@ class SimulationService
     /**
      * @param $simulationType
      * @param Users $user
-     * @return Simulations
+     * @return Simulation
      * @throws Exception
      */
     public static function simulationStart($simulationType, $user = null)
@@ -532,7 +516,7 @@ class SimulationService
      *
      * There are no internal simulation time stored anywhere :)
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $newHours
      * @param integer $newMinutes
      */
@@ -566,11 +550,11 @@ class SimulationService
 
         // определяем duration симуляции
 
-        $dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
-        if (null === $dialogsDuration) {
+        $dialogDuration = SimulationDialogDuration::model()->bySimulation($simulation->id)->find();
+        if (null === $dialogDuration) {
             $result['duration'] = 0;
         } else {
-            $result['duration'] = $dialogsDuration->duration;
+            $result['duration'] = $dialogDuration->duration;
         }
 
         // загружаем поинты

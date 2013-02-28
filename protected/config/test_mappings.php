@@ -19,7 +19,6 @@ return [
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'popup' => "",
-
     ],
 
 
@@ -29,10 +28,41 @@ return [
 
 
     'phone' => [
+        'contacts_list' => "//div[@id='phoneMainScreen']/ul/li[1]",
+        'missed_calls' => "//div[@id='phoneMainScreen']/ul/li[1]",
         'reply' => "//a[@id='phone_reply']",
         'no_reply' => "//a[@id='phone_no_reply']"
     ],
 
+    'phone_contacts' => [
+        'denejnaya' => "xpath=(//a[contains(text(),'Позвонить')])[1]",
+        'trutnev' => "xpath=(//a[contains(text(),'Позвонить')])[2]",
+        'krutko' => "xpath=(//a[contains(text(),'Позвонить')])[3]",
+        'loshadkin' => "xpath=(//a[contains(text(),'Позвонить')])[4]",
+        'boss' => "xpath=(//a[contains(text(),'Позвонить')])[5]",
+        'dolgova' => "xpath=(//a[contains(text(),'Позвонить')])[6]",
+        'razumnui' => "xpath=(//a[contains(text(),'Позвонить')])[7]",
+        'skorobey' => "xpath=(//a[contains(text(),'Позвонить')])[8]",
+        'jeleznyi' => "xpath=(//a[contains(text(),'Позвонить')])[9]",
+        'bobr' => "xpath=(//a[contains(text(),'Позвонить')])[10]",
+        'trudyakin' => "xpath=(//a[contains(text(),'Позвонить')])[11]",
+        'ludovkina' => "xpath=(//a[contains(text(),'Позвонить')])[12]",
+        'hozin' => "xpath=(//a[contains(text(),'Позвонить')])[13]",
+        'tochnuh' => "xpath=(//a[contains(text(),'Позвонить')])[14]",
+        'semenova' => "xpath=(//a[contains(text(),'Позвонить')])[15]",
+        'jukova' => "xpath=(//a[contains(text(),'Позвонить')])[16]",
+        'advokatov' => "xpath=(//a[contains(text(),'Позвонить')])[17]",
+        'golts' => "xpath=(//a[contains(text(),'Позвонить')])[18]",
+        'kamenskiy' => "xpath=(//a[contains(text(),'Позвонить')])[19]",
+        'vasilyev' => "xpath=(//a[contains(text(),'Позвонить')])[20]",
+        'myagkov' => "xpath=(//a[contains(text(),'Позвонить')])[21]",
+        'petrashevich' => "xpath=(//a[contains(text(),'Позвонить')])[22]",
+        'serkov' => "xpath=(//a[contains(text(),'Позвонить')])[23]",
+        'dobrohotov' => "xpath=(//a[contains(text(),'Позвонить')])[24]",
+        'blesk' => "xpath=(//a[contains(text(),'Позвонить')])[25]",
+        'lubimaya' => "xpath=(//a[contains(text(),'Позвонить')])[26]",
+        'pogodkin' => "xpath=(//a[contains(text(),'Позвонить')])[27]"
+    ],
 
     'visit' => [
         '' => '',
@@ -50,18 +80,13 @@ return [
         'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
         'positive_evaluation' => "",
         'negative_evaluation' => "",
-        'persinal_evaluation' => ""
+        'personal_evaluation' => ""
     ],
 
 
     'other' => [
         '' => '',
     ],
-
-
-    'phone_contacts' => [
-    ],
-
 
     'mail_contacts' => [
         'advokatov' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/a",
@@ -115,6 +140,22 @@ return [
         'MS69' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[26]",
         'MS74' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[27]",
         'MS76' => "//div[1]/div[2]/div/div/div[4]/form[2]/a[28]"
+    ],
+
+    'set_time' => [
+        'set_hours' => "//*[@id='setTimeHours']",
+        'set_minutes' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[2]",
+        'submit_time' => "//div[1]/div[2]/div/div/div[3]/form/fieldset/div[1]/div/input[3]",
+        '0h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[1]',
+        '10h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[2]',
+        '11h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[3]',
+        '12h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[4]',
+        '13h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[5]',
+        '14h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[6]',
+        '15h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[7]',
+        '16h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[8]',
+        '17h' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[9]',
+        '17h50m' => '/div[1]/div[2]/div/div/div[3]/form/fieldset/div[2]/button[10]'
     ],
 
 

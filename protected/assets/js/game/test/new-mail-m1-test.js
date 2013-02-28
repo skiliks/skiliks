@@ -1,4 +1,6 @@
 /*global buster, sinon, describe, before, after, require */
+
+
 buster.spec.expose();
 
 define([

@@ -4,8 +4,6 @@
 
 /**
  * Список сделать в рамках конкретной симуляции
- * 
- * Связана с моделями:  Simulations, Tasks.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

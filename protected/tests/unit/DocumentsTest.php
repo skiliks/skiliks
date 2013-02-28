@@ -18,7 +18,7 @@ class DocumentsTest extends CDbTestCase
         // init simulation
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
             'order'      => 'name',
@@ -27,7 +27,7 @@ class DocumentsTest extends CDbTestCase
         )));
         $tmpMessages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
         $attachmentId = $tmpMessages[0]['attachmentFileId'];
-        $file = MyDocumentsModel::model()->findByPk($attachmentId);
+        $file = MyDocument::model()->findByPk($attachmentId);
         $this->assertEquals(MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file), true);
         $name = $tmpMessages[0]['attachmentName'];
         $this->assertCount(1,array_filter(
@@ -44,9 +44,9 @@ class DocumentsTest extends CDbTestCase
     {
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
-        $file = MyDocumentsModel::model()->findByAttributes([
+        $file = MyDocument::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'template_id' => $documentTemplate->primaryKey
         ]);
