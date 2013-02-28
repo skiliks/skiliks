@@ -22,6 +22,7 @@ config["My Tests"] = {
         "game/collections/*.js",
         "game/views/mail/*.js",    // Paths are relative to config file
         "game/views/*.js",
+        "game/views/dialogs/*.js",
         "game/views/world/*.js"
 
     ],
