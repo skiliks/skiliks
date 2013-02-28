@@ -1165,12 +1165,11 @@ class ImportGameDataService
         }
         // getCharactersStates }
 
-        // DialogSubtypes    
+        // DialogSubtype
         $subtypes = [];
-        foreach (DialogSubtypes::model()->findAll() as $subtype) {
+        foreach (DialogSubtype::model()->findAll() as $subtype) {
             $subtypes[$subtype->title] = $subtype->id;
         }
-        // DialogSubtypes
 
         $importedRows = 0;
 

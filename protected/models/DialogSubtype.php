@@ -6,7 +6,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class DialogSubtypes extends CActiveRecord
+class DialogSubtype extends CActiveRecord
 {
     /**
      * @var integer

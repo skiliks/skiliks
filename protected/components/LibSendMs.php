@@ -90,11 +90,11 @@ class LibSendMs
     public static function sendNotMs($simulation)
     {
         $randomSubjectForCharacter40 = CommunicationTheme::model()->findByAttributes([
-            'character_id' => 40
+            'character_id' => 32
         ]);
 
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('40'); // Неизвестная
+        $sendMailOptions->setRecipientsArray('32'); // Неизвестная
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
@@ -548,26 +548,22 @@ class LibSendMs
     public static function sendMs40_r($simulation)
     {
         $mailService = new MailBoxService();
-        $character = Characters::model()->findByAttributes(['code' => 9]);
+
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 9,
+            'letter_number' => 'MS40'
+        ]);
 
         return $mailService->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes([
-                'code' => 5,
-                'character_id' => $character->primaryKey,
-                'mail_prefix' => 're'
-            ])->primaryKey,
+            'subject_id' => $subject->id,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers' => $character->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies' => implode(',',[
-                Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
-            'time' => '11:00:00',
-            'group' => 3,
+            'receivers'  => '9',
+            'sender'     => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'copies'     => '1,11,12',
+            'time'       => '11:00:00',
+            'group'      => 3,
             'letterType' => 'new',
-            'simId' => $simulation->primaryKey
+            'simId'      => $simulation->primaryKey
         ]);
     }
 

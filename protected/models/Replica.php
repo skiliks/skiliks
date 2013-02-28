@@ -5,7 +5,7 @@
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  * 
- * Связана с моделями: Characters, CharactersStates, DialogSubtypes, EventsResults, EventSample.
+ * Связана с моделями: Characters, CharactersStates, DialogSubtype, EventsResults, EventSample.
  *
  * @property Characters from_character
  * @property Characters to_character

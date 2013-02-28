@@ -490,6 +490,8 @@ class EmailAnalizer
                 $userNoMatterEmails++;
             }
 
+            // echo "\n {$emailData->email->code} {$emailData->email->subject_obj->wr}";
+
             $userTotalEmails++;
         }
         // gather statistic }

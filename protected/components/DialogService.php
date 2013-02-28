@@ -313,7 +313,7 @@ class DialogService
         }
         
         $dialogSubtypes = array();
-        foreach (DialogSubtypes::model()->findAll() as $dialogSubtype) {
+        foreach (DialogSubtype::model()->findAll() as $dialogSubtype) {
             $dialogSubtypes[$dialogSubtype->id] = $dialogSubtype;
         }
         
