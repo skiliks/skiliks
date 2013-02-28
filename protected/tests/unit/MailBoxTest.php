@@ -27,6 +27,7 @@ class MailBoxTest extends CDbTestCase
         $events = new EventsManager();
         $character = Characters::model()->findByAttributes(['code' => 9]);
 
+        // send MS40
         $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
             'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
@@ -42,7 +43,9 @@ class MailBoxTest extends CDbTestCase
             'letterType' => 'new',
             'simId' => $simulation->primaryKey
         ]);
+
         FlagsService::setFlag($simulation->id, 'F30', 1);
+
         $events->startEvent($simulation->id,'M31', false, false,0);
         $events->getState($simulation, []);
 
@@ -173,6 +176,8 @@ class MailBoxTest extends CDbTestCase
         ]);
         
         $events->startEvent($simulation->id, 'M31', false, false,0);
+
+        MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M31');
         
         $messageToReply = MailBoxModel::model()->findByAttributes([
             'sim_id' => $simulation->id, 
@@ -204,11 +209,8 @@ class MailBoxTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
-        // random email case{       
-        $randomFirstEmail = MailBoxModel::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'code'   => 'M8'
-        ]);
+        // random email case{
+        $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
         $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
 
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
@@ -216,9 +218,7 @@ class MailBoxTest extends CDbTestCase
         // random email case }
 
         // case 2, M61 {      
-        $emailM61 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M61']);
-        $emailM61->group_id = 1;
-        $emailM61->save();        
+        $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M61');
         $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $emailM61);
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
@@ -228,9 +228,7 @@ class MailBoxTest extends CDbTestCase
         // case 2, M61 }
         
         // case 3, M62 {
-        $emailM62 = MailBoxModel::model()->findByAttributes(['sim_id' => $simulation->id, 'code' => 'M62']);
-        $emailM62->group_id = 1;
-        $emailM62->save();        
+        $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M62');
         $resultDataM62 = MailBoxService::getForwardMessageData($simulation, $emailM62);
         
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
@@ -337,9 +335,7 @@ class MailBoxTest extends CDbTestCase
         $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
 
         // init inbox email from sysadmin
-        $emailFromSysadmin = MailBoxModel::model()
-            ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
-        $emailFromSysadmin->update('group_id = 1');
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
 
         // init MS emails:
         // MS27 {
@@ -358,8 +354,6 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->phrases    = '';
         $sendMailOptions->subject_id = $subject->id;
         $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
-
-        $count_0++; // this is 0 point email
         // MS27 }
 
         $this->assertEquals('MS27', $ms_27->code);

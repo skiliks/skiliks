@@ -6,7 +6,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationFlagsModel extends CActiveRecord
+class SimulationFlag extends CActiveRecord
 {
     /**
      * @var integer
@@ -49,7 +49,7 @@ class SimulationFlagsModel extends CActiveRecord
     /**
      *
      * @param string $className
-     * @return SimulationFlagsModel 
+     * @return SimulationFlag 
      */
     public static function model($className=__CLASS__)
     {
@@ -68,7 +68,7 @@ class SimulationFlagsModel extends CActiveRecord
      * Выбрать согласно заданной симуляции
      * @deprecated SQL injection
      * @param int $simId
-     * @return SimulationFlagsModel 
+     * @return SimulationFlag 
      */
     public function bySimulation($simId)
     {
@@ -82,7 +82,7 @@ class SimulationFlagsModel extends CActiveRecord
      * Выбрать по заданному флагу
      * @deprecated SQL injection
      * @param string $flag
-     * @return SimulationFlagsModel 
+     * @return SimulationFlag 
      */
     public function byFlag($flag)
     {

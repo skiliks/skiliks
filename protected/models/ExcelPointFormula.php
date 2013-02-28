@@ -9,12 +9,12 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class ExcelPointsFormulaModel extends CActiveRecord{
+class ExcelPointFormula extends CActiveRecord{
     
     /**
      *
      * @param type $className
-     * @return ExcelPointsFormulaModel 
+     * @return ExcelPointFormula
      */
     public static function model($className=__CLASS__)
     {

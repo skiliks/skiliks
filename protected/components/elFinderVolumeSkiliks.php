@@ -20,7 +20,7 @@ class elFinderVolumeSkiliks extends elFinderVolumeLocalFileSystem
     protected function _scandir($path) {
         $files = array();
 
-        foreach (MyDocumentsModel::model()->findAllByAttributes(['sim_id' => $this->options['sim_id'], 'hidden' => 0]) as $file) {
+        foreach (MyDocument::model()->findAllByAttributes(['sim_id' => $this->options['sim_id'], 'hidden' => 0]) as $file) {
                 $files[] = $path.DIRECTORY_SEPARATOR.$file->template->srcFile;
         }
         return $files;

@@ -53,7 +53,7 @@ class CheckConsolidatedBudget
             ->find();
         
         if (0 === count($simulationsExcelPoints)) {
-            foreach (ExcelPointsFormulaModel::model()->findAll() as $formula) {
+            foreach (ExcelPointFormula::model()->findAll() as $formula) {
                 $this->userPointsMap[$formula->id] = 0;
             }  
         }
@@ -296,7 +296,9 @@ class CheckConsolidatedBudget
     public function calcPoints() 
     {
         // check document {
-        $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
+        $documentId = MyDocument::model()->findByAttributes([
+            'code' => 'D1'
+        ]);
         if (null === $documentId) {
             return false;
         }

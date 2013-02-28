@@ -46,7 +46,7 @@ class FlagsService
         
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
-            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+            foreach (SimulationFlag::model()->bySimulation($simulation->id)->findAll() as $flag) {
                 $result[$flag->flag] = $flag->value;
             }
         }        
@@ -62,7 +62,7 @@ class FlagsService
 
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
-            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+            foreach (SimulationFlag::model()->bySimulation($simulation->id)->findAll() as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;
             }
@@ -140,9 +140,9 @@ class FlagsService
      */
     public static function setFlag($simId, $flag, $value) 
      {
-        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
+        $model = SimulationFlag::model()->bySimulation($simId)->byFlag($flag)->find();
         if (!$model) {
-            $model = new SimulationFlagsModel();
+            $model = new SimulationFlag();
             $model->sim_id = $simId;
             $model->flag = $flag;
         }
@@ -225,7 +225,7 @@ class FlagsService
      * @return bool
      */
     public static function switchFlag($simulation, $flagName) {
-        $flag = SimulationFlagsModel::model()->findByAttributes([
+        $flag = SimulationFlag::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'flag'   => $flagName
         ]);

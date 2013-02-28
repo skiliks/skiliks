@@ -29,7 +29,7 @@ class MyDocumentsController extends AjaxController
         $simulation = $this->getSimulationEntity();
         
         $fileId = (int) Yii::app()->request->getParam('attachmentId');
-        $file   = MyDocumentsModel::model()->findByPk($fileId);
+        $file   = MyDocument::model()->findByPk($fileId);
         
         $this->sendJSON(array(
             'result' => (int)MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file),
@@ -39,5 +39,29 @@ class MyDocumentsController extends AjaxController
                     'mime' => $file->template->getMimeType(),
                 ] 
         ));
+    }
+
+    /**
+     * New code!
+     * @autor Slavka
+     * @return
+     */
+    public function actionGetExcel()
+    {
+        $simulation = $this->getSimulationEntity();
+
+        $id = Yii::app()->request->getParam('id', NULL);
+        $file = MyDocumentsModel::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
+        assert($file);
+        $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile);
+        $zoho->sendDocumentToZoho();
+        $result = array(
+            'result'           => 1,
+            'filedId'          => $file->id,
+            'excelDocumentUrl' => $zoho->getUrl(),
+        );
+        $this->sendJSON(
+            $result
+        );
     }
 }

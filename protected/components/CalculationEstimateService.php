@@ -150,7 +150,7 @@ class CalculationEstimateService
      */
     public static function getExcelPointsValies($simulation)
     {
-        $formulaCollection = ExcelPointsFormulaModel::model()->findAll();
+        $formulaCollection = ExcelPointFormulal::model()->findAll();
         
         $formulaList = array();
         

@@ -247,14 +247,14 @@ class LogTest extends CDbTestCase
     /**
      * Проверяет, отображаются ли залогированные документы
      */
-    public function testLogDocuments()
+    public function testLogDocument()
     {
         $mgr = new EventsManager();
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
-        $document  = MyDocumentsModel::model()->findByAttributes([
+        $document  = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->primaryKey,
             'sim_id' => $simulation->primaryKey]);
         $mgr->processLogs($simulation, [
