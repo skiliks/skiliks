@@ -514,7 +514,7 @@ class EmailAnalizer
         // 1 point
         if ($userWrongEmails/$userRightEmails < $limitToGet1points) {
             return array(
-                'positive' => $behave_3326*0.5,
+                'positive' => $behave_3326->scale*0.5,
                 'obj'      => $behave_3326,
             );
         }

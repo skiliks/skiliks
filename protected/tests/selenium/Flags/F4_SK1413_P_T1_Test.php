@@ -45,26 +45,28 @@ class F4_SK1413_P_T1_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=//form/fieldset/div[2]/div/input[2]");
         $this->click("xpath=//form/fieldset/div[2]/div/input[2]");
 
-        //$this->reply_call();
-        sleep(5);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        if ($this->verifyTextPresent("Трутнев"))
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+
+       /* while(($this->verifyTextPresent("Аналитик"))==false)
         {
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            sleep(2);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-            sleep(2);
-        }
-        else
-        {
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-            sleep(2);
-            $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-            sleep(2);
-        }
+            $this->optimal_click("css=li.icon-active.phone a");
+            sleep(10);
+            if (($this->verifyTextPresent("Аналитик"))==true)
+            {
+                $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+                $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+                sleep(2);
+                break;
+            }
+            else
+            {
+                $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
+                $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+                sleep(2);
+            }
+        }*/
 
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
