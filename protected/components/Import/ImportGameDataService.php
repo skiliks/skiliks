@@ -1780,7 +1780,15 @@ class ImportGameDataService
             }
 
             if (isset($entity)) {
-                $parentActivity = new ActivityParent();
+                $parentActivity = ActivityParent::model()->findByAttributes([
+                    'parent_code' => $parentCode,
+                    $types[$endType] => $entity->id
+                ]);
+
+                if (empty($parentActivity)) {
+                    $parentActivity = new ActivityParent();
+                }
+
                 $parentActivity->parent_code = $parentCode;
                 $parentActivity->import_id = $this->import_id;
                 $parentActivity->{$types[$endType]} = $entity->id;
@@ -1826,7 +1834,6 @@ class ImportGameDataService
 
         $rules = 0;
         $conditions = 0;
-        $ruleIds = [];
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $ruleId = $this->getCellValue($sheet, 'Rule_id', $i);
             $type = $this->getCellValue($sheet, 'Result_type', $i);
@@ -1836,6 +1843,20 @@ class ImportGameDataService
                 break;
             }
 
+            $rule = AssessmentRule::model()->findByPk($ruleId);
+            if (empty($rule)) {
+                $rule = new AssessmentRule();
+                $rule->id = $ruleId;
+            }
+
+            $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+            $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
+            $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
+            $rule->import_id = $this->import_id;
+
+            $rule->save();
+            $rules++;
+
             if ($type == 'id_записи') {
                 $entity = Replica::model()->byExcelId($code)->find();
             } elseif ($type == 'outbox' || $type == 'inbox') {
@@ -1844,22 +1865,16 @@ class ImportGameDataService
                 $entity = null;
             }
 
-            if (isset($ruleIds[$ruleId])) {
-                $rule = AssessmentRule::model()->findByPk($ruleIds[$ruleId]);
-            } else {
-                $rule = new AssessmentRule();
-                $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
-                $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
-                $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
-                $rule->import_id = $this->import_id;
-                $rule->save();
-
-                $rules++;
-                $ruleIds[$ruleId] = $rule->id;
-            }
-
             if (isset($entity)) {
-                $condition = new AssessmentRuleCondition();
+                $condition = AssessmentRuleCondition::model()->findByAttributes([
+                    'assessment_rule_id' => $rule->id,
+                    $types[$type] => $entity->id
+                ]);
+
+                if (empty($condition)) {
+                    $condition = new AssessmentRuleCondition();
+                }
+
                 $condition->assessment_rule_id = $rule->id;
                 $condition->{$types[$type]} = $entity->id;
                 $condition->import_id = $this->import_id;
