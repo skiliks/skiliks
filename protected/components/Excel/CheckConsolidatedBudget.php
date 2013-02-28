@@ -300,15 +300,15 @@ class CheckConsolidatedBudget
             'code' => 'D1'
         ]);
 
-        $documentId = MyDocument::model()->findByAttributes([
+        $document = MyDocument::model()->findByAttributes([
             'template_id' => $documentTemplate->id
         ]);
 
-        if (null === $documentId) {
+        if (null === $document) {
             return false;
         }
 
-        $zohoDoc = new ZohoDocuments($this->simId, $documentId, null); // template name isn`t so important here
+        $zohoDoc = new ZohoDocuments($this->simId, $document->id, null); // template name isn`t so important here
 
         //$documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
         $documentPath = $zohoDoc->getUserFilepath();
