@@ -16,6 +16,9 @@ define([
 ],function (SKMailClient) {
     "use strict";
     function timeStringToMinutes(str) {
+        if (str === undefined) {
+            throw 'Time string is not defined';
+        }
         var parts = str.split(':');
         return parseInt(parts[0], 10) * 60 + parseInt(parts[1], 10);
     }
