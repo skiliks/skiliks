@@ -356,10 +356,12 @@ class SimulationService
                         'template_id' => $condition->mail_id
                     ]);
 
-                    $satisfies = LogActivityAction::model()
-                        ->bySimulationId($simId)
-                        ->byMailId($mail->id)
-                        ->exists();
+                    $satisfies = $mail ?
+                        LogMail::model()
+                            ->bySimId($simId)
+                            ->byMailBoxId($mail->id)
+                            ->exists() :
+                        false;
                 }
 
                 if ($rule->operation === 'AND' && $satisfies ||
