@@ -163,6 +163,14 @@ define([
                 }
             };
 
+            var theme = {
+                "result":1,
+                "data":{
+                    "1788":"Fwd: !\u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 \u0441\u0435\u0440\u0432\u0435\u0440\u043e\u043c!"
+                },
+                "characterThemeId":"1788"
+            };
+
             _.templateSettings.interpolate = /<@=(.+?)@>/g;
             _.templateSettings.evaluate = /<@(.+?)@>/g;
             var server;
@@ -185,7 +193,7 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify(inbox)]);
 
-                server.respondWith("POST", "/index.php/mail/replyAll",
+                server.respondWith("POST", "/index.php/mail/forward",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify(forward)]);
 
@@ -203,14 +211,7 @@ define([
 
                 server.respondWith("POST", "/index.php/mail/getThemes",
                     [200, { "Content-Type":"application/json" },
-                        JSON.stringify({
-                            "result": 1,
-                            "data": {
-                                "1": "subject 1",
-                                "2": "subject 2"
-                            },
-                            "characterThemeId": 101
-                        })]);
+                        JSON.stringify(theme)]);
 
                 server.respondWith("POST", "/index.php/mail/getPhrases",
                     [200, { "Content-Type":"application/json" },
@@ -232,7 +233,7 @@ define([
                 server.restore();
             });
 
-            it("reply all m1", function (done) {
+            it("forward for M8", function (done) {
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
@@ -241,12 +242,17 @@ define([
                 var mail = new SKMailClientView({model_instance:mail_window});
                 mail.render();
                 server.respond();
-                expect(mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').text()).toBe('срочно! Отчетность');
-                mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
+                expect(mail.$('tr[data-email-id=4136] td.mail-emulator-received-list-cell-theme').text()).toBe('!проблема с сервером!');
+                mail.$('tr[data-email-id=4136] td.mail-emulator-received-list-cell-theme').click();
                 server.respond();
-                mail.renderReplyAllScreen();
+                mail.renderForwardEmailScreen();
                 server.respond();
+
                 var email = mail.generateNewEmailObject();
+                //email.recipients.push(2);
+                server.respond();
+                mail.mailClient.reloadSubjects([2]);
+                server.respond();
                 var validationDialogResult = mail.mailClient.validationDialogResult(email);
                 expect(validationDialogResult).toBe(true);
                 mail.doSendEmail();
@@ -271,13 +277,6 @@ define([
                         done();
                     });
                 server.respond();
-            });
-
-            it("has characters for replyAll", function () {
-                //   console.log($('#MailClient_NewLetterSubject').val());
-                var client = new SKMailClient();
-                client.updateRecipientsList();
-                expect(client.getFormatedCharacterList()).toEqual(["Федоров А.В.", "Денежная Р.Р.", "Трутнев С.", "Крутько М.", "Лошадкин М.", "Босс В.С.", "Долгова Н.Т.", "Олег Разумный", "Скоробей А.М.", "Железный С.", "Василий Бобр", "Егор Трудякин", "Людовкина С.", "Василий Хозин", "Точных А.", "Семенова О.", "Анна Жукова", "Адвокатов Ю.", "Фаина Гольц", "Каменский В.", "Васильев А.", "Юрий Мягков", "Петрашевич И.", "Антон Серков", "Доброхотов И.", "Анжела Блеск", "Любимая жена", "Петр Погодкин", "Олег Скоркин", "Серега", "Степанов С.", "Маринка", "О.И.Иванова", "Горбатюк Е.Д."]);
             });
         });
     });
