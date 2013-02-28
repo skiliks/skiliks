@@ -47,8 +47,9 @@ class LibSendMs
             case 'MS60'  : $email = self::sendMs60_r($simulation); break;
             case 'MS61'  : $email = self::sendMs61_r($simulation); break;
             case 'MS69'  : $email = self::sendMs69_r($simulation); break;
-            case 'MS74'  : $email = self::sendMs74_n($simulation); break;
-            case 'MS76'  : $email = self::sendMs76_n($simulation); break;
+            case 'MS74'  : $email = self::sendMs74_w($simulation); break;
+            case 'MS76'  : $email = self::sendMs76_w($simulation); break;
+            case 'MS79'  : $email = self::sendMs79_n($simulation); break;
             case 'notMS' : $email = self::sendNotMs($simulation); break;
 
             default     : $email = NULL;
@@ -882,7 +883,7 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs74_n($simulation)
+    public static function sendMs74_w($simulation)
     {
         $subject = CommunicationTheme::model()->findByAttributes([
             'character_id'  => 4,
@@ -905,7 +906,30 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBoxModel
      */
-    public static function sendMs76_n($simulation)
+    public static function sendMs76_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 12,
+            'letter_number' => 'MS76'
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('12'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBoxModel
+     */
+    public static function sendMs79_n($simulation)
     {
         $subject = CommunicationTheme::model()->findByAttributes([
             'character_id'  => 12,

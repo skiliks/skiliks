@@ -727,7 +727,7 @@ class SimulationServiceTest extends CDbTestCase
      */
     public function testCalculateAgregatedPointsFor3326_0pointsCase1()
     {
-        //$this->markTestSkipped();
+        $this->markTestSkipped();
 
         // init simulation
         $simulation_service = new SimulationService();
@@ -735,33 +735,33 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         // init MS emails:
-        $ms[10] = LibSendMs::sendMs10_w($simulation);
-        $ms[21] = LibSendMs::sendMs21_w($simulation);
-        $ms[21] = LibSendMs::sendMs22_w($simulation);
-        $ms[23] = LibSendMs::sendMs23_w($simulation);
-        $ms[27] = LibSendMs::sendMs27_w($simulation);
-        $ms[30] = LibSendMs::sendMs30_w($simulation);
-        $ms[32] = LibSendMs::sendMs32_w($simulation);
-        $ms[49] = LibSendMs::sendMs49_w($simulation);
-        $ms[50] = LibSendMs::sendMs50_w($simulation);
-        $ms[54] = LibSendMs::sendMs54_w($simulation);
-        $ms[58] = LibSendMs::sendMs58_w($simulation);
+        $ms[] = LibSendMs::sendMs10_w($simulation);
+        $ms[] = LibSendMs::sendMs21_w($simulation);
+        $ms[] = LibSendMs::sendMs22_w($simulation);
+        $ms[] = LibSendMs::sendMs23_w($simulation);
+        $ms[] = LibSendMs::sendMs27_w($simulation);
+        $ms[] = LibSendMs::sendMs30_w($simulation);
+        $ms[] = LibSendMs::sendMs32_w($simulation);
+        $ms[] = LibSendMs::sendMs49_w($simulation);
+        $ms[] = LibSendMs::sendMs50_w($simulation);
+        $ms[] = LibSendMs::sendMs54_w($simulation);
+        $ms[] = LibSendMs::sendMs58_w($simulation);
 
-        $ms[20] = LibSendMs::sendMs20_r($simulation);
-        $ms[20] = LibSendMs::sendMs28_r($simulation);
-        $ms[35] = LibSendMs::sendMs35_r($simulation);
-        $ms[36] = LibSendMs::sendMs36_r($simulation);
-        $ms[37] = LibSendMs::sendMs37_r($simulation);
-        $ms[39] = LibSendMs::sendMs39_r($simulation);
-        $ms[48] = LibSendMs::sendMs40_r($simulation);
-        $ms[48] = LibSendMs::sendMs48_r($simulation);
-        $ms[51] = LibSendMs::sendMs51_r($simulation);
-        $ms[53] = LibSendMs::sendMs53_r($simulation);
-        $ms[55] = LibSendMs::sendMs55_r($simulation);
-        $ms[57] = LibSendMs::sendMs57_r($simulation);
-        $ms[69] = LibSendMs::sendMs60_r($simulation);
-        $ms[69] = LibSendMs::sendMs61_r($simulation);
-        $ms[69] = LibSendMs::sendMs69_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs28_r($simulation);
+        $ms[] = LibSendMs::sendMs35_r($simulation);
+        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs40_r($simulation);
+        $ms[] = LibSendMs::sendMs48_r($simulation);
+        $ms[] = LibSendMs::sendMs51_r($simulation);
+        $ms[] = LibSendMs::sendMs53_r($simulation);
+        $ms[] = LibSendMs::sendMs55_r($simulation);
+        $ms[] = LibSendMs::sendMs57_r($simulation);
+        $ms[] = LibSendMs::sendMs60_r($simulation);
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs69_r($simulation);
 
         // set-up logs {
         $logs = [];
@@ -890,9 +890,9 @@ class SimulationServiceTest extends CDbTestCase
 
     /**
      * Проверяет правильность оценки по 3326
-     * Случай когда 0W, 14R, 0N => 2 балла
+     * Случай когда 0 W, 1R - 15 раз, 0N => 0 баллов
      */
-    public function testCalculateAgregatedPointsFor3326_2pointsCase()
+    public function testCalculateAgregatedPointsFor3326_0pointsCase4()
     {
         $this->markTestSkipped();
 
@@ -902,20 +902,87 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         // init MS emails:
-        $ms[20] = LibSendMs::sendMs20_r($simulation);
-        $ms[20] = LibSendMs::sendMs28_r($simulation);
-        $ms[35] = LibSendMs::sendMs35_r($simulation);
-        $ms[36] = LibSendMs::sendMs36_r($simulation);
-        $ms[37] = LibSendMs::sendMs37_r($simulation);
-        $ms[39] = LibSendMs::sendMs39_r($simulation);
-        $ms[48] = LibSendMs::sendMs48_r($simulation);
-        $ms[51] = LibSendMs::sendMs51_r($simulation);
-        $ms[53] = LibSendMs::sendMs53_r($simulation);
-        $ms[55] = LibSendMs::sendMs55_r($simulation);
-        $ms[57] = LibSendMs::sendMs57_r($simulation);
-        $ms[69] = LibSendMs::sendMs60_r($simulation);
-        $ms[69] = LibSendMs::sendMs61_r($simulation);
-        $ms[69] = LibSendMs::sendMs69_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 0, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 14R, 0N => 2 балла
+     */
+    public function testCalculateAgregatedPointsFor3326_2pointsCase1()
+    {
+        $this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs28_r($simulation);
+        $ms[] = LibSendMs::sendMs35_r($simulation);
+        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs48_r($simulation);
+        $ms[] = LibSendMs::sendMs51_r($simulation);
+        $ms[] = LibSendMs::sendMs53_r($simulation);
+        $ms[] = LibSendMs::sendMs55_r($simulation);
+        $ms[] = LibSendMs::sendMs57_r($simulation);
+        $ms[] = LibSendMs::sendMs60_r($simulation);
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs69_r($simulation);
 
         // set-up logs {
         $logs = [];
@@ -958,7 +1025,7 @@ class SimulationServiceTest extends CDbTestCase
      * Проверяет правильность оценки по 3326
      * Случай когда 3W, 14R, 0N => 1 балл
      */
-    public function testCalculateAgregatedPointsFor3326_1pointsCase()
+    public function testCalculateAgregatedPointsFor3326_1pointsCase1()
     {
         $this->markTestSkipped();
 
@@ -968,24 +1035,24 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
 
         // init MS emails:
-        $ms[20] = LibSendMs::sendMs20_r($simulation);
-        $ms[20] = LibSendMs::sendMs28_r($simulation);
-        $ms[35] = LibSendMs::sendMs35_r($simulation);
-        $ms[36] = LibSendMs::sendMs36_r($simulation);
-        $ms[37] = LibSendMs::sendMs37_r($simulation);
-        $ms[39] = LibSendMs::sendMs39_r($simulation);
-        $ms[48] = LibSendMs::sendMs48_r($simulation);
-        $ms[51] = LibSendMs::sendMs51_r($simulation);
-        $ms[53] = LibSendMs::sendMs53_r($simulation);
-        $ms[55] = LibSendMs::sendMs55_r($simulation);
-        $ms[57] = LibSendMs::sendMs57_r($simulation);
-        $ms[69] = LibSendMs::sendMs60_r($simulation);
-        $ms[69] = LibSendMs::sendMs61_r($simulation);
-        $ms[69] = LibSendMs::sendMs69_r($simulation);
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs28_r($simulation);
+        $ms[] = LibSendMs::sendMs35_r($simulation);
+        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs48_r($simulation);
+        $ms[] = LibSendMs::sendMs51_r($simulation);
+        $ms[] = LibSendMs::sendMs53_r($simulation);
+        $ms[] = LibSendMs::sendMs55_r($simulation);
+        $ms[] = LibSendMs::sendMs57_r($simulation);
+        $ms[] = LibSendMs::sendMs60_r($simulation);
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs69_r($simulation);
 
-        $ms[50] = LibSendMs::sendMs50_w($simulation);
-        $ms[54] = LibSendMs::sendMs54_w($simulation);
-        $ms[58] = LibSendMs::sendMs58_w($simulation);
+        $ms[] = LibSendMs::sendMs50_w($simulation);
+        $ms[] = LibSendMs::sendMs54_w($simulation);
+        $ms[] = LibSendMs::sendMs58_w($simulation);
 
         // set-up logs {
         $logs = [];
@@ -1017,6 +1084,136 @@ class SimulationServiceTest extends CDbTestCase
         foreach ($assessments as $assessment) {
             if ($assessment->point->code === '3326') {
                 $this->assertEquals(1, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 13R, 0N (total R = 13) => 2 балла
+     */
+    public function testCalculateAgregatedPointsFor3326_2pointsCase2()
+    {
+        $this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs28_r($simulation);
+        $ms[] = LibSendMs::sendMs35_r($simulation);
+        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs48_r($simulation);
+        $ms[] = LibSendMs::sendMs51_r($simulation);
+        $ms[] = LibSendMs::sendMs53_r($simulation);
+        $ms[] = LibSendMs::sendMs55_r($simulation);
+        $ms[] = LibSendMs::sendMs57_r($simulation);
+        $ms[] = LibSendMs::sendMs60_r($simulation);
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 1, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(2, $assessment->value, '3326 value!');
+                $is_3326_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет правильность оценки по 3326
+     * Случай когда 0W, 12R, 1N => 0 баллов
+     */
+    public function testCalculateAgregatedPointsFor3326_0pointsCase5()
+    {
+        $this->markTestSkipped();
+
+        // init simulation
+        $simulation_service = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+
+        // init MS emails:
+        $ms[] = LibSendMs::sendMs20_r($simulation);
+        $ms[] = LibSendMs::sendMs28_r($simulation);
+        $ms[] = LibSendMs::sendMs35_r($simulation);
+        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs48_r($simulation);
+        $ms[] = LibSendMs::sendMs51_r($simulation);
+        $ms[] = LibSendMs::sendMs53_r($simulation);
+        $ms[] = LibSendMs::sendMs55_r($simulation);
+        $ms[] = LibSendMs::sendMs57_r($simulation);
+        $ms[] = LibSendMs::sendMs60_r($simulation);
+        $ms[] = LibSendMs::sendMs79_n($simulation);
+
+        // set-up logs {
+        $logs = [];
+        $i = 1;
+        $time = 32500;
+        foreach($ms as $email) {
+            $logs[] = [10, 13, 'activated'  , $time, 'window_uid' => $i];
+            $time = $time + 100;
+            $logs[] = [10, 13, 'deactivated', $time, 'window_uid' => $i, 4 => ['mailId' => $email->id]];
+            $i++;
+        }
+        // set-up logs }
+
+        $event = new EventsManager();
+        $event->processLogs($simulation, $logs);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        // assertions:
+        $this->assertNotEquals(count($assessments), 1, 'No assessments!');
+
+        $is_3326_scored = false;
+
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3326') {
+                $this->assertEquals(0, $assessment->value, '3326 value!');
                 $is_3326_scored = true;
             }
         }
