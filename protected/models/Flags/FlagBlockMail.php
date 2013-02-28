@@ -11,7 +11,7 @@
  *
  * The followings are the available model relations:
  * @property Flag $flagCode
- * @property MailTemplateModel $mailTemplate
+ * @property MailTemplate $mailTemplate
  */
 class FlagBlockMail extends CActiveRecord
 {

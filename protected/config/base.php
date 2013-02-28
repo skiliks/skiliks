@@ -18,7 +18,7 @@ return array(
         'application.models.User.*',
         'application.models.Mail.*',
         'application.models.Activities.*',
-        /*'application.models.Characters.*',
+        /*'application.models.Character.*',
         'application.models.DayPlan.*',
         'application.models.Replica.*',
         'application.models.Events.*',

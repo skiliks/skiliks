@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersPointsTitles extends CActiveRecord
+class HeroBehaviour extends CActiveRecord
 {
     /**
      * @var integer
@@ -93,7 +93,7 @@ class CharactersPointsTitles extends CActiveRecord
      * @param string $name
      * @return int|null
      */
-    public static  function getCharacterpointScaleId($name) {
+    public static  function getScaleId($name) {
         switch ($name) {
             case 'positive'; return 1; break;
             case 'negative'; return 2; break;
@@ -108,7 +108,7 @@ class CharactersPointsTitles extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public static function model($className=__CLASS__)
     {
@@ -124,7 +124,7 @@ class CharactersPointsTitles extends CActiveRecord
     }
     
     /**
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public function negative()
     {
@@ -135,7 +135,7 @@ class CharactersPointsTitles extends CActiveRecord
     }
     
     /**
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public function positive()
     {
@@ -148,7 +148,7 @@ class CharactersPointsTitles extends CActiveRecord
     /**
      * Выборка цели по коду.
      * @param string $code
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public function byCode($code)
     {

@@ -11,8 +11,8 @@ class PhoneService {
     /**
      * @param $simId
      * @param $time
-     * @param Characters $from_character
-     * @param Characters $to_character
+     * @param Character $from_character
+     * @param Character $to_character
      * @param $dialog_subtype
      * @param $step_number
      * @param $replica_number
@@ -92,7 +92,7 @@ class PhoneService {
      */
     public static function getThemes($id) {
 
-        $character = Characters::model()->findByAttributes(['code' => $id]);
+        $character = Character::model()->findByAttributes(['code' => $id]);
         $themes = CommunicationTheme::model()->byCharacter($character->primaryKey)->byPhone()->findAll();
         $list = array();
         foreach($themes as $theme) {
@@ -113,8 +113,8 @@ class PhoneService {
         $model->sim_id      = $simId;
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
-        $model->from_id     = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
-        $model->to_id       = Characters::model()->findByAttributes(['code' => $characterId])->primaryKey; // какому персонажу мы звоним
+        $model->from_id     = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        $model->to_id       = Character::model()->findByAttributes(['code' => $characterId])->primaryKey; // какому персонажу мы звоним
         $model->insert();
     }
     
@@ -138,7 +138,7 @@ class PhoneService {
      */
     public static function getMissedCalls($simulation)
     {
-        $charactersList = Characters::model()->findAll();
+        $charactersList = Character::model()->findAll();
         $characters = array();
         foreach($charactersList as $character) {
             $characters[$character->id] = array(
@@ -178,7 +178,7 @@ class PhoneService {
         // нам передана тема
         if ($themeId > 0) {
             /** @var $communicationTheme CommunicationTheme */
-            $character = Characters::model()->findByAttributes(['code' => $characterId]);
+            $character = Character::model()->findByAttributes(['code' => $characterId]);
             $communicationTheme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byTheme($themeId)->byPhone()->find();
             if ($communicationTheme) {
                 $eventCode = $communicationTheme->phone_dialog_number;
@@ -188,7 +188,7 @@ class PhoneService {
                     $data = array();
                     $data[] = self::combineReplicaToHero(array('ch_from' => "$characterId"));
 
-                    $character = Characters::model()->byId($characterId)->find();
+                    $character = Character::model()->byId($characterId)->find();
 
                     if ($character) {
                         $data[0]['title'] = $character->title;

@@ -3,13 +3,12 @@
 
 
 /**
- * Шаблон набора получателей к письмам
- * 
- * Связана с моделями:  MailTemplateModel, Characters.
+ * Содержит набор получателей к конкретному письму в рамках симуляции.
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @property int receiver_id
+ * @property int  mail_id
  */
-class MailReceiversTemplateModel extends CActiveRecord
+class MailRecipient extends CActiveRecord
 {
     /**
      * @var integer
@@ -17,7 +16,7 @@ class MailReceiversTemplateModel extends CActiveRecord
     public $id;
     
     /**
-     * mail_template.id
+     * mail_box.id
      * @var integer
      */
     public $mail_id;    
@@ -29,11 +28,11 @@ class MailReceiversTemplateModel extends CActiveRecord
     public $receiver_id;    
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-     
+    
     /**
      *
      * @param type $className
-     * @return MailReceiversModel 
+     * @return MailRecipient
      */
     public static function model($className=__CLASS__)
     {
@@ -45,18 +44,19 @@ class MailReceiversTemplateModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_receivers_template';
+            return 'mail_receivers';
     }
     
     /**
      * Выбрать по заданному письму
      * @param int $id
-     * @return MailReceiversTemplateModel 
+     * @return MailRecipient
      */
     public function byMailId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$id}"
+            'condition' => "mail_id = :id",
+            'params' => ['id' => $id]
         ));
         return $this;
     }
@@ -64,7 +64,7 @@ class MailReceiversTemplateModel extends CActiveRecord
     /**
      * Выбрать по заданному получателю
      * @param int $id
-     * @return MailReceiversTemplateModel 
+     * @return MailRecipient
      */
     public function byReceiverId($id)
     {
@@ -73,6 +73,18 @@ class MailReceiversTemplateModel extends CActiveRecord
         ));
         return $this;
     }
+    
+    /**
+     * @param string $ids
+     * @return MailTemplate
+     */
+    public function byIdsNotIn($ids)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addNotInCondition('id', explode(',', $ids));
+        $this->getDbCriteria()->mergeWith($criteria);
+        return $this;
+    }  
 }
 
 

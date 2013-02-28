@@ -104,7 +104,7 @@ class EmailAnalizer
         /**
          * Get mail folder ids
          */
-        foreach (MailFoldersModel::model()->findAll($this->simId) as $mailFolder) {
+        foreach (MailFolder::model()->findAll($this->simId) as $mailFolder) {
             if ('Входящие' === trim($mailFolder->name)) {
                 $this->inboxEmailFolderId = (int)$mailFolder->id;
             }
@@ -125,7 +125,7 @@ class EmailAnalizer
         
         
         // get mail templates
-        foreach(MailTemplateModel::model()->findAll() as $mailTemplate) {
+        foreach(MailTemplate::model()->findAll() as $mailTemplate) {
             $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
             if($mailTemplate->type_of_importance === "reply_all") {
                 $this->template_reply_all[] = $mailTemplate->code;
@@ -134,19 +134,19 @@ class EmailAnalizer
         unset($mailTemplate);        
         
         // populate with right Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('R')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('R')->findAll() as $mailTask) {
             $this->rightMailTasks[$mailTask->code] = $mailTask;
         }
         unset($mailTask);
         
         // populate with wrong Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('W')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('W')->findAll() as $mailTask) {
             $this->wrongMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
         
         // populate with neutral Mail_tasks
-        foreach(MailTasksModel::model()->byWrongRight('N')->findAll() as $mailTask) {
+        foreach(MailTask::model()->byWrongRight('N')->findAll() as $mailTask) {
             $this->neutralMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
@@ -154,7 +154,7 @@ class EmailAnalizer
         /**
          * Get emails
          */
-        foreach (MailBoxModel::model()->bySimulation($this->simId)->findAll() as $email) {
+        foreach (MailBox::model()->bySimulation($this->simId)->findAll() as $email) {
             $this->userEmails[$email->id] = new EmailData($email);
             
             if (isset($this->mailTemplate[$email->code])) {
@@ -231,7 +231,7 @@ class EmailAnalizer
         /**
          * Get character points
          */        
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             $this->points[$point->id] = $point;
         }
         unset($point);
@@ -239,7 +239,7 @@ class EmailAnalizer
         /**
          * Get mail points
          */        
-        foreach (MailPointsModel::model()->findAll() as $point) {
+        foreach (MailPoint::model()->findAll() as $point) {
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
@@ -306,8 +306,8 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3322 = CharactersPointsTitles::model()->byCode('3322')->positive()->find();
-        $behave_3324 = CharactersPointsTitles::model()->byCode('3324')->negative()->find();
+        $behave_3322 = HeroBehaviour::model()->byCode('3322')->positive()->find();
+        $behave_3324 = HeroBehaviour::model()->byCode('3324')->negative()->find();
         
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
 
@@ -342,7 +342,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3325 = CharactersPointsTitles::model()->byCode('3325')->negative()->find();
+        $behave_3325 = HeroBehaviour::model()->byCode('3325')->negative()->find();
         
         return array(
             'negative' => $wrongActions * $behave_3325->scale,
@@ -374,7 +374,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3323 = CharactersPointsTitles::model()->byCode('3323')->positive()->find();
+        $behave_3323 = HeroBehaviour::model()->byCode('3323')->positive()->find();
          
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
@@ -407,7 +407,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3313 = CharactersPointsTitles::model()->byCode('3313')->positive()->find();
+        $behave_3313 = HeroBehaviour::model()->byCode('3313')->positive()->find();
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $mark = 0;
@@ -442,7 +442,7 @@ class EmailAnalizer
             }
         } 
         
-        $behave_3333 = CharactersPointsTitles::model()->byCode('3333')->positive()->find();
+        $behave_3333 = HeroBehaviour::model()->byCode('3333')->positive()->find();
         
         return array(
             'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
@@ -466,7 +466,7 @@ class EmailAnalizer
         $limitToGet2points = $configs['limitToGet2points'];
 
         $rightMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
-        $behave_3326 = CharactersPointsTitles::model()->byCode('3326')->positive()->find();
+        $behave_3326 = HeroBehaviour::model()->byCode('3326')->positive()->find();
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
@@ -608,7 +608,7 @@ class EmailAnalizer
      */
     private function isMailTaskHasRightAction($mailTemplateId)
     {
-        $taskWays = MailTasksModel::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
+        $taskWays = MailTask::model()->byMailId($mailTemplateId)->byWrongRight('R')->findAll();
        
         return (0 < count($taskWays) && null !== $taskWays);
     }
@@ -632,7 +632,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isInbox($email)
@@ -641,7 +641,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isInTrash($email)
@@ -650,7 +650,7 @@ class EmailAnalizer
     }
     
     /**
-     * @param MailBoxModel $email
+     * @param MailBox $email
      * @return boolean
      */
     private function isOutbox($email)

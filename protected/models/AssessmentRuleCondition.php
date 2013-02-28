@@ -10,7 +10,7 @@
  * @property integer $mail_id
  *
  * The followings are the available model relations:
- * @property MailTemplateModel $mail
+ * @property MailTemplate $mail
  * @property AssessmentRule $assessmentRule
  * @property Replica $replica
  */
@@ -58,9 +58,9 @@ class AssessmentRuleCondition extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
+			'mail'           => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
 			'assessmentRule' => array(self::BELONGS_TO, 'AssessmentRule', 'assessment_rule_id'),
-			'dialog' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+			'dialog'         => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
 		);
 	}
 

@@ -1,4 +1,4 @@
-<phpunit bootstrap="bootstrap.php" strict="false" colors="true" forceCoversAnnotation="true" verbose="true">
+<phpunit bootstrap="bootstrap.php" strict="false" colors="true">
     <php>
         <includePath>../../framework</includePath>
     </php>

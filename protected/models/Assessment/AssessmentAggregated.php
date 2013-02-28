@@ -1,6 +1,6 @@
 <?php
 /**
- * @property CharactersPointsTitles point
+ * @property HeroBehaviour point
  * @author slavka
  */
 class AssessmentAggregated extends CActiveRecord
@@ -89,7 +89,7 @@ class AssessmentAggregated extends CActiveRecord
     {
         return array(
             'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
-            'point' => array(self::BELONGS_TO, 'CharactersPointsTitles', 'point_id'),
+            'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
         );
     }
 }

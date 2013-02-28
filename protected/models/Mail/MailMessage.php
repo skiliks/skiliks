@@ -5,13 +5,11 @@
 /**
  * Содержит набор фраз, которые образуют конкретное письмо, которое было 
  * отправлено польщователем в симуляции.
- * 
- * Связана с моделями: MailBoxModel, MailPhrasesModel.
  *
  * @property int mail_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailMessagesModel extends CActiveRecord
+class MailMessage extends CActiveRecord
 {
     public $id;
     
@@ -24,7 +22,7 @@ class MailMessagesModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailMessagesModel 
+     * @return MailMessage
      */
     public static function model($className=__CLASS__)
     {
@@ -42,7 +40,7 @@ class MailMessagesModel extends CActiveRecord
     /**
      * Выбрать по заданному письму
      * @param int $mailId
-     * @return MailMessagesModel 
+     * @return MailMessage
      */
     public function byMail($mailId)
     {

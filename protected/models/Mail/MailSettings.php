@@ -6,7 +6,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailSettingsModel extends CActiveRecord
+class MailSettings extends CActiveRecord
 {
     /**
      * @var integer
@@ -62,7 +62,7 @@ class MailSettingsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailSettingsModel 
+     * @return MailSettings
      */
     public static function model($className=__CLASS__)
     {
@@ -80,7 +80,7 @@ class MailSettingsModel extends CActiveRecord
     /**
      * Выбрать по заданной симуляции
      * @param int $simId
-     * @return MailSettingsModel 
+     * @return MailSettings
      */
     public function bySimulation($simId)
     {
