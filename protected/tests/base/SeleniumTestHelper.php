@@ -11,6 +11,7 @@ class SeleniumTestHelper extends CWebTestCase
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
+        $this->windowMaximize();
         $this->open('/site/');
         //$this->setSpeed("1000");
         $this->waitForVisible('id=login');
@@ -38,7 +39,7 @@ class SeleniumTestHelper extends CWebTestCase
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
-        $this->click(Yii::app()->params['test_mappings']['dev']['event_create']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
     // звонок по телефону, когда телефон не активен (не движется)
