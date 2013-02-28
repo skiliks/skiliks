@@ -202,7 +202,7 @@ class MailBoxTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // random email case{       
         $randomFirstEmail = MailBoxModel::model()->findByAttributes([
@@ -306,7 +306,7 @@ class MailBoxTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init conts
         // get all replics that change score for behaviour '4124'

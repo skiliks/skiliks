@@ -71,7 +71,7 @@ class EventsManager {
      * 1. Процессит логи
      * 2. Берет первое событие из EventTriggers
      * 3. Проверяет по флагам, можно ли отдать это событие
-     * @param $simulation Simulations
+     * @param $simulation Simulation
      * @param $logs
      * @return array
      * @throws CHttpException
@@ -266,7 +266,7 @@ class EventsManager {
     /**
      * Extracted logging-related code
      *
-     * @param $simulation Simulations
+     * @param $simulation Simulation
      * @param array $logs
      */
     public function processLogs($simulation, $logs)

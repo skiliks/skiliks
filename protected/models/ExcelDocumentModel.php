@@ -4,8 +4,6 @@
 
 /**
  * Модель  документа Excel
- * 
- * Связана с моделями: ExcelDocumentTemplate, MyDocumentsModel, Simulations.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

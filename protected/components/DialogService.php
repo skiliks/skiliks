@@ -13,7 +13,7 @@ class DialogService
      assert($time !== NULL);
      assert($time !== false);
 
-        $simulation = Simulations::model()->findByPk($simId);
+        $simulation = Simulation::model()->findByPk($simId);
      
         if ($dialogId == 0) {
             return

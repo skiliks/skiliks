@@ -1072,7 +1072,7 @@ class MailBoxService
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param MailBoxModel $messageToReply
      * @param CommunicationTheme $characterThemeModel
      * @return type
@@ -1229,7 +1229,7 @@ class MailBoxService
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param MailBox $email
      *
      * @return boolean
@@ -1252,7 +1252,7 @@ class MailBoxService
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param MailBoxModel $messageToForward
      *
      * @return mixed array
@@ -1311,7 +1311,7 @@ class MailBoxService
     }
 
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param string $flag, like 'F1', 'F2'
      */
     public static function sendEmailsRelatedToFlag($simulation, $flag) {

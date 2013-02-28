@@ -94,7 +94,7 @@ class EventService {
      * @return array
      */
     public static function processLinkedEntities($eventCode, $simId) {
-        $simulation = Simulations::model()->findByPk($simId);
+        $simulation = Simulation::model()->findByPk($simId);
         // анализ писем
         $code = false;
         $type = false;

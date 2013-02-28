@@ -4,8 +4,6 @@
 /**
  * состояние флагов пользователя в рамках конкретной симуляции
  *
- * Связана с моделями:  Simulations
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class SimulationFlagsModel extends CActiveRecord
@@ -96,7 +94,7 @@ class SimulationFlagsModel extends CActiveRecord
 
     public function relations() {
         return array(
-            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'flagObj'    => array(self::BELONGS_TO, 'Flag', 'flag'),
         );
     }

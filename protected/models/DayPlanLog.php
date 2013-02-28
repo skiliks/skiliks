@@ -4,8 +4,6 @@
 
 /**
  * Используется для логирования состояния плана.
- * 
- * Связана с моделями: Simulations, Tasks, Users.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

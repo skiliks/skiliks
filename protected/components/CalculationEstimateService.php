@@ -145,7 +145,7 @@ class CalculationEstimateService
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return mixed array
      */
     public static function getExcelPointsValies($simulation)

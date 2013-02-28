@@ -17,7 +17,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $simulationFlags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
@@ -40,7 +40,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init conts
         // get all replics that change score for behaviour '1122'
@@ -112,7 +112,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -225,7 +225,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $time = 32000;
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
@@ -352,7 +352,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $data['data'] = [];
 
@@ -732,7 +732,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs10_w($simulation);
@@ -811,7 +811,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[20] = LibSendMs::sendMs20_r($simulation);
@@ -864,7 +864,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // calculate point total scores
         SimulationService::saveEmailsAnalize($simulation->id);
@@ -899,7 +899,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -966,7 +966,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -1032,7 +1032,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -1102,7 +1102,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
@@ -1167,7 +1167,7 @@ class SimulationServiceTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulations::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);

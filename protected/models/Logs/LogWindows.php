@@ -86,7 +86,7 @@ class LogWindows extends CActiveRecord
     public function relations()
     {
         return array(
-            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
         );
     }

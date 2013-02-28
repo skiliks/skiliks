@@ -4,8 +4,6 @@
 
 /**
  * Хранит состояние после отпуска для каждой симуляции.
- * 
- * Связана с моделями: Simulations, Tasks.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

@@ -133,7 +133,7 @@ class PhoneService {
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return mixed array
      */
     public static function getMissedCalls($simulation)
@@ -162,7 +162,7 @@ class PhoneService {
 
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date' => Simulations::formatDateForMissedCalls($item->call_time),
+                'date' => Simulation::formatDateForMissedCalls($item->call_time),
                 'type' => $item->call_type,
                 'dialog_code' => $item->dialog_code
             );
