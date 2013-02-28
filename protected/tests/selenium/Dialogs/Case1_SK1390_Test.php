@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class SeleniumMailTest extends SeleniumTestHelper
+class Case1_SK1390_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
