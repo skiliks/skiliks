@@ -1818,17 +1818,6 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet);
 
-        // delete old unused data {
-        AssessmentRuleCondition::model()->deleteAll(
-            'import_id <> :import_id',
-            array('import_id' => $this->import_id)
-        );
-        AssessmentRule::model()->deleteAll(
-            'import_id <> :import_id',
-            array('import_id' => $this->import_id)
-        );
-        // delete old unused data }
-
         $types = [
             'id_записи' => 'dialog_id',
             'outbox' => 'mail_id',
@@ -1837,6 +1826,7 @@ class ImportGameDataService
 
         $rules = 0;
         $conditions = 0;
+        $ruleIds = [];
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $ruleId = $this->getCellValue($sheet, 'Rule_id', $i);
             $type = $this->getCellValue($sheet, 'Result_type', $i);
@@ -1854,17 +1844,18 @@ class ImportGameDataService
                 $entity = null;
             }
 
-            $rule = AssessmentRule::model()->findByPk($ruleId);
-            if (empty($rule)) {
+            if (isset($ruleIds[$ruleId])) {
+                $rule = AssessmentRule::model()->findByPk($ruleIds[$ruleId]);
+            } else {
                 $rule = new AssessmentRule();
-                $rule->id = $ruleId;
                 $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
                 $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
                 $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
                 $rule->import_id = $this->import_id;
-
                 $rule->save();
+
                 $rules++;
+                $ruleIds[$ruleId] = $rule->id;
             }
 
             if (isset($entity)) {
@@ -1877,6 +1868,17 @@ class ImportGameDataService
                 $conditions++;
             }
         }
+
+        // delete old unused data {
+        AssessmentRuleCondition::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        AssessmentRule::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
 
         echo __METHOD__ . " end \n";
 
