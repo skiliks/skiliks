@@ -1166,7 +1166,7 @@ define([
                             'add',
                             undefined,
                             function(){
-                                this.$("#MailClient_RecipientsList")[0].addTag(me, tag);
+                                $("#MailClient_RecipientsList")[0].addTag(me, tag);
                             }
                         );
                         return add;
@@ -1185,7 +1185,7 @@ define([
                             'delete',
                             undefined,
                             function(){
-                                this.$("#MailClient_RecipientsList")[0].removeTag(me);
+                                $("#MailClient_RecipientsList")[0].removeTag(me);
                             },
                             me
                         );
@@ -1454,7 +1454,7 @@ define([
                 for (var i in recipients) {
                     emailToSave.recipients.push(this.mailClient.getCharacterById(recipients[i]));
                 }
-
+                console.log(emailToSave.recipients);
                 // copies
                 var copies = this.getCurentEmailCopiesIds();
                 emailToSave.copyTo = []; // set empty realy nessesary
