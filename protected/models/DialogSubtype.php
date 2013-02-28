@@ -1,13 +1,12 @@
 <?php
 
 
-
 /**
- * Модель состояний, в которых находится персонаж.
+ * Содержит типы диалогов.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersStates extends CActiveRecord
+class DialogSubtype extends CActiveRecord
 {
     /**
      * @var integer
@@ -15,9 +14,17 @@ class CharactersStates extends CActiveRecord
     public $id;
     
     /**
+     * dialog_type.id
+     * @var int
+     */
+    public $type_id ;   
+    
+    /**
      * @var string
      */
     public $title;
+    
+    /** ------------------------------------------------------------------------------------------------------------ **/
     
     public static function model($className=__CLASS__)
     {
@@ -29,7 +36,7 @@ class CharactersStates extends CActiveRecord
      */
     public function tableName()
     {
-            return 'characters_states';
+            return 'dialog_subtypes';
     }
 }
 

@@ -81,7 +81,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 SKApp.server.api(
                     'mail/sendMsInDevMode',
                     {
-                        msCode      : $(target).text(),
+                        msCode      : $(target).attr('data-code'),
                         time        : SKApp.user.simulation.getGameSeconds(),
                         windowId    : SKApp.user.simulation.window_set.getActiveWindow().getWindowId(),
                         subWindowId : SKApp.user.simulation.window_set.getActiveWindow().getSubwindowId(),
@@ -89,10 +89,10 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                     },
                     function (response) {
                         if (response.result) {
-                            $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).text() + '" отправлено!</div>');
+                            $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" отправлено!</div>');
                             window.scrollTo(0, 0);
                         } else {
-                            $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).text() + '" НЕ отправлено!</div>');
+                            $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" НЕ отправлено!</div>');
                         }
                         $('body form.trigger-event .alert').fadeOut(4000)
                     }

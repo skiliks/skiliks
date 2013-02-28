@@ -1,7 +1,5 @@
 <?php
 
-
-
 /**
  * Модель симуляции.
  * 
@@ -11,6 +9,7 @@
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_points
  * @prorepty LogWindows[] log_windows
+ * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class Simulations extends CActiveRecord
