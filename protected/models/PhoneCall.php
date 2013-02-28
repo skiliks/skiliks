@@ -2,11 +2,10 @@
 
 /**
  * Какие звонки и когда были совершены в рамках симуляции
-
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class PhoneCallsModel extends CActiveRecord
+class PhoneCall extends CActiveRecord
 {
     /**
      * @var integer
@@ -61,7 +60,7 @@ class PhoneCallsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return PhoneCallsModel 
+     * @return PhoneCall
      */
     public static function model($className=__CLASS__)
     {
@@ -79,7 +78,7 @@ class PhoneCallsModel extends CActiveRecord
     /**
      * Выбрать согласно заданной симуляции
      * @param int $simId
-     * @return PhoneCallsModel 
+     * @return PhoneCall
      */
     public function bySimulation($simId)
     {

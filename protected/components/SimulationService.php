@@ -34,32 +34,14 @@ class SimulationService
         $simulation = Simulation::model()->byId($simId)->find();
         return $simulation->getGameTime();
     }
-    
-    /**
-     * @deprecated: never used use FlagService::setFlag instead this
-     * Установка флага в рамках симуляции
-     * @param int $simId
-     * @param string $flag 
-     */
-    /*public static function setFlag($simId, $flag) {
-        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
-        if (!$model) {
-            $model = new SimulationFlagsModel();
-            $model->sim_id = $simId;
-            $model->flag = $flag;
-        }
-        
-        $model->value = 1;
-        $model->save();
-    }*/
-    
+
     /**
      * Получить список флагов диалогов в рамках симуляции
      * @param int $simId
      * @return array
      */
     public static function getFlags($simId) {
-        $flags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id'=>$simId]);
+        $flags = SimulationFlag::model()->findAllByAttributes(['sim_id'=>$simId]);
         $list = array();
         foreach($flags as $flag) {
             $list[$flag->flag] = $flag->value;

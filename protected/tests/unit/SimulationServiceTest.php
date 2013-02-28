@@ -19,7 +19,7 @@ class SimulationServiceTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
-        $simulationFlags = SimulationFlagsModel::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $simulationFlags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
         $this->assertTrue(count($simulationFlags) > 0);
 
@@ -143,10 +143,8 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
         
         // init inbox email from sysadmin
-        $emailFromSysadmin = MailBoxModel::model()
-            ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
-        $emailFromSysadmin->update('group_id = 1');        
-        
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
+
         // init MS emails:        
         // MS27 {
         $ms_27 = LibSendMs::sendMs27_w($simulation);

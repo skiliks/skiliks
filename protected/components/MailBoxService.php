@@ -154,7 +154,7 @@ class MailBoxService
             $attachments = MailAttachment::model()->byMailIds($mailIds)->findAll();
             foreach ($attachments as $attachment) {
                 if (isset($list[$attachment->mail_id])) {
-                    $myDocument = MyDocumentsModel::model()->findByPk($attachment->file_id);
+                    $myDocument = MyDocument::model()->findByPk($attachment->file_id);
                     $list[$attachment->mail_id]['attachments']    = 1;
                     $list[$attachment->mail_id]['attachmentName'] = $myDocument->fileName;
                     $list[$attachment->mail_id]['attachmentId']   = $attachment->id;
@@ -622,7 +622,7 @@ class MailBoxService
 
         if (isset($row['file_id'])) {
             // определить file_id в симуляции
-            $file = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
+            $file = MyDocument::model()->bySimulation($simId)->byTemplateId((int)$row['file_id'])->find();
             if (!$file) {
                 // документа еще нет в симуляции
                 $fileId = MyDocumentsService::copyToSimulation($simId, $row['file_id']);
@@ -639,7 +639,7 @@ class MailBoxService
                 // проверим тип документа
                 $fileTemplate = DocumentTemplate::model()->byId($row['file_id'])->find();
                 if ($fileTemplate->type != 'start') {
-                    $file = MyDocumentsModel::model()->byId($fileId)->find();
+                    $file = MyDocument::model()->byId($fileId)->find();
                     if ($file) {
                         $file->hidden = 1; // поскольку это аттач - спрячем его
                         $file->save();
@@ -649,6 +649,7 @@ class MailBoxService
 
 
         }
+
         return $mail;
     }
 
@@ -666,13 +667,12 @@ class MailBoxService
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
             select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
-            from mail_template where group_id = :groupId";
+            from mail_template where group_id IN (1,3)";
         $profiler->render('r2: ');
 
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
         $inboxId = MailBoxModel::INBOX_FOLDER_ID;
-        $command->bindParam(":groupId", $inboxId, PDO::PARAM_INT);
         $command->execute();
 
         $profiler->render('r3: ');
@@ -688,7 +688,7 @@ class MailBoxService
 
         // prepare all docs
         $myDocs = [];
-        foreach (MyDocumentsModel::model()->findAllByAttributes(['sim_id' => $simId]) as $myDocument) {
+        foreach (MyDocument::model()->findAllByAttributes(['sim_id' => $simId]) as $myDocument) {
             $myDocs[$myDocument->template_id] = $myDocument;
         }
 
@@ -696,7 +696,7 @@ class MailBoxService
         $docIds = [];
         foreach (MailAttachmentsTemplateModel::model()->findAll() as $mailAttachment) {
             if (false === isset($myDocs[$mailAttachment->file_id])) {
-                $doc = new MyDocumentsModel();
+                $doc = new MyDocument();
                 $doc->sim_id      = $simId;
                 $doc->template_id = $documentTemplates[$mailAttachment->file_id]->id;
                 $doc->fileName    = $documentTemplates[$mailAttachment->file_id]->fileName;

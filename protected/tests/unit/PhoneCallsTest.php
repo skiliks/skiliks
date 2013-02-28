@@ -25,9 +25,9 @@ class PhoneServiceTest extends CDbTestCase {
         
         $time = '11:00:00';
         
-        $phoneCallHistoryRecord            = new PhoneCallsModel();
+        $phoneCallHistoryRecord            = new PhoneCall();
         $phoneCallHistoryRecord->sim_id    = $simulation->id;
-        $phoneCallHistoryRecord->call_type = PhoneCallsModel::MISSED_CALL; 
+        $phoneCallHistoryRecord->call_type = PhoneCall::MISSED_CALL;
         $phoneCallHistoryRecord->from_id   = $toCharacter->id;
         $phoneCallHistoryRecord->to_id     = Characters::HERO_ID;
         $phoneCallHistoryRecord->call_time = $time;

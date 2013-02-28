@@ -121,7 +121,7 @@ class LibSendMs
             'code' => 'D10'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -177,7 +177,7 @@ class LibSendMs
             'code' => 'D1'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -210,7 +210,7 @@ class LibSendMs
             'code' => 'D1'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -243,7 +243,7 @@ class LibSendMs
             'code' => 'D3'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -276,7 +276,7 @@ class LibSendMs
             'code' => 'D4'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -309,7 +309,7 @@ class LibSendMs
             'code' => 'D8'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -333,8 +333,7 @@ class LibSendMs
      */
     public static function sendMs27_w($simulation)
     {
-        $emailFromSysadmin = MailBoxModel::model()
-            ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M8');
 
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[
@@ -445,7 +444,7 @@ class LibSendMs
             'code' => 'D18'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -478,7 +477,7 @@ class LibSendMs
             'code' => 'D19'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -675,7 +674,7 @@ class LibSendMs
             'code' => 'D20'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -793,10 +792,7 @@ class LibSendMs
             'letter_number' => 'MS60'
         ]);
 
-        $message = MailBoxModel::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'code'   => 'M75'
-        ]);
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M75');
 
         // user can reply to received email only
         $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
@@ -825,10 +821,7 @@ class LibSendMs
             'letter_number' => 'MS61'
         ]);
 
-        $message = MailBoxModel::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'code'   => 'M76'
-        ]);
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation->id, 'M76');
 
         // user can reply to received email only
         $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
@@ -861,7 +854,7 @@ class LibSendMs
             'code' => 'D2'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);

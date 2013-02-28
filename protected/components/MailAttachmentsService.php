@@ -46,7 +46,7 @@ class MailAttachmentsService {
         
         $fileId = $model->file_id;
         
-        $file = MyDocumentsModel::model()->byId($fileId)->find();
+        $file = MyDocument::model()->byId($fileId)->find();
         if (!$file) return false;
         
         return array(
