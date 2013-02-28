@@ -674,7 +674,7 @@ class MailBoxService
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type)
             select :simId, id, group_id, sender_id, receiver_id, message, subject_id, code, sent_at, type
-            from mail_template where group_id IN (1,3) ";
+            from mail_template  where group_id IN (1,3) ";
         $profiler->render('r2: ');
 
         $command = $connection->createCommand($sql);
