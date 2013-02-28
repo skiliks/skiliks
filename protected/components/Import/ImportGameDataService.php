@@ -182,6 +182,18 @@ class ImportGameDataService
             }
         }
 
+        // delete old unused data {
+        MailPhrasesModel::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        MailConstructor::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+
         echo __METHOD__ . " end\n";
         return ['ok' => 1];
     }
