@@ -332,8 +332,8 @@ class SimulationService
                         ->byLastReplicaId($dialog->excel_id)
                         ->exists();
                 } elseif ($condition->mail_id) {
-                    /** @var MailBoxModel $mail */
-                    $mail = MailBoxModel::model()->findByAttributes([
+                    /** @var MailBox $mail */
+                    $mail = MailBox::model()->findByAttributes([
                         'sim_id' => $simId,
                         'template_id' => $condition->mail_id
                     ]);

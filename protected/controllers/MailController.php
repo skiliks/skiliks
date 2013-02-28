@@ -48,7 +48,7 @@ class MailController extends AjaxController
         $this->sendJSON(array(
             'result'   => 1,
             'messages' => $messages,
-            'type'     => MailBoxModel::$folderIdToAlias[$folderId]
+            'type'     => MailBox::$folderIdToAlias[$folderId]
         ));
     }
 
@@ -165,7 +165,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $mailClientSettingsEntity = MailSettingsModel::model()
+        $mailClientSettingsEntity = MailSettings::model()
             ->bySimulation($simulation->id)
             ->find();
         
@@ -188,7 +188,7 @@ class MailController extends AjaxController
         $simulation = $this->getSimulationEntity();
         
         $this->sendJSON(array(
-            'result' => (int)MailSettingsModel::updateSimulationSettings(
+            'result' => (int)MailSettings::updateSimulationSettings(
                 $simulation, 
                 Yii::app()->request->getParam('messageArriveSound', 0)
              )
@@ -262,16 +262,16 @@ class MailController extends AjaxController
         try {
             return $this->sendJSON(array(
                 'result'  => MailBoxService::moveToFolder(
-                    MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('messageId', 0)), 
+                    MailBox::model()->findByPk((int)Yii::app()->request->getParam('messageId', 0)),
                     Yii::app()->request->getParam('folderId', NULL)
                 ),
                 'folders' => [
                     'inbox' => MailBoxService::getMessages([
-                        'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
+                        'folderId'   => MailBox::INBOX_FOLDER_ID,
                         'simId'     => $simulation->id
                     ]),
                     'sended' => MailBoxService::getMessages([
-                        'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
+                        'folderId'   => MailBox::OUTBOX_FOLDER_ID,
                         'simId'     => $simulation->id
                     ]),
                 ]
@@ -287,7 +287,7 @@ class MailController extends AjaxController
     public function actionReply()
     {
 
-        $messageToReply = MailBoxModel::model()
+        $messageToReply = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
 
         $characters = MailBoxService::getCharacters();
@@ -307,7 +307,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $messageToReply = MailBoxModel::model()
+        $messageToReply = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
          
         $characters = MailBoxService::getCharacters();
@@ -333,7 +333,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $email = MailBoxModel::model()
+        $email = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(array(
@@ -349,12 +349,12 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $email = MailBoxModel::model()
+        $email = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('messageId', 0));
 
         assert($email);
         
-        $emailTask = MailTasksModel::model()->findByPk(Yii::app()->request->getParam('id', 0));
+        $emailTask = MailTask::model()->findByPk(Yii::app()->request->getParam('id', 0));
         assert($emailTask);
         
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
@@ -364,31 +364,6 @@ class MailController extends AjaxController
             'taskId' => (NULL === $plannerTask) ? NULL : $plannerTask->id,
         ));
     }
-    
-    /**
-     * @deprecated is this method in use?
-     * Добавление задачи в план
-     */
-    /*public function actionGetTaskInfo()
-    {
-        $simulation = $this->getSimulationEntity();
-        
-        $email = MailBoxModel::model()
-            ->findByPk(Yii::app()->request->getParam('messageId', 0));
-        
-        $emailTask = MailTasksModel::model()->findByPk(Yii::app()->request->getParam('id', 0));
-        
-        $this->sendJSON(array(
-            'result' => (NULL === $emailTask ) ? 0 : 1,
-            'task' => [
-                'id'       => (NULL === $emailTask ) ? NULL : $emailTask->id,
-                'duration' => (NULL === $emailTask ) ? NULL : $emailTask->duration,
-                'day'      => (NULL === $emailTask ) ? NULL : $emailTask->day,
-                'text'     => (NULL === $emailTask ) ? NULL : $emailTask->name,
-                'date'     => (NULL === $emailTask ) ? NULL : $emailTask->date,
-            ]
-        ));
-    }*/
 
     /**
      *  Отправить из черновиков
@@ -396,7 +371,7 @@ class MailController extends AjaxController
     public function actionSendDraft()
     {
         $simulation = $this->getSimulationEntity();
-        $email = MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
+        $email = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(array(
             'result' => (int)MailBoxService::sendDraft($simulation, $email),
@@ -411,7 +386,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
 
-        $messageToForward = MailBoxModel::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
+        $messageToForward = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(
             MailBoxService::getForwardMessageData($simulation, $messageToForward)

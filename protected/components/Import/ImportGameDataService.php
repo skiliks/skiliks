@@ -182,9 +182,9 @@ class ImportGameDataService
             $constructor->save();
             for ($row = 2; $row < $sheet->getHighestDataRow(); $row++) {
                 $phraseValue = $sheet->getCellByColumnAndRow($col, $row)->getValue();
-                $phrase = MailPhrasesModel::model()->findByAttributes(['code' => $constructorCode, 'name' => $phraseValue]);
+                $phrase = MailPhrase::model()->findByAttributes(['code' => $constructorCode, 'name' => $phraseValue]);
                 if ($phrase === null) {
-                    $phrase = new MailPhrasesModel();
+                    $phrase = new MailPhrase();
                 }
                 $phrase->code = $constructor->code;
                 $phrase->name = $phraseValue;
@@ -195,7 +195,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        MailPhrasesModel::model()->deleteAll(
+        MailPhrase::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -312,7 +312,7 @@ class ImportGameDataService
 
         // Get all exist system mail_templates to avoid SQL queries againts each request {
         $existsMailTemplate = array();
-        foreach (MailTemplateModel::model()->findAll() as $mailTemplate) {
+        foreach (MailTemplate::model()->findAll() as $mailTemplate) {
             $existsMailTemplate[$mailTemplate->code] = $mailTemplate;
         }
         // Get all mail_templates }
@@ -472,9 +472,9 @@ class ImportGameDataService
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
 
-            $emailTemplateEntity = MailTemplateModel::model()->findByAttributes(['code' => $code]);
+            $emailTemplateEntity = MailTemplate::model()->findByAttributes(['code' => $code]);
             if ($emailTemplateEntity === null) {
-                $emailTemplateEntity = new MailTemplateModel();
+                $emailTemplateEntity = new MailTemplate();
                 $emailTemplateEntity->code = $code;
             }
             $emailTemplateEntity->group_id = $group;
@@ -504,10 +504,10 @@ class ImportGameDataService
                 if (!isset($pointsInfo[$pointCode])) throw new Exception("cant get point id by code $pointCode");
                 $pointId = $pointsInfo[$pointCode];
 
-                /** @var MailPointsModel $pointEntity */
-                $pointEntity = MailPointsModel::model()->byMailId($emailTemplateEntity->id)->byPointId($pointId)->find();
+                /** @var MailPoint $pointEntity */
+                $pointEntity = MailPoint::model()->byMailId($emailTemplateEntity->id)->byPointId($pointId)->find();
                 if (null === $pointEntity) {
-                    $pointEntity = new MailPointsModel();
+                    $pointEntity = new MailPoint();
                 }
                 $pointEntity->mail_id = $emailTemplateEntity->id;
                 $pointEntity->point_id = $pointId;
@@ -533,9 +533,9 @@ class ImportGameDataService
                 $receiverId = $characters[$receiverCode];
 
                 // Проверяется не значится ли у нас для такого письма уже такой получатель и если нет то добавляем запись
-                $mrt = MailReceiversTemplateModel::model()->byMailId($emailTemplateEntity->id)->byReceiverId($receiverId)->find();
+                $mrt = MailTemplateRecipient::model()->byMailId($emailTemplateEntity->id)->byReceiverId($receiverId)->find();
                 if (null === $mrt) {
-                    $mrt = new MailReceiversTemplateModel();
+                    $mrt = new MailTemplateRecipient();
                     $mrt->mail_id = $emailTemplateEntity->id;
                     $mrt->receiver_id = $receiverId;
                     $mrt->insert();
@@ -554,13 +554,13 @@ class ImportGameDataService
                 }
                 $characterId = $characters[$characterCode];
 
-                $mct = MailCopiesTemplateModel::model()
+                $mct = MailTemplateCopy::model()
                     ->byMailId($emailTemplateEntity->id)
                     ->byReceiverId($characterId)
                     ->find();
 
                 if (null === $mct) {
-                    $mct = new MailCopiesTemplateModel();
+                    $mct = new MailTemplateCopy();
                     $mct->mail_id = $emailTemplateEntity->id;
                     $mct->receiver_id = $characterId;
                     $mct->insert();
@@ -575,7 +575,7 @@ class ImportGameDataService
         // remove old entities {
         // copy relations {
         if (0 !== count($emailToCopyIds)) {
-            $emailCopyEntities = MailCopiesTemplateModel::model()
+            $emailCopyEntities = MailTemplateCopy::model()
                 ->byIdsNotIn(implode(',', $emailToCopyIds))
                 ->findAll();
 
@@ -588,8 +588,8 @@ class ImportGameDataService
         // copy relations }
 
         // recipient relations {
-        /** @var MailReceiversModel[] $emailRecipientEntities */
-        $emailRecipientEntities = MailReceiversModel::model()
+        /** @var MailRecipient[] $emailRecipientEntities */
+        $emailRecipientEntities = MailRecipient::model()
             ->byIdsNotIn(implode(',', $emailToRecipientIds))
             ->findAll();
 
@@ -601,7 +601,7 @@ class ImportGameDataService
 
         // points relations {
         if (0 !== count($emailToPointIds)) {
-            $emailPointsEntities = MailPointsModel::model()
+            $emailPointsEntities = MailPoint::model()
                 ->byIdsNotIn(implode(',', $emailToPointIds))
                 ->findAll();
 
@@ -615,7 +615,7 @@ class ImportGameDataService
 
         // mail templates {
         if (0 !== count($emailIds)) {
-            $emailTemplates = MailTemplateModel::model()
+            $emailTemplates = MailTemplate::model()
                 ->byIdsNotIn(implode(',', $emailIds))
                 ->findAll();
 
@@ -655,7 +655,7 @@ class ImportGameDataService
             $counter['mark-0'],
             $counter['mark-1']
         );
-        MailTemplateModel::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
+        MailTemplate::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
         echo __METHOD__ . " end \n";
@@ -920,7 +920,7 @@ class ImportGameDataService
                 continue;
             }
 
-            $mail = MailTemplateModel::model()
+            $mail = MailTemplate::model()
                 ->byCode($this->getCellValue($sheet, 'Mail code', $i))
                 ->find();
 
@@ -929,14 +929,14 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $mailTask = MailTasksModel::model()
+            $mailTask = MailTask::model()
                 ->byMailId($mail->id)
                 ->byName($this->getCellValue($sheet, 'Task', $i))
                 ->find();
 
             // create entity if not exists {
             if (null === $mailTask) {
-                $mailTask = new MailTasksModel();
+                $mailTask = new MailTask();
                 $mailTask->mail_id = $mail->id;
                 $mailTask->name = $this->getCellValue($sheet, 'Task', $i);
             }
@@ -956,7 +956,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        MailTasksModel::model()->deleteAll(
+        MailTask::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -1060,12 +1060,12 @@ class ImportGameDataService
 
             if ($attache == '' || $attache == '-') continue; // нет аттачей
 
-            $mail = MailTemplateModel::model()->byCode($code)->find();
+            $mail = MailTemplate::model()->byCode($code)->find();
             $fileId = $documents[$attache];
 
-            $attacheModel = MailAttachmentsTemplateModel::model()->byMailId($mail->id)->byFileId($fileId)->find();
+            $attacheModel = MailAttachmentTemplate::model()->byMailId($mail->id)->byFileId($fileId)->find();
             if ($attacheModel === null) {
-                $attacheModel = new MailAttachmentsTemplateModel();
+                $attacheModel = new MailAttachmentTemplate();
             }
             $attacheModel->mail_id = $mail->id;
             $attacheModel->file_id = $fileId;
@@ -1075,7 +1075,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        MailAttachmentsTemplateModel::model()->deleteAll(
+        MailAttachmentTemplate::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -1636,11 +1636,11 @@ class ImportGameDataService
             } else if ($type === 'mail_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = MailTemplateModel::model()->findAll();
+                    $values = MailTemplate::model()->findAll();
                 } else if ($xls_act_value === 'incorrect_sent' or $xls_act_value === 'not_sent') {
                     $values = [null];
                 } else {
-                    $mail = MailTemplateModel::model()->findByAttributes(array('code' => $xls_act_value));
+                    $mail = MailTemplate::model()->findByAttributes(array('code' => $xls_act_value));
                     if ($mail === null) {
                         throw new Exception('No such mail: ' . $xls_act_value);
                     }
@@ -1733,7 +1733,7 @@ class ImportGameDataService
             if ($endType == 'id_записи') {
                 $entity = Replica::model()->byExcelId($endCode)->find();
             } elseif ($endType == 'outbox' || $endType == 'inbox') {
-                $entity = MailTemplateModel::model()->byCode($endCode)->find();
+                $entity = MailTemplate::model()->byCode($endCode)->find();
             }
 
             if (isset($entity)) {
@@ -1817,7 +1817,7 @@ class ImportGameDataService
             if ($type == 'id_записи') {
                 $entity = Replica::model()->byExcelId($code)->find();
             } elseif ($type == 'outbox' || $type == 'inbox') {
-                $entity = MailTemplateModel::model()->byCode($code)->find();
+                $entity = MailTemplate::model()->byCode($code)->find();
             } else {
                 $entity = null;
             }
@@ -1947,7 +1947,7 @@ class ImportGameDataService
             }
 
             // Flag bloks mail alvays {
-            $mailTemplate = MailTemplateModel::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
+            $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
             $mailFlag = FlagBlockMail::model()->findByAttributes([
                 'mail_template_id' => $mailTemplate->primaryKey,
                 'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),

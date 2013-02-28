@@ -228,19 +228,19 @@ class SimulationServiceTest extends CDbTestCase
         $time = 32000;
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
 
-        $email1 = MailBoxModel::model()->findByAttributes([
+        $email1 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
-            'group_id' => MailBoxModel::INBOX_FOLDER_ID,
+            'group_id' => MailBox::INBOX_FOLDER_ID,
             'code'     => 'MY1'
         ]);
-        $email2 = MailBoxModel::model()->findByAttributes([
+        $email2 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
-            'group_id' => MailBoxModel::INBOX_FOLDER_ID,
+            'group_id' => MailBox::INBOX_FOLDER_ID,
             'code'     => 'MY2'
         ]);
-        $email3 = MailBoxModel::model()->findByAttributes([
+        $email3 = MailBox::model()->findByAttributes([
             'sim_id'   => $simulation->id,
-            'group_id' => MailBoxModel::INBOX_FOLDER_ID,
+            'group_id' => MailBox::INBOX_FOLDER_ID,
             'code'     => 'MY3'
         ]);
 
@@ -1103,19 +1103,21 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
+
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
         $ms[] = LibSendMs::sendMs35_r($simulation);
         $ms[] = LibSendMs::sendMs36_r($simulation);
         $ms[] = LibSendMs::sendMs37_r($simulation);
         $ms[] = LibSendMs::sendMs39_r($simulation);
+        $ms[] = LibSendMs::sendMs40_r($simulation);
         $ms[] = LibSendMs::sendMs48_r($simulation);
         $ms[] = LibSendMs::sendMs51_r($simulation);
         $ms[] = LibSendMs::sendMs53_r($simulation);
         $ms[] = LibSendMs::sendMs55_r($simulation);
         $ms[] = LibSendMs::sendMs57_r($simulation);
         $ms[] = LibSendMs::sendMs60_r($simulation);
-        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs61_r($simulation);    
 
         // set-up logs {
         $logs = [];

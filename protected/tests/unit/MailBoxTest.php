@@ -30,7 +30,7 @@ class MailBoxTest extends CDbTestCase
         // send MS40
         $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
             'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies' => implode(',',[
@@ -51,22 +51,22 @@ class MailBoxTest extends CDbTestCase
 
         // get letters from golders to checl them {
         $folderInbox = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
+            'folderId'   => MailBox::INBOX_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderOutbox = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
+            'folderId'   => MailBox::OUTBOX_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderDrafts = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::DRAFTS_FOLDER_ID,
+            'folderId'   => MailBox::DRAFTS_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderTrash = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::TRASH_FOLDER_ID,
+            'folderId'   => MailBox::TRASH_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
         // get letters from golders to checl them }
@@ -161,7 +161,7 @@ class MailBoxTest extends CDbTestCase
 
         $message = $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers'  => $character->primaryKey,
             'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies'     => implode(',',[
@@ -179,7 +179,7 @@ class MailBoxTest extends CDbTestCase
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
-        $messageToReply = MailBoxModel::model()->findByAttributes([
+        $messageToReply = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id, 
             'code' => 'M31'
         ]);
@@ -248,7 +248,7 @@ class MailBoxTest extends CDbTestCase
         
         $ch = Character::model()->findByAttributes(['fio'=>'Денежная Р.Р.']);
         $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
-        $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R1']);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R1']);
         $data= [];
         
         foreach($mail_phrases as $phrase){
@@ -276,7 +276,7 @@ class MailBoxTest extends CDbTestCase
 
         $ch = Character::model()->findByAttributes(['fio'=>'Трутнев С.']);
         $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
-        $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R6']);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R6']);
         $data= [];
 
         foreach($mail_phrases as $phrase){

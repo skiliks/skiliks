@@ -1,13 +1,10 @@
 <?php
-
-
-
 /**
- * Шаблон набора получателей к письмам
+ * Содержит набор персонажей, которые идут в копии к заданному письму
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailReceiversTemplateModel extends CActiveRecord
+class MailCopy extends CActiveRecord
 {
     /**
      * @var integer
@@ -15,23 +12,23 @@ class MailReceiversTemplateModel extends CActiveRecord
     public $id;
     
     /**
-     * mail_template.id
+     * mail_box.id
      * @var integer
      */
-    public $mail_id;    
+    public $mail_id;
     
     /**
      * characters.id
      * @var int
      */
-    public $receiver_id;    
+    public $receiver_id;     
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-     
+    
     /**
      *
      * @param type $className
-     * @return MailReceiversModel 
+     * @return MailCopy
      */
     public static function model($className=__CLASS__)
     {
@@ -43,31 +40,18 @@ class MailReceiversTemplateModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_receivers_template';
+            return 'mail_copies';
     }
     
     /**
      * Выбрать по заданному письму
-     * @param int $id
-     * @return MailReceiversTemplateModel 
+     * @param int $mailId
+     * @return MailCopy
      */
-    public function byMailId($id)
+    public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$id}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданному получателю
-     * @param int $id
-     * @return MailReceiversTemplateModel 
-     */
-    public function byReceiverId($id)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "receiver_id = {$id}"
+            'condition' => "mail_id = {$mailId}"
         ));
         return $this;
     }

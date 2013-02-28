@@ -8,7 +8,7 @@ class SendMailOptions
     public $simulation = NULL;
     public $senderId   = NULL;
     /**
-     * @var MailTemplateModel $messageId
+     * @var MailTemplate $messageId
      */
     public $messageId  = NULL;
     public $time       = NULL;
@@ -27,8 +27,8 @@ class SendMailOptions
       */
      public function isReply()
      {
-         return (MailBoxModel::TYPE_REPLY === $this->letterType ||
-                 MailBoxModel::TYPE_REPLY === $this->letterType);
+         return (MailBox::TYPE_REPLY === $this->letterType ||
+                 MailBox::TYPE_REPLY === $this->letterType);
      }
      
      /**

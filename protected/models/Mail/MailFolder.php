@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailFoldersModel extends CActiveRecord
+class MailFolder extends CActiveRecord
 {
     /**
      * @var integer

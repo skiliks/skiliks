@@ -1,34 +1,28 @@
 <?php
+
+
+
 /**
- * Содержит набор персонажей, которые идут в копии к заданному письму
+ * Содержит набор фраз, которые образуют конкретное письмо, которое было 
+ * отправлено польщователем в симуляции.
  *
+ * @property int mail_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCopiesModel extends CActiveRecord
+class MailMessage extends CActiveRecord
 {
-    /**
-     * @var integer
-     */
     public $id;
     
-    /**
-     * mail_box.id
-     * @var integer
-     */
     public $mail_id;
     
-    /**
-     * characters.id
-     * @var int
-     */
-    public $receiver_id;     
+    public $phrase_id;
     
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
      * @param type $className
-     * @return MailCopiesModel 
+     * @return MailMessage
      */
     public static function model($className=__CLASS__)
     {
@@ -40,15 +34,15 @@ class MailCopiesModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_copies';
+            return 'mail_messages';
     }
     
     /**
      * Выбрать по заданному письму
      * @param int $mailId
-     * @return MailCopiesModel 
+     * @return MailMessage
      */
-    public function byMailId($mailId)
+    public function byMail($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "mail_id = {$mailId}"

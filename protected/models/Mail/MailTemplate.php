@@ -10,7 +10,7 @@
  * @property ActivityParent[] termination_parent_actions
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailTemplateModel extends CActiveRecord implements IGameAction
+class MailTemplate extends CActiveRecord implements IGameAction
 {
     /**
      * @var integer
@@ -78,7 +78,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     /**
      *
      * @param type $className
-     * @return MailTemplateModel
+     * @return MailTemplate
      */
     public static function model($className=__CLASS__)
     {
@@ -101,7 +101,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     /**
      * Выбрать письмо с заданным кодом
      * @param string $code
-     * @return MailTemplateModel 
+     * @return MailTemplate 
      */
     public function byCode($code)
     {
@@ -113,7 +113,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     
     /**
      * @param string $ids
-     * @return \MailTemplateModel
+     * @return \MailTemplate
      */
     public function byIdsNotIn($ids)
     {
@@ -125,7 +125,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     
     /**
       * @param integer $receiverId
-     * @return \MailTemplateModel
+     * @return \MailTemplate
      */
     public function byReceiverId($receiverId)
     {
@@ -137,7 +137,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     
     /**
      * @param integer $subjectId
-     * @return \MailTemplateModel
+     * @return \MailTemplate
      */
     public function bySubjectId($subjectId)
     {
@@ -149,7 +149,7 @@ class MailTemplateModel extends CActiveRecord implements IGameAction
     
     /**
      * Returns templates for outbox letters
-     * @return MailTemplateModel 
+     * @return MailTemplate 
      */
     public function byMS()
     {

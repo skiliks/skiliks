@@ -35,7 +35,7 @@ class LogTest extends CDbTestCase
         ];
         $message = $mail->sendMessage([
             'subject_id' => $subject_id,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
             'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies' => implode(',', $copies),
@@ -47,7 +47,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -61,7 +61,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
@@ -79,7 +79,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
@@ -297,7 +297,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -309,7 +309,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
@@ -422,7 +422,7 @@ class LogTest extends CDbTestCase
                 'character_id' => $krutko->primaryKey,
                 'theme_usage' => 'mail_outbox'
             ])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M8']),
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'M8']),
             'receivers' => $krutko->primaryKey,
             'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
@@ -493,7 +493,7 @@ class LogTest extends CDbTestCase
         ]);
         $message = $mail->sendMessage([
             'subject_id' => $theme->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'M74']),
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'M74']),
             'receivers' => Character::model()->findByAttributes(['code' => 20])->primaryKey,
             'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
@@ -504,7 +504,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'M74']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -515,7 +515,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplateModel::model()->findByAttributes(['code' => 'M74']);
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;

@@ -20,7 +20,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // move all not received emails to inbox
-        $emailTemplates = MailTemplateModel::model()->findAll(
+        $emailTemplates = MailTemplate::model()->findAll(
             " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
 
@@ -30,7 +30,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // move all not received emails to inbox }
         
         // mark all inbox emails as read
-        MailBoxModel::model()->updateAll([
+        MailBox::model()->updateAll([
                 'readed' => 1
             ], 
             'sim_id = :sim_id AND group_id = :group_id', 
@@ -67,12 +67,12 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
-        $randomSpamMailTemplate = MailTemplateModel::model()->findByAttributes([
+        $randomSpamMailTemplate = MailTemplate::model()->findByAttributes([
             'type_of_importance' => 'spam'
         ]);
 
         // move all not received emails to inbox
-        $emailTemplates = MailTemplateModel::model()->findAll(
+        $emailTemplates = MailTemplate::model()->findAll(
             " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
 
@@ -80,17 +80,6 @@ class EmailAnalyzerTest extends CDbTestCase
             MailBoxService::copyMessageFromTemplateByCode($simulation, $emailTemplate->code);
         }
         // move all not received emails to inbox }
-        
-        // mark all inbox emails as read
-        /*MailBoxModel::model()->updateAll([
-                'readed' => 1
-            ], 
-            'sim_id = :sim_id AND group_id = :group_id', 
-            [
-                'sim_id'   => $simulation->id,
-                'group_id' => 1
-            ]
-        );*/
 
         $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'
@@ -130,7 +119,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email->readed = 1;
         $email->save();
         $email->refresh();
-        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
+        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
         MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
         $mailPlanWindow = Window::model()->find('subtype = \'mail plan\'');
@@ -182,7 +171,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
 
         // move all not received emails to inbox
-        $emailTemplates = MailTemplateModel::model()->findAll(
+        $emailTemplates = MailTemplate::model()->findAll(
             " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
 
@@ -191,8 +180,8 @@ class EmailAnalyzerTest extends CDbTestCase
         }
         // move all not received emails to inbox }
         
-        $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
-        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);        
+        $email = MailBox::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
+        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
@@ -231,7 +220,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
 
         // move all not received emails to inbox
-        /*$emailTemplates = MailTemplateModel::model()->findAll(
+        /*$emailTemplates = MailTemplate::model()->findAll(
             " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
 
@@ -243,7 +232,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M3');
         $email->readed = 1;
         $email->save();
-        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
+        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);
         $plannerTask = MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
         $mailPlanWindow = Window::model()->find('subtype = \'mail plan\'');
@@ -295,7 +284,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
 
         // move all not received emails to inbox
-        $emailTemplates = MailTemplateModel::model()->findAll(
+        $emailTemplates = MailTemplate::model()->findAll(
             " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
         );
 
@@ -304,8 +293,8 @@ class EmailAnalyzerTest extends CDbTestCase
         }
         // move all not received emails to inbox }
         
-        $email = MailBoxModel::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
-        $emailTask = MailTasksModel::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);        
+        $email = MailBox::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
+        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         

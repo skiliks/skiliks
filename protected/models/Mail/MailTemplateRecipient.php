@@ -3,13 +3,11 @@
 
 
 /**
- * Шаблоны вложений писем.
+ * Шаблон набора получателей к письмам
  *
- * Связана с моделями: MyDocumentTemplate, MailTemplateModel.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailAttachmentsTemplateModel extends CActiveRecord
+class MailTemplateRecipient extends CActiveRecord
 {
     /**
      * @var integer
@@ -18,21 +16,22 @@ class MailAttachmentsTemplateModel extends CActiveRecord
     
     /**
      * mail_template.id
-     * @var int
+     * @var integer
      */
-    public $mail_id;
+    public $mail_id;    
     
     /**
+     * characters.id
      * @var int
      */
-    public $file_id; // ?
+    public $receiver_id;    
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-
+     
     /**
      *
-     * @param string $className
-     * @return MailAttachmentsTemplateModel
+     * @param type $className
+     * @return MailRecipient
      */
     public static function model($className=__CLASS__)
     {
@@ -44,32 +43,31 @@ class MailAttachmentsTemplateModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_attachments_template';
+            return 'mail_receivers_template';
     }
-    
     
     /**
      * Выбрать по заданному письму
-     * @param int $mailId
-     * @return MailAttachmentsTemplateModel 
+     * @param int $id
+     * @return MailTemplateRecipient
      */
-    public function byMailId($mailId)
+    public function byMailId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$mailId}"
+            'condition' => "mail_id = {$id}"
         ));
         return $this;
     }
     
     /**
-     * Выбрать по заданому файлу
-     * @param int $fileId
-     * @return MailAttachmentsTemplateModel 
+     * Выбрать по заданному получателю
+     * @param int $id
+     * @return MailTemplateRecipient
      */
-    public function byFileId($fileId)
+    public function byReceiverId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "file_id = {$fileId}"
+            'condition' => "receiver_id = {$id}"
         ));
         return $this;
     }

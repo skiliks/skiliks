@@ -139,7 +139,7 @@ class EventService {
         $result = false;
         if ($type == 'MY') {
             // отдать письмо по коду
-            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->byCode($code)->find();
             if ($mailModel) {
                 // если входящее письмо УЖЕ пришло (кодировка MY - Message Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
@@ -163,7 +163,7 @@ class EventService {
         
         if ($type == 'MSY') {
             // отдать письмо по коду
-            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->byCode($code)->find();
             if ($mailModel) {
                 // если исходящее письмо уже отправлено  (кодировка MSY - Message Sent Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
