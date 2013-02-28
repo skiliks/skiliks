@@ -62,7 +62,7 @@ return [
         'dobrohotov' => "xpath=(//a[contains(text(),'Позвонить')])[24]",
         'blesk' => "xpath=(//a[contains(text(),'Позвонить')])[25]",
         'lubimaya' => "xpath=(//a[contains(text(),'Позвонить')])[26]",
-        'pogodkin' => "xpath=(//a[contains(text(),'Позвонить')])[27]",
+        'pogodkin' => "xpath=(//a[contains(text(),'Позвонить')])[27]"
     ],
 
     'visit' => [
@@ -88,11 +88,6 @@ return [
     'other' => [
         '' => '',
     ],
-
-
-    'phone_contacts' => [
-    ],
-
 
     'mail_contacts' => [
         'advokatov' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/a",
