@@ -34,7 +34,7 @@ config["SkiliksGame"] = {
     tests: [
         "game/test/*-test.js"
     ],
-    extensions: [require('buster-amd'), require("buster-coverage")],
+    extensions: extensions,
     "buster-amd": {
         "pathMapper": function (path) {
             return path.replace(/\.js$/, "").replace(/^\//, "");
