@@ -1,11 +1,9 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: vad
- * Date: 2/24/13
- * Time: 5:26 PM
+ * Тест пишет новое письмо двум адресатам, потом удаляет первого, и проверяет
+ * корректность соотвествия оставшегося адресата и доступных тем.
  */
-class SeleniumMailTest extends CWebTestCase
+class SeleniumMailTest extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -14,32 +12,9 @@ class SeleniumMailTest extends CWebTestCase
         parent::setUp();
     }
 
-    public function test_Mail_new_first_to_deleted() {
+    public function testSK1253() {
         $this->markTestIncomplete();
-        $this->deleteAllVisibleCookies();
-        $this->open('/site/');
-        $this->setSpeed("1000");
-        $this->waitForVisible('id=login');
-        $this->type("id=login", "vad");
-        $this->type("id=pass", "123");
-        $this->click("css=input.btn.btn-primary");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=//input[@value='Начать симуляцию developer']")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
-        $this->click("xpath=//input[@value='Начать симуляцию developer']");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("id=addTriggerSelect")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
+        $this->start_simulation();
         //маппинги Трудякина и Крутько в выпадающем списке адресатов
         $trudyakin = Yii::app()->params['test_mappings']['mail_contacts']['trudyakin'];
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
@@ -56,13 +31,11 @@ class SeleniumMailTest extends CWebTestCase
         $this->select("css=select.origin", "Срочно жду бюджет логистики");
         $this->click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
+        $this->waitForVisible("css=select.origin");
         $this->select("css=select.origin", "Сводный бюджет: файл");
 
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
 
-        $this->click("css=input.btn.btn-simulation-stop");
-        sleep(15);
-        $this->click("css=input.btn.logout");
     }
 }
 
