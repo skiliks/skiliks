@@ -37,7 +37,7 @@ class PhoneService {
                     assert(false);
                 }
                         
-                $phoneCalls = new PhoneCallsModel();
+                $phoneCalls = new PhoneCall();
                 $phoneCalls->sim_id = $simId;
                 $phoneCalls->call_time = $time;
                 $phoneCalls->call_type = $callType;
@@ -109,7 +109,7 @@ class PhoneService {
      */
     public static function registerOutgoing($simId, $characterId, $time) {
 
-        $model = new PhoneCallsModel();
+        $model = new PhoneCall();
         $model->sim_id      = $simId;
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
@@ -123,7 +123,7 @@ class PhoneService {
         $dialog = Replica::model()->byId($dialogId)->find();
         if (!$dialog) throw new Exception("Не могу определить диалог для id {$dialogId}");
         
-        $model = new PhoneCallsModel();
+        $model = new PhoneCall();
         $model->sim_id      = $simId;
         $model->call_time   = date("H:i:s", $time);
         $model->call_type   = 2;
@@ -133,7 +133,7 @@ class PhoneService {
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return mixed array
      */
     public static function getMissedCalls($simulation)
@@ -147,22 +147,22 @@ class PhoneService {
             );
         }
 
-        $items = PhoneCallsModel::model()->bySimulation($simulation->id)->findAll();
+        $items = PhoneCall::model()->bySimulation($simulation->id)->findAll();
         $list = array();
         foreach($items as $item) {
-            if ($item->call_type == PhoneCallsModel::IN_CALL) {
+            if ($item->call_type == PhoneCall::IN_CALL) {
                 $characterId = $item->from_id;
             }            
-            if ($item->call_type == PhoneCallsModel::OUT_CALL) {                
+            if ($item->call_type == PhoneCall::OUT_CALL) {
                 $characterId = $item->to_id;
             }
-            if ($item->call_type == PhoneCallsModel::MISSED_CALL) {
+            if ($item->call_type == PhoneCall::MISSED_CALL) {
                 $characterId = $item->from_id;
             }
 
             $list[] = array(
                 'name' => (!empty($characters[$characterId]['fio'])) ? $characters[$characterId]['fio'] : $characters[$characterId]['title'],
-                'date' => Simulations::formatDateForMissedCalls($item->call_time),
+                'date' => Simulation::formatDateForMissedCalls($item->call_time),
                 'type' => $item->call_type,
                 'dialog_code' => $item->dialog_code
             );

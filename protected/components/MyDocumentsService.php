@@ -27,11 +27,11 @@ class MyDocumentsService
      * Проверяет существует ли заданный файл в рамках симуляции
      * @param int $simId
      * @param int $fileId 
-     * @return MyDocumentsModel
+     * @return MyDocument
      */
     public static function existsInSim($simId, $fileId)
     {
-        return MyDocumentsModel::model()->bySimulation($simId)->byId($fileId)->find();
+        return MyDocument::model()->bySimulation($simId)->byId($fileId)->find();
     }
 
     /**
@@ -41,7 +41,7 @@ class MyDocumentsService
      */
     public static function getTemplate($id)
     {
-        $document = MyDocumentsModel::model()->byId($id)->find();
+        $document = MyDocument::model()->byId($id)->find();
         if (!$document)
             return false;
         return $document->template_id;
@@ -54,7 +54,7 @@ class MyDocumentsService
      */
     public static function getFileIdByTemplateId($simId, $templateId)
     {
-        $document = MyDocumentsModel::model()->bySimulation($simId)->byTemplateId($templateId)->find();
+        $document = MyDocument::model()->bySimulation($simId)->byTemplateId($templateId)->find();
         if (!$document)
             return false;
         return $document->id;
@@ -90,12 +90,12 @@ class MyDocumentsService
     
     /**
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return array[]
      */
     public static function getDocumentsList($simulation)
     {
-        $documents = MyDocumentsModel::model()
+        $documents = MyDocument::model()
             ->bySimulation($simulation->id)
             ->visible()
             ->orderByFileName()
@@ -104,7 +104,7 @@ class MyDocumentsService
         $list = array();
         foreach ($documents as $document) {
             /**
-             * @var $document MyDocumentsModel
+             * @var $document MyDocument
              */
             $list[] = array(
                 'id' => $document->id,
@@ -119,14 +119,14 @@ class MyDocumentsService
     
     /**
      * 
-     * @param Simulations $simulation
-     * @param MyDocumentsModel $file
+     * @param Simulation $simulation
+     * @param MyDocument $file
      * 
      * @return boolean
      */
     public static function makeDocumentVisibleInSimulation($simulation, $file)
     {
-        $file = MyDocumentsModel::model()
+        $file = MyDocument::model()
             ->findByAttributes(['sim_id' => $simulation->id, 'id' => $file->primaryKey]);
         $file->hidden = 0;
         $file->save();
@@ -136,18 +136,18 @@ class MyDocumentsService
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $fileId
      * 
      * @return mixed array
      */
     public static function checkDocumentTime($simulation, $fileId)
     {
-        $document = MyDocumentsModel::model()->findByPk($fileId);
+        $document = MyDocument::model()->findByPk($fileId);
         
         if (NULL === $document) {
             // this document not null because any simulation must have consolidated budget
-            $document = MyDocumentsModel::model()
+            $document = MyDocument::model()
                 ->bySimulation($simulation->id)
                 ->byTemplateId(DocumentTemplate::CONSOLIDATED_BUDGET_ID)
                 ->find();
@@ -166,8 +166,8 @@ class MyDocumentsService
     }
     
     /**
-     * @param Simulations $simulation
-     * @param MyDocumentsModel $document
+     * @param Simulation $simulation
+     * @param MyDocument $document
      * 
      * @return integer || NULL
      */

@@ -1109,6 +1109,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
                         ]
                     });
+                    console.log("no res");
                     return false;
                 }
 
@@ -1125,6 +1126,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
                         ]
                     });
+                    console.log("no theme");
                     return false;
                 }
                 // validation }

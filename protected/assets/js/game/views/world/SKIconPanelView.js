@@ -67,7 +67,11 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                                     me.setCounter('.phone', phone_history.where({'is_read': false}).length);
                                 });
                             } else {
-                                me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
+                                //me.doDeblockingPhoneIcon();
+                                if(me.isPhoneAvailable == true){
+                                    me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
+                                }
+
                             }
                         };
                     }

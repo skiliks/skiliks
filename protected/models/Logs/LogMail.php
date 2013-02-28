@@ -6,7 +6,7 @@
  * @property integer window
  * @property datetime start_time
  * @property datetime end_time
- * @property Simulations simulation
+ * @property Simulation simulation
  * @property Window window_obj
  */
 class LogMail extends CActiveRecord
@@ -161,7 +161,7 @@ class LogMail extends CActiveRecord
     {
         return array(
             'mail' => array(self::BELONGS_TO, 'MailBoxModel', 'mail_id'),
-            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'window_obj' => array(self::BELONGS_TO, 'Window', 'window'),
         );
     }

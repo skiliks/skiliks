@@ -7,7 +7,7 @@
  * @property datetime end_time
  * @property integer last_id
  * @property Replica dialog
- * @property Simulations simulation
+ * @property Simulation simulation
  */
 class LogDialogs extends CActiveRecord
 {
@@ -64,7 +64,7 @@ class LogDialogs extends CActiveRecord
     public function relations()
     {
         return array(
-            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'dialog' => [self::BELONGS_TO, 'Replica', 'dialog_id']
         );
     }

@@ -4,8 +4,6 @@
 
 /**
  * Модель задач
- * 
- * Связана с моделями:  Simulations
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

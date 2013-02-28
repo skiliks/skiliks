@@ -6,7 +6,7 @@ class AdminController extends AjaxController
     public function actionDisplayLog()
     {
         $simId = Yii::app()->request->getParam('simulation');
-        $simulation = Simulations::model()->findByPk($simId);
+        $simulation = Simulation::model()->findByPk($simId);
         assert($simulation);
         $this->layout = 'admin';
         $this->render('log', ['simulation' => $simulation]);

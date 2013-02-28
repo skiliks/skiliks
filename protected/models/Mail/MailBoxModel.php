@@ -5,8 +5,6 @@
 /**
  * Собственно сам почтовый ящик в рамках конкретной симуляции. Все что сюда
  * попадает то и видит пользователь в своей симуляции.
- * 
- * Связана с моделями: Characters, Simulations, MailTemplateModel.
  *
  * @property mixed group_id
  * @property mixed sender_id
