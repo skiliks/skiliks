@@ -845,10 +845,10 @@ class LogHelper
         foreach ($logs as $log) {
             assert(isset($log['window_uid']));
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
-                if (LogWindows::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
+                if (LogWindow::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId))) {
                     throw(new CException('Previous window is still activated'));
                 }
-                $log_window = new LogWindows();
+                $log_window = new LogWindow();
                 $log_window->sim_id = $simId;
                 $log_window->window = $log[1]; // this is ID of Window table
                 $log_window->start_time = gmdate("H:i:s", $log[3]);
@@ -857,7 +857,7 @@ class LogHelper
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $windows = LogWindows::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
+                $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
                 if (0 == count($windows) && false === $isLastLog) {
                     throw(new CException('No active windows. Achtung!' . $simId));
                 }
@@ -1013,7 +1013,7 @@ class LogHelper
             if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
 
 
-                $last_dialog = new LogDialogs();
+                $last_dialog = new LogDialog();
                 $last_dialog->sim_id = $simId;
                 $last_dialog->dialog_id = $log[4]['dialogId'];
                 $last_dialog->last_id = $lastDialogIdAccordingExcel;
@@ -1022,7 +1022,7 @@ class LogHelper
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $dialogs = LogDialogs::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
+                $dialogs = LogDialog::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'dialog_id' => $log[4]['dialogId']));
                 if (!$dialogs) {
                     continue;
                 }

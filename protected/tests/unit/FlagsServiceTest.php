@@ -50,8 +50,8 @@ class FlagServiceTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 
-        $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
         $msgParams = [
             'simId' => $simulation->id,
             'subject_id' => CommunicationTheme::model()->findByAttributes([

@@ -56,7 +56,7 @@ class LogMail extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return Characters
+     * @return
      */
     public static function model($className=__CLASS__)
     {

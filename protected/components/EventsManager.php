@@ -227,7 +227,7 @@ class EventsManager {
             
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
-                $character = Characters::model()->findByAttributes(['code' => $characterId]);
+                $character = Character::model()->findByAttributes(['code' => $characterId]);
                 if ($character) {
                     $data[0]['title'] = $character->title;
                     $data[0]['name'] = $character->fio;
@@ -236,7 +236,7 @@ class EventsManager {
 
             if (isset($data[0]['ch_to'])) {
                 $characterId = $data[0]['ch_to'];
-                $character = Characters::model()->findByAttributes(['code' => $characterId]);
+                $character = Character::model()->findByAttributes(['code' => $characterId]);
                 if ($character) {
                     $data[0]['remote_title'] = $character->title;
                     $data[0]['remote_name'] = $character->fio;
@@ -317,8 +317,7 @@ class EventsManager {
                                 ->find();
 
                             if (null !== $callDialog) {
-                                /** @var $logRecord LogDialogs */
-                                $logRecord = LogDialogs::model()
+                                $logRecord = LogDialog::model()
                                     ->bySimulationId($simId)
                                     ->byDialogId($callDialog->id)
                                     ->orderById('DESC')

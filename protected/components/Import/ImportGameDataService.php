@@ -64,11 +64,11 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $character = Characters::model()->byCode($this->getCellValue($sheet, 'id_персонажа', $i))->find();
+            $character = Character::model()->byCode($this->getCellValue($sheet, 'id_персонажа', $i))->find();
 
             // create entity if not exists {
             if (null === $character) {
-                $character = new Characters();
+                $character = new Character();
             }
             // create entity if not exists }
 
@@ -88,7 +88,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        Characters::model()->deleteAll(
+        Character::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -212,7 +212,7 @@ class ImportGameDataService
     /**
      *
      */
-    public function importCharactersPointsTitles()
+    public function importHeroBehaviours()
     {
         echo __METHOD__ . "\n";
 
@@ -229,13 +229,13 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $charactersPointsTitle = CharactersPointsTitles::model()
+            $charactersPointsTitle = HeroBehaviour::model()
                 ->byCode($this->getCellValue($sheet, 'Номер требуемого поведения', $i))
                 ->find();
 
             // create entity if not exists {
             if (null === $charactersPointsTitle) {
-                $charactersPointsTitle = new CharactersPointsTitles();
+                $charactersPointsTitle = new HeroBehaviour();
                 $charactersPointsTitle->code = $this->getCellValue($sheet, 'Номер требуемого поведения', $i);
             }
             // create entity if not exists }
@@ -244,7 +244,7 @@ class ImportGameDataService
             $charactersPointsTitle->title = $this->getCellValue($sheet, 'Наименование требуемого поведения', $i);
             $charactersPointsTitle->learning_goal_code = $this->getCellValue($sheet, 'Номер цели обучения', $i);
             $charactersPointsTitle->scale = $this->getCellValue($sheet, 'Единая шкала', $i); // Makr
-            $charactersPointsTitle->type_scale = CharactersPointsTitles::getCharacterpointScaleId($this->getCellValue($sheet, 'Тип шкалы', $i));
+            $charactersPointsTitle->type_scale = HeroBehaviour::getScaleId($this->getCellValue($sheet, 'Тип шкалы', $i));
             $charactersPointsTitle->import_id = $this->import_id;
 
             // save
@@ -255,7 +255,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        CharactersPointsTitles::model()->deleteAll(
+        HeroBehaviour::model()->deleteAll(
             'import_id<>:import_id',
             array('import_id' => $this->import_id)
         );
@@ -297,14 +297,14 @@ class ImportGameDataService
         $emailSubjectsIds = array(); // to delete old letter-"theme" relations after import
 
         $characters = array();
-        $charactersList = Characters::model()->findAll();
+        $charactersList = Character::model()->findAll();
 
         foreach ($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
 
         // загрузим информацию о поинтах
-        $pointsTitles = CharactersPointsTitles::model()->findAll();
+        $pointsTitles = HeroBehaviour::model()->findAll();
         $pointsInfo = array();
         foreach ($pointsTitles as $item) {
             $pointsInfo[$item->code] = $item->id;
@@ -686,12 +686,12 @@ class ImportGameDataService
 
 
         $characters = array();
-        $charactersList = Characters::model()->findAll();
+        $charactersList = Character::model()->findAll();
         foreach ($charactersList as $characterItem) {
             $characters[$characterItem->code] = $characterItem->id;
         }
 
-        $nullCharacter = new Characters();
+        $nullCharacter = new Character();
         $charactersList[] = $nullCharacter;
 
         $html = '';
@@ -1210,9 +1210,9 @@ class ImportGameDataService
             $dialog->code = $this->getCellValue($sheet, 'Event_code', $i);
             $dialog->event_result = 7; // ничего
             $from_character_code = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
-            $dialog->ch_from = Characters::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
+            $dialog->ch_from = Character::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
             $to_character_code = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
-            $dialog->ch_to = Characters::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
+            $dialog->ch_to = Character::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {
@@ -1290,7 +1290,7 @@ class ImportGameDataService
 
         // link points to excelColums: pint titles placed in row 2 {        
         $points = [];
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             if (isset($this->columnNoByName[$point->code])) {
                 $points[] = $point;
             }
@@ -1321,12 +1321,12 @@ class ImportGameDataService
                     continue;
                 }
 
-                $charactersPoints = CharactersPoints::model()
+                $charactersPoints = ReplicaPoint::model()
                     ->byDialog($dialog->id)
                     ->byPoint($point->id)
                     ->find();
                 if (NULL === $charactersPoints) {
-                    $charactersPoints = new CharactersPoints();
+                    $charactersPoints = new ReplicaPoint();
                     $charactersPoints->dialog_id = $dialog->id;
                     $charactersPoints->point_id = $point->id;
                 }
@@ -1341,7 +1341,7 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        CharactersPoints::model()->deleteAll(
+        ReplicaPoint::model()->deleteAll(
             'import_id <> :import_id OR import_id IS NULL',
             array('import_id' => $this->import_id)
         );
@@ -1871,7 +1871,7 @@ class ImportGameDataService
         try {
             $result['characters'] = $this->importCharacters();
             $result['learning_goals'] = $this->importLearningGoals();
-            $result['characters_points_titles'] = $this->importCharactersPointsTitles();
+            $result['characters_points_titles'] = $this->importHeroBehaviours();
             $result['flags'] = $this->importFlags();
             $result['dialog'] = $this->importDialogReplicas();
             $result['my_documents'] = $this->importMyDocuments();

@@ -1,11 +1,10 @@
 <?php
 /**
  * Adminka
- * Description of CharactersPointsTitles
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersPointsTitlesController extends AjaxController
+class HeroBehaviourController extends AjaxController
 {
  
     /**
@@ -36,7 +35,7 @@ class CharactersPointsTitlesController extends AjaxController
     /**
      * We need it just because, currently adminka steel send request
      */
-    public function actionGetCharactersPointsTitlesHtml() {}
+    public function actionGetHeroBehaviourHtml() {}
 }
 
 

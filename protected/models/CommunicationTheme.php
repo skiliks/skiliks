@@ -3,8 +3,6 @@
 /**
  * Содержит соотношения - какому персонажу какой набор тем писем
  * соответствует
- * 
- * Связана с моделями: Characters
  *
  * @property MailTemplateModel letter
  * @property string constructor_number

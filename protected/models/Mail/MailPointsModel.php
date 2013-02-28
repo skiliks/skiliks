@@ -5,8 +5,6 @@
 /**
  * Содержит значения оценки для конкретного письма. 
  * Наполняется из импорта оценок по письму
- * 
- * Связана с моделями: MailTemplateModel, CharactersPointsTitles.
  *
  * @property mixed import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>

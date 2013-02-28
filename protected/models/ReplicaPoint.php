@@ -4,12 +4,10 @@
 
 /**
  * Хранит значение оценки поведения для конкретного диалога.
- * 
- * Связана с моделями: CharactersPointsTitles, Replica
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class CharactersPoints extends CActiveRecord
+class ReplicaPoint extends CActiveRecord
 {
     /**
      * @var integer
@@ -38,7 +36,7 @@ class CharactersPoints extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return CharactersPoints 
+     * @return ReplicaPoint
      */
     public static function model($className=__CLASS__)
     {
@@ -55,7 +53,7 @@ class CharactersPoints extends CActiveRecord
     
     /**
      * @param string $ids
-     * @return array of \Characterspoints
+     * @return array of ReplicaPoint
      */
     public function byIdsNotIn($ids)
     {
@@ -68,7 +66,7 @@ class CharactersPoints extends CActiveRecord
     /**
      * Выборка оценки по конкретному диалогу
      * @param int $dialogId идентификатор диалога
-     * @return CharactersPoints 
+     * @return ReplicaPoint
      */
     public function byDialog($dialogId)
     {
@@ -81,7 +79,7 @@ class CharactersPoints extends CActiveRecord
     /**
      * Выборка по идентификатору оценки
      * @param int $pointId
-     * @return CharactersPoints 
+     * @return ReplicaPoint
      */
     public function byPoint($pointId)
     {

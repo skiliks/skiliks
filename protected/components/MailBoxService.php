@@ -19,7 +19,7 @@ class MailBoxService
     {
         $resultCharacters = array();
 
-        $query = Characters::model();
+        $query = Character::model();
         if (0 < count($ids)) {
             $query->byIds($ids);
         }
@@ -1016,7 +1016,7 @@ class MailBoxService
         $message = MailBoxService::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group'      => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender'     => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
+            'sender'     => Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey,
             'receivers'  => $sendMailOptions->getRecipientsArray(),
             'copies'     => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,
@@ -1041,7 +1041,7 @@ class MailBoxService
         $message = self::sendMessage(array(
             'message_id' => $sendMailOptions->messageId,
             'group' => MailBoxModel::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
-            'sender' => Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey,
             'receivers' => $sendMailOptions->getRecipientsArray(),
             'copies' => $sendMailOptions->copies,
             'subject_id' => $sendMailOptions->subject_id,
@@ -1181,7 +1181,7 @@ class MailBoxService
 
         foreach ($collection as $model) {
             // exclude our hero from copies
-            if (Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey !== $model->receiver_id) {
+            if (Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey !== $model->receiver_id) {
                 $copiesIds[] = $model->receiver_id;
             }
         }

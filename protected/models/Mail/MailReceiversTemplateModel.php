@@ -4,8 +4,6 @@
 
 /**
  * Шаблон набора получателей к письмам
- * 
- * Связана с моделями:  MailTemplateModel, Characters.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

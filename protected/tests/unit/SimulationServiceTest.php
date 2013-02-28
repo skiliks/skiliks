@@ -50,13 +50,13 @@ class SimulationServiceTest extends CDbTestCase
         $count_1 = 0;
         
         // get 1122
-        $pointFor_1122 = CharactersPointsTitles::model()->find('code = :code', ['code' => '1122']);  
+        $pointFor_1122 = HeroBehaviour::model()->find('code = :code', ['code' => '1122']);
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
             LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
             
-            $dialogsPoint = CharactersPoints::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
+            $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_1122->id
             ]);
@@ -122,13 +122,13 @@ class SimulationServiceTest extends CDbTestCase
         $count_1 = 0;
         
         // get 4124
-        $pointFor_4124 = CharactersPointsTitles::model()->find('code = :code', ['code' => '4124']);  
+        $pointFor_4124 = HeroBehaviour::model()->find('code = :code', ['code' => '4124']);
         
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
             LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
             
-            $dialogsPoint = CharactersPoints::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
+            $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_4124->id
             ]);

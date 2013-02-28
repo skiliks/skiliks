@@ -6,7 +6,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class Characters extends CActiveRecord
+class Character extends CActiveRecord
 {
     /**
      * @var integer
@@ -85,7 +85,7 @@ class Characters extends CActiveRecord
         /**
      *
      * @param type $className
-     * @return Characters
+     * @return Character
      */
     public static function model($className=__CLASS__)
     {
@@ -103,7 +103,7 @@ class Characters extends CActiveRecord
     /**
      * Ограничивает выборку па заданному набору персонажей
      * @param array $ids набор персонажей
-     * @return Characters 
+     * @return Character
      */
     public function byIds($ids)
     {
@@ -117,7 +117,7 @@ class Characters extends CActiveRecord
     /**
      * Ограничивает выборку по коду персонажа
      * @param string $code
-     * @return Characters 
+     * @return Character
      */
     public function byCode($code)
     {
@@ -130,7 +130,7 @@ class Characters extends CActiveRecord
     /**
      * Выборка по конкретному коду персонажа.
      * @param int $id идентификатор персонажа
-     * @return Characters 
+     * @return Character
      */
     public function byId($id)
     {
