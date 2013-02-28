@@ -89,7 +89,7 @@ class SimulationService
             isset($b_3322_3324['3322']['positive']) &&
             true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
             {
-            $emailResultsFor_3322 = new SimulationsMailPointsModel();
+            $emailResultsFor_3322 = new SimulationMailPoint();
             $emailResultsFor_3322->sim_id        = $simId;
             $emailResultsFor_3322->point_id      = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
@@ -106,7 +106,7 @@ class SimulationService
             isset($b_3322_3324['3324']['negative']) &&
             true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3324 = new SimulationsMailPointsModel();
+            $emailResultsFor_3324 = new SimulationMailPoint();
             $emailResultsFor_3324->sim_id        = $simId;
             $emailResultsFor_3324->point_id      = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
@@ -127,7 +127,7 @@ class SimulationService
             true === $b_3325['obj'] instanceof CharactersPointsTitles)  
             {
 
-            $emailResultsFor_3325 = new SimulationsMailPointsModel();
+            $emailResultsFor_3325 = new SimulationMailPoint();
             $emailResultsFor_3325->sim_id        = $simId;
             $emailResultsFor_3325->point_id      = $b_3325['obj']->id;
             $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
@@ -147,7 +147,7 @@ class SimulationService
             isset($b_3323['positive']) &&
             true === $b_3323['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3323 = new SimulationsMailPointsModel();
+            $emailResultsFor_3323 = new SimulationMailPoint();
             $emailResultsFor_3323->sim_id        = $simId;
             $emailResultsFor_3323->point_id      = $b_3323['obj']->id;
             $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
@@ -167,7 +167,7 @@ class SimulationService
             isset($b_3313['positive']) &&
             true === $b_3313['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3313 = new SimulationsMailPointsModel();
+            $emailResultsFor_3313 = new SimulationMailPoint();
             $emailResultsFor_3313->sim_id        = $simId;
             $emailResultsFor_3313->point_id      = $b_3313['obj']->id;
             $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
@@ -185,7 +185,7 @@ class SimulationService
             isset($b_3333['positive']) &&
             true === $b_3333['obj'] instanceof CharactersPointsTitles)  
             {
-            $emailResultsFor_3333 = new SimulationsMailPointsModel();
+            $emailResultsFor_3333 = new SimulationMailPoint();
             $emailResultsFor_3333->sim_id = $simId;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
             $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
@@ -203,7 +203,7 @@ class SimulationService
             isset($b_3326['positive']) &&
             true === $b_3326['obj'] instanceof CharactersPointsTitles)
         {
-            $emailResultsFor_3326 = new SimulationsMailPointsModel();
+            $emailResultsFor_3326 = new SimulationMailPoint();
             $emailResultsFor_3326->sim_id        = $simId;
             $emailResultsFor_3326->point_id      = $b_3326['obj']->id;
             $emailResultsFor_3326->scale_type_id = $b_3326['obj']->type_scale;
@@ -288,7 +288,7 @@ class SimulationService
     public static function copyMailInboxOutboxScoreToAssessmentAgregated($simId)
     {
         // add mail inbox/outbox points
-        foreach (SimulationsMailPointsModel::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+        foreach (SimulationMailPoint::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
             $assassment = new AssessmentAggregated();
             $assassment->sim_id   = $simId;
             $assassment->point_id = $emailBehaviour->point_id;

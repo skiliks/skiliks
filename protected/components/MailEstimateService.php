@@ -60,7 +60,7 @@ class MailEstimateService {
         
         // сохраняем данные в simulations_dialogs_points
         foreach($data as $pointId=>$item) {
-            $model = SimulationsMailPointsModel::model()->bySimulation($simId)->byPoint($pointId)->byMail($mailId)->find();
+            $model = SimulationMailPoint::model()->bySimulation($simId)->byPoint($pointId)->byMail($mailId)->find();
             if ($model) {
                 $model->value       = $item['value'];
                 $model->count       = $item['count'];
