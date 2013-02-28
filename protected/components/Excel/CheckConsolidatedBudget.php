@@ -296,9 +296,14 @@ class CheckConsolidatedBudget
     public function calcPoints() 
     {
         // check document {
-        $documentId = MyDocument::model()->findByAttributes([
+        $documentTemplate = DocumentTemplate::model()->findByAttributes([
             'code' => 'D1'
         ]);
+
+        $documentId = MyDocument::model()->findByAttributes([
+            'template_id' => $documentTemplate->id
+        ]);
+
         if (null === $documentId) {
             return false;
         }
