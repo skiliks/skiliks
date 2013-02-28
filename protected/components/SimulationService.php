@@ -566,11 +566,11 @@ class SimulationService
 
         // определяем duration симуляции
 
-        $dialogsDuration = SimulationsDialogsDurations::model()->bySimulation($simulation->id)->find();
-        if (null === $dialogsDuration) {
+        $dialogDuration = SimulationDialogDuration::model()->bySimulation($simulation->id)->find();
+        if (null === $dialogDuration) {
             $result['duration'] = 0;
         } else {
-            $result['duration'] = $dialogsDuration->duration;
+            $result['duration'] = $dialogDuration->duration;
         }
 
         // загружаем поинты

@@ -7,7 +7,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsDialogsDurations extends CActiveRecord
+class SimulationDialogDuration extends CActiveRecord
 {
     /**
      * @var integer
