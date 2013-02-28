@@ -58,7 +58,7 @@ class AssessmentAggregated extends CActiveRecord
     
     /**
      * 
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @return array of AssessmentAgregated
      */
     public function findAllInSimulation($simulation)
@@ -88,7 +88,7 @@ class AssessmentAggregated extends CActiveRecord
     public function relations()
     {
         return array(
-            'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
             'point' => array(self::BELONGS_TO, 'CharactersPointsTitles', 'point_id'),
         );
     }

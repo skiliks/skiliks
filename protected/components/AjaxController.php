@@ -88,7 +88,7 @@ class AjaxController extends CController
         // stupidity, TODO: make normal sessions
         session_id($sessionId);
         
-        $simulation = Simulations::model()->findByPk(Yii::app()->session['simulation']);
+        $simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
         
         if (null === $simulation) { 
             $this->returnErrorMessage(sprintf(
@@ -103,11 +103,11 @@ class AjaxController extends CController
     
     /**
      *
-     * @return Simulations || HttpJsonResponce (Error)
+     * @return Simulation || HttpJsonResponce (Error)
      */
     public function getSimulationEntity()
     {
-        $simulation = Simulations::model()->findByPk($this->getSimulationId());
+        $simulation = Simulation::model()->findByPk($this->getSimulationId());
         
         if (null !== $simulation) {
             return $simulation;

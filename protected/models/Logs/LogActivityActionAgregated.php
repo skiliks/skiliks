@@ -6,7 +6,7 @@
  * @property integer window
  * @property datetime start_time
  * @property datetime end_time
- * @property Simulations simulation
+ * @property Simulation simulation
  */
 class LogActivityActionAgregated extends CActiveRecord
 {
@@ -63,7 +63,7 @@ class LogActivityActionAgregated extends CActiveRecord
     {
         return array(
             'activityAction'  => array(self::BELONGS_TO, 'ActivityAction', 'activity_action_id'),
-            'simulation'      => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
+            'simulation'      => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
         );
     }
 

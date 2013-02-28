@@ -8,7 +8,7 @@
 class FlagsService 
 {
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param string $dialogCode, 'E1.1'
      *
      * @return bool
@@ -38,15 +38,15 @@ class FlagsService
     }
 
     /**
-     * @param Simulations  $simulation
+     * @param Simulation  $simulation
      * @return mixed array
      */
-    public static function getFlagsState(Simulations $simulation) {
+    public static function getFlagsState(Simulation $simulation) {
         $result = [];
         
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
-            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+            foreach (SimulationFlag::model()->bySimulation($simulation->id)->findAll() as $flag) {
                 $result[$flag->flag] = $flag->value;
             }
         }        
@@ -54,15 +54,15 @@ class FlagsService
     }
 
     /**
-     * @param Simulations  $simulation
+     * @param Simulation  $simulation
      * @return mixed array
      */
-    public static function getFlagsStateForJs(Simulations $simulation) {
+    public static function getFlagsStateForJs(Simulation $simulation) {
         $result = [];
 
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
-            foreach (SimulationFlagsModel::model()->bySimulation($simulation->id)->findAll() as $flag) {
+            foreach (SimulationFlag::model()->bySimulation($simulation->id)->findAll() as $flag) {
                 $result[$flag->flag]['value'] = $flag->value;
                 $result[$flag->flag]['name'] = $flag->flagObj->description;
             }
@@ -140,9 +140,9 @@ class FlagsService
      */
     public static function setFlag($simId, $flag, $value) 
      {
-        $model = SimulationFlagsModel::model()->bySimulation($simId)->byFlag($flag)->find();
+        $model = SimulationFlag::model()->bySimulation($simId)->byFlag($flag)->find();
         if (!$model) {
-            $model = new SimulationFlagsModel();
+            $model = new SimulationFlag();
             $model->sim_id = $simId;
             $model->flag = $flag;
         }
@@ -225,7 +225,7 @@ class FlagsService
      * @return bool
      */
     public static function switchFlag($simulation, $flagName) {
-        $flag = SimulationFlagsModel::model()->findByAttributes([
+        $flag = SimulationFlag::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'flag'   => $flagName
         ]);

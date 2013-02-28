@@ -4,13 +4,11 @@
 /**
  * Модель моих документов
  *
- * Связана с моделями:  Simulations, DocumentTemplate.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  *
  * @property DocumentTemplate template
  */
-class MyDocumentsModel extends CActiveRecord
+class MyDocument extends CActiveRecord
 {
     /**
      * @var integer
@@ -49,7 +47,7 @@ class MyDocumentsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public static function model($className=__CLASS__)
     {
@@ -68,7 +66,7 @@ class MyDocumentsModel extends CActiveRecord
     /**
      * Выбрать по заданному идентификатору симуляции
      * @param int $simId
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function bySimulation($simId)
     {
@@ -81,7 +79,7 @@ class MyDocumentsModel extends CActiveRecord
     /**
      * Выбрать заданный документ
      * @param int $id
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function byId($id)
     {
@@ -94,7 +92,7 @@ class MyDocumentsModel extends CActiveRecord
     /**
      * Выбрать по заданному имени файла
      * @param string $fileName
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function byFileName($fileName)
     {
@@ -106,7 +104,7 @@ class MyDocumentsModel extends CActiveRecord
     
     /**
      * Отсортировать по имени файла
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function orderByFileName()
     {
@@ -119,7 +117,7 @@ class MyDocumentsModel extends CActiveRecord
     /**
      * Выбрать по заданному шаблону документа
      * @param int $templateId
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function byTemplateId($templateId)
     {
@@ -131,7 +129,7 @@ class MyDocumentsModel extends CActiveRecord
 
     /**
      * Выбрать только видимые документы 
-     * @return MyDocumentsModel 
+     * @return MyDocument 
      */
     public function visible()
     {

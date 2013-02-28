@@ -5,11 +5,9 @@
 /**
  * Оценки, набранные за использование почтой в рамках конкретной симуляции
  *
- * Связана с моделями:  Simulations, CharactersPointsTitles
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationsMailPointsModel extends CActiveRecord
+class SimulationMailPoint extends CActiveRecord
 {
     public $id;
     
@@ -26,7 +24,7 @@ class SimulationsMailPointsModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return SimulationsMailPointsModel 
+     * @return SimulationMailPoint 
      */
     public static function model($className=__CLASS__)
     {
@@ -44,7 +42,7 @@ class SimulationsMailPointsModel extends CActiveRecord
     /**
      * Выбрать согласно заданной симуляции
      * @param int $simId
-     * @return SimulationsMailPointsModel 
+     * @return SimulationMailPoint 
      */
     public function bySimulation($simId)
     {
@@ -58,7 +56,7 @@ class SimulationsMailPointsModel extends CActiveRecord
     /** 
      * Выбрать согласно заданному письму
      * @param int $mailId
-     * @return SimulationsMailPointsModel 
+     * @return SimulationMailPoint 
      */
     public function byMail($mailId)
     {
@@ -71,7 +69,7 @@ class SimulationsMailPointsModel extends CActiveRecord
     /**
      * Выбрать по заданной оценке
      * @param int $pointId
-     * @return SimulationsMailPointsModel 
+     * @return SimulationMailPoint 
      */
     public function byPoint($pointId)
     {

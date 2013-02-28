@@ -5,7 +5,7 @@
 /**
  * Модель диалогов. Хранит реплики диалогов и связь диалогов с событиями.
  * 
- * Связана с моделями: Characters, CharactersStates, DialogSubtypes, EventsResults, EventSample.
+ * Связана с моделями: Characters, DialogSubtype, EventsResults, EventSample.
  *
  * @property Characters from_character
  * @property Characters to_character
@@ -25,25 +25,13 @@ class Replica extends CActiveRecord implements IGameAction
      * @var integer
      */
     public $ch_from;
-    
-    /**
-     * characters_states.id
-     * @var integer
-     */
-    public $ch_from_state;    
-    
+
     /**
      * characters.id
      * @var integer
      */
     public $ch_to;
-    
-    /**
-     * characters_states.ids
-     * @var integer
-     */
-    public $ch_to_state;
-    
+
     /**
      * dialog_subtypes.id
      * @var integer

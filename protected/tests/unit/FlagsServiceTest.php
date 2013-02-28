@@ -244,7 +244,7 @@ class FlagServiceTest extends CDbTestCase
      */
     public function testSendEmailAfterFlagSwitched()
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
@@ -269,8 +269,10 @@ class FlagServiceTest extends CDbTestCase
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
+
         $this->assertEquals('inbox', $email->getGroupName());
-        $this->assertEquals('not received', $time_email->getGroupName());
+        $this->assertNull($time_email);
+
         SimulationService::setSimulationClockTime($simulation, 16, 0);
         $i = 0;
         while (true) {
@@ -291,6 +293,6 @@ class FlagServiceTest extends CDbTestCase
             'code'   => 'M9'
         ]);
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
-        $this->assertEquals('not received', $timed_bad_email->getGroupName());
+        $this->assertNull($timed_bad_email);
     }
 }

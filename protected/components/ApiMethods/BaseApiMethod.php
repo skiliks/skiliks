@@ -13,7 +13,7 @@ class BaseApiMethod
     
     /**
      * private - to avoid posibility of dirty tricks ;)
-     * @var Simulations
+     * @var Simulation
      */
     private $simulation = NULL;
     
@@ -47,7 +47,7 @@ class BaseApiMethod
         }
         
         // set,check Simulation
-        $this->simulation = Simulations::model()->findByPk(Yii::app()->session['simulation']);
+        $this->simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
         if (null == $this->simulation) { 
             throw new FrontendNotificationException('Unexistent simulation.');
         }
@@ -64,7 +64,7 @@ class BaseApiMethod
     /* -------------------------------------------------------------------------------------------------------------- */
     
     /**
-     * @return Simulations
+     * @return Simulation
      */
     public function getSimulation()
     {

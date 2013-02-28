@@ -196,7 +196,7 @@ class DayPlanService {
     }
     
     protected function _isAppropriateTime($simId, $time) {
-        $simulation = Simulations::model()->byId($simId)->find();
+        $simulation = Simulation::model()->byId($simId)->find();
         if (!$simulation) return false;
 
         $duration = (GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->start)) / 4;
@@ -292,7 +292,7 @@ class DayPlanService {
     }
     
     /**
-     * @param Simulations $simulation
+     * @param Simulation $simulation
      * @param integer $minutes
      * @param integer $snapShotTime, 1 - at 11:00, 2 - when simStop
      */
