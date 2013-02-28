@@ -275,6 +275,10 @@ define([
 
                 mailView.doUpdateMailPhrasesList();
 
+                // check than phrases not empty
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length)
+                    .toBe(3);
+
                 server.respond();
 
                 // check phrases

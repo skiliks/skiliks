@@ -1,15 +1,10 @@
 <?php
-
-
-
 /**
- * Шаблоны вложений писем.
+ * Содержит набор персонажей, которые идут в копии к заданному письму
  *
- * Связана с моделями: MyDocumentTemplate, MailTemplateModel.
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailAttachmentsTemplateModel extends CActiveRecord
+class MailCopy extends CActiveRecord
 {
     /**
      * @var integer
@@ -17,22 +12,23 @@ class MailAttachmentsTemplateModel extends CActiveRecord
     public $id;
     
     /**
-     * mail_template.id
-     * @var int
+     * mail_box.id
+     * @var integer
      */
     public $mail_id;
     
     /**
+     * characters.id
      * @var int
      */
-    public $file_id; // ?
+    public $receiver_id;     
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-
+    
     /**
      *
-     * @param string $className
-     * @return MailAttachmentsTemplateModel
+     * @param type $className
+     * @return MailCopy
      */
     public static function model($className=__CLASS__)
     {
@@ -44,32 +40,18 @@ class MailAttachmentsTemplateModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_attachments_template';
+            return 'mail_copies';
     }
-    
     
     /**
      * Выбрать по заданному письму
      * @param int $mailId
-     * @return MailAttachmentsTemplateModel 
+     * @return MailCopy
      */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "mail_id = {$mailId}"
-        ));
-        return $this;
-    }
-    
-    /**
-     * Выбрать по заданому файлу
-     * @param int $fileId
-     * @return MailAttachmentsTemplateModel 
-     */
-    public function byFileId($fileId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "file_id = {$fileId}"
         ));
         return $this;
     }

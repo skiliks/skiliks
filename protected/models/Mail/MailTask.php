@@ -4,11 +4,9 @@
 /**
  * Набор задач для писем.
  *
- * Связана с моделями:  MailTemplateModel
- * 
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailTasksModel extends CActiveRecord
+class MailTask extends CActiveRecord
 {
     /**
      * @var integer
@@ -58,7 +56,7 @@ class MailTasksModel extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return MailTasksModel
+     * @return MailTask
      */
     public static function model($className=__CLASS__)
     {
@@ -79,7 +77,7 @@ class MailTasksModel extends CActiveRecord
      *  MAil id means mailTemplateId
      * 
      * @param type $mailId
-     * @return MailTasksModel 
+     * @return MailTask 
      */
     public function byMailId($mailId)
     {
@@ -91,7 +89,7 @@ class MailTasksModel extends CActiveRecord
     
     /**
      * @param string $value, 'W', 'R' or 'M'. Wrong, Right, Miscelaniouse
-     * @return MailTasksModel 
+     * @return MailTask 
      */
     public function byWrongRight($value)
     {
@@ -107,7 +105,7 @@ class MailTasksModel extends CActiveRecord
      *  MAil id means mailTemplateId
      * 
      * @param array of integer $mailId
-     * @return MailTasksModel 
+     * @return MailTask 
      */
     public function byMailIds($mailIds)
     {
@@ -123,7 +121,7 @@ class MailTasksModel extends CActiveRecord
     /**
      * Выбрать по заданному идентификатору
      * @param int $id
-     * @return MailTasksModel 
+     * @return MailTask 
      */
     public function byId($id)
     {
@@ -135,7 +133,7 @@ class MailTasksModel extends CActiveRecord
     
     /**
      * @param string $name
-     * @return MailTasksModel 
+     * @return MailTask 
      */
     public function byName($name)
     {

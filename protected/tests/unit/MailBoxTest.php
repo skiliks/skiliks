@@ -25,18 +25,18 @@ class MailBoxTest extends CDbTestCase
         
         $mail = new MailBoxService();
         $events = new EventsManager();
-        $character = Characters::model()->findByAttributes(['code' => 9]);
+        $character = Character::model()->findByAttributes(['code' => 9]);
 
         // send MS40
         $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers' => $character->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies' => implode(',',[
-                Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+                Character::model()->findByAttributes(['code' => 2])->primaryKey,
+                Character::model()->findByAttributes(['code' => 11])->primaryKey,
+                Character::model()->findByAttributes(['code' => 12])->primaryKey,
             ]),
             'time' => '11:00:00',
             'group' => 3,
@@ -51,22 +51,22 @@ class MailBoxTest extends CDbTestCase
 
         // get letters from golders to checl them {
         $folderInbox = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::INBOX_FOLDER_ID,
+            'folderId'   => MailBox::INBOX_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderOutbox = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::OUTBOX_FOLDER_ID,
+            'folderId'   => MailBox::OUTBOX_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderDrafts = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::DRAFTS_FOLDER_ID,
+            'folderId'   => MailBox::DRAFTS_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderTrash = MailBoxService::getMessages([
-            'folderId'   => MailBoxModel::TRASH_FOLDER_ID,
+            'folderId'   => MailBox::TRASH_FOLDER_ID,
             'simId'      => $simulation->id
         ]);
         // get letters from golders to checl them }
@@ -157,17 +157,17 @@ class MailBoxTest extends CDbTestCase
         
         $mail = new MailBoxService();
         $events = new EventsManager();
-        $character = Characters::model()->findByAttributes(['code' => 9]);
+        $character = Character::model()->findByAttributes(['code' => 9]);
 
         $message = $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers'  => $character->primaryKey,
-            'sender'     => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies'     => implode(',',[
-                Characters::model()->findByAttributes(['code' => 2])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 11])->primaryKey,
-                Characters::model()->findByAttributes(['code' => 12])->primaryKey,
+                Character::model()->findByAttributes(['code' => 2])->primaryKey,
+                Character::model()->findByAttributes(['code' => 11])->primaryKey,
+                Character::model()->findByAttributes(['code' => 12])->primaryKey,
             ]),
             'time' => '11:00:00',
             'group' => 3,
@@ -179,7 +179,7 @@ class MailBoxTest extends CDbTestCase
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
-        $messageToReply = MailBoxModel::model()->findByAttributes([
+        $messageToReply = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id, 
             'code' => 'M31'
         ]);
@@ -246,9 +246,9 @@ class MailBoxTest extends CDbTestCase
     {      
         //$this->markTestSkipped();
         
-        $ch = Characters::model()->findByAttributes(['fio'=>'Денежная Р.Р.']);
+        $ch = Character::model()->findByAttributes(['fio'=>'Денежная Р.Р.']);
         $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
-        $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R1']);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R1']);
         $data= [];
         
         foreach($mail_phrases as $phrase){
@@ -274,9 +274,9 @@ class MailBoxTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $ch = Characters::model()->findByAttributes(['fio'=>'Трутнев С.']);
+        $ch = Character::model()->findByAttributes(['fio'=>'Трутнев С.']);
         $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
-        $mail_phrases = MailPhrasesModel::model()->findAllByAttributes(['code'=>'R6']);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R6']);
         $data= [];
 
         foreach($mail_phrases as $phrase){
@@ -314,13 +314,13 @@ class MailBoxTest extends CDbTestCase
         $count_1 = 0;
 
         // get 4124
-        $pointFor_4124 = CharactersPointsTitles::model()->find('code = :code', ['code' => '4124']);
+        $pointFor_4124 = HeroBehaviour::model()->find('code = :code', ['code' => '4124']);
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
             LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
 
-            $dialogsPoint = CharactersPoints::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
+            $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_4124->id
             ]);

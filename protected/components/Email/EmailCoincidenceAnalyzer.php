@@ -34,7 +34,7 @@ class EmailCoincidenceAnalyzer
     public function setUserEmail($userEmailId)
     {
         $this->userEmail = null;
-        $this->userEmail = MailBoxModel::model()->findByPk($userEmailId);
+        $this->userEmail = MailBox::model()->findByPk($userEmailId);
         
         return (null !== $this->userEmail);
     }    
@@ -60,14 +60,14 @@ class EmailCoincidenceAnalyzer
             return $result;
         }
 
-        foreach (MailTemplateModel::model()
+        foreach (MailTemplate::model()
                 ->byMS()
                 ->byReceiverId($this->userEmail->receiver_id)
                 ->bySubjectId($this->userEmail->subject_id)
                 ->findAll() as $mailTemplate) {
             // mailRecipientId{
             $mailRecipientId = array($mailTemplate->receiver_id);
-            foreach (MailReceiversTemplateModel::model()->byMailId($mailTemplate->id)->findAll() as $recipient) {
+            foreach (MailTemplateRecipient::model()->byMailId($mailTemplate->id)->findAll() as $recipient) {
                 if (false == in_array($recipient->receiver_id, $mailRecipientId)) {
                     $mailRecipientId[] = $recipient->receiver_id;
                 }
@@ -76,14 +76,14 @@ class EmailCoincidenceAnalyzer
             
             // mailCopyId {
             $mailCopyId = array();
-            foreach (MailCopiesTemplateModel::model()->byMailId($mailTemplate->id)->findAll() as $copy) {
+            foreach (MailTemplateCopy::model()->byMailId($mailTemplate->id)->findAll() as $copy) {
                 $mailCopyId[] = $copy->receiver_id;
             }
             // mailCopyId }
             
             // mailAttachmentId {
             $mailAttachId = array();
-            foreach (MailAttachmentsTemplateModel::model()->byMailId($mailTemplate->id)->findAll() as $attach) {
+            foreach (MailAttachmentTemplate::model()->byMailId($mailTemplate->id)->findAll() as $attach) {
                 $mailAttachId[] = $attach->file_id;
             }
             // mailAttachmentId }
@@ -120,7 +120,7 @@ class EmailCoincidenceAnalyzer
         
         // mailRecipientId{
         $mailRecipientId = array($this->userEmail->receiver_id);
-        foreach (MailReceiversModel::model()->byMailId($this->userEmail->id)->findAll() as $recipient) {
+        foreach (MailRecipient::model()->byMailId($this->userEmail->id)->findAll() as $recipient) {
             if (false == in_array($recipient->receiver_id, $mailRecipientId)) {
                 $mailRecipientId[] = $recipient->receiver_id;
             }
@@ -130,7 +130,7 @@ class EmailCoincidenceAnalyzer
         // mailCopyId {
         $mailCopyId = array();
 
-        foreach (MailCopiesModel::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
+        foreach (MailCopy::model()->byMailId($this->userEmail->id)->findAll() as $copy) {
             $mailCopyId[] = $copy->receiver_id;
         }
         
@@ -173,19 +173,19 @@ class EmailCoincidenceAnalyzer
             $result['result_code'] = $this->emailTemplatesByCodeFull[$indexFull]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodeFull[$indexFull]->id;
             $result['has_concidence'] = 1;
-            $result['result_type'] = MailBoxModel::COINCIDENCE_FULL;
+            $result['result_type'] = MailBox::COINCIDENCE_FULL;
         }elseif (isset($this->emailTemplatesByCodePart1[$indexPart1])) {
             $result['part1'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             $result['result_code'] = $this->emailTemplatesByCodePart1[$indexPart1]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodePart1[$indexPart1]->id;
             $result['has_concidence'] = 1;
-            $result['result_type'] = MailBoxModel::COINCIDENCE_PART_1;
+            $result['result_type'] = MailBox::COINCIDENCE_PART_1;
         }elseif (isset($this->emailTemplatesByCodePart2[$indexPart2])) {
             $result['part2'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             $result['result_code'] = $this->emailTemplatesByCodePart2[$indexPart2]->code;
             $result['result_template_id'] = $this->emailTemplatesByCodePart2[$indexPart2]->id;
             $result['has_concidence'] = 1;
-            $result['result_type'] = MailBoxModel::COINCIDENCE_PART_2;
+            $result['result_type'] = MailBox::COINCIDENCE_PART_2;
         }
         
         return $result;

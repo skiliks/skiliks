@@ -1,16 +1,13 @@
 <?php
+
+
+
 /**
- * !!!
- * Looks like we must use MailReceiversModel instaad of MailCopiesModel
- * 
- * Содержит набор персонажей, которые идут в копии к заданному письму
- * 
- * Связана с моделями: Characters, MailBoxModel.
- * 
+ * Шаблоны вложений писем.
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailCopiesModel extends CActiveRecord
+class MailAttachmentTemplate extends CActiveRecord
 {
     /**
      * @var integer
@@ -18,23 +15,22 @@ class MailCopiesModel extends CActiveRecord
     public $id;
     
     /**
-     * mail_box.id
-     * @var integer
+     * mail_template.id
+     * @var int
      */
     public $mail_id;
     
     /**
-     * characters.id
      * @var int
      */
-    public $receiver_id;     
+    public $file_id; // ?
     
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
      *
-     * @param type $className
-     * @return MailCopiesModel 
+     * @param string $className
+     * @return MailAttachmentTemplate
      */
     public static function model($className=__CLASS__)
     {
@@ -46,18 +42,32 @@ class MailCopiesModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_copies';
+            return 'mail_attachments_template';
     }
+    
     
     /**
      * Выбрать по заданному письму
      * @param int $mailId
-     * @return MailCopiesModel 
+     * @return MailAttachmentTemplate
      */
     public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
             'condition' => "mail_id = {$mailId}"
+        ));
+        return $this;
+    }
+    
+    /**
+     * Выбрать по заданому файлу
+     * @param int $fileId
+     * @return MailAttachmentTemplate
+     */
+    public function byFileId($fileId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "file_id = {$fileId}"
         ));
         return $this;
     }

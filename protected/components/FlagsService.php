@@ -192,7 +192,7 @@ class FlagsService
 
     public static function isAllowToSendMail($simulation, $mailCode)
     {
-        $mail_template = MailTemplateModel::model()->findByAttributes(['code' => $mailCode]);
+        $mail_template = MailTemplate::model()->findByAttributes(['code' => $mailCode]);
         if ($mail_template === null) {
             return true;
         }

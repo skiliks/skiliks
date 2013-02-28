@@ -3,15 +3,11 @@
 
 
 /**
- * Содержит значения оценки для конкретного письма. 
- * Наполняется из импорта оценок по письму
- * 
- * Связана с моделями: MailTemplateModel, CharactersPointsTitles.
+ * Шаблон персонажей, которые идут копией к конкретному письму.
  *
- * @property mixed import_id
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class MailPointsModel extends CActiveRecord
+class MailTemplateCopy extends CActiveRecord
 {
     /**
      * @var integer
@@ -25,23 +21,17 @@ class MailPointsModel extends CActiveRecord
     public $mail_id;
     
     /**
-     * character_points_titles.id
-     * @var integer
+     * characters.id
+     * @var int
      */
-    public $point_id;   
+    public $receiver_id;     
     
-    /**
-     * @var integer
-     */
-    public $add_value;  
-
-
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
      *
      * @param type $className
-     * @return MailPointsModel 
+     * @return MailTemplateCopy
      */
     public static function model($className=__CLASS__)
     {
@@ -53,38 +43,38 @@ class MailPointsModel extends CActiveRecord
      */
     public function tableName()
     {
-            return 'mail_points';
+            return 'mail_copies_template';
     }
     
     /**
-     * По заданному письму
-     * @param int $id
-     * @return MailPointsModel 
+     * Выбрать по заданному письму
+     * @param int $mailId
+     * @return MailTemplateCopy
      */
-    public function byMailId($id)
+    public function byMailId($mailId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "mail_id = {$id}"
+            'condition' => "mail_id = {$mailId}"
         ));
         return $this;
     }
     
     /**
-     * По заданной оценке
-     * @param int $pointId
-     * @return MailPointsModel 
+     * Выбрать по получателю
+     * @param int $receiverId
+     * @return MailTemplateCopy
      */
-    public function byPointId($pointId)
+    public function byReceiverId($receiverId)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => "point_id = {$pointId}"
+            'condition' => "receiver_id = {$receiverId}"
         ));
         return $this;
     }
     
     /**
      * @param string $ids
-     * @return \MailTemplateModel
+     * @return MailTemplate
      */
     public function byIdsNotIn($ids)
     {
@@ -92,7 +82,7 @@ class MailPointsModel extends CActiveRecord
             'condition' => " `id` NOT  IN ({$ids})"
         ));
         return $this;
-    }    
+    }  
 }
 
 
