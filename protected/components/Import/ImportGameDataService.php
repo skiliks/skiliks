@@ -1170,13 +1170,6 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet, 2);
 
-        // getCharactersStates {
-        $charactersStates = [];
-        foreach (CharactersStates::model()->findAll() as $character) {
-            $charactersStates[$character->title] = $character->id;
-        }
-        // getCharactersStates }
-
         // DialogSubtype
         $subtypes = [];
         foreach (DialogSubtype::model()->findAll() as $subtype) {
@@ -1208,12 +1201,6 @@ class ImportGameDataService
             $dialog->ch_from = Characters::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
             $to_character_code = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
             $dialog->ch_to = Characters::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
-
-            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-ОТ (+голос)', $i);
-            $dialog->ch_from_state = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // 1 is "me"
-
-            $stateId = $this->getCellValue($sheet, 'Настроение персонаж-КОМУ', $i);
-            $dialog->ch_to_state = (isset($charactersStates[$stateId])) ? $charactersStates[$stateId] : 1; // 1 is "me"
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {

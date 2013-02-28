@@ -464,13 +464,12 @@ class EmailAnalizer
         $limitToGet1points = $configs['limitToGet1points'];
         $limitToGet2points = $configs['limitToGet2points'];
 
-        $rigthMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
+        $rightMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
         $behave_3326 = CharactersPointsTitles::model()->byCode('3326')->positive()->find();
 
         // gather statistic  {
-        $userRightEmails = 0;
+        $userRightEmailsArray = []; // email with same MSxx must be counted once only
         $userWrongEmails = 0;
-        $userNoMatterEmails = 0;
         $userTotalEmails = count($this->userOutboxEmails);
 
         foreach ($this->userOutboxEmails as $emailData) {
@@ -481,23 +480,22 @@ class EmailAnalizer
             }
 
             if ('R' == $emailData->email->subject_obj->wr) {
-                $userRightEmails++;
+                $userRightEmailsArray[$emailData->email->code] = 'something';
             }
             if ('W' == $emailData->email->subject_obj->wr) {
                 $userWrongEmails++;
-            }
-            if ('N' == $emailData->email->subject_obj->wr) {
-                $userNoMatterEmails++;
             }
 
             // echo "\n {$emailData->email->code} {$emailData->email->subject_obj->wr}";
 
             $userTotalEmails++;
         }
+
+        $userRightEmails = count($userRightEmailsArray);
         // gather statistic }
 
         // 0 points if user had send too less emails (no matter W or R, or N)
-        if (($userRightEmails + $userNoMatterEmails)/$rigthMsNumber < (float)$limitToGetPoints) {
+        if ($userRightEmails/$rightMsNumber < (float)$limitToGetPoints) {
             return array(
                 'positive' => 0,
                 'obj'      => $behave_3326,
