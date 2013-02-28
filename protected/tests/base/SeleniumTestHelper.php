@@ -37,7 +37,7 @@ class SeleniumTestHelper extends CWebTestCase
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
-        $this->click(Yii::app()->params['test_mappings']['dev']['event_crete']);
+        $this->click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
     // проверка значения флага
@@ -45,9 +45,7 @@ class SeleniumTestHelper extends CWebTestCase
     // flag_value - 1 или 0 (значения флагов)
     public function assert_flags($flag_numb, $flag_value)
     {
-        $this->assertText($flag_numb,$flag_value);
-
-        // по нормальному тут еще надо сделать ожидание появления флага ...
+        $this->assertText(flag_numb,flag_value);
     }
 }
 
