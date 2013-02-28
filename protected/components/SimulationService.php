@@ -285,23 +285,30 @@ class SimulationService
      */
     public static function fillTodo($simulation)
     {
-        $tasks = Task::model()->byStartType('start')->findAll();
+        // add P17 - презентация ген. директору
+        $task = Task::model()->byStartType('start')->find(" code = 'P017' ");
+        $sql = "INSERT INTO day_plan (sim_id, date, day, task_id) VALUES
+        ({$simulation->id}, '16:00:00',1, {$task->id});
+        ";
 
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        // прочие задачи
+        $tasks = Task::model()->byStartType('start')->findAll(" code != 'P017' ");
+        $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
+
+        $add = '';
         foreach ($tasks as $task) {
-            // @todo: crazy tweak, works for current SimScenario only
-            if ($task->code != 'P017') {
-                // @todo: add attribute 'is_predefined' for task model.
-                // set it true for 'P017'
-                TodoService::add($simulation, $task);
-            } else {
-                $dayPlan = new DayPlan();
-                $dayPlan->sim_id  = $simulation->id;
-                $dayPlan->date    = $task->start_time;
-                $dayPlan->day     = 1;
-                $dayPlan->task_id = $task->id;
-                $dayPlan->insert();
-            }
+            $sql .= $add."({$simulation->id}, '00:00:00', {$task->id})";
+            $add = ',';
         }
+        $sql .= ";";
+
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
     }
 
     /**
@@ -400,19 +407,21 @@ class SimulationService
             ->byNotTerminatorCode()
             ->byTriggerTimeGreaterThanZero()
             ->findAll();
-        
-        $initedEvents = array();
-        $i = 0;
-        foreach ($events as $event) {
-            $initedEvents[$i] = new EventTrigger();
-            $initedEvents[$i]->sim_id = $simulation->id;
-            $initedEvents[$i]->event_id = $event->id;
-            $initedEvents[$i]->trigger_time = $event->trigger_time;
-            $initedEvents[$i]->save();
-            $i++;
-        }
 
-        return $initedEvents;
+        $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
+
+        $add = '';
+        foreach ($events as $event) {
+            $sql .= $add."({$simulation->id}, {$event->id}, '{$event->trigger_time}')";
+            $add = ',';
+        }
+        $sql .= ";";
+
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);
     }
 
     /**
