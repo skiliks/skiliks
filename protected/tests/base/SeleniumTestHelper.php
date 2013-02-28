@@ -12,7 +12,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
-        $this->setSpeed("1000");
+        //$this->setSpeed("1000");
         $this->waitForVisible('id=login');
         $this->type("id=login", "vad");
         $this->type("id=pass", "123");
@@ -34,12 +34,27 @@ class SeleniumTestHelper extends CWebTestCase
             sleep(1);
         }
     }
+
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
+    public function call_phone ($whom, $theme)
+    {
+        $this->click("id=icons_phone");
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->waitForElementPresent($whom);
+        $this->mouseOver($whom);
+        $this->click($whom);
+        //theme    -------  $this->waitForElementPresent("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
+        $this->waitForElementPresent($theme);
+        $this->mouseOver($theme);
+        $this->click($theme);
+    }
+    /*
     // проверка значения флага
     // flag_numb - локатор к ячейке с проверяемым значением флага в таблице флагов в дев-режиме
     // flag_value - 1 или 0 (значения флагов)
@@ -47,5 +62,6 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->assertText(flag_numb,flag_value);
     }
+    */
 }
 
