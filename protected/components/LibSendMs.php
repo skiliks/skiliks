@@ -50,6 +50,7 @@ class LibSendMs
             case 'MS74'  : $email = self::sendMs74_w($simulation); break;
             case 'MS76'  : $email = self::sendMs76_w($simulation); break;
             case 'MS79'  : $email = self::sendMs79_n($simulation); break;
+            case 'MS83'  : $email = self::sendMs83_r($simulation); break;
             case 'notMS' : $email = self::sendNotMs($simulation); break;
 
             default     : $email = NULL;
@@ -935,6 +936,35 @@ class LibSendMs
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    public static function sendMs83_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 6,
+            'letter_number' => 'MS83'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D5'
+        ]);
+
+        $doc = MyDocument::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('6');
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
         $sendMailOptions->subject_id = $subject->id;
         $sendMailOptions->messageId  = '';
 
