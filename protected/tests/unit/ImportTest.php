@@ -23,7 +23,7 @@ class ImportTest extends CDbTestCase
             $import = new ImportGameDataService();
             $import->setFilename('forUnitTests.xlsx');
             $import->importCharacters();
-            $import->importCharactersPointsTitles();
+            $import->importHeroBehaviours();
             $import->importLearningGoals();
             $import->importDialogReplicas();
             $import->importEmailSubjects();

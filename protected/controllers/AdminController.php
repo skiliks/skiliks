@@ -80,12 +80,13 @@ class AdminController extends AjaxController
             "js/game/adminka/config.js",
             "js/game/adminka/jgridController.js",
             "js/game/adminka/frame_switcher.js",
-            "js/game/lib/messages.js",
-            "js/game/mouse.js",
-            "js/game/game_logic.js",
-            "js/game/skiliks/sender.js",
-            "js/game/skiliks/receiver.js",
-            "js/game/lib/loading.js",
+            /*"js/game/lib/messages.js",*/
+            /*"js/game/mouse.js",*/
+            /*"js/game/game_logic.js",*/
+            "js/game/adminka/sender.js",
+            "js/game/adminka/receiver.js",
+            "js/game/adminka/loading.js",
+            "js/game/adminka/php.js",
             "js/game/adminka/menu_main.js",
             "js/game/adminka/world.js",
             "js/game/adminka/skiliks/characters_points_titles/characters_points_titles.js",

@@ -334,6 +334,7 @@ class LogActivityActionTest extends CDbTestCase
             $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
             $this->assertEquals('WINPA', $resActivity->activity_id);
             $simulationService->simulationStop($simulation);
+
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();
@@ -350,40 +351,46 @@ class LogActivityActionTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
+
             $simulationService = new SimulationService();
             $user = Users::model()->findByAttributes(['email' => 'asd']);
             $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+
             $mail = new MailBoxService();
+
             $message1 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
-                'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS55']),
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
+
             $message2 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
-                'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS55']),
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
+
             $message3 = $mail->sendMessage([
                 'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
-                'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-                'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-                'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+                'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS55']),
+                'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+                'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
                 'time' => '11:00:00',
                 'group' => 3,
                 'letterType' => 'new',
                 'simId' => $simulation->primaryKey
             ]);
+
             $first_dialog = Replica::model()->findByAttributes(['excel_id' => 516]);
             $last_dialog = Replica::model()->findByAttributes(['excel_id' => 523]);
 
@@ -406,17 +413,22 @@ class LogActivityActionTest extends CDbTestCase
                 [20, 23, 'deactivated', 32880, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
 
             ];
+
             $event = new EventsManager();
             $event->processLogs($simulation, $logs);
+
             LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+
             /** @var $activity_actions LogActivityAction[] */
             $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->id]);
             array_map(function ($i) {$i->dump();}, $activity_actions);
+
             // Test for insert
             $this->assertCount(2, $simulation->completed_parent_activities);
             $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
             $this->assertEquals('T2', $activity_actions[7]->activityAction->activity_id);
+
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();

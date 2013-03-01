@@ -55,7 +55,7 @@ class SimulationService
      * 
      * @param integer $simId
      */
-    public static function saveEmailsAnalize($simId) 
+    public static function saveEmailsAnalyze($simId)
     {
         // init emails in analizer
         $emailAnalizer = new EmailAnalizer($simId);
@@ -69,7 +69,7 @@ class SimulationService
         if (isset($b_3322_3324['3322']) && 
             isset($b_3322_3324['3322']['obj']) && 
             isset($b_3322_3324['3322']['positive']) &&
-            true === $b_3322_3324['3322']['obj'] instanceof CharactersPointsTitles) 
+            true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour) 
             {
             $emailResultsFor_3322 = new SimulationMailPoint();
             $emailResultsFor_3322->sim_id        = $simId;
@@ -86,7 +86,7 @@ class SimulationService
         if (isset($b_3322_3324['3324']) && 
             isset($b_3322_3324['3324']['obj']) && 
             isset($b_3322_3324['3324']['negative']) &&
-            true === $b_3322_3324['3324']['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3324 = new SimulationMailPoint();
             $emailResultsFor_3324->sim_id        = $simId;
@@ -106,7 +106,7 @@ class SimulationService
             
         if (isset($b_3325['obj']) && 
             isset($b_3325['negative']) &&
-            true === $b_3325['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3325['obj'] instanceof HeroBehaviour)  
             {
 
             $emailResultsFor_3325 = new SimulationMailPoint();
@@ -127,7 +127,7 @@ class SimulationService
             
         if (isset($b_3323['obj']) && 
             isset($b_3323['positive']) &&
-            true === $b_3323['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3323['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3323 = new SimulationMailPoint();
             $emailResultsFor_3323->sim_id        = $simId;
@@ -147,7 +147,7 @@ class SimulationService
             
         if (isset($b_3313['obj']) && 
             isset($b_3313['positive']) &&
-            true === $b_3313['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3313['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3313 = new SimulationMailPoint();
             $emailResultsFor_3313->sim_id        = $simId;
@@ -165,7 +165,7 @@ class SimulationService
         $b_3333 = $emailAnalizer->check_3333();
         if (isset($b_3333['obj']) && 
             isset($b_3333['positive']) &&
-            true === $b_3333['obj'] instanceof CharactersPointsTitles)  
+            true === $b_3333['obj'] instanceof HeroBehaviour)  
             {
             $emailResultsFor_3333 = new SimulationMailPoint();
             $emailResultsFor_3333->sim_id = $simId;
@@ -183,7 +183,7 @@ class SimulationService
         $b_3326 = $emailAnalizer->check_3326();
         if (isset($b_3326['obj']) &&
             isset($b_3326['positive']) &&
-            true === $b_3326['obj'] instanceof CharactersPointsTitles)
+            true === $b_3326['obj'] instanceof HeroBehaviour)
         {
             $emailResultsFor_3326 = new SimulationMailPoint();
             $emailResultsFor_3326->sim_id        = $simId;
@@ -220,7 +220,7 @@ class SimulationService
         }
   
         // add Point object
-        foreach (CharactersPointsTitles::model()->findAll() as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -285,23 +285,30 @@ class SimulationService
      */
     public static function fillTodo($simulation)
     {
-        $tasks = Task::model()->byStartType('start')->findAll();
+        // add P17 - презентация ген. директору
+        $task = Task::model()->byStartType('start')->find(" code = 'P017' ");
+        $sql = "INSERT INTO day_plan (sim_id, date, day, task_id) VALUES
+        ({$simulation->id}, '16:00:00',1, {$task->id});
+        ";
 
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        // прочие задачи
+        $tasks = Task::model()->byStartType('start')->findAll(" code != 'P017' ");
+        $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
+
+        $add = '';
         foreach ($tasks as $task) {
-            // @todo: crazy tweak, works for current SimScenario only
-            if ($task->code != 'P017') {
-                // @todo: add attribute 'is_predefined' for task model.
-                // set it true for 'P017'
-                TodoService::add($simulation, $task);
-            } else {
-                $dayPlan = new DayPlan();
-                $dayPlan->sim_id  = $simulation->id;
-                $dayPlan->date    = $task->start_time;
-                $dayPlan->day     = 1;
-                $dayPlan->task_id = $task->id;
-                $dayPlan->insert();
-            }
+            $sql .= $add."({$simulation->id}, '00:00:00', {$task->id})";
+            $add = ',';
         }
+        $sql .= ";";
+
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
     }
 
     /**
@@ -327,13 +334,13 @@ class SimulationService
                     /** @var Replica $dialog */
                     $dialog = Replica::model()->findByPk($condition->dialog_id);
 
-                    $satisfies = LogDialogs::model()
+                    $satisfies = LogDialog::model()
                         ->bySimulationId($simId)
                         ->byLastReplicaId($dialog->excel_id)
                         ->exists();
                 } elseif ($condition->mail_id) {
-                    /** @var MailBoxModel $mail */
-                    $mail = MailBoxModel::model()->findByAttributes([
+                    /** @var MailBox $mail */
+                    $mail = MailBox::model()->findByAttributes([
                         'sim_id' => $simId,
                         'template_id' => $condition->mail_id
                     ]);
@@ -400,19 +407,21 @@ class SimulationService
             ->byNotTerminatorCode()
             ->byTriggerTimeGreaterThanZero()
             ->findAll();
-        
-        $initedEvents = array();
-        $i = 0;
-        foreach ($events as $event) {
-            $initedEvents[$i] = new EventTrigger();
-            $initedEvents[$i]->sim_id = $simulation->id;
-            $initedEvents[$i]->event_id = $event->id;
-            $initedEvents[$i]->trigger_time = $event->trigger_time;
-            $initedEvents[$i]->save();
-            $i++;
-        }
 
-        return $initedEvents;
+        $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
+
+        $add = '';
+        foreach ($events as $event) {
+            $sql .= $add."({$simulation->id}, {$event->id}, '{$event->trigger_time}')";
+            $add = ',';
+        }
+        $sql .= ";";
+
+        $connection = Yii::app()->db;
+        $command = $connection->createCommand($sql);
+        $command->execute();
+
+        return EventTrigger::model()->findAllByAttributes(['sim_id' => $simulation->id]);
     }
 
     /**
@@ -488,7 +497,7 @@ class SimulationService
         LogHelper::combineLogActivityAgregated($simulation);
         
         // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalize($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation->id);
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf

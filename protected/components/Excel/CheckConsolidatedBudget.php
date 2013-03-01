@@ -289,9 +289,7 @@ class CheckConsolidatedBudget
     }
     
     /**
-     * Рассчет оценки по окончании симуляции
-     * 
-     * @param integer simId
+     * Расчет оценки по окончании симуляции
      */
     public function calcPoints() 
     {
@@ -343,8 +341,7 @@ class CheckConsolidatedBudget
             $this->resetUserPoints();
             $this->savePoints();
             Yii::log('no sheet', 'warning');
-            die('223');
-            return false;   
+            return false;
         }
         
         // start analyze {

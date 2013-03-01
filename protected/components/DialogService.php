@@ -55,7 +55,7 @@ class DialogService
                 $simId,
                 $time,
                 $currentDialog->to_character,
-                Characters::model()->findByAttributes(['code' => Characters::HERO_ID]),
+                Character::model()->findByAttributes(['code' => Character::HERO_ID]),
                 $currentDialog->dialog_subtype,
                 $currentDialog->step_number,
                 $currentDialog->replica_number,
@@ -191,7 +191,7 @@ class DialogService
         ###################
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Characters::model()->findByAttributes(['code' => $characterId]);
+            $character = Character::model()->findByAttributes(['code' => $characterId]);
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;
@@ -200,7 +200,7 @@ class DialogService
 
         if (isset($data[0]['ch_to'])) {
             $characterId = $data[0]['ch_to'];
-            $character = Characters::model()->findByAttributes(['code' => $characterId]);
+            $character = Character::model()->findByAttributes(['code' => $characterId]);
             if ($character) {
                 $data[0]['remote_title'] = $character->title;
                 $data[0]['remote_name'] = $character->fio;
@@ -303,7 +303,7 @@ class DialogService
         $dialogs = array();
         
         $characters = array();
-        foreach (Characters::model()->findAll() as $character) {
+        foreach (Character::model()->findAll() as $character) {
             $characters[$character->id] = $character;
         }
 

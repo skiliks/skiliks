@@ -17,7 +17,7 @@ class FlagsF3SK1341Test extends CWebTestCase
 
     public function testSK1341() {
         // next line for not running the test
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->waitForVisible('id=login');

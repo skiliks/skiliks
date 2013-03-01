@@ -50,15 +50,15 @@ class FlagServiceTest extends CDbTestCase
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 
-        $senderId = Characters::model()->findByAttributes(['code' => Characters::HERO_ID])->primaryKey;
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
         $msgParams = [
             'simId' => $simulation->id,
             'subject_id' => CommunicationTheme::model()->findByAttributes([
                 'code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>null])->primaryKey,
             'message_id' => 0,
             'receivers' => $receiverId,
-            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
+            'group' => MailBox::OUTBOX_FOLDER_ID,
             'sender' => $senderId,
             'time' => '11:00',
             'letterType' => null
@@ -259,13 +259,13 @@ class FlagServiceTest extends CDbTestCase
         $result = $e->getState($simulation, []);
         $this->assertEquals(0, $result['result']);
 
-        /** @var $email MailBoxModel */
-        $email = MailBoxModel::model()->findByAttributes([
+        /** @var $email MailBox */
+        $email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M31'
         ]);
-        /** @var $time_email MailBoxModel */
-        $time_email = MailBoxModel::model()->findByAttributes([
+        /** @var $time_email MailBox */
+        $time_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
@@ -282,13 +282,13 @@ class FlagServiceTest extends CDbTestCase
                 break;
             }
         };
-        /** @var $timed_good_email MailBoxModel */
-        $timed_good_email = MailBoxModel::model()->findByAttributes([
+        /** @var $timed_good_email MailBox */
+        $timed_good_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M8'
         ]);
-        /** @var $timed_bad_email MailBoxModel */
-        $timed_bad_email = MailBoxModel::model()->findByAttributes([
+        /** @var $timed_bad_email MailBox */
+        $timed_bad_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
