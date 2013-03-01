@@ -71,7 +71,7 @@ class MailEstimateService {
                 $model->save();
             }
             else {
-                $model = new SimulationsDialogsPoints();
+                $model = new SimulationDialogPoint();
                 $model->sim_id      = $simId;
                 $model->point_id    = $pointId;
                 

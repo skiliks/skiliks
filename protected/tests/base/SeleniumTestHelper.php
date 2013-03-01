@@ -11,6 +11,7 @@ class SeleniumTestHelper extends CWebTestCase
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
+        $this->windowMaximize();
         $this->open('/site/');
         //$this->setSpeed("1000");
         $this->waitForVisible('id=login');
@@ -38,21 +39,73 @@ class SeleniumTestHelper extends CWebTestCase
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
-        $this->click(Yii::app()->params['test_mappings']['dev']['event_create']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
+    // звонок по телефону, когда телефон не активен (не движется)
     public function call_phone ($whom, $theme)
     {
-        $this->click("id=icons_phone");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->waitForElementPresent($whom);
         $this->mouseOver($whom);
         $this->click($whom);
-        //theme    -------  $this->waitForElementPresent("xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
         $this->waitForElementPresent($theme);
         $this->mouseOver($theme);
         $this->click($theme);
+    }
+
+    // ответить на входящий звонок, когда телефон активен (мигает)
+    public function reply_call ()
+    {
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+    }
+
+    // не ответить на входящий звонок, когда телефон активен (мигает)
+    public function no_reply_call ()
+    {
+        sleep(5);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        sleep(2);
+    }
+
+    // создание письма, когда мейл-клиент активен (мигает)
+    public function write_mail_active()
+    {
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
+        sleep(2);
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(2);
+    }
+
+    public function optimal_click ($loc)
+    {
+        $this->waitForVisible($loc);
+        $this->click($loc);
     }
     /*
     // проверка значения флага

@@ -15,11 +15,11 @@ window.SKFlagStateView = Backbone.View.extend({
         e.stopPropagation(e);
 
         // to prevent doubled requests
-        if (SKApp.user.simulation.isFalgsUpdated) {
+        if (SKApp.user.simulation.isFlagsUpdated) {
             return;
         }
 
-        SKApp.user.simulation.isFalgsUpdated = true;
+        SKApp.user.simulation.isFlagsUpdated = true;
 
         var me = this;
         var flagName = $(e.currentTarget).attr('data-flag-code');
@@ -48,7 +48,7 @@ window.SKFlagStateView = Backbone.View.extend({
     },
 
     updateValues: function(flagsState) {
-        SKApp.user.simulation.isFalgsUpdated = false;
+        SKApp.user.simulation.isFlagsUpdated = false;
 
         $('.form-flags table').remove();
         // clean old data AND init base structure,

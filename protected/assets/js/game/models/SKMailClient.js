@@ -1059,7 +1059,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 };
             },
 
-            sendNewCustomEmail:function (emailToSave, cb) {
+            sendNewCustomEmail:function (emailToSave, callback) {
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
@@ -1069,11 +1069,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
                     function (response) {
-                        // keep non strict comparsion
+                        // keep non strict compassion
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
-                            me.getSendedFolderEmails();
+                            me.getSendedFolderEmails(callback); // callback is usually 'render active folder'
                         } else {
                             me.message_window =
                                 me.message_window || new SKDialogView({
@@ -1109,7 +1109,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
                         ]
                     });
-                    console.log("no res");
                     return false;
                 }
 
@@ -1126,10 +1125,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
                         ]
                     });
-                    console.log("no theme");
                     return false;
                 }
                 // validation }
+
                 return true;
             },
 

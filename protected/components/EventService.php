@@ -139,7 +139,7 @@ class EventService {
         $result = false;
         if ($type == 'MY') {
             // отдать письмо по коду
-            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->byCode($code)->find();
             if ($mailModel) {
                 // если входящее письмо УЖЕ пришло (кодировка MY - Message Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
@@ -149,7 +149,7 @@ class EventService {
         
         if ($type == 'M') {
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
-            $mailModel = MailBoxService::copyMessageFromTemplateByCode($simId, $code);
+            $mailModel = MailBoxService::copyMessageFromTemplateByCode($simulation, $code);
             if (!$mailModel) {
                 throw new Exception("cant copy mail by code $code");
             }
@@ -163,7 +163,7 @@ class EventService {
         
         if ($type == 'MSY') {
             // отдать письмо по коду
-            $mailModel = MailBoxModel::model()->byCode($code)->find();
+            $mailModel = MailBox::model()->byCode($code)->find();
             if ($mailModel) {
                 // если исходящее письмо уже отправлено  (кодировка MSY - Message Sent Yesterday)
                 //  - то в списке писем должно быть выделено именно это письмо
@@ -182,7 +182,7 @@ class EventService {
             if (!$documentTemplate) return false;
             $templateId = $documentTemplate->id;
             
-            $document = MyDocumentsModel::model()->byTemplateId($templateId)->bySimulation($simId)->find();
+            $document = MyDocument::model()->byTemplateId($templateId)->bySimulation($simId)->find();
             if (!$document) return false;
             
             return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);
@@ -239,7 +239,7 @@ class EventService {
 
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Characters::model()->byId($characterId)->find();
+            $character = Character::model()->byId($characterId)->find();
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;

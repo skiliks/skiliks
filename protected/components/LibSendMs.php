@@ -13,7 +13,7 @@ class LibSendMs
      * @param integer $windowUid, better set-up value manually - even in test
      * @param integer $duration
      *
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMsByCode($simulation, $msCode,
         $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10)
@@ -86,7 +86,7 @@ class LibSendMs
      * So all MS to "Неизвестная" are wrong
      *
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendNotMs($simulation)
     {
@@ -108,7 +108,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs10_w($simulation)
     {
@@ -121,7 +121,7 @@ class LibSendMs
             'code' => 'D10'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -141,7 +141,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs20_r($simulation)
     {
@@ -164,7 +164,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs21_w($simulation)
     {
@@ -177,7 +177,7 @@ class LibSendMs
             'code' => 'D1'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -197,7 +197,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs22_w($simulation)
     {
@@ -210,7 +210,7 @@ class LibSendMs
             'code' => 'D1'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -230,7 +230,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs23_w($simulation)
     {
@@ -243,7 +243,7 @@ class LibSendMs
             'code' => 'D3'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -263,7 +263,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs25_r($simulation)
     {
@@ -276,7 +276,7 @@ class LibSendMs
             'code' => 'D4'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -296,7 +296,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs28_r($simulation)
     {
@@ -309,7 +309,7 @@ class LibSendMs
             'code' => 'D8'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -329,12 +329,11 @@ class LibSendMs
 
      /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs27_w($simulation)
     {
-        $emailFromSysadmin = MailBoxModel::model()
-            ->find('sim_id = :sim_id AND code = \'M8\'', ['sim_id' => $simulation->id ]);
+        $emailFromSysadmin = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
 
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[
@@ -357,7 +356,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs29_r($simulation)
     {
@@ -381,11 +380,11 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs30_w($simulation)
     {
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
             'simId' => $simulation->id,
@@ -396,8 +395,8 @@ class LibSendMs
             ])->primaryKey,
             'message_id' => 0,
             'receivers' => $receiverId,
-            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => Characters::HERO_ID,
+            'group' => MailBox::OUTBOX_FOLDER_ID,
+            'sender' => Character::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -407,11 +406,11 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs32_w($simulation)
     {
-        $receiverId = Characters::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
 
         $msgParams = [
             'simId' => $simulation->id,
@@ -421,8 +420,8 @@ class LibSendMs
             ])->primaryKey,
             'message_id' => 0,
             'receivers' => $receiverId,
-            'group' => MailBoxModel::OUTBOX_FOLDER_ID,
-            'sender' => Characters::HERO_ID,
+            'group' => MailBox::OUTBOX_FOLDER_ID,
+            'sender' => Character::HERO_ID,
             'time' => '11:00',
             'letterType' => null
         ];
@@ -432,7 +431,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs35_r($simulation)
     {
@@ -445,7 +444,7 @@ class LibSendMs
             'code' => 'D18'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -465,7 +464,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs36_r($simulation)
     {
@@ -478,7 +477,7 @@ class LibSendMs
             'code' => 'D19'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -498,7 +497,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs37_r($simulation)
     {
@@ -521,7 +520,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs39_r($simulation)
     {
@@ -544,7 +543,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs40_r($simulation)
     {
@@ -557,9 +556,9 @@ class LibSendMs
 
         return $mailService->sendMessage([
             'subject_id' => $subject->id,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
             'receivers'  => '9',
-            'sender'     => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'copies'     => '1,11,12',
             'time'       => '11:00:00',
             'group'      => 3,
@@ -570,7 +569,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs48_r($simulation)
     {
@@ -593,7 +592,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs49_w($simulation)
     {
@@ -616,7 +615,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs50_w($simulation)
     {
@@ -639,7 +638,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs51_r($simulation)
     {
@@ -662,7 +661,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs53_r($simulation)
     {
@@ -675,7 +674,7 @@ class LibSendMs
             'code' => 'D20'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -695,7 +694,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs54_w($simulation)
     {
@@ -718,7 +717,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs55_r($simulation)
     {
@@ -726,9 +725,9 @@ class LibSendMs
 
         return $mail->sendMessage([
             'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey,
-            'message_id' => MailTemplateModel::model()->findByAttributes(['code' => 'MS55']),
-            'receivers' => Characters::model()->findByAttributes(['code' => 39])->primaryKey,
-            'sender' => Characters::model()->findByAttributes(['code' => 1])->primaryKey,
+            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS55']),
+            'receivers' => Character::model()->findByAttributes(['code' => 39])->primaryKey,
+            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
             'time' => '11:00:00',
             'group' => 3,
             'letterType' => 'new',
@@ -738,7 +737,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs57_r($simulation)
     {
@@ -761,7 +760,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs58_w($simulation)
     {
@@ -784,7 +783,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs60_r($simulation)
     {
@@ -793,13 +792,10 @@ class LibSendMs
             'letter_number' => 'MS60'
         ]);
 
-        $message = MailBoxModel::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'code'   => 'M75'
-        ]);
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 
         // user can reply to received email only
-        $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
+        $message->group_id = MailBox::INBOX_FOLDER_ID;
         $message->save();
 
         $sendMailOptions = new SendMailOptions();
@@ -816,7 +812,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs61_r($simulation)
     {
@@ -825,13 +821,10 @@ class LibSendMs
             'letter_number' => 'MS61'
         ]);
 
-        $message = MailBoxModel::model()->findByAttributes([
-            'sim_id' => $simulation->id,
-            'code'   => 'M76'
-        ]);
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M76');
 
         // user can reply to received email only
-        $message->group_id = MailBoxModel::INBOX_FOLDER_ID;
+        $message->group_id = MailBox::INBOX_FOLDER_ID;
         $message->save();
 
         $sendMailOptions = new SendMailOptions();
@@ -848,7 +841,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs69_r($simulation)
     {
@@ -861,7 +854,7 @@ class LibSendMs
             'code' => 'D2'
         ]);
 
-        $doc = MyDocumentsModel::model()->findByAttributes([
+        $doc = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->id,
             'sim_id'      => $simulation->id
         ]);
@@ -881,7 +874,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs74_w($simulation)
     {
@@ -904,7 +897,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs76_w($simulation)
     {
@@ -927,7 +920,7 @@ class LibSendMs
 
     /**
      * @param Simulation $simulation
-     * @return MailBoxModel
+     * @return MailBox
      */
     public static function sendMs79_n($simulation)
     {

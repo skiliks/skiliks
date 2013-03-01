@@ -1454,7 +1454,7 @@ define([
                 for (var i in recipients) {
                     emailToSave.recipients.push(this.mailClient.getCharacterById(recipients[i]));
                 }
-                console.log(emailToSave.recipients);
+
                 // copies
                 var copies = this.getCurentEmailCopiesIds();
                 emailToSave.copyTo = []; // set empty realy nessesary
@@ -1504,8 +1504,8 @@ define([
                 var emailToSave = this.generateNewEmailObject();
 
                 this.mailClient.sendNewCustomEmail(emailToSave, function () {
-                    this.updateFolderLabels();
-                    this.renderActiveFolder();
+                    me.updateFolderLabels();
+                    me.renderActiveFolder();
 
                     me.mailClient.setWindowsLog(
                         'mailMain',

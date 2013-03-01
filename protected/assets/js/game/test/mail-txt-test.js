@@ -177,6 +177,10 @@ define([
 
                 server.respond();
 
+                // check is message has been displayed
+                expect(mailView.$el.find('#mailEmulatorNewLetterText').text())
+                    .toBe('Dummy message.');
+
                 // check phrases
                 expect(SKApp.user.simulation.mailClient.availablePhrases.length).toBe(0);
 
