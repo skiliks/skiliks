@@ -229,6 +229,16 @@ define([
                             "result": 1,
                             "mailId": "1245"
                         })]);
+                server.respondWith("POST", "/index.php/myDocuments/add",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({
+                            "result":1,
+                            "file":{
+                                "id":"986",
+                                "name":"\u0426\u0435\u043d\u043e\u0432\u0430\u044f \u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0430.xlsx",
+                                "mime":"application\/vnd.ms-excel"
+                            }
+                        })]);
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
                 window.SKApp = new SKApplication();
@@ -240,7 +250,7 @@ define([
                 server.restore();
             });
 
-            it("forward for M8", function () {
+            it("attachment for MY1", function () {
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
@@ -253,39 +263,16 @@ define([
 
                 server.respond();
 
-                expect(mailClientView.$('tr[data-email-id=4136] td.mail-emulator-received-list-cell-theme').text()).toBe('!проблема с сервером!');
-                mailClientView.$('tr[data-email-id=4136] td.mail-emulator-received-list-cell-theme').click();
+                expect(mailClientView.$('tr[data-email-id=4125] td.mail-emulator-received-list-cell-theme').text()).toBe('По ценовой политике');
 
                 server.respond();
-
-                mailClientView.$el.find('.FORWARD_EMAIL').click();
-                $('body').append(mailClientView.$el);
-
+                mailClientView.$('.save-attachment-icon').click();
                 server.respond();
 
-                //mailClientView.renderForwardEmailScreen();
-
-                //server.respond();
-
-                $('#MailClient_RecipientsList').append('<li class="tagItem">Денежная Р.Р.</li>');
-                $('#MailClient_RecipientsList').append('<li class="tagItem">Крутько М.</li>');
-                //console.log('Debug');
-                //console.log(mailClientView.$("#MailClient_RecipientsList li.tagItem").get());
-                var email = mailClientView.generateNewEmailObject();
-                server.respond();
-                var validationDialogResult = mailClientView.mailClient.validationDialogResult(email);
-                server.respond();
-                // check is email valid
-                expect(validationDialogResult).toBe(true);
-                mailClientView.mailClient.reloadSubjects([2,4]);
-                //mailClient.doSendEmail();
-                expect(SKApp.user.simulation.mailClient.availableSubjects[0].text).toBe('Fwd: !проблема с сервером!');
-                mailClientView.$('.SEND_EMAIL').click();
-                server.respond();
                 server.requests.forEach(function(request){
-                    if(request.url == '/index.php/mail/sendMessage'){
+                    if(request.url == '/index.php/myDocuments/add'){
                         //console.log(request);
-                        expect(request.requestBody).toBe('copies=&fileId=&messageId=4125&phrases=&receivers=2%2C4%2C&subject=1788&time=09%3A00');
+                        expect(request.requestBody).toBe('attachmentId=986');
                     }
                 });
             });
