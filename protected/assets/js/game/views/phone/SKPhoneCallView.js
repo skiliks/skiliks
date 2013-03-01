@@ -3,7 +3,13 @@
 
 var SKPhoneCallView;
 
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/phone/call_template.jst",
+
+    "game/views/SKWindowView"
+], function (
+    call_template
+) {
     "use strict";
     /**
      * @class
@@ -37,7 +43,7 @@ define(["game/views/SKWindowView"], function () {
 
         renderContent: function (window_el) {
             var me = this;
-            window_el.html(_.template($('#Phone_Call').html(), {call: this.options.event.get('data')}));
+            window_el.html(_.template(call_template, {call: this.options.event.get('data')}));
             var event = this.options.model_instance.get('sim_event');
             var dialogId = event.get('data')[0].id;
 
@@ -55,7 +61,7 @@ define(["game/views/SKWindowView"], function () {
         getMenu: function(event){
             //Todo: уточнить возможность у Антона
             //var id = $(event.currentTarget).attr('window_id');
-            //this.renderTPL('#'+id+' .phone-screen', '#Phone_Menu', {windowID:id});
+            //this.renderTPL('<xxx>', {windowID:id});
         },
 
         getCountViews: function(){

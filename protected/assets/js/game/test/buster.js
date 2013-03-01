@@ -25,15 +25,15 @@ var config = module.exports;
         sources: [
             "text.js",
             "game/jst/**/*.jst",    // Paths are relative to config file
+
             "game/models/**/*.js",    // Paths are relative to config file
             "game/models/*.js",    // Paths are relative to config file
+
             "game/collections/**/*.js",    // Paths are relative to config file
             "game/collections/*.js",
-            "game/views/mail/*.js",    // Paths are relative to config file
-            "game/views/*.js",
-            "game/views/dialogs/*.js",
-            "game/views/world/*.js"
 
+            "game/views/*.js",
+            "game/views/**/*.js"
         ],
         tests: [
             "game/test/*-test.js"

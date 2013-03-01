@@ -2,7 +2,13 @@
 
 var SKPhoneDialogView;
 
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/phone/dialog_template.jst",
+
+    "game/views/SKWindowView"
+], function (
+    dialog_template
+) {
 
     "use strict";
 
@@ -52,7 +58,7 @@ define(["game/views/SKWindowView"], function () {
                 this.isUserCanFinalizeCall = false;
             }
 
-            var callInHtml = _.template($('#Phone_Dialog').html(), {
+            var callInHtml = _.template(dialog_template, {
                 'remote_replica':            remote_replica,
                 'my_replicas':               my_replicas,
                 'audio_src':                 event.getAudioSrc(),

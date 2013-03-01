@@ -30,14 +30,6 @@
         {/if}
     </script>
 
-{include "site/jst/world.tpl"}
-{include "site/jst/window.tpl"}
-{include "site/jst/visit.tpl"}
-{include "site/jst/simulation.tpl"}
-{include "site/jst/plan.tpl"}
-{include "site/jst/mail.tpl"}
-{include "site/jst/documents.tpl"}
-{include "site/jst/phone.tpl"}
 </head>
 <body class="body">
 <div id="excel-cache" style="display: none; visibility: hidden;"></div>

@@ -2,11 +2,18 @@
  */
 
 var SKXLSDisplayView;
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/document/document_xls_template.jst",
+    "game/views/SKWindowView"
+],function (
+    document_xls_template
+) {
     "use strict";
 
     SKXLSDisplayView = SKWindowView.extend({
+
         title:'Мои документы',
+
         displayZohoIframe:function (doc, el) {
             var me = this;
             $('#excel-preload-' + doc.id).show().css({
@@ -17,11 +24,14 @@ define(["game/views/SKWindowView"], function () {
                 'top':el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position':'absolute'
             });
-        }, renderContent:function (el) {
+        },
+
+        renderContent:function (el) {
             var me = this;
             var doc = this.options.model_instance.get('document');
-            el.html(_.template($('#document_xls_template').html(), {
-            }));
+
+            el.html( _.template(document_xls_template, {}) );
+
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
             });
@@ -30,17 +40,22 @@ define(["game/views/SKWindowView"], function () {
             }, 0);
 
         },
+
         doStartDrag: function (el) {
             this.hideZohoIframe();
         },
+
         doEndDrag: function (el) {
             var doc = this.options.model_instance.get('document');
             this.displayZohoIframe(doc, el.find('.sim-window-content'));
         },
+
         hideZohoIframe:function () {
             var doc = this.options.model_instance.get('document');
             $('#excel-preload-' + doc.id).css({'left':'-1000px','position':'absolute'});
-        }, remove:function () {
+        },
+
+        remove:function () {
             var me = this;
             this.hideZohoIframe();
             SKWindowView.prototype.remove.call(this);

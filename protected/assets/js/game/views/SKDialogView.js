@@ -1,7 +1,13 @@
 /*global Backbone, _ */
 
 var SKDialogView;
-define(["jquery/jquery.topzindex.min", "text!game/jst/world/dialog.jst"], function (topzindex, dialog_template) {
+define([
+    "jquery/jquery.topzindex.min",
+    "text!game/jst/world/dialog.jst"
+], function (
+        topzindex,
+        dialog_template
+    ) {
     "use strict";
     /**
      * List of user's phrases added to letter

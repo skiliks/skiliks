@@ -2,7 +2,11 @@
 
 var SKLoginView;
 
-define([], function() {
+define([
+    "text!game/jst/world/login_template.jst"
+], function(
+    login_template
+) {
     "use strict";
     SKLoginView = Backbone.View.extend({
         'el': 'body',
@@ -13,7 +17,7 @@ define([], function() {
             'submit form.login-form': 'doSubmit'
         },
         'render': function () {
-            var login_html = _.template($('#login_template').html(), {});
+            var login_html = _.template(login_template, {});
             this.$el.html(login_html);
         },
         'doSubmit': function (event) {

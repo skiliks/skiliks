@@ -20,9 +20,20 @@ define([
     "text!game/jst/mail/phrase.jst",
     "text!game/jst/mail/sended_folder_sceleton.jst",
     "text!game/jst/mail/send_mail_line.jst",
-    "text!game/jst/mail/read_email_sceleton.jst"
+    "text!game/jst/mail/read_email_sceleton.jst",
+    "text!game/jst/mail/trash_email_line.jst",
+    "text!game/jst/mail/trash_folder_sceleton.jst",
+    "text!game/jst/mail/phrase_item.jst"
 
-], function (SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment, mail_client_title_template, mail_client_content_template, folder_label_template, mail_client_income_line_template, income_folder_skeleton_template, mail_client_action_template, mail_client_email_preview_template, mail_client_new_email_template, mail_client_phrase_template, mail_sender_folder_sceleton_template, send_mail_line, read_mail_sceleton) {
+], function (SKDialogView, SKWindowView, SKMailAddToPlanDialog, SKEmail, SKAttachment,
+
+    mail_client_title_template, mail_client_content_template, folder_label_template,
+    mail_client_income_line_template, income_folder_skeleton_template, mail_client_action_template,
+    mail_client_email_preview_template, mail_client_new_email_template, mail_client_phrase_template,
+    mail_sender_folder_sceleton_template, send_mail_line, read_mail_sceleton, trash_email_line,
+    trash_folder_sceleton, phrase_item
+
+) {
     "use strict";
     /**
      * @class
@@ -506,7 +517,7 @@ define([
                     }
 
                     // generate HTML by template
-                    emailsList += _.template($('#MailClient_TrashEmailLine').html(), {
+                    emailsList += _.template(trash_email_line, {
 
                         emailMySqlId: trashEmails[key].mySqlId,
                         senderName: trashEmails[key].senderNameString,
@@ -716,7 +727,7 @@ define([
                 this.unhideFoldersBlock();
 
                 // set HTML sceleton {
-                var sceleton = _.template($('#MailClient_TrashFolderSceleton').html(), {
+                var sceleton = _.template(trash_folder_sceleton, {
                     listId: this.mailClientIncomeFolderListId,
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
@@ -1318,7 +1329,7 @@ define([
             },
 
             renderAddPhraseToEmail: function (phrase) {
-                var phraseHtml = _.template($("#MailClient_PhraseItem").html(), {
+                var phraseHtml = _.template(phrase_item, {
                     phraseUid: phrase.uid,
                     phraseId: phrase.mySqlId,
                     text: phrase.text

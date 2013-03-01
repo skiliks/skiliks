@@ -5,7 +5,7 @@ var SKImmediateVisitView;
 define([
         "game/views/SKWindowView",
 
-        'text!game/jst/visit/visit_template.jst'
+        "text!game/jst/visit/visit_template.jst"
     ], function (
         SKWindowView,
 
