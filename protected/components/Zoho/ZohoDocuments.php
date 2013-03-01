@@ -82,7 +82,8 @@ class ZohoDocuments
         $this->apiKey = $zohoConfigs['apiKey'];
         $this->saveUrl = $zohoConfigs['saveUrl'];
         $this->xlsTemplatesDirPath = $zohoConfigs['xlsTemplatesDirPath']; //'documents/excel';
-        $this->templatesDirPath = $zohoConfigs['templatesDirPath']; //'documents';
+        $root = __DIR__ . '/../../../';
+        $this->templatesDirPath = $root . $zohoConfigs['templatesDirPath']; //'documents';
         $this->zohoUrl = sprintf(
             $zohoConfigs['sendFileUrl'], // 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor'
             $this->apiKey
@@ -205,11 +206,6 @@ class ZohoDocuments
             $this->$attributeName,
             $this->templateFilename
         );
-        # Crutch for Ivan's Windows
-        if (PHP_OS == "WIN32" || PHP_OS == "WINNT") {
-            $objFSO = new COM("Scripting.FileSystemObject");
-            $path = $objFSO->GetFile(__FILE__)->ShortPath;
-        }
         return $path;
     }
 
@@ -249,6 +245,7 @@ class ZohoDocuments
             'id' => $this->simId . '-' . $this->docId,
             'format' => 'xls',
             'saveurl' => $this->saveUrl,
+            'mode' => 'normaledit'
         );
     }
 }
