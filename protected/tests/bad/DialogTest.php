@@ -32,7 +32,7 @@ class DialogTest extends SeleniumTestCase
         $this->waitForElement($session, 'xpath', '//li[@onclick="phone.getContacts()"]')->click();
         //$this->waitForElement($session, 'xpath', '//a[@onclick="phone.getThemes(2)"]')->click();
         $simulation = $this->user->simulations[0];
-        $dialogs = LogDialogs::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $dialogs = LogDialog::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         foreach ($dialogs as $dialog) {
             print_r($dialog->attributes);
         };

@@ -1,14 +1,8 @@
-eventsChoiсes = {
-    /**
-     * функция - запускатор, выбирает с сервера набор базовых значений
-     */
+/*eventsChoiсes = {
     draw: function (){
         sender.eventsChoicesSelectsRequest();
     },
     
-    /**
-     * ф-ция отрисовки грида
-     */
     drawGrid: function (data){
         var customParams = this.params;
         customParams['colModel'][1]['editoptions']['value'] = "'"+data['events_samples']+"'";
@@ -125,4 +119,4 @@ eventsChoiсes = {
                         'closeAfterAdd' : 'true'
                     }
         }
-}
+}*/

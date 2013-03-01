@@ -1,14 +1,8 @@
 eventsSamples = {
-    /**
-     * функция - запускатор, выбирает с сервера набор базовых значений
-     */
     draw: function (){
         sender.eventsSamplesSelectsRequest();
     },
     
-    /**
-     * ф-ция отрисовки грида
-     */
     drawGrid: function (data){
         var customParams = this.params;
         //on_ignore_result

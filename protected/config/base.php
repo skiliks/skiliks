@@ -18,7 +18,7 @@ return array(
         'application.models.User.*',
         'application.models.Mail.*',
         'application.models.Activities.*',
-        /*'application.models.Characters.*',
+        /*'application.models.Character.*',
         'application.models.DayPlan.*',
         'application.models.Replica.*',
         'application.models.Events.*',
@@ -115,7 +115,7 @@ return array(
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
-            'sendFileUrl'         => 'https://sheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
         'initial_data' => [
             'users' => [

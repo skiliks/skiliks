@@ -21,51 +21,26 @@ class F4_SK1413_P_T1_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->type("id=addTriggerSelect", "E1.3");
-        $this->waitForVisible("xpath=//form/fieldset/div[2]/div/input[2]");
-        $this->click("xpath=//form/fieldset/div[2]/div/input[2]");
+        $this->run_event('E1.3');
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
-        $this->click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
-        $this->click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
 
-        $this->waitForVisible(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
-        $this->click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         sleep(5);
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","1");
 
-       // to make changes with time
+        $this->run_event('ET1.3.1');
+
+        // to make changes with time
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "50");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->type("id=addTriggerSelect", "ET1.3.1");
-        $this->waitForVisible("xpath=//form/fieldset/div[2]/div/input[2]");
-        $this->click("xpath=//form/fieldset/div[2]/div/input[2]");
-
-        //$this->reply_call();
-        sleep(5);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        if ($this->verifyTextPresent("Трутнев"))
-        {
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-            sleep(2);
-            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-            sleep(2);
-        }
-        else
-        {
-            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-            sleep(2);
-            $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-            sleep(2);
-        }
-
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
 
         $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
         $this->assertTextPresent("Господи, да ведь там в вашем бюджете");

@@ -15,7 +15,7 @@ class PhoneController extends AjaxController{
     {
         $this->sendJSON(array(
             'result' => 1,
-            'data'   => Characters::model()->getContactsList()
+            'data'   => Character::model()->getContactsList()
         ));
     }
     
