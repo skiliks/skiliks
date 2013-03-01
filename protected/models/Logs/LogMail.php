@@ -62,6 +62,10 @@ class LogMail extends CActiveRecord
     {
         return parent::model($className);
     }
+
+    public function dump() {
+        printf("%s %s %s\n", $this->start_time, $this->end_time, $this->full_coincidence);
+    }
     
     public function bySimId($simId)
     {

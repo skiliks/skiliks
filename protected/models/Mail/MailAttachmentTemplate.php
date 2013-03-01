@@ -71,6 +71,13 @@ class MailAttachmentTemplate extends CActiveRecord
         ));
         return $this;
     }
+
+    public function relations()
+    {
+        return [
+            'file' => [self::BELONGS_TO, 'DocumentTemplate', 'file_id']
+        ];
+    }
 }
 
 
