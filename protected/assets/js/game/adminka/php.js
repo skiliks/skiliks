@@ -1,4 +1,4 @@
-/*php = {
+php = {
     str_replace:function (needle, replacement, haystack) { 
 	var temp = haystack.split(needle);
 	return temp.join(replacement); 
@@ -151,4 +151,4 @@
       script.setAttribute('src', url);
       document.getElementsByTagName('head').item(0).appendChild(script);
     }
-}*/
+}

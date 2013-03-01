@@ -1,4 +1,4 @@
-scenario = {
+/*scenario = {
     draw: function (){
         var html = '';
         html += this.defaultHtml;
@@ -63,4 +63,4 @@ scenario = {
                 '<input id="scenarioStopUpload" type="button" onclick="scenario.stopUpload(document.getElementById(\'scenarioSuccess\').value, document.getElementById(\'scenarioRowCount\').value);" style="display:none;">'+
                 
                 '</div>'
-}
+}*/

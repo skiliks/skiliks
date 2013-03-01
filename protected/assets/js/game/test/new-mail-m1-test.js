@@ -233,23 +233,39 @@ define([
             });
 
             it("reply all m1", function (done) {
+                //init simulation
                 var simulation = SKApp.user.simulation = new SKSimulation();
                 simulation.start();
+
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
+
                 buster.assert.defined(simulation.mailClient);
-                var mail = new SKMailClientView({model_instance:mail_window});
-                mail.render();
+
+                var mailClient = new SKMailClientView({model_instance:mail_window});
+                mailClient.render();
                 server.respond();
-                expect(mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').text()).toBe('срочно! Отчетность');
-                mail.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
+
+                // ? (Check is email in list has right subject?)
+                expect(mailClient.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').text())
+                    .toBe('срочно! Отчетность');
+
+                mailClient.$('tr[data-email-id=1278] td.mail-emulator-received-list-cell-theme').click();
                 server.respond();
-                mail.renderReplyAllScreen();
+
+                mailClient.renderReplyAllScreen();
                 server.respond();
-                var email = mail.generateNewEmailObject();
-                var validationDialogResult = mail.mailClient.validationDialogResult(email);
+
+                var email = mailClient.generateNewEmailObject();
+
+                var validationDialogResult = mailClient.mailClient.validationDialogResult(email);
+
+                // check is email valid
                 expect(validationDialogResult).toBe(true);
-                mail.doSendEmail();
+
+                mailClient.doSendEmail();
+
+                // check sendMessage request to server
                 server.respondWith("POST", "/index.php/mail/sendMessage",
                     function (xhr) {
                         var data = {}
@@ -259,18 +275,19 @@ define([
                                 data[vals[0]] = vals[1];
                             });
                         expect(data).toEqual({
-                            copies: "",
-                            fileId: "",
+                            copies:    "",
+                            fileId:    "",
                             messageId: "1274",
-                            phrases: "",
+                            phrases:   "",
                             receivers: "9,",
-                            subject: "1278",
-                            time: "09:00"
+                            subject:   "1278",
+                            time:      "09:00"
                         });
                         xhr.respond(200,  { "Content-Type": "application/json" }, JSON.stringify({'result':1}));
                         done();
                     });
-                server.respond();
+
+                server.respond(); // to protect against Fail by response timeout
             });
 
             it("has characters for replyAll", function () {
