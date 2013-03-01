@@ -1,1 +1,0 @@
-alter table `dialogs` add column `demo` tinyint(1) default 0; 
