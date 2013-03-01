@@ -51,7 +51,7 @@ class MyDocumentsController extends AjaxController
         $simulation = $this->getSimulationEntity();
 
         $id = Yii::app()->request->getParam('id', NULL);
-        $file = MyDocumentsModel::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
+        $file = MyDocument::model()->findByAttributes(['sim_id' => $simulation->id, 'id' => $id]);
         assert($file);
         $zoho = new ZohoDocuments($simulation->primaryKey, $file->primaryKey, $file->template->srcFile);
         $zoho->sendDocumentToZoho();

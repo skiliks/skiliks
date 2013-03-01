@@ -95,7 +95,7 @@ charactersPointsTitles = {
                 ],
                 'sortname' : 'id',
                 'caption' : 'Наименования требуемых поведений',
-                'url' : config.host.name+'index.php/charactersPointsTitles/draw',
+                'url' : config.host.name+'index.php/heroBehaviour/draw',
                 'editurl' : config.host.name+'index.php/charactersPointsTitles/edit',
                 'height' : '600',
                 'rowNum' : '30',
