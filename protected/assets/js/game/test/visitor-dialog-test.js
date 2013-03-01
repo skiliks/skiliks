@@ -29,9 +29,9 @@ define(
                         eventType: 1,
                         eventTime: '10:10:00',
                         data: [
-                            {id: 798, ch_from: 35, ch_to: 1, dialog_subtype: '5', is_final_replica: 0, sound: '', text: '', code: "RVT1"},
-                            {id: 799, ch_from: 1, ch_to: 35, dialog_subtype: '5', is_final_replica: 1, sound: '', text: '', code: "RVT1"},
-                            {id: 800, ch_from: 1, ch_to: 35, dialog_subtype: '5', is_final_replica: 1, sound: '', text: '', code: "RVT1"}
+                            {id: '798', ch_from: '35', ch_to: '1', dialog_subtype: '5', is_final_replica: '0', sound: '', text: '', code: "RVT1"},
+                            {id: '799', ch_from: '1', ch_to: '35', dialog_subtype: '5', is_final_replica: '1', sound: '', text: '', code: "RVT1"},
+                            {id: '800', ch_from: '1', ch_to: '35', dialog_subtype: '5', is_final_replica: '1', sound: '', text: '', code: "RVT1"}
                         ]
                     }
                 ]
@@ -44,9 +44,9 @@ define(
                         result: 1,
                         eventType: 1,
                         data: [
-                            {id: 801, ch_from: 35, ch_to: 1, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"},
-                            {id: 802, ch_from: 1, ch_to: 35, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"},
-                            {id: 803, ch_from: 1, ch_to: 35, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"}
+                            {id: '801', ch_from: '35', ch_to: '1', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"},
+                            {id: '802', ch_from: '1', ch_to: '35', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"},
+                            {id: '803', ch_from: '1', ch_to: '35', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"}
                         ]
                     }
                 ]
@@ -59,10 +59,10 @@ define(
                         result: 1,
                         eventType: 1,
                         data: [
-                            {id: 804, ch_from: 35, ch_to: 1, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"},
-                            {id: 805, ch_from: 1, ch_to: 35, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"},
-                            {id: 806, ch_from: 1, ch_to: 35, dialog_subtype: '4', is_final_replica: 0, sound: '', text: '', code: "RV1"},
-                            {id: 807, ch_from: 1, ch_to: 35, dialog_subtype: '4', is_final_replica: 1, sound: '', text: '', code: "RV1"}
+                            {id: '804', ch_from: '35', ch_to: '1', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"},
+                            {id: '805', ch_from: '1', ch_to: '35', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"},
+                            {id: '806', ch_from: '1', ch_to: '35', dialog_subtype: '4', is_final_replica: '0', sound: '', text: '', code: "RV1"},
+                            {id: '807', ch_from: '1', ch_to: '35', dialog_subtype: '4', is_final_replica: '1', sound: '', text: '', code: "RV1"}
                         ]
                     }
                 ]
@@ -130,27 +130,31 @@ define(
                     var simulation = SKApp.user.simulation = new SKSimulation();
                     simulation.start();
                     simulation.getNewEvents();
-
                     server.respond();
                     expect(simulation.events.length).toBe(1);
 
                     var event = simulation.events.at(0);
+                    expect(event.getTypeSlug()).toBe('visit');
+
                     var wndModel = new SKWindow({name: 'visitor', subname: 'visitorEntrance', sim_event: event});
+                    wndModel.open();
                     var visitorView = new SKVisitView({model_instance: wndModel});
                     visitorView.render();
+                    expect(visitorView.$('.visitor-allow').attr('data-dialog-id')).toEqual(799);
 
-                    event.selectReplica(799, function() {});
-
+                    visitorView.$('.visitor-allow').click();
                     server.respond();
                     expect(simulation.events.length).toBe(2);
 
                     event = simulation.events.at(1);
                     wndModel = new SKDialogWindow({name: 'visitor', subname: 'visitorTalk', sim_event: event});
+                    wndModel.open();
                     visitorView = new SKImmediateVisitView({model_instance: wndModel});
                     visitorView.render();
+                    expect(visitorView.$('.replica-select').length).toBe(2);
 
-                    event.selectReplica(803, function() {});
-
+                    visitorView.$('.replica-select[data-id=802]').click();
+                    server.responses = [];
                     server.respondWith(
                         "POST",
                         "/index.php/dialog/get",
@@ -159,8 +163,11 @@ define(
 
                     server.respond();
                     expect(simulation.events.length).toBe(3);
+                    expect(wndModel.get('params').lastDialogId).toBe('802');
 
                     event = simulation.events.at(2);
+                    expect(event.getMyReplicas()[2].is_final_replica).toBe('1');
+
                     event.selectReplica(807, function() {});
                 });
 

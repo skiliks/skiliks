@@ -19,7 +19,9 @@ define(["game/views/SKWindowView"], function () {
                 'dblclick .planner-book-timetable-table .day-plan-todo-task.regular':'doUnSetTask',
                 'click .todo-min':                                                   'doMinimizeTodo',
                 'click .todo-max':                                                   'doMaximizeTodo',
-                'click .todo-revert':                                                'doRestoreTodo'
+                'click .todo-revert':                                                'doRestoreTodo',
+                'click #plannerBookQuarterPlan':                                     'doPlannerBookQuarterPlan',
+                'click #plannerBookDayPlan':                                         'doPlannerBookDayPlan'
             },
             SKWindowView.prototype.events
         ),
@@ -501,6 +503,34 @@ define(["game/views/SKWindowView"], function () {
             this.$('.plan-todo').removeClass('closed').removeClass('open').addClass('middle');
             this.$('.planner-book-afterv-table').removeClass('closed').removeClass('full').addClass('half');
             this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
+        },
+        doPlannerBookQuarterPlan:function(e) {
+            console.log("doPlannerBookQuarterPlan");
+            if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
+                var tab = $('.is-active-plan-tab');
+                tab.css('cursor', 'pointer');
+                tab.removeClass('is-active-plan-tab');
+                tab.children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_day.png');
+                $(e.currentTarget).css('cursor','default');
+                $(e.currentTarget).addClass('is-active-plan-tab');
+                $(e.currentTarget).children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_quarter-active.png');
+                $('.plannerBookDayPlan').css('display', 'none');
+                $('.plannerBookQuarterPlan').css('display', 'block');
+            }
+        },
+        doPlannerBookDayPlan:function(e) {
+            console.log("doPlannerBookDayPlan");
+            if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
+                var tab = $('.is-active-plan-tab');
+                tab.css('cursor', 'pointer');
+                tab.removeClass('is-active-plan-tab');
+                tab.children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_quarter.png');
+                $(e.currentTarget).css('cursor','default');
+                $(e.currentTarget).addClass('is-active-plan-tab');
+                $(e.currentTarget).children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_day-active.png');
+                $('.plannerBookDayPlan').css('display', 'block');
+                $('.plannerBookQuarterPlan').css('display', 'none');
+            }
         }
     });
 
