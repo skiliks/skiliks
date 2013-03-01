@@ -1,4 +1,4 @@
-eventsResults = {
+/*eventsResults = {
     draw: function (){
         var html = '';
         html += this.defaultHtml;
@@ -58,4 +58,4 @@ eventsResults = {
                         'closeAfterAdd' : 'true'
                     }
         }
-}
+}*/
