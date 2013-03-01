@@ -1,0 +1,30 @@
+    <div class="phone-popup-content">
+        <div class="phone-bl popup">
+        <div class="phone-screen" id="phoneMainScreen">
+
+            <div class="phone-call in">
+                <div class="phone-call-img">
+                    <img src="<@=SKConfig.assetsUrl@>/img/phone/icon-call-ch<@=call[0].ch_from@>.png" alt="<@=call[0].name@>">
+                </div>
+                <p class="phone-call-text">
+                        <span class="name">
+                            <@=call[0].name@>
+                        </span>
+                    <br><@=call[0].title@><br>
+                    <span class="post">&nbsp;</span>
+                </p>
+                <ul class="phone-call-in-btn">
+                    <@ if (undefined != call[1]) { @>
+                        <li><a id="phone_reply" data-dialog-id="<@=call[1].id@>" class="btn0"><@=call[1].text@></a></li>
+                    <@ } @>
+
+                    <@ if (undefined != call[2]) { @>
+                        <li><a id="phone_no_reply" data-dialog-id="<@=call[2].id@>" class="btn1"><@=call[2].text@></a></li>
+                    <@ } @>
+                </ul>
+            </div>
+
+        </div>
+        <p class="phone-menu-btn phone_get_menu">меню</p>
+            </div>
+    </div>

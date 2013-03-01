@@ -73,10 +73,10 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 Backbone.View.prototype.remove.call(this);
             },
 
-            renderTPL:function (element, template, userData) {
+            renderTPL:function (element, templateHtml, userData) {
                 var systemData = {assetsUrl:SKConfig.assetsUrl};
                 var data = _.defaults(systemData, userData);
-                var html = _.template($(template).html(), data);
+                var html = _.template(templateHtml, data);
                 $(element).html(html);
             },
             /**

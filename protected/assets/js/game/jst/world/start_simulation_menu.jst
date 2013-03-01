@@ -1,0 +1,12 @@
+    <div class="world-index-mainDiv">
+        <@ for (var simulation in simulations) { @>
+        <input type="button" value="Начать симуляцию <@= simulations[simulation] @>" data-sim-id="<@= simulation @>"
+               class="btn simulation-start">
+        <br/>
+        <br/>
+        <@ } @>
+        <input type="button" value="Изменить личные данные" class="btn settings">
+        <br>
+        <br>
+        <input type="button" value="Выход" class="btn logout">
+    </div>

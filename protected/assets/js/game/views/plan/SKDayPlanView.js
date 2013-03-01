@@ -2,7 +2,17 @@
 var SKDayPlanView;
 
 /*global Backbone, _, SKApp, SKConfig, SKWindowView, Hyphenator, SKSingleWindowView*/
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/phone/todo_task_template.jst",
+    "text!game/jst/phone/plan_title_template.jst",
+    "text!game/jst/phone/plan_content_template.jst",
+
+    "game/views/SKWindowView"
+], function (
+    todo_task_template,
+    plan_title_template,
+    plan_content_template
+) {
     "use strict";
 
     /**
@@ -166,7 +176,7 @@ define(["game/views/SKWindowView"], function () {
             var drop_td = this.$('div[data-day-id=' + model.get('day') + '] td[data-hour=' + hour + '][data-minute=' + minute + ']');
             drop_td.attr('rowspan', duration / 15);
             drop_td.find('.day-plan-td-slot').hide();
-            drop_td.append(_.template($('#todo_task_template').html(), {task:model, type:'regular'}));
+            drop_td.append(_.template(todo_task_template, {task:model, type:'regular'}));
             if (model.get("type") === "2") {
                 drop_td.find('.planner-task').addClass('locked');
             }
@@ -366,7 +376,7 @@ define(["game/views/SKWindowView"], function () {
             this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
             me.$('.plan-todo-wrap .plan-todo-inner').html('');
             SKApp.user.simulation.todo_tasks.each(function (model) {
-                var todo_task = $(_.template($('#todo_task_template').html(), {task:model, type:'todo'}));
+                var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
                 me.$('.plan-todo-wrap .plan-todo-inner').append(todo_task);
             });
             this.setupDraggable();
@@ -405,7 +415,7 @@ define(["game/views/SKWindowView"], function () {
          */
         renderTitle: function (title_el) {
             var me = this;
-            title_el.html(_.template($('#plan_title_template').html(), {}));
+            title_el.html(_.template(plan_title_template, {}));
 
         },
 
@@ -415,7 +425,7 @@ define(["game/views/SKWindowView"], function () {
          */
         renderContent:function (window_el) {
             var me = this;
-            window_el.html(_.template($('#plan_content_template').html(), {}));
+            window_el.html(_.template(plan_content_template, {}));
             this.updateTodos();
             me.listenTo(SKApp.user.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();

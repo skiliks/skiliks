@@ -1,87 +1,95 @@
 /*global Backbone, _ */
 
-"use strict";
-window.SKFlagStateView = Backbone.View.extend({
-    initialize: function () {},
+var SKFlagStateView;
 
-    'el': '.form-flags',
+define([],
+    function () {
+    "use strict";
 
-    'events':{
-        'click a': 'doSwitchFlag'
-    },
+    SKFlagStateView = Backbone.View.extend({
+        initialize: function () {},
 
-    doSwitchFlag: function(e) {
-        e.preventDefault(e);
-        e.stopPropagation(e);
+        'el': '.form-flags',
 
-        // to prevent doubled requests
-        if (SKApp.user.simulation.isFlagsUpdated) {
-            return;
-        }
+        'events':{
+            'click a': 'doSwitchFlag'
+        },
 
-        SKApp.user.simulation.isFlagsUpdated = true;
+        doSwitchFlag: function(e) {
+            e.preventDefault(e);
+            e.stopPropagation(e);
 
-        var me = this;
-        var flagName = $(e.currentTarget).attr('data-flag-code');
-        var flagValue = $(e.currentTarget).attr('data-flag-value');
-        if (1 == flagValue) {
-            flagValue = 0;
-        } else {
-            flagValue = 1;
-        }
-
-        SKApp.server.api(
-            'events/switchFlag',
-            {
-                flagName: $(e.currentTarget).attr('data-flag-code')
-            },
-            function (response) {
-                if (response.result) {
-                    $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг ' + flagName + ' переключён в "' + flagValue + '"!</div>');
-                    me.updateValues(response.flags);
-                    window.scrollTo(0, 0);
-                } else {
-                    $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг ' + flagName + ' не переключён в "' + flagValue + '"!</div>');
-                }
-                $('body form.trigger-event .alert').fadeOut(4000)
-            });
-    },
-
-    updateValues: function(flagsState) {
-        SKApp.user.simulation.isFlagsUpdated = false;
-
-        $('.form-flags table').remove();
-        // clean old data AND init base structure,
-        // may be will be better to put this code to template, but it so short and use once! :)
-        $('.form-flags fieldset').append($('<table class="table table-bordered"><thead><tr></tr></thead><tbody><tr></tr></tbody></table>'));
-
-        var j = 0;
-        var n = 0;
-        for (var i in flagsState) {
-
-            if (9 < n) {
-                j++;
-                n = 0;
-                $('.form-flags fieldset').append($('<table class="table table-bordered"><thead><tr></tr></thead><tbody><tr></tr></tbody></table>'));
+            // to prevent doubled requests
+            if (SKApp.user.simulation.isFlagsUpdated) {
+                return;
             }
 
+            SKApp.user.simulation.isFlagsUpdated = true;
 
-            var el1 = $('<a/>', {text: i}); // create link
-            el1.undelegate();
+            var me = this;
+            var flagName = $(e.currentTarget).attr('data-flag-code');
+            var flagValue = $(e.currentTarget).attr('data-flag-value');
+            if (1 == flagValue) {
+                flagValue = 0;
+            } else {
+                flagValue = 1;
+            }
 
-            el1.attr('title', flagsState[i].name); // add title
-            el1.attr('data-flag-code',  i); // add title
-            el1.attr('data-flag-value', flagsState[i].value); // add title
+            SKApp.server.api(
+                'events/switchFlag',
+                {
+                    flagName: $(e.currentTarget).attr('data-flag-code')
+                },
+                function (response) {
+                    if (response.result) {
+                        $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг ' + flagName + ' переключён в "' + flagValue + '"!</div>');
+                        me.updateValues(response.flags);
+                        window.scrollTo(0, 0);
+                    } else {
+                        $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Флаг ' + flagName + ' не переключён в "' + flagValue + '"!</div>');
+                    }
+                    $('body form.trigger-event .alert').fadeOut(4000)
+                });
+        },
 
-            // generate th
-            var el = $('<th/>', {});
-            el.append(el1);
-            $('.form-flags table:eq('+j+') thead tr').append(el);
+        updateValues: function(flagsState) {
+            SKApp.user.simulation.isFlagsUpdated = false;
 
-            el = $('<td/>', {text: flagsState[i].value});
-            $('.form-flags table:eq('+j+') tbody tr').append(el);
+            $('.form-flags table').remove();
+            // clean old data AND init base structure,
+            // may be will be better to put this code to template, but it so short and use once! :)
+            $('.form-flags fieldset').append($('<table class="table table-bordered"><thead><tr></tr></thead><tbody><tr></tr></tbody></table>'));
 
-            n++;
+            var j = 0;
+            var n = 0;
+            for (var i in flagsState) {
+
+                if (9 < n) {
+                    j++;
+                    n = 0;
+                    $('.form-flags fieldset').append($('<table class="table table-bordered"><thead><tr></tr></thead><tbody><tr></tr></tbody></table>'));
+                }
+
+
+                var el1 = $('<a/>', {text: i}); // create link
+                el1.undelegate();
+
+                el1.attr('title', flagsState[i].name); // add title
+                el1.attr('data-flag-code',  i); // add title
+                el1.attr('data-flag-value', flagsState[i].value); // add title
+
+                // generate th
+                var el = $('<th/>', {});
+                el.append(el1);
+                $('.form-flags table:eq('+j+') thead tr').append(el);
+
+                el = $('<td/>', {text: flagsState[i].value});
+                $('.form-flags table:eq('+j+') tbody tr').append(el);
+
+                n++;
+            }
         }
-    }
+    });
+
+    return SKFlagStateView;
 });

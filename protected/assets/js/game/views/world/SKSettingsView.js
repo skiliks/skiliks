@@ -1,7 +1,14 @@
 /*global _, Backbone, simulation, SKSettingsView:true, world, messages*/
-(function () {
+
+var SKSettingsView;
+
+define([
+    "text!game/jst/world/settings_template.jst"
+], function(
+    settings_template
+    ){
     "use strict";
-    window.SKSettingsView = Backbone.View.extend({
+    SKSettingsView = Backbone.View.extend({
         'initialize': function () {
             this.render();
         },
@@ -9,7 +16,7 @@
             'submit form' : 'doSubmit'
         },
         'render': function () {
-            var code = _.template($('#settings_template').html(), {});
+            var code = _.template(settings_template, {});
             this.$el.html(code);
         },
         'doSubmit': function (event) {
@@ -26,4 +33,6 @@
             sender.userAccountChangePassword(curUserPass1, curUserPass2);
         }
     });
-})();
+
+    return SKSettingsView;
+});
