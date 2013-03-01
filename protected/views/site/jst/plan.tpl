@@ -16,7 +16,7 @@
     </div>
 </script>
 <script type="text/template" id="plan_title_template">
-    <div>
+    <div class="plan-header plannerBookDayPlan">
         <div class="planner-book-head planner-book-today-head">
             <div>
             	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
@@ -48,19 +48,22 @@
             </div>
         </div>
     </div>
+    <div class="plan-header plannerBookQuarterPlan" style="background: #ffffff; display:none">
+    </div>
 </script>
 <script type="text/template" id="plan_content_template">
     <div>
-        <div id="plannerBookQuarterPlan" class="planner-book-quarter-plan">
+        <div id="plannerBookQuarterPlan" class="planner-book-quarter-plan plan-tabs" style="cursor:pointer">
             <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_quarter.png">
         </div>
-        <div id="plannerBookDayPlan" class="planner-book-day-plan">
-            <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_day.png">
+        <div id="plannerBookDayPlan" class="planner-book-day-plan plan-tabs is-active-plan-tab">
+            <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_day-active.png">
         </div>
         <div class="btn-close win-close">
             <button></button>
         </div>
         <div id="plannerBook" class="planner-book">
+            <div class="plannerBookDayPlan">
             <div id="plannerBookToday" class="planner-book-today" data-day-id="1">
                 <div id="plannerBookTodayTimeTable" class="planner-book-timetable">
                     <table class="planner-book-timetable-table">
@@ -126,7 +129,9 @@
 				</div>
 			</div>
 			<div style="clear:both;"></div>
-        </div>
+            </div>
+            <div class="plannerBookQuarterPlan" style="display:none"></div>
+         </div>
     </div>
 </script>
 <script type="text/template" id="todo_task_template">
