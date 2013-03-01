@@ -1327,6 +1327,7 @@ section.mail>header nav ul li.active label:hover{
 	vertical-align:middle;
     display: inline-block;
     overflow:hidden;
+    cursor:pointer;
 }
 .mail-plan-item span{
 	text-align:center;
@@ -1354,13 +1355,8 @@ section.mail>header nav ul li.active label:hover{
 .mail-plan-btn span{
 	display:inline-block;
 	background:url("../img/mail/btn-mail.png") no-repeat right -47px;
-	font-size:14px;
-	color:#fff;
-	line-height:47px;
-	text-decoration:none !important;
-	text-shadow:rgba(0,0,0,0.35) 1px 1px 0;
-	text-transform:uppercase;
 	padding-right:31px;
+	cursor:pointer;
 }
 .mail-plan-btn span label{
 	font-size:14px;
@@ -1368,17 +1364,19 @@ section.mail>header nav ul li.active label:hover{
 	display:block;
 	background:url("../img/mail/btn-mail.png") no-repeat 0 0;
 	line-height:47px;
-	text-decoration:none !important;
 	text-shadow:rgba(0,0,0,0.35) 1px 1px 0;
 	text-transform:uppercase;
 	padding-left:31px;
     margin-bottom: 0px;
+    cursor:pointer;
 }
 .mail-plan-btn span:hover{
 	background-position:right -141px;
 }
 .mail-plan-btn span:hover label{
 	background-position:0 -94px;
+	color:#fff;
+	text-decoration:underline;
 }
 .btn-window{
 	list-style:none;
@@ -3175,7 +3173,7 @@ tr.email-list-separator {
 .mail-window .btn-close {
     position: absolute;
     top: 10px;
-    right: 43px;
+    right: 10px;
     width:20px;
     height:  20px;
 }
