@@ -27,7 +27,7 @@ class LibSendMs
             case 'MS25'  : $email = self::sendMs25_r($simulation); break;
             case 'MS27'  : $email = self::sendMs27_w($simulation); break;
             case 'MS28'  : $email = self::sendMs28_r($simulation); break;
-            case 'MS29'  : $email = self::sendMs29_r($simulation); break;
+            case 'MS29'  : $email = self::sendMs29_w($simulation); break;
             case 'MS30'  : $email = self::sendMs30_w($simulation); break;
             case 'MS32'  : $email = self::sendMs32_w($simulation); break;
             case 'MS35'  : $email = self::sendMs35_r($simulation); break;
@@ -50,7 +50,8 @@ class LibSendMs
             case 'MS74'  : $email = self::sendMs74_w($simulation); break;
             case 'MS76'  : $email = self::sendMs76_w($simulation); break;
             case 'MS79'  : $email = self::sendMs79_n($simulation); break;
-            case 'notMS' : $email = self::sendNotMs($simulation); break;
+            case 'MS83'  : $email = self::sendMs83_r($simulation); break;
+            case 'notMS' : $email = self::sendNotMs($simulation);  break;
 
             default     : $email = NULL;
         }
@@ -358,7 +359,7 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBox
      */
-    public static function sendMs29_r($simulation)
+    public static function sendMs29_w($simulation)
     {
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[
@@ -935,6 +936,74 @@ class LibSendMs
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = '';
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBox
+     */
+    public static function sendMs80_w($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  =>  6,
+            'letter_number' => 'MS83'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D5'
+        ]);
+
+        $doc = MyDocument::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $message = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M56');
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('6'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
+        $sendMailOptions->subject_id = $subject->id;
+        $sendMailOptions->messageId  = $message->id;
+
+        return MailBoxService::sendMessagePro($sendMailOptions);
+    }
+
+    /**
+     * @param Simulation $simulation
+     * @return MailBox
+     */
+    public static function sendMs83_r($simulation)
+    {
+        $subject = CommunicationTheme::model()->findByAttributes([
+            'character_id'  => 6,
+            'letter_number' => 'MS83'
+        ]);
+
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D5'
+        ]);
+
+        $doc = MyDocument::model()->findByAttributes([
+            'template_id' => $docTemplate->id,
+            'sim_id'      => $simulation->id
+        ]);
+
+        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions->setRecipientsArray('6'); // Неизвестная
+        $sendMailOptions->simulation = $simulation;
+        $sendMailOptions->time       = '09:01';
+        $sendMailOptions->copies     = '';
+        $sendMailOptions->phrases    = '';
+        $sendMailOptions->fileId     = $doc->id;
         $sendMailOptions->subject_id = $subject->id;
         $sendMailOptions->messageId  = '';
 
