@@ -3077,45 +3077,58 @@ ul.main-screen-stat li img{
 }
 .main-screen-icons ul{
 	list-style:none;
-	width:132px;
+	width:88px;
+	margin:29px 18px 0 0;
 }
 .main-screen-icons ul li{
-	width:132px;
-	height:140px;
-	margin-bottom:-47px;
-	overflow:hidden;
+	background-repeat:no-repeat;
+	background-position:5px 5px;
+	-webkit-border-radius:14px;
+	-moz-border-radius:14px;
+	border-radius:14px;
+	width:78px;
+	height:78px;
 	position:relative;
+	padding:5px;
+	margin-bottom:5px;
 }
 .main-screen-icons ul li.messenger{
-	background:url("../img/main-screen/icon-messanger.png") no-repeat;
+	background-image:url("../img/main-screen/icon-messanger.png");
 	z-index:6;
 }
 .main-screen-icons ul li.plan{
-	background:url("../img/main-screen/icon-plan.png") no-repeat;
+	background-image:url("../img/main-screen/icon-plan.png");
 	z-index:5;
 }
 .main-screen-icons ul li.phone{
-	background:url("../img/main-screen/icon-phone.png") no-repeat;
+	background-image:url("../img/main-screen/icon-phone.png");
 	z-index:4;
 }
 .main-screen-icons ul li.mail{
-	background:url("../img/main-screen/icon-mail.png") no-repeat;
+	background-image:url("../img/main-screen/icon-mail.png");
 	z-index:3;
 }
 .main-screen-icons ul li.door{
-	background:url("../img/main-screen/icon-door.png") no-repeat;
+	background-image:url("../img/main-screen/icon-door.png");
 	z-index:2;
 }
 .main-screen-icons ul li.documents{
-	background:url("../img/main-screen/icon-documents.png") no-repeat;
+	background-image:url("../img/main-screen/icon-documents.png");
 	z-index:1;
 }
-
+.main-screen-icons ul li:hover{
+	background-color:#f89622;
+}
 .main-screen-icons ul li a{
 	display:block;
+	-webkit-border-radius:12px;
+	-moz-border-radius:12px;
+	border-radius:12px;
+	-moz-box-shadow:3px 3px 4px rgba(0,0,0,0.53);
+    -webkit-box-shadow:3px 3px 4px rgba(0,0,0,0.53);
+    box-shadow:3px 3px 4px rgba(0,0,0,0.53);
 	width:78px;
 	height:78px;
-	margin:31px 0 0 27px;
 	position:relative;
 }
 .main-screen-icons ul li a span{
@@ -3128,8 +3141,8 @@ ul.main-screen-stat li img{
 	position:absolute;
 	line-height:30px;
 	text-shadow:rgba(0,0,0,0.2) 1px 1px 0;
-	top:-6px;
-	right:-10px;
+	top:-8px;
+	right:-7px;
 }
 
 /*----/phone/----*/
