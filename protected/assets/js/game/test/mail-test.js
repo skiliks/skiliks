@@ -275,6 +275,10 @@ define([
 
                 mailView.doUpdateMailPhrasesList();
 
+                // check than phrases not empty
+                expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length)
+                    .toBe(3);
+
                 server.respond();
 
                 // check phrases
@@ -287,8 +291,16 @@ define([
 
                 // check is email send
                 expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/sendMessage');
+                server.respond();
 
                 console.log('Email has been send!');
+
+                // check response
+                expect(server.responses[server.responses.length - 1].response[2])
+                    .toBe('{"result":1,"mailId":"1245"}');
+
+                // check that mail main screen opened after mail send
+                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
             });
         });
     });

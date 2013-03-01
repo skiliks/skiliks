@@ -18,7 +18,7 @@ class BehaviourCounter
     public $score = 0;
     
     /**
-     * @var CharactersPointsTitle s
+     * @var HeroBehaviour
      */
     public $mark;
     

@@ -16,20 +16,20 @@ class PhoneServiceTest extends CDbTestCase {
         $simulation = $simulationService->simulationStart(1, $user);
         
         // init test data {
-        $toCharacter = Characters::model()->find([
+        $toCharacter = Character::model()->find([
             'condition' => 'id NOT IN (:id)',
             'params'    => [
-                'id' => Characters::HERO_ID
+                'id' => Character::HERO_ID
             ]
         ]);
         
         $time = '11:00:00';
         
-        $phoneCallHistoryRecord            = new PhoneCallsModel();
+        $phoneCallHistoryRecord            = new PhoneCall();
         $phoneCallHistoryRecord->sim_id    = $simulation->id;
-        $phoneCallHistoryRecord->call_type = PhoneCallsModel::MISSED_CALL; 
+        $phoneCallHistoryRecord->call_type = PhoneCall::MISSED_CALL;
         $phoneCallHistoryRecord->from_id   = $toCharacter->id;
-        $phoneCallHistoryRecord->to_id     = Characters::HERO_ID;
+        $phoneCallHistoryRecord->to_id     = Character::HERO_ID;
         $phoneCallHistoryRecord->call_time = $time;
         $phoneCallHistoryRecord->save();
         // init test data }
@@ -84,7 +84,7 @@ class PhoneServiceTest extends CDbTestCase {
             $dialogService->getDialog($simulation->id, 	$replicas[$i]->id , $time[$i]); // init ignore call fron friend
 
 
-            $toCharacters[$i] = Characters::model()->findByPk($replicas[$i]->ch_to); // friend
+            $toCharacters[$i] = Character::model()->findByPk($replicas[$i]->ch_to); // friend
         }        
         
         // init test data }
@@ -127,7 +127,7 @@ class PhoneServiceTest extends CDbTestCase {
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
         $characterCode = 3; // Трутнев
 
-        $character = Characters::model()->findByAttributes(['code' => $characterCode]);
+        $character = Character::model()->findByAttributes(['code' => $characterCode]);
         $theme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byText('Задача отдела логистики: статус')->byPhone()->find();
 
         $this->assertInstanceOf('CommunicationTheme', $theme);

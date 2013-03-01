@@ -53,7 +53,7 @@ class CheckConsolidatedBudget
             ->find();
         
         if (0 === count($simulationsExcelPoints)) {
-            foreach (ExcelPointsFormulaModel::model()->findAll() as $formula) {
+            foreach (ExcelPointFormula::model()->findAll() as $formula) {
                 $this->userPointsMap[$formula->id] = 0;
             }  
         }
@@ -289,19 +289,24 @@ class CheckConsolidatedBudget
     }
     
     /**
-     * Рассчет оценки по окончании симуляции
-     * 
-     * @param integer simId
+     * Расчет оценки по окончании симуляции
      */
     public function calcPoints() 
     {
         // check document {
-        $documentId = ExcelDocumentService::getFileIdByFileCode('D1', $this->simId);
-        if (null === $documentId) {
+        $documentTemplate = DocumentTemplate::model()->findByAttributes([
+            'code' => 'D1'
+        ]);
+
+        $document = MyDocument::model()->findByAttributes([
+            'template_id' => $documentTemplate->id
+        ]);
+
+        if (null === $document) {
             return false;
         }
 
-        $zohoDoc = new ZohoDocuments($this->simId, $documentId, null); // template name isn`t so important here
+        $zohoDoc = new ZohoDocuments($this->simId, $document->id, null); // template name isn`t so important here
 
         //$documentPath = ExcelFactory::getDocumentPath($this->simId, $documentId, self::CONSOLIDATE_BUDGET_FILENAME);
         $documentPath = $zohoDoc->getUserFilepath();
@@ -336,8 +341,7 @@ class CheckConsolidatedBudget
             $this->resetUserPoints();
             $this->savePoints();
             Yii::log('no sheet', 'warning');
-            die('223');
-            return false;   
+            return false;
         }
         
         // start analyze {

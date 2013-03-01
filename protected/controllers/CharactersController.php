@@ -13,15 +13,16 @@
 class CharactersController extends AjaxController
 {
     /**
+     * @depracated
      * Import characters
      */
     public function actionImport() 
     {
-        $importService = new ImportGameDataService();
+        /*$importService = new ImportGameDataService();
         
         $result = $importService->importCharacters();
         
-        $this->renderText($result['text']);
+        $this->renderText($result['text']);*/
     }
 }
 

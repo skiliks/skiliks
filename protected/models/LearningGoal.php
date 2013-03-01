@@ -23,7 +23,7 @@ class LearningGoal extends CActiveRecord
     /**
      *
      * @param type $className
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public static function model($className=__CLASS__)
     {
@@ -41,7 +41,7 @@ class LearningGoal extends CActiveRecord
     /**
      * Выборка цели по коду.
      * @param string $code
-     * @return CharactersPointsTitles 
+     * @return HeroBehaviour
      */
     public function byCode($code)
     {

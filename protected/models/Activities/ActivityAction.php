@@ -13,7 +13,7 @@
  * The followings are the available model relations:
  * @property Activity $activity
  * @property Replica $dialog
- * @property MailTemplateModel $mail
+ * @property MailTemplate $mail
  * @property DocumentTemplate $document
  * @property string import_id
  * @property string leg_type
@@ -72,10 +72,10 @@ class ActivityAction extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
-            'dialog' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
-            'mail' => array(self::BELONGS_TO, 'MailTemplateModel', 'mail_id'),
+            'dialog'   => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+            'mail'     => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
             'document' => array(self::BELONGS_TO, 'DocumentTemplate', 'document_id'),
-            'window' => array(self::BELONGS_TO, 'Window', 'window_id'),
+            'window'   => array(self::BELONGS_TO, 'Window', 'window_id'),
         );
     }
 
