@@ -48,7 +48,7 @@ define([
                 simulation.start();
 
                 expect(simulation.events.length).toBe(0);
-
+                var simulation_event_add_spy = sinon.spy();
                 // this code copied from SKSimulationView.addSimulationEvents() {
                 simulation.events.on('add', function (event) {
                     if (event.getTypeSlug() === 'immediate-visit') {
@@ -59,6 +59,7 @@ define([
                         event.setStatus('in progress');
                     }
                 });
+                simulation.events.on('add', simulation_event_add_spy);
                 // this code copied from SKSimulationView.addSimulationEvents() }
 
                 simulation.getNewEvents();
@@ -73,9 +74,8 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({"result":1})]);
 
-                // check is email send
                 expect(simulation.events.length).toBe(1);
-
+                assert.calledOnce(simulation_event_add_spy);
                 console.log('Event has been added!');
             });
         });
