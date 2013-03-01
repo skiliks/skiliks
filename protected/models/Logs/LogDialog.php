@@ -55,8 +55,6 @@ class LogDialog extends CActiveRecord
 
         if (null !== $activity_action) {
             $activity_action->appendLog($this);
-        }else{
-            throw new CException("No activity action for dialog id " . $this->dialog_id);//TODO:Проверить
         }
         parent::afterSave();
     }
@@ -99,6 +97,11 @@ class LogDialog extends CActiveRecord
             'condition' => "dialog_id = {$dialogId}"
         ));
         return $this;
+    }
+
+    public function dump()
+    {
+        printf("%s %s\n", $this->start_time, $this->last_id);
     }
 
     /**
