@@ -157,7 +157,7 @@ class SimulationServiceTest extends CDbTestCase
         // MS28 }
         
         // MS29 {
-        $ms_29 = LibSendMs::sendMs29_r($simulation);
+        $ms_29 = LibSendMs::sendMs29_w($simulation);
         $count_0++; // this is 0 point email
         // MS29 }
         
@@ -1091,11 +1091,11 @@ class SimulationServiceTest extends CDbTestCase
 
     /**
      * Проверяет правильность оценки по 3326
-     * Случай когда 0W, 13R, 0N (total R = 13) => 2 балла
+     * Случай когда 0W, 14R, 0N (total R = 13) => 2 балла
      */
     public function testCalculateAgregatedPointsFor3326Part2pointsCase2()
     {
-        //$this->markTestSkipped();
+        //s//$this->markTestSkipped();
 
         // init simulation
         $simulationService = new SimulationService();
@@ -1116,8 +1116,8 @@ class SimulationServiceTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs53_r($simulation);
         $ms[] = LibSendMs::sendMs55_r($simulation);
         $ms[] = LibSendMs::sendMs57_r($simulation);
-        $ms[] = LibSendMs::sendMs60_r($simulation);
-        $ms[] = LibSendMs::sendMs61_r($simulation);    
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs69_r($simulation);
 
         // set-up logs {
         $logs = [];

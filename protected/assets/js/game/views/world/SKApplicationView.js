@@ -1,5 +1,13 @@
 /*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView*/
-define(["game/models/SKApplication", "game/views/world/SKSimulationStartView", "game/views/world/SKLoginView"], function () {
+define([
+    "text!game/jst/world/simulation_template.jst",
+
+    "game/models/SKApplication",
+    "game/views/world/SKSimulationStartView",
+    "game/views/world/SKLoginView"
+], function (
+    simulation_template
+    ) {
     "use strict";
     window.SKApplicationView = Backbone.View.extend({
         'el':'body',
@@ -14,7 +22,7 @@ define(["game/models/SKApplication", "game/views/world/SKSimulationStartView", "
             this.render();
         },
         'render':function () {
-            var code = _.template($('#simulation_template').html(), {});
+            var code = _.template(simulation_template, {});
             SKApp.session.check();
 
             this.$el.html(code);

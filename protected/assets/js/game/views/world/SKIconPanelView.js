@@ -1,12 +1,19 @@
 /*global _, Backbone, SKApp, SKVisitView, SKImmediateVisitView, phone, mailEmulator, documents, dayPlan, SKPhoneView, SKPhoneDialogView,
 glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
-(function () {
+var SKIconPanelView;
+
+define([
+    "text!game/jst/world/icon_panel.jst"
+    ],
+    function (icon_panel)
+    {
     "use strict";
     /**
      * @class
      * @type {*}
      */
-    window.SKIconPanelView = Backbone.View.extend({
+    SKIconPanelView = Backbone.View.extend(
+        {
         /** @lends SKIconPanelView.prototype */
 
         isPhoneAvailable: true,
@@ -30,7 +37,6 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             events.on('add', function (event) {
                 if (event.getTypeSlug() === 'mail') {
                     me.startAnimation('.' + event.getTypeSlug());
-                    me.updateMailCounter();
 
                     if (event.get('type') === 'MS') {
                         SKApp.user.simulation.mailClient.once('init_completed', function() {
@@ -77,37 +83,37 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
                     }
 
                     me.startAnimation('.' + event.getTypeSlug(), callbackFunction,  me.getPhoneBounces(data));
-                    
+
                 } else if (event.getTypeSlug() === 'visit') {
                     me.$('.door').attr('data-event-id', event.cid);
                     me.startAnimation('.door');
                 }
             });
-            
+
             // Block phone when visit/call going {
             events.on('add', function (event) {
                 if (event.getTypeSlug().match(/(phone|visit)$/))  {
                     if ('in progress' === event.getStatus()) {
                         me.doBlockingPhoneIcon();
-                    } else {                    
+                    } else {
                         event.on('in progress', function() {
                             me.doBlockingPhoneIcon();
                         });
                     }
-                    
+
                     event.on('complete', function() {
                         me.doDeblockingPhoneIcon();
-                    });    
+                    });
                 }
             });
             // Block phone when visit/call going }
-            
+
             var todo_tasks = SKApp.user.simulation.todo_tasks;
             todo_tasks.on('add remove reset', function () {
                 me.updatePlanCounter();
             });
             var phone_history = SKApp.user.simulation.phone_history;
-            
+
             // update counter on any change in calls collection
             phone_history.on('add change remove reset', function () {
                 me.setCounter(
@@ -147,11 +153,11 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             if (0 === this.$(selector + ' a span').length) {
                 this.$(selector + ' a').html('<span></span>');
             }
-            
+
             if (0 === count) {
                 this.$(selector + ' a span').remove();
             }
-            
+
             this.$(selector + ' a span').html(count);
         },
 
@@ -206,7 +212,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         render:function () {
             var me = this;
-            this.$el.html(_.template($('#icon_panel').html(), {}));
+            this.$el.html(_.template(icon_panel, {}));
             me.updateMailCounter();
             me.updatePlanCounter();
         },
@@ -239,7 +245,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
         doPhoneToggle:function (e) {
             e.preventDefault();
-            
+
             if (this.isPhoneAvailable) {
                 SKApp.user.simulation.window_set.toggle('phone','phoneMain');
             }
@@ -267,7 +273,7 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
 
             // we need getActiveSubscreenName() because mailClient window subname changed dinamically
             SKApp.user.simulation.window_set.toggle(
-                'mailEmulator', 
+                'mailEmulator',
                 SKApp.user.simulation.mailClient.getActiveSubscreenName()
             );
 
@@ -286,11 +292,11 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
         /**
          * Blocking phone icon when HERO talk by phone or speak with visitor
          */
-        doBlockingPhoneIcon: function() {            
+        doBlockingPhoneIcon: function() {
             this.$('.phone').addClass('only-active');
             this.isPhoneAvailable = false;
         },
-        
+
         /**
          * Deblocking phone icon when HERO finished talk by phone or speak with visitor
          */
@@ -299,4 +305,6 @@ glabal SKDayPlanView, SKPhoneHistoryCollection, SKPhoneCallView*/
             this.isPhoneAvailable = true;
         }
     });
-})();
+
+    return SKIconPanelView;
+});
