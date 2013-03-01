@@ -15,6 +15,7 @@
             <ul class="main-screen-stat">
                 <li class="time"><span class="hour"></span><span class="delimiter">:</span><span
                         class="minute"></span></li>
+                <li>4 октября, четверг</li>
                 <li><img src="{$assetsUrl}/img/main-screen/icon-bat-full.png" alt=""/></li>
                 <li><a><img alt="" src="{$assetsUrl}/img/main-screen/icon-help.png"></a></li>
             </ul>
