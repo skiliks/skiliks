@@ -183,6 +183,7 @@ class Simulation extends CActiveRecord
 
     /**
      * Выбрать по идентификатору
+     * @deprecated
      * @param int $id
      * @return Simulation
      */

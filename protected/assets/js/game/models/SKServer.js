@@ -1,5 +1,7 @@
 /**
- * @class
+ * Взаимодействие с сервером через API
+ *
+ * @class SKServer
  */
 define(["jquery/jquery.cookies"], function () {
     "use strict";
@@ -13,7 +15,8 @@ define(["jquery/jquery.cookies"], function () {
              */
             'api_root': '/index.php/',
             /**
-             *
+             * Отправляет запрос на сервер
+             * @method api
              * @param {String} path
              * @param {Object|undefined} params
              * @param {function(data:Object)|undefined} callback

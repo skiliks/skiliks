@@ -732,7 +732,7 @@ define([
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                $('#' + this.mailClientContentBlockId).html(sceleton);
+                this.$('#' + this.mailClientContentBlockId).html(sceleton);
                 // set HTML sceleton }
 
                 this.updateTrashListView();
