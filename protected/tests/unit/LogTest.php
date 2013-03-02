@@ -307,7 +307,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
-            [10, 11, 'deactivated', 32580, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 2],
             [10, 13, 'activated', 32640, 'window_uid' => 4], # Send draft
             [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey], 'window_uid' => 4],
             [10, 11, 'activated', 32700, 'window_uid' => 5],
