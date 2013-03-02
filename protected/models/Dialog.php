@@ -48,7 +48,7 @@ class Dialog extends CActiveRecord
     }
 
     public function primaryKey() {
-        return array('code');
+        return 'code';
     }
 
     /**
