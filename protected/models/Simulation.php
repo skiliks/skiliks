@@ -183,6 +183,7 @@ class Simulation extends CActiveRecord
 
     /**
      * Выбрать по идентификатору
+     * @deprecated
      * @param int $id
      * @return Simulation
      */
@@ -192,6 +193,56 @@ class Simulation extends CActiveRecord
             'condition' => 'id = '.(int)$id
         ));
         return $this;
+    }
+
+    public function checkLogs()
+    {
+        $unixtime = 0;
+        foreach ($this->log_mail as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty mail end time for " . $log->primaryKey);
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+        $unixtime = 0;
+        foreach ($this->log_dialogs as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty end time");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+        $unixtime = 0;
+        foreach ($this->log_activity_actions as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time");
+            }
+            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+                throw new Exception("Time gap");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+        $unixtime = 0;
+        foreach ($this->log_windows as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty window end time");
+            }
+            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+                throw new Exception("Time gap");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
     }
 
     /**

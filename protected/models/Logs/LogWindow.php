@@ -83,6 +83,15 @@ class LogWindow extends CActiveRecord
         parent::afterSave();
     }
 
+    public function dump(){
+        echo $this->__toString() . "\n";
+    }
+
+    public function __toString()
+    {
+        return sprintf("%s\t%s\t%s\t%s", $this->start_time, $this->end_time, $this->window, $this->window_uid);
+    }
+
     public function relations()
     {
         return array(

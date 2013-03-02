@@ -514,6 +514,7 @@ class SimulationService
         
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
+        $simulation->checkLogs();
     }
 
 

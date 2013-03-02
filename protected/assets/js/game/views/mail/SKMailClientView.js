@@ -732,7 +732,7 @@ define([
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                $('#' + this.mailClientContentBlockId).html(sceleton);
+                this.$('#' + this.mailClientContentBlockId).html(sceleton);
                 // set HTML sceleton }
 
                 this.updateTrashListView();
@@ -1178,9 +1178,6 @@ define([
                 // add IDs to lists of recipients and copies - to simplify testing
                 this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
-                // prevent custom text input
-                this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
 
                 this.delegateEvents();
 
