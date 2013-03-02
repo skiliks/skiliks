@@ -18,17 +18,23 @@ trait UnitLoggingTrait {
         $logs[] = [20, 24, 'activated', $this->time, 'window_uid' => $this->windowUid, ['dialogId' => $replica->primaryKey, 'lastDialogId' => $resultReplica->primaryKey]];
         $this->time += $time;
         $logs[] = [20, 24, 'deactivated', $this->time, 'window_uid' => $this->windowUid, ['dialogId' => $replica->primaryKey, 'lastDialogId' => $resultReplica->primaryKey]];
+        $this->windowUid ++;
     }
     private function appendSleep(&$logs, $time)
     {
         $logs[] = [1, 1, 'activated', $this->time, 'window_uid' => $this->windowUid];
         $logs[] = [1, 1, 'deactivated', $this->time + $time, 'window_uid' => $this->windowUid];
         $this->time += $time;
+        $this->windowUid ++;
     }
 
-    private function appendNewMessage(&$logs, $message, $time = 60) {
-        $logs[] = [10, 13, 'activated', $this->time, 'window_uid' => $this->windowUid];
-        $logs[] = [10, 13, 'deactivated', $this->time + $time, 'window_uid' => $this->windowUid, ['mailId' => $message->primaryKey]];
+    private function appendNewMessage(&$logs, $message, $time = 60, $windowUid = null) {
+        if ($windowUid === null) {
+            $windowUid = $this->windowUid;
+            $this->windowUid ++;
+        }
+        $logs[] = [10, 13, 'activated', $this->time, 'window_uid' => $windowUid];
+        $logs[] = [10, 13, 'deactivated', $this->time + $time, 'window_uid' => $windowUid, ['mailId' => $message->primaryKey]];
         $this->time += $time;
 
     }
@@ -37,20 +43,26 @@ trait UnitLoggingTrait {
         $logs[] = [10, 13, 'activated', $this->time, 'window_uid' => $this->windowUid, ['mailId' => $message->primaryKey]];
         $logs[] = [10, 13, 'deactivated', $this->time + $time, 'window_uid' => $this->windowUid, ['mailId' => $message->primaryKey]];
         $this->time += $time;
-
+        $this->windowUid ++;
     }
 
     private function appendViewMessage(&$logs, $message, $time = 60) {
         $logs[] = [10, 11, 'activated', $this->time, 'window_uid' => $this->windowUid, ['mailId' => $message->primaryKey]];
         $logs[] = [10, 11, 'deactivated', $this->time + $time, 'window_uid' => $this->windowUid, ['mailId' => $message->primaryKey]];
         $this->time += $time;
+        $this->windowUid ++;
 
     }
 
-    private function appendWindow(&$logs, $window, $time = 60) {
-        $logs[] = [round($window, -1), $window, 'activated', $this->time, 'window_uid' => $this->windowUid];
-        $logs[] = [round($window, -1), $window, 'deactivated', $this->time + $time, 'window_uid' => $this->windowUid];
+    private function appendWindow(&$logs, $window, $time = 60, $windowUid = null) {
+        if ($windowUid === null) {
+            $windowUid = $this->windowUid;
+            $this->windowUid ++;
+        }
+        $logs[] = [round($window, -1), $window, 'activated', $this->time, 'window_uid' => $windowUid];
+        $logs[] = [round($window, -1), $window, 'deactivated', $this->time + $time, 'window_uid' => $windowUid];
         $this->time += $time;
+        $this->windowUid ++;
 
     }
 

@@ -64,7 +64,12 @@ class LogMail extends CActiveRecord
     }
 
     public function dump() {
-        printf("%s %s %s\n", $this->start_time, $this->end_time, $this->full_coincidence);
+        echo $this . "\n";
+    }
+
+    public function __toString()
+    {
+        return sprintf("%s %s %s", $this->start_time, $this->end_time, $this->full_coincidence ?: '—');
     }
     
     public function bySimId($simId)
