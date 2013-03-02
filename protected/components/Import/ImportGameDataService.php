@@ -1958,26 +1958,26 @@ class ImportGameDataService
         $result = [];
         $transaction = Yii::app()->db->beginTransaction();
         try {
-//            $result['characters'] = $this->importCharacters();
-//            $result['learning_goals'] = $this->importLearningGoals();
-//            $result['characters_points_titles'] = $this->importHeroBehaviours();
-//            $result['flags'] = $this->importFlags();
-//            $result['replicas'] = $this->importDialogReplicas();
+            $result['characters'] = $this->importCharacters();
+            $result['learning_goals'] = $this->importLearningGoals();
+            $result['characters_points_titles'] = $this->importHeroBehaviours();
+            $result['flags'] = $this->importFlags();
+            $result['replicas'] = $this->importDialogReplicas();
             $result['dialogs'] = $this->importDialogs();
-//            $result['my_documents'] = $this->importMyDocuments();
-//            $result['character_points'] = $this->importDialogPoints();
-//            $result['constructor'] = $this->importMailConstructor();
-//            $result['email_subjects'] = $this->importEmailSubjects();
-//            $result['emails'] = $this->importEmails();
-//            $result['mail_attaches'] = $this->importMailAttaches();
-//            $result['mail_events'] = $this->importMailEvents();
-//            $result['tasks'] = $this->importTasks();
-//            $result['mail_tasks'] = $this->importMailTasks();
-//            $result['event_samples'] = $this->importEventSamples();
-//            $result['activity'] = $this->importActivity();
-//            $result['activity_parent_ending'] = $this->importActivityParentEnding();
-//            $result['flag_rules'] = $this->importFlagsRules();
-//            $result['assessment_rules'] = $this->importAssessmentRules();
+            $result['my_documents'] = $this->importMyDocuments();
+            $result['character_points'] = $this->importDialogPoints();
+            $result['constructor'] = $this->importMailConstructor();
+            $result['email_subjects'] = $this->importEmailSubjects();
+            $result['emails'] = $this->importEmails();
+            $result['mail_attaches'] = $this->importMailAttaches();
+            $result['mail_events'] = $this->importMailEvents();
+            $result['tasks'] = $this->importTasks();
+            $result['mail_tasks'] = $this->importMailTasks();
+            $result['event_samples'] = $this->importEventSamples();
+            $result['activity'] = $this->importActivity();
+            $result['activity_parent_ending'] = $this->importActivityParentEnding();
+            $result['flag_rules'] = $this->importFlagsRules();
+            $result['assessment_rules'] = $this->importAssessmentRules();
 
             $transaction->commit();
 
