@@ -1311,6 +1311,8 @@ class ImportGameDataService
             $dialog = Dialog::model()->findByAttributes([
                 'code' => $code
             ]);
+            //$dialog->deleteByPk($code);
+
             if (null === $dialog) {
                 $dialog = new Dialog(); // Создаем событие
                 $dialog->code = $code;
@@ -1324,8 +1326,8 @@ class ImportGameDataService
             $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss');
             $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
             $dialog->import_id      = $this->import_id;
-            $dialog->save();
 
+            $dialog->save();
             $importedRows++;
         }
         // Events from dialogs }
