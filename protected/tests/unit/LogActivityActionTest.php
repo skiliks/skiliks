@@ -9,6 +9,7 @@
 
 class LogActivityActionTest extends CDbTestCase
 {
+    use UnitLoggingTrait;
 
     public function testActivityActionDetail()
     {
@@ -428,7 +429,6 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
             $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
             $this->assertEquals('T2', $activity_actions[7]->activityAction->activity_id);
-
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();

@@ -152,7 +152,7 @@ class ActivityAction extends CActiveRecord
         if (isset($log->mail_id)) {
             $log_action->mail_id = $log->mail_id;
         }
-        if ($log->end_time !== '00:00:00') {
+        if ($log->end_time!==null && $log->end_time !== '00:00:00') {
             $log_action->end_time = $log->end_time;
         }
         ;

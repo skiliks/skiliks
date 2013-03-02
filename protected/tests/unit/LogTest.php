@@ -8,6 +8,7 @@
  */
 class LogTest extends CDbTestCase
 {
+    use UnitLoggingTrait;
     /**
      * Проверяет работу ответа всем на письмо M1
      */
@@ -93,40 +94,31 @@ class LogTest extends CDbTestCase
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
 
 
-        $mgr->processLogs($simulation, [
-            [1, 1, 'activated', 32400, 'window_uid' => 1],
-            [1, 1, 'deactivated', 32460, 'window_uid' => 1],
-            [10, 11, 'activated', 32460, 'window_uid' => 2],
-            [10, 11, 'deactivated', 32520, 'window_uid' => 2],
-            [10, 13, 'activated', 32520, 'window_uid' => 3], # Send mail
-            [10, 13, 'deactivated', 32580, 'window_uid' => 3, ['mailId' => $message->primaryKey]],
-            [10, 11, 'activated', 32580, 'window_uid' => 4 ],
-            [10, 11, 'deactivated', 32640, 'window_uid' => 4 ],
-            [10, 13, 'activated', 32640, 'window_uid' => 5 ], # Send draft
-            [10, 13, 'deactivated', 32700, 'window_uid' => 5, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32700, 'window_uid' => 6],
-            [10, 11, 'deactivated', 32760, 'window_uid' => 6],
-            [10, 13, 'activated', 32760, 'window_uid' => 7], # Send draft
-            [10, 13, 'deactivated', 32790, 'window_uid' => 7, ['mailId' => $draft_message2->primaryKey]],
-            [10, 11, 'activated', 32790, 'window_uid' => 8],
-            [10, 11, 'deactivated', 32805, 'window_uid' => 8],
-        ]);
+        $logList = [
+
+        ];
+        $this->appendSleep($logList, 60);
+        $this->appendWindow($logList, 11);
+        $this->appendNewMessage($logList, $message);
+        $this->appendWindow($logList, 11);
+        $this->appendNewMessage($logList, $draft_message);
+        $this->appendWindow($logList, 11);
+        $this->appendNewMessage($logList, $draft_message2);
+        $this->appendWindow($logList, 11);
+
+
+        $mgr->processLogs($simulation, $logList);
 
         MailBoxService::sendDraft($simulation, $draft_message2);
         MailBoxService::sendDraft($simulation, $draft_message3);
 
-        $mgr->processLogs($simulation, [
-            [10, 13, 'activated', 32805, 'window_uid' => 11], # Send draft
-            [10, 13, 'deactivated', 32820, 'window_uid' => 11, ['mailId' => $draft_message3->primaryKey]],
-            [10, 11, 'activated', 32820, 'window_uid' => 12],
-            [10, 11, 'deactivated', 32880, 'window_uid' => 12],
-            [10, 11, 'activated', 32880, 'window_uid' => 13, ['mailId' => $draft_message->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32910, 'window_uid' => 13, ['mailId' => $draft_message->primaryKey]],
-            [10, 11, 'activated', 32910, 'window_uid' => 14, ['mailId' => $draft_message2->primaryKey]], # Send draft
-            [10, 11, 'deactivated', 32940, 'window_uid' => 14, ['mailId' => $draft_message2->primaryKey]],
-            [1, 1, 'activated', 32940, 'window_uid' => 15],
-            [1, 1, 'deactivated', 33000, 'window_uid' => 15],
-        ]);
+        $logList = [];
+        $this->appendNewMessage($logList, $draft_message3);
+        $this->appendWindow($logList, 11);
+        $this->appendViewMessage($logList, $draft_message);
+        $this->appendViewMessage($logList, $draft_message2);
+        $this->appendSleep($logList, 60);
+        $mgr->processLogs($simulation, $logList);
 
         $simulation_service->simulationStop($simulation);
 
@@ -151,20 +143,13 @@ class LogTest extends CDbTestCase
 
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
+        foreach ($activity_actions as $log) {
+            $log->dump();
+        }
         $this->assertEquals(count($activity_actions), 13);
 
 //        echo "\n";
-//        foreach ($activity_actions as $i => $log) {
-//            printf("%s\t%8s\t%8s\t%10s\t%10s\t%10s\n",
-//                $i,
-//                $log->start_time,
-//                $log->end_time !== null ? $log->end_time : '(empty)',
-//                $log->activityAction->leg_type,
-//                $log->activityAction->activity_id,
-//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-//            );
-//            /*$this->assertNotNull($log->end_time);*/
-//        }
+
 
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
         $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_wait');
@@ -322,7 +307,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
-            [10, 11, 'deactivated', 32580, 'window_uid' => 2],
+            [10, 11, 'deactivated', 32640, 'window_uid' => 2],
             [10, 13, 'activated', 32640, 'window_uid' => 4], # Send draft
             [10, 13, 'deactivated', 32700, ['mailId' => $draft_message->primaryKey], 'window_uid' => 4],
             [10, 11, 'activated', 32700, 'window_uid' => 5],
