@@ -88,12 +88,7 @@ class LogActivityAction extends CActiveRecord
      * Prints all needed info in one row
      */
     public function dump() {
-        printf("%s  %8s  %-15s\t%-10s\n",
-                $this->start_time,
-                $this->end_time !== null ? $this->end_time : '—',
-                $this->activityAction->activity_id,
-                $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
-            );
+        echo $this . "\n";
     }
 
     /**
@@ -121,6 +116,7 @@ class LogActivityAction extends CActiveRecord
 
     /**
      * @param int $simulationId
+     * @deprecated
      * @return LogActivityAction
      */
     public function bySimulationId($simulationId)
@@ -131,8 +127,19 @@ class LogActivityAction extends CActiveRecord
         return $this;
     }
 
+    public function __toString()
+    {
+        return sprintf("%-9s %-9s %-15s %-10s",
+            $this->start_time,
+            $this->end_time !== null ? $this->end_time : '—',
+            $this->activityAction->activity_id,
+            $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
+        );
+    }
+
     /**
      * @param int $mailId
+     * @deprecated
      * @return LogActivityAction
      */
     public function byMailId($mailId)

@@ -44,21 +44,19 @@ class LogDialog extends CActiveRecord
             $this->simulation
         );
 
-        if ($this->getLastReplica()) {
-            $logActivityAction = LogActivityAction::model()->findByAttributes(['start_time' => $this->start_time, 'sim_id' => $this->sim_id]);
-                if ($logActivityAction === null) {
-                foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
-                    if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
-                        $parentAction->terminateInSimulation($this->simulation);
-                    }
-                };
-            }
-        }
-
-
         if (null !== $activityAction) {
             $activityAction->appendLog($this);
         }
+
+        if ($this->getLastReplica()) {
+            foreach ($this->getLastReplica()->termination_parent_actions as $parentAction) {
+                if (!$parentAction->isTerminatedInSimulation($this->simulation)) {
+                    $parentAction->terminateInSimulation($this->simulation);
+                }
+            };
+        }
+
+
         parent::afterSave();
     }
 
