@@ -115,4 +115,41 @@ class AdminController extends AjaxController
             ]
         );
     }
+
+    public function actionDialogsAnalyzer()
+    {
+        $sDialogs = Dialog::model()->findAll();
+
+        $eReplicas = Replica::model()->findAll();
+
+        $sEmails = MailTemplate::model()->findAll();
+
+        $sEvents = EventSample::model()->findAll(
+            " code NOT LIKE 'MS%' AND code NOT LIKE 'P%' ORDER BY trigger_time ASC "
+        );
+
+        $a = new GameContentAnalyzer();
+
+        $a->uploadDialogs($sDialogs);
+        $a->uploadReplicas($eReplicas);
+        $a->uploadEmails($sEmails);
+        $a->uploadEvents($sEvents);
+
+        // update statistic
+        $a->updateProducedBy();
+        $a->updateDelays();
+        $a->updatePossibleNextEvents();
+        $a->updateDurations();
+
+        // organize data for output
+        $a->separateEvents();
+        $a->initHoursChain();
+
+        $this->layout = 'admin';
+        $this->render('dialogs_analyzer',
+            [
+                'analyzer'     => $a,
+            ]
+        );
+    }
 }
