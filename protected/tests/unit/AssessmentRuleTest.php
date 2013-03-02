@@ -44,9 +44,9 @@ class AssessmentRuleTest extends CDbTestCase {
 
         #array_map(function ($i) {$i->dump();}, $simulation->log_mail);
         #array_map(function ($i) {$i->dump();}, $simulation->log_windows);
-        #array_map(function ($i) {$i->dump();}, $simulation->log_activity_actions);
-        print_r($logs);
+        #print_r($logs);
         $mgr->processLogs($simulation, $logs);
+        array_map(function ($i) {$i->dump();}, $simulation->log_activity_actions);
         $simulationService->simulationStop($simulation);
         $this->assertEquals([9,10,11,12, 13], array_map(function ($i) {return $i->assessmentRule->id;}, $simulation->getAssessmentRules()));
     }
