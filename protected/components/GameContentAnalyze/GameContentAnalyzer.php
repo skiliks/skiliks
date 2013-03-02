@@ -71,7 +71,9 @@ class GameContentAnalyzer
 
     public function updateDelays() {
         foreach ($this->dialogs as $dialog) {
-            $this->aEvents[$dialog->code]->delay = (int)$dialog->delay;
+            if (isset($this->aEvents[$dialog->code])) {
+                $this->aEvents[$dialog->code]->delay = (int)$dialog->delay;
+            }
         }
     }
 
