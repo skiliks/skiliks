@@ -34,4 +34,6 @@ class EventForAnalyze
     public $producedBy = [];
 
     public $possibleNextEvents = [];
+
+    public $flagsToSwitch = [];
 }
