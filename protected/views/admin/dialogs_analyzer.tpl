@@ -5,7 +5,7 @@
 </style>
 
 <h1> Анализатор диалогов </h1>
-Источник: база данных.
+Источник: {$sourceName}.
 
 <table class="table">
     <thead>
