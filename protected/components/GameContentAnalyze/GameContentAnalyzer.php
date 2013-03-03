@@ -37,7 +37,6 @@ class GameContentAnalyzer
      */
     public function uploadEvents($events) {
         foreach ($events as $event) {
-
             if (in_array($event->code, ['T', ''])) {
                 continue;
             }
@@ -48,6 +47,7 @@ class GameContentAnalyzer
             $aEvent->title       = $this->getEventTitle($aEvent);
             $aEvent->cssIcon     = $this->getCssIcon($aEvent);
             $aEvent->cssRowColor = $this->getCssRowColor($aEvent);
+            $aEvent->replicas    = [];
 
             $this->setUpReplicas($aEvent);
 
@@ -380,8 +380,8 @@ class GameContentAnalyzer
 
     public function getDialogTitle($event) {
         if (false == isset($this->dialogs[$event->code])) {
-        var_dump($event->code); die;
-    }
+            //var_dump($event->code); die;
+        }
         return $this->dialogs[$event->code]->title;
     }
 
