@@ -35,5 +35,10 @@ class TimeTools
         list($hours, $minutes, $seconds) = explode(':', $time);
         return ($seconds*1 + $minutes*60 + $hours*60*60);
     }
+
+    public static function timeStringPlusSeconds($time, $seconds) {
+        $t = self::TimeToSeconds($time);
+        return self::secondsToTime($t + $seconds);
+    }
 }
 

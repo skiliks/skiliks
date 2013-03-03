@@ -118,6 +118,10 @@ class AdminController extends AjaxController
 
     public function actionDialogsAnalyzer()
     {
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+
         $sDialogs = Dialog::model()->findAll();
 
         $eReplicas = Replica::model()->findAll();
@@ -138,12 +142,16 @@ class AdminController extends AjaxController
         // update statistic
         $a->updateProducedBy();
         $a->updateDelays();
+
         $a->updatePossibleNextEvents();
-        $a->updateDurations();
 
         // organize data for output
         $a->separateEvents();
         $a->initHoursChain();
+        $a->buildTimeChains();
+        $a->updateAEventsDurations();
+
+
 
         $this->layout = 'admin';
         $this->render('dialogs_analyzer',

@@ -21,7 +21,9 @@ class EventForAnalyze
 
     public $delay = 0;
 
-    public $duration = 0;
+    public $durationFrom = '00:00:00';
+
+    public $durationTo = '00:00:00';
 
     public $cssIconTitle;
 
