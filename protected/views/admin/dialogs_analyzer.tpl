@@ -4,7 +4,6 @@
     }
 </style>
 
-
 <h1> Анализатор диалогов </h1>
 Источник: база данных.
 
@@ -31,7 +30,7 @@
 
                         <!-- Задержка -->
                         Задержка: {$aEvent->delay} мин<br/>
-                        Длительность: {$aEvent->duration} мин<br/>
+                        Длительность: c {$aEvent->startTime} до {$aEvent->durationFrom} ~ {$aEvent->durationTo}<br/>
 
                         <!-- Является последствием -->
                         {if (0 != count($aEvent->producedBy))}
@@ -66,25 +65,27 @@
                             </tbody>
                         </table>
 
-                        <!-- Вероятные следующие дествия { -->
-                        {if (0 < $aEvent->possibleNextEvents)}
-                        <div>
-                            {if (0 != count($aEvent->possibleNextEvents))}
-                                Далее будет вызван диалог:
-                            {/if}
-                            <ul>
-                            {foreach $aEvent->possibleNextEvents as $key => $value}
-                            <li><a href="#{$key}">
-                                {$key}, длительностью {$analyzer->getEventDurationByCode($key)} мин,
-                                {$analyzer->getEventTitleByCode($key)}
-                            </a></li>
-                            {/foreach}
-                            </ul>
-                        </div>
+                        {if (isset($analyzer->tree[$aEvent->event->code]))}
+                            <a data-id="{$aEvent->event->code}-variations" class="switcher">Скрыть/показать варианты развития события</a>
                         {/if}
-                        <!-- Вероятные следующие дествия } -->
                     </td>
                 </tr>
+                {if (isset($analyzer->tree[$aEvent->event->code]))}
+                    {foreach $analyzer->tree[$aEvent->event->code] as $branch}
+                        <tr class="{$aEvent->event->code}-variations variations">
+                            <td>
+                            {foreach $branch as $element}
+                                <div class="pull-left" style="width: 100px;">
+                                    <a href="#{$element['code']}"
+                                       title="{$analyzer->getReplicaHintByCodeStepReplicaNumber($element['prevCode'],$element['step'],$element['replica'])}">
+                                        {$element['code']}[{$element['step']}]</a> <br/>
+                                    {$element['startTime']} <br/>
+                                </div>
+                            {/foreach}
+                            </td>
+                        </tr>
+                    {/foreach}
+                {/if}
             {/foreach}
         {/foreach}
     </tbody>
@@ -107,7 +108,6 @@
 
             <!-- Задержка -->
             Задержка: {$aEvent->delay} мин<br/>
-            Длительность: {$aEvent->duration} мин<br/>
 
             <!-- Является последствием -->
             {if (0 != count($aEvent->producedBy))}
@@ -119,6 +119,7 @@
             {else}
                 <span class="label label-important">Никогда не будет вызван!</span>
             {/if}
+            <br/>
 
             {$i = 1}
             <table class="table-condensed pull-right" style="margin-top: -81px;">
@@ -142,24 +143,6 @@
                 </tr>
                 </tbody>
             </table>
-
-            <!-- Вероятные следующие дествия { -->
-            {if (0 < $aEvent->possibleNextEvents)}
-                <div>
-                    {if (0 != count($aEvent->possibleNextEvents))}
-                    Далее будет вызван диалог:
-                    {/if}
-                    <ul>
-                        {foreach $aEvent->possibleNextEvents as $key => $value}
-                            <li><a href="#{$key}">
-                                {$key}, длительностью {$analyzer->getEventDurationByCode($key)} мин,
-                                {$analyzer->getEventTitleByCode($key)}
-                            </a></li>
-                        {/foreach}
-                    </ul>
-                </div>
-            {/if}
-            <!-- Вероятные следующие дествия } -->
         </td>
     </tr>
 {/foreach}
@@ -168,3 +151,13 @@
 <br>
 <br>
 <br>
+
+<script type="text/javascript">
+    // hide dialog`s variants
+    $(".switcher").click(function(event){
+        event.preventDefault();
+        $('.'+$(this).attr('data-id')).toggle();
+    });
+
+    $('.variations').toggle();
+</script>

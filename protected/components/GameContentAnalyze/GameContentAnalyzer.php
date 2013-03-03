@@ -89,7 +89,7 @@ class GameContentAnalyzer
             }
             else
             {
-                $aEvent->startTime   = substr((string)$aEvent->event->trigger_time, 0, 5);
+                $aEvent->startTime = (string)$aEvent->event->trigger_time;
                 $this->eventsStartedByTime[$aEvent->event->code] = $aEvent;
             }
         }
@@ -98,6 +98,12 @@ class GameContentAnalyzer
     public function initHoursChain() {
         $i = 0;
         $hours   = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00'];
+
+        // trick, but very easy solution :)
+        $this->hoursChainOfEventsStartedByTime[$i] = new HourForContentAnalyze();
+        $i++;
+        $this->hoursChainOfEventsStartedByTime[$i] = new HourForContentAnalyze();
+        $i++;
 
         foreach ($this->eventsStartedByTime as $event) {
             if ($hours[$i] <= $event->startTime) {
@@ -108,9 +114,145 @@ class GameContentAnalyzer
             $this->hoursChainOfEventsStartedByTime[$i]->events[] = $event;
             $this->hoursChainOfEventsStartedByTime[$i]->title = $hours[$i-1];
         }
+    }
 
-        // clean up memory
-        $this->eventsStartedByTime = [];
+    public function buildTimeChains() {
+        $this->tree = [];
+        foreach ($this->eventsStartedByTime as $aEvent) {
+            if (false == in_array($aEvent->event->code, ['RST1'])) {
+                //continue;
+            }
+
+            if (in_array(substr($aEvent->event->code, 0,1),['M','P','D','T'])) {
+                continue;
+            }
+
+            $t = [];
+            $r = [
+                ['code' => $aEvent->event->code, 'step' => 1, 'replica' => 1, 'prevCode' => null, 'startTime' => $aEvent->startTime]
+            ];
+            $this->addTimeAssessment($t, $r, $aEvent->event->code, $aEvent->startTime);
+
+            $this->tree[$aEvent->event->code] = $t;
+
+        }
+    }
+
+    private function addTimeAssessment(&$tree, $branch, $code, $startTime) {
+        $code = trim($code);
+        $aEvent = $this->getAEvent($code);
+
+        $allNextEvents = [];
+
+        if (false == $aEvent) {
+
+        } else {
+            if (in_array(substr($aEvent->event->code, 0,1),['M'])) {
+                $aEvent->replicas = [];
+            }
+
+            $stepN = 1;
+            foreach ($aEvent->replicas as $step) {
+                foreach ($step as $replica) {
+                    // "T"
+                    if ('T' == $replica->next_event_code) {
+                        $allNextEvents[] = [
+                            'code'      => 'T',
+                            'prevCode'  => $code,
+                            'step'      => $stepN,
+                            'replica'   => $replica->replica_number,
+                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                        ];
+                    } elseif('P' == substr($replica->next_event_code, 0, 1)) {
+                        $allNextEvents[] = [
+                            'code'      => $replica->next_event_code,
+                            'prevCode'  => $code,
+                            'step'      => $stepN,
+                            'replica'   => $replica->replica_number,
+                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                        ];
+                    } elseif(null === $replica->next_event_code) {
+                        // null
+                    } elseif('D' == substr($replica->next_event_code, 0, 1)) {
+                        $allNextEvents[] = [
+                            'code'      => $replica->next_event_code,
+                            'prevCode'  => $code,
+                            'step'      => $stepN,
+                            'replica'   => $replica->replica_number,
+                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                        ];
+                    } elseif('M' == substr($replica->next_event_code, 0, 1)) {
+                        if (null === $this->dialogs[$replica->code]->delay) {
+                            $k = 80*$stepN; // delay 80 sec per step
+                        } else {
+                            $k = 80*$stepN + $this->dialogs[$replica->code]->delay; // + delay pefore event will be started
+                        }
+                        $allNextEvents[] = [
+                            'code'      => $replica->next_event_code,
+                            'prevCode'  => $code,
+                            'step'      => $stepN,
+                            'replica'   => $replica->replica_number,
+                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
+                        ];
+                    } else {
+                        if (null === $this->dialogs[$replica->code]->delay) {
+                            $k = 80*$stepN; // delay 80 sec per step
+                        } else {
+                            $k = 80*$stepN + $this->dialogs[$replica->code]->delay; // + delay pefore event will be started
+                        }
+                        $allNextEvents[] = [
+                            'code'      => trim($replica->next_event_code),
+                            'prevCode'  => $code,
+                            'step'      => $stepN,
+                            'replica'   => $replica->replica_number,
+                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
+                        ];
+                    }
+                }
+
+                $stepN++;
+            }
+
+            foreach ($allNextEvents as $nextEvent) {
+                $tmp   = $branch;
+                $tmp[] = $nextEvent;
+
+                $possibleNextEvent = $this->getAEvent($nextEvent['code']);
+                if (false != $possibleNextEvent) {
+                    $this->addTimeAssessment($tree, $tmp, $nextEvent['code'], $nextEvent['startTime']);
+                } else {
+                    $tree[] = $tmp;
+                }
+            }
+        }
+    }
+
+    public function updateAEventsDurations() {
+        foreach ($this->eventsStartedByTime as $aEvent) {
+            if ('M' == substr($aEvent->event->code,0,1)) {
+                // 30 seconds to read an email
+                $aEvent->durationFrom = TimeTools::timeStringPlusSeconds($aEvent->startTime, 30);
+                $aEvent->durationTo   = TimeTools::timeStringPlusSeconds($aEvent->startTime, 30);
+            }
+            if (false === isset($this->tree[$aEvent->event->code])) {
+                continue;
+            }
+            $min = '24:59:59';
+            $max = '00:00:00';
+            foreach ($this->tree[$aEvent->event->code] as $branch) {
+                foreach ($branch as $point) {
+                     if ($point['startTime'] != $aEvent->event->trigger_time && $point['startTime'] < $min) {
+                         $min = $point['startTime'];
+                    }
+                    if ($max < $point['startTime']) {
+                        $max = $point['startTime'];
+                    }
+                }
+            }
+
+            $aEvent->durationFrom = $min;
+            $aEvent->durationTo   = $max;
+        }
     }
 
     /**
@@ -146,12 +288,6 @@ class GameContentAnalyzer
         }
     }
 
-    public function updateDurations() {
-        foreach ($this->aEvents as $aEvent) {
-            $aEvent->duration = count($aEvent->replicas)*1.3; // 1 min 20 sec to read and answer one dialog step
-        }
-    }
-
     public function updatePossibleNextEvents() {
         foreach ($this->replicas as $dialog) {
             foreach ($dialog as $step) {
@@ -184,20 +320,29 @@ class GameContentAnalyzer
 
     /* Title { */
 
+    public function getReplicaHintByCodeStepReplicaNumber($code, $step, $replicaNumber) {
+        $result = $this->getAEvent($code);
+        if ($result) {
+            if (false == isset($this->replicas[$code])) {
+                echo $code; exit;
+            }
+            if (false == isset($this->replicas[$code][$step])) {
+                echo 'S: '.$step; exit;
+            }
+            if (false == isset($this->replicas[$code][$step][$replicaNumber])) {
+                echo $replicaNumber; exit;
+            }
+            return $result->title.' -- '.$this->replicas[$code][$step][$replicaNumber]->text;
+        }
+        return '';
+    }
+
     public function getEventTitleByCode($code) {
         $result = $this->getAEvent($code);
         if ($result) {
             return $result->title;
         }
         return '';
-    }
-
-    public function getEventDurationByCode($code) {
-        $result = $this->getAEvent($code);
-        if ($result) {
-            return $result->duration;
-        }
-        return 0;
     }
 
     public function getAEvent($code) {
@@ -214,6 +359,7 @@ class GameContentAnalyzer
         if (false == in_array($code, [null, 'T', 'D2','CS4','D1'])) {
             return $this->aEvents[$code];
         }
+
         return false;
     }
 
