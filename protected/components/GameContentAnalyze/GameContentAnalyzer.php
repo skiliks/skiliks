@@ -129,16 +129,16 @@ class GameContentAnalyzer
 
             $t = [];
             $r = [
-                ['code' => $aEvent->event->code, 'step' => 1, 'replica' => 1, 'prevCode' => null, 'startTime' => $aEvent->startTime]
+                ['code' => $aEvent->event->code, 'step' => null, 'replica' => null, 'prevCode' => null, 'startTime' => $aEvent->startTime]
             ];
-            $this->addTimeAssessment($t, $r, $aEvent->event->code, $aEvent->startTime);
+            $this->addTimeAssessment($t, $r, $aEvent->event->code, $aEvent->startTime, $aEvent->event->code);
 
             $this->tree[$aEvent->event->code] = $t;
 
         }
     }
 
-    private function addTimeAssessment(&$tree, $branch, $code, $startTime) {
+    private function addTimeAssessment(&$tree, $branch, $code, $startTime, $initialEventCode) {
         $code = trim($code);
         $aEvent = $this->getAEvent($code);
 
@@ -154,6 +154,11 @@ class GameContentAnalyzer
             $stepN = 1;
             foreach ($aEvent->replicas as $step) {
                 foreach ($step as $replica) {
+                    // set-up flagToSwitch
+                    if (null !== $replica->flag_to_switch && isset($this->aEvents[$replica->code])) {
+                        $this->aEvents[$initialEventCode]->flagsToSwitch[$replica->flag_to_switch] = 1;
+                    }
+
                     // "T"
                     if ('T' == $replica->next_event_code) {
                         $allNextEvents[] = [
@@ -161,6 +166,7 @@ class GameContentAnalyzer
                             'prevCode'  => $code,
                             'step'      => $stepN,
                             'replica'   => $replica->replica_number,
+                            'flag'      => $replica->flag_to_switch,
                             'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
                         ];
                     } elseif('P' == substr($replica->next_event_code, 0, 1)) {
@@ -169,6 +175,7 @@ class GameContentAnalyzer
                             'prevCode'  => $code,
                             'step'      => $stepN,
                             'replica'   => $replica->replica_number,
+                            'flag'      => $replica->flag_to_switch,
                             'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
                         ];
                     } elseif(null === $replica->next_event_code) {
@@ -179,6 +186,7 @@ class GameContentAnalyzer
                             'prevCode'  => $code,
                             'step'      => $stepN,
                             'replica'   => $replica->replica_number,
+                            'flag'      => $replica->flag_to_switch,
                             'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
                         ];
                     } elseif('M' == substr($replica->next_event_code, 0, 1)) {
@@ -192,6 +200,7 @@ class GameContentAnalyzer
                             'prevCode'  => $code,
                             'step'      => $stepN,
                             'replica'   => $replica->replica_number,
+                            'flag'      => $replica->flag_to_switch,
                             'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
                         ];
                     } else {
@@ -205,6 +214,7 @@ class GameContentAnalyzer
                             'prevCode'  => $code,
                             'step'      => $stepN,
                             'replica'   => $replica->replica_number,
+                            'flag'      => $replica->flag_to_switch,
                             'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
                         ];
                     }
@@ -219,7 +229,7 @@ class GameContentAnalyzer
 
                 $possibleNextEvent = $this->getAEvent($nextEvent['code']);
                 if (false != $possibleNextEvent) {
-                    $this->addTimeAssessment($tree, $tmp, $nextEvent['code'], $nextEvent['startTime']);
+                    $this->addTimeAssessment($tree, $tmp, $nextEvent['code'], $nextEvent['startTime'], $initialEventCode);
                 } else {
                     $tree[] = $tmp;
                 }

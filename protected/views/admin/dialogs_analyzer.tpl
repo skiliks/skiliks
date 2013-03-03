@@ -32,6 +32,11 @@
                         Задержка: {$aEvent->delay} мин<br/>
                         Длительность: c {$aEvent->startTime} до {$aEvent->durationFrom} ~ {$aEvent->durationTo}<br/>
 
+                        {if (0 !== count($aEvent->flagsToSwitch))}
+                        Может включить флаги: <strong>{implode(', ', array_keys($aEvent->flagsToSwitch))}</strong>
+                        {/if}
+                        <br/>
+
                         <!-- Является последствием -->
                         {if (0 != count($aEvent->producedBy))}
                             <i class="icon-arrow-right" title="{$aEvent->event->code} является последствием ... "></i> :
@@ -43,7 +48,7 @@
                         {/foreach}
 
                         {$i = 1}
-                        <table class="table-condensed pull-right" style="margin-top: -81px;">
+                        <table class="table-condensed pull-right" style="margin-top: -101px;">
                             <tbody>
                                 <tr>
                                 {foreach $aEvent->replicas as $step}
@@ -74,13 +79,27 @@
                     {foreach $analyzer->tree[$aEvent->event->code] as $branch}
                         <tr class="{$aEvent->event->code}-variations variations">
                             <td>
+                            {$i = 0}
                             {foreach $branch as $element}
                                 <div class="pull-left" style="width: 100px;">
-                                    <a href="#{$element['code']}"
+                                    <a href="#{$element['prevCode']}"
                                        title="{$analyzer->getReplicaHintByCodeStepReplicaNumber($element['prevCode'],$element['step'],$element['replica'])}">
-                                        {$element['code']}[{$element['step']}]</a> <br/>
+                                        {$element['prevCode']}[{$element['step']}-{$element['replica']}]</a> <br/>
                                     {$element['startTime']} <br/>
                                 </div>
+
+                                <!-- Показать результируюшее событие -->
+                                {$i = $i + 1}
+                                {if ($i == count($branch))}
+                                    <div class="pull-left" style="width: 100px;">
+                                        {$element['code']}
+                                        {if (null !== $element['flag'])}
+                                            + {$element['flag']}=>1
+                                        {/if}
+                                        <br/>
+                                        {$element['startTime']}<br/>
+                                    </div>
+                                {/if}
                             {/foreach}
                             </td>
                         </tr>
