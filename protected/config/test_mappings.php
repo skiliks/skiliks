@@ -88,6 +88,7 @@ return [
         '' => '',
     ],
 
+    //работает только для первого адресата
     'mail_contacts' => [
         'advokatov' => "//ul[contains(@class,'ui-autocomplete')]/li[1]/a",
         'blesk' => "//ul[contains(@class,'ui-autocomplete')]/li[2]/a",
