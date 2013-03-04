@@ -6,7 +6,9 @@
  * @property int difficulty
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_points
- * @prorepty LogWindow[] log_windows
+ * @property LogWindow[] log_windows
+ * @property LogActivityAction[] log_activity_actions
+ * @property LogMail[] log_mail
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
@@ -181,6 +183,7 @@ class Simulation extends CActiveRecord
         return $assessmentRules;
     }
 
+
     /**
      * Выбрать по идентификатору
      * @deprecated
@@ -197,26 +200,35 @@ class Simulation extends CActiveRecord
 
     public function checkLogs()
     {
+        $this->checkMailLogs();
+        $this->checkDialogLogs();
+        $this->checkActivityLogs();
+        $this->checkWindowLogs();
+    }
+
+    public function checkWindowLogs()
+    {
         $unixtime = 0;
-        foreach ($this->log_mail as $log) {
+        foreach ($this->log_windows as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty mail end time for " . $log->primaryKey);
+                throw new Exception("Empty window end time");
+            }
+            if ($unixtime && ($unixtime + Yii::app()->params['public']['skiliksSpeedFactor'] < strtotime($log->start_time))) {
+                throw new Exception("Time gap");
             }
             if ($unixtime > strtotime($log->start_time)) {
                 throw new Exception("Time overlap");
             }
             $unixtime = strtotime($log->end_time);
         }
-        $unixtime = 0;
-        foreach ($this->log_dialogs as $log) {
-            if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty end time");
-            }
-            if ($unixtime > strtotime($log->start_time)) {
-                throw new Exception("Time overlap");
-            }
-            $unixtime = strtotime($log->end_time);
-        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkActivityLogs()
+    {
         $unixtime = 0;
         foreach ($this->log_activity_actions as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
@@ -230,13 +242,36 @@ class Simulation extends CActiveRecord
             }
             $unixtime = strtotime($log->end_time);
         }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkDialogLogs()
+    {
         $unixtime = 0;
-        foreach ($this->log_windows as $log) {
+        foreach ($this->log_dialogs as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
-                throw new Exception("Empty window end time");
+                throw new Exception("Empty end time");
             }
-            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
-                throw new Exception("Time gap");
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+        }
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function checkMailLogs()
+    {
+        $unixtime = 0;
+        foreach ($this->log_mail as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty mail end time for " . $log->primaryKey);
             }
             if ($unixtime > strtotime($log->start_time)) {
                 throw new Exception("Time overlap");
@@ -251,7 +286,7 @@ class Simulation extends CActiveRecord
      * @return boolean
      */
     public function isDevelopMode() {
-        return 2 == $this->type;
+        return self::TYPE_DEVELOP == $this->type;
     }
 }
 
