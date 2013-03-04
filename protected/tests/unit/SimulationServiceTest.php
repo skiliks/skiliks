@@ -1220,5 +1220,69 @@ class SimulationServiceTest extends CDbTestCase
 
         $this->assertTrue($is_3326_scored, '3326 not scored!');
     }
+
+    public function testSimulationAssessmentRules()
+    {
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $eventsManager = new EventsManager();
+
+        // Action for rule id 1
+        $first = Replica::model()->byExcelId(516)->find();
+        $last = Replica::model()->byExcelId(523)->find();
+        $dialogLog = [
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32401, 'window_uid' => 1],
+            [20, 23, 'activated', 32401, ['dialogId' => $first->id], 'window_uid' => 2],
+            [20, 23, 'deactivated', 32460, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 2],
+            [1, 1, 'activated', 32460, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $dialogLog);
+        // end rule 1
+
+        // Actions for rule id 5 (AND operation)
+        $mail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M10');
+        $mailLog = [
+            [1, 1, 'deactivated', 32470, 'window_uid' => 1],
+            [10, 11, 'activated', 32470, ['mailId' => $mail->id], 'window_uid' => 3],
+            [10, 11, 'deactivated', 32480, ['mailId' => $mail->id], 'window_uid' => 3],
+            [1, 1, 'activated', 32480, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $mailLog);
+        LibSendMs::sendMsByCode($simulation, 'MS83', 32500);
+        // End rule 5
+
+        // Actions for rule id 8 (OR operation)
+        LibSendMs::sendMsByCode($simulation, 'MS39', 32600);
+        // End rule 8
+
+        // Alternative action for rule id 8
+        $first = Replica::model()->byExcelId(549)->find();
+        $last = Replica::model()->byExcelId(560)->find();
+        $dialogLog = [
+            [1, 1, 'deactivated', 32610, 'window_uid' => 1],
+            [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
+            [20, 23, 'deactivated', 32700, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 4],
+            [1, 1, 'activated', 32700, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $dialogLog);
+        // end alt rule 8
+
+        $windowLog = [
+            [1, 1, 'deactivated', 35000, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $windowLog);
+
+        $simulationService->simulationStop($simulation);
+
+        $executedRules = SimulationAssessmentRule::model()->bySimId($simulation->id)->findAll();
+        $list = array_map(function($rule) {
+            return $rule->assessment_rule_id;
+        }, $executedRules);
+        sort($list);
+
+        $this->assertEquals([1, 5, 8], $list);
+    }
 }
 
