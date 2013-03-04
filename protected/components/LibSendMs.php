@@ -27,7 +27,7 @@ class LibSendMs
             case 'MS25'  : $email = self::sendMs25_r($simulation); break;
             case 'MS27'  : $email = self::sendMs27_w($simulation); break;
             case 'MS28'  : $email = self::sendMs28_r($simulation); break;
-            case 'MS29'  : $email = self::sendMs29_r($simulation); break;
+            case 'MS29'  : $email = self::sendMs29_w($simulation); break;
             case 'MS30'  : $email = self::sendMs30_w($simulation); break;
             case 'MS32'  : $email = self::sendMs32_w($simulation); break;
             case 'MS35'  : $email = self::sendMs35_r($simulation); break;
@@ -359,7 +359,7 @@ class LibSendMs
      * @param Simulation $simulation
      * @return MailBox
      */
-    public static function sendMs29_r($simulation)
+    public static function sendMs29_w($simulation)
     {
         $subject = CommunicationTheme::model()->find(
             'text = :text AND letter_number = :letter_number',[

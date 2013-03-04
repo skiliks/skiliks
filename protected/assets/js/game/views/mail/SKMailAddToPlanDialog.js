@@ -2,7 +2,10 @@
 
 var SKMailAddToPlanDialog;
 
-define(["game/views/SKDialogView", "game/models/SKMailTask"], function () {
+define([
+    "game/views/SKDialogView",
+    "game/models/SKMailTask"
+], function () {
     "use strict";
 
     SKMailAddToPlanDialog = SKDialogView.extend({
