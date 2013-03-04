@@ -1222,7 +1222,7 @@ define([
                 for (var i in valuesArray) {
                     for (var j in defaultRecipients) {
                         // get IDs of character by label text comparsion
-                        if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName()) {
+                        if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName() && $(valuesArray[i]).text() !== "") {
                             list.push(defaultRecipients[j].mySqlId);
                             break;
                         }
