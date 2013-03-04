@@ -71,9 +71,6 @@ define([
         reply: function(event) {
             event.preventDefault();
             event.stopPropagation();
-
-            console.log('reply!');
-
             this.runReply($(event.currentTarget).attr('data-dialog-id'));
         },
 
