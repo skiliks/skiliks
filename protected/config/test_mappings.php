@@ -65,7 +65,8 @@ return [
     ],
 
     'visit' => [
-        '' => '',
+        'allow' => "//a[@class='visitor-allow']",
+        'deny' => "//a[@class='visitor-deny']"
     ],
 
 
