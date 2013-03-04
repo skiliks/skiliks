@@ -17,7 +17,7 @@ class FlagsF3SK1338Test extends SeleniumTestHelper
 
     public function testSK1338() {
         // next line for not running the test
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.2');
