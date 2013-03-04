@@ -204,7 +204,12 @@ define([
             this.setupDraggable();
         },
         calculateTaskHeigth: function(duration) {
-            return (Math.ceil(duration / 30) * 23)-3;
+        	if (duration > 30){
+        		return duration / 15 * 11;
+        	}
+            else{
+            	return (duration / 15 * 11) - 2;
+            }
         },
         
         removeTodoTask:function (model) {

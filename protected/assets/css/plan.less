@@ -282,9 +282,6 @@
       border-collapse: separate;
       table-layout: fixed;
       width: 317px;
-      tr {
-        height: 10px;
-      }
       hr.past::before {
         background-image: url('../img/planner/bg-time-line.png');
         width: 19px;
@@ -303,71 +300,71 @@
         border-top: solid 1px #d72327;
         background-color: #be1b1e;
       }
-      tr td.planner-book-timetable-event-fl.past-slot {
-        background: #eee;
-      }
-      .planner-book-timetable-time-fl {
-        border-top: 1px solid #d9d9db;
-        border-right: dotted 1px;
-        border-bottom: 1px solid #fff;
-        vertical-align: top;
-        padding-top: 0;
-        padding-bottom: 0;
-        width: 43px;
-        height: 44px;
-        background: #ffffff; /* Old browsers */
-        background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
-        font-family: 'orbi_sansregular';
-        font-size: 12px;
-        line-height: 22px;
-        text-align: center;
-      }
-      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-        border-top: 1px solid #d9d9db;
-        padding: 0;
-        height: 11px;
-        line-height: 10px;
-        span {
-          line-height: 18px;
+      tr{
+        height:11px;
+        td{
+          height:10px;
+          padding:0;
+          vertical-align:top;
+          &.planner-book-timetable-event-fl.past-slot {
+            background: #eee;
+          }
+          &.planner-book-timetable-time-fl{
+            border-top: 1px solid #d9d9db;
+            border-right: dotted 1px;
+            background: #ffffff; /* Old browsers */
+            background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+            font-family: 'orbi_sansregular';
+            font-size: 12px;
+            line-height: 22px;
+            text-align: center;
+            width: 43px;
+            height: 44px;
+          }
+          &.planner-book-timetable-event-fl,&.planner-book-timetable-afterv-fl {
+            border-top: 1px solid #d9d9db;;
+            line-height: 10px;
+            span {
+              line-height: 18px;
+            }
+          }
         }
-      }
-      tr:nth-child(4n+3) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border-top: dotted 1px #D9D9CB;
-          height: 11px;
-          background: #fefefe; /* Old browsers */
-          background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
-          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
-          background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
-          background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
-          background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
-          background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+        &:nth-child(4n+3){
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border-top: dotted 1px #D9D9CB;
+            background: #fefefe; /* Old browsers */
+            background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+          }
         }
-      }
-      tr:nth-child(4n) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border-top: dotted 1px #D9D9CB;
-          height: 11px;
-          background: #fafafa; /* Old browsers */
-          background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
-          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-          background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-          background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
-          background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
-          background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+        &:nth-child(4n) {
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border-top: solid 1px #fafafa;
+            background: #fafafa; /* Old browsers */
+            background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+          }
         }
-      }
-      tr:nth-child(2n) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border: none;
+        &:nth-child(2n) {
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border: 1px solid #fff;
+          }
         }
       }
     }
