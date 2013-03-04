@@ -144,16 +144,18 @@ class Simulation extends CActiveRecord
     public function relations()
     {
         return [
-            'user'                        => [self::BELONGS_TO, 'Users', 'user_id'],
-            'events_triggers'             => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
-            'log_windows'                 => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time'],
-            'log_mail'                    => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time'],
-            'log_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time'],
-            'log_dialogs'                 => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time'],
-            'log_activity_actions'        => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time'],
-            'completed_parent_activities' => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
-            'assessment_points'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
-            'simulation_assessment_rules' => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
+            'user'                              => [self::BELONGS_TO, 'Users', 'user_id'],
+            'events_triggers'                   => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'log_windows'                       => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time'],
+            'log_mail'                          => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time'],
+            'log_plan'                          => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time'],
+            'log_dialogs'                       => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time'],
+            'log_activity_actions'              => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time'],
+            'log_activity_actions_aggregated'   => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time'],
+            'universal_log'                     => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time'],
+            'completed_parent_activities'       => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
+            'assessment_points'                 => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
+            'simulation_assessment_rules'       => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
         ];
     }
 
@@ -204,6 +206,8 @@ class Simulation extends CActiveRecord
         $this->checkDialogLogs();
         $this->checkActivityLogs();
         $this->checkWindowLogs();
+        $this->checkActivityAggregatedLogs();
+        $this->checkUniversalLogs();
     }
 
     public function checkWindowLogs()
@@ -230,6 +234,7 @@ class Simulation extends CActiveRecord
     public function checkActivityLogs()
     {
         $unixtime = 0;
+        $total = 0;
         foreach ($this->log_activity_actions as $log) {
             if (!$log->end_time || $log->end_time == '00:00:00') {
                 throw new Exception("Empty activity end time");
@@ -241,6 +246,46 @@ class Simulation extends CActiveRecord
                 throw new Exception("Time overlap");
             }
             $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+
+        if (isset($log, $start)) {
+            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
+                throw new Exception("Time difference is too big");
+            }
+        }
+    }
+
+    public function checkActivityAggregatedLogs()
+    {
+        $unixtime = 0;
+        $total = 0;
+        foreach ($this->log_activity_actions_aggregated as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time");
+            }
+            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+                throw new Exception("Time gap");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+
+        if (isset($log, $start)) {
+            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
+                throw new Exception("Time difference is too big");
+            }
         }
     }
 
@@ -277,6 +322,35 @@ class Simulation extends CActiveRecord
                 throw new Exception("Time overlap");
             }
             $unixtime = strtotime($log->end_time);
+        }
+    }
+
+    public function checkUniversalLogs()
+    {
+        $unixtime = 0;
+        $total = 0;
+        foreach ($this->universal_log as $log) {
+            if (!$log->end_time || $log->end_time == '00:00:00') {
+                throw new Exception("Empty activity end time");
+            }
+            if ($unixtime && ($unixtime + 10 < strtotime($log->start_time))) {
+                throw new Exception("Time gap");
+            }
+            if ($unixtime > strtotime($log->start_time)) {
+                throw new Exception("Time overlap");
+            }
+            $unixtime = strtotime($log->end_time);
+            $total += $unixtime - strtotime($log->start_time);
+
+            if (empty($start)) {
+                $start = strtotime($log->start_time);
+            }
+        }
+
+        if (isset($log, $start)) {
+            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
+                throw new Exception("Time difference is too big");
+            }
         }
     }
 
