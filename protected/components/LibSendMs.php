@@ -51,7 +51,7 @@ class LibSendMs
             case 'MS76'  : $email = self::sendMs76_w($simulation); break;
             case 'MS79'  : $email = self::sendMs79_n($simulation); break;
             case 'MS83'  : $email = self::sendMs83_r($simulation); break;
-            case 'notMS' : $email = self::sendNotMs($simulation);  break;
+            case 'notMS' : $email = self::sendNotMs($simulation); break;
 
             default     : $email = NULL;
         }
@@ -866,7 +866,6 @@ class LibSendMs
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
-
         $sendMailOptions->fileId     = $doc->id;
         $sendMailOptions->subject_id = $subject->id;
         $sendMailOptions->messageId  = '';
@@ -1001,7 +1000,7 @@ class LibSendMs
         ]);
 
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('6'); // Неизвестная
+        $sendMailOptions->setRecipientsArray('6');
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
