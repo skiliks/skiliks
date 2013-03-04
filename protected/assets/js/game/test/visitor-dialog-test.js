@@ -114,6 +114,7 @@ define(
                             JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
                         ]
                     );
+
                     server.respondWith(
                         "POST",
                         "/index.php/auth/checkSession",
@@ -121,6 +122,16 @@ define(
                             200,
                             { "Content-Type":"application/json" },
                             JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
+
+                    server.respondWith(
+                        "POST",
+                        "/index.php/mail/getInboxUnreadCount",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"unreaded":"4"})
                         ]
                     );
 
@@ -197,6 +208,24 @@ define(
 
                 it('Visitor phone call test', function() {
 
+                    /* init simulation */
+
+                    var applicationView = new SKApplicationView();
+
+                    server.respond();
+
+                    SKApp.user.startSimulation(1);
+
+                    server.respond();
+
+                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
+                    applicationView.frame.simulation_view = new SKSimulationView();
+                    applicationView.frame.simulation_view.render();
+
+                    server.respond();
+
+                    /* test */
+
                     server.respondWith(
                         "POST",
                         "/index.php/events/getState",
@@ -219,42 +248,6 @@ define(
                             })
                         ]
                     );
-
-//                    server.respondWith(
-//                        "POST",
-//                        "/index.php/dialog/get",
-//                        [
-//                            200,
-//                            { "Content-Type":"application/json" },
-//                            JSON.stringify(dialogStep1Response)
-//                        ]
-//                    );
-
-                    server.respondWith(
-                        "POST",
-                        "/index.php/mail/getInboxUnreadCount",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify({
-                                "result": 1
-                            })
-                        ]
-                    );
-
-                    var applicationView = new SKApplicationView();
-
-                    server.respond();
-
-                    SKApp.user.startSimulation(1);
-
-                    server.respond();
-
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
-                    applicationView.frame.simulation_view = new SKSimulationView();
-                    applicationView.frame.simulation_view.render();
-
-                    server.respond();
 
                     SKApp.user.simulation.getNewEvents();
                     server.respond();
@@ -304,7 +297,8 @@ define(
                  */
 
                 it('Incoming mail test', function() {
-                    expect(1).toBe(1);
+
+                    /* init simulation */
 
                     var applicationView = new SKApplicationView();
 
@@ -319,6 +313,39 @@ define(
                     applicationView.frame.simulation_view.render();
 
                     server.respond();
+
+                    /* test */
+
+                    // check counter
+                    expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('4');
+
+                    SKApp.user.simulation.getNewEvents();
+
+                    server.requests[6].respond(
+                        200,
+                        { "Content-Type":"application/json" },
+                        JSON.stringify({result:1,events:[{result:1,id:'46791',eventType:'M'}],serverTime:'09:05:00'})
+                    );
+
+                    server.requests[7].respond(
+                        200,
+                        { "Content-Type":"application/json" },
+                        JSON.stringify({"result": 1,"unreaded":"5"})
+                    );
+
+                    server.requests[8].respond(
+                        200,
+                        { "Content-Type":"application/json" },
+                        JSON.stringify({"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"})
+                    );
+
+                    server.respond();
+
+                    // check icon animation
+                    expect(applicationView.frame.simulation_view.$el.find('.icons-panel .mail.icon-active').length).toBe(1);
+
+                    // check counter
+                    expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('5');
                 });
             });
         });
