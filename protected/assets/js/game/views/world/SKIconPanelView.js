@@ -179,6 +179,7 @@ define([
             if (!(me.icon_lock[selector])) {
                 me.icon_lock[selector] = true;
                 var el = me.$(selector);
+                console.log(selector);
                 el.addClass('icon-active');
 
                 // define callback {
