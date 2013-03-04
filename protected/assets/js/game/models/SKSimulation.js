@@ -5,6 +5,8 @@ var SKSimulation;
 
 define([
     "game/models/SKMailClient",
+    "game/views/develop_mode/SKFlagStateView",
+
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
     "game/collections/SKTodoCollection",
@@ -13,7 +15,10 @@ define([
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
     "game/models/window/SKWindowSet"
-],function (SKMailClient) {
+
+],function (
+    SKMailClient
+) {
     "use strict";
     function timeStringToMinutes(str) {
         if (str === undefined) {
@@ -191,13 +196,17 @@ define([
                     me.trigger('tick');
                 });
             },
+
             'isDebug':function () {
                 return parseInt(this.get('stype'), 10) === 2;
             },
+
             updateFlagsForDev:function (flagsState, serverTime) {
                 // Please, don't do that
-                var flagStateView = new SKFlagStateView();
-                flagStateView.updateValues(flagsState, serverTime);
+                if (this.isDebug()) {
+                    var flagStateView = new SKFlagStateView();
+                    flagStateView.updateValues(flagsState, serverTime);
+                }
             }
         });
     return SKSimulation;

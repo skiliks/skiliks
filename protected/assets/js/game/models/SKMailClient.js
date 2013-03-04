@@ -368,9 +368,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                         if (emailData.copy !== undefined) {
                             var copies = emailData.copy.split(',');
-                            copies.forEach(function(copy) {
-                                email.copyTo = me.getRecipientByMySqlId(parseInt(copy, 10));
-                            });
+                            for (var i in copies) {
+                                email.addCopyEmailAndNameStrings(copies[i]);
+                            }
                         }
 
                         if (undefined !== emailData.reply) {

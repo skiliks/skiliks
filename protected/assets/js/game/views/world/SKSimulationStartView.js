@@ -2,8 +2,15 @@
 
 var SKSimulationStartView;
 
-define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "game/views/world/SKDebugView"],
-    function (SKSimulationView) {
+define([
+    "text!game/jst/world/start_simulation_menu.jst",
+
+    "game/views/world/SKSimulationView",
+    "game/views/world/SKLoginView",
+    "game/views/world/SKDebugView"
+], function (
+    start_simulation_menu
+    ) {
     "use strict";
     SKSimulationStartView = Backbone.View.extend({
         'el': 'body',
@@ -17,7 +24,7 @@ define(["game/views/world/SKSimulationView", "game/views/world/SKLoginView", "ga
         },
         'render': function () {
             var simulations = SKApp.user.simulations;
-            var code = _.template($('#start_simulation_menu').html(), {'simulations': simulations});
+            var code = _.template(start_simulation_menu, {'simulations': simulations});
             this.$el.html(code);
         },
         'doSimulationStart': function (event) {

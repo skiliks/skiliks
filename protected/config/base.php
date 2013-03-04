@@ -35,6 +35,7 @@ return array(
         'application.components.Import.*',
         'application.components.Base.*',
         'application.components.ApiMethods.*',
+        'application.components.GameContentAnalyze.*',
         /*'application.components.DayPlan.*',
         'application.components.Replica.*',
         'application.components.Excel.*',

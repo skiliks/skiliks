@@ -1,5 +1,5 @@
 .canvas .sim-window.planner-book-main-div {
-  width: 1010px;
+  width: 872px;
   position: relative;
   user-select: none;
   .sim-window-container {
@@ -19,7 +19,7 @@
         background-repeat:repeat-x;
         background-position:right 0;
         border-right: solid 1px #000;
-        width: 316px;
+        width: 270px;
         float: left;
         &.planner-book-today-head{
           background-image: url("../img/planner/planner_book_orange.png");
@@ -59,7 +59,7 @@
               
             }
             td{
-              background:url("../img/planner/bg-header-sk.png") no-repeat 41px 0;
+              background:url("../img/planner/bg-header-sk.png") no-repeat 34px 0;
               width:33.3%;
               height:43px;
               span{
@@ -78,33 +78,80 @@
                   float:right;
                 }
               }
-              @media screen and (min-width: 1601px){
+              @media screen and (min-width: 1280px) and (max-width: 1365px){
+                span{
+                  width:45px;
+                }
+              }
+              @media screen and (min-width: 1366px) and (max-width: 1439px){
+                span{
+                  width:45px;
+                }
+              }
+              @media screen and (min-width: 1440px) and (max-width: 1599px){
+                span{
+                  width:55px;
+                }
+              }
+              @media screen and (min-width: 1600px) and (max-width: 1919px){
                 span{
                   width:65px;
                 }
               }
-              @media screen and (min-width: 1281px) and (max-width: 1600px){
+              @media screen and (min-width: 1920px){
                 span{
-                  width:45px;
+                  width:76px;
                 }
               }
             }
           }
         }
       }
-      @media screen and (min-width: 1300px) and (max-width: 1600px){
+      @media screen and (min-width: 1280px) and (max-width: 1365px){
         .planner-book-head{
-          width:363px;
+          width:356px;
+          div table td{
+            background-position:48px 0;
+          }
+        }
+      }
+      @media screen and (min-width: 1366px) and (max-width: 1439px){
+        .planner-book-head{
+          width:384px;
           div table td{
             background-position:52px 0;
           }
         }
       }
-      @media screen and (min-width: 1601px){
+      @media screen and (min-width: 1440px) and (max-width: 1599px){
         .planner-book-head{
-          width:480px;
+          width:409px;
           div table td{
-            background-position:68px 0;
+            background-position:57px 0;
+          }
+        }
+      }
+      @media screen and (min-width: 1600px) and (max-width: 1679px){
+        .planner-book-head{
+          width:462px;
+          div table td{
+            background-position:66px 0;
+          }
+        }
+      }
+      @media screen and (min-width: 1680px) and (max-width: 1919px){
+        .planner-book-head{
+          width:489px;
+          div table td{
+            background-position:71px 0;
+          }
+        }
+      }
+      @media screen and (min-width: 1920px){
+        .planner-book-head{
+          width:569px;
+          div table td{
+            background-position:84px 0;
           }
         }
       }
@@ -171,7 +218,7 @@
     }
     .planner-book-today {
       background:#fff;
-      width: 326px;
+      width: 280px;
       height: 460px;
       position:absolute;
       top:0;
@@ -180,19 +227,19 @@
     .planner-book-tomorrow {
       border-left:1px solid #000;
       background:#fff;
-      width: 326px;
+      width: 280px;
       height: 460px;
       position:absolute;
       top:0;
-      left:317px;
+      left:271px;
     }
     .planner-book-after-vacation {
       border-left:1px solid #000;
-      width: 325px;
+      width: 280px;
       height: 460px;
       position:absolute;
       top:0;
-      left:635px;
+      left:542px;
       .mCSB_draggerRail{
         width:1px;
       }
@@ -200,19 +247,34 @@
         overflow-y: hidden;
         transition-property: height;
         transition-duration: 1s;
-        @media screen and (min-width: 1281px){
+        @media screen and (min-height: 768px){
           .planner-book-timetable-table{
             border-right:1px solid #000;
           }
         }
-        @media screen and (min-width: 1300px) and (max-width: 1600px){
+        @media screen and (min-width: 1280px) and (max-width: 1365px){
           .planner-book-timetable-table{
             width:364px;
           }
         }
-        @media screen and (min-width: 1601px){
+        @media screen and (min-width: 1366px) and (max-width: 1439px){
           .planner-book-timetable-table{
-            width:481px;
+            width:385px;
+          }
+        }
+        @media screen and (min-width: 1440px) and (max-width: 1599px){
+          .planner-book-timetable-table{
+            width:410px;
+          }
+        }
+        @media screen and (min-width: 1600px) and (max-width: 1679px){
+          .planner-book-timetable-table{
+            width:463px;
+          }
+        }
+        @media screen and (min-width: 1680px) and (max-width: 1919px){
+          .planner-book-timetable-table{
+            width:490px;
           }
         }
       }
@@ -244,36 +306,116 @@
         height: 600px;
       }
     }
-    @media screen and (min-width: 1300px) and (max-width:1600px){
+    @media screen and (min-width: 1280px) and (max-width: 1365px) and (max-height: 767px){
       .planner-book-today{
-        width:373px;
+        width:366px;
       }
       .planner-book-tomorrow{
-        width:363px;
-        left:364px;
+        width:366px;
+        left:357px;
       }
       .planner-book-after-vacation{
-        width:373px;
-        left:729px;
+        width:365px;
+        left:715px;
       }
       .planner-book-timetable{
-        width:373px;
+        width:366px;
       }
     }
-    @media screen and (min-width: 1601px){
+    @media screen and (min-width: 1280px) and (max-width: 1365px) and (min-height: 768px){
       .planner-book-today{
-        width:481px;
+        width:357px;
       }
       .planner-book-tomorrow{
-        width:481px;
-        left:481px;
+        width:357px;
+        left:357px;
       }
       .planner-book-after-vacation{
-        width:489px;
-        left:963px;
+        width:365px;
+        left:715px;
       }
       .planner-book-timetable{
-        width:481px;
+        width:357px;
+      }
+    }
+    @media screen and (min-width: 1366px) and (max-width: 1439px){
+      .planner-book-today{
+        width:394px;
+      }
+      .planner-book-tomorrow{
+        width:394px;
+        left:385px;
+      }
+      .planner-book-after-vacation{
+        width:393px;
+        left:771px;
+      }
+      .planner-book-timetable{
+        width:394px;
+      }
+    }
+    @media screen and (min-width: 1440px) and (max-width: 1599px){
+      .planner-book-today{
+        width:409px;
+      }
+      .planner-book-tomorrow{
+        width:409px;
+        left:410px;
+      }
+      .planner-book-after-vacation{
+        width:419px;
+        left:821px;
+      }
+      .planner-book-timetable{
+        width:410px;
+      }
+    }
+    @media screen and (min-width: 1600px) and (max-width: 1679px){
+      .planner-book-today{
+        width:463px;
+      }
+      .planner-book-tomorrow{
+        width:463px;
+        left:463px;
+      }
+      .planner-book-after-vacation{
+        width:471px;
+        left:927px;
+      }
+      .planner-book-timetable{
+        width:463px;
+      }
+    }
+    @media screen and (min-width: 1680px) and (max-width: 1919px){
+      .planner-book-today{
+        width:490px;
+      }
+      .planner-book-tomorrow{
+        width:490px;
+        left:490px;
+      }
+      .planner-book-after-vacation{
+        width:498px;
+        left:981px;
+      }
+      .planner-book-timetable{
+        width:490px;
+      }
+    }
+    @media screen and (min-width: 1920px){
+      .planner-book-today{
+        width:570px;
+      }
+      .planner-book-tomorrow{
+        width:570px;
+        left:570px;
+      }
+      .planner-book-after-vacation{
+        width:578px;
+        left:1141px;
+      }
+      .planner-book-timetable{
+        width:570px;
       }
     }
 
@@ -281,10 +423,7 @@
       border-right:1px solid #000;
       border-collapse: separate;
       table-layout: fixed;
-      width: 317px;
-      tr {
-        height: 10px;
-      }
+      width: 272px;
       hr.past::before {
         background-image: url('../img/planner/bg-time-line.png');
         width: 19px;
@@ -303,83 +442,102 @@
         border-top: solid 1px #d72327;
         background-color: #be1b1e;
       }
-      tr td.planner-book-timetable-event-fl.past-slot {
-        background: #eee;
-      }
-      .planner-book-timetable-time-fl {
-        border-top: 1px solid #d9d9db;
-        border-right: dotted 1px;
-        border-bottom: 1px solid #fff;
-        vertical-align: top;
-        padding-top: 0;
-        padding-bottom: 0;
-        width: 43px;
-        height: 44px;
-        background: #ffffff; /* Old browsers */
-        background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
-        background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
-        font-family: 'orbi_sansregular';
-        font-size: 12px;
-        line-height: 22px;
-        text-align: center;
-      }
-      .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-        border-top: 1px solid #d9d9db;
-        padding: 0;
-        height: 11px;
-        line-height: 10px;
-        span {
-          line-height: 18px;
+      tr{
+        height:11px;
+        td{
+          height:10px;
+          padding:0;
+          vertical-align:top;
+          &.planner-book-timetable-event-fl.past-slot {
+            background: #eee;
+          }
+          &.planner-book-timetable-time-fl{
+            border-top: 1px solid #d9d9db;
+            border-right: dotted 1px;
+            background: #ffffff; /* Old browsers */
+            background: -moz-linear-gradient(top,  #ffffff 0%, #fefefe 50%, #f7f6f6 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#fefefe), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #ffffff 0%,#fefefe 50%,#f7f6f6 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+            font-family: 'orbi_sansregular';
+            font-size: 12px;
+            line-height: 22px;
+            text-align: center;
+            width: 43px;
+            height: 44px;
+          }
+          &.planner-book-timetable-event-fl,&.planner-book-timetable-afterv-fl {
+            border-top: 1px solid #d9d9db;;
+            line-height: 10px;
+            span {
+              line-height: 18px;
+            }
+          }
         }
-      }
-      tr:nth-child(4n+3) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border-top: dotted 1px #D9D9CB;
-          height: 11px;
-          background: #fefefe; /* Old browsers */
-          background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
-          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
-          background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
-          background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
-          background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
-          background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+        &:nth-child(4n+3){
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border-top: dotted 1px #D9D9CB;
+            background: #fefefe; /* Old browsers */
+            background: -moz-linear-gradient(top,  #fefefe 0%, #fafafa 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefefe), color-stop(100%,#fafafa)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #fefefe 0%,#fafafa 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #fefefe 0%,#fafafa 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#fafafa',GradientType=0 ); /* IE6-9 */
+          }
         }
-      }
-      tr:nth-child(4n) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border-top: dotted 1px #D9D9CB;
-          height: 11px;
-          background: #fafafa; /* Old browsers */
-          background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
-          background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
-          background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
-          background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
-          background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
-          background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
-          filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+        &:nth-child(4n) {
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border-top: solid 1px #fafafa;
+            background: #fafafa; /* Old browsers */
+            background: -moz-linear-gradient(top,  #fafafa 0%, #f7f6f6 100%); /* FF3.6+ */
+            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fafafa), color-stop(100%,#f7f6f6)); /* Chrome,Safari4+ */
+            background: -webkit-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Chrome10+,Safari5.1+ */
+            background: -o-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* Opera 11.10+ */
+            background: -ms-linear-gradient(top,  #fafafa 0%,#f7f6f6 100%); /* IE10+ */
+            background: linear-gradient(to bottom,  #fafafa 0%,#f7f6f6 100%); /* W3C */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#f7f6f6',GradientType=0 ); /* IE6-9 */
+          }
         }
-      }
-      tr:nth-child(2n) {
-        .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
-          border: none;
+        &:nth-child(2n) {
+          .planner-book-timetable-event-fl, .planner-book-timetable-afterv-fl {
+            border:1px solid transparent;
+          }
         }
       }
     }
-    @media screen and (min-width: 1300px) and (max-width:1600px){
+    @media screen and (min-width: 1280px) and (max-width: 1365px){
       .planner-book-timetable-table{
-        border-right:1px solid #000;
-        width:364px;
+        width:357px;
       }
     }
-    @media screen and (min-width: 1601px){
+    @media screen and (min-width: 1366px) and (max-width: 1439px){
       .planner-book-timetable-table{
-        width:481px;
+        width:385px;
+      }
+    }
+    @media screen and (min-width: 1440px) and (max-width: 1599px){
+      .planner-book-timetable-table{
+        width:410px;
+      }
+    }
+    @media screen and (min-width: 1600px) and (max-width: 1679px){
+      .planner-book-timetable-table{
+        width:463px;
+      }
+    }
+    @media screen and (min-width: 1680px) and (max-width: 1919px){
+      .planner-book-timetable-table{
+        width:490px;
+      }
+    }
+    @media screen and (min-width: 1920px){
+      .planner-book-timetable-table{
+        width:570px;
       }
     }
   }
@@ -390,7 +548,7 @@
   }
   .plan-todo {
     background: transparent url("../img/planner/bg-plan-todo-left.png") no-repeat 0 0;
-    width:333px;
+    width:287px;
     height: 50%;
     position:absolute;
     overflow:hidden;
@@ -558,27 +716,59 @@
       display: none;
     }
   }
-  @media screen and (min-width: 1300px) and (max-width:1600px) and (max-height:767px){
+  @media screen and (min-width: 1280px) and (max-width: 1365px) and (max-height:767px){
     .plan-todo{
-      width:380px;
+      width:373px;
       &.closed{
         bottom:-210px;
       }
     }
   }
-  @media screen and (min-width: 1300px) and (max-width:1600px) and (min-height:768px){
+  @media screen and (min-width: 1280px) and (max-width: 1365px) and (min-height:768px){
     .plan-todo{
-      width:380px;
+      width:373px;
       &.closed{
         bottom:-280px;
       }
     }
   }
-  @media screen and (min-width: 1601px){
+  @media screen and (min-width: 1366px) and (max-width: 1439px){
     .plan-todo{
-      width:496px;
+      width:401px;
       &.closed{
-        bottom:-305px;
+        bottom:-210px;
+      }
+    }
+  }
+  @media screen and (min-width: 1440px) and (max-width: 1599px){
+    .plan-todo{
+      width:426px;
+      &.closed{
+        bottom:-280px;
+      }
+    }
+  }
+  @media screen and (min-width: 1600px) and (max-width: 1679px){
+    .plan-todo{
+      width:479px;
+      &.closed{
+        bottom:-280px;
+      }
+    }
+  }
+  @media screen and (min-width: 1680px) and (max-width: 1919px){
+    .plan-todo{
+      width:506px;
+      &.closed{
+        bottom:-280px;
+      }
+    }
+  }
+  @media screen and (min-width: 1920px){
+    .plan-todo{
+      width:586px;
+      &.closed{
+        bottom:-325px;
       }
     }
   }
@@ -711,13 +901,33 @@
   }
 
 }
-@media screen and (min-width: 1300px) and (max-width: 1600px){
+@media screen and (min-width: 1280px) and (max-width: 1365px){
   .canvas .sim-window.planner-book-main-div{
-    width:1151px;
+    width:1130px;
   }
 }
-@media screen and (min-width: 1601px){
+@media screen and (min-width: 1366px) and (max-width: 1439px){
   .canvas .sim-window.planner-book-main-div{
-    width:1502px;
+    width:1214px;
+  }
+}
+@media screen and (min-width: 1440px) and (max-width: 1599px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1289px;
+  }
+}
+@media screen and (min-width: 1600px) and (max-width: 1679px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1448px;
+  }
+}
+@media screen and (min-width: 1680px) and (max-width: 1919px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1529px;
+  }
+}
+@media screen and (min-width: 1920px){
+  .canvas .sim-window.planner-book-main-div{
+    width:1769px;
   }
 }

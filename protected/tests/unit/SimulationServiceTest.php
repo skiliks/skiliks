@@ -1254,11 +1254,11 @@ class SimulationServiceTest extends CDbTestCase
         // End rule 5
 
         // Actions for rule id 8 (OR operation)
-        LibSendMs::sendMsByCode($simulation, 'MS39', 32500);
+        LibSendMs::sendMsByCode($simulation, 'MS39', 32600);
         // End rule 8
 
         // Alternative action for rule id 8
-        /*$first = Replica::model()->byExcelId(549)->find();
+        $first = Replica::model()->byExcelId(549)->find();
         $last = Replica::model()->byExcelId(560)->find();
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
@@ -1266,8 +1266,13 @@ class SimulationServiceTest extends CDbTestCase
             [20, 23, 'deactivated', 32700, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 4],
             [1, 1, 'activated', 32700, 'window_uid' => 1]
         ];
-        $eventsManager->processLogs($simulation, $dialogLog);*/
+        $eventsManager->processLogs($simulation, $dialogLog);
         // end alt rule 8
+
+        $windowLog = [
+            [1, 1, 'deactivated', 35000, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $windowLog);
 
         $simulationService->simulationStop($simulation);
 

@@ -568,14 +568,15 @@ class LogHelper
                         // check MS email concidence with mail_templates }
                         /** @var $log_obj LogMail */
                         $log_objs = LogMail::model()->findAllByAttributes(array(
-                            "mail_id"    => null,
-                          //"end_time"   => '00:00:00',
+                            //"mail_id"    => null,
                             'window_uid' => $log['window_uid'],
                             "sim_id"     => $simId
                         ));
 
                         foreach ($log_objs as $log_obj) {
-                            $log_obj->end_time = gmdate("H:i:s", $log[3]);
+                            if ($log_obj->end_time === '00:00:00') {
+                                $log_obj->end_time = gmdate("H:i:s", $log[3]);
+                            }
                             $log_obj->mail_task_id = $log[4]['planId'];
                             $log_obj->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
                             $log_obj->full_coincidence = $result['full'];

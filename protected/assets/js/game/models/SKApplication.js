@@ -3,19 +3,25 @@
 define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKSession) {
     "use strict";
     /**
+     * Корневой класс нашей игры
+     *
      * @class SKApplication
      *
      * @augments Backbone.Model
-     * @property {SKServer} server
-     * @property {SKUser} user
+     */
+    /**
+     * @attribute server
+     * @attribute user
      */
     window.SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
-            /**
-             * @type {SKServer}
-             */
             'initialize':function () {
+                /**
+                 * Ссылка на API-сервер
+                 * @attribute server
+                 * @type SKServer
+                 */
                 this.server = new SKServer();
                 this.session = new SKSession();
                 this.__defineSetter__('user', function (user) {
@@ -28,13 +34,18 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
                     return this._user;
                 });
             },
+            /**
+             * Очищает текущего пользователя симуляции
+             * @method clearUser
+             */
             'clearUser':function () {
                 this.user.logout();
                 delete this.user;
             },
 
             /**
-             * What is it?
+             * Какая-то неведомая фигня, которую стоит выпилить
+             * @method clone
              * @param object
              * @return {*}
              */
@@ -60,7 +71,7 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
         });
 
     /**
-     *
+     * @object
      * @type {SKApplication}
      */
     window.SKApp = new SKApplication();

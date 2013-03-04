@@ -36,8 +36,8 @@ define([
             var events = this.sim_events = SKApp.user.simulation.events;
             events.on('add', function (event) {
                 if (event.getTypeSlug() === 'mail') {
+                    me.updateMailCounter();
                     me.startAnimation('.' + event.getTypeSlug());
-
                     if (event.get('type') === 'MS') {
                         SKApp.user.simulation.mailClient.once('init_completed', function() {
                             this.view.once('render_finished', function() {

@@ -1195,43 +1195,43 @@ class ImportGameDataService
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
 
             // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
-            $dialog_excel_id = $this->getCellValue($sheet, 'id записи', $i);
-            if (NULL == $dialog_excel_id) {
+            $replica_excel_id = $this->getCellValue($sheet, 'id записи', $i);
+            if (NULL == $replica_excel_id) {
                 continue;
             }
 
-            $dialog = Replica::model()
-                ->byExcelId($dialog_excel_id)
+            $replica = Replica::model()
+                ->byExcelId($replica_excel_id)
                 ->find();
-            if (NULL === $dialog) {
-                $dialog = new Replica(); // Создаем событие
-                $dialog->excel_id = $dialog_excel_id;
+            if (NULL === $replica) {
+                $replica = new Replica(); // Создаем событие
+                $replica->excel_id = $replica_excel_id;
             }
 
             // a lot of dialog properties: {
-            $dialog->code = $this->getCellValue($sheet, 'Event_code', $i);
-            $dialog->event_result = 7; // ничего
+            $replica->code = $this->getCellValue($sheet, 'Event_code', $i);
+            $replica->event_result = 7; // ничего
             $from_character_code = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
-            $dialog->ch_from = Character::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
+            $replica->ch_from = Character::model()->findByAttributes(['code' => $from_character_code])->primaryKey;
             $to_character_code = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
-            $dialog->ch_to = Character::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
+            $replica->ch_to = Character::model()->findByAttributes(['code' => $to_character_code])->primaryKey;
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {
                 throw new Exception('Unknown dialog type: ' . $subtypeAlias);
             }
-            $dialog->dialog_subtype = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
+            $replica->dialog_subtype = (isset($subtypes[$subtypeAlias])) ? $subtypes[$subtypeAlias] : NULL; // 1 is "me"
 
             $code = $this->getCellValue($sheet, 'Event_result_code', $i);
-            $dialog->next_event = $this->getNextEventId($code);
+            $replica->next_event = $this->getNextEventId($code);
 
-            $dialog->next_event_code = ('-' == $code) ? NULL : $code;
+            $replica->next_event_code = ('-' == $code) ? NULL : $code;
             $text = $this->getCellValue($sheet, 'Реплика', $i);
             $text = preg_replace('/^\s*-[\s ]*/', ' — ', $text);
-            $dialog->text = $text;
-            $dialog->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
-            $dialog->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
-            $dialog->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
+            $replica->text = $text;
+            $replica->step_number = $this->getCellValue($sheet, '№ шага в диалоге', $i);
+            $replica->replica_number = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
+            $replica->delay = $this->getCellValue($sheet, 'Задержка, мин', $i);
 
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
@@ -1239,25 +1239,25 @@ class ImportGameDataService
                     'code' => $flagCode
                 ]);
                 //assert($flag, 'Flag for ' . $flagCode);
-                $dialog->flag_to_switch = $flag->code;
+                $replica->flag_to_switch = $flag->code;
             } else {
-                $dialog->flag_to_switch = null;
+                $replica->flag_to_switch = null;
             }
 
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
-            $dialog->demo = $isUseInDemo;
-            $dialog->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
+            $replica->demo = $isUseInDemo;
+            $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
 
             $sound = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
-            $dialog->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
+            $replica->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
 
             $isFinal = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i);
-            $dialog->is_final_replica = ('да' === $isFinal) ? true : false;
+            $replica->is_final_replica = ('да' === $isFinal) ? true : false;
 
-            $dialog->import_id = $this->import_id;
+            $replica->import_id = $this->import_id;
             // a lot of dialog properties: }
 
-            $dialog->save();
+            $replica->save();
 
             $importedRows++;
         }
@@ -1273,6 +1273,97 @@ class ImportGameDataService
 
         return array(
             'imported_dialog_replics' => $importedRows,
+            'errors' => false,
+        );
+    }
+
+    /**
+     *
+     */
+    public function importDialogs()
+    {
+        echo __METHOD__ . "\n";
+
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet, 2);
+
+        $importedRows = 0;
+        $this->importedEvents = [];
+
+        // Events from dialogs {
+        for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
+
+            $code = $this->getCellValue($sheet, 'Event_code', $i);
+
+            if ($code === null)
+                continue;
+
+            if ($code === '-' || $code === '') {
+                continue;
+            }
+            if (in_array($code, $this->importedEvents)) {
+                continue;
+            }
+
+            $this->importedEvents[] = $code;
+
+            $dialog = Dialog::model()->findByAttributes([
+                'code' => $code
+            ]);
+            //$dialog->deleteByPk($code);
+
+            if (null === $dialog) {
+                $dialog = new Dialog(); // Создаем событие
+                $dialog->code = $code;
+            }
+
+            $dialog->title          = $this->getCellValue($sheet, 'Наименование события', $i);
+            $dialog->setTypeFromExcel($this->getCellValue($sheet, 'Тип интерфейса диалога', $i));
+            $dialog->start_by       = $this->getCellValue($sheet, 'Тип запуска', $i);
+            $dialog->delay          = $this->getCellValue($sheet, 'Задержка, мин', $i);
+            $dialog->category       = $this->getCellValue($sheet, 'Категория события', $i);
+            $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss');
+            $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
+            $dialog->import_id      = $this->import_id;
+
+            $dialog->save();
+            $importedRows++;
+        }
+        // Events from dialogs }
+
+        // Create crutch events (Hello, Sergey) {
+        $dialogT = Dialog::model()->findByAttributes([
+            'code' => "T"
+        ]);
+
+        if (null == $dialogT) {
+            $dialogT = new Dialog(); // Создаем событие
+            $dialogT->code = 'T';
+        }
+
+        $dialogT->title = 'Конечное событие';
+        $dialogT->start_by       = Dialog::START_BY_DIALOG;
+        $dialogT->delay          = 0;
+        $dialogT->is_use_in_demo = true;
+        $dialogT->category       = 5;
+        $dialogT->import_id      = $this->import_id;
+        $dialogT->save();
+        // }
+
+        // delete old unused data {
+        Dialog::model()->deleteAll(
+            'import_id <> :import_id OR import_id IS NULL',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'imported_dialogs' => $importedRows,
             'errors' => false,
         );
     }
@@ -1875,7 +1966,8 @@ class ImportGameDataService
             $result['learning_goals'] = $this->importLearningGoals();
             $result['characters_points_titles'] = $this->importHeroBehaviours();
             $result['flags'] = $this->importFlags();
-            $result['dialog'] = $this->importDialogReplicas();
+            $result['replicas'] = $this->importDialogReplicas();
+            $result['dialogs'] = $this->importDialogs();
             $result['my_documents'] = $this->importMyDocuments();
             $result['character_points'] = $this->importDialogPoints();
             $result['constructor'] = $this->importMailConstructor();
