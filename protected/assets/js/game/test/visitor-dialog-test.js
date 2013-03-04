@@ -105,6 +105,24 @@ define(
                         [200, { "Content-Type":"application/json" }, JSON.stringify(stubResponse)]
                     );
 
+                    server.respondWith(
+                        "POST",
+                        "/index.php/auth/auth",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
+                    server.respondWith(
+                        "POST",
+                        "/index.php/auth/checkSession",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
 
                     window.SKApp = new SKApplication();
                     window.SKConfig = {'simulationStartTime': '9:00', 'skiliksSpeedFactor': 8};
@@ -202,34 +220,15 @@ define(
                         ]
                     );
 
-                    server.respondWith(
-                        "POST",
-                        "/index.php/dialog/get",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify(dialogStep1Response)
-                        ]
-                    );
-
-                    server.respondWith(
-                        "POST",
-                        "/index.php/auth/auth",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
-                        ]
-                    );
-                    server.respondWith(
-                        "POST",
-                        "/index.php/auth/checkSession",
-                        [
-                            200,
-                            { "Content-Type":"application/json" },
-                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
-                        ]
-                    );
+//                    server.respondWith(
+//                        "POST",
+//                        "/index.php/dialog/get",
+//                        [
+//                            200,
+//                            { "Content-Type":"application/json" },
+//                            JSON.stringify(dialogStep1Response)
+//                        ]
+//                    );
 
                     server.respondWith(
                         "POST",
@@ -285,7 +284,7 @@ define(
 
                     server.respond();
 
-                    expect(applicationView.frame.simulation_view.$el.find('.visit-background-container').length).toBe(1);
+                    expect(applicationView.frame.simulation_view.$el.find('.phone-content').length).toBe(1);
 
                     var requestChecked = false;
                     for(var i in server.requests) {
@@ -298,6 +297,28 @@ define(
 
                     expect(requestChecked).toBe(true); // front not send dialog/get request
 
+                });
+
+                /**
+                 * Visitor phone call test
+                 */
+
+                it('Incoming mail test', function() {
+                    expect(1).toBe(1);
+
+                    var applicationView = new SKApplicationView();
+
+                    server.respond();
+
+                    SKApp.user.startSimulation(1);
+
+                    server.respond();
+
+                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
+                    applicationView.frame.simulation_view = new SKSimulationView();
+                    applicationView.frame.simulation_view.render();
+
+                    server.respond();
                 });
             });
         });
