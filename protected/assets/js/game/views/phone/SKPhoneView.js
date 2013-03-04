@@ -84,7 +84,23 @@ define([
             var contactId = $(event.currentTarget).attr('data-contact-id');
             this.options.model_instance.close();
             SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
-                SKApp.user.simulation.parseNewEvents(data.events);
+
+                if(data.params !== 'already_call'){
+                    SKApp.user.simulation.parseNewEvents(data.events);
+                    SKApp.user.simulation.getNewEvents();
+                }else{
+                    SKApp.user.simulation.mailClient.message_window = new SKDialogView({
+                        'message':'Вы уже обсудили этот вопрос!',
+                        'buttons':[
+                            {
+                                'value':'Окей',
+                                'onclick':function () {
+                                    delete SKApp.user.simulation.mailClient.message_window;
+                                }
+                            }
+                        ]
+                    });
+                }
             });
 
         },
