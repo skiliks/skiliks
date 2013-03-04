@@ -45,10 +45,7 @@ class SeleniumTestHelper extends CWebTestCase
     // звонок по телефону, когда телефон не активен (не движется)
     public function call_phone ($whom, $theme)
     {
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->mouseOver(Yii::app()->params['test_mappings']['phone']['contacts_list']);
         $this->click(Yii::app()->params['test_mappings']['phone']['contacts_list']);
@@ -63,43 +60,22 @@ class SeleniumTestHelper extends CWebTestCase
     // ответить на входящий звонок, когда телефон активен (мигает)
     public function reply_call ()
     {
-        sleep(5);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-        sleep(2);
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
     // не ответить на входящий звонок, когда телефон активен (мигает)
     public function no_reply_call ()
     {
-        sleep(5);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        sleep(2);
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
     // создание письма, когда мейл-клиент активен (мигает)
     public function write_mail_active()
     {
-        sleep(2);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['icons']['phone']);
-        sleep(2);
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        sleep(2);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-        sleep(2);
+        $this->optimal_click("css=li.icon-active.mail a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
     public function optimal_click ($loc)
