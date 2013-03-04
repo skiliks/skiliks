@@ -17,7 +17,7 @@ class FlagsF3SK1339Test extends SeleniumTestHelper
 
     public function testSK1339() {
         // next line for not running the test
-        // $this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
