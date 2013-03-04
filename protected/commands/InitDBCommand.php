@@ -23,7 +23,7 @@ class InitDBCommand extends CConsoleCommand
         $user = Yii::app()->db->username;
         $password = Yii::app()->db->password;
         $escCommand = str_replace("\"", "\\\"", $command);
-        $mysqlCmd = "$mysql -u $user -e \"$escCommand\"";
+        $mysqlCmd = "mysql -u $user -e \"$escCommand\"";
         if ($password) {
             $mysqlCmd .= " -p$password";
         }
