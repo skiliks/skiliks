@@ -224,6 +224,7 @@ define([
         },
 
         runPhoneTalkStart: function(sim_event_id) {
+            console.log('runPhoneTalkStart!');
             var sim_event = this.sim_events.get(sim_event_id);
             sim_event.setStatus('in progress');
             this.$('.phone').removeClass('icon-active');

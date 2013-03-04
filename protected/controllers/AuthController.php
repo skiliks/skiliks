@@ -62,8 +62,8 @@ class AuthController extends AjaxController
             return;
         }
         $this->sendJSON(array(
-            'result' => 1,
-            'sid' => Yii::app()->session->sessionID,
+            'result'      => 1,
+            'sid'         => Yii::app()->session->sessionID,
             'simulations' => UserService::getGroups($user->id),
         ));
     }

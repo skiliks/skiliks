@@ -178,18 +178,7 @@ define(
              */
 
                 it('Visitor phone call test', function() {
-                    expect(1).toBe(1);
-                    /*var applicationView = new SKApplicationView();
 
-                    SKApp.user.startSimulation(1);
-
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
-
-                    console.log(SKApp.user.simulation);
-
-                    // console.log('-----------------------------------------------------');
-
-                    /*
                     server.respondWith(
                         "POST",
                         "/index.php/events/getState",
@@ -225,6 +214,25 @@ define(
 
                     server.respondWith(
                         "POST",
+                        "/index.php/auth/auth",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
+                    server.respondWith(
+                        "POST",
+                        "/index.php/auth/checkSession",
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"sid":"bssjmqscv57ti3f19t17upq0u2","simulations":{"1":"promo","2":"developer"}})
+                        ]
+                    );
+
+                    server.respondWith(
+                        "POST",
                         "/index.php/mail/getInboxUnreadCount",
                         [
                             200,
@@ -235,53 +243,57 @@ define(
                         ]
                     );
 
-                    var simulation = SKApp.user.simulation = new SKSimulation();
-                    simulation.start();
+                    var applicationView = new SKApplicationView();
 
-                    var login_html = _.template(simulation_template, {});
-                    var iconPanelView = new SKIconPanelView({'el': $(login_html).find('.main-screen-icons')});
-
-                    simulation.getNewEvents();
                     server.respond();
 
-                    // check that event has been added ti queue
-                    expect(simulation.events.length).toBe(1);
+                    SKApp.user.startSimulation(1);
+
+                    server.respond();
+
+                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
+                    applicationView.frame.simulation_view = new SKSimulationView();
+                    applicationView.frame.simulation_view.render();
+
+                    server.respond();
+
+                    SKApp.user.simulation.getNewEvents();
+                    server.respond();
+
+                    // check that event has been added to queue
+                    expect(SKApp.user.simulation.events.length).toBe(1);
 
                     // check than phone icon - has been activated
-                    expect(iconPanelView.$el.find('.phone').hasClass('icon-active')).toBe(true);
+                    expect(applicationView.frame.simulation_view.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
 
-                    iconPanelView.$el.find('.phone').click();
-
-                    console.log($('#canvas').text());*/
-
-                    /*var event = simulation.events.at(0);
-                    var wndModel = new SKWindow({name: 'visitor', subname: 'visitorEntrance', sim_event: event});
-                    var visitorView = new SKVisitView({model_instance: wndModel});
-                    visitorView.render();
-
-                    event.selectReplica(799, function() {});
+                    applicationView.frame.simulation_view.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
 
                     server.respond();
-                    expect(simulation.events.length).toBe(2);
-
-                    event = simulation.events.at(1);
-                    wndModel = new SKDialogWindow({name: 'visitor', subname: 'visitorTalk', sim_event: event});
-                    visitorView = new SKImmediateVisitView({model_instance: wndModel});
-                    visitorView.render();
-
-                    event.selectReplica(803, function() {});
 
                     server.respondWith(
                         "POST",
                         "/index.php/dialog/get",
-                        [200, { "Content-Type":"application/json" }, JSON.stringify(dialogStep2Response)]
+                        [
+                            200,
+                            { "Content-Type":"application/json" },
+                            JSON.stringify({"result":1,"events":[{"result":1,"data":[{"id":"789","ch_from":"28","ch_from_state":"1","ch_to":"1","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0440\u0438\u0432\u0435\u0442, \u0434\u0440\u0443\u0433! \u0422\u044b \u0436\u0438\u0432? \u041d\u0430\u0434\u0435\u044e\u0441\u044c, \u0434\u043e \u043e\u0442\u043f\u0443\u0441\u043a\u0430 \u0434\u043e\u0442\u044f\u043d\u0435\u0448\u044c?","sound":"RS10_1.wav","step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"768","title":"\u0414\u0440\u0443\u0433","name":"\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d","remote_title":"\u041d\u0430\u0447\u0430\u043b\u044c\u043d\u0438\u043a \u043e\u0442\u0434\u0435\u043b\u0430 \u0430\u043d\u0430\u043b\u0438\u0437\u0430 \u0438 \u043f\u043b\u0430\u043d\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u044f","remote_name":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412."},{"id":"790","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0435\u0442\u0440, \u043f\u0440\u043e\u0441\u0442\u0438, \u044f \u043d\u0435 \u043c\u043e\u0433\u0443 \u0433\u043e\u0432\u043e\u0440\u0438\u0442\u044c, \u043f\u0435\u0440\u0435\u0437\u0432\u043e\u043d\u044e! ","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"769"},{"id":"791","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0440\u0438\u0432\u0435\u0442, \u041f\u0435\u0442\u0440. \u0423 \u0442\u0435\u0431\u044f \u0447\u0442\u043e-\u0442\u043e \u0441\u0440\u043e\u0447\u043d\u043e\u0435?","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"770"},{"id":"792","ch_from":"1","ch_from_state":"1","ch_to":"28","ch_to_state":"1","dialog_subtype":"2","text":" \u2014 \u041f\u0435\u0442\u0440, \u043f\u0440\u0438\u0432\u0435\u0442! \u0420\u0430\u0434 \u0442\u0435\u0431\u044f \u0441\u043b\u044b\u0448\u0430\u0442\u044c! \u0422\u043e\u043b\u044c\u043a\u043e \u043e\u0442\u043f\u0443\u0441\u043a\u043e\u043c \u0438 \u0436\u0438\u0432 ! \u041a\u0430\u043a \u0442\u044b?","sound":null,"step_number":"1","is_final_replica":"0","code":"RS10","excel_id":"771"}],"eventType":1}]})
+                        ]
                     );
+                    applicationView.frame.simulation_view.$el.find('#phone_reply').click(); // .call_view
 
                     server.respond();
-                    expect(simulation.events.length).toBe(3);
 
-                    event = simulation.events.at(2);
-                    event.selectReplica(807, function() {});*/
+                    var requestChecked = false;
+                    for(var i in server.requests) {
+                        //console.log(server.requests[i].url);
+                        if (server.requests[i].url == '/index.php/dialog/get') {
+                            expect(server.requests[i].requestBody).toBe('dialogId=787&time=09%3A00');
+                            requestChecked = true;
+                        }
+                    }
+
+                    expect(requestChecked).toBe(true); // front not send dialog/get request
+
                 });
             });
         });

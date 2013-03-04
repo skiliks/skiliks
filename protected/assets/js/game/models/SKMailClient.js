@@ -676,7 +676,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var windows = SKApp.user.simulation.window_set.where({name:'mailEmulator'});
 
                 if (undefined === windows || 0 === windows.length) {
-                    throw 'There is no active window object for mailClient.';
+                    console.warn('There is no active window object for mailClient.');
                 }
 
                 return windows[0];
