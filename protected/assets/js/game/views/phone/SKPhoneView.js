@@ -2,7 +2,21 @@
  */
 var SKPhoneView;
 
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/phone/phone_contacts.jst",
+    "text!game/jst/phone/phone_history.jst",
+    "text!game/jst/phone/phone_menu.jst",
+    "text!game/jst/phone/phone_themes.jst",
+    "text!game/jst/phone/main_template.jst",
+
+    "game/views/SKWindowView"
+], function (
+        phone_contacts,
+        phone_history,
+        phone_menu,
+        phone_themes,
+        main_template
+    ) {
     "use strict";
 
     SKPhoneView = SKWindowView.extend({
@@ -16,7 +30,7 @@ define(["game/views/SKWindowView"], function () {
             'click .phone_call_back':    'callbackContact'
         }, SKWindowView.prototype.events),
         renderContent: function (window_el) {
-            window_el.html(_.template($('#Phone_Html').html(), _.defaults(SKConfig)));
+            window_el.html(_.template(main_template, _.defaults(SKConfig)));
         },
         getContacts: function () {
             //$('#'+id+' .phone-screen')
@@ -24,7 +38,7 @@ define(["game/views/SKWindowView"], function () {
             contacts.fetch();
             var me = this;
             contacts.on('reset', function () {
-                me.renderTPL('.phone-screen','#Phone_Contacts', {contacts:contacts});
+                me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
                 me.$('.phone-screen').mCustomScrollbar();
             });
         },
@@ -37,11 +51,11 @@ define(["game/views/SKWindowView"], function () {
             
             var me = this;
             history.on('reset', function () {
-                me.renderTPL('.phone-screen', '#Phone_History', {history:history, types:['in','out','miss']});
+                me.renderTPL('.phone-screen', phone_history, {history:history, types:['in','out','miss']});
             });
         },
         getMenu: function(){
-            this.renderTPL('.phone-screen', '#Phone_Menu');
+            this.renderTPL('.phone-screen', phone_menu);
         },
         getCountViews : function(){
             return $('.'+this.windowClass).length;
@@ -60,7 +74,7 @@ define(["game/views/SKWindowView"], function () {
             
             var me = this;
             themes.on('reset', function () {
-                me.renderTPL('#phoneCallThemesDiv', '#Phone_Themes', {'themes':themes, 'contactId':contactId});
+                me.renderTPL('#phoneCallThemesDiv', phone_themes, {'themes':themes, 'contactId':contactId});
                 me.undelegateEvents();
                 me.delegateEvents();
             });

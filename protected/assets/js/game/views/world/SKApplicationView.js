@@ -1,4 +1,7 @@
 /*global _, Backbone, session, SKApplicationView:true, SKApp, SKLoginView, SKSimulationStartView*/
+
+var SKApplicationView;
+
 define([
     "text!game/jst/world/simulation_template.jst",
 
@@ -9,8 +12,10 @@ define([
     simulation_template
     ) {
     "use strict";
-    window.SKApplicationView = Backbone.View.extend({
+    SKApplicationView = Backbone.View.extend({
+
         'el':'body',
+
         'initialize':function () {
             var me = this;
             SKApp.session.on('login:failure', function () {
@@ -21,12 +26,14 @@ define([
             });
             this.render();
         },
+
         'render':function () {
             var code = _.template(simulation_template, {});
             SKApp.session.check();
 
             this.$el.html(code);
         },
+
         '_drawWorld':function (simulations) {
             //нам пришли симуляции, или мы просто прервали текущую
             if (typeof(simulations) !== 'undefined') {

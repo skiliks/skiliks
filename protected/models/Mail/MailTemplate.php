@@ -162,7 +162,9 @@ class MailTemplate extends CActiveRecord implements IGameAction
     public function relations()
     {
         return [
-            'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id']
+            'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id'],
+            'subject_obj'                => [self::BELONGS_TO, 'CommunicationTheme', 'subject_id'],
+            'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id']
         ];
     }
 }

@@ -3,9 +3,14 @@
 var SKMailAddToPlanDialog;
 
 define([
+    "text!game/jst/mail/add_to_plan_item.jst",
+    "text!game/jst/mail/add_to_plan_pop_up.jst",
     "game/views/SKDialogView",
     "game/models/SKMailTask"
-], function () {
+], function (
+    add_to_plan_item,
+    add_to_plan_pop_up
+    ) {
     "use strict";
 
     SKMailAddToPlanDialog = SKDialogView.extend({
@@ -73,9 +78,9 @@ define([
             var mailTasks = SKApp.user.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
             mailTasks.forEach(function (mailTask) {
-                listHtml += _.template($('#MailClient_AddToPlanItem').html(), {
-                    id:mailTask.mySqlId,
-                    text:mailTask.label,
+                listHtml += _.template(add_to_plan_item, {
+                    id:      mailTask.mySqlId,
+                    text:    mailTask.label,
                     duration:mailTask.getFormatedDuration()
                 });
             });
@@ -107,7 +112,7 @@ define([
             me.renderPreventClickElement();
 
             // render dialog {
-            var dialogHtml = _.template($('#MailClient_AddToPlanPopUp').html(), {
+            var dialogHtml = _.template(add_to_plan_pop_up, {
                 list:listHtml,
                 buttonLabel:'Запланировать'
             });

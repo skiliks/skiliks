@@ -1,57 +1,3 @@
-<script type="text/template" id="todo_template">
-    <div class="plan-todo middle" id="plan-todoM">
-        <ul class="plan-todo-btn">
-            <li>
-                <button class="max" onclick="dayPlan.todoViewChange('up');"></button>
-            </li>
-            <li>
-                <button class="min" onclick="dayPlan.todoViewChange('down');"></button>
-            </li>
-        </ul>
-
-        <p class="plan-todo-tit">Сделать <span id="dayPlanTodoNum">(19)</span></p>
-
-        <div class="plan-todo-wrap" id="dayPlanToDoDivScroll" style="float:left;"></div>
-        <div id="plannerDayPlanScrollbar" class="planner-dayplan-scrollbar" style="float:left;margin-top:50px;"></div>
-    </div>
-</script>
-<script type="text/template" id="plan_title_template">
-    <div class="plan-header plannerBookDayPlan">
-        <div class="planner-book-head planner-book-today-head">
-            <div>
-            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-today.png">
-            	<table>
-            		<tr>
-            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
-            		</tr>
-            	</table>
-            </div>
-        </div>
-        <div class="planner-book-head planner-book-tomorrow-head">
-            <div>
-            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-tomorrow.png">
-            	<table>
-            		<tr>
-            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
-            		</tr>
-            	</table>
-            </div>
-        </div>
-        <div class="planner-book-head planner-book-after-vacation-head">
-            <div>
-            	<img src="<@= SKConfig.assetsUrl @>/img/planner/type-after-vacation.png">
-            	<table>
-            		<tr>
-            			<td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td><td><span class="stroke-l"></span><span class="stroke-r"></span></td>
-            		</tr>
-            	</table>
-            </div>
-        </div>
-    </div>
-    <div class="plan-header plannerBookQuarterPlan" style="background: #ffffff; display:none">
-    </div>
-</script>
-<script type="text/template" id="plan_content_template">
     <div>
         <div id="plannerBookQuarterPlan" class="planner-book-quarter-plan plan-tabs" style="cursor:pointer">
             <img src="<@= SKConfig.assetsUrl @>/img/planner/plan_quarter.png">
@@ -123,7 +69,7 @@
 							<button class="todo-max max"></button>
 						</li>
 					</ul>
-                    	
+
 					<p class="plan-todo-tit"><span class="plan-todo-tit-hide">Сделать</span> <span class="dayPlanTodoNum"></span></p>
 					<div class="plan-todo-wrap"><div class="plan-todo-inner"></div></div>
 				</div>
@@ -133,11 +79,3 @@
             <div class="plannerBookQuarterPlan" style="display:none"></div>
          </div>
     </div>
-</script>
-<script type="text/template" id="todo_task_template">
-    <div class="planner-task day-plan-todo-task <@ if (type === 'regular') { @>regular<@ } @>"
-         data-task-id="<@= task.id @>"
-         data-task-duration="<@= task.get('duration') @>">
-    <span class="title hyphenate"><@= task.get('title') @></span>
-        <div class="duration"><p><span><@= task.get('duration') @></span><br />мин</p></div>
-</script>

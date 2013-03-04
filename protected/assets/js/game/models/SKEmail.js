@@ -69,7 +69,7 @@ define([] ,function() {
         
         // @var string, 
         // @todo: replace with links to SKCharacters
-        copyToString: undefined, 
+        copyToString: '',
         
         isSubjectValid: function() {
             // keep not strong compartion in non strong way!
@@ -141,6 +141,21 @@ define([] ,function() {
                separator = ' ,'; 
             }
             this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
+        },
+
+        addCopyEmailAndNameStrings: function(string) {
+            var separator = '';
+            if ('' != this.copyToString) {
+                separator = ' ,';
+            }
+            this.copyToString += separator + string.substring(0, string.indexOf('<', string)).trim();
+
+            /*var separator = '';
+            if ('' != this.recipientNameString) {
+                separator = ' ,';
+            }
+            this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
+            */
         },
 
         /**

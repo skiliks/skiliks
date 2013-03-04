@@ -1,0 +1,5 @@
+<div class="planner-task day-plan-todo-task <@ if (type === 'regular') { @>regular<@ } @>"
+     data-task-id="<@= task.id @>"
+     data-task-duration="<@= task.get('duration') @>">
+<span class="title hyphenate"><@= task.get('title') @></span>
+    <div class="duration"><p><span><@= task.get('duration') @></span><br />мин</p></div>

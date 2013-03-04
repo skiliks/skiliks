@@ -329,7 +329,6 @@ class SimulationService
             $conditions = $rule->assessmentRuleConditions;
             foreach ($conditions as $condition) {
                 $satisfies = false;
-
                 if ($condition->dialog_id) {
                     /** @var Replica $dialog */
                     $dialog = Replica::model()->findByPk($condition->dialog_id);
@@ -338,6 +337,7 @@ class SimulationService
                         ->bySimulationId($simId)
                         ->byLastReplicaId($dialog->excel_id)
                         ->exists();
+
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
@@ -354,12 +354,10 @@ class SimulationService
                 }
 
                 if ($rule->operation === 'AND' && $satisfies ||
-                    $rule->operation === 'OR' && !$satisfies
+                    ($rule->operation === 'OR') && !$satisfies
                 ) {
                     continue;
                 }
-
-                break;
             }
 
             if (!empty($satisfies)) {
@@ -516,6 +514,7 @@ class SimulationService
         
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
+        $simulation->checkLogs();
     }
 
 
@@ -547,64 +546,5 @@ class SimulationService
             - (($newMinutes - $clockM) * 60 / $speedFactor)));
 
         $simulation->save();
-    }
-    
-    /**
-     * @param Simulation $simulation
-     * @return mixed array
-     */
-    public static function getPointsForDebug($simulation)
-    {
-        $result = array('result' => 1);
-
-        // определяем duration симуляции
-
-        $dialogDuration = SimulationDialogDuration::model()->bySimulation($simulation->id)->find();
-        if (null === $dialogDuration) {
-            $result['duration'] = 0;
-        } else {
-            $result['duration'] = $dialogDuration->duration;
-        }
-
-        // загружаем поинты
-        $sql = "select 
-            sdp.count, sdp.value, sdp.count_negative, sdp.value_negative, sdp.count6x, sdp.value6x, cpt.code, cpt.title
-        from simulations_dialogs_points as sdp
-        left join characters_points_titles as cpt on (cpt.id = sdp.point_id)
-        where sdp.sim_id = {$simulation->id}";
-
-        foreach (Yii::app()->db->createCommand($sql)->query() as $row) {
-
-            $avg = 0;
-            if ($row['count'] > 0) {
-                $avg = $row['value'] / $row['count'];
-            }
-
-            $avgNegative = 0;
-            if ($row['count_negative'] > 0) {
-                $avgNegative = $row['value_negative'] / $row['count_negative'];
-            }
-
-            $avg6x = 0;
-            if ($row['count6x'] > 0) {
-                $avg6x = $row['value6x'] / $row['count6x'];
-            }
-
-            $result['points'][] = array(
-                'code'          => $row['code'],
-                'title'         => $row['title'],
-                'count'         => $row['count'],
-                'value'         => $row['value'],
-                'avg'           => $avg,
-                'countNegative' => $row['count_negative'],
-                'valueNegative' => $row['value_negative'],
-                'avgNegative'   => $avgNegative,
-                'count6x'       => $row['count6x'],
-                'value6x'       => $row['value6x'],
-                'avg6x'         => $avg6x
-            );
-        }
-        
-        return $result;
     }
 }

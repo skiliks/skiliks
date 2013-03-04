@@ -7,7 +7,13 @@
  */
 var SKPDFDisplayView;
 
-define(["game/views/SKWindowView"], function () {
+define([
+    "text!game/jst/document/document_pdf_template.jst",
+    "game/views/SKWindowView"
+],
+    function (
+        document_pdf_template
+    ) {
     "use strict";
 
     SKPDFDisplayView = SKWindowView.extend(
@@ -62,10 +68,8 @@ define(["game/views/SKWindowView"], function () {
                     });
                 el.html(
                     _.template(
-                        $('#document_pdf_template').html(),
-                        {
-                            filename: this.options.model_instance.get('document').get('srcFile')
-                        }
+                        document_pdf_template,
+                        { filename: this.options.model_instance.get('document').get('srcFile') }
                     )
                 );
             }
