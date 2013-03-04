@@ -157,7 +157,7 @@ class SimulationServiceTest extends CDbTestCase
         // MS28 }
         
         // MS29 {
-        $ms_29 = LibSendMs::sendMs29_r($simulation);
+        $ms_29 = LibSendMs::sendMs29_w($simulation);
         $count_0++; // this is 0 point email
         // MS29 }
         
@@ -1091,11 +1091,11 @@ class SimulationServiceTest extends CDbTestCase
 
     /**
      * Проверяет правильность оценки по 3326
-     * Случай когда 0W, 13R, 0N (total R = 13) => 2 балла
+     * Случай когда 0W, 14R, 0N (total R = 13) => 2 балла
      */
     public function testCalculateAgregatedPointsFor3326Part2pointsCase2()
     {
-        //$this->markTestSkipped();
+        //s//$this->markTestSkipped();
 
         // init simulation
         $simulationService = new SimulationService();
@@ -1116,8 +1116,8 @@ class SimulationServiceTest extends CDbTestCase
         $ms[] = LibSendMs::sendMs53_r($simulation);
         $ms[] = LibSendMs::sendMs55_r($simulation);
         $ms[] = LibSendMs::sendMs57_r($simulation);
-        $ms[] = LibSendMs::sendMs60_r($simulation);
-        $ms[] = LibSendMs::sendMs61_r($simulation);    
+        $ms[] = LibSendMs::sendMs61_r($simulation);
+        $ms[] = LibSendMs::sendMs69_r($simulation);
 
         // set-up logs {
         $logs = [];
@@ -1223,7 +1223,6 @@ class SimulationServiceTest extends CDbTestCase
 
     public function testSimulationAssessmentRules()
     {
-        $this->markTestIncomplete();
         $simulationService = new SimulationService();
         $user = Users::model()->findByAttributes(['email' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
@@ -1257,6 +1256,18 @@ class SimulationServiceTest extends CDbTestCase
         // Actions for rule id 8 (OR operation)
         LibSendMs::sendMsByCode($simulation, 'MS39', 32500);
         // End rule 8
+
+        // Alternative action for rule id 8
+        /*$first = Replica::model()->byExcelId(549)->find();
+        $last = Replica::model()->byExcelId(560)->find();
+        $dialogLog = [
+            [1, 1, 'deactivated', 32610, 'window_uid' => 1],
+            [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
+            [20, 23, 'deactivated', 32700, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 4],
+            [1, 1, 'activated', 32700, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $dialogLog);*/
+        // end alt rule 8
 
         $simulationService->simulationStop($simulation);
 

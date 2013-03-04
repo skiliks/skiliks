@@ -5,6 +5,8 @@ var SKSimulationView;
 
 
 define([
+     "text!game/jst/world/simulation_template.jst",
+
      "game/views/mail/SKMailClientView",
      "game/views/documents/SKDocumentListView",
      "game/views/plan/SKDayPlanView",
@@ -15,8 +17,9 @@ define([
      "game/views/phone/SKPhoneDialogView",
      "game/views/dialogs/SKVisitView",
      "game/views/dialogs/SKImmediateVisitView",
-     "game/views/world/SKDebugView"
-    ], function () {
+     "game/views/world/SKDebugView",
+     "game/views/world/SKIconPanelView"
+    ], function (simulation_template) {
     "use strict";
     /**
      * @class
@@ -116,7 +119,7 @@ define([
                     }));
             },
             'render':function () {
-                var login_html = _.template($('#simulation_template').html(), {});
+                var login_html = _.template(simulation_template, {});
                 this.$el.html(login_html);
                 this.icon_view = new SKIconPanelView({'el':this.$('.main-screen-icons')});
                 if (this.simulation.isDebug()) {

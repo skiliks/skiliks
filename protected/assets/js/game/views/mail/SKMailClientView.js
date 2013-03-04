@@ -293,45 +293,6 @@ define([
                 }
                 // do we have full data for current email ? }
 
-                // if NOT - send request to get copies string and attachment for current email
-                /*SKApp.server.api(
-                 'mail/getMessage',
-                 {
-                 emailId:emailId
-                 },
-                 function (response) {
-                 if (1 === response.result) {
-                 // update email {
-                 var email = SKApp.user.simulation.mailClient.getEmailByMySqlId(response.data.id);
-
-                 // update attachment object
-                 if (undefined !== response.data.attachments) {
-                 var attachment = new SKAttachment();
-                 attachment.id = response.data.attachments.id;
-                 attachment.label = response.data.attachments.name;
-                 email.attachment = attachment;
-                 }
-                 // update Copy to: string
-                 email.copyToString = response.data.copies;
-
-                 email.text = response.data.message;
-
-                 // update previouse email text - actual for re: and fwd:
-                 if (undefined !== response.data.reply) {
-                 email.previouseEmailText = response.data.reply;
-                 }
-                 // update email }
-
-                 // render preview
-                 me.renderEmaiPreviewScreen(
-                 email,
-                 me.mailClientInboxFolderEmailPreviewId,
-                 '140px'
-                 );
-
-                 }
-                 });*/
-
                 // render preview
                 me.renderEmaiPreviewScreen(
                     email,
@@ -1541,18 +1502,18 @@ define([
                             value: mailClientView.mailClient.availableAttachments[i].fileId,
                             imageSrc: mailClientView.mailClient.availableAttachments[i].getIconImagePath()
                         });
-                    }
-                });
+                    };
 
-                this.$("#MailClient_NewLetterAttachment div.list").ddslick({
-                    data: attachmentsListHtml,
-                    width: '100%',
-                    selectText: "Нет вложения.",
-                    imagePosition: "left"
-                });
-                // add attachments list }
+                    mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
+                        data: attachmentsListHtml,
+                        width: '100%',
+                        selectText: "Нет вложения.",
+                        imagePosition: "left"
+                    });
+                    // add attachments list }
 
-                this.delegateEvents();
+                    mailClientView.delegateEvents();
+                });
             },
 
             doUpdateMailPhrasesList: function () {
