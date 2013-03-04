@@ -107,7 +107,7 @@ class PhoneService {
      * @param int $simId
      * @param int $characterId 
      */
-    public static function registerOutgoing($simId, $characterId, $time) {
+    public static function registerOutgoing($simId, $characterId, $time, $theme_id = null) {
 
         $model = new PhoneCall();
         $model->sim_id      = $simId;
@@ -115,6 +115,7 @@ class PhoneService {
         $model->call_type   = self::CALL_TYPE_OUTGOING;
         $model->from_id     = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
         $model->to_id       = Character::model()->findByAttributes(['code' => $characterId])->primaryKey; // какому персонажу мы звоним
+        $model->theme_id    = $theme_id;
         $model->insert();
     }
     
@@ -173,10 +174,7 @@ class PhoneService {
     
     public static function call($simulation, $themeId, $characterId, $time)
     {
-        $result = null;
-        
-        // нам передана тема
-        if ($themeId > 0) {
+
             /** @var $communicationTheme CommunicationTheme */
             $character = Character::model()->findByAttributes(['code' => $characterId]);
             $communicationTheme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byTheme($themeId)->byPhone()->find();
@@ -195,7 +193,7 @@ class PhoneService {
                         $data[0]['name'] = $character->fio;
                     }
                     PhoneService::registerOutgoing($simulation->id, $characterId, $time);
-                    $result = array(
+                    return array(
                         'result' => 1,
                         'events' => array(
                             array(
@@ -210,51 +208,39 @@ class PhoneService {
                     // сгенерируем событие
 
                     // проверим а позволяют ли флаги нам запускать реплику
-                    $replica = Replica::model()->getFirstReplica($eventCode);
                     if (false == FlagsService::isAllowToStartDialog($simulation, $eventCode)) {
                         // событие не проходит по флагам -  не пускаем его
-                        return array(
+                        return [
                             'result' => 1, 
-                            'events' => array()
-                        );
+                            'events' => []
+                        ];
+                    }
+                    $call = PhoneCall::model()->findByAttributes(['sim_id'=>$simulation->id, 'theme_id'=>$themeId]);
+                    if($call !== null){
+
+                        return [
+                            'result' => 1,
+                            'params' => 'already_call',
+                            'events' => []
+                        ];
+
+                    } else {
+                        $data = EventService::getReplicaByCode($eventCode, $simulation->id);
+                        PhoneService::registerOutgoing($simulation->id, $characterId, $time, $themeId);
+                        return [
+                            'result' => 1,
+                            'events' => array(
+                                array(
+                                    'result' => 1,
+                                    'data' => $data,
+                                    'eventType' => 1
+                                )
+                            )
+                        ];
                     }
 
-
-                    $data = EventService::getReplicaByCode($eventCode, $simulation->id);
-
-                    $result = array(
-                        'result' => 1,
-                        'events' => array(
-                            array(
-                                'result' => 1,
-                                'data' => $data,
-                                'eventType' => 1   
-                            )
-                         )
-                    );
                 }
             }
-        }
-        // WTF? This does not even work
-        if (null === $result) {
-
-            // регистрируем исходящий вызов
-            PhoneService::registerOutgoing($simulation->id, $characterId, $time);
-
-            // подготовим список тем
-            $themes = PhoneService::getThemes($characterId);
-            $data = array();
-            foreach($themes as $themeId => $themeName) {
-                $data[] = self::combineReplicaToHero(array('id' => $themeId, 'ch_from' => "{$characterId}", 'text' => $themeName));
-            }
-            
-            $result = array(
-                'result' => 1,
-                'data'   => $data,
-            );
-        }
-        
-        return $result;
     }
     
     private static function combineReplicaToHero($newData)
