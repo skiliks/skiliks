@@ -145,5 +145,19 @@ class PhoneServiceTest extends CDbTestCase {
         $this->assertEquals('T7.1', $result['events'][0]['data'][1]['code']);
         $this->assertEquals(562, $result['events'][0]['data'][1]['excel_id']);
     }
+
+    public function testOnlyUniqueCall(){
+
+        $simulationService = new SimulationService();
+        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $simulation = $simulationService->simulationStart(1, $user);
+        $character_id = Character::model()->findByAttributes(['fio'=>'Денежная Р.Р.'])->id;
+        $theme_id = CommunicationTheme::model()->findByAttributes(['text'=>'Перенос сроков сдачи сводного бюджета', 'character_id'=>$character_id, 'phone'=>1])->id;
+        $data = PhoneService::call($simulation, $theme_id, $character_id, '10:00');
+        $this->assertNotEquals([], $data['events']);
+        $data = PhoneService::call($simulation, $theme_id, $character_id, '10:10');
+        $this->assertEquals([], $data['events']);
+        $simulationService->simulationStop($simulation);
+    }
 }
 
