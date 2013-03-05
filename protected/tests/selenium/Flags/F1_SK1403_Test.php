@@ -6,7 +6,7 @@
  * Time: 22:29
  * To change this template use File | Settings | File Templates.
  */
-class F1_SK1403_P_Test extends SeleniumTestHelper
+class F1_SK1403_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -15,10 +15,9 @@ class F1_SK1403_P_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    public function testSK1403_P()
+    public function testSK1403()
     {
         $this->markTestIncomplete();
-
         $this->start_simulation();
 
         $this->run_event('S9');
@@ -47,7 +46,6 @@ class F1_SK1403_P_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем')])");
 
-        //заменю
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[1]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[1]","0");
     }

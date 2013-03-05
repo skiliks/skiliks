@@ -17,7 +17,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
     public function testSK1413_N_Case1() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        // $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.3');
@@ -32,21 +32,24 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
 
-        $this->run_event('E1.3.1');
+        $this->run_event('ET1.3.1');
 
-        // to make changes with time
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "09");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "20");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $hours = $this->transfer_time(10);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->verifyVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
 
     public function testSK1413_N_Case2() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        // $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.3');
@@ -61,14 +64,17 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
 
-        $this->run_event('E1.3.2');
+        $this->run_event('ET1.3.2');
 
-        // to make changes with time
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "09");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "20");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $hours = $this->transfer_time(10);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->verifyVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
@@ -90,14 +96,17 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
 
-        $this->run_event('E1.3.3');
+        $this->run_event('ET1.3.3');
 
-        // to make changes with time
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "09");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "20");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $hours = $this->transfer_time(10);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->verifyVisible(Yii::app()->params['test_mappings']['icons']['phone']);
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
