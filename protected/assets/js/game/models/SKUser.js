@@ -1,9 +1,12 @@
 /*global Backbone:false, console, SKApp, SKSimulation */
-var SKUser
+var SKUser;
 define(['game/models/SKSimulation'],function (SKSimulation) {
     "use strict";
     /**
-     * @class User object
+     * Пользователь. Может логиниться и разлогиниваться пока
+     *
+     * @class SKUser
+     * @constructs
      */
     SKUser = Backbone.Model.extend(
         /** @lends SKUser */
@@ -17,8 +20,9 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
             /**
              * Creates new simulation
              *
+             * @method startSimulation
              * @param stype
-             * @return {SKSimulation}
+             * @return {SKSimulation} created simulation
              */
             'startSimulation':function (stype) {
                 if (this.simulation !== undefined) {
@@ -28,6 +32,12 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
                 this.simulation.start();
                 return this.simulation;
             },
+            /**
+             * Stops simulation
+             *
+             * @method stopSimulation
+             * @return {SKSimulation}
+             */
             'stopSimulation':function () {
                 if (this.simulation === undefined) {
                     throw 'Simulation already stopped';
@@ -35,10 +45,20 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
                 this.simulation.stop();
                 delete this.simulation;
             },
+            /**
+             * Завершение работы пользователя
+             *
+             * @method logout
+             */
             'logout':function () {
                 var me = this;
                 SKApp.server.api('auth/logout', undefined, function () {
+                    /**
+                     * Пользователь успешно разлогинен
+                     * @event logout
+                     */
                     me.trigger('logout');
+                    SKApp.session.trigger('logout');
                 });
             }
         });

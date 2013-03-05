@@ -435,7 +435,6 @@ class ImportGameDataService
                 'code'          => $subject_id,
                 'character_id'  => $toId,
                 'mail_prefix'   => $themePrefix,
-                'letter_number' => $code,
                 'theme_usage'  => 'mail_outbox'
             ]);
 
@@ -445,7 +444,6 @@ class ImportGameDataService
                     'code'         => $subject_id,
                     'character_id' => $toId,
                     'mail_prefix'  => $themePrefix,
-                    'letter_number' => $code,
                     'theme_usage'  => 'mail_outbox_old'
                 ]);
             }

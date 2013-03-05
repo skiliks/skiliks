@@ -98,6 +98,7 @@ class MailBoxTest extends CDbTestCase
 
     }
 
+
     /**
      * 1. Проверяет темы для нового письма к Василию Бобру.
      * Проверяет что тем 3, и что это темы
@@ -114,12 +115,10 @@ class MailBoxTest extends CDbTestCase
      */
     public function testSubjectForNewEmail() 
     {
-        //$this->markTestSkipped();
-        
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user); 
-        
+        //
+        $bossSubjects = array_values(MailBoxService::getThemes('6', NULL));
+        // Check for no duplicates in theme list
+        $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
         $subjects = MailBoxService::getThemes('11', NULL); 
         $id = CommunicationTheme::getCharacterThemeId('11', 0);
@@ -132,15 +131,15 @@ class MailBoxTest extends CDbTestCase
         $this->assertNull($id);
         
         // several recipients case :
-        $subjects_2 = MailBoxService::getThemes('11,26,24', NULL); 
-        $id_2 = CommunicationTheme::getCharacterThemeId('11', 0);
+        $subjects2 = MailBoxService::getThemes('11,26,24', NULL);
+        $id2 = CommunicationTheme::getCharacterThemeId('11', 0);
         
-        $this->assertEquals(count($subjects_2), 3);
-        $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects_2));
-        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects_2));
-        $this->assertTrue(in_array('Прочее', $subjects_2));
+        $this->assertEquals(count($subjects2), 3);
+        $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects2));
+        $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects2));
+        $this->assertTrue(in_array('Прочее', $subjects2));
         
-        $this->assertNull($id_2);
+        $this->assertNull($id2);
     }
 
     /**

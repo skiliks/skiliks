@@ -30,7 +30,12 @@ define([
 
     /**
      * Simulation class
-     * @type {Backbone.Model}
+     *
+     * Объект симуляции, при создании инициализирует все коллекции. В нем также находятся (или должны находиться обработчики входящих
+     * события)
+     *
+     * @class SKSimulation
+     * @constructs
      */
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
@@ -38,17 +43,32 @@ define([
             'initialize':function () {
                 var me = this;
 
+                /**
+                 * Список событий в данной симуляции. Правила, по которым работают события смотрим в документации по
+                 * SKEventCollection
+                 *
+                 * @property events
+                 * @type {SKEventCollection}
+                 */
                 this.events = new SKEventCollection();
+
+                /**
+                 * Список задач в To Do
+                 *
+                 * @property todo_tasks
+                 * @type {SKTodoCollection}
+                 */
                 this.todo_tasks = new SKTodoCollection();
+
+                /**
+                 * Список звонков
+                 * @type {SKPhoneHistoryCollection}
+                 * @property phone_history
+                 */
                 this.phone_history = new SKPhoneHistoryCollection();
-                this.events.on('event:plan', function () {
-                    SKApp.user.simulation.todo_tasks.fetch();
-                });
-                this.events.on('event:mail', function () {
-                    me.getNewEvents();
-                });
+                this.handleEvents();
                 this.on('tick', function () {
-                    //noinspection JSUnresolvedVariable
+                //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
                         SKApp.user.stopSimulation();
                     }
@@ -63,12 +83,12 @@ define([
                 this.windowLog = new SKWindowLog();
                 this.skipped_minutes = 0;
                 this.mailClient = new SKMailClient();
+                this.window_set = new SKWindowSet([], {events:this.events});
 
                 this.config = [];
                 this.config.isMuteVideo = false;
 
-                this.on('time:11-00', function () {
-                    me.off('time:11-00');
+                this.once('time:11-00', function () {
                     SKApp.server.api('dayPlan/CopyPlan', {
                         minutes:me.getGameMinutes()
                     }, function () {
@@ -77,13 +97,34 @@ define([
             },
             /**
              * Returns number of minutes past from the start of game
+             *
+             * @method getGameMinutes
              */
             'getGameMinutes':function () {
                 return Math.floor(this.getGameSeconds()/60);
             },
+
+            /**
+             * Обработка приходящих событий:
+             *
+             * 1. Если приходит событие плана — обновляем список задач в ToDo
+             * 2. Если приходит событие почты — заново запрашиваем список событий (чтобы почта приходила быстро)
+             *
+             * @method handleEvents
+             */
+            handleEvents: function () {
+                var me = this;
+                this.events.on('event:plan', function () {
+                    SKApp.user.simulation.todo_tasks.fetch();
+                });
+                this.events.on('event:mail', function () {
+                    me.getNewEvents();
+                });
+            },
             /**
              * Return game time in seconds
              * @return {Number}
+             * @method getGameSeconds
              */
             'getGameSeconds':function () {
                 var current_time_string = new Date();
@@ -92,6 +133,12 @@ define([
                     Math.floor((current_time_string - this.start_time) / 1000 * SKConfig.skiliksSpeedFactor) +
                     this.skipped_minutes * 60;
             },
+            /**
+             * Returns game time in human readable format (e.g. 09:00)
+             * @optional @param {boolean} is_seconds show seconds
+             * @return {string}
+             * @method getGameTime
+             */
             'getGameTime':function (is_seconds) {
                     var sh    = this.getGameSeconds();
                     var h   = Math.floor(sh / 3600);
@@ -106,7 +153,8 @@ define([
             /**
              * Parses new events and adds them to event collection
              *
-             * @param {Array.<Object>} events
+             * @param events
+             * @method parseNewEvents
              */
             parseNewEvents:function (events) {
                 var me = this;
@@ -129,6 +177,12 @@ define([
                     me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                 });
             },
+            /**
+             * Запрашивает список новых событий, обновляет флаги и вызывает метод parseNewEvents для парсинга ада с
+             * сервера
+             *
+             * @method getNewEvents
+             */
             'getNewEvents':function () {
                 var me = this;
                 var logs = this.windowLog.getAndClear();
@@ -142,14 +196,23 @@ define([
                     }
 
                     if (data.result === 1 && data.events !== undefined) {
-                        me.parseNewEvents(data.events, 'new');
+                        me.parseNewEvents(data.events);
                     }
                 });
             },
+            /**
+             * Запускает симуляцию:
+             *
+             * 1. Все коллекции скачиваются с сервера
+             * 2. Время устанавливается в текущее
+             * 3. Запускается таймер
+             *
+             * @method start
+             * @async
+             */
             'start':function () {
                 var me = this;
                 me.start_time = new Date();
-                this.window_set = new SKWindowSet();
                 var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
                 win.open();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
@@ -165,14 +228,31 @@ define([
                     if (!me.isDebug()) {
                         me.documents.fetch();
                     }
+                    /**
+                     * Срабатывает, когда симуляция уже запущена
+                     * @event start
+                     */
                     me.trigger('start');
 
                     me.events_timer = setInterval(function () {
                         me.getNewEvents();
+                        /**
+                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                         * @event tick
+                         */
                         me.trigger('tick');
                     }, 60000 / SKConfig.skiliksSpeedFactor);
                 });
             },
+            /**
+             * Останавливает симуляцию, останавливает таймер, отправляет оставшиеся логи
+             *
+             * Симуляцию второй раз запускать нельзя после этого — нужно создать новый объект (что логично). Проверки вё
+             * коде на это нет
+             *
+             * @method stop
+             * @async
+             */
             'stop':function () {
                 var me = this;
                 clearInterval(this.events_timer);
@@ -182,9 +262,21 @@ define([
                 var logs = this.windowLog.getAndClear();
 
                 SKApp.server.api('simulation/stop', {'logs':logs}, function () {
+                    /**
+                     * Симуляция уже остановлена
+                     * @event stop
+                     */
                     me.trigger('stop');
                 });
             },
+
+            /**
+             * Обновляет время в симуляции и вызывает событие tick по завершению
+             * @param hour
+             * @param minute
+             * @method setTime
+             * @async
+             */
             'setTime':function (hour, minute) {
                 var me = this;
                 SKApp.server.api('simulation/changeTime', {
@@ -197,10 +289,19 @@ define([
                 });
             },
 
+            /**
+             * @method isDebug
+             * @returns {boolean}
+             */
             'isDebug':function () {
                 return parseInt(this.get('stype'), 10) === 2;
             },
 
+            /**
+             * Код, который обновляет флаги. TODO: превратить его в события
+             * @param flagsState
+             * @param serverTime
+             */
             updateFlagsForDev:function (flagsState, serverTime) {
                 // Please, don't do that
                 if (this.isDebug()) {
