@@ -8,6 +8,7 @@
  */
 class SeleniumTestHelper extends CWebTestCase
 {
+    //
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
