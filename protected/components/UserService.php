@@ -97,6 +97,26 @@ class UserService {
         
         return $user;
     }
+
+    public static function addUserSubscription($email)
+    {
+        $response = ['result'  => 0];
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $response['message'] =  Yii::t('site', "Invalid email - '{email}'!", ['{email}' => $email]);
+        } elseif (EmailsSub::model()->findByEmail($email)) {
+            $response['message'] =  Yii::t('site', "Email - {email} has been already added before!", ['{email}' => $email]);
+        } else {
+            $subscription = new EmailsSub();
+            $subscription->email = $email;
+            $subscription->save();
+
+            $response['result'] =  1;
+            $response['message'] =  Yii::t('site', 'Email {email} has been successfully added!', ['{email}' => $email]);
+        }
+
+        return $response;
+    }
 }
 
 
