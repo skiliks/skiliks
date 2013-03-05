@@ -19,6 +19,7 @@ return [
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'popup' => "",
+        'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])"
     ],
 
 
