@@ -56,7 +56,7 @@
 	  	$.fn.viewportOffset = function() {
 			var win = $(window);
 			var offset = $(me).offset();
-
+	  
 			return {
 	    		left: offset.left - win.scrollLeft(),
 	      		top: offset.top - win.scrollTop()
@@ -148,7 +148,6 @@
 		// setup the vars accordingly
 		var panel = this;
 		var wrapper = opts.wrapper;
-
 		var gap = opts.gap;
 		var disableWorkaround = opts.disableWorkaround;		
 		var fullyCapableBrowser = positionFixedSupported();
@@ -174,13 +173,16 @@
 		
 		// calculate the upper scrolling boundary
 		var panelOffset = panel.offset().top;
-		var panelMargin = parseFloat(panel.css('marginTop').replace(/auto/, 0));
+		var panelMargin = 0;
 		var realPanelOffset = panelOffset - panelMargin;
 		var topScrollBoundary = realPanelOffset - gap;
 		
 		// a couple of numbers to account for margins and padding on the relevant elements
-		var wrapperPaddingFix = parseFloat(wrapper.css('padding', '0'));
-		var containerMarginFix = parseFloat(float_container.css('margin', '0'));
+		var wrapperPaddingFix = parseFloat(wrapper.css('padding'));
+        if (NaN == wrapperPaddingFix) {
+            wrapperPaddingFix = 0;
+        }
+		var containerMarginFix = parseFloat(float_container.css('margin').replace(/auto/, 0));
 		
 		// do some work to fix IE misreporting the document width
 		var ieFix = 0;
@@ -194,11 +196,11 @@
 		// ---------------------------------------------------------------------------------------------------
 		
 		thisWindow.bind("scroll.portamento", function () {
-			
-			if(thisWindow.height() > panel.outerHeight() && thisWindow.width() >= (thisDocument.width() - ieFix)) { // don't scroll if the window isn't big enough
+
+			if(thisWindow.height() > panel.outerHeight()/* && thisWindow.width() >= (thisDocument.width() - ieFix)*/) { // don't scroll if the window isn't big enough
 				
 				var y = thisDocument.scrollTop(); // current scroll position of the document
-												
+
 				if (y >= (topScrollBoundary)) { // if we're at or past the upper scrolling boundary
 					if((panel.innerHeight() - wrapper.viewportOffset().top) - wrapperPaddingFix + gap >= wrapper.height()) { // if we're at or past the bottom scrolling boundary
 						if(panel.hasClass('fixed') || thisWindow.height() >= panel.outerHeight()) { // check that there's work to do
