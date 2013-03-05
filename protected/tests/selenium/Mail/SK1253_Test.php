@@ -14,6 +14,7 @@ class SK1253_Test extends SeleniumTestHelper
 
     public function testSK1253()
     {
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);

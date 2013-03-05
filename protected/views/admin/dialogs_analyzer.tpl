@@ -2,15 +2,25 @@
     .badge-inverse:hover {
         background-color: #FFD324;
     }
+
+    .container {
+        width: 1500px;
+        margin: 0 auto;
+    }
 </style>
 
 <h1> Анализатор диалогов </h1>
 Источник: {$sourceName}.
 
-<table class="table">
+<br/><br/>
+
+<span class="btn btn-inverse toggle-dialogs"><i class="icon icon-white icon-user"></i> Убрать диалоги</span>
+<span class="btn toggle-emails"><i class="icon icon-envelope"></i> Показать письма</span>
+
+<table class="table" style="width: 1400px;">
     <thead>
         <tr>
-            <td>События начинающиеся по времени</td>
+            <td><h3>События начинающиеся по времени</h3></td>
         </tr>
     </thead>
     <tbody>
@@ -21,20 +31,10 @@
                 </td>
             </tr>
             {foreach $line->events as $aEvent}
-                <tr class="" style="{$aEvent->cssRowColor}">
+                <tr class="row-{$aEvent->cssIcon}" style="{$aEvent->cssRowColor} height: 100px;">
                     <td class="span4">
                         <a name="{$aEvent->event->code}"></a>
-                        <i class="icon-time"></i> {$aEvent->startTime}
-                        / <strong>{$aEvent->event->code}</strong> <br/>
-                        <i class="{$aEvent->cssIcon}"></i> {$aEvent->title} <br/>
-
-                        <!-- Задержка -->
-                        Задержка: {$aEvent->delay} мин<br/>
-                        Длительность: c {$aEvent->startTime} до {$aEvent->durationFrom} ~ {$aEvent->durationTo}<br/>
-
-                        {if (0 !== count($aEvent->flagsToSwitch))}
-                        Может включить флаги: <strong>{implode(', ', array_keys($aEvent->flagsToSwitch))}</strong>
-                        {/if}
+                        {$analyzer->getFormattedAEventHeader($aEvent)}
                         <br/>
 
                         <!-- Является последствием -->
@@ -48,11 +48,11 @@
                         {/foreach}
 
                         {$i = 1}
-                        <table class="table-condensed pull-right" style="margin-top: -101px;">
+                        <table class="table-condensed pull-left" style="margin-top: 0px;">
                             <tbody>
                                 <tr>
                                 {foreach $aEvent->replicas as $step}
-                                    <td class="span1" style="width: 80px;">
+                                    <td class="span1" style="width: 140px;">
                                     <span class="badge">{$i}</span> <br/>
                                     {foreach $step as $replica}
                                         <span class="badge badge-inverse" title="{$replica->text}">
@@ -61,6 +61,7 @@
                                             <a href="#{$replica->next_event_code}"
                                                title="{$analyzer->getEventTitleByCode($replica->next_event_code)}">
                                                 {$replica->next_event_code}</a>
+                                                {$analyzer->getFormattedReplicaFlag($replica)}
                                         <br/>
                                     {/foreach}
                                     </td>
@@ -69,15 +70,11 @@
                                 </tr>
                             </tbody>
                         </table>
-
-                        {if (isset($analyzer->tree[$aEvent->event->code]))}
-                            <a data-id="{$aEvent->event->code}-variations" class="switcher">Скрыть/показать варианты развития события</a>
-                        {/if}
                     </td>
                 </tr>
                 {if (isset($analyzer->tree[$aEvent->event->code]))}
                     {foreach $analyzer->tree[$aEvent->event->code] as $branch}
-                        <tr class="{$aEvent->event->code}-variations variations">
+                        <tr class="{$analyzer->getCssSaveEventCode($aEvent)}-variations variations">
                             <td>
                             {$i = 0}
                             {foreach $branch as $element}
@@ -112,40 +109,25 @@
 
 <br/>
 
-<table class="table">
+<table class="table" style="width: 1400px;">
     <thead>
     <tr>
-        <td>События начинающиеся по вызову из диалога</td>
+        <td><h3>События начинающиеся по вызову из <диалога></диалога></h3></td>
     </tr>
     </thead>
 {foreach $analyzer->eventsStartedByCall as $aEvent}
-    <tr style="{$aEvent->cssRowColor}">
+    <tr style="{$aEvent->cssRowColor} height: 160px;" class="row-{$aEvent->cssIcon}">
         <td>
             <a name="{$aEvent->event->code}"></a>
-            <strong>{$aEvent->event->code}</strong> <br/>
-            <i class="{$aEvent->cssIcon}"></i> {$aEvent->title} <br/>
-
-            <!-- Задержка -->
-            Задержка: {$aEvent->delay} мин<br/>
-
-            <!-- Является последствием -->
-            {if (0 != count($aEvent->producedBy))}
-                <i class="icon-arrow-right" title="{$aEvent->event->code} является последствием ... "></i> :
-                {foreach $aEvent->producedBy as $key => $value}
-                    <a href="#{$key}" title="{$analyzer->getEventTitleByCode($key)}">
-                        <span class="label label-warning">{$key}</span></a>
-                {/foreach}
-            {else}
-                <span class="label label-important">Никогда не будет вызван!</span>
-            {/if}
+            {$analyzer->getFormattedAEventHeader($aEvent)}
             <br/>
 
             {$i = 1}
-            <table class="table-condensed pull-right" style="margin-top: -81px;">
+            <table class="table-condensed pull-left" style="margin-top: 4px;">
                 <tbody>
                 <tr>
                     {foreach $aEvent->replicas as $step}
-                        <td class="span1" style="width: 80px;">
+                        <td class="span1" style="width: 140px;">
                             <span class="badge">{$i}</span> <br/>
                             {foreach $step as $replica}
                                 <span class="badge badge-inverse" title="{$replica->text}">
@@ -154,6 +136,7 @@
                                 <a href="#{$replica->next_event_code}"
                                    title="{$analyzer->getEventTitleByCode($replica->next_event_code)}">
                                     {$replica->next_event_code}</a>
+                                    {$analyzer->getFormattedReplicaFlag($replica)}
                                 <br/>
                             {/foreach}
                         </td>
@@ -179,4 +162,39 @@
     });
 
     $('.variations').toggle();
+
+    // hide/show dialogs
+    $('.toggle-dialogs').click(function(){
+        $('.row-icon-bell').toggle();
+        $('.row-icon-briefcase').toggle();
+        $('.row-icon-user').toggle();
+        $('.row-icon-comment').toggle();
+
+        if ($(this).hasClass('btn-inverse')) {
+            $(this).removeClass('btn-inverse');
+            $(this).html('<i class="icon icon-user"></i> Показать диалоги');
+            $(this).find('i').removeClass('icon-white');
+        } else {
+            $(this).addClass('btn-inverse');
+            $(this).html('<i class="icon icon-user"></i> Убрать диалоги');
+            $(this).find('i').addClass('icon-white');
+        }
+    });
+
+    // hide/show emails
+    $('.toggle-emails').click(function(){
+        $('.row-icon-envelope').toggle();
+
+        if ($(this).hasClass('btn-inverse')) {
+            $(this).removeClass('btn-inverse');
+            $(this).html('<i class="icon icon-envelope"></i> Показать письма');
+            $(this).find('i').removeClass('icon-white');
+        } else {
+            $(this).addClass('btn-inverse');
+            $(this).html('<i class="icon icon-envelope"></i> Убрать письма');
+            $(this).find('i').addClass('icon-white');
+        }
+    });
+    $('.row-icon-envelope').toggle();
+
 </script>
