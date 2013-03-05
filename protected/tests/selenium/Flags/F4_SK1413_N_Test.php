@@ -17,7 +17,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
     public function testSK1413_N_Case1() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        // $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.3');
@@ -45,13 +45,11 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
         }
 
         $this->click("css=input.btn.btn-simulation-stop");
-
-        $this->click("css=input.btn.btn-simulation-stop");
     }
 
     public function testSK1413_N_Case2() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        // $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.3');

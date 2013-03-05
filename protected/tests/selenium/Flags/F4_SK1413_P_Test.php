@@ -30,15 +30,26 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","1");
 
-        // to make changes with time
         $this->run_event('ET1.3.1');
 
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $hours = $this->transfer_time(0); // если не надо перематывать ставим 0...
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            $this->click("css=li.icon-active.phone a");
+            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+
+            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
+            $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
+        }
+        else
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
@@ -63,12 +74,26 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         // to make changes with time
         $this->run_event('ET1.3.1');
 
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $hours = $this->transfer_time(0);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
-        $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            $this->optimal_click("css=li.icon-active.phone a");
+            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+
+            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, да ведь там в вашем бюджете')])");
+            $this->assertTextPresent("Господи, да ведь там в вашем бюджете");
+
+            $this->click("css=input.btn.btn-simulation-stop");
+        }
+        else
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
@@ -90,14 +115,26 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.2');
 
-        // to make changes with time
+        $hours = $this->transfer_time(0);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            $this->optimal_click("css=li.icon-active.phone a");
+            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->assertTextPresent("Господи, и что же мне теперь делать");
+            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
+            $this->assertTextPresent("Господи, и что же мне теперь делать");
+
+            $this->click("css=input.btn.btn-simulation-stop");
+        }
+        else
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
@@ -123,12 +160,26 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         $this->run_event('ET1.3.2');
 
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $hours = $this->transfer_time(0);
+        print ($hours[0]);
+        print (" : ");
+        print ($hours[1]);
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
-        $this->assertTextPresent("Господи, и что же мне теперь делать");
+        if ($this->is_it_done("css=li.icon-active.phone a"))
+        {
+            $this->optimal_click("css=li.icon-active.phone a");
+            $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
+            $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+
+            $this->waitForVisible("xpath=(//*[contains(text(),'Господи, и что же мне теперь делать')])");
+            $this->assertTextPresent("Господи, и что же мне теперь делать");
+
+            $this->click("css=input.btn.btn-simulation-stop");
+        }
+        else
+        {
+            print ("The test crashed! This action couldn't be active in such situation!");
+        }
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
