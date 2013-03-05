@@ -18,7 +18,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
 
     public function testSK1390()
     {
-        $this->markTestIncomplete(); //пока не починят баг с оценкой
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('ET1.1');
@@ -40,7 +40,6 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        #TODO: заменить!
         sleep(15);
         $this->assertText("//table[6]/tbody/tr/td[2]","5.416667");
         $this->assertText("//table[6]/tbody/tr[2]/td[2]","0");
