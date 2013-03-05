@@ -109,26 +109,6 @@
     {/foreach}
 </table>
 
-<h1 id="dialog-points-log">Dialog log</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Replica code</th>
-        <th>Result replica</th>
-    </tr>
-    </thead>
-    {foreach $simulation->log_dialog_points as $log_dialog}
-        <tr>
-            <td>{$log_dialog->start_time}</td>
-            <td>{$log_dialog->end_time}</td>
-            <td>{$log_dialog->dialog->code}</td>
-            <td>{$log_dialog->last_id}</td>
-        </tr>
-    {/foreach}
-</table>
 
 
 <h1 id="assessment-result">Assessment result</h1>
@@ -136,6 +116,7 @@
 <table class="table table-striped mail-log">
     <thead>
     <tr>
+        <th>Point Code</th>
         <th>Point ID</th>
         <th>Value</th>
         <th>Type Scale</th>
@@ -143,6 +124,7 @@
     </thead>
     {foreach $simulation->assessment_points as $assessmentPoint}
         <tr>
+            <td>{$assessmentPoint->point->code}</td>
             <td>{$assessmentPoint->point->title}</td>
             <td>{$assessmentPoint->value}</td>
             <td>{$assessmentPoint->point->type_scale}</td>
