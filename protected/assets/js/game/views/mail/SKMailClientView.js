@@ -36,7 +36,7 @@ define([
 ) {
     "use strict";
     /**
-     * @class
+     * @class SKMailClientView
      * @type {*}
      */
     SKMailClientView = SKWindowView.extend(

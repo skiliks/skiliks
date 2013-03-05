@@ -1,5 +1,7 @@
 /**
- * Взаимодействие с сервером через API
+ * Взаимодействие с сервером через API. Запросы посылаются POST-ом, в каждый добавляется параметр sid
+ *
+ * Поддерживается xdebug в ajax-запросах
  *
  * @class SKServer
  */
@@ -12,17 +14,22 @@ define(["jquery/jquery.cookies"], function () {
         {
             /**
              * @private
+             * @property api_root
              */
             'api_root': '/index.php/',
             /**
              * Отправляет запрос на сервер
+             * @example
+             *     SKApp.server.api('todo/get', {}, function (data) {})
              * @method api
              * @param {String} path
              * @param {Object|undefined} params
              * @param {function(data:Object)|undefined} callback
              * @return {$.xhr}
+             * @async
              */
             'api':function (path, params, callback) {
+
                 var me = this,
                     cb = callback,
                     debug_match = location.search.match(/XDEBUG_SESSION_START=(\d+)/),
@@ -57,17 +64,12 @@ define(["jquery/jquery.cookies"], function () {
                     },
                     error:function (jqXHR, textStatus, errorThrown) {
                         console.log(url + ' error ' + errorThrown);
-                        me.message_window = me.message_window || new window.SKDialogView({
-                            'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
-                            'buttons':[
-                                {
-                                    'value':'Окей',
-                                    'onclick':function () {
-                                        delete me.message_window;
-                                    }
-                                }
-                            ]
-                        });
+                        /**
+                         * Вызывается, если сервер вернул не 200-й статус
+                         *
+                         * @event server:error
+                         */
+                        me.trigger('server:error');
                     }
                 });
                 return result;

@@ -1,19 +1,15 @@
 /*global Backbone:false*/
-
+var SKApplication;
 define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKSession) {
     "use strict";
     /**
-     * Корневой класс нашей игры
+     * Корневой класс нашей игры. Инстанциируется в начале игры и инстанс доступен под названием SKApp
      *
      * @class SKApplication
-     *
+     * @constructs
      * @augments Backbone.Model
      */
-    /**
-     * @attribute server
-     * @attribute user
-     */
-    window.SKApplication = Backbone.Model.extend(
+    SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
             'initialize':function () {
@@ -23,7 +19,20 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
                  * @type SKServer
                  */
                 this.server = new SKServer();
+
+                /**
+                 * Текущая браузерная сессия
+                 *
+                 * @attribute session
+                 * @type SKSession
+                 */
                 this.session = new SKSession();
+                /**
+                 * Текущий пользователь (если есть)
+                 *
+                 * @type SKUser
+                 * @attribute user
+                 */
                 this.__defineSetter__('user', function (user) {
                     if (typeof(this._user) !== 'undefined') {
                         throw 'User is already exists';

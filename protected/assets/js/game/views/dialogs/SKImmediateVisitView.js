@@ -13,7 +13,7 @@ define([
     ) {
     "use strict";
     /**
-     * @class
+     * @class SKImmediateVisitView
      * @type {*}
      */
     SKImmediateVisitView = SKWindowView.extend(

@@ -8,11 +8,15 @@ define([
     login_template
 ) {
     "use strict";
+    /**
+     * Форма ввода логина и пароля
+     *
+     * @module skiliks.world
+     * @class SKLoginView
+     * @type {*}
+     */
     SKLoginView = Backbone.View.extend({
         'el': 'body',
-        'initialize': function () {
-            this.render();
-        },
         'events': {
             'submit form.login-form': 'doSubmit'
         },

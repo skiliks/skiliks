@@ -12,7 +12,7 @@ define([
 ) {
     "use strict";
     /**
-     * @class
+     * @class SKPhoneCallView
      * @type {*}
      */
     SKPhoneCallView = SKWindowView.extend({

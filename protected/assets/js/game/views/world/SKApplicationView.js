@@ -12,37 +12,58 @@ define([
     simulation_template
     ) {
     "use strict";
+    /**
+     * Глобальный view нашего приложения
+     *
+     * Слушает события авторизации и показывает SKLoginView или SKSimulationStartView в зависимости от успеха или провала
+     * авторизации
+     *
+     * @class SKApplicationView
+     * @constructor
+     * @extends {Backbone.View}
+     * @type {*}
+     */
     SKApplicationView = Backbone.View.extend({
 
         'el':'body',
-
         'initialize':function () {
             var me = this;
-            SKApp.session.on('login:failure', function () {
-                me.frame = new SKLoginView();
+            SKApp.session.on('login:failure logout', function (error_type) {
+                if (me.login_view === undefined) {
+                    var container = me.make('div');
+                    me.$el.append(container);
+                    me.login_view = new SKLoginView({el:container});
+                    me.login_view.render();
+                }
             });
             SKApp.session.on('login:success', function () {
+                if (me.login_view !== undefined) {
+                    me.login_view.remove();
+                }
                 me.frame = new SKSimulationStartView({'simulations':SKApp.user.simulations});
+                me.frame.render();
             });
+            SKApp.server.on('server:error', function () {
+                    me.message_window = me.message_window || new window.SKDialogView({
+                        'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
+                        'buttons':[
+                            {
+                                'value':'Окей',
+                                'onclick':function () {
+                                    delete me.message_window;
+                                }
+                            }
+                        ]
+                    });
+                }
+            );
             this.render();
         },
-
+        /**
+         * При отображении запускает проверку сессии пользователя
+         */
         'render':function () {
-            var code = _.template(simulation_template, {});
             SKApp.session.check();
-
-            this.$el.html(code);
-        },
-
-        '_drawWorld':function (simulations) {
-            //нам пришли симуляции, или мы просто прервали текущую
-            if (typeof(simulations) !== 'undefined') {
-                this.simulations = simulations;
-            } else {
-                simulations = this.simulations;
-            }
-            var activeFrame = this.$('#location');
-
         }
     });
 
