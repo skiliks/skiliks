@@ -18,7 +18,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
 
     public function testSK1390()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('ET1.1');
