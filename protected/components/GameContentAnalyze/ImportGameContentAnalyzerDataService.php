@@ -224,9 +224,9 @@ class ImportGameContentAnalyzerDataService
             $event->import_id = $this->import_id;
 
             if (null == $event->trigger_time) {
-                $key = (int)('1900'.rand(1000000,9999999));  // move to the end
+                $key = (int)('1900'.rand(100000,999999));  // move to the end
             } else {
-                $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(1000000,9999999));
+                $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(100000,999999));
             }
 
             $this->importedEvents[] = $code;
@@ -244,7 +244,7 @@ class ImportGameContentAnalyzerDataService
         $event->trigger_time = 0;
         $event->import_id = $this->import_id;
 
-        $importedEvents[(int)('1900'.rand(1000000,9999999))] = $event; // move to the end
+        $importedEvents[(int)('1900'.rand(100000,999999))] = $event; // move to the end
         // }
 
         $excel = $this->getExcel();
@@ -272,9 +272,9 @@ class ImportGameContentAnalyzerDataService
             $event->import_id = $this->import_id;
 
             if (null == $event->trigger_time) {
-                $key = (int)('1900'.rand(1000000,9999999));  // move to the end
+                $key = (int)('1900'.rand(100000,999999));  // move to the end
             } else {
-                $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(1000000,9999999));
+                $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(100000,999999));
             }
 
             $importedEvents[$key] = $event;

@@ -175,56 +175,54 @@ class AdminController extends AjaxController
         die;
     }
 
-    public function actionUploadedFileAnalyzer() {
+    public function actionUploadedFileAnalyzer()
+    {
         if ($_FILES["file"]["error"] > 0)
         {
-            echo "Error: " . $_FILES["file"]["error"] . "<br>";
-        } else {
-//            echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-//            echo "Type: " . $_FILES["file"]["type"] . "<br>";
-//            echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-//            echo "Stored in: " . $_FILES["file"]["tmp_name"];
-
-            error_reporting(E_ALL);
-            ini_set('display_errors', '1');
-
-            $importGameContentAnalyzerDataService = new ImportGameContentAnalyzerDataService();
-            $importGameContentAnalyzerDataService->setFilename($_FILES["file"]["tmp_name"]);
-
-            $sDialogs = $importGameContentAnalyzerDataService->importDialogs();
-
-            $eReplicas = $importGameContentAnalyzerDataService->importDialogReplicas();
-
-            $sEmails = $importGameContentAnalyzerDataService->importEmails();
-
-            $sEvents = $importGameContentAnalyzerDataService->importEventSamples();
-
-            $a = new GameContentAnalyzer();
-
-            $a->uploadDialogs($sDialogs);
-            $a->uploadReplicas($eReplicas);
-            $a->uploadEmails($sEmails);
-            $a->uploadEvents($sEvents);
-
-            // update statistic
-            $a->updateProducedBy();
-            $a->updateDelays();
-
-            $a->updatePossibleNextEvents();
-
-            // organize data for output
-            $a->separateEvents();
-            $a->initHoursChain();
-            $a->buildTimeChains();
-            $a->updateAEventsDurations();
-
-            $this->layout = 'admin';
-            $this->render('dialogs_analyzer',
-                [
-                    'analyzer'     => $a,
-                    'sourceName'   => $_FILES["file"]["name"],
-                ]
-            );
+            // pattern "Sparta": do it or die!
+            die("Error: " . $_FILES["file"]["error"] . "<br>");
         }
+
+        error_reporting(E_ALL);
+        ini_set('display_errors', '1');
+
+        $importGameContentAnalyzerDataService = new ImportGameContentAnalyzerDataService();
+        $importGameContentAnalyzerDataService->setFilename($_FILES["file"]["tmp_name"]);
+
+        $sDialogs = $importGameContentAnalyzerDataService->importDialogs();
+
+        $eReplicas = $importGameContentAnalyzerDataService->importDialogReplicas();
+
+        $sEmails = $importGameContentAnalyzerDataService->importEmails();
+
+        $sEvents = $importGameContentAnalyzerDataService->importEventSamples();
+
+        $a = new GameContentAnalyzer();
+
+        $a->uploadDialogs($sDialogs);
+        $a->uploadReplicas($eReplicas);
+        $a->uploadEmails($sEmails);
+        $a->uploadEvents($sEvents);
+
+        // update statistic
+        $a->updateProducedBy();
+        $a->updateDelays();
+
+        $a->updatePossibleNextEvents();
+
+        // organize data for output
+        $a->separateEvents();
+        $a->initHoursChain();
+        $a->buildTimeChains();
+        $a->updateAEventsDurations();
+
+        $this->layout = 'admin';
+        $this->render('dialogs_analyzer',
+            [
+                'analyzer'     => $a,
+                'sourceName'   => $_FILES["file"]["name"],
+            ]
+        );
+
     }
 }
