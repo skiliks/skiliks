@@ -8,6 +8,7 @@
  */
 class SeleniumTestHelper extends CWebTestCase
 {
+    //
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
@@ -82,6 +83,53 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->waitForVisible($loc);
         $this->click($loc);
+    }
+
+    // для определения текущего времени
+    public function how_much_time ()
+    {
+        $time[0] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['hour']));
+        $time[1] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['minute']));
+        return $time;
+    }
+
+    // для переноса времени на differ минут
+    public function transfer_time ($differ)
+    {
+        $time_array=$this->how_much_time(); //запускаем определение текущего времени
+        $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
+        if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
+        {
+            ++$time_array[0];   // увеличиваем часы
+            $time_array[1]=$time_array[1]-60; // изменяем количество минут
+        }
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
+        return $time_array;
+    }
+
+    // проверка появления или выполнения чего-то по locator в течении реальной минуты
+    public function is_it_done ($locator)
+    {
+        $was_done = false;
+        for ($second = 0; ; $second++) {
+            if ($second >= 60)
+            {
+                $was_done = false;
+                break;
+            }
+            try {
+                if ($this->isVisible($locator))
+                {
+                    $was_done=true;
+                    break;
+                }
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+        return $was_done;
     }
 }
 

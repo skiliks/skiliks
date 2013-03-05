@@ -43,6 +43,10 @@ class GameTime
         return $el[0].':'.$el[1];
     }
 
+    /**
+     * @param $datetime
+     * @return int
+     */
     public static function getUnixDateTime($datetime) {
         return strtotime($datetime);
     }

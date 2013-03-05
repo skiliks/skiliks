@@ -105,13 +105,21 @@ class GameContentAnalyzer
         $this->hoursChainOfEventsStartedByTime[$i] = new HourForContentAnalyze();
         $i++;
 
-        foreach ($this->eventsStartedByTime as $event) {
-            if ($hours[$i] <= $event->startTime) {
+        foreach ($this->eventsStartedByTime as $aEvent) {
+
+            // assign MY emails to 8:00
+            // (Yesterday will be the best, but 8:00 is good enought to highlught that there are yesterday emails)
+            if ('MY' == substr($aEvent->event->code, 0, 2)) {
+                $this->hoursChainOfEventsStartedByTime[0]->events[] = $aEvent;
+                continue;
+            }
+
+            if ($hours[$i] <= $aEvent->startTime) {
                 $i++;
                 $this->hoursChainOfEventsStartedByTime[$i] = new HourForContentAnalyze();
             }
 
-            $this->hoursChainOfEventsStartedByTime[$i]->events[] = $event;
+            $this->hoursChainOfEventsStartedByTime[$i]->events[] = $aEvent;
             $this->hoursChainOfEventsStartedByTime[$i]->title = $hours[$i-1];
         }
     }
@@ -314,6 +322,89 @@ class GameContentAnalyzer
     }
 
     /* ------- */
+
+    /* render */
+
+    public function getFormattedReplicaFlag($replica) {
+        if (null === $replica->flag_to_switch) {
+            return '';
+        } else {
+            return sprintf('<span class="label">%s:1</span>',$replica->flag_to_switch,1);
+        }
+    }
+
+    public function getFormattedAEventFlags($aEvent) {
+        $html = '';
+        if (0 != (count($aEvent->flagsToSwitch))) {
+            $html = ', ';
+            foreach ($aEvent->flagsToSwitch as $flagCode => $value) {
+                $html .= sprintf('<span class="label">%s : 1</span> ', $flagCode, $value);
+            }
+        }
+
+        return $html;
+    }
+
+    public function getCssSaveEventCode($aEvent) {
+        return str_replace('.', '_', $aEvent->event->code);
+    }
+
+    public function getFormattedAEventHeader($aEvent) {
+        if ($aEvent->durationFrom == $aEvent->durationTo) {
+            $endTime = $aEvent->durationFrom;
+        } else {
+            $endTime = sprintf('%s ~ %s', $aEvent->durationFrom, $aEvent->durationTo);
+        }
+
+        $variantsSwitcher = '';
+        if (isset($this->tree[$aEvent->event->code])){
+            $variantsSwitcher = sprintf(
+                '<a data-id="%s-variations" class="switcher pull-right">Скрыть/показать варианты развития события</a>',
+                $this->getCssSaveEventCode($aEvent)
+            );
+        }
+
+        $delay = 'нет задержки';
+        if (0 != $aEvent->delay) {
+            $delay = sprintf('( задержка: %s мин )', $aEvent->delay);
+        }
+
+        if (null != count($aEvent->startTime)) {
+            $producedBy = '';
+        } elseif(0 != count($aEvent->producedBy)) {
+            $producedBy = ', является последствием: ';
+
+            foreach ($aEvent->producedBy as $key => $value) {
+                $producedBy .= sprintf(
+                    '<a href="#%s" title="%s"><span class="label label-warning">%s</span></a> ',
+                    $key,
+                    $this->getEventTitleByCode($key),
+                    $key
+                );
+            }
+        } else {
+            $producedBy = '<span class="label label-important">Никогда не будет вызван!</span>';
+        }
+
+        return sprintf(
+            '<i class="%s"></i>
+                <strong>%s</strong>, %s /  <i class="icon-time"></i>
+                c %s<!-- startTime --> до %s<!-- endTime -->,
+                %s<!-- delay -->
+                %s <!-- ormattedAEventFlags -->
+                %s <!-- variantsSwitcher -->
+                %s <!-- producedBy -->',
+            $aEvent->cssIcon,
+            $aEvent->event->code,
+            $aEvent->title,
+            $aEvent->startTime,
+            $endTime,
+            $delay,
+            $this->getFormattedAEventFlags($aEvent),
+            $variantsSwitcher,
+            $producedBy
+        );
+    }
 
     /**
      * @param EventSample $event
