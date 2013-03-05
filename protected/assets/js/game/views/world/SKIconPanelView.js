@@ -74,7 +74,8 @@ define([
                                 });
                             } else {
                                 //me.doDeblockingPhoneIcon();
-                                if(me.isPhoneAvailable == true){
+                                if(me.isPhoneAvailable == true && data[2] === undefined){
+
                                     me.runPhoneTalkStart(me.$('.phone').attr('data-event-id'));
                                 }
 
