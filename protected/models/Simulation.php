@@ -155,7 +155,6 @@ class Simulation extends CActiveRecord
             'universal_log'                     => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time'],
             'completed_parent_activities'       => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_points'                 => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
-            'log_dialog_points'                 => [self::HAS_MANY, 'LogDialogPoint', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
             'simulation_assessment_rules'       => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
         ];
     }
