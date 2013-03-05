@@ -17,7 +17,7 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
 
     public function testSK1338_Case1() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E1.2');
@@ -55,7 +55,7 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
 
     public function testSK1339_Case2() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
@@ -96,7 +96,7 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
 
     public function testSK1340_Case3() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
@@ -139,7 +139,7 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
 
     public function testSK1341_Case4() {
         // next line for not running the test
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->deleteAllVisibleCookies();
         $this->open('/site/');
         $this->waitForVisible('id=login');

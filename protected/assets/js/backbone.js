@@ -1266,7 +1266,7 @@
     // Creating a Backbone.View creates its initial element outside of the DOM,
     // if an existing element is not provided...
     /**
-     * @class
+     * @class Backbone.View
      * @extends Events
      * @type {Function}
      */

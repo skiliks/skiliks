@@ -13,7 +13,7 @@ define([
     ) {
     "use strict";
     /**
-     * @class
+     * @class SKVisitView
      * @extends {SKWindowView}
      * @type {SKWindowView}
      */
