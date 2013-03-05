@@ -55,7 +55,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function updateProducedBy() {
+    /**
+     *
+     */
+    public function updateProducedBy()
+    {
         foreach ($this->replicas as $dialog) {
             foreach ($dialog as $step) {
                 foreach ($step as $replica) {
@@ -69,7 +73,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function updateDelays() {
+    /**
+     *
+     */
+    public function updateDelays()
+    {
         foreach ($this->dialogs as $dialog) {
             if (isset($this->aEvents[$dialog->code])) {
                 $this->aEvents[$dialog->code]->delay = (int)$dialog->delay;
@@ -77,7 +85,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function separateEvents() {
+    /**
+     *
+     */
+    public function separateEvents()
+    {
         foreach ($this->aEvents as $aEvent) {
             if (null == $aEvent->event->trigger_time)
             {
@@ -95,7 +107,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function initHoursChain() {
+    /**
+     *
+     */
+    public function initHoursChain()
+    {
         $i = 0;
         $hours   = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00'];
 
@@ -124,7 +140,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function buildTimeChains() {
+    /**
+     *
+     */
+    public function buildTimeChains()
+    {
         $this->tree = [];
         foreach ($this->eventsStartedByTime as $aEvent) {
             if (false == in_array($aEvent->event->code, ['RST1'])) {
@@ -146,7 +166,15 @@ class GameContentAnalyzer
         }
     }
 
-    private function addTimeAssessment(&$tree, $branch, $code, $startTime, $initialEventCode) {
+    /**
+     * @param $tree
+     * @param $branch
+     * @param $code
+     * @param $startTime
+     * @param $initialEventCode
+     */
+    private function addTimeAssessment(&$tree, $branch, $code, $startTime, $initialEventCode)
+    {
         $code = trim($code);
         $aEvent = $this->getAEvent($code);
 
@@ -245,7 +273,11 @@ class GameContentAnalyzer
         }
     }
 
-    public function updateAEventsDurations() {
+    /**
+     *
+     */
+    public function updateAEventsDurations()
+    {
         foreach ($this->eventsStartedByTime as $aEvent) {
             if ('M' == substr($aEvent->event->code,0,1)) {
                 // 30 seconds to read an email
@@ -276,7 +308,8 @@ class GameContentAnalyzer
     /**
      * @param Replica $events
      */
-    public function uploadDialogs($dialogs) {
+    public function uploadDialogs($dialogs)
+    {
         foreach ($dialogs as $dialog) {
             $this->dialogs[$dialog->code] = $dialog;
         }
@@ -285,7 +318,8 @@ class GameContentAnalyzer
     /**
      * @param Replica $events
      */
-    public function uploadReplicas($replicas) {
+    public function uploadReplicas($replicas)
+    {
         foreach ($replicas as $replica) {
             $this->replicas[$replica->code][$replica->step_number][$replica->replica_number] = $replica;
         }
@@ -294,19 +328,28 @@ class GameContentAnalyzer
     /**
      * @param Replica $events
      */
-    public function uploadEmails($emails) {
+    public function uploadEmails($emails)
+    {
         foreach ($emails as $email) {
             $this->emails[$email->code] = $email;
         }
     }
 
-    public function setUpReplicas($aEvent) {
+    /**
+     * @param $aEvent
+     */
+    public function setUpReplicas($aEvent)
+    {
         if (isset($this->replicas[$aEvent->event->code])) {
             $aEvent->replicas = $this->replicas[$aEvent->event->code];
         }
     }
 
-    public function updatePossibleNextEvents() {
+    /**
+     *
+     */
+    public function updatePossibleNextEvents()
+    {
         foreach ($this->replicas as $dialog) {
             foreach ($dialog as $step) {
                 foreach ($step as $replica) {
@@ -325,7 +368,12 @@ class GameContentAnalyzer
 
     /* render */
 
-    public function getFormattedReplicaFlag($replica) {
+    /**
+     * @param $replica
+     * @return string
+     */
+    public function getFormattedReplicaFlag($replica)
+    {
         if (null === $replica->flag_to_switch) {
             return '';
         } else {
@@ -333,7 +381,12 @@ class GameContentAnalyzer
         }
     }
 
-    public function getFormattedAEventFlags($aEvent) {
+    /**
+     * @param $aEvent
+     * @return string
+     */
+    public function getFormattedAEventFlags($aEvent)
+    {
         $html = '';
         if (0 != (count($aEvent->flagsToSwitch))) {
             $html = ', ';
@@ -345,11 +398,21 @@ class GameContentAnalyzer
         return $html;
     }
 
-    public function getCssSaveEventCode($aEvent) {
+    /**
+     * @param $aEvent
+     * @return string
+     */
+    public function getCssSaveEventCode($aEvent)
+    {
         return str_replace('.', '_', $aEvent->event->code);
     }
 
-    public function getFormattedAEventHeader($aEvent) {
+    /**
+     * @param $aEvent
+     * @return string
+     */
+    public function getFormattedAEventHeader($aEvent)
+    {
         if ($aEvent->durationFrom == $aEvent->durationTo) {
             $endTime = $aEvent->durationFrom;
         } else {
@@ -421,7 +484,14 @@ class GameContentAnalyzer
 
     /* Title { */
 
-    public function getReplicaHintByCodeStepReplicaNumber($code, $step, $replicaNumber) {
+    /**
+     * @param $code
+     * @param $step
+     * @param $replicaNumber
+     * @return string
+     */
+    public function getReplicaHintByCodeStepReplicaNumber($code, $step, $replicaNumber)
+    {
         $result = $this->getAEvent($code);
         if ($result) {
             if (false == isset($this->replicas[$code])) {
@@ -438,7 +508,12 @@ class GameContentAnalyzer
         return '';
     }
 
-    public function getEventTitleByCode($code) {
+    /**
+     * @param $code
+     * @return string
+     */
+    public function getEventTitleByCode($code)
+    {
         $result = $this->getAEvent($code);
         if ($result) {
             return $result->title;
@@ -446,7 +521,12 @@ class GameContentAnalyzer
         return '';
     }
 
-    public function getAEvent($code) {
+    /**
+     * @param $code
+     * @return bool
+     */
+    public function getAEvent($code)
+    {
         $code = trim($code);
 
         if ('MS' == substr($code, 0, 2)) {
@@ -464,19 +544,34 @@ class GameContentAnalyzer
         return false;
     }
 
-    private function getEventTitle($aEvent) {
+    /**
+     * @param $aEvent
+     * @return mixed
+     */
+    private function getEventTitle($aEvent)
+    {
         $methodName = 'get'.ucfirst($aEvent->type).'Title';
         return $this->{$methodName}($aEvent->event);
     }
 
-    public function getDialogTitle($event) {
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function getDialogTitle($event)
+    {
         if (false == isset($this->dialogs[$event->code])) {
             //var_dump($event->code); die;
         }
         return $this->dialogs[$event->code]->title;
     }
 
-    public function getMailTitle($event) {
+    /**
+     * @param $event
+     * @return string
+     */
+    public function getMailTitle($event)
+    {
         return sprintf(
             '%s "%s"',
             $event->code,
@@ -484,7 +579,12 @@ class GameContentAnalyzer
         );
     }
 
-    public function getPlanTitle($event) {
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function getPlanTitle($event)
+    {
         return $event->code;
     }
 
@@ -492,12 +592,22 @@ class GameContentAnalyzer
 
     /* CssIcon { */
 
-    private function getCssIcon($aEvent) {
+    /**
+     * @param $aEvent
+     * @return mixed
+     */
+    private function getCssIcon($aEvent)
+    {
         $methodName = 'get'.ucfirst($aEvent->type).'CssIcon';
         return $this->{$methodName}($aEvent->event);
     }
 
-    public function getDialogCssIcon($event) {
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function getDialogCssIcon($event)
+    {
         $a = [
             'visit'       => 'icon-user',
             'phone_call'  => 'icon-bell',
@@ -508,11 +618,21 @@ class GameContentAnalyzer
         return $a[$this->dialogs[$event->code]->type];
     }
 
-    public function getMailCssIcon($event) {
+    /**
+     * @param $event
+     * @return string
+     */
+    public function getMailCssIcon($event)
+    {
         return 'icon-envelope';
     }
 
-    public function getPlanCssIcon($event) {
+    /**
+     * @param $event
+     * @return string
+     */
+    public function getPlanCssIcon($event)
+    {
         return 'icon-calendar';
     }
 
@@ -520,12 +640,22 @@ class GameContentAnalyzer
 
     /* RowClass { */
 
-    private function getCssRowColor($aEvent) {
+    /**
+     * @param $aEvent
+     * @return mixed
+     */
+    private function getCssRowColor($aEvent)
+    {
         $methodName = 'get'.ucfirst($aEvent->type).'RowColor';
         return $this->{$methodName}($aEvent->event);
     }
 
-    public function getDialogRowColor($event) {
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function getDialogRowColor($event)
+    {
         $a = [
             'visit'       => 'background-color: #F2FFE5;',
             'phone_call'  => 'background-color: #E5F2FF;',
@@ -536,11 +666,21 @@ class GameContentAnalyzer
         return $a[$this->dialogs[$event->code]->type];
     }
 
-    public function getMailRowColor($event) {
+    /**
+     * @param $event
+     * @return string
+     */
+    public function getMailRowColor($event)
+    {
         return 'background-color: #FFFFB3;';
     }
 
-    public function getPlanRowColor($event) {
+    /**
+     * @param $event
+     * @return string
+     */
+    public function getPlanRowColor($event)
+    {
         return ' ';
     }
 

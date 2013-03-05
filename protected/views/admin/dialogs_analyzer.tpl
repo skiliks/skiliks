@@ -5,7 +5,7 @@
     }
 
     .container {
-        width: 1500px;
+        width: 1800px;
         margin: 0 auto;
     }
 
@@ -30,7 +30,7 @@
     Источник: {$sourceName}.
 </div>
 
-<div id="flow-menu-wrapper" class="row" style="overflow: hidden;">
+<div id="flow-menu-wrapper" class="row" style="overflow: hidden; width: 1400px;">
     <div class="span2">
         <div id="flow-menu">
             <span class="btn btn-inverse toggle-dialogs" style="width: 120px; text-align: left;">
@@ -52,8 +52,8 @@
         </div>
     </div>
 
-    <div class="span10">
-        <table class="table" style="width: 1400px;">
+    <div class="span10" style="width: 1000px;">
+        <table class="table" style="width: 1600px;">
             <thead>
                 <tr>
                     <td><h3>События начинающиеся по времени</h3></td>
