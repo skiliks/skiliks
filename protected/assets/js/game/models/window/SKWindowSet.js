@@ -22,7 +22,7 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
             }, this);
             options.events.on('event:visit:in_progress', function (event) {
                 this.toggle('visitor', 'visitorEntrance', {sim_event: event});
-            });
+            }, this);
             options.events.on('event:immediate-visit', function (event) {
                 var win = this.open('visitor', 'visitorTalk', {sim_event: event});
                 event.setStatus('in progress');
