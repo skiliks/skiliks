@@ -747,9 +747,9 @@ class SimulationServiceTest extends CDbTestCase
 
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
-        $ms[] = LibSendMs::sendMs35_r($simulation);
-        $ms[] = LibSendMs::sendMs36_r($simulation);
-        $ms[] = LibSendMs::sendMs37_r($simulation);
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS37');
         $ms[] = LibSendMs::sendMs39_r($simulation);
         $ms[] = LibSendMs::sendMs40_r($simulation);
         $ms[] = LibSendMs::sendMs48_r($simulation);
@@ -969,8 +969,8 @@ class SimulationServiceTest extends CDbTestCase
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
-        $ms[] = LibSendMs::sendMs35_r($simulation);
-        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs37_r($simulation);
         $ms[] = LibSendMs::sendMs39_r($simulation);
         $ms[] = LibSendMs::sendMs48_r($simulation);
@@ -1035,8 +1035,8 @@ class SimulationServiceTest extends CDbTestCase
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
-        $ms[] = LibSendMs::sendMs35_r($simulation);
-        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs37_r($simulation);
         $ms[] = LibSendMs::sendMs39_r($simulation);
         $ms[] = LibSendMs::sendMs48_r($simulation);
@@ -1106,8 +1106,8 @@ class SimulationServiceTest extends CDbTestCase
 
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
-        $ms[] = LibSendMs::sendMs35_r($simulation);
-        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs37_r($simulation);
         $ms[] = LibSendMs::sendMs39_r($simulation);
         $ms[] = LibSendMs::sendMs40_r($simulation);
@@ -1172,8 +1172,8 @@ class SimulationServiceTest extends CDbTestCase
         // init MS emails:
         $ms[] = LibSendMs::sendMs20_r($simulation);
         $ms[] = LibSendMs::sendMs28_r($simulation);
-        $ms[] = LibSendMs::sendMs35_r($simulation);
-        $ms[] = LibSendMs::sendMs36_r($simulation);
+        $ms[] = LibSendMs::sendMs($simulation, 'MS35');
+        $ms[] = LibSendMs::sendMs($simulation, 'MS36');
         $ms[] = LibSendMs::sendMs37_r($simulation);
         $ms[] = LibSendMs::sendMs39_r($simulation);
         $ms[] = LibSendMs::sendMs48_r($simulation);
