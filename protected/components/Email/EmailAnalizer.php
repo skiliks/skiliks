@@ -445,7 +445,7 @@ class EmailAnalizer
         $behave_3333 = HeroBehaviour::model()->byCode('3333')->positive()->find();
         
         return array(
-            'positive' => ($wrongActions == 0)?$behave_3333->scale:0,
+            'positive' => ($wrongActions == 0) ? $behave_3333->scale : 0,
             'obj'      => $behave_3333,
         );
     }
