@@ -97,16 +97,23 @@ class SeleniumTestHelper extends CWebTestCase
     public function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
+        print ($time_array[0]);
+        print (" : ");
+        print ($time_array[1]);
         $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
+        print ("\n");
+        print ($time_array[1]);
         if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
         {
-            ++$time_array[0];   // увеличиваем часы
+            $time_array[0]=$time_array[0]+1;   // увеличиваем часы
             $time_array[1]=$time_array[1]-60; // изменяем количество минут
+            print ($time_array[0]);
+            print (" : ");
+            print ($time_array[1]);
         }
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
         return $time_array;
     }
 
