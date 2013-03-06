@@ -2,7 +2,16 @@
 define(["game/models/SKEvent"], function () {
     "use strict";
     /**
-     * @class List of events
+     * Список событий данной симуляции.
+     *
+     * События бывают в трех статусах:
+     *
+     * 1. waiting — иконка прыгает и ждет клика пользователя
+     * 2. in progress — событие идет пряи сейчас
+     * 3. completed — событие завершилось
+     *
+     * @class SKEventCollection
+     * @constructs
      */
     window.SKEventCollection = Backbone.Collection.extend(
         /**
@@ -10,6 +19,39 @@ define(["game/models/SKEvent"], function () {
          */
         {
             'model':SKEvent,
+            'initialize': function () {
+                var me = this;
+                // Block phone when visit/call going {
+                this.on('event:phone event:immediate-phone event:visit event:immediate-visit', this.handleBlocking);
+                // Block phone when visit/call going }
+
+            },
+            /**
+             * Отправляет события начала и конца блокировки
+             * @param event
+             * @method handleBlocking
+             */
+            handleBlocking: function (event) {
+                /**
+                 * Начало блокировки новых событий
+                 * @event blocking:start
+                 */
+                if ('in progress' === event.getStatus()) {
+                    this.trigger('blocking:start');
+                } else {
+                    event.on('in progress', function() {
+                        this.trigger('blocking:start');
+                    }, this);
+                }
+
+                event.on('complete', function() {
+                    /**
+                     * Конец блокировки новых событий
+                     * @event blocking:end
+                     */
+                    this.trigger('blocking:end');
+                }, this);
+            },
             'getUnreadMailCount':function (cb) {
                 SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
                     if (parseInt(data.result) === 1) {
@@ -32,6 +74,7 @@ define(["game/models/SKEvent"], function () {
              *
              * @param {SKEvent} event
              * @returns {Boolean}
+             * @method canAddEvent
              */
             canAddEvent:function (event) {
                 if (!event.getTypeSlug().match(/(phone|visit)$/)) {
@@ -48,11 +91,13 @@ define(["game/models/SKEvent"], function () {
                 return res;
             },
             /**
+             * Костыльный метод отправки события на сервер
              *
              * @param {string} code
              * @param {int} delay in minutes
              * @param clear_events
              * @param clear_assessment
+             * @method triggerEvent
              */
             'triggerEvent':function (code, delay, clear_events, clear_assessment) {
                 var callback;
@@ -70,8 +115,11 @@ define(["game/models/SKEvent"], function () {
             },
 
             /**
+             * Чего-то ждет o_0
              *
              * @param {string} code
+             * @param originalTime
+             * @method wait
              */
             'wait': function(code, originalTime) {
                 SKApp.server.api('events/wait', {
@@ -80,4 +128,24 @@ define(["game/models/SKEvent"], function () {
                 });
             }
         });
+    /**
+     * Телефонный звонок (на который можно не ответить)
+     * @event event:phone
+     */
+    /**
+     * Телефонный диалог
+     * @event event:immediate-phone
+     */
+    /**
+     * Стук в дверь
+     * @event event:visit
+     */
+    /**
+     * Общение с человеком
+     * @event event:immediate-visit
+     */
+    /**
+     * Входящее письмо
+     * @event event:mail
+     */
 });

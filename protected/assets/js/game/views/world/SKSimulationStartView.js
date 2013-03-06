@@ -12,11 +12,13 @@ define([
     start_simulation_menu
     ) {
     "use strict";
+    /**
+     * @class SKSimulationStartView
+     * @constructs
+     * @type {*}
+     */
     SKSimulationStartView = Backbone.View.extend({
         'el': 'body',
-        'initialize': function () {
-            this.render();
-        },
         'events': {
             'click .btn.simulation-start': 'doSimulationStart',
             'click .settings': 'doSettings',
@@ -43,10 +45,6 @@ define([
             var view = new SKSettingsView({'el': this.$el});
         },
         'doLogout': function () {
-            var me = this;
-            SKApp.user.on('logout', function () {
-                var login_view = new SKLoginView({'el': me.$el});
-            });
             SKApp.user.logout();
         }
     });
