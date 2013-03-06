@@ -12,7 +12,7 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase {
     public function test_dialog_get() {
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
         $standard = [
             'result' => 1,

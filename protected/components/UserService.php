@@ -57,7 +57,7 @@ class UserService {
      */
     public static function validateNewUserData($email, $password, $passwordAgain)
     {
-        if (Users::model()->byEmail($email)->isActive()->find()) {
+        if (YumUser::model()->byEmail($email)->isActive()->find()) {
             return sprintf("Пользователь с емейлом %s уже существует", $email);
         }
         
@@ -70,7 +70,7 @@ class UserService {
     
     public static function registerUser($email, $password)
     {
-        $user = new Users();
+        $user = new YumUser();
         $user->password    = $user->encryptPassword($password);
         $user->email       = $email;
         $user->is_active   = 1;

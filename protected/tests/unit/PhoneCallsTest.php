@@ -12,7 +12,7 @@ class PhoneServiceTest extends CDbTestCase {
     {
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
         
         // init test data {
@@ -58,7 +58,7 @@ class PhoneServiceTest extends CDbTestCase {
     {
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
         
         // init test data {
@@ -121,7 +121,7 @@ class PhoneServiceTest extends CDbTestCase {
     public function testOutgoingCall()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
 
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
@@ -149,7 +149,7 @@ class PhoneServiceTest extends CDbTestCase {
     public function testOnlyUniqueCall(){
 
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
         $character_id = Character::model()->findByAttributes(['fio'=>'Денежная Р.Р.'])->id;
         $theme_id = CommunicationTheme::model()->findByAttributes(['text'=>'Перенос сроков сдачи сводного бюджета', 'character_id'=>$character_id, 'phone'=>1])->id;
