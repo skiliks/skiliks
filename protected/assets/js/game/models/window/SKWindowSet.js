@@ -17,6 +17,9 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
         },
 
         'initialize': function (models, options) {
+            if (options.events === undefined) {
+                throw 'SKWindowSet requires events';
+            }
             options.events.on('event:phone:in_progress', function (event) {
                 this.toggle('phone', 'phoneCall', {sim_event: event});
             }, this);

@@ -48,12 +48,18 @@ define([
 
 
             },
+            /**
+             * Массив окон, которые открыты в симуляции
+             * @property windows
+             */
+            'windows':  [],
             setupWindowEvents: function (window) {
                 var window_full_name = (window.get('name') + '/' + window.get('subname'));
                 if (this.window_views[window_full_name]) {
                     var WindowClass = this.window_views[window_full_name];
                     var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
                     view.render();
+                    this.windows.push(view);
                 }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
                     var file = window.get('document').get('name');
