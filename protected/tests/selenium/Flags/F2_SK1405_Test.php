@@ -10,7 +10,7 @@ class F2_SK1405_Test extends SeleniumTestHelper
 
     public function testSK1405()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('S11');
@@ -32,7 +32,7 @@ class F2_SK1405_Test extends SeleniumTestHelper
 
     public function testSK1405_Case2()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('S11');
