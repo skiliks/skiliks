@@ -320,7 +320,7 @@ define(
                     expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('4');
 
                     SKApp.user.simulation.getNewEvents();
-
+                    buster.log(server.requests);
                     server.requests[6].respond(
                         200,
                         { "Content-Type":"application/json" },
