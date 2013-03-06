@@ -43,13 +43,13 @@ define(["game/models/SKUser"], function (SKUser) {
          * @param pass
          * @async
          */
-        'login':function (username, pass) {
+        'login':function (email, pass) {
             var me = this;
             if (SKApp.user) {
                 throw 'Trying to login user twice';
             }
             SKApp.server.api('auth/auth', {
-                'username':username,
+                'email':email,
                 'pass':pass
             }, function (data) {
                 if (data.result === 1) {
