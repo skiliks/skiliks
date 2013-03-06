@@ -1,4 +1,4 @@
-<?
+<?php
 $this->title = Yum::t('Manage users');
 
 $this->breadcrumbs = array(
@@ -51,6 +51,6 @@ $this->widget('application.modules.user.components.CsvGridView', array(
 			),
 ))); ?>
 
-<? echo CHtml::link(Yum::t('Create new User'), array(
+<?php echo CHtml::link(Yum::t('Create new User'), array(
 			'//user/user/create')); ?>
 

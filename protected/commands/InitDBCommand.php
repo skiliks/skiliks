@@ -54,7 +54,7 @@ class InitDBCommand extends CConsoleCommand
         $args = array(
             'yiic',
             'createuser',
-            '--email=' . $user[0], '--password=' . $user[1], '--isAdmin=' . (isset($user[2]) ? "false" : "true")
+            '--email=' . $user['username'], '--password=' . $user['password'], '--isAdmin=' . ((isset($user['is_admin']) && 1 == $user['is_admin']) ? "true" : "false")
         );
         $runner->run($args);
     }
@@ -70,8 +70,8 @@ class InitDBCommand extends CConsoleCommand
         $import = new ImportGameDataService();
         $import->importAll();
         $users = Yii::app()->params['initial_data']['users'];
-        foreach ($users as $users) {
-            $this->runCreateAdmin($users);
+        foreach ($users as $user) {
+            $this->runCreateAdmin($user);
         }
     }
 }
