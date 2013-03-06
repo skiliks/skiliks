@@ -9,7 +9,7 @@ class CreateUserCommand extends CConsoleCommand
 {
     public function actionIndex($login, $password, $isAdmin="true")
     {
-        $user = YumUser::model()->findByAttributes(['email' => $login]);
+        /*$user = YumUser::model()->findByAttributes(['email' => $login]);
         $action = 'updated';
         if ($user === null) {
             $user = new YumUser();
@@ -45,6 +45,6 @@ class CreateUserCommand extends CConsoleCommand
             }
         }
 
-        echo "\n";
+        echo "\n";*/
     }
 }

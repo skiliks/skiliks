@@ -13,6 +13,7 @@ class AuthController extends AjaxController
     public function actionAuth()
     {
         $username = Yii::app()->request->getParam('username');
+        $email = Yii::app()->request->getParam('email');
         $password = Yii::app()->request->getParam('pass');
 
         $result = array(
@@ -22,34 +23,21 @@ class AuthController extends AjaxController
 
         try {
 
-            $user = YumUser::model()->find(
-                'upper(username) = :username',
-                [
-                    ':username' => strtoupper($username)
-                ]
-            );
+//            $user = YumUser::model()->find(
+//                'upper(username) = :username',
+//                [
+//                    ':username' => strtoupper($username)
+//                ]
+//            );
+
+            $profile = YumProfile::model()->find('email = :email', array(':email' => $email));
+            $user = $profile->user;
 
             if($user) {
                 $this->authenticate($user, $password);
             } else {
                 throw new CHttpException(200, '1 Неправильное имя пользователя или пароль.');
             }
-
-            /*$user = YumUser::model()->findByAttributes(array('username' => $email));
-            if (null === $user) throw new CHttpException(200, 'Пользователь не найден');
-
-
-            if ($user->is_active == 0) {
-                throw new CHttpException(200, 'Пользователь не активирован');
-            }
-
-            $identity = new BackendUserIdentity($username, $password);
-            if ($identity->authenticate()) {
-                Yii::app()->user->login($identity, 3600 * 12);
-            } else {
-                throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
-            }
-            */
 
             $result = array(
                 'result'      => 1,
