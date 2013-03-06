@@ -18,7 +18,7 @@ class DialogDelayTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $simulationService = new SimulationService();
-            $user = Users::model()->findByAttributes(['email' => 'asd']);
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
             $simulation = $simulationService->simulationStart(Simulation::TYPE_DEVELOP, $user);
 
             // we need transaction - this test delete empty Task table

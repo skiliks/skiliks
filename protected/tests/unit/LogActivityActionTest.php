@@ -14,7 +14,7 @@ class LogActivityActionTest extends CDbTestCase
     public function testActivityActionDetail()
     {
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
@@ -129,7 +129,7 @@ class LogActivityActionTest extends CDbTestCase
     {
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $event = new EventsManager();
         $json = $event->getState($simulation, [
@@ -322,7 +322,7 @@ class LogActivityActionTest extends CDbTestCase
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => 'WINPA']);
             $this->assertNotNull($db2);
             $simulationService = new SimulationService();
-            $user = Users::model()->findByAttributes(['email' => 'asd']);
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
             $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
             $logs = [
                 [3, 3, 'activated', 37526, 'window_uid' => 130],
@@ -354,7 +354,7 @@ class LogActivityActionTest extends CDbTestCase
         try {
 
             $simulationService = new SimulationService();
-            $user = Users::model()->findByAttributes(['email' => 'asd']);
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
             $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
             $mail = new MailBoxService();

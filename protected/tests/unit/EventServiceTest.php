@@ -9,7 +9,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
             ['code'=>'S1.2', 'time'=>'11:10:00', 'standard_time'=>'11:20:00']
         ];
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
 
         foreach($events as $e){
@@ -27,7 +27,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
     public function testProcessLinkedEntities()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
         $result = EventService::processLinkedEntities('T2', $simulation->primaryKey);
         $this->assertEquals($result, false);
@@ -50,7 +50,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase {
      */
     public function testEventNotStart() {
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
 
         $dialog = new DialogService();

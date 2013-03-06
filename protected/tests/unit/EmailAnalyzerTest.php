@@ -16,7 +16,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // move all not received emails to inbox
@@ -64,7 +64,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $randomSpamMailTemplate = MailTemplate::model()->findByAttributes([
@@ -104,7 +104,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
@@ -159,7 +159,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
@@ -208,7 +208,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
@@ -272,7 +272,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
@@ -322,7 +322,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         $point = HeroBehaviour::model()->findByAttributes([
