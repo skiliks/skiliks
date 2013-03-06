@@ -156,6 +156,8 @@ class Simulation extends CActiveRecord
             'completed_parent_activities'       => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_points'                 => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
             'simulation_assessment_rules'       => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
+            'assessment_dialog_points'          => [self::HAS_MANY, 'LogDialogPoint', 'sim_id'],
+            'simulation_mail_points'            => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
         ];
     }
 
@@ -183,6 +185,13 @@ class Simulation extends CActiveRecord
         }*/
 
         return $assessmentRules;
+    }
+
+    public function getMailPointDetails()
+    {
+        $details = LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->id]);
+
+        return $details['data'];
     }
 
 
