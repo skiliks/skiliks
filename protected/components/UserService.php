@@ -8,31 +8,27 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class UserService {
-    
+
+    const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
+
+    const MODE_PROMO     = 'promo';
+    const MODE_DEVELOPER = 'developer';
+
     /**
-     * Получить список групп пользователя 
+     * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}
      * @param int $uid 
      * @return array
      */
-    public static function getGroups($uid) {
-        $userGroupsCollection = UserGroup::model()->byUser($uid)->findAll();
-        $groups = array();
-        foreach($userGroupsCollection as $group) {
-            $groups[] = $group->gid;
-        }
-       
-        if (count($groups) > 0) {
-            $groupsCollection = Group::model()->byIds($groups)->findAll();
-        }
-        else $groupsCollection = array();
-        
-        $groups = array();
-        $groups[1] = 'promo';
-        foreach($groupsCollection as $group) {
-            $groups[$group->id] = $group->name;
+    public static function getModes($user)
+    {
+        $modes = [];
+        $modes[1] = self::MODE_PROMO;
+
+        if ($user->can(self::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $modes[2] = self::MODE_DEVELOPER;
         }
         
-        return $groups;
+        return $modes;
     }
     
     public static function addGroupToUser($uid, $gid) {

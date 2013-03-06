@@ -12,7 +12,7 @@ class AuthController extends AjaxController
      */
     public function actionAuth()
     {
-        $email = Yii::app()->request->getParam('email');
+        $username = Yii::app()->request->getParam('username');
         $password = Yii::app()->request->getParam('pass');
 
         $result = array(
@@ -21,7 +21,21 @@ class AuthController extends AjaxController
         );
 
         try {
-            $user = Users::model()->findByAttributes(array('email' => $email));
+
+            $user = YumUser::model()->find(
+                'upper(username) = :username',
+                [
+                    ':username' => strtoupper($username)
+                ]
+            );
+
+            if($user) {
+                $this->authenticate($user, $password);
+            } else {
+                throw new CHttpException(200, '1 Неправильное имя пользователя или пароль.');
+            }
+
+            /*$user = YumUser::model()->findByAttributes(array('username' => $email));
             if (null === $user) throw new CHttpException(200, 'Пользователь не найден');
 
 
@@ -29,19 +43,19 @@ class AuthController extends AjaxController
                 throw new CHttpException(200, 'Пользователь не активирован');
             }
 
-            $identity = new BackendUserIdentity($email, $password);
+            $identity = new BackendUserIdentity($username, $password);
             if ($identity->authenticate()) {
                 Yii::app()->user->login($identity, 3600 * 12);
             } else {
                 throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
             }
+            */
 
             $result = array(
-                'result' => 1,
-                'sid' => $this->_startSession($user->id),
-                'simulations' => UserService::getGroups($user->id),
+                'result'      => 1,
+                'sid'         => $this->_startSession($user->id),
+                'simulations' => UserService::getModes($user),
             );
-
         } catch (CHttpException $exc) {
             $result = array(
                 'message' => $exc->getMessage()
@@ -49,22 +63,23 @@ class AuthController extends AjaxController
         }
 
         $this->sendJSON($result);
-
-        return;
     }
 
     public function actionCheckSession()
     {
         $user_id = Yii::app()->session['uid'];
-        $user = Users::model()->findByPk($user_id);
+
+        $user = YumUser::model()->findByPk($user_id);
+
         if (null === $user) {
             $this->sendJSON(array('result' => 0, 'message' => 'User not found'));
             return;
         }
+
         $this->sendJSON(array(
             'result'      => 1,
             'sid'         => Yii::app()->session->sessionID,
-            'simulations' => UserService::getGroups($user->id),
+            'simulations' => UserService::getModes($user),
         ));
     }
 
@@ -91,5 +106,24 @@ class AuthController extends AjaxController
         $this->sendJSON(array(
             'result' => (int)$this->_stopSession($sid)
         ));
+    }
+
+    public function authenticate($user, $password)
+    {
+        $identity = new YumUserIdentity($user->username, $password);
+        $identity->authenticate();
+
+        switch($identity->errorCode) {
+            case YumUserIdentity::ERROR_EMAIL_INVALID:
+                throw new CHttpException(200, '2 Неправильное имя пользователя или пароль.');
+            case YumUserIdentity::ERROR_STATUS_INACTIVE:
+                throw new CHttpException(200, 'Аккаунт неактивен.');
+            case YumUserIdentity::ERROR_STATUS_BANNED:
+                throw new CHttpException(200, 'Аккаунт заблокирован.');
+            case YumUserIdentity::ERROR_STATUS_REMOVED:
+                throw new CHttpException(200, 'Аккаунт удалён.');
+            case YumUserIdentity::ERROR_PASSWORD_INVALID:
+                throw new CHttpException(200, '3 Неправильное имя пользователя или пароль.');
+        }
     }
 }
