@@ -43,6 +43,7 @@ return array(
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
         'application.vendors.*',
+        'application.modules.user.models.*',
     ),
     'modules'=>array(
         'gii'=>array(
@@ -73,7 +74,9 @@ return array(
 
         ),
         'user' => array(
+            // 'class' => 'application.modules.user.components.YumWebUser',
             'allowAutoLogin' => true,
+            // 'loginUrl' => array('//user/user/login'),
         ),
         'urlManager' => array(
             'urlFormat' => 'path',
