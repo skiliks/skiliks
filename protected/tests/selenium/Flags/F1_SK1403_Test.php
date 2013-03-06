@@ -17,7 +17,7 @@ class F1_SK1403_Test extends SeleniumTestHelper
 
     public function testSK1403()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('S9');
@@ -37,8 +37,9 @@ class F1_SK1403_Test extends SeleniumTestHelper
         $this->assertTextPresent("У меня нет слов от возмущения");
     }
 
-    public function testSK1403_Case2() {
-        $this->markTestIncomplete();
+    public function testSK1403_Case2()
+    {
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('S9');

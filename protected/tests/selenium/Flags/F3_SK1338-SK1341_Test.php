@@ -6,7 +6,7 @@
  * Time: 9:48 PM
  * To change this template use File | Settings | File Templates.
  */
-class F3_SK1338_1341_Test extends SeleniumTestHelper
+class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -140,28 +140,7 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
     public function testSK1341_Case4() {
         // next line for not running the test
         $this->markTestIncomplete();
-        $this->deleteAllVisibleCookies();
-        $this->open('/site/');
-        $this->waitForVisible('id=login');
-        $this->type("id=login", "asd");
-        $this->type("id=pass", "123");
-        $this->click("css=input.btn.btn-primary");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=//input[@value='Начать симуляцию developer']")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
-        $this->click("xpath=//input[@value='Начать симуляцию developer']");
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("id=addTriggerSelect")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
+        $this->start_simulation();
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
@@ -209,6 +188,26 @@ class F3_SK1338_1341_Test extends SeleniumTestHelper
         // verifing the value of F3
         $this->assertText("xpath=//div[@class='debug-panel']/div[@class='row']/div[@class='span3'][2]/form[@class='form-inline form-flags']/fieldset/table[@class='table table-bordered'][2]/tbody/tr/td[5]","0");
         $this->click("css=input.btn.btn-simulation-stop");
+    }
+    public function testSK1411()
+    {
+        $this->start_simulation();
+
+        $this->run_event('E1.2');
+        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
+
+        $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
+        #TODO: заменить!
+        sleep(10);
+        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","1");
+
+        $this->run_event('E2');
+        $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович!')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все, что есть по презентации для Босса')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");
+        $this->optimal_click("xpath=(//*[contains(text(),'Что это с тобой случилось?! Столько агрессии')])");
     }
 }
 
