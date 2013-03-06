@@ -566,7 +566,9 @@ class YumUser extends YumActiveRecord
 				$params['key'] = $this->activationKey;
 				$params['email'] = $this->profile->email;
 
-				return Yii::app()->createAbsoluteUrl($activationUrl, $params);
+                @ $url = Yii::app()->createAbsoluteUrl($activationUrl, $params);
+
+				return $url;
 			}
 		}
 		return Yum::t('Activation Url cannot be retrieved');
