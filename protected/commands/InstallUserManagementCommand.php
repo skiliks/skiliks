@@ -355,7 +355,12 @@ class InstallUserManagementCommand
 
             // Success!
             echo "\n Success. \n Created tables: \n";
-            var_dump($createdTables);
+            foreach ($createdTables as $moduleName => $modules) {
+                echo "\n Module `$moduleName`";
+                foreach ($modules as $table) {
+                    echo "\n     Table: $table [Created]";
+                }
+            }
         }
         else
         {
