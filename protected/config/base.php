@@ -112,7 +112,7 @@ return array(
             'storageURL' => 'http://storage.skiliks.com/v1/'
         ],
         'zoho' => array(
-            'apiKey'              => 'b5e3f7316085c8ece12832f533c751be',
+            'apiKey'              => '55ac16ea3e338940e5c4b7465c7838e3',
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',

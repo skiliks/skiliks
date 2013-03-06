@@ -109,11 +109,14 @@
     {/foreach}
 </table>
 
+
+
 <h1 id="assessment-result">Assessment result</h1>
 
 <table class="table table-striped mail-log">
     <thead>
     <tr>
+        <th>Point Code</th>
         <th>Point ID</th>
         <th>Value</th>
         <th>Type Scale</th>
@@ -121,6 +124,7 @@
     </thead>
     {foreach $simulation->assessment_points as $assessmentPoint}
         <tr>
+            <td>{$assessmentPoint->point->code}</td>
             <td>{$assessmentPoint->point->title}</td>
             <td>{$assessmentPoint->value}</td>
             <td>{$assessmentPoint->point->type_scale}</td>

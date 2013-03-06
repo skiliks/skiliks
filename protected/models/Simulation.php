@@ -119,8 +119,8 @@ class Simulation extends CActiveRecord
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start);
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
-        $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
-        $unixtimeMins = round($variance/60) + $start_time[0] * 60 + $start_time[1];
+        $startTime = explode(':', Yii::app()->params['public']['simulationStartTime']);
+        $unixtimeMins = round($variance/60) + $startTime[0] * 60 + $startTime[1];
         return gmdate('H:i:s', $unixtimeMins*60);
     }
 

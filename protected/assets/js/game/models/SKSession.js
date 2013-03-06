@@ -2,6 +2,25 @@
 
 define(["game/models/SKUser"], function (SKUser) {
     "use strict";
+    /**
+     * Сессия текущего пользователя. Есть у всех — авторизованных и неавторизованных пользователей
+     *
+     * @class SKSession
+     * @constructor
+     * @extends Backbone.Model
+     * @type {*}
+     */
+
+    /**
+     * Произошла ошибка авторизации
+     * @param {*} error тип ошибки (неверная сессия или неверно введен пароль)
+     * @event login:failure
+     */
+
+    /**
+     * Случается если пользователь успешно авторизован и с ним можно делать все, что угодно
+     * @event login:success
+     */
     var SKSession = Backbone.Model.extend({
         'check':function () {
             var me = this;
@@ -16,8 +35,13 @@ define(["game/models/SKUser"], function (SKUser) {
             });
         },
         /**
-         * Authenticates user
+         * Авторизует пользователя и записывает его в SKApp.user. Более правильно было бы записываеть его как SKApp.session.user,
+         * но сессия появилась позже
          *
+         * @method login
+         * @param email
+         * @param pass
+         * @async
          */
         'login':function (email, pass) {
             var me = this;
@@ -33,9 +57,10 @@ define(["game/models/SKUser"], function (SKUser) {
                     SKApp.user.on('logout', function () {
                         delete SKApp.user;
                     });
+
                     me.trigger('login:success');
                 } else {
-                    throw 'Incorrect password';
+                    me.trigger('login:failure', 'incorrect_password');
                 }
             });
         }
