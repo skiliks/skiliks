@@ -166,7 +166,6 @@ define([], function () {
                 this.collection.trigger('event:' + this.getTypeSlug() + ':in_progress', this);
                 this.trigger('in progress');
             }
-            console.trace();
             if (this.status === 'completed') {
                 this.trigger('complete');
             }

@@ -132,6 +132,69 @@
     {/foreach}
 </table>
 
+<h1 id="assessment-result">Assessment details</h1>
+
+<table class="table table-striped assessment-details">
+    <thead>
+    <tr>
+        <th>Point Code</th>
+        <th>Point Description</th>
+        <th>Type Scale</th>
+        <th>Scale</th>
+        <th>Replica ID</th>
+        <th>Dialog Code</th>
+        <th>Replica Step</th>
+        <th>Replica Number</th>
+        <th>Outbox mail</th>
+    </tr>
+    </thead>
+    {foreach $simulation->assessment_dialog_points as $dialogPoint}
+        <tr>
+            <td>{$dialogPoint->point->code}</td>
+            <td>{$dialogPoint->point->title}</td>
+            <td>{$dialogPoint->point->type_scale}</td>
+            <td>{$dialogPoint->point->scale}</td>
+            <td>{$dialogPoint->dialog_id}</td>
+            <td>{$dialogPoint->replica->code}</td>
+            <td>{$dialogPoint->replica->step_number}</td>
+            <td>{$dialogPoint->replica->replica_number}</td>
+            <td>-</td>
+        </tr>
+    {/foreach}
+    {foreach $simulation->simulation_mail_points as $mailPoints}
+        <tr>
+            <td>{$mailPoints->point->code}</td>
+            <td>{$mailPoints->point->title}</td>
+            <td>{$mailPoints->point->type_scale}</td>
+            <td>{$mailPoints->point->scale}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>
+            {if $mailPoints->point->learning_goal_code eq 331 or $mailPoints->point->learning_goal_code eq 332}
+                3. Оценка Mail Inbox
+            {elseif $mailPoints->point->learning_goal_code eq 333}
+                3. Оценка Mail Outbox
+            {/if}
+            </td>
+        </tr>
+    {/foreach}
+    {foreach $simulation->getMailPointDetails() as $mailPoint}
+        <tr>
+            <td>{$dialogPoint->point->code}</td>
+            <td>{$dialogPoint->point->title}</td>
+            <td>{$dialogPoint->point->type_scale}</td>
+            <td>{$dialogPoint->point->scale}</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>{$mailPoint['out_mail_code']}</td>
+        </tr>
+    {/foreach}
+</table>
+
 <h1 id="simulation-points">Simulation points</h1>
 
 <table class="table table-striped mail-log">

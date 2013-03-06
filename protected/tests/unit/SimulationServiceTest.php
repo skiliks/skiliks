@@ -54,7 +54,7 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
-            LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
+            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
             
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
@@ -126,7 +126,7 @@ class SimulationServiceTest extends CDbTestCase
         
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
             
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
