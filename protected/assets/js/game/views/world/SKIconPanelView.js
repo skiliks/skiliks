@@ -122,8 +122,6 @@ define([
                                         var history = SKApp.user.simulation.phone_history;
                                         history.fetch();
                                     });
-                                } else {
-                                    event.setStatus('in progress');
                                 }
                             };
                         }
