@@ -1,31 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
-        <title>{Yii::t('site', 'Skiliks - game the skills')}</title>
-
-        <!--[if IE]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
-        <link rel="stylesheet" href="css/style.css" />
-    </head>
-
-    <body>
-        <div class="container main-page" id="top">
-
-            <!--header-->
-            <header>
-                <h1><a href="/">Skiliks</a></h1>
-
-				<p class="coming-soon">{Yii::t('site', 'Coming soon')}</p>
-            </header>
-            <!--header end-->
-
-            <!--content-->
-            <div class="content">
-
                 <!--features-->
                 <section class="features">
 					<h2>{Yii::t('site', 'The easiest &amp; most reliable way to discover your people management skills!')}</h2>
@@ -82,20 +54,3 @@
 				</section>
 				<!--clients end-->
 
-            </div>
-            <!--content end-->
-        </div>
-
-        <!--footer-->
-        <div class="footer">
-            <footer>
-                <div class="backtotop"><a href="#top">{Yii::t('site', 'Back to top')}</a></div>
-
-                <div class="logo"><a href="#">Skiliks</a></div>
-
-                <p class="copyright">Copyright - Skiliks - 2012</p>
-            </footer>
-        </div>
-        <!--footer end-->
-    </body>
-</html>
