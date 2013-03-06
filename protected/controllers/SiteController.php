@@ -17,7 +17,7 @@ class SiteController extends AjaxController
     {
         $cs = Yii::app()->clientScript;
         $assetsUrl = $this->getAssetsUrl();
-
+        $this->layout = false;
         $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
         $cs->registerCssFile($assetsUrl . "/css/style.css");
         $this->render('comming-soon-success', ['assetsUrl' => $assetsUrl]);
