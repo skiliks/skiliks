@@ -217,15 +217,8 @@ class LogHelper
 
         $mailLogData = self::getMailPointsDetail(self::RETURN_DATA, $params);
 
-        foreach ($data['data'] as $k => $row) {
-            $data['data'][$k]['scale'] = str_replace('.', ',', $data['data'][$k]['scale']);
-            $data['data'][$k]['out_mail_code'] = '-';
-            $data['data'][$k]['add_value'] = str_replace('.', ',', $data['data'][$k]['add_value']);
-            $data['data'][$k]['type_scale'] = str_replace('.', ',', $data['data'][$k]['type_scale']);
-        }
-
         // merge dialog and mail logs
-        $data['data'] = array_merge($mailLogData['data'], $data['data']);
+        $data['data'] = array_merge($data['data'], $mailLogData['data']);
 
         $headers = array(
             'sim_id' => 'id_симуляции',

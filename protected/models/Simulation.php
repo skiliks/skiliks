@@ -187,9 +187,9 @@ class Simulation extends CActiveRecord
         return $assessmentRules;
     }
 
-    public function getMailPointDetails()
+    public function getAssessmentPointDetails()
     {
-        $details = LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->id]);
+        $details = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->id]);
 
         return $details['data'];
     }
