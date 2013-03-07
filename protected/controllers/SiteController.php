@@ -1,18 +1,64 @@
 <?php
 class SiteController extends AjaxController
 {
+    public $user;
+    public $signInErrors;
+
     /**
      * This is defaut Yii action.
      * It never useded in API or frontend static pages.
-     * So, we display error message for user if aout sscript call this action.
+     * So, we display error message for user if aout script call this action.
      */
     public function actionIndex()
     {
-        $assetsUrl = $this->getAssetsUrl();
+        $user_id = Yii::app()->session['uid'];
+        $user = YumUser::model()->findByPk($user_id);
+        $signInErrors = [];
 
-        $this->render('index', ['assetsUrl' => $assetsUrl]);
+        if(Yii::app()->request->isPostRequest)
+        {
+            $email      = Yii::app()->request->getParam('email');
+            $password   = Yii::app()->request->getParam('password');
+            $rememberMe = Yii::app()->request->getParam('remember_me');
+
+            $profile = YumProfile::model()->find('email = :email', array(':email' => $email));
+            if (null !== $profile) {
+                $user = $profile->user;
+            }
+
+            if(null !== $profile && null !== $user) {
+                try {
+                    $user->authenticate($password);
+                    $this->redirect(['/site']);
+                } catch (CHttpException $e) {
+                    $signInErrors[] = $e->getMessage();
+                }
+            } else {
+                $signInErrors[] = 'Неправильное имя пользователя или пароль.';
+            }
+        }
+
+        $this->user = $user;
+        $this->signInErrors = $signInErrors;
+
+        $this->render('index', [
+            'assetsUrl' => $this->getAssetsUrl()
+        ]);
     }
 
+    /**
+     *
+     */
+    public function actionLogout()
+    {
+        Yii::app()->session['uid'] = null;
+
+        $this->redirect('/');
+    }
+
+    /**
+     *
+     */
     public function actionComingSoonSuccess()
     {
         $cs = Yii::app()->clientScript;
@@ -23,8 +69,18 @@ class SiteController extends AjaxController
         $this->render('comming-soon-success', ['assetsUrl' => $assetsUrl]);
     }
 
+    /**
+     *
+     */
     public function actionSite()
     {
+        $user_id = Yii::app()->session['uid'];
+        $user = YumUser::model()->findByPk($user_id);
+
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
         $cs = Yii::app()->clientScript;
 
         $assetsUrl = $this->getAssetsUrl();

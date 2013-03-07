@@ -31,12 +31,12 @@ class UserService {
         return $modes;
     }
     
-    public static function addGroupToUser($uid, $gid) {
+    /*public static function addGroupToUser($uid, $gid) {
         $userGroups = new UserGroup();
         $userGroups->uid = $uid;
         $userGroups->gid = $gid;
         $userGroups->insert();
-    }
+    }*/
     
     /**
      * Проверяет является ли пользователь членом заданной группы
@@ -44,9 +44,9 @@ class UserService {
      * @param int $gid
      * @return bool
      */
-    public static function isMemberOfGroup($uid, $gid) {
+    /*public static function isMemberOfGroup($uid, $gid) {
         return (1 === (int)UserGroup::model()->byUser($uid)->byGroup($gid)->count());
-    }
+    }*/
     
     /**
      * @param string $email
@@ -55,7 +55,7 @@ class UserService {
      * 
      * @return string|boolean
      */
-    public static function validateNewUserData($email, $password, $passwordAgain)
+    /*public static function validateNewUserData($email, $password, $passwordAgain)
     {
         if (YumUser::model()->byEmail($email)->isActive()->find()) {
             return sprintf("Пользователь с емейлом %s уже существует", $email);
@@ -66,9 +66,9 @@ class UserService {
         }
         
         return true;
-    }
+    }*/
     
-    public static function registerUser($email, $password)
+    /*public static function registerUser($email, $password)
     {
         $user = new YumUser();
         $user->password    = $user->encryptPassword($password);
@@ -92,7 +92,7 @@ class UserService {
         UserService::addGroupToUser($user->id, 1);
         
         return $user;
-    }
+    }*/
 
     public static function addUserSubscription($email)
     {
