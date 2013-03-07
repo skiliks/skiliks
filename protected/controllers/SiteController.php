@@ -53,7 +53,7 @@ class SiteController extends AjaxController
     {
         Yii::app()->session['uid'] = null;
 
-        $this->redirect(['/']);
+        $this->redirect('/');
     }
 
     /**
