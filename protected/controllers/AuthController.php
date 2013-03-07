@@ -22,14 +22,6 @@ class AuthController extends AjaxController
         );
 
         try {
-
-//            $user = YumUser::model()->find(
-//                'upper(username) = :username',
-//                [
-//                    ':username' => strtoupper($username)
-//                ]
-//            );
-
             $profile = YumProfile::model()->find('email = :email', array(':email' => $email));
             $user = $profile->user;
 
