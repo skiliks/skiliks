@@ -12,8 +12,11 @@ class UserServiceTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
 
-        UserService::addUserSubscription($goodEmail);
-        UserService::addUserSubscription($badEmail);
+        $result = UserService::addUserSubscription($goodEmail);
+        $this->assertEquals($result['result'],1);
+
+        $result = UserService::addUserSubscription($badEmail);
+        $this->assertEquals($result['result'],0);
         UserService::addUserSubscription($goodEmail);
 
         $forGood = EmailsSub::model()->findAllByAttributes([
