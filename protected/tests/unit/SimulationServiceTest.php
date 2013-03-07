@@ -17,7 +17,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $simulationFlags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
@@ -40,7 +40,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init conts
@@ -112,7 +112,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init conts
@@ -223,7 +223,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $time = 32000;
@@ -350,7 +350,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $data['data'] = [];
@@ -730,7 +730,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -809,7 +809,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -862,7 +862,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // calculate point total scores
@@ -897,7 +897,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -964,7 +964,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -1030,7 +1030,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -1100,7 +1100,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -1167,7 +1167,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init MS emails:
@@ -1225,7 +1225,7 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationAssessmentRules()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $eventsManager = new EventsManager();
 

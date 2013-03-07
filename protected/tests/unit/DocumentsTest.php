@@ -17,7 +17,7 @@ class DocumentsTest extends CDbTestCase
 
         // init simulation
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
@@ -43,7 +43,7 @@ class DocumentsTest extends CDbTestCase
     public function testCanOpenExcel()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $file = MyDocument::model()->findByAttributes([

@@ -11,7 +11,7 @@ class FlagServiceTest extends CDbTestCase
 
         $simulationService = new SimulationService();
         /** @var $user Users */
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 
         $dialogService = new DialogService();
@@ -47,7 +47,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 
         $senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
@@ -90,7 +90,7 @@ class FlagServiceTest extends CDbTestCase
 
         $simulationService = new SimulationService();
         /** @var $user Users */
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
         // case 1
 
@@ -160,7 +160,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped(); // S
 
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
 
         FlagsService::setFlag($simulation->id, 'F4', 0);
@@ -193,7 +193,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
 
         FlagsService::setFlag($simulation->id, 'F14', 0);
@@ -217,7 +217,7 @@ class FlagServiceTest extends CDbTestCase
         ////$this->markTestSkipped();
 
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(1, $user);
 
         // Case 1: block event
@@ -247,7 +247,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
 
         FlagsService::setFlag($simulation->id, 'F30', 1);

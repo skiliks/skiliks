@@ -428,7 +428,7 @@ class SimulationService
      * @return Simulation
      * @throws Exception
      */
-    public static function simulationStart($simulationType, $user = null)
+    public static function simulationStart($simulationMode, $user = null)
     {
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();        
@@ -440,13 +440,14 @@ class SimulationService
         }
         $profiler->render('1: ');
         
-        if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
+        if (UserService::MODE_DEVELOPER == $simulationMode
+            && false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
         $profiler->render('2: ');
         
         // Создаем новую симуляцию
-        $simulation = SimulationService::initSimulationEntity($userId, $simulationType);
+        $simulation = SimulationService::initSimulationEntity($userId, $simulationMode);
         $profiler->render('3: ');
         
         // save simulation ID to user session

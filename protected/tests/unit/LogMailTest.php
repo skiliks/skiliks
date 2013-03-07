@@ -12,7 +12,7 @@ class LogMailTest extends PHPUnit_Framework_TestCase {
     public function testActivityOverflow()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $message = LibSendMs::sendMs($simulation, 'MS20');
         $logs = [];

@@ -39,7 +39,7 @@ define(["game/models/SKUser"], function (SKUser) {
          * но сессия появилась позже
          *
          * @method login
-         * @param email
+         * @param username
          * @param pass
          * @async
          */

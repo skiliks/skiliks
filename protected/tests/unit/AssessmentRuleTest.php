@@ -25,9 +25,9 @@ class AssessmentRuleTest extends CDbTestCase {
      */
     public function testAssessment1(){
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        /** @var $simulation Simulation */
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $simulation = $simulationService->simulationStart(UserService::MODE_PROMO, $user);
         $mgr = new EventsManager();
         $logs = [];
         $this->appendDialog($logs, 'T7.1', 571);

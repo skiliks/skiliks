@@ -51,7 +51,7 @@ final class SessionHelper {
         $uid = self::getUidBySid();
         if (!$uid) throw new Exception('cant find user');
         
-        $user = Users::model()->findByAttributes(array('id'=>$uid));
+        $user = YumUser::model()->findByAttributes(array('id'=>$uid));
         if (!$user) throw new Exception('cant find user');
         
         return $user;
