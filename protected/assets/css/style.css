@@ -949,3 +949,13 @@ html[lang=ru] .product section table th{
 }
 /* --------------- /footer ---------*/
 
+.sing-in-box {
+    background-color: #E8F6F7;
+    border-radius: 10px 10px 10px 10px;
+    min-height: 170px;
+    padding: 15px;
+    position: absolute;
+    right: 400px;
+    width: 300px;
+    z-index: 10;
+}
