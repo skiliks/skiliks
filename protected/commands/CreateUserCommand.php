@@ -7,19 +7,19 @@
 
 class CreateUserCommand extends CConsoleCommand
 {
-    public function actionIndex($email, $password, $isAdmin="true")
+    public function actionIndex($login, $password, $isAdmin="true")
     {
-        $user = Users::model()->findByAttributes(['email' => $email]);
+        /*$user = YumUser::model()->findByAttributes(['email' => $login]);
         $action = 'updated';
         if ($user === null) {
-            $user = new Users();
-            $user->email = $email;
+            $user = new YumUser();
+            $user->email = $login;
             $action = 'created';
         }
         $user->is_active = true;
         $user->password = md5($password);
         $user->save();
-        echo "User $email successfully $action.";
+        echo "User $login successfully $action.";
 
         $group = Group::model()->findByAttributes(['name' => 'promo']);
         $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
@@ -29,7 +29,7 @@ class CreateUserCommand extends CConsoleCommand
             $userGroup->gid = $group->primaryKey;
             $userGroup->save();
 
-            echo "\nPromo access granted to $email.";
+            echo "\nPromo access granted to $login.";
         }
 
         if ($isAdmin == 'true') {
@@ -41,10 +41,10 @@ class CreateUserCommand extends CConsoleCommand
                 $userGroup->gid = $group->primaryKey;
                 $userGroup->save();
 
-                echo "\nAdmin access granted to $email.";
+                echo "\nAdmin access granted to $login.";
             }
         }
 
-        echo "\n";
+        echo "\n";*/
     }
 }

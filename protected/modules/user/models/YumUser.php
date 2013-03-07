@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * This is the model class for a User in Yum
@@ -23,7 +23,7 @@
  * @property YumUser $active
  * @property YumUser $notactive
  * @property YumUser $banned
- * @property YumUser $superuser
+ * @property YumUser $superUser
  *
  */
 class YumUser extends YumActiveRecord
@@ -566,7 +566,9 @@ class YumUser extends YumActiveRecord
 				$params['key'] = $this->activationKey;
 				$params['email'] = $this->profile->email;
 
-				return Yii::app()->controller->createAbsoluteUrl($activationUrl, $params);
+                @ $url = Yii::app()->createAbsoluteUrl($activationUrl, $params);
+
+				return $url;
 			}
 		}
 		return Yum::t('Activation Url cannot be retrieved');

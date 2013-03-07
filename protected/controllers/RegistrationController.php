@@ -68,7 +68,7 @@ class RegistrationController extends AjaxController{
             $model = UsersActivationCode::model()->byCode($code)->find();
             if (!$model) throw new CException('Немогу найти пользователя по данному коду');
             
-            $user = Users::model()->byId($model->uid)->find();
+            $user = YumUser::model()->byId($model->uid)->find();
             if (!$user) throw new CException('Не могу найти пользователя');
             
             $user->is_active = true;
