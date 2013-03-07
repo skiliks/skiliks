@@ -13,7 +13,6 @@ define(["game/models/window/SKWindow"],function () {
         },
         'activate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
-
             if (isNaN(window.window_uid)) {
                 throw 'window.window_uid is NAN!';
             }
