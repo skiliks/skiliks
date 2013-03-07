@@ -99,4 +99,5 @@ return array (
   'We love creating simple things that solve complicated issues' => 'Мы любим создавать простые инструменты, которые решают большие и сложные задачи',
   'We adore good design and facilitating technology' => 'Мы восхищаемся хорошим дизайном и удобными технологическими решениями',
   'We value professionalism in every field' => 'Мы ценим профессионализм во всем',
+  '61258856'=>'61258857'
 );

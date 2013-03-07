@@ -6,6 +6,7 @@
  */
 class SimulationServiceTest extends CDbTestCase
 {
+    use UnitLoggingTrait;
     /**
      * Проверяет что в результат запуска чимуляции:
      * 1. Проверяет что инициализируются флаги
@@ -1283,6 +1284,72 @@ class SimulationServiceTest extends CDbTestCase
         sort($list);
 
         $this->assertEquals([1, 5, 8], $list);
+    }
+
+    public function testAssessmentAggregation()
+    {
+        $simulationService = new SimulationService();
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $mgr = new EventsManager();
+        $scaleTypes = [1 => 'positive', 2 => 'negative', 3 => 'personal'];
+        $replicas = [3, 7, 11, 17, 699, 704, 707];
+        $logs = [];
+        $details = [];
+        $aggregated = [];
+        $delta = [];
+
+        foreach ($replicas as $replica) {
+            $replica = Replica::model()->byExcelId($replica)->find();
+            $points = ReplicaPoint::model()->byDialog($replica->id)->findAll();
+            /** @var ReplicaPoint[] $points */
+            foreach($points as $point) {
+                LogHelper::setLogDialogPoint($replica->id, $simulation->id, $point->point_id);
+            }
+        }
+
+        $message = LibSendMs::sendMs($simulation, 'MS20');
+        $this->appendNewMessage($logs, $message);
+
+        $message = LibSendMs::sendMs($simulation, 'MS48');
+        $this->appendNewMessage($logs, $message);
+
+        $mgr->processLogs($simulation, $logs);
+
+        // Require this for calculation 331 - 333 behaviors
+        SimulationService::saveEmailsAnalyze($simulation->id);
+
+        // This calls fill assessment aggregated data
+        SimulationService::saveAgregatedPoints($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
+
+        $detailPoints = $simulation->getAssessmentPointDetails();
+        $mailPoints = $simulation->simulation_mail_points;
+        $aggregatedPoints = $simulation->assessment_points;
+
+        foreach ($detailPoints as $row) {
+            $details[$row['type_scale']][$row['code']][] = $row['scale'] * $row['add_value'];
+        }
+
+        foreach ($scaleTypes as $i => $scaleType) {
+            $details[$scaleType] = isset($details[$scaleType]) ? array_map(function($behavior) {
+                return array_sum($behavior) / count($behavior);
+            }, $details[$scaleType]) : [];
+
+            $details[$scaleType] = array_merge($details[$scaleType], array_map(function($mailPoint) use ($i) {
+                return $mailPoint->scale_type_id == $i ? $mailPoint->value : 0;
+            }, $mailPoints));
+
+            $details[$scaleType] = array_sum($details[$scaleType]);
+
+            $aggregated[$scaleType] = array_sum(array_map(function($aggregatedPoint) use ($i) {
+                return $aggregatedPoint->point->type_scale == $i ? $aggregatedPoint->value : 0;
+            }, $aggregatedPoints));
+
+            $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregated[$scaleType], 2));
+        }
+
+        $this->assertEquals(0, array_sum($delta));
     }
 }
 

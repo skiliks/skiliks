@@ -44,6 +44,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 this.renderTitle(this.$('header'));
                 this.$el.draggable({
                     handle:"header",
+                    containment: "#canvas",
+                    scroll: false,
                     start:function () {
                         if (typeof(me.doStartDrag) !== "undefined") {
                             me.doStartDrag();
