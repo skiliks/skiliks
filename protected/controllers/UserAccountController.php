@@ -91,5 +91,59 @@ class UserAccountController extends AjaxController
         $this->sendJSON($result);
     }
 
+    /**
+     *
+     */
+    public function actionRegistration()
+    {
+        $user    = new YumUser('registration');
+        $profile = new YumProfile('registration');
+
+        $YumUser    = Yii::app()->request->getParam('YumUser');
+        $YumProfile = Yii::app()->request->getParam('YumProfile');
+
+        if(null !== $YumUser && null !== $YumProfile)
+        {
+            $user->attributes    = $YumUser;
+            $profile->attributes = $YumProfile;
+
+            $user->setUserNameFromEmail($profile->email);
+
+            if($user->validate() && $profile->validate())
+            {
+                $result = $user->register($user->username, $user->password, $profile);
+
+                if (false !== $result) {
+                    $this->redirect(['afterRegistration', 'userId' => $user->id]);
+                } else {
+                    echo 'Can`t register.';
+                }
+            }
+        }
+
+        $this->render(
+            'registration' ,
+            [
+                'user'    => $user,
+                'profile' => $profile,
+            ]
+        );
+    }
+
+    public function actionAfterRegistration()
+    {
+        $user = YumUser::model()->findByPk(Yii::app()->request->getParam('userId'));
+
+        if (null === $user) {
+            $this->redirect(['errorDuringRegistration']);
+        }
+
+        $this->render('afterRegistration', ['user' => $user]);
+    }
+
+    public function actionErrorDuringRegistration()
+    {
+        $this->render('errorDuringRegistration');
+    }
 }
 

@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class YumProfile
+ *
+ * @param string $email
+ */
+
 class YumProfile extends YumActiveRecord
 {
 	const PRIVACY_PRIVATE = 'private';
@@ -167,6 +173,8 @@ class YumProfile extends YumActiveRecord
 		$rules[] = array('email', 'CEmailValidator');
 		$rules[] = array('privacy', 'safe');
 
+        $rules[] = array('email', 'required', 'on' => array('insert', 'registration'));
+
 		return $rules;
 	}
 
@@ -218,10 +226,11 @@ class YumProfile extends YumActiveRecord
 	public function attributeLabels()
 	{
 		$labels = array(
-				'id' => Yum::t('Profile ID'),
-				'user_id' => Yum::t('User ID'),
-				'privacy' => Yum::t('Privacy'),
-				'show_friends' => Yum::t('Show friends'),
+				'id'             => Yum::t('Profile ID'),
+				'email'          => Yum::t('Email'),
+				'user_id'        => Yum::t('User ID'),
+				'privacy'        => Yum::t('Privacy'),
+				'show_friends'   => Yum::t('Show friends'),
 				'allow_comments' => Yum::t('Allow profile comments'),
 				);
 
@@ -249,5 +258,4 @@ class YumProfile extends YumActiveRecord
 		}
 		return self::$fields;
 	}
-
 }
