@@ -32,7 +32,8 @@ class InitDBCommand extends CConsoleCommand
         $this->mysql("CREATE DATABASE $database CHARSET utf8 COLLATE utf8_general_ci");
 
         echo "\n Run base SQL.";
-        $this->mysql("source db.sql", $database);
+        $filePath = realpath(__DIR__ . '/../../db.sql');
+        $this->mysql("source ". $filePath, $database);
 
         $this->runInstallUserManagement();
 
@@ -76,7 +77,6 @@ class InitDBCommand extends CConsoleCommand
 
     private function mysql($command, $database = null)
     {
-        $mysql = trim(shell_exec("which mysql"));
         $user = Yii::app()->db->username;
         $password = Yii::app()->db->password;
         $escCommand = str_replace("\"", "\\\"", $command);
@@ -117,4 +117,5 @@ class InitDBCommand extends CConsoleCommand
         );
         $runner->run($args);
     }
+
 }

@@ -1289,7 +1289,7 @@ class SimulationServiceTest extends CDbTestCase
     public function testAssessmentAggregation()
     {
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $scaleTypes = [1 => 'positive', 2 => 'negative', 3 => 'personal'];
