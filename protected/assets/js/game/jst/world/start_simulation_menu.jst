@@ -1,11 +1,17 @@
+
+
     <div class="world-index-mainDiv">
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <a href="/">На главную</a>
+        <br/>
+        <br/>
         <@ for (var simulation in simulations) { @>
         <input type="button" value="Начать симуляцию <@= simulations[simulation] @>" data-sim-id="<@= simulation @>"
                class="btn simulation-start">
         <br/>
         <br/>
         <@ } @>
-        <br>
-        <br>
-        <input type="button" value="Выход" class="btn logout">
     </div>
