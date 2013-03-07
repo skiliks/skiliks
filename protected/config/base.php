@@ -55,8 +55,8 @@ return array(
     ),
     'modules'=>array(
         'gii'=>array(
-            'class'=>'system.gii.GiiModule',
-            'password'=>'in-es-an-oyp-em',
+            'class'    =>'system.gii.GiiModule',
+            'password' =>'in-es-an-oyp-em',
             // 'ipFilters'=>array(…список IP…),
             // 'newFileMode'=>0666,
             // 'newDirMode'=>0777,
