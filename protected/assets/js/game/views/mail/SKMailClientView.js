@@ -451,16 +451,10 @@ define([
 
                 this.updateFolderLabels();
 
-                if (false == isInitialRender) {
-                    mailClientView.mailClient.setWindowsLog(
-                        'mailMain',
-                        mailClientView.mailClient.getActiveEmailId()
-                    );
-                } else {
-                    // @todo: fix this trick
-                    // this is trick, but to fox it we need change out window manager activation/deactiovation logic
-                    setTimeout("SKApp.user.simulation.mailClient.setWindowsLog('mailMain', SKApp.user.simulation.mailClient.getActiveEmailId() );", 500);
-                }
+                mailClientView.mailClient.setWindowsLog(
+                    'mailMain',
+                    mailClientView.mailClient.getActiveEmailId()
+                );
             },
 
             /**

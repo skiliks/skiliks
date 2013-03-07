@@ -296,18 +296,13 @@ define([
                 },
 
                 doNewMailStart: function (e) {
-                    e.preventDefault();
-
                     SKApp.user.simulation.mailClient.once('init_completed', function () {
                         this.view.once('render_finished', function () {
                             this.renderWriteCustomNewEmailScreen();
                         });
-                        SKApp.user.simulation.window_set.toggle(
-                            'mailEmulator',
-                            SKApp.user.simulation.mailClient.getActiveSubscreenName()
-                        );
                     });
-                    this.$('.mail').removeClass('icon-active');
+
+                    this.doMailToggle(e);
                 },
 
                 doMailToggle: function (e) {
