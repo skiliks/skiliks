@@ -141,6 +141,7 @@
         <th>Point Description</th>
         <th>Type Scale</th>
         <th>Scale</th>
+        <th>Value</th>
         <th>Replica ID</th>
         <th>Dialog Code</th>
         <th>Replica Step</th>
@@ -148,17 +149,18 @@
         <th>Outbox mail</th>
     </tr>
     </thead>
-    {foreach $simulation->assessment_dialog_points as $dialogPoint}
+    {foreach $simulation->getAssessmentPointDetails() as $point}
         <tr>
-            <td>{$dialogPoint->point->code}</td>
-            <td>{$dialogPoint->point->title}</td>
-            <td>{$dialogPoint->point->type_scale}</td>
-            <td>{$dialogPoint->point->scale}</td>
-            <td>{$dialogPoint->dialog_id}</td>
-            <td>{$dialogPoint->replica->code}</td>
-            <td>{$dialogPoint->replica->step_number}</td>
-            <td>{$dialogPoint->replica->replica_number}</td>
-            <td>-</td>
+            <td>{$point['code']}</td>
+            <td>{$point['title']}</td>
+            <td>{$point['type_scale']}</td>
+            <td>{$point['scale']}</td>
+            <td>{$point['add_value']}</td>
+            <td>{$point['dialog_id']|default:'-'}</td>
+            <td>{$point['dialog_code']|default:'-'}</td>
+            <td>{$point['step_number']|default:'-'}</td>
+            <td>{$point['replica_number']|default:'-'}</td>
+            <td>{$point['out_mail_code']|default:'-'}</td>
         </tr>
     {/foreach}
     {foreach $simulation->simulation_mail_points as $mailPoints}
@@ -167,6 +169,7 @@
             <td>{$mailPoints->point->title}</td>
             <td>{$mailPoints->point->type_scale}</td>
             <td>{$mailPoints->point->scale}</td>
+            <td>{$mailPoints->value}</td>
             <td>-</td>
             <td>-</td>
             <td>-</td>
@@ -178,19 +181,6 @@
                 3. Оценка Mail Outbox
             {/if}
             </td>
-        </tr>
-    {/foreach}
-    {foreach $simulation->getMailPointDetails() as $mailPoint}
-        <tr>
-            <td>{$dialogPoint->point->code}</td>
-            <td>{$dialogPoint->point->title}</td>
-            <td>{$dialogPoint->point->type_scale}</td>
-            <td>{$dialogPoint->point->scale}</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>{$mailPoint['out_mail_code']}</td>
         </tr>
     {/foreach}
 </table>
