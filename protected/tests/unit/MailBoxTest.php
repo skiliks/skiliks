@@ -20,7 +20,7 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
         
         $mail = new MailBoxService();
@@ -151,7 +151,7 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(1, $user);
         
         $mail = new MailBoxService();
@@ -205,7 +205,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // random email case{
@@ -302,7 +302,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         // init conts
@@ -317,7 +317,7 @@ class MailBoxTest extends CDbTestCase
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
 
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,

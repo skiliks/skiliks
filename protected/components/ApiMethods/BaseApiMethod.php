@@ -41,7 +41,7 @@ class BaseApiMethod
         session_id($this->sessionId); // set session ID
         
         // set,check User
-        $this->user = Users::model()->findByPk(Yii::app()->session['uid']);
+        $this->user = YumUser::model()->findByPk(Yii::app()->session['uid']);
         if (NULL == $this->user) {
             throw new FrontendNotificationException('Unexistent user.');
         }

@@ -63,10 +63,12 @@ class DialogService
         );
         ############################################################
 
-        // запускаем ф-цию расчета оценки {
-        // @togo;
-        CalculationEstimateService::calculate($dialogId, $simId); // к записи, ид которой пришло с фронта
-        // конец расчета оценки }
+        // Calculate character behavior points
+        $points = ReplicaPoint::model()->byDialog($dialogId)->findAll();
+        /** @var ReplicaPoint[] $points */
+        foreach($points as $point) {
+            LogHelper::setLogDialogPoint($dialogId, $simId, $point->point_id);
+        }
 
         $result = [
             'result' => 1,

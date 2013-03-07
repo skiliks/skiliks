@@ -26,6 +26,12 @@ define([], function () {
             'documents':41,
             'documentsFiles':42
     };
+    /**
+     * Окно, открывается, закрывается, ведет за собой логи
+     * @class SKWindow
+     * @constructs
+     * @type {*}
+     */
     SKWindow = Backbone.Model.extend({
 
         single: true,
@@ -74,7 +80,6 @@ define([], function () {
             if (this.is_opened) {
                 throw "Window is already opened";
             }
-            this.set('zindex', Math.max(Math.max.apply(this, this.simulation.window_set.pluck('zindex')) + 1,0));
             this.is_opened = true;
             this.simulation.window_set.showWindow(this);
             this.trigger('open', this.get('name'), this.get('subname'));

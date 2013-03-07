@@ -170,14 +170,14 @@ class LogHelper
      * @param int $simId ID    - Симуляция
      * @param int $pointId ID  - Поинт с таблицы `characters_points_titles`
      */
-    public static function setLogDoialogPoint($dialogId, $simId, $pointId)
+    public static function setLogDialogPoint($dialogId, $simId, $pointId)
     {
-        $comand = Yii::app()->db->createCommand();
-        $comand->insert("log_dialog_points", array(
-            'sim_id' => $simId,
-            'dialog_id' => $dialogId,
-            'point_id' => $pointId
-        ));
+        $log = new LogDialogPoint();
+        $log->sim_id = $simId;
+        $log->dialog_id = $dialogId;
+        $log->point_id = $pointId;
+
+        $log->save();
     }
 
     public static function getDialogPointsDetail($return, $params = array())
@@ -215,64 +215,7 @@ class LogHelper
 
         $data['data'] = $query->queryAll();
 
-        $mailQuery = Yii::app()->db->createCommand()
-            ->select(' l.sim_id
-                       , p2.code as p_code
-                       , p2.title AS p_title
-                       , p.code
-                       , p.title
-                       , t.value as type_scale
-                       , p.scale
-                       , mp.add_value
-                       , l.full_coincidence
-                       , l.part1_coincidence
-                       , l.part2_coincidence
-		')
-            ->from('log_mail l')
-            ->join('mail_box m', 'm.id = l.mail_id')
-            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id 
-            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points 
-            ->join('characters_points_titles p', 'p.id = mp.point_id')
-            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
-            ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id');
-
-        if (null !== $sim_id) {
-            $mailQuery->where(" l.sim_id = {$sim_id} AND m.group_id = 3 ");
-        } else {
-            $mailQuery->where('m.group_id = 3');
-        }
-
-        $mailLogData = $mailQuery->queryAll();
-
-        // update mailLogData.out_mail_code {
-        foreach ($mailLogData as $key => $logData) {
-            if ('-' != $logData['full_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
-            } elseif ('-' != $logData['part1_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
-            } elseif ('-' != $logData['part2_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
-            } else {
-                $mailLogData[$key]['out_mail_code'] = '-';
-                //unset($mailLogData[$key]);
-            }
-
-            $mailLogData[$key]['dialog_id'] = '-';
-            $mailLogData[$key]['dialog_code'] = '-';
-            $mailLogData[$key]['step_number'] = '-';
-            $mailLogData[$key]['replica_number'] = '-';
-            unset(
-            $mailLogData[$key]['full_coincidence'],
-            $mailLogData[$key]['part1_coincidence'],
-            $mailLogData[$key]['part2_coincidence']
-            );
-
-            if ('-' == $mailLogData[$key]['out_mail_code']) {
-                unset($mailLogData[$key]);
-            }
-        }
-        // update mailLogData.out_mail_code }
+        $mailLogData = self::getMailPointsDetail(self::RETURN_DATA, $params);
 
         foreach ($data['data'] as $k => $row) {
             $data['data'][$k]['scale'] = str_replace('.', ',', $data['data'][$k]['scale']);
@@ -282,7 +225,7 @@ class LogHelper
         }
 
         // merge dialog and mail logs
-        $data['data'] = array_merge($mailLogData, $data['data']);
+        $data['data'] = array_merge($mailLogData['data'], $data['data']);
 
         $headers = array(
             'sim_id' => 'id_симуляции',
@@ -309,6 +252,94 @@ class LogHelper
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
             $filename = 'assesment_detailed.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+        } else {
+            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
+        }
+
+        return true;
+    }
+
+    public static function getMailPointsDetail($return, $params = array())
+    {
+        $sim_id = null;
+        if (isset($params['sim_id'])) {
+            $sim_id = $params['sim_id'];
+        }
+
+        $mailQuery = Yii::app()->db->createCommand()
+            ->select(' l.sim_id
+                       , p2.code as p_code
+                       , p2.title AS p_title
+                       , p.code
+                       , p.title
+                       , t.value as type_scale
+                       , p.scale
+                       , mp.add_value
+                       , l.full_coincidence
+                       , l.part1_coincidence
+                       , l.part2_coincidence
+		')
+            ->from('log_mail l')
+            ->join('mail_box m', 'm.id = l.mail_id')
+            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id
+            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points
+            ->join('characters_points_titles p', 'p.id = mp.point_id')
+            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->order('l.id');
+
+        if (null !== $sim_id) {
+            $mailQuery->where(" l.sim_id = {$sim_id} AND m.group_id = 3 ");
+        } else {
+            $mailQuery->where('m.group_id = 3');
+        }
+
+        $data['data'] = $mailQuery->queryAll();
+
+        foreach ($data['data'] as  &$logData) {
+            if ('-' != $logData['full_coincidence']) {
+                $logData['out_mail_code'] = $logData['full_coincidence'];
+            } elseif ('-' != $logData['part1_coincidence']) {
+                $logData['out_mail_code'] = $logData['part1_coincidence'];
+            } elseif ('-' != $logData['part2_coincidence']) {
+                $logData['out_mail_code'] = $logData['part2_coincidence'];
+            } else {
+                $logData['out_mail_code'] = '-';
+            }
+
+            unset(
+                $logData['full_coincidence'],
+                $logData['part1_coincidence'],
+                $logData['part2_coincidence']
+            );
+
+            if ('-' == $logData['out_mail_code']) {
+                unset($logData);
+            }
+        }
+
+        $headers = array(
+            'sim_id' => 'id_симуляции',
+            'p_code' => 'Номер цели обучения',
+            'p_title' => 'Наименование цели обучения',
+            'code' => 'Номер поведения',
+            'title' => 'Наименование поведения',
+            'type_scale' => 'Тип поведения',
+            'scale' => 'Вес поведения',
+            'add_value' => 'Проявление',
+            'out_mail_code' => 'Вызвавшее исходящее письмо ',
+        );
+
+        if (self::RETURN_DATA == $return) {
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование расчета оценки писем - детально";
+            return $data;
+        } elseif (self::RETURN_CSV == $return) {
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'assesment_mail_detailed.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);

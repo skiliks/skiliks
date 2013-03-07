@@ -2,8 +2,10 @@
 /**
  * Script drop db if --forceDelete=true,
  * than init db --database=skiliks_10 with initial db state SQL
+ * than init schema for YUM module
  * than runs all migration scripts
  * than runs import script
+ * than init base simulation users
  *
  * php protected/yiic.php initdb --database=skiliks_10 --forceDelete=true  // if db exists
  * php protected/yiic.php initdb --database=skiliks_10 // if db not exists
@@ -17,6 +19,61 @@
 
 class InitDBCommand extends CConsoleCommand
 {
+    public function actionIndex($database, $forceDelete = false)
+    {
+        echo "\n Drop `$database`.";
+        // DROP DATABASE
+        if ($forceDelete) {
+            $this->mysql("DROP DATABASE $database");
+        }
+
+        echo "\n Create `$database`.";
+        // CREATE DATABASE
+        $this->mysql("CREATE DATABASE $database CHARSET utf8 COLLATE utf8_general_ci");
+
+        echo "\n Run base SQL.";
+        $this->mysql("source db.sql", $database);
+
+        $this->runInstallUserManagement();
+
+        echo "\n Apply migrations to `$database`.";
+        // Migrations
+        $this->runMigrationTool();
+
+        // Import
+        $import = new ImportGameDataService();
+        $import->importAll();
+
+        // init users
+        $this->runInitYumUsers();
+    }
+
+    private function runInstallUserManagement()
+    {
+        $commandPath = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . 'commands';
+        $runner = new CConsoleCommandRunner();
+        $runner->addCommands($commandPath);
+
+        $commandPath = Yii::getFrameworkPath() . DIRECTORY_SEPARATOR . 'cli' . DIRECTORY_SEPARATOR . 'commands';
+        $runner->addCommands($commandPath);
+
+        $args = array('yiic', 'installusermanagement', '');
+        $runner->run($args);
+    }
+
+    private function runInitYumUsers()
+    {
+        $commandPath = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . 'commands';
+        $runner = new CConsoleCommandRunner();
+        $runner->addCommands($commandPath);
+
+        $commandPath = Yii::getFrameworkPath() . DIRECTORY_SEPARATOR . 'cli' . DIRECTORY_SEPARATOR . 'commands';
+        $runner->addCommands($commandPath);
+
+        $args = array('yiic', 'initbaseusers', '');
+        $runner->run($args);
+    }
+
     private function mysql($command, $database = null)
     {
         $mysql = trim(shell_exec("which mysql"));
@@ -38,8 +95,10 @@ class InitDBCommand extends CConsoleCommand
         $commandPath = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . 'commands';
         $runner = new CConsoleCommandRunner();
         $runner->addCommands($commandPath);
+
         $commandPath = Yii::getFrameworkPath() . DIRECTORY_SEPARATOR . 'cli' . DIRECTORY_SEPARATOR . 'commands';
         $runner->addCommands($commandPath);
+
         $args = array('yiic', 'migrate', '--interactive=0');
         $runner->run($args);
     }
@@ -54,24 +113,8 @@ class InitDBCommand extends CConsoleCommand
         $args = array(
             'yiic',
             'createuser',
-            '--email=' . $user[0], '--password=' . $user[1], '--isAdmin=' . (isset($user[2]) ? "false" : "true")
+            '--email=' . $user['username'], '--password=' . $user['password'], '--isAdmin=' . ((isset($user['is_admin']) && 1 == $user['is_admin']) ? "true" : "false")
         );
         $runner->run($args);
-    }
-
-    public function actionIndex($database, $forceDelete = false)
-    {
-        if ($forceDelete) {
-            $this->mysql("DROP DATABASE $database");
-        }
-        $this->mysql("CREATE DATABASE $database CHARSET utf8 COLLATE utf8_general_ci");
-        $this->mysql("source db.sql", $database);
-        $this->runMigrationTool();
-        $import = new ImportGameDataService();
-        $import->importAll();
-        $users = Yii::app()->params['initial_data']['users'];
-        foreach ($users as $users) {
-            $this->runCreateAdmin($users);
-        }
     }
 }

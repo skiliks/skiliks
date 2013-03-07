@@ -17,7 +17,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
@@ -178,7 +178,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $mgr = new EventsManager();
@@ -236,7 +236,7 @@ class LogTest extends CDbTestCase
     {
         $mgr = new EventsManager();
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $document  = MyDocument::model()->findByAttributes([
@@ -268,7 +268,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $character = Character::model()->findByAttributes(['code' => 9]);
@@ -356,7 +356,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
@@ -395,7 +395,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
@@ -466,7 +466,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $mgr = new EventsManager();
         $mail = new MailBoxService();
@@ -570,7 +570,7 @@ class LogTest extends CDbTestCase
 
         // init simulation
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         
         // init LogActivityActions {
@@ -731,7 +731,7 @@ class LogTest extends CDbTestCase
         ////$this->markTestSkipped();
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
 
         $logs = [];
