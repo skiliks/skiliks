@@ -12,8 +12,8 @@ class CheckConsolidatedBudgetTest extends CDbTestCase {
     public function testFormula(){
 
         $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints(__DIR__.'/files/D1.xls');
         $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
