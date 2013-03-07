@@ -7,6 +7,8 @@
  */
 class UserAccountController extends AjaxController
 {
+    public $user;
+    public $signInErrors = [];
 
     /**
      * 
@@ -96,7 +98,7 @@ class UserAccountController extends AjaxController
      */
     public function actionRegistration()
     {
-        $user    = new YumUser('registration');
+        $this->user    = new YumUser('registration');
         $profile = new YumProfile('registration');
 
         $YumUser    = Yii::app()->request->getParam('YumUser');
@@ -104,17 +106,17 @@ class UserAccountController extends AjaxController
 
         if(null !== $YumUser && null !== $YumProfile)
         {
-            $user->attributes    = $YumUser;
+            $this->user->attributes    = $YumUser;
             $profile->attributes = $YumProfile;
 
-            $user->setUserNameFromEmail($profile->email);
+            $this->user->setUserNameFromEmail($profile->email);
 
-            if($user->validate() && $profile->validate())
+            if($this->user->validate() && $profile->validate())
             {
-                $result = $user->register($user->username, $user->password, $profile);
+                $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
                 if (false !== $result) {
-                    $this->redirect(['afterRegistration', 'userId' => $user->id]);
+                    $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
                 } else {
                     echo 'Can`t register.';
                 }
@@ -124,7 +126,7 @@ class UserAccountController extends AjaxController
         $this->render(
             'registration' ,
             [
-                'user'    => $user,
+                'user'    => $this->user,
                 'profile' => $profile,
             ]
         );
