@@ -1,11 +1,11 @@
 sender = {
     commands : {
         //login
-        auth: 1,
+        /*auth: 1,
         login: 2,
         logout: 3,
         register: 4,
-        lostpass: 5,
+        lostpass: 5,*/
         checkSession: 200,
         userAccountChangeEmail: 6,
         userAccountChangePassword: 7,
