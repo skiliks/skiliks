@@ -291,7 +291,7 @@ class CheckConsolidatedBudget
     /**
      * Расчет оценки по окончании симуляции
      */
-    public function calcPoints() 
+    public function calcPoints($path=null)
     {
         // check document {
         $documentTemplate = DocumentTemplate::model()->findByAttributes([
@@ -313,6 +313,10 @@ class CheckConsolidatedBudget
         
         if (null === $documentPath) {
             return false;
+        }
+
+        if($path !== null) {
+            $documentPath = $path;
         }
         // check document }
         

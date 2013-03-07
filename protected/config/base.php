@@ -144,7 +144,7 @@ return array(
                         'sales'        => 'Sales',
                         'production'   => 'Production',
                         'logistic'     => 'Logistics',
-                        'other'        => 'Misc',    
+                        'other'        => 'Misc',
                      ),
                      'etalons' => array(
                          1 => 876264,
