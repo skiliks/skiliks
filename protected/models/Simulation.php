@@ -9,8 +9,11 @@
  * @property LogWindow[] log_windows
  * @property LogActivityAction[] log_activity_actions
  * @property LogMail[] log_mail
+ * @property LogDialog[] log_dialogs
+ * @property SimulationMailPoint[] simulation_mail_points
+ * @property LogDialogPoint[] assessment_dialog_points
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
 class Simulation extends CActiveRecord
 {
@@ -179,19 +182,7 @@ class Simulation extends CActiveRecord
     public function getAssessmentRules()
     {
         $assessmentRules = $this->simulation_assessment_rules;
-        /*$result = [];
-        foreach ($assessmentRules as $assessmentRule) {
-            $result[] = ['activity_id' => $assessmentRule->assessment_rule_id];
-        }*/
-
         return $assessmentRules;
-    }
-
-    public function getAssessmentPointDetails()
-    {
-        $details = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->id]);
-
-        return $details['data'];
     }
 
 

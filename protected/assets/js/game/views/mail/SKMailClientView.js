@@ -1769,11 +1769,6 @@ define([
                     // add IDs to lists of recipients and copies - to simplify testing
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
-                    // prevent custom text input
-                    $("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                    $("#MailClient_CopiesList input").attr('readonly', 'readonly');
-                    // add copies if they exests }
-
                     // add phrases {
                     SKApp.user.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);

@@ -8,6 +8,8 @@
  * @property integer $sim_id
  * @property integer $point_id
  * @property integer $dialog_id
+ * @property HeroBehaviour $point
+ * @property Replica replica
  */
 class LogDialogPoint extends CActiveRecord
 {
@@ -71,6 +73,14 @@ class LogDialogPoint extends CActiveRecord
 			'dialog_id' => 'Dialog',
 		);
 	}
+
+    /**
+     * @return ReplicaPoint
+     */
+    public function getReplicaPoint()
+    {
+        return ReplicaPoint::model()->findByAttributes(['point_id' => $this->point_id, 'dialog_id' => $this->dialog_id]);
+    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
