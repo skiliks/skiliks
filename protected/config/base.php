@@ -30,7 +30,6 @@ return array(
         'application.components.Tools.*',
         'application.components.Excel.*',
         'application.components.Email.*',
-        'application.components.Logging.*',
         'application.components.Assessment.*',
         'application.components.Import.*',
         'application.components.Base.*',

@@ -1,12 +1,11 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 08.03.13
- * Time: 8:12
- * To change this template use File | Settings | File Templates.
- */
+namespace application\components\Logging;
 
+
+/**
+ * Class DialogLogTable
+ * @package application\components\Logging
+ */
 class DialogLogTable extends LogTable
 {
     public function getId()
