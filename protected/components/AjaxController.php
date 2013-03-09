@@ -17,6 +17,9 @@ class AjaxController extends CController
     
     public $is_test = false;
 
+    public $user;
+    public $signInErrors = [];
+
     /**
      * 
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
@@ -234,6 +237,16 @@ class AjaxController extends CController
                 -1,
                 true
         );
+    }
+
+    public function checkUser()
+    {
+        $user_id = Yii::app()->session['uid'];
+        $this->user = YumUser::model()->findByPk($user_id);
+
+        if (null === $this->user) {
+            $this->redirect(['registration/error/sign-in-or-register']);
+        }
     }
 }
 

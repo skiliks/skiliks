@@ -25,10 +25,10 @@ class YumProfile extends YumActiveRecord
 
 	public function afterSave() {
 		if($this->isNewRecord) 
-			Yii::log(Yum::t( 'A profile been created: {profile}', array(
+			Yii::log(Yii::t('site',  'A profile been created: {profile}', array(
 							'{profile}' => json_encode($this->attributes))));
 		else
-			Yii::log(Yum::t( 'A profile been update: {profile}', array(
+			Yii::log(Yii::t('site',  'A profile been update: {profile}', array(
 							'{profile}' => json_encode($this->attributes))));
 
 		return parent::afterSave();
@@ -122,7 +122,7 @@ class YumProfile extends YumActiveRecord
 						'min' => $field->field_size_min);
 
 				if ($field->error_message)
-					$field_rule['message'] = Yum::t($field->error_message);
+					$field_rule['message'] = Yii::t('site', $field->error_message);
 
 				array_push($rules,$field_rule);
 			}
@@ -133,7 +133,7 @@ class YumProfile extends YumActiveRecord
 						'pattern' => $field->match);
 
 				if ($field->error_message)
-					$field_rule['message'] = Yum::t( $field->error_message);
+					$field_rule['message'] = Yii::t('site',  $field->error_message);
 
 				array_push($rules,$field_rule);
 			}
@@ -146,7 +146,7 @@ class YumProfile extends YumActiveRecord
 				$field_rule = array($field->varname,'in','range' => $range);
 
 				if ($field->error_message)
-					$field_rule['message'] = Yum::t( $field->error_message);
+					$field_rule['message'] = Yii::t('site',  $field->error_message);
 				array_push($rules,$field_rule);
 			}
 
@@ -155,7 +155,7 @@ class YumProfile extends YumActiveRecord
 						$field->other_validator);
 
 				if ($field->error_message)
-					$field_rule['message'] = Yum::t( $field->error_message);
+					$field_rule['message'] = Yii::t('site',  $field->error_message);
 				array_push($rules, $field_rule);
 			}
 
@@ -214,7 +214,7 @@ class YumProfile extends YumActiveRecord
 		if(self::$fields)
 			foreach(self::$fields as $field) {
 				$varname = $field->varname;
-				$fields[$varname] = Yum::t($varname);
+				$fields[$varname] = Yii::t('site', $varname);
 			}
 		return $fields;
 	}
@@ -226,17 +226,17 @@ class YumProfile extends YumActiveRecord
 	public function attributeLabels()
 	{
 		$labels = array(
-				'id'             => Yum::t('Profile ID'),
-				'email'          => Yum::t('Email'),
-				'user_id'        => Yum::t('User ID'),
-				'privacy'        => Yum::t('Privacy'),
-				'show_friends'   => Yum::t('Show friends'),
-				'allow_comments' => Yum::t('Allow profile comments'),
+				'id'             => Yii::t('site', 'Profile ID'),
+				'email'          => Yii::t('site', 'Email'),
+				'user_id'        => Yii::t('site', 'User ID'),
+				'privacy'        => Yii::t('site', 'Privacy'),
+				'show_friends'   => Yii::t('site', 'Show friends'),
+				'allow_comments' => Yii::t('site', 'Allow profile comments'),
 				);
 
 		if(self::$fields)
 			foreach (self::$fields as $field)
-				$labels[$field->varname] = Yum::t($field->title);
+				$labels[$field->varname] = Yii::t('site', $field->title);
 
 		return $labels;
 	}

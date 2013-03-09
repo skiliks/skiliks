@@ -11,7 +11,8 @@
 	'enableAjaxValidation' => false,
 )); ?>
 
-	<?php echo $form->errorSummary($user); ?>
+	<?php // echo $form->errorSummary($user); ?>
+	<?php // echo $form->errorSummary($profile); ?>
 
     <br/>
     <div class="row">
@@ -37,16 +38,16 @@
     </div>
 
     <br/>
-        <a id="pass-switcher">Show password</a>
+        <a id="pass-switcher"><?php echo Yii::t('site', 'Show passwords') ?></a>
     <br/>
     <br/>
 
-    <p class="note">Fields with <span class="required">*</span> are required.</p>
+    <p class="note"><?php echo Yii::t('site', 'Fields with * are required.') ?></p>
 
     <br/>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Submit'); ?>
+        <?php echo CHtml::submitButton(Yii::t('site', 'Submit')); ?>
     </div>
 
 <?php $this->endWidget(); ?>
