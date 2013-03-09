@@ -52,6 +52,8 @@ return array(
         'application.modules.registration.models.*',
         'application.modules.role.models.*',
         'application.modules.usergroup.models.*',
+
+        'application.controllers.static.*',
     ),
     'modules'=>array(
         'gii'=>array(
@@ -102,11 +104,20 @@ return array(
             'showScriptName' => false,
 
             'rules' => array(
+                '/'                       => 'static/site/index',
+
+                'site'                    => 'static/site/site',
+                'simulation'              => 'static/site/site',
+
+                'team'                    => 'static/page/team',
+                'product'                 => 'static/product',
+
+                'subscription/add'        => 'static/subscription/add',
+                'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                'site' => 'site/site',
-                'team' => 'page/team'
             ),
         ),
         'excel'=>array(

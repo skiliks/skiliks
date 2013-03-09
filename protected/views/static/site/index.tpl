@@ -14,7 +14,7 @@
 					</ul>
 					
                     <!-- FORM { -->
-                    <form action="/sub/add" id="subscribe-form">
+                    <form action="subscription/add" id="subscribe-form">
                         <div>
                             <input type="text" 
                                    id = "user-email-value"
@@ -85,17 +85,14 @@
                                     window.location.href = '/site/comingSoonSuccess';
                                 } else {
                                     // invalid email
-                                    console.log('e1');
                                     displayError(response.message);
                                 }
                             } else {
-                                console.log('e2');
                                 // wrong server response format
                                 displayError("{Yii::t('site', 'No proper response from server. Please try again later.')}");
                             }
                         },
                         error: function() {
-                            console.log('e3');
                             // no response from server
                             displayError("{Yii::t('site', 'No response from server. Please try again later.')}");
                         }                
@@ -108,7 +105,6 @@
     
             displayError = function(msg) {
                 $('#user-email-error-box span').text(msg);
-                console.log($('#user-email-error-box').height());
                 $('#user-email-error-box').css('top', '-' + ($('#user-email-error-box').height()) + 'px');
                 $('#user-email-error-box').fadeIn(1000);
             }
