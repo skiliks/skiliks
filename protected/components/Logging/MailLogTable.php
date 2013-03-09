@@ -2,8 +2,8 @@
 namespace application\components\Logging;
 
 /**
- * Class MailLogTable
- * @package application\components\Logging
+ * \addtogroup Logging
+ * @{
  */
 class MailLogTable extends LogTable
 {
@@ -35,3 +35,6 @@ class MailLogTable extends LogTable
         ];
     }
 }
+/**
+ * @}
+ */

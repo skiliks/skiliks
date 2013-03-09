@@ -1,9 +1,11 @@
 <?php
 namespace application\components\Logging;
-
+/**
+ * \addtogroup Logging
+ * @{
+ */
 /**
  * Class ActivityLogTable
- * @package application\components\Logging
  */
 class ActivityLogTable extends LogTable {
     public function getHeaders()
@@ -37,3 +39,6 @@ class ActivityLogTable extends LogTable {
         ];
     }
 }
+/**
+ * @}
+ */

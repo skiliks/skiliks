@@ -1,8 +1,11 @@
 <?php
 namespace application\components\Logging;
 /**
- * Class WindowLogTable
- * @package application\components\Logging
+ * \addtogroup Logging
+ * @{
+ */
+/**
+ * Universal log
  */
 class WindowLogTable extends LogTable
 {
@@ -21,6 +24,11 @@ class WindowLogTable extends LogTable
         return 'universal-log';
     }
 
+    /**
+     * Процессит строки
+     * @param $row \LogMail
+     * @return array
+     */
     protected function getRow($row)
     {
         return [
@@ -32,3 +40,6 @@ class WindowLogTable extends LogTable
         ];
     }
 }
+/**
+ * @}
+ */

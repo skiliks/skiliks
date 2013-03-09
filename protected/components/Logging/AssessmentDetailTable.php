@@ -2,8 +2,11 @@
 namespace application\components\Logging;
 
 /**
- * Class AssessmentDetailTable
- * @package application\components\Logging
+ * \addtogroup Logging
+ * @{
+ */
+/**
+ * Детально расписанные поведения. Присутствует гребаный ад из LogHelper-a
  */
 class AssessmentDetailTable extends LogTable
 {
@@ -82,3 +85,6 @@ class AssessmentDetailTable extends LogTable
         }
     }
 }
+/**
+ * @}
+ */
