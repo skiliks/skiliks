@@ -69,7 +69,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
 
             doSimStopAndLoadLogs:function () {
                 SKApp.user.simulation.on('stop', function () {
-                    window.location.href = '/admin/displayLog?simulation=' + this.id;
+                    window.location.href = '/static/admin/displayLog?simulation=' + this.id;
                 });
                 SKApp.user.stopSimulation();
             },
@@ -91,12 +91,13 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                     },
                     function (response) {
                         if (response.result) {
+                            // Oh no, please, don't insert this :(
                             $('body form.trigger-event').append('<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" отправлено!</div>');
                             window.scrollTo(0, 0);
                         } else {
                             $('body form.trigger-event').append('<div class="alert alert-error"><button type="button" class="close" data-dismiss="alert">&times;</button>Письмо "' + $(target).attr('data-code') + '" НЕ отправлено!</div>');
                         }
-                        $('body form.trigger-event .alert').fadeOut(4000)
+                        $('body form.trigger-event .alert').fadeOut(4000);
                     }
                 );
             }
