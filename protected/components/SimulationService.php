@@ -453,7 +453,7 @@ class SimulationService
         }
         $profiler->render('1: ');
         
-        if (UserService::MODE_DEVELOPER == $simulationMode
+        if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
             && false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }

@@ -6,7 +6,9 @@
 class SendMailOptions
 {
     public $simulation = NULL;
-    public $senderId   = NULL;
+    public $senderId   = Character::HERO_ID;
+
+    public $groupId    = MailBox::OUTBOX_FOLDER_ID;
     /**
      * @var MailTemplate $messageId
      */
@@ -51,9 +53,9 @@ class SendMailOptions
       * @param string $letterType
       * @return \SendMailOptions
       */
-     public function setLetterType($letterType)
+     public function setLetterType($letter_type)
      {
-         $this->letterType = (string)$letterType;
+         $this->letterType = (string)$letter_type;
          
          return $this;
      }

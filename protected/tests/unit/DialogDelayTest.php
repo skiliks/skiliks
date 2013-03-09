@@ -19,7 +19,7 @@ class DialogDelayTest extends CDbTestCase
         try {
             $simulationService = new SimulationService();
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulation::TYPE_DEVELOP, $user);
+            $simulation = $simulationService->simulationStart(Simulation::MODE_DEVELOPER_ID, $user);
 
             // we need transaction - this test delete empty Task table
 

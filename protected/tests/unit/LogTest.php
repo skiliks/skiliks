@@ -18,9 +18,9 @@ class LogTest extends CDbTestCase
         
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
-        $mail = new MailBoxService();
+
         $character = Character::model()->findByAttributes(['code' => 9]);
 
         $subject_id = CommunicationTheme::model()->findByAttributes([
@@ -29,22 +29,27 @@ class LogTest extends CDbTestCase
             'mail_prefix' => 're',
             'theme_usage' => 'mail_outbox'
         ])->primaryKey;
+
         $copies = [
             Character::model()->findByAttributes(['code' => 2])->primaryKey,
             Character::model()->findByAttributes(['code' => 11])->primaryKey,
             Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ];
-        $message = $mail->sendMessage([
-            'subject_id' => $subject_id,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers' => $character->primaryKey,
-            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies' => implode(',', $copies),
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
-        ]);
+
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = implode(',', $copies);
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = $subject_id;
+        $options->setRecipientsArray($character->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->simulation = $simulation;
+
+        $message = MailBoxService::sendMessagePro($options);
+
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -57,7 +62,6 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
 
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
-
 
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
@@ -76,7 +80,6 @@ class LogTest extends CDbTestCase
 
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
-
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -93,10 +96,8 @@ class LogTest extends CDbTestCase
 
         $draft_message3 = MailBoxService::saveDraft($sendMailOptions);
 
+        $logList = [];
 
-        $logList = [
-
-        ];
         $this->appendSleep($logList, 60);
         $this->appendWindow($logList, 11);
         $this->appendNewMessage($logList, $message);
@@ -143,9 +144,9 @@ class LogTest extends CDbTestCase
 
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
-        foreach ($activity_actions as $log) {
-            $log->dump();
-        }
+//        foreach ($activity_actions as $log) {
+//            $log->dump();
+//        }
         $this->assertEquals(count($activity_actions), 13);
 
 //        echo "\n";
@@ -179,7 +180,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $mgr = new EventsManager();
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
@@ -237,7 +238,7 @@ class LogTest extends CDbTestCase
         $mgr = new EventsManager();
         $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $document  = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->primaryKey,
@@ -269,7 +270,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
         $character = Character::model()->findByAttributes(['code' => 9]);
 
@@ -357,7 +358,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
@@ -396,25 +397,29 @@ class LogTest extends CDbTestCase
         
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
-        $mail = new MailBoxService();
+
         $krutko = Character::model()->findByAttributes(['code' => 4]);
 
-        $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes([
-                'code' => 12,
-                'character_id' => $krutko->primaryKey,
-                'theme_usage' => 'mail_outbox'
-            ])->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'M8']),
-            'receivers' => $krutko->primaryKey,
-            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
-        ]);
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = '';
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->id;
+        $options->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 12,
+            'character_id' => $krutko->id,
+            'theme_usage' => 'mail_outbox'
+        ])->id;
+        $options->setRecipientsArray($krutko->id);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->simulation = $simulation;
+
+        $message = MailBoxService::sendMessagePro($options);
+
         $mgr->processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
@@ -467,25 +472,30 @@ class LogTest extends CDbTestCase
         
         $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
-        $mail = new MailBoxService();
+
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
             'character_id' => Character::model()->findByAttributes(['code'=>20])->primaryKey,
             'mail_prefix' => 're',
             'theme_usage' => 'mail_outbox'
         ]);
-        $message = $mail->sendMessage([
-            'subject_id' => $theme->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'M74']),
-            'receivers' => Character::model()->findByAttributes(['code' => 20])->primaryKey,
-            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
-        ]);
+
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = '';
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->primaryKey;
+        $options->subject_id = $theme->primaryKey;
+        $options->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->simulation = $simulation;
+
+        $message = MailBoxService::sendMessagePro($options);
+
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -496,7 +506,9 @@ class LogTest extends CDbTestCase
         $sendMailOptions->fileId     = 0;
         $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
+
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
+
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
@@ -571,7 +583,7 @@ class LogTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         // init LogActivityActions {
         
@@ -732,7 +744,7 @@ class LogTest extends CDbTestCase
 
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $logs = [];
         $logs[0][0] = 1;
