@@ -21,16 +21,20 @@ class AssessmentResultTable extends LogTable
 
     public function getHeaders()
     {
-        return ['Point Code', 'Point ID', 'Value', 'Type Scale'];
+        return ['Номер поведения', 'Point Title', 'Тип поведения', 'Оценка по поведению'];
     }
 
+    /**
+     * @param $assessmentPoint AssessmentAggregated
+     * @return array
+     */
     protected function getRow($assessmentPoint)
     {
         return [
             $assessmentPoint->point->code,
             $assessmentPoint->point->title,
+            $assessmentPoint->point->getTypeScaleTitle(),
             $assessmentPoint->value,
-            $assessmentPoint->point->type_scale
         ];
     }
 }

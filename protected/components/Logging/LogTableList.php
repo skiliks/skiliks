@@ -27,16 +27,14 @@ class LogTableList
         return [
             new WindowLogTable($simulation->log_windows),
             new AssessmentDetailTable(
-                array_merge(
-                    $simulation->simulation_mail_points,
-                    $simulation->assessment_dialog_points,
-                    LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $simulation->primaryKey])['data']
-                )
+                $simulation->getDialogPointsDetail()
             ),
             new AssessmentResultTable($simulation->assessment_points),
-            new ActivityLogTable($simulation->log_activity_actions),
+            # TODO plan
             new MailLogTable($simulation->log_mail),
+            new DocumentLogTable($simulation->log_documents),
             new DialogLogTable($simulation->log_dialogs),
+            new ActivityLogTable($simulation->log_activity_actions),
 
         ];
     }

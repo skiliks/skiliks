@@ -15,7 +15,7 @@ class ActivityLogTable extends LogTable {
 
     public function getTitle()
     {
-        return 'Activity Log';
+        return 'Leg_actions - detail';
     }
 
     public function getId() {

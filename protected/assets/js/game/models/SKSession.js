@@ -24,7 +24,7 @@ define(["game/models/SKUser"], function (SKUser) {
     var SKSession = Backbone.Model.extend({
         'check':function () {
             var me = this;
-            SKApp.server.api('auth/checkSession', {}, function (data) {
+            SKApp.server.api('static/auth/checkSession', {}, function (data) {
                 if (data.result === 1) {
                     SKApp.user = new SKUser(data.simulations);
                     console.debug('[SKSession] User authenticated');
