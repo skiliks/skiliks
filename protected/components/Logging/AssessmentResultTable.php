@@ -1,10 +1,15 @@
 <?php
 namespace application\components\Logging;
 
+/**
+ * \addtogroup Logging
+ * @{
+ */
 
 /**
  * Class AssessmentResultTable
- * @package application\components\Logging
+ *
+ * Аггрегированые оценки
  */
 class AssessmentResultTable extends LogTable
 {
@@ -24,7 +29,7 @@ class AssessmentResultTable extends LogTable
     }
 
     /**
-     * @param $assessmentPoint AssessmentAggregated
+     * @param \AssessmentAggregated $assessmentPoint
      * @return array
      */
     protected function getRow($assessmentPoint)
@@ -37,3 +42,6 @@ class AssessmentResultTable extends LogTable
         ];
     }
 }
+/**
+ * @}
+ */

@@ -1,6 +1,10 @@
 <?php
 namespace application\components\Logging;
 
+/**
+ * \addtogroup Logging
+ * @{
+ */
 
 /**
  * Class DialogLogTable
@@ -34,3 +38,6 @@ class DialogLogTable extends LogTable
         ];
     }
 }
+/**
+ * @}
+ */

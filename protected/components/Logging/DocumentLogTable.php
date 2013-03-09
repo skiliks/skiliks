@@ -23,7 +23,7 @@ class DocumentLogTable extends LogTable {
     }
 
     /**
-     * @param $logDocument \LogDocument
+     * @param \LogDocument $logDocument
      * @return array|void
      */
     protected function getRow($logDocument)
