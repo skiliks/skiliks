@@ -77,7 +77,7 @@ class YumPasswordValidator extends CValidator
     {
       if (strlen($value) < $this->minLen)
       {
-        $message = $this->message !== null ? $this->message : Yii::t('UserModule.YumPasswordValidator',
+        $message = $this->message !== null ? $this->message : Yii::t('site',
             '{attribute} is too short (min. {num} characters).',
             array('{num}' => $this->minLen));
 

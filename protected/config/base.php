@@ -112,8 +112,20 @@ return array(
                 'team'                    => 'static/page/team',
                 'product'                 => 'static/product',
 
-                'subscription/add'        => 'static/subscription/add',
+                'registration'                           => 'static/userAccount/registration',
+                'registration/choose-account-type'       => 'static/userAccount/chooseAccountType',
+
+                'registration/error'                     => 'static/userAccount/errorDuringRegistration',
+                'registration/error/sign-in-or-register' => 'static/userAccount/errorSingInOrRegister',
+                'registration/error/has-account'         => 'static/userAccount/errorYouHasAlreadyChooseAccount',
+                'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
+                'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
+
+                'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
+
+                'userAccount/<action:\w+>'      => 'static/userAccount/<action>',
+                'registration/<action:\w+>'      => 'static/userAccount/<action>',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

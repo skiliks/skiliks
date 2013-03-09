@@ -16,6 +16,8 @@
  *
  * Relations
  * @property YumProfile $profile
+ * @property UserAccountPersonal $account_personal
+ * @property UserAccountCorporate $account_corporate
  * @property array $roles array of YumRole
  * @property array $users array of YumUser
  *
@@ -33,12 +35,55 @@ class YumUser extends YumActiveRecord
     const STATUS_BANNED = -1;
     const STATUS_REMOVED = -2;
 
+    const ACCOUNT_TYPE_PERSONAL  = 'Personal';
+    const ACCOUNT_TYPE_CORPORATE = 'Corporate';
+
     public $username;
     public $password;
     public $password_again; // for registration form only
     public $salt;
     public $activationKey;
     public $password_changed = false;
+
+    // ------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @return bool
+     */
+    public function isHasAccount()
+    {
+        if (null === $this->account_personal && null === $this->account_corporate) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @return UserAccountPersonal|UserAccountCorporate|null
+     */
+    public function getAccount()
+    {
+        if (null !== $this->account_personal) {
+            return $this->account_personal;
+        } elseif (null !== $this->account_corporate) {
+            return $this->account_corporate;
+        } else {
+            return null;
+        }
+    }
+
+    public function getAccountType() {
+        if (null !== $this->account_personal) {
+            return self::ACCOUNT_TYPE_PERSONAL;
+        } elseif (null !== $this->account_corporate) {
+            return self::ACCOUNT_TYPE_CORPORATE;
+        } else {
+            return null;
+        }
+    }
+
+    // ------------------------------------------------------------------------------------------------------------
 
     public function behaviors()
     {
@@ -69,7 +114,7 @@ class YumUser extends YumActiveRecord
         if (Yum::hasModule('profiles') && $this->profile !== null)
             $this->profile->delete();
 
-        Yum::log(Yum::t('User {username} (id: {id}) has been deleted', array(
+        Yum::log(Yii::t('site', 'User {username} (id: {id}) has been deleted', array(
             '{username}' => $this->username,
             '{id}' => $this->id)));
         return parent::afterDelete();
@@ -225,7 +270,7 @@ class YumUser extends YumActiveRecord
             }
 
             if ($this->isNewRecord) {
-                Yum::log(Yum::t('A user has been created: user: {user}', array(
+                Yum::log(Yii::t('site', 'A user has been created: user: {user}', array(
                     '{user}' => json_encode($this->attributes))));
 
 
@@ -262,7 +307,7 @@ class YumUser extends YumActiveRecord
             $rules[] = array('username', 'length',
                 'max' => $usernameRequirements['maxLen'],
                 'min' => $usernameRequirements['minLen'],
-                'message' => Yum::t(
+                'message' => Yii::t( 'site',
                     'Username length needs to be between {minLen} and {maxlen} characters', array(
                     '{minLen}' => $usernameRequirements['minLen'],
                     '{maxLen}' => $usernameRequirements['maxLen'])));
@@ -270,17 +315,17 @@ class YumUser extends YumActiveRecord
                 'username',
                 'match',
                 'pattern' => $usernameRequirements['match'],
-                'message' => Yum::t($usernameRequirements['dontMatchMessage']));
+                'message' => Yii::t('site', $usernameRequirements['dontMatchMessage']));
         }
 
         $rules[] = array('username',
             'unique',
-            'message' => Yum::t("This user's name already exists."));
+            'message' => Yii::t('site', "This user's name already exists."));
         $rules[] = array(
             'username',
             'match',
             'pattern' => $usernameRequirements['match'],
-            'message' => Yum::t($usernameRequirements['dontMatchMessage'])
+            'message' => Yii::t('site', $usernameRequirements['dontMatchMessage'])
         );
 
         $rules[] = array('status', 'in', 'range' => array(0, 1, 2, 3, -1, -2));
@@ -399,6 +444,7 @@ class YumUser extends YumActiveRecord
         Yii::import('application.modules.profile.models.*');
 
         $relations = Yii::app()->cache->get('yum_user_relations');
+
         if ($relations === false) {
             $relations = array();
 
@@ -457,9 +503,15 @@ class YumUser extends YumActiveRecord
                 $relations['memberships'] = array(
                     self::HAS_MANY, 'YumMembership', 'user_id');
             }
-
             Yii::app()->cache->set('yum_user_relations', $relations, 3600);
         }
+
+
+        $relations['account_personal'] = array(
+            self::HAS_ONE, 'UserAccountPersonal', 'user_id');
+
+        $relations['account_corporate'] = array(
+            self::HAS_ONE, 'UserAccountCorporate', 'user_id');
 
         return $relations;
     }
@@ -580,7 +632,7 @@ class YumUser extends YumActiveRecord
                         $this->id,
                         $role))->execute();
 
-            Yum::log(Yum::t('User {username} registered. Generated activation Url is {activation_url} and has been sent to {email}',
+            Yum::log(Yii::t('site','User {username} registered. Generated activation Url is {activation_url} and has been sent to {email}',
                     array(
                         '{username}' => $this->username,
                         '{email}' => $profile->email,
@@ -610,7 +662,7 @@ class YumUser extends YumActiveRecord
                 return $url;
             }
         }
-        return Yum::t('Activation Url cannot be retrieved');
+        return Yii::t('site', 'Activation Url cannot be retrieved');
     }
 
     public function isPasswordExpired()
@@ -645,14 +697,14 @@ class YumUser extends YumActiveRecord
                     $user->activationKey = $user->generateActivationKey(true);
                     $user->status = self::STATUS_ACTIVE;
                     if ($user->save(false, array('activationKey', 'status'))) {
-                        Yum::log(Yum::t('User {username} has been activated', array(
+                        Yum::log(Yii::t('site', 'User {username} has been activated', array(
                             '{username}' => $user->username)));
                         if (Yum::hasModule('messages')
                             && Yum::module('registration')->enableActivationConfirmation
                         ) {
                             Yii::import('application.modules.messages.models.YumMessage');
                             YumMessage::write($user, 1,
-                                Yum::t('Your activation succeeded'),
+                                Yii::t('site', 'Your activation succeeded'),
                                 strtr(
                                     'The activation of the account {username} succeeded. Please use <a href="{link_login}">this link</a> to go to the login page', array(
                                     '{username}' => $user->username,
@@ -695,19 +747,19 @@ class YumUser extends YumActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => Yum::t('#'),
-            'username' => Yum::t("Username"),
-            'password' => Yum::t("Password"),
-            'password_again' => Yum::t("Password again"),
-            'verifyPassword' => Yum::t("Retype password"),
-            'verifyCode' => Yum::t("Verification code"),
-            'activationKey' => Yum::t("Activation key"),
-            'createtime' => Yum::t("Registration date"),
-            'lastvisit' => Yum::t("Last visit"),
-            'lastaction' => Yum::t("Online status"),
-            'superuser' => Yum::t("Superuser"),
-            'status' => Yum::t("Status"),
-            'avatar' => Yum::t("Avatar image"),
+            'id'             => Yii::t('site', '#'),
+            'username'       => Yii::t('site', "Username"),
+            'password'       => Yii::t('site', "Password"),
+            'password_again' => Yii::t('site', "Password again"),
+            'verifyPassword' => Yii::t('site', "Retype password"),
+            'verifyCode'     => Yii::t('site', "Verification code"),
+            'activationKey'  => Yii::t('site', "Activation key"),
+            'createtime'     => Yii::t('site', "Registration date"),
+            'lastvisit'      => Yii::t('site', "Last visit"),
+            'lastaction'     => Yii::t('site', "Online status"),
+            'superuser'      => Yii::t('site', "Superuser"),
+            'status'         => Yii::t('site', "Status"),
+            'avatar'         => Yii::t('site', "Avatar image"),
         );
     }
 
@@ -738,14 +790,14 @@ class YumUser extends YumActiveRecord
     {
         $_items = array(
             'UserStatus' => array(
-                '0' => Yum::t('Not active'),
-                '1' => Yum::t('Active'),
-                '-1' => Yum::t('Banned'),
-                '-2' => Yum::t('Deleted'),
+                '0'  => Yii::t('site', 'Not active'),
+                '1'  => Yii::t('site', 'Active'),
+                '-1' => Yii::t('site', 'Banned'),
+                '-2' => Yii::t('site', 'Deleted'),
             ),
             'AdminStatus' => array(
-                '0' => Yum::t('No'),
-                '1' => Yum::t('Yes'),
+                '0' => Yii::t('site', 'No'),
+                '1' => Yii::t('site', 'Yes'),
             ),
         );
         if (isset($code))
@@ -798,7 +850,7 @@ class YumUser extends YumActiveRecord
             if (Yum::module('avatar')->enableGravatar && $this->avatar == 'gravatar')
                 return CHtml::image(
                     'http://www.gravatar.com/avatar/' . $this->getGravatarHash(),
-                    Yum::t('Avatar image'),
+                    Yii::t('site', 'Avatar image'),
                     $options);
 
             if (isset($this->avatar) && $this->avatar)
@@ -808,7 +860,7 @@ class YumUser extends YumActiveRecord
                 $return .= CHtml::image(Yii::app()->getAssetManager()->publish(
                     Yii::getPathOfAlias('YumAssets.images') . ($thumb
                         ? '/no_avatar_available_thumb.jpg' : '/no_avatar_available.jpg'),
-                    Yum::t('No image available'),
+                    Yii::t('site', 'No image available'),
                     $options));
             $return .= '</div><!-- avatar -->';
             return $return;
