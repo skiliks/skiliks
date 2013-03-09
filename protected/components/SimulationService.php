@@ -205,12 +205,14 @@ class SimulationService
      */
     public static function getAgregatedPoints($simId) 
     {
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
         // @todo: fix this relation to logHelper
-        $data = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
+        $data = $simulation->getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
         
         $behaviours = array();
 
-        foreach ($data['data'] as $line) {
+        foreach ($data as $line) {
             $pointCode = $line['code'];
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
