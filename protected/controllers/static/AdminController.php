@@ -1,5 +1,5 @@
 <?php
-
+use application\components\Logging\LogTableList as LogTableList;
 class AdminController extends AjaxController
 {
 
@@ -10,7 +10,7 @@ class AdminController extends AjaxController
         $simulation = Simulation::model()->findByPk($simId);
         assert($simulation);
         $this->layout = 'admin';
-        $logTableList = new application\components\Logging\LogTableList($simulation);
+        $logTableList = new LogTableList($simulation);
         $this->render('log', [
             'simulation' => $simulation,
             'log_tables' => $logTableList->asArray()
@@ -22,7 +22,7 @@ class AdminController extends AjaxController
         $simId = Yii::app()->request->getParam('simulation');
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
-        $logTableList = new application\components\Logging\LogTableList($simulation);
+        $logTableList = new LogTableList($simulation);
         $excelWriter = $logTableList->asExcel();
         $filename = sprintf('Log_%s_%s', $simulation->primaryKey, date("Y-m-d"));
         header('Content-type: application/vnd.ms-excel');

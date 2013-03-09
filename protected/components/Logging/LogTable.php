@@ -1,10 +1,15 @@
 <?php
 
+
 namespace application\components\Logging;
+
+
 /**
- * Class LogTable
- *
- * Is base class for different logging tables (HTML and XLS)
+ * \addtogroup Logging
+ * @{
+ */
+/**
+ * Абстрактный класс, от которого наследуются все таблицы. Логики в нем нет, просто не дает выстрелить себе в ногу
  */
 abstract class LogTable {
     protected $logs;
@@ -20,7 +25,7 @@ abstract class LogTable {
     }
 
     /**
-     * Override to returns list of headers
+     * Returns list of table headers
      *
      * @return string[]
      * @abstract
@@ -31,21 +36,21 @@ abstract class LogTable {
      * Accepts single log row, returns plain array with data to be displayed
      *
      * @param $row
-     * @return mixed
+     * @return array
      */
     abstract protected function getRow($row);
 
     /**
-     * Override to return sheet title for XLS export and HTML header title
+     * Returns sheet title for XLS export and HTML header title
      * @return string
      */
     abstract public function getTitle();
 
     /**
-     * Override to return unique ID (used on HTML page)
+     * Returns unique ID (used on HTML page)
      * @return string
      */
-    abstract protected function getId();
+    abstract public  function getId();
 
     /**
      * Returns array of arrays of plain values
@@ -59,3 +64,6 @@ abstract class LogTable {
         return $result;
     }
 }
+/**
+ * @}
+ */
