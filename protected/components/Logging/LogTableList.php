@@ -3,6 +3,9 @@ namespace application\components\Logging;
 
 /**
  * Class LogTableList
+ *
+ * List of our logging tables. Can return data for HTML templates or excel
+ *
  * @package application\components\Logging
  */
 class LogTableList
@@ -17,6 +20,8 @@ class LogTableList
     }
 
     /**
+     * Ordered list of logging tables
+     *
      * @return LogTable[]
      */
     private function getTables()
@@ -37,11 +42,19 @@ class LogTableList
         ];
     }
 
+    /**
+     * Returns list of tables as for template
+     * @return LogTable[]
+     */
     public function asArray()
     {
         return $this->getTables();
     }
 
+    /**
+     * Returns PHP Excel Writer with all tables. For export to excel
+     * @return \PHPExcel_Writer_Excel2007
+     */
     public function asExcel()
     {
         $xls = new \PHPExcel();
