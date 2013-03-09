@@ -1,12 +1,9 @@
 <?php
+namespace application\components\Logging;
 /**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 08.03.13
- * Time: 7:28
- * To change this template use File | Settings | File Templates.
+ * Class WindowLogTable
+ * @package application\components\Logging
  */
-
 class WindowLogTable extends LogTable
 {
     public function getHeaders()

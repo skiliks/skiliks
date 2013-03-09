@@ -1,12 +1,10 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 08.03.13
- * Time: 7:49
- * To change this template use File | Settings | File Templates.
- */
+namespace application\components\Logging;
 
+/**
+ * Class ActivityLogTable
+ * @package application\components\Logging
+ */
 class ActivityLogTable extends LogTable {
     public function getHeaders()
     {
@@ -23,7 +21,7 @@ class ActivityLogTable extends LogTable {
     }
 
     /**
-     * @param $logActivityAction LogActivityAction
+     * @param $logActivityAction \LogActivityAction
      * @return array
      */
     public function getRow($logActivityAction)

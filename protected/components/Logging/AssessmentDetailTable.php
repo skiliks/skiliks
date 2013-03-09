@@ -1,12 +1,10 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 08.03.13
- * Time: 9:05
- * To change this template use File | Settings | File Templates.
- */
+namespace application\components\Logging;
 
+/**
+ * Class AssessmentDetailTable
+ * @package application\components\Logging
+ */
 class AssessmentDetailTable extends LogTable
 {
     public function getId()
@@ -39,7 +37,7 @@ class AssessmentDetailTable extends LogTable
 
     protected function getRow($row)
     {
-        if ($row instanceof SimulationMailPoint) {
+        if ($row instanceof \SimulationMailPoint) {
             if ($row->point->learning_goal_code == 331 or $row->point->learning_goal_code == 332) {
                 $outboxMail = '3. Оценка Mail Inbox';
             } else if ($row->point->learning_goal_code == 333){
@@ -61,7 +59,7 @@ class AssessmentDetailTable extends LogTable
             '-',
             $outboxMail
             ];
-        } else if ($row instanceof LogDialogPoint) {
+        } else if ($row instanceof \LogDialogPoint) {
             return [
                 $row->point->code,
                 $row->point->title,

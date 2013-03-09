@@ -1,5 +1,6 @@
 <?php
 
+namespace application\components\Logging;
 /**
  * Class LogTable
  *

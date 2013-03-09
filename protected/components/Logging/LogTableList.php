@@ -1,17 +1,15 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 09.03.13
- * Time: 13:28
- * To change this template use File | Settings | File Templates.
- */
+namespace application\components\Logging;
 
+/**
+ * Class LogTableList
+ * @package application\components\Logging
+ */
 class LogTableList
 {
 
     /**
-     * @param $simulation Simulation
+     * @param $simulation \Simulation
      */
     public function __construct($simulation)
     {
@@ -46,10 +44,10 @@ class LogTableList
 
     public function asExcel()
     {
-        $xls = new PHPExcel();
+        $xls = new \PHPExcel();
         $xls->removeSheetByIndex(0);
         foreach ($this->getTables() as $table) {
-            $worksheet = new PHPExcel_Worksheet($xls, $table->getTitle());
+            $worksheet = new \PHPExcel_Worksheet($xls, $table->getTitle());
             $xls->addSheet($worksheet);
             foreach ($table->getHeaders() as $i => $title) {
                 $worksheet->setCellValueByColumnAndRow($i, 1, $title);
@@ -57,7 +55,7 @@ class LogTableList
             foreach ($table->getData() as $i => $row) {
                 foreach ($row as $j => $value) {
                     $worksheet->setCellValueByColumnAndRow($j, $i + 2, $value, true);
-                    $worksheet->getStyleByColumnAndRow($j, $i + 2)->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
+                    $worksheet->getStyleByColumnAndRow($j, $i + 2)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_LEFT);
                 }
             }
 
@@ -67,6 +65,6 @@ class LogTableList
             }
 
         }
-        return new PHPExcel_Writer_Excel2007($xls);
+        return new \PHPExcel_Writer_Excel2007($xls);
     }
 }

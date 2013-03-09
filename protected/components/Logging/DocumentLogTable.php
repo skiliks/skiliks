@@ -1,12 +1,10 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: gugu
- * Date: 09.03.13
- * Time: 15:03
- * To change this template use File | Settings | File Templates.
- */
+namespace application\components\Logging;
 
+/**
+ * Class DocumentLogTable
+ * @package application\components\Logging
+ */
 class DocumentLogTable extends LogTable {
     public function getId()
     {
@@ -25,7 +23,7 @@ class DocumentLogTable extends LogTable {
     }
 
     /**
-     * @param $logDocument LogDocument
+     * @param $logDocument \LogDocument
      * @return array|void
      */
     protected function getRow($logDocument)
