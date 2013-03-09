@@ -1,6 +1,6 @@
 <?php
 
-class SubController extends AjaxController
+class SubscriptionController extends AjaxController
 {
     /**
      *
