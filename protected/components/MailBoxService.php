@@ -254,89 +254,12 @@ class MailBoxService
         return $message;
     }
 
-    /**
-     * Sends message in the internal mail client
-     *
-     * @deprecated, (it use array), use sendMessagePro instead of sendMessage
-     *
-     * @param array $params dictionary with elements letterType, subject
-     * @return \MailBox
-     */
-    public static function sendMessage($params)
-    {
-        $subject_id = $params['subject_id'];
-        $message_id = $params['message_id'];
-        assert($message_id !== null);
-
-        $letterType = false;
-        if (isset($params['letterType'])) $letterType = $params['letterType'];
-
-        if (false === is_array($params['receivers'])) {
-            $receivers = explode(',', $params['receivers']);
-        } else {
-            $receivers = $params['receivers'];
-        }
-        $receiverId = (int)$receivers[0];
-
-        $message = new MailBox();
-        $message->group_id = $params['group'];
-        $message->sender_id = $params['sender'];
-        $message->subject_id = $subject_id;
-        $message->receiver_id = $receiverId;
-        $message->sent_at = GameTime::setTimeToday($params['time']); //TODO: Время, проверить
-        $message->readed = 0;
-        $message->letter_type = $params['letterType'];
-        if ($letterType != 'new') {
-            $message->message_id = $message_id;
-        }
-        $message->sim_id = $params['simId'];
-
-        $message->insert();
-
-        $mailId = $message->id;
-
-        // сохранение копий
-        if (isset($params['copies'])) {
-            if ($params['copies'] != '')
-                self::saveCopies($params['copies'], $mailId);
-        }
-
-        if (isset($params['receivers'])) {
-            Logger::write(var_export($params['receivers'], true));
-            self::saveReceivers($receivers, $mailId);
-        }
-
-        // учтем аттачмена
-        if (isset($params['fileId'])) {
-            MailAttachmentsService::refresh($mailId, $params['fileId']);
-        }
-
-        // Сохранение фраз
-        if (isset($params['phrases'])) {
-            $phrases = explode(',', $params['phrases']);
-
-            foreach ($phrases as $phraseId) {
-                if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
-                    $msg_model = new MailMessage();
-                    $msg_model->mail_id = $mailId;
-                    $msg_model->phrase_id = $phraseId;
-                    $msg_model->insert();
-                }
-            }
-        }
-
-        MailBoxService::updateMsCoincidence($message->id, $params['simId']);
-
-        $message->refresh();
-
-        return $message;
-    }
-
-
     public static function saveCopies($receivers, $mailId)
     {
         $receivers = explode(',', $receivers);
-        if ($receivers[count($receivers) - 1] == '') unset($receivers[count($receivers) - 1]);
+        if ($receivers[count($receivers) - 1] == '') {
+            unset($receivers[count($receivers) - 1]);
+        }
 
         foreach ($receivers as $receiverId) {
             $model = new MailCopy();
@@ -875,21 +798,21 @@ class MailBoxService
     }
 
     /**
-     * @param MailBox $sendedEmail
+     * @param MailBox $sendEmail
      */
-    public static function updateRelatedEmailForByReplyToAttribute($sendedEmail)
+    public static function updateRelatedEmailForByReplyToAttribute($sendEmail)
     {
-        if ($sendedEmail->letter_type == 'reply' OR $sendedEmail->letter_type == 'replyAll') {
-            if (!empty($sendedEmail->message_id)) {
+        if ($sendEmail->letter_type == 'reply' OR $sendEmail->letter_type == 'replyAll') {
+            if (!empty($sendEmail->message_id)) {
                 $replyToEmail = MailBox::model()
-                    ->byId($sendedEmail->message_id)
+                    ->byId($sendEmail->message_id)
                     ->find();
                 $replyToEmail->markReplied();
                 $replyToEmail->update();
             } else {
                 Yii::log(sprintf(
                     "Ошибка, не указан messageId для ответить или ответить всем. Отправленное письмо ID %s.",
-                    $sendedEmail->id
+                    $sendEmail->id
                 ));
             }
         }
@@ -1008,28 +931,71 @@ class MailBoxService
     {
         if ($sendMailOptions->isReply() && $sendMailOptions->isValidMessageId()) {
             //Изменяем запись в бд: SK - 708
-            $message = MailBox::model()->byId($sendMailOptions->messageId)->find();
-            $message->reply = true; //1 - значит что на сообщение отправлен ответ
-            $message->update();
+            $repliedEmail = MailBox::model()->byId($sendMailOptions->messageId)->find();
+            $repliedEmail->reply = true; //1 - значит что на сообщение отправлен ответ
+            $repliedEmail->update();
         }
 
-        $message = MailBoxService::sendMessage(array(
-            'message_id' => $sendMailOptions->messageId,
-            'group'      => MailBox::OUTBOX_FOLDER_ID,
-            'sender'     => Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey,
-            'receivers'  => $sendMailOptions->getRecipientsArray(),
-            'copies'     => $sendMailOptions->copies,
-            'subject_id' => $sendMailOptions->subject_id,
-            'phrases'    => $sendMailOptions->phrases,
-            'simId'      => $sendMailOptions->simulation->id,
-            'letterType' => $sendMailOptions->getLetterType(),
-            'fileId'     => $sendMailOptions->fileId,
-            'time'       => $sendMailOptions->time
-        ));
+        assert($sendMailOptions->messageId !== null); // wtf ?
 
-        MailBoxService::updateRelatedEmailForByReplyToAttribute($message);
+        $letterType = $sendMailOptions->getLetterType();
 
-        return $message;
+        $receivers = $sendMailOptions->getRecipientsArray();
+
+        $receiverId = (int)$receivers[0];
+
+        $sendEmail = new MailBox();
+        $sendEmail->group_id = $sendMailOptions->groupId;
+        $sendEmail->sender_id = $sendMailOptions->senderId;
+        $sendEmail->subject_id = $sendMailOptions->subject_id;
+        $sendEmail->receiver_id = $receiverId;
+        $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->time); //TODO: Время, проверить
+        $sendEmail->readed = 0;
+
+        $sendEmail->letter_type = $sendMailOptions->getLetterType();
+        if ($letterType != 'new') {
+            $sendEmail->message_id = $sendMailOptions->messageId;
+        }
+
+        $sendEmail->sim_id = $sendMailOptions->simulation->id;
+
+        $sendEmail->insert();
+
+        // сохранение копий
+        if (null != $sendMailOptions->copies) {
+            self::saveCopies($sendMailOptions->copies, $sendEmail->id);
+        }
+
+        self::saveReceivers($receivers, $sendEmail->id);
+
+        // учтем аттачмена
+        if (null !== $sendMailOptions->fileId) {
+            MailAttachmentsService::refresh($sendEmail->id, $sendMailOptions->fileId);
+        }
+
+        // Сохранение фраз
+        if (null != $sendMailOptions->phrases) {
+            $phrases = explode(',', $sendMailOptions->phrases);
+
+            foreach ($phrases as $phraseId) {
+                if (null !== $phraseId && 0 != $phraseId && '' != $phraseId) {
+                    $msg_model = new MailMessage();
+                    $msg_model->mail_id = $sendEmail->id;
+                    $msg_model->phrase_id = $phraseId;
+                    $msg_model->insert();
+                }
+            }
+        }
+
+        $sendEmail->refresh();
+
+        MailBoxService::updateMsCoincidence($sendEmail->id, $sendMailOptions->simulation->id);
+
+        $sendEmail->refresh();
+
+        MailBoxService::updateRelatedEmailForByReplyToAttribute($sendEmail);
+
+        return $sendEmail;
     }
 
     /**
@@ -1038,19 +1004,10 @@ class MailBoxService
      */
     public static function saveDraft($sendMailOptions)
     {
-        $message = self::sendMessage(array(
-            'message_id' => $sendMailOptions->messageId,
-            'group' => MailBox::DRAFTS_FOLDER_ID, // черновики писать может только главгый герой
-            'sender' => Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey,
-            'receivers' => $sendMailOptions->getRecipientsArray(),
-            'copies' => $sendMailOptions->copies,
-            'subject_id' => $sendMailOptions->subject_id,
-            'phrases' => $sendMailOptions->phrases,
-            'simId' => $sendMailOptions->simulation->id,
-            'time' => $sendMailOptions->time,
-            'fileId' => $sendMailOptions->fileId,
-            'letterType' => $sendMailOptions->getLetterType(),
-        ));
+        $sendMailOptions->groupId   = MailBox::DRAFTS_FOLDER_ID;
+        $sendMailOptions->senderId  = Character::HERO_ID;
+
+        $message = self::sendMessagePro($sendMailOptions);
 
         return $message;
     }

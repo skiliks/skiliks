@@ -27,22 +27,24 @@ class MailBoxTest extends CDbTestCase
         $events = new EventsManager();
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        // send MS40
-        $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers' => $character->primaryKey,
-            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies' => implode(',',[
-                Character::model()->findByAttributes(['code' => 2])->primaryKey,
-                Character::model()->findByAttributes(['code' => 11])->primaryKey,
-                Character::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = implode(',',[
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $options->setRecipientsArray($character->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->simulation = $simulation;
+
+        // send MS40
+        $mail::sendMessagePro($options);
 
         FlagsService::setFlag($simulation->id, 'F30', 1);
 
@@ -158,21 +160,23 @@ class MailBoxTest extends CDbTestCase
         $events = new EventsManager();
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers'  => $character->primaryKey,
-            'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies'     => implode(',',[
-                Character::model()->findByAttributes(['code' => 2])->primaryKey,
-                Character::model()->findByAttributes(['code' => 11])->primaryKey,
-                Character::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = implode(',',[
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $options->setRecipientsArray($character->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->simulation = $simulation;
+
+        $message = $mail::sendMessagePro($options);
         
         $events->startEvent($simulation->id, 'M31', false, false,0);
 
@@ -206,7 +210,7 @@ class MailBoxTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
@@ -303,7 +307,7 @@ class MailBoxTest extends CDbTestCase
         // init simulation
         $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -352,6 +356,7 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
         $sendMailOptions->subject_id = $subject->id;
+
         $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
         // MS27 }
 

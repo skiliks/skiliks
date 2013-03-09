@@ -50,28 +50,30 @@ class FlagServiceTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = $simulationService->simulationStart(2, $user);
 
-        $senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        // null prefix
         $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
-        $msgParams = [
-            'simId' => $simulation->id,
-            'subject_id' => CommunicationTheme::model()->findByAttributes([
-                'code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>null])->primaryKey,
-            'message_id' => 0,
-            'receivers' => $receiverId,
-            'group' => MailBox::OUTBOX_FOLDER_ID,
-            'sender' => $senderId,
-            'time' => '11:00',
-            'letterType' => null
-        ];
 
-        $mail = MailBoxService::sendMessage($msgParams);
+        $msgParams = new SendMailOptions();
+        $msgParams->simulation = $simulation;
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 55, 'character_id' => $receiverId, 'mail_prefix' => null])->primaryKey; // 55?
+        $msgParams->setRecipientsArray($receiverId);
+        $msgParams->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $msgParams->time = '11:00';
+        $msgParams->messageId = 0;
+        $msgParams->copies = '';
+        $msgParams->phrases = '';
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes([
-            'code'=>55, 'character_id' => $receiverId,
-            'mail_prefix'=>'rere', 'theme_usage' => 'mail_outbox'
+        // RE: RE:
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 55, 'character_id' => $receiverId,  // 55?
+            'mail_prefix' => 'rere', 'theme_usage' => 'mail_outbox'
         ])->primaryKey;
-        $mail = MailBoxService::sendMessage($msgParams);
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
         $flags = FlagsService::getFlagsState($simulation);

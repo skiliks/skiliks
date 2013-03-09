@@ -13,7 +13,7 @@ class LogMailTest extends PHPUnit_Framework_TestCase {
     {
         $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $message = LibSendMs::sendMs($simulation, 'MS20');
         $logs = [];
         $this->appendWindow($logs, 13);

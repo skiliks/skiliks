@@ -11,9 +11,6 @@ class UserService {
 
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
 
-    const MODE_PROMO     = 'promo';
-    const MODE_DEVELOPER = 'developer';
-
     /**
      * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}
      * @param int $uid 
@@ -22,10 +19,10 @@ class UserService {
     public static function getModes($user)
     {
         $modes = [];
-        $modes[1] = self::MODE_PROMO;
+        $modes[1] = Simulation::MODE_PROMO_LABEL;
 
         if ($user->can(self::CAN_START_SIMULATION_IN_DEV_MODE)) {
-            $modes[2] = self::MODE_DEVELOPER;
+            $modes[2] = Simulation::MODE_DEVELOPER_LABEL;
         }
         
         return $modes;

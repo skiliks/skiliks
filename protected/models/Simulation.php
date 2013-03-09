@@ -20,8 +20,11 @@ class Simulation extends CActiveRecord
 {
     const SIMULATION_DAY_DATE = '04.10.2012';
     
-    const TYPE_PROMOTION = 1;
-    const TYPE_DEVELOP   = 2;
+    const MODE_PROMO_ID       = 1;
+    const MODE_DEVELOPER_ID   = 2;
+
+    const MODE_PROMO_LABEL     = 'promo';
+    const MODE_DEVELOPER_LABEL = 'developer';
     
     /**
      * @var integer
@@ -362,7 +365,7 @@ class Simulation extends CActiveRecord
      * @return boolean
      */
     public function isDevelopMode() {
-        return self::TYPE_DEVELOP == $this->type;
+        return self::MODE_DEVELOPER_ID == $this->type;
     }
 
     /**

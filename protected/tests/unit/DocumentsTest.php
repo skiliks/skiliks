@@ -18,7 +18,7 @@ class DocumentsTest extends CDbTestCase
         // init simulation
         $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
             'order'      => 'name',
@@ -44,7 +44,7 @@ class DocumentsTest extends CDbTestCase
     {
         $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
         $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $file = MyDocument::model()->findByAttributes([
             'sim_id' => $simulation->id,

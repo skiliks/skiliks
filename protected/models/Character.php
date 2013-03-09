@@ -51,7 +51,7 @@ class Character extends CActiveRecord
     const HERO_ID = 1;
     
     /* ----------------------------- */
-    
+
     /**
      * List of Contacts fot main hero phone
      * @return mixed array

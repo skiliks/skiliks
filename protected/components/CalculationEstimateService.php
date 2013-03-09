@@ -29,7 +29,7 @@ class CalculationEstimateService
      * @param Simulation $simulation
      * @return mixed array
      */
-    public static function getExcelPointsValies($simulation)
+    public static function getExcelPointsValues($simulation)
     {
         $formulaCollection = ExcelPointFormulal::model()->findAll();
         
