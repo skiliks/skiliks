@@ -27,7 +27,7 @@ class LogTableList
         return [
             new WindowLogTable($simulation->log_windows),
             new AssessmentDetailTable(
-                $simulation->getDialogPointsDetail()
+                $simulation->getAssessmentPointDetails()
             ),
             new AssessmentResultTable($simulation->assessment_points),
             # TODO plan

@@ -203,22 +203,33 @@ class SimulationService
      * @param integer $simId
      * @return array of BehaviourCounter
      */
-    public static function getAgregatedPoints($simId) 
+    public static function getAggregatedPoints($simId)
     {
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
         // @todo: fix this relation to logHelper
-        $data = $simulation->getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
+        $data = $simulation->getAssessmentPointDetails();
         
         $behaviours = array();
 
         foreach ($data as $line) {
-            $pointCode = $line['code'];
-            if (false === isset($behaviours[$pointCode])) {
-                $behaviours[$pointCode] = new BehaviourCounter();
+            if (is_array($line)) {
+
+                $pointCode = $line['code'];
+                $add_value = $line['add_value'];
+            } else if ($line instanceof LogDialogPoint) {
+                $pointCode = $line->point->code;
+                $add_value = $line->getReplicaPoint()->add_value;
+            } else {
+                $pointCode = $line->point->code;
+                $add_value = $line->value;
             }
-            
-            $behaviours[$pointCode]->update($line['add_value']);
+            if (false === isset($behaviours[$pointCode])) {
+                    $behaviours[$pointCode] = new BehaviourCounter();
+            }
+
+            $behaviours[$pointCode]->update($add_value);
+
         }
   
         // add Point object
@@ -237,7 +248,7 @@ class SimulationService
     public static function saveAgregatedPoints($simId) 
     {
 
-        foreach(self::getAgregatedPoints($simId) as $agrPoint) {
+        foreach(self::getAggregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
             $existAssassment = AssessmentAggregated::model()
                 ->bySimId($simId)
