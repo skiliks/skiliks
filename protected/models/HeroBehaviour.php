@@ -76,7 +76,7 @@ class HeroBehaviour extends CActiveRecord
     }
 
     /**
-     * User representation if type scale
+     * User representation of type scale
      * @return string
      */
     public function getTypeScaleTitle()
@@ -87,6 +87,21 @@ class HeroBehaviour extends CActiveRecord
             return 'Отрицательная';
         } else if ($this->isPersonal()) {
             return 'Персональная';
+        }
+    }
+
+    /**
+     * User representation of type scale
+     * @return string
+     */
+    public function getTypeScaleSlug()
+    {
+        if ($this->isPositive()) {
+            return 'positive';
+        } else if ($this->isNegative()) {
+            return 'negative';
+        } else if ($this->isPersonal()) {
+            return 'personal';
         }
     }
 

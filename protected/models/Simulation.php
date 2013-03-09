@@ -368,7 +368,7 @@ class Simulation extends CActiveRecord
     /**
      *
      */
-    public function getDialogPointsDetail()
+    public function getAssessmentPointDetails()
     {
         return array_merge(
             $this->simulation_mail_points,
