@@ -36,14 +36,16 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
              * Stops simulation
              *
              * @method stopSimulation
-             * @return {SKSimulation}
+             * @async
              */
             'stopSimulation':function () {
                 if (this.simulation === undefined) {
                     throw 'Simulation already stopped';
                 }
+                this.simulation.on('stop', function () {
+                    delete this.simulation;
+                }, this);
                 this.simulation.stop();
-                delete this.simulation;
             },
             /**
              * Завершение работы пользователя

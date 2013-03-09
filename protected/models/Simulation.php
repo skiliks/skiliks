@@ -9,8 +9,12 @@
  * @property LogWindow[] log_windows
  * @property LogActivityAction[] log_activity_actions
  * @property LogMail[] log_mail
+ * @property LogDialog[] log_dialogs
+ * @property SimulationMailPoint[] simulation_mail_points
+ * @property LogDialogPoint[] assessment_dialog_points
+ * @property LogDocument[] log_documents
  *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
+ * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
 class Simulation extends CActiveRecord
 {
@@ -150,6 +154,7 @@ class Simulation extends CActiveRecord
             'log_mail'                          => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
             'log_plan'                          => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
             'log_dialogs'                       => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_documents'                       => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions'              => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
             'log_activity_actions_aggregated'   => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
             'universal_log'                     => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
@@ -179,19 +184,7 @@ class Simulation extends CActiveRecord
     public function getAssessmentRules()
     {
         $assessmentRules = $this->simulation_assessment_rules;
-        /*$result = [];
-        foreach ($assessmentRules as $assessmentRule) {
-            $result[] = ['activity_id' => $assessmentRule->assessment_rule_id];
-        }*/
-
         return $assessmentRules;
-    }
-
-    public function getAssessmentPointDetails()
-    {
-        $details = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->id]);
-
-        return $details['data'];
     }
 
 
@@ -370,6 +363,19 @@ class Simulation extends CActiveRecord
      */
     public function isDevelopMode() {
         return self::TYPE_DEVELOP == $this->type;
+    }
+
+    /**
+     *
+     */
+    public function getAssessmentPointDetails()
+    {
+        return array_merge(
+            $this->simulation_mail_points,
+            $this->assessment_dialog_points,
+            # Todo handle this shit
+            LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->primaryKey])['data']
+        );
     }
 }
 

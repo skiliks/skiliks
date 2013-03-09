@@ -2,10 +2,9 @@
     <div class="navbar-inner">
         <a class="brand" href="#">Admin panel</a>
         <ul class="nav">
-            <li><a href="#universal-log">Universal</a></li>
-            <li><a href="#activity-log">Activity</a></li>
-            <li><a href="#mail-log">Mail</a></li>
-            <li><a href="#dialog-log">Dialogs</a></li>
+            {foreach $log_tables as $log_table}
+            <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
+            {/foreach}
             <li><a href="#assessment-rules">Simulation Assessment Rules</a></li>
         </ul>
     </div>
@@ -17,173 +16,28 @@
     <dd>{$simulation.primaryKey}</dd>
 </dl>
 
-<h1 id="universal-log">Universal log</h1>
+<a href="/static/admin/saveLog?simulation={$simulation->primaryKey}">Save log as XLS</a>
 
-<table class="table table-striped universal-log">
-    <thead>
-    <tr>
-        <th>Window Start Time</th>
-        <th>Window End Time</th>
-        <th>Window type</th>
-        <th>Window subtype</th>
-        <th>Window UID</th>
-    </tr>
-    </thead>
-    {foreach $simulation->log_windows as $window}
+{foreach $log_tables as $log_table}
+    <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
+
+    <table class="table table-striped {$log_table->getId()}">
+        <thead>
         <tr>
-            <td>{$window->start_time}</td>
-            <td>{$window->end_time}</td>
-            <td>{$window->window_obj->type}</td>
-            <td>{$window->window_obj->subtype}</td>
-            <td>{$window->window_uid}</td>
+            {foreach $log_table->getHeaders() as $header}
+                <th>{$header}</th>
+            {/foreach}
         </tr>
-    {/foreach}
-</table>
-
-<h1 id="activity-log">Activity log</h1>
-
-<table class="table table-striped leg-actions-log">
-    <thead>
-    <tr>
-        <th>Window Start Time</th>
-        <th>Window End Time</th>
-        <th>Leg type</th>
-        <th>Leg action</th>
-        <th>Activity ID</th>
-        <th>Category ID</th>
-    </tr>
-    </thead>
-    {foreach $simulation->log_activity_actions as $log_activity_action}
-        {assign var=action value=$log_activity_action->activityAction->getAction()}
-        <tr {if $log_activity_action->activityAction->activity->category->code eq 1}class="success" {/if}>
-            <td>{$log_activity_action->start_time}</td>
-            <td>{$log_activity_action->end_time}</td>
-            <td>{$log_activity_action->activityAction->leg_type}</td>
-            <td>{if $action}{$action->getCode()}{/if}</td>
-            <td>{$log_activity_action->activityAction->activity->primaryKey}</td>
-            <td>{$log_activity_action->activityAction->activity->category->code}</td>
-
-        </tr>
-    {/foreach}
-</table>
-
-<h1 id="mail-log">Mail log</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Mail code</th>
-        <th>Window</th>
-    </tr>
-    </thead>
-    {foreach $simulation->log_mail as $log_mail}
-        <tr>
-            <td>{$log_mail->start_time}</td>
-            <td>{$log_mail->end_time}</td>
-            <td>{if $log_mail->mail}{$log_mail->mail->code}{/if}</td>
-            <td>{$log_mail->window_obj->subtype}</td>
-        </tr>
-    {/foreach}
-</table>
-
-<h1 id="dialog-log">Dialog log</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Replica code</th>
-        <th>Result replica</th>
-    </tr>
-    </thead>
-    {foreach $simulation->log_dialogs as $log_dialog}
-        <tr>
-            <td>{$log_dialog->start_time}</td>
-            <td>{$log_dialog->end_time}</td>
-            <td>{$log_dialog->dialog->code}</td>
-            <td>{$log_dialog->last_id}</td>
-        </tr>
-    {/foreach}
-</table>
-
-
-
-<h1 id="assessment-result">Assessment result</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Point Code</th>
-        <th>Point ID</th>
-        <th>Value</th>
-        <th>Type Scale</th>
-    </tr>
-    </thead>
-    {foreach $simulation->assessment_points as $assessmentPoint}
-        <tr>
-            <td>{$assessmentPoint->point->code}</td>
-            <td>{$assessmentPoint->point->title}</td>
-            <td>{$assessmentPoint->value}</td>
-            <td>{$assessmentPoint->point->type_scale}</td>
-        </tr>
-    {/foreach}
-</table>
-
-<h1 id="assessment-result">Assessment details</h1>
-
-<table class="table table-striped assessment-details">
-    <thead>
-    <tr>
-        <th>Point Code</th>
-        <th>Point Description</th>
-        <th>Type Scale</th>
-        <th>Scale</th>
-        <th>Value</th>
-        <th>Replica ID</th>
-        <th>Dialog Code</th>
-        <th>Replica Step</th>
-        <th>Replica Number</th>
-        <th>Outbox mail</th>
-    </tr>
-    </thead>
-    {foreach $simulation->getAssessmentPointDetails() as $point}
-        <tr>
-            <td>{$point['code']}</td>
-            <td>{$point['title']}</td>
-            <td>{$point['type_scale']}</td>
-            <td>{$point['scale']}</td>
-            <td>{$point['add_value']}</td>
-            <td>{$point['dialog_id']|default:'-'}</td>
-            <td>{$point['dialog_code']|default:'-'}</td>
-            <td>{$point['step_number']|default:'-'}</td>
-            <td>{$point['replica_number']|default:'-'}</td>
-            <td>{$point['out_mail_code']|default:'-'}</td>
-        </tr>
-    {/foreach}
-    {foreach $simulation->simulation_mail_points as $mailPoints}
-        <tr>
-            <td>{$mailPoints->point->code}</td>
-            <td>{$mailPoints->point->title}</td>
-            <td>{$mailPoints->point->type_scale}</td>
-            <td>{$mailPoints->point->scale}</td>
-            <td>{$mailPoints->value}</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>
-            {if $mailPoints->point->learning_goal_code eq 331 or $mailPoints->point->learning_goal_code eq 332}
-                3. Оценка Mail Inbox
-            {elseif $mailPoints->point->learning_goal_code eq 333}
-                3. Оценка Mail Outbox
-            {/if}
-            </td>
-        </tr>
-    {/foreach}
-</table>
+        </thead>
+        {foreach $log_table->getData() as $row}
+            <tr>
+                {foreach $row as $cell}
+                    <td>{$cell}</td>
+                {/foreach}
+            </tr>
+        {/foreach}
+    </table>
+{/foreach}
 
 <h1 id="simulation-points">Simulation points</h1>
 
