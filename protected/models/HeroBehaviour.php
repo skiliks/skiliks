@@ -5,6 +5,8 @@
 /**
  * По сути справочник целей поведения. Хранит код, название, scale.
  *
+ * @property LearningGoal learning_goal
+ * @property mixed add_value
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class HeroBehaviour extends CActiveRecord
@@ -164,7 +166,7 @@ class HeroBehaviour extends CActiveRecord
     public function relations()
     {
         return [
-            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'code'],
+            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'learning_goal_code'],
         ];
     }
 }
