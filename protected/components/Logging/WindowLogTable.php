@@ -11,12 +11,12 @@ class WindowLogTable extends LogTable
 {
     public function getHeaders()
     {
-        return ['Window Start Time', 'Window End Time', 'Window type', 'Window subtype', 'Window UID'];
+        return ['Активное окно', 'Активное подокно','Игровое время - start', 'Игровое время - end', 'Window UID'];
     }
 
     public function getTitle()
     {
-        return 'Universal log';
+        return 'Universal';
     }
 
     public function getId()
@@ -27,10 +27,10 @@ class WindowLogTable extends LogTable
     protected function getRow($row)
     {
         return [
-            $row->start_time,
-            $row->end_time,
             $row->window_obj->type,
             $row->window_obj->subtype,
+            $row->start_time,
+            $row->end_time,
             $row->window_uid
         ];
     }
