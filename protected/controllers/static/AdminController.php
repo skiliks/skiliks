@@ -24,8 +24,9 @@ class AdminController extends AjaxController
         $simulation = Simulation::model()->findByPk($simId);
         $logTableList = new LogTableList($simulation);
         $excelWriter = $logTableList->asExcel();
+        $filename = sprintf('Log_%s_%s', $simulation->primaryKey, date("Y-m-d"));
         header('Content-type: application/vnd.ms-excel');
-        header('Content-Disposition: attachment; filename="file.xls"');
+        header("Content-Disposition: attachment; filename=\"$filename.xls\"");
         $excelWriter->save('php://output');
     }
 

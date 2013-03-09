@@ -16,7 +16,7 @@ class AssessmentDetailTable extends LogTable
 
     public function getTitle()
     {
-        return 'Assessment Detail';
+        return 'Assessment - detail';
     }
 
     public function getHeaders()
