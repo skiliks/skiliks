@@ -109,6 +109,7 @@ return array(
             'rules' => array(
                 '/'                       => 'static/site/index',
                 '/admin'                  => 'static/admin/',
+                '/admin/<action:\w+>'     => 'static/admin/<action>',
                 '/Admin/Log'              => 'static/Admin/Log',
 
                 'site'                    => 'static/site/site',
