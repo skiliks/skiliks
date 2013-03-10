@@ -13,6 +13,7 @@
  * @property SimulationMailPoint[] simulation_mail_points
  * @property LogDialogPoint[] assessment_dialog_points
  * @property LogDocument[] log_documents
+ * @property DayPlanLog[] log_day_plan
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
@@ -30,57 +31,58 @@ class Simulation extends CActiveRecord
      * @var integer
      */
     public $id;
-    
+
     /**
      * character.id
      * @var integer
      */
-    public $user_id;   
-    
+    public $user_id;
+
     /**
      * @var integer
      */
     public $status;
-    
+
     /**
      * real time, Unix age seconds
      * @var integer
      */
     public $start;
-    
+
     /**
      * real time, Unix age seconds
      * @var integer
      */
-    public $end; 
-    
+    public $end;
+
     /**
      * @var integer
      */
     public $difficulty;
-    
+
     /**
      * @var integer
      */
     public $type; // 1 - promotion mode (for users), 2 - develop mode (to debug)
-    
+
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
-    public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE) {
-        return $date.' | '.$time;
+
+    public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE)
+    {
+        return $date . ' | ' . $time;
     }
 
 
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
      *
      * @param type $className
      * @return Simulation
      */
-    public static function model($className=__CLASS__)
+    public static function model($className = __CLASS__)
     {
-            return parent::model($className);
+        return parent::model($className);
     }
 
     /**
@@ -88,9 +90,9 @@ class Simulation extends CActiveRecord
      */
     public function tableName()
     {
-            return 'simulations';
+        return 'simulations';
     }
-    
+
     /**
      * Выбрать по заданному пользователю.
      * @param int $uid
@@ -99,11 +101,11 @@ class Simulation extends CActiveRecord
     public function byUid($uid)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'user_id = '.(int)$uid
+            'condition' => 'user_id = ' . (int)$uid
         ));
         return $this;
     }
-    
+
     /**
      * Выбрать ближайшую симуляцию
      * @return Simulation
@@ -120,18 +122,20 @@ class Simulation extends CActiveRecord
     /**
      * Returns current simulation time
      */
-    public function getGameTime() {
+    public function getGameTime()
+    {
         if (!$this) throw new Exception('Не могу определить симуляцию');
 
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start);
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
         $startTime = explode(':', Yii::app()->params['public']['simulationStartTime']);
-        $unixtimeMins = round($variance/60) + $startTime[0] * 60 + $startTime[1];
-        return gmdate('H:i:s', $unixtimeMins*60);
+        $unixtimeMins = round($variance / 60) + $startTime[0] * 60 + $startTime[1];
+        return gmdate('H:i:s', $unixtimeMins * 60);
     }
 
-    public function deleteOldTriggers($newHours, $newMinutes) {
+    public function deleteOldTriggers($newHours, $newMinutes)
+    {
         foreach ($this->events_triggers as $event_trigger) {
             if ($event_trigger->trigger_time == null) {
                 continue;
@@ -142,7 +146,7 @@ class Simulation extends CActiveRecord
             if ($event_trigger->trigger_time == '00:00:00') {
                 continue;
             }
-            if (GameTime::timeToSeconds($event_trigger->trigger_time) < ($newHours*60 + $newMinutes)*60) {
+            if (GameTime::timeToSeconds($event_trigger->trigger_time) < ($newHours * 60 + $newMinutes) * 60) {
                 $event_trigger->delete();
             }
         }
@@ -151,21 +155,22 @@ class Simulation extends CActiveRecord
     public function relations()
     {
         return [
-            'user'                              => [self::BELONGS_TO, 'Users', 'user_id'],
-            'events_triggers'                   => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
-            'log_windows'                       => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_mail'                          => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_plan'                          => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_dialogs'                       => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_documents'                       => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions'              => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
-            'log_activity_actions_aggregated'   => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
-            'universal_log'                     => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
-            'completed_parent_activities'       => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
-            'assessment_points'                 => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point',  'order' => 'point.type_scale'],
-            'simulation_assessment_rules'       => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
-            'assessment_dialog_points'          => [self::HAS_MANY, 'LogDialogPoint', 'sim_id'],
-            'simulation_mail_points'            => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
+            'user'                            => [self::BELONGS_TO, 'Users', 'user_id'],
+            'events_triggers'                 => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
+            'log_windows'                     => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_plan'                        => [self::HAS_MANY, 'DayPlanLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_dialogs'                     => [self::HAS_MANY, 'LogDialog', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_documents'                   => [self::HAS_MANY, 'LogDocument', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_activity_actions'            => [self::HAS_MANY, 'LogActivityAction', 'sim_id', 'order' => 'start_time, end_time'],
+            'log_day_plan'                    => [self::HAS_MANY, 'DayPlanLog', 'sim_id'],
+            'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
+            'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
+            'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
+            'assessment_points'               => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
+            'simulation_assessment_rules'     => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
+            'assessment_dialog_points'        => [self::HAS_MANY, 'LogDialogPoint', 'sim_id'],
+            'simulation_mail_points'          => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
         ];
     }
 
@@ -200,7 +205,7 @@ class Simulation extends CActiveRecord
     public function byId($id)
     {
         $this->getDbCriteria()->mergeWith(array(
-            'condition' => 'id = '.(int)$id
+            'condition' => 'id = ' . (int)$id
         ));
         return $this;
     }
@@ -361,7 +366,7 @@ class Simulation extends CActiveRecord
 
     /**
      * Shows is simulation run in develop mode (or promotion)
-     * 
+     *
      * @return boolean
      */
     public function isDevelopMode() {
