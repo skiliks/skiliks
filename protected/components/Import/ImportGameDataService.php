@@ -2043,7 +2043,7 @@ class ImportGameDataService
                 $importedFlagToRunMailRows++;
             }
 
-            // Flag bloks mail alvays {
+            // Flag blocks mail always {
             $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
             $mailFlag = FlagBlockMail::model()->findByAttributes([
                 'mail_template_id' => $mailTemplate->primaryKey,
@@ -2057,7 +2057,7 @@ class ImportGameDataService
             $mailFlag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
             $mailFlag->import_id = $this->import_id;
             $mailFlag->save();
-            // Flag bloks mail alvays }
+            // Flag blocks mail always }
         }
 
         $importedFlagBlockReplica = 0;

@@ -30,29 +30,47 @@
     Источник: {$sourceName}.
 </div>
 
-<div id="flow-menu-wrapper" class="row" style="overflow: hidden; width: 1400px;">
-    <div class="span2">
-        <div id="flow-menu">
-            <span class="btn btn-inverse toggle-dialogs" style="width: 120px; text-align: left;">
+<div id="flow-menu-wrapper" class="row" style="overflow: hidden; width: 1500px;">
+    <div class="span2" style="width: 180px;">
+        <div id="flow-menu" style="padding-right:   0px;">
+            <span class="btn btn-inverse toggle-dialogs" style="width: 140px; text-align: left;">
                 <i class="icon icon-white icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>
                 <div class="pull-left">
-                Убрать<br/>
-                диалоги
+                Диалоги видны<br/>
+                (скрыть)
                 </div>
             </span>
             <br/>
             <br/>
-            <span class="btn toggle-emails" style="width: 120px; text-align: left;">
+            <span class="btn toggle-emails" style="width: 140px; text-align: left;">
                 <i class="icon icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>
                 <div class="pull-left">
-                Показать<br/>
-                письма
+                Письма скрыты<br/>
+                (показать)
                 </div>
             </span>
+            <br/>
+            <br/>
+            <a href="#time-based-events" class="btn" style="width: 140px;">
+                <i class="icon-time"></i>
+                События <br/>
+                начинающиеся по<br/>
+                времени
+            </a>
+            <br/>
+            <br/>
+            <a href="#event-based-events" class="btn" style="width: 140px;">
+                <i class="icon-comment"></i>
+                События <br/>
+                начинающиеся<br/>
+                по вызову из диалога
+            </a>
         </div>
     </div>
 
-    <div class="span10" style="width: 1000px;">
+    <a name="time-based-events"></a>
+
+    <div class="span10" style="width: 1200px;">
         <table class="table" style="width: 1600px;">
             <thead>
                 <tr>
@@ -72,16 +90,6 @@
                                 <a name="{$aEvent->event->code}"></a>
                                 {$analyzer->getFormattedAEventHeader($aEvent)}
                                 <br/>
-
-                                <!-- Является последствием -->
-                                {if (0 != count($aEvent->producedBy))}
-                                    <i class="icon-arrow-right" title="{$aEvent->event->code} является последствием ... "></i> :
-                                {/if}
-
-                                {foreach $aEvent->producedBy as $key => $value}
-                                    <a href="#{$key}" title="{$analyzer->getEventTitleByCode($key)}">
-                                        <span class="label label-warning">{$key}</span></a>
-                                {/foreach}
 
                                 {$i = 1}
                                 <table class="table-condensed pull-left" style="margin-top: 0px;">
@@ -114,23 +122,37 @@
                                     <td>
                                     {$i = 0}
                                     {foreach $branch as $element}
-                                        <div class="pull-left" style="width: 100px;">
+                                        <div class="pull-left" style="width: 135px; border-right: 1px solid #ddd; padding-left: 7px;">
                                             <a href="#{$element['prevCode']}"
                                                title="{$analyzer->getReplicaHintByCodeStepReplicaNumber($element['prevCode'],$element['step'],$element['replica'])}">
-                                                {$element['prevCode']}[{$element['step']}-{$element['replica']}]</a> <br/>
-                                            {$element['startTime']} <br/>
+                                                {$element['prevCode']}[{$element['step']}-{$element['replica']}]</a>
+                                                <br/>
+                                                {$element['startTime']}
+                                                <br/>
+                                                {if (isset($element['flagToSwitch']) && null !== $element['flagToSwitch'])}
+                                                    Switch: <span class="label label-info">{$element['flagToSwitch']}&rarr;1</span>
+                                                {/if}
+                                                <br/>
+                                                {if (isset($element['flagsToBlockHtml']) && '' != $element['flagsToBlockHtml'])}
+                                                    Need: {$element['flagsToBlockHtml']}
+                                                {/if}
                                         </div>
 
                                         <!-- Показать результируюшее событие -->
                                         {$i = $i + 1}
                                         {if ($i == count($branch))}
-                                            <div class="pull-left" style="width: 100px;">
+                                            <div class="pull-left" style="width: 135px;  padding-left: 7px;">
                                                 {$element['code']}
-                                                {if (null !== $element['flag'])}
-                                                    + {$element['flag']}=>1
+                                                <br/>
+                                                {$element['startTime']}
+                                                <br/>
+                                                {if (null !== $element['flagToSwitch'])}
+                                                    Switch: <span class="label label-info">{$element['flagToSwitch']}&rarr;1</span>
                                                 {/if}
                                                 <br/>
-                                                {$element['startTime']}<br/>
+                                                {if (isset($element['flagsToBlockHtml']) && '' != $element['flagsToBlockHtml'])}
+                                                    Need: {$element['flagsToBlockHtml']}
+                                                {/if}
                                             </div>
                                         {/if}
                                     {/foreach}
@@ -145,10 +167,12 @@
 
         <br/>
 
+        <a name="event-based-events"></a>
+
         <table class="table" style="width: 1400px;">
             <thead>
             <tr>
-                <td><h3>События начинающиеся по вызову из <диалога></диалога></h3></td>
+                <td><h3>События начинающиеся по вызову из диалога</h3></td>
             </tr>
             </thead>
         {foreach $analyzer->eventsStartedByCall as $aEvent}
@@ -212,16 +236,16 @@
             $(this).removeClass('btn-inverse');
             $(this).html('<i class="icon icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Показать<br/>'
-                    +'диалоги'
+                    +'Диалоги скрыты<br/>'
+                    +'(показать)'
                     +'</div>');
             $(this).find('i').removeClass('icon-white');
         } else {
             $(this).addClass('btn-inverse');
             $(this).html('<i class="icon icon-white icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Убрать<br/>'
-                    +'диалоги'
+                    +'Диалоги видны<br/>'
+                    +'(скрыть)'
                     +'</div>');
             $(this).find('i').addClass('icon-white');
         }
@@ -235,16 +259,16 @@
             $(this).removeClass('btn-inverse');
             $(this).html('<i class="icon icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Показать<br/>'
-                    +'письма'
+                    +'Письма скрыты<br/>'
+                    +'(показать)'
                     +'</div>');
             $(this).find('i').removeClass('icon-white');
         } else {
             $(this).addClass('btn-inverse');
             $(this).html('<i class="icon icon-white icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Убрать<br/>'
-                    +'письма'
+                    +'Письма видны<br/>'
+                    +'(скрыть)'
                     +'</div>');
             $(this).find('i').addClass('icon-white');
         }

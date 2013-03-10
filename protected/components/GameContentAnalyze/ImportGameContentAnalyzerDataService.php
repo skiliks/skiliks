@@ -224,6 +224,7 @@ class ImportGameContentAnalyzerDataService
             $event->import_id = $this->import_id;
 
             if (null == $event->trigger_time) {
+                $event->trigger_time = '00:00:00'; // emulate DB
                 $key = (int)('1900'.rand(100000,999999));  // move to the end
             } else {
                 $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(100000,999999));
@@ -272,6 +273,7 @@ class ImportGameContentAnalyzerDataService
             $event->import_id = $this->import_id;
 
             if (null == $event->trigger_time) {
+                $event->trigger_time = '00:00:00'; // emulate DB
                 $key = (int)('1900'.rand(100000,999999));  // move to the end
             } else {
                 $key = (int)(str_replace(':', '', substr($event->trigger_time, 0, 5)).rand(100000,999999));
@@ -369,7 +371,7 @@ class ImportGameContentAnalyzerDataService
             $emailTemplateEntity->import_id = $this->import_id;
             $emailTemplateEntity->flag_to_switch = (NULL == $flag) ? NULL : $flag;
 
-            $importedEmails[] = $emailTemplateEntity;
+            $importedEmails[$code] = $emailTemplateEntity;
         }
 
         return $importedEmails;
@@ -457,5 +459,84 @@ class ImportGameContentAnalyzerDataService
         }
 
         return $importedReplica;
+    }
+
+    public function importFlagsRules($events)
+    {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Flags');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $importedFlagsRunMail = [];
+        $importedFlagsBlockMail = [];
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('mail' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // we run, immediately after flag was switched, email without trigger time only
+            if ('00:00:00' == $events[$this->getCellValue($sheet, 'Run_code', $i)]->trigger_time) {
+                // create entity
+                $mailFlag = new FlagRunMail();
+                $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+                $mailFlag->mail_code = $this->getCellValue($sheet, 'Run_code', $i);
+                $mailFlag->import_id = $this->import_id;
+                $importedFlagsRunMail[] = $mailFlag;
+            }
+
+            // Flag blocks mail always {
+            $mailFlag = new FlagBlockMail();
+            $mailFlag->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $mailFlag->mail_template_id = $this->getCellValue($sheet, 'Run_code', $i);
+            $mailFlag->value            = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $mailFlag->import_id        = $this->import_id;
+            $importedFlagsBlockMail[] = $mailFlag;
+            // Flag blocks mail always }
+        }
+
+        $importedFlagsBlockReplica = [];
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('replica' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // create entity
+            $flagBlockReplica = new FlagBlockReplica();
+            $flagBlockReplica->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagBlockReplica->replica_id = (int)$this->getCellValue($sheet, 'Run_code', $i);
+
+
+            $flagBlockReplica->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+            $flagBlockReplica->import_id = $this->import_id;
+
+            $importedFlagsBlockReplica[] = $flagBlockReplica;
+        }
+
+        // for Dialogs {
+        $importedFlagsBlockDialog = [];
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if ('dialog' != $this->getCellValue($sheet, 'Flag_run_type', $i)) {
+                continue;
+            }
+
+            // create entity
+            $flagBlockDialog = new FlagBlockDialog();
+            $flagBlockDialog->flag_code = $this->getCellValue($sheet, 'Flag_code', $i);
+            $flagBlockDialog->dialog_code = $this->getCellValue($sheet, 'Run_code', $i);
+
+            $flagBlockDialog->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
+
+            $importedFlagsBlockDialog[] = $flagBlockDialog;
+        }
+        // for Dialogs }
+
+        return [
+            'RunMail'   => $importedFlagsRunMail,
+            'BlockReplica' => $importedFlagsBlockReplica,
+            'BlockDialog'  => $importedFlagsBlockDialog,
+            'BlockMail'    => $importedFlagsBlockMail
+        ];
     }
 }
