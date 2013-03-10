@@ -18,6 +18,10 @@
 
 <a href="/static/admin/saveLog?simulation={$simulation->primaryKey}">Save log as XLS</a>
 
+&nbsp; &nbsp; &nbsp;
+
+<a href="/simulation">Start new simulation</a>
+
 {foreach $log_tables as $log_table}
     <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
 

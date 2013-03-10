@@ -36,7 +36,24 @@ class EventsSamplesController extends AjaxController
      */
     public function actionDraw()
     {
-        $events = EventService::getEventsListForAdminka();
+        $events = array();
+
+        $codes = array();
+        foreach (EventSample::model()->findAll() as $event) {
+            if (false === in_array($event->code, $codes)) {
+                $codes[] = $event->code;
+                $events[] = array(
+                    'id'    => $event->id,
+                    'cell'  => array(
+                        $event->id,
+                        $event->code,
+                        $event->title,
+                        (7 == $event->on_ignore_result) ? "нет результата" : $event->on_ignore_result,
+                        (1 == $event->on_hold_logic) ? "ничего" : $event->on_hold_logic  // current import set this value
+                    )
+                );
+            }
+        }
         
         $this->sendJSON(array(
             'result'  => 1,

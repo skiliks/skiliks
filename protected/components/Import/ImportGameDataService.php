@@ -1053,7 +1053,11 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
 
-        $documents = MyDocumentsService::getAllCodes();
+        $documents = [];
+        foreach (DocumentTemplate::model()->findAll() as $document) {
+            $documents[$document->code] = $document->id;
+        }
+
         $index = 0;
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Mail_code', $i);

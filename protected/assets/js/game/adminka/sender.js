@@ -12,7 +12,7 @@ sender = {
         simulationStart:8,
         simulationGetNewEvents:9,
         dialogsGetSelect:10,
-        addTriggerGetList: 11,
+        //addT riggerGetList: 11,
         addTriggerAdd: 12,
         addAssessmentGetList:13,
         dayPlanTodoGet:14,
@@ -85,7 +85,7 @@ sender = {
         simulationStart: config.host.name+'index.php/simulation/start',
         simulationGetNewEvents: config.host.name+'index.php/events/getState',
         dialogsGetSelect: config.host.name+'index.php/dialog/get',
-        addTriggerGetList: config.host.name+'index.php/events/getList',
+        //addTrigg erGetList: config.host.name+'index.php/events/getList',
         addTriggerAdd: config.host.name+'index.php/events/start',
         addAssessmentGetList: config.host.name+'index.php/simulation/getPoint',
         dayPlanTodoGet: config.host.name+'index.php/todo/get',
@@ -269,14 +269,14 @@ sender = {
 
         this.sendCommand(command, this.urls.dialogsGetSelect, this.commands.dialogsGetSelect);
     },
-    addTriggerGetList: function()
+    /*addTriggerGetL ist: function()
     {
         var command = {
-            commandId: this.commands.addTriggerGetList,
+            commandId: this.commands.addTr iggerGetList,
             sid:session.getSid()
         };
-        this.sendCommand(command, this.urls.addTriggerGetList, this.commands.addTriggerGetList);
-    },
+        this.sendCommand(command, this.urls.addTri ggerGetList, this.commands.addT riggerGetList);
+    },*/
     addTriggerAdd: function(id, delay, clearEvents, clearAssessment)
     {
         var command = {
