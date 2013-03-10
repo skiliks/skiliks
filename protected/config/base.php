@@ -160,7 +160,7 @@ return array(
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor' => 8,
-            'simulationStartTime' => '9:00',
+            'simulationStartTime' => '9:45',
             'simulationEndTime' => '18:00',
             'storageURL' => 'http://storage.skiliks.com/v1/'
         ],
