@@ -299,11 +299,12 @@ class CheckConsolidatedBudget
         ]);
 
         $document = MyDocument::model()->findByAttributes([
-            'template_id' => $documentTemplate->id
+            'template_id' => $documentTemplate->id,
+            'sim_id' => $this->simId
         ]);
 
         if (null === $document) {
-            throw new Exception("Template not found by template_id {$documentTemplate->id}");
+            //throw new Exception("Template not found by template_id {$documentTemplate->id}");
             return false;
         }
 
@@ -313,7 +314,7 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
-            throw new Exception("Document not found by path {$documentPath}");
+            //throw new Exception("Document not found by path {$documentPath}");
             return false;
         }
 
