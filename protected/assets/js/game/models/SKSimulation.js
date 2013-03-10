@@ -216,8 +216,9 @@ define([
                 var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
                 win.open();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
+
                     if (data.result === 0) {
-                        throw 'Ошибка при запуске симуляции.';
+                        window.location = '/';
                     }
                     
                     if ('undefined' !== typeof data.simId) {

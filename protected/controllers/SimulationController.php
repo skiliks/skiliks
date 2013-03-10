@@ -20,13 +20,21 @@ class SimulationController extends AjaxController
     {
         // тип симуляции 1 - promo, 2 - dev
         $simulationType = (int) Yii::app()->request->getParam('stype', 1);
-        SimulationService::simulationStart($simulationType);
+        $simulation = SimulationService::simulationStart($simulationType);
+
+        if (null === $simulation) {
+            $this->sendJSON(
+                array(
+                    'result' => 0,
+                )
+            );
+        }
 
         $this->sendJSON(
             array(
                 'result'      => 1,
                 'speedFactor' => Yii::app()->params['public']['skiliksSpeedFactor'],
-                'simId'       => $this->getSimulationId()
+                'simId'       => $simulation->id
             )
         );
     }
