@@ -16,7 +16,7 @@ class MailController extends AjaxController
         
         $result = array('result' => 0);
         
-        $unreadInfo = MailBoxService::getFoldersUnreadCount($simulation->id);
+        $unreadInfo = MailBoxService::getFoldersUnreadCount($simulation);
 
         if (isset($unreadInfo[1])) {
             $result = array(
@@ -220,9 +220,10 @@ class MailController extends AjaxController
     public function actionDelete()
     {
         $simulation = $this->getSimulationEntity();
+        $email = MailBox::model()->findByPk(Yii::app()->request->getParam('id'));
 
         return $this->sendJSON(array(
-            'result'  => (int)MailBoxService::delete((int)Yii::app()->request->getParam('id', 0)),
+            'result'  => (int)MailBoxService::moveToFolder($email, MailBox::FOLDER_TRASH_ID),
             'folders' => MailBoxService::getFolders($simulation)
         ));
     }
@@ -267,11 +268,11 @@ class MailController extends AjaxController
                 ),
                 'folders' => [
                     'inbox' => MailBoxService::getMessages([
-                        'folderId'   => MailBox::INBOX_FOLDER_ID,
+                        'folderId'   => MailBox::FOLDER_INBOX_ID,
                         'simId'     => $simulation->id
                     ]),
                     'sended' => MailBoxService::getMessages([
-                        'folderId'   => MailBox::OUTBOX_FOLDER_ID,
+                        'folderId'   => MailBox::FOLDER_OUTBOX_ID,
                         'simId'     => $simulation->id
                     ]),
                 ]
@@ -389,7 +390,7 @@ class MailController extends AjaxController
         $messageToForward = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(
-            MailBoxService::getForwardMessageData($simulation, $messageToForward)
+            MailBoxService::getForwardMessageData($messageToForward)
         );
     }
 

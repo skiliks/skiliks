@@ -7,25 +7,25 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class CheckConsolidatedBudgetTest extends CDbTestCase {
+class CheckConsolidatedBudgetTest extends CDbTestCase
+{
 
-    public function testFormula(){
-
-        $simulation_service = new SimulationService();
+    public function testFormula()
+    {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints(__DIR__.'/files/D1.xls');
-        $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1.xls');
+
+        $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $this->assertNotNull($points);
-        if($points !== null){
-            foreach($points as $point){
+
+        if ($points !== null) {
+            foreach ($points as $point) {
                 $this->assertEquals('1.00', $point->value);
             }
         }
-
-        //$simulation_service->simulationStop($simulation);
-
     }
 
 }

@@ -16,9 +16,9 @@ class DocumentsTest extends CDbTestCase
         // $this->markTestSkipped();
 
         // init simulation
-        $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
         $messages = array_values(MailBoxService::getMessages(array(
             'folderId'   => 1,
             'order'      => 'name',
@@ -26,6 +26,7 @@ class DocumentsTest extends CDbTestCase
             'simId'      => $simulation->id
         )));
         $tmpMessages = array_filter($messages, function ($item) {return $item['subject'] === 'По ценовой политике';});
+
         $attachmentId = $tmpMessages[0]['attachmentFileId'];
         $file = MyDocument::model()->findByPk($attachmentId);
         $this->assertEquals(MyDocumentsService::makeDocumentVisibleInSimulation($simulation, $file), true);
@@ -42,9 +43,8 @@ class DocumentsTest extends CDbTestCase
      */
     public function testCanOpenExcel()
     {
-        $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $documentTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $file = MyDocument::model()->findByAttributes([
             'sim_id' => $simulation->id,

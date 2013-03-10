@@ -34,19 +34,9 @@ class TodoService
     {
         //Todo::model()->bySimulation($simId)->byTask($taskId)->delete();
         Todo::model()->deleteAllByAttributes(array(
-            'sim_id' => $simId,
+            'sim_id'  => $simId,
             'task_id' => $taskId
         ));
-    }
-
-    /**
-     * Определить колличество задач в todo в рамках симуляции
-     * @param int $sim 
-     * @return int
-     */
-    public static function getCount($simId)
-    {
-        return Todo::model()->bySimulation($simId)->count();
     }
 
     /**

@@ -23,12 +23,12 @@ class AssessmentRuleTest extends CDbTestCase {
 
         Оценка должна быть 5
      */
-    public function testAssessment1(){
-        $simulationService = new SimulationService();
+    public function testAssessment1()
+    {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
         $logs = [];
         $this->appendDialog($logs, 'T7.1', 571);
         $this->appendSleep($logs, 10*60);
@@ -36,18 +36,20 @@ class AssessmentRuleTest extends CDbTestCase {
         $this->appendDialog($logs, 'T7.2', 591);
         $this->appendDialog($logs, 'T7.3', 596);
         $this->appendDialog($logs, 'T7.4', 601);
+
         $message = LibSendMs::sendMs($simulation, 'MS45', true);
+
         $this->appendNewMessage($logs, $message);
         $this->appendDialog($logs, 'T7.5', 605);
         $this->appendMessage($logs, $message);
         MailBoxService::sendDraft($simulation, $message);
 
-        #array_map(function ($i) {$i->dump();}, $simulation->log_mail);
-        #array_map(function ($i) {$i->dump();}, $simulation->log_windows);
-        #print_r($logs);
-        $mgr->processLogs($simulation, $logs);
+
+        EventsManager::processLogs($simulation, $logs);
+
         array_map(function ($i) {$i->dump();}, $simulation->log_activity_actions);
-        $simulationService->simulationStop($simulation);
+
+        SimulationService::simulationStop($simulation);
         $this->assertEquals([9,10,11,12, 13], array_map(function ($i) {return $i->assessmentRule->id;}, $simulation->getAssessmentRules()));
     }
 

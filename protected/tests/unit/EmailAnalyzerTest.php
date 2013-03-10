@@ -15,9 +15,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // move all not received emails to inbox
         $emailTemplates = MailTemplate::model()->findAll(
@@ -63,13 +62,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        
-        $randomSpamMailTemplate = MailTemplate::model()->findByAttributes([
-            'type_of_importance' => 'spam'
-        ]);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // move all not received emails to inbox
         $emailTemplates = MailTemplate::model()->findAll(
@@ -103,9 +97,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
@@ -158,9 +151,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
@@ -207,9 +199,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
@@ -271,9 +262,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'code' => '3322'
@@ -321,9 +311,8 @@ class EmailAnalyzerTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'

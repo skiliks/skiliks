@@ -12,7 +12,22 @@ class HeroBehaviourController extends AjaxController
      */
     public function actionDraw()
     {
-        $behaviours = System::getBehavioursListForAdminka();
+        $list = array();
+
+        foreach (HeroBehaviour::model()->findAll() as $behaviour) {
+            $list[] = array(
+                'id'    => $behaviour->id,
+                'cell'  => array(
+                    $behaviour->id,
+                    (NULL !== $behaviour->laerning_goal) ? $behaviour->laerning_goal->title : '--',
+                    $behaviour->code,
+                    $behaviour->title,
+                    $behaviour->scale
+                )
+            );
+        }
+
+        $behaviours = $list;
         
         $this->sendJSON(array(
             'result'  => 1,

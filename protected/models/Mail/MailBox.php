@@ -23,19 +23,19 @@ class MailBox extends CActiveRecord
     const COINCIDENCE_PART_1 = 'part1';
     const COINCIDENCE_PART_2 = 'part2';
     
-    const INBOX_FOLDER_ID  = 1;
-    const DRAFTS_FOLDER_ID = 2;
-    const OUTBOX_FOLDER_ID = 3;
-    const TRASH_FOLDER_ID  = 4;
-    const NOT_RECEIVED_EMAILS_GROUP_ID  = 5;
+    const FOLDER_INBOX_ID  = 1;
+    const FOLDER_DRAFTS_ID = 2;
+    const FOLDER_OUTBOX_ID = 3;
+    const FOLDER_TRASH_ID  = 4;
+    const FOLDER_NOT_RECEIVED_EMAILS_ID  = 5;
 
-    const INBOX_FOLDER_ALIAS  = 'inbox';
-    const DRAFTS_FOLDER_ALIAS = 'drafts';
-    const OUTBOX_FOLDER_ALIAS = 'outbox';
-    const TRASH_FOLDER_ALIAS  = 'trash';
-    const NOT_RECEIVED_FOLDER_ALIAS  = 'not received';
+    const FOLDER_INBOX_ALIAS  = 'inbox';
+    const FOLDER_DRAFTS_ALIAS = 'drafts';
+    const FOLDER_OUTBOX_ALIAS = 'outbox';
+    const FOLDER_TRASH_ALIAS  = 'trash';
+    const FOLDER_NOT_RECEIVED_ALIAS  = 'not received';
 
-    const TYPE_REPLY    = 'reply';
+    const TYPE_REPLY     = 'reply';
     const TYPE_REPLY_ALL = 'replyAll';
 
     /**
@@ -43,11 +43,11 @@ class MailBox extends CActiveRecord
      * @var array<int>
      */
     public static $folderIdToAlias = array(
-        self::INBOX_FOLDER_ID  => self::INBOX_FOLDER_ALIAS,
-        self::DRAFTS_FOLDER_ID => self::DRAFTS_FOLDER_ALIAS,
-        self::OUTBOX_FOLDER_ID => self::OUTBOX_FOLDER_ALIAS,
-        self::TRASH_FOLDER_ID  => self::TRASH_FOLDER_ALIAS,
-        self::NOT_RECEIVED_EMAILS_GROUP_ID => self::NOT_RECEIVED_FOLDER_ALIAS
+        self::FOLDER_INBOX_ID  => self::FOLDER_INBOX_ALIAS,
+        self::FOLDER_DRAFTS_ID => self::FOLDER_DRAFTS_ALIAS,
+        self::FOLDER_OUTBOX_ID => self::FOLDER_OUTBOX_ALIAS,
+        self::FOLDER_TRASH_ID  => self::FOLDER_TRASH_ALIAS,
+        self::FOLDER_NOT_RECEIVED_EMAILS_ID => self::FOLDER_NOT_RECEIVED_ALIAS
     );
     
     /**
@@ -206,7 +206,7 @@ class MailBox extends CActiveRecord
      * @return boolean
      */
     public function isSended() {
-        return MailBox::OUTBOX_FOLDER_ID == $this->group_id;
+        return MailBox::FOLDER_OUTBOX_ID == $this->group_id;
     }
 
     /**
