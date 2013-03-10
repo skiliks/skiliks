@@ -8,7 +8,7 @@ class SendMailOptions
     public $simulation = NULL;
     public $senderId   = Character::HERO_ID;
 
-    public $groupId    = MailBox::OUTBOX_FOLDER_ID;
+    public $groupId    = MailBox::FOLDER_OUTBOX_ID;
     /**
      * @var MailTemplate $messageId
      */

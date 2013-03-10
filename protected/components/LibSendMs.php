@@ -42,8 +42,7 @@ class LibSendMs
             $logs[] = [10       , 13          , 'deactivated', $time, 'window_uid' => $fakeUID, 4 => ['mailId' => $email->id]];
             $logs[] = [$windowId, $subWindowId, 'activated'  , $time, 'window_uid' => $windowUid];
 
-            $event = new EventsManager();
-            $event->processLogs($simulation, $logs);
+            EventsManager::processLogs($simulation, $logs);
         }
         // set-up logs }
 

@@ -29,14 +29,14 @@ class DialogService
                ];
         }
 
-        $gameTime = SimulationService::getGameTime($simId);
-        $simType = SimulationService::getType($simId); // определим тип симуляции
+        $gameTime = $simulation->getGameTime();
+        $simType = $simulation->type; // определим тип симуляции
         $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
-        EventService::deleteByCode($currentDialog->code, $simId);
+        EventService::deleteByCode($currentDialog->code, $simulation);
         // set flag 1, @1229
         if (NULL !== $currentDialog->flag_to_switch) {
-            FlagsService::setFlag($simId, $currentDialog->flag_to_switch, 1);
+            FlagsService::setFlag($simulation, $currentDialog->flag_to_switch, 1);
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
@@ -86,6 +86,7 @@ class DialogService
                 ->find('', array('order' => 'replica_number'));
             $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
 
+            // isDialog() Wrong!!!
             $isDialog = EventService::isDialog($currentDialog->next_event_code);
 
             if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
@@ -97,16 +98,16 @@ class DialogService
             }
             else {
                 // запуск следующего события
-                $res = EventService::processLinkedEntities($currentDialog->next_event_code, $simId);
+                $res = EventService::processLinkedEntities($currentDialog->next_event_code, $simulation);
                 if ($res) {
                     // убьем такое событие чтобы оно не произошло позже
-                    EventService::deleteByCode($currentDialog->next_event_code, $simId);
+                    EventService::deleteByCode($currentDialog->next_event_code, $simulation);
 
                     $result['events'][] = $res;
                 }
                 else {
                     // нет особых правил для этого события - запускаем его
-                    EventService::addByCode($currentDialog->next_event_code, $simId, $gameTime);
+                    EventService::addByCode($currentDialog->next_event_code, $simulation, $gameTime);
                 }
             }
         }
@@ -134,7 +135,7 @@ class DialogService
                 continue;
             }
 
-            $flagInfo = FlagsService::checkRule($dialog['code'], $simId, $dialog['step_number'], $dialog['replica_number'], $dialogId);
+            $flagInfo = FlagsService::checkRule($dialog['code'], $simulation, $dialog['step_number'], $dialog['replica_number'], $dialogId);
 
             if ($flagInfo['ruleExists'] === true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
                 break;  // нечего чистиить все выполняется, for current dialog replic
@@ -179,10 +180,11 @@ class DialogService
             // Если у нас реплика к герою
             if ($dialog['replica_number'] == 0) {
                 // События типа диалог мы не создаем
+                // isDialog() Wrong!!!
                 if (!EventService::isDialog($dialog['next_event_code'])) {
                     // создадим событие
                     if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-')
-                        EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
+                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime);
                 }
             }
             unset($resultList[$index]['replica_number']);
