@@ -16,10 +16,8 @@ class LogTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);        
 
         $character = Character::model()->findByAttributes(['code' => 9]);
 
@@ -45,7 +43,7 @@ class LogTest extends CDbTestCase
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
         $options->setLetterType('new');
-        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
         $message = MailBoxService::sendMessagePro($options);
@@ -107,8 +105,7 @@ class LogTest extends CDbTestCase
         $this->appendNewMessage($logList, $draft_message2);
         $this->appendWindow($logList, 11);
 
-
-        $mgr->processLogs($simulation, $logList);
+        EventsManager::processLogs($simulation, $logList);
 
         MailBoxService::sendDraft($simulation, $draft_message2);
         MailBoxService::sendDraft($simulation, $draft_message3);
@@ -119,9 +116,9 @@ class LogTest extends CDbTestCase
         $this->appendViewMessage($logList, $draft_message);
         $this->appendViewMessage($logList, $draft_message2);
         $this->appendSleep($logList, 60);
-        $mgr->processLogs($simulation, $logList);
+        EventsManager::processLogs($simulation, $logList);
 
-        $simulation_service->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
 
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -178,18 +175,17 @@ class LogTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-        $mgr = new EventsManager();
+        
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
-        $simulation_service->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
         //$log_windows = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
 //        foreach ($log_windows as $log) {
@@ -235,15 +231,14 @@ class LogTest extends CDbTestCase
      */
     public function testLogDocument()
     {
-        $mgr = new EventsManager();
-        $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $document  = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->primaryKey,
             'sim_id' => $simulation->primaryKey]);
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
         [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [40, 41, 'activated', 32460, 'window_uid' => 2],
@@ -268,10 +263,9 @@ class LogTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        
         $character = Character::model()->findByAttributes(['code' => 9]);
 
         $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
@@ -304,7 +298,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
@@ -326,7 +320,7 @@ class LogTest extends CDbTestCase
         ]);
         MailBoxService::sendDraft($simulation, $draft_message2);
 
-        $simulation_service->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
@@ -356,17 +350,16 @@ class LogTest extends CDbTestCase
 
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [20, 23, 'activated', 32460, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
             [20, 23, 'deactivated', 32520, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 1], # Send mail
         ]);
-        $simulation_service->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
         $log_windows = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 //        foreach ($log_windows as $log) {
 //            printf("%s\t%8s\t%s\n",
@@ -395,10 +388,9 @@ class LogTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        
 
         $krutko = Character::model()->findByAttributes(['code' => 4]);
 
@@ -415,12 +407,12 @@ class LogTest extends CDbTestCase
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
         $options->setLetterType('new');
-        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
@@ -431,7 +423,7 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 33000, 'window_uid' => 4],
         ]);
 
-        $simulation_service->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -470,10 +462,8 @@ class LogTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         
-        $simulationService = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $mgr = new EventsManager();
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
@@ -491,7 +481,7 @@ class LogTest extends CDbTestCase
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
         $options->setLetterType('new');
-        $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
         $options->simulation = $simulation;
 
         $message = MailBoxService::sendMessagePro($options);
@@ -520,7 +510,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->subject_id    = $theme->primaryKey;
         $sendMailOptions->setLetterType('new');
         $draftMessage2 = MailBoxService::saveDraft($sendMailOptions);
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
             [10, 11, 'activated', 32460, 'window_uid' => 2],
@@ -537,7 +527,7 @@ class LogTest extends CDbTestCase
             [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $draftMessage2->primaryKey]],
         ]);
         MailBoxService::sendDraft($simulation, $draftMessage2);
-        $mgr->processLogs($simulation, [
+        EventsManager::processLogs($simulation, [
             [10, 11, 'activated', 32820, 'window_uid' => 1],
             [10, 11, 'deactivated', 32880, 'window_uid' => 1],
             [10, 13, 'activated', 32880, 'window_uid' => 2], # Send draft
@@ -546,7 +536,8 @@ class LogTest extends CDbTestCase
             [1, 1, 'deactivated', 33000, 'window_uid' => 3],
         ]);
 
-        $simulationService->simulationStop($simulation);
+        SimulationService::simulationStop($simulation);
+
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
@@ -581,9 +572,8 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         // init simulation
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         // init LogActivityActions {
         
@@ -740,11 +730,10 @@ class LogTest extends CDbTestCase
      */
     public function testLogMail()
     {
-        ////$this->markTestSkipped();
+        //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $logs = [];
         $logs[0][0] = 1;
@@ -774,9 +763,7 @@ class LogTest extends CDbTestCase
         $logs[4]['window_uid'] = 615;
 
 
-        $e = new EventsManager();
-
-        $e->getState($simulation, $logs);
+        EventsManager::getState($simulation, $logs);
 
         $windowLogs = LogWindow::model()->findAllByAttributes([
             'sim_id' => $simulation->id

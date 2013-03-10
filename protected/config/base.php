@@ -25,6 +25,8 @@ return array(
         'application.models.FlagsRules.*',
         'application.models.MyDocuments.*',
         */
+        'application.models.Interfaces.*',
+
         'application.components.*',
         'application.components.Zoho.*',
         'application.components.Tools.*',
@@ -35,6 +37,7 @@ return array(
         'application.components.Base.*',
         'application.components.ApiMethods.*',
         'application.components.GameContentAnalyze.*',
+        'application.components.ForStaticSite.*',
         /*'application.components.DayPlan.*',
         'application.components.Replica.*',
         'application.components.Excel.*',

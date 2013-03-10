@@ -7,7 +7,7 @@ class EventsManager {
     }
 
     /**
-     * @param $simId
+     * @param $simulation
      * @param $eventCode
      * @param $clearEvents
      * @param $clearAssessment
@@ -15,24 +15,24 @@ class EventsManager {
      * @return array
      * @throws Exception
      */
-    public function startEvent($simId, $eventCode, $clearEvents, $clearAssessment, $delay) {
+    public static function startEvent($simulation, $eventCode, $clearEvents, $clearAssessment, $delay) {
 
             $event = EventSample::model()->byCode($eventCode)->find();
             if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
             
             // если надо очищаем очерель событий для текущей симуляции
             if ($clearEvents) {
-                EventTrigger::model()->deleteAll("sim_id={$simId}");
+                EventTrigger::model()->deleteAll("sim_id={$simulation->id}");
             }
             
             // если надо очищаем оценки  для текущей симуляции
             if ($clearAssessment) {
-                LogDialogPoint::model()->deleteAll("sim_id={$simId}");
+                LogDialogPoint::model()->deleteAll("sim_id={$simulation->id}");
             }
 
-            $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), $delay);
+            $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);
 
-            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
+            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->save(); // обновляем существующее событие в очереди
@@ -41,7 +41,7 @@ class EventsManager {
                 
                 // Добавляем событие
                 $eventsTriggers = new EventTrigger();
-                $eventsTriggers->sim_id = $simId;
+                $eventsTriggers->sim_id = $simulation->id;
                 $eventsTriggers->event_id = $event->id;
                 $eventsTriggers->trigger_time = $gameTime;
                 $eventsTriggers->insert();
@@ -50,13 +50,20 @@ class EventsManager {
             return ['result' => 1];
     }
 
-    public function waitEvent($simId, $eventCode, $eventTime) {
+    /**
+     * @param Simulation $simulation
+     * @param $eventCode
+     * @param $eventTime
+     * @return array
+     */
+    public static function waitEvent($simulation, $eventCode, $eventTime)
+    {
         $event = EventSample::model()->byCode($eventCode)->find();
-        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simId, $event->id)->find();
+        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
 
         if (!$eventsTriggers) {
             $eventsTriggers = new EventTrigger();
-            $eventsTriggers->sim_id = $simId;
+            $eventsTriggers->sim_id = $simulation->id;
             $eventsTriggers->event_id = $event->id;
             $eventsTriggers->trigger_time = $eventTime ?: $event->trigger_time;
             $eventsTriggers->insert();
@@ -76,17 +83,17 @@ class EventsManager {
      * @return array
      * @throws CHttpException
      */
-    public function getState($simulation, $logs) {
+    public static function getState($simulation, $logs) {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
-            $this->processLogs($simulation, $logs);
+            self::processLogs($simulation, $logs);
 
             $simType  = $simulation->type; // определим тип симуляции
             $gameTime = $simulation->getGameTime();
 
             // обработка задач {
-            $task = false; //$this->processTasks($simId);
+            $task = false;
             if ($task) {
                 return [
                     'result'     => 1,
@@ -143,7 +150,7 @@ class EventsManager {
                         $eventTime = $trigger->trigger_time;
                     }
 
-                    $res = EventService::processLinkedEntities($event->code, $simId);
+                    $res = EventService::processLinkedEntities($event->code, $simulation);
                     if ($res) {
                         $result['events'][] = $res;
                     }
@@ -169,8 +176,8 @@ class EventsManager {
             $defaultDialogs = [];
             foreach ($data as $dialogId => $dialog) {
                 $flagInfo = FlagsService::checkRule(
-                    $dialog['code'], 
-                    $simId,
+                    $dialog['code'],
+                    $simulation,
                     $dialog['step_number'],
                     $dialog['replica_number'],
                     $dialog['excel_id']
@@ -213,9 +220,10 @@ class EventsManager {
                 // Если у нас реплика к герою
                 if ($dialog['replica_number'] == 0) {
                     // События типа диалог мы не создаем
+                    // isDialog() Wrong!!!
                     if (!EventService::isDialog($dialog['next_event_code'])) {
                         // создадим событие
-                        EventService::addByCode($dialog['next_event_code'], $simId, $gameTime);
+                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime);
                     }
                 }
 
@@ -269,7 +277,7 @@ class EventsManager {
      * @param $simulation Simulation
      * @param array $logs
      */
-    public function processLogs($simulation, $logs)
+    public static function processLogs($simulation, $logs)
     {
         $simId = $simulation->primaryKey;
 
@@ -288,8 +296,8 @@ class EventsManager {
         } catch (CException $e) {
             // @todo: handle
         }
-        $log_manager = new LogManager();
-        $log_manager->setUniversalLog($simId, $logs);
+
+        LogHelper::setUniversalLog($simulation, $logs);
 
         LogHelper::setDocumentsLog($simId, $logs); //Пишем логирование открытия и закрытия документов
         LogHelper::setMailLog($simId, $logs);
@@ -334,40 +342,4 @@ class EventsManager {
         }
         // update phone call dialogs lastDialogId }
     }
-
-    public function processTasks($simId) {
-        ###  определение событие типа todo
-        // получаем игровое время
-        $gameTime = GameTime::addMinutesTime(SimulationService::getGameTime($simId), 9*60);
-        // выбираем задачи из плана, которые произойдут в ближайшие 5 минут
-        $toTime = GameTime::addMinutesTime($gameTime, 5);
-        
-        $dayPlan = DayPlan::model()->nearest($gameTime, $toTime)->find();
-        if (!$dayPlan) return false;
-        
-        // загружаем таску
-        $task = Task::model()->byId($dayPlan->task_id)->find();
-        if (!$task) return false;
-        
-        return [
-            'id' => $task->id,
-            'text' => $task->title
-        ];
-    }
-    
-    public function getList() {
-        
-        $eventsSamples = EventSample::model()->findAll();
-        $data = [];
-        foreach($eventsSamples as $event) {
-            $data[] = [
-                'id' => $event->id,
-                'code' => $event->code,
-                'title' => $event->title
-            ];
-        }
-        
-        return ['result' => 1, 'data' => $data];
-    }
-    
 }

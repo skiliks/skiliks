@@ -191,6 +191,27 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             window_uid: undefined,
 
             // -------------------------------------------------
+
+            initialize:function () {
+                this.folders[this.aliasFolderInbox] = new SKMailFolder();
+                this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;
+
+                this.folders[this.aliasFolderDrafts] = new SKMailFolder();
+                this.folders[this.aliasFolderDrafts].alias = this.aliasFolderDrafts;
+
+                this.folders[this.aliasFolderSended] = new SKMailFolder();
+                this.folders[this.aliasFolderSended].alias = this.aliasFolderSended;
+
+                this.folders[this.aliasFolderTrash] = new SKMailFolder();
+                this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
+
+                // init folder names
+                this.getInboxFolder().name  = 'Входящие';
+                this.getDraftsFolder().name = 'Черновики';
+                this.getSendedFolder().name = 'Отправленные';
+                this.getTrashFolder().name  = 'Корзина';
+            },
+
             /**
              * @return string,
              */
@@ -232,22 +253,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return 'mailMain';
             },
 
-            initialize:function () {
-                this.folders[this.aliasFolderInbox] = new SKMailFolder();
-                this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;
-
-                this.folders[this.aliasFolderDrafts] = new SKMailFolder();
-                this.folders[this.aliasFolderDrafts].alias = this.aliasFolderDrafts;
-
-                this.folders[this.aliasFolderSended] = new SKMailFolder();
-                this.folders[this.aliasFolderSended].alias = this.aliasFolderSended;
-
-                this.folders[this.aliasFolderTrash] = new SKMailFolder();
-                this.folders[this.aliasFolderTrash].alias = this.aliasFolderTrash;
-
-
-            },
-
             getMailTaskByMySqlId:function (id) {
                 for (var i in this.availaleActiveEmailTasks) {
                     if (parseInt(this.availaleActiveEmailTasks[i].mySqlId, 10) === parseInt(id,10)) {
@@ -286,46 +291,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             getTrashFolder:function () {
                 return this.folders[this.aliasFolderTrash];
-            },
-
-            /**
-             * Is it used?
-             * Init folder names by server data
-             * data = array {
-         *   1 => array(
-         *     name => '', id => 1, unreaded => 0,
-         *   ),
-         *   2 => ...
-         * }
-             */
-            updateFolders: function (data) {
-                this.getInboxFolder().name = data[this.codeFolderInbox].name;
-                this.getDraftsFolder().name = data[this.codeFolderDrafts].name;
-                this.getSendedFolder().name = data[this.codeFolderSended].name;
-                this.getTrashFolder().name = data[this.codeFolderTrash].name;
-            },
-
-            initFolderNames: function () {
-                this.getInboxFolder().name  = 'Входящие';
-                this.getDraftsFolder().name = 'Черновики';
-                this.getSendedFolder().name = 'Отправленные';
-                this.getTrashFolder().name  = 'Корзина';
-            },
-
-            getFolderAliasById:function (folderId) {
-                folderId = parseInt(folderId, 10);
-                if (1 === folderId) {
-                    return this.aliasFolderInbox;
-                }
-                if (2 === folderId) {
-                    return this.aliasFolderSended;
-                }
-                if (3 === folderId) {
-                    return this.aliasFolderDrafts;
-                }
-                if (4 === folderId) {
-                    return this.aliasFolderTrash;
-                }
             },
 
             /**
@@ -459,7 +424,23 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
 
             getDataForInitialScreen:function () {
-                this.renderInitialScreen([],[]);
+                var me = this;
+
+                // mark INCOME folders as active
+                this.folders[this.aliasFolderInbox].isActive = true;
+                var folder_to_load = 4;
+                var onSent = function () {
+                    folder_to_load--;
+                    if (folder_to_load === 0) {
+                        me.trigger('init_completed');
+                    }
+                    return folder_to_load;
+                };
+
+                this.getInboxFolderEmails(onSent);
+                this.getDraftsFolderEmails(onSent);
+                this.getSendedFolderEmails(onSent);
+                this.getTrashFolderEmails(onSent);
             },
 
             // todo: combine all getXxxFolderEmails() to one method.
@@ -612,44 +593,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                 }
                 return undefined;
-            },
-
-            renderInitialScreen:function (folders, messages) {
-                var me = this;
-                this.initFolderNames();
-                // process and store in model AJAX data {
-                /*this.updateFolders(folders);*/
-                //this.setEmailsToFolder(this.aliasFolderInbox,  messages[this.aliasFolderInbox.toLowerCase()]);
-                //this.setEmailsToFolder(this.aliasFolderSended, messages[this.aliasFolderSended.toLowerCase()]);
-                // process and store in model AJAX data }
-
-                // mark INCOME foldes as active
-                this.folders[this.aliasFolderInbox].isActive = true;
-                var folder_to_load = 4;
-                var onSent = function () {
-                    folder_to_load--;
-                    if (folder_to_load === 0) {
-                        me.trigger('init_completed');
-                    }
-                    return folder_to_load;
-                };
-
-                this.getInboxFolderEmails(onSent);
-                this.getDraftsFolderEmails(onSent);
-                this.getSendedFolderEmails(onSent);
-                this.getTrashFolderEmails(onSent);
-
-                // set as active first letter in Inbox folder {
-                /*var emails = this.folders[this.aliasFolderInbox].emails;
-                if (0 < emails.length) {
-                    for (var key in emails) {
-                        if (emails.hasOwnProperty(key)) {
-                            this.setActiveEmail(emails[key]);
-                            break;
-                        }
-                    }
-                }*/
-                // set as active first letter in Inbox folder }
             },
 
             /**
@@ -1020,20 +963,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             * @var integer fileId
-             */
-            getAttahmentByFileID:function (fileId) {
-                for (var i in this.availableAttachments) {
-                    // keet not strict comparsion ('==') !
-                    if (this.availableAttachments[i] == fileID) {
-                        return this.availableAttachments[i];
-                    }
-                }
-
-                return undefined;
-            },
-
-            /**
              * What is it?
              * @param emailToSave
              * @return {Object}
@@ -1170,16 +1099,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // ------------------------------------------------------
 
-            renderMailClientFunctionalButtons:function (buttonsToDisplay) {
-                if ('undefined' === typeof buttonsToDisplay) {
-                    buttonsToDisplay = [];
-                }
-            },
-
             openWindow: function () {
                 this.getDataForInitialScreen();
                 //this.trigger('init_completed');
             },
+
             /**
              * To rewrite
              * @return {Boolean}

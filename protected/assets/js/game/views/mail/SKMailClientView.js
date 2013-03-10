@@ -87,10 +87,6 @@ define([
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click .switch-size': 'doSwitchNewLetterView'
-
-                /*'keypress'                                    : 'doHandleKeypress',
-                 'keyup'                                    : 'doHandleKeypress',
-                 'keydown'                                    : 'doHandleKeypress'*/
             }, SKWindowView.prototype.events),
 
             initialize: function () {
@@ -163,7 +159,7 @@ define([
                 // close with conditions action }
 
                 $('body').keydown(function (e) {
-                    me.doHandleKeypress(e);
+                    me.doHandleKeyPress(e);
                 });
 
                 // call parrent initialize();
@@ -281,7 +277,7 @@ define([
                     this.updateInboxListView();
                 }
                 if (folderAlias === this.mailClient.aliasFolderSended) {
-                    this.updateSendedListView();
+                    this.updateSendListView();
                 }
                 if (folderAlias === this.mailClient.aliasFolderDrafts) {
                     this.updateDraftsListView();
@@ -294,7 +290,7 @@ define([
                 if ('undefined' !== typeof email.text &&
                     'undefined' !== typeof email.attachment) {
                     // if YES - just render it
-                    this.renderEmaiPreviewScreen(
+                    this.renderEmailPreviewScreen(
                         email,
                         this.mailClientInboxFolderEmailPreviewId,
                         '120px'
@@ -305,7 +301,7 @@ define([
                 // do we have full data for current email ? }
 
                 // render preview
-                me.renderEmaiPreviewScreen(
+                me.renderEmailPreviewScreen(
                     email,
                     me.mailClientInboxFolderEmailPreviewId,
                     '140px'
@@ -432,7 +428,7 @@ define([
                     if (isSwitchToFirst) {
                         this.mailClient.setActiveEmail(this.mailClient.getSendedFolder().getFirstEmail());
                     }
-                    this.renderSendedFolder();
+                    this.renderSendFolder();
                 }
 
                 if (this.mailClient.aliasFolderDrafts === folderAlias) {
@@ -495,6 +491,7 @@ define([
 
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
             },
+
             updateTrashListView: function () {
                 // generate emails list {
 
@@ -530,7 +527,7 @@ define([
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderTrash);
             },
 
-            updateSendedListView: function () {
+            updateSendListView: function () {
                 // generate emails list {
 
                 // We  use this 2 variables to separate emails to display unreaded emails first in list
@@ -678,7 +675,7 @@ define([
             },
 
             /**
-             * Renders current fornder
+             * Renders current folder
              */
             renderActiveFolder: function () {
                 this.doRenderFolder(this.mailClient.getActiveFolder().alias);
@@ -687,14 +684,14 @@ define([
             renderInboxFolder: function () {
                 this.unhideFoldersBlock();
 
-                // set HTML sceleton {
-                var sceleton = _.template(income_folder_skeleton_template, {
+                // set HTML skeleton {
+                var skeleton = _.template(income_folder_skeleton_template, {
                     listId: this.mailClientIncomeFolderListId,
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                this.$('#' + this.mailClientContentBlockId).html(sceleton);
-                // set HTML sceleton }
+                this.$('#' + this.mailClientContentBlockId).html(skeleton);
+                // set HTML skeleton }
 
                 this.updateInboxListView();
 
@@ -720,14 +717,14 @@ define([
             renderTrashFolder: function () {
                 this.unhideFoldersBlock();
 
-                // set HTML sceleton {
-                var sceleton = _.template(trash_folder_sceleton, {
+                // set HTML skeleton {
+                var skeleton = _.template(trash_folder_sceleton, {
                     listId: this.mailClientIncomeFolderListId,
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                this.$('#' + this.mailClientContentBlockId).html(sceleton);
-                // set HTML sceleton }
+                this.$('#' + this.mailClientContentBlockId).html(skeleton);
+                // set HTML skeleton }
 
                 this.updateTrashListView();
 
@@ -750,19 +747,19 @@ define([
                 // draggable: add restore from trash behaviour }
             },
 
-            renderSendedFolder: function () {
+            renderSendFolder: function () {
                 this.unhideFoldersBlock();
 
-                // set HTML sceleton {
-                var sceleton = _.template(mail_sender_folder_sceleton_template, {
+                // set HTML skeleton {
+                var skeleton = _.template(mail_sender_folder_sceleton_template, {
                     listId: this.mailClientIncomeFolderListId,
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                this.$('#' + this.mailClientContentBlockId).html(sceleton);
-                // set HTML sceleton }
+                this.$('#' + this.mailClientContentBlockId).html(skeleton);
+                // set HTML skeleton }
 
-                this.updateSendedListView();
+                this.updateSendListView();
 
                 // render preview email
                 if (undefined !== this.mailClient.activeEmail) {
@@ -781,14 +778,14 @@ define([
             renderDraftsFolder: function () {
                 this.unhideFoldersBlock();
 
-                // set HTML sceleton {
-                var sceleton = _.template(mail_sender_folder_sceleton_template, {
+                // set HTML skeleton {
+                var skeleton = _.template(mail_sender_folder_sceleton_template, {
                     listId: this.mailClientIncomeFolderListId,
                     emailPreviewId: this.mailClientInboxFolderEmailPreviewId
                 });
 
-                this.$('#' + this.mailClientContentBlockId).html(sceleton);
-                // set HTML sceleton }
+                this.$('#' + this.mailClientContentBlockId).html(skeleton);
+                // set HTML skeleton }
 
                 this.updateDraftsListView();
 
@@ -807,7 +804,7 @@ define([
 
             },
 
-            renderEmaiPreviewScreen: function (email, id, height) {
+            renderEmailPreviewScreen: function (email, id, height) {
                 this.mailClient.setActiveEmail(email);
 
                 var attachmentLabel = '';
@@ -834,18 +831,18 @@ define([
 
                 this.$('#' + id).html(emailPreviewTemplate);
 
-                this.renderPreviouseMessage(email.previouseEmailText);
+                this.renderPreviousMessage(email.previouseEmailText);
             },
 
             renderReadEmail: function (email) {
-                // set HTML sceleton {
-                var sceleton = _.template(read_mail_sceleton, {
+                // set HTML skeleton {
+                var skeleton = _.template(read_mail_sceleton, {
                     emailPreviewId: this.mailClientReadEmailContentBoxId
                 });
 
-                $('#' + this.mailClientContentBlockId).html(sceleton);
-                // set HTML sceleton }
-                this.renderEmaiPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
+                $('#' + this.mailClientContentBlockId).html(skeleton);
+                // set HTML skeleton}
+                this.renderEmailPreviewScreen(email, this.mailClientReadEmailContentBoxId, '350px');
                 this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
             },
 
@@ -1120,7 +1117,7 @@ define([
                     onAdd: function (tag) {
                         var me = this;
                         var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                            mailClientView.getCurentEmailRecipientIds(),
+                            mailClientView.getCurrentEmailRecipientIds(),
                             'add',
                             undefined,
                             function () {
@@ -1130,16 +1127,16 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
+                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                     },
                     afterAdd: function (tag) {
                         $("#mailEmulatorNewLetterText").html('');
-                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurentEmailRecipientIds());
+                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                     },
                     onDelete: function (tag) {
                         var me = this;
                         var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                            mailClientView.getCurentEmailRecipientIds(),
+                            mailClientView.getCurrentEmailRecipientIds(),
                             'delete',
                             undefined,
                             function () {
@@ -1189,7 +1186,7 @@ define([
                 });
             },
 
-            getCurentEmailRecipientIds: function () {
+            getCurrentEmailRecipientIds: function () {
                 var list = [];
                 var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
                 var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
@@ -1361,12 +1358,12 @@ define([
              * @return SKAttachment | undefined
              */
             getCurrentEmailAttachment: function () {
-                var selectedAttachmentlabel = $('.dd-selected label').text();
+                var selectedAttachmentLabel = $('.dd-selected label').text();
                 var attachments = this.mailClient.availableAttachments;
 
-                if (undefined !== selectedAttachmentlabel && null !== selectedAttachmentlabel) {
+                if (undefined !== selectedAttachmentLabel && null !== selectedAttachmentLabel) {
                     for (var i in attachments) {
-                        if (selectedAttachmentlabel == attachments[i].label) {
+                        if (selectedAttachmentLabel == attachments[i].label) {
                             return attachments[i];
                         }
                     }
@@ -1404,15 +1401,15 @@ define([
                 var emailToSave = new SKEmail();
 
                 // recipients
-                var recipients = this.getCurentEmailRecipientIds();
-                emailToSave.recipients = []; // set empty realy nessesary
+                var recipients = this.getCurrentEmailRecipientIds();
+                emailToSave.recipients = []; // set empty really necessary
                 for (var i in recipients) {
                     emailToSave.recipients.push(this.mailClient.getCharacterById(recipients[i]));
                 }
 
                 // copies
                 var copies = this.getCurentEmailCopiesIds();
-                emailToSave.copyTo = []; // set empty realy nessesary
+                emailToSave.copyTo = []; // set empty really necessary
                 for (var i in copies) {
                     emailToSave.copyTo.push(this.mailClient.getCharacterById(copies[i]));
                 }
@@ -1567,7 +1564,7 @@ define([
                 $('#MailClient_NewLetterSubject select option[value="' + value + '"]').attr('selected', 'selected');
             },
 
-            renderPreviouseMessage: function (text) {
+            renderPreviousMessage: function (text) {
                 if (undefined !== text && '' !== text) {
                     text = '<pre><p style="color:blue;">' + text + '</p></pre>';
                 }
@@ -1604,7 +1601,7 @@ define([
                     this.parentSubject = subject;
                     this.renderSingleSubject(subject);
 
-                    this.renderPreviouseMessage(response.phrases.previouseMessage);
+                    this.renderPreviousMessage(response.phrases.previouseMessage);
 
                     this.renderTXT();
 
@@ -1710,7 +1707,7 @@ define([
 
                     this.renderSingleSubject(subject);
 
-                    this.renderPreviouseMessage(response.phrases.previouseMessage);
+                    this.renderPreviousMessage(response.phrases.previouseMessage);
                     var me = this;
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
@@ -1719,7 +1716,7 @@ define([
                         autocomplete: true,
                         onAdd: function (tag) {
                             var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                                me.getCurentEmailRecipientIds(),
+                                me.getCurrentEmailRecipientIds(),
                                 'add_fwd',
                                 subject,
                                 function () {
@@ -1732,13 +1729,13 @@ define([
                             //
                         },
                         afterAdd: function (tag) {
-                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurentEmailRecipientIds(), subject);
+                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject);
                             SKApp.user.simulation.mailClient.getAvailablePhrases(SKApp.user.simulation.mailClient.availableSubjects[0].characterSubjectId);
                         },
                         onDelete: function (tag) {
                             var el = this;
                             var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
-                                me.getCurentEmailRecipientIds(),
+                                me.getCurrentEmailRecipientIds(),
                                 'delete_fwd',
                                 undefined,
                                 function () {
@@ -1881,7 +1878,7 @@ define([
 
             },
 
-            doHandleKeypress: function (keyboardEvent) {
+            doHandleKeyPress: function (keyboardEvent) {
 
                 // delete active email when Inbox list screen active only, by DEL press
                 if (this.mailClient.screenInboxList === this.mailClient.activeScreen &&

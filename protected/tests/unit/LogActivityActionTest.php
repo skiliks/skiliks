@@ -13,22 +13,21 @@ class LogActivityActionTest extends CDbTestCase
 
     public function testActivityActionDetail()
     {
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $event = new EventsManager();
-        $json = $event->getState($simulation, [
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [1, 1, 'deactivated', 39735, 'window_uid' => 1],
             [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId' => 1]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [20, 24, 'deactivated', 40493, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId' => 2]],
             [1, 1, 'activated', 40493, 'window_uid' => 3],
             [1, 1, 'deactivated', 40493, 'window_uid' => 3],
@@ -36,7 +35,7 @@ class LogActivityActionTest extends CDbTestCase
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [20, 23, 'deactivated', 43992, 'window_uid' => 4, ['dialogId' => 4, 'lastDialogId' => 824]],
             [1, 1, 'activated', 43992, 'window_uid' => 5],
             [1, 1, 'deactivated', 44002, 'window_uid' => 5]
@@ -112,14 +111,10 @@ class LogActivityActionTest extends CDbTestCase
                 'diff_time' => '00:00:10',
                 'activity_id' => 'A_wait',
             ));
-        $simulation_service->simulationStop($simulation);
+
+        SimulationService::simulationStop($simulation);
         $res = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
         $this->assertEquals($st, $res['data']);
-
-        //Logger::write(var_export($res, true));
-
-
-        //Logger::write(var_export($res, true));
     }
 
     /*
@@ -127,12 +122,10 @@ class LogActivityActionTest extends CDbTestCase
      */
     public function testActivityAction2()
     {
-
-        $simulation_service = new SimulationService();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::MODE_PROMO_ID, $user);
-        $event = new EventsManager();
-        $json = $event->getState($simulation, [
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
@@ -143,19 +136,19 @@ class LogActivityActionTest extends CDbTestCase
         $E24StartReplica = Replica::model()->findByAttributes(['excel_id' => 157]);
         $E24EndReplica = Replica::model()->findByAttributes(['excel_id' => 162]);
         unset($json);
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [1, 1, 'deactivated', 43339, 'window_uid' => 1],
             [20, 24, 'activated', 43339, 'window_uid' => 2, ['dialogId' => $call->primaryKey, 'lastDialogId' => $call->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [20, 24, 'deactivated', 43370, 'window_uid' => 2, ['dialogId' => $call->primaryKey, 'lastDialogId' => $callReply->primaryKey]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
 
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 43370, 'window_uid' => 3],
             [1, 1, 'deactivated', 43370, 'window_uid' => 3],
             [20, 23, 'activated', 43370, 'window_uid' => 4, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2StartReplica->primaryKey]],
@@ -167,7 +160,7 @@ class LogActivityActionTest extends CDbTestCase
         $this->assertEquals(0, $json['result']);
         unset($json);
 
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [20, 23, 'deactivated', 43572, 'window_uid' => 6, ['dialogId' => $E2StartReplica->primaryKey, 'lastDialogId' => $E2EndReplica->primaryKey]],
             [1, 1, 'activated', 43572, 'window_uid' => 7],
             [1, 1, 'deactivated', 43572, 'window_uid' => 7],
@@ -176,7 +169,7 @@ class LogActivityActionTest extends CDbTestCase
         $this->assertEquals(0, $json['result']);
         unset($json);
 
-        $json = $event->getState($simulation, [
+        $json = EventsManager::getState($simulation, [
             [20, 23, 'deactivated', 43765, 'window_uid' => 8, ['dialogId' => $E24StartReplica->primaryKey, 'lastDialogId' => $E24EndReplica->primaryKey]],
             [1, 1, 'activated', 43765, 'window_uid' => 9],
             [1, 1, 'deactivated', 44444, 'window_uid' => 9]
@@ -184,7 +177,9 @@ class LogActivityActionTest extends CDbTestCase
 
         $this->assertEquals(0, $json['result']);
         unset($json);
-        $simulation_service->simulationStop($simulation);
+
+        SimulationService::simulationStop($simulation);
+
         $res2 = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
         $tmp = array(
             0 =>
@@ -321,20 +316,21 @@ class LogActivityActionTest extends CDbTestCase
             $this->assertNotNull($db);
             $db2 = ActivityAction::model()->findByAttributes(['activity_id' => 'WINPA']);
             $this->assertNotNull($db2);
-            $simulationService = new SimulationService();
+
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
             $logs = [
                 [3, 3, 'activated', 37526, 'window_uid' => 130],
                 [3, 3, 'deactivated', 37548, 'window_uid' => 130]
             ];
-            $event = new EventsManager();
-            $event->processLogs($simulation, $logs);
+
+            EventsManager::processLogs($simulation, $logs);
             $logAction = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
             $this->assertEquals($activityAction->id, $logAction->activity_action_id);
             $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
             $this->assertEquals('WINPA', $resActivity->activity_id);
-            $simulationService->simulationStop($simulation);
+
+            SimulationService::simulationStop($simulation);
 
             $transaction->rollback();
         } catch (CException $e) {
@@ -349,13 +345,10 @@ class LogActivityActionTest extends CDbTestCase
      */
     public function testActivityCompletion()
     {
-
         $transaction = Yii::app()->db->beginTransaction();
         try {
-
-            $simulationService = new SimulationService();
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulation::MODE_PROMO_ID, $user);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
             $options = new SendMailOptions();
             $options->phrases = '';
@@ -366,7 +359,7 @@ class LogActivityActionTest extends CDbTestCase
             $options->senderId = Character::HERO_ID;
             $options->time = '11:00:00';
             $options->setLetterType('new');
-            $options->groupId = MailBox::OUTBOX_FOLDER_ID;
+            $options->groupId = MailBox::FOLDER_OUTBOX_ID;
             $options->simulation = $simulation;
 
             $message1 = MailBoxService::sendMessagePro($options);
@@ -396,8 +389,7 @@ class LogActivityActionTest extends CDbTestCase
 
             ];
 
-            $event = new EventsManager();
-            $event->processLogs($simulation, $logs);
+            EventsManager::processLogs($simulation, $logs);
 
             LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
