@@ -86,12 +86,18 @@ class AdminController extends AjaxController
             " code NOT LIKE 'MS%' AND code NOT LIKE 'P%' ORDER BY trigger_time ASC "
         );
 
+        $sFlagsBlockDialog  = FlagBlockDialog::model()->findAll();
+        $sFlagsBlockReplica = FlagBlockReplica::model()->findAll();
+        $sFlagsBlockMail    = FlagBlockMail::model()->findAll();
+        $sFlagsRunMail      = FlagRunMail::model()->findAll();
+
         $a = new GameContentAnalyzer();
 
         $a->uploadDialogs($sDialogs);
         $a->uploadReplicas($eReplicas);
         $a->uploadEmails($sEmails);
         $a->uploadEvents($sEvents);
+        $a->uploadFlags($sFlagsBlockDialog, $sFlagsBlockReplica, $sFlagsBlockMail, $sFlagsRunMail);
 
         // update statistic
         $a->updateProducedBy();
@@ -155,12 +161,30 @@ class AdminController extends AjaxController
 
         $sEvents = $importGameContentAnalyzerDataService->importEventSamples();
 
+        $indexedEvents = [];
+        foreach ($sEvents as $sEvent) {
+            $indexedEvents[$sEvent->code] = $sEvent;
+        }
+
+        $sFlags = $importGameContentAnalyzerDataService->importFlagsRules($indexedEvents);
+        $sFlagsBlockDialog  = $sFlags['BlockDialog'];
+        $sFlagsBlockReplica = $sFlags['BlockReplica'];
+        $sFlagsBlockMail    = $sFlags['BlockMail'];
+        $sFlagsRunMail      = $sFlags['RunMail'];
+
         $a = new GameContentAnalyzer();
 
         $a->uploadDialogs($sDialogs);
         $a->uploadReplicas($eReplicas);
         $a->uploadEmails($sEmails);
         $a->uploadEvents($sEvents);
+        $a->uploadFlags(
+            $sFlagsBlockDialog,
+            $sFlagsBlockReplica,
+            $sFlagsBlockMail,
+            $sFlagsRunMail,
+            GameContentAnalyzer::FLAGS_FROM_EXCEL_FILE
+        );
 
         // update statistic
         $a->updateProducedBy();
