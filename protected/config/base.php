@@ -108,7 +108,7 @@ return array(
 
             'rules' => array(
                 '/'                       => 'static/site/index',
-                '/admin'                  => '/static/admin/',
+                '/admin'                  => 'static/admin/',
 
                 'site'                    => 'static/site/site',
                 'site/logout'             => 'static/site/logout',
