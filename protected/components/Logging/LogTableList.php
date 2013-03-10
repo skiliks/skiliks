@@ -41,11 +41,11 @@ namespace application\components\Logging {
             $simulation = $this->simulation;
             return [
                 new WindowLogTable($simulation->log_windows),
+                new DayPlanLogTable($simulation->log_day_plan),
                 new AssessmentDetailTable(
                     $simulation->getAssessmentPointDetails()
                 ),
                 new AssessmentResultTable($simulation->assessment_points),
-                # TODO plan
                 new MailLogTable($simulation->log_mail),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
