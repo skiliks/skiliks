@@ -171,6 +171,7 @@ class Simulation extends CActiveRecord
             'simulation_assessment_rules'     => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
             'assessment_dialog_points'        => [self::HAS_MANY, 'LogDialogPoint', 'sim_id'],
             'simulation_mail_points'          => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
+            'simulation_excel_points'          => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
         ];
     }
 
