@@ -35,7 +35,7 @@ class LearningGoal extends CActiveRecord
      */
     public function tableName()
     {
-            return 'learning_goals';
+            return 'learning_goal';
     }
     
     /**

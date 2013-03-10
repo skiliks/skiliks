@@ -137,7 +137,7 @@ class HeroBehaviour extends CActiveRecord
      */
     public function tableName()
     {
-            return 'characters_points_titles';
+            return 'hero_behaviour';
     }
     
     /**
