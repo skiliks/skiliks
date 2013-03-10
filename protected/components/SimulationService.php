@@ -389,6 +389,11 @@ class SimulationService
         } else {
             $userId = $user->primaryKey;
         }
+
+        if (null === $userId) {
+            return null;
+        }
+
         $profiler->render('1: ');
 
         if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode

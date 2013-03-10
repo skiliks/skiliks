@@ -41,7 +41,8 @@ final class SessionHelper
         if (isset(Yii::app()->session['uid'])) {
             return Yii::app()->session['uid'];
         } else {
-            throw new Exception('Не могу найти такого пользователя');
+           return null;
+           // throw new Exception('Не могу найти такого пользователя');
         }
     }
 

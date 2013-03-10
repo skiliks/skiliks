@@ -41,6 +41,11 @@ class SiteController extends AjaxController
         $this->user = $user;
         $this->signInErrors = $signInErrors;
 
+        Yii::app()->request->getParam('sid', null);
+        Yii::app()->request->getParam('uid', null);
+        Yii::app()->session['uid'] = null;
+        Yii::app()->session['sid'] = null;
+
         $this->render('index', [
             'assetsUrl' => $this->getAssetsUrl()
         ]);
