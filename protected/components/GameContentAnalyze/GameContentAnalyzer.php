@@ -24,9 +24,23 @@ class GameContentAnalyzer
 
     public $replicas = [];
 
+    // array indexed by dialog.code, contain array of flag that is necessary to run dialog
+    public $flagsBlockDialog;
+
+    // array indexed by replica.id, contain array of flag that is necessary to run replica
+    public $flagsBlockReplica;
+
+    // array indexed by mail.code, contain array of flag that is necessary to run mail
+    public $flagsBlockMail;
+
+    // array indexed by flag.code, contain array of mail.codes that send after flag switch
+    public $flagsRunMail;
+
     const TYPE_PLAN   = 'plan';
     const TYPE_MAIL   = 'mail';
     const TYPE_DIALOG = 'dialog';
+
+    const FLAGS_FROM_EXCEL_FILE = false; // this is boolean option in $this->uploadFlags()
 
     public function __construct() {
 
@@ -52,6 +66,41 @@ class GameContentAnalyzer
             $this->setUpReplicas($aEvent);
 
             $this->aEvents[trim($aEvent->event->code)] = $aEvent;
+        }
+    }
+
+    /**
+     * @param array of FlagsBlockDialog $sFlagsBlockDialog
+     * @param array of FlagsBlockReplica $sFlagsBlockReplica
+     * @param array of FlagsBlockMail $sFlagsBlockMail
+     * @param array of FlagsRunMail $sFlagsRunMail
+     */
+    public function uploadFlags ($sFlagsBlockDialog, $sFlagsBlockReplica, $sFlagsBlockMail, $sFlagsRunMail, $isFromBd = true)
+    {
+        // BlockDialog
+        foreach ($sFlagsBlockDialog as $sFlagBlockDialog) {
+            $this->flagsBlockDialog[$sFlagBlockDialog->dialog_code][] = $sFlagBlockDialog;
+        }
+
+        // BlockReplica
+        foreach ($sFlagsBlockReplica as $sFlagBlockReplica) {
+            $this->flagsBlockReplica[$sFlagBlockReplica->replica_id][] = $sFlagBlockReplica;
+        }
+
+        // BlockMail
+        foreach ($sFlagsBlockMail as $sFlagBlockMail) {
+            if ($isFromBd) {
+                $mailTemplate = MailTemplate::model()->findByPk($sFlagBlockMail->mail_template_id);
+                $code = $mailTemplate->code;
+            } else {
+                $code = $sFlagBlockMail->mail_template_id; // in on fly import we set mail.code to FlagBlockMail.mail_template_id
+            }
+            $this->flagsBlockMail[$code][] = $sFlagBlockMail;
+        }
+
+        // BlockMail
+        foreach ($sFlagsRunMail as $sFlagRunMail) {
+            $this->flagsRunMail[$sFlagRunMail->mail_code][] = $sFlagRunMail;
         }
     }
 
@@ -155,13 +204,15 @@ class GameContentAnalyzer
                 continue;
             }
 
-            $t = [];
-            $r = [
+            $tree = [];
+            $branch_0 = [
                 ['code' => $aEvent->event->code, 'step' => null, 'replica' => null, 'prevCode' => null, 'startTime' => $aEvent->startTime]
             ];
-            $this->addTimeAssessment($t, $r, $aEvent->event->code, $aEvent->startTime, $aEvent->event->code);
 
-            $this->tree[$aEvent->event->code] = $t;
+            // $tree send by link
+            $this->addTimeAssessment($tree, $branch_0, $aEvent->event->code, $aEvent->startTime, $aEvent->event->code);
+
+            $this->tree[$aEvent->event->code] = $tree;
 
         }
     }
@@ -195,35 +246,80 @@ class GameContentAnalyzer
                         $this->aEvents[$initialEventCode]->flagsToSwitch[$replica->flag_to_switch] = 1;
                     }
 
+                    $flagsToBlock = [];
+                    $flagsToBlockHtml = '';
+
+                    // dialog
+                    if (isset($this->flagsBlockDialog[$aEvent->event->code])) {
+                        foreach ($this->flagsBlockDialog[$aEvent->event->code] as $flagBlock) {
+                            $flagsToBlockHtml .= sprintf(
+                                ' <span class="label label-info">%s&rarr;%s</span> ',
+                                $flagBlock->flag_code,
+                                $flagBlock->value
+                            );
+                            $flagsToBlock[] = $flagBlock->flag_code;
+                        }
+                    }
+
+                    // replica
+                    if (isset($this->flagsBlockReplica[$replica->id])) {
+                        foreach ($this->flagsBlockReplica[$replica->id] as $flagBlock) {
+                            $flagsToBlockHtml .= sprintf(
+                                ' <span class="label label-info">%s&rarr;%s</span> ',
+                                $flagBlock->flag_code,
+                                $flagBlock->value
+                            );
+                            $flagsToBlock[] = $flagBlock->flag_code;
+                        }
+                    }
+
+                    // mail
+                    if (isset($this->flagsBlockMail[$aEvent->event->code])) {
+                        foreach ($this->flagsBlockMail[$aEvent->event->code] as $flagBlock) {
+                            $flagsToBlockHtml .= sprintf(
+                                ' <span class="label label-info">%s&rarr;%s</span> ',
+                                $flagBlock->flag_code,
+                                $flagBlock->value
+                            );
+                            $flagsToBlock[] = $flagBlock->flag_code;
+                        }
+                    }
+
                     // "T"
                     if ('T' == $replica->next_event_code) {
                         $allNextEvents[] = [
-                            'code'      => 'T',
-                            'prevCode'  => $code,
-                            'step'      => $stepN,
-                            'replica'   => $replica->replica_number,
-                            'flag'      => $replica->flag_to_switch,
-                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                            'code'             => 'T',
+                            'prevCode'         => $code,
+                            'step'             => $stepN,
+                            'replica'          => $replica->replica_number,
+                            'flagToSwitch'     => $replica->flag_to_switch,
+                            'startTime'        => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN),
+                            'flagsToBlock'     => $flagsToBlock,
+                            'flagsToBlockHtml' => $flagsToBlockHtml,
                         ];
                     } elseif('P' == substr($replica->next_event_code, 0, 1)) {
                         $allNextEvents[] = [
-                            'code'      => $replica->next_event_code,
-                            'prevCode'  => $code,
-                            'step'      => $stepN,
-                            'replica'   => $replica->replica_number,
-                            'flag'      => $replica->flag_to_switch,
-                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                            'code'             => $replica->next_event_code,
+                            'prevCode'         => $code,
+                            'step'             => $stepN,
+                            'replica'          => $replica->replica_number,
+                            'flagToSwitch'     => $replica->flag_to_switch,
+                            'startTime'        => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN),
+                            'flagsToBlock'     => $flagsToBlock,
+                            'flagsToBlockHtml' => $flagsToBlockHtml,
                         ];
                     } elseif(null === $replica->next_event_code) {
                         // null
                     } elseif('D' == substr($replica->next_event_code, 0, 1)) {
                         $allNextEvents[] = [
-                            'code'      => $replica->next_event_code,
-                            'prevCode'  => $code,
-                            'step'      => $stepN,
-                            'replica'   => $replica->replica_number,
-                            'flag'      => $replica->flag_to_switch,
-                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN)
+                            'code'             => $replica->next_event_code,
+                            'prevCode'         => $code,
+                            'step'             => $stepN,
+                            'replica'          => $replica->replica_number,
+                            'flagToSwitch'     => $replica->flag_to_switch,
+                            'startTime'        => TimeTools::timeStringPlusSeconds($startTime, 80*$stepN),
+                            'flagsToBlock'     => $flagsToBlock,
+                            'flagsToBlockHtml' => $flagsToBlockHtml,
                         ];
                     } elseif('M' == substr($replica->next_event_code, 0, 1)) {
                         if (null === $this->dialogs[$replica->code]->delay) {
@@ -232,12 +328,14 @@ class GameContentAnalyzer
                             $k = 80*$stepN + $this->dialogs[$replica->code]->delay; // + delay pefore event will be started
                         }
                         $allNextEvents[] = [
-                            'code'      => $replica->next_event_code,
-                            'prevCode'  => $code,
-                            'step'      => $stepN,
-                            'replica'   => $replica->replica_number,
-                            'flag'      => $replica->flag_to_switch,
-                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
+                            'code'             => $replica->next_event_code,
+                            'prevCode'         => $code,
+                            'step'             => $stepN,
+                            'replica'          => $replica->replica_number,
+                            'flagToSwitch'     => $replica->flag_to_switch,
+                            'startTime'        => TimeTools::timeStringPlusSeconds($startTime, $k),
+                            'flagsToBlock'     => $flagsToBlock,
+                            'flagsToBlockHtml' => $flagsToBlockHtml,
                         ];
                     } else {
                         if (null === $this->dialogs[$replica->code]->delay) {
@@ -246,12 +344,14 @@ class GameContentAnalyzer
                             $k = 80*$stepN + $this->dialogs[$replica->code]->delay; // + delay pefore event will be started
                         }
                         $allNextEvents[] = [
-                            'code'      => trim($replica->next_event_code),
-                            'prevCode'  => $code,
-                            'step'      => $stepN,
-                            'replica'   => $replica->replica_number,
-                            'flag'      => $replica->flag_to_switch,
-                            'startTime' => TimeTools::timeStringPlusSeconds($startTime, $k)
+                            'code'             => trim($replica->next_event_code),
+                            'prevCode'         => $code,
+                            'step'             => $stepN,
+                            'replica'          => $replica->replica_number,
+                            'flagToSwitch'     => $replica->flag_to_switch,
+                            'startTime'        => TimeTools::timeStringPlusSeconds($startTime, $k),
+                            'flagsToBlock'     => $flagsToBlock,
+                            'flagsToBlockHtml' => $flagsToBlockHtml,
                         ];
                     }
                 }
@@ -377,7 +477,7 @@ class GameContentAnalyzer
         if (null === $replica->flag_to_switch) {
             return '';
         } else {
-            return sprintf('<span class="label">%s:1</span>',$replica->flag_to_switch,1);
+            return sprintf('<span class="label label-info">%s&rarr;1</span>',$replica->flag_to_switch,1);
         }
     }
 
@@ -389,9 +489,9 @@ class GameContentAnalyzer
     {
         $html = '';
         if (0 != (count($aEvent->flagsToSwitch))) {
-            $html = ', ';
+            $html = ', Может переключить: ';
             foreach ($aEvent->flagsToSwitch as $flagCode => $value) {
-                $html .= sprintf('<span class="label">%s : 1</span> ', $flagCode, $value);
+                $html .= sprintf('<span class="label label-info">%s&rarr;1</span> ', $flagCode, $value);
             }
         }
 
@@ -422,7 +522,7 @@ class GameContentAnalyzer
         $variantsSwitcher = '';
         if (isset($this->tree[$aEvent->event->code])){
             $variantsSwitcher = sprintf(
-                '<a data-id="%s-variations" class="switcher pull-right">Скрыть/показать варианты развития события</a>',
+                '<a data-id="%s-variations" class="switcher pull-left">Скрыть/показать варианты развития события</a>',
                 $this->getCssSaveEventCode($aEvent)
             );
         }
@@ -433,8 +533,10 @@ class GameContentAnalyzer
         }
 
         if (null != count($aEvent->startTime)) {
+            // start by time
             $producedBy = '';
         } elseif(0 != count($aEvent->producedBy)) {
+            // start by replica in dialog
             $producedBy = ', является последствием: ';
 
             foreach ($aEvent->producedBy as $key => $value) {
@@ -445,8 +547,51 @@ class GameContentAnalyzer
                     $key
                 );
             }
+        } elseif (isset($this->flagsRunMail[$aEvent->event->code])) {
+            // start by flag switch
+            $flagsRunMail = [];
+            foreach ($this->flagsRunMail[$aEvent->event->code] as $flagRun) {
+                $flagsRunMail[] = sprintf(
+                    '<span class="label label-info">%s</span>',
+                    $flagRun->flag_code
+                );
+            }
+            unset($flagRun);
+
+            $producedBy = ', будет запущен при переключении: '.implode(', ', $flagsRunMail);
         } else {
+            // warning! Event will never start.
             $producedBy = '<span class="label label-important">Никогда не будет вызван!</span>';
+        }
+
+        $flagsBlockHtml ='';
+        if (isset($this->flagsBlockDialog[$aEvent->event->code]) || isset($this->flagsBlockMail[$aEvent->event->code]) ) {
+
+            $flagsBlockDialog = [];
+            if (isset($this->flagsBlockDialog[$aEvent->event->code])) {
+                foreach ($this->flagsBlockDialog[$aEvent->event->code] as $flagBlock) {
+                    $flagsBlockDialog[] = sprintf(
+                        '<span class="label label-info">%s&rarr;%s</span>',
+                        $flagBlock->flag_code,
+                        $flagBlock->value
+                    );
+                }
+                unset($flagBlock);
+            }
+
+            $flagsBlockMail = [];
+            if (isset($this->flagsBlockMail[$aEvent->event->code])) {
+                foreach ($this->flagsBlockMail[$aEvent->event->code] as $flagBlock) {
+                    $flagsBlockMail[] = sprintf(
+                        '<span class="label label-info">%s&rarr;%s</span>',
+                        $flagBlock->flag_code,
+                        $flagBlock->value
+                    );
+                }
+                unset($flagBlock);
+            }
+
+            $flagsBlockHtml = 'Требует для запуска: '.implode(', ', $flagsBlockDialog).implode(', ', $flagsBlockMail);
         }
 
         return sprintf(
@@ -454,9 +599,11 @@ class GameContentAnalyzer
                 <strong>%s</strong>, %s /  <i class="icon-time"></i>
                 c %s<!-- startTime --> до %s<!-- endTime -->,
                 %s<!-- delay -->
-                %s <!-- ormattedAEventFlags -->
+                %s <!-- formattedAEventFlags -->
+                %s <!-- producedBy --> <br/>
                 %s <!-- variantsSwitcher -->
-                %s <!-- producedBy -->',
+                 &nbsp; %s <!-- depend on flags -->
+                ',
             $aEvent->cssIcon,
             $aEvent->event->code,
             $aEvent->title,
@@ -464,8 +611,9 @@ class GameContentAnalyzer
             $endTime,
             $delay,
             $this->getFormattedAEventFlags($aEvent),
+            $producedBy,
             $variantsSwitcher,
-            $producedBy
+            $flagsBlockHtml
         );
     }
 
