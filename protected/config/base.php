@@ -108,8 +108,11 @@ return array(
 
             'rules' => array(
                 '/'                       => 'static/site/index',
+                '/admin'                  => '/static/admin/',
 
                 'site'                    => 'static/site/site',
+                'site/logout'             => 'static/site/logout',
+                'logout'                  => 'static/site/logout',
                 'simulation'              => 'static/site/site',
 
                 'team'                    => 'static/page/team',
