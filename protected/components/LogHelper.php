@@ -736,7 +736,7 @@ class LogHelper
             ->db
             ->createCommand()
             ->select("s.user_id
-                    , u.email
+                    , u.username
                     , s.start
                     , s.end
                     , s.id
