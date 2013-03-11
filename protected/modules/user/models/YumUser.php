@@ -83,6 +83,16 @@ class YumUser extends YumActiveRecord
         }
     }
 
+    /**
+     * Necessary to process registration form
+     *
+     * @param string $email
+     */
+    public function setUserNameFromEmail($email)
+    {
+        $this->username = preg_replace("/[^a-zA-Z0-9]+/", "", $email);
+    }
+
     // ------------------------------------------------------------------------------------------------------------
 
     public function behaviors()
@@ -570,20 +580,6 @@ class YumUser extends YumActiveRecord
                 $friends[] = YumUser::model()->findByPk($friendship->inviter_id);
 
         return $friends;
-    }
-
-    /**
-     * Necessary to process registration form
-     *
-     * @param string $email
-     */
-    public function setUserNameFromEmail($email)
-    {
-        if (0 < strpos($email, '@')) {
-            $this->username = substr($email, 0, strpos($email, '@'));
-        } else {
-            $this->username = $email;
-        }
     }
 
     // Registers a user

@@ -1,6 +1,10 @@
 /*global Backbone:false, console, SKApp, session */
 
 define(["game/models/window/SKWindow"],function () {
+    /**
+     * @class SKWindowLog
+     * @constructor initialize
+     */
     "use strict";
     /**
      * @class SKWindowLog

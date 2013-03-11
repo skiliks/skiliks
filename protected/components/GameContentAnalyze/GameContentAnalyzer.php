@@ -24,6 +24,8 @@ class GameContentAnalyzer
 
     public $replicas = [];
 
+    public $replicasIndexedByExcelId = [];
+
     // array indexed by dialog.code, contain array of flag that is necessary to run dialog
     public $flagsBlockDialog;
 
@@ -104,7 +106,7 @@ class GameContentAnalyzer
             $this->flagsBlockMail[$code][] = $sFlagBlockMail;
         }
 
-        // BlockMail
+        // RunMail
         foreach ($sFlagsRunMail as $sFlagRunMail) {
             $this->flagsRunMail[$sFlagRunMail->mail_code][] = $sFlagRunMail;
         }
@@ -327,6 +329,24 @@ class GameContentAnalyzer
                         $this->aEvents[$initialEventCode]->flagsToSwitch[$replica->flag_to_switch] = 1;
                     }
 
+                    // set-up flag-blockers {
+                    if (isset($this->flagsBlockReplica[$replica->id])) {
+                        foreach ($this->flagsBlockReplica[$replica->id] as $flagBlock) {
+                            $this->aEvents[$initialEventCode]->flagsBlock[$flagBlock->flag_code][] = $flagBlock->value;
+                        }
+                    }
+                    if (isset($this->flagsBlockDialog[$replica->code])) {
+                        foreach ($this->flagsBlockDialog[$replica->code] as $flagBlock) {
+                            $this->aEvents[$initialEventCode]->flagsBlock[$flagBlock->flag_code][] = $flagBlock->value;
+                        }
+                    }
+                    if (isset($this->flagsBlockMail[$aEvent->event->code])) {
+                        foreach ($this->flagsBlockMail[$aEvent->event->code] as $flagBlock) {
+                            $this->aEvents[$initialEventCode]->flagsBlock[$flagBlock->flag_code][] = $flagBlock->value;
+                        }
+                    }
+                    // set-up flag-blockers }
+
                     $flagsToBlock = [];
                     $flagsToBlockHtml = '';
 
@@ -503,6 +523,8 @@ class GameContentAnalyzer
     {
         foreach ($replicas as $replica) {
             $this->replicas[$replica->code][$replica->step_number][$replica->replica_number] = $replica;
+
+            $this->replicasIndexedByExcelId[$replica->excel_id] = $replica;
         }
     }
 
@@ -572,6 +594,23 @@ class GameContentAnalyzer
         if (0 != (count($aEvent->flagsToSwitch))) {
             $html = ', Может переключить: ';
             foreach ($aEvent->flagsToSwitch as $flagCode => $value) {
+                $html .= sprintf('<span class="label label-info">%s&rarr;1</span> ', $flagCode, $value);
+            }
+        }
+
+        return $html;
+    }
+
+    /**
+     * @param $aEvent
+     * @return string
+     */
+    public function getFormattedAEventFlagBlockers($aEvent)
+    {
+        $html = '';
+        if (0 != (count($aEvent->flagsBlock))) {
+            $html = ', Некоторым репликам требуются флаги: ';
+            foreach ($aEvent->flagsBlock as $flagCode => $value) {
                 $html .= sprintf('<span class="label label-info">%s&rarr;1</span> ', $flagCode, $value);
             }
         }
@@ -684,6 +723,7 @@ class GameContentAnalyzer
                 %s <!-- producedBy --> <br/>
                 %s <!-- variantsSwitcher -->
                  &nbsp; %s <!-- depend on flags -->
+                %s <!-- replicas depend on flags -->
                 ',
             $aEvent->cssIcon,
             $aEvent->event->code,
@@ -694,7 +734,8 @@ class GameContentAnalyzer
             $this->getFormattedAEventFlags($aEvent),
             $producedBy,
             $variantsSwitcher,
-            $flagsBlockHtml
+            $flagsBlockHtml,
+            $this->getFormattedAEventFlagBlockers($aEvent)
         );
     }
 

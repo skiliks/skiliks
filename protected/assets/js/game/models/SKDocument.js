@@ -3,6 +3,10 @@
 var SKDocument;
 define([], function () {
     "use strict";
+    /**
+     * @class SKDocument
+     * @constructor initialize
+     */
     var _excel_cache = {};
     /**
      * @class SKDocument

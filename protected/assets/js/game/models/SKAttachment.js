@@ -4,6 +4,10 @@
 var SKAttachment;
 define([], function() {
     "use strict";
+    /**
+     * @class SKAttachment
+     * @constructor initialize
+     */
     SKAttachment = Backbone.Model.extend({
         // @var string, 'D1', 'D2'
         code: undefined,

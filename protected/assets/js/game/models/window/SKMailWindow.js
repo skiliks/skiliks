@@ -4,6 +4,10 @@
  */
 define(["game/models/window/SKWindow"],function () {
     "use strict";
+    /**
+     * @class SKMailWindow
+     * @constructor initialize
+     */
     window.SKMailWindow = window.SKWindow.extend({
         'initialize':function (subname, mailId) {
             window.SKWindow.prototype.initialize.call(this, 'mailEmulator', subname);

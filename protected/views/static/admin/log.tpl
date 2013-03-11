@@ -3,10 +3,9 @@
         <a class="brand" href="#">Admin panel</a>
         <ul class="nav">
             {foreach $log_tables as $log_table}
-            <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
+                <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
             {/foreach}
             <li><a href="#assessment-rules">Simulation Assessment Rules</a></li>
-            <li><a href="#excel">Excel</a></li>
         </ul>
     </div>
 </div>
@@ -25,7 +24,6 @@
 
 {foreach $log_tables as $log_table}
     <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
-
     <table class="table table-striped {$log_table->getId()}">
         <thead>
         <tr>
@@ -39,7 +37,7 @@
                 {foreach $row as $cell}
                     <td>
                         {if (40 < strlen($cell))}
-                            <span title="{$cell}">{substr($cell, 0, 25)}...</span>
+                            <span title="{str_replace('"',"'", $cell)}">{mb_substr($cell, 0, 20)}...</span>
                         {else}
                             {$cell}
                         {/if}
@@ -84,22 +82,4 @@
     {/foreach}
 </table>
 
-<h1 id="excel">Логирование - Excel</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>id_симуляции</th>
-        <th>Номер формулы</th>
-        <th>Оценка (0 или 1)</th>
-    </tr>
-    </thead>
-    {foreach $simulation->simulation_excel_points as $point}
-        <tr>
-            <td>{$point->sim_id}</td>
-            <td>{$point->formula_id}</td>
-            <td>{$point->value}</td>
-        </tr>
-    {/foreach}
-</table>
 

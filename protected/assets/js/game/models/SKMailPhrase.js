@@ -3,6 +3,10 @@
  */
 (function() {
     "use strict";
+    /**
+     * @class SKMailPhrase
+     * @constructor initialize
+     */
     window.SKMailPhrase = Backbone.Model.extend({
         // @var integer
         mySqlId : undefined,

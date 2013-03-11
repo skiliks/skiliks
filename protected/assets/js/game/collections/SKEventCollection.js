@@ -1,4 +1,6 @@
 /*global SKEventCollection:true, SKEvent, Backbone, _, SKApp*/
+var SKEventCollection;
+
 define(["game/models/SKEvent"], function () {
     "use strict";
     /**
@@ -11,9 +13,9 @@ define(["game/models/SKEvent"], function () {
      * 3. completed — событие завершилось
      *
      * @class SKEventCollection
-     * @constructs
+     * @constructor initialize
      */
-    window.SKEventCollection = Backbone.Collection.extend(
+    SKEventCollection = Backbone.Collection.extend(
         /**
          * @lends SKEventCollection.prototype
          */
@@ -65,12 +67,12 @@ define(["game/models/SKEvent"], function () {
                 if ('in progress' === event.getStatus()) {
                     this.trigger('blocking:start');
                 } else {
-                    event.on('in progress', function() {
+                    event.on('in progress', function () {
                         this.trigger('blocking:start');
                     }, this);
                 }
 
-                event.on('complete', function() {
+                event.on('complete', function () {
                     /**
                      * Конец блокировки новых событий
                      * @event blocking:end
@@ -84,7 +86,7 @@ define(["game/models/SKEvent"], function () {
              * @method getUnreadMailCount
              * @param cb
              */
-            'getUnreadMailCount':function (cb) {
+            'getUnreadMailCount': function (cb) {
                 SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
                     if (parseInt(data.result) === 1) {
                         var counter = data.unreaded;
@@ -97,7 +99,7 @@ define(["game/models/SKEvent"], function () {
              * @method getPlanTodoCount
              * @param cb
              */
-            'getPlanTodoCount':function (cb) {
+            'getPlanTodoCount': function (cb) {
                 SKApp.server.api('todo/getCount', {}, function (data) {
                     if (data.result === 1) {
                         var counter = data.data;
@@ -113,7 +115,7 @@ define(["game/models/SKEvent"], function () {
              * @returns {Boolean}
              * @method canAddEvent
              */
-            canAddEvent:function (event) {
+            canAddEvent: function (event) {
                 if (!event.getTypeSlug().match(/(phone|visit)$/)) {
                     return true;
                 }
@@ -121,7 +123,7 @@ define(["game/models/SKEvent"], function () {
                 this.each(function (ev) {
                     if (ev.getTypeSlug().match(/(phone|visit)$/) &&
                         (ev.getStatus() === 'in progress' || ev.getStatus() === 'waiting') &&
-                        ev.get('data')[0].code !== event.get('data')[0].code ) {
+                        ev.get('data')[0].code !== event.get('data')[0].code) {
                         res = false;
                     }
                 });
@@ -137,7 +139,7 @@ define(["game/models/SKEvent"], function () {
              * @param clear_assessment
              * @method triggerEvent
              */
-            'triggerEvent':function (code, delay, clear_events, clear_assessment) {
+            'triggerEvent': function (code, delay, clear_events, clear_assessment) {
                 var callback;
                 if (arguments.length > 4) {
                     callback = arguments[4];
@@ -145,10 +147,10 @@ define(["game/models/SKEvent"], function () {
                     callback = undefined;
                 }
                 SKApp.server.api('events/start', {
-                    eventCode:code,
-                    delay:delay,
-                    clearEvents:clear_events,
-                    clearAssessment:clear_assessment
+                    eventCode: code,
+                    delay: delay,
+                    clearEvents: clear_events,
+                    clearAssessment: clear_assessment
                 }, callback);
             },
 
@@ -159,11 +161,13 @@ define(["game/models/SKEvent"], function () {
              * @param originalTime
              * @method wait
              */
-            'wait': function(code, originalTime) {
+            'wait': function (code, originalTime) {
                 SKApp.server.api('events/wait', {
                     eventCode: code,
                     eventTime: originalTime
                 });
             }
         });
+
+    return SKEventCollection;
 });

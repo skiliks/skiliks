@@ -4,6 +4,7 @@
  * Поддерживается xdebug в ajax-запросах
  *
  * @class SKServer
+ * @constructor
  */
 define(["jquery/jquery.cookies"], function () {
     "use strict";

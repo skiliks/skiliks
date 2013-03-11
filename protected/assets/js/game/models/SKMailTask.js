@@ -4,6 +4,10 @@
 var SKMailTask;
 (function() {
     "use strict";
+    /**
+     * @class SKMailTask
+     * @constructor initialize
+     */
     SKMailTask = Backbone.Model.extend({
         // @var integer
         mySqlId : undefined,
