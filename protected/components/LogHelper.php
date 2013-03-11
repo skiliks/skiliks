@@ -1263,6 +1263,13 @@ class LogHelper
         }
     }
 
+    /**
+     * @param $return
+     * @param null $simulation
+     * @return bool
+     * @throws Exception
+     * @deprecated
+     */
     public static function getLegActionsAgregated($return, $simulation = NULL)
     {
         $simSql = '';

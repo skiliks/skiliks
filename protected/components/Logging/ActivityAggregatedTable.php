@@ -19,7 +19,7 @@ class ActivityAggregatedTable extends LogTable
 
     public function getTitle()
     {
-        return 'Leg_actions - agregate';
+        return 'Leg_actions - aggregated';
     }
 
     public function getHeaders()
