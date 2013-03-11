@@ -13,12 +13,12 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('/site/');
-        //$this->setSpeed("1000");
-        $this->waitForVisible('id=login');
-        $this->type("id=login", "vad");
-        $this->type("id=pass", "123");
-        $this->click("css=input.btn.btn-primary");
+        $this->open('/');
+        $this->optimal_click("xpath=//header/nav/a[4]");
+        $this->waitForVisible("xpath=//div[1]/form/div[1]/input");
+        $this->type("xpath=//div[1]/form/div[1]/input", "tatiana@skiliks.com");
+        $this->type("xpath=//div[1]/form/div[2]/input", "123123");
+        $this->click("xpath=//div[1]/form/div[5]/input");
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
@@ -100,20 +100,12 @@ class SeleniumTestHelper extends CWebTestCase
     public function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
-        print ($time_array[0]);
-        print (" : ");
-        print ($time_array[1]);
         $time_array[1]=$time_array[1]+$differ;  // к минутам приплюсовываем необходимую разницу времени
-        print ("\n");
-        print ($time_array[1]);
         if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
         {
                                               // если выходим за рамки 60 минут, то
             $time_array[0]=$time_array[0]+1;  // увеличиваем количество часов на 1
             $time_array[1]=$time_array[1]-60; // изменяем количество минут
-            print ($time_array[0]);
-            print (" : ");
-            print ($time_array[1]);
         }
 
         // меняем поточное время
@@ -184,9 +176,33 @@ class SeleniumTestHelper extends CWebTestCase
     public function mail_comes ($mail_theme)
     {
         $is_here=false;
-
-        // method
-
+        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
+        $b = "]/td[2]";
+        $count = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a;
+            $result .= (string)$count;
+            $result .= $b;
+            if ($this->isVisible($result))
+            {
+                $this->mouseOver($result);
+                if (($this->getText($result))==$mail_theme)
+                {
+                    $is_here = true;
+                    break;
+                }
+                else
+                {
+                    $count++;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
         return $is_here;
     }
 }

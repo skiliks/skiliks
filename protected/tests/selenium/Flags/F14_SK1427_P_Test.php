@@ -32,19 +32,18 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Я над ней работаю.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше')])");
 
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[6]","1");
-
-        // tests to checking the actions after F14 = 1 (Recieve M10)
+        $this->assertTrue($this->verify_flag('F14','1'));
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "15");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "30");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         // downloading all messages
-        sleep(15);
+        sleep(20);
         $this->optimal_click("css=li.icon-active.mail a");
-       // $this->waitForVisible("xpath=(//*[contains(text(),'Презентация для ГД_итог')])");
+        $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
+        $this->assertTrue($this->mail_comes("Презентация для ГД_итог"));
+
     }
 
     // tests to checking the actions for status DIALOG
@@ -67,8 +66,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Но ведь я сказала, что успею! Обычная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Раз ты уверена, что задача простая и времени')])");
 
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[6]","1");
+
+        $this->assertTrue($this->verify_flag('F14','1'));
 
         // tests to checking the actions after F14 = 1 (DIALOG)
 
@@ -100,8 +99,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[6]","1");
+
+        $this->assertTrue($this->verify_flag('F14','1'));
 
         // tests to checking the actions after F14 = 1 (REPLICA)
 
@@ -116,9 +115,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
 
         // через 10 минут звонок ET12.3
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "00");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $this->transfer_time(10);
 
         // не знаю, чи треба "відповісти" натискати чи ні, бо неадекватно працює зараз телефон...
 
@@ -146,8 +143,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[6]","1");
+
+        $this->assertTrue($this->verify_flag('F14','1'));
 
         // tests to checking the actions after F14 = 1 (REPLICA)
 
@@ -167,9 +164,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю.')])");
 
         // через 10 минут звонок ET12.3
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "10");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $this->transfer_time(10);
 
         // запускается E2
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович сказал, что презентация')])");
@@ -196,8 +191,8 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Если бы вы не отвлекали меня по')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ладно, раз ты уверена, что справишься')])");
 
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[6]","1");
+
+        $this->assertTrue($this->verify_flag('F14','1'));
 
         // tests to checking the actions after F14 = 1 (REPLICA)
 
@@ -217,10 +212,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да в прошлом году')])");
 
-        // через 10 минут звонок ET12.3
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "10");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $this->transfer_time(10);
 
         // запускается E2
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович сказал, что презентация')])");
