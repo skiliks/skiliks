@@ -112,16 +112,34 @@ class GameContentAnalyzer
 
     public function uploadPoints($sHeroBehaviours, $sReplicaPoints, $sMailPoints)
     {
+
         foreach ($sHeroBehaviours as $sHeroBehaviour) {
+
             $this->heroBehaviours[$sHeroBehaviour->code] = $sHeroBehaviour;
         }
 
+
         foreach ($sReplicaPoints as $sReplicaPoint) {
-            $this->replicaPoints[$sReplicaPoint->point->code][] = $sReplicaPoint;
+            if (0 == $sReplicaPoint->add_value) {
+                $this->replicaPoints[$sReplicaPoint->point->code][] = $sReplicaPoint;
+            }
+        }
+        foreach ($sReplicaPoints as $sReplicaPoint) {
+            if (1 == $sReplicaPoint->add_value) {
+                $this->replicaPoints[$sReplicaPoint->point->code][] = $sReplicaPoint;
+            }
         }
 
+        // there too: import 0 values first, 1 values second - to make output look nice :)
         foreach ($sMailPoints as $sMailPoint) {
-            $this->mailPoints[$sMailPoint->point->code][] = $sMailPoint;
+            if (0 == $sMailPoint->add_value) {
+                $this->mailPoints[$sMailPoint->point->code][] = $sMailPoint;
+            }
+        }
+        foreach ($sMailPoints as $sMailPoint) {
+            if (1 == $sMailPoint->add_value) {
+                $this->mailPoints[$sMailPoint->point->code][] = $sMailPoint;
+            }
         }
     }
 
