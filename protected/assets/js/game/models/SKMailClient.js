@@ -6,6 +6,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
     "use strict";
     /**
      * @class SKMailClient
+     * @constructor
      */
     SKMailClient = Backbone.Model.extend(
         /** @lends SKMailClient.prototype */

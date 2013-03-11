@@ -3,6 +3,10 @@
  */
 define([], function() {
     "use strict";
+    /**
+     * @class SKCharacter
+     * @constructor initialize
+     */
     window.SKCharacter = Backbone.Model.extend({
         // @var integer, MySQL id
         mySqlId: undefined,

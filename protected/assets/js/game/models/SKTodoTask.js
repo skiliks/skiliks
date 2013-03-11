@@ -2,6 +2,10 @@
 
 (function () {
     "use strict";
+    /**
+     * @class SKTodoTask
+     * @constructor initialize
+     */
     window.SKTodoTask = Backbone.Model.extend({
         sync: function (method, model, options) {
             if (method === 'create' || method === 'update') {

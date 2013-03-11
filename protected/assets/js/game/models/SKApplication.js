@@ -1,12 +1,13 @@
 /*global Backbone:false*/
 var SKApplication;
+
 define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKSession) {
     "use strict";
     /**
-     * Корневой класс нашей игры. Инстанциируется в начале игры и инстанс доступен под названием SKApp
+     * Корневой класс нашей игры. Инстанциируется в начале игры и инстанс доступен под именем SKApp
      *
      * @class SKApplication
-     * @constructs
+     * @constructor initialize
      * @augments Backbone.Model
      */
     SKApplication = Backbone.Model.extend(
@@ -50,7 +51,7 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
             'clearUser':function () {
                 this.user.logout();
                 delete this.user;
-            },
+            }
 
             /**
              * Какая-то неведомая фигня, которую стоит выпилить
@@ -58,7 +59,7 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
              * @param object
              * @return {*}
              */
-            clone:function (object) {
+            /*clone:function (object) {
                 if (!object || 'object' !== typeof object) {
                     return object;
                 }
@@ -76,13 +77,15 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
                     }
                 }
                 return cloned;
-            }
+            }*/
         });
 
     /**
      * @object
      * @type {SKApplication}
      */
+
     window.SKApp = new SKApplication();
+
     return SKApplication;
 });
