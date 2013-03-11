@@ -3155,7 +3155,7 @@ tr.email-list-separator {
     font-weight: bold;
 }
 
-#login, #pass{
+#login, #pass, #email{
      font-size: 16px;
 }
 

@@ -35,7 +35,7 @@ define([
             
             this.preventOtherClicksElement.topZIndex();
             
-            $('#canvas').prepend(this.preventOtherClicksElement);
+            $('.windows-container').prepend(this.preventOtherClicksElement);
             
             var me = this;
             $('.preventOtherClicks').click(function(){
@@ -66,7 +66,7 @@ define([
             
             this.$el.topZIndex();
             
-            $('#canvas').prepend(this.$el);
+            $('.windows-container').prepend(this.$el);
         },
         
         'events': {

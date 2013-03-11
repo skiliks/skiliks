@@ -9,6 +9,7 @@
  * @property integer $file_id
  * @property string $start_time
  * @property string $end_time
+ * @property MyDocument file
  */
 class LogDocument extends CActiveRecord
 {
@@ -76,13 +77,13 @@ class LogDocument extends CActiveRecord
 
     protected function afterSave()
     {
-        $activity_action = ActivityAction::model()->findByPriority(
+        $activityAction = ActivityAction::model()->findByPriority(
             ['document_id' => $this->file->template_id],
             null,
             $this->simulation
         );
-        if ($activity_action !== null) {
-            $activity_action->appendLog($this);
+        if ($activityAction !== null) {
+            $activityAction->appendLog($this);
         }else{
             throw new CException("The document must have id");//TODO:Проверить
         }

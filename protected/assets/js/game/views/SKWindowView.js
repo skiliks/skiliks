@@ -13,7 +13,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
         {
             Windows:{},
             
-            container:'.canvas',
+            container:'.windows-container',
             
             'events':{
                 'click .win-close':'doWindowClose',
@@ -25,11 +25,12 @@ define(["text!game/jst/window.jst"], function (window_template) {
             isDisplayCloseWindowsButton: true,
 
             initialize:function () {
+                this.preLoadWindow();
                 if (this.options.model_instance === undefined) {
                     throw 'You need to pass model_instance';
                 }
                 var sim_window = this.make('div', {"class":'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
-                $('.canvas').append(sim_window);
+                $('.windows-container').append(sim_window);
                 this.setElement(sim_window);
             },
 
@@ -44,6 +45,8 @@ define(["text!game/jst/window.jst"], function (window_template) {
                 this.renderTitle(this.$('header'));
                 this.$el.draggable({
                     handle:"header",
+                    containment: ".windows-container",
+                    scroll: false,
                     start:function () {
                         if (typeof(me.doStartDrag) !== "undefined") {
                             me.doStartDrag();
@@ -105,6 +108,18 @@ define(["text!game/jst/window.jst"], function (window_template) {
             },
             doActivate:function () {
                 this.options.model_instance.setOnTop();
+            },
+            preLoadWindow:function () {
+                var windows = $('.windows-container');
+                var stat = $('.main-screen-stat');
+                var icons = $('.main-screen-icons');
+                var canvas = $('.canvas');
+                var margin_top = parseInt(stat.css('margin-top')) + stat.height();
+                var margin_right = parseInt(icons.css('margin-right')) + icons.width();
+                windows.css('margin-top', margin_top+'px');
+                windows.height(canvas.height() - margin_top);
+                windows.css('margin-right', margin_right+'px');
+                windows.width(canvas.width() - margin_right);
             }
         });
     return SKWindowView;

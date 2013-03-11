@@ -15,7 +15,7 @@ class ExcelPointsController extends AjaxController{
 
         return $this->sendJSON(array(
             'result' => 1,
-            'data'   => CalculationEstimateService::getExcelPointsValies($simulation)
+            'data'   => CalculationEstimateService::getExcelPointsValues($simulation)
         ));
     }
 }

@@ -171,10 +171,10 @@ define([
                     });
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
+                        me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                     } else {
                         me.events.wait(event.data[0].code, event.eventTime);
                     }
-                    me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
                 });
             },
             /**
@@ -216,8 +216,9 @@ define([
                 var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
                 win.open();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
+
                     if (data.result === 0) {
-                        throw 'Ошибка при запуске симуляции.';
+                        window.location = '/';
                     }
                     
                     if ('undefined' !== typeof data.simId) {

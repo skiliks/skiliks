@@ -16,7 +16,7 @@ class PasswordController extends AjaxController
     {
         $email = Yii::app()->request->getParam('email', false);
 
-        $user = Users::model()->findByAttributes(array('email' => $email));
+        $user = YumUser::model()->findByAttributes(array('email' => $email));
         if (null === $user) {
             $this->sendJSON(array(
                 'result' => 0,

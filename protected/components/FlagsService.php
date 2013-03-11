@@ -25,7 +25,7 @@ class FlagsService
         }
 
         //  flags comparison {
-        $currentFlagState = SimulationService::getFlags($simulation->id);
+        $currentFlagState = FlagsService::getFlags($simulation);
         foreach ($flags as $flag) {
             if (isset($currentFlagState[$flag->flag_code]) && $flag->value != $currentFlagState[$flag->flag_code]) {
                 return false;
@@ -93,15 +93,17 @@ class FlagsService
 
     /**
      * Проверяет выполняются ли правила для данного кода диалога
+     *
+     * @warning ! code will never use!
      * 
      * @param string $code код события
-     * @param int $simId идентификатор симуляции
+     * @param $simulation
      * @param int $stepNumber, dialog step no
      * @param int $replicaNumber, dialog replica no
      * @param int $excelId, dialog excel id
      * @return array
      */
-    public static function checkRule($code, $simId, $stepNumber = 1, $replicaNumber = 0, $excelId = null) 
+    public static function checkRule($code, $simulation, $stepNumber = 1, $replicaNumber = 0, $excelId = null)
     {
         $result = array();
 
@@ -120,7 +122,7 @@ class FlagsService
         }
 
         // получить флаги в рамках симуляции
-        $simulationFlags = SimulationService::getFlags($simId);
+        $simulationFlags = FlagsService::getFlags($simulation);
         if (count($simulationFlags) == 0){
             return $result; // у нас пока нет установленных флагов - не чего сравнивать
         }
@@ -134,60 +136,27 @@ class FlagsService
     }
 
     /**
-     * @param string $simId
+     * @param Simulation $simulation
      * @param string $flag
      * @param string $value
      */
-    public static function setFlag($simId, $flag, $value) 
-     {
-        $model = SimulationFlag::model()->bySimulation($simId)->byFlag($flag)->find();
-        if (!$model) {
-            $model = new SimulationFlag();
-            $model->sim_id = $simId;
-            $model->flag = $flag;
-        }
-        $model->value = $value;
-        $model->save();
-    }
-
-    /**
-     * Установка первоначальных значений флагов в рамках симуляции.
-     * @param int $simId 
-     */
-    public static function initDefaultValues($simId) 
+    public static function setFlag($simulation, $flag, $value)
     {
-        $flags = Flag::model()->findAll();
-        foreach ($flags as $flag) {
-            self::setFlag($simId, $flag->code, 0);
-        }
-    }
+        $simulationFlag = SimulationFlag::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'flag' => $flag
+        ]);
 
-    ## will broken
-    public static function skipReplica($dialog, $simId) {
-        $flagInfo = FlagsService::checkRule($dialog->code, $simId, $dialog->step_number, $dialog->replica_number);
-
-        if ($flagInfo['ruleExists'] === false)
-            return false; // нет правил
-
-        if (isset($flagInfo['stepNumber']) && isset($flagInfo['replicaNumber'])) {  // если заданы правила для шага и реплики
-            if ($flagInfo['stepNumber'] == $dialog->step_number && $flagInfo['replicaNumber'] == $dialog->replica_number) {
-                if ($flagInfo['compareResult'] === true) { // если выполняются условия правил флагов
-                    if ($flagInfo['recId'] != $dialog->excel_id) {
-                        $flagInfo['action'] = 'skip';
-                        return $flagInfo; // эта реплика не пойдет в выборку
-                    }
-                } else {
-                    // условие сравнение не выполняется
-                    if ($flagInfo['recId'] == $dialog->excel_id) {
-                        $flagInfo['action'] = 'skip';
-                        return $flagInfo; // эта реплика не пойдет в выборку
-                    }
-                }
-            }
+        if (null === $simulationFlag) {
+            $simulationFlag         = new SimulationFlag();
+            $simulationFlag->sim_id = $simulation->id;
+            $simulationFlag->flag   = $flag;
         }
 
-        $flagInfo['action'] = 'break';
-        return $flagInfo;
+        $simulationFlag->value = $value;
+        $simulationFlag->save();
+
+        return $simulationFlag;
     }
 
     public static function isAllowToSendMail($simulation, $mailCode)
@@ -206,7 +175,7 @@ class FlagsService
         }
 
         //  flags comparison {
-        $currentFlagState = SimulationService::getFlags($simulation->id);
+        $currentFlagState = FlagsService::getFlags($simulation);
 
         foreach ($flags as $flag) {
             if (isset($currentFlagState[$flag->flag_code]) && $flag->value != $currentFlagState[$flag->flag_code]) {
@@ -224,7 +193,8 @@ class FlagsService
      * @param string $flagName
      * @return bool
      */
-    public static function switchFlag($simulation, $flagName) {
+    public static function switchFlag($simulation, $flagName)
+    {
         $flag = SimulationFlag::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'flag'   => $flagName
@@ -236,9 +206,25 @@ class FlagsService
 
         $value = (1 == $flag->value) ? 0 : 1; // inversion
 
-        self::setFlag($simulation->id, $flagName, $value);
+        self::setFlag($simulation, $flagName, $value);
 
         return true;
+    }
+
+    /**
+     * Получить список флагов диалогов в рамках симуляции
+     * @param $simulation
+     * @return array
+     */
+    public static function getFlags($simulation)
+    {
+        $flags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $list = array();
+        foreach ($flags as $flag) {
+            $list[$flag->flag] = $flag->value;
+        }
+
+        return $list;
     }
 }
 

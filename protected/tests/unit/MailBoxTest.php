@@ -19,54 +19,53 @@ class MailBoxTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
-        
-        $mail = new MailBoxService();
-        $events = new EventsManager();
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
+
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        // send MS40
-        $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers' => $character->primaryKey,
-            'sender' => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies' => implode(',',[
-                Character::model()->findByAttributes(['code' => 2])->primaryKey,
-                Character::model()->findByAttributes(['code' => 11])->primaryKey,
-                Character::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = implode(',',[
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $options->setRecipientsArray($character->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
+        $options->simulation = $simulation;
 
-        FlagsService::setFlag($simulation->id, 'F30', 1);
+        // send MS40
+        MailBoxService::sendMessagePro($options);
 
-        $events->startEvent($simulation->id,'M31', false, false,0);
-        $events->getState($simulation, []);
+        FlagsService::setFlag($simulation, 'F30', 1);
+
+        EventsManager::startEvent($simulation,'M31', false, false,0);
+        EventsManager::getState($simulation, []);
 
         // get letters from golders to checl them {
         $folderInbox = MailBoxService::getMessages([
-            'folderId'   => MailBox::INBOX_FOLDER_ID,
+            'folderId'   => MailBox::FOLDER_INBOX_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderOutbox = MailBoxService::getMessages([
-            'folderId'   => MailBox::OUTBOX_FOLDER_ID,
+            'folderId'   => MailBox::FOLDER_OUTBOX_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderDrafts = MailBoxService::getMessages([
-            'folderId'   => MailBox::DRAFTS_FOLDER_ID,
+            'folderId'   => MailBox::FOLDER_DRAFTS_ID,
             'simId'      => $simulation->id
         ]);
 
         $folderTrash = MailBoxService::getMessages([
-            'folderId'   => MailBox::TRASH_FOLDER_ID,
+            'folderId'   => MailBox::FOLDER_TRASH_ID,
             'simId'      => $simulation->id
         ]);
         // get letters from golders to checl them }
@@ -79,7 +78,7 @@ class MailBoxTest extends CDbTestCase
         $inbox_letters = array_values($folderInbox);
         $sent_letters = array_values($folderOutbox);
 
-        // fing target messages to check by template code {
+        // find target messages to check by template code {
         foreach ($inbox_letters as $inbox_letter) {
             if ('MY2' == $inbox_letter['template']) {
                 $m1 = $inbox_letter;
@@ -88,7 +87,7 @@ class MailBoxTest extends CDbTestCase
                 $m2 = $inbox_letter;
             }
         }
-        // fing target messages to check by template code }
+        // find target messages to check by template code }
 
         $this->assertEquals('Отчет для Правления', $sent_letters[0]['subject']);
         $this->assertEquals('Re: срочно! Отчетность', $sent_letters[1]['subject']);
@@ -150,31 +149,28 @@ class MailBoxTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
         
-        $mail = new MailBoxService();
-        $events = new EventsManager();
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        $message = $mail->sendMessage([
-            'subject_id' => CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey,
-            'message_id' => MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey,
-            'receivers'  => $character->primaryKey,
-            'sender'     => Character::model()->findByAttributes(['code' => 1])->primaryKey,
-            'copies'     => implode(',',[
-                Character::model()->findByAttributes(['code' => 2])->primaryKey,
-                Character::model()->findByAttributes(['code' => 11])->primaryKey,
-                Character::model()->findByAttributes(['code' => 12])->primaryKey,
-            ]),
-            'time' => '11:00:00',
-            'group' => 3,
-            'letterType' => 'new',
-            'simId' => $simulation->primaryKey
+        $options = new SendMailOptions();
+        $options->phrases = '';
+        $options->copies = implode(',',[
+            Character::model()->findByAttributes(['code' => 2])->primaryKey,
+            Character::model()->findByAttributes(['code' => 11])->primaryKey,
+            Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
-        
-        $events->startEvent($simulation->id, 'M31', false, false,0);
+        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $options->setRecipientsArray($character->primaryKey);
+        $options->senderId = Character::HERO_ID;
+        $options->time = '11:00:00';
+        $options->setLetterType('new');
+        $options->groupId = MailBox::FOLDER_OUTBOX_ID;
+        $options->simulation = $simulation;
+
+        EventsManager::startEvent($simulation, 'M31', false, false,0);
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M31');
         
@@ -204,13 +200,12 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
-        $resultData = MailBoxService::getForwardMessageData($simulation, $randomFirstEmail);
+        $resultData = MailBoxService::getForwardMessageData($randomFirstEmail);
 
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
         $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'random email case');
@@ -218,7 +213,7 @@ class MailBoxTest extends CDbTestCase
 
         // case 2, M61 {      
         $emailM61 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M61');
-        $resultDataM61 = MailBoxService::getForwardMessageData($simulation, $emailM61);
+        $resultDataM61 = MailBoxService::getForwardMessageData($emailM61);
 
         $this->assertEquals($resultDataM61['subject'], 'Fwd: Re: '.$emailM61->subject_obj->text, 'M61');
         $this->assertEquals($resultDataM61['parentSubjectId'], $emailM61->subject_obj->id, 'M61');
@@ -228,7 +223,7 @@ class MailBoxTest extends CDbTestCase
         
         // case 3, M62 {
         $emailM62 = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M62');
-        $resultDataM62 = MailBoxService::getForwardMessageData($simulation, $emailM62);
+        $resultDataM62 = MailBoxService::getForwardMessageData($emailM62);
         
         $this->assertEquals($resultDataM62['subject'], 'Fwd: Re: Re: '.$emailM62->subject_obj->text, 'M62');
         $this->assertEquals($resultDataM62['parentSubjectId'], $emailM62->subject_obj->id, 'M62');
@@ -301,9 +296,8 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         // init simulation
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(Simulation::TYPE_PROMOTION, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -317,7 +311,7 @@ class MailBoxTest extends CDbTestCase
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setLogDoialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
 
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
@@ -352,6 +346,7 @@ class MailBoxTest extends CDbTestCase
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
         $sendMailOptions->subject_id = $subject->id;
+
         $ms_27 = MailBoxService::sendMessagePro($sendMailOptions);
         // MS27 }
 

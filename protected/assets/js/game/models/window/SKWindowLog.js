@@ -2,14 +2,18 @@
 
 define(["game/models/window/SKWindow"],function () {
     "use strict";
+    /**
+     * @class SKWindowLog
+     * @constructs
+     * @type {*}
+     */
     window.SKWindowLog = Backbone.Model.extend({
         'initialize': function () {
             this.log = [];
         },
         'activate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
-
-            if (NaN == window.window_uid) {
+            if (isNaN(window.window_uid)) {
                 throw 'window.window_uid is NAN!';
             }
 
@@ -30,7 +34,7 @@ define(["game/models/window/SKWindow"],function () {
         'deactivate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
 
-            if (NaN == window.window_uid) {
+            if (isNaN(window.window_uid)) {
                 throw 'window.window_uid is NAN!';
             }
 

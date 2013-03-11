@@ -1,5 +1,10 @@
-/*global Backbone:false, console, SKApp */
+/*global Backbone:false, console, SKApp, _ */
 
+/**
+ * Окно, открывается, закрывается, ведет за собой логи
+ * @class SKWindow
+ * @constructs
+ */
 var SKWindow;
 define([], function () {
     "use strict";
@@ -26,6 +31,7 @@ define([], function () {
             'documents':41,
             'documentsFiles':42
     };
+
     SKWindow = Backbone.Model.extend({
 
         single: true,
@@ -69,14 +75,18 @@ define([], function () {
 
         /**
          * Opens a window
+         * @method open
          */
         open: function() {
             if (this.is_opened) {
                 throw "Window is already opened";
             }
-            this.set('zindex', Math.max(Math.max.apply(this, this.simulation.window_set.pluck('zindex')) + 1,0));
             this.is_opened = true;
             this.simulation.window_set.showWindow(this);
+            /**
+             * Вызывается в момент открытия окна. View должен отрисовать окно в этот момент
+             * @event open
+             */
             this.trigger('open', this.get('name'), this.get('subname'));
         },
         close: function() {
@@ -110,6 +120,12 @@ define([], function () {
             window_set.sort();
             me.activate();
         },
+
+        /**
+         * Деактивирует окно (посылает лог об этом)
+         * @param params
+         * @method deactivate
+         */
         deactivate: function (params) {
             params = params || {};
 
@@ -118,6 +134,12 @@ define([], function () {
             }
             this.simulation.windowLog.deactivate(this);
         },
+        /**
+         * Активирует окно и пишет об этом в лог
+         *
+         * @param params
+         * @method activate
+         */
         activate: function (params) {
             params = params || {};
 

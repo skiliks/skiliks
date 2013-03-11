@@ -161,7 +161,7 @@ class EmailCoincidenceAnalyzer
             $this->userEmail->receiver_id,
             $this->userEmail->subject_id, 
             $mailAttachId);
-        
+
         unset($mailRecipientId);
         unset($mailCopyId);
         unset($mailAttachId);    

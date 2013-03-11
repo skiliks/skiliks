@@ -291,7 +291,7 @@ class CheckConsolidatedBudget
     /**
      * Расчет оценки по окончании симуляции
      */
-    public function calcPoints() 
+    public function calcPoints($path=null)
     {
         // check document {
         $documentTemplate = DocumentTemplate::model()->findByAttributes([
@@ -299,10 +299,12 @@ class CheckConsolidatedBudget
         ]);
 
         $document = MyDocument::model()->findByAttributes([
-            'template_id' => $documentTemplate->id
+            'template_id' => $documentTemplate->id,
+            'sim_id' => $this->simId
         ]);
 
         if (null === $document) {
+            //throw new Exception("Template not found by template_id {$documentTemplate->id}");
             return false;
         }
 
@@ -312,7 +314,12 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
+            //throw new Exception("Document not found by path {$documentPath}");
             return false;
+        }
+
+        if($path !== null) {
+            $documentPath = $path;
         }
         // check document }
         
@@ -340,6 +347,7 @@ class CheckConsolidatedBudget
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
             $this->resetUserPoints();
             $this->savePoints();
+            throw new Exception("Sheet error");
             Yii::log('no sheet', 'warning');
             return false;
         }

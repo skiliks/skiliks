@@ -9,10 +9,9 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulationService = new SimulationService();
         /** @var $user Users */
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(2, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(2, $user);
 
         $dialogService = new DialogService();
 
@@ -46,32 +45,33 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(2, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(2, $user);
 
-        $senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        // null prefix
         $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
-        $msgParams = [
-            'simId' => $simulation->id,
-            'subject_id' => CommunicationTheme::model()->findByAttributes([
-                'code'=>55, 'character_id' => $receiverId, 'mail_prefix'=>null])->primaryKey,
-            'message_id' => 0,
-            'receivers' => $receiverId,
-            'group' => MailBox::OUTBOX_FOLDER_ID,
-            'sender' => $senderId,
-            'time' => '11:00',
-            'letterType' => null
-        ];
 
-        $mail = MailBoxService::sendMessage($msgParams);
+        $msgParams = new SendMailOptions();
+        $msgParams->simulation = $simulation;
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 55, 'character_id' => $receiverId, 'mail_prefix' => null])->primaryKey; // 55?
+        $msgParams->setRecipientsArray($receiverId);
+        $msgParams->groupId = MailBox::FOLDER_OUTBOX_ID;
+        $msgParams->time = '11:00';
+        $msgParams->messageId = 0;
+        $msgParams->copies = '';
+        $msgParams->phrases = '';
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
-        $msgParams['subject_id'] = CommunicationTheme::model()->findByAttributes([
-            'code'=>55, 'character_id' => $receiverId,
-            'mail_prefix'=>'rere', 'theme_usage' => 'mail_outbox'
+        // RE: RE:
+        $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
+            'code' => 55, 'character_id' => $receiverId,  // 55?
+            'mail_prefix' => 'rere', 'theme_usage' => 'mail_outbox'
         ])->primaryKey;
-        $mail = MailBoxService::sendMessage($msgParams);
+
+        $mail = MailBoxService::sendMessagePro($msgParams);
         MailBoxService::updateMsCoincidence($mail->id, $simulation->id);
 
         $flags = FlagsService::getFlagsState($simulation);
@@ -88,18 +88,16 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulationService = new SimulationService();
         /** @var $user Users */
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
         // case 1
 
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'S2', false, false, 0);
+        EventsManager::startEvent($simulation, 'S2', false, false, 0);
 
         $data = [];
         //case 1
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
                 $this->assertFalse(in_array($replica['excel_id'], $data));
@@ -108,12 +106,11 @@ class FlagServiceTest extends CDbTestCase
         }
 
         // case 2
-        FlagsService::setFlag($simulation->id, 'F1', 1);
+        FlagsService::setFlag($simulation, 'F1', 1);
 
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2', true, true, 0);
 
-       $result = $e->getState($simulation, []);
+       $result = EventsManager::getState($simulation, []);
        foreach ($result['events'][0]['data'] as $replica) {
            if($replica['ch_from'] == 1) {
                $this->assertFalse(in_array($replica['excel_id'], $data));
@@ -122,13 +119,12 @@ class FlagServiceTest extends CDbTestCase
         }
 
         //case3
-        FlagsService::setFlag($simulation->id, 'F1', 0);
-        FlagsService::setFlag($simulation->id, 'F2', 1);
+        FlagsService::setFlag($simulation, 'F1', 0);
+        FlagsService::setFlag($simulation, 'F2', 1);
 
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2', true, true, 0);
 
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
                 $this->assertFalse(in_array($replica['excel_id'], $data));
@@ -137,13 +133,12 @@ class FlagServiceTest extends CDbTestCase
         }
 
         //case 4
-        FlagsService::setFlag($simulation->id, 'F2', 0);
-        FlagsService::setFlag($simulation->id, 'F12', 1);
+        FlagsService::setFlag($simulation, 'F2', 0);
+        FlagsService::setFlag($simulation, 'F12', 1);
 
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'S2', true, true, 0);
+        EventsManager::startEvent($simulation, 'S2', true, true, 0);
 
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
         foreach ($result['events'][0]['data'] as $replica) {
             if($replica['ch_from'] == 1) {
                 $this->assertFalse(in_array($replica['excel_id'], $data));
@@ -159,27 +154,24 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped(); // S
 
-        $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
 
-        FlagsService::setFlag($simulation->id, 'F4', 0);
+        FlagsService::setFlag($simulation, 'F4', 0);
 
         // Case 1: block event
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
 
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
 
         $this->assertFalse(isset($result['events']));
 
         // Case 2: run event
-        FlagsService::setFlag($simulation->id, 'F4', 1);
+        FlagsService::setFlag($simulation, 'F4', 1);
 
-        $e = new EventsManager();
-        $e->startEvent($simulation->id, 'ET1.3.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET1.3.1', false, false, 0);
 
-        $result2 = $e->getState($simulation, []);
+        $result2 = EventsManager::getState($simulation, []);
 
         $this->assertTrue(isset($result2['events']));
     }
@@ -192,16 +184,15 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
 
-        FlagsService::setFlag($simulation->id, 'F14', 0);
+        FlagsService::setFlag($simulation, 'F14', 0);
 
         $e = new EventsManager();
-        $e->startEvent($simulation->id, 'ET12.3', false, false, 0);
+        EventsManager::startEvent($simulation, 'ET12.3', false, false, 0);
 
-        $r = $e->getState($simulation, []);
+        EventsManager::getState($simulation, []);
 
         $dialog = new DialogService();
         $json = $dialog->getDialog($simulation->id, Replica::model()->findByAttributes(['excel_id' => 419])->primaryKey, '09:10:00');
@@ -216,25 +207,24 @@ class FlagServiceTest extends CDbTestCase
     {
         ////$this->markTestSkipped();
 
-        $simulationService = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulationService->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
 
         // Case 1: block event
         $e = new EventsManager();
-        $e->startEvent($simulation->id, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
 
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
 
         $this->assertFalse(isset($result['events']));
 
         // Case 2: run event
-        FlagsService::setFlag($simulation->id, 'F3', 1);
+        FlagsService::setFlag($simulation, 'F3', 1);
 
         $e = new EventsManager();
-        $e->startEvent($simulation->id, 'E1.2.1', false, false, 0);
+        EventsManager::startEvent($simulation, 'E1.2.1', false, false, 0);
 
-        $result2 = $e->getState($simulation, []);
+        $result2 = EventsManager::getState($simulation, []);
 
         $this->assertTrue(isset($result2['events']));
     }
@@ -246,17 +236,16 @@ class FlagServiceTest extends CDbTestCase
     {
         //$this->markTestSkipped();
 
-        $simulation_service = new SimulationService();
-        $user = Users::model()->findByAttributes(['email' => 'asd']);
-        $simulation = $simulation_service->simulationStart(1, $user);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
 
-        FlagsService::setFlag($simulation->id, 'F30', 1);
-        FlagsService::setFlag($simulation->id, 'F16', 1);
+        FlagsService::setFlag($simulation, 'F30', 1);
+        FlagsService::setFlag($simulation, 'F16', 1);
 
         $e = new EventsManager();
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
         $this->assertEquals(1, count($result['events']));
-        $result = $e->getState($simulation, []);
+        $result = EventsManager::getState($simulation, []);
         $this->assertEquals(0, $result['result']);
 
         /** @var $email MailBox */
@@ -276,7 +265,7 @@ class FlagServiceTest extends CDbTestCase
         SimulationService::setSimulationClockTime($simulation, 16, 0);
         $i = 0;
         while (true) {
-            $state = $e->getState($simulation, []);
+            $state = EventsManager::getState($simulation, []);
             $i++;
             if ($state['result'] == 0) {
                 break;

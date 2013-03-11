@@ -3,9 +3,9 @@
 /**
  * This is the model class for table "flag_block_dialod".
  *
- * The followings are the available columns in table 'flag_run_email':
+ * The followings are the available columns in table
  * @property string $flag_code
- * @property integer $replica_id
+ * @property string $dialog_code
  * @property integer $value
  */
 class FlagBlockDialog extends CActiveRecord
