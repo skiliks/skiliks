@@ -207,30 +207,30 @@ class SimulationService
 
         foreach (self::getAggregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
-            $existAssassment = AssessmentAggregated::model()
+            $existAssessment = AssessmentAggregated::model()
                 ->bySimId($simId)
                 ->byPoint($agrPoint->mark->id)
                 ->find();
             // check, if in some fantastic way such value exists in DB }
 
             // init Log record {
-            if (null == $existAssassment) {
-                $existAssassment = new AssessmentAggregated();
-                $existAssassment->sim_id = $simId;
-                $existAssassment->point_id = $agrPoint->mark->id;
+            if (null == $existAssessment) {
+                $existAssessment = new AssessmentAggregated();
+                $existAssessment->sim_id = $simId;
+                $existAssessment->point_id = $agrPoint->mark->id;
             } else {
                 continue; // assessment has been saved
             }
             // init Log record }
 
             // set value
-            $existAssassment->value = $agrPoint->getValue();
-            if ($agrPoint->mark->isNegative() && 0 < $existAssassment->value) {
+            $existAssessment->value = $agrPoint->getValue();
+            if ($agrPoint->mark->isNegative() && 0 < $existAssessment->value) {
                 // fix for negative points
-                $existAssassment->value = -$existAssassment->value;
+                $existAssessment->value = -$existAssessment->value;
             }
 
-            $existAssassment->save();
+            $existAssessment->save();
         }
     }
 
@@ -241,11 +241,22 @@ class SimulationService
     {
         // add mail inbox/outbox points
         foreach (SimulationMailPoint::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
-            $assassment = new AssessmentAggregated();
-            $assassment->sim_id = $simId;
-            $assassment->point_id = $emailBehaviour->point_id;
-            $assassment->value = $emailBehaviour->value;
-            $assassment->save();
+
+            $assessment = AssessmentAggregated::model()
+                ->bySimId($simId)
+                ->byPoint($emailBehaviour->point_id)
+                ->find();
+            // check, if in some fantastic way such value exists in DB }
+
+            // init Log record {
+            if (null == $assessment) {
+                $assessment = new AssessmentAggregated();
+                $assessment->sim_id = $simId;
+                $assessment->point_id = $emailBehaviour->point_id;
+            }
+
+            $assessment->value = $emailBehaviour->value;
+            $assessment->save();
         }
     }
 

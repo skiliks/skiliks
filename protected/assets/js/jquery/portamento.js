@@ -198,7 +198,7 @@
 		thisWindow.bind("scroll.portamento", function () {
 
 			if(thisWindow.height() > panel.outerHeight()/* && thisWindow.width() >= (thisDocument.width() - ieFix)*/) { // don't scroll if the window isn't big enough
-				
+
 				var y = thisDocument.scrollTop(); // current scroll position of the document
 
 				if (y >= (topScrollBoundary)) { // if we're at or past the upper scrolling boundary

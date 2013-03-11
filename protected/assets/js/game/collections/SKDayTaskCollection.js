@@ -4,6 +4,18 @@ define(["game/models/SKDayTask"], function () {
     "use strict";
     window.SKDayTaskCollection = Backbone.Collection.extend({
         model:SKDayTask,
+
+        /**
+         * constructor
+         * @method initialize
+         */
+        'initialize': function () {},
+
+        /**
+         * @method parse
+         * @param data
+         * @returns {array}
+         */
         parse:function (data) {
             return data.data;
         },

@@ -47,7 +47,7 @@ class HeroBehaviour extends CActiveRecord
     
     const TYPE_POSITIVE = 1;
     const TYPE_NEGATIVE = 2;
-    const TYPE_PERSONAL  = 3;
+    const TYPE_PERSONAL = 3;
     
     /* ------------------------------------------------------------*/
     

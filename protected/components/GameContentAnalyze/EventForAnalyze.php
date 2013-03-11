@@ -36,4 +36,6 @@ class EventForAnalyze
     public $possibleNextEvents = [];
 
     public $flagsToSwitch = [];
+
+    public $flagsBlock = [];
 }

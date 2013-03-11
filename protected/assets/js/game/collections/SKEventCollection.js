@@ -18,14 +18,40 @@ define(["game/models/SKEvent"], function () {
          * @lends SKEventCollection.prototype
          */
         {
-            'model':SKEvent,
+            /**
+             * Телефонный звонок (на который можно не ответить)
+             * @event event:phone
+             *
+             * Телефонный диалог
+             * @event event:immediate-phone
+             *
+             * Стук в дверь
+             * @event event:visit
+             *
+             * Общение с человеком
+             * @event event:immediate-visit
+             *
+             * Входящее письмо
+             * @event event:mail
+             */
+
+            /**
+             * @property model
+             * @type SKEvent
+             * @default empty SKEvent
+             */
+            'model': SKEvent,
+
+            /**
+             * constructor
+             * @method initialize
+             */
             'initialize': function () {
                 var me = this;
-                // Block phone when visit/call going {
+                // Block phone when visit/call going
                 this.on('event:phone event:immediate-phone event:visit event:immediate-visit', this.handleBlocking);
-                // Block phone when visit/call going }
-
             },
+
             /**
              * Отправляет события начала и конца блокировки
              * @param event
@@ -52,6 +78,12 @@ define(["game/models/SKEvent"], function () {
                     this.trigger('blocking:end');
                 }, this);
             },
+
+            /**
+             *
+             * @method getUnreadMailCount
+             * @param cb
+             */
             'getUnreadMailCount':function (cb) {
                 SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
                     if (parseInt(data.result) === 1) {
@@ -60,6 +92,11 @@ define(["game/models/SKEvent"], function () {
                     }
                 });
             },
+
+            /**
+             * @method getPlanTodoCount
+             * @param cb
+             */
             'getPlanTodoCount':function (cb) {
                 SKApp.server.api('todo/getCount', {}, function (data) {
                     if (data.result === 1) {
@@ -90,6 +127,7 @@ define(["game/models/SKEvent"], function () {
                 });
                 return res;
             },
+
             /**
              * Костыльный метод отправки события на сервер
              *
@@ -128,24 +166,4 @@ define(["game/models/SKEvent"], function () {
                 });
             }
         });
-    /**
-     * Телефонный звонок (на который можно не ответить)
-     * @event event:phone
-     */
-    /**
-     * Телефонный диалог
-     * @event event:immediate-phone
-     */
-    /**
-     * Стук в дверь
-     * @event event:visit
-     */
-    /**
-     * Общение с человеком
-     * @event event:immediate-visit
-     */
-    /**
-     * Входящее письмо
-     * @event event:mail
-     */
 });
