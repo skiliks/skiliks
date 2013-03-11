@@ -13,6 +13,11 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
     SKApplication = Backbone.Model.extend(
         /** @lends SKApplication.prototype */
         {
+            /**
+             * Constructor
+             * @method initialize
+             * @return void
+             */
             'initialize':function () {
                 /**
                  * Ссылка на API-сервер
@@ -44,9 +49,11 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
                     return this._user;
                 });
             },
+
             /**
              * Очищает текущего пользователя симуляции
              * @method clearUser
+             * @return void
              */
             'clearUser':function () {
                 this.user.logout();
