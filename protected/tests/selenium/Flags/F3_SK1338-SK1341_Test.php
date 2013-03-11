@@ -178,9 +178,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
-        #TODO: заменить!
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","1");
+
+        $this->assertTrue($this->verify_flag('F3','1'));
 
         $this->run_event('E2');
         $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович!')])");
