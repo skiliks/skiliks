@@ -8,96 +8,26 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class UserService {
-    
+
+    const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
+
     /**
-     * Получить список групп пользователя 
+     * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}
      * @param int $uid 
      * @return array
      */
-    public static function getGroups($uid) {
-        $userGroupsCollection = UserGroup::model()->byUser($uid)->findAll();
-        $groups = array();
-        foreach($userGroupsCollection as $group) {
-            $groups[] = $group->gid;
-        }
-       
-        if (count($groups) > 0) {
-            $groupsCollection = Group::model()->byIds($groups)->findAll();
-        }
-        else $groupsCollection = array();
-        
-        $groups = array();
-        $groups[1] = 'promo';
-        foreach($groupsCollection as $group) {
-            $groups[$group->id] = $group->name;
-        }
-        
-        return $groups;
-    }
-    
-    public static function addGroupToUser($uid, $gid) {
-        $userGroups = new UserGroup();
-        $userGroups->uid = $uid;
-        $userGroups->gid = $gid;
-        $userGroups->insert();
-    }
-    
-    /**
-     * Проверяет является ли пользователь членом заданной группы
-     * @param int $uid
-     * @param int $gid
-     * @return bool
-     */
-    public static function isMemberOfGroup($uid, $gid) {
-        return (1 === (int)UserGroup::model()->byUser($uid)->byGroup($gid)->count());
-    }
-    
-    /**
-     * @param string $email
-     * @param string $password
-     * @param string $passwordAgain
-     * 
-     * @return string|boolean
-     */
-    public static function validateNewUserData($email, $password, $passwordAgain)
+    public static function getModes($user)
     {
-        if (Users::model()->byEmail($email)->isActive()->find()) {
-            return sprintf("Пользователь с емейлом %s уже существует", $email);
+        $modes = [];
+        $modes[1] = Simulation::MODE_PROMO_LABEL;
+
+        if ($user->can(self::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $modes[2] = Simulation::MODE_DEVELOPER_LABEL;
         }
         
-        if ($password != $passwordAgain) {    
-            return 'Введенные пароли не совпадают';
-        }
-        
-        return true;
+        return $modes;
     }
     
-    public static function registerUser($email, $password)
-    {
-        $user = new Users();
-        $user->password    = $user->encryptPassword($password);
-        $user->email       = $email;
-        $user->is_active   = 1;
-        try {
-            $user->insert();
-        } catch (Exception $e) {
-            Yii::log($e->getMessage());
-            Yii::log($e->getTraceAsString());
-            return null;
-        }
-
-        $activationCode            = $user->generateActivationCode();
-        $usersActivationCode       = new UsersActivationCode();
-        $usersActivationCode->uid  = $user->id;
-        $usersActivationCode->code = $user->activationCode;
-        $usersActivationCode->insert();
-
-        // Добавить группы пользователей
-        UserService::addGroupToUser($user->id, 1);
-        
-        return $user;
-    }
-
     public static function addUserSubscription($email)
     {
         $response = ['result'  => 0];

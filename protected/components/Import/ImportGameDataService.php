@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author slavka
  */
@@ -1052,7 +1053,11 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet, 2);
         // load sheet }
 
-        $documents = MyDocumentsService::getAllCodes();
+        $documents = [];
+        foreach (DocumentTemplate::model()->findAll() as $document) {
+            $documents[$document->code] = $document->id;
+        }
+
         $index = 0;
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             $code = $this->getCellValue($sheet, 'Mail_code', $i);
@@ -2038,7 +2043,7 @@ class ImportGameDataService
                 $importedFlagToRunMailRows++;
             }
 
-            // Flag bloks mail alvays {
+            // Flag blocks mail always {
             $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
             $mailFlag = FlagBlockMail::model()->findByAttributes([
                 'mail_template_id' => $mailTemplate->primaryKey,
@@ -2052,7 +2057,7 @@ class ImportGameDataService
             $mailFlag->value = $this->getCellValue($sheet, 'Flag_value_to_run', $i);
             $mailFlag->import_id = $this->import_id;
             $mailFlag->save();
-            // Flag bloks mail alvays }
+            // Flag blocks mail always }
         }
 
         $importedFlagBlockReplica = 0;

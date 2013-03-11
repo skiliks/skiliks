@@ -47,11 +47,11 @@ class EventSample extends CActiveRecord
     public $import_id;
 
     /** ------------------------------------------------------------------------------------------------------------ **/
-    
+
     /**
      *
-     * @param type $className
-     * @return EventSample 
+     * @param string $className
+     * @return EventSample
      */
     public static function model($className=__CLASS__)
     {
@@ -63,7 +63,7 @@ class EventSample extends CActiveRecord
      */
     public function tableName()
     {
-            return 'events_samples';
+            return 'event_sample';
     }
     
     /**

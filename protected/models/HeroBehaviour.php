@@ -5,6 +5,8 @@
 /**
  * По сути справочник целей поведения. Хранит код, название, scale.
  *
+ * @property LearningGoal learning_goal
+ * @property mixed add_value
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class HeroBehaviour extends CActiveRecord
@@ -74,7 +76,7 @@ class HeroBehaviour extends CActiveRecord
     }
 
     /**
-     * User representation if type scale
+     * User representation of type scale
      * @return string
      */
     public function getTypeScaleTitle()
@@ -85,6 +87,21 @@ class HeroBehaviour extends CActiveRecord
             return 'Отрицательная';
         } else if ($this->isPersonal()) {
             return 'Персональная';
+        }
+    }
+
+    /**
+     * User representation of type scale
+     * @return string
+     */
+    public function getTypeScaleSlug()
+    {
+        if ($this->isPositive()) {
+            return 'positive';
+        } else if ($this->isNegative()) {
+            return 'negative';
+        } else if ($this->isPersonal()) {
+            return 'personal';
         }
     }
 
@@ -120,7 +137,7 @@ class HeroBehaviour extends CActiveRecord
      */
     public function tableName()
     {
-            return 'characters_points_titles';
+            return 'hero_behaviour';
     }
     
     /**
@@ -164,7 +181,7 @@ class HeroBehaviour extends CActiveRecord
     public function relations()
     {
         return [
-            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'code'],
+            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'learning_goal_code'],
         ];
     }
 }

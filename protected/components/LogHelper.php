@@ -2,19 +2,14 @@
 
 class LogHelper
 {
-
     const ACTION_CLOSE = "0"; //Закрытие окна
-
     const ACTION_OPEN = "1"; //Открытие окна
-
     const ACTION_SWITCH = "2"; //Переход в рамках окна
 
     const ACTION_ACTIVATED = "activated"; //Активация окна
-
     const ACTION_DEACTIVATED = "deactivated"; //Деактивация окна
 
     const RETURN_DATA = 'json'; //Тип возвращаемого значения JSON
-
     const RETURN_CSV = 'csv'; //Тип возвращаемого значения CSV
 
     const LOGIN = false; //Писать лог в файл? true - да, false - нет
@@ -170,50 +165,30 @@ class LogHelper
      * @param int $simId ID    - Симуляция
      * @param int $pointId ID  - Поинт с таблицы `characters_points_titles`
      */
-    public static function setLogDoialogPoint($dialogId, $simId, $pointId)
+    public static function setLogDialogPoint($dialogId, $simId, $pointId)
     {
-        $comand = Yii::app()->db->createCommand();
-        $comand->insert("log_dialog_points", array(
-            'sim_id' => $simId,
-            'dialog_id' => $dialogId,
-            'point_id' => $pointId
-        ));
+        $log = new LogDialogPoint();
+        $log->sim_id = $simId;
+        $log->dialog_id = $dialogId;
+        $log->point_id = $pointId;
+
+        $log->save();
     }
 
-    public static function getDialogPointsDetail($return, $params = array())
+    /**
+     * Piece of code, which returns mail points
+     *
+     * @param $return
+     * @param array $params
+     * @return array
+     * @throws Exception
+     */
+    public static function getMailPointsDetail($return, $params = array())
     {
         $sim_id = null;
         if (isset($params['sim_id'])) {
             $sim_id = $params['sim_id'];
         }
-
-        $query = Yii::app()->db->createCommand()
-            ->select(' l.sim_id
-                       , p2.code as p_code
-                       , p2.title AS p_title
-                       , p.code
-                       , p.title
-                       , t.value as type_scale
-                       , p.scale
-                       , c.add_value
-                       , d.excel_id as dialog_id
-                       , d.code AS dialog_code
-                       , d.step_number
-                       , d.replica_number
-		')
-            ->from('log_dialog_points l')
-            ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
-            ->join('replica d', 'd.id = c.dialog_id and d.id = l.dialog_id')
-            ->join('characters_points_titles p', 'p.id = l.point_id and p.id = c.point_id')
-            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
-            ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id');
-
-        if (null !== $sim_id) {
-            $query->where(" l.sim_id = {$sim_id} ");
-        }
-
-        $data['data'] = $query->queryAll();
 
         $mailQuery = Yii::app()->db->createCommand()
             ->select(' l.sim_id
@@ -230,10 +205,10 @@ class LogHelper
 		')
             ->from('log_mail l')
             ->join('mail_box m', 'm.id = l.mail_id')
-            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id 
-            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points 
-            ->join('characters_points_titles p', 'p.id = mp.point_id')
-            ->join('learning_goals p2', 'p2.code = p.learning_goal_code')
+            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id
+            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points
+            ->join('hero_behaviour p', 'p.id = mp.point_id')
+            ->join('learning_goal p2', 'p2.code = p.learning_goal_code')
             ->leftJoin('type_scale t', 'p.type_scale = t.id')
             ->order('l.id');
 
@@ -243,46 +218,29 @@ class LogHelper
             $mailQuery->where('m.group_id = 3');
         }
 
-        $mailLogData = $mailQuery->queryAll();
+        $data['data'] = $mailQuery->queryAll();
 
-        // update mailLogData.out_mail_code {
-        foreach ($mailLogData as $key => $logData) {
+        foreach ($data['data'] as  &$logData) {
             if ('-' != $logData['full_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['full_coincidence'];
+                $logData['out_mail_code'] = $logData['full_coincidence'];
             } elseif ('-' != $logData['part1_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['part1_coincidence'];
+                $logData['out_mail_code'] = $logData['part1_coincidence'];
             } elseif ('-' != $logData['part2_coincidence']) {
-                $mailLogData[$key]['out_mail_code'] = $logData['part2_coincidence'];
+                $logData['out_mail_code'] = $logData['part2_coincidence'];
             } else {
-                $mailLogData[$key]['out_mail_code'] = '-';
-                //unset($mailLogData[$key]);
+                $logData['out_mail_code'] = '-';
             }
 
-            $mailLogData[$key]['dialog_id'] = '-';
-            $mailLogData[$key]['dialog_code'] = '-';
-            $mailLogData[$key]['step_number'] = '-';
-            $mailLogData[$key]['replica_number'] = '-';
             unset(
-            $mailLogData[$key]['full_coincidence'],
-            $mailLogData[$key]['part1_coincidence'],
-            $mailLogData[$key]['part2_coincidence']
+                $logData['full_coincidence'],
+                $logData['part1_coincidence'],
+                $logData['part2_coincidence']
             );
 
-            if ('-' == $mailLogData[$key]['out_mail_code']) {
-                unset($mailLogData[$key]);
+            if ('-' == $logData['out_mail_code']) {
+                unset($logData);
             }
         }
-        // update mailLogData.out_mail_code }
-
-        foreach ($data['data'] as $k => $row) {
-            $data['data'][$k]['scale'] = str_replace('.', ',', $data['data'][$k]['scale']);
-            $data['data'][$k]['out_mail_code'] = '-';
-            $data['data'][$k]['add_value'] = str_replace('.', ',', $data['data'][$k]['add_value']);
-            $data['data'][$k]['type_scale'] = str_replace('.', ',', $data['data'][$k]['type_scale']);
-        }
-
-        // merge dialog and mail logs
-        $data['data'] = array_merge($mailLogData, $data['data']);
 
         $headers = array(
             'sim_id' => 'id_симуляции',
@@ -293,22 +251,18 @@ class LogHelper
             'type_scale' => 'Тип поведения',
             'scale' => 'Вес поведения',
             'add_value' => 'Проявление',
-            'dialog_id' => 'Вызвавшая реплика (id_записи)',
-            'dialog_code' => 'Вызвавшая реплика (Код события)',
-            'step_number' => 'Вызвавшая реплика (номер шага)',
-            'replica_number' => 'Вызвавшая реплика (номер реплики)',
             'out_mail_code' => 'Вызвавшее исходящее письмо ',
         );
 
         if (self::RETURN_DATA == $return) {
             $data['headers'] = $headers;
-            $data['title'] = "Логирование расчета оценки - детально";
+            $data['title'] = "Логирование расчета оценки писем - детально";
             return $data;
         } elseif (self::RETURN_CSV == $return) {
             $csv = new ECSVExport($data['data'], true, true, ';');
             $csv->setHeaders($headers);
             $content = $csv->toCSVutf8BOM();
-            $filename = 'assesment_detailed.csv';
+            $filename = 'assesment_mail_detailed.csv';
             Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
         } else {
             throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
@@ -317,112 +271,6 @@ class LogHelper
         return true;
     }
 
-    public static function getDialogPointsAggregate($return)
-    {
-
-        $data['data'] = Yii::app()->db->createCommand()
-            ->select('l.sim_id,
-                      p.code,
-                      t.value as type_scale,
-                      round(avg(c.add_value)*p.scale, 2) as avg')
-            ->from('log_dialog_points l')
-            ->leftJoin('characters_points c', 'l.dialog_id = c.dialog_id')
-            ->leftJoin('characters_points_titles p', 'c.point_id = p.id')
-            ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->group("l.sim_id, p.code")
-            ->order("l.sim_id")
-            ->queryAll();
-
-        $headers = array(
-            'sim_id' => 'id_симуляции',
-            'code' => 'Номер поведения',
-            'type_scale' => 'Тип поведения',
-            'avg' => 'Оценка по поведению'
-        );
-
-        // merge with email points (simulations_mail_points) {
-
-        $emailPoints = Yii::app()->db->createCommand()
-            ->select('smp.sim_id,
-                      p.code,
-                      t.value as type_scale,
-                      smp.value as avg')
-            ->from('simulations_mail_points smp')
-        //->leftJoin('characters_points c', 'l.dialog_id = c.dialog_id')
-            ->leftJoin('characters_points_titles p', 'smp.point_id = p.id')
-            ->leftJoin('type_scale t', 'smp.scale_type_id = t.id')
-            ->group("smp.sim_id, p.code")
-            ->order("smp.sim_id")
-            ->queryAll();
-
-        $data['data'] = array_merge($data['data'], $emailPoints);
-
-        foreach ($data['data'] as $k => $row) {
-            $data['data'][$k]['avg'] = str_replace('.', ',', $data['data'][$k]['avg']);
-        }
-
-        // merge with email points }
-
-        if (self::RETURN_DATA == $return) {
-            $data['headers'] = $headers;
-            $data['title'] = "Логирование расчета оценки - агрегированно";
-            return $data;
-        } elseif (self::RETURN_CSV == $return) {
-
-            $csv = new ECSVExport($data['data'], true, true, ';');
-            $csv->setHeaders($headers);
-            $content = $csv->toCSVutf8BOM();
-            $filename = 'assesments_agregated.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
-        } else {
-            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
-        }
-        return true;
-    }
-
-    public static function getFullAgregatedLog($return)
-    {
-
-        $data['data'] = Yii::app()->db->createCommand()
-            ->select('l.sim_id,
-                      p.code,
-                      t.value as type_scale,
-                      l.value')
-            ->from('assessment_aggregated l')
-            ->leftJoin('characters_points_titles p', 'l.point_id = p.id')
-            ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->group("l.sim_id, p.code")
-            ->order("l.sim_id")
-            ->queryAll();
-
-        $headers = array(
-            'sim_id' => 'id_симуляции',
-            'code' => 'Номер поведения',
-            'type_scale' => 'Тип поведения',
-            'value' => 'Оценка по поведению'
-        );
-
-        foreach ($data['data'] as $key => $value) {
-            $data['data'][$key]['value'] = str_replace('.', ',', $value['value']);
-            $data['data'][$key]['type_scale'] = str_replace('.', ',', $value['type_scale']);
-        }
-
-        if (self::RETURN_DATA == $return) {
-            $data['headers'] = $headers;
-            $data['title'] = "Логирование расчета оценки - агрегированно";
-            return $data;
-        } elseif (self::RETURN_CSV == $return) {
-
-            $csv = new ECSVExport($data['data'], true, true, ';');
-            $csv->setHeaders($headers);
-            $content = $csv->toCSVutf8BOM();
-            $filename = 'assesment_agregated.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
-        } else {
-            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
-        }
-        return true;
-    }
 
     public static function setDocumentsLog($simId, $logs)
     {
@@ -888,7 +736,7 @@ class LogHelper
             ->db
             ->createCommand()
             ->select("s.user_id
-                    , u.email
+                    , u.username
                     , s.start
                     , s.end
                     , s.id
@@ -898,7 +746,7 @@ class LogHelper
                     , l.end_time")
             ->from('log_windows l')
             ->leftJoin('simulations s', 's.id = l.sim_id')
-            ->leftJoin('users u', 'u.id = s.user_id')
+            ->leftJoin('user u', 'u.id = s.user_id')
             ->leftJoin('window w', 'w.id = l.window')
             ->order('l.id DESC')
             ->limit(4000)
@@ -931,6 +779,12 @@ class LogHelper
         return true;
     }
 
+    /**
+     * @param $return
+     * @return bool
+     * @throws Exception
+     * @deprecated
+     */
     public static function getDayPlan($return)
     {
 
@@ -983,7 +837,6 @@ class LogHelper
                         break;
                 }
 
-                //$row['snapshot_time'] = DateHelper::toString($row['snapshot_time']);
                 if ($row['snapshot_time'] == 1) $row['snapshot_time'] = '11:00';
                 else $row['snapshot_time'] = 'end';
 
@@ -1367,7 +1220,7 @@ class LogHelper
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    if (MailBox::OUTBOX_FOLDER_ID == $activityAction['group_id']) {
+                    if (MailBox::FOLDER_OUTBOX_ID == $activityAction['group_id']) {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
                         $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
@@ -1475,5 +1328,59 @@ class LogHelper
     private static function getFormattedTheme($text, $prefix)
     {
         return str_replace(['re', 'fwd'], ['Re: ', 'Fwd: '], $prefix) . '' . $text;
+    }
+
+    /**
+     * @param $simulation
+     * @param $logs
+     * @return bool
+     * @throws CException
+     */
+    public static function setUniversalLog($simulation, $logs)    {
+
+        if (!is_array($logs)) return false;
+        foreach ($logs as $log) {
+
+            if (self::ACTION_OPEN == (string)$log[2] || self::ACTION_ACTIVATED == (string)$log[2]) {
+                if (UniversalLog::model()->countByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id))) {
+                    throw(new CException('Previous window is still activated'));
+                }
+                $universal_log = new UniversalLog();
+                $universal_log->sim_id = $simulation->id;
+                $universal_log->window_id = $log[1];
+                $universal_log->mail_id = empty($log[4]['mailId']) ? NULL : $log[4]['mailId'];
+                $universal_log->file_id = empty($log[4]['fileId']) ? null : $log[4]['fileId'];
+                $universal_log->dialog_id = empty($log[4]['dialogId']) ? null : $log[4]['dialogId'];
+                $universal_log->start_time = date("H:i:s", $log[3]);
+                $universal_log->save();
+                continue;
+
+            } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
+                $universal_logs = UniversalLog::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simulation->id));
+                if (0 === count($universal_logs)) {
+                    throw(new CException('No active windows. Achtung!' . $simulation->id));
+                }
+                if (1 < count($universal_logs)) {
+                    throw(new CException('Two or more active windows at one time. Achtung!'));
+                }
+                foreach ($universal_logs as $universal_log) {
+                    if (!empty($log['lastDialogId'])) {
+                        $dialog = Replica::model()->findByAttributes(['id' => $log['lastDialogId'], 'is_final_replica' => 1]);
+                    }
+                    $universal_log->last_dialog_id = (empty($dialog)) ? null : $dialog->excel_id;
+                    $universal_log->end_time = date("H:i:s", $log[3]);
+                    $universal_log->save();
+                }
+            } elseif (self::ACTION_SWITCH == (string)$log[2]) {
+
+                continue;
+
+            } else {
+
+                throw new CException("Unknown action: " . $log[2]); //TODO:Описание доделать
+            }
+        }
+
+        return true;
     }
 }

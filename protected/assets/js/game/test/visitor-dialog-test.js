@@ -134,7 +134,6 @@ define(
                             JSON.stringify({"result":1,"unreaded":"4"})
                         ]
                     );
-
                     window.SKApp = new SKApplication();
                     window.SKConfig = {'simulationStartTime': '9:00', 'skiliksSpeedFactor': 8};
                     SKApp.user = new SKUser({});
@@ -146,6 +145,7 @@ define(
                 });
 
                 it('Visitor dialog test', function() {
+
                     server.respondWith(
                         "POST",
                         "/index.php/events/getState",
@@ -157,13 +157,11 @@ define(
                         "/index.php/dialog/get",
                         [200, { "Content-Type":"application/json" }, JSON.stringify(dialogStep1Response)]
                     );
-
                     var simulation = SKApp.user.simulation = new SKSimulation();
                     simulation.start();
                     simulation.getNewEvents();
                     server.respond();
                     expect(simulation.events.length).toBe(1);
-
                     var event = simulation.events.at(0);
                     expect(event.getTypeSlug()).toBe('visit');
 
@@ -177,9 +175,7 @@ define(
                     server.respond();
                     expect(simulation.events.length).toBe(2);
 
-                    event = simulation.events.at(1);
-                    wndModel = new SKDialogWindow({name: 'visitor', subname: 'visitorTalk', sim_event: event});
-                    wndModel.open();
+                    wndModel = simulation.window_set.at(1);
                     visitorView = new SKImmediateVisitView({model_instance: wndModel});
                     visitorView.render();
                     expect(visitorView.$('.replica-select').length).toBe(2);
@@ -248,10 +244,13 @@ define(
                             })
                         ]
                     );
+                    expect(SKApp.user.simulation.events.length).toBe(0);
+                    var phone_spy = sinon.spy();
+                    SKApp.user.simulation.events.on('event:phone', phone_spy);
 
                     SKApp.user.simulation.getNewEvents();
                     server.respond();
-
+                    assert.calledOnce(phone_spy);
                     // check that event has been added to queue
                     expect(SKApp.user.simulation.events.length).toBe(1);
 
@@ -283,7 +282,7 @@ define(
                     for(var i in server.requests) {
                         //console.log(server.requests[i].url);
                         if (server.requests[i].url == '/index.php/dialog/get') {
-                            expect(server.requests[i].requestBody).toBe('dialogId=787&time=09%3A00');
+                            expect(!!server.requests[i].requestBody.match(/dialogId=787&time=09%3A00/)).toBeTrue();
                             requestChecked = true;
                         }
                     }
@@ -320,24 +319,23 @@ define(
                     expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('4');
 
                     SKApp.user.simulation.getNewEvents();
-
                     server.requests[6].respond(
                         200,
                         { "Content-Type":"application/json" },
                         JSON.stringify({result:1,events:[{result:1,id:'46791',eventType:'M'}],serverTime:'09:05:00'})
                     );
-
                     server.requests[7].respond(
+                        200,
+                        { "Content-Type":"application/json" },
+                        JSON.stringify({"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"})
+                    );
+                    server.requests[8].respond(
                         200,
                         { "Content-Type":"application/json" },
                         JSON.stringify({"result": 1,"unreaded":"5"})
                     );
 
-                    server.requests[8].respond(
-                        200,
-                        { "Content-Type":"application/json" },
-                        JSON.stringify({"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"})
-                    );
+
 
                     server.respond();
 

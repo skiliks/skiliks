@@ -94,6 +94,9 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     // для переноса времени на differ минут
+    // использовать для коректного изменения времени для выполнения событий,
+    // которые должны происходить с задержкой
+    // differ - колличество минут задежки
     public function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
@@ -105,19 +108,26 @@ class SeleniumTestHelper extends CWebTestCase
         print ($time_array[1]);
         if ($time_array[1]>=60) // проверяем выходим ли мы за рамки по минутам
         {
-            $time_array[0]=$time_array[0]+1;   // увеличиваем часы
+                                              // если выходим за рамки 60 минут, то
+            $time_array[0]=$time_array[0]+1;  // увеличиваем количество часов на 1
             $time_array[1]=$time_array[1]-60; // изменяем количество минут
             print ($time_array[0]);
             print (" : ");
             print ($time_array[1]);
         }
+
+        // меняем поточное время
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], $time_array[0]);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], $time_array[1]);
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
         return $time_array;
     }
 
-    // проверка появления или выполнения чего-то по locator в течении реальной минуты
+    // проверка выполнения или не выполнения действия (например, для проверки,
+    // что телефон не звонит на протяжении 1 реальной минуты)
+    // locator - локатор элемента, наличие которого мы проверяем
+    // возвращаем true, если произошло событие
+    // возвращаем false, если не произошло
     public function is_it_done ($locator)
     {
         $was_done = false;
@@ -137,6 +147,47 @@ class SeleniumTestHelper extends CWebTestCase
             sleep(1);
         }
         return $was_done;
+    }
+
+    // метод для проверки, что значение флага num_flag поменялось
+    // и соответсвует значению ver_value
+    // возвращаем true, если поменялось
+    // возвращаем false, если не изменилось
+    public function verify_flag ($num_flag, $ver_value)
+    {
+        $was_changed=false;
+        $current_value='0';
+        for ($second = 0; ; $second++) {
+
+            if ($second >= 60)
+            {
+                $was_changed = false;
+                break;
+            }
+            try {
+                $current_value=$this->getText(Yii::app()->params['test_mappings']['flags'][$num_flag]);
+                if ($current_value == $ver_value)
+                {
+                    $was_changed=true;
+                    break;
+                }
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+        return $was_changed;
+    }
+
+    // метод для проверки, что необходимое письмо пришло
+    // mail_theme - тема письма, которое мы ожидаем
+    // возвращаем true, если пришло
+    // возвращаем false, если не пришло
+    public function mail_comes ($mail_theme)
+    {
+        $is_here=false;
+
+        // method
+
+        return $is_here;
     }
 }
 

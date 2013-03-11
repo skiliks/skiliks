@@ -71,7 +71,14 @@ class DayPlanLog extends CActiveRecord
     {
             return 'day_plan_log';
     }
-    
+
+    public function relations()
+    {
+        return [
+            'task' => [self::BELONGS_TO, 'Task', 'task_id']
+        ];
+    }
+
     /**
      * Выборка по симуляции
      * 

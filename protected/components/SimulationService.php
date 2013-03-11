@@ -5,94 +5,51 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class SimulationService 
+class SimulationService
 {
     /**
-     * Определение типа симуляции
-     * @param int $sid
-     * @return int
-     */
-    public static function getType($simId) {
-        $simulation = Simulation::model()->byId($simId)->find();
-        if (!$simulation) return false;
-        return $simulation->type;
-    }
-    
-    public static function getUid($simId) {
-        $simulation = Simulation::model()->byId($simId)->find();
-        if (!$simulation) return false;
-        return $simulation->user_id;
-    }
-
-    /**
-     * Определяет игровое время в рамках заданной симуляции
-     * @param int $simId
-     * @throws Exception
-     * @return int игровое время
-     */
-    public static function getGameTime($simId) {
-        $simulation = Simulation::model()->byId($simId)->find();
-        return $simulation->getGameTime();
-    }
-
-    /**
-     * Получить список флагов диалогов в рамках симуляции
-     * @param int $simId
-     * @return array
-     */
-    public static function getFlags($simId) {
-        $flags = SimulationFlag::model()->findAllByAttributes(['sim_id'=>$simId]);
-        $list = array();
-        foreach($flags as $flag) {
-            $list[$flag->flag] = $flag->value;
-        }
-        
-        return $list;
-    }
-    
-    /**
      * Save results of "work with emails"
-     * 
+     *
      * @param integer $simId
      */
     public static function saveEmailsAnalyze($simId)
     {
-        // init emails in analizer
-        $emailAnalizer = new EmailAnalizer($simId);
-        
+        // init emails in analyzer
+        $emailAnalyzer = new EmailAnalizer($simId);
+
         // 3322_3324 {
         // 3322 - add to plan right tasks
         // 3324 - add to plan wrong tasks        
-        
-        $b_3322_3324 = $emailAnalizer->check_3322_3324();
-        
-        if (isset($b_3322_3324['3322']) && 
-            isset($b_3322_3324['3322']['obj']) && 
+
+        $b_3322_3324 = $emailAnalyzer->check_3322_3324();
+
+        if (isset($b_3322_3324['3322']) &&
+            isset($b_3322_3324['3322']['obj']) &&
             isset($b_3322_3324['3322']['positive']) &&
-            true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour) 
-            {
+            true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3322 = new SimulationMailPoint();
-            $emailResultsFor_3322->sim_id        = $simId;
-            $emailResultsFor_3322->point_id      = $b_3322_3324['3322']['obj']->id;
+            $emailResultsFor_3322->sim_id = $simId;
+            $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
-            $emailResultsFor_3322->value         = $b_3322_3324['3322']['positive'];
+            $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
             try {
                 $emailResultsFor_3322->save();
             } catch (Exception $e) {
                 // @todo: handle exception
             }
         }
-            
-        if (isset($b_3322_3324['3324']) && 
-            isset($b_3322_3324['3324']['obj']) && 
+
+        if (isset($b_3322_3324['3324']) &&
+            isset($b_3322_3324['3324']['obj']) &&
             isset($b_3322_3324['3324']['negative']) &&
-            true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour)  
-            {
+            true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3324 = new SimulationMailPoint();
-            $emailResultsFor_3324->sim_id        = $simId;
-            $emailResultsFor_3324->point_id      = $b_3322_3324['3324']['obj']->id;
+            $emailResultsFor_3324->sim_id = $simId;
+            $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
-            $emailResultsFor_3324->value         = $b_3322_3324['3324']['negative'];
+            $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
             try {
                 $emailResultsFor_3324->save();
             } catch (Exception $e) {
@@ -100,20 +57,20 @@ class SimulationService
             }
         }
         // 3322_3324 }
-        
+
         //3325 - read spam {        
-        $b_3325 = $emailAnalizer->check_3325();        
-            
-        if (isset($b_3325['obj']) && 
+        $b_3325 = $emailAnalyzer->check_3325();
+
+        if (isset($b_3325['obj']) &&
             isset($b_3325['negative']) &&
-            true === $b_3325['obj'] instanceof HeroBehaviour)  
-            {
+            true === $b_3325['obj'] instanceof HeroBehaviour
+        ) {
 
             $emailResultsFor_3325 = new SimulationMailPoint();
-            $emailResultsFor_3325->sim_id        = $simId;
-            $emailResultsFor_3325->point_id      = $b_3325['obj']->id;
+            $emailResultsFor_3325->sim_id = $simId;
+            $emailResultsFor_3325->point_id = $b_3325['obj']->id;
             $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
-            $emailResultsFor_3325->value         = $b_3325['negative'];
+            $emailResultsFor_3325->value = $b_3325['negative'];
             try {
                 $emailResultsFor_3325->save();
             } catch (Exception $e) {
@@ -123,17 +80,17 @@ class SimulationService
         //3325 - read spam }
 
         //3323 - any action for 2 minutes tasks {        
-        $b_3323 = $emailAnalizer->check_3323();
-            
-        if (isset($b_3323['obj']) && 
+        $b_3323 = $emailAnalyzer->check_3323();
+
+        if (isset($b_3323['obj']) &&
             isset($b_3323['positive']) &&
-            true === $b_3323['obj'] instanceof HeroBehaviour)  
-            {
+            true === $b_3323['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3323 = new SimulationMailPoint();
-            $emailResultsFor_3323->sim_id        = $simId;
-            $emailResultsFor_3323->point_id      = $b_3323['obj']->id;
+            $emailResultsFor_3323->sim_id = $simId;
+            $emailResultsFor_3323->point_id = $b_3323['obj']->id;
             $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
-            $emailResultsFor_3323->value         = $b_3323['positive'];
+            $emailResultsFor_3323->value = $b_3323['positive'];
             try {
                 $emailResultsFor_3323->save();
             } catch (Exception $e) {
@@ -143,17 +100,17 @@ class SimulationService
         //3323 - any action for 2 minutes tasks }        
 
         //3313 - read most of not-spam emails {        
-        $b_3313 = $emailAnalizer->check_3313();
-            
-        if (isset($b_3313['obj']) && 
+        $b_3313 = $emailAnalyzer->check_3313();
+
+        if (isset($b_3313['obj']) &&
             isset($b_3313['positive']) &&
-            true === $b_3313['obj'] instanceof HeroBehaviour)  
-            {
+            true === $b_3313['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3313 = new SimulationMailPoint();
-            $emailResultsFor_3313->sim_id        = $simId;
-            $emailResultsFor_3313->point_id      = $b_3313['obj']->id;
+            $emailResultsFor_3313->sim_id = $simId;
+            $emailResultsFor_3313->point_id = $b_3313['obj']->id;
             $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
-            $emailResultsFor_3313->value         = $b_3313['positive'];
+            $emailResultsFor_3313->value = $b_3313['positive'];
             try {
                 $emailResultsFor_3313->save();
             } catch (Exception $e) {
@@ -162,11 +119,11 @@ class SimulationService
         }
         //3313 - read most of not-spam emails }
 
-        $b_3333 = $emailAnalizer->check_3333();
-        if (isset($b_3333['obj']) && 
+        $b_3333 = $emailAnalyzer->check_3333();
+        if (isset($b_3333['obj']) &&
             isset($b_3333['positive']) &&
-            true === $b_3333['obj'] instanceof HeroBehaviour)  
-            {
+            true === $b_3333['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3333 = new SimulationMailPoint();
             $emailResultsFor_3333->sim_id = $simId;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
@@ -180,16 +137,16 @@ class SimulationService
         }
 
         //3326 - write not a lot of wrong emails {
-        $b_3326 = $emailAnalizer->check_3326();
+        $b_3326 = $emailAnalyzer->check_3326();
         if (isset($b_3326['obj']) &&
             isset($b_3326['positive']) &&
-            true === $b_3326['obj'] instanceof HeroBehaviour)
-        {
+            true === $b_3326['obj'] instanceof HeroBehaviour
+        ) {
             $emailResultsFor_3326 = new SimulationMailPoint();
-            $emailResultsFor_3326->sim_id        = $simId;
-            $emailResultsFor_3326->point_id      = $b_3326['obj']->id;
+            $emailResultsFor_3326->sim_id = $simId;
+            $emailResultsFor_3326->point_id = $b_3326['obj']->id;
             $emailResultsFor_3326->scale_type_id = $b_3326['obj']->type_scale;
-            $emailResultsFor_3326->value         = $b_3326['positive'];
+            $emailResultsFor_3326->value = $b_3326['positive'];
             try {
                 $emailResultsFor_3326->save();
             } catch (Exception $e) {
@@ -198,27 +155,40 @@ class SimulationService
         }
         //3326 - write not a lot of wrong emails }
     }
-    
+
     /**
      * @param integer $simId
      * @return array of BehaviourCounter
      */
-    public static function getAgregatedPoints($simId) 
+    public static function getAggregatedPoints($simId)
     {
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
         // @todo: fix this relation to logHelper
-        $data = LogHelper::getDialogPointsDetail(LogHelper::RETURN_DATA, array('sim_id' => $simId));
-        
+        $data = $simulation->getAssessmentPointDetails();
+
         $behaviours = array();
 
-        foreach ($data['data'] as $line) {
-            $pointCode = $line['code'];
+        foreach ($data as $line) {
+            if (is_array($line)) {
+
+                $pointCode = $line['code'];
+                $add_value = $line['add_value'];
+            } else if ($line instanceof LogDialogPoint) {
+                $pointCode = $line->point->code;
+                $add_value = $line->getReplicaPoint()->add_value;
+            } else {
+                $pointCode = $line->point->code;
+                $add_value = $line->value;
+            }
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
             }
-            
-            $behaviours[$pointCode]->update($line['add_value']);
+
+            $behaviours[$pointCode]->update($add_value);
+
         }
-  
+
         // add Point object
         foreach (HeroBehaviour::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
@@ -228,57 +198,57 @@ class SimulationService
 
         return $behaviours;
     }
-    
+
     /**
      * @param integer $simId
-     */    
-    public static function saveAgregatedPoints($simId) 
+     */
+    public static function saveAggregatedPoints($simId)
     {
 
-        foreach(self::getAgregatedPoints($simId) as $agrPoint) {
+        foreach (self::getAggregatedPoints($simId) as $agrPoint) {
             // check, is in some fantastic way such value exists in DB {
             $existAssassment = AssessmentAggregated::model()
                 ->bySimId($simId)
                 ->byPoint($agrPoint->mark->id)
                 ->find();
             // check, if in some fantastic way such value exists in DB }
-            
+
             // init Log record {
             if (null == $existAssassment) {
                 $existAssassment = new AssessmentAggregated();
-                $existAssassment->sim_id   = $simId;
+                $existAssassment->sim_id = $simId;
                 $existAssassment->point_id = $agrPoint->mark->id;
             } else {
                 continue; // assessment has been saved
             }
             // init Log record }
-            
+
             // set value
             $existAssassment->value = $agrPoint->getValue();
             if ($agrPoint->mark->isNegative() && 0 < $existAssassment->value) {
                 // fix for negative points
-                $existAssassment->value =-$existAssassment->value;
+                $existAssassment->value = -$existAssassment->value;
             }
-            
+
             $existAssassment->save();
         }
     }
-    
+
     /**
      * @param integer $simId
-     */ 
-    public static function copyMailInboxOutboxScoreToAssessmentAgregated($simId)
+     */
+    public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
         foreach (SimulationMailPoint::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
             $assassment = new AssessmentAggregated();
-            $assassment->sim_id   = $simId;
+            $assassment->sim_id = $simId;
             $assassment->point_id = $emailBehaviour->point_id;
             $assassment->value = $emailBehaviour->value;
             $assassment->save();
         }
     }
-    
+
     /**
      * must be called at once, when simulation starts
      * @param integer $simulationId
@@ -301,7 +271,7 @@ class SimulationService
 
         $add = '';
         foreach ($tasks as $task) {
-            $sql .= $add."({$simulation->id}, '00:00:00', {$task->id})";
+            $sql .= $add . "({$simulation->id}, '00:00:00', {$task->id})";
             $add = ',';
         }
         $sql .= ";";
@@ -370,29 +340,10 @@ class SimulationService
             }
         }
     }
-    
-    /**
-     * @param integer $userId
-     * @param integer $simulationType
-     * 
-     * @return Simulation
-     */
-    public static function initSimulationEntity($userId, $simulationType)
-    {
-        $simulation = new Simulation();
-        $simulation->user_id = $userId;
-        $simulation->status = 1;
-        $simulation->start = GameTime::setNowDateTime();
-        $simulation->difficulty = 1;
-        $simulation->type = $simulationType;
-        $simulation->insert();
 
-        return $simulation;
-    }
-    
-    /**
+     /**
      * @param Simulation $simulation
-     * 
+     *
      * @return array of EventTrigger
      */
     public static function initEventTriggers($simulation)
@@ -410,7 +361,7 @@ class SimulationService
 
         $add = '';
         foreach ($events as $event) {
-            $sql .= $add."({$simulation->id}, {$event->id}, '{$event->trigger_time}')";
+            $sql .= $add . "({$simulation->id}, {$event->id}, '{$event->trigger_time}')";
             $add = ',';
         }
         $sql .= ";";
@@ -428,46 +379,61 @@ class SimulationService
      * @return Simulation
      * @throws Exception
      */
-    public static function simulationStart($simulationType, $user = null)
+    public static function simulationStart($simulationMode, $user = null)
     {
         $profiler = new SimpleProfiler(false);
-        $profiler->startTimer();        
-        
+        $profiler->startTimer();
+
         if ($user === null) {
             $userId = SessionHelper::getUidBySid();
         } else {
             $userId = $user->primaryKey;
         }
+
+        if (null === $userId) {
+            return null;
+        }
+
         $profiler->render('1: ');
-        
-        if (false === UserService::isMemberOfGroup($userId, $simulationType)) {
+
+        if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
+            && false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
+        ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
         $profiler->render('2: ');
-        
+
         // Создаем новую симуляцию
-        $simulation = SimulationService::initSimulationEntity($userId, $simulationType);
+        $simulation = new Simulation();
+        $simulation->user_id = $userId;
+        $simulation->status = 1;
+        $simulation->start = GameTime::setNowDateTime();
+        $simulation->difficulty = 1;
+        $simulation->type = $simulationMode;
+        $simulation->insert();
         $profiler->render('3: ');
-        
+
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
         $profiler->render('4: ');
-        
+
         //@todo: increase speed
-        SimulationService::initEventTriggers($simulation); 
+        SimulationService::initEventTriggers($simulation);
         $profiler->render('5: '); // 3.10 ~ 3.17
-        
+
         // предустановка задач в todo!
         SimulationService::fillTodo($simulation);
         $profiler->render('6: ');
-        
+
         // скопируем документы
-        MyDocumentsService::init($simulation->id);
+        MyDocumentsService::init($simulation);
         $profiler->render('7: ');
 
         // @todo: increase speed
         // Установим дефолтовые значения для mail client
-        MailBoxService::initDefaultSettings($simulation->id);
+        $mailSettings = new MailSettings();
+        $mailSettings->sim_id = $simulation->id;
+        $mailSettings->insert();
         $profiler->render('8: ');
 
         // Copy email templates
@@ -475,43 +441,43 @@ class SimulationService
         $profiler->render('9: '); // 3.51 ~ 4.14
 
         // проставим дефолтовые значени флагов для симуляции пользователя
-        FlagsService::initDefaultValues($simulation->id);
-        $profiler->render('10: '); // 1.09 ~ 1.90
-        
+        $flags = Flag::model()->findAll();
+        foreach ($flags as $flag) {
+            FlagsService::setFlag($simulation, $flag->code, 0);
+        }
+
         return $simulation;
     }
-    
+
     /**
      * @param Simulation $simulation
      */
     public static function simulationStop($simulation, $logs_src = array())
     {
         // данные для логирования
-        $events_manager = new EventsManager();
-        $events_manager->processLogs($simulation, $logs_src);
-
+        EventsManager::processLogs($simulation, $logs_src);
 
         // Make agregated activity log 
         LogHelper::combineLogActivityAgregated($simulation);
-        
+
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalyze($simulation->id);
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
-        SimulationService::saveAgregatedPoints($simulation->id);
+        SimulationService::saveAggregatedPoints($simulation->id);
 
         SimulationService::setFinishedAssessmentRules($simulation->id);
-        
-        DayPlanService::copyPlanToLog($simulation, 18*60); // 18-00 copy
-        
+
+        DayPlanService::copyPlanToLog($simulation, 18 * 60); // 18-00 copy
+
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
 
         // @todo: this is trick
-        // write all mail outbox/inbox scores to AssessmentAgregate directly
-        SimulationService::copyMailInboxOutboxScoreToAssessmentAgregated($simulation->id);
-        
+        // write all mail outbox/inbox scores to AssessmentAggregate directly
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
         $simulation->checkLogs();
@@ -523,7 +489,7 @@ class SimulationService
      * in real life time coords
      *
      * There are no internal simulation time stored anywhere :)
-     * 
+     *
      * @param Simulation $simulation
      * @param integer $newHours
      * @param integer $newMinutes
@@ -531,7 +497,7 @@ class SimulationService
     public static function setSimulationClockTime($simulation, $newHours, $newMinutes)
     {
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
-        
+
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->start);
         $variance = $variance * $speedFactor;
 

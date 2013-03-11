@@ -17,19 +17,18 @@ class DialogDelayTest extends CDbTestCase
     {
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $simulationService = new SimulationService();
-            $user = Users::model()->findByAttributes(['email' => 'asd']);
-            $simulation = $simulationService->simulationStart(Simulation::TYPE_DEVELOP, $user);
+
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_DEVELOPER_ID, $user);
 
             // we need transaction - this test delete empty Task table
-
             $event = new EventsManager();
 
             //Запуск T7.1
             $this->setTime($simulation, 11, 12);
-            $event->startEvent($simulation->id, 'T7.1', false, false, 0);
+            EventsManager::startEvent($simulation, 'T7.1', false, false, 0);
             for ($i = 0; $i < 10; $i++) {
-                $json = $event->getState($simulation, false);
+                $json = EventsManager::getState($simulation, false);
                 if (!empty($json['events'][0]['eventType']) && $json['events'][0]['eventType'] == 1) {
                     break;
                 }
@@ -38,14 +37,14 @@ class DialogDelayTest extends CDbTestCase
                 $this->assertEquals('T7.1', $json['events'][0]['data'][0]['code']);
             }
 
-            $event->startEvent($simulation->id, 'RST2', false, false, 5);
-            $event->startEvent($simulation->id, 'RST2', false, false, 5);
+            EventsManager::startEvent($simulation, 'RST2', false, false, 5);
+            EventsManager::startEvent($simulation, 'RST2', false, false, 5);
 
             //Запуск RST2
             $this->setTime($simulation, 11, 22, false);
 
             for ($i = 0; $i < 10; $i++) {
-                $json = $event->getState($simulation, false);
+                $json = EventsManager::getState($simulation, false);
 
                 if (!empty($json['events'][0]['eventType']) && $json['events'][0]['eventType'] == 1) {
                     break;
@@ -54,12 +53,12 @@ class DialogDelayTest extends CDbTestCase
             if(!empty($json['events'][0]['data'][0]['code'])){
                 $this->assertEquals('RST2', $json['events'][0]['data'][0]['code']);
             }
-            $event->startEvent($simulation->id, 'S1.2', false, false, 2);
+            EventsManager::startEvent($simulation, 'S1.2', false, false, 2);
 
             $this->setTime($simulation, 11, 24, false);
 
             for ($i = 0; $i < 10; $i++) {
-                $json = $event->getState($simulation, false);
+                $json = EventsManager::getState($simulation, false);
                 if (!empty($json['events'][0]['eventType']) && $json['events'][0]['eventType'] == 1) {
                     break;
                 }

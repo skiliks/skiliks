@@ -57,18 +57,18 @@ class PhoneService {
     }
 
     public function callBack($simId, $dialog_code) {
+        $simulation = Simulation::model()->findByPk($simId);
 
        $template = EventSample::model()->findByAttributes(['code'=>'S1.2']);//todo:Костыль
        $ev = EventTrigger::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);//todo:Костыль
 
            $dialog = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
         if($ev === null and $dialog->next_event_code == 'E1'){ return 'fail'; }//todo:Костыль
-           $manager = new EventsManager();
            if(!empty($dialog->next_event_code)) {
                $event = EventSample::model()->findByAttributes(['code'=>$dialog->next_event_code]);
-               $trigger = EventTrigger::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);//Logger::write($dialog->next_event_code);
+               $trigger = EventTrigger::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);
                if($trigger !== null){
-                   $manager->startEvent($simId, $dialog->next_event_code, 0, 0, 0);
+                   EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
                    $dialog_cancel = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
                    $cancel_event = EventSample::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
                    $cur_event = EventTrigger::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
@@ -225,7 +225,7 @@ class PhoneService {
                         ];
 
                     } else {
-                        $data = EventService::getReplicaByCode($eventCode, $simulation->id);
+                        $data = self::getReplicaByCode($eventCode, $simulation);
                         PhoneService::registerOutgoing($simulation->id, $characterId, $time, $themeId);
                         return [
                             'result' => 1,
@@ -241,6 +241,35 @@ class PhoneService {
 
                 }
             }
+    }
+
+    public static function getReplicaByCode($eventCode, $simulation) {
+        $dialogs = Replica::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+
+        $data = array();
+        foreach($dialogs as $dialog) {
+            // Если у нас реплика к герою
+            if ($dialog->replica_number == 0) {
+                // События типа диалог мы не создаем
+                // isDialog() Wrong!!!
+                if (!EventService::isDialog($dialog->next_event_code)) {
+                    // создадим событие
+                    EventService::addByCode($dialog->next_event_code, $simulation->id, $simulation->getGameTime());
+                }
+            }
+            $data[] = DialogService::dialogToArray($dialog);
+        }
+
+        if (isset($data[0]['ch_from'])) {
+            $characterId = $data[0]['ch_from'];
+            $character = Character::model()->byId($characterId)->find();
+            if ($character) {
+                $data[0]['title'] = $character->title;
+                $data[0]['name'] = $character->fio;
+            }
+        }
+
+        return $data;
     }
     
     private static function combineReplicaToHero($newData)

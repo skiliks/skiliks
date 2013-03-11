@@ -13,7 +13,9 @@ define([
     ) {
     "use strict";
     /**
+     * Отображение визита пользователя
      * @class SKVisitView
+     * @constructs
      * @extends {SKWindowView}
      * @type {SKWindowView}
      */

@@ -17,6 +17,9 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
         },
 
         'initialize': function (models, options) {
+            if (options.events === undefined) {
+                throw 'SKWindowSet requires events';
+            }
             options.events.on('event:phone:in_progress', function (event) {
                 this.toggle('phone', 'phoneCall', {sim_event: event});
             }, this);
@@ -31,6 +34,14 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                 var win = this.open('phone', 'phoneTalk', {sim_event: event});
                 event.setStatus('in progress');
             }, this);
+            this.on('add', function (win) {
+                var zIndex = -1;
+                this.each(function (window) {
+                    zIndex = Math.max(window.get('zindex') !== undefined ? window.get('zindex') : -1, zIndex);
+                });
+                win.set('zindex', zIndex + 1);
+
+            }, this);
 
         },
 
@@ -38,11 +49,15 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
             return this.get('zindex');
         },
 
+        /**
+         * Добавляет в список окон окно, активирует его и деактивирует предыдущее (если было)
+         * @param {SKWindow} win
+         * @method showWindow
+         */
         'showWindow': function (win) {
             if (win.single === true && this.get(win)) {
                 throw 'Window already displayed';
             }
-
             if (this.length) {
                 this.at(this.length - 1).deactivate();
             }

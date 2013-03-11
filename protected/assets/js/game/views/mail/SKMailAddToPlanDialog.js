@@ -129,7 +129,7 @@ define([
                 'margin':'auto'
             });
 
-            $('#canvas').prepend(this.$el);
+            $('.windows-container').prepend(this.$el);
             // render dialog }
 
             this.delegateEvents();
