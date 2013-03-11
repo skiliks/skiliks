@@ -44,7 +44,7 @@ class AssessmentDetailTable extends LogTable
             if ($row->point->learning_goal_code == 331 or $row->point->learning_goal_code == 332) {
                 $outboxMail = '3. Оценка Mail Inbox';
             } else if ($row->point->learning_goal_code == 333){
-                $outboxMail= '3. Оценка Mail Outbox';
+                $outboxMail= '4. Оценка Mail Outbox';
             } else {
                $outboxMail = '';
             }

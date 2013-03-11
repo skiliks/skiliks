@@ -7,6 +7,7 @@
  * @property datetime start_time
  * @property datetime end_time
  * @property Simulation simulation
+ * @property ActivityAction activityAction
  */
 class LogActivityActionAgregated extends CActiveRecord
 {
