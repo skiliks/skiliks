@@ -69,7 +69,7 @@ class UserAccountController extends YumController
      */
     public function actionAfterRegistration()
     {
-        $this->checkUser();
+        //$this->checkUser(); todo:Fix me
 
         $this->render('afterRegistration', ['user' => $this->user]);
     }
