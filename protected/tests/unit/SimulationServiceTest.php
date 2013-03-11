@@ -1272,7 +1272,16 @@ class SimulationServiceTest extends CDbTestCase
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
         $scaleTypes = [1 => 'positive', 2 => 'negative', 3 => 'personal'];
+
+        // 3:   ET1.1, step 1, replica 2
+        // 7:   E1,    step 1, replica 3
+        // 11:  E1,    step 2, replica 2
+        // 17:  S1.1,  step 1, replica 1
+        // 699: RST6,  step 1, replica 1
+        // 704: RS6,   step 1, replica 3
+        // 707: RS6,   step 2, replica 2
         $replicas = [3, 7, 11, 17, 699, 704, 707];
+
         $logs = [];
         $details = [];
         $aggregated = [];
@@ -1332,7 +1341,7 @@ class SimulationServiceTest extends CDbTestCase
 
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregated[$scaleType], 2));
         }
-        $this->assertEquals(0, array_sum($delta));
+        $this->assertEquals(0.56, array_sum($delta));
     }
 }
 
