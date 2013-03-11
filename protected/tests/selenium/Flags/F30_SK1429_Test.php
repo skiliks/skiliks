@@ -22,10 +22,7 @@ class F30_SK1429_Tests extends SeleniumTestHelper
     $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
     $this->click(Yii::app()->params['test_mappings']['mail']['send']);
 
-    #TODO: заменить!
-    sleep(10);
-    $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[6]");
-    $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[6]","1");
+    $this->assertTrue($this->verify_flag('F30','1'));
 
     $this->optimal_click("css=li.icon-active.mail a");
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);

@@ -18,9 +18,8 @@ class F22_SK1428_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Нет, отложи все дела и сделай срочно')])");
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[4]");
-        #TODO: заменить!
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[4]","1");
+
+        $this->assertTrue($this->verify_flag('F22','1'));
 
         $this->run_event('T7.4');
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
@@ -35,9 +34,8 @@ class F22_SK1428_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[4]");
-        #TODO: заменить!
-        sleep(10);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[4]","0");
+
+        $this->assertTrue($this->verify_flag('F22','0'));
 
         $this->run_event('T7.4');
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
