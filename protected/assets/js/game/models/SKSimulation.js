@@ -99,6 +99,7 @@ define([
                     });
                 });
             },
+
             /**
              * Returns number of minutes past from the start of game
              *
@@ -125,10 +126,12 @@ define([
                     me.getNewEvents();
                 });
             },
+
             /**
              * Return game time in seconds
-             * @return {Number}
+             *
              * @method getGameSeconds
+             * @return {Number}
              */
             'getGameSeconds':function () {
                 var current_time_string = new Date();
@@ -137,11 +140,13 @@ define([
                     Math.floor((current_time_string - this.start_time) / 1000 * SKConfig.skiliksSpeedFactor) +
                     this.skipped_minutes * 60;
             },
+
             /**
              * Returns game time in human readable format (e.g. 09:00)
+             *
+             * @method getGameTime
              * @optional @param {boolean} is_seconds show seconds
              * @return {string}
-             * @method getGameTime
              */
             'getGameTime':function (is_seconds) {
                     var sh    = this.getGameSeconds();
@@ -157,8 +162,8 @@ define([
             /**
              * Parses new events and adds them to event collection
              *
-             * @param events
              * @method parseNewEvents
+             * @param events
              */
             parseNewEvents:function (events) {
                 var me = this;
@@ -181,6 +186,7 @@ define([
                     }
                 });
             },
+
             /**
              * Запрашивает список новых событий, обновляет флаги и вызывает метод parseNewEvents для парсинга ада с
              * сервера
@@ -204,6 +210,7 @@ define([
                     }
                 });
             },
+
             /**
              * Запускает симуляцию:
              *
@@ -249,6 +256,7 @@ define([
                     }, 60000 / SKConfig.skiliksSpeedFactor);
                 });
             },
+
             /**
              * Останавливает симуляцию, останавливает таймер, отправляет оставшиеся логи
              *
@@ -277,9 +285,10 @@ define([
 
             /**
              * Обновляет время в симуляции и вызывает событие tick по завершению
+             *
+             * @method setTime
              * @param hour
              * @param minute
-             * @method setTime
              * @async
              */
             'setTime':function (hour, minute) {
@@ -304,6 +313,8 @@ define([
 
             /**
              * Код, который обновляет флаги. TODO: превратить его в события
+             *
+             * @method
              * @param flagsState
              * @param serverTime
              */

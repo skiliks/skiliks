@@ -74,7 +74,11 @@ define([] ,function() {
         // @var string, 
         // @todo: replace with links to SKCharacters
         copyToString: '',
-        
+
+        /**
+         * @method
+         * @returns {boolean}
+         */
         isSubjectValid: function() {
             // keep not strong compartion in non strong way!
             return (undefined !== this.subject && 
@@ -84,7 +88,11 @@ define([] ,function() {
                 '' !== this.subject.text &&
                 undefined !== this.subject.text );
         },
-        
+
+        /**
+         * @method
+         * @param fullMinutes
+         */
         setSendedAtFromTodayMinutes: function(fullMinutes) {
             var hours = (Math.floor(fullMinutes/60));
             var minutes = (fullMinutes - hours*60);
@@ -93,13 +101,20 @@ define([] ,function() {
             }
             this.sendedAt = '10.03.2012 ' + hours + ':' + minutes;
         },
-        
+
+        /**
+         * @method
+         */
         updateStatusPropertiesAccordingObjects: function() {
             if (undefined !== this.attachment) {
                 this.is_has_attachment = true;
             }  
         },
-        
+
+        /**
+         * @method
+         * @param string
+         */
         setSenderEmailAndNameStrings: function(string) {
             var senders = string.split(',');
             for(var i in senders){
@@ -108,7 +123,11 @@ define([] ,function() {
                 this.senderEmailString += ((parseInt(i, 0) === 0)?'':' ,')+senders[i].replace('<', '').replace('>', '').replace(senderNameString, '').trim();
             }
         },
-        
+
+        /**
+         * @method
+         * @param string
+         */
         setRecipientEmailAndNameStrings: function(string) {
             var recipients = string.split(',');
             for(var i in recipients){
@@ -118,7 +137,11 @@ define([] ,function() {
             }
 
         },
-        
+
+        /**
+         * @method
+         * @param string
+         */
         addSenderEmailAndNameStrings: function(string) {
             var separator = '';
             if ('' != this.senderNameString) {
@@ -132,7 +155,11 @@ define([] ,function() {
             }
             this.senderEmailString += separator + string.replace('<', '').replace('>', '').replace(this.senderNameString, '').trim();
         },
-        
+
+        /**
+         * @method
+         * @param string
+         */
         addRecipientEmailAndNameStrings: function(string) {
             var separator = '';
             if ('' != this.recipientNameString) {
@@ -147,49 +174,50 @@ define([] ,function() {
             this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
         },
 
+        /**
+         * @method
+         * @param string
+         */
         addCopyEmailAndNameStrings: function(string) {
             var separator = '';
             if ('' != this.copyToString) {
                 separator = ' ,';
             }
             this.copyToString += separator + string.substring(0, string.indexOf('<', string)).trim();
-
-            /*var separator = '';
-            if ('' != this.recipientNameString) {
-                separator = ' ,';
-            }
-            this.recipientEmailString += separator + string.replace('<', '').replace('>', '').replace(this.recipientNameString, '').trim();
-            */
         },
 
         /**
+         * @method
          */
         markReaded: function() {
             this.is_readed = 1;
         },
 
         /**
+         * @method
          */
-
         markUnreaded: function() {
             this.is_readed = 0;
         },
 
         /**
+         * @method
+         * @returns {boolean}
          */
-
         isReaded: function() {
             return this.is_readed == 1;
         },
         
         /**
-         * return string
+         * @method
+         * @return string
          */
         getSubjectText: function() {
             return this.subject.getText();
         },
         
         /**
+         * @method
          * @return string, CSS style
          */
         getIsReadedCssClass: function() {
@@ -201,6 +229,7 @@ define([] ,function() {
         },
         
         /**
+         * @method
          * @return string, CSS style
          */
         getIsHasAttachment: function() {
@@ -212,6 +241,7 @@ define([] ,function() {
         },
         
         /**
+         * @method
          * @return string, CSS style
          */
         getIsHasAttachmentCss: function() {
@@ -221,7 +251,11 @@ define([] ,function() {
                 return ' display: none; ';
             }
         },
-        
+
+        /**
+         * @method
+         * @returns {boolean}
+         */
         isValid: function() {
             
             if (undefined === this.subject) {
@@ -230,7 +264,11 @@ define([] ,function() {
                 
             return true;
         },
-        
+
+        /**
+         * @method
+         * @returns {*}
+         */
         getAttachmentId: function() {
             if ('undefined' === typeof this.attachment) {
                 return '';
@@ -238,7 +276,11 @@ define([] ,function() {
                 return this.attachment.fileMySqlId;
             }
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getRecipientIdsString: function() {
             var string = '';
             for (var i in this.recipients) {
@@ -247,7 +289,11 @@ define([] ,function() {
             
             return string;
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getFormatedRecipientsString: function() {
             var string = '';
             for (var i in this.recipients) {
@@ -260,7 +306,11 @@ define([] ,function() {
             
             return string;
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getFormatedCopyToString: function() {
             var string = '';
             for (var i in this.copyTo) {
@@ -273,7 +323,11 @@ define([] ,function() {
             
             return string;
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getCopyToIdsString: function() {
             var string = '';
             for (var i in this.copyTo) {
@@ -282,7 +336,11 @@ define([] ,function() {
             
             return string;
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getPhrasesIdsString: function() {
             var string = '';
             for (var i in this.phrases) {

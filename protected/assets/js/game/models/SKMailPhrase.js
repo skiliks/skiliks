@@ -20,6 +20,7 @@
 
         /**
          * Constructor
+         *
          * @method initialize
          */
         initialize: function() {

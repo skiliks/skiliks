@@ -50,6 +50,10 @@ define([
             SKWindowView.prototype.initialize.call(this);
         },
 
+        /**
+         * @method
+         * @param window_el
+         */
         renderContent: function (window_el) {
             var me = this;
             window_el.html(_.template(call_template, {call: this.options.event.get('data')}));
@@ -67,22 +71,38 @@ define([
             }
         },
 
+        /**
+         * @method
+         * @param event
+         */
         getMenu: function(event){
             //Todo: уточнить возможность у Антона
             //var id = $(event.currentTarget).attr('window_id');
             //this.renderTPL('<xxx>', {windowID:id});
         },
 
+        /**
+         * @method
+         * @returns {Number|jQuery}
+         */
         getCountViews: function(){
             return $('.'+this.windowClass).length;
         },
 
+        /**
+         * @method
+         * @param event
+         */
         reply: function(event) {
             event.preventDefault();
             event.stopPropagation();
             this.runReply($(event.currentTarget).attr('data-dialog-id'));
         },
 
+        /**
+         * @method
+         * @param dialogId
+         */
         runReply: function(dialogId) {
             var dialogId = dialogId;
             var me = this;
@@ -92,6 +112,10 @@ define([
             });
         },
 
+        /**
+         * @method
+         * @param event
+         */
         noReply: function(event) {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
             var me = this;

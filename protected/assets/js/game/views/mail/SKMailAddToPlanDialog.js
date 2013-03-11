@@ -48,6 +48,10 @@ define([
             });
         },
 
+        /**
+         * @method
+         * @returns {$.xhr}
+         */
         getTasksToBePlanned:function () {
             var me = this;
 
@@ -72,6 +76,9 @@ define([
             );
         },
 
+        /**
+         * @method
+         */
         render:function () {
             SKApp.user.simulation.mailClient.setWindowsLog('mailPlan', SKApp.user.simulation.mailClient.getActiveEmailId());
 
@@ -79,6 +86,9 @@ define([
             this.getTasksToBePlanned();
         },
 
+        /**
+         * @method
+         */
         continueRender: function() {
             var listHtml = '';
             var addToPlanDialog = this;
@@ -143,10 +153,17 @@ define([
             this.delegateEvents();
         },
 
-        // override default behavoiur
+        /**
+         * override default behavoiur
+         * @method
+         */
         handleClick:function () {
         },
 
+        /**
+         * @method
+         * @param id
+         */
         selectItem:function (id) {
             $('.mail-plan-item').removeClass('active');
             $('.mail-task-' + id).addClass('active');
@@ -154,10 +171,17 @@ define([
             this.setSelectedMailTaskByMySqlId(id);
         },
 
+        /**
+         * @method
+         * @param id
+         */
         setSelectedMailTaskByMySqlId:function (id) {
             this.selectedMailTask = SKApp.user.simulation.mailClient.getMailTaskByMySqlId(id);
         },
 
+        /**
+         * @method
+         */
         doAddToPlan:function () {
             var addToPlanDialog = this;
 
@@ -203,10 +227,17 @@ define([
             );
         },
 
+        /**
+         * @method
+         * @param events
+         */
         doSelectItem: function (events) {
             this.selectItem($(events.currentTarget).attr('data-task-id'));
         },
-        
+
+        /**
+         * @method
+         */
         doLogClose: function() {
             SKApp.user.simulation.mailClient.setWindowsLog(
                 'mailMain',
@@ -214,6 +245,9 @@ define([
             );   
         },
 
+        /**
+         * @method
+         */
         close:function () {
             if (undefined !== this.$el) {
                 this.cleanUpDOM();

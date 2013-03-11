@@ -23,10 +23,19 @@ define([
         'events': {
             'submit form' : 'doSubmit'
         },
+
+        /**
+         * @method
+         */
         'render': function () {
             var code = _.template(settings_template, {});
             this.$el.html(code);
         },
+
+        /**
+         * @method
+         * @param event
+         */
         'doSubmit': function (event) {
             event.preventDefault();
             var pass1 = event.target.elements.pass1;

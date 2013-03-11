@@ -23,9 +23,10 @@ define([
             isDisplayCloseWindowsButton: false,
             
             'events':_.defaults({
-                "click .visitor-allow":'allow',
-                "click .visitor-deny":'deny'
-            }, SKWindowView.prototype.events),
+                    "click .visitor-allow":'allow',
+                    "click .visitor-deny":'deny'
+            },SKWindowView.prototype.events),
+
             /**
              * Constructor
              * @method initialize
@@ -34,7 +35,11 @@ define([
                 var me = this;
                 SKWindowView.prototype.initialize.call(this);
             },
-            
+
+            /**
+             * @method
+             * @param el
+             */
             'renderWindow':function (el) {
                 var event = this.options.model_instance.get('sim_event');
                 el.html(_.template(visitDoorTpl, {
@@ -43,13 +48,21 @@ define([
                 }));
 
             },
-            
+
+            /**
+             * @method
+             * @param e
+             */
             'allow':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {});
                 this.options.model_instance.close();
             },
-            
+
+            /**
+             *
+             * @param e
+             */
             'deny':function (e) {
                 var dialogId = $(e.currentTarget).attr('data-dialog-id');
                 this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {

@@ -19,11 +19,20 @@
        
         // @bar bool
         isActive: false,
-        
+
+        /**
+         *
+         * @param email
+         */
         addEmail: function(email) {
             this.emails.push(email);
         },
-        
+
+        /**
+         * @method
+         * @param mySqlId
+         * @returns {*}
+         */
         getEmailByMySqlId: function(mySqlId) {
             mySqlId = parseInt(mySqlId, 10);
             var res_email;
@@ -34,7 +43,13 @@
             });
             return res_email;
         },
-        
+
+        /**
+         * @method
+         * @param oldId
+         * @param newId
+         * @returns {boolean}
+         */
         updateEmailMySqlId: function(oldId, newId) {
             this.emails.forEach(function (email) {
                 if (parseInt(email.mySqlId, 10) === oldId) {
@@ -46,11 +61,19 @@
             
             return false;
         },
-        
+
+        /**
+         * @method
+         * @returns {*}
+         */
         getFirstEmail: function() {
             return this.emails[0];
         },
-        
+
+        /**
+         * @method
+         * @returns {number}
+         */
         countUnreaded: function() {
             var result = 0;
             

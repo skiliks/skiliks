@@ -218,6 +218,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @return string,
              */
             getActiveSubscreenName:function () {
@@ -258,6 +259,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return 'mailMain';
             },
 
+            /**
+             * @method
+             * @param id
+             * @returns {*}
+             */
             getMailTaskByMySqlId:function (id) {
                 for (var i in this.availaleActiveEmailTasks) {
                     if (parseInt(this.availaleActiveEmailTasks[i].mySqlId, 10) === parseInt(id,10)) {
@@ -269,6 +275,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @return SkMailFolder
              */
             getInboxFolder:function () {
@@ -276,14 +283,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @return SkMailFolder
              */
-
             getDraftsFolder:function () {
                 return this.folders[this.aliasFolderDrafts];
             },
 
             /**
+             * @method
              * @return SkMailFolder
              */
 
@@ -292,6 +300,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @return SkMailFolder
              */
             getTrashFolder:function () {
@@ -302,6 +311,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * CleanUp 'folderAlias' folder
              * Push all emails from 'emails' to 'folderAlias' folder
              *
+             * @method
              * @param folderAlias
              * @param emailsData
              */
@@ -353,15 +363,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @param string activeScreenAlias, this.screenXxx literals
              */
             setActiveScreen:function (activeScreenAlias) {
                 this.activeScreen = activeScreenAlias;
             },
 
-            // ---------------------------------------------
-
             /**
+             * @method
              * @return: $.xhr array, Skiliks API responce
              */
             getDataForReplyToActiveEmail:function () {
@@ -384,6 +394,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @return: $.xhr array, Skiliks API responce
              */
             getDataForReplyAllToActiveEmail:function () {
@@ -405,6 +416,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @returns {$.xhr}
+             */
             getDataForForwardActiveEmail:function () {
                 var mailClient = this;
 
@@ -425,9 +440,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             * This is just alias to make initial screen flexible
+             * @method
              */
-
             getDataForInitialScreen:function () {
                 var me = this;
 
@@ -449,6 +463,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             // todo: combine all getXxxFolderEmails() to one method.
+
+            /**
+             * @method
+             * @param cb
+             */
             getInboxFolderEmails:function (cb) {
                 var me = this;
                 SKApp.server.api(
@@ -467,6 +486,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @param cb
+             */
             getDraftsFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
@@ -484,6 +507,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @param cb
+             */
             getSendedFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
@@ -501,6 +528,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @param cb
+             */
             getTrashFolderEmails:function (cb) {
                 SKApp.server.api(
                     'mail/getMessages',
@@ -519,22 +550,44 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             // todo: combine all updateXxxFolderEmails() to one method.
+
+            /**
+             * @method
+             * @param messages
+             */
             updateInboxFolderEmails:function (messages) {
                 this.setEmailsToFolder(this.aliasFolderInbox, messages);
             },
 
+            /**
+             * @method
+             * @param messages
+             */
             updateDraftsFolderEmails:function (messages) {
                 this.setEmailsToFolder(this.aliasFolderDrafts, messages);
             },
 
+            /**
+             * @method
+             * @param messages
+             */
             updateSendedFolderEmails:function (messages) {
                 this.setEmailsToFolder(this.aliasFolderSended, messages);
             },
 
+            /**
+             * @method
+             * @param messages
+             */
             updateTrashFolderEmails:function (messages) {
                 this.setEmailsToFolder(this.aliasFolderTrash, messages);
             },
 
+            /**
+             * @method
+             * @param emails
+             * @returns {boolean}
+             */
             setActiveEmailFromArray:function (emails) {
                 if (0 === emails.length) {
                     this.activeEmail = undefined;
@@ -547,6 +600,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
             },
 
+            /**
+             * @method
+             * @returns {*}
+             */
             getActiveEmailId:function () {
                 if (undefined === this.activeEmail) {
                     return undefined;
@@ -555,6 +612,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return this.activeEmail.mySqlId;
             },
 
+            /**
+             * @method
+             * @param email
+             */
             setActiveEmail:function (email) {
                 // active email or readed or new writed in any case
                 if (undefined !== email) {
@@ -577,6 +638,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             },
 
+            /**
+             * @method
+             * @param alias
+             */
             setActiveFolder:function (alias) {
                 for (var i in this.folders) {
                     this.folders[i].isActive = false;
@@ -589,6 +654,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             /**
              * Returns active folder
              *
+             * @method
              * @return {SKMailFolder|undefined}
              */
             getActiveFolder:function () {
@@ -603,6 +669,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             /**
              * Returns email bi it`s id from anu folder.
              * By the way, any email stored in single folder in any moment of time
+             *
+             * @method
              */
             getEmailByMySqlId:function (emailId) {
                 for (var alias in this.folders) {
@@ -620,6 +688,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
             },
 
+            /**
+             * @method
+             * @returns {*}
+             */
             getSimulationMailClientWindow:function () {
                 var windows = SKApp.user.simulation.window_set.where({name:'mailEmulator'});
 
@@ -631,7 +703,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             *
+             * @method
              * @param newSubscreen
              * @param {integer} emailId
              */
@@ -656,6 +728,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 SKApp.user.simulation.windowLog.activate(window);
             },
 
+            /**
+             * @method
+             * @param attachmentId
+             */
             saveAttachmentToMyDocuments:function (attachmentId) {
                 // call saveAttachment URL
                 SKApp.server.api(
@@ -684,6 +760,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     });
             },
 
+            /**
+             * @method
+             * @param id
+             * @returns {*}
+             */
             getRecipientByMySqlId:function (id) {
                 for (var i in this.defaultRecipients) {
                     // keep non strict!
@@ -694,6 +775,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return undefined;
             },
 
+            /**
+             * @method
+             * @param name
+             * @returns {*}
+             */
             getRecipientByName:function (name) {
                 for (var i in this.defaultRecipients) {
                     // keep non strict!
@@ -704,6 +790,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return undefined;
             },
 
+            /**
+             * @method
+             */
             updateRecipientsList:function () {
                 var me = this;
                 SKApp.server.api(
@@ -731,6 +820,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @returns {Array}
+             */
             getFormatedCharacterList:function () {
                 var list = [];
                 for (var i in this.defaultRecipients) {
@@ -744,6 +837,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * @method
              * @param {Array.<integer>} recipientIds
              * @param action
              * @param {undefined|SKMailSubject} parent_subject
@@ -797,7 +891,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
-             *
+             * @method
              * @param recipientIds
              * @param subject
              */
@@ -835,6 +929,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @param array
+             */
             setRegularAvailablePhrases:function (array) {
                 this.messageForNewEmail = '';
                 this.availablePhrases = []; // clean-up old phrases
@@ -849,6 +947,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
             },
 
+            /**
+             * @method
+             * @param array
+             */
             setAdditionalAvailablePhrases:function (array) {
                 this.availableAdditionalPhrases = []; // clean-up old phrases
 
@@ -864,6 +966,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             /**
              * Receives and updates phrase list and message for email
              *
+             * @method
              * @param subjectId
              * @param callback
              */
@@ -897,6 +1000,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             /**
              * Search throw list of avalibabte to add to email text phrases
+             *
+             * @method
              */
             getAvailablePhraseByMySqlId:function (phraseId) {
                 var phrases = this.availablePhrases;
@@ -920,6 +1025,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             /**
              * Search throw already used in email text phrases
+             *
+             * @method
              */
             getUsedPhraseByUid:function (phraseUid) {
 
@@ -934,6 +1041,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return undefined;
             },
 
+            /**
+             * @method
+             * @param cb
+             */
             uploadAttachmentsList:function (cb) {
                 SKApp.server.api(
                     'myDocuments/getList',
@@ -953,9 +1064,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                 );
 
-
             },
 
+            /**
+             * @method
+             * @param id
+             * @returns {*}
+             */
             getCharacterById:function (id) {
                 for (var i in this.defaultRecipients) {
                     // keep not strong comparsion
@@ -969,6 +1084,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             /**
              * What is it?
+             *
+             * @method
              * @param emailToSave
              * @return {Object}
              */
@@ -993,6 +1110,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 };
             },
 
+            /**
+             * @method
+             * @param emailToSave
+             * @param callback
+             * @returns {boolean}
+             */
             sendNewCustomEmail:function (emailToSave, callback) {
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
@@ -1026,6 +1149,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 );
             },
 
+            /**
+             * @method
+             * @param emailToSave
+             * @returns {boolean}
+             */
             validationDialogResult:function (emailToSave) {
                 var mailClient = this;
 
@@ -1066,6 +1194,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return true;
             },
 
+            /**
+             * @method
+             * @param emailToSave
+             * @param cb
+             * @returns {boolean}
+             */
             saveToDraftsEmail:function (emailToSave, cb) {
 
                 var mailClient = this;
@@ -1102,8 +1236,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 return true;
             },
 
-            // ------------------------------------------------------
-
+            /**
+             * @method
+             */
             openWindow: function () {
                 this.getDataForInitialScreen();
                 //this.trigger('init_completed');
@@ -1111,6 +1246,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             /**
              * To rewrite
+             * @method
              * @return {Boolean}
              */
             isNotEmptySubject:function(){

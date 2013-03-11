@@ -11,6 +11,7 @@ define(["game/models/SKUser"], function (SKUser) {
     var SKSession = Backbone.Model.extend({
         /**
          * Произошла ошибка авторизации
+         * @method
          * @param {*} error тип ошибки (неверная сессия или неверно введен пароль)
          * @event login:failure
          *
@@ -29,6 +30,7 @@ define(["game/models/SKUser"], function (SKUser) {
                 }
             });
         },
+
         /**
          * Авторизует пользователя и записывает его в SKApp.user. Более правильно было бы записываеть его как SKApp.session.user,
          * но сессия появилась позже

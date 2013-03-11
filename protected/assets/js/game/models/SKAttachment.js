@@ -22,6 +22,7 @@ define([], function() {
         fileMySqlId: undefined,
 
         /**
+         * @method
          * @return string
          */
         getFileName: function() {
@@ -30,7 +31,11 @@ define([], function() {
             // code must det titles from this objects
             return this.title;
         },
-        
+
+        /**
+         * @method
+         * @returns {string}
+         */
         getIconImagePath: function() {
             if (0 < this.label.indexOf('.xls')) {
                 return SKConfig.assetsUrl + "/img/documents/xls.png";

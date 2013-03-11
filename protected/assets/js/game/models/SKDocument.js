@@ -32,8 +32,6 @@ define([], function () {
                     me.set('excel_url', _excel_cache[this.get('id')]);
                 }
             }
-        },
-        sync: function (method, model, options) {
         }
     });
 });

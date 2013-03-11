@@ -38,9 +38,17 @@ define([
             height: 560
         },
 
+        /**
+         * @method
+         * @param window_el
+         */
         renderContent: function (window_el) {
             window_el.html(_.template(main_template, _.defaults(SKConfig)));
         },
+
+        /**
+         * @method
+         */
         getContacts: function () {
             //$('#'+id+' .phone-screen')
             var contacts = new SKPhoneContactsCollection();
@@ -51,6 +59,10 @@ define([
                 me.$('.phone-screen').mCustomScrollbar();
             });
         },
+
+        /**
+         * @method
+         */
         getHistory: function () {
 
             var history = SKApp.user.simulation.phone_history;
@@ -63,12 +75,26 @@ define([
                 me.renderTPL('.phone-screen', phone_history, {history:history, types:['in','out','miss']});
             });
         },
+
+        /**
+         * @method
+         */
         getMenu: function(){
             this.renderTPL('.phone-screen', phone_menu);
         },
+
+        /**
+         * @method
+         * @returns {Number|jQuery}
+         */
         getCountViews : function(){
             return $('.'+this.windowClass).length;
         },
+
+        /**
+         * @method
+         * @param event
+         */
         getThemes: function(event){
             event.preventDefault();
 
@@ -88,6 +114,11 @@ define([
                 me.delegateEvents();
             });
         },
+
+        /**
+         * @method
+         * @param event
+         */
         callToContact:function(event){
             var themeId = $(event.currentTarget).attr('data-theme-id');
             var contactId = $(event.currentTarget).attr('data-contact-id');
@@ -113,6 +144,11 @@ define([
             });
 
         },
+
+        /**
+         * @method
+         * @param e
+         */
         callbackContact:function(e){
             var dialog_code = $(e.currentTarget).attr('data-dialog-code');
             this.options.model_instance.close();

@@ -24,14 +24,17 @@ define([], function() {
         phoneNo: undefined,
         
         /**
+         * @method
          * @return string
          */
         getFormatedForMailToName: function() {
-            return this.name; // + ', ' + this.email + ' (' + this.mySqlId + ')';
+            return this.name;
         },
         
-        /* 
-         * Sorry,I can`t find good name for this function
+        /**
+         *
+         * @todo rename
+         * @method
          * @return string
          */
         getFormated_2_ForMailToName: function() {

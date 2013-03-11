@@ -25,7 +25,11 @@
 
         // @var string, 
         text: undefined,
-        
+
+        /**
+         * @method
+         * @returns {*}
+         */
         getText: function() {
             return this.text;
         }

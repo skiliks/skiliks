@@ -32,15 +32,6 @@ define([
             'click .phone-draw-menu':'getMenu',
             'click .replica-select':   'doSelectReplica'
         }, SKWindowView.prototype.events),
-        
-        remove: function () {
-            var event = this.options.model_instance.get('sim_event');
-            if (event.getStatus() !== 'completed') {
-                event.complete();
-            }
-            this.off('dialog:end');
-            SKWindowView.prototype.remove.call(this);
-        },
 
         /**
          * Constructor
@@ -54,6 +45,22 @@ define([
             SKWindowView.prototype.initialize.call(this);
         },
 
+        /**
+         * @method
+         */
+        remove: function () {
+            var event = this.options.model_instance.get('sim_event');
+            if (event.getStatus() !== 'completed') {
+                event.complete();
+            }
+            this.off('dialog:end');
+            SKWindowView.prototype.remove.call(this);
+        },
+
+        /**
+         * @method
+         * @param window_el
+         */
         renderContent:function (window_el) {
             var event = this.options.model_instance.get('sim_event'),
                 me = this,
@@ -89,6 +96,10 @@ define([
             });
         },
 
+        /**
+         * @method
+         * @param event
+         */
         getMenu: function(event) {
             // block standartfuncxtionality if 
             if (this.isUserCanFinalizeCall) {
@@ -98,6 +109,10 @@ define([
             event.preventDefault();
         },
 
+        /**
+         * @method
+         * @param e
+         */
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();

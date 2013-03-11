@@ -70,6 +70,8 @@ define([], function () {
 
         /**
          * Returns array of player's answers
+         *
+         * @method
          * @return {Array}
          */
         getMyReplicas: function () {
@@ -85,6 +87,8 @@ define([], function () {
 
         /**
          * Returns absolute UPL to video background of image
+         *
+         * @method
          * @return {String}
          */
         getVideoSrc: function () {
@@ -101,6 +105,8 @@ define([], function () {
 
         /**
          * Returns absolute UPL to image background of image
+         *
+         * @method
          * @return {String}
          */
         getImgSrc: function () {
@@ -115,6 +121,10 @@ define([], function () {
             return img_src ? SKConfig.storageURL + '/dialog_images/' + img_src : undefined;
         },
 
+        /**
+         * @method
+         * @returns {string}
+         */
         getAudioSrc: function () {
             var replicas = this.get('data');
             var audio_src = null;
@@ -128,6 +138,7 @@ define([], function () {
         },
 
         /**
+         * @method
          * @deprecated use selectReplica
          * @param replica_id
          * @param cb
@@ -147,6 +158,7 @@ define([], function () {
         },
 
         /**
+         * @method
          * @return {'completed'|'in progress'|'waiting'}
          */
         getStatus: function () {
@@ -154,7 +166,7 @@ define([], function () {
         },
 
         /**
-         *
+         * @method
          * @param {'completed'|'in progress'|'waiting'} status
          */
         setStatus: function (status) {
@@ -174,6 +186,10 @@ define([], function () {
             }
         },
 
+        /**
+         * @method
+         * @param cb
+         */
         ignore: function (cb) {
             if (this.getTypeSlug() !== 'phone') {
                 throw 'You can ignore only phone calls';
@@ -196,6 +212,7 @@ define([], function () {
         /**
          * Selects replica in dialog
          *
+         * @method
          * @param replica_id
          * @param cb
          */
@@ -217,6 +234,8 @@ define([], function () {
 
         /**
          * Marks event as completed
+         *
+         * @method
          */
         'complete': function () {
             if (this.getStatus() === 'completed') {
