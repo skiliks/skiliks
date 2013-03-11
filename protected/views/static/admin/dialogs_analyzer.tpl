@@ -33,8 +33,8 @@
 <div id="flow-menu-wrapper" class="row" style="overflow: hidden; width: 1500px;">
     <div class="span2" style="width: 180px;">
         <div id="flow-menu" style="padding-right:   0px;">
-            <span class="btn btn-inverse toggle-dialogs" style="width: 140px; text-align: left;">
-                <i class="icon icon-white icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>
+            <span class="btn toggle-dialogs" style="width: 140px; text-align: left;">
+                <i class="icon icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>
                 <div class="pull-left">
                 Диалоги видны<br/>
                 (скрыть)
@@ -42,8 +42,8 @@
             </span>
             <br/>
             <br/>
-            <span class="btn toggle-emails" style="width: 140px; text-align: left;">
-                <i class="icon icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>
+            <span class="btn btn-inverse toggle-emails" style="width: 140px; text-align: left;">
+                <i class="icon icon-white icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>
                 <div class="pull-left">
                 Письма скрыты<br/>
                 (показать)
@@ -53,18 +53,45 @@
             <br/>
             <a href="#time-based-events" class="btn" style="width: 140px;">
                 <i class="icon-time"></i>
-                События <br/>
-                начинающиеся по<br/>
-                времени
+                Перейти к<br/>
+                событиям которые<br/>
+                начинаются<br/>
+                по времени
             </a>
             <br/>
             <br/>
             <a href="#event-based-events" class="btn" style="width: 140px;">
                 <i class="icon-comment"></i>
-                События <br/>
-                начинающиеся<br/>
-                по вызову из диалога
+                Перейти к <br/>
+                событиям которые <br/>
+                начинаются по вызову<br/>
+                из диалога
             </a>
+
+            {if ($isDbMode)}
+                <br/>
+                <br/>
+                <span class="btn toggle-behaviour-without-manifests" style="width: 140px; text-align: left;">
+                    <div class="pull-left">
+                        Поведения<br/>
+                        без проявлений<br/>
+                        показаны
+                        (скрыть)
+                    </div>
+                </span>
+                <br/>
+                <br/>
+                <span class="btn toggle-behaviour-with-manifests" style="width: 140px; text-align: left;">
+                    <div class="pull-left">
+                        Поведения<br/>
+                        с проявлениями<br/>
+                        показаны
+                        (скрыть)
+                    </div>
+                </span>
+                <br/>
+                <br/>
+            {/if}
         </div>
     </div>
 
@@ -209,6 +236,62 @@
             </tr>
         {/foreach}
         </table>
+
+        <br/>
+        <br/>
+
+        {if ($isDbMode)}
+            <h3>Список поведений пользователя и возможных их проявлений</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Код</th>
+                        <th>Название</th>
+                        <th>Макс. балл</th>
+                        <th>Тип шкалы</th>
+                        <th>Проявления</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {foreach $analyzer->heroBehaviours as $heroBehaviour}
+                <tr class="behaviour-{if ($analyzer->isNeverShown($heroBehaviour))}{'never'}{else}{'has'}{/if}-shown">
+                    <td>
+                        {$heroBehaviour->code}
+                    </td>
+                    <td>
+                        {$heroBehaviour->title}
+                    </td>
+                    <td>
+                        {$heroBehaviour->scale}
+                    </td>
+                    <td>
+                        {$heroBehaviour->getTypeScaleTitle()}
+                    </td>
+                    <td width="50%">
+                        {foreach $analyzer->getMailPointsForBehaviour($heroBehaviour) as $mailPoint}
+                            <span class="label label-{if (1 == $mailPoint->add_value)}{'success'}{else}{'important'}{/if}">
+                            <a href="#{$mailPoint->mail->code}" style="color: #fff;">
+                                {$mailPoint->mail->code}</a>
+                                +{$mailPoint->add_value}
+                            </span>
+                            &nbsp;
+                        {/foreach}
+
+                        {foreach $analyzer->getReplicaPointsForBehaviour($heroBehaviour) as $replicaPoint}
+                            <span class="label label-{if (1 == $replicaPoint->add_value)}{'success'}{else}{'important'}{/if}"">
+                            <a href="#{$replicaPoint->replica->code}" style="color: #fff;">
+                                {$replicaPoint->replica->code}</a>
+                                +{$replicaPoint->add_value}
+                            </span>
+                            &nbsp;
+                        {/foreach}
+                    </td>
+                </tr>
+                {/foreach}
+                </tbody>
+            </table>
+        {/if}
     </div>
 </div>
 
@@ -236,18 +319,20 @@
             $(this).removeClass('btn-inverse');
             $(this).html('<i class="icon icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Диалоги скрыты<br/>'
-                    +'(показать)'
+                    +'Диалоги видны<br/>'
+                    +'(скрыть)'
                     +'</div>');
             $(this).find('i').removeClass('icon-white');
         } else {
             $(this).addClass('btn-inverse');
             $(this).html('<i class="icon icon-white icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Диалоги видны<br/>'
-                    +'(скрыть)'
+                    +'Диалоги скрыты<br/>'
+                    +'(показать)'
                     +'</div>');
             $(this).find('i').addClass('icon-white');
+
+
         }
     });
 
@@ -259,18 +344,72 @@
             $(this).removeClass('btn-inverse');
             $(this).html('<i class="icon icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Письма скрыты<br/>'
-                    +'(показать)'
+                    +'Письма видны<br/>'
+                    +'(скрыть)'
                     +'</div>');
             $(this).find('i').removeClass('icon-white');
         } else {
             $(this).addClass('btn-inverse');
             $(this).html('<i class="icon icon-white icon-envelope pull-left" style="margin: 10px 10px 10px 0;"></i>'
                     +'<div class="pull-left">'
-                    +'Письма видны<br/>'
-                    +'(скрыть)'
+                    +'Письма скрыты<br/>'
+                    +'(показать)'
                     +'</div>');
             $(this).find('i').addClass('icon-white');
+        }
+    });
+
+    // hide/show behaviour without manifest
+    $('.toggle-behaviour-without-manifests').click(function(){
+        $('.behaviour-never-shown').toggle();
+
+        if ($(this).hasClass('btn-inverse')) {
+            $(this).removeClass('btn-inverse');
+            $(this).html('<div class="pull-left">'
+                +'Поведения<br/>'
+                +'без проявлений<br/>'
+                +'показаны'
+                +'(скрыть)'
+                +'</div>');
+            $(this).find('i').removeClass('icon-white');
+        } else {
+            $(this).addClass('btn-inverse');
+            $(this).html('<div class="pull-left">'
+                +'Поведения<br/>'
+                +'без проявлений<br/>'
+                +'показаны'
+                +'(показать)'
+                +'</div>');
+            $(this).find('i').addClass('icon-white');
+
+
+        }
+    });
+
+    // hide/show behaviour with manifest
+    $('.toggle-behaviour-with-manifests').click(function(){
+        $('.behaviour-has-shown').toggle();
+
+        if ($(this).hasClass('btn-inverse')) {
+            $(this).removeClass('btn-inverse');
+            $(this).html('<div class="pull-left">'
+                    +'Поведения<br/>'
+                    +'c проявлениями<br/>'
+                    +'показаны'
+                    +'(скрыть)'
+                    +'</div>');
+            $(this).find('i').removeClass('icon-white');
+        } else {
+            $(this).addClass('btn-inverse');
+            $(this).html('<div class="pull-left">'
+                    +'Поведения<br/>'
+                    +'с проявлениями<br/>'
+                    +'показаны'
+                    +'(показать)'
+                    +'</div>');
+            $(this).find('i').addClass('icon-white');
+
+
         }
     });
 

@@ -90,7 +90,20 @@ class MailPoint extends CActiveRecord
             'condition' => " `id` NOT  IN ({$ids})"
         ));
         return $this;
-    }    
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'mail'  => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
+            'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
+        );
+    }
 }
 
 

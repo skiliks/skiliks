@@ -59,8 +59,8 @@ class ReplicaPoint extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'dialog' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
-            'pointTitle' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
+            'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+            'point'   => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
         );
     }
 
