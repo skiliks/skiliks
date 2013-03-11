@@ -67,28 +67,31 @@
                 начинаются по вызову<br/>
                 из диалога
             </a>
-            <br/>
-            <br/>
-            <span class="btn toggle-behaviour-without-manifests" style="width: 140px; text-align: left;">
-                <div class="pull-left">
-                    Поведения<br/>
-                    без проявлений<br/>
-                    показаны
-                    (скрыть)
-                </div>
-            </span>
-            <br/>
-            <br/>
-            <span class="btn toggle-behaviour-with-manifests" style="width: 140px; text-align: left;">
-                <div class="pull-left">
-                    Поведения<br/>
-                    с проявлениями<br/>
-                    показаны
-                    (скрыть)
-                </div>
-            </span>
-            <br/>
-            <br/>
+
+            {if ($isDbMode)}
+                <br/>
+                <br/>
+                <span class="btn toggle-behaviour-without-manifests" style="width: 140px; text-align: left;">
+                    <div class="pull-left">
+                        Поведения<br/>
+                        без проявлений<br/>
+                        показаны
+                        (скрыть)
+                    </div>
+                </span>
+                <br/>
+                <br/>
+                <span class="btn toggle-behaviour-with-manifests" style="width: 140px; text-align: left;">
+                    <div class="pull-left">
+                        Поведения<br/>
+                        с проявлениями<br/>
+                        показаны
+                        (скрыть)
+                    </div>
+                </span>
+                <br/>
+                <br/>
+            {/if}
         </div>
     </div>
 
@@ -237,9 +240,9 @@
         <br/>
         <br/>
 
-        <h3>Список поведений пользователя и возможных их проявлений</h3>
-
         {if ($isDbMode)}
+            <h3>Список поведений пользователя и возможных их проявлений</h3>
+
             <table class="table">
                 <thead>
                     <tr>
