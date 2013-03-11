@@ -496,11 +496,11 @@ define([
             me.listenTo(SKApp.user.simulation.dayplan_tasks, 'add', function (model) {
                 me.addDayPlanTask(model);
             });
-            me.listenTo(SKApp.user.simulation, 'tick', function () {
-                me.disableOldSlots();
-            });
-            me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false});
-            me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false});
+            me.listenTo(SKApp.user.simulation, 'tick', me.disableOldSlots);
+            setTimeout(function () {
+                me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
+                me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
+            }, 0);
             this.setupDroppable();
             Hyphenator.run();
         },

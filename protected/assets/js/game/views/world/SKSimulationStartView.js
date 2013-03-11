@@ -41,7 +41,7 @@ define([
             var me = this;
             var simulation = SKApp.user.startSimulation($(event.target).attr('data-sim-id'));
             var simulation_view = this.simulation_view = new SKSimulationView();
-            simulation.set('result-url', 'registration/choose-account-type');
+            simulation.set('result-url', '/registration/choose-account-type');
             simulation.on('start', function () {
                 simulation_view.render();
             });
