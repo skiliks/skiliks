@@ -22,8 +22,14 @@ define([
         preventOtherClicksElement: undefined,
         
         isCloseWhenClickNotOnDialog: false,
+
+        'events': {
+            'click .mail-popup-button': 'handleClick'
+        },
+
         /**
          * Constructor
+         *
          * @method initialize
          */
         'initialize': function () {
@@ -32,7 +38,10 @@ define([
             });
             this.render();
         },
-        
+
+        /**
+         * @method
+         */
         renderPreventClickElement: function() {
             this.preventOtherClicksElement = 
                 $('<div class="preventOtherClicks" style="position: absolute; background: none repeat scroll 0 0 transparent; height: 100%;;width:100%;"></div>');
@@ -49,7 +58,10 @@ define([
                 }
             });    
         },
-        
+
+        /**
+         * @method
+         */
         'render': function () {
             
             // must be first to get Z-index under dialog HTML block
@@ -72,11 +84,11 @@ define([
             
             $('.windows-container').prepend(this.$el);
         },
-        
-        'events': {
-            'click .mail-popup-button': 'handleClick'
-        },
-        
+
+        /**
+         * @method
+         * @param event
+         */
         'handleClick': function (event) {
             var target = $(event.target).parents('*').andSelf().filter('.mail-popup-button');
             this.options.buttons.forEach(function(button) {
@@ -89,7 +101,10 @@ define([
             
             this.cleanUpDOM();
         },
-        
+
+        /**
+         * @method
+         */
         cleanUpDOM: function(){
             this.$el.remove();
             if (undefined !== this.preventOtherClicksElement) {

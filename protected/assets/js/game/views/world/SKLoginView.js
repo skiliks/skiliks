@@ -20,10 +20,19 @@ define([
         'events': {
             'submit form.login-form': 'doSubmit'
         },
+
+        /**
+         * @method
+         */
         'render': function () {
             var login_html = _.template(login_template, {});
             this.$el.html(login_html);
         },
+
+        /**
+         * @method
+         * @param event
+         */
         'doSubmit': function (event) {
             event.preventDefault();
             SKApp.session.login($('#email').val(), $('#pass').val());

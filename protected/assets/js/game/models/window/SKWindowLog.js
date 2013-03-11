@@ -14,6 +14,11 @@ define(["game/models/window/SKWindow"],function () {
         'initialize': function () {
             this.log = [];
         },
+
+        /**
+         * @method
+         * @param window
+         */
         'activate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
             if (isNaN(window.window_uid)) {
@@ -27,13 +32,13 @@ define(["game/models/window/SKWindow"],function () {
                 3: time,
                 4: window.get('params'),
                 'window_uid': window.window_uid
-        });
-            
-            //console.log('[SKWindow] Activated window ' + window.get('name') + '/' + window.get('subname') +
-            //    ' :: ' + window.window_uid + ' at ' +
-            //    SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
-            //);
+            });
         },
+
+        /**
+         * @method
+         * @param window
+         */
         'deactivate': function (window) {
             var time = SKApp.user.simulation.getGameSeconds();
 
@@ -49,12 +54,12 @@ define(["game/models/window/SKWindow"],function () {
                 4: window.get('params'),
                 'window_uid': window.window_uid
             });
-            
-            //console.log('[SKWindow] Deactivated window ' + window.get('name') + '/' + window.get('subname') +
-            //    ' :: ' + window.window_uid + ' at '
-            //    + SKApp.user.simulation.getGameTime(true) + (window.get('params') ? ' ' + JSON.stringify(window.get('params')):'')
-            //);
         },
+
+        /**
+         * @method
+         * @returns {Array}
+         */
         'getAndClear': function () {
             var log = this.log;
             this.log = [];

@@ -36,6 +36,10 @@ define([
                 SKWindowView.prototype.initialize.call(this);
             },
 
+            /**
+             * @method
+             * @param el
+             */
             'renderWindow':function (el) {
                 var event = this.options.model_instance.get('sim_event');
                 var me = this,
@@ -62,6 +66,10 @@ define([
 
             },
 
+            /**
+             * @method
+             * @param e
+             */
             'doSelectReplica':function (e) {
                 var me = this;
                 e.preventDefault();

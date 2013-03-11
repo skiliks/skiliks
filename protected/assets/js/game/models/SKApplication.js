@@ -58,12 +58,6 @@ define(["game/models/SKServer","game/models/SKSession"], function (SKServer, SKS
                 delete this.user;
             }
         });
-
-    /**
-     * @object
-     * @type {SKApplication}
-     */
-
     window.SKApp = new SKApplication();
 
     return SKApplication;

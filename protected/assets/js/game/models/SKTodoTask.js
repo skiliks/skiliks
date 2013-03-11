@@ -7,6 +7,12 @@
      * @augments Backbone.Model
      */
     window.SKTodoTask = Backbone.Model.extend({
+        /**
+         * @method
+         * @param method
+         * @param model
+         * @param options
+         */
         sync: function (method, model, options) {
             if (method === 'create' || method === 'update') {
                 SKApp.server.api('todo/add', {taskId:model.id}, function (data) {

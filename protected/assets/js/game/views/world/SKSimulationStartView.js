@@ -23,11 +23,20 @@ define([
             'click .settings': 'doSettings',
             'click .logout': 'doLogout'
         },
+
+        /**
+         * @method
+         */
         'render': function () {
             var simulations = SKApp.user.simulations;
             var code = _.template(start_simulation_menu, {'simulations': simulations});
             this.$el.html(code);
         },
+
+        /**
+         * @method
+         * @param event
+         */
         'doSimulationStart': function (event) {
             var me = this;
             var simulation = SKApp.user.startSimulation($(event.target).attr('data-sim-id'));
@@ -41,9 +50,17 @@ define([
                 location.href = simulation.get('result-url');
             });
         },
+
+        /**
+         * @method
+         */
         'doSettings': function () {
             var view = new SKSettingsView({'el': this.$el});
         },
+
+        /**
+         * @method
+         */
         'doLogout': function () {
             SKApp.user.logout();
         }

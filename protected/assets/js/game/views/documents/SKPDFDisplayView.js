@@ -29,6 +29,11 @@ define([
                 height: 648
             },
 
+            /**
+             * @method
+             * @param pdf
+             * @param page_num
+             */
             renderPage:function (pdf, page_num) {
                 var me = this;
                 pdf.getPage(page_num).then(function (page) {
@@ -64,8 +69,14 @@ define([
                     });
 
                 });
-            }, renderContent:function (el) {
-            var me = this;
+            },
+
+            /**
+             * @method
+             * @param el
+             */
+            renderContent:function (el) {
+                var me = this;
                 PDFJS.disableWorker = true;
                 PDFJS.getDocument('/documents/templates/' + this.options.model_instance.get('document').get('srcFile'))
                     .then(function (pdf) {

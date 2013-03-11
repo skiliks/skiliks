@@ -170,6 +170,10 @@ define([
                 SKWindowView.prototype.initialize.call(this);
             },
 
+            /**
+             * @method
+             * @param event
+             */
             doSwitchNewLetterView: function (event) {
                 if ($(event.currentTarget).hasClass('min')) {
                     // maximize {
@@ -192,15 +196,26 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @param event
+             */
             doSaveAttachment: function (event) {
                 this.mailClient.saveAttachmentToMyDocuments($(event.currentTarget).data('document-id'));
             },
 
+            /**
+             * @method
+             */
             doAddToPlan: function () {
                 var dialog = new SKMailAddToPlanDialog();
                 dialog.render();
             },
 
+            /**
+             * @method
+             * @param counter
+             */
             updateMailIconCounter: function (counter) {
                 var counterElement = $('#icons_email span');
 
@@ -215,6 +230,10 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @param counter
+             */
             updateInboxFolderCounter: function (counter) {
                 var el = $('.icon_' + this.mailClient.aliasFolderInbox + ' .counter');
                 if (counter !== 0) {
@@ -225,6 +244,10 @@ define([
 
             },
 
+            /**
+             * @method
+             * @returns {boolean}
+             */
             isCanBeClosed: function () {
                 return (this.mailClient.activeScreen !== this.mailClient.screenWriteNewCustomEmail &&
                     this.mailClient.activeScreen !== this.mailClient.screenWriteReply &&
@@ -232,6 +255,9 @@ define([
                     this.mailClient.activeScreen !== this.mailClient.screenWriteForward);
             },
 
+            /**
+             * @method
+             */
             remove: function () {
                 SKWindowView.prototype.remove.call(this);
                 this.mailClient.setActiveScreen(undefined);
@@ -240,6 +266,8 @@ define([
 
             /**
              * shows title block
+             *
+             * @method
              * @param el
              */
             renderTitle: function (el) {
@@ -247,8 +275,10 @@ define([
                 this.delegateEvents();
             },
 
-            /**(
+            /**
              * Display (create if not exist) MailClient screen base
+             *
+             * @method
              */
             renderContent: function (el) {
                 var mailClientWindowBasicHtml = _.template(mail_client_content_template, {
@@ -264,6 +294,8 @@ define([
             /**
              * Used to get data for email preview
              * @todo move to model?
+             *
+             * @method
              */
             doGetEmailDetails: function (emailId, folderAlias) {
                 var me = this;
@@ -312,6 +344,9 @@ define([
                 );
             },
 
+            /**
+             * @method
+             */
             updateFolderLabels: function () {
                 var html = '';
                 var mailClientView = this;
@@ -395,6 +430,10 @@ define([
                 this.delegateEvents();
             },
 
+            /**
+             * @method
+             * @param event
+             */
             doRenderFolderByEvent: function (event) {
                 // to named WTF is $(e.currentTarget).data('alias')
                 var folderAlias = $(event.currentTarget).data('alias');
@@ -402,6 +441,12 @@ define([
                 this.doRenderFolder(folderAlias);
             },
 
+            /**
+             * @method
+             * @param folderAlias
+             * @param isSwitchToFirst
+             * @param isInitialRender
+             */
             doRenderFolder: function (folderAlias, isSwitchToFirst, isInitialRender) {
                 var mailClientView = this;
 
@@ -459,6 +504,8 @@ define([
 
             /**
              * Renders Inbox folder content
+             *
+             * @method
              */
             updateInboxListView: function () {
                 // generate emails list {
@@ -496,6 +543,9 @@ define([
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderInbox);
             },
 
+            /**
+             * @method
+             */
             updateTrashListView: function () {
                 // generate emails list {
 
@@ -531,6 +581,9 @@ define([
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderTrash);
             },
 
+            /**
+             * @method
+             */
             updateSendListView: function () {
                 // generate emails list {
 
@@ -566,6 +619,9 @@ define([
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderSended);
             },
 
+            /**
+             * @method
+             */
             updateDraftsListView: function () {
                 // generate emails list {
 
@@ -601,6 +657,10 @@ define([
                 this.addClickAndDoubleClickBehaviour(this.mailClient.aliasFolderDrafts);
             },
 
+            /**
+             * @method
+             * @param folderAlias
+             */
             addClickAndDoubleClickBehaviour: function (folderAlias) {
                 var mailClientView = this;
 
@@ -680,11 +740,16 @@ define([
 
             /**
              * Renders current folder
+             *
+             * @method
              */
             renderActiveFolder: function () {
                 this.doRenderFolder(this.mailClient.getActiveFolder().alias);
             },
 
+            /**
+             * @method
+             */
             renderInboxFolder: function () {
                 this.unhideFoldersBlock();
 
@@ -718,6 +783,9 @@ define([
                 // draggable: add move to trash behaviour }
             },
 
+            /**
+             * @method
+             */
             renderTrashFolder: function () {
                 this.unhideFoldersBlock();
 
@@ -751,6 +819,9 @@ define([
                 // draggable: add restore from trash behaviour }
             },
 
+            /**
+             * @method
+             */
             renderSendFolder: function () {
                 this.unhideFoldersBlock();
 
@@ -779,6 +850,9 @@ define([
                 this.mailClient.setActiveScreen(this.mailClient.screenSendedList);
             },
 
+            /**
+             * @method
+             */
             renderDraftsFolder: function () {
                 this.unhideFoldersBlock();
 
@@ -808,6 +882,12 @@ define([
 
             },
 
+            /**
+             * @method
+             * @param email
+             * @param id
+             * @param height
+             */
             renderEmailPreviewScreen: function (email, id, height) {
                 this.mailClient.setActiveEmail(email);
 
@@ -838,6 +918,10 @@ define([
                 this.renderPreviousMessage(email.previouseEmailText);
             },
 
+            /**
+             * @method
+             * @param email
+             */
             renderReadEmail: function (email) {
                 // set HTML skeleton {
                 var skeleton = _.template(read_mail_sceleton, {
@@ -850,6 +934,10 @@ define([
                 this.mailClient.setActiveScreen(this.mailClient.screenReadEmail);
             },
 
+            /**
+             * @method
+             * @param iconButtonAliaces
+             */
             renderIcons: function (iconButtonAliaces) {
                 var me = this;
                 // set defaults {
@@ -966,6 +1054,9 @@ define([
                 this.delegateEvents();
             },
 
+            /**
+             * @method
+             */
             doMoveToTrashActiveEmail: function () {
                 if (undefined === this.mailClient.activeEmail) {
                     throw 'try to delete unexistent email';
@@ -973,6 +1064,10 @@ define([
                 this.doMoveToTrash(this.mailClient.activeEmail);
             },
 
+            /**
+             * @method
+             * @param email
+             */
             doMoveToTrash: function (email) {
                 var me = this;
 
@@ -1011,10 +1106,12 @@ define([
                         updateFolderRender
                     )
                 );
-
-
             },
 
+            /**
+             * @method
+             * @param email
+             */
             doMoveToInbox: function (email) {
                 var me = this;
 
@@ -1054,16 +1151,25 @@ define([
                 );
             },
 
+            /**
+             * @method
+             */
             hideFoldersBlock: function () {
                 $("#" + this.mailClientScreenID + " header nav").hide();
                 $("#" + this.mailClientContentBlockId).css('margin-left', '-180px');
             },
 
+            /**
+             * @method
+             */
             unhideFoldersBlock: function () {
                 $("#" + this.mailClientContentBlockId).css('margin-left', '0px');
                 $("#" + this.mailClientScreenID + " header nav").show();
             },
 
+            /**
+             * @method
+             */
             renderWriteCustomNewEmailScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -1181,6 +1287,10 @@ define([
                 this.mailClient.setWindowsLog('mailNew');
             },
 
+            /**
+             * @method
+             * @param elements
+             */
             updateIdsForCharacterlist: function (elements) {
                 var me = this;
                 // items appended to body, so this.$ not works
@@ -1190,6 +1300,10 @@ define([
                 });
             },
 
+            /**
+             * @method
+             * @returns {Array}
+             */
             getCurrentEmailRecipientIds: function () {
                 var list = [];
                 var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
@@ -1208,6 +1322,10 @@ define([
                 return list;
             },
 
+            /**
+             * @method
+             * @returns {Array}
+             */
             getCurentEmailCopiesIds: function () {
                 var list = [];
                 var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
@@ -1227,6 +1345,9 @@ define([
                 return list;
             },
 
+            /**
+             * @method
+             */
             updateSubjectsList: function () {
                 var subjects = this.mailClient.availableSubjects; // to keep code shorter
                 var listHtml = '<option value="0"></option>';
@@ -1243,6 +1364,7 @@ define([
             },
 
             /**
+             * @method
              * @param {SKMailSubject} subject
              */
             renderSingleSubject: function (subject) {
@@ -1253,6 +1375,10 @@ define([
                 this.$("#MailClient_NewLetterSubject select").attr("disabled", true);
             },
 
+            /**
+             * @method
+             * @returns {*}
+             */
             getCurentEmailSubjectId: function () {
                 // removeAttr - for reply, replyAll, forward cases
                 this.$("#MailClient_NewLetterSubject select option:selected").removeAttr("disabled");
@@ -1260,10 +1386,17 @@ define([
                 return this.$("#MailClient_NewLetterSubject select option:selected").val();
             },
 
+            /**
+             * @method
+             * @returns {*}
+             */
             getCurentEmailSubjectText: function () {
                 return this.$("#MailClient_NewLetterSubject select option:selected").text();
             },
 
+            /**
+             * @method
+             */
             renderPhrases: function () {
                 var phrases = this.mailClient.availablePhrases;
                 var addPhrases = this.mailClient.availableAdditionalPhrases;
@@ -1299,6 +1432,10 @@ define([
                 this.delegateEvents();
             },
 
+            /**
+             * @method
+             * @param event
+             */
             doAddPhraseToEmail: function (event) {
                 event.preventDefault();
                 var phrase = this.mailClient.getAvailablePhraseByMySqlId($(event.currentTarget).data('id'));
@@ -1320,6 +1457,10 @@ define([
                 this.renderAddPhraseToEmail(phraseToAdd);
             },
 
+            /**
+             * @method
+             * @param phrase
+             */
             renderAddPhraseToEmail: function (phrase) {
                 var phraseHtml = _.template(phrase_item, {
                     phraseUid: phrase.uid,
@@ -1332,6 +1473,10 @@ define([
                 this.delegateEvents();
             },
 
+            /**
+             * @method
+             * @param event
+             */
             doRemovePhraseFromEmail: function (event) {
                 event.preventDefault();
                 var phrase = this.mailClient.getUsedPhraseByUid($(event.currentTarget).data('uid'));
@@ -1354,11 +1499,16 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @param phrase
+             */
             removePhraseFromEmail: function (phrase) {
                 $("#mailEmulatorNewLetterText li[data-uid=" + phrase.uid + "]").remove();
             },
 
             /**
+             * @method
              * @return SKAttachment | undefined
              */
             getCurrentEmailAttachment: function () {
@@ -1377,6 +1527,7 @@ define([
             },
 
             /**
+             * @method
              * @return integer | empty string
              */
             getCurrentEmailAttachmentFileId: function () {
@@ -1389,6 +1540,10 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @returns {Array}
+             */
             getCurrentEmailPhraseIds: function () {
                 var list = [];
 
@@ -1401,6 +1556,10 @@ define([
                 return list;
             },
 
+            /**
+             * @method
+             * @returns {SKEmail}
+             */
             generateNewEmailObject: function () {
                 var emailToSave = new SKEmail();
 
@@ -1440,6 +1599,9 @@ define([
                 return emailToSave;
             },
 
+            /**
+             * @method
+             */
             doSaveEmailToDrafts: function () {
                 var me = this;
                 var emailToSave = this.generateNewEmailObject();
@@ -1455,6 +1617,9 @@ define([
                 });
             },
 
+            /**
+             * @method
+             */
             doSendEmail: function () {
                 var me = this;
                 var emailToSave = this.generateNewEmailObject();
@@ -1470,6 +1635,10 @@ define([
                 });
             },
 
+            /**
+             * @method
+             * @param iconsList
+             */
             renderWriteEmailScreen: function (iconsList) {
                 var mailClientView = this;
 
@@ -1519,6 +1688,9 @@ define([
                 });
             },
 
+            /**
+             * @method
+             */
             doUpdateMailPhrasesList: function () {
                 var mailClientView = this;
                 var mailClient = this.mailClient;
@@ -1563,11 +1735,19 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @param value
+             */
             selectSubjectByValue: function (value) {
                 $('#MailClient_NewLetterSubject select option').removeAttr('selected');
                 $('#MailClient_NewLetterSubject select option[value="' + value + '"]').attr('selected', 'selected');
             },
 
+            /**
+             * @method
+             * @param text
+             */
             renderPreviousMessage: function (text) {
                 if (undefined !== text && '' !== text) {
                     text = '<pre><p style="color:blue;">' + text + '</p></pre>';
@@ -1576,6 +1756,9 @@ define([
                 this.delegateEvents();
             },
 
+            /**
+             * @method
+             */
             renderTXT: function () {
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
                     $('#mailEmulatorNewLetterText').
@@ -1584,7 +1767,9 @@ define([
             },
 
             /**
-             * @var miced array responce, Skiliks API response
+             * @method
+             * @param response
+             * @returns {boolean}
              */
             doUpdateScreenFromReplyEmailData: function (response) {
                 if (1 == response.result) {
@@ -1673,6 +1858,10 @@ define([
                 }
             },
 
+            /**
+             * @method
+             * @param message
+             */
             renderNullSubjectIdWarning: function (message) {
                 var mailClientView = this;
 
@@ -1690,6 +1879,7 @@ define([
             },
 
             /**
+             * @method
              * @param {Object} response API response
              */
             doUpdateScreenFromForwardEmailData: function (response) {
@@ -1784,6 +1974,9 @@ define([
                 }
             },
 
+            /**
+             * @method
+             */
             renderReplyScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -1802,6 +1995,9 @@ define([
                 }
             },
 
+            /**
+             * @method
+             */
             renderReplyAllScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -1820,6 +2016,9 @@ define([
                 }
             },
 
+            /**
+             * @method
+             */
             renderForwardEmailScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
 
@@ -1836,6 +2035,9 @@ define([
                 }
             },
 
+            /**
+             * @method
+             */
             doSendDraft: function () {
                 var me = this;
                 SKApp.server.api(
@@ -1882,6 +2084,10 @@ define([
 
             },
 
+            /**
+             * @method
+             * @param keyboardEvent
+             */
             doHandleKeyPress: function (keyboardEvent) {
 
                 // delete active email when Inbox list screen active only, by DEL press

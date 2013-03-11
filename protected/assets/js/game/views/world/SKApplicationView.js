@@ -61,8 +61,11 @@ define([
             );
             this.render();
         },
+
         /**
          * При отображении запускает проверку сессии пользователя
+         *
+         * @method
          */
         'render':function () {
             SKApp.session.check();

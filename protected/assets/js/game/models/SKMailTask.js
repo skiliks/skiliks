@@ -21,6 +21,10 @@ var SKMailTask;
         // @var string, to provide easy I18N
         minuteslabel: 'мин',
 
+        /**
+         * @method
+         * @returns {string}
+         */
         getFormatedDuration: function() {
             return this.duration + ' ' + this.minuteslabel;
         }

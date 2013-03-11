@@ -63,14 +63,25 @@ define([], function () {
             this.simulation = SKApp.user.simulation;
         },
 
+        /**
+         * @method
+         * @returns {*}
+         */
         'getWindowId': function () {
             return screens[this.get('name')];
         },
 
+        /**
+         * @method
+         * @returns {*}
+         */
         'getSubwindowId': function () {
             return screensSub[this.get('subname')];
         },
 
+        /**
+         * @method
+         */
         'updateUid': function() {
             this.window_uid = _.uniqueId();
         },
@@ -91,6 +102,10 @@ define([], function () {
              */
             this.trigger('open', this.get('name'), this.get('subname'));
         },
+
+        /**
+         * @method
+         */
         close: function() {
             if (!this.is_opened) {
                 throw "Window is already closed";
@@ -104,6 +119,10 @@ define([], function () {
             SKApp.user.simulation.window_set.hideWindow(this);
             this.trigger('close');
         },
+
+        /**
+         * @method
+         */
         setOnTop:function () {
             var me = this;
             var window_set = SKApp.user.simulation.window_set;
@@ -136,6 +155,7 @@ define([], function () {
             }
             this.simulation.windowLog.deactivate(this);
         },
+
         /**
          * Активирует окно и пишет об этом в лог
          *

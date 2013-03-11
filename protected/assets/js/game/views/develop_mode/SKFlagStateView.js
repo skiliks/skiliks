@@ -23,6 +23,10 @@ define([],
             'click a': 'doSwitchFlag'
         },
 
+        /**
+         * @method
+         * @param e
+         */
         doSwitchFlag: function(e) {
             e.preventDefault(e);
             e.stopPropagation(e);
@@ -60,6 +64,10 @@ define([],
                 });
         },
 
+        /**
+         * @method
+         * @param flagsState
+         */
         updateValues: function(flagsState) {
             SKApp.user.simulation.isFlagsUpdated = false;
 

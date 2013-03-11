@@ -19,8 +19,10 @@ define(["game/models/window/SKWindow"],function () {
             window.SKWindow.prototype.initialize.call(this, 'mailEmulator', subname);
             this.set('params', {'mailId':mailId});
         },
+
         /**
          * Deactivates old window and activates new
+         * @method switchMessage
          * @param mailId int message identifier
          */
         'switchMessage':function (mailId) {
@@ -31,6 +33,9 @@ define(["game/models/window/SKWindow"],function () {
 
         /**
          * Sets plan element ID
+         *
+         * @method setPlan
+         * @param planId
          */
         'setPlan': function (planId) {
             var params = this.get('params') || {};
@@ -38,6 +43,10 @@ define(["game/models/window/SKWindow"],function () {
             this.set('params', params);
         },
 
+        /**
+         * @method setMessage
+         * @param mailId
+         */
         'setMessage':function (mailId) {
             if (this.get('params') && this.get('params').mailId) {
                 throw 'You can not set param mailId on this window, use switchMessage method';

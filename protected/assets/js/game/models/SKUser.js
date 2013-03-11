@@ -19,6 +19,7 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
             'initialize':function (simulations) {
                 this.simulations = simulations;
             },
+
             /**
              * Creates new simulation
              *
@@ -34,6 +35,7 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
                 this.simulation.start();
                 return this.simulation;
             },
+
             /**
              * Stops simulation
              *
@@ -49,6 +51,7 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
                 }, this);
                 this.simulation.stop();
             },
+
             /**
              * Завершение работы пользователя
              *

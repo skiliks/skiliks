@@ -23,6 +23,11 @@ define([
             height: 450
         },
 
+        /**
+         * @method
+         * @param doc
+         * @param el
+         */
         displayZohoIframe:function (doc, el) {
             var me = this;
             $('#excel-preload-' + doc.id).show().css({
@@ -35,6 +40,10 @@ define([
             });
         },
 
+        /**
+         * @method
+         * @param el
+         */
         renderContent:function (el) {
             var me = this;
             var doc = this.options.model_instance.get('document');
@@ -50,20 +59,34 @@ define([
 
         },
 
+        /**
+         * @method
+         * @param el
+         */
         doStartDrag: function (el) {
             this.hideZohoIframe();
         },
 
+        /**
+         * @method
+         * @param el
+         */
         doEndDrag: function (el) {
             var doc = this.options.model_instance.get('document');
             this.displayZohoIframe(doc, el.find('.sim-window-content'));
         },
 
+        /**
+         * @method
+         */
         hideZohoIframe:function () {
             var doc = this.options.model_instance.get('document');
             $('#excel-preload-' + doc.id).css({'left':'-1000px','position':'absolute'});
         },
 
+        /**
+         * @method
+         */
         remove:function () {
             var me = this;
             this.hideZohoIframe();

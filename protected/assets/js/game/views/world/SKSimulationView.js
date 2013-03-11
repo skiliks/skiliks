@@ -53,8 +53,10 @@ define([
              * @property windows
              */
             'windows':  [],
+
             /**
              * Constructor
+             *
              * @method initialize
              */
             'initialize':      function () {
@@ -76,6 +78,11 @@ define([
                     });
                 });
             },
+
+            /**
+             * @method
+             * @param window
+             */
             setupWindowEvents: function (window) {
                 var window_full_name = (window.get('name') + '/' + window.get('subname'));
                 if (this.window_views[window_full_name]) {
@@ -95,8 +102,11 @@ define([
                     document_view.render();
                 }
             },
+
             /**
              * Preloads excel with Zoho on simulation start
+             *
+             * @method
              * @param doc
              */
             preloadZoho:       function (doc) {
@@ -108,6 +118,10 @@ define([
                         'position': 'absolute'
                     }));
             },
+
+            /**
+             * @method
+             */
             'render':          function () {
                 var login_html = _.template(simulation_template, {});
                 this.$el.html(login_html);
@@ -128,15 +142,26 @@ define([
                     this.$('#speed-factor').text(SKConfig.skiliksSpeedFactor);
                 }
             },
+
+            /**
+             * @method
+             */
             'updateTime':      function () {
                 var parts = this.simulation.getGameTime().split(':');
                 this.$('.time .hour').text(parts[0]);
                 this.$('.time .minute').text(parts[1]);
             },
 
+            /**
+             * @method
+             */
             'doSimulationStop':  function () {
                 SKApp.user.stopSimulation();
             },
+
+            /**
+             * @method
+             */
             doToggleDialogSound: function () {
                 if (SKApp.user.simulation.config.isMuteVideo === false) {
                     SKApp.user.simulation.config.isMuteVideo = true;

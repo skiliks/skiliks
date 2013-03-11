@@ -8,6 +8,13 @@
      */
     window.SKDayTask = Backbone.Model.extend({
         idAttribute: 'task_id',
+
+        /**
+         *
+         * @param method
+         * @param model
+         * @param options
+         */
         sync: function (method, model, options) {
             if ('update' === method){
                 SKApp.server.api('dayPlan/add', model.toJSON(), function (data) {

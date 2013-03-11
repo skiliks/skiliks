@@ -28,6 +28,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         /**
          * Constructor
+         *
          * @method initialize
          */
         initialize: function () {
@@ -40,7 +41,9 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.setElement(sim_window);
         },
 
-
+        /**
+         * @method
+         */
         renderWindow: function () {
             var me = this;
             this.$el.html(_.template(window_template, {
@@ -66,31 +69,50 @@ define(["text!game/jst/window.jst"], function (window_template) {
             });
             this.renderContent(this.$('.sim-window-content'));
         },
+
         /**
+         * @method
          * @abstract
          * @param {jQuery} el
          */
         renderTitle: function (el) {
             // Do nothing
         },
+
+        /**
+         * @method
+         * @param el
+         */
         renderContent: function (el) {
             throw 'You need to override it';
         },
+
+        /**
+         * @method
+         */
         remove: function () {
             this.trigger('close');
             this.stopListening();
             Backbone.View.prototype.remove.call(this);
         },
 
+        /**
+         * @method
+         * @param element
+         * @param templateHtml
+         * @param userData
+         */
         renderTPL: function (element, templateHtml, userData) {
             var systemData = {assetsUrl: SKConfig.assetsUrl};
             var data = _.defaults(systemData, userData);
             var html = _.template(templateHtml, data);
             $(element).html(html);
         },
-        /**
-         Creates window
 
+        /**
+         * Creates window
+         *
+         * @method
          */
         render: function () {
             var me = this;
@@ -110,12 +132,23 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         },
 
+        /**
+         * @method
+         */
         doWindowClose: function () {
             this.options.model_instance.close();
         },
+
+        /**
+         * @method
+         */
         doActivate: function () {
             this.options.model_instance.setOnTop();
         },
+
+        /**
+         * @method
+         */
         preLoadWindow: function () {
             var windows = $('.windows-container');
             var stat = $('.main-screen-stat');

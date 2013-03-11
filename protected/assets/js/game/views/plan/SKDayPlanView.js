@@ -19,9 +19,7 @@ define([
      * @class SKDayPlanView
      * @augments Backbone.View
      */
-    SKDayPlanView = SKWindowView.extend(
-        /** @lends SKDayPlanView.prototype */
-        {
+    SKDayPlanView = SKWindowView.extend({
         'addClass': 'planner-book-main-div',
 
         dimensions: {
@@ -43,6 +41,9 @@ define([
             SKWindowView.prototype.events
         ),
 
+        /**
+         * @method
+         */
         setupDraggable:function () {
             var me = this,
             elements = this.$('.planner-task:not(.locked)');
@@ -110,8 +111,11 @@ define([
                 }
             });
         },
+
         /**
          * Stripping text until it fits in specific height
+         *
+         * @method
          * @param el
          * @param max_height
          * @param text_el
@@ -134,6 +138,12 @@ define([
                 );
             }
         },
+
+        /**
+         * @method
+         * @param task_el
+         * @returns {*}
+         */
         hideDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
@@ -152,6 +162,12 @@ define([
             }
             return task_el;
         },
+
+        /**
+         * @method
+         * @param task_el
+         * @returns {*}
+         */
         showDayPlanSlot:function (task_el) {
             var duration = parseInt(task_el.attr('data-task-duration'), 10);
             var prev_cell = task_el.parents('td');
@@ -169,11 +185,22 @@ define([
             }
             this.setupDroppable();
             return task_el;
-        }, removeDayPlanTask:function (task) {
+        },
+
+        /**
+         * @method
+         * @param task
+         */
+        removeDayPlanTask:function (task) {
             var task_el = this.$('div[data-task-id=' + task.id + ']');
             this.showDayPlanSlot(task_el);
             task_el.remove();
         },
+
+        /**
+         * @method
+         * @param model
+         */
         addDayPlanTask:function (model) {
             var me = this;
             var duration = parseInt(model.get('duration'), 10);
@@ -210,6 +237,12 @@ define([
             // Updating draggable element list
             this.setupDraggable();
         },
+
+        /**
+         * @method
+         * @param duration
+         * @returns {number}
+         */
         calculateTaskHeigth: function(duration) {
         	if (duration > 30){
         		return duration / 15 * 11;
@@ -218,10 +251,18 @@ define([
             	return (duration / 15 * 11) - 2;
             }
         },
-        
+
+        /**
+         * @method
+         * @param model
+         */
         removeTodoTask:function (model) {
             this.$('.plan-todo div[data-task-id=' + model.id + ']').remove();
         },
+
+        /**
+         * @method
+         */
         setupDroppable:function () {
             var me = this;
             me.shift = 0;
@@ -374,6 +415,10 @@ define([
                 }
             });
         },
+
+        /**
+         * @method
+         */
         updateTodos:function () {
             var me = this;
             this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
@@ -388,6 +433,8 @@ define([
 
         /**
          * Marks old slots and displays ruler
+         *
+         * @method
          */
         disableOldSlots:function () {
             if ('undefined' !== typeof SKApp.user.simulation) {
@@ -414,6 +461,8 @@ define([
 
         /**
          * Renders title
+         *
+         * @method
          * @param title_el
          */
         renderTitle: function (title_el) {
@@ -424,6 +473,8 @@ define([
 
         /**
          * Renders inner part of the window
+         *
+         * @method
          * @param window_el
          */
         renderContent:function (window_el) {
@@ -453,6 +504,11 @@ define([
             this.setupDroppable();
             Hyphenator.run();
         },
+
+        /**
+         * @method
+         * @param e
+         */
         doActivateTodo:function (e) {
             var has_class = $(e.currentTarget).hasClass('day-plan-task-active');
             this.$('.day-plan-task-active').removeClass('day-plan-task-active');
@@ -462,6 +518,11 @@ define([
                 $(e.currentTarget).addClass('day-plan-task-active');
             }
         },
+
+        /**
+         * @method
+         * @param e
+         */
         doSetTask:function (e) {
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var me = this;
@@ -485,6 +546,11 @@ define([
                 return true;
             });
         },
+
+        /**
+         * @method
+         * @param e
+         */
         doUnSetTask:function (e) {
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var task_id = $(e.currentTarget).attr('data-task-id');
@@ -501,22 +567,39 @@ define([
             }
 
         },
+
+        /**
+         * @method
+         */
         doMinimizeTodo:function () {
             this.$('.plan-todo').removeClass('open').removeClass('middle').addClass('closed');
             this.$('.planner-book-afterv-table').removeClass('closed').removeClass('half').addClass('full');
             this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
         },
+
+        /**
+         * @method
+         */
         doMaximizeTodo:function () {
             this.$('.plan-todo').removeClass('closed').removeClass('middle').addClass('open');
             this.$('.planner-book-afterv-table').removeClass('full').removeClass('half').addClass('closed');
             this.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar("update");
 
         },
+
+        /**
+         * @method
+         */
         doRestoreTodo:function () {
             this.$('.plan-todo').removeClass('closed').removeClass('open').addClass('middle');
             this.$('.planner-book-afterv-table').removeClass('closed').removeClass('full').addClass('half');
             this.$('.planner-book-timetable, .planner-book-afterv-table').mCustomScrollbar("update");
         },
+
+        /**
+         * @method
+         * @param e
+         */
         doPlannerBookQuarterPlan:function(e) {
             console.log("doPlannerBookQuarterPlan");
             if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
@@ -531,6 +614,11 @@ define([
                 $('.plannerBookQuarterPlan').css('display', 'block');
             }
         },
+
+        /**
+         * @method
+         * @param e
+         */
         doPlannerBookDayPlan:function(e) {
             console.log("doPlannerBookDayPlan");
             if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
