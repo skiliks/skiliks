@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UserAccountController extends AjaxController
+class UserAccountController extends YumController
 {
     /**
      * @var YumUser
@@ -46,6 +46,8 @@ class UserAccountController extends AjaxController
                 $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
                 if (false !== $result) {
+                    $this->sendRegistrationEmail($this->user);
+                    //Yum::setFlash('Thank you for your registration. Please check your email.');
                     $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
                 } else {
                     echo 'Can`t register.';
@@ -67,7 +69,7 @@ class UserAccountController extends AjaxController
      */
     public function actionAfterRegistration()
     {
-        $this->checkUser();
+        //$this->checkUser(); todo:Fix me
 
         $this->render('afterRegistration', ['user' => $this->user]);
     }
@@ -207,5 +209,61 @@ class UserAccountController extends AjaxController
 
         die;
     }
+
+    public function sendRegistrationEmail($user) {
+        if (!isset($user->profile->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
+        }
+        $activation_url = $user->getActivationUrl();
+
+        $body = strtr("Hello {username}, your activation url <a href='{activation_url}'>activate</a>", array(
+            '{username}' => $user->username,
+            '{activation_url}' => $activation_url));
+
+        $mail = array(
+            'from' => Yum::module('registration')->registrationEmail,
+            'to' => $user->profile->email,
+            'subject' => strtr("Hello dear {username}", array(
+                '{username}' => $user->username)),
+            'body' => $body,
+        );
+        $sent = YumMailer::send($mail);
+
+        return $sent;
+    }
+
+    /**
+     * Activation of an user account. The Email and the Activation key send
+     * by email needs to correct in order to continue. The Status will
+     * be initially set to 1 (active - first Visit) so the administrator
+     * can see, which accounts have been activated, but not yet logged in
+     * (more than once)
+     */
+    public function actionActivation($email, $key) {
+        // If already logged in, we dont activate anymore
+        if (!Yii::app()->user->isGuest) {
+            Yum::setFlash('You are already logged in, please log out to activate your account');
+            $this->redirect(Yii::app()->user->returnUrl);
+        }
+
+        // If everything is set properly, let the model handle the Validation
+        // and do the Activation
+        $status = YumUser::activate($email, $key);
+
+
+        if($status instanceof YumUser) {
+            if(Yum::module('registration')->loginAfterSuccessfulActivation) {
+                $login = new YumUserIdentity($status->username, false);
+                $login->authenticate(true);
+                Yii::app()->user->login($login);
+            }
+
+            $this->render(Yum::module('registration')->activationSuccessView);
+        }
+        else
+            $this->render(Yum::module('registration')->activationFailureView, array(
+                'error' => $status));
+    }
+
 }
 

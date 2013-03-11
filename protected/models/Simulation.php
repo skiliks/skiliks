@@ -8,6 +8,7 @@
  * @property AssessmentAggregated[] assessment_points
  * @property LogWindow[] log_windows
  * @property LogActivityAction[] log_activity_actions
+ * @property LogActivityActionAgregated[] log_activity_actions_aggregated
  * @property LogMail[] log_mail
  * @property LogDialog[] log_dialogs
  * @property SimulationMailPoint[] simulation_mail_points

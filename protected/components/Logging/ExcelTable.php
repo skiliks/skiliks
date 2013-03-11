@@ -33,7 +33,6 @@ class ExcelTable extends LogTable {
     protected function getRow($point)
     {
         return [
-            $point->sim_id,
             $point->formula_id,
             $point->value
             ];
