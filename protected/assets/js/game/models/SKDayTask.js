@@ -2,6 +2,10 @@
 
 (function () {
     "use strict";
+    /**
+     * @class SKDayTask
+     * @constructor initialize
+     */
     window.SKDayTask = Backbone.Model.extend({
         idAttribute: 'task_id',
         sync: function (method, model, options) {

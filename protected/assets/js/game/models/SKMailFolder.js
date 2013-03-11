@@ -2,7 +2,10 @@
  */
 (function() {
     "use strict";
-    /** @class */
+    /**
+     * @class SKMailFolder
+     * @constructor initialize
+     */
     window.SKMailFolder = Backbone.Model.extend({
         // @var string
 

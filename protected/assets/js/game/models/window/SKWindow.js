@@ -2,6 +2,10 @@
 
 var SKWindow;
 define([], function () {
+    /**
+     * @class SKWindow
+     * @constructor initialize
+     */
     "use strict";
     var screens = {
         'mainScreen':1,

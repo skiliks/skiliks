@@ -6,7 +6,7 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
      * Пользователь. Может логиниться и разлогиниваться пока
      *
      * @class SKUser
-     * @constructs
+     * @constructor initialize
      */
     SKUser = Backbone.Model.extend(
         /** @lends SKUser */
