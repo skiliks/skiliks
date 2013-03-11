@@ -50,6 +50,7 @@ namespace application\components\Logging {
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),
                 new ActivityLogTable($simulation->log_activity_actions),
+                new ExcelTable($simulation->simulation_excel_points)
 
             ];
         }
