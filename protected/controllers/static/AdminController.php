@@ -8,9 +8,12 @@ class AdminController extends AjaxController
         $simId = Yii::app()->request->getParam('simulation');
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
+
         assert($simulation);
+
         $this->layout = 'admin';
         $logTableList = new LogTableList($simulation);
+
         $this->render('log', [
             'simulation' => $simulation,
             'log_tables' => $logTableList->asArray()
@@ -91,6 +94,10 @@ class AdminController extends AjaxController
         $sFlagsBlockMail    = FlagBlockMail::model()->findAll();
         $sFlagsRunMail      = FlagRunMail::model()->findAll();
 
+        $sHeroBehaviours = HeroBehaviour::model()->findAll();
+        $sReplicaPoints  = ReplicaPoint::model()->findAll();
+        $sMailPoints     = MailPoint::model()->findAll();
+
         $a = new GameContentAnalyzer();
 
         $a->uploadDialogs($sDialogs);
@@ -98,6 +105,8 @@ class AdminController extends AjaxController
         $a->uploadEmails($sEmails);
         $a->uploadEvents($sEvents);
         $a->uploadFlags($sFlagsBlockDialog, $sFlagsBlockReplica, $sFlagsBlockMail, $sFlagsRunMail);
+
+        $a->uploadPoints($sHeroBehaviours, $sReplicaPoints, $sMailPoints);
 
         // update statistic
         $a->updateProducedBy();
@@ -116,6 +125,7 @@ class AdminController extends AjaxController
             [
                 'analyzer'     => $a,
                 'sourceName'   => 'база данных',
+                'isDbMode'     => true,
             ]
         );
     }
@@ -203,6 +213,7 @@ class AdminController extends AjaxController
             [
                 'analyzer'     => $a,
                 'sourceName'   => $_FILES["file"]["name"],
+                'isDbMode'     => false,
             ]
         );
 
@@ -265,7 +276,7 @@ class AdminController extends AjaxController
         $this->render(
             'index',
             [
-                'config' => CJSON::encode($config),
+                'config'    => CJSON::encode($config),
                 'assetsUrl' => $assetsUrl,
                 'jsScripts' => $jsScriptsAtTheEndOfBody,
             ]

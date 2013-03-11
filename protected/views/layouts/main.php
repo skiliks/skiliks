@@ -47,7 +47,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="team" <?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'About Us') ?></a>
 					<a href="product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
                     <?php if (null === $this->user || 0 != count($this->signInErrors)) : ?>
-                        <a class="sign-in-link">Sign in</a>
+                        <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
                         <a href="/site/logout">Log out</a>
                     <?php endif; ?>

@@ -3,7 +3,7 @@
 buster.spec.expose();
 
 var spec = describe('window manager', function (run) {
-    require(["game/models/SKApplication", "game/models/SKSimulation"], function (SKApplication, SKSimulation) {
+    require(["game/models/SKApplication", "game/models/SKSimulation", "game/models/window/SKDocumentsWindow"], function (SKApplication, SKSimulation) {
         run(function () {
             var server;
             var timers;
@@ -75,7 +75,24 @@ var spec = describe('window manager', function (run) {
                 expect(window2.get('zindex')).toBe(2);
 
             });
+            it("can open miltiple windows", function () {
+                SKApp.user = {};
+                var simulation = SKApp.user.simulation = new SKSimulation();
+                simulation.start();
+                server.respond();
+                //var document = SKApp.user.simulation.documents.where({name:file})[0];
 
+                var window1 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 1});
+                var window2 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 2});
+                var openOneSpy = sinon.spy();
+                var openTwoSpy = sinon.spy();
+                window1.on('open', openOneSpy);
+                window2.on('open', openTwoSpy);
+                window1.open();
+                window2.open();
+                expect(SKApp.user.simulation.window_set.length).toBe(3);
+
+            });
         });
     });
 });

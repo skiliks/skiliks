@@ -3,6 +3,7 @@
 
 /**
  * @class SKDocumentsListView
+ * @constructs
  * @augments window.SKWindowView
  */
 var SKDocumentsListView;

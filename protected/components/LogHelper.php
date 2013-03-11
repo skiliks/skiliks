@@ -1383,4 +1383,121 @@ class LogHelper
 
         return true;
     }
+
+    public static function getDialogPointsDetail($return, $params = array())
+    {
+        $sim_id = null;
+        if (isset($params['sim_id'])) {
+            $sim_id = $params['sim_id'];
+        }
+
+        $query = Yii::app()->db->createCommand()
+            ->select(' l.sim_id
+                , p2.code as p_code
+                , p2.title AS p_title
+                , p.code
+                , p.title
+                , t.value as type_scale
+                , p.scale
+                , c.add_value
+                , d.excel_id as dialog_id
+                , d.code AS dialog_code
+                , d.step_number
+                , d.replica_number
+                ')
+            ->from('log_dialog_points l')
+            ->join('characters_points c', 'l.point_id = c.point_id and l.dialog_id = c.dialog_id')
+            ->join('replica d', 'd.id = c.dialog_id and d.id = l.dialog_id')
+            ->join('hero_behaviour p', 'p.id = l.point_id and p.id = c.point_id')
+            ->join('learning_goal p2', 'p2.code = p.learning_goal_code')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->order('l.id');
+
+        if (null !== $sim_id) {
+            $query->where(" l.sim_id = {$sim_id} ");
+        }
+
+        $data['data'] = $query->queryAll();
+
+        $mailLogData = self::getMailPointsDetail(self::RETURN_DATA, $params);
+
+        // merge dialog and mail logs
+        $data['data'] = array_merge($data['data'], $mailLogData['data']);
+
+        $headers = array(
+            'sim_id' => 'id_симуляции',
+            'p_code' => 'Номер цели обучения',
+            'p_title' => 'Наименование цели обучения',
+            'code' => 'Номер поведения',
+            'title' => 'Наименование поведения',
+            'type_scale' => 'Тип поведения',
+            'scale' => 'Вес поведения',
+            'add_value' => 'Проявление',
+            'dialog_id' => 'Вызвавшая реплика (id_записи)',
+            'dialog_code' => 'Вызвавшая реплика (Код события)',
+            'step_number' => 'Вызвавшая реплика (номер шага)',
+            'replica_number' => 'Вызвавшая реплика (номер реплики)',
+            'out_mail_code' => 'Вызвавшее исходящее письмо ',
+        );
+
+        if (self::RETURN_DATA == $return) {
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование расчета оценки - детально";
+            return $data;
+        } elseif (self::RETURN_CSV == $return) {
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'assesment_detailed.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+        } else {
+            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
+        }
+
+        return true;
+    }
+
+    public static function getFullAgregatedLog($return)
+    {
+
+        $data['data'] = Yii::app()->db->createCommand()
+            ->select('l.sim_id,
+                p.code,
+                t.value as type_scale,
+                l.value')
+            ->from('assessment_aggregated l')
+            ->leftJoin('hero_behaviour p', 'l.point_id = p.id')
+            ->leftJoin('type_scale t', 'p.type_scale = t.id')
+            ->group("l.sim_id, p.code")
+            ->order("l.sim_id")
+            ->queryAll();
+
+        $headers = array(
+            'sim_id' => 'id_симуляции',
+            'code' => 'Номер поведения',
+            'type_scale' => 'Тип поведения',
+            'value' => 'Оценка по поведению'
+        );
+
+        foreach ($data['data'] as $key => $value) {
+            $data['data'][$key]['value'] = str_replace('.', ',', $value['value']);
+            $data['data'][$key]['type_scale'] = str_replace('.', ',', $value['type_scale']);
+        }
+
+        if (self::RETURN_DATA == $return) {
+            $data['headers'] = $headers;
+            $data['title'] = "Логирование расчета оценки - агрегированно";
+            return $data;
+        } elseif (self::RETURN_CSV == $return) {
+
+            $csv = new ECSVExport($data['data'], true, true, ';');
+            $csv->setHeaders($headers);
+            $content = $csv->toCSVutf8BOM();
+            $filename = 'assesment_agregated.csv';
+            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
+        } else {
+            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
+        }
+        return true;
+    }
 }

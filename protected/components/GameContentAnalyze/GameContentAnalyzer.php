@@ -36,6 +36,12 @@ class GameContentAnalyzer
     // array indexed by flag.code, contain array of mail.codes that send after flag switch
     public $flagsRunMail;
 
+    public $heroBehaviours;
+
+    public $replicaPoints;
+
+    public $mailPoints;
+
     const TYPE_PLAN   = 'plan';
     const TYPE_MAIL   = 'mail';
     const TYPE_DIALOG = 'dialog';
@@ -102,6 +108,81 @@ class GameContentAnalyzer
         foreach ($sFlagsRunMail as $sFlagRunMail) {
             $this->flagsRunMail[$sFlagRunMail->mail_code][] = $sFlagRunMail;
         }
+    }
+
+    public function uploadPoints($sHeroBehaviours, $sReplicaPoints, $sMailPoints)
+    {
+
+        foreach ($sHeroBehaviours as $sHeroBehaviour) {
+
+            $this->heroBehaviours[$sHeroBehaviour->code] = $sHeroBehaviour;
+        }
+
+
+        foreach ($sReplicaPoints as $sReplicaPoint) {
+            if (0 == $sReplicaPoint->add_value) {
+                $this->replicaPoints[$sReplicaPoint->point->code][] = $sReplicaPoint;
+            }
+        }
+        foreach ($sReplicaPoints as $sReplicaPoint) {
+            if (1 == $sReplicaPoint->add_value) {
+                $this->replicaPoints[$sReplicaPoint->point->code][] = $sReplicaPoint;
+            }
+        }
+
+        // there too: import 0 values first, 1 values second - to make output look nice :)
+        foreach ($sMailPoints as $sMailPoint) {
+            if (0 == $sMailPoint->add_value) {
+                $this->mailPoints[$sMailPoint->point->code][] = $sMailPoint;
+            }
+        }
+        foreach ($sMailPoints as $sMailPoint) {
+            if (1 == $sMailPoint->add_value) {
+                $this->mailPoints[$sMailPoint->point->code][] = $sMailPoint;
+            }
+        }
+    }
+
+    /**
+     * @param HeroBehaviour $heroBehaviour
+     * @return array
+     */
+    public function getMailPointsForBehaviour($heroBehaviour)
+    {
+        if (false == isset($this->mailPoints[$heroBehaviour->code])) {
+            return [];
+        }
+
+        return $this->mailPoints[$heroBehaviour->code];
+    }
+
+    /**
+     * @param HeroBehaviour $heroBehaviour
+     * @return array
+     */
+    public function getReplicaPointsForBehaviour($heroBehaviour)
+    {
+        if (false == isset($this->replicaPoints[$heroBehaviour->code])) {
+            return [];
+        }
+
+        return $this->replicaPoints[$heroBehaviour->code];
+    }
+
+    /**
+     * @param HeroBehaviour $heroBehaviour
+     * @return boolean
+     */
+    public function isNeverShown($heroBehaviour)
+    {
+        if (false == isset($this->replicaPoints[$heroBehaviour->code]) && false == isset($this->mailPoints[$heroBehaviour->code])) {
+            return true;
+        }
+
+        return (isset($this->replicaPoints[$heroBehaviour->code])
+            && isset($this->mailPoints[$heroBehaviour->code])
+            && 0 == count($this->replicaPoints[$heroBehaviour->code])
+            && 0 == count($this->replicaPoints[$heroBehaviour->code]));
     }
 
     /**
