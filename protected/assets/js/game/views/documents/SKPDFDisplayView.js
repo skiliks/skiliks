@@ -23,6 +23,12 @@ define([
              * @property {string} title
              */
             title:'Мои документы',
+
+            dimensions: {
+                width: 851,
+                height: 648
+            },
+
             renderPage:function (pdf, page_num) {
                 var me = this;
                 pdf.getPage(page_num).then(function (page) {
