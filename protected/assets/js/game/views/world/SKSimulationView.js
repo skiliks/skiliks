@@ -100,7 +100,7 @@ define([
              * @param doc
              */
             preloadZoho:       function (doc) {
-                this.$('.canvas').append($('<iframe />', {
+                this.$('.windows-container').append($('<iframe />', {
                     src: doc.get('excel_url'),
                     id:  'excel-preload-' + doc.id
                 }).css({

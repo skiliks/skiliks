@@ -76,6 +76,12 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
         {
             title:'Мои документы',
             addClass:'documents-list',
+
+            dimensions: {
+                width: 800,
+                height: 400
+            },
+
             /**
              *
              * @param {jQuery} el

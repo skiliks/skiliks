@@ -7,7 +7,7 @@
  *
  */
 
-abstract class YumController extends CController {
+abstract class YumController extends AjaxController {
 	public $breadcrumbs = array();
 	public $menu = array();
 	public $title ='';

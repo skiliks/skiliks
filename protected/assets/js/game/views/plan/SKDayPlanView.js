@@ -23,6 +23,12 @@ define([
         /** @lends SKDayPlanView.prototype */
         {
         'addClass': 'planner-book-main-div',
+
+        dimensions: {
+            maxWidth: 1100,
+            height: 700
+        },
+
         'events':_.defaults(
             {
                 'click .day-plan-todo-task':                                         'doActivateTodo',

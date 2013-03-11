@@ -3,10 +3,9 @@
         <a class="brand" href="#">Admin panel</a>
         <ul class="nav">
             {foreach $log_tables as $log_table}
-            <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
+                <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
             {/foreach}
             <li><a href="#assessment-rules">Simulation Assessment Rules</a></li>
-            <li><a href="#excel">Excel</a></li>
         </ul>
     </div>
 </div>
@@ -25,7 +24,6 @@
 
 {foreach $log_tables as $log_table}
     <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
-
     <table class="table table-striped {$log_table->getId()}">
         <thead>
         <tr>

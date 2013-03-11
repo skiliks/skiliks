@@ -32,6 +32,12 @@ define([
             'click .phone_call':         'callToContact',
             'click .phone_call_back':    'callbackContact'
         }, SKWindowView.prototype.events),
+
+        dimensions: {
+            width: 371,
+            height: 560
+        },
+
         renderContent: function (window_el) {
             window_el.html(_.template(main_template, _.defaults(SKConfig)));
         },

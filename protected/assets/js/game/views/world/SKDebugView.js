@@ -75,9 +75,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             },
 
             doSimStopAndLoadLogs:function () {
-                SKApp.user.simulation.on('stop', function () {
-                    window.location.href = '/static/admin/displayLog?simulation=' + this.id;
-                });
+                SKApp.user.simulation.set('result-url', 'registration/choose-account-type');
                 SKApp.user.stopSimulation();
             },
 

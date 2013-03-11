@@ -32,12 +32,13 @@ define([
             var me = this;
             var simulation = SKApp.user.startSimulation($(event.target).attr('data-sim-id'));
             var simulation_view = this.simulation_view = new SKSimulationView();
+            simulation.set('result-url', 'registration/choose-account-type');
             simulation.on('start', function () {
                 simulation_view.render();
             });
-            simulation.on('stop', function () {
+            this.listenTo(simulation, 'stop', function () {
                 delete me.simulation_view;
-                me.render();
+                location.href = simulation.get('result-url');
             });
         },
         'doSettings': function () {

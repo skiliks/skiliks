@@ -22,6 +22,11 @@ define([
         isDisplayCloseWindowsButton: false,
         
         isUserCanFinalizeCall: false,
+
+        dimensions: {
+            width: 872,
+            height: 560
+        },
         
         'events':_.defaults({
             'click .phone-draw-menu':'getMenu',

@@ -53,6 +53,7 @@ return array(
         'application.modules.message.models.*',
         'application.modules.profile.models.*',
         'application.modules.registration.models.*',
+        'application.modules.user.controllers.*',
         'application.modules.role.models.*',
         'application.modules.usergroup.models.*',
 
@@ -68,6 +69,25 @@ return array(
         ),
         'user' => array(
             'debug' => true,
+            'activationPasswordSet' => false,
+            'mailer'=>'PHPMailer',
+            'phpmailer'=>array(
+                'transport'=>'smtp',
+                'html'=>true,
+                'properties'=>array(
+                    'CharSet' => 'UTF-8', // SMTP server
+                    'SMTPDebug' => false,          // enables SMTP debug information (for testing)
+                    'SMTPAuth' => true,            // enable SMTP authentication
+                    'SMTPSecure' => 'tls',         // sets the prefix to the servier
+                    'Host' => 'smtp.yandex.ru',                   // set the SMTP port for the GMAIL server
+                    'Username' => 'support@skiliks.com',  // GMAIL username
+                    'Password' => 'skiliks531',        // GMAIL password
+                ),
+                'msgOptions'=>array(
+                    'fromName'=>'Registration System',
+                    'toName'=>'You doomed user',
+                ),
+            )
         ),
         'avatar'       => [],
         //'friendship'   => [],
