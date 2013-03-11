@@ -216,15 +216,13 @@ class UserAccountController extends YumController
         }
         $activation_url = $user->getActivationUrl();
 
-        $body = strtr("Hello {username}, your activation url <a href='{activation_url}'>activate</a>", array(
-            '{username}' => $user->username,
+        $body = strtr("Hello user, your activation url <a href='{activation_url}'>activate</a>", array(
             '{activation_url}' => $activation_url));
 
         $mail = array(
             'from' => Yum::module('registration')->registrationEmail,
             'to' => $user->profile->email,
-            'subject' => strtr("Hello dear {username}", array(
-                '{username}' => $user->username)),
+            'subject' => "Hello dear user",
             'body' => $body,
         );
         $sent = YumMailer::send($mail);
