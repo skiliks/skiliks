@@ -32,7 +32,7 @@
 
 <div id="flow-menu-wrapper" class="row" style="overflow: hidden; width: 1500px;">
     <div class="span2" style="width: 180px;">
-        <div id="flow-menu" style="padding-right:   0px;">
+        <div id="flow-menu" style="padding-right: 0px;">
             <span class="btn toggle-dialogs" style="width: 140px; text-align: left;">
                 <i class="icon icon-user pull-left" style="margin: 10px 10px 10px 0;"></i>
                 <div class="pull-left">
@@ -66,6 +66,14 @@
                 событиям которые <br/>
                 начинаются по вызову<br/>
                 из диалога
+            </a>
+            <br/>
+            <br/>
+            <a href="#behaviours-list" class="btn" style="width: 140px;">
+                <i class="icon-list"></i>
+                Перейти к <br/>
+                списку поведений<br/>
+                и их проявлений
             </a>
 
             {if ($isDbMode)}
@@ -241,6 +249,7 @@
         <br/>
 
         {if ($isDbMode)}
+            <a name="behaviours-list"></a>
             <h3>Список поведений пользователя и возможных их проявлений</h3>
 
             <table class="table">
@@ -269,20 +278,38 @@
                         {$heroBehaviour->getTypeScaleTitle()}
                     </td>
                     <td width="50%">
+                        {if (0 < count($analyzer->getMailPointsForBehaviour($heroBehaviour)))}
+                            Mails: <br/>
+                        {/if}
                         {foreach $analyzer->getMailPointsForBehaviour($heroBehaviour) as $mailPoint}
-                            <span class="label label-{if (1 == $mailPoint->add_value)}{'success'}{else}{'important'}{/if}">
-                            <a href="#{$mailPoint->mail->code}" style="color: #fff;">
-                                {$mailPoint->mail->code}</a>
-                                +{$mailPoint->add_value}
-                            </span>
+                            <span class="label label-{if (1 == $mailPoint->add_value)}{'success'}{else}{'important'}{/if}"
+                                  style="display: inline-block; min-width: 175px;">
+
+                                {if (1 == $mailPoint->add_value)}+{else}&nbsp;&nbsp;{/if}{$mailPoint->add_value} &nbsp; &nbsp;
+                                <a href="#{$mailPoint->mail->code}" style="color: #fff;">
+                                    {$mailPoint->mail->code}</a>
+                                </span>
                             &nbsp;
                         {/foreach}
 
+                        <!-- to separate replicas -->
+                        {if (0 < count($analyzer->getMailPointsForBehaviour($heroBehaviour)))}
+                            <br/>
+                        {/if}
+
+                        {if (0 < count($analyzer->getReplicaPointsForBehaviour($heroBehaviour)))}
+                            Replicas:<br/>
+                        {/if}
                         {foreach $analyzer->getReplicaPointsForBehaviour($heroBehaviour) as $replicaPoint}
-                            <span class="label label-{if (1 == $replicaPoint->add_value)}{'success'}{else}{'important'}{/if}"">
-                            <a href="#{$replicaPoint->replica->code}" style="color: #fff;">
-                                {$replicaPoint->replica->code}</a>
-                                +{$replicaPoint->add_value}
+                            <span class="label label-{if (1 == $replicaPoint->add_value)}{'success'}{else}{'important'}{/if}""
+                                style="display: inline-block; min-width: 175px;">
+
+                                {if (1 == $replicaPoint->add_value)}+{else}&nbsp;&nbsp;{/if}{$replicaPoint->add_value} &nbsp; &nbsp;
+                                <a href="#{$replicaPoint->replica->code}" style="color: #fff; display: inline-block; width: 40px;">
+                                    {$replicaPoint->replica->code}
+                                </a>
+                                step: {$replicaPoint->replica->step_number},
+                                <span title="{$replicaPoint->replica->text}">replica: {$replicaPoint->replica->replica_number}</span>
                             </span>
                             &nbsp;
                         {/foreach}
