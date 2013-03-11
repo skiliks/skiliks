@@ -91,6 +91,10 @@ class AdminController extends AjaxController
         $sFlagsBlockMail    = FlagBlockMail::model()->findAll();
         $sFlagsRunMail      = FlagRunMail::model()->findAll();
 
+        $sHeroBehaviours = HeroBehaviour::model()->findAll();
+        $sReplicaPoints  = ReplicaPoint::model()->findAll();
+        $sMailPoints     = MailPoint::model()->findAll();
+
         $a = new GameContentAnalyzer();
 
         $a->uploadDialogs($sDialogs);
@@ -98,6 +102,8 @@ class AdminController extends AjaxController
         $a->uploadEmails($sEmails);
         $a->uploadEvents($sEvents);
         $a->uploadFlags($sFlagsBlockDialog, $sFlagsBlockReplica, $sFlagsBlockMail, $sFlagsRunMail);
+
+        $a->uploadPoints($sHeroBehaviours, $sReplicaPoints, $sMailPoints);
 
         // update statistic
         $a->updateProducedBy();
@@ -116,6 +122,7 @@ class AdminController extends AjaxController
             [
                 'analyzer'     => $a,
                 'sourceName'   => 'база данных',
+                'isDbMode'     => true,
             ]
         );
     }
@@ -265,9 +272,10 @@ class AdminController extends AjaxController
         $this->render(
             'index',
             [
-                'config' => CJSON::encode($config),
+                'config'    => CJSON::encode($config),
                 'assetsUrl' => $assetsUrl,
                 'jsScripts' => $jsScriptsAtTheEndOfBody,
+                'isDbMode'  => false,
             ]
         );
     }
