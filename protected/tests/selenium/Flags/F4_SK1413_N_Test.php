@@ -16,7 +16,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
     }
 
     public function testSK1413_N_Case1() {
-        // next line for not running the test
         // $this->markTestIncomplete();
         $this->start_simulation();
 
@@ -29,15 +28,11 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
-        sleep(5);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
+        $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.1');
 
         $hours = $this->transfer_time(10);
-        print ($hours[0]);
-        print (" : ");
-        print ($hours[1]);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -48,7 +43,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
     }
 
     public function testSK1413_N_Case2() {
-        // next line for not running the test
         // $this->markTestIncomplete();
         $this->start_simulation();
 
@@ -61,15 +55,11 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
-        sleep(5);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
+        $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.2');
 
         $hours = $this->transfer_time(10);
-        print ($hours[0]);
-        print (" : ");
-        print ($hours[1]);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -80,7 +70,6 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
     }
 
     public function testSK1413_N_Case3() {
-        // next line for not running the test
         //$this->markTestIncomplete();
         $this->start_simulation();
 
@@ -93,15 +82,11 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
-        sleep(5);
-        $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[8]","0");
+        $this->assertTrue($this->verify_flag('F4','0'));
 
         $this->run_event('ET1.3.3');
 
         $hours = $this->transfer_time(10);
-        print ($hours[0]);
-        print (" : ");
-        print ($hours[1]);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
