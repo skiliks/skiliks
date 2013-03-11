@@ -3053,7 +3053,7 @@ ul.main-screen-stat{
 }
 ul.main-screen-stat li{
 	background:url("../img/main-screen/bd-status.png") no-repeat left center;
-	font:bold 20px 'orbi_sansregular';
+	font:20px 'orbi_sansregular';
 	color:#fff;
 	float:left;
 	padding:0 10px;
