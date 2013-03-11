@@ -28,9 +28,7 @@ class F1_SK1403_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F1','1'));
 
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "09");
-        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "11");
-        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+        $hours = $this->transfer_time(10);
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
