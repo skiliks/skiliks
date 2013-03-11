@@ -39,7 +39,7 @@
                 {foreach $row as $cell}
                     <td>
                         {if (40 < strlen($cell))}
-                            <span title="{str_replace('"',"'", $cell)}">{substr($cell, 0, 20)}...</span>
+                            <span title="{str_replace('"',"'", $cell)}">{mb_substr($cell, 0, 20)}...</span>
                         {else}
                             {$cell}
                         {/if}
@@ -84,22 +84,4 @@
     {/foreach}
 </table>
 
-<h1 id="excel">Логирование - Excel</h1>
-
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>id_симуляции</th>
-        <th>Номер формулы</th>
-        <th>Оценка (0 или 1)</th>
-    </tr>
-    </thead>
-    {foreach $simulation->simulation_excel_points as $point}
-        <tr>
-            <td>{$point->sim_id}</td>
-            <td>{$point->formula_id}</td>
-            <td>{$point->value}</td>
-        </tr>
-    {/foreach}
-</table>
 

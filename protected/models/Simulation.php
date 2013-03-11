@@ -14,6 +14,7 @@
  * @property LogDialogPoint[] assessment_dialog_points
  * @property LogDocument[] log_documents
  * @property DayPlanLog[] log_day_plan
+ * @property SimulationExcelPoint[] simulation_excel_points
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
