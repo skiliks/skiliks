@@ -26,24 +26,24 @@ define(["text!game/jst/window.jst"], function (window_template) {
 
         isDisplayCloseWindowsButton: true,
 
+        dimensions: {},
+
         /**
          * Constructor
-         *
          * @method initialize
          */
         initialize: function () {
-            this.preLoadWindow();
+            //this.preLoadWindow();
             if (this.options.model_instance === undefined) {
                 throw 'You need to pass model_instance';
             }
             var sim_window = this.make('div', {"class": 'sim-window' + (this.addClass ? ' ' + this.addClass : '')});
-            $('.windows-container').append(sim_window);
+            this.$container = $(this.container);
+            this.$container.append(sim_window);
             this.setElement(sim_window);
         },
 
-        /**
-         * @method
-         */
+
         renderWindow: function () {
             var me = this;
             this.$el.html(_.template(window_template, {
@@ -54,7 +54,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
             this.renderTitle(this.$('header'));
             this.$el.draggable({
                 handle: "header",
-                containment: ".windows-container",
+                containment: this.$container,
                 scroll: false,
                 start: function () {
                     if (typeof(me.doStartDrag) !== "undefined") {
@@ -69,50 +69,32 @@ define(["text!game/jst/window.jst"], function (window_template) {
             });
             this.renderContent(this.$('.sim-window-content'));
         },
-
         /**
-         * @method
          * @abstract
          * @param {jQuery} el
          */
         renderTitle: function (el) {
             // Do nothing
         },
-
-        /**
-         * @method
-         * @param el
-         */
         renderContent: function (el) {
             throw 'You need to override it';
         },
-
-        /**
-         * @method
-         */
         remove: function () {
             this.trigger('close');
             this.stopListening();
+            $(window).off('resize', this.onResize);
             Backbone.View.prototype.remove.call(this);
         },
 
-        /**
-         * @method
-         * @param element
-         * @param templateHtml
-         * @param userData
-         */
         renderTPL: function (element, templateHtml, userData) {
             var systemData = {assetsUrl: SKConfig.assetsUrl};
             var data = _.defaults(systemData, userData);
             var html = _.template(templateHtml, data);
             $(element).html(html);
         },
-
         /**
-         * Creates window
-         *
-         * @method
+         Creates window
+
          */
         render: function () {
             var me = this;
@@ -124,42 +106,111 @@ define(["text!game/jst/window.jst"], function (window_template) {
             });
             me.renderWindow(me.$el);
             me.$el.css('zIndex', me.options.model_instance.get('zindex') * 20);
-            function alignWindow() {
-                me.$el.center();
-            }
 
-            alignWindow();
+            this.resize();
+            this.onResize = function() {
+                me.resize();
+                me.constrain();
+            };
+            $(window).on('resize', this.onResize);
 
+            this.center();
         },
 
         /**
-         * @method
+         *
+         * @param width (optional)
+         * @param height (optional)
          */
+        resize: function(width, height) {
+            var dimensions = this._calculateDimensions(width, height);
+            this.$el.css({
+                width: dimensions.width + 'px',
+                height: dimensions.height + 'px'
+            });
+        },
+
+        center: function() {
+            this.$el.css({
+                top: Math.max(0, ((this.$container.height() - this.$el.outerHeight()) / 2) + this.$container.scrollTop()) + 'px',
+                left: Math.max(0, ((this.$container.width() - this.$el.outerWidth()) / 2) + this.$container.scrollLeft()) + 'px'
+            });
+        },
+
+        constrain: function() {
+            var position = this.$el.position(),
+                dimensions = {
+                    width: this.$el.width(),
+                    height: this.$el.height()
+                },
+                bounds = {
+                    width: this.$container.width(),
+                    height: this.$container.height()
+                };
+
+            if (position.left < 0) {
+                this.$el.css('left', 0);
+            } else if (position.left + dimensions.width > bounds.width) {
+                this.$el.css('left', bounds.width - dimensions.width);
+            }
+
+            if (position.top < 0) {
+                this.$el.css('top', 0);
+            } else if (position.top + dimensions.height > bounds.height) {
+                this.$el.css('top', bounds.height - dimensions.height);
+            }
+        },
+
         doWindowClose: function () {
             this.options.model_instance.close();
         },
-
-        /**
-         * @method
-         */
         doActivate: function () {
             this.options.model_instance.setOnTop();
         },
 
-        /**
-         * @method
-         */
-        preLoadWindow: function () {
-            var windows = $('.windows-container');
-            var stat = $('.main-screen-stat');
-            var icons = $('.main-screen-icons');
-            var canvas = $('.canvas');
-            var margin_top = parseInt(stat.css('margin-top')) + stat.height();
-            var margin_right = parseInt(icons.css('margin-right')) + icons.width();
-            windows.css('margin-top', margin_top + 'px');
-            windows.height(canvas.height() - margin_top);
-            windows.css('margin-right', margin_right + 'px');
-            windows.width(canvas.width() - margin_right);
+        _calculateDimensions: function(width, height) {
+            var sd = this.dimensions,
+                rd = {},
+                containerWidth = this.$container.width(),
+                containerHeight = this.$container.height(),
+                specifiedWidth = width || sd.width || sd.maxWidth || '100%',
+                specifiedHeight = height || sd.height || sd.minHeight || '100%',
+                maxWidth, maxHeight, minWidth, minHeight;
+
+            function percent2px(relation, value) {
+                if (typeof value === 'string' && value.charAt(value.length - 1) === '%') {
+                    return relation / 100 * value.slice(0, -1);
+                }
+                return +value;
+            }
+
+            rd.width = percent2px(containerWidth, specifiedWidth);
+            rd.height = percent2px(containerHeight, specifiedHeight);
+
+            rd.width = containerWidth < rd.width ? containerWidth : rd.width;
+            rd.height = containerHeight < rd.height ? containerHeight : rd.height;
+
+            if (sd.maxWidth && sd.maxWidth !== specifiedWidth) {
+                maxWidth = percent2px(containerWidth, sd.maxWidth);
+                rd.width = rd.width > maxWidth ? maxWidth : rd.width;
+            }
+
+            if (sd.maxHeight && sd.maxHeight !== specifiedHeight) {
+                maxHeight = percent2px(containerHeight, sd.maxHeight);
+                rd.height = rd.height > maxHeight ? maxHeight : rd.height;
+            }
+
+            if (sd.minWidth) {
+                minWidth = percent2px(containerWidth, sd.minWidth);
+                rd.width = rd.width < minWidth ? minWidth : rd.width;
+            }
+
+            if (sd.minHeight) {
+                minHeight = percent2px(containerHeight, sd.minHeight);
+                rd.height = rd.height < minHeight ? minHeight : rd.height;
+            }
+
+            return rd;
         }
     });
     return SKWindowView;
