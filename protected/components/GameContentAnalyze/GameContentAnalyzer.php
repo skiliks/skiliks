@@ -86,11 +86,15 @@ class GameContentAnalyzer
         // BlockDialog
         foreach ($sFlagsBlockDialog as $sFlagBlockDialog) {
             $this->flagsBlockDialog[$sFlagBlockDialog->dialog_code][] = $sFlagBlockDialog;
+
+            $this->aEvents[$sFlagBlockDialog->dialog_code]->flagsBlock[] = $sFlagBlockDialog->flag_code;
         }
 
         // BlockReplica
         foreach ($sFlagsBlockReplica as $sFlagBlockReplica) {
             $this->flagsBlockReplica[$sFlagBlockReplica->replica_id][] = $sFlagBlockReplica;
+
+            $this->aEvents[$sFlagBlockReplica->dialog->dialog_code]->flagsBlock[] = $sFlagBlockDialog->flag_code;
         }
 
         // BlockMail

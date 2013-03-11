@@ -39,7 +39,7 @@
                 {foreach $row as $cell}
                     <td>
                         {if (40 < strlen($cell))}
-                            <span title="{$cell}">{substr($cell, 0, 25)}...</span>
+                            <span title="{str_replace('"',"'", $cell)}">{substr($cell, 0, 20)}...</span>
                         {else}
                             {$cell}
                         {/if}
