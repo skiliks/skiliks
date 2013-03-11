@@ -26,10 +26,11 @@ class UserAccountController extends YumController
 
         if(null !== $YumUser && null !== $YumProfile)
         {
-            $this->user->attributes    = $YumUser;
-            $profile->attributes = $YumProfile;
+            $this->user->attributes = $YumUser;
+            $profile->attributes    = $YumProfile;
 
             $this->user->setUserNameFromEmail($profile->email);
+            $profile->updateFirstNameFromEmail();
 
             // Protect from "Wrong username" message - we need "Wrong email", from Profile form
             if (null == $this->user->username) {

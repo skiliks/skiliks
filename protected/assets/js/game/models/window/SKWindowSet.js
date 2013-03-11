@@ -5,8 +5,7 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
      * Оконный менеджер, содержит в себе все окна
      *
      * @class SKWindowSet
-     * @constructs
-     * @type {*}
+     * @constructor initialize
      */
     window.SKWindowSet = Backbone.Collection.extend({
         model:          SKWindow,

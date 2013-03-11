@@ -16,6 +16,19 @@ class YumProfile extends YumActiveRecord
 	 */
 	static $fields=null;
 
+    // --------------------------------------------------------------------------------------------------------
+
+    public function updateFirstNameFromEmail()
+    {
+        if (0 < strpos($this->email, '@')) {
+            $this->firstname = substr($this->email, 0, strpos($this->email, '@'));
+        } else {
+            $this->firstname = $this->email;
+        }
+    }
+
+    // --------------------------------------------------------------------------------------------------------
+
 	public function init()
 	{
 		parent::init();

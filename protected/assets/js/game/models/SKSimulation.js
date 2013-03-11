@@ -35,7 +35,7 @@ define([
      * события)
      *
      * @class SKSimulation
-     * @constructs
+     * @constructor
      */
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */

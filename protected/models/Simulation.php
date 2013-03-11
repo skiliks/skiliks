@@ -8,12 +8,14 @@
  * @property AssessmentAggregated[] assessment_points
  * @property LogWindow[] log_windows
  * @property LogActivityAction[] log_activity_actions
+ * @property LogActivityActionAgregated[] log_activity_actions_aggregated
  * @property LogMail[] log_mail
  * @property LogDialog[] log_dialogs
  * @property SimulationMailPoint[] simulation_mail_points
  * @property LogDialogPoint[] assessment_dialog_points
  * @property LogDocument[] log_documents
  * @property DayPlanLog[] log_day_plan
+ * @property SimulationExcelPoint[] simulation_excel_points
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */

@@ -3,6 +3,10 @@
  */
 (function() {
     "use strict";
+    /**
+     * @class SKMailSubject
+     * @constructor initialize
+     */
     window.SKMailSubject = Backbone.Model.extend({
         // @var string
         code : undefined,

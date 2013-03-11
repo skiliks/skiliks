@@ -1,6 +1,10 @@
 /*global SKEvent:true, Backbone, SKConfig, SKApp*/
 define([], function () {
     "use strict";
+    /**
+     * @class
+     * @constructor initialize
+     */
     var event_types = {
         'M':  'mail',
         'MS': 'mail-send',

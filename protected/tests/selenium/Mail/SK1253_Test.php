@@ -1,5 +1,9 @@
 <?php
 /**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
  * Тест пишет новое письмо двум адресатам, потом удаляет первого и проверяет
  * корректность соотвествия оставшегося адресата и доступных тем.
  */
@@ -12,6 +16,13 @@ class SK1253_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
+    /**
+     * Тестирует задачу SKILIKS-1253.
+     *
+     * 1. Пишет письмо Трудякину
+     * 2. Делает что-то еще
+     * 3. bla bla bla
+     */
     public function testSK1253()
     {
         //$this->markTestIncomplete();
@@ -35,3 +46,6 @@ class SK1253_Test extends SeleniumTestHelper
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
     }
 }
+/**
+ * @}
+ */

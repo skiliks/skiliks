@@ -6,6 +6,10 @@ define([],
     function () {
     "use strict";
 
+    /**
+    * @class SKFlagStateView
+    * @constructor initialize
+    */
     SKFlagStateView = Backbone.View.extend({
         initialize: function () {},
 

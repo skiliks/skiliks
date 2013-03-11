@@ -1,15 +1,32 @@
 /*global Backbone:false, console, SKApp, session, SKDocument */
-
-define(["game/models/SKDocument"],function () {
+var SKDocumentCollection;
+define(["game/models/SKDocument"], function () {
     "use strict";
-    window.SKDocumentCollection = Backbone.Collection.extend({
+    /**
+     * @class SKEventCollection
+     * @constructor void
+     */
+    SKDocumentCollection = Backbone.Collection.extend({
+        /**
+         * @property model
+         * @type SKDocument
+         * @default SKDocument
+         */
         model: SKDocument,
-        sync:function (method, collection, options) {
-            if ('read' === method){
+        /**
+         * @method sync
+         * @param method
+         * @param collection
+         * @param options
+         */
+        sync: function (method, collection, options) {
+            if ('read' === method) {
                 SKApp.server.api('myDocuments/getList', {}, function (data) {
                     options.success(data.data);
                 });
             }
         }
     });
+
+    return SKDocumentCollection;
 });

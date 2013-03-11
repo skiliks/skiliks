@@ -29,7 +29,7 @@ class AdminController extends AjaxController
         $excelWriter = $logTableList->asExcel();
         $filename = sprintf('Log_%s_%s', $simulation->primaryKey, date("Y-m-d"));
         header('Content-type: application/vnd.ms-excel');
-        header("Content-Disposition: attachment; filename=\"$filename.xls\"");
+        header("Content-Disposition: attachment; filename=\"$filename.xlsx\"");
         $excelWriter->save('php://output');
     }
 
