@@ -210,6 +210,7 @@ class AdminController extends AjaxController
             [
                 'analyzer'     => $a,
                 'sourceName'   => $_FILES["file"]["name"],
+                'isDbMode'     => false,
             ]
         );
 
@@ -275,7 +276,6 @@ class AdminController extends AjaxController
                 'config'    => CJSON::encode($config),
                 'assetsUrl' => $assetsUrl,
                 'jsScripts' => $jsScriptsAtTheEndOfBody,
-                'isDbMode'  => false,
             ]
         );
     }
