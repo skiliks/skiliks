@@ -14,11 +14,16 @@ define([
 
         title:'Мои документы',
 
+        dimensions: {
+            width: 1000,
+            height: 450
+        },
+
         displayZohoIframe:function (doc, el) {
             var me = this;
             $('#excel-preload-' + doc.id).show().css({
                 'zIndex':parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
-                'width':el.width() - 6,
+                'width':el.width() - 4,
                 'height':el.height(),
                 'left':me.$el[0].offsetLeft,
                 'top':el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,

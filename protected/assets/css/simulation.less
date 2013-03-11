@@ -17,6 +17,7 @@
 }
 
 .canvas {
+  position: relative;
   width: 100%;
   overflow: hidden;
   height: 100%;
@@ -26,6 +27,7 @@
   background-size: 100% auto;
   user-select: none;
   .sim-window {
+    position: absolute;
     .sim-window-container {
       header {
         height: 46px;
@@ -61,10 +63,15 @@
       }
     }
   }
-  .main-screen-icons {
+  .windows-container {
     position: absolute;
-    right: 0;
-    top: 0;
+    top: 45px;
+    right: 110px;
+    bottom: 0;
+    left: 0;
+  }
+  .main-screen-icons {
+    float: right;
     height: 100%;
     ul {
       height: 567px;

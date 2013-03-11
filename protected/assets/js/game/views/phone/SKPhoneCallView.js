@@ -27,6 +27,11 @@ define([
 
         SKWindow:null,
 
+        dimensions: {
+            width: 371,
+            height: 560
+        },
+
         events:_.defaults({
             'click .phone_get_menu':'getMenu',
             'click #phone_reply':'reply',
