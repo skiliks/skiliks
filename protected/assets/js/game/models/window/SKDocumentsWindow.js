@@ -1,15 +1,17 @@
 /**
  * Documents window subclass
+ * @class SKDocumentsWindow
+ * @constructs
  * @type {SKWindow}
  */
-define(["game/models/window/SKWindow"],function () {
+define(["game/models/window/SKWindow"],function (SKWindow) {
     "use strict";
-    window.SKDocumentsWindow = window.SKWindow.extend({
+    window.SKDocumentsWindow = SKWindow.extend({
         single: false,
         'initialize':function () {
             this.set('name', 'documents');
-            this.set('id', this.get('subname') + ':' + this.get('filename'));
-            window.SKWindow.prototype.initialize.call(this, {name:'documents', subname:this.get('subname')});
+            this.set('id', this.get('subname') + ':' + this.get('fileId'));
+            SKWindow.prototype.initialize.call(this, {name:'documents', subname:this.get('subname')});
             this.set('params', {'fileId':this.get('fileId')});
         },
         /**

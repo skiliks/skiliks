@@ -1,10 +1,5 @@
 /*global Backbone:false, console, SKApp, _ */
 
-/**
- * Окно, открывается, закрывается, ведет за собой логи
- * @class SKWindow
- * @constructs
- */
 var SKWindow;
 define([], function () {
     "use strict";
@@ -31,7 +26,11 @@ define([], function () {
             'documents':41,
             'documentsFiles':42
     };
-
+    /**
+     * Окно, открывается, закрывается, ведет за собой логи
+     * @class SKWindow
+     * @constructs
+     */
     SKWindow = Backbone.Model.extend({
 
         single: true,
