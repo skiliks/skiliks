@@ -884,4 +884,21 @@ class YumUser extends YumActiveRecord
         //Yii::app()->user->login($identity, $duration);
         Yii::app()->session['uid'] = $this->id;
     }
+
+    public function isAnonymous() {
+
+        if(!$this->isCorporate() AND !$this->isPersonal()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function isPersonal() {
+        return UserAccountPersonal::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
+    }
+
+    public function isCorporate() {
+        return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
+    }
 }

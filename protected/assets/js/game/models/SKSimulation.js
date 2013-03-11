@@ -274,12 +274,12 @@ define([
 
                 var logs = this.windowLog.getAndClear();
 
-                SKApp.server.api('simulation/stop', {'logs':logs}, function () {
+                SKApp.server.api('simulation/stop', {'logs':logs}, function (data) {
                     /**
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    me.trigger('stop');
+                    me.trigger('stop', data);
                 });
             },
 
