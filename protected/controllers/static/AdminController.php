@@ -8,9 +8,12 @@ class AdminController extends AjaxController
         $simId = Yii::app()->request->getParam('simulation');
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
+
         assert($simulation);
+
         $this->layout = 'admin';
         $logTableList = new LogTableList($simulation);
+
         $this->render('log', [
             'simulation' => $simulation,
             'log_tables' => $logTableList->asArray()

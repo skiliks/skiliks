@@ -37,7 +37,13 @@
         {foreach $log_table->getData() as $row}
             <tr>
                 {foreach $row as $cell}
-                    <td>{$cell}</td>
+                    <td>
+                        {if (40 < strlen($cell))}
+                            <span title="{$cell}">{substr($cell, 0, 25)}...</span>
+                        {else}
+                            {$cell}
+                        {/if}
+                    </td>
                 {/foreach}
             </tr>
         {/foreach}
