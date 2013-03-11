@@ -4,7 +4,7 @@ var SKPhoneContactsCollection;
     "use strict";
     /**
      * @class SKPhoneContactsCollection
-     * @constructor void
+     * @augments Backbone.Collection
      */
     SKPhoneContactsCollection = Backbone.Collection.extend({
         /**

@@ -13,7 +13,7 @@ define([
     "use strict";
     /**
      * @class SKPhoneCallView
-     * @type {*}
+     * @augments Backbone.View
      */
     SKPhoneCallView = SKWindowView.extend({
 
@@ -33,6 +33,10 @@ define([
             'click #phone_no_reply':'noReply'
         },SKWindowView.events),
 
+        /**
+         * Constructor
+         * @method initialize
+         */
         initialize:function () {
             var me = this;
             this.listenTo(this.options.model_instance, 'refresh', function () {

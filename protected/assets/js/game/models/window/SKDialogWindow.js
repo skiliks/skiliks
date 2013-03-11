@@ -6,7 +6,7 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
     "use strict";
     /**
      * @class SKDialogWindow
-     * @constructor initialize
+     * @augments SKWindow
      */
     window.SKDialogWindow = SKWindow.extend({
         /**

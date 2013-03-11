@@ -11,7 +11,10 @@ define([
 ) {
 
     "use strict";
-
+    /**
+     * @class SKPhoneDialogView
+     * @augments Backbone.View
+     */
     SKPhoneDialogView = SKWindowView.extend({
         
         title: "Телефон",
@@ -34,6 +37,10 @@ define([
             SKWindowView.prototype.remove.call(this);
         },
 
+        /**
+         * Constructor
+         * @method initialize
+         */
         initialize:function() {
             var me = this;
             this.listenTo(this.options.model_instance, 'refresh', function () {

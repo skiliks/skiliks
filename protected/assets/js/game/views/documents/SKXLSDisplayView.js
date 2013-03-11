@@ -10,6 +10,10 @@ define([
 ) {
     "use strict";
 
+    /**
+     * @class SKXLSDisplayView
+     * @augments Backbone.View
+     */
     SKXLSDisplayView = SKWindowView.extend({
 
         title:'Мои документы',

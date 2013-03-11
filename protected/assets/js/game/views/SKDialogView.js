@@ -11,7 +11,8 @@ define([
     "use strict";
     /**
      * List of user's phrases added to letter
-     * @type {*}
+     * @class SKDialogView
+     * @augments Backbone.View
      */
     SKDialogView = Backbone.View.extend({
         
@@ -21,7 +22,10 @@ define([
         preventOtherClicksElement: undefined,
         
         isCloseWhenClickNotOnDialog: false,
-        
+        /**
+         * Constructor
+         * @method initialize
+         */
         'initialize': function () {
             this.options.buttons.forEach(function (button) {
                 button.id = _.uniqueId('button_');

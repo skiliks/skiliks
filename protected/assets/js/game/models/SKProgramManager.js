@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKProgramManager
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKProgramManager = Backbone.Model.extend({
     });

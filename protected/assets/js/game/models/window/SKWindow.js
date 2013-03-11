@@ -2,10 +2,6 @@
 
 var SKWindow;
 define([], function () {
-    /**
-     * @class SKWindow
-     * @constructor initialize
-     */
     "use strict";
     var screens = {
         'mainScreen':1,
@@ -33,7 +29,7 @@ define([], function () {
     /**
      * Окно, открывается, закрывается, ведет за собой логи
      * @class SKWindow
-     * @constructs
+     * @augments Backbone.Model
      */
     SKWindow = Backbone.Model.extend({
 
@@ -42,7 +38,10 @@ define([], function () {
         window_set: {},
 
         window_uid: undefined,
-
+        /**
+         * Constructor
+         * @method initialize
+         */
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
             if (window_id in SKApp.user.simulation.window_set) {

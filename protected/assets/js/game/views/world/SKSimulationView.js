@@ -23,7 +23,7 @@ define([
     "use strict";
     /**
      * @class SKSimulationView
-     * @type {*}
+     * @augments Backbone.View
      */
     SKSimulationView = Backbone.View.extend(
         /**
@@ -53,25 +53,10 @@ define([
              * @property windows
              */
             'windows':  [],
-            setupWindowEvents: function (window) {
-                var window_full_name = (window.get('name') + '/' + window.get('subname'));
-                if (this.window_views[window_full_name]) {
-                    var WindowClass = this.window_views[window_full_name];
-                    var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
-                    view.render();
-                    this.windows.push(view);
-                }
-                if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    var file = window.get('document').get('name');
-                    var document_view;
-                    if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
-                        document_view = new SKXLSDisplayView({model_instance: window});
-                    } else {
-                        document_view = new SKPDFDisplayView({model_instance: window});
-                    }
-                    document_view.render();
-                }
-            },
+            /**
+             * Constructor
+             * @method initialize
+             */
             'initialize':      function () {
                 var me = this;
                 var simulation = this.simulation = SKApp.user.simulation;
@@ -90,6 +75,25 @@ define([
                         me.preloadZoho(doc);
                     });
                 });
+            },
+            setupWindowEvents: function (window) {
+                var window_full_name = (window.get('name') + '/' + window.get('subname'));
+                if (this.window_views[window_full_name]) {
+                    var WindowClass = this.window_views[window_full_name];
+                    var view = new WindowClass({model_instance: window, event: window.get('sim_event')});
+                    view.render();
+                    this.windows.push(view);
+                }
+                if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
+                    var file = window.get('document').get('name');
+                    var document_view;
+                    if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
+                        document_view = new SKXLSDisplayView({model_instance: window});
+                    } else {
+                        document_view = new SKPDFDisplayView({model_instance: window});
+                    }
+                    document_view.render();
+                }
             },
             /**
              * Preloads excel with Zoho on simulation start

@@ -13,7 +13,7 @@ define([
      *
      * @module skiliks.world
      * @class SKLoginView
-     * @type {*}
+     * @augments Backbone.View
      */
     SKLoginView = Backbone.View.extend({
         'el': 'body',

@@ -14,7 +14,7 @@ define([
     "use strict";
     /**
      * @class SKImmediateVisitView
-     * @type {*}
+     * @augments Backbone.View
      */
     SKImmediateVisitView = SKWindowView.extend(
         /** @lends SKImmediateVisitView.prototype */
@@ -24,6 +24,10 @@ define([
                 'click .replica-select':'doSelectReplica'
             }, SKWindowView.prototype.events),
 
+            /**
+             * Constructor
+             * @method initialize
+             */
             'initialize':function () {
                 var me = this;
                 this.listenTo(this.options.model_instance, 'refresh', function () {

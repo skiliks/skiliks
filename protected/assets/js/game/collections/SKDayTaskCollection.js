@@ -5,7 +5,7 @@ define(["game/models/SKDayTask"], function () {
     "use strict";
     /**
      * @class SKDayTaskCollection
-     * @constructor initialize
+     * @augments Backbone.Collection
      */
     SKDayTaskCollection = Backbone.Collection.extend({
         /**

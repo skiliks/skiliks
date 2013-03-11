@@ -8,9 +8,13 @@ define([],
 
     /**
     * @class SKFlagStateView
-    * @constructor initialize
+    * @augments Backbone.View
     */
     SKFlagStateView = Backbone.View.extend({
+        /**
+         * Constructor
+         * @method initialize
+         */
         initialize: function () {},
 
         'el': '.form-flags',

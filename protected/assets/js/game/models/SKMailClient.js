@@ -6,7 +6,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
     "use strict";
     /**
      * @class SKMailClient
-     * @constructor
+     * @augments Backbone.Model
      */
     SKMailClient = Backbone.Model.extend(
         /** @lends SKMailClient.prototype */
@@ -193,6 +193,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
             // -------------------------------------------------
 
+            /**
+             * Constructor
+             * @method initialize
+             */
             initialize:function () {
                 this.folders[this.aliasFolderInbox] = new SKMailFolder();
                 this.folders[this.aliasFolderInbox].alias = this.aliasFolderInbox;

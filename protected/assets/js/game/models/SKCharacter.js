@@ -5,7 +5,7 @@ define([], function() {
     "use strict";
     /**
      * @class SKCharacter
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKCharacter = Backbone.Model.extend({
         // @var integer, MySQL id

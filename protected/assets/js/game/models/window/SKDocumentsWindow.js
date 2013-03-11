@@ -1,14 +1,9 @@
-/**
- * Documents window subclass
- * @class SKDocumentsWindow
- * @constructs
- * @type {SKWindow}
- */
+
 define(["game/models/window/SKWindow"],function (SKWindow) {
     "use strict";
     /**
      * @class SKDocumentsWindow
-     * @constructor initialize
+     * @augments SKWindow
      */
     window.SKDocumentsWindow = SKWindow.extend({
         /**

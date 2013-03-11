@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKTodoTask
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKTodoTask = Backbone.Model.extend({
         sync: function (method, model, options) {

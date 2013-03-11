@@ -2,9 +2,12 @@
 var SKDebugView;
 define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
     "use strict";
-    /** @class */
+    /**
+     * @class SKDebugView
+     * @augments Backbone.View
+     */
     SKDebugView = Backbone.View.extend(
-        /** @lends SKDebugView.prototype */
+
         {
             'events':{
                 'click .set-time':                 'doSetTime',
@@ -15,6 +18,10 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 'click .send-email-ms':            'doSendMs'
             },
 
+            /**
+             * Constructor
+             * @method initialize
+             */
             'initialize':function () {
                 this.render();
             },

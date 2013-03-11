@@ -3,7 +3,6 @@ define([], function () {
     "use strict";
     /**
      * @class
-     * @constructor initialize
      */
     var event_types = {
         'M':  'mail',
@@ -16,8 +15,8 @@ define([], function () {
     /**
      * Объект события
      *
-     * @extends Backbone.Model
      * @class SKEvent
+     * @augments Backbone.Model
      */
     window.SKEvent = Backbone.Model.extend({
         /**

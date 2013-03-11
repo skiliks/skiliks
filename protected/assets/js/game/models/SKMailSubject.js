@@ -5,7 +5,7 @@
     "use strict";
     /**
      * @class SKMailSubject
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKMailSubject = Backbone.Model.extend({
         // @var string

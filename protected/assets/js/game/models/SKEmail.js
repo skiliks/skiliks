@@ -7,7 +7,7 @@ define([] ,function() {
     "use strict";
     /**
      * @class SKEmail
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     SKEmail = Backbone.Model.extend({
         // @var integer, MySQL id

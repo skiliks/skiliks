@@ -5,16 +5,37 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
      * Оконный менеджер, содержит в себе все окна
      *
      * @class SKWindowSet
-     * @constructor initialize
+     * @augments Backbone.Collection
      */
     window.SKWindowSet = Backbone.Collection.extend({
+
+        /**
+         * @property model
+         * @type SKWindow
+         * @default SKWindow
+         */
         model:          SKWindow,
+
+        /**
+         * @property window_classes
+         * @type array
+         * @default array
+         */
         window_classes: {
             'phone/phoneTalk':     SKDialogWindow,
             'phone/phoneCall':     SKDialogWindow,
             'visitor/visitorTalk': SKDialogWindow
         },
 
+        /**
+         * Constructor
+         *
+         * @method initialize
+         * @param models
+         * @param options
+         * @return void
+         * @throw Exception
+         */
         'initialize': function (models, options) {
             if (options.events === undefined) {
                 throw 'SKWindowSet requires events';
@@ -44,14 +65,22 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
 
         },
 
+        /**
+         * @method comparator
+         * @param window
+         * @returns integer
+         */
         comparator: function (window) {
             return this.get('zindex');
         },
 
         /**
          * Добавляет в список окон окно, активирует его и деактивирует предыдущее (если было)
+         *
+         * @method showWindow
          * @param {SKWindow} win
          * @method showWindow
+         * @return void
          */
         'showWindow': function (win) {
             if (win.single === true && this.get(win)) {
@@ -64,6 +93,13 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
             win.activate();
         },
 
+        /**
+         * @method toggle
+         * @param name
+         * @param subname
+         * @param params
+         * @return void
+         */
         toggle: function (name, subname, params) {
             var windows = this.where({name: name, subname: subname});
             if (windows.length !== 0) {
@@ -84,9 +120,12 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
 
         /**
          * Just opens window or nothing if opened
+         *
+         * @method open
          * @param name
          * @param subname
          * @param params
+         * @return SKWindow
          */
         open: function (name, subname, params) {
             var windows = this.where({name: name, subname: subname});
@@ -109,6 +148,11 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
             }
         },
 
+        /**
+         * @method hideWindow
+         * @param win
+         * @return void
+         */
         'hideWindow': function (win) {
             this.remove(win);
             win.deactivate();
@@ -117,7 +161,10 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
             }
         },
 
-        //TODO:работает?
+        /**
+         * @method closeAll
+         * @return void
+         */
         'closeAll':   function () {
             var name;
             if (arguments.length === 1) {

@@ -15,9 +15,7 @@ define([
     /**
      * Отображение визита пользователя
      * @class SKVisitView
-     * @constructs
-     * @extends {SKWindowView}
-     * @type {SKWindowView}
+     * @augments Backbone.View
      */
     SKVisitView = SKWindowView.extend(
         /** @lends SKVisitView.prototype */
@@ -28,7 +26,10 @@ define([
                 "click .visitor-allow":'allow',
                 "click .visitor-deny":'deny'
             }, SKWindowView.prototype.events),
-            
+            /**
+             * Constructor
+             * @method initialize
+             */
             'initialize':function () {
                 var me = this;
                 SKWindowView.prototype.initialize.call(this);

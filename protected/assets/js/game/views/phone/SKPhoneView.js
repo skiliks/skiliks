@@ -18,7 +18,10 @@ define([
         main_template
     ) {
     "use strict";
-
+    /**
+     * @class SKPhoneView
+     * @augments Backbone.View
+     */
     SKPhoneView = SKWindowView.extend({
         title: "Телефон",
         events:_.defaults({
