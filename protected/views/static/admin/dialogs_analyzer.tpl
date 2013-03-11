@@ -133,15 +133,23 @@
                                         {foreach $aEvent->replicas as $step}
                                             <td class="span1" style="width: 140px;">
                                             <span class="badge">{$i}</span> <br/>
+                                            <!-- step No -->
                                             {foreach $step as $replica}
                                                 <span class="badge badge-inverse" title="{$replica->text}">
                                                     {$replica->replica_number}</span>
-
+                                                    <!-- replica No -->
                                                     <a href="#{$replica->next_event_code}"
                                                        title="{$analyzer->getEventTitleByCode($replica->next_event_code)}">
                                                         {$replica->next_event_code}</a>
                                                         {$analyzer->getFormattedReplicaFlag($replica)}
                                                 <br/>
+                                                <!-- flag block replica -->
+                                                {if (isset($analyzer->flagsBlockReplica[$replica->id])) }
+                                                    {$replica->replica_number} Need:
+                                                    {foreach $analyzer->flagsBlockReplica[$replica->id] as $flagBlock}
+                                                        {$flagBlock->flag_code}<br/>
+                                                    {/foreach}
+                                                {/if}
                                             {/foreach}
                                             </td>
                                             {$i = $i + 1}
@@ -223,8 +231,10 @@
                         <tr>
                             {foreach $aEvent->replicas as $step}
                                 <td class="span1" style="width: 140px;">
+                                    <!-- step No -->
                                     <span class="badge">{$i}</span> <br/>
                                     {foreach $step as $replica}
+                                        <!-- replica No -->
                                         <span class="badge badge-inverse" title="{$replica->text}">
                                             {$replica->replica_number}</span>
 
@@ -233,6 +243,13 @@
                                             {$replica->next_event_code}</a>
                                             {$analyzer->getFormattedReplicaFlag($replica)}
                                         <br/>
+                                        <!-- flag block replica -->
+                                        {if (isset($analyzer->flagsBlockReplica[$replica->id])) }
+                                            {$replica->replica_number} Need:
+                                            {foreach $analyzer->flagsBlockReplica[$replica->id] as $flagBlock}
+                                                {$flagBlock->flag_code}<br/>
+                                            {/foreach}
+                                        {/if}
                                     {/foreach}
                                 </td>
                                 {$i = $i + 1}
