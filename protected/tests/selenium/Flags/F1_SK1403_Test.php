@@ -28,7 +28,7 @@ class F1_SK1403_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F1','1'));
 
-        $hours = $this->transfer_time(10);
+        $hours = $this->transfer_time(9);
 
         $this->waitForVisible("xpath=(//*[contains(text(),'У меня нет слов от возмущения')])");
         $this->assertTextPresent("У меня нет слов от возмущения");
