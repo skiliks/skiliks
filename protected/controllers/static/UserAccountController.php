@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UserAccountController extends AjaxController
+class UserAccountController extends YumController
 {
     /**
      * @var YumUser
@@ -215,14 +215,14 @@ class UserAccountController extends AjaxController
         }
         $activation_url = $user->getActivationUrl();
 
-        $body = strtr($this->textActivationBody, array(
+        $body = strtr("Hello {username}, your activation url <a href='{activation_url}'>activate</a>", array(
             '{username}' => $user->username,
             '{activation_url}' => $activation_url));
 
         $mail = array(
             'from' => Yum::module('registration')->registrationEmail,
             'to' => $user->profile->email,
-            'subject' => strtr($this->textActivationSubject, array(
+            'subject' => strtr("Hello dear {username}", array(
                 '{username}' => $user->username)),
             'body' => $body,
         );

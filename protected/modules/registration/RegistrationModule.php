@@ -17,7 +17,8 @@ class RegistrationModule extends CWebModule {
 	// Whether to confirm the activation of an user by email
 	public $enableActivationConfirmation = true; 
 
-	public $registrationEmail='register@website.com';
+	public $registrationEmail='support@skiliks.com';
+    public $adminEmail = 'support@skiliks.com';
 	public $recoveryEmail='restore@website.com';
 
 	// Which roles should be assigned automatically to a registered user 
