@@ -1,17 +1,16 @@
 /*global Backbone:false, console, SKApp, session */
 
 define(["game/models/window/SKWindow"],function () {
-    /**
-     * @class SKWindowLog
-     * @constructor initialize
-     */
     "use strict";
     /**
      * @class SKWindowLog
-     * @constructs
-     * @type {*}
+     * @augments Backbone.Model
      */
     window.SKWindowLog = Backbone.Model.extend({
+        /**
+         * Constructor
+         * @method initialize
+         */
         'initialize': function () {
             this.log = [];
         },

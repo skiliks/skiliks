@@ -13,6 +13,10 @@ define([
     ) {
     "use strict";
 
+    /**
+     * @class SKMailAddToPlanDialog
+     * @augments Backbone.View
+     */
     SKMailAddToPlanDialog = SKDialogView.extend({
         /**
          * Used to add reverce link from view to it`s model
@@ -29,6 +33,10 @@ define([
             'click .mail-plan-item':                            'doSelectItem'
         },
 
+        /**
+         * Constructor
+         * @method initialize
+         */
         initialize:function () {
             var me = this;
 

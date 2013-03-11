@@ -11,8 +11,7 @@ define([
          * Панель с иконками. Слушает коллекцию events, обновляет счетчики и прыгает иконки
          *
          * @class SKIconPanelView
-         * @constructs
-         * @type {*}
+         * @augments Backbone.View
          */
         SKIconPanelView = Backbone.View.extend(
             {
@@ -36,6 +35,10 @@ define([
                     'click .icons-panel .only-active:not(.icon-active) a':                      'doNothing'
                 },
 
+                /**
+                 * Constructor
+                 * @method initialize
+                 */
                 initialize: function () {
                     var me = this;
                     me.icon_lock = {};

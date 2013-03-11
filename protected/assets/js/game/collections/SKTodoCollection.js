@@ -4,7 +4,7 @@ define(["game/models/SKTodoTask"], function () {
     "use strict";
     /**
      * @class SKTodoCollection
-     * @constructor void
+     * @augments Backbone.Collection
      */
     SKTodoCollection = Backbone.Collection.extend({
         /**

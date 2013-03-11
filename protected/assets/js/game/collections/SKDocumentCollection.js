@@ -4,7 +4,7 @@ define(["game/models/SKDocument"], function () {
     "use strict";
     /**
      * @class SKEventCollection
-     * @constructor void
+     * @augments Backbone.Collection
      */
     SKDocumentCollection = Backbone.Collection.extend({
         /**

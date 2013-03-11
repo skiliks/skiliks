@@ -14,7 +14,7 @@ define([
     "game/collections/SKDayTaskCollection",
     "game/collections/SKDocumentCollection",
     "game/models/window/SKWindowLog",
-    "game/models/window/SKWindowSet"
+    "game/collections/SKWindowSet"
 
 ],function (
     SKMailClient
@@ -35,11 +35,15 @@ define([
      * события)
      *
      * @class SKSimulation
-     * @constructor
+     * @augments Backbone.Model
      */
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
+            /**;
+             * Constructor
+             * @method initialize
+             */
             'initialize':function () {
                 var me = this;
 

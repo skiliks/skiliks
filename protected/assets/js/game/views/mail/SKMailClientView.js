@@ -37,7 +37,7 @@ define([
     "use strict";
     /**
      * @class SKMailClientView
-     * @type {*}
+     * @augments Backbone.View
      */
     SKMailClientView = SKWindowView.extend(
         /** @lends SKMailClientView.prototype */
@@ -89,6 +89,10 @@ define([
                 'click .switch-size': 'doSwitchNewLetterView'
             }, SKWindowView.prototype.events),
 
+            /**
+             * Constructor
+             * @method initialize
+             */
             initialize: function () {
                 var me = this;
                 this.mailClient = SKApp.user.simulation.mailClient;

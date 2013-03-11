@@ -19,13 +19,15 @@ define([
      * авторизации
      *
      * @class SKApplicationView
-     * @constructor
-     * @extends {Backbone.View}
-     * @type {*}
+     * @augments Backbone.View
      */
     SKApplicationView = Backbone.View.extend({
 
         'el':'body',
+        /**
+         * Constructor
+         * @method initialize
+         */
         'initialize':function () {
             var me = this;
             SKApp.session.on('login:failure logout', function (error_type) {

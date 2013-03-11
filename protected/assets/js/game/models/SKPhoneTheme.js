@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKPhoneTheme
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKPhoneTheme = Backbone.Model.extend({
         idAttribute: 'themeId'

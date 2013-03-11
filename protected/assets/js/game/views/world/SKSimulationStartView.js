@@ -14,8 +14,7 @@ define([
     "use strict";
     /**
      * @class SKSimulationStartView
-     * @constructs
-     * @type {*}
+     * @augments Backbone.View
      */
     SKSimulationStartView = Backbone.View.extend({
         'el': 'body',

@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKPhoneContact
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKPhoneContact = Backbone.Model.extend({
     });

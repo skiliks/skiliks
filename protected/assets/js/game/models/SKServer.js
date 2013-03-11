@@ -1,18 +1,15 @@
-/**
- * Взаимодействие с сервером через API. Запросы посылаются POST-ом, в каждый добавляется параметр sid
- *
- * Поддерживается xdebug в ajax-запросах
- *
- * @class SKServer
- * @constructor
- */
+
 define(["jquery/jquery.cookies"], function () {
     "use strict";
-    var SKServer = Backbone.Model.extend(
-        /**
-         * @lends SKServer.prototype
-         */
-        {
+    /**
+     * Взаимодействие с сервером через API. Запросы посылаются POST-ом, в каждый добавляется параметр sid
+     *
+     * Поддерживается xdebug в ajax-запросах
+     *
+     * @class SKServer
+     * @augments Backbone.Model
+     */
+    var SKServer = Backbone.Model.extend({
             /**
              * @private
              * @property api_root

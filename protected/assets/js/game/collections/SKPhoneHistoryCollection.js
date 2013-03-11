@@ -4,7 +4,7 @@ define(["game/models/SKPhoneHistory"], function () {
     "use strict";
     /**
      * @class SKPhoneHistoryCollection
-     * @constructor void
+     * @augments Backbone.Collection
      */
     SKPhoneHistoryCollection = Backbone.Collection.extend({
         /**

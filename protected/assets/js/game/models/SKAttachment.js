@@ -6,7 +6,7 @@ define([], function() {
     "use strict";
     /**
      * @class SKAttachment
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     SKAttachment = Backbone.Model.extend({
         // @var string, 'D1', 'D2'

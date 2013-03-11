@@ -6,12 +6,14 @@ define(['game/models/SKSimulation'],function (SKSimulation) {
      * Пользователь. Может логиниться и разлогиниваться пока
      *
      * @class SKUser
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     SKUser = Backbone.Model.extend(
         /** @lends SKUser */
         {
             /**
+             * Constructor
+             * @method initialize
              * @param {Array} simulations available simulation types
              */
             'initialize':function (simulations) {

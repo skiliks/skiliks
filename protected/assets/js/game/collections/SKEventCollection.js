@@ -13,7 +13,7 @@ define(["game/models/SKEvent"], function () {
      * 3. completed — событие завершилось
      *
      * @class SKEventCollection
-     * @constructor initialize
+     * @augments Backbone.Collection
      */
     SKEventCollection = Backbone.Collection.extend(
         /**

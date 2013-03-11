@@ -6,7 +6,7 @@ var SKMailTask;
     "use strict";
     /**
      * @class SKMailTask
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     SKMailTask = Backbone.Model.extend({
         // @var integer
@@ -20,9 +20,7 @@ var SKMailTask;
         
         // @var string, to provide easy I18N
         minuteslabel: 'мин',
-        
-        initialize: function() { },
-        
+
         getFormatedDuration: function() {
             return this.duration + ' ' + this.minuteslabel;
         }

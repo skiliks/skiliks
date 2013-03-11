@@ -16,7 +16,8 @@ define([
     "use strict";
 
     /**
-     * @type {SKDayPlanView}
+     * @class SKDayPlanView
+     * @augments Backbone.View
      */
     SKDayPlanView = SKWindowView.extend(
         /** @lends SKDayPlanView.prototype */
@@ -269,15 +270,6 @@ define([
 
                     // count time pieces
                     var rowsCount = currentRow.parent().parent().find('tr').length;
-
-                    // autoscroll to bottom
-                    /* if (currentRow.index() < rowsCount && 0.75*rowsCount < currentRow.index()) {
-                        currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'last');
-                    }else
-                    // autoscroll to top
-                        if (1 < currentRow.index() && currentRow.index() < 0.5*rowsCount) {
-                        currentRow.parent().parent().parent().parent().parent().mCustomScrollbar('scrollTo', 'first');
-                    }  */
 
                     // highlight time pieces {
                     $('.planner-book-timetable-table tr, .planner-book-after-vacation tr')

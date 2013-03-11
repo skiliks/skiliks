@@ -6,22 +6,17 @@ define(["game/models/SKUser"], function (SKUser) {
      * Сессия текущего пользователя. Есть у всех — авторизованных и неавторизованных пользователей
      *
      * @class SKSession
-     * @constructor
-     * @extends Backbone.Model
-     * @type {*}
-     */
-
-    /**
-     * Произошла ошибка авторизации
-     * @param {*} error тип ошибки (неверная сессия или неверно введен пароль)
-     * @event login:failure
-     */
-
-    /**
-     * Случается если пользователь успешно авторизован и с ним можно делать все, что угодно
-     * @event login:success
+     * @augments Backbone.Model
      */
     var SKSession = Backbone.Model.extend({
+        /**
+         * Произошла ошибка авторизации
+         * @param {*} error тип ошибки (неверная сессия или неверно введен пароль)
+         * @event login:failure
+         *
+         * Случается если пользователь успешно авторизован и с ним можно делать все, что угодно
+         * @event login:success
+         */
         'check':function () {
             var me = this;
             SKApp.server.api('static/auth/checkSession', {}, function (data) {

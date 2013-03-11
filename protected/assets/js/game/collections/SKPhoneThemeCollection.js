@@ -5,7 +5,7 @@ var SKPhoneThemeCollection;
     "use strict";
     /**
      * @class SKPhoneThemeCollection
-     * @constructor initialize
+     * @augments Backbone.Collection
      */
     SKPhoneThemeCollection = Backbone.Collection.extend({
         /**

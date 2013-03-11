@@ -8,7 +8,15 @@ define([
     settings_template
     ){
     "use strict";
+    /**
+     * class SKSettingsView
+     * @augments Backbone.View
+     */
     SKSettingsView = Backbone.View.extend({
+        /**
+         * Constructor
+         * @method initialize
+         */
         'initialize': function () {
             this.render();
         },

@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKPhoneHistory
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKPhoneHistory = Backbone.Model.extend({
         defaults: {

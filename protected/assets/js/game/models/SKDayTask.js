@@ -4,7 +4,7 @@
     "use strict";
     /**
      * @class SKDayTask
-     * @constructor initialize
+     * @augments Backbone.Model
      */
     window.SKDayTask = Backbone.Model.extend({
         idAttribute: 'task_id',
