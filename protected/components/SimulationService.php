@@ -165,28 +165,17 @@ class SimulationService
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
         // @todo: fix this relation to logHelper
-        $data = $simulation->getAssessmentPointDetails();
+        $data = $simulation->assessment_detail;
 
         $behaviours = array();
 
         foreach ($data as $line) {
-            if (is_array($line)) {
+            $pointCode = $line->point->code;
 
-                $pointCode = $line['code'];
-                $add_value = $line['add_value'];
-            } else if ($line instanceof AssessmentDetail) {
-                $pointCode = $line->point->code;
-                $add_value = $line->getReplicaPoint()->add_value;
-            } else {
-                $pointCode = $line->point->code;
-                $add_value = $line->value;
-            }
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
             }
-
-            $behaviours[$pointCode]->update($add_value);
-
+            $behaviours[$pointCode]->update($line->getAddValue());
         }
 
         // add Point object
