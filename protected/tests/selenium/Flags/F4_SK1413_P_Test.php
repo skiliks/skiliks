@@ -220,3 +220,6 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->click("css=input.btn.btn-simulation-stop");
     }
 }
+/**
+ * @}
+ */
