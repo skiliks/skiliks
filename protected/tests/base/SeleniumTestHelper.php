@@ -7,6 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 /**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
  * Класс с методами для Selenium Test(-ов)
  */
 class SeleniumTestHelper extends CWebTestCase
