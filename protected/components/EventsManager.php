@@ -27,7 +27,7 @@ class EventsManager {
             
             // если надо очищаем оценки  для текущей симуляции
             if ($clearAssessment) {
-                LogDialogPoint::model()->deleteAll("sim_id={$simulation->id}");
+                AssessmentDetail::model()->deleteAll("sim_id={$simulation->id}");
             }
 
             $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);

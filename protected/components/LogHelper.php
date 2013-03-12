@@ -165,9 +165,9 @@ class LogHelper
      * @param int $simId ID    - Симуляция
      * @param int $pointId ID  - Поинт с таблицы `characters_points_titles`
      */
-    public static function setLogDialogPoint($dialogId, $simId, $pointId)
+    public static function setDialogPoint($dialogId, $simId, $pointId)
     {
-        $log = new LogDialogPoint();
+        $log = new AssessmentDetail();
         $log->sim_id = $simId;
         $log->dialog_id = $dialogId;
         $log->point_id = $pointId;
