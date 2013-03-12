@@ -263,5 +263,10 @@ class UserAccountController extends YumController
                 'error' => $status));
     }
 
+    public function actionResults()
+    {
+        $this->render('results');
+    }
+
 }
 
