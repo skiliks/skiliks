@@ -1,22 +1,29 @@
 <?php
 
 /**
- * This is the model class for table "log_dialog_points".
+ * This is the model class for table "assessment_detail".
  *
- * The followings are the available columns in table 'log_dialog_points':
+ * The followings are the available columns in table 'assessment_detail':
  * @property integer $id
  * @property integer $sim_id
  * @property integer $point_id
  * @property integer $dialog_id
+ * @property integer $task_id
+ * @property integer $mail_id
+ *
+ * The followings are the available model relations:
+ * @property Replica $dialog
+ * @property MailBox $mail
  * @property HeroBehaviour $point
- * @property Replica replica
+ * @property Simulation $sim
+ * @property Todo $task
  */
-class LogDialogPoint extends CActiveRecord
+class AssessmentDetail extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return LogDialogPoint the static model class
+	 * @return AssessmentDetail the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +35,7 @@ class LogDialogPoint extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'log_dialog_points';
+		return 'assessment_detail';
 	}
 
 	/**
@@ -40,10 +47,10 @@ class LogDialogPoint extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('sim_id', 'required'),
-			array('sim_id, point_id, dialog_id', 'numerical', 'integerOnly'=>true),
+			array('sim_id, point_id, dialog_id, task_id, mail_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, point_id, dialog_id', 'safe', 'on'=>'search'),
+			array('id, sim_id, point_id, dialog_id, task_id, mail_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -54,11 +61,13 @@ class LogDialogPoint extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-        return array(
-            'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
-            'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
-            'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
-        );
+		return array(
+			'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+			'mail' => array(self::BELONGS_TO, 'MailBox', 'mail_id'),
+			'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'task' => array(self::BELONGS_TO, 'Todo', 'task_id'),
+		);
 	}
 
 	/**
@@ -68,19 +77,13 @@ class LogDialogPoint extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'sim_id' => 'Simulation',
 			'point_id' => 'Point',
-			'dialog_id' => 'Dialog',
+			'dialog_id' => 'Replica',
+			'task_id' => 'Task',
+			'mail_id' => 'Mail',
 		);
 	}
-
-    /**
-     * @return ReplicaPoint
-     */
-    public function getReplicaPoint()
-    {
-        return ReplicaPoint::model()->findByAttributes(['point_id' => $this->point_id, 'dialog_id' => $this->dialog_id]);
-    }
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -97,9 +100,19 @@ class LogDialogPoint extends CActiveRecord
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('point_id',$this->point_id);
 		$criteria->compare('dialog_id',$this->dialog_id);
+		$criteria->compare('task_id',$this->task_id);
+		$criteria->compare('mail_id',$this->mail_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * @return ReplicaPoint
+     */
+    public function getReplicaPoint()
+    {
+        return ReplicaPoint::model()->findByAttributes(['point_id' => $this->point_id, 'dialog_id' => $this->dialog_id]);
+    }
 }
