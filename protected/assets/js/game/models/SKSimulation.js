@@ -279,7 +279,11 @@ define([
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    me.trigger('stop', data);
+                    if(SKApp.user.simulation.get('result-url') === undefined){
+                        SKApp.user.simulation.set('result-url', data.redirect);
+                    }
+
+                    me.trigger('stop');
                 });
             },
 
