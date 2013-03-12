@@ -118,7 +118,7 @@ class AssessmentDetail extends CActiveRecord
         if ($this->dialog_id) {
             $entity = ReplicaPoint::model()->findByAttributes(['point_id' => $this->point_id, 'dialog_id' => $this->dialog_id]);
         } elseif ($this->mail_id) {
-            $entity = MailPoint::model()->findByAttributes(['point_id' => $this->point_id, 'mail_id' => $this->mail_id]);
+            $entity = MailPoint::model()->findByAttributes(['point_id' => $this->point_id, 'mail_id' => $this->mail->template_id]);
         } elseif ($this->task_id) {
             throw new Exception('Not implemented yet');
         } else {

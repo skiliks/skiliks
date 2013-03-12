@@ -156,7 +156,7 @@ class LogMail extends CActiveRecord
                     $assessmentPoint = new AssessmentDetail();
                     $assessmentPoint->sim_id = $this->sim_id;
                     $assessmentPoint->point_id = $mailPoint->point_id;
-                    $assessmentPoint->mail_id = $template->id;
+                    $assessmentPoint->mail_id = $this->mail_id;
 
                     $assessmentPoint->save();
                 }
