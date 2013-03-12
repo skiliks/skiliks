@@ -776,6 +776,7 @@ class MailBoxService
         $sendEmail->readed = 0;
 
         $sendEmail->letter_type = $sendMailOptions->getLetterType();
+
         if ($letterType != 'new') {
             $sendEmail->message_id = $sendMailOptions->messageId;
         }

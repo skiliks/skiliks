@@ -247,7 +247,7 @@ class EmailAnalizer
         foreach ($temp_log_mail as $mail) {
             $temp[] = array($mail->full_coincidence, $mail->mail_id);
             if(isset($this->userOutboxEmails[$mail->mail_id])
-                AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === 'replyAll'
+                AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === MailBox::TYPE_REPLY_ALL
                 AND $this->userOutboxEmails[$mail->mail_id]->email->group_id == 3) {
                 if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
                     $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
@@ -422,7 +422,7 @@ class EmailAnalizer
     }
     
     /**
-     * 3333 - correctly answer all uses
+     * 3333 -
      *
      * @return mixed array
      */
@@ -430,10 +430,11 @@ class EmailAnalizer
     {
         $wrongActions = 0;
         
-        // inbox + trashCan
-        if(count($this->reply_all)!= 0){
+        // outbox not MS
+        if (count($this->reply_all) != 0) {
             $wrongActions++;
         }
+
         foreach ($this->full_coincidence_reply_all as $coincidence) {
             if (!in_array($coincidence, $this->template_reply_all)) {
                 $wrongActions++;

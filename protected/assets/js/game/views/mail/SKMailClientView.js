@@ -2003,7 +2003,7 @@ define([
 
                 var response = this.mailClient.getDataForReplyAllToActiveEmail();
 
-                // strange, sometimes responce return to lile JSON but like some response object
+                // strange, sometimes response return to JSON but like some response object
                 // so we get JSON from it {
                 if (undefined == response.result && undefined !== response.responseText) {
                     response = $.parseJSON(response.responseText);

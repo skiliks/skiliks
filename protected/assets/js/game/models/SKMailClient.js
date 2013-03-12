@@ -1099,6 +1099,20 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                 }
 
+                var type = '';
+                if (this.activeScreen == this.screenWriteReplyAll) {
+                    type = 'replyAll';
+                }
+                if (this.activeScreen == this.screenWriteNewCustomEmail) {
+                    type = 'new';
+                }
+                if (this.activeScreen == this.screenWriteReply) {
+                    type = 'reply';
+                }
+                if (this.activeScreen == this.screenWriteForward) {
+                    type = 'forward';
+                }
+
                 return {
                     copies:emailToSave.getCopyToIdsString(),
                     fileId:emailToSave.getAttachmentId(),
@@ -1106,7 +1120,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     phrases:emailToSave.getPhrasesIdsString(),
                     receivers:emailToSave.getRecipientIdsString(),
                     subject:emailToSave.subject.characterSubjectId,
-                    time:SKApp.user.simulation.getGameTime()
+                    time:SKApp.user.simulation.getGameTime(),
+                    letterType: type
                 };
             },
 

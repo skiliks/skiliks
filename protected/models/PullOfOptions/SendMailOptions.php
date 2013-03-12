@@ -17,12 +17,17 @@ class SendMailOptions
     public $fileId     = NULL;
     public $subject_id  = NULL;
 
+    // is this email created by press 'Reply all'
+    public $is_reply_all = false;
+
     public $copies     = array();
     public $phrases    = array();
      
     private $letterType = NULL;
      
     private $recipients  = array();
+
+    const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
      
      /**
       * @return bool

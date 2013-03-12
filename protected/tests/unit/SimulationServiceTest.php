@@ -1341,6 +1341,7 @@ class SimulationServiceTest extends CDbTestCase
 
             $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregated[$scaleType], 2));
         }
+
         $this->assertEquals(0.56, array_sum($delta));
     }
 }
