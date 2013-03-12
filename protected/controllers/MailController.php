@@ -107,14 +107,14 @@ class MailController extends AjaxController
         }
 
         // more sendMessagePro options
-        $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = Yii::app()->request->getParam('messageId', 0);
-        $sendMailOptions->time = Yii::app()->request->getParam('time', NULL);
-        $sendMailOptions->copies     = Yii::app()->request->getParam('copies', array());
-        $sendMailOptions->phrases    = Yii::app()->request->getParam('phrases', array());
-        $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
-        $sendMailOptions->subject_id    = Yii::app()->request->getParam('subject', NULL);
-        
+        $sendMailOptions->simulation   = $simulation;
+        $sendMailOptions->messageId    = Yii::app()->request->getParam('messageId', 0);
+        $sendMailOptions->time         = Yii::app()->request->getParam('time', NULL);
+        $sendMailOptions->copies       = Yii::app()->request->getParam('copies', array());
+        $sendMailOptions->phrases      = Yii::app()->request->getParam('phrases', array());
+        $sendMailOptions->fileId       = (int)Yii::app()->request->getParam('fileId', 0);
+        $sendMailOptions->subject_id   = Yii::app()->request->getParam('subject', NULL);
+
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
         
         // key Action
@@ -147,7 +147,6 @@ class MailController extends AjaxController
         $sendMailOptions->fileId     = (int)Yii::app()->request->getParam('fileId', 0);
         $sendMailOptions->subject_id    = Yii::app()->request->getParam('subject', NULL);
         $sendMailOptions->setLetterType(Yii::app()->request->getParam('letterType', NULL));
-
 
         $email = MailBoxService::saveDraft($sendMailOptions);
 
@@ -375,7 +374,11 @@ class MailController extends AjaxController
         $email = MailBox::model()->findByPk((int)Yii::app()->request->getParam('id', 0));
         
         $this->sendJSON(array(
-            'result' => (int)MailBoxService::sendDraft($simulation, $email),
+            'result' => (int)MailBoxService::sendDraft(
+                $simulation,
+                $email,
+                Yii::app()->request->getParam('screen', null)
+            ),
         ));
     }
 
