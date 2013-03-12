@@ -39,9 +39,16 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
 
+        #TODO: сделать без привязки к таблице
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        #TODO: сделать без слипа и без привязки к таблице
-        sleep(15);
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible("id=assessment-results")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+
         $this->assertText("//table[4]/tbody/tr[6]/td[4]","0.666667");
         $this->assertText("//table[4]/tbody/tr[17]/td[4]","1");
         $this->assertText("//table[4]/tbody/tr[14]/td[4]","1");
