@@ -311,7 +311,7 @@ class MailBoxTest extends CDbTestCase
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
 
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
@@ -351,6 +351,34 @@ class MailBoxTest extends CDbTestCase
         // MS27 }
 
         $this->assertEquals('MS27', $ms_27->code);
+    }
+
+    /**
+     * Проверяет чтоб не повторялся баг SKILIKS-1567
+     * 1. Неправильный конструктор в MS60
+     * 2. Неправильная тема при написании re: для M75
+     */
+    public function testSubjectForMS60()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
+
+
+        $m75 = MailBox::model()->findByAttributes([
+            'sim_id' => $simulation->id,
+            'code'   => 'M75'
+        ]);
+
+        $subject = MailBoxService::getSubjectForRepryEmail($m75);
+
+        // check constructor
+        $this->assertEquals('R14', $subject->constructor_number);
+
+        // check template
+        $this->assertEquals('MS60', $subject->letter_number);
     }
 }
 

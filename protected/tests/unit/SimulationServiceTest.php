@@ -53,7 +53,7 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
-            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
+            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
             
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
@@ -124,7 +124,7 @@ class SimulationServiceTest extends CDbTestCase
         
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setLogDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
+            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
             
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
@@ -1292,7 +1292,7 @@ class SimulationServiceTest extends CDbTestCase
             $points = ReplicaPoint::model()->byDialog($replica->id)->findAll();
             /** @var ReplicaPoint[] $points */
             foreach($points as $point) {
-                LogHelper::setLogDialogPoint($replica->id, $simulation->id, $point->point_id);
+                LogHelper::setDialogPoint($replica->id, $simulation->id, $point->point_id);
             }
         }
 
@@ -1316,7 +1316,7 @@ class SimulationServiceTest extends CDbTestCase
         $aggregatedPoints = $simulation->assessment_points;
 
         foreach ($detailPoints as $row) {
-            if ($row instanceof LogDialogPoint) {
+            if ($row instanceof AssessmentDetail) {
                 $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->getReplicaPoint()->add_value;
             } else if ($row instanceof SimulationMailPoint) {
                 $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->value;

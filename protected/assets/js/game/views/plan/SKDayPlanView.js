@@ -24,7 +24,7 @@ define([
 
         dimensions: {
             maxWidth: 1100,
-            height: 700
+            maxHeight: 700
         },
 
         'events':_.defaults(

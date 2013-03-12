@@ -174,7 +174,7 @@ class SimulationService
 
                 $pointCode = $line['code'];
                 $add_value = $line['add_value'];
-            } else if ($line instanceof LogDialogPoint) {
+            } else if ($line instanceof AssessmentDetail) {
                 $pointCode = $line->point->code;
                 $add_value = $line->getReplicaPoint()->add_value;
             } else {

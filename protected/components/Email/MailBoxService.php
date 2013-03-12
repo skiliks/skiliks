@@ -925,39 +925,7 @@ class MailBoxService
 
         return $result;
     }
-    
-    /**
-     * @params CommunicationTheme $messageToReply
-     */
-    public static function getSubjectForRepryEmail($messageToReply)
-    {
-        $previousEmalSubjectEntity = CommunicationTheme::model()->findByPk($messageToReply->subject_id);
-        
-        $mail_prefix = 're';
-        
-        switch($messageToReply->subject_obj->mail_prefix) {
-            case 're': 
-                $mail_prefix = 'rere';
-                break;
-            case 'rere': 
-                $mail_prefix = 'rerere';
-                break;
-            case 'fwd': 
-                $mail_prefix = 'refwd';
-                break;
-            case 'rerere': 
-                $mail_prefix = 'rererere';
-                break;
-        }
 
-        # TODO: refactor this. name is not unique
-        $subjectEntity = CommunicationTheme::model()->findByAttributes([
-            'text'        => $previousEmalSubjectEntity->text,
-            'mail_prefix' => $mail_prefix
-        ]); // lowercase is important for search!
-
-        return $subjectEntity;
-    }
 
     /**
      * @param MailBox $messageToReply
@@ -1061,6 +1029,21 @@ class MailBoxService
         MailBoxService::updateMsCoincidence($email->id, $simulation->id);
 
         return true;
+    }
+
+    /**
+     * @params CommunicationTheme $messageToReply
+     */
+    public static function getSubjectForRepryEmail($messageToReply)
+    {
+        $subjectEntity = CommunicationTheme::model()->findByAttributes([
+            'theme_usage'  => 'mail_outbox',
+            'character_id' => $messageToReply->sender_id,
+            'text'         => $messageToReply->subject_obj->text,
+            'mail_prefix'  => $messageToReply->subject_obj->getPrefixForReply()
+        ]); // lowercase is important for search!
+
+        return $subjectEntity;
     }
 
     /**

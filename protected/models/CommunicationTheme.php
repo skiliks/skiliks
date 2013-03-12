@@ -136,6 +136,31 @@ class CommunicationTheme extends CActiveRecord
         return $mail_prefix;
     }
 
+    /**
+     *
+     */
+    public function getPrefixForReply()
+    {
+        $mail_prefix = 're';
+
+        switch($this->mail_prefix) {
+            case 're':
+                $mail_prefix = 'rere';
+                break;
+            case 'rere':
+                $mail_prefix = 'rerere';
+                break;
+            case 'fwd':
+                $mail_prefix = 'refwd';
+                break;
+            case 'rerere':
+                $mail_prefix = 'rererere';
+                break;
+        }
+
+        return $mail_prefix;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**

@@ -90,7 +90,7 @@ namespace application\components\Logging {
 
                 $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);
                 foreach ($table->getHeaders() as $i => $title) {
-                    $worksheet->getColumnDimensionByColumn($i)->setAutoSize(true);
+                    $worksheet->getColumnDimensionByColumn($i)->setWidth(12);
                 }
 
             }

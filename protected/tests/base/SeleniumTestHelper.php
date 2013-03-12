@@ -1,14 +1,18 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: vad
- * Date: 27.02.13
- * Time: 17:07
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Класс с методами для Selenium Test(-ов)
  */
 class SeleniumTestHelper extends CWebTestCase
 {
-    //
+    /**
+     * start_simulation - это метод, который включает стандартные действия при начале симуляции
+     * (начиная с открытия окна браузера до самого входа в dev-режим).
+     * Пример использования - тест F1_SK1403_Test.php , строка 21
+     */
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
@@ -37,13 +41,21 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
+    /**
+     * run_event - это метод для запуска события по его Event_code.
+     * Пример использования - тест F1_SK1403_Test.php , строка 23
+     */
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
-    // звонок по телефону, когда телефон не активен (не движется)
+    /**
+     * call_phone - это метод для звонка по телефону, когда телефон не активен (иконка не движется).
+     * Где whom - это адресат письма, а theme - тема звонка.
+     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 59
+     */
     public function call_phone ($whom, $theme)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
@@ -58,34 +70,52 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click($theme);
     }
 
-    // ответить на входящий звонок, когда телефон активен (мигает)
+    /**
+     * reply_call - это метод для ответа на входящий звонок, когда телефон активен (иконка движется).
+     * Пример использования - ...
+     */
     public function reply_call ()
     {
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
-    // не ответить на входящий звонок, когда телефон активен (мигает)
+    /**
+     * no_reply_call - это метод для игнора входящего звонка, когда телефон активен (иконка движется).
+     * Пример использования - ...
+     */
     public function no_reply_call ()
     {
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
-    // создание письма, когда мейл-клиент активен (мигает)
+    /**
+     * write_mail_active - это метод для создания письма, когда мейл-клиент активен (иконка мигает).
+     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 144-147
+     */
     public function write_mail_active()
     {
         $this->optimal_click("css=li.icon-active.mail a");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
+    /**
+     * optimal_click - это метод для корректного нажатия на элемент (ожидание элемента и только потом нажатие).
+     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 36
+     */
     public function optimal_click ($loc)
     {
         $this->waitForVisible($loc);
         $this->click($loc);
     }
 
-    // для определения текущего времени
+    /**
+     * how_much_time - это метод для определения поточного игрового времени.
+     * Метод возвращает массив, где первый элемент - это поточное количество часов, а второй элемент -
+     * поточное количество минут.
+     * Пример использования - метод transfer_time (см. ниже)
+     */
     public function how_much_time ()
     {
         $time[0] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['hour']));
@@ -93,10 +123,12 @@ class SeleniumTestHelper extends CWebTestCase
         return $time;
     }
 
-    // для переноса времени на differ минут
-    // использовать для коректного изменения времени для выполнения событий,
-    // которые должны происходить с задержкой
-    // differ - колличество минут задежки
+    /**
+     * transfer_time - это метод для переноса времени на differ минут.
+     * Метод стоит использовать для коректного изменения времени для выполнения событий,
+     * которые должны происходить с задержкой, где differ -это колличество минут задежки.
+     * Пример использования - тест F14_SK1427_P_Test.php , строка 147
+     */
     public function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
@@ -115,11 +147,15 @@ class SeleniumTestHelper extends CWebTestCase
         return $time_array;
     }
 
-    // проверка выполнения или не выполнения действия (например, для проверки,
-    // что телефон не звонит на протяжении 1 реальной минуты)
-    // locator - локатор элемента, наличие которого мы проверяем
-    // возвращаем true, если произошло событие
-    // возвращаем false, если не произошло
+    /**
+     * is_it_done - это метод для проверки выполнения или не выполнения действия (например, для проверки,
+     * что телефон не звонит на протяжении 1 реальной минуты).
+     * locator - локатор элемента, наличие которого мы проверяем.
+     * Возвращаем true, если произошло событие и
+     * возвращаем false, если не произошло.
+     * Пример использования - тест F4_SK1413_N_Test.php , строка 49-52
+     * Пример использования - тест F4_SK1413_P_Test.php , строка 48-60
+     */
     public function is_it_done ($locator)
     {
         $was_done = false;
@@ -141,10 +177,14 @@ class SeleniumTestHelper extends CWebTestCase
         return $was_done;
     }
 
-    // метод для проверки, что значение флага num_flag поменялось
-    // и соответсвует значению ver_value
-    // возвращаем true, если поменялось
-    // возвращаем false, если не изменилось
+
+    /**
+     * verify_flag - это метод для проверки, что значение флага num_flag поменялось
+     * и соответсвует значению ver_value.
+     * Возвращаем true, если поменялось значение флага и
+     * возвращаем false, если не изменилось.
+     * Пример использования - тест F3_SK1338-SK1341_Test.php , строка 54
+     */
     public function verify_flag ($num_flag, $ver_value)
     {
         $was_changed=false;
@@ -169,10 +209,13 @@ class SeleniumTestHelper extends CWebTestCase
         return $was_changed;
     }
 
-    // метод для проверки, что необходимое письмо пришло
-    // mail_theme - тема письма, которое мы ожидаем
-    // возвращаем true, если пришло
-    // возвращаем false, если не пришло
+    /**
+     * mail_comes - это метод для проверки, что необходимое письмо пришло.
+     * mail_theme - тема письма, которое мы ожидаем.
+     * Возвращаем true, если пришло письмо с необходимой темой и
+     * возвращаем false, если не пришло.
+     * Пример использования - тест F14_SK1427_P_Test.php , строка 51-55
+     */
     public function mail_comes ($mail_theme)
     {
         $is_here=false;

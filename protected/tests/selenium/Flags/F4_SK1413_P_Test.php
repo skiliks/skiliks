@@ -1,10 +1,10 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: tania
- * Date: 3/4/13
- * Time: 11:07 PM
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тесты (позитивные) на тестирование флага F4 (для SK1413)
  */
 class F4_SK1413_P_Test extends SeleniumTestHelper
 {
@@ -15,8 +15,20 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
+    /**
+     * testSK1413_P_Case1() тестирует задачу SKILIKS-1413
+     *
+     * 1. Запускаем E1.3
+     * 2. Кликаем по диалогу до фразы "Я тебе сейчас перешлю файл..."
+     * 3. Отправляем письмо MS22
+     * 4. Проверяем, что флаг F4 поменялся (F4=1)
+     * 5. Запускаем ET1.3.1
+     * 6. Проверяем, что телефон звонит (т.к. F4=1)
+     * 7. Если телефон звонит, то отвечаем на звонок
+     * 8. Проверяем, что требуемая фраза "Господи, да ведь там в вашем бюджете" появилась
+     * 9. Заканчиваем симуляцию
+     */
     public function testSK1413_P_Case1() {
-        // next line for not running the test
         //$this->markTestIncomplete();
         $this->start_simulation();
 
@@ -50,6 +62,19 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->click("css=input.btn.btn-simulation-stop");
     }
 
+    /**
+     * testSK1413_P_Case2() тестирует задачу SKILIKS-1413
+     *
+     * 1. Запускаем E1.3
+     * 2. Кликаем по диалогу до фразы "Однако тебе все-таки..."
+     * 3. Отправляем письмо MS22
+     * 4. Проверяем, что флаг F4 поменялся (F4=1)
+     * 5. Запускаем ET1.3.1
+     * 6. Проверяем, что телефон звонит (т.к. F4=1)
+     * 7. Если телефон звонит, то отвечаем на звонок
+     * 8. Проверяем, что требуемая фраза "Господи, да ведь там в вашем бюджете" появилась
+     * 9. Заканчиваем симуляцию
+     */
     public function testSK1413_P_Case2() {
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -88,6 +113,19 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->click("css=input.btn.btn-simulation-stop");
     }
 
+    /**
+     * testSK1413_P_Case3() тестирует задачу SKILIKS-1413
+     *
+     * 1. Запускаем E1.3
+     * 2. Кликаем по диалогу до фразы "Я тебе сейчас перешлю файл..."
+     * 3. Отправляем письмо MS22
+     * 4. Проверяем, что флаг F4 поменялся (F4=1)
+     * 5. Запускаем ET1.3.2
+     * 6. Проверяем, что телефон звонит (т.к. F4=1)
+     * 7. Если телефон звонит, то отвечаем на звонок
+     * 8. Проверяем, что требуемая фраза "Господи, и что же мне теперь делать" появилась
+     * 9. Заканчиваем симуляцию
+     */
     public function testSK1413_P_Case3() {
         //$this->markTestIncomplete();
         $this->start_simulation();
@@ -124,6 +162,19 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->click("css=input.btn.btn-simulation-stop");
     }
 
+    /**
+     * testSK1413_P_Case4() тестирует задачу SKILIKS-1413
+     *
+     * 1. Запускаем E1.3
+     * 2. Кликаем по диалогу до фразы "Однако тебе все-таки..."
+     * 3. Отправляем письмо MS22
+     * 4. Проверяем, что флаг F4 поменялся (F4=1)
+     * 5. Запускаем ET1.3.2
+     * 6. Проверяем, что телефон звонит (т.к. F4=1)
+     * 7. Если телефон звонит, то отвечаем на звонок
+     * 8. Проверяем, что требуемая фраза "Господи, и что же мне теперь делать" появилась
+     * 9. Заканчиваем симуляцию
+     */
     public function testSK1413_P_Case4() {
         //$this->markTestIncomplete();
         $this->start_simulation();
