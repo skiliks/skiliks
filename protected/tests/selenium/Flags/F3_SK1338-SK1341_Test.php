@@ -1,12 +1,5 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: tania
- * Date: 3/4/13
- * Time: 9:48 PM
- * To change this template use File | Settings | File Templates.
- */
-/**
  * \addtogroup Selenium
  * @{
  */

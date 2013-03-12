@@ -1,12 +1,5 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: tania
- * Date: 3/4/13
- * Time: 9:57 PM
- * To change this template use File | Settings | File Templates.
- */
-/**
  * \addtogroup Selenium
  * @{
  */
@@ -220,6 +213,3 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         $this->click("css=input.btn.btn-simulation-stop");
     }
 }
-/**
- * @}
- */
