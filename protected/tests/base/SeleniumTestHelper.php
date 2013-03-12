@@ -44,7 +44,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * run_event - это метод, для запуска события по его Event_code
+     * run_event - это метод для запуска события по его Event_code
      */
     public function run_event($event)
     {
@@ -53,7 +53,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * call_phone - это метод, для звонока по телефону, когда телефон не активен (иконка не движется)
+     * call_phone - это метод для звонка по телефону, когда телефон не активен (иконка не движется)
      */
     public function call_phone ($whom, $theme)
     {
@@ -70,7 +70,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * reply_call - это метод, для ответа на входящий звонок, когда телефон активен (иконка движется)
+     * reply_call - это метод для ответа на входящий звонок, когда телефон активен (иконка движется)
      */
     public function reply_call ()
     {
@@ -79,7 +79,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * no_reply_call - это метод, для игнора входящего звонка, когда телефон активен (иконка движется)
+     * no_reply_call - это метод для игнора входящего звонка, когда телефон активен (иконка движется)
      */
     public function no_reply_call ()
     {
@@ -88,7 +88,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * write_mail_active - это метод, для создание письма, когда мейл-клиент активен (иконка мигает)
+     * write_mail_active - это метод для создания письма, когда мейл-клиент активен (иконка мигает)
      */
     public function write_mail_active()
     {
@@ -97,7 +97,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * optimal_click - это метод, для корректного нажатия (ожидание элемента и только потом нажатие)
+     * optimal_click - это метод для корректного нажатия (ожидание элемента и только потом нажатие)
      */
     public function optimal_click ($loc)
     {
@@ -106,7 +106,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * how_much_time - это метод, для определения поточного игрового времени
+     * how_much_time - это метод для определения поточного игрового времени
      * метод возвращает массив
      */
     public function how_much_time ()
@@ -116,10 +116,11 @@ class SeleniumTestHelper extends CWebTestCase
         return $time;
     }
 
-    // для переноса времени на differ минут
-    // использовать для коректного изменения времени для выполнения событий,
-    // которые должны происходить с задержкой
-    // differ - колличество минут задежки
+    /**
+     * transfer_time - это метод для переноса времени на differ минут.
+     * Метод стоит использовать для коректного изменения времени для выполнения событий,
+     * которые должны происходить с задержкой, где differ -это колличество минут задежки
+     */
     public function transfer_time ($differ)
     {
         $time_array=$this->how_much_time(); //запускаем определение текущего времени
@@ -138,11 +139,13 @@ class SeleniumTestHelper extends CWebTestCase
         return $time_array;
     }
 
-    // проверка выполнения или не выполнения действия (например, для проверки,
-    // что телефон не звонит на протяжении 1 реальной минуты)
-    // locator - локатор элемента, наличие которого мы проверяем
-    // возвращаем true, если произошло событие
-    // возвращаем false, если не произошло
+    /**
+     * is_it_done - это метод для проверки выполнения или не выполнения действия (например, для проверки,
+     * что телефон не звонит на протяжении 1 реальной минуты)
+     * locator - локатор элемента, наличие которого мы проверяем
+     * возвращаем true, если произошло событие
+     * возвращаем false, если не произошло
+     */
     public function is_it_done ($locator)
     {
         $was_done = false;
@@ -164,10 +167,13 @@ class SeleniumTestHelper extends CWebTestCase
         return $was_done;
     }
 
-    // метод для проверки, что значение флага num_flag поменялось
-    // и соответсвует значению ver_value
-    // возвращаем true, если поменялось
-    // возвращаем false, если не изменилось
+
+    /**
+     * verify_flag - это метод для проверки, что значение флага num_flag поменялось
+     * и соответсвует значению ver_value
+     * возвращаем true, если поменялось
+     * возвращаем false, если не изменилось
+     */
     public function verify_flag ($num_flag, $ver_value)
     {
         $was_changed=false;
@@ -192,10 +198,12 @@ class SeleniumTestHelper extends CWebTestCase
         return $was_changed;
     }
 
-    // метод для проверки, что необходимое письмо пришло
-    // mail_theme - тема письма, которое мы ожидаем
-    // возвращаем true, если пришло
-    // возвращаем false, если не пришло
+    /**
+     * mail_comes - это метод для проверки, что необходимое письмо пришло
+     * mail_theme - тема письма, которое мы ожидаем
+     * возвращаем true, если пришло
+     * возвращаем false, если не пришло
+     */
     public function mail_comes ($mail_theme)
     {
         $is_here=false;
