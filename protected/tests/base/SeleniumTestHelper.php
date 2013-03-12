@@ -32,6 +32,7 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->click("xpath=//input[@value='Начать симуляцию developer']");
+
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {

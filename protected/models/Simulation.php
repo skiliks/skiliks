@@ -375,19 +375,6 @@ class Simulation extends CActiveRecord
     public function isDevelopMode() {
         return self::MODE_DEVELOPER_ID == $this->type;
     }
-
-    /**
-     *
-     */
-    public function getAssessmentPointDetails()
-    {
-        return array_merge(
-            $this->simulation_mail_points,
-            $this->assessment_detail,
-            # Todo handle this shit
-            LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->primaryKey])['data']
-        );
-    }
 }
 
 
