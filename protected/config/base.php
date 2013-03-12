@@ -99,7 +99,7 @@ return array(
         'usergroup'    => [],
     ),
     'sourceLanguage'    =>'en_US',
-    'language'          =>'ru_RU',
+    'language'          =>'en_US',
     'components' => array(
         'preload'=> array('log', 'RSentryException'),
         'assetManager' => [
