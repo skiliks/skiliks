@@ -31,7 +31,7 @@ define([
                 'background-color': '#fff',
                 'zIndex':   parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
                 'width':    el.width() - 4,
-                'height':   $('.xls-container').parent().parent().parent().height() - $('.xls-container').parent().parent().find('header').height(), //el.height(),
+                'height':   this.$('.xls-container').parent().parent().parent().height() - this.$('.xls-container').parent().parent().find('header').height(), //el.height(),
                 'left':     me.$el[0].offsetLeft,
                 'top':      el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position': 'absolute'
