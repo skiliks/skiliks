@@ -89,9 +89,9 @@ namespace application\components\Logging {
                 }
 
                 $worksheet->getStyle('A1:Z1')->applyFromArray(['font' => ['bold' => true]]);
-                #foreach ($table->getHeaders() as $i => $title) {
-                #    $worksheet->getColumnDimensionByColumn($i)->setAutoSize(true);
-                #}
+                foreach ($table->getHeaders() as $i => $title) {
+                    $worksheet->getColumnDimensionByColumn($i)->setWidth(12);
+                }
 
             }
             return new \PHPExcel_Writer_Excel2007($xls);
