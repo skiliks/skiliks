@@ -63,7 +63,7 @@ class AssessmentDetailTable extends LogTable
                 '-',
                 $outboxMail
             ];
-        } else if ($row instanceof \LogDialogPoint) {
+        } else if ($row instanceof \AssessmentDetail) {
             return [
                 $row->point->learning_goal->code,
                 $row->point->learning_goal->title,

@@ -12,7 +12,7 @@
  * @property LogMail[] log_mail
  * @property LogDialog[] log_dialogs
  * @property SimulationMailPoint[] simulation_mail_points
- * @property LogDialogPoint[] assessment_dialog_points
+ * @property AssessmentDetail[] assessment_detail
  * @property LogDocument[] log_documents
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
@@ -171,7 +171,7 @@ class Simulation extends CActiveRecord
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_points'               => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'simulation_assessment_rules'     => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
-            'assessment_dialog_points'        => [self::HAS_MANY, 'LogDialogPoint', 'sim_id'],
+            'assessment_detail'               => [self::HAS_MANY, 'AssessmentDetail', 'sim_id'],
             'simulation_mail_points'          => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
             'simulation_excel_points'          => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
         ];
@@ -383,7 +383,7 @@ class Simulation extends CActiveRecord
     {
         return array_merge(
             $this->simulation_mail_points,
-            $this->assessment_dialog_points,
+            $this->assessment_detail,
             # Todo handle this shit
             LogHelper::getMailPointsDetail(LogHelper::RETURN_DATA, ['sim_id' => $this->primaryKey])['data']
         );
