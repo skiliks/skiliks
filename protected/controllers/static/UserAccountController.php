@@ -69,9 +69,9 @@ class UserAccountController extends YumController
      */
     public function actionAfterRegistration()
     {
-        //$this->checkUser(); todo:Fix me
-
-        $this->render('afterRegistration', ['user' => $this->user]);
+        $this->render('afterRegistration', [
+            'user' => $this->user
+        ]);
     }
 
     /**
@@ -79,7 +79,9 @@ class UserAccountController extends YumController
      */
     public function actionErrorDuringRegistration()
     {
-        $this->render('errorDuringRegistration');
+        $this->render('errorDuringRegistration', [
+            'user' => $this->user
+        ]);
     }
 
     /**
@@ -87,8 +89,11 @@ class UserAccountController extends YumController
      */
     public function actionErrorYouHasAlreadyChooseAccount()
     {
+        $this->checkUser();
+
         $this->render('errorDuringRegistration', [
-            'error' => 'You has already choose account.'
+            'error' => 'You has already choose account.',
+            'user'  => $this->user
         ]);
     }
 
@@ -97,8 +102,11 @@ class UserAccountController extends YumController
      */
     public function actionErrorYourAccountNotActive()
     {
+        $this->checkUser();
+
         $this->render('errorDuringRegistration', [
-            'error' => 'Your account is not active.'
+            'error' => 'Your account is not active.',
+            'user'  => $this->user
         ]);
     }
 
@@ -107,7 +115,11 @@ class UserAccountController extends YumController
      */
     public function actionErrorSingInOrRegister()
     {
-        $this->render('errorSingInOrRegister');
+        $this->checkUser();
+
+        $this->render('errorSingInOrRegister', [
+            'user' => $this->user
+        ]);
     }
 
     /**
@@ -127,6 +139,8 @@ class UserAccountController extends YumController
      */
     public function actionChooseAccountType()
     {
+        $lang = substr(Yii::app()->language, 0, 2);
+
         $this->checkUser();
 
         // only activated user can choose account type
@@ -168,12 +182,12 @@ class UserAccountController extends YumController
         }
 
         $industries = [];
-        foreach (Industry::model()->findAllByAttributes(['language' => Yii::app()->language]) as $industry) {
+        foreach (Industry::model()->findAllByAttributes(['language' => $lang]) as $industry) {
             $industries[$industry->id] = $industry->label;
         }
 
         $positions = [];
-        foreach (Position::model()->findAllByAttributes(['language' => Yii::app()->language]) as $position) {
+        foreach (Position::model()->findAllByAttributes(['language' => $lang]) as $position) {
             $positions[$position->id] = $position->label;
         }
 
