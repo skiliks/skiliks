@@ -22,7 +22,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    // tests to checking the actions for status MAIL
     /**
      * testSK1427_Case1() тестирует задачу SKILIKS-1427 для статуса MAIL
      *
@@ -64,7 +63,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
     }
 
-    // tests to checking the actions for status DIALOG
     /**
      * testSK1427_Case2() тестирует задачу SKILIKS-1427 для статуса DIALOG
      *
@@ -105,7 +103,6 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
     }
 
-    // tests to checking the actions for status REPLICA
     /**
      * testSK1427_Case3_1() тестирует задачу SKILIKS-1427 для статуса REPLICA
      *
