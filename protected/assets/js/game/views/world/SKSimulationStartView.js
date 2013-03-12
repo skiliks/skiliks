@@ -44,11 +44,9 @@ define([
             simulation.on('start', function () {
                 simulation_view.render();
             });
-            this.listenTo(simulation, 'stop', function (data) {
+            this.listenTo(simulation, 'stop', function () {
                 delete me.simulation_view;
-                if(data.redirect !== undefined){
-                    location.pathname = data.redirect;
-                }
+                location.href = simulation.get('result-url');
             });
         },
 

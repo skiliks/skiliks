@@ -95,7 +95,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @method
          */
         doSimStopAndLoadLogs: function () {
-            SKApp.user.simulation.set('result-url', '/static/admin/displayLog?simulation=' + SKApp.user.simulation.id);
+            SKApp.user.simulation.set('result-url', 'admin/displayLog?simulation=' + SKApp.user.simulation.id);
             SKApp.user.stopSimulation();
         },
 
