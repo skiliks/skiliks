@@ -6,9 +6,19 @@
  * Time: 17:07
  * To change this template use File | Settings | File Templates.
  */
+/**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Класс с методами для Selenium Test(-ов)
+ */
 class SeleniumTestHelper extends CWebTestCase
 {
-    //
+    /**
+     * start_simulation - это метод, который включает стандартные действия при начале симуляции
+     * от открытия окна браузера до самого входа в dev-режим
+     */
     public function start_simulation()
     {
         $this->deleteAllVisibleCookies();
@@ -37,13 +47,18 @@ class SeleniumTestHelper extends CWebTestCase
         }
     }
 
+    /**
+     * run_event - это метод, для запуска события по его Event_code
+     */
     public function run_event($event)
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
     }
 
-    // звонок по телефону, когда телефон не активен (не движется)
+    /**
+     * call_phone - это метод, для звонока по телефону, когда телефон не активен (иконка не движется)
+     */
     public function call_phone ($whom, $theme)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);
@@ -58,34 +73,46 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click($theme);
     }
 
-    // ответить на входящий звонок, когда телефон активен (мигает)
+    /**
+     * reply_call - это метод, для ответа на входящий звонок, когда телефон активен (иконка движется)
+     */
     public function reply_call ()
     {
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
     }
 
-    // не ответить на входящий звонок, когда телефон активен (мигает)
+    /**
+     * no_reply_call - это метод, для игнора входящего звонка, когда телефон активен (иконка движется)
+     */
     public function no_reply_call ()
     {
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
     }
 
-    // создание письма, когда мейл-клиент активен (мигает)
+    /**
+     * write_mail_active - это метод, для создание письма, когда мейл-клиент активен (иконка мигает)
+     */
     public function write_mail_active()
     {
         $this->optimal_click("css=li.icon-active.mail a");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 
+    /**
+     * optimal_click - это метод, для корректного нажатия (ожидание элемента и только потом нажатие)
+     */
     public function optimal_click ($loc)
     {
         $this->waitForVisible($loc);
         $this->click($loc);
     }
 
-    // для определения текущего времени
+    /**
+     * how_much_time - это метод, для определения поточного игрового времени
+     * метод возвращает массив
+     */
     public function how_much_time ()
     {
         $time[0] = (int)($this->getText(Yii::app()->params['test_mappings']['time']['hour']));
