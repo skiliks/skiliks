@@ -144,6 +144,23 @@ class LogMail extends CActiveRecord
                 }
             };
 
+            $exists = AssessmentDetail::model()->findByAttributes([
+                'sim_id' => $this->sim_id,
+                'mail_id' => $template->id
+            ]);
+
+            if (empty($exists)) {
+                $mailPoints = MailPoint::model()->byMailId($template->id)->findAll();
+                /** @var MailPoint[] $mailPoints */
+                foreach ($mailPoints as $mailPoint) {
+                    $assessmentPoint = new AssessmentDetail();
+                    $assessmentPoint->sim_id = $this->sim_id;
+                    $assessmentPoint->point_id = $mailPoint->point_id;
+                    $assessmentPoint->mail_id = $template->id;
+
+                    $assessmentPoint->save();
+                }
+            }
         } else {
             // If mail is incorrect MS or not sent
             if ($this->mail !== null) {

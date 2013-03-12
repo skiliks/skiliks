@@ -1316,13 +1316,7 @@ class SimulationServiceTest extends CDbTestCase
         $aggregatedPoints = $simulation->assessment_points;
 
         foreach ($detailPoints as $row) {
-            if ($row instanceof AssessmentDetail) {
-                $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->getReplicaPoint()->add_value;
-            } else if ($row instanceof SimulationMailPoint) {
-                $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->value;
-            } else {
-                $details[$row['type_scale']][$row['code']][] = $row['scale'] * $row['add_value'];
-            }
+            $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->getAddValue();
         }
 
         foreach ($scaleTypes as $i => $scaleType) {
