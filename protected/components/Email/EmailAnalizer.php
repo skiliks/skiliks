@@ -422,10 +422,8 @@ class EmailAnalizer
     }
     
     /**
-     * 3325 - read spam
-     * 
-     * @param integer $delta
-     * 
+     * 3333 - correctly answer all uses
+     *
      * @return mixed array
      */
     public function check_3333()
