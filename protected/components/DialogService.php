@@ -67,7 +67,7 @@ class DialogService
         $points = ReplicaPoint::model()->byDialog($dialogId)->findAll();
         /** @var ReplicaPoint[] $points */
         foreach($points as $point) {
-            LogHelper::setLogDialogPoint($dialogId, $simId, $point->point_id);
+            LogHelper::setDialogPoint($dialogId, $simId, $point->point_id);
         }
 
         $result = [
