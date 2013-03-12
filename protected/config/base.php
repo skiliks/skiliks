@@ -148,7 +148,7 @@ return array(
                 'registration/error/has-account'         => 'static/userAccount/errorYouHasAlreadyChooseAccount',
                 'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
                 'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
-
+                'registration/results'                   =>'static/userAccount/Results',
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
 
