@@ -38,24 +38,32 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<header>
 				<h1><a href="/">Skiliks</a></h1>
 				
-				<p class="coming-soon"><?php echo Yii::t('site', 'Coming soon') ?></p>
+				<p class="coming-soon"></p>
 
-				<div class="language"><a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a></div>
+				<div class="language">
+                    <a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a>
+                </div>
 
 				<nav>
 					<a href="/"  <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="/team" <?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'About Us') ?></a>
 					<a href="/product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
-                    <?php if (null === $this->user || 0 != count($this->signInErrors)) : ?>
+                    <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                         <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
-                        <a href="/site/logout">Log out</a>
+                        <?php if (false === $this->user->isHasAccount()): ?>
+                            <a href="/registration/choose-account-type">
+                                <?php echo Yii::t('site', 'Choose account type') ?>
+                            </a>
+                        <?php endif; ?>
+                        <a href="/simulation"><?php echo Yii::t('site', 'Simulation') ?></a>
+                        <a href="/site/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
 			<!--header end-->
 
-            <?php if (null === $this->user || 0 != count($this->signInErrors)) : ?>
+            <?php if (null === $this->user || null === $this->user->id ||0 != count($this->signInErrors)) : ?>
                 <div class="sing-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/" method="post">
 
@@ -82,6 +90,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <div>
                             <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">
                         </div>
+                        <br/>
+                        <br/>
+                        <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
+                            <a href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
+                        <?php endif; ?>
                     </form>
                 </div>
             <?php endif; ?>
@@ -118,7 +131,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 		</div>
 		<!--footer end-->
 
-        <?php if (null === $this->user || 0 != count($this->signInErrors)) : ?>
+        <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
             <script type="text/javascript">
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){

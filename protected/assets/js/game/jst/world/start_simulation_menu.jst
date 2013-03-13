@@ -8,10 +8,18 @@
         <a href="/">На главную</a>
         <br/>
         <br/>
+        
         <@ for (var simulation in simulations) { @>
-        <input type="button" value="Начать симуляцию <@= simulations[simulation] @>" data-sim-id="<@= simulation @>"
-               class="btn simulation-start">
-        <br/>
+            <input type="button" value="Начать симуляцию <@= simulations[simulation] @>" data-sim-id="<@= simulation @>"
+                   class="btn simulation-start">
+            <br/>
         <br/>
         <@ } @>
+
+        <a href="/admin/dialogsAnalyzer">Анализатор диалогов БД</a>
+        <br/>
+        <br/>
+        <a href="/admin/uploadDialogsToAnalyzer">Анализатор диалогов произвольного ексел-файла</a>
+        <br/>
+        <br/>
     </div>
