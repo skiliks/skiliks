@@ -49,7 +49,7 @@ class AssessmentResultTable extends LogTable
     public function getRowId($assessmentPoint)
     {
         return sprintf(
-            'assessment-aggregated-point-%s assessment-aggregated-learning-goal-%s ',
+            'assessment-aggregated-%s assessment-aggregated-learning-goal-%s ',
             $assessmentPoint[2],
             $assessmentPoint[0]
         );
