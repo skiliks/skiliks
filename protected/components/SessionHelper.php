@@ -54,10 +54,9 @@ final class SessionHelper
      */
     public static function getUserBySid()
     {
-        $uid = self::getUidBySid();
-        if (!$uid) throw new Exception('cant find user');
-
-        $user = YumUser::model()->findByAttributes(array('id' => $uid));
+        $user_id = Yii::app()->session['uid'];
+        if (!$user_id) throw new Exception('cant find user');
+        $user = YumUser::model()->findByPk($user_id);
         if (!$user) throw new Exception('cant find user');
 
         return $user;
@@ -72,6 +71,16 @@ final class SessionHelper
         if (!$simulation) throw new CException(sprintf("Не могу получить симуляцию по ID %d", Yii::app()->session['simulation']));
 
         return $simulation->primaryKey;
+    }
+
+    public static function isAuth(){
+        $user_id = Yii::app()->session['uid'];
+        $user = YumUser::model()->findByPk($user_id);
+        if($user !== null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
