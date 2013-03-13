@@ -8,8 +8,9 @@ function autoSave() {
     console.log('excel save');
     }
 
-
-
+console.log(document.getElementById('savefile'));
+    console.log(document);
+    console.log(window);
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
@@ -37,7 +38,6 @@ if(documentArgsInJson)
             }
 }
 document.write(content);
-console.log(document)
 document.close();
 }
 </script>
