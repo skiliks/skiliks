@@ -41,6 +41,19 @@ class AssessmentResultTable extends LogTable
             $assessmentPoint->value,
         ];
     }
+
+    /**
+     * @param $assessmentPoint
+     * @return string
+     */
+    public function getRowId($assessmentPoint)
+    {
+        return sprintf(
+            'assessment-aggregated-point-%s assessment-aggregated-learning-goal-%s ',
+            $assessmentPoint[2],
+            $assessmentPoint[0]
+        );
+    }
 }
 /**
  * @}

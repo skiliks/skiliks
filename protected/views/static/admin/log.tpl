@@ -1,3 +1,5 @@
+
+
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <a class="brand" href="#">Admin panel</a>
@@ -33,7 +35,7 @@
         </tr>
         </thead>
         {foreach $log_table->getData() as $row}
-            <tr>
+            <tr class="{$log_table->getRowId($row)}">
                 {foreach $row as $cell}
                     <td>
                         {if (40 < strlen($cell))}
@@ -48,38 +50,58 @@
     </table>
 {/foreach}
 
-<h1 id="simulation-points">Simulation points</h1>
+<a class="btn btn-primary selenium-tests-additional-tables-switcher"><i class="icon icon-list icon-white"></i> Дополнительные таблицы для Selenium тестов (показать/скрыть)</a>
 
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Шкала</th>
-        <th>Оценка</th>
-    </tr>
-    </thead>
-    {foreach $simulation->getAssessmentResults() as $typeScale => $assessmentPoint}
+<br>
+<br>
+
+<div class="selenium-tests-additional-tables" style="display: none;">
+    <h1 id="simulation-points">Simulation points</h1>
+
+    <table class="table table-striped mail-log">
+        <thead>
         <tr>
-            <td>{$typeScale}</td>
-            <td>{$assessmentPoint}</td>
+            <th>Шкала</th>
+            <th>Оценка</th>
         </tr>
-    {/foreach}
-</table>
+        </thead>
+        {foreach $simulation->getAssessmentSumByScale() as $typeScale => $assessmentPoint}
+            <tr class="points-sum-scale-type-{HeroBehaviour::getTypeScaleName($typeScale)}">
+                <td>{HeroBehaviour::getTypeScaleName($typeScale)}</td>
+                <td>{$assessmentPoint}</td>
+            </tr>
+        {/foreach}
+    </table>
 
-<h1 id="assessment-rules">Simulation Assessment Rules</h1>
+    <h1 id="assessment-rules">Simulation Assessment Rules</h1>
 
-<table class="table table-striped mail-log">
-    <thead>
-    <tr>
-        <th>Activity ID</th>
-        <th>Scores</th>
-    </tr>
-    </thead>
-    {foreach $simulation->getAssessmentRules() as $id => $rule}
+    <table class="table table-striped mail-log">
+        <thead>
         <tr>
-            <td>{$rule->assessmentRule->activity_id}</td>
-            <td>{$rule->assessmentRule->value}</td>
+            <th>Activity ID</th>
+            <th>Scores</th>
         </tr>
-    {/foreach}
-</table>
+        </thead>
+        {$sum = 0}
+        {foreach $simulation->getAssessmentRules() as $id => $rule}
+            <tr>
+                <td>{$rule->assessmentRule->activity_id}</td>
+                <td>{$rule->assessmentRule->value}</td>
+            </tr>
+            {$sum = $sum + $rule->assessmentRule->value}
+        {/foreach}
+        <tr class="assessment-rules-sum">
+            <td>Итого</td>
+            <td>{$sum}</td>
+        </tr>
+    </table>
+</div>
 
+<script type="text/javascript">
+    $(".selenium-tests-additional-tables-switcher").click(function() {
+        $(".selenium-tests-additional-tables").toggle();
+    });
+</script>
 
+<br/>
+<br/>

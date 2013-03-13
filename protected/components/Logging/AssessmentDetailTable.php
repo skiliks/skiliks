@@ -80,6 +80,16 @@ class AssessmentDetailTable extends LogTable
 
         return $result;
     }
+
+
+    public function getRowId($row)
+    {
+        return sprintf(
+            'assessment-detail-point-%s assessment-detail-learning-goal-%s ',
+            $row[2],
+            $row[0]
+        );
+    }
 }
 /**
  * @}

@@ -36,4 +36,12 @@ class DocumentLogTable extends LogTable {
         ];
     }
 
+    /**
+     * @param $logDocument
+     * @return string
+     */
+    public function getRowId($logDocument)
+    {
+        return '';
+    }
 }
