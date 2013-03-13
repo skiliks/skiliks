@@ -37,4 +37,16 @@ class ExcelTable extends LogTable {
             $point->value
             ];
     }
+
+    /**
+     * @param $point
+     * @return string
+     */
+    public function getRowId($row)
+    {
+        return sprintf(
+            'excel-formula-%s ',
+            $row[0]
+        );
+    }
 }

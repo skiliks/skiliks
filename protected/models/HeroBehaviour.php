@@ -50,6 +50,15 @@ class HeroBehaviour extends CActiveRecord
     const TYPE_PERSONAL = 3;
     
     /* ------------------------------------------------------------*/
+
+    public static function getTypeScaleName($typeScalaCode)
+    {
+        switch ($typeScalaCode) {
+            case 1: return 'positive';
+            case 2: return 'negative';
+            case 3: return 'personal';
+        }
+    }
     
     /**
      * @return boolean

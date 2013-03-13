@@ -1,16 +1,17 @@
 <?php
 namespace application\components\Logging;
-/**
- * \addtogroup Logging
- * @{
- */
+    /**
+     * \addtogroup Logging
+     * @{
+     */
 /**
  * Class ActivityLogTable
  */
-class ActivityLogTable extends LogTable {
+class ActivityLogTable extends LogTable
+{
     public function getHeaders()
     {
-        return ['Window Start Time',	'Window End Time',	'Leg type',	'Leg action',	'Activity ID',	'Category ID'];
+        return ['Window Start Time', 'Window End Time', 'Leg type', 'Leg action', 'Activity ID', 'Category ID'];
     }
 
     public function getTitle()
@@ -18,7 +19,8 @@ class ActivityLogTable extends LogTable {
         return 'Leg_actions - detail';
     }
 
-    public function getId() {
+    public function getId()
+    {
         return 'activity-log';
     }
 
@@ -37,6 +39,15 @@ class ActivityLogTable extends LogTable {
             $logActivityAction->activityAction->activity->primaryKey,
             $logActivityAction->activityAction->activity->category->code
         ];
+    }
+
+    /**
+     * @param $logActivityAction
+     * @return string
+     */
+    public function getRowId($logActivityAction)
+    {
+        return '';
     }
 }
 /**

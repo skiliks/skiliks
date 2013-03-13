@@ -177,7 +177,14 @@ class Simulation extends CActiveRecord
         ];
     }
 
-    public function getAssessmentResults()
+    /**
+     * Data for log after simulation table
+     *
+     * May return point value full sums for positive, negative, personal scale,
+     *
+     * @return array
+     */
+    public function getAssessmentSumByScale()
     {
         $assessmentPoints = $this->assessment_points;
         $result = [];

@@ -37,6 +37,15 @@ class DialogLogTable extends LogTable
             $logDialog->last_id
         ];
     }
+
+    /**
+     * @param $logDialog
+     * @return string
+     */
+    public function getRowId($logDialog)
+    {
+        return '';
+    }
 }
 /**
  * @}
