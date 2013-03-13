@@ -3,15 +3,11 @@
 function autoSave() {
     var btn = window.parent.document.getElementById('savefile');
     btn.click();
-    console.log(document.getElementById('savefile'));
-    //$('#filesave').click();
+
     console.log('excel save');
     }
-
-console.log(document.getElementById('savefile'));
-    console.log(document);
-    console.log(window);
-    console.log(window.parent.document.getElementById('savefile'));
+setInterval(autoSave, 15000);
+console.log(window.parent.document.getElementById('savefile'));
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
