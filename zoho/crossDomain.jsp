@@ -1,8 +1,8 @@
 <script>
 //console.log('Skiliks');
 function autoSave() {
-    //var btn = document.getElementById('savefile');
-    //btn.click();
+    var btn = window.parent.document.getElementById('savefile');
+    btn.click();
     console.log(document.getElementById('savefile'));
     //$('#filesave').click();
     console.log('excel save');
