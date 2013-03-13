@@ -55,14 +55,14 @@ abstract class LogTable
     abstract public  function getId();
 
     /**
-     * May return game-oriented id for row entity.
+     * May return game-oriented string (CSS class) log table <tr>.
      * This is code for dialog, heroBehaviour, mail or excel_id for replica
      * It is possible to print several ids to string, like "dialog-ET1 replica-853"
      *
      * Warning! Dialog codes has '.' in code - JS libs interprets it as start of CSS class name.
      * So remove all '.' and '#' from getRowId() returned string.
      *
-     * @param $rowEntity - log row pobject
+     * @param $rowEntity - log row object
      *
      * @return string
      */
