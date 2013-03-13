@@ -285,7 +285,7 @@ define([
                 server.requests.forEach(function(request){
                     if(request.url == '/index.php/mail/sendMessage'){
                         //console.log(request);
-                        expect(request.requestBody).toBe('copies=&fileId=&messageId=4125&phrases=&receivers=2%2C4%2C&subject=1788&time=09%3A00');
+                        expect(request.requestBody).toBe('copies=&fileId=&messageId=4125&phrases=&receivers=2%2C4%2C&subject=1788&time=09%3A00&letterType=forward');
                     }
                 });
             });

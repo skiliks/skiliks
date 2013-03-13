@@ -47,4 +47,16 @@ class DayPlanLogTable extends LogTable
             $row->todo_count
         ];
     }
+
+    /**
+     * @param $row
+     * @return string
+     */
+    public function getRowId($row)
+    {
+        return sprintf(
+            'plan-code-%s ',
+            $row[2]
+        );
+    }
 }

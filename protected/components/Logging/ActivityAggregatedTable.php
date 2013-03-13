@@ -55,4 +55,10 @@ class ActivityAggregatedTable extends LogTable
             $row->end_time
         ];
     }
+
+
+    public function getRowId($logMail)
+    {
+        return '';
+    }
 }
