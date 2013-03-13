@@ -127,4 +127,6 @@ return array(
     'Corporate email' => 'Корпоративный email',
     'Registration' => 'Регистрация',
     'Choose account type' => 'Выбор типа аккаунта',
+    'Simulation' => 'Симуляция',
+    'Log out' => 'Выход',
 );
