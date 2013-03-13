@@ -8,9 +8,6 @@ function autoSave() {
     }
 
 
-window.onload = function(){
-    var timeout_id = setInterval(autoSave, 10000);
-    }
 
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
@@ -39,6 +36,10 @@ if(documentArgsInJson)
             }
 }
 document.write(content);
+
+    window.onload = function(){
+    var timeout_id = setInterval(autoSave, 10000);
+    }
 document.close();
 }
 </script>
