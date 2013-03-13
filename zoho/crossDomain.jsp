@@ -12,12 +12,12 @@ var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
 if(!isOperaBrowser && !isIEBrowser) {
-    document.domain = "zoho.skiliks.com";
+    //document.domain = "zoho.skiliks.com";
     }
 function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson){
     document.open();
     if(!isOperaBrowser && !isIEBrowser) {
-    document.domain = "zoho.skiliks.com";
+    //document.domain = "zoho.skiliks.com";
     }
 if(windowArgsInJson)
 		{
