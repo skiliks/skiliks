@@ -6,6 +6,7 @@
  * The followings are the available columns in table 'user_account_corporate':
  * @property string $user_id
  * @property integer $industry_id
+ * @property string $corporate_email
  *
  * The followings are the available model relations:
  * @property User $user
@@ -39,9 +40,11 @@ class UserAccountCorporate extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('user_id'    , 'required'),
-			array('industry_id', 'numerical', 'integerOnly'=>true),
-			array('user_id'    , 'length'   , 'max'=>10),
+			array('user_id'         , 'required'),
+			array('corporate_email' , 'required'),
+            array('corporate_email' , 'CEmailValidator'),
+			array('industry_id'     , 'numerical', 'integerOnly'=>true),
+			array('user_id'         , 'length'   , 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id', 'safe', 'on'=>'search'),
@@ -67,8 +70,9 @@ class UserAccountCorporate extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id'     => Yii::t('site', 'User'),
-			'industry_id' => Yii::t('site', 'Industry'),
+			'user_id'          => Yii::t('site', 'User'),
+			'corporate_email'  => Yii::t('site', 'Corporate email'),
+			'industry_id'      => Yii::t('site', 'Industry'),
 		);
 	}
 

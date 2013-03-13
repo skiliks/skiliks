@@ -14,7 +14,7 @@ class YumProfile extends YumActiveRecord
 	/**
 	 * @var array of YumProfileFields
 	 */
-	static $fields=null;
+	static $fields = null;
 
     // --------------------------------------------------------------------------------------------------------
 
@@ -182,11 +182,13 @@ class YumProfile extends YumActiveRecord
 				array(implode(',',$safe), 'safe'));
 
 		$rules[] = array('allow_comments, show_friends', 'numerical');
-		$rules[] = array('email', 'unique');
+		$rules[] = array('email', 'unique', 'on' => array('insert', 'registration'));
 		$rules[] = array('email', 'CEmailValidator');
 		$rules[] = array('privacy', 'safe');
 
         $rules[] = array('email', 'required', 'on' => array('insert', 'registration'));
+        $rules[] = array('firstname', 'required');
+        $rules[] = array('lastname', 'required');
 
 		return $rules;
 	}
@@ -239,6 +241,8 @@ class YumProfile extends YumActiveRecord
 	public function attributeLabels()
 	{
 		$labels = array(
+                'firstname'      => Yii::t('site', 'Firstname'),
+                'lastname'       => Yii::t('site', 'Lastname'),
 				'id'             => Yii::t('site', 'Profile ID'),
 				'email'          => Yii::t('site', 'Email'),
 				'user_id'        => Yii::t('site', 'User ID'),

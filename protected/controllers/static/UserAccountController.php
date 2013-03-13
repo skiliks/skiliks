@@ -39,7 +39,7 @@ class UserAccountController extends YumController
 
             // we need profile validation even if user invalid
             $isUserValid = $this->user->validate();
-            $isProfileValid = $profile->validate();
+            $isProfileValid = $profile->validate(['email']);
 
             if($isUserValid && $isProfileValid)
             {
@@ -47,9 +47,13 @@ class UserAccountController extends YumController
 
                 if (false !== $result) {
                     $this->sendRegistrationEmail($this->user);
-                    //Yum::setFlash('Thank you for your registration. Please check your email.');
+
                     $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
                 } else {
+                    $this->user->password = '';
+                    $this->user->password_again = '';
+
+
                     echo 'Can`t register.';
                 }
             }
@@ -149,31 +153,55 @@ class UserAccountController extends YumController
             $this->redirect(['registration/error/has-account']);
         }
 
-        // ---
-
-        $accountPersonal = new UserAccountPersonal;
-        $accountPersonal->user_id = $this->user->id;
-
-        if(isset($_POST['UserAccountPersonal']))
-        {
-            $accountPersonal->attributes=$_POST['UserAccountPersonal'];
-            if($accountPersonal->validate())
-            {
-                $accountPersonal->save();
-                $this->redirect(['registration/account-type/added']);
-            }
-        }
+        // get exists profile
+        $profile    = YumProfile::model()->findByAttributes(['user_id' => $this->user->id]);
+        $YumProfile = Yii::app()->request->getParam('YumProfile');
+        $profile->firstname = $YumProfile['firstname'];
+        $profile->lastname  = $YumProfile['lastname'];
 
         $accountCorporate = new UserAccountCorporate;
         $accountCorporate->user_id = $this->user->id;
 
-        if(isset($_POST['UserAccountCorporate']))
-        {
-            $accountCorporate->attributes=$_POST['UserAccountCorporate'];
-            if($accountCorporate->validate())
+        $accountPersonal = new UserAccountPersonal;
+        $accountPersonal->user_id = $this->user->id;
+
+        // ---
+
+        if (null !== Yii::app()->request->getParam('personal')) {
+            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
+
+            $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
+
+            if(null !== $UserAccountPersonal && null !== $YumProfile)
             {
-                $accountCorporate->save();
-                $this->redirect(['registration/account-type/added']);
+                $accountPersonal->attributes = $UserAccountPersonal; //$_POST['UserAccountPersonal'];
+                $isUserAccountPersonalValid = $accountPersonal->validate();
+
+                if($isUserAccountPersonalValid && $isProfileValid)
+                {
+                    $profile->save();
+                    $accountPersonal->save();
+                    $this->redirect(['registration/account-type/added']);
+                }
+            }
+        }
+
+        if (null !== Yii::app()->request->getParam('corporate')) {
+            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
+
+            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+
+            if(null!== $UserAccountCorporate & null !== $YumProfile)
+            {
+                $accountCorporate->attributes = $UserAccountCorporate; //$_POST['UserAccountCorporate'];
+                $isUserAccountCorporateValid  = $accountCorporate->validate();
+
+                if($isUserAccountCorporateValid && $isProfileValid)
+                {
+                    $profile->save();
+                    $accountCorporate->save();
+                    $this->redirect(['registration/account-type/added']);
+                }
             }
         }
 
@@ -187,13 +215,21 @@ class UserAccountController extends YumController
             $positions[$position->id] = $position->label;
         }
 
+        // clean up validation errors if not POST request
+        if (false === Yii::app()->request->isPostRequest) {
+            $profile->validate([]);
+        }
+
         $this->render(
             'chooseAccountType',
             [
-                'accountPersonal'  => $accountPersonal,
-                'accountCorporate' => $accountCorporate,
-                'industries'       => $industries,
-                'positions'        => $positions,
+                'accountPersonal'      => $accountPersonal,
+                'accountCorporate'     => $accountCorporate,
+                'industries'           => $industries,
+                'positions'            => $positions,
+                'profile'              => $profile,
+                'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
+                'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
             ]
         );
     }
