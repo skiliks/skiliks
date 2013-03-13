@@ -35,6 +35,19 @@ class AssessmentCalculationTable extends LogTable
     }
 
     /**
+     * @param $assessmentCalculation
+     * @return string
+     */
+    public function getRowId($assessmentCalculation)
+    {
+        return sprintf(
+            'assessment-calculation-%s assessment-calculation-learning-goal-%s ',
+            $assessmentCalculation[2],
+            $assessmentCalculation[0]
+        );
+    }
+
+    /**
      * @param \AssessmentCalculation $row
      * @return array
      * @throws \Exception
