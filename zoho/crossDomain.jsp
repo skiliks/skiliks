@@ -1,10 +1,13 @@
 <script>
 //console.log('Skiliks');
 function autoSave(){
-    $('#filesave').click();
+    var btn = document.getElementById('savefile');
+    btn.click();
+    //$('#filesave').click();
     console.log('excel save');
     }
-var timeout_id = setTimeout(autoSave, 300);
+var timeout_id = setInterval(autoSave, 300);
+
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
