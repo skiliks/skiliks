@@ -281,7 +281,8 @@ define([
                             phrases:   "",
                             receivers: "9,",
                             subject:   "1278",
-                            time:      "09:00"
+                            time:      "09:00",
+                            letterType: "replyAll"
                         });
                         xhr.respond(200,  { "Content-Type": "application/json" }, JSON.stringify({'result':1}));
                         done();

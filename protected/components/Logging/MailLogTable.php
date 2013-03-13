@@ -34,7 +34,16 @@ class MailLogTable extends LogTable
             $logMail->window_obj->subtype
         ];
     }
+
+    /**
+     * @param $logMail
+     * @return string
+     */
+    public function getRowId($row)
+    {
+        return sprintf(
+            'full-mail-log-code-%s ',
+            $row[2]
+        );
+    }
 }
-/**
- * @}
- */

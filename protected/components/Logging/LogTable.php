@@ -11,7 +11,9 @@ namespace application\components\Logging;
 /**
  * Абстрактный класс, от которого наследуются все таблицы. Логики в нем нет, просто не дает выстрелить себе в ногу
  */
-abstract class LogTable {
+abstract class LogTable
+{
+
     protected $logs;
 
     /**
@@ -53,6 +55,20 @@ abstract class LogTable {
     abstract public  function getId();
 
     /**
+     * May return game-oriented id for row entity.
+     * This is code for dialog, heroBehaviour, mail or excel_id for replica
+     * It is possible to print several ids to string, like "dialog-ET1 replica-853"
+     *
+     * Warning! Dialog codes has '.' in code - JS libs interprets it as start of CSS class name.
+     * So remove all '.' and '#' from getRowId() returned string.
+     *
+     * @param $rowEntity - log row pobject
+     *
+     * @return string
+     */
+    abstract public function getRowId($rowEntity);
+
+    /**
      * Returns array of arrays of plain values
      * @return array[]
      */
@@ -64,6 +80,3 @@ abstract class LogTable {
         return $result;
     }
 }
-/**
- * @}
- */

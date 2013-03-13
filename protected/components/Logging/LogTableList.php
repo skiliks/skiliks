@@ -95,7 +95,4 @@ namespace application\components\Logging {
             return new \PHPExcel_Writer_Excel2007($xls);
         }
     }
-    /**
-     * @}
-     */
 }
