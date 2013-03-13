@@ -5,14 +5,14 @@
  *
  * @property int difficulty
  * @property SimulationCompletedParent[] completed_parent_activities
- * @property AssessmentAggregated[] assessment_points
+ * @property AssessmentAggregated[] assessment_aggregated
  * @property LogWindow[] log_windows
  * @property LogActivityAction[] log_activity_actions
  * @property LogActivityActionAgregated[] log_activity_actions_aggregated
  * @property LogMail[] log_mail
  * @property LogDialog[] log_dialogs
- * @property SimulationMailPoint[] simulation_mail_points
- * @property AssessmentDetail[] assessment_detail
+ * @property AssessmentCalculation[] assessment_calculation
+ * @property AssessmentPoint[] assessment_points
  * @property LogDocument[] log_documents
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
@@ -169,10 +169,10 @@ class Simulation extends CActiveRecord
             'log_activity_actions_aggregated' => [self::HAS_MANY, 'LogActivityActionAgregated', 'sim_id', 'order' => 'start_time, end_time'],
             'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
-            'assessment_points'               => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
+            'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'simulation_assessment_rules'     => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
-            'assessment_detail'               => [self::HAS_MANY, 'AssessmentDetail', 'sim_id'],
-            'simulation_mail_points'          => [self::HAS_MANY, 'SimulationMailPoint', 'sim_id'],
+            'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
+            'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
             'simulation_excel_points'          => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
         ];
     }
@@ -186,7 +186,7 @@ class Simulation extends CActiveRecord
      */
     public function getAssessmentSumByScale()
     {
-        $assessmentPoints = $this->assessment_points;
+        $assessmentPoints = $this->assessment_aggregated;
         $result = [];
         foreach ($assessmentPoints as $assessmentPoint) {
             if (!isset($result[$assessmentPoint->point->type_scale])) {
