@@ -28,4 +28,22 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
         }
     }
 
+    public function testFormulaForNew()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1_new.xls');
+
+        $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
+        $this->assertNotNull($points);
+
+        if ($points !== null) {
+            foreach ($points as $point) {
+                $this->assertEquals('0.00', $point->value);
+            }
+        }
+    }
+
 }

@@ -121,8 +121,12 @@ class CheckConsolidatedBudget
         
         // for some reasons $sum is float and != 0, but = 0,00...001
         if (round($sum) == $this->configs['etalons'][3]) {
-            $this->userPoints++;
-            $this->userPointsMap[3] = 1;
+            if(in_array(0, [$s1, $s2, $s3, $s4])){
+                $this->userPointsMap[3] = 0;
+            }else{
+                $this->userPoints++;
+                $this->userPointsMap[3] = 1;
+            }
         } else {
             $this->userPointsMap[3] = 0;
         }    
@@ -145,8 +149,12 @@ class CheckConsolidatedBudget
         
         // for some reasons $sum is float and != 0, but = 0,00...001
         if (round($sum) == $this->configs['etalons'][4]) {
-            $this->userPoints++;
-            $this->userPointsMap[4] = 1;
+            if(in_array(0, [$s1, $s2, $s3, $s4])){
+                $this->userPointsMap[4] = 0;
+            }else{
+                $this->userPoints++;
+                $this->userPointsMap[4] = 1;
+            }
         } else {
             $this->userPointsMap[4] = 0;
         }    
@@ -169,8 +177,12 @@ class CheckConsolidatedBudget
         
         // for some reasons $sum is float and != 0, but = 0,00...001
         if (round($sum) == $this->configs['etalons'][5]) {
-            $this->userPoints++;
-            $this->userPointsMap[5] = 1;
+            if(in_array(0, [$s1, $s2, $s3])){
+                $this->userPointsMap[5] = 0;
+            }else{
+                $this->userPoints++;
+                $this->userPointsMap[5] = 1;
+            }
         } else {
             $this->userPointsMap[5] = 0;
         }    
@@ -193,8 +205,12 @@ class CheckConsolidatedBudget
         
         // for some reasons $sum is float and != 0, but = 0,00...001
         if ((int)$sum == $this->configs['etalons'][6]) {
-            $this->userPoints++;
-            $this->userPointsMap[6] = 1;
+            if(in_array(0, [$s1, $s2, $s3])){
+                $this->userPointsMap[6] = 0;
+            }else{
+                $this->userPoints++;
+                $this->userPointsMap[6] = 1;
+            }
         } else {
             $this->userPointsMap[6] = 0;
         }    
