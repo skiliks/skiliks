@@ -144,7 +144,7 @@ class LogMail extends CActiveRecord
                 }
             };
 
-            $exists = AssessmentDetail::model()->findByAttributes([
+            $exists = AssessmentPoint::model()->findByAttributes([
                 'sim_id' => $this->sim_id,
                 'mail_id' => $template->id
             ]);
@@ -153,10 +153,11 @@ class LogMail extends CActiveRecord
                 $mailPoints = MailPoint::model()->byMailId($template->id)->findAll();
                 /** @var MailPoint[] $mailPoints */
                 foreach ($mailPoints as $mailPoint) {
-                    $assessmentPoint = new AssessmentDetail();
+                    $assessmentPoint = new AssessmentPoint();
                     $assessmentPoint->sim_id = $this->sim_id;
                     $assessmentPoint->point_id = $mailPoint->point_id;
-                    $assessmentPoint->mail_id = $this->mail_id;
+                    $assessmentPoint->mail_id = $template->id;
+                    $assessmentPoint->value = $mailPoint->add_value;
 
                     $assessmentPoint->save();
                 }

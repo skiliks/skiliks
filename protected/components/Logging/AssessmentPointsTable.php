@@ -6,18 +6,18 @@ namespace application\components\Logging;
      * @{
      */
 /**
- * Детально расписанные поведения. Присутствует гребаный ад из LogHelper-a
+ * Детально расписанные поведения по матрицам диалогов и писем. Присутствует гребаный ад из LogHelper-a
  */
-class AssessmentDetailTable extends LogTable
+class AssessmentPointsTable extends LogTable
 {
     public function getId()
     {
-        return 'assessment-detail';
+        return 'assessment-points';
     }
 
     public function getTitle()
     {
-        return 'Assessment - detail';
+        return 'Assessment - points';
     }
 
     public function getHeaders()
@@ -40,7 +40,7 @@ class AssessmentDetailTable extends LogTable
     }
 
     /**
-     * @param \AssessmentDetail $row
+     * @param \AssessmentPoint $row
      * @return array
      * @throws \Exception
      */
@@ -53,7 +53,7 @@ class AssessmentDetailTable extends LogTable
             $row->point->title,
             $row->point->type_scale,
             $row->point->scale,
-            $row->getAddValue()
+            $row->value
         ];
 
         if ($row->dialog_id) {
@@ -61,21 +61,14 @@ class AssessmentDetailTable extends LogTable
             $result[] = $row->replica->code;
             $result[] = $row->replica->step_number;
             $result[] = $row->replica->replica_number;
+            $result[] = '-';
         } elseif ($row->mail_id) {
             $result = array_pad($result, 11, '-');
             $result[] = $row->mail->code;
         } elseif ($row->task_id) {
             throw new \Exception('Not implemented yet');
         } else {
-            $result = array_pad($result, 11, '-');
-
-            if ($row->point->learning_goal_code == 331 or $row->point->learning_goal_code == 332) {
-                $result[] = '3. Оценка Mail Inbox';
-            } else if ($row->point->learning_goal_code == 333) {
-                $result[] = '4. Оценка Mail Outbox';
-            } else {
-                $result[] = '-';
-            }
+            $result = array_pad($result, 12, '-');
         }
 
         return $result;
