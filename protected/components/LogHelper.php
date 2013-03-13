@@ -163,14 +163,15 @@ class LogHelper
      * Пишет лог для Логирование расчета оценки - детально
      * @param int $dialogId ID - диалог
      * @param int $simId ID    - Симуляция
-     * @param int $pointId ID  - Поинт с таблицы `characters_points_titles`
+     * @param ReplicaPoint $pointId ID  - Поинт с таблицы `characters_points_titles`
      */
-    public static function setDialogPoint($dialogId, $simId, $pointId)
+    public static function setDialogPoint($dialogId, $simId, $point)
     {
-        $log = new AssessmentDetail();
+        $log = new AssessmentPoint();
         $log->sim_id = $simId;
         $log->dialog_id = $dialogId;
-        $log->point_id = $pointId;
+        $log->point_id = $point->point_id;
+        $log->value = $point->add_value;
 
         $log->save();
     }

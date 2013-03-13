@@ -64,10 +64,10 @@ class DialogService
         ############################################################
 
         // Calculate character behavior points
-        $points = ReplicaPoint::model()->byDialog($dialogId)->findAll();
-        /** @var ReplicaPoint[] $points */
-        foreach($points as $point) {
-            LogHelper::setDialogPoint($dialogId, $simId, $point->point_id);
+        $replicaPoints = ReplicaPoint::model()->byDialog($dialogId)->findAll();
+        /** @var ReplicaPoint[] $replicaPoints */
+        foreach ($replicaPoints as $point) {
+            LogHelper::setDialogPoint($dialogId, $simId, $point);
         }
 
         $result = [

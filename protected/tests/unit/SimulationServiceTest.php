@@ -53,13 +53,13 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
-            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_1122->id);
-            
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_1122->id
             ]);
             $this->assertNotNull($dialogsPoint);
+
+            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $dialogsPoint);
             
             if ($dialogsPoint->add_value === '1') {
                 $count_1++;
@@ -123,13 +123,13 @@ class SimulationServiceTest extends CDbTestCase
         $pointFor_4124 = HeroBehaviour::model()->find('code = :code', ['code' => '4124']);
         
         // init dialog logs
-        foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
-            
+        foreach ($replicsFor_4124 as $dialogEntity) {
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_4124->id
             ]);
+
+            LogHelper::setDialogPoint($dialogEntity->id, $simulation->id, $dialogsPoint);
             
             if ($dialogsPoint->add_value === '1') {
                 $count_1++;
@@ -1370,7 +1370,7 @@ class SimulationServiceTest extends CDbTestCase
 
         $logs = [];
         $details = [];
-        $aggregated = [];
+        $aggregatedCalculated = [];
         $delta = [];
 
         foreach ($replicas as $replica) {
@@ -1378,7 +1378,7 @@ class SimulationServiceTest extends CDbTestCase
             $points = ReplicaPoint::model()->byDialog($replica->id)->findAll();
             /** @var ReplicaPoint[] $points */
             foreach($points as $point) {
-                LogHelper::setDialogPoint($replica->id, $simulation->id, $point->point_id);
+                LogHelper::setDialogPoint($replica->id, $simulation->id, $point);
             }
         }
 
@@ -1397,32 +1397,33 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::saveAggregatedPoints($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-        $detailPoints = $simulation->getAssessmentPointDetails();
-        $mailPoints = $simulation->simulation_mail_points;
-        $aggregatedPoints = $simulation->assessment_points;
+        $points = $simulation->assessment_points;
+        $calculations = $simulation->assessment_calculation;
+        $aggregated = $simulation->assessment_aggregated;
 
-        foreach ($detailPoints as $row) {
-            $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->getAddValue();
+        foreach ($points as $row) {
+            $details[$row->point->getTypeScaleSlug()][$row->point->code][] = $row->point->scale * $row->value;
         }
 
         foreach ($scaleTypes as $i => $scaleType) {
-            $details[$scaleType] = isset($details[$scaleType]) ? array_map(function($behavior) {
-                return array_sum($behavior) / count($behavior);
+            $details[$scaleType] = isset($details[$scaleType]) ? array_map(function($item) {
+                return array_sum($item) / count($item);
             }, $details[$scaleType]) : [];
-            $details[$scaleType] = array_merge($details[$scaleType], array_map(function($mailPoint) use ($i) {
-                return $mailPoint->scale_type_id == $i ? $mailPoint->value : 0;
-            }, $mailPoints));
+
+            $details[$scaleType] = array_merge($details[$scaleType], array_map(function($item) use ($i) {
+                return $item->point->type_scale == $i ? $item->value : 0;
+            }, $calculations));
 
             $details[$scaleType] = array_sum($details[$scaleType]);
 
-            $aggregated[$scaleType] = array_sum(array_map(function($aggregatedPoint) use ($i) {
-                return $aggregatedPoint->point->type_scale == $i ? $aggregatedPoint->value : 0;
-            }, $aggregatedPoints));
+            $aggregatedCalculated[$scaleType] = array_sum(array_map(function($item) use ($i) {
+                return $item->point->type_scale == $i ? $item->value : 0;
+            }, $aggregated));
 
-            $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregated[$scaleType], 2));
+            $delta[$scaleType] = abs(round($details[$scaleType], 2) - round($aggregatedCalculated[$scaleType], 2));
         }
 
-        $this->assertEquals(0.56, array_sum($delta));
+        $this->assertEquals(0, array_sum($delta));
     }
 }
 
