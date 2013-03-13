@@ -11,6 +11,7 @@ function autoSave() {
 console.log(document.getElementById('savefile'));
     console.log(document);
     console.log(window);
+    console.log(window.parent);
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
