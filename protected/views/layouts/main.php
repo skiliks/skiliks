@@ -56,7 +56,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                                 <?php echo Yii::t('site', 'Choose account type') ?>
                             </a>
                         <?php endif; ?>
-                        <a href="/site/logout">Log out</a>
+                        <a href="/simulation"><?php echo Yii::t('site', 'Simulation') ?></a>
+                        <a href="/site/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
