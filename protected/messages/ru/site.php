@@ -124,5 +124,7 @@ return array(
     'Corporate' => 'Корпоративный',
     'Firstname' => 'Имя',
     'Lastname' => 'Фамилия',
-    'Corporate email' => 'Корпоративный email'
+    'Corporate email' => 'Корпоративный email',
+    'Registration' => 'Регистрация',
+    'Choose account type' => 'Выбор типа аккаунта',
 );
