@@ -115,11 +115,7 @@ class UserAccountController extends YumController
      */
     public function actionErrorSingInOrRegister()
     {
-        $this->checkUser();
-
-        $this->render('errorSingInOrRegister', [
-            'user' => $this->user
-        ]);
+        $this->render('errorSingInOrRegister');
     }
 
     /**
@@ -279,7 +275,16 @@ class UserAccountController extends YumController
 
     public function actionResults()
     {
-        $this->render('results');
+        if(SessionHelper::isAuth()){
+            $user = SessionHelper::getUserBySid();
+            if($user->isAnonymous()){
+                $this->redirect(['registration/choose-account-type']);
+            }else{
+                $this->render('results');
+            }
+        }else{
+            $this->redirect(['registration/error/sign-in-or-register']);
+        }
     }
 
 }

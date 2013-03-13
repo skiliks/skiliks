@@ -274,13 +274,13 @@ define([
 
                 var logs = this.windowLog.getAndClear();
 
-                SKApp.server.api('simulation/stop', {'logs':logs}, function (data) {
+                SKApp.server.api('simulation/stop', {'logs':logs}, function () {
                     /**
                      * Симуляция уже остановлена
                      * @event stop
                      */
                     if(SKApp.user.simulation.get('result-url') === undefined){
-                        SKApp.user.simulation.set('result-url', data.redirect);
+                        SKApp.user.simulation.set('result-url', 'registration/results');
                     }
 
                     me.trigger('stop');

@@ -39,6 +39,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
 
+        sleep(5);
         #TODO: сделать без привязки к таблице
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         for ($second = 0; ; $second++) {

@@ -149,6 +149,7 @@ return array(
                 'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
                 'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
                 'registration/results'                   =>'static/userAccount/Results',
+                'site/registration/results'              =>'static/userAccount/Results',
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
 
