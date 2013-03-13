@@ -32,7 +32,7 @@ class AssessmentAggregated extends CActiveRecord
     /**
      * Выборка по идентификатору оценки
      * @param int $pointId
-     * @return AssassmentAgregated
+     * @return AssessmentAgregated
      */
     public function byPoint($pointId)
     {
@@ -46,7 +46,7 @@ class AssessmentAggregated extends CActiveRecord
      * Выборка по симуляции
      * 
      * @param int $simId
-     * @return AssassmentAgregated
+     * @return AssessmentAggregated
      */
     public function bySimId($simId)
     {

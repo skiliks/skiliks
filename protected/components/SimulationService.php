@@ -28,10 +28,9 @@ class SimulationService
             isset($b_3322_3324['3322']['positive']) &&
             true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3322 = new SimulationMailPoint();
+            $emailResultsFor_3322 = new AssessmentCalculation();
             $emailResultsFor_3322->sim_id = $simId;
             $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
-            $emailResultsFor_3322->scale_type_id = $b_3322_3324['3322']['obj']->type_scale;
             $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
             try {
                 $emailResultsFor_3322->save();
@@ -45,10 +44,9 @@ class SimulationService
             isset($b_3322_3324['3324']['negative']) &&
             true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3324 = new SimulationMailPoint();
+            $emailResultsFor_3324 = new AssessmentCalculation();
             $emailResultsFor_3324->sim_id = $simId;
             $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
-            $emailResultsFor_3324->scale_type_id = $b_3322_3324['3324']['obj']->type_scale;
             $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
             try {
                 $emailResultsFor_3324->save();
@@ -66,10 +64,9 @@ class SimulationService
             true === $b_3325['obj'] instanceof HeroBehaviour
         ) {
 
-            $emailResultsFor_3325 = new SimulationMailPoint();
+            $emailResultsFor_3325 = new AssessmentCalculation();
             $emailResultsFor_3325->sim_id = $simId;
             $emailResultsFor_3325->point_id = $b_3325['obj']->id;
-            $emailResultsFor_3325->scale_type_id = $b_3325['obj']->type_scale;
             $emailResultsFor_3325->value = $b_3325['negative'];
             try {
                 $emailResultsFor_3325->save();
@@ -86,10 +83,9 @@ class SimulationService
             isset($b_3323['positive']) &&
             true === $b_3323['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3323 = new SimulationMailPoint();
+            $emailResultsFor_3323 = new AssessmentCalculation();
             $emailResultsFor_3323->sim_id = $simId;
             $emailResultsFor_3323->point_id = $b_3323['obj']->id;
-            $emailResultsFor_3323->scale_type_id = $b_3323['obj']->type_scale;
             $emailResultsFor_3323->value = $b_3323['positive'];
             try {
                 $emailResultsFor_3323->save();
@@ -106,10 +102,9 @@ class SimulationService
             isset($b_3313['positive']) &&
             true === $b_3313['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3313 = new SimulationMailPoint();
+            $emailResultsFor_3313 = new AssessmentCalculation();
             $emailResultsFor_3313->sim_id = $simId;
             $emailResultsFor_3313->point_id = $b_3313['obj']->id;
-            $emailResultsFor_3313->scale_type_id = $b_3313['obj']->type_scale;
             $emailResultsFor_3313->value = $b_3313['positive'];
             try {
                 $emailResultsFor_3313->save();
@@ -124,10 +119,9 @@ class SimulationService
             isset($b_3333['positive']) &&
             true === $b_3333['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3333 = new SimulationMailPoint();
+            $emailResultsFor_3333 = new AssessmentCalculation();
             $emailResultsFor_3333->sim_id = $simId;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
-            $emailResultsFor_3333->scale_type_id = $b_3333['obj']->type_scale;
             $emailResultsFor_3333->value = $b_3333['positive'];
             try {
                 $emailResultsFor_3333->save();
@@ -142,10 +136,9 @@ class SimulationService
             isset($b_3326['positive']) &&
             true === $b_3326['obj'] instanceof HeroBehaviour
         ) {
-            $emailResultsFor_3326 = new SimulationMailPoint();
+            $emailResultsFor_3326 = new AssessmentCalculation();
             $emailResultsFor_3326->sim_id = $simId;
             $emailResultsFor_3326->point_id = $b_3326['obj']->id;
-            $emailResultsFor_3326->scale_type_id = $b_3326['obj']->type_scale;
             $emailResultsFor_3326->value = $b_3326['positive'];
             try {
                 $emailResultsFor_3326->save();
@@ -165,7 +158,7 @@ class SimulationService
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
         // @todo: fix this relation to logHelper
-        $data = $simulation->assessment_detail;
+        $data = $simulation->assessment_points;
 
         $behaviours = array();
 
@@ -175,7 +168,7 @@ class SimulationService
             if (false === isset($behaviours[$pointCode])) {
                 $behaviours[$pointCode] = new BehaviourCounter();
             }
-            $behaviours[$pointCode]->update($line->getAddValue());
+            $behaviours[$pointCode]->update($line->value);
         }
 
         // add Point object
@@ -229,7 +222,7 @@ class SimulationService
     public static function copyMailInboxOutboxScoreToAssessmentAggregated($simId)
     {
         // add mail inbox/outbox points
-        foreach (SimulationMailPoint::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
+        foreach (AssessmentCalculation::model()->bySimulation($simId)->findAll() as $emailBehaviour) {
 
             $assessment = AssessmentAggregated::model()
                 ->bySimId($simId)
