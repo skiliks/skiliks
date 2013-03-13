@@ -48,12 +48,7 @@ class SimulationController extends AjaxController
             $this->getSimulationEntity(),
             Yii::app()->request->getParam('logs', array())
         );
-        $user = SessionHelper::getUserBySid();
-        if($user->isAnonymous()){
-            $this->sendJSON(['result' => 1, 'redirect'=>'registration/choose-account-type']);
-        }else{
-            $this->sendJSON(['result' => 1, 'redirect'=>'registration/results']);
-        }
+        $this->sendJSON(['result' => 1]);
 
     }
 

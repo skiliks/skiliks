@@ -12,6 +12,10 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
 
     public function testFormula()
     {
+        /*
+         * Проверка оценок по эталону
+         */
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
@@ -27,6 +31,10 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
             }
         }
     }
+
+    /*
+     * Проверка на то, что если в D1 нет изминений, то пользователь получит 9 нулей
+     */
 
     public function testFormulaForNew()
     {
