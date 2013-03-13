@@ -1,8 +1,9 @@
 <script>
 //console.log('Skiliks');
 function autoSave() {
-    var btn = document.getElementById('savefile');
-    btn.click();
+    //var btn = document.getElementById('savefile');
+    //btn.click();
+    console.log(document.getElementById('savefile'));
     //$('#filesave').click();
     console.log('excel save');
     }
@@ -36,10 +37,7 @@ if(documentArgsInJson)
             }
 }
 document.write(content);
-
-    window.onload = function(){
-    var timeout_id = setInterval(autoSave, 10000);
-    }
+console.log(document)
 document.close();
 }
 </script>
