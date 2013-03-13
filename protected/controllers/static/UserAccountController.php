@@ -262,7 +262,7 @@ class UserAccountController extends YumController
         }
         $activation_url = $user->getActivationUrl();
 
-        $body = strtr("Здравствуйте уважаемый пользователь, Ваша сслыка активации аккаунта <a href='{activation_url}'>перейти</a>", array(
+        $body = strtr("Здравствуйте! Вы успешно зарегистрированы. Для активации аккаунта пройдите по ссылке:  <a href='{activation_url}'>\"Подтвердить регистрацию\"</a>", array(
             '{activation_url}' => $activation_url));
 
         $mail = array(
