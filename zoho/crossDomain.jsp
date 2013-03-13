@@ -1,12 +1,16 @@
 <script>
 //console.log('Skiliks');
-function autoSave(){
+function autoSave() {
     var btn = document.getElementById('savefile');
     btn.click();
     //$('#filesave').click();
     console.log('excel save');
     }
-var timeout_id = setInterval(autoSave, 10000);
+
+
+window.onload = function(){
+    var timeout_id = setInterval(autoSave, 10000);
+    }
 
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
