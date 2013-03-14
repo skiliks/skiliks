@@ -140,6 +140,8 @@ return array(
                 'simulation'              => 'static/site/site',
                 'simulation/start'        => 'simulation/start',
                 'simulation/stop'         => 'simulation/stop',
+                'simulation/changeTime'   => 'simulation/changeTime',
+                'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/<mode:\w+>'   => 'static/site/site',
 
                 'team'                    => 'static/page/team',

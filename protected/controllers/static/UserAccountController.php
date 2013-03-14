@@ -251,7 +251,7 @@ class UserAccountController extends YumController
             echo "<br>Corporate accoutn removed.<br>";
         }
 
-        echo "<br>Done!<br>";
+        echo "<br><br><a href='/office'>Вернуться на страницу аккаунта.</a><br><br>Done!<br>";
 
         die;
     }
