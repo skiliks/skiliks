@@ -101,6 +101,11 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
          * @return void
          */
         toggle: function (name, subname, params) {
+            // protect against 2 open phone windows at the same time
+            if (0 < this.where({name: 'phone'}).length) {
+                this.closeAllPhoneInstances();
+            }
+
             var windows = this.where({name: name, subname: subname});
             if (windows.length !== 0) {
                 if ((this.at(this.length - 1).id === subname)) { // If this is top window
@@ -110,8 +115,6 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                     windows[0].trigger('refresh');
                 }
             } else {
-
-
                 var WindowType = this.window_classes[name + '/' + subname] || SKWindow;
                 var win = new WindowType(_.extend({name: name, subname: subname}, params));
                 win.open();
@@ -129,6 +132,7 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
          */
         open: function (name, subname, params) {
             var windows = this.where({name: name, subname: subname});
+
             if (windows.length !== 0) {
                 if (this.at(this.length - 1).id !== subname) { // If this is top window
                     windows[0].setOnTop();
@@ -191,6 +195,20 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                 return this.models[count - 1];
             } else {
                 throw new Error("No active windows!!");
+            }
+        },
+
+        /**
+         * We need it to protect against two opened phone windows in same time
+         *
+         * @method closeAllPhoneInstances
+         * @returns void
+         */
+        closeAllPhoneInstances: function () {
+            for (var i in SKApp.user.simulation.window_set.models) {
+                if ('phone' == SKApp.user.simulation.window_set.models[i].get('name')){
+                    SKApp.user.simulation.window_set.models[i].close();
+                }
             }
         }
 

@@ -9,6 +9,11 @@ define(["game/models/window/SKWindow"], function (SKWindow) {
      * @augments SKWindow
      */
     window.SKDialogWindow = SKWindow.extend({
+
+//        name: undefined,
+//
+//        subname: undefined,
+
         /**
          * Constructor
          * @method initialize

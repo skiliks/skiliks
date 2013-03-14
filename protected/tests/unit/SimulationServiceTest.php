@@ -1178,7 +1178,6 @@ class SimulationServiceTest extends CDbTestCase
         }
         // set-up logs }
 
-        
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
@@ -1189,6 +1188,7 @@ class SimulationServiceTest extends CDbTestCase
         $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
 
         // assertions:
+
         $this->assertNotEquals(count($assessments), 1, 'No assessments!');
 
         $is_3326_scored = false;
@@ -1201,6 +1201,92 @@ class SimulationServiceTest extends CDbTestCase
         }
 
         $this->assertTrue($is_3326_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет что, если пользователь отверил всем на письма от Скоробей (MS60),
+     * то за 3333 он получит максимальный балл
+     */
+    public function testCalculateAggregatedPointsFor3333_OK_case1()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        // activate mainScreen
+        $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
+        EventsManager::processLogs($simulation, $logs);
+
+        // we allow user reply all by MS60
+        $ms = LibSendMs::sendMsByCode($simulation, 'MS60', 35000);
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        $heroBehaviour = HeroBehaviour::model()->findByAttributes(['code' => '3333']);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        $is_3333_scored = true;
+
+        // assertions:
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3333') {
+                $this->assertEquals($heroBehaviour->scale, $assessment->value, '3333 value!');
+                $is_3333_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3333_scored, '3326 not scored!');
+    }
+
+    /**
+     * Проверяет что, если пользователь отверил всем на письмо MS20 (не должен отвечать всем по этому письму),
+     * то за 3333 он получит "0"
+     */
+    public function testCalculateAggregatedPointsFor3333_bad_case1()
+    {
+        // init simulation
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        // activate mainScreen
+        $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
+        EventsManager::processLogs($simulation, $logs);
+
+        // we allow user reply all by MS60
+        $ms = LibSendMs::sendMsByCode(
+            $simulation,
+            'MS20', // code
+            35000,  // time
+            1,      // windowId
+            1,      // subWindowUid
+            null,   // windowUid
+            10,     // duration
+            false,  // isDraft
+            MailBox::TYPE_REPLY_ALL  // letter_type
+        );
+
+        // calculate point total scores
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
+
+        // check calculation
+        $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
+
+        $is_3333_scored = true;
+
+        // assertions:
+        foreach ($assessments as $assessment) {
+            if ($assessment->point->code === '3333') {
+                $this->assertEquals(0, $assessment->value, '3333 value!');
+                $is_3333_scored = true;
+            }
+        }
+
+        $this->assertTrue($is_3333_scored, '3326 not scored!');
     }
 
     public function testSimulationAssessmentRules()
