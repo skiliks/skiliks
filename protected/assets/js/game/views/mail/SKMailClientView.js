@@ -106,6 +106,7 @@ define([
 
                 // render character subjects list
                 this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
+
                     me.updateSubjectsList();
 
                     me.mailClient.availablePhrases = [];
@@ -662,7 +663,9 @@ define([
              * @param folderAlias
              */
             addClickAndDoubleClickBehaviour: function (folderAlias) {
-                var mailClientView = this;
+                var mailClientView = this,
+                    folderId = this.mailClientIncomeFolderListId,
+                    $table = mailClientView.$('#' + folderId + ' table');
 
                 // Todo — move to events dictionary (GuGu)
                 $('.email-list-line').click(function (event) {
@@ -699,7 +702,7 @@ define([
 
                 // make table sortable
                 if (this.isSortingNotApplied &&
-                    0 !== $('#' + this.mailClientIncomeFolderListId + ' table tbody tr').length) {
+                    0 !== $table.find('tbody tr').length) {
                     // add tablesorter filter for ouy specific date format {
                     $.tablesorter.addParser({
                         id: "customDate",
@@ -708,18 +711,16 @@ define([
                             return /\d{1,2}.\d{1,2}.\d{1,4} \d{1,2}:\d{1,2}/.test(s);
                         },
                         format: function (s) {
-                            s = s.replace(/:/g, " ");
-                            s = s.replace(/\./g, " ");
-                            s = s.split(" ");
+                            s = s.match(/(\d+)\.(\d+)\.(\d+) (\d+):(\d+)/);
 
-                            return $.tablesorter.formatFloat(new Date(s[2], s[1] - 1, s[0], s[3], s[4], 0).getTime());
+                            return $.tablesorter.formatFloat(new Date(s[3], s[2] - 1, s[1], s[4], s[5], 0).getTime());
                         },
                         type: "numeric"
                     });
                     // add tablesorter filter for ouy specific date format }
 
                     // init table sorter
-                    $('#' + this.mailClientIncomeFolderListId + ' table').tablesorter({
+                    $table.tablesorter({
                         sortInitialOrder: 'desc',
                         sortList: [
                             [2, 0],
@@ -731,6 +732,15 @@ define([
                             }
                         }
                     });
+
+                    // Hack that allows us do sorting of table rows
+                    mailClientView.$('#' + folderId + ' .ml-header > *').click(function() {
+                        $table.find('th:eq(' + $(this).index() + ')').click();
+                    });
+
+                    setTimeout(function () {
+                        mailClientView.$('#' + folderId + ' .ml-list').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
+                    }, 0);
 
                     this.isSortingNotApplied = false; // we upply sorting, so let other see it
                 } else {
@@ -1198,7 +1208,7 @@ define([
                     selected: 1,
                     imageSrc: ""
                 });
-
+                this.updateSubjectsList();
                 // add attachments list {
                 this.mailClient.uploadAttachmentsList(function () {
                     for (var i in mailClientView.mailClient.availableAttachments) {
@@ -1349,6 +1359,7 @@ define([
              * @method
              */
             updateSubjectsList: function () {
+                /*
                 var subjects = this.mailClient.availableSubjects; // to keep code shorter
                 var listHtml = '<option value="0"></option>';
 
@@ -1360,7 +1371,29 @@ define([
                 if (subjects.length === 1) {
                     this.$("#MailClient_NewLetterSubject select")[0].selectedIndex = 1;
                     this.doUpdateMailPhrasesList();
+                }*/
+
+                var subjects_list = [];
+                subjects_list.push({
+                    text: "без темы.",
+                    value: 0,
+                    selected: 1,
+                    imageSrc: ""
+                });
+                for (var i in this.mailClient.availableSubjects) {
+                    subjects_list.push({
+                        text: this.mailClient.availableSubjects[i].text,
+                        value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId),
+                        imageSrc: ""
+                    });
                 }
+                this.$("#MailClient_NewLetterSubject").ddslick({
+                    data: subjects_list,
+                    width: '100%',
+                    selectText: "Нет темы.",
+                    imagePosition: "left"
+                });
+
             },
 
             /**

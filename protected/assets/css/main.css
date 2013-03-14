@@ -1437,30 +1437,78 @@ section.mail>header nav ul li.active label:hover{
 	height:21px;
 }
 
+.folder-list {
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.ml-title.ml-header {
+    position: absolute;
+    overflow: hidden;
+    background:url("../img/mail/bg-ml-title.png") repeat-x;
+}
+
+.ml-title.ml-header > * {
+    float: left;
+    height: 20px;
+    padding-top: 4px;
+    font:normal 14px 'orbi_sans_boldregular';
+    color:#5d5b5b;
+    line-height:14px;
+    vertical-align:middle;
+    text-align: center;
+    background:url("../img/mail/bd-ml-title.png") no-repeat 0 5px;
+}
+.ml-title.ml-header > :first-child{
+    background: none;
+}
+
+.ml-title.ml-header span{
+    background: url("../img/mail/icon-sort.png") no-repeat right 4px;
+    padding-right: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.ml-list {
+    position: absolute;
+    top: 24px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.ml-list .mCSB_container {
+    margin-right: 0;
+}
+
 table.ml-title{
 	table-layout:fixed;
-	background:url("../img/mail/bg-ml-title.png") no-repeat;
 	width:668px;
 	height:24px;
 	margin:0;
 }
-table.ml-title .col0{
+.ml-title .col0{
 	width:140px;
 }
-table.ml-title .col1{
-	width:325px;
+.ml-title .col1{
+	width:345px;
 }
-table.ml-title .col2{
+.ml-title .col2{
 	width:135px;
 }
-table.ml-title th{
-	background:url("../img/mail/bd-ml-title.png") no-repeat 0 6px;
-	font:normal 14px 'orbi_sans_boldregular';
-	color:#5d5b5b;
-	line-height:14px;
-	padding:1px 10px 0;
-	vertical-align:middle;
+.ml-title .col3{
+    width:44px;
 }
+table.ml-title th{
+     display: none;
+    font:normal 14px 'orbi_sans_boldregular';
+    color:#5d5b5b;
+    line-height:14px;
+    padding:1px 10px 0;
+    vertical-align:middle;
+ }
 table.ml-title th:first-child{
 	background:none;
 	padding-left:13px;
