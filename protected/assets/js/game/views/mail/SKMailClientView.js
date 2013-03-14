@@ -82,7 +82,6 @@ define([
 
                 'click .SEND_DRAFT_EMAIL': 'doSendDraft',
                 'click .save-attachment-icon': 'doSaveAttachment',
-                'change #MailClient_NewLetterSubject select': 'doUpdateMailPhrasesList',
                 '#MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
                 'click #mailEmulatorNewLetterText li': 'doRemovePhraseFromEmail',
                 'click #MailClient_ContentBlock .mail-tags-bl li': 'doAddPhraseToEmail',
@@ -1374,24 +1373,30 @@ define([
                 }*/
 
                 var subjects_list = [];
-                subjects_list.push({
-                    text: "без темы.",
-                    value: 0,
-                    selected: 1,
-                    imageSrc: ""
-                });
                 for (var i in this.mailClient.availableSubjects) {
                     subjects_list.push({
                         text: this.mailClient.availableSubjects[i].text,
-                        value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId),
-                        imageSrc: ""
+                        value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId)
                     });
                 }
+                if(subjects_list.length == 0){
+                    subjects_list.push({
+                        text: "без темы.",
+                        value: 0,
+                        selected: 1
+                    });
+                }
+                this.$("#MailClient_NewLetterSubject").ddslick('destroy');
+                //this.$("#MailClient_NewLetterSubject").html('');
+                var me = this;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
                     selectText: "Нет темы.",
-                    imagePosition: "left"
+                    imagePosition: "left",
+                    onSelected: function () {
+                        me.doUpdateMailPhrasesList();
+                    }
                 });
 
             },
@@ -1401,11 +1406,23 @@ define([
              * @param {SKMailSubject} subject
              */
             renderSingleSubject: function (subject) {
-                var listHtml = '<option selected value="'
-                    + subject.characterSubjectId + '">' + subject.getText() + '</option>';
-
-                this.$("#MailClient_NewLetterSubject select").html(listHtml);
-                this.$("#MailClient_NewLetterSubject select").attr("disabled", true);
+                var subjects_list = [];
+                subjects_list.push({
+                    text: subject.getText(),
+                    value: subject.characterSubjectId,
+                    selected: 1,
+                    imageSrc: ""
+                });
+                var me = this;
+                this.$("#MailClient_NewLetterSubject").ddslick({
+                    data: subjects_list,
+                    width: '100%',
+                    selectText: "Нет темы.",
+                    imagePosition: "left",
+                    onSelected: function () {
+                    me.doUpdateMailPhrasesList();
+                }
+                });
             },
 
             /**
@@ -1414,9 +1431,9 @@ define([
              */
             getCurentEmailSubjectId: function () {
                 // removeAttr - for reply, replyAll, forward cases
-                this.$("#MailClient_NewLetterSubject select option:selected").removeAttr("disabled");
+                this.$("#MailClient_NewLetterSubject").ddslick('enable');
 
-                return this.$("#MailClient_NewLetterSubject select option:selected").val();
+                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
             },
 
             /**
@@ -1424,7 +1441,7 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectText: function () {
-                return this.$("#MailClient_NewLetterSubject select option:selected").text();
+                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData.text;;
             },
 
             /**
@@ -1773,8 +1790,16 @@ define([
              * @param value
              */
             selectSubjectByValue: function (value) {
-                $('#MailClient_NewLetterSubject select option').removeAttr('selected');
-                $('#MailClient_NewLetterSubject select option[value="' + value + '"]').attr('selected', 'selected');
+                var index = null;
+                $("#MailClient_NewLetterSubject li a input").each(function(i, el) {
+                    if($(el).val() == value){
+                        index = i;
+                    }
+                });
+                if(index === null){
+                    throw new Error("index !== null");
+                }
+                $("#MailClient_NewLetterSubject").ddslick('select', {'index': index });
             },
 
             /**
