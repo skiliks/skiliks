@@ -1195,14 +1195,14 @@ section.mail nav ul li{
 .readed-email-text {
     background-color: white;
 }
-.previouse-message-text {
+/*.previouse-message-text {
     height: 250px;
     bottom: 0;
     left: 0;
     right: 0;
     border-top: solid 2px;
     position: absolute;
-}
+}*/
 section.mail nav ul li{
 	background:url("../img/mail/btn-nav.png") no-repeat 0 0;
 	padding:3px 10px 0;
@@ -1388,6 +1388,13 @@ section.mail>header nav ul li.active label:hover{
     height:36px;
 }
 
+#MailClient_IncomeFolder_EmailPreview {
+    position: absolute;
+    bottom: 0;
+    height: 250px;
+    border-top: solid 2px;
+}
+
 #mailEmulatorMainScreen,
 #MailClient_AddToPlanPopUp {
     width: 100%;
@@ -1488,8 +1495,7 @@ section.mail>header nav ul li.active label:hover{
 
 .folder-list {
     height: 100%;
-    padding-bottom: 250px;
-    border-bottom: solid 2px;
+    border-bottom: solid 250px white;
     position: relative;
     box-sizing: border-box;
 }
@@ -1537,7 +1543,7 @@ section.mail>header nav ul li.active label:hover{
     position: absolute;
     background-color: white;
     top: 24px;
-    bottom: 250px;
+    bottom: 0;
     left: 0;
     right: 0;
 }
@@ -1759,7 +1765,8 @@ table.ml-title th span{
 .mail-view.new{
 	border-left:none;
 	width:100%;
-	height:auto;
+	height:100%;
+    background-color: white;
 }
 .mail-view.new .mail-view-header{
 	position:relative;
@@ -1949,6 +1956,7 @@ table.ml-title th span{
 	width:100%;
 	height:92px;
 	padding:10px;
+    background-color: white;
     overflow: scroll;
 }
 .mail-new-text.full{
@@ -1961,6 +1969,12 @@ table.ml-title th span{
     border-top:2px solid #363636;
 	height:265px;
 	overflow:hidden;
+    overflow-y: scroll;
+    position: absolute;
+    bottom: 0;
+    left: -179px;
+    right: 0;
+    background-color: white;
 }
 
 .mail-tags-signs{
@@ -1969,7 +1983,8 @@ table.ml-title th span{
 	width:44px;
 	height:100%;
 	margin:0 0 17px 0;
-	float:right;
+    position: absolute;
+    right: 0;
 }
 .mail-tags-signs li{
 	width:23px;
@@ -1992,10 +2007,11 @@ table.ml-title th span{
 }
 .mail-tags-words{
 	list-style:none;
-	width:770px;
-	float:right;
+	width:100%;
 	overflow:hidden;
 	margin:0 0 17px 0;
+    padding-right: 10px;
+    box-sizing: border-box;
 }
 .mail-tags-words li{
 	display:inline-block;
