@@ -461,9 +461,6 @@ a {
 /* excel end*/
 
 /* mail begin */
-.mail-bg {
-    background-color: white
-}
 
 .attach-icon-medium {
     background-image: url(../img/mail/btn-attach.png); 
@@ -1112,16 +1109,13 @@ mail-emulator-received-list-row
 
 /* --------------- mail ---------*/
 section.mail{
-	background:#fff;
+	background:transparent;
     background-position: 0 -53px;
-	border:2px solid #000;
+    border:2px solid #000;
     border-width: 0 2px 2px 2px;
 	-webkit-border-radius:2px;
 	-moz-border-radius:2px;
 	border-radius:2px;
-	-webkit-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
-	-moz-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
-	box-shadow:1px 2px 8px rgba(0,0,0,0.75);
 	height:100%;
 	font-family: 'orbi_sansregular';
 	overflow:hidden;
@@ -1156,6 +1150,7 @@ section.mail>header h1{
 }
 section.mail nav{
     position: absolute;
+    margin-top: 24px;
     background: #ffffff; /* Old browsers */
     background: -moz-linear-gradient(45deg,  #ffffff 35%, #e5e5e5 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left bottom, right top, color-stop(35%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
@@ -1165,9 +1160,11 @@ section.mail nav{
     background: linear-gradient(45deg,  #ffffff 35%,#e5e5e5 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 
-    height: 100%;
+    top: 0;
+    bottom: 0;
     border-right: solid 2px;
 }
+
 #mailEmulatorContentDiv {
     position: relative;
     margin-left: 179px;
@@ -1187,13 +1184,16 @@ a.dd-selected:hover {
     text-decoration: none;
 }
 section.mail nav ul{
-	margin: 0px 0px 0px 0px;
+	margin: -26px 0px 0px 0px;
 }
 section.mail nav ul li{
 	list-style:none;
 }
 .mail-bg, .readed-email-text {
     height: 100%;
+}
+.readed-email-text {
+    background-color: white;
 }
 .previouse-message-text {
     height: 250px;
@@ -1275,6 +1275,7 @@ section.mail>header nav ul li.active label:hover{
 }
 
 /* mail actions buttons */
+
 .mail-window .sim-window-content {
     position: absolute;
     top: 63px;
@@ -1294,7 +1295,7 @@ section.mail>header nav ul li.active label:hover{
 	position:relative;
 }
 .canvas .sim-window.mail-window .sim-window-container header {
-    height: 62px;
+    height: 85px;
 }
 .mail-window header h1 {
     width: 160px;
@@ -1489,7 +1490,6 @@ section.mail>header nav ul li.active label:hover{
     height: 100%;
     padding-bottom: 250px;
     border-bottom: solid 2px;
-    overflow: hidden;
     position: relative;
     box-sizing: border-box;
 }
@@ -1497,7 +1497,18 @@ section.mail>header nav ul li.active label:hover{
 .ml-title.ml-header {
     position: absolute;
     overflow: hidden;
-    background:url("../img/mail/bg-ml-title.png") repeat-x;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(top,  #ffffff 0%, #e1e1e1 99%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(99%,#e1e1e1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #ffffff 0%,#e1e1e1 99%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #ffffff 0%,#e1e1e1 99%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #ffffff 0%,#e1e1e1 99%); /* IE10+ */
+    background: linear-gradient(to bottom,  #ffffff 0%,#e1e1e1 99%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e1e1e1',GradientType=0 ); /* IE6-9 */
+}
+
+.ml-title.ml-header .attachmentIcon {
+    margin-left: 14px;
 }
 
 .ml-title.ml-header > * {
@@ -1524,6 +1535,7 @@ section.mail>header nav ul li.active label:hover{
 
 .ml-list {
     position: absolute;
+    background-color: white;
     top: 24px;
     bottom: 250px;
     left: 0;
@@ -1541,7 +1553,11 @@ table.ml-title{
 	margin:0;
 }
 .ml-title {
-    width: 100%;
+    left:0;
+    right:0;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    margin: 0 7px;
 }
 .ml-title .col0{
 	width:15%;
