@@ -1179,6 +1179,13 @@ section.mail nav{
 .planner-book-after-vacation.mCSB_scrollTools {
     width: 17px;
 }
+a.dd-selected {
+    color: black;
+}
+a.dd-selected:hover {
+    color: black;
+    text-decoration: none;
+}
 section.mail nav ul{
 	margin: 0px 0px 0px 0px;
 }
