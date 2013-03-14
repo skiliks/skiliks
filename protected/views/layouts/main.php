@@ -10,6 +10,7 @@ $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 
@@ -132,8 +133,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
         <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
             <script type="text/javascript">
-            	var h=$('.container').height();
-            	$('.sign-in-box').css('height',h+'px')
+            	$(function () {
+			        var h=$('.container').height();
+	            	$('.sign-in-box').css('height',h+'px')
+			    });
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
@@ -141,5 +144,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 });
             </script>
         <?php endif; ?>
+        <script type="text/javascript">
+        	$(function () {
+		        $("select").selectbox();
+		    });
+        </script>
 	</body>
 </html>
