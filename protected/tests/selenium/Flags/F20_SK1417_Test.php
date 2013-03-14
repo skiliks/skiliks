@@ -15,6 +15,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
+
     /**
      * testSK1417_Case1() тестирует задачу SKILIKS-1417
      *
