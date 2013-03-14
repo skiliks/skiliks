@@ -1383,7 +1383,7 @@ define([
                     subjects_list.push({
                         text: "без темы.",
                         value: 0,
-                        selected: 1
+                        selected: true
                     });
                 }
                 this.$("#MailClient_NewLetterSubject").ddslick('destroy');
@@ -1410,14 +1410,12 @@ define([
                 subjects_list.push({
                     text: subject.getText(),
                     value: subject.characterSubjectId,
-                    selected: 1,
-                    imageSrc: ""
+                    selected: true
                 });
                 var me = this;
                 this.$("#MailClient_NewLetterSubject").ddslick({
                     data: subjects_list,
                     width: '100%',
-                    selectText: "Нет темы.",
                     imagePosition: "left",
                     onSelected: function () {
                     me.doUpdateMailPhrasesList();
