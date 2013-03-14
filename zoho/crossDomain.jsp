@@ -6,7 +6,7 @@ function autoSave() {
 
     console.log('excel save');
     }
-setInterval(autoSave, 15000);
+setInterval(autoSave, 300000);
 console.log(window.parent.document.getElementById('savefile'));
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
