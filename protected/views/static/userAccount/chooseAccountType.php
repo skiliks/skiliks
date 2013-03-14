@@ -129,9 +129,13 @@
     <br/>
 
     <div class="row">
+    <?php if (UserService::isCorporateEmail($profile->email)): ?>
+        <?php echo $form->hiddenField($accountCorporate, 'corporate_email'); ?>
+    <?php else: ?>
         <?php echo $form->labelEx($accountCorporate  , 'corporate_email'); ?>
         <?php echo $form->textField($accountCorporate, 'corporate_email'); ?>
         <?php echo $form->error($accountCorporate    , 'corporate_email'); ?>
+    <?php endif ?>
     </div>
     <br/>
 

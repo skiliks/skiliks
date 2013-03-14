@@ -194,6 +194,7 @@ class UserAccountController extends YumController
             if(null!== $UserAccountCorporate & null !== $YumProfile)
             {
                 $accountCorporate->attributes = $UserAccountCorporate; //$_POST['UserAccountCorporate'];
+
                 $isUserAccountCorporateValid  = $accountCorporate->validate();
 
                 if($isUserAccountCorporateValid && $isProfileValid)
@@ -203,6 +204,11 @@ class UserAccountController extends YumController
                     $this->redirect(['registration/account-type/added']);
                 }
             }
+        }
+
+        // set email for corporate account, if email is corporate
+        if (UserService::isCorporateEmail($profile->email)) {
+            $accountCorporate->corporate_email = $profile->email;
         }
 
         $industries = [];

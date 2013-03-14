@@ -19,6 +19,12 @@
 <?php else: ?>
     У Вас не выбран тип аккаунта.
 <?php endif; ?>
+
+<?php if ($this->user->getAccount() instanceof UserAccountCorporate): ?>
+    <br>
+    <br>
+    <strong>Корпоративный e-mail: </strong><?php echo $this->user->getAccount()->corporate_email?>.
+<?php endif; ?>
 <br>
 <br>
 <nav>
