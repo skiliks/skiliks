@@ -54,20 +54,15 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                         <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
-                        <?php if (false === $this->user->isHasAccount()): ?>
-                            <a href="/registration/choose-account-type">
-                                <?php echo Yii::t('site', 'Choose account type') ?>
-                            </a>
-                        <?php endif; ?>
-                        <a href="/simulation"><?php echo Yii::t('site', 'Simulation') ?></a>
-                        <a href="/site/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo $this->user->profile->email ?></a>
+                        <a href="/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
 			<!--header end-->
 
             <?php if (null === $this->user || null === $this->user->id ||0 != count($this->signInErrors)) : ?>
-                <div class="sing-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
+                <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/" method="post">
 						<h6>Sign in</h6>
 						
@@ -132,10 +127,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
         <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
             <script type="text/javascript">
+            	var h=$('.container').height();
+            	$('.sign-in-box').css('height',h+'px')
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
-                    $('.sing-in-box').toggle();
+                    $('.sign-in-box').toggle();
                 });
             </script>
         <?php endif; ?>

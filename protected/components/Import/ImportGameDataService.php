@@ -195,6 +195,19 @@ class ImportGameDataService
             }
         }
 
+        // Manual add punctuation signs
+        $signs = ['.', ',', ':', '"', '-', ';'];
+        foreach ($signs as $sign) {
+            $phrase = MailPhrase::model()->findByAttributes(['code' => 'SYS', 'name' => $sign]);
+            if ($phrase === null) {
+                $phrase = new MailPhrase();
+            }
+            $phrase->code = 'SYS';
+            $phrase->name = $sign;
+            $phrase->import_id = $this->import_id;
+            $phrase->save();
+        }
+
         // delete old unused data {
         MailPhrase::model()->deleteAll(
             'import_id<>:import_id',

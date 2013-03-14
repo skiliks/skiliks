@@ -323,5 +323,13 @@ class UserAccountController extends YumController
         }
     }
 
+    public function actionOffice()
+    {
+        $this->checkUser();
+
+        $this->render('office', [
+            'user' => $this->user
+        ]);
+    }
 }
 
