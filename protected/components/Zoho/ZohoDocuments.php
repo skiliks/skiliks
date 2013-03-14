@@ -93,9 +93,9 @@ class ZohoDocuments
         $this->templateFilename = $templateFilename;
         $this->extention = $extention;
 
-        if (false === $this->checkIsUserFileExists() && $this->templateFilename !== null) {
+        /*if (false === $this->checkIsUserFileExists() && $this->templateFilename !== null) {
             $this->copyUserFileIfNotExists();
-        }
+        }*/
     }
 
     /**
@@ -247,6 +247,30 @@ class ZohoDocuments
             'saveurl' => $this->saveUrl,
             'mode' => 'normaledit'
         );
+    }
+    /*
+     * Копирование всех файлов для захо при старте симуляции
+     */
+    public static function copyExcelFiles($simId) {
+
+        $zohoConfigs = Yii::app()->params['zoho'];
+        $documents = Yii::app()->db->createCommand("SELECT d.id, t.srcFile FROM `my_documents` AS d LEFT JOIN `my_documents_template` AS t ON d.template_id = t.id WHERE t.format = 'xlsx' AND d.sim_id = ".$simId)->queryAll();
+        //TODO: Можно на ORM, но так быстрее
+        $path_zoho = __DIR__ . '/../../../'.$zohoConfigs['templatesDirPath'].'/'.$simId;
+
+        if (false === is_dir($path_zoho)) {
+            @mkdir($path_zoho, 0777, true);
+        }
+
+        foreach($documents as $document){
+            $xls = __DIR__ . '/../../../'.$zohoConfigs['xlsTemplatesDirPath'].'/'.$document['srcFile'];
+            if(file_exists($xls)){
+                copy($xls, $path_zoho.'/'.$document['id'].'.'.$zohoConfigs['extExcel']);
+            }
+
+        }
+
+
     }
 }
 

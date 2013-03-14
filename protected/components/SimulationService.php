@@ -432,7 +432,7 @@ class SimulationService
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
         $profiler->render('9: '); // 3.51 ~ 4.14
-
+        ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
