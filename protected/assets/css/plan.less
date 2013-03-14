@@ -1,5 +1,6 @@
 .canvas .sim-window.planner-book-main-div {
   position: relative;
+  overflow: hidden;
   user-select: none;
   .sim-window-container {
     overflow: hidden;
@@ -8,6 +9,7 @@
     background: url("../img/planner/bg-planner-header-right.png") no-repeat right top;
     height: auto;
     padding-right: 32px;
+    margin-left: 20px;
     border: none;
     >div {
       background: url("../img/planner/bg-planner-header-left.png") no-repeat left top;
@@ -129,7 +131,7 @@
     background: url("../img/planner/bg-planner-book-right.png") no-repeat right bottom;
     padding-right: 32px;
     position: absolute;
-    left: 0;
+    left: 20px;
     right: 0;
     bottom: 0;
     top: 85px;
@@ -155,13 +157,13 @@
       }
       .planner-book-quarter-plan{
         position: absolute;
-        top: 40px;
+        top: 0px;
         left: -20px;
         z-index: 1;    
       }
       .planner-book-day-plan{
         position: absolute;
-        top: 265px;
+        top: 225px;
         left: -20px;
         z-index: 2;
       }
@@ -202,6 +204,7 @@
       position:absolute;
       top:0;
       left:0;
+      padding-left: 10px;
     }
     .planner-book-tomorrow {
       border-left:1px solid #000;
@@ -212,6 +215,7 @@
       position:absolute;
       top:0;
       left:33.333%;
+      padding-left: 10px;
     }
     .planner-book-after-vacation {
       border-left:1px solid #000;
@@ -225,6 +229,7 @@
         width:1px;
       }
       .planner-book-afterv-table {
+        margin-right: -8px;
         overflow-y: hidden;
         transition-property: height;
         transition-duration: 1s;
@@ -240,6 +245,7 @@
       }
     }
     .planner-book-timetable{
+      margin-left: -10px;
       border-right:1px solid #000;
       height: 100%;
       overflow-y: hidden;
@@ -250,6 +256,7 @@
       border-collapse: separate;
       table-layout: fixed;
       width: 100%;
+      padding-right: 9px;
       hr.past::before {
         background-image: url('../img/planner/bg-time-line.png');
         width: 19px;
@@ -274,6 +281,7 @@
           height:10px;
           padding:0;
           vertical-align:top;
+          background-color: white;
           &.planner-book-timetable-event-fl.past-slot {
             background: #eee;
           }
@@ -296,7 +304,7 @@
             height: 44px;
           }
           &.planner-book-timetable-event-fl,&.planner-book-timetable-afterv-fl {
-            border-top: 1px solid #d9d9db;;
+            border-top: 1px solid #d9d9db;
             line-height: 10px;
             span {
               line-height: 18px;
@@ -345,7 +353,8 @@
     overflow:hidden;
     bottom:9px;
     right:0;
-    z-index:4;
+    z-index:0;
+    background-color: white;
     transition-property: height, transform, bottom;
     transition-duration: 1s, 1s;
     transition-delay: 0s, 0s;
@@ -370,7 +379,8 @@
     }
     &.closed {
       transform: rotate(-30deg);
-      bottom:-200px;
+      bottom:-42%;
+      background-color: transparent;
       .plan-todo-btn {
         .min {
           display: none;
@@ -622,6 +632,7 @@
   }
   
   .planner-book{
+
     .plannerBookQuarterPlan{
       width:100%;
       height:100%;
@@ -673,7 +684,7 @@
           td{
             border-right:1px solid #999;
             border-bottom:1px solid #999;
-            border-bottom:;
+            //border-bottom:;
             font-family:'orbi_sansregular';
             font-size:14px;
             color:#71a7cd;
