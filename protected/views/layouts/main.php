@@ -54,13 +54,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                         <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
-                        <?php if (false === $this->user->isHasAccount()): ?>
-                            <a href="/registration/choose-account-type">
-                                <?php echo Yii::t('site', 'Choose account type') ?>
-                            </a>
-                        <?php endif; ?>
-                        <a href="/simulation"><?php echo Yii::t('site', 'Simulation') ?></a>
-                        <a href="/site/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo $this->user->profile->email ?></a>
+                        <a href="/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
