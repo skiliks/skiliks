@@ -20,7 +20,7 @@ body {
 #status {
     margin-top:7%;
     text-align: center;
-    font-size: 6em;
+    font-size: 5em;
     padding:0.5em;
 }
 
@@ -33,6 +33,7 @@ body {
 }
 
 #author {
+    display: none;
     text-align: center;
     font-size: 7em;
     padding: 0.5em;
