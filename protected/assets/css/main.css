@@ -473,8 +473,12 @@ a {
 }
 .mail-emulator-main-div
 {
-    height: 557px;
+    height: 100%;
 }
+.mail-window section {
+    height: 100%;
+}
+
 .mail-emulator-folders
 {                   
     float: left;
@@ -1108,7 +1112,7 @@ mail-emulator-received-list-row
 
 /* --------------- mail ---------*/
 section.mail{
-	background:#fff url("../img/mail/bg-main.png") no-repeat;
+	background:#fff;
     background-position: 0 -53px;
 	border:2px solid #000;
     border-width: 0 2px 2px 2px;
@@ -1118,8 +1122,7 @@ section.mail{
 	-webkit-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
 	-moz-box-shadow:1px 2px 8px rgba(0,0,0,0.75);
 	box-shadow:1px 2px 8px rgba(0,0,0,0.75);
-	width:847px;
-	height:492px;
+	height:100%;
 	font-family: 'orbi_sansregular';
 	overflow:hidden;
 }
@@ -1152,9 +1155,23 @@ section.mail>header h1{
     width: 50px;
 }
 section.mail nav{
-    float: left;
+    position: absolute;
+    background: #ffffff; /* Old browsers */
+    background: -moz-linear-gradient(45deg,  #ffffff 35%, #e5e5e5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(35%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(45deg,  #ffffff 35%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(45deg,  #ffffff 35%,#e5e5e5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(45deg,  #ffffff 35%,#e5e5e5 100%); /* IE10+ */
+    background: linear-gradient(45deg,  #ffffff 35%,#e5e5e5 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
     height: 100%;
     border-right: solid 2px;
+}
+#mailEmulatorContentDiv {
+    position: relative;
+    margin-left: 179px;
+    width: 100%;
 }
 section.mail nav ul{
 	margin: 0px 0px 0px 0px;
@@ -1234,7 +1251,9 @@ section.mail>header nav ul li.active label:hover{
 }
 
 /* mail actions buttons */
-
+.mail-window .sim-window-content {
+    height: 100%;
+}
 .mail-window .actions{
 	list-style:none;
 	height:40px;
@@ -1342,7 +1361,8 @@ section.mail>header nav ul li.active label:hover{
 
 #mailEmulatorMainScreen,
 #MailClient_AddToPlanPopUp {
-    width: 851px;
+    width: 100%;
+    height: 100%;
     margin: 0;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -1439,6 +1459,7 @@ section.mail>header nav ul li.active label:hover{
 
 .folder-list {
     height: 250px;
+    border-bottom: solid 2px;
     overflow: hidden;
     position: relative;
 }
