@@ -47,6 +47,21 @@ class UserService {
 
         return $response;
     }
+
+    public static function isCorporateEmail($email)
+    {
+        $domain = substr($email, strpos($email, '@') + 1);
+
+        $counter = FreeEmailProvider::model()->countByAttributes([
+            'domain' => $domain
+        ]);
+
+        if(0 != $counter) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 

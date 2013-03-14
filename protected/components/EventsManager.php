@@ -174,6 +174,7 @@ class EventsManager {
             // теперь подчистим список
             $resultList = $data;
             $defaultDialogs = [];
+            $flag = [];
             foreach ($data as $dialogId => $dialog) {
                 $flagInfo = FlagsService::checkRule(
                     $dialog['code'],
@@ -195,7 +196,8 @@ class EventsManager {
                         continue;
                     }
                     else {
-                        $ruleDependentExists = true;
+                       $flag[$dialogId] = $dialog;
+                        //$ruleDependentExists = true;
                     }
 
                     // Это условие вообще может ли выполниться?
@@ -209,10 +211,20 @@ class EventsManager {
                 }
             }
 
-            // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
-            if (isset($ruleDependentExists)) {
-                $resultList = array_diff_key($resultList, $defaultDialogs);
+            foreach( $flag as $flag_replicaId => $flag_replica ) {
+                foreach( $resultList as $replicaId => $replica ){
+                    if( $flag_replica['replica_number'] === $replica['replica_number']
+                         AND $flag_replica['step_number'] === $replica['step_number']
+                            AND $flag_replicaId !== $replicaId ) {
+                        unset($resultList[$replicaId]);
+                        unset($flag[$flag_replicaId]);
+                    }
+                }
             }
+            // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
+            /*if (isset($ruleDependentExists)) {
+                $resultList = array_diff_key($resultList, $defaultDialogs);
+            }*/
 
             $data = array();
             // а теперь пройдемся по тем кто выжил и позапускаем события

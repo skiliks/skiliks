@@ -284,4 +284,17 @@ class FlagServiceTest extends CDbTestCase
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
         $this->assertNull($timed_bad_email);
     }
+
+    public function testNewFlagsRules() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
+
+        FlagsService::setFlag($simulation, 'F14', 1);
+
+        EventsManager::startEvent($simulation, 'ET12.1', false, false, 0);
+
+        $result = EventsManager::getState($simulation, []);
+
+        $this->assertEquals(3, count($result['events'][0]['data']));
+    }
 }

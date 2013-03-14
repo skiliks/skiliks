@@ -260,6 +260,15 @@ class MailBoxTest extends CDbTestCase
     }
 
     /**
+     * Checks that punctuation signs available
+     */
+    public function testPunctuationSignsExist()
+    {
+        $allSings = MailBoxService::getSigns();
+        $this->assertCount(6, $allSings);
+    }
+
+    /**
      * Проверяет что для письма Трутнев С. на тему "FWD:форма по задаче от логистики, срочно!" возвращается непустой набор
      * правильных фраз и равен R6
      *

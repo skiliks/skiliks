@@ -129,4 +129,5 @@ return array(
     'Choose account type' => 'Выбор типа аккаунта',
     'Simulation' => 'Симуляция',
     'Log out' => 'Выход',
+    'This is free e-mail! Type your corporate e-mail.' => 'Это не корпоративный e-mail. Используйте свой корпоративный e-mail.'
 );
