@@ -106,6 +106,7 @@ define([
 
                 // render character subjects list
                 this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
+
                     me.updateSubjectsList();
 
                     me.mailClient.availablePhrases = [];
@@ -1198,7 +1199,7 @@ define([
                     selected: 1,
                     imageSrc: ""
                 });
-
+                this.updateSubjectsList();
                 // add attachments list {
                 this.mailClient.uploadAttachmentsList(function () {
                     for (var i in mailClientView.mailClient.availableAttachments) {
@@ -1349,6 +1350,7 @@ define([
              * @method
              */
             updateSubjectsList: function () {
+                /*
                 var subjects = this.mailClient.availableSubjects; // to keep code shorter
                 var listHtml = '<option value="0"></option>';
 
@@ -1360,7 +1362,29 @@ define([
                 if (subjects.length === 1) {
                     this.$("#MailClient_NewLetterSubject select")[0].selectedIndex = 1;
                     this.doUpdateMailPhrasesList();
+                }*/
+
+                var subjects_list = [];
+                subjects_list.push({
+                    text: "без темы.",
+                    value: 0,
+                    selected: 1,
+                    imageSrc: ""
+                });
+                for (var i in this.mailClient.availableSubjects) {
+                    subjects_list.push({
+                        text: this.mailClient.availableSubjects[i].text,
+                        value: parseInt(this.mailClient.availableSubjects[i].characterSubjectId),
+                        imageSrc: ""
+                    });
                 }
+                this.$("#MailClient_NewLetterSubject").ddslick({
+                    data: subjects_list,
+                    width: '100%',
+                    selectText: "Нет темы.",
+                    imagePosition: "left"
+                });
+
             },
 
             /**
