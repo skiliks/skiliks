@@ -23,7 +23,7 @@
 <br>
 <nav>
     <a href="/simulation/promo">Начать симуляцию в режиме promo</a>
-<nav/>
+</nav>
 <br>
 <br>
 <br>
