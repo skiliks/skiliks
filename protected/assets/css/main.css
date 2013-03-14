@@ -1192,8 +1192,16 @@ section.mail nav ul{
 section.mail nav ul li{
 	list-style:none;
 }
-.mail-bg, .previouse-message-text, .readed-email-text {
+.mail-bg, .readed-email-text {
     height: 100%;
+}
+.previouse-message-text {
+    height: 250px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: solid 2px;
+    position: absolute;
 }
 section.mail nav ul li{
 	background:url("../img/mail/btn-nav.png") no-repeat 0 0;
@@ -1271,6 +1279,8 @@ section.mail>header nav ul li.active label:hover{
     position: absolute;
     top: 63px;
     bottom: 0;
+    left:0;
+    right: 0;
 }
 .mail-window .actions{
 	list-style:none;
@@ -1476,10 +1486,12 @@ section.mail>header nav ul li.active label:hover{
 }
 
 .folder-list {
-    height: 250px;
+    height: 100%;
+    padding-bottom: 250px;
     border-bottom: solid 2px;
     overflow: hidden;
     position: relative;
+    box-sizing: border-box;
 }
 
 .ml-title.ml-header {
@@ -1513,7 +1525,7 @@ section.mail>header nav ul li.active label:hover{
 .ml-list {
     position: absolute;
     top: 24px;
-    bottom: 0;
+    bottom: 250px;
     left: 0;
     right: 0;
 }
@@ -1528,17 +1540,21 @@ table.ml-title{
 	height:24px;
 	margin:0;
 }
+.ml-title {
+    width: 100%;
+}
 .ml-title .col0{
-	width:140px;
+	width:15%;
 }
 .ml-title .col1{
-	width:345px;
+	width:60%;
 }
 .ml-title .col2{
-	width:135px;
+	width:15%;
 }
 .ml-title .col3{
-    width:44px;
+    width:10%;
+    text-align: center;
 }
 table.ml-title th{
      display: none;
@@ -1678,7 +1694,7 @@ table.ml-title th span{
 .mail-view-header table{
 	border-collapse:separate;
 	border-spacing:17px 0;
-	width:670px;
+	width:100%;
 	table-layout:fixed;
 }
 .mail-view-header table th{
@@ -1803,11 +1819,11 @@ table.ml-title th span{
     widht: 26px;
 }
 
-#MailClient_NewLetterAttachment .dd-selected {
+.mail-view-header .dd-selected {
     padding: 5px;
 }
 
-#MailClient_NewLetterAttachment .dd-option {
+.mail-view-header .dd-option {
     padding: 3px;
 }
 
@@ -1914,7 +1930,7 @@ table.ml-title th span{
 	background:#b1d8f9;
 }
 .mail-new-text{
-	width:825px;
+	width:100%;
 	height:92px;
 	padding:10px;
     overflow: scroll;
@@ -1926,13 +1942,14 @@ table.ml-title th span{
 	height:227px;
 }
 .mail-tags-bl{
-    background:url("../img/mail/bg-signs.png") repeat-y 790px 0;
-	border-top:2px solid #363636;
+    border-top:2px solid #363636;
 	height:265px;
 	overflow:hidden;
 }
+
 .mail-tags-signs{
-	list-style:none;
+    background:url("../img/mail/bg-signs.png") repeat-y 0 0;
+    list-style:none;
 	width:44px;
 	height:100%;
 	margin:0 0 17px 0;
