@@ -1218,7 +1218,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // we allow user reply all by MS60
-        $ms = LibSendMs::sendMsByCode($simulation, 'MS60', 35000);
+        LibSendMs::sendMsByCode($simulation, 'MS60', 35000);
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation->id);
