@@ -67,7 +67,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--header end-->
 
             <?php if (null === $this->user || null === $this->user->id ||0 != count($this->signInErrors)) : ?>
-                <div class="sing-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
+                <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/" method="post">
 						<h6>Sign in</h6>
 						
@@ -132,10 +132,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
         <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
             <script type="text/javascript">
+            	var h=$('.container').height();
+            	$('.sign-in-box').css('height',h+'px')
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
-                    $('.sing-in-box').toggle();
+                    $('.sign-in-box').toggle();
                 });
             </script>
         <?php endif; ?>
