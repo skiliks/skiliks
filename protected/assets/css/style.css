@@ -1024,8 +1024,10 @@ html[lang=ru] .product section table th{
     width:235px;
     height:256px;
     padding:9px 34px;
+    margin-left:46px;
     position: absolute;
-    right: 400px;
+    top:89px;
+    left: 50%;
     z-index: 10;
 }
 .sing-in-box h6{
@@ -1055,6 +1057,8 @@ html[lang=ru] .product section table th{
 	display:block;
 	font:0.834em 'ProximaNova-Regular';
 	color:#fff;
+	padding:0;
+	margin:0;
 	margin-bottom:4px;
 }
 .sing-in-box div input[type=text],.sing-in-box div input[type=password]{
@@ -1098,6 +1102,7 @@ html[lang=ru] .product section table th{
 }
 .sing-in-box div.remember label{
 	display:inline-block;
+	vertical-align:middle;
 }
 .sing-in-box div .niceCheck{
 	width: 14px;
@@ -1120,5 +1125,67 @@ html[lang=ru] .product section table th{
 }
 .sing-in-box a:hover{
 	text-decoration:underline;
+}
+@media screen and (max-width: 1280px){
+	.sing-in-box{
+	    background:url("../img/bg-sign-in-min.png") no-repeat 0 0;
+	    width:184px;
+	    height:206px;
+	    padding:7px 30px;
+	    top:69px;
+	    margin-left:33px;
+	}
+	.sing-in-box h6{
+		font-size:1.333em;
+		color:#fff;
+		margin:12px 0 7px;
+	}
+	.sing-in-box div.login{
+		margin-bottom:11px;
+	}
+	.sing-in-box div.password{
+		margin-bottom:6px;
+	}
+	.sing-in-box div.remember{
+		margin-bottom:8px;
+	}
+	.sing-in-box div.submit{
+		margin-bottom:5px;
+	}
+	.sing-in-box div label{
+		font-size:0.666em;
+		margin-bottom:4px;
+	}
+	.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+		font-size:0.666em;
+		width:171px;
+		height:9px;
+		padding:6px 7px;
+	}
+	.sing-in-box div input[type=submit]{
+		background:url("../img/btn-bg-sign-in-min.png") no-repeat 0 0;
+		width:49px;
+		height:21px;
+		font-size:0.666em;
+		text-indent:9px;
+	}
+	.sing-in-box div input[type=submit]:hover{
+		background-position:0 -21px;
+		color:#fff;
+	}
+	.sing-in-box div.remember label{
+		display:inline-block;
+	}
+	.sing-in-box div .niceCheck{
+		width:11px;
+		height:11px;
+		background: url("../img/checkbox-min.png") no-repeat;
+	}
+	.sing-in-box div .niceCheck.niceChecked{
+		background-position:0 -11px;
+	}
+	.sing-in-box a{
+		font-size:0.666em;
+	}
 }
 /* --------------- /sign in box ---------*/
