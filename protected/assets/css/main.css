@@ -1176,6 +1176,9 @@ section.mail nav{
     right: 0;
     height: 100%;
 }
+.planner-book-after-vacation.mCSB_scrollTools {
+    width: 17px;
+}
 section.mail nav ul{
 	margin: 0px 0px 0px 0px;
 }
