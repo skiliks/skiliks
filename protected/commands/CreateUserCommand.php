@@ -21,7 +21,7 @@ class CreateUserCommand extends CConsoleCommand
         $user->save();
         echo "User $login successfully $action.";
 
-        $group = Group::model()->findByAttributes(['name' => 'promo']);
+        $group = Group::model()->findByAttributes(['name' => Simulation::MODE_DEVELOPER_LABEL]);
         $userGroup = UserGroup::model()->findByAttributes(['uid' => $user->primaryKey, 'gid' => $group->primaryKey]);
         if ($userGroup === null) {
             $userGroup = new UserGroup();

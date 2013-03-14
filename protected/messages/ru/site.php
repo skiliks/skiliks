@@ -117,7 +117,7 @@ return array(
     'Show passwords' => 'Показать пароли',
     'Username' => 'Имя пользователя',
     '{attribute} is too short (min. {num} characters).' => '{attribute} слишком короткий (должен быть {num} символов и более).',
-    'Please check your inbox folder, for activation email.' => 'Вам выслано активационное письмо. Проверте почту.',
+    'Please check your inbox folder, for activation email.' => 'Вам выслано активационное письмо. Проверьте почту.',
     'You not authorized. Please %s sing-in %s or %s register %s.' => 'Вы не авторизированны. Пожалуйста %s войдите в систему %s или %s зарегисрируйтесь %s.',
     'Your account successfully updated to "%s".' => 'Ваш аккаунт успешно обновлён до "%s".',
     'Personal' => 'Личный',

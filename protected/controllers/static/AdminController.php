@@ -76,6 +76,8 @@ class AdminController extends AjaxController
 
     public function actionDialogsAnalyzer()
     {
+        $this->checkUser();
+
         error_reporting(E_ALL);
         ini_set('display_errors', '1');
 
@@ -130,7 +132,9 @@ class AdminController extends AjaxController
         );
     }
 
-    public function actionUploadDialogsToAnalyzer() {
+    public function actionUploadDialogsToAnalyzer()
+    {
+        $this->checkUser();
         /**
          * No comments :)
          */
@@ -151,6 +155,8 @@ class AdminController extends AjaxController
 
     public function actionUploadedFileAnalyzer()
     {
+        $this->checkUser();
+
         if ($_FILES["file"]["error"] > 0)
         {
             // pattern "Sparta": do it or die!
