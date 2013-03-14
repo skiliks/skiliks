@@ -28,6 +28,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
    	<body>
     <?php } else if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>
     <body class="inner-team">
+    <?php } else if ($_SERVER['REQUEST_URI'] == '/registration/choose-account-type' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=en' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=ru') {?>
+	<body class="inner-registration">
     <?php } else {?>
     <body class="inner">
     <?php } ?>
