@@ -614,10 +614,10 @@ class YumUser extends YumActiveRecord
             $this->avatar = 'gravatar';
         }
 
-        if ($this->validate() && $profile->validate()) {
+        if ($this->validate() && $profile->validate(['email'])) {
             $this->save();
             $profile->user_id = $this->id;
-            $profile->save();
+            $profile->save(false);
             $this->profile = $profile;
 
             if (Yum::hasModule('role'))

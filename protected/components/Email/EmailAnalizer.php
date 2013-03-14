@@ -172,9 +172,10 @@ class EmailAnalizer
         unset($email);
         
         /**
-         * Add readedAt, plannedAt, replyedAt
+         * Add readedAt, plannedAt, repliedAt
          */
         $temp_log_mail = LogMail::model()->bySimId($this->simId)->findAll();
+
         foreach ($temp_log_mail as $logMailLine) {
             $mailId = $logMailLine->mail_id;
 
@@ -249,7 +250,7 @@ class EmailAnalizer
             if(isset($this->userOutboxEmails[$mail->mail_id])
                 AND $this->userOutboxEmails[$mail->mail_id]->email->letter_type === MailBox::TYPE_REPLY_ALL
                 AND $this->userOutboxEmails[$mail->mail_id]->email->group_id == 3) {
-                if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
+                 if($mail->full_coincidence === '-' OR $mail->full_coincidence === null OR $mail->full_coincidence === ''){
                     $this->reply_all[] = $this->userOutboxEmails[$mail->mail_id]->email->code;
                 }else{
                     $this->full_coincidence_reply_all[] = $mail->full_coincidence;

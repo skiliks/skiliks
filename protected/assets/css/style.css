@@ -75,6 +75,9 @@ body.inner{
 body.inner-team{
 	background-image:url("../img/bg-top-inner-team.jpg");
 }
+body.inner-registration{
+	background-image:url("../img/bg-top-registration.jpg");
+}
 @media screen and (max-width: 1280px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
@@ -91,6 +94,10 @@ body.inner-team{
 }
 .container.main-page{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
+}
+.inner-registration .container{
+	min-height:auto;
+	height:966px;
 }
 @media screen and (max-width: 1280px){
 	.container.main-page{
@@ -848,6 +855,68 @@ html[lang=ru] .product section table th{
 }
 /* --------------- /team ---------*/
 
+/* --------------- registration ---------*/
+.inner-registration .content{
+	width:955px;
+}
+.registration{
+	padding-top:43px;
+	overflow:hidden;
+}
+.registration h2{
+	font:2.798em "ProximaNova-Bold";
+	color:#fff;
+	text-shadow: 0 0 7px rgba(0,0,0,0.14);
+	margin-bottom:15px;
+	text-align:center;
+}
+.registration .form{
+	background-repeat:no-repeat;
+	background-position:0 0;
+	width:456px;
+	height:383px;
+	padding:9px;
+}
+.registration .form.form-account-personal{
+	background-image:url("../img/bg-registration-personal.png");
+	float:left;
+}
+.registration .form.form-account-corporate{
+	background-image:url("../img/bg-registration-corparate.png");
+	float:right;
+}
+.registration .form h1{
+	font:2.571em 'ProximaNova-Bold';
+	color:#555545;
+	margin:28px 0 20px 66px;
+}
+.registration .form ul{
+	list-style:none;
+	min-height:93px;
+	margin:0 40px 24px;
+}
+.registration .form ul li{
+	background:url("../img/icon-registration-list.png") no-repeat 0 0;
+	font:1.131em "ProximaNova-Bold";
+	color:#555545;
+	line-height:18px;
+	margin-top:7px;
+	padding-left:25px;
+}
+.registration .form ul li:first-child{
+	margin-top:0;
+}
+.registration .form .row{
+	margin:0 40px 10px;
+}
+.registration .form .row label{
+	font:0.834em "ProximaNova-Bold";
+	color:#555545;
+	width:57px;
+	float:left;
+}
+/* --------------- /registration ---------*/
+
 /* --------------- footer ---------*/
 .footer{
 	background:url("../img/bg-footer.png") no-repeat center 0;
@@ -949,13 +1018,174 @@ html[lang=ru] .product section table th{
 }
 /* --------------- /footer ---------*/
 
-.sing-in-box {
-    background-color: #E8F6F7;
-    border-radius: 10px 10px 10px 10px;
-    min-height: 170px;
-    padding: 15px;
+/* --------------- sign in box ---------*/
+.sing-in-box{
+    background:url("../img/bg-sign-in.png") no-repeat 0 0;
+    width:235px;
+    height:256px;
+    padding:9px 34px;
+    margin-left:46px;
     position: absolute;
-    right: 400px;
-    width: 300px;
+    top:89px;
+    left: 50%;
     z-index: 10;
 }
+.sing-in-box h6{
+	font:1.667em 'ProximaNova-Bold';
+	color:#fff;
+	margin:15px 0 10px;
+}
+.sing-in-box div.login{
+	margin-bottom:15px;
+}
+.sing-in-box div.login label{
+	float:left;
+}
+.sing-in-box div.login a{
+	float:right;
+}
+.sing-in-box div.password{
+	margin-bottom:7px;
+}
+.sing-in-box div.remember{
+	margin-bottom:19px;
+}
+.sing-in-box div.submit{
+	margin-bottom:5px;
+}
+.sing-in-box div label{
+	display:block;
+	font:0.834em 'ProximaNova-Regular';
+	color:#fff;
+	padding:0;
+	margin:0;
+	margin-bottom:4px;
+}
+.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+	background:#fff;
+	-moz-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    -webkit-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+	border:1px solid #010101;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	font:0.834em 'ProximaNova-Regular';
+	line-height:1;
+	color:#146672;
+	width:214px;
+	height:12px;
+	padding:7px 9px;
+	outline:none;
+}
+.sing-in-box div input[type=submit]{
+	background:url("../img/btn-bg-sign-in.png") no-repeat 0 0;
+	border:none;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+    -webkit-box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+    box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+	width:61px;
+	height:26px;
+	font:0.834em 'ProximaNova-Bold';
+	color:#3c3c32;
+	text-align:left;
+	text-indent:9px;
+	line-height:20px;
+	vertical-align:top;
+}
+.sing-in-box div input[type=submit]:hover{
+	background-position:0 -26px;
+	color:#fff;
+}
+.sing-in-box div.remember label{
+	display:inline-block;
+	vertical-align:middle;
+}
+.sing-in-box div .niceCheck{
+	width: 14px;
+	height: 14px;
+	overflow: hidden;
+	display: inline-block;
+	cursor: pointer;
+	background: url("../img/checkbox.png") no-repeat;
+}
+.sing-in-box div .niceCheck.niceChecked{
+	background-position:0 -14px;
+}
+.sing-in-box div .niceCheck input{
+	margin-left:-30px;
+}
+.sing-in-box a{
+	font:0.834em 'ProximaNova-Regular';
+	color:#fff;
+	text-decoration:none;
+}
+.sing-in-box a:hover{
+	text-decoration:underline;
+}
+@media screen and (max-width: 1280px){
+	.sing-in-box{
+	    background:url("../img/bg-sign-in-min.png") no-repeat 0 0;
+	    width:184px;
+	    height:206px;
+	    padding:7px 30px;
+	    top:69px;
+	    margin-left:33px;
+	}
+	.sing-in-box h6{
+		font-size:1.333em;
+		color:#fff;
+		margin:12px 0 7px;
+	}
+	.sing-in-box div.login{
+		margin-bottom:11px;
+	}
+	.sing-in-box div.password{
+		margin-bottom:6px;
+	}
+	.sing-in-box div.remember{
+		margin-bottom:8px;
+	}
+	.sing-in-box div.submit{
+		margin-bottom:5px;
+	}
+	.sing-in-box div label{
+		font-size:0.666em;
+		margin-bottom:4px;
+	}
+	.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+		font-size:0.666em;
+		width:171px;
+		height:9px;
+		padding:6px 7px;
+	}
+	.sing-in-box div input[type=submit]{
+		background:url("../img/btn-bg-sign-in-min.png") no-repeat 0 0;
+		width:49px;
+		height:21px;
+		font-size:0.666em;
+		text-indent:9px;
+	}
+	.sing-in-box div input[type=submit]:hover{
+		background-position:0 -21px;
+		color:#fff;
+	}
+	.sing-in-box div.remember label{
+		display:inline-block;
+	}
+	.sing-in-box div .niceCheck{
+		width:11px;
+		height:11px;
+		background: url("../img/checkbox-min.png") no-repeat;
+	}
+	.sing-in-box div .niceCheck.niceChecked{
+		background-position:0 -11px;
+	}
+	.sing-in-box a{
+		font-size:0.666em;
+	}
+}
+/* --------------- /sign in box ---------*/
