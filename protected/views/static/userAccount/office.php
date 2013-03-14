@@ -59,6 +59,12 @@
 
 <a href="/admin/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
+        <br>
+        <br>
+        <br>
+
+<a href="/admin">Старая "админка" - отображение таблиц с логами</a>
+
     </nav>
 
 <?php endif ?>
