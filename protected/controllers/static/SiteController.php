@@ -29,7 +29,7 @@ class SiteController extends AjaxController
             if(null !== $profile && null !== $user) {
                 try {
                     $user->authenticate($password);
-                    $this->redirect(['/site']);
+                    $this->redirect(['/office']);
                 } catch (CHttpException $e) {
                     $signInErrors[] = $e->getMessage();
                 }
@@ -72,12 +72,23 @@ class SiteController extends AjaxController
     /**
      *
      */
-    public function actionSite()
+    public function actionSite($mode)
     {
         $user_id = Yii::app()->session['uid'];
         $user = YumUser::model()->findByPk($user_id);
 
         if (null === $user) {
+            $this->redirect('/');
+        }
+
+        if (Simulation::MODE_DEVELOPER_LABEL == $mode
+            && false === $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            // redirect such cheater with no message!
+            $this->redirect('/');
+        }
+
+        if (false == in_array($mode, [Simulation::MODE_PROMO_LABEL, Simulation::MODE_DEVELOPER_LABEL])) {
+            // wrong mode name mode
             $this->redirect('/');
         }
 
@@ -142,7 +153,11 @@ class SiteController extends AjaxController
         //плагины
         $cs->registerScriptFile($assetsUrl . "/js/game/adminka/jgridController.js");
         $this->layout = false;
-        $this->render('site', ['config' => CJSON::encode($config), 'assetsUrl' => $assetsUrl]);
+        $this->render('site', [
+            'config'    => CJSON::encode($config),
+            'assetsUrl' => $assetsUrl,
+            'mode'      => $mode,
+        ]);
     }
 
     /**
