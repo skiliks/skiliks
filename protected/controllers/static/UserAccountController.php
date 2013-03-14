@@ -208,6 +208,11 @@ class UserAccountController extends YumController
                 {
                     $profile->save();
                     $accountCorporate->save();
+
+                    $this->user->refresh();
+
+                    $this->sendCorporationEmailVerification($this->user);
+
                     $this->redirect(['registration/account-type/added']);
                 }
             }
@@ -269,7 +274,15 @@ class UserAccountController extends YumController
         die;
     }
 
-    public function sendRegistrationEmail($user) {
+    /**
+     * @param YumUser $user
+     *
+     * @return bool
+     *
+     * @throws CException
+     */
+    public function sendRegistrationEmail($user)
+    {
         if (!isset($user->profile->email)) {
             throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
         }
@@ -283,6 +296,37 @@ class UserAccountController extends YumController
             'to' => $user->profile->email,
             'subject' => "Активация на Skiliks",
             'body' => $body,
+        );
+        $sent = YumMailer::send($mail);
+
+        return $sent;
+    }
+
+    /**
+     * @param YumUser $user
+     *
+     * @return bool
+     *
+     * @throws CException
+     */
+    public function sendCorporationEmailVerification($user)
+    {
+        if (null === $user->getAccount() || null === $user->getAccount()->corporate_email) {
+            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification'));
+        }
+        $activation_url = $user->getActivationUrl();
+
+        $body = sprintf(
+            'Для подтверждения существования вашего корпоративного e-mail пройдите по ссылке:
+            <a href="%s">"Подтвердить корпоративный e-mail"</a>.',
+            $activation_url
+        );
+
+        $mail = array(
+            'from'    => Yum::module('registration')->registrationEmail,
+            'to'      => $user->getAccount()->corporate_email,
+            'subject' => "Подтверждение существования корпоративного e-mail, для Skiliks.com",
+            'body'    => $body,
         );
         $sent = YumMailer::send($mail);
 

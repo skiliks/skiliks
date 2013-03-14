@@ -75,13 +75,13 @@ return array(
                 'transport'=>'smtp',
                 'html'=>true,
                 'properties'=>array(
-                    'CharSet' => 'UTF-8', // SMTP server
-                    'SMTPDebug' => false,          // enables SMTP debug information (for testing)
-                    'SMTPAuth' => true,            // enable SMTP authentication
+                    'CharSet'    => 'UTF-8', // SMTP server
+                    'SMTPDebug'  => false,          // enables SMTP debug information (for testing)
+                    'SMTPAuth'   => true,            // enable SMTP authentication
                     'SMTPSecure' => 'tls',         // sets the prefix to the servier
-                    'Host' => 'smtp.yandex.ru',                   // set the SMTP port for the GMAIL server
-                    'Username' => 'support@skiliks.com',  // GMAIL username
-                    'Password' => 'skiliks531',        // GMAIL password
+                    'Host'       => 'smtp.yandex.ru',                   // set the SMTP port for the GMAIL server
+                    'Username'   => 'support@skiliks.com',  // GMAIL username
+                    'Password'   => 'skiliks531',        // GMAIL password
                 ),
                 'msgOptions'=>array(
                     'fromName'=>'Registration System',
