@@ -75,6 +75,9 @@ body.inner{
 body.inner-team{
 	background-image:url("../img/bg-top-inner-team.jpg");
 }
+body.inner-registration{
+	background-image:url("../img/bg-top-registration.jpg");
+}
 @media screen and (max-width: 1280px){
 	body{
 		background: #e8f7f7 url("../img/bg-top-min.jpg") no-repeat center top;
@@ -91,6 +94,10 @@ body.inner-team{
 }
 .container.main-page{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
+}
+.inner-registration .container{
+	min-height:auto;
+	height:966px;
 }
 @media screen and (max-width: 1280px){
 	.container.main-page{
@@ -847,6 +854,68 @@ html[lang=ru] .product section table th{
 	}
 }
 /* --------------- /team ---------*/
+
+/* --------------- registration ---------*/
+.inner-registration .content{
+	width:955px;
+}
+.registration{
+	padding-top:43px;
+	overflow:hidden;
+}
+.registration h2{
+	font:2.798em "ProximaNova-Bold";
+	color:#fff;
+	text-shadow: 0 0 7px rgba(0,0,0,0.14);
+	margin-bottom:15px;
+	text-align:center;
+}
+.registration .form{
+	background-repeat:no-repeat;
+	background-position:0 0;
+	width:456px;
+	height:383px;
+	padding:9px;
+}
+.registration .form.form-account-personal{
+	background-image:url("../img/bg-registration-personal.png");
+	float:left;
+}
+.registration .form.form-account-corporate{
+	background-image:url("../img/bg-registration-corparate.png");
+	float:right;
+}
+.registration .form h1{
+	font:2.571em 'ProximaNova-Bold';
+	color:#555545;
+	margin:28px 0 20px 66px;
+}
+.registration .form ul{
+	list-style:none;
+	min-height:93px;
+	margin:0 40px 24px;
+}
+.registration .form ul li{
+	background:url("../img/icon-registration-list.png") no-repeat 0 0;
+	font:1.131em "ProximaNova-Bold";
+	color:#555545;
+	line-height:18px;
+	margin-top:7px;
+	padding-left:25px;
+}
+.registration .form ul li:first-child{
+	margin-top:0;
+}
+.registration .form .row{
+	margin:0 40px 10px;
+}
+.registration .form .row label{
+	font:0.834em "ProximaNova-Bold";
+	color:#555545;
+	width:57px;
+	float:left;
+}
+/* --------------- /registration ---------*/
 
 /* --------------- footer ---------*/
 .footer{
