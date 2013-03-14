@@ -1,25 +1,30 @@
 <?php
 
 /**
- * This is the model class for table "simulations_mail_points".
+ * This is the model class for table "assessment_points".
  *
- * The followings are the available columns in table 'simulations_mail_points':
+ * The followings are the available columns in table 'assessment_points':
  * @property integer $id
  * @property integer $sim_id
  * @property integer $point_id
- * @property double $value
- * @property integer $scale_type_id
+ * @property integer $dialog_id
+ * @property integer $task_id
+ * @property integer $mail_id
+ * @property integer $value
  *
  * The followings are the available model relations:
- * @property Simulation $sim
+ * @property Replica $dialog
+ * @property MailTemplate $mail
  * @property HeroBehaviour $point
+ * @property Simulation $sim
+ * @property Todo $task
  */
-class SimulationMailPoint extends CActiveRecord
+class AssessmentPoint extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return SimulationMailPoint the static model class
+	 * @return AssessmentPoint the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +36,7 @@ class SimulationMailPoint extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'simulations_mail_points';
+		return 'assessment_points';
 	}
 
 	/**
@@ -42,12 +47,11 @@ class SimulationMailPoint extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, point_id', 'required'),
-			array('sim_id, point_id, scale_type_id', 'numerical', 'integerOnly'=>true),
-			array('value', 'numerical'),
+			array('sim_id', 'required'),
+			array('sim_id, point_id, dialog_id, task_id, mail_id,value', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, point_id, value, scale_type_id', 'safe', 'on'=>'search'),
+			array('id, sim_id, point_id, dialog_id, task_id, mail_id,value', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,8 +63,11 @@ class SimulationMailPoint extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'sim' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'replica' => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+			'mail' => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
 			'point' => array(self::BELONGS_TO, 'HeroBehaviour', 'point_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
+			'task' => array(self::BELONGS_TO, 'Todo', 'task_id'),
 		);
 	}
 
@@ -71,10 +78,12 @@ class SimulationMailPoint extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'sim_id' => 'Sim',
+			'sim_id' => 'Simulation',
 			'point_id' => 'Point',
+			'dialog_id' => 'Replica',
+			'task_id' => 'Task',
+			'mail_id' => 'Mail',
 			'value' => 'Value',
-			'scale_type_id' => 'Scale Type',
 		);
 	}
 
@@ -92,38 +101,13 @@ class SimulationMailPoint extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('point_id',$this->point_id);
+		$criteria->compare('dialog_id',$this->dialog_id);
+		$criteria->compare('task_id',$this->task_id);
+		$criteria->compare('mail_id',$this->mail_id);
 		$criteria->compare('value',$this->value);
-		$criteria->compare('scale_type_id',$this->scale_type_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
-
-    /**
-     * Выбрать согласно заданной симуляции
-     * @param int $simId
-     * @return SimulationMailPoint
-     */
-    public function bySimulation($simId)
-    {
-        $simId = (int)$simId;
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "sim_id = {$simId}"
-        ));
-        return $this;
-    }
-
-    /**
-     * Выбрать по заданной оценке
-     * @param int $pointId
-     * @return SimulationMailPoint
-     */
-    public function byPoint($pointId)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "point_id = {$pointId}"
-        ));
-        return $this;
-    }
 }

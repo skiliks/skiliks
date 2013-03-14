@@ -1018,13 +1018,107 @@ html[lang=ru] .product section table th{
 }
 /* --------------- /footer ---------*/
 
-.sing-in-box {
-    background-color: #E8F6F7;
-    border-radius: 10px 10px 10px 10px;
-    min-height: 170px;
-    padding: 15px;
+/* --------------- sign in box ---------*/
+.sing-in-box{
+    background:url("../img/bg-sign-in.png") no-repeat 0 0;
+    width:235px;
+    height:256px;
+    padding:9px 34px;
     position: absolute;
     right: 400px;
-    width: 300px;
     z-index: 10;
 }
+.sing-in-box h6{
+	font:1.667em 'ProximaNova-Bold';
+	color:#fff;
+	margin:15px 0 10px;
+}
+.sing-in-box div.login{
+	margin-bottom:15px;
+}
+.sing-in-box div.login label{
+	float:left;
+}
+.sing-in-box div.login a{
+	float:right;
+}
+.sing-in-box div.password{
+	margin-bottom:7px;
+}
+.sing-in-box div.remember{
+	margin-bottom:19px;
+}
+.sing-in-box div.submit{
+	margin-bottom:5px;
+}
+.sing-in-box div label{
+	display:block;
+	font:0.834em 'ProximaNova-Regular';
+	color:#fff;
+	margin-bottom:4px;
+}
+.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+	background:#fff;
+	-moz-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    -webkit-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+	border:1px solid #010101;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	font:0.834em 'ProximaNova-Regular';
+	line-height:1;
+	color:#146672;
+	width:214px;
+	height:12px;
+	padding:7px 9px;
+	outline:none;
+}
+.sing-in-box div input[type=submit]{
+	background:url("../img/btn-bg-sign-in.png") no-repeat 0 0;
+	border:none;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+    -webkit-box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+    box-shadow:2px 2px 2px rgba(0,0,0,0.23);
+	width:61px;
+	height:26px;
+	font:0.834em 'ProximaNova-Bold';
+	color:#3c3c32;
+	text-align:left;
+	text-indent:9px;
+	line-height:20px;
+	vertical-align:top;
+}
+.sing-in-box div input[type=submit]:hover{
+	background-position:0 -26px;
+	color:#fff;
+}
+.sing-in-box div.remember label{
+	display:inline-block;
+}
+.sing-in-box div .niceCheck{
+	width: 14px;
+	height: 14px;
+	overflow: hidden;
+	display: inline-block;
+	cursor: pointer;
+	background: url("../img/checkbox.png") no-repeat;
+}
+.sing-in-box div .niceCheck.niceChecked{
+	background-position:0 -14px;
+}
+.sing-in-box div .niceCheck input{
+	margin-left:-30px;
+}
+.sing-in-box a{
+	font:0.834em 'ProximaNova-Regular';
+	color:#fff;
+	text-decoration:none;
+}
+.sing-in-box a:hover{
+	text-decoration:underline;
+}
+/* --------------- /sign in box ---------*/

@@ -42,8 +42,9 @@ namespace application\components\Logging {
             return [
                 new WindowLogTable($simulation->log_windows),
                 new DayPlanLogTable($simulation->log_day_plan),
-                new AssessmentDetailTable($simulation->assessment_detail),
-                new AssessmentResultTable($simulation->assessment_points),
+                new AssessmentPointsTable($simulation->assessment_points),
+                new AssessmentCalculationTable($simulation->assessment_calculation),
+                new AssessmentResultTable($simulation->assessment_aggregated),
                 new MailLogTable($simulation->log_mail),
                 new DocumentLogTable($simulation->log_documents),
                 new DialogLogTable($simulation->log_dialogs),

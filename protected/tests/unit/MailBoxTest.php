@@ -311,12 +311,12 @@ class MailBoxTest extends CDbTestCase
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
-            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $pointFor_4124->id);
-
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_4124->id
             ]);
+
+            LogHelper::setDialogPoint( $dialogEntity->id, $simulation->id, $dialogsPoint);
 
             if ($dialogsPoint->add_value === '1') {
                 $count_1++;
