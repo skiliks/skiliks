@@ -132,10 +132,15 @@ return array(
                 '/admin/<action:\w+>'     => 'static/admin/<action>',
                 '/Admin/Log'              => 'static/Admin/Log',
 
-                'site'                    => 'static/site/site',
+                'site/'                   => 'static/userAccount/office',
+                'site/<mode:\w+>'         => 'static/site/site',
                 'site/logout'             => 'static/site/logout',
+                'office'                  => 'static/userAccount/office',
                 'logout'                  => 'static/site/logout',
                 'simulation'              => 'static/site/site',
+                'simulation/start'        => 'simulation/start',
+                'simulation/stop'         => 'simulation/stop',
+                'simulation/<mode:\w+>'   => 'static/site/site',
 
                 'team'                    => 'static/page/team',
                 'product'                 => 'static/product',

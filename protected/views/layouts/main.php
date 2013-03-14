@@ -9,6 +9,7 @@
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
+$cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 
@@ -28,6 +29,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
    	<body>
     <?php } else if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>
     <body class="inner-team">
+    <?php } else if ($_SERVER['REQUEST_URI'] == '/registration/choose-account-type' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=en' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=ru') {?>
+	<body class="inner-registration">
     <?php } else {?>
     <body class="inner">
     <?php } ?>
@@ -51,47 +54,38 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                         <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
-                        <?php if (false === $this->user->isHasAccount()): ?>
-                            <a href="/registration/choose-account-type">
-                                <?php echo Yii::t('site', 'Choose account type') ?>
-                            </a>
-                        <?php endif; ?>
-                        <a href="/simulation"><?php echo Yii::t('site', 'Simulation') ?></a>
-                        <a href="/site/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo $this->user->profile->email ?></a>
+                        <a href="/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
 			<!--header end-->
 
             <?php if (null === $this->user || null === $this->user->id ||0 != count($this->signInErrors)) : ?>
-                <div class="sing-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
+                <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/" method="post">
-
-                        <div>
+						<h6>Sign in</h6>
+						
+                        <div class="login">
                             <label><?php echo Yii::t('site', 'E-mail') ?></label>
-                            <input type="text" name="email">
+                            <a href="#">Forget your password?</a>
+                            <input type="text" name="email" placeholder="Enter login" />
                         </div>
-                        <br/>
-                        <div>
+                        <div class="password">
                             <label><?php echo Yii::t('site', 'Password') ?></label>
-                            <input type="password" name="password">
+                            <input type="password" name="password" placeholder="Enter password" />
                         </div>
-                        <br/>
-                        <div>
-                            <label><?php echo Yii::t('site', 'Remember me') ?></label>
-                            <input type="checkbox" checked="checked" name="remember_me">
+                        <div class="remember">
+                            <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
                         </div>
-                        <br/>
                         <div class="errors">
                             <?php foreach ($this->signInErrors as $error) : ?>
                                 <?php echo $error ?><br/><br/>
                             <?php endforeach ?>
                         </div>
-                        <div>
+                        <div class="submit">
                             <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">
                         </div>
-                        <br/>
-                        <br/>
                         <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
                             <a href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
                         <?php endif; ?>
@@ -133,10 +127,12 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
         <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
             <script type="text/javascript">
+            	var h=$('.container').height();
+            	$('.sign-in-box').css('height',h+'px')
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
-                    $('.sing-in-box').toggle();
+                    $('.sign-in-box').toggle();
                 });
             </script>
         <?php endif; ?>
