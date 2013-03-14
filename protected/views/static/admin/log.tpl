@@ -7,7 +7,7 @@
             {foreach $log_tables as $log_table}
                 <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
             {/foreach}
-            <li><a href="#assessment-rules">Simulation Assessment Rules</a></li>
+            <li><a href="#productivity">Productivity</a></li>
         </ul>
     </div>
 </div>
@@ -73,7 +73,7 @@
         {/foreach}
     </table>
 
-    <h1 id="assessment-rules">Simulation Assessment Rules</h1>
+    <h1 id="productivity">Productivity</h1>
 
     <table class="table table-striped mail-log">
         <thead>
