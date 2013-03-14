@@ -329,7 +329,7 @@ define([
                     this.renderEmailPreviewScreen(
                         email,
                         this.mailClientInboxFolderEmailPreviewId,
-                        '120px'
+                        '100%'
                     );
 
                     return;
@@ -340,7 +340,7 @@ define([
                 me.renderEmailPreviewScreen(
                     email,
                     me.mailClientInboxFolderEmailPreviewId,
-                    '140px'
+                    '100%'
                 );
             },
 
