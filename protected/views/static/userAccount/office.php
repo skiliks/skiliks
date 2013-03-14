@@ -23,11 +23,25 @@
 <?php if ($this->user->getAccount() instanceof UserAccountCorporate): ?>
     <br>
     <br>
-    <strong>Корпоративный e-mail: </strong><?php echo $this->user->getAccount()->corporate_email?>.
+    <strong>Корпоративный e-mail: </strong>
+        <?php echo $this->user->getAccount()->corporate_email?>
+        <?php if ($this->user->getAccount()->is_corporate_email_verified): ?>
+            (верифицирован)
+        <?php else: ?>
+            (не верифицирован)
+        <?php endif; ?>
+        .
 <?php endif; ?>
+
 <br>
 <br>
 <nav>
+    <?php if (false === $this->user->isHasAccount()): ?>
+        <a href="/registration/choose-account-type">
+            <?php echo Yii::t('site', 'Choose account type') ?>
+        </a>
+    <?php endif; ?>
+
     <a href="/simulation/promo">Начать симуляцию в режиме promo</a>
 </nav>
 <br>

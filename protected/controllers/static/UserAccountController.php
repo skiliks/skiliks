@@ -197,6 +197,13 @@ class UserAccountController extends YumController
 
                 $isUserAccountCorporateValid  = $accountCorporate->validate();
 
+                if (UserService::isCorporateEmail($profile->email)) {
+                    $accountCorporate->is_corporate_email_verified = 1;
+
+                    // todo: take care about user timezone
+                    $accountCorporate->corporate_email_verified_at = date('Y-m-d H:i:s');
+                }
+
                 if($isUserAccountCorporateValid && $isProfileValid)
                 {
                     $profile->save();
