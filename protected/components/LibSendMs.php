@@ -7,7 +7,7 @@ class LibSendMs
     /**
      * @param Simulation $simulation
      * @param string $msCode
-     * @param integer $time, frontend time im seconds
+     * @param integer $time, frontend time in seconds, 9:30 = 34200
      * @param integer $windowId
      * @param integer $subWindowId
      * @param integer $windowUid, better set-up value manually - even in test
@@ -16,10 +16,10 @@ class LibSendMs
      * @return MailBox
      */
     public static function sendMsByCode($simulation, $msCode,
-        $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10)
+        $time = null, $windowId = 1,  $subWindowId = 1, $windowUid = null, $duration = 10, $isDraft = false, $letterType = '')
     {
         if( preg_match('/^MS\d+/', $msCode)) {
-                $email = self::sendMs($simulation, $msCode);
+            $email = self::sendMs($simulation, $msCode, $isDraft, $letterType);
         } else {
             $email = self::sendNotMs($simulation);
         }
@@ -81,7 +81,7 @@ class LibSendMs
      * @param bool $isDraft
      * @return MailBox|null
      */
-    public static function sendMs($simulation, $messageCode, $isDraft = false)
+    public static function sendMs($simulation, $messageCode, $isDraft = false, $letterType = '')
     {
         $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $messageCode]);
         /** @var $subject CommunicationTheme */
@@ -89,12 +89,25 @@ class LibSendMs
 
         $attachmentTemplates = $mailTemplate->attachments;
 
+        // collect recipient ids string {
+        $recipientsString = $subject->character_id;
+        $recipients = MailTemplateRecipient::model()->findAllByAttributes([
+            'mail_id' => $mailTemplate->id
+        ]);
+
+        foreach ($recipients as $recipient) {
+            $recipientsString .= ','.$recipient->id;
+        }
+        // collect recipient ids string }
+
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray($subject->character_id); // Неизвестная
+        $sendMailOptions->setRecipientsArray($recipientsString);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
         $sendMailOptions->copies     = '';
         $sendMailOptions->phrases    = '';
+        $sendMailOptions->setLetterType($letterType);
+
         if ($attachmentTemplates) {
             $doc = MyDocument::model()->findByAttributes([
                 'template_id' => $attachmentTemplates[0]->file->id,
@@ -102,6 +115,7 @@ class LibSendMs
             ]);
             $sendMailOptions->fileId     = $doc->primaryKey;
         }
+
         $sendMailOptions->subject_id = $subject->id;
         $sendMailOptions->messageId  = '';
         if ($isDraft) {

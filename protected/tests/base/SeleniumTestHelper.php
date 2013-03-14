@@ -249,5 +249,55 @@ class SeleniumTestHelper extends CWebTestCase
         }
         return $is_here;
     }
+
+    /**
+     * incoming_counter - это метод для проверки, что количество писем = .
+     * count - количество писем, которые мы ожидаем увидеть во "входящих" на момент указанного времени (время устанавливаем перед вызовом этого метода).
+     * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
+     * возвращаем false, если нет
+     * Пример использования - тест Case_SK1471_Test.php , строка 33-37
+     */
+    public function incoming_counter ($count)
+    {
+        $same_number = false;
+        $was_changed = false;
+        $this->waitForVisible(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->waitForVisible("css=li.icon-active.mail a");
+        if ($this->isVisible("css=li.icon-active.mail a"))
+        {
+            for ($second = 0; ; $second++) {
+                if ($second >= 60)
+                {
+                    $was_changed = false;
+                    break;
+                }
+                try {
+                    if ($this->isVisible(Yii::app()->params['test_mappings']['icons']['mail']))
+                    {
+                        $was_changed = true;
+                        break;
+                    }
+                } catch (Exception $e) {}
+                sleep(1);
+            }
+        }
+        else
+        {
+            $was_changed = true;
+        }
+
+        sleep(20);
+        $numb_of_incoming = 0;
+        if ($was_changed==true)
+        {
+             $numb_of_incoming = (int)($this->getText("//*[@id='icons_email']/span"));
+            if ($numb_of_incoming == $count)
+            {
+                $same_number=true;
+            }
+        }
+
+        return $same_number;
+    }
 }
 

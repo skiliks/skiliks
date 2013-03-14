@@ -22,22 +22,26 @@
 	        <?php echo $form->hiddenField($accountPersonal,'user_id'); ?>
 	        <?php echo $form->error($accountPersonal    ,'user_id'); ?>
 	    </div>
+	    <br/>
 	
 	    <div class="row">
 	        <?php echo $form->labelEx($accountPersonal     ,'industry_id'); ?>
 	        <?php echo $form->dropDownList($accountPersonal,'industry_id', $industries); ?>
 	        <?php echo $form->error($accountPersonal       ,'industry_id'); ?>
 	    </div>
+	    <br/>
 	
 	    <div class="row">
 	        <?php echo $form->labelEx($accountPersonal     ,'position_id'); ?>
 	        <?php echo $form->dropDownList($accountPersonal,'position_id', $positions); ?>
 	        <?php echo $form->error($accountPersonal       ,'position_id'); ?>
 	    </div>
+	    <br/>
 	
 	    <div class="row buttons">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Submit')); ?>
 	    </div>
+	    <br/>
 	
 	    <?php $this->endWidget(); ?>
 	
@@ -67,16 +71,19 @@
 	        <?php echo $form->hiddenField($accountCorporate,'user_id'); ?>
 	        <?php echo $form->error($accountCorporate,'user_id'); ?>
 	    </div>
+	    <br/>
 	
 	    <div class="row">
 	        <?php echo $form->labelEx($accountPersonal,'industry_id'); ?>
 	        <?php echo $form->dropDownList($accountCorporate,'industry_id', $industries); ?>
 	        <?php echo $form->error($accountCorporate,'industry_id'); ?>
 	    </div>
+	    <br/>
 	
 	    <div class="row buttons">
 	        <?php echo CHtml::submitButton(Yii::t('site', 'Submit')); ?>
 	    </div>
+	    <br/>
 	
 	    <?php $this->endWidget(); ?>
 	

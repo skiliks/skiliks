@@ -35,9 +35,14 @@ define([], function () {
 
         single: true,
 
+        name: undefined,
+
+        subname: undefined,
+
         window_set: {},
 
         window_uid: undefined,
+
         /**
          * Constructor
          * @method initialize

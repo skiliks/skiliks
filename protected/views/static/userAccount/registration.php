@@ -11,9 +11,6 @@
 	'enableAjaxValidation' => false,
 )); ?>
 
-	<?php // echo $form->errorSummary($user); ?>
-	<?php // echo $form->errorSummary($profile); ?>
-
     <br/>
     <div class="row">
         <?php echo $form->labelEx($profile  , 'email'); ?>

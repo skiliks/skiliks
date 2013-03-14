@@ -45,7 +45,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result = SimulationMailPoint::model()->findByAttributes([
+        $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point->id,
         ]);
@@ -81,7 +81,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result = SimulationMailPoint::model()->findByAttributes([
+        $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point->id,
         ]);
@@ -129,12 +129,12 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result_3322 = SimulationMailPoint::model()->findByAttributes([
+        $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3322->id,
         ]);
         
-        $result_3324 = SimulationMailPoint::model()->findByAttributes([
+        $result_3324 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3324->id,
         ]);
@@ -177,12 +177,12 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result_3322 = SimulationMailPoint::model()->findByAttributes([
+        $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3322->id,
         ]);
         
-        $result_3324 = SimulationMailPoint::model()->findByAttributes([
+        $result_3324 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3324->id,
         ]);
@@ -240,12 +240,12 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result_3322 = SimulationMailPoint::model()->findByAttributes([
+        $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3322->id,
         ]);
         
-        $result_3324 = SimulationMailPoint::model()->findByAttributes([
+        $result_3324 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3324->id,
         ]);
@@ -288,12 +288,12 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result_3322 = SimulationMailPoint::model()->findByAttributes([
+        $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3322->id,
         ]);
         
-        $result_3324 = SimulationMailPoint::model()->findByAttributes([
+        $result_3324 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point_3324->id,
         ]);
@@ -320,7 +320,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         
-        $result = SimulationMailPoint::model()->findByAttributes([
+        $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'point_id' => $point->id,
         ]);
