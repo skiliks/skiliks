@@ -1194,6 +1194,7 @@ section.mail nav ul li{
 }
 .readed-email-text {
     background-color: white;
+    margin-top: 99px;
 }
 /*.previouse-message-text {
     height: 250px;
@@ -1391,6 +1392,8 @@ section.mail>header nav ul li.active label:hover{
 #MailClient_IncomeFolder_EmailPreview {
     position: absolute;
     bottom: 0;
+    left:0;
+    right:0;
     height: 250px;
     border-top: solid 2px;
 }
@@ -1711,7 +1714,7 @@ table.ml-title th span{
     -webkit-box-shadow: 0 1px 0 #ccc;
     box-shadow: 0 1px 0 #ccc;
     padding:2px 0;
-    position:relative;
+    position:absolute;
 }
 .mail-view-header table{
 	border-collapse:separate;
@@ -1769,7 +1772,7 @@ table.ml-title th span{
     background-color: white;
 }
 .mail-view.new .mail-view-header{
-	position:relative;
+	position:absolute;
 }
 .mail-view.new .mail-view-header.min{
 	height:6px;
@@ -1954,8 +1957,9 @@ table.ml-title th span{
 }
 .mail-new-text{
 	width:100%;
-	height:92px;
-	padding:10px;
+	height:100%;
+    box-sizing: border-box;
+    padding: 199px 10px 267px;
     background-color: white;
     overflow: scroll;
 }
