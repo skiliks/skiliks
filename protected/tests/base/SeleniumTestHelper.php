@@ -23,17 +23,16 @@ class SeleniumTestHelper extends CWebTestCase
         $this->type("xpath=//div[1]/form/div[1]/input", "tatiana@skiliks.com");
         $this->type("xpath=//div[1]/form/div[2]/input", "123123");
         $this->optimal_click("xpath=//div[1]/form/div[5]/input");
-        $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
 
-     /*   for ($second = 0; ; $second++) {
+        for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
-                if ($this->isVisible("xpath=//input[@value='Начать симуляцию developer']")) break;
+                if ($this->isVisible("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])")) break;
             } catch (Exception $e) {}
             sleep(1);
-        }*/
+        }
 
-        //$this->click("xpath=//input[@value='Начать симуляцию developer']");
+        $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
