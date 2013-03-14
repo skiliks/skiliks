@@ -161,7 +161,7 @@ class SiteController extends AjaxController
     }
 
     /**
-     * We handle Yii rroes and savethem to Yii.log.
+     * We handle Yii errors and save them to Yii.log.
      * User see just standard notice
      */
     public function actionError()

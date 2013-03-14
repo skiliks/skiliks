@@ -7,6 +7,8 @@
  * @property string $user_id
  * @property integer $industry_id
  * @property string $corporate_email
+ * @property boolean is_corporate_email_verified
+ * @property datetime corporate_email_verified_at
  *
  * The followings are the available model relations:
  * @property User $user
