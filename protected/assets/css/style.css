@@ -1019,7 +1019,16 @@ html[lang=ru] .product section table th{
 /* --------------- /footer ---------*/
 
 /* --------------- sign in box ---------*/
-.sing-in-box{
+.sign-in-box{
+	background:rgba(0,0,0,0.5);
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:5;
+}
+.login-form{
     background:url("../img/bg-sign-in.png") no-repeat 0 0;
     width:235px;
     height:256px;
@@ -1030,30 +1039,30 @@ html[lang=ru] .product section table th{
     left: 50%;
     z-index: 10;
 }
-.sing-in-box h6{
+.login-form h6{
 	font:1.667em 'ProximaNova-Bold';
 	color:#fff;
 	margin:15px 0 10px;
 }
-.sing-in-box div.login{
+.login-form div.login{
 	margin-bottom:15px;
 }
-.sing-in-box div.login label{
+.login-form div.login label{
 	float:left;
 }
-.sing-in-box div.login a{
+.login-form div.login a{
 	float:right;
 }
-.sing-in-box div.password{
+.login-form div.password{
 	margin-bottom:7px;
 }
-.sing-in-box div.remember{
+.login-form div.remember{
 	margin-bottom:19px;
 }
-.sing-in-box div.submit{
+.login-form div.submit{
 	margin-bottom:5px;
 }
-.sing-in-box div label{
+.login-form div label{
 	display:block;
 	font:0.834em 'ProximaNova-Regular';
 	color:#fff;
@@ -1061,7 +1070,7 @@ html[lang=ru] .product section table th{
 	margin:0;
 	margin-bottom:4px;
 }
-.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+.login-form div input[type=text],.login-form div input[type=password]{
 	background:#fff;
 	-moz-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
     -webkit-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
@@ -1078,7 +1087,7 @@ html[lang=ru] .product section table th{
 	padding:7px 9px;
 	outline:none;
 }
-.sing-in-box div input[type=submit]{
+.login-form div input[type=submit]{
 	background:url("../img/btn-bg-sign-in.png") no-repeat 0 0;
 	border:none;
 	-webkit-border-radius:3px;
@@ -1096,15 +1105,15 @@ html[lang=ru] .product section table th{
 	line-height:20px;
 	vertical-align:top;
 }
-.sing-in-box div input[type=submit]:hover{
+.login-form div input[type=submit]:hover{
 	background-position:0 -26px;
 	color:#fff;
 }
-.sing-in-box div.remember label{
+.login-form div.remember label{
 	display:inline-block;
 	vertical-align:middle;
 }
-.sing-in-box div .niceCheck{
+.login-form div .niceCheck{
 	width: 14px;
 	height: 14px;
 	overflow: hidden;
@@ -1112,22 +1121,22 @@ html[lang=ru] .product section table th{
 	cursor: pointer;
 	background: url("../img/checkbox.png") no-repeat;
 }
-.sing-in-box div .niceCheck.niceChecked{
+.login-form div .niceCheck.niceChecked{
 	background-position:0 -14px;
 }
-.sing-in-box div .niceCheck input{
+.login-form div .niceCheck input{
 	margin-left:-30px;
 }
-.sing-in-box a{
+.login-form a{
 	font:0.834em 'ProximaNova-Regular';
 	color:#fff;
 	text-decoration:none;
 }
-.sing-in-box a:hover{
+.login-form a:hover{
 	text-decoration:underline;
 }
 @media screen and (max-width: 1280px){
-	.sing-in-box{
+	.login-form{
 	    background:url("../img/bg-sign-in-min.png") no-repeat 0 0;
 	    width:184px;
 	    height:206px;
@@ -1135,56 +1144,56 @@ html[lang=ru] .product section table th{
 	    top:69px;
 	    margin-left:33px;
 	}
-	.sing-in-box h6{
+	.login-form h6{
 		font-size:1.333em;
 		color:#fff;
 		margin:12px 0 7px;
 	}
-	.sing-in-box div.login{
+	.login-form div.login{
 		margin-bottom:11px;
 	}
-	.sing-in-box div.password{
+	.login-form div.password{
 		margin-bottom:6px;
 	}
-	.sing-in-box div.remember{
+	.login-form div.remember{
 		margin-bottom:8px;
 	}
-	.sing-in-box div.submit{
+	.login-form div.submit{
 		margin-bottom:5px;
 	}
-	.sing-in-box div label{
+	.login-form div label{
 		font-size:0.666em;
 		margin-bottom:4px;
 	}
-	.sing-in-box div input[type=text],.sing-in-box div input[type=password]{
+	.login-form div input[type=text],.login-form div input[type=password]{
 		font-size:0.666em;
 		width:171px;
 		height:9px;
 		padding:6px 7px;
 	}
-	.sing-in-box div input[type=submit]{
+	.login-form div input[type=submit]{
 		background:url("../img/btn-bg-sign-in-min.png") no-repeat 0 0;
 		width:49px;
 		height:21px;
 		font-size:0.666em;
 		text-indent:9px;
 	}
-	.sing-in-box div input[type=submit]:hover{
+	.login-form div input[type=submit]:hover{
 		background-position:0 -21px;
 		color:#fff;
 	}
-	.sing-in-box div.remember label{
+	.login-form div.remember label{
 		display:inline-block;
 	}
-	.sing-in-box div .niceCheck{
+	.login-form div .niceCheck{
 		width:11px;
 		height:11px;
 		background: url("../img/checkbox-min.png") no-repeat;
 	}
-	.sing-in-box div .niceCheck.niceChecked{
+	.login-form div .niceCheck.niceChecked{
 		background-position:0 -11px;
 	}
-	.sing-in-box a{
+	.login-form a{
 		font-size:0.666em;
 	}
 }
