@@ -1398,6 +1398,9 @@ define([
                         me.doUpdateMailPhrasesList();
                     }
                 });
+                if(subjects_list.length == 1){
+                    this.$("#MailClient_NewLetterSubject").ddslick('select', {'index':0 });
+                }
                 if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
                     this.$("#MailClient_NewLetterSubject").ddslick('disable');
                 }
