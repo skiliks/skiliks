@@ -170,8 +170,9 @@ define([
                 // check subjects
                 expect(SKApp.user.simulation.mailClient.availableSubjects.length).toBe(2);
 
-                mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').focus();
-                mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').attr("selected","selected");
+                //mailView.$el.find('#MailClient_NewLetterSubject').focus();
+                //mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').attr("selected","selected");
+                mailView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
 
                 mailView.doUpdateMailPhrasesList();
 

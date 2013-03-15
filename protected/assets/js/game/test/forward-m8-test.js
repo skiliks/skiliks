@@ -278,6 +278,8 @@ define([
                 // check is email valid
                 expect(validationDialogResult).toBe(true);
                 mailClientView.mailClient.reloadSubjects([2,4]);
+                console.log(mailClientView.selectSubjectByValue('1788'));
+                //mailClientView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
                 //mailClient.doSendEmail();
                 expect(SKApp.user.simulation.mailClient.availableSubjects[0].text).toBe('Fwd: !проблема с сервером!');
                 mailClientView.$('.SEND_EMAIL').click();
