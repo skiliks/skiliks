@@ -18,7 +18,10 @@ class F30_SK1429_Tests extends SeleniumTestHelper
     $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
     $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
-    $this->select("css=select.origin", "Срочно жду бюджет логистики");
+
+    $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+    $this->optimal_click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
+
     $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
     $this->click(Yii::app()->params['test_mappings']['mail']['send']);
 
