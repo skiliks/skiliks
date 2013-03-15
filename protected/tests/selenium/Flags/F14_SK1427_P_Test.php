@@ -29,7 +29,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
     public function testSK1427_Case1()
     {
         // tests to checking the actions before F14 = 1
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
@@ -68,7 +68,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case2() {
 
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
@@ -110,7 +110,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_1() {
 
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
@@ -168,7 +168,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
      */
     public function testSK1427_Case3_2() {
 
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
