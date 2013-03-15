@@ -280,7 +280,7 @@ define([
                      * @event stop
                      */
                     if(SKApp.user.simulation.get('result-url') === undefined){
-                        SKApp.user.simulation.set('result-url', '/registration/results');
+                        SKApp.user.simulation.set('result-url', '/results');
                     }
 
                     me.trigger('stop');
