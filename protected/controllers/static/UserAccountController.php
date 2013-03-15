@@ -488,8 +488,25 @@ class UserAccountController extends YumController
             $this->redirect(['registration/please-confirm-corporate-email']);
         }
 
+        $results = [];
+
+        $simulation = Simulation::model()->findByAttributes([
+            'user_id' => $this->user->id
+        ],
+        [
+            'order' => 'id DESC'
+        ]);
+
+        if (null !== $simulation) {
+            $results = AssessmentAggregated::model()->findAllByAttributes([
+                'sim_id' => $simulation->id
+            ]);
+        }
+
         // all checks passed - render simulation results
-        $this->render('results');
+        $this->render('results', [
+            'results' => $results
+        ]);
     }
 
     /**
