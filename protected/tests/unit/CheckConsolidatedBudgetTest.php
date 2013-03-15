@@ -17,15 +17,15 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
          */
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        // Bug with several calculations and cache fixes this bug
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         SimulationService::simulationStop($simulation);
-        unset($simulation);
-        unset($user);
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-        $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
-        $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1.xls');
+        $budgetPath = __DIR__ . '/files/D1.xls';
+
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $checkConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $checkConsolidatedBudget->calcPoints($budgetPath);
 
         $points = SimulationExcelPoint::model()->findAllByAttributes(['sim_id' => $simulation->id]);
         $this->assertNotNull($points);
@@ -35,6 +35,7 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
                 $this->assertEquals('1.00', $point->value);
             }
         }
+
     }
 
     /*

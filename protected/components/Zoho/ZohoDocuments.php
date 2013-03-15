@@ -38,7 +38,7 @@ class ZohoDocuments
      *
      * @var integer
      */
-    protected $docID = null;
+    protected $docId = null;
 
     /**
      * Simulation.id
