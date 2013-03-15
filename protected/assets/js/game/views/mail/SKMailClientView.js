@@ -1429,9 +1429,9 @@ define([
              */
             getCurentEmailSubjectId: function () {
                 // removeAttr - for reply, replyAll, forward cases
-                this.$("#MailClient_NewLetterSubject").ddslick('enable');
+                this.$("#MailClient_NewLetterSubject").ddslick('disable');
 
-                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
+                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
             },
 
             /**
@@ -1439,7 +1439,7 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectText: function () {
-                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData.text;;
+                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.text;
             },
 
             /**
@@ -1789,7 +1789,7 @@ define([
              */
             selectSubjectByValue: function (value) {
                 var index = null;
-                $("#MailClient_NewLetterSubject li a input").each(function(i, el) {
+                this.$("#MailClient_NewLetterSubject li a input").each(function(i, el) {
                     if($(el).val() == value){
                         index = i;
                     }
@@ -1797,7 +1797,7 @@ define([
                 if(index === null){
                     throw new Error("index !== null");
                 }
-                $("#MailClient_NewLetterSubject").ddslick('select', {'index': index });
+                this.$("#MailClient_NewLetterSubject").ddslick('select', {'index': index });
             },
 
             /**
