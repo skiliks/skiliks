@@ -63,6 +63,10 @@ define([
                         me.remove();
                     }
                 });
+                var video = el.find('.visit-background');
+                video.css('margin-top', '-50px');
+                video.css('margin-left', '-20px');
+                el.find('.visitor-replica').css('margin-top', '-50px');;
 
             },
 
