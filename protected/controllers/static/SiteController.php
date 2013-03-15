@@ -149,10 +149,12 @@ class SiteController extends AjaxController
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailSubject.js");
         $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
 
+        $cs->registerScriptFile($assetsUrl . "/js/game/models/SKMailFolder.js");
+
         $cs->registerScriptFile($assetsUrl . "/js/raven-0.7.1.js");
 
         //плагины
-        $cs->registerScriptFile($assetsUrl . "/js/game/adminka/jgridController.js");
+        //$cs->registerScriptFile($assetsUrl . "/js/jquery-ui-1.10.2.custom.js");
         $this->layout = false;
         $this->render('site', [
             'config'    => CJSON::encode($config),

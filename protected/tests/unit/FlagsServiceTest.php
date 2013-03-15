@@ -297,4 +297,16 @@ class FlagServiceTest extends CDbTestCase
 
         $this->assertEquals(3, count($result['events'][0]['data']));
     }
+
+    public function testNewFlagsRulesByDialogGet() {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(1, $user);
+        $dialog = new DialogService();
+        FlagsService::setFlag($simulation, 'F14', 1);
+        $id = Replica::model()->findByAttributes(['code'=>'ET12.1', 'replica_number'=> 1, 'step_number'=> 1])->id;
+
+        $result = $dialog->getDialog($simulation->id, $id, '9:00');
+
+        $this->assertEquals('408', $result['events'][0]['data'][1]['excel_id']);
+    }
 }
