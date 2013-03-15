@@ -343,6 +343,7 @@ define([
                 mailView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
 
                 mailView.doUpdateMailPhrasesList();
+                server.respond();
 
                 // check than phrases not empty
                 expect(mailView.$el.find('#mailEmulatorNewLetterTextVariants li').length)
