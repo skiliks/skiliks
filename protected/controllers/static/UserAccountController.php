@@ -178,7 +178,7 @@ class UserAccountController extends YumController
         $accountPersonal = new UserAccountPersonal;
         $accountPersonal->user_id = $this->user->id;
 
-        // ---
+        // --- personal
 
         if (null !== Yii::app()->request->getParam('personal')) {
             $isProfileValid     = $profile->validate(['firstname', 'lastname']);
@@ -198,6 +198,8 @@ class UserAccountController extends YumController
                 }
             }
         }
+
+        // --- corporate
 
         if (null !== Yii::app()->request->getParam('corporate')) {
             $isProfileValid     = $profile->validate(['firstname', 'lastname']);
@@ -220,6 +222,8 @@ class UserAccountController extends YumController
                 if($isUserAccountCorporateValid && $isProfileValid)
                 {
                     $profile->save();
+
+                    $accountCorporate->generateActivationKey();
                     $accountCorporate->save();
 
                     $this->user->refresh();
@@ -324,10 +328,27 @@ class UserAccountController extends YumController
      */
     public function sendCorporationEmailVerification($user)
     {
-        if (null === $user->getAccount() || null === $user->getAccount()->corporate_email) {
-            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification'));
+        // check user
+        if (null === $user) {
+            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification. Wrong user object.'));
         }
-        $activation_url = $user->getActivationUrl();
+
+        // check user account {
+        if (null === $user->getAccount()) {
+            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification. User account not specified at all.'));
+        }
+
+        if (false === $user->isCorporate()) {
+            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification.This is not corporate user.'));
+        }
+        // check user account }
+
+        // check corporate_email
+        if (null === $user->getAccount()->corporate_email) {
+            throw new CException(Yum::t('Email is not set when trying to send Corporation Email Verification. User account not specified at all. Corporate email is not specified.'));
+        }
+
+        $activation_url = $user->getCorporationEmailVerificationUrl();
 
         $body = sprintf(
             'Для подтверждения существования вашего корпоративного e-mail пройдите по ссылке:
@@ -344,6 +365,55 @@ class UserAccountController extends YumController
         $sent = YumMailer::send($mail);
 
         return $sent;
+    }
+
+    /**
+     * @param string $email, corporate email address
+     *
+     * http://skiliks.loc/registration/confirm-corporate-email?email=ss@3e.com
+     */
+    public function actionConfirmCorporateEmail()
+    {
+        $userAccountCorporate = UserAccountCorporate::model()->findByAttributes([
+            'corporate_email_activation_code' => Yii::app()->request->getParam('activation-code'),
+        ]);
+
+        // 1. check account: if it not exists or already verified - redirect
+        // 2. we redirect to homepage if email is already verified
+        // - to protect against malefactor that use this controller/action to find what emails exist in our system
+        if (null == $userAccountCorporate
+            || null == $userAccountCorporate->user
+            || null == $userAccountCorporate->user->getAccount()
+            || $userAccountCorporate->is_corporate_email_verified) {
+            $this->redirect('/');
+        }
+
+        $userAccountCorporate->user->getAccount()->is_corporate_email_verified = 1;
+        $userAccountCorporate->user->getAccount()->corporate_email_verified_at = date('Y-m-d H:i:s');
+        $userAccountCorporate->user->getAccount()->save();
+
+        // redirect to success message page
+        $this->redirect('/registration/confirm-corporate-email-success');
+    }
+
+    /**
+     * Just success message
+     */
+    public function actionConfirmCorporateEmailSuccess()
+    {
+        $this->render('confirmCorporateEmailSuccess');
+    }
+    
+    /**
+     * Just error message
+     */
+    public function actionPleaseConfirmCorporateEmail()
+    {
+        $this->checkUser();
+
+        $this->render('pleaseConfirmCorporateEmail', [
+            'user' => $this->user
+        ]);
     }
 
     /**
@@ -379,6 +449,9 @@ class UserAccountController extends YumController
                 'error' => $status));
     }
 
+    /**
+     * @param $email
+     */
     public function actionResendActivation($email)
     {
         $profile = YumProfile::model()->findByAttributes([
@@ -393,20 +466,35 @@ class UserAccountController extends YumController
         }
     }
 
+    /**
+     * Display simulation result marks
+     */
     public function actionResults()
     {
-        if(SessionHelper::isAuth()){
-            $user = SessionHelper::getUserBySid();
-            if($user->isAnonymous()){
-                $this->redirect(['registration/choose-account-type']);
-            }else{
-                $this->render('results');
-            }
-        }else{
+        // check is user authenticated
+        if (false === SessionHelper::isAuth()) {
             $this->redirect(['registration/error/sign-in-or-register']);
         }
+
+        $user = SessionHelper::getUserBySid();
+
+        // user must specify account to see simulation results
+        if (false == $user->isHasAccount()) {
+            $this->redirect(['registration/choose-account-type']);
+        }
+
+        // corporate user must have verified corporate email to see simulation results
+        if ($user->isCorporate()) {
+            $this->redirect(['registration/please-confirm-corporate-email']);
+        }
+
+        // all checks passed - render simulation results
+        $this->render('results');
     }
 
+    /**
+     * User private page -> "user cabinet"
+     */
     public function actionOffice()
     {
         $this->checkUser();

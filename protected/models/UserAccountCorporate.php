@@ -9,6 +9,7 @@
  * @property string $corporate_email
  * @property boolean is_corporate_email_verified
  * @property datetime corporate_email_verified_at
+ * @property boolean corporate_email_activation_code
  *
  * The followings are the available model relations:
  * @property User $user
@@ -16,6 +17,25 @@
  */
 class UserAccountCorporate extends CActiveRecord
 {
+
+    /* ----------------------------------------------------------------------------------------------------- */
+
+    /**
+     * @return string
+     */
+    public function generateActivationKey()
+    {
+        $this->corporate_email_activation_code = YumEncrypt::encrypt(microtime().$this->corporate_email, $this->user->salt);
+
+        if (!$this->isNewRecord) {
+            $this->save(false, array('activationKey'));
+        }
+
+        return $this->corporate_email_activation_code;
+    }
+
+    /* ----------------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -62,7 +82,7 @@ class UserAccountCorporate extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'user'     => array(self::BELONGS_TO, 'User'    , 'user_id'),
+			'user'     => array(self::BELONGS_TO, 'YumUser' , 'user_id'),
 			'industry' => array(self::BELONGS_TO, 'Industry', 'industry_id'),
 		);
 	}

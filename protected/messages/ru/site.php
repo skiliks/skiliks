@@ -132,4 +132,5 @@ return array(
     'This is free e-mail! Type your corporate e-mail.' => 'Это не корпоративный e-mail. Используйте свой корпоративный e-mail.',
     'Choose account type' => 'Указать тип аккаунта',
     'Email already exists, but not activated. <a href="%s?email=%s">Send activation again</a>' => 'E-mail уже зарегистрирован, но не активирован. <a href="%s?email=%s">Выслать активационное письмо повторно</a>'
+    'We send corporate-email-address verification email to you.<br/> Please, confirm your corporate email by link in this letter.' => 'Вам на почту пришло письмо со ссылкой для подтверждения корпоративного емейла.<br/> Пожалуйста подтвердите свой корпоративный емейл перейдя по ссылке из письма.',
 );

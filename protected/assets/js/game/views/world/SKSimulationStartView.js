@@ -28,8 +28,7 @@ define([
          * @method
          */
         'render': function () {
-            var simulations = SKApp.user.simulations;
-            var code = _.template(start_simulation_menu, {'simulations': simulations});
+            var code = _.template(start_simulation_menu);
 
             this.$el.html(code);
 
