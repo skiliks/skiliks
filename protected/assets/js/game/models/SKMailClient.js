@@ -985,17 +985,17 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                             mailClient.messageForNewEmail = response.message;
 
-                            if(typeof callback == 'function'){
+                            if(typeof callback === 'function'){
                                 callback();
                             }
 
                         }
-                    },
-                    false
+                        this.trigger('mail:available_phrases_reloaded');
+                    }
                 );
 
                 // throw event there - because no matter success or fail request, phrases are need tobe reloaded
-                this.trigger('mail:available_phrases_reloaded');
+
             },
 
             /**
