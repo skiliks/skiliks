@@ -196,6 +196,11 @@ class ImportGameDataService
         }
 
         // Manual add punctuation signs
+        $constructor = new MailConstructor();
+        $constructor->code = 'SYS';
+        $constructor->import_id = $this->import_id;
+        $constructor->save();
+
         $signs = ['.', ',', ':', '"', '-', ';'];
         foreach ($signs as $sign) {
             $phrase = MailPhrase::model()->findByAttributes(['code' => 'SYS', 'name' => $sign]);
