@@ -136,7 +136,7 @@ class PHPExcel_Calculation_Functions {
 	 *								PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE	'OpenOfficeCalc'
 	 */
 	public static function getCompatibilityMode() {
-		return self::$compatibilityMode;
+        return self::$compatibilityMode;
 	}	//	function getCompatibilityMode()
 
 

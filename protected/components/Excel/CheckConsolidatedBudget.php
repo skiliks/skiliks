@@ -6,6 +6,9 @@
  *  v3 or upper
  * @author slavka
  */
+
+require('PHPExcel/Calculation.php');
+
 class CheckConsolidatedBudget 
 {
     /**
@@ -80,9 +83,11 @@ class CheckConsolidatedBudget
         
         return $this;
     }
-    
+
     /**
      * @see: check ID 2
+     * @param $whProduction
+     * @return CheckConsolidatedBudget $this
      */
     public function checkNo2($whProduction)
     {
@@ -110,8 +115,6 @@ class CheckConsolidatedBudget
      */
     public function checkNo3($whConsolidated)
     {
-        $sum = 0;
-        
         $s1 = $this->SUM($whConsolidated, array('N','O','P','Q'), array(6,7));
         $s2 = $this->SUM($whConsolidated, array('N','O','P','Q'), array(10,11,12,13,14));
         $s3 = $this->SUM($whConsolidated, array('B','C','D','E','F','G','H','I','J','K','L','M'), array(6,7));
@@ -346,6 +349,8 @@ class CheckConsolidatedBudget
         // init configs }
         
         // get workSheets {
+        $objPHPExcel = null;
+        PHPExcel_Calculation::getInstance()->clearCalculationCache();
         try {
             $objPHPExcel = PHPExcel_IOFactory::load($documentPath);
         } catch (Exception $e) {
@@ -359,6 +364,7 @@ class CheckConsolidatedBudget
         $whProduction   = $objPHPExcel->getSheetByName($worksheetNames['production']);
         $whConsolidated = $objPHPExcel->getSheetByName($worksheetNames['consolidated']);
         // get workSheets }
+
 
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
             $this->resetUserPoints();
