@@ -131,4 +131,5 @@ return array(
     'Log out' => 'Выход',
     'This is free e-mail! Type your corporate e-mail.' => 'Это не корпоративный e-mail. Используйте свой корпоративный e-mail.',
     'Choose account type' => 'Указать тип аккаунта',
+    'Email already exists, but not activated. <a href="%s?email=%s">Send activation again</a>' => 'E-mail уже зарегистрирован, но не активирован. <a href="%s?email=%s">Выслать активационное письмо повторно</a>'
 );

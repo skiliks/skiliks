@@ -11,6 +11,12 @@
 	'enableAjaxValidation' => false,
 )); ?>
 
+    <?php if (!empty($error)): ?>
+    <div class="row errorMessage">
+        <?php echo $error; ?>
+    </div>
+    <?php endif; ?>
+
     <br/>
     <div class="row">
         <?php echo $form->labelEx($profile  , 'email'); ?>
