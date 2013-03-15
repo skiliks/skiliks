@@ -285,6 +285,10 @@ class FlagServiceTest extends CDbTestCase
         $this->assertNull($timed_bad_email);
     }
 
+    /*
+     * Проверка ET12.1 для флага F14 чтоб была кнопка "Ответить"
+     */
+
     public function testNewFlagsRules() {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(1, $user);
@@ -297,6 +301,10 @@ class FlagServiceTest extends CDbTestCase
 
         $this->assertEquals(3, count($result['events'][0]['data']));
     }
+
+    /*
+     * Проверяет ET12.2 для F14 что есть нужная реплика excel_id = 408
+     */
 
     public function testNewFlagsRulesByDialogGet() {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
