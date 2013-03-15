@@ -170,6 +170,8 @@ return array(
                 'userAccount/<action:\w+>'      => 'static/userAccount/<action>',
                 'registration/<action:\w+>'      => 'static/userAccount/<action>',
 
+                'dashboard' => 'static/userAccount/dashboard',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
