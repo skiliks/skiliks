@@ -62,7 +62,7 @@ define([
          * @param el
          */
         doStartDrag: function (el) {
-            this.hideZohoIframe();
+            // this.hideZohoIframe();
         },
 
         /**
