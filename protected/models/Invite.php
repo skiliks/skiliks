@@ -13,13 +13,22 @@
  * @property string $message
  * @property string $signature
  * @property string $code
+ * @property string $position_id
+ * @property string $status
+ * @property string $sent_time
+ * @property string $fullname
  *
  * The followings are the available model relations:
  * @property YumUser $invitedUser
  * @property YumUser $invitingUser
+ * @property Position $position
  */
 class Invite extends CActiveRecord
 {
+    const STATUS_PENDING   = 0;
+    const STATUS_ACCEPTED  = 1;
+    const STATUS_COMPLETED = 2;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -46,15 +55,16 @@ class Invite extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('inviting_user_id', 'required'),
-			array('inviting_user_id, invited_user_id', 'length', 'max'=>10),
+			array('inviting_user_id, firstname, lastname, email, status', 'required'),
+			array('inviting_user_id, invited_user_id, position_id, status', 'length', 'max'=>10),
 			array('firstname, lastname', 'length', 'max'=>100),
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
+            array('email', 'email'),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, inviting_user_id, invited_user_id, firstname, lastname, email, message, signature, code', 'safe', 'on'=>'search'),
+			array('id, inviting_user_id, invited_user_id, firstname, lastname, email, message, signature, code, position_id, status, sent_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -68,6 +78,7 @@ class Invite extends CActiveRecord
 		return array(
 			'invitedUser' => array(self::BELONGS_TO, 'User', 'invited_user_id'),
 			'invitingUser' => array(self::BELONGS_TO, 'User', 'inviting_user_id'),
+			'position' => array(self::BELONGS_TO, 'Position', 'position_id')
 		);
 	}
 
@@ -86,6 +97,9 @@ class Invite extends CActiveRecord
 			'message' => 'Message',
 			'signature' => 'Signature',
 			'code' => 'Code',
+			'position_id' => 'Position',
+			'status' => 'Status',
+			'sent_time' => 'Sent Time',
 		);
 	}
 
@@ -109,9 +123,17 @@ class Invite extends CActiveRecord
 		$criteria->compare('message',$this->message,true);
 		$criteria->compare('signature',$this->signature,true);
 		$criteria->compare('code',$this->code,true);
+		$criteria->compare('position_id',$this->position_id,true);
+		$criteria->compare('status',$this->status,true);
+		$criteria->compare('sent_time',$this->sent_time,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function getFullname()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
 }
