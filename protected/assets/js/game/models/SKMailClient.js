@@ -990,7 +990,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
 
                         }
-                        this.trigger('mail:available_phrases_reloaded');
+                        mailClient.trigger('mail:available_phrases_reloaded');
                     }
                 );
 
