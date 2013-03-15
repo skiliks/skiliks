@@ -1398,6 +1398,9 @@ define([
                         me.doUpdateMailPhrasesList();
                     }
                 });
+                if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
+                    this.$("#MailClient_NewLetterSubject").ddslick('disable');
+                }
 
             },
 
@@ -1421,6 +1424,9 @@ define([
                     me.doUpdateMailPhrasesList();
                 }
                 });
+                if(this.mailClient.activeScreen !== 'SCREEN_WRITE_NEW_EMAIL'){
+                    this.$("#MailClient_NewLetterSubject").ddslick('disable');
+                }
             },
 
             /**
@@ -1429,7 +1435,7 @@ define([
              */
             getCurentEmailSubjectId: function () {
                 // removeAttr - for reply, replyAll, forward cases
-                this.$("#MailClient_NewLetterSubject").ddslick('disable');
+                //this.$("#MailClient_NewLetterSubject").ddslick('disable');
 
                 return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
             },
