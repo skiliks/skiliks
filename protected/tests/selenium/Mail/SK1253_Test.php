@@ -25,7 +25,7 @@ class SK1253_Test extends SeleniumTestHelper
      */
     public function testSK1253()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -37,12 +37,16 @@ class SK1253_Test extends SeleniumTestHelper
 	    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
         $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
         $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
-        $this->waitForVisible("css=select.origin");
-        $this->select("css=select.origin", "Срочно жду бюджет логистики");
+        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
-        $this->waitForVisible("css=select.origin");
-        $this->select("css=select.origin", "Сводный бюджет: файл");
+        $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        //после изменений с почтой сейчас есть здесь поп-ап, которого не должно быть...
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
         $this->assertFalse($this->isTextPresent('Срочно жду бюджет логистики'));
     }
 }

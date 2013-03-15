@@ -41,10 +41,12 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->write_mail_active();
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
-        $this->click($krutko);
+        $this->optimal_click($krutko);
 
-        $this->select("css=select.origin", "Сводный бюджет: файл");
-        $this->click("xpath=//*[@id='undefined']/div/a");
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
+        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
         $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
@@ -92,10 +94,12 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->write_mail_active();
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
-        $this->click($krutko);
+        $this->optimal_click($krutko);
 
-        $this->select("css=select.origin", "Сводный бюджет: файл");
-        $this->click("xpath=//*[@id='undefined']/div/a");
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
+        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
         $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
@@ -144,10 +148,12 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->write_mail_active();
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
-        $this->click($krutko);
+        $this->optimal_click($krutko);
 
-        $this->select("css=select.origin", "Сводный бюджет: файл");
-        $this->click("xpath=//*[@id='undefined']/div/a");
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
+        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
         $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
@@ -187,10 +193,12 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
-        $this->click($krutko);
+        $this->optimal_click($krutko);
 
-        $this->select("css=select.origin", "Сводный бюджет: файл");
-        $this->click("xpath=//*[@id='undefined']/div/a");
+        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
+
+        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
         $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
         $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
