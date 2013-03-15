@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * This is the model class for table "invites".
+ *
+ * The followings are the available columns in table 'invites':
+ * @property integer $id
+ * @property string $inviting_user_id
+ * @property string $invited_user_id
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $email
+ * @property string $message
+ * @property string $signature
+ * @property string $code
+ *
+ * The followings are the available model relations:
+ * @property YumUser $invitedUser
+ * @property YumUser $invitingUser
+ */
+class Invite extends CActiveRecord
+{
+	/**
+	 * Returns the static model of the specified AR class.
+	 * @param string $className active record class name.
+	 * @return Invite the static model class
+	 */
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	/**
+	 * @return string the associated database table name
+	 */
+	public function tableName()
+	{
+		return 'invites';
+	}
+
+	/**
+	 * @return array validation rules for model attributes.
+	 */
+	public function rules()
+	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
+		return array(
+			array('inviting_user_id', 'required'),
+			array('inviting_user_id, invited_user_id', 'length', 'max'=>10),
+			array('firstname, lastname', 'length', 'max'=>100),
+			array('email, signature', 'length', 'max'=>255),
+			array('code', 'length', 'max'=>50),
+			array('message', 'safe'),
+			// The following rule is used by search().
+			// Please remove those attributes that should not be searched.
+			array('id, inviting_user_id, invited_user_id, firstname, lastname, email, message, signature, code', 'safe', 'on'=>'search'),
+		);
+	}
+
+	/**
+	 * @return array relational rules.
+	 */
+	public function relations()
+	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
+		return array(
+			'invitedUser' => array(self::BELONGS_TO, 'User', 'invited_user_id'),
+			'invitingUser' => array(self::BELONGS_TO, 'User', 'inviting_user_id'),
+		);
+	}
+
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'id' => 'ID',
+			'inviting_user_id' => 'Inviting User',
+			'invited_user_id' => 'Invited User',
+			'firstname' => 'Firstname',
+			'lastname' => 'Lastname',
+			'email' => 'Email',
+			'message' => 'Message',
+			'signature' => 'Signature',
+			'code' => 'Code',
+		);
+	}
+
+	/**
+	 * Retrieves a list of models based on the current search/filter conditions.
+	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+	 */
+	public function search()
+	{
+		// Warning: Please modify the following code to remove attributes that
+		// should not be searched.
+
+		$criteria=new CDbCriteria;
+
+		$criteria->compare('id',$this->id);
+		$criteria->compare('inviting_user_id',$this->inviting_user_id,true);
+		$criteria->compare('invited_user_id',$this->invited_user_id,true);
+		$criteria->compare('firstname',$this->firstname,true);
+		$criteria->compare('lastname',$this->lastname,true);
+		$criteria->compare('email',$this->email,true);
+		$criteria->compare('message',$this->message,true);
+		$criteria->compare('signature',$this->signature,true);
+		$criteria->compare('code',$this->code,true);
+
+		return new CActiveDataProvider($this, array(
+			'criteria'=>$criteria,
+		));
+	}
+}
