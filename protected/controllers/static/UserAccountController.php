@@ -484,7 +484,7 @@ class UserAccountController extends YumController
         }
 
         // corporate user must have verified corporate email to see simulation results
-        if ($user->isCorporate()) {
+        if ($user->isCorporate() && (bool)$user->getAccount()->is_corporate_email_verified) {
             $this->redirect(['registration/please-confirm-corporate-email']);
         }
 
