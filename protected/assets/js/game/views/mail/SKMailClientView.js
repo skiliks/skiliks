@@ -383,49 +383,6 @@ define([
 
                 this.$('#' + this.mailClientFoldersListId).html(html);
 
-                // droppable {
-                this.$('#FOLDER_INBOX').droppable("destroy");
-                this.$('#FOLDER_TRASH').droppable("destroy");
-
-                // add restore from trash behaviour {
-                if (this.mailClient.aliasFolderTrash === this.mailClient.getActiveFolder().alias) {
-                    // clean up bunders
-
-                    // init move to trash onDrop
-                    $('#FOLDER_INBOX').droppable({
-                        tolerance: "pointer",
-                        drop: function (event, ui) {
-                            var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
-                            mailClientView.doMoveToInbox(email);
-                        },
-                        over: function (event, ui) {
-                            $(this).addClass('over');
-                        },
-                        out: function (event, ui) {
-                            $(this).removeClass('over');
-                        }
-                    });
-                }
-                // add restore from trash behaviour }
-
-                // add move to trash behaviour {
-                if (this.mailClient.aliasFolderInbox === this.mailClient.getActiveFolder().alias) {
-                    $('#FOLDER_TRASH').droppable({
-                        tolerance: "pointer",
-                        drop: function (event, ui) {
-                            var email = mailClientView.mailClient.getEmailByMySqlId(ui.draggable.data('email-id'));
-                            mailClientView.doMoveToTrash(email);
-                        },
-                        over: function (event, ui) {
-                            $(this).addClass('over');
-                        },
-                        out: function (event, ui) {
-                            $(this).removeClass('over');
-                        }
-                    });
-                }
-                // add move to trash behaviour }
-                // droppable
 
                 this.delegateEvents();
             },
@@ -781,15 +738,7 @@ define([
                 this.renderIcons(this.mailClient.iconsForInboxScreenArray);
                 this.mailClient.setActiveScreen(this.mailClient.screenInboxList);
 
-                // draggable: add move to trash behaviour {
-                this.$('.email-list-line').draggable("destroy");
-                this.$('.email-list-line').draggable({
-                    helper: function (event) {
-                        return $('<div class="email-envelope"><table style="display: none;"></table></div>')
-                            .find('table').append($(event.target).closest('tr').clone()).end();
-                    }
-                });
-                // draggable: add move to trash behaviour }
+
             },
 
             /**
@@ -1480,6 +1429,8 @@ define([
 
                 $("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
                 $("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
+                this.$('#mailEmulatorNewLetterText').sortable();
+
 
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
