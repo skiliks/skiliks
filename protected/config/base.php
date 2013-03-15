@@ -68,7 +68,7 @@ return array(
             // 'newDirMode'=>0777,
         ),
         'user' => array(
-            'debug' => true,
+            'debug' => false,
             'activationPasswordSet' => false,
             'mailer'=>'PHPMailer',
             'phpmailer'=>array(
@@ -128,10 +128,11 @@ return array(
 
             'rules' => array(
                 '/'                       => 'static/site/index',
-                '/admin'                  => 'static/admin/',
-                '/admin/<action:\w+>'     => 'static/admin/<action>',
-                '/Admin/Log'              => 'static/Admin/Log',
+                'admin'                  => 'static/admin/',
+                'admin/<action:\w+>'     => 'static/admin/<action>',
+                'Admin/Log'              => 'static/Admin/Log',
 
+                'site/'                   => 'static/userAccount/office',
                 'site/'                   => 'static/userAccount/office',
                 'site/<mode:\w+>'         => 'static/site/site',
                 'site/logout'             => 'static/site/logout',
@@ -146,16 +147,22 @@ return array(
                 'team'                    => 'static/page/team',
                 'product'                 => 'static/product',
 
-                'registration'                           => 'static/userAccount/registration',
-                'registration/choose-account-type'       => 'static/userAccount/chooseAccountType',
-                'registration/resend-activation'         => 'static/userAccount/resendActivation',
+                'registration'                         => 'static/userAccount/registration',
+                'registration/confirm-corporate-email' => 'static/userAccount/confirmCorporateEmail',
+                'registration/choose-account-type'     => 'static/userAccount/chooseAccountType',
+
+                'registration/confirm-corporate-email-success' => 'static/userAccount/confirmCorporateEmailSuccess',
+                'registration/please-confirm-corporate-email'   => 'static/userAccount/pleaseConfirmCorporateEmail',
 
                 'registration/error'                     => 'static/userAccount/errorDuringRegistration',
                 'registration/error/sign-in-or-register' => 'static/userAccount/errorSingInOrRegister',
                 'registration/error/has-account'         => 'static/userAccount/errorYouHasAlreadyChooseAccount',
                 'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
                 'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
+
                 'registration/results'                   =>'static/userAccount/Results',
+                'simulation/registration/results'        =>'static/userAccount/Results', // just to handle JS 'Sim stop'
+
                 'site/registration/results'              =>'static/userAccount/Results',
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
