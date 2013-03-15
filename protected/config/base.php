@@ -160,10 +160,10 @@ return array(
                 'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
                 'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
 
-                'registration/results'                   =>'static/userAccount/Results',
-                'simulation/registration/results'        =>'static/userAccount/Results', // just to handle JS 'Sim stop'
+                'results'                   =>'static/userAccount/Results',
+                'simulation/results'        =>'static/userAccount/Results', // just to handle JS 'Sim stop'
+                'site/results'              =>'static/userAccount/Results',
 
-                'site/registration/results'              =>'static/userAccount/Results',
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
 
