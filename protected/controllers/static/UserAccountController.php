@@ -476,15 +476,15 @@ class UserAccountController extends YumController
             $this->redirect(['registration/error/sign-in-or-register']);
         }
 
-        $user = SessionHelper::getUserBySid();
+        $this->user = SessionHelper::getUserBySid();
 
         // user must specify account to see simulation results
-        if (false == $user->isHasAccount()) {
+        if (false == $this->user->isHasAccount()) {
             $this->redirect(['registration/choose-account-type']);
         }
 
         // corporate user must have verified corporate email to see simulation results
-        if ($user->isCorporate() && false == (bool)$user->getAccount()->is_corporate_email_verified) {
+        if ($this->user->isCorporate() && false == (bool)$this->user->getAccount()->is_corporate_email_verified) {
             $this->redirect(['registration/please-confirm-corporate-email']);
         }
 
