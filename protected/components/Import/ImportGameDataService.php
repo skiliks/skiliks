@@ -196,7 +196,10 @@ class ImportGameDataService
         }
 
         // Manual add punctuation signs
-        $constructor = new MailConstructor();
+        $constructor = MailConstructor::model()->findByAttributes(['code' => 'SYS']);
+        if ($constructor === null) {
+            $constructor = new MailConstructor();
+        }
         $constructor->code = 'SYS';
         $constructor->import_id = $this->import_id;
         $constructor->save();

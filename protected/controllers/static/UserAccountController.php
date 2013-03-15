@@ -20,6 +20,7 @@ class UserAccountController extends YumController
     {
         $this->user = new YumUser('registration');
         $profile    = new YumProfile('registration');
+        $error = null;
 
         $YumUser    = Yii::app()->request->getParam('YumUser');
         $YumProfile = Yii::app()->request->getParam('YumProfile');
@@ -37,24 +38,35 @@ class UserAccountController extends YumController
                 $this->user->username = 'DefaultName';
             }
 
-            // we need profile validation even if user invalid
-            $isUserValid = $this->user->validate();
-            $isProfileValid = $profile->validate(['email']);
+            $existProfile = YumProfile::model()->findByAttributes([
+                'email' => $profile->email
+            ]);
 
-            if($isUserValid && $isProfileValid)
-            {
-                $result = $this->user->register($this->user->username, $this->user->password, $profile);
+            if ($existProfile && !$existProfile->user->isActive()) {
+                $error = sprintf(
+                    Yii::t('site',  'Email already exists, but not activated. <a href="%s?email=%s">Send activation again</a>'),
+                    $this->createUrl('static/userAccount/resendActivation'),
+                    $profile->email
+                );
+            } else {
+                // we need profile validation even if user invalid
+                $isUserValid = $this->user->validate();
+                $isProfileValid = $profile->validate(['email']);
 
-                if (false !== $result) {
-                    $this->sendRegistrationEmail($this->user);
+                if($isUserValid && $isProfileValid) {
+                    $result = $this->user->register($this->user->username, $this->user->password, $profile);
 
-                    $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
-                } else {
-                    $this->user->password = '';
-                    $this->user->password_again = '';
+                    if (false !== $result) {
+                        $this->sendRegistrationEmail($this->user);
+
+                        $this->redirect(['afterRegistration', 'userId' => $this->user->id]);
+                    } else {
+                        $this->user->password = '';
+                        $this->user->password_again = '';
 
 
-                    echo 'Can`t register.';
+                        echo 'Can`t register.';
+                    }
                 }
             }
         }
@@ -64,6 +76,7 @@ class UserAccountController extends YumController
             [
                 'user'    => $this->user,
                 'profile' => $profile,
+                'error' => $error
             ]
         );
     }
@@ -364,6 +377,20 @@ class UserAccountController extends YumController
         else
             $this->render(Yum::module('registration')->activationFailureView, array(
                 'error' => $status));
+    }
+
+    public function actionResendActivation($email)
+    {
+        $profile = YumProfile::model()->findByAttributes([
+            'email' => $email
+        ]);
+
+        if ($profile && !$profile->user->isActive()) {
+            $this->sendRegistrationEmail($profile->user);
+            $this->redirect(['afterRegistration', 'userId' => $profile->user->id]);
+        } else {
+            $this->redirect('/');
+        }
     }
 
     public function actionResults()

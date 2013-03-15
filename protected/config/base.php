@@ -141,7 +141,6 @@ return array(
                 'simulation/start'        => 'simulation/start',
                 'simulation/stop'         => 'simulation/stop',
                 'simulation/changeTime'   => 'simulation/changeTime',
-                'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/<mode:\w+>'   => 'static/site/site',
 
                 'team'                    => 'static/page/team',
@@ -149,6 +148,7 @@ return array(
 
                 'registration'                           => 'static/userAccount/registration',
                 'registration/choose-account-type'       => 'static/userAccount/chooseAccountType',
+                'registration/resend-activation'         => 'static/userAccount/resendActivation',
 
                 'registration/error'                     => 'static/userAccount/errorDuringRegistration',
                 'registration/error/sign-in-or-register' => 'static/userAccount/errorSingInOrRegister',
