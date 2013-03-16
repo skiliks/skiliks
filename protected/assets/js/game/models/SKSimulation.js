@@ -78,7 +78,7 @@ define([
                 this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('simulationEndTime'))) {
-                        SKApp.user.stopSimulation();
+                        me.stop();
                     }
 
                     // 11-00

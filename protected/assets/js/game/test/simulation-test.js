@@ -8,19 +8,22 @@ var spec = describe('simulation', function (run) {
             var server;
             var timers;
             before(function () {
-                SKConfig = {
+                var SKConfig = {
                     "skiliksSpeedFactor":8,
                     "simulationStartTime":"9:00",
                     "simulationEndTime":"18:00",
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
-                SKApp = new SKApplication();
+                SKApp = new SKApplication(SKConfig);
                 server = sinon.fakeServer.create();
                 server.respondWith("POST", "/index.php/simulation/start",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
                 server.respondWith("POST", "/index.php/events/getState",
+                    [200, { "Content-Type":"application/json" },
+                        JSON.stringify({result:0})]);
+                server.respondWith("POST", "/index.php/simulation/stop",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:0})]);
                 timers = sinon.useFakeTimers();
@@ -30,9 +33,9 @@ var spec = describe('simulation', function (run) {
                 timers.restore();
             });
             it("can correct calculate time", function () {
-                SKApp.user = {};
-                var simulation = SKApp.simulation = new SKSimulation();
+                var simulation = SKApp.simulation;
                 simulation.start();
+                server.respond();
                 expect(simulation.getGameMinutes()).toBe(540);
                 expect(simulation.getGameSeconds()).toBe(540 * 60);
                 expect(simulation.getGameTime()).toBe('09:00');
@@ -46,12 +49,12 @@ var spec = describe('simulation', function (run) {
             });
             it("stops at 18:00", function () {
                 var stop_spy = sinon.spy();
-                SKApp.user = {'stopSimulation':stop_spy};
-                var simulation = SKApp.simulation = new SKSimulation();
-                simulation.start();
+                SKApp.simulation.start();
+                SKApp.simulation.on('stop', stop_spy);
                 server.respond();
                 timers.tick(9 * 60 * 60 * 1000/8);
-                buster.log(simulation.getGameTime());
+                buster.log(SKApp.simulation.getGameTime());
+                server.respond();
                 assert.calledOnce(stop_spy);
 
             });
