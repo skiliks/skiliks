@@ -42,7 +42,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<header>
 				<h1><a href="/">Skiliks</a></h1>
 				
-				<p class="coming-soon"></p>
+				<p class="coming-soon">Coming soon</p>
 
 				<div class="language">
                     <a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a>

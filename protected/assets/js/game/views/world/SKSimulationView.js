@@ -156,7 +156,7 @@ define([
              * @method
              */
             'doSimulationStop':  function () {
-                SKApp.user.stopSimulation();
+                SKApp.simulation.stop();
             },
 
             /**

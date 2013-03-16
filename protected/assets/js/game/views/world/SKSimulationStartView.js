@@ -61,8 +61,7 @@ define([
                 simulation_view.render();
             });
             this.listenTo(simulation, 'stop', function () {
-                delete me.simulation_view;
-                location.href = simulation.get('result-url');
+
             });
         },
 
