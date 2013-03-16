@@ -87,7 +87,7 @@ define(["text!game/jst/window.jst"], function (window_template) {
         },
 
         renderTPL: function (element, templateHtml, userData) {
-            var systemData = {assetsUrl: SKConfig.assetsUrl};
+            var systemData = {assetsUrl: SKApp.get('assetsUrl')};
             var data = _.defaults(systemData, userData);
             var html = _.template(templateHtml, data);
             $(element).html(html);

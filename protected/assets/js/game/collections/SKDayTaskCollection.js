@@ -45,7 +45,7 @@ define(["game/models/SKDayTask"], function () {
             var start_minute = time.split(':')[1];
             var start_time = parseInt(start_hour, 10) * 60 + parseInt(start_minute, 10);
             var end_time = start_time + parseInt(duration, 10);
-            if (parseInt(day, 10) === 1 && start_time < SKApp.user.simulation.getGameMinutes()) {
+            if (parseInt(day, 10) === 1 && start_time < SKApp.simulation.getGameMinutes()) {
                 return false;
             }
             if (end_time > 22 * 60) {

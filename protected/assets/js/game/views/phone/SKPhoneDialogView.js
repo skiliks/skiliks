@@ -104,7 +104,7 @@ define([
             // block standartfuncxtionality if 
             if (this.isUserCanFinalizeCall) {
                 this.options.model_instance.close();
-                SKApp.user.simulation.window_set.toggle('phone','phoneMain');
+                SKApp.simulation.window_set.toggle('phone','phoneMain');
             }
             event.preventDefault();
         },

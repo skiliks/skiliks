@@ -100,7 +100,7 @@ define([], function () {
             if (!video_src.match(/\.webm$/)) {
                 video_src = undefined;
             }
-            return video_src ? SKConfig.storageURL + '/videos/' + video_src : undefined;
+            return video_src ? SKApp.get('storageURL') + '/videos/' + video_src : undefined;
         },
 
         /**
@@ -118,7 +118,7 @@ define([], function () {
             if (!img_src.match(/\.png$/)) {
                 img_src = undefined;
             }
-            return img_src ? SKConfig.storageURL + '/dialog_images/' + img_src : undefined;
+            return img_src ? SKApp.get('storageURL') + '/dialog_images/' + img_src : undefined;
         },
 
         /**
@@ -134,7 +134,7 @@ define([], function () {
             if (audio_src !== null && !audio_src.match(/\.wav/)) {
                 audio_src = null;
             }
-            return audio_src ? SKConfig.storageURL + '/sounds/' + audio_src : undefined;
+            return audio_src ? SKApp.get('storageURL') + '/sounds/' + audio_src : undefined;
         },
 
         /**
@@ -146,13 +146,13 @@ define([], function () {
         select: function (replica_id, cb) {
             SKApp.server.api('dialog/get', {
                 'dialogId': replica_id,
-                'time':     SKApp.user.simulation.getGameTime()
+                'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 if (data.result === 1) {
                     if (cb) {
                         cb(data);
                     }
-                    SKApp.user.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events);
                 }
             });
         },
@@ -200,9 +200,9 @@ define([], function () {
             // и перенести игнорирование во вьюху SKPhoneCallView
             SKApp.server.api('dialog/get', {
                 'dialogId': dialogId,
-                'time':     SKApp.user.simulation.getGameTime()
+                'time':     SKApp.simulation.getGameTime()
             }, function (data) {
-                SKApp.user.simulation.parseNewEvents(data.events);
+                SKApp.simulation.parseNewEvents(data.events);
                 if (cb !== undefined) {
                     cb();
                 }
@@ -220,14 +220,14 @@ define([], function () {
             var me = this;
             SKApp.server.api('dialog/get', {
                 'dialogId': replica_id,
-                'time':     SKApp.user.simulation.getGameTime()
+                'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 if (data.result === 1) {
                     cb();
                     if (me.getStatus() !== 'completed') {
                         me.complete();
                     }
-                    SKApp.user.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.parseNewEvents(data.events);
                 }
             });
         },

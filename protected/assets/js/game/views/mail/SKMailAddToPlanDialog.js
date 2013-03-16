@@ -58,17 +58,17 @@ define([
             return SKApp.server.api(
                 'mail/toPlan',
                 {
-                    id: SKApp.user.simulation.mailClient.activeEmail.mySqlId
+                    id: SKApp.simulation.mailClient.activeEmail.mySqlId
                 },
                 function (response) {
-                    SKApp.user.simulation.mailClient.availaleActiveEmailTasks = [];
+                    SKApp.simulation.mailClient.availaleActiveEmailTasks = [];
                     response.data.forEach(function (task_obj) {
                         var task = new SKMailTask();
                         task.mySqlId = task_obj.id;
                         task.label = task_obj.name;
                         task.duration = task_obj.duration;
 
-                        SKApp.user.simulation.mailClient.availaleActiveEmailTasks.push(task);
+                        SKApp.simulation.mailClient.availaleActiveEmailTasks.push(task);
                     });
 
                     me.continueRender();
@@ -80,7 +80,7 @@ define([
          * @method
          */
         render:function () {
-            SKApp.user.simulation.mailClient.setWindowsLog('mailPlan', SKApp.user.simulation.mailClient.getActiveEmailId());
+            SKApp.simulation.mailClient.setWindowsLog('mailPlan', SKApp.simulation.mailClient.getActiveEmailId());
 
             // generate mail tasks list {
             this.getTasksToBePlanned();
@@ -93,7 +93,7 @@ define([
             var listHtml = '';
             var addToPlanDialog = this;
 
-            var mailTasks = SKApp.user.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
+            var mailTasks = SKApp.simulation.mailClient.availaleActiveEmailTasks; // to keep code shorter
 
             mailTasks.forEach(function (mailTask) {
                 listHtml += _.template(add_to_plan_item, {
@@ -111,10 +111,10 @@ define([
                         {
                             'value':'Окей',
                             'onclick':function () {
-                                delete SKApp.user.simulation.mailClient.message_window;
-                                SKApp.user.simulation.mailClient.setWindowsLog(
+                                delete SKApp.simulation.mailClient.message_window;
+                                SKApp.simulation.mailClient.setWindowsLog(
                                     'mailMain',
-                                    SKApp.user.simulation.mailClient.getActiveEmailId()
+                                    SKApp.simulation.mailClient.getActiveEmailId()
                                 );
                             }
                         }
@@ -176,7 +176,7 @@ define([
          * @param id
          */
         setSelectedMailTaskByMySqlId:function (id) {
-            this.selectedMailTask = SKApp.user.simulation.mailClient.getMailTaskByMySqlId(id);
+            this.selectedMailTask = SKApp.simulation.mailClient.getMailTaskByMySqlId(id);
         },
 
         /**
@@ -210,19 +210,19 @@ define([
                 'mail/addToPlan',
                 {
                     id:        addToPlanDialog.selectedMailTask.mySqlId,
-                    messageId: SKApp.user.simulation.mailClient.activeEmail.mySqlId
+                    messageId: SKApp.simulation.mailClient.activeEmail.mySqlId
                 },
                 function (response) {
                     // add to plan {
-                    SKApp.user.simulation.todo_tasks.fetch();
+                    SKApp.simulation.todo_tasks.fetch();
                     // add to plan }
 
-                    SKApp.user.simulation.mailClient.setWindowsLog(
+                    SKApp.simulation.mailClient.setWindowsLog(
                         'mailMain',
-                        SKApp.user.simulation.mailClient.getActiveEmailId()
+                        SKApp.simulation.mailClient.getActiveEmailId()
                     );
 
-                    SKApp.user.simulation.window_set.toggle('plan', 'plan'); // for logging
+                    SKApp.simulation.window_set.toggle('plan', 'plan'); // for logging
                 }
             );
         },
@@ -239,9 +239,9 @@ define([
          * @method
          */
         doLogClose: function() {
-            SKApp.user.simulation.mailClient.setWindowsLog(
+            SKApp.simulation.mailClient.setWindowsLog(
                 'mailMain',
-                SKApp.user.simulation.mailClient.getActiveEmailId()
+                SKApp.simulation.mailClient.getActiveEmailId()
             );   
         },
 

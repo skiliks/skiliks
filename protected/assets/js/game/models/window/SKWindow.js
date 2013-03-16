@@ -49,7 +49,7 @@ define([], function () {
          */
         initialize: function () {
             var window_id = this.get('name') + "/" + this.get('subname');
-            if (window_id in SKApp.user.simulation.window_set) {
+            if (window_id in SKApp.simulation.window_set) {
                 throw "Window " + window_id + " already exists";
             }
             if (! (this.get('name') in screens)) {
@@ -65,7 +65,7 @@ define([], function () {
             this.updateUid();
 
             this.is_opened = false;
-            this.simulation = SKApp.user.simulation;
+            this.simulation = SKApp.simulation;
         },
 
         /**
@@ -121,7 +121,7 @@ define([], function () {
                 return;
             }
             this.is_opened = false;
-            SKApp.user.simulation.window_set.hideWindow(this);
+            SKApp.simulation.window_set.hideWindow(this);
             this.trigger('close');
         },
 
@@ -130,7 +130,7 @@ define([], function () {
          */
         setOnTop:function () {
             var me = this;
-            var window_set = SKApp.user.simulation.window_set;
+            var window_set = SKApp.simulation.window_set;
             if (window_set.length === 1 || window_set.at(window_set.length - 1).id === this.id) {
                 return;
             }

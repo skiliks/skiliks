@@ -17,7 +17,7 @@ function testSimulation(email, password, server, cb, fail_cb) {
 
     buster.log(server.requests.length);
     SKApp.user = {};
-    SKApp.user.simulation = {};
+    SKApp.simulation = {};
     var success = sinon.spy();
     simulation.on('start', success);
     simulation.on('start', function () {

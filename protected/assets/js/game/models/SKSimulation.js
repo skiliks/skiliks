@@ -40,6 +40,10 @@ define([
     SKSimulation = Backbone.Model.extend(
         /** @lends SKSimulation.prototype */
         {
+            /**
+             * Тип симуляции. 'real' — real-режим, 'developer' — debug-режим
+             * @attribute stype
+             */
             /**;
              * Constructor
              * @method initialize
@@ -73,7 +77,7 @@ define([
                 this.handleEvents();
                 this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= timeStringToMinutes(SKConfig.simulationEndTime)) {
+                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('simulationEndTime'))) {
                         SKApp.user.stopSimulation();
                     }
 
@@ -120,7 +124,7 @@ define([
             handleEvents: function () {
                 var me = this;
                 this.events.on('event:plan', function () {
-                    SKApp.user.simulation.todo_tasks.fetch();
+                    SKApp.simulation.todo_tasks.fetch();
                 });
                 this.events.on('event:mail', function () {
                     me.getNewEvents();
@@ -135,9 +139,9 @@ define([
              */
             'getGameSeconds':function () {
                 var current_time_string = new Date();
-                var game_start_time = timeStringToMinutes(SKConfig.simulationStartTime) * 60;
+                var game_start_time = timeStringToMinutes(this.get('app').get('simulationStartTime')) * 60;
                 return game_start_time +
-                    Math.floor((current_time_string - this.start_time) / 1000 * SKConfig.skiliksSpeedFactor) +
+                    Math.floor((current_time_string - this.start_time) / 1000 * this.get('app').get('skiliksSpeedFactor')) +
                     this.skipped_minutes * 60;
             },
 
@@ -253,7 +257,7 @@ define([
                          * @event tick
                          */
                         me.trigger('tick');
-                    }, 60000 / SKConfig.skiliksSpeedFactor);
+                    }, 60000 / me.get('app').get('skiliksSpeedFactor'));
                 });
             },
 
@@ -279,8 +283,8 @@ define([
                      * Симуляция уже остановлена
                      * @event stop
                      */
-                    if(SKApp.user.simulation.get('result-url') === undefined){
-                        SKApp.user.simulation.set('result-url', '/results');
+                    if(SKApp.simulation.get('result-url') === undefined){
+                        SKApp.simulation.set('result-url', '/results');
                     }
 
                     me.trigger('stop');
@@ -312,7 +316,7 @@ define([
              * @returns {boolean}
              */
             'isDebug':function () {
-                return parseInt(this.get('stype'), 10) === 2;
+                return this.get('stype') === 'developer';
             },
 
             /**

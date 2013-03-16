@@ -6,7 +6,7 @@ define([
     "text!game/jst/world/simulation_template.jst",
 
     "game/models/SKApplication",
-    "game/views/world/SKSimulationStartView",
+    "game/views/world/SKSimulationView",
     "game/views/world/SKLoginView"
 ], function (
     simulation_template
@@ -30,21 +30,9 @@ define([
          */
         'initialize':function () {
             var me = this;
-            SKApp.session.on('login:failure logout', function (error_type) {
-                if (me.login_view === undefined) {
-                    var container = me.make('div');
-                    me.$el.append(container);
-                    me.login_view = new SKLoginView({el:container});
-                    me.login_view.render();
-                }
-            });
-            SKApp.session.on('login:success', function () {
-                if (me.login_view !== undefined) {
-                    me.login_view.remove();
-                }
-                me.frame = new SKSimulationStartView({'simulations':SKApp.user.simulations});
-                me.frame.render();
-            });
+            SKApp.simulation.start();
+            me.frame = new SKSimulationView();
+            me.frame.render();
             SKApp.server.on('server:error', function () {
                     me.message_window = me.message_window || new window.SKDialogView({
                         'message':'Увы, произошла ошибка! Нам очень жаль и мы постараемся исправить ее как можно скорее',
@@ -60,15 +48,6 @@ define([
                 }
             );
             this.render();
-        },
-
-        /**
-         * При отображении запускает проверку сессии пользователя
-         *
-         * @method
-         */
-        'render':function () {
-            SKApp.session.check();
         }
     });
 

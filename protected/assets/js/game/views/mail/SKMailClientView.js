@@ -94,7 +94,7 @@ define([
              */
             initialize: function () {
                 var me = this;
-                this.mailClient = SKApp.user.simulation.mailClient;
+                this.mailClient = SKApp.simulation.mailClient;
                 this.mailClient.view = this;
 
                 // init View according model
@@ -300,7 +300,7 @@ define([
             doGetEmailDetails: function (emailId, folderAlias) {
                 var me = this;
                 // do we have full data for current email ? {
-                var email = SKApp.user.simulation.mailClient.folders[folderAlias].getEmailByMySqlId(emailId);
+                var email = SKApp.simulation.mailClient.folders[folderAlias].getEmailByMySqlId(emailId);
 
                 if ('undefined' === typeof email) {
                     throw 'Try to render unexistent email ' + emailId + '.';
@@ -1178,13 +1178,13 @@ define([
 
                 this.$("#MailClient_RecipientsList").tagHandler({
                     className: 'tagHandler recipients-list-widget',
-                    availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                    availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                     autocomplete: true,
                     allowAdd: false,
                     msgNoNewTag: "Вы не можете написать письмо данному получателю",
                     onAdd: function (tag) {
                         var me = this;
-                        var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        var add = SKApp.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurrentEmailRecipientIds(),
                             'add',
                             undefined,
@@ -1195,15 +1195,15 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                     },
                     afterAdd: function (tag) {
                         $("#mailEmulatorNewLetterText").html('');
-                        SKApp.user.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                     },
                     onDelete: function (tag) {
                         var me = this;
-                        var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                        var del = SKApp.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurrentEmailRecipientIds(),
                             'delete',
                             undefined,
@@ -1811,7 +1811,7 @@ define([
                     this.renderTXT();
 
                     // even if there is one recipient,but it must be an array
-                    var recipient = [SKApp.user.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
+                    var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
                         .getFormatedForMailToName()];
 
                     this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
@@ -1836,7 +1836,7 @@ define([
                         var ids = response.copiesIds.split(',');
                         for (var i in ids) {
                             if (0 < parseInt(ids[i])) {
-                                copies.push(SKApp.user.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
+                                copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
                                     .getFormatedForMailToName());
                             }
                         }
@@ -1845,7 +1845,7 @@ define([
                     $("#MailClient_CopiesList").tagHandler({
                         className: 'tagHandler copy-list-widget',
                         assignedTags: copies,
-                        availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                        availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true
                     });
 
@@ -1861,10 +1861,10 @@ define([
                     // add copies if they exests }
 
                     // add phrases {
-                    SKApp.user.simulation.mailClient
+                    SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);
 
-                    SKApp.user.simulation.mailClient
+                    SKApp.simulation.mailClient
                         .setAdditionalAvailablePhrases(response.phrases.addData);
 
                     this.renderPhrases();
@@ -1922,10 +1922,10 @@ define([
                     // set recipients
                     $("#MailClient_RecipientsList").tagHandler({
                         className: 'tagHandler recipients-list-widget',
-                        availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                        availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true,
                         onAdd: function (tag) {
-                            var add = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                            var add = SKApp.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurrentEmailRecipientIds(),
                                 'add_fwd',
                                 subject,
@@ -1939,12 +1939,12 @@ define([
                             //
                         },
                         afterAdd: function (tag) {
-                            SKApp.user.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject);
-                            SKApp.user.simulation.mailClient.getAvailablePhrases(SKApp.user.simulation.mailClient.availableSubjects[0].characterSubjectId);
+                            SKApp.simulation.mailClient.reloadSubjects(me.getCurrentEmailRecipientIds(), subject);
+                            SKApp.simulation.mailClient.getAvailablePhrases(SKApp.simulation.mailClient.availableSubjects[0].characterSubjectId);
                         },
                         onDelete: function (tag) {
                             var el = this;
-                            var del = SKApp.user.simulation.mailClient.reloadSubjectsWithWarning(
+                            var del = SKApp.simulation.mailClient.reloadSubjectsWithWarning(
                                 me.getCurrentEmailRecipientIds(),
                                 'delete_fwd',
                                 undefined,
@@ -1966,7 +1966,7 @@ define([
 
                     $("#MailClient_CopiesList").tagHandler({
                         className: 'tagHandler copy-list-widget',
-                        availableTags: SKApp.user.simulation.mailClient.getFormatedCharacterList(),
+                        availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
                         autocomplete: true
                     });
 
@@ -1977,10 +1977,10 @@ define([
                     this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
 
                     // add phrases {
-                    SKApp.user.simulation.mailClient
+                    SKApp.simulation.mailClient
                         .setRegularAvailablePhrases(response.phrases.data);
 
-                    SKApp.user.simulation.mailClient
+                    SKApp.simulation.mailClient
                         .setAdditionalAvailablePhrases(response.phrases.addData);
 
                     this.renderPhrases();
@@ -2064,14 +2064,14 @@ define([
                     function (response) {
                         if (1 !== response.result) {
                             // display message for user
-                            SKApp.user.simulation.mailClient.message_window =
-                                SKApp.user.simulation.mailClient.message_window || new SKDialogView({
+                            SKApp.simulation.mailClient.message_window =
+                                SKApp.simulation.mailClient.message_window || new SKDialogView({
                                     'message': 'Не удалось отправить черновик адресату.',
                                     'buttons': [
                                         {
                                             'value': 'Окей',
                                             'onclick': function () {
-                                                delete SKApp.user.simulation.mailClient.message_window;
+                                                delete SKApp.simulation.mailClient.message_window;
                                             }
                                         }
                                     ]
@@ -2088,9 +2088,9 @@ define([
                             // get first email if email exist in folder {
                             var draftEmails = me.mailClient.getDraftsFolder().emails;
 
-                            SKApp.user.simulation.mailClient.activeEmail = undefined;
+                            SKApp.simulation.mailClient.activeEmail = undefined;
                             for (var i in draftEmails) {
-                                SKApp.user.simulation.mailClient.activeEmail = draftEmails[i];
+                                SKApp.simulation.mailClient.activeEmail = draftEmails[i];
                             }
                             // get first email if email exist in folder }
 

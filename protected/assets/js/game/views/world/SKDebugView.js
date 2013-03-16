@@ -40,7 +40,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             event.preventDefault();
             var hour = $(target).attr('data-hour');
             var minute = $(target).attr('data-minute');
-            SKApp.user.simulation.setTime(hour, minute);
+            SKApp.simulation.setTime(hour, minute);
         },
 
         /**
@@ -48,7 +48,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @param event
          */
         'doLoadDocs': function (event) {
-            SKApp.user.simulation.documents.fetch();
+            SKApp.simulation.documents.fetch();
         },
 
         /**
@@ -60,7 +60,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             event.preventDefault();
             var hours = target.elements.hours.value;
             var minutes = target.elements.minutes.value;
-            SKApp.user.simulation.setTime(hours, minutes);
+            SKApp.simulation.setTime(hours, minutes);
         },
 
         /**
@@ -71,7 +71,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             var me = this;
             var target = event.currentTarget;
             event.preventDefault();
-            SKApp.user.simulation.events.triggerEvent(
+            SKApp.simulation.events.triggerEvent(
                 target.elements.code.value,
                 target.elements.delay.value,
                 target.elements.clear_events.value,
@@ -95,7 +95,7 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
          * @method
          */
         doSimStopAndLoadLogs: function () {
-            SKApp.user.simulation.set('result-url', '/admin/displayLog?simulation=' + SKApp.user.simulation.id);
+            SKApp.simulation.set('result-url', '/admin/displayLog?simulation=' + SKApp.simulation.id);
             SKApp.user.stopSimulation();
         },
 
@@ -113,10 +113,10 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
                 'mail/sendMsInDevMode',
                 {
                     msCode: $(target).attr('data-code'),
-                    time: SKApp.user.simulation.getGameSeconds(),
-                    windowId: SKApp.user.simulation.window_set.getActiveWindow().getWindowId(),
-                    subWindowId: SKApp.user.simulation.window_set.getActiveWindow().getSubwindowId(),
-                    windowUid: SKApp.user.simulation.window_set.getActiveWindow().window_uid
+                    time: SKApp.simulation.getGameSeconds(),
+                    windowId: SKApp.simulation.window_set.getActiveWindow().getWindowId(),
+                    subWindowId: SKApp.simulation.window_set.getActiveWindow().getSubwindowId(),
+                    windowUid: SKApp.simulation.window_set.getActiveWindow().window_uid
                 },
                 function (response) {
                     if (response.result) {

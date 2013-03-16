@@ -139,7 +139,7 @@ define([
             });
 
             it("can create and send new letter (text constructor)", function () {
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();
@@ -159,7 +159,7 @@ define([
                 mailView.$el.find('ul.ui-autocomplete:eq(0) a[data-character-id=1]').click();
 
                 // check recipients
-                expect(SKApp.user.simulation.mailClient.defaultRecipients.length).toBe(2);
+                expect(SKApp.simulation.mailClient.defaultRecipients.length).toBe(2);
 
                 server.respond();
 
@@ -168,7 +168,7 @@ define([
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
                 // check subjects
-                expect(SKApp.user.simulation.mailClient.availableSubjects.length).toBe(2);
+                expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
                 //mailView.$el.find('#MailClient_NewLetterSubject').focus();
                 //mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').attr("selected","selected");
@@ -183,7 +183,7 @@ define([
                     .toBe('Dummy message.');
 
                 // check phrases
-                expect(SKApp.user.simulation.mailClient.availablePhrases.length).toBe(0);
+                expect(SKApp.simulation.mailClient.availablePhrases.length).toBe(0);
 
                 // test TXT constructor
                 expect(mailView.$el.find('#mailEmulatorNewLetterText').text()).toBe('Dummy message.');

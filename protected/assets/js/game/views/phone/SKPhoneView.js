@@ -43,7 +43,7 @@ define([
          * @param window_el
          */
         renderContent: function (window_el) {
-            window_el.html(_.template(main_template, _.defaults(SKConfig)));
+            window_el.html(_.template(main_template, SKApp.attributes));
         },
 
         /**
@@ -65,7 +65,7 @@ define([
          */
         getHistory: function () {
 
-            var history = SKApp.user.simulation.phone_history;
+            var history = SKApp.simulation.phone_history;
             
             history.readHistory();
             history.trigger('reset'); // to refresh counter
@@ -123,19 +123,19 @@ define([
             var themeId = $(event.currentTarget).attr('data-theme-id');
             var contactId = $(event.currentTarget).attr('data-contact-id');
             this.options.model_instance.close();
-            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
+            SKApp.server.api('phone/call', {'themeId':themeId, 'contactId':contactId, 'time':SKApp.simulation.getGameTime()}, function (data) {
 
                 if(data.params !== 'already_call'){
-                    SKApp.user.simulation.parseNewEvents(data.events);
-                    SKApp.user.simulation.getNewEvents();
+                    SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.getNewEvents();
                 }else{
-                    SKApp.user.simulation.mailClient.message_window = new SKDialogView({
+                    SKApp.simulation.mailClient.message_window = new SKDialogView({
                         'message':'Вы уже обсудили этот вопрос!',
                         'buttons':[
                             {
                                 'value':'Окей',
                                 'onclick':function () {
-                                    delete SKApp.user.simulation.mailClient.message_window;
+                                    delete SKApp.simulation.mailClient.message_window;
                                 }
                             }
                         ]
@@ -152,17 +152,17 @@ define([
         callbackContact:function(e){
             var dialog_code = $(e.currentTarget).attr('data-dialog-code');
             this.options.model_instance.close();
-            SKApp.server.api('phone/callback', {'dialog_code':dialog_code, 'time':SKApp.user.simulation.getGameTime()}, function (data) {
+            SKApp.server.api('phone/callback', {'dialog_code':dialog_code, 'time':SKApp.simulation.getGameTime()}, function (data) {
                 if(data.data === 'ok'){
-                    SKApp.user.simulation.getNewEvents();
+                    SKApp.simulation.getNewEvents();
                 }else{
-                    SKApp.user.simulation.mailClient.message_window = new SKDialogView({
+                    SKApp.simulation.mailClient.message_window = new SKDialogView({
                         'message':'Вы уже обсудили этот вопрос!',
                         'buttons':[
                             {
                                 'value':'Окей',
                                 'onclick':function () {
-                                    delete SKApp.user.simulation.mailClient.message_window;
+                                    delete SKApp.simulation.mailClient.message_window;
                                 }
                             }
                         ]

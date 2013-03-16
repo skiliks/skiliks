@@ -45,15 +45,15 @@ define(["jquery/jquery.cookies"], function () {
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
-                if ($.cookie('sid')) {
-                    params.sid = $.cookie('sid');
-                }
                 var result = $.ajax({
                     data:params,
                     url:url,
                     type:"POST",
                     dataType:"json",
                     async:async,
+                    xhrFields: {
+                        withCredentials: true
+                    },
                     success:function (data) {
                         result = data;
                         if (typeof cb !== 'undefined') {

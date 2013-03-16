@@ -4,7 +4,6 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <link href="/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
     <script type="text/javascript">
-        var SKConfig = {$config};
         window.gameVersion = '?v=1';
         var require = {
             baseUrl: "{$assetsUrl}/js",
@@ -20,6 +19,7 @@
         //noinspection JSUnresolvedFunction
         require(["game/views/world/SKApplicationView"], function (SKApplicationView) {
             $(function () {
+                window.SKApp = new window.SKApplication({$config});
                 window.AppView = new window.SKApplicationView();
             });
         });
@@ -29,7 +29,6 @@
         window.onerror = Raven.process;
         {/if}
 
-        window.mode = '{$mode}';
     </script>
 
 </head>

@@ -472,11 +472,11 @@ class UserAccountController extends YumController
     public function actionResults()
     {
         // check is user authenticated
-        if (false === SessionHelper::isAuth()) {
+        if (Yii::app()->user->isGuest) {
             $this->redirect(['registration/error/sign-in-or-register']);
         }
 
-        $this->user = SessionHelper::getUserBySid();
+        $this->user = Yii::app()->user->data;
 
         // user must specify account to see simulation results
         if (false == $this->user->isHasAccount()) {

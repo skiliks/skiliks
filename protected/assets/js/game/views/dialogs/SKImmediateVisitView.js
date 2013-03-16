@@ -53,7 +53,7 @@ define([
                     'img_src':event.getImgSrc()
                 }));
                 el.find('.visit-background-container').css('width', screen.availWidth);
-                if (true === SKApp.user.simulation.config.isMuteVideo) {
+                if (true === SKApp.simulation.config.isMuteVideo) {
                     this.$('video').attr('muted', 'muted');
                 }
                 this.$('video').on('ended', function () {

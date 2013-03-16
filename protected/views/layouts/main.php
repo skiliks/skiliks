@@ -52,37 +52,34 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="/"  <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="/team" <?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'About Us') ?></a>
 					<a href="/product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
-                    <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
+                    <?php if (Yii::app()->user->isGuest) : ?>
                         <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
                     <?php else: ?>
-                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo $this->user->profile->email ?></a>
-                        <a href="/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo Yii::app()->user->data()->profile->email ?></a>
+                        <a href="/user/user/logout"><?php echo Yii::t('site', 'Log out') ?></a>
                     <?php endif; ?>
 				</nav>
 			</header>
 			<!--header end-->
 
-            <?php if (null === $this->user || null === $this->user->id ||0 != count($this->signInErrors)) : ?>
+            <?php if (!Yii::app()->user->id) : ?>
                 <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
-                    <form class="login-form" action="/" method="post">
+                    <form class="login-form" action="/user/auth" method="post">
 						<h6>Sign in</h6>
 						
                         <div class="login">
                             <label><?php echo Yii::t('site', 'E-mail') ?></label>
                             <a href="#">Forget your password?</a>
-                            <input type="text" name="email" placeholder="Enter login" />
+                            <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
                         </div>
                         <div class="password">
                             <label><?php echo Yii::t('site', 'Password') ?></label>
-                            <input type="password" name="password" placeholder="Enter password" />
+                            <input type="password" name="YumUserLogin[password]" placeholder="Enter password" />
                         </div>
                         <div class="remember">
                             <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
                         </div>
                         <div class="errors">
-                            <?php foreach ($this->signInErrors as $error) : ?>
-                                <?php echo $error ?><br/><br/>
-                            <?php endforeach ?>
                         </div>
                         <div class="submit">
                             <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">

@@ -62,7 +62,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                         phash: "s1_Lw",
                         read: 1
                     });
-                    SKApp.user.simulation.documents.each(function (model) {
+                    SKApp.simulation.documents.each(function (model) {
                         res.data.files.push({
                             mime: model.get('mime'),
                             name: model.get('name'),
@@ -108,7 +108,7 @@ define(["game/views/SKWindowView", "game/models/window/SKDocumentsWindow"], func
                     getFileCallback: function (file) {
                         file = decodeURIComponent(file);
                         file = file.replace(/.*\//, '');
-                        var document = SKApp.user.simulation.documents.where({name: file})[0];
+                        var document = SKApp.simulation.documents.where({name: file})[0];
                         var window = new SKDocumentsWindow({
                             subname: 'documentsFiles',
                             document: document,
