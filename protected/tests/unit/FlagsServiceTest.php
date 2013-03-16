@@ -11,7 +11,7 @@ class FlagServiceTest extends CDbTestCase
 
         /** @var $user Users */
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(2, $user);
+        $simulation = SimulationService::simulationStart('developer', $user);
 
         $dialogService = new DialogService();
 
@@ -46,7 +46,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(2, $user);
+        $simulation = SimulationService::simulationStart('developer', $user);
 
         // null prefix
         $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;

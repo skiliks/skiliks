@@ -31,6 +31,10 @@ define([
         'initialize':function () {
             var me = this;
             SKApp.simulation.start();
+            SKApp.simulation.on('stop', function () {
+                delete me.simulation_view;
+                location.href = this.get('result-url');
+            });
             me.frame = new SKSimulationView();
             me.frame.render();
             SKApp.server.on('server:error', function () {

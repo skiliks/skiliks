@@ -476,7 +476,7 @@ class UserAccountController extends YumController
             $this->redirect(['registration/error/sign-in-or-register']);
         }
 
-        $this->user = Yii::app()->user->data;
+        $this->user = Yii::app()->user->data();
 
         // user must specify account to see simulation results
         if (false == $this->user->isHasAccount()) {

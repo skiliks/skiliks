@@ -42,7 +42,10 @@ define([
     SKMailClientView = SKWindowView.extend(
         /** @lends SKMailClientView.prototype */
         {
-
+            dimensions: {
+                maxWidth: 1100,
+                maxHeight: 700
+            },
             mailClient: undefined,
 
             addClass: 'mail-window',
