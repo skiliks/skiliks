@@ -134,9 +134,8 @@ define(
                             JSON.stringify({"result":1,"unreaded":"4"})
                         ]
                     );
-                    window.SKApp = new SKApplication();
-                    window.SKConfig = {'simulationStartTime': '9:00', 'skiliksSpeedFactor': 8};
-                    SKApp.user = new SKUser({});
+                    this.config = {'simulationStartTime': '9:00', 'skiliksSpeedFactor': 8};
+                    window.SKApp = new SKApplication(this.config);
                     this.timeout = 1000;
                 });
 
@@ -157,9 +156,8 @@ define(
                         "/index.php/dialog/get",
                         [200, { "Content-Type":"application/json" }, JSON.stringify(dialogStep1Response)]
                     );
-                    var simulation = SKApp.simulation = new SKSimulation();
-                    simulation.start();
-                    simulation.getNewEvents();
+                    var SKApp = new SKApplication(this.config);
+                    SKApp.simulation.getNewEvents();
                     server.respond();
                     expect(simulation.events.length).toBe(1);
                     var event = simulation.events.at(0);
@@ -205,18 +203,16 @@ define(
                 it('Visitor phone call test', function() {
 
                     /* init simulation */
-
+                    var SKApp = new SKApplication(this.config);
                     var applicationView = new SKApplicationView();
 
                     server.respond();
 
-                    SKApp.user.startSimulation(1);
 
                     server.respond();
 
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.simulations});
-                    applicationView.frame.simulation_view = new SKSimulationView();
-                    applicationView.frame.simulation_view.render();
+                    applicationView.simulation_view = new SKSimulationView();
+                    applicationView.simulation_view.render();
 
                     server.respond();
 
@@ -255,9 +251,9 @@ define(
                     expect(SKApp.simulation.events.length).toBe(1);
 
                     // check than phone icon - has been activated
-                    expect(applicationView.frame.simulation_view.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
+                    expect(applicationView.simulation_view.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
 
-                    applicationView.frame.simulation_view.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
+                    applicationView.simulation_view.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
 
                     server.respond();
 
@@ -271,12 +267,12 @@ define(
                         ]
                     );
 
-                    expect(applicationView.frame.simulation_view.$el.find('#phone_reply').length).toBe(1);
-                    applicationView.frame.simulation_view.$el.find('#phone_reply').click(); // .call_view
+                    expect(applicationView.simulation_view.$el.find('#phone_reply').length).toBe(1);
+                    applicationView.simulation_view.$el.find('#phone_reply').click(); // .call_view
 
                     server.respond();
 
-                    expect(applicationView.frame.simulation_view.$el.find('.phone-content').length).toBe(1);
+                    expect(applicationView.simulation_view.$el.find('.phone-content').length).toBe(1);
 
                     var requestChecked = false;
                     for(var i in server.requests) {
@@ -303,20 +299,18 @@ define(
 
                     server.respond();
 
-                    SKApp.user.startSimulation(1);
 
                     server.respond();
 
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.simulations});
-                    applicationView.frame.simulation_view = new SKSimulationView();
-                    applicationView.frame.simulation_view.render();
+                    applicationView.simulation_view = new SKSimulationView();
+                    applicationView.simulation_view.render();
 
                     server.respond();
 
                     /* test */
 
                     // check counter
-                    expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('4');
+                    expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('4');
 
                     SKApp.simulation.getNewEvents();
                     server.requests[6].respond(
@@ -340,10 +334,10 @@ define(
                     server.respond();
 
                     // check icon animation
-                    expect(applicationView.frame.simulation_view.$el.find('.icons-panel .mail.icon-active').length).toBe(1);
+                    expect(applicationView.simulation_view.$el.find('.icons-panel .mail.icon-active').length).toBe(1);
 
                     // check counter
-                    expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('5');
+                    expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('5');
                 });
             });
         });

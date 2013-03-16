@@ -8,14 +8,14 @@ var spec = describe('window manager', function (run) {
             var server;
             var timers;
             before(function () {
-                SKConfig = {
+                var SKConfig = {
                     "skiliksSpeedFactor":8,
                     "simulationStartTime":"9:00",
                     "simulationEndTime":"18:00",
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
-                SKApp = new SKApplication();
+                SKApp = new SKApplication(SKConfig);
                 server = sinon.fakeServer.create();
                 server.respondWith("POST", "/index.php/simulation/start",
                     [200, { "Content-Type":"application/json" },
@@ -39,8 +39,7 @@ var spec = describe('window manager', function (run) {
                 timers.restore();
             });
             it("can set z-index", function () {
-                SKApp.user = {};
-                var simulation = SKApp.simulation = new SKSimulation();
+                var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
                 var window1 = new SKWindow({'name': 'plan', 'subname': 'plan'});
@@ -77,7 +76,7 @@ var spec = describe('window manager', function (run) {
             });
             it("can open miltiple windows", function () {
                 SKApp.user = {};
-                var simulation = SKApp.simulation = new SKSimulation();
+                var simulation = SKApp.simulation;
                 simulation.start();
                 server.respond();
                 //var document = SKApp.simulation.documents.where({name:file})[0];

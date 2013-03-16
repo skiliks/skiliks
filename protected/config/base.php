@@ -72,6 +72,7 @@ return array(
             'activationPasswordSet' => false,
             'mailer'=>'PHPMailer',
             'loginType' => 2,
+            'returnLogoutUrl' => '/',
             'phpmailer'=>array(
                 'transport'=>'smtp',
                 'html'=>true,
