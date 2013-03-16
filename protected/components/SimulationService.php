@@ -367,21 +367,19 @@ class SimulationService
     }
 
     /**
-     * @param $simulationType
-     * @param Users $user
-     * @return Simulation
+     * @param $simulationMode
+     * @param YumUser $user
      * @throws Exception
+     * @internal param $simulationType
+     * @return Simulation
      */
-    public static function simulationStart($simulationMode, $user = null)
+    public static function simulationStart($simulationMode, $user)
     {
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();
 
-        if ($user === null) {
-            $userId = SessionHelper::getUidBySid();
-        } else {
-            $userId = $user->primaryKey;
-        }
+        assert($user);
+        $userId = $user->primaryKey;
 
         if (null === $userId) {
             return null;
@@ -402,7 +400,7 @@ class SimulationService
         $simulation->status = 1;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->difficulty = 1;
-        $simulation->type = $simulationMode;
+        $simulation->type = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
         $simulation->insert();
         $profiler->render('3: ');
 

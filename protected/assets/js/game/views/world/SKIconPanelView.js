@@ -41,7 +41,7 @@ define([
             initialize: function () {
                 var me = this;
                 me.icon_lock = {};
-                var events = this.sim_events = SKApp.user.simulation.events;
+                var events = this.sim_events = SKApp.simulation.events;
 
                 this.listenTo(events, 'event:mail', this.onMailEvent);
                 this.listenTo(events, 'event:mail-send', this.onMailSendEvent);
@@ -52,10 +52,10 @@ define([
                 this.listenTo(events, 'blocking:start', this.doBlockingPhoneIcon);
                 this.listenTo(events, 'blocking:end', this.doDeblockingPhoneIcon);
 
-                var todo_tasks = SKApp.user.simulation.todo_tasks;
+                var todo_tasks = SKApp.simulation.todo_tasks;
                 this.listenTo(todo_tasks, 'add remove reset', this.updatePlanCounter);
 
-                var phone_history = SKApp.user.simulation.phone_history;
+                var phone_history = SKApp.simulation.phone_history;
 
                 // update counter on any change in calls collection
                 phone_history.on('add change remove reset', function () {
@@ -128,7 +128,7 @@ define([
                         if (event.getStatus() === 'waiting' && undefined !== data[2]) {
                             event.setStatus('completed');
                             event.ignore(function () {
-                                var history = SKApp.user.simulation.phone_history;
+                                var history = SKApp.simulation.phone_history;
                                 history.fetch();
                             });
                         }
@@ -183,7 +183,7 @@ define([
              */
             updatePlanCounter: function () {
                 var me = this;
-                me.setCounter('.plan', SKApp.user.simulation.todo_tasks.length);
+                me.setCounter('.plan', SKApp.simulation.todo_tasks.length);
 
             },
 
@@ -310,7 +310,7 @@ define([
              */
             doPlanToggle: function (e) {
                 e.preventDefault();
-                SKApp.user.simulation.window_set.toggle('plan', 'plan');
+                SKApp.simulation.window_set.toggle('plan', 'plan');
             },
 
             /**
@@ -319,7 +319,7 @@ define([
              */
             doPhoneToggle: function (e) {
                 e.preventDefault();
-                SKApp.user.simulation.window_set.toggle('phone', 'phoneMain');
+                SKApp.simulation.window_set.toggle('phone', 'phoneMain');
             },
 
             /**
@@ -333,7 +333,7 @@ define([
                     this.doDocumentViewShow(this.documentId);
                     this.documentId = null;
                 } else {
-                    SKApp.user.simulation.window_set.toggle('documents', 'documents');
+                    SKApp.simulation.window_set.toggle('documents', 'documents');
                 }
 
                 this.$('.documents').removeClass('icon-active');
@@ -352,7 +352,7 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
-                SKApp.user.simulation.mailClient.once('init_completed', function () {
+                SKApp.simulation.mailClient.once('init_completed', function () {
                     this.view.once('render_finished', function () {
                         this.renderWriteCustomNewEmailScreen();
                     });
@@ -370,9 +370,9 @@ define([
                 this.$('.mail').removeClass('icon-active');
 
                 // we need getActiveSubscreenName() because mailClient window subname changed dinamically
-                SKApp.user.simulation.window_set.toggle(
+                SKApp.simulation.window_set.toggle(
                     'mailEmulator',
-                    SKApp.user.simulation.mailClient.getActiveSubscreenName()
+                    SKApp.simulation.mailClient.getActiveSubscreenName()
                 );
             },
 
@@ -381,7 +381,7 @@ define([
              * @param docId
              */
             doDocumentViewShow: function (docId) {
-                var document = SKApp.user.simulation.documents.where({id: docId})[0];
+                var document = SKApp.simulation.documents.where({id: docId})[0];
                 var window = new SKDocumentsWindow({
                     subname: 'documentsFiles',
                     document: document,

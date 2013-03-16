@@ -71,6 +71,7 @@ return array(
             'debug' => false,
             'activationPasswordSet' => false,
             'mailer'=>'PHPMailer',
+            'loginType' => 2,
             'phpmailer'=>array(
                 'transport'=>'smtp',
                 'html'=>true,

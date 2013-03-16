@@ -205,9 +205,9 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
          * @returns void
          */
         closeAllPhoneInstances: function () {
-            for (var i in SKApp.user.simulation.window_set.models) {
-                if ('phone' == SKApp.user.simulation.window_set.models[i].get('name')){
-                    SKApp.user.simulation.window_set.models[i].close();
+            for (var i in SKApp.simulation.window_set.models) {
+                if ('phone' == SKApp.simulation.window_set.models[i].get('name')){
+                    SKApp.simulation.window_set.models[i].close();
                 }
             }
         }

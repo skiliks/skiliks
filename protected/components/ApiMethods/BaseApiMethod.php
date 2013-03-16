@@ -32,13 +32,9 @@ class BaseApiMethod
      */
     public function validate(HttpRequest $request)
     {
-        // set,check session ID
-        $this->sessionId = $request->getParam('sid', NULL);
-        if (NULL == $this->sessionId) {            
+        if (NULL == $this->sessionId) {
             throw new FrontendNotificationException('Invalid user-session.');
         }
-        
-        session_id($this->sessionId); // set session ID
         
         // set,check User
         $this->user = YumUser::model()->findByPk(Yii::app()->session['uid']);

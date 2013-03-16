@@ -11,36 +11,6 @@ class SiteController extends AjaxController
      */
     public function actionIndex()
     {
-        $user_id = Yii::app()->session['uid'];
-        $user = YumUser::model()->findByPk($user_id);
-        $signInErrors = [];
-
-        if(Yii::app()->request->isPostRequest)
-        {
-            $email      = Yii::app()->request->getParam('email');
-            $password   = Yii::app()->request->getParam('password');
-            $rememberMe = Yii::app()->request->getParam('remember_me');
-
-            $profile = YumProfile::model()->find('email = :email', array(':email' => $email));
-            if (null !== $profile) {
-                $user = $profile->user;
-            }
-
-            if(null !== $profile && null !== $user) {
-                try {
-                    $user->authenticate($password);
-                    $this->redirect(['/office']);
-                } catch (CHttpException $e) {
-                    $signInErrors[] = $e->getMessage();
-                }
-            } else {
-                $signInErrors[] = 'Неправильное имя пользователя или пароль.';
-            }
-        }
-
-        $this->user = $user;
-        $this->signInErrors = $signInErrors;
-
         $this->render('index', [
             'assetsUrl' => $this->getAssetsUrl()
         ]);
@@ -74,8 +44,7 @@ class SiteController extends AjaxController
      */
     public function actionSite($mode)
     {
-        $user_id = Yii::app()->session['uid'];
-        $user = YumUser::model()->findByPk($user_id);
+        $user = Yii::app()->user->data();
 
         if (null === $user) {
             $this->redirect('/');
@@ -97,6 +66,7 @@ class SiteController extends AjaxController
         $assetsUrl = $this->getAssetsUrl();
         $config = Yii::app()->params['public'];
         $config['assetsUrl'] = $assetsUrl;
+        $config['simulationType'] = $mode;
 
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui.css");
         $cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap.css");
@@ -159,7 +129,6 @@ class SiteController extends AjaxController
         $this->render('site', [
             'config'    => CJSON::encode($config),
             'assetsUrl' => $assetsUrl,
-            'mode'      => $mode,
         ]);
     }
 

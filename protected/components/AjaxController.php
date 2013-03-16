@@ -68,15 +68,11 @@ class AjaxController extends CController
     
     /**
      * @deprecated
-     * @return integer || HttpResponce
+     * @return integer || CHttpResponse
      */
     public function getSessionId()
     {
-        $sessionId = Yii::app()->request->getParam('sid', null);
-        if (null === $sessionId) {            
-            $this->returnErrorMessage('Не передан session ID.');
-        }
-        return $sessionId;
+        return Yii::app()->session->sessionID;
     }
     
     /**
@@ -86,11 +82,6 @@ class AjaxController extends CController
      */
     public function getSimulationId($sessionId = null) 
     {
-        $sessionId = (null == $sessionId) ? $this->getSessionId() : $sessionId;
-            
-        // stupidity, TODO: make normal sessions
-        session_id($sessionId);
-        
         $simulation = Simulation::model()->findByPk(Yii::app()->session['simulation']);
         
         if (null === $simulation) { 
@@ -128,16 +119,7 @@ class AjaxController extends CController
      */
     public function getCurrentUserId()
     {
-        try {
-            return SessionHelper::getUidBySid($this->getSessionId());
-        } catch(\Exception $e) {
-            $this->returnErrorMessage(
-            $e->getMessage(),
-            sprintf(
-                'User with id %s doesn`t exists in db.', 
-                $this->getSimulationId()
-            ));
-        }
+        return Yii::app()->user->id;
     }
 
 
@@ -241,7 +223,7 @@ class AjaxController extends CController
 
     public function checkUser()
     {
-        $user_id = Yii::app()->session['uid'];
+        $user_id = Yii::app()->user->id;
         $this->user = YumUser::model()->findByPk($user_id);
 
         if (null === $this->user) {

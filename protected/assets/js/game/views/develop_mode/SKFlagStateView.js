@@ -32,11 +32,11 @@ define([],
             e.stopPropagation(e);
 
             // to prevent doubled requests
-            if (SKApp.user.simulation.isFlagsUpdated) {
+            if (SKApp.simulation.isFlagsUpdated) {
                 return;
             }
 
-            SKApp.user.simulation.isFlagsUpdated = true;
+            SKApp.simulation.isFlagsUpdated = true;
 
             var me = this;
             var flagName = $(e.currentTarget).attr('data-flag-code');
@@ -69,7 +69,7 @@ define([],
          * @param flagsState
          */
         updateValues: function(flagsState) {
-            SKApp.user.simulation.isFlagsUpdated = false;
+            SKApp.simulation.isFlagsUpdated = false;
 
             $('.form-flags table').remove();
             // clean old data AND init base structure,

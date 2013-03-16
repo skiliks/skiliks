@@ -234,7 +234,7 @@ define([
 
             it("reply all m1", function (done) {
                 //init simulation
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
 
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});

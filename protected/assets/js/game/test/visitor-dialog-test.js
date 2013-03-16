@@ -157,7 +157,7 @@ define(
                         "/index.php/dialog/get",
                         [200, { "Content-Type":"application/json" }, JSON.stringify(dialogStep1Response)]
                     );
-                    var simulation = SKApp.user.simulation = new SKSimulation();
+                    var simulation = SKApp.simulation = new SKSimulation();
                     simulation.start();
                     simulation.getNewEvents();
                     server.respond();
@@ -214,7 +214,7 @@ define(
 
                     server.respond();
 
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
+                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.simulations});
                     applicationView.frame.simulation_view = new SKSimulationView();
                     applicationView.frame.simulation_view.render();
 
@@ -244,15 +244,15 @@ define(
                             })
                         ]
                     );
-                    expect(SKApp.user.simulation.events.length).toBe(0);
+                    expect(SKApp.simulation.events.length).toBe(0);
                     var phone_spy = sinon.spy();
-                    SKApp.user.simulation.events.on('event:phone', phone_spy);
+                    SKApp.simulation.events.on('event:phone', phone_spy);
 
-                    SKApp.user.simulation.getNewEvents();
+                    SKApp.simulation.getNewEvents();
                     server.respond();
                     assert.calledOnce(phone_spy);
                     // check that event has been added to queue
-                    expect(SKApp.user.simulation.events.length).toBe(1);
+                    expect(SKApp.simulation.events.length).toBe(1);
 
                     // check than phone icon - has been activated
                     expect(applicationView.frame.simulation_view.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
@@ -307,7 +307,7 @@ define(
 
                     server.respond();
 
-                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.user.simulations});
+                    applicationView.frame = new SKSimulationStartView({'simulations': SKApp.simulations});
                     applicationView.frame.simulation_view = new SKSimulationView();
                     applicationView.frame.simulation_view.render();
 
@@ -318,7 +318,7 @@ define(
                     // check counter
                     expect(applicationView.frame.simulation_view.$el.find('#icons_email').text()).toBe('4');
 
-                    SKApp.user.simulation.getNewEvents();
+                    SKApp.simulation.getNewEvents();
                     server.requests[6].respond(
                         200,
                         { "Content-Type":"application/json" },

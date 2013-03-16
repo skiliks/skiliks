@@ -40,7 +40,7 @@ var spec = describe('window manager', function (run) {
             });
             it("can set z-index", function () {
                 SKApp.user = {};
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
                 server.respond();
                 var window1 = new SKWindow({'name': 'plan', 'subname': 'plan'});
@@ -77,10 +77,10 @@ var spec = describe('window manager', function (run) {
             });
             it("can open miltiple windows", function () {
                 SKApp.user = {};
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
                 server.respond();
-                //var document = SKApp.user.simulation.documents.where({name:file})[0];
+                //var document = SKApp.simulation.documents.where({name:file})[0];
 
                 var window1 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 1});
                 var window2 = new SKDocumentsWindow({'subname': 'documentsFiles', 'fileId': 2});
@@ -90,7 +90,7 @@ var spec = describe('window manager', function (run) {
                 window2.on('open', openTwoSpy);
                 window1.open();
                 window2.open();
-                expect(SKApp.user.simulation.window_set.length).toBe(3);
+                expect(SKApp.simulation.window_set.length).toBe(3);
 
             });
         });

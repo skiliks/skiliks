@@ -42,7 +42,7 @@ class MailController extends AjaxController
             'folderId'   => $folderId,
             'order'      => $order,
             'orderType'  => $orderType,
-            'uid'        => SessionHelper::getUidBySid(),
+            'uid'        => Yii::app()->user->id,
             'simId'      => $simulation->id
         ));
         $this->sendJSON(array(

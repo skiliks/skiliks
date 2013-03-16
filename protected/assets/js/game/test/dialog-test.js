@@ -44,7 +44,7 @@ define([
             });
 
             it("Simple dialog start test", function () {
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
 
                 expect(simulation.events.length).toBe(0);

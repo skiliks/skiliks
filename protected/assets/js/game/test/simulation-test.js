@@ -31,7 +31,7 @@ var spec = describe('simulation', function (run) {
             });
             it("can correct calculate time", function () {
                 SKApp.user = {};
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
                 expect(simulation.getGameMinutes()).toBe(540);
                 expect(simulation.getGameSeconds()).toBe(540 * 60);
@@ -47,7 +47,7 @@ var spec = describe('simulation', function (run) {
             it("stops at 18:00", function () {
                 var stop_spy = sinon.spy();
                 SKApp.user = {'stopSimulation':stop_spy};
-                var simulation = SKApp.user.simulation = new SKSimulation();
+                var simulation = SKApp.simulation = new SKSimulation();
                 simulation.start();
                 server.respond();
                 timers.tick(9 * 60 * 60 * 1000/8);

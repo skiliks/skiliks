@@ -38,13 +38,13 @@ define([], function() {
          */
         getIconImagePath: function() {
             if (0 < this.label.indexOf('.xls')) {
-                return SKConfig.assetsUrl + "/img/documents/xls.png";
+                return SKApp.get('assetsUrl') + "/img/documents/xls.png";
             }
             if (0 < this.label.indexOf('.doc')) {
-                return SKConfig.assetsUrl + "/img/documents/doc.png";
+                return SKApp.get('assetsUrl') + "/img/documents/doc.png";
             }
             if (0 < this.label.indexOf('.ppt')) {
-                return SKConfig.assetsUrl + "/img/documents/ppt.png";
+                return SKApp.get('assetsUrl') + "/img/documents/ppt.png";
             }
             
             return '';

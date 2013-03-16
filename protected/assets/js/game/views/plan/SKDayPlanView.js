@@ -71,7 +71,7 @@ define([
                     
                     var prev_cell = $(this).parents('td');
                     if (prev_cell.length) {
-                        SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', true);
+                        SKApp.simulation.dayplan_tasks.get(task_id).set('moving', true);
                     }
                     $(this).hide();
                     $(this).data("startingScrollTop", $(this).parent().scrollTop());
@@ -82,7 +82,7 @@ define([
                         var task_id = $(this).attr('data-task-id');
                         var prev_cell = $(this).parents('td');
                         if (prev_cell.length) {
-                            SKApp.user.simulation.dayplan_tasks.get(task_id).set('moving', false);
+                            SKApp.simulation.dayplan_tasks.get(task_id).set('moving', false);
                         }
                         $(this).show();
 
@@ -281,19 +281,19 @@ define([
                     oldTask = ui.draggable.find('.title').text() + '';
                     
                     if (prev_cell.length) {
-                        oldTask = SKApp.user.simulation.dayplan_tasks.get(task_id).get('title') + '';
+                        oldTask = SKApp.simulation.dayplan_tasks.get(task_id).get('title') + '';
                          
-                        SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
+                        SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                     }
 
                     if (ui.draggable.parents('.plan-todo').length) {
-                        oldTask = SKApp.user.simulation.todo_tasks.get(task_id).get('title') + '';
+                        oldTask = SKApp.simulation.todo_tasks.get(task_id).get('title') + '';
 
-                        SKApp.user.simulation.todo_tasks.get(task_id).destroy(); 
+                        SKApp.simulation.todo_tasks.get(task_id).destroy();
                     }
 
                     // Appending to new location
-                    SKApp.user.simulation.dayplan_tasks.create({
+                    SKApp.simulation.dayplan_tasks.create({
                         title:    oldTask,
                         date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
                         task_id:  task_id,
@@ -338,7 +338,7 @@ define([
                     var parent = $(this).parent();
                     var time = parent.attr('data-hour') + ':' + parent.attr('data-minute');
 
-                    return SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
+                    return SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration);
                 }
             });
             var after_vacation_slot = this.$('.planner-book-afterv-table');
@@ -356,21 +356,21 @@ define([
                         var duration = ui.draggable.attr('data-task-duration');
                         var day = $(this).parents('div[data-day-id]').attr('data-day-id');
                         var time = $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute');
-                        if (SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
+                        if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(time, day, duration)) {
                             // Reverting old element location
                             var task_id = ui.draggable.attr('data-task-id');
                             var prev_cell = ui.draggable.parents('td');
                             
                             if (prev_cell.length) {
-                                SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
+                                SKApp.simulation.dayplan_tasks.get(task_id).destroy();
                             }
 
                             if (ui.draggable.parents('.plan-todo').length) {
-                                SKApp.user.simulation.todo_tasks.get(task_id).destroy();
+                                SKApp.simulation.todo_tasks.get(task_id).destroy();
                             }
 
                             //Appending to new location
-                            SKApp.user.simulation.dayplan_tasks.create({
+                            SKApp.simulation.dayplan_tasks.create({
                                 title:ui.draggable.find('.title').text(),
                                 date:time,
                                 task_id:task_id,
@@ -399,13 +399,13 @@ define([
                     var task_id = ui.draggable.attr('data-task-id');
                     
                     var oldTask = {};
-                    oldTask = SKApp.user.simulation.dayplan_tasks.get(task_id).get('title');
+                    oldTask = SKApp.simulation.dayplan_tasks.get(task_id).get('title');
                     
                     // Reverting old element location
-                    SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
+                    SKApp.simulation.dayplan_tasks.get(task_id).destroy();
 
                     //Appending to new location
-                    SKApp.user.simulation.todo_tasks.create({
+                    SKApp.simulation.todo_tasks.create({
                         title:    oldTask,
                         date:     $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'),
                         id:       task_id,
@@ -421,9 +421,9 @@ define([
          */
         updateTodos:function () {
             var me = this;
-            this.$('.dayPlanTodoNum').html('(' + SKApp.user.simulation.todo_tasks.length + ')');
+            this.$('.dayPlanTodoNum').html('(' + SKApp.simulation.todo_tasks.length + ')');
             me.$('.plan-todo-wrap .plan-todo-inner').html('');
-            SKApp.user.simulation.todo_tasks.each(function (model) {
+            SKApp.simulation.todo_tasks.each(function (model) {
                 var todo_task = $(_.template(todo_task_template, {task:model, type:'todo'}));
                 me.$('.plan-todo-wrap .plan-todo-inner').append(todo_task);
             });
@@ -437,9 +437,9 @@ define([
          * @method
          */
         disableOldSlots:function () {
-            if ('undefined' !== typeof SKApp.user.simulation) {
+            if ('undefined' !== typeof SKApp.simulation) {
                 this.$('.planner-book-today .planner-book-timetable-event-fl').each(function () {
-                    var time = SKApp.user.simulation.getGameTime();
+                    var time = SKApp.simulation.getGameTime();
                     var cell_hour = parseInt($(this).attr('data-hour'), 10);
                     var current_hour = parseInt(time.split(':')[0], 10);
                     var cell_minute = parseInt($(this).attr('data-minute'), 10);
@@ -481,22 +481,22 @@ define([
             var me = this;
             window_el.html(_.template(plan_content_template, {}));
             this.updateTodos();
-            me.listenTo(SKApp.user.simulation.todo_tasks, 'add remove reset', function () {
+            me.listenTo(SKApp.simulation.todo_tasks, 'add remove reset', function () {
                 me.updateTodos();
             });
-            me.listenTo(SKApp.user.simulation.todo_tasks, 'remove', function (model) {
+            me.listenTo(SKApp.simulation.todo_tasks, 'remove', function (model) {
                 me.removeTodoTask(model);
             });
-            SKApp.user.simulation.dayplan_tasks.each(function (model) {
+            SKApp.simulation.dayplan_tasks.each(function (model) {
                 me.addDayPlanTask(model);
             });
-            me.listenTo(SKApp.user.simulation.dayplan_tasks, 'remove', function (model) {
+            me.listenTo(SKApp.simulation.dayplan_tasks, 'remove', function (model) {
                 me.removeDayPlanTask(model);
             });
-            me.listenTo(SKApp.user.simulation.dayplan_tasks, 'add', function (model) {
+            me.listenTo(SKApp.simulation.dayplan_tasks, 'add', function (model) {
                 me.addDayPlanTask(model);
             });
-            me.listenTo(SKApp.user.simulation, 'tick', me.disableOldSlots);
+            me.listenTo(SKApp.simulation, 'tick', me.disableOldSlots);
             setTimeout(function () {
                 me.$('.planner-book-timetable,.planner-book-afterv-table').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize: true});
                 me.$('.plan-todo-wrap').mCustomScrollbar({autoDraggerLength:false, updateOnContentResize:true});
@@ -527,14 +527,14 @@ define([
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var me = this;
             var task_id = $(e.currentTarget).attr('data-task-id');
-            var task = SKApp.user.simulation.todo_tasks.get(task_id);
+            var task = SKApp.simulation.todo_tasks.get(task_id);
             me.$('.day-plan-td-slot').each(function () {
                 var duration = task.get('duration');
                 task.set('day', $(this).parents('div[data-day-id]').attr('data-day-id'));
                 task.set('date', $(this).parent().attr('data-hour') + ':' + $(this).parent().attr('data-minute'));
-                if (SKApp.user.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
+                if (SKApp.simulation.dayplan_tasks.isTimeSlotFree(task.get('date'), task.get('day'), duration)) {
                     task.destroy();
-                    SKApp.user.simulation.dayplan_tasks.create({
+                    SKApp.simulation.dayplan_tasks.create({
                         title:$(e.currentTarget).find('.title').text(),
                         date:task.get('date'),
                         task_id:task.id,
@@ -554,10 +554,10 @@ define([
         doUnSetTask:function (e) {
             this.$('.plan-todo-wrap').mCustomScrollbar("update");
             var task_id = $(e.currentTarget).attr('data-task-id');
-            var task = SKApp.user.simulation.dayplan_tasks.get(task_id);
+            var task = SKApp.simulation.dayplan_tasks.get(task_id);
             if(parseInt(task.get("type"),10) !== 2) {
-                SKApp.user.simulation.dayplan_tasks.get(task_id).destroy();
-                SKApp.user.simulation.todo_tasks.create({
+                SKApp.simulation.dayplan_tasks.get(task_id).destroy();
+                SKApp.simulation.todo_tasks.create({
                     title:task.get("title"),
                     date:task.get("date"),
                     id:task.get("task_id"),
@@ -606,10 +606,10 @@ define([
                 var tab = $('.is-active-plan-tab');
                 tab.css('cursor', 'pointer');
                 tab.removeClass('is-active-plan-tab');
-                tab.children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_day.png');
+                tab.children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_day.png');
                 $(e.currentTarget).css('cursor','default');
                 $(e.currentTarget).addClass('is-active-plan-tab');
-                $(e.currentTarget).children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_quarter-active.png');
+                $(e.currentTarget).children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_quarter-active.png');
                 $('.plannerBookDayPlan').css('display', 'none');
                 $('.plannerBookQuarterPlan').css('display', 'block');
             }
@@ -625,10 +625,10 @@ define([
                 var tab = $('.is-active-plan-tab');
                 tab.css('cursor', 'pointer');
                 tab.removeClass('is-active-plan-tab');
-                tab.children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_quarter.png');
+                tab.children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_quarter.png');
                 $(e.currentTarget).css('cursor','default');
                 $(e.currentTarget).addClass('is-active-plan-tab');
-                $(e.currentTarget).children('img').attr('src', SKConfig.assetsUrl+'/img/planner/plan_day-active.png');
+                $(e.currentTarget).children('img').attr('src', SKApp.get('assetsUrl')+'/img/planner/plan_day-active.png');
                 $('.plannerBookDayPlan').css('display', 'block');
                 $('.plannerBookQuarterPlan').css('display', 'none');
             }

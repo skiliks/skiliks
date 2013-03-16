@@ -61,7 +61,7 @@ define([
              */
             'initialize':      function () {
                 var me = this;
-                var simulation = this.simulation = SKApp.user.simulation;
+                var simulation = this.simulation = SKApp.simulation;
                 this.listenTo(simulation, 'tick', this.updateTime);
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation.documents, 'reset', function () {
@@ -135,11 +135,11 @@ define([
                 this.undelegateEvents();
                 this.delegateEvents();
 
-                if (undefined !== SKApp.user.simulation.id) {
-                    this.$('#sim-id').text(SKApp.user.simulation.id);
+                if (undefined !== SKApp.simulation.id) {
+                    this.$('#sim-id').text(SKApp.simulation.id);
                 }
-                if (undefined !== SKConfig.skiliksSpeedFactor) {
-                    this.$('#speed-factor').text(SKConfig.skiliksSpeedFactor);
+                if (undefined !== SKApp.get('skiliksSpeedFactor')) {
+                    this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                 }
             },
 
@@ -163,12 +163,12 @@ define([
              * @method
              */
             doToggleDialogSound: function () {
-                if (SKApp.user.simulation.config.isMuteVideo === false) {
-                    SKApp.user.simulation.config.isMuteVideo = true;
+                if (SKApp.simulation.config.isMuteVideo === false) {
+                    SKApp.simulation.config.isMuteVideo = true;
                     this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-up');
                     this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-off');
                 } else {
-                    SKApp.user.simulation.config.isMuteVideo = false;
+                    SKApp.simulation.config.isMuteVideo = false;
                     this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
                     this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
                 }
