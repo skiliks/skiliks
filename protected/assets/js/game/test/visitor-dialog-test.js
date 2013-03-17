@@ -208,14 +208,11 @@ define(
 
                     /* init simulation */
                     var applicationView = new SKApplicationView();
-                    SKApp.simulation.start();
                     server.respond();
 
 
                     server.respond();
 
-                    applicationView.simulation_view = new SKSimulationView();
-                    applicationView.simulation_view.render();
 
                     server.respond();
 
@@ -254,9 +251,9 @@ define(
                     expect(SKApp.simulation.events.length).toBe(1);
 
                     // check than phone icon - has been activated
-                    expect(applicationView.simulation_view.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
+                    expect(applicationView.frame.icon_view.$el.find('.phone').hasClass('icon-active')).toBe(true);
 
-                    applicationView.simulation_view.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
+                    applicationView.frame.icon_view.$el.find('.icons-panel .phone.icon-active a').click();
 
                     server.respond();
 
@@ -270,13 +267,11 @@ define(
                         ]
                     );
 
-                    expect(applicationView.simulation_view.$el.find('#phone_reply').length).toBe(1);
-                    expect(applicationView.simulation_view.$el.find('.phone-content').length).toBe(0);
-                    applicationView.simulation_view.$el.find('#phone_reply').click(); // .call_view
-
+                    expect(applicationView.frame.$el.find('#phone_reply').length).toBe(1);
+                    expect(applicationView.frame.$el.find('.phone-content').length).toBe(0);
+                    applicationView.frame.$el.find('#phone_reply').click(); // .call_view
                     server.respond();
-
-                    expect(applicationView.simulation_view.$el.find('.phone-content').length).toBe(1);
+                    expect(applicationView.frame.$el.find('.phone-content').length).toBe(1);
 
                     var requestChecked = false;
                     for(var i in server.requests) {
@@ -300,7 +295,7 @@ define(
                     /* init simulation */
 
                     var applicationView = new SKApplicationView();
-                    SKApp.simulation.start();
+                    //SKApp.simulation.start();
 
                     server.respond();
 

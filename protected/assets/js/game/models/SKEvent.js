@@ -170,7 +170,7 @@ define([], function () {
          * @param {'completed'|'in progress'|'waiting'} status
          */
         setStatus: function (status) {
-            console.log('[SKEvent] Event ' + status + ' ' + this.cid);
+            //console.log('[SKEvent] Event ' + status + ' ' + this.cid);
             /**
              * @private
              * @type {"completed"|"in progress"|"waiting"}
