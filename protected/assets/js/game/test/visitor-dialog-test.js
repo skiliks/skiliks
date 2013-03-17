@@ -156,7 +156,10 @@ define(
                         "/index.php/dialog/get",
                         [200, { "Content-Type":"application/json" }, JSON.stringify(dialogStep1Response)]
                     );
-                    var SKApp = new SKApplication(this.config);
+                    var simulation = SKApp.simulation;
+                    simulation.start();
+                    server.respond();
+                    expect(simulation.window_set.length).toBe(1);
                     SKApp.simulation.getNewEvents();
                     server.respond();
                     expect(simulation.events.length).toBe(1);
@@ -170,6 +173,7 @@ define(
                     expect(visitorView.$('.visitor-allow').attr('data-dialog-id')).toEqual(799);
 
                     visitorView.$('.visitor-allow').click();
+
                     server.respond();
                     expect(simulation.events.length).toBe(2);
 
@@ -203,9 +207,8 @@ define(
                 it('Visitor phone call test', function() {
 
                     /* init simulation */
-                    var SKApp = new SKApplication(this.config);
                     var applicationView = new SKApplicationView();
-
+                    SKApp.simulation.start();
                     server.respond();
 
 
@@ -268,6 +271,7 @@ define(
                     );
 
                     expect(applicationView.simulation_view.$el.find('#phone_reply').length).toBe(1);
+                    expect(applicationView.simulation_view.$el.find('.phone-content').length).toBe(0);
                     applicationView.simulation_view.$el.find('#phone_reply').click(); // .call_view
 
                     server.respond();
@@ -296,6 +300,7 @@ define(
                     /* init simulation */
 
                     var applicationView = new SKApplicationView();
+                    SKApp.simulation.start();
 
                     server.respond();
 
@@ -313,20 +318,20 @@ define(
                     expect(applicationView.simulation_view.$el.find('#icons_email').text()).toBe('4');
 
                     SKApp.simulation.getNewEvents();
-                    server.requests[6].respond(
+                    server.requests[server.requests.length-1].respond(
                         200,
                         { "Content-Type":"application/json" },
                         JSON.stringify({result:1,events:[{result:1,id:'46791',eventType:'M'}],serverTime:'09:05:00'})
                     );
-                    server.requests[7].respond(
-                        200,
-                        { "Content-Type":"application/json" },
-                        JSON.stringify({"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"})
-                    );
-                    server.requests[8].respond(
+                    server.requests[server.requests.length-1].respond(
                         200,
                         { "Content-Type":"application/json" },
                         JSON.stringify({"result": 1,"unreaded":"5"})
+                    );
+                    server.requests[server.requests.length-1].respond(
+                        200,
+                        { "Content-Type":"application/json" },
+                        JSON.stringify({"result":0,"message":"\u041d\u0435\u0442 \u0431\u043b\u0438\u0436\u0430\u0439\u0448\u0438\u0445 \u0441\u043e\u0431\u044b\u0442\u0438\u0439","code":4,"serverTime":"09:05:00"})
                     );
 
 
