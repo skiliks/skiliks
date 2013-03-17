@@ -241,8 +241,7 @@ define([
                         })]);
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
-                window.SKApp = new SKApplication();
-                window.SKConfig = {'simulationStartTime':'9:00', "skiliksSpeedFactor":8 };
+                window.SKApp = new SKApplication({'simulationStartTime':'9:00', "skiliksSpeedFactor":8 });
                 SKApp.user = {};
                 this.timeout = 1000;
             });
@@ -251,7 +250,7 @@ define([
             });
 
             it("attachment for MY1", function () {
-                var simulation = SKApp.simulation = new SKSimulation();
+                var simulation = SKApp.simulation;
                 simulation.start();
                 var mail_window = new SKWindow({name:'mailEmulator', subname:'mailMain'});
                 mail_window.open();

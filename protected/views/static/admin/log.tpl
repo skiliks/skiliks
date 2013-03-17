@@ -2,7 +2,6 @@
 
 <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
-        <a class="brand" href="#">Admin panel</a>
         <ul class="nav">
             {foreach $log_tables as $log_table}
                 <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>

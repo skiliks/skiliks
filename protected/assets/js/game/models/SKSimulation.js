@@ -228,8 +228,6 @@ define([
             'start':function () {
                 var me = this;
                 me.start_time = new Date();
-                var win = this.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
-                win.open();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
 
                     if (data.result === 0) {
@@ -239,6 +237,9 @@ define([
                     if ('undefined' !== typeof data.simId) {
                         me.id = data.simId;
                     }
+
+                    var win = me.window = new SKWindow({name:'mainScreen', subname:'mainScreen'});
+                    win.open();
                     me.todo_tasks.fetch();
                     me.dayplan_tasks.fetch();
                     if (!me.isDebug()) {
