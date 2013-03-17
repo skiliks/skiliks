@@ -33,8 +33,7 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
 
-                window.SKApp = new SKApplication();
-                window.SKConfig = {'simulationStartTime':'9:00', "skiliksSpeedFactor":8 };
+                window.SKApp = new SKApplication({'simulationStartTime':'9:00', "skiliksSpeedFactor":8 });
                 SKApp.user = {};
                 this.timeout = 1000;
             });
@@ -44,7 +43,7 @@ define([
             });
 
             it("Simple dialog start test", function () {
-                var simulation = SKApp.simulation = new SKSimulation();
+                var simulation = SKApp.simulation;
                 simulation.start();
 
                 expect(simulation.events.length).toBe(0);
