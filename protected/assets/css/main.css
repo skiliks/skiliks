@@ -1973,7 +1973,6 @@ table.ml-title th span{
     border-top:2px solid #363636;
 	height:215px;
 	overflow:hidden;
-    overflow-y: scroll;
     position: absolute;
     bottom: 0;
     left: -179px;
@@ -1987,8 +1986,7 @@ table.ml-title th span{
 	width:44px;
 	height:100%;
 	margin:0 0 17px 0;
-    position: absolute;
-    right: 0;
+    float: right;
 }
 .mail-tags-signs li{
 	width:23px;
@@ -2011,10 +2009,9 @@ table.ml-title th span{
 }
 .mail-tags-words{
 	list-style:none;
-	width:100%;
-	overflow:hidden;
+	overflow-y:scroll;
+    height: 100%;
 	margin:0 0 17px 0;
-    padding-right: 10px;
     box-sizing: border-box;
 }
 .mail-tags-words li{
