@@ -1653,7 +1653,7 @@ define([
             renderWriteEmailScreen: function (iconsList) {
                 var mailClientView = this;
 
-                if (0 == this.mailClient.defaultRecipients.length) {
+                if (0 === this.mailClient.defaultRecipients.length) {
                     this.mailClient.updateRecipientsList();
                 }
 

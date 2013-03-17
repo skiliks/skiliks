@@ -793,7 +793,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             /**
              * @method
              */
-            updateRecipientsList:function () {
+            updateRecipientsList:function (cb) {
                 var me = this;
                 SKApp.server.api(
                     'mail/getReceivers',
@@ -814,6 +814,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
 
                                 me.defaultRecipients.push(character);
                             }
+                        }
+                        if (cb !== undefined) {
+                            cb();
                         }
                     },
                     false

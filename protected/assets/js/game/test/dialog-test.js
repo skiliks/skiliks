@@ -108,7 +108,6 @@ define([
 
                 expect(simulation.events.length).toBe(1);
                 assert.calledOnce(simulation_event_add_spy);
-                console.log('Event has been added!');
             });
         });
     });

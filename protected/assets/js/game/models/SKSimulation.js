@@ -227,6 +227,9 @@ define([
              */
             'start':function () {
                 var me = this;
+                if (me.start_time !== undefined) {
+                    throw 'Simulation already started';
+                }
                 me.start_time = new Date();
                 SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
 
