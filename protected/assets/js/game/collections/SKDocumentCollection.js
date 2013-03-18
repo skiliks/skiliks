@@ -13,6 +13,28 @@ define(["game/models/SKDocument"], function () {
          * @default SKDocument
          */
         model: SKDocument,
+
+        /**
+         * Constructor
+         * @method initialize
+         * @return void
+         */
+        initialize: function() {
+            window.addEventListener("*", this.handlePostMessage, false);
+        },
+
+        /**
+         * @method handlePostMessage
+         * @param postMessage event
+         * @return void
+         */
+        handlePostMessage: function(event) {
+            console.log('handlePostMessage');
+            if (event.origin !== "*") {
+                console.log(event);
+            }
+        },
+
         /**
          * @method sync
          * @param method
