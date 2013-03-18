@@ -30,8 +30,9 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 }
 
 // new code to handle 500 Zoho {
-    console.log('errorSK 1 up, ', errorAlert);
+    //console.log('errorSK 1 up, ', errorAlert);
     function errorAlert(_1225,_1226,_1227,_1228){
+    console.log('we hack it!');
     if(showErrorPanelMsg==_1226||_1228=="error"){
     if(_1225!=null&&_1225!=""){
     _1225=jsTitleMsg.Error+" "+_1225+": ";
