@@ -457,7 +457,7 @@ class ImportGameDataService
                 'code'          => $subject_id,
                 'character_id'  => $toId,
                 'mail_prefix'   => $themePrefix,
-                'theme_usage'  => 'mail_outbox'
+                'theme_usage'  => CommunicationTheme::USAGE_OUTBOX
             ]);
 
             // for MSYx
@@ -466,7 +466,7 @@ class ImportGameDataService
                     'code'         => $subject_id,
                     'character_id' => $toId,
                     'mail_prefix'  => $themePrefix,
-                    'theme_usage'  => 'mail_outbox_old'
+                    'theme_usage'  => CommunicationTheme::USAGE_OUTBOX_OLD
                 ]);
             }
 
@@ -739,7 +739,7 @@ class ImportGameDataService
             // Phone dialogue number
             $phoneDialogNumber = $this->getCellValue($sheet, 'Phone dialogue number', $i);
             // Mail
-            $mail = $themeUsage === 'mail_outbox' || $themeUsage === 'mail_inbox';
+            $mail = $themeUsage === CommunicationTheme::USAGE_OUTBOX || $themeUsage === CommunicationTheme::USAGE_INBOX;
             // Mail letter number
             $mailCode = $this->getCellValue($sheet, 'Mail letter number', $i);
             if ($mailCode === 'НЕ исход. письмо' || $mailCode === 'MS не найдено') {
@@ -818,6 +818,22 @@ class ImportGameDataService
                     $wrongTheme->import_id = $this->import_id;
                     $wrongTheme->save();
                 }
+
+                // add fwd: for NULl character - server returns it when you press "write forward" and character already unknown
+                $wrongTheme = new CommunicationTheme();
+                $wrongTheme->mail = 1;
+                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
+                assert($wrongTheme->mail_prefix !== null);
+                $wrongTheme->wr = 'W';
+                $wrongTheme->code = $communicationTheme->code;
+                $wrongTheme->text = $communicationTheme->text;
+                $wrongTheme->constructor_number = 'B1';
+                $wrongTheme->character_id = NULL;
+                $wrongTheme->import_id = $this->import_id;
+                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
+                $wrongTheme->save();
+                // add fwd: for NULl character }
+
                 // add fwd for all themes without fwd }
 
                 // add re for all themes without fwd {
