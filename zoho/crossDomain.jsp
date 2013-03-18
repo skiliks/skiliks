@@ -43,7 +43,7 @@ if(window.attachEvent) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        _1225 = jsTitleMsg.Error+" "+_1225+": ";
+                        //_1225 = window.jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     window.handleServerError("ERROR", _1225 + _1226, true);
@@ -53,7 +53,8 @@ if(window.attachEvent) {
                         window.showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"] + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
+                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"]
+                                + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
@@ -67,7 +68,7 @@ if(window.attachEvent) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        _1225 = window.jsTitleMsg.Error+" "+_1225+": ";
+                        //_1225 = window.jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     window.handleServerError("ERROR", _1225 + _1226, true);
@@ -76,7 +77,8 @@ if(window.attachEvent) {
                         window.showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"] + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
+                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"]
+                                + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
