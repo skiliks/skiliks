@@ -121,10 +121,10 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log("bannerMessage: ", document.getElementById("msgBannerPanel"));
+    //console.log("bannerMessage: ", document.getElementById("msgBannerPanel"));
 
     function handleServerError(_1409,msg,_140b,_140c){
-    console.log('handleServerError!!!');
+    //console.log('handleServerError!!!');
     var _140d="";
     var _140e="";
     var _140f="";
@@ -255,18 +255,18 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
 
     $(function(){
-        console.log('body: ', $('body'));
-        console.log('hid_imp_doc: ', $('#hid_imp_doc'));
-        console.log($('#main'));
+        console.log('body: ', $('body').html());
+        //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
+        //console.log($('#main'));
 
-        $('#main').unbind();
-        $('#main').bind('DOMNodeInserted DOMNodeRemoved', function(event){
+        $('body').unbind();
+        $('body').bind('DOMNodeInserted DOMNodeRemoved', function(event){
         if (event.type == 'DOMNodeInserted') {
         //alert('Content added! Current content:' + '\n\n' + this.innerHTML);
-        console.log($('#msgBannerPanel'));
+            console.log($('#msgBannerPanel'));
         } else {
         //alert('Content removed! Current content:' + '\n\n' + this.innerHTML);
-        console.log($('#msgBannerPanel'));
+            console.log($('#msgBannerPanel'));
         }
         });
     });
