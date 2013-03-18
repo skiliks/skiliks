@@ -78,6 +78,7 @@ define([
                 'click .SAVE_TO_DRAFTS': 'doSaveEmailToDrafts',
                 'click .SEND_EMAIL': 'doSendEmail',
                 'click .MOVE_TO_TRASH': 'doMoveToTrashActiveEmail',
+                'click .RESTORE': 'doMoveToInboxByClick',
                 'click #FOLDER_INBOX': 'doRenderFolderByEvent',
                 'click #FOLDER_DRAFTS': 'doRenderFolderByEvent',
                 'click #FOLDER_SENDED': 'doRenderFolderByEvent',
@@ -164,10 +165,6 @@ define([
                     }
                 });
                 // close with conditions action }
-
-                $('body').keydown(function (e) {
-                    me.doHandleKeyPress(e);
-                });
 
                 // call parrent initialize();
                 SKWindowView.prototype.initialize.call(this);
@@ -768,16 +765,6 @@ define([
 
                 this.renderIcons(this.mailClient.iconsForTrashScreenArray);
                 this.mailClient.setActiveScreen(this.mailClient.screenTrashList);
-
-                // draggable: add restore from trash behaviour {
-                $('.email-list-line').draggable("destroy");
-                $('.email-list-line').draggable({
-                    helper: function (event) {
-                        return $('<div class="email-envelope"><table style="display: none;"></table></div>')
-                            .find('table').append($(event.target).closest('tr').clone()).end();
-                    }
-                });
-                // draggable: add restore from trash behaviour }
             },
 
             /**
@@ -913,6 +900,7 @@ define([
                 var addButtonSaveDraft = false;
                 var addButtonSendDraft = false;
                 var addButtonMoveToTrash = false;
+                var addButtonRestore = false;
                 // set defaults }
 
                 // choose icons to show {
@@ -944,6 +932,9 @@ define([
                             break;
                         case me.mailClient.aliasButtonMoveToTrash:
                             addButtonMoveToTrash = true;
+                            break;
+                        case me.mailClient.aliasButtonRestore:
+                            addButtonRestore = true;
                             break;
                     }
                 });
@@ -1007,6 +998,12 @@ define([
                         label: 'удалить'
                     });
                 }
+                if (addButtonRestore) {
+                    iconsListHtml += _.template(action_icon, {
+                        iconCssClass: this.mailClient.aliasButtonRestore,
+                        label: 'восстановить'
+                    });
+                }
                 // conpose HTML code }
 
                 // render HTML
@@ -1068,6 +1065,12 @@ define([
                         updateFolderRender
                     )
                 );
+            },
+
+            doMoveToInboxByClick: function () {
+                if (undefined !== typeof this.mailClient.activeEmail) {
+                    this.doMoveToInbox(this.mailClient.activeEmail);
+                }
             },
 
             /**
@@ -2105,24 +2108,7 @@ define([
                         });
                     });
 
-            },
-
-            /**
-             * @method
-             * @param keyboardEvent
-             */
-            doHandleKeyPress: function (keyboardEvent) {
-
-                // delete active email when Inbox list screen active only, by DEL press
-                if (this.mailClient.screenInboxList === this.mailClient.activeScreen &&
-                    keyboardEvent.keyCode == 46) {
-                    if ('undefined' !== typeof this.mailClient.activeEmail) {
-                        this.doMoveToTrashActiveEmail();
-                    }
-                }
-
             }
-
         });
 
     return SKMailClientView;
