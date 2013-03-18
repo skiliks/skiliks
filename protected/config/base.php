@@ -208,7 +208,7 @@ return array(
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',
             'xlsTemplatesDirPath' => 'documents/templates',
             'templatesDirPath'    => 'documents/zoho',
-            'sendFileUrl'         => 'http://zoho.skiliks.com/remotedoc.im?apikey=%s&output=editor',
+            'sendFileUrl'         => 'http://zoho.com/remotedoc.im?apikey=%s&output=editor', // skiliks.
             'extExcel'            => 'xls'
             //'sendFileUrl'         => 'https://presheet.zoho.com/remotedoc.im?apikey=%s&output=editor',
         ),
