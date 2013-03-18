@@ -361,11 +361,11 @@ class MailBoxService
             
             $models = [];            
             $model = CommunicationTheme::model()->find(
-                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND (theme_usage NOT LIKE :outbox_old OR theme_usage is null)', [
+                'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix AND (theme_usage = :outbox)', [
                 'mail_prefix'  => $parentSubject->getPrefixForForward(), 
                 'text'         => $parentSubject->text,
                 'character_id' => $receivers[0],
-                'outbox_old'   => 'mail_outbox_old'
+                'outbox'       => CommunicationTheme::USAGE_OUTBOX
             ]);
             if (NULL !== $model) {
                 $models[] = $model;
@@ -373,9 +373,9 @@ class MailBoxService
         } else {
             // this is NEW mail
             $models = CommunicationTheme::model()->findAll(
-                'character_id = :character_id AND mail_prefix IS NULL AND mail = 1 AND theme_usage NOT LIKE :outbox_old ', [
+                'character_id = :character_id AND mail_prefix IS NULL AND mail = 1 AND theme_usage = :outbox ', [
                 'character_id' => $receivers[0],
-                'outbox_old'   => 'mail_outbox_old'
+                'outbox'   => CommunicationTheme::USAGE_OUTBOX
             ]);
         }
 
@@ -1038,7 +1038,7 @@ class MailBoxService
     public static function getSubjectForRepryEmail($messageToReply)
     {
         $subjectEntity = CommunicationTheme::model()->findByAttributes([
-            'theme_usage'  => 'mail_outbox',
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
             'character_id' => $messageToReply->sender_id,
             'text'         => $messageToReply->subject_obj->text,
             'mail_prefix'  => $messageToReply->subject_obj->getPrefixForReply()
@@ -1064,11 +1064,14 @@ class MailBoxService
         $characterThemeId = null;
         // it is extremly important to find proper  Fwd: in database
 
-        $forwardSubject = CommunicationTheme::model()->find(
-            'text = :text AND character_id = :character_id AND mail_prefix = :mail_prefix',[
+//        var_dump($messageToForward->subject_obj->getPrefixForForward(), $messageToForward->subject_obj->text, CommunicationTheme::USAGE_OUTBOX);
+//        die;
+
+        $forwardSubject = CommunicationTheme::model()->findByAttributes([
             'mail_prefix'  => $messageToForward->subject_obj->getPrefixForForward(),
             'text'         => $messageToForward->subject_obj->text,
-            'character_id' => $messageToForward->receiver_id
+            'character_id' => null,
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
         ]);
         
         if (NULL === $forwardSubject) {
@@ -1083,7 +1086,7 @@ class MailBoxService
         ];
 
         // загрузить фразы по старой теме
-        if (0 < $forwardSubject->id) {
+        if (null !== $forwardSubject && 0 < $forwardSubject->id) {
             if ($forwardSubject->constructor_number === 'TXT') {
                 $result['text'] = $forwardSubject->getMailTemplate()->message;
             } else {
@@ -1099,8 +1102,8 @@ class MailBoxService
 
 
         $result['result']    = 1;
-        $result['subject']   = $forwardSubject->getFormattedTheme();
-        $result['subjectId'] = $forwardSubject->id;
+        $result['subject']   = (null === $forwardSubject) ? null : $forwardSubject->getFormattedTheme();
+        $result['subjectId'] = (null === $forwardSubject) ? null : $forwardSubject->id;
 
         $result['phrases']['previouseMessage'] = $messageToForward->message;
 
