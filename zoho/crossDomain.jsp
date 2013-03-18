@@ -13,7 +13,6 @@ var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
 var isIEBrowser = (userAgent.toUpperCase().indexOf("IE") >= 0) ? true : false;
 
-
 function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     document.open();
     if (windowArgsInJson) {
@@ -39,7 +38,6 @@ if(window.attachEvent) {
         var currentOnLoad = window.onload;
         var newOnLoad = function() {
             currentOnLoad();
-            document.domain = "zoho.skiliks.com";
             window.errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
@@ -65,7 +63,6 @@ if(window.attachEvent) {
         window.onload = newOnLoad;
     } else {
         window.onload = function() {
-            document.domain = "zoho.skiliks.com";
             window.errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
