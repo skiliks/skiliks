@@ -1,21 +1,3 @@
-<style>
-    .form label {
-        display: inline-block;
-        width: 160px;
-    }
-    .form .errorMessage {
-        background-color: #f5dfb4;
-        border: 1px solid #cd0a0a;
-        border-radius: 7px;
-        color: #cd0a0a;
-        margin: 5px;
-        opacity: 0.7;
-        padding: 7px;
-        width: 340px;
-    }
-</style>
-
-
 <section class="registration">
 	<h2>Sign-up using your preferred option and get the results</h2>
 	
@@ -148,3 +130,72 @@
 	    <?php echo Yii::t('site', '* Currently not available and will be added in the next release') ?>
 	</p>
 </section>
+
+<!--div class="register-by-link-wrap">
+	<div class="register-by-link">
+		<h6 class="register-by-link-desc">Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h6>
+		
+		<div class="row">
+			<label>Имя</label>
+			<input type="text" placeholder="Имя" />
+			<input type="text" placeholder="Фамилия" />
+		</div>
+		
+		<div class="row">
+			<label>Профессиональный статус</label>
+			<select>
+				<option value="Выберете статус">Выберете статус</option>
+			</select>
+		</div>
+		
+		<div class="row">
+			<label>Отрасль</label>
+			<select>
+				<option value="Выберете статус">Выберете отрасль</option>
+			</select>
+		</div>
+		
+		<div class="row">
+			<label>Пароль</label>
+			<input type="password" placeholder="Пароль" />
+		</div>
+		
+		<div class="row mb">
+			<label>Подтверждение</label>
+			<input type="password" placeholder="Подтверждение" />
+		</div>
+		
+		<div class="row">
+			<input type="submit" value="Зарегестрироваться" />
+			<a href="#" class="cancel"><span>Отказаться от приглашения</span></a>
+		</div>
+	</div>
+</div-->
+
+<script type="text/javascript">
+function setModalSize() {
+	var h;
+	if ($('body').height() > $('.container').height()) {
+		h=$('body').height();
+	}
+	else {
+		h=$('.container').height();
+	}
+	var w=$('body').width();
+	var cw=$('.content').width()/2;
+	var l=w/2-cw;
+	
+	$('.register-by-link-wrap').each(function(){
+		$(this).css({
+			'width':w,
+			'height':h,
+			'left':-l,
+		})
+	})
+}
+setModalSize();
+
+$(window).resize(function(){
+	setModalSize();
+})
+</script>

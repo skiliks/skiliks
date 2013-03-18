@@ -68,13 +68,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 						<h6>Sign in</h6>
 						
                         <div class="login">
-                            <label><?php echo Yii::t('site', 'E-mail') ?></label>
                             <a href="#">Forget your password?</a>
                             <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
                         </div>
                         <div class="password">
-                            <label><?php echo Yii::t('site', 'Password') ?></label>
-                            <input type="password" name="YumUserLogin[password]" placeholder="Enter password" />
+                            <input type="password" name="password" placeholder="Enter password" />
                         </div>
                         <div class="remember">
                             <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
