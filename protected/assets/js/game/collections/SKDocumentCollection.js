@@ -32,11 +32,12 @@ define(["game/models/SKDocument"], function () {
          */
         handlePostMessage: function(event) {
             console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
+            console.log('event!');
+            /*if (undefined != typeof event && event.origin !== "*") {
                 console.log('event!');
                 console.log('event', event.origin);
                 return;
-            }
+            }*/
         },
 
         /**
