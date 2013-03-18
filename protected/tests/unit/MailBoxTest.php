@@ -188,7 +188,7 @@ class MailBoxTest extends CDbTestCase
     
     /**
      * Проверяет темы для писем-перенаправлений:
-     * 1. Проверяет что для случайнио выбранного письма из списка писем с темой "ххх",
+     * 1. Проверяет что дляписьма M8 из списка писем с темой "ххх",
      *    тема форварда будет выглядеть как "Fwd: ххх"
      *
      * 2. M61 - форвард для письма с одним Re:
@@ -207,8 +207,16 @@ class MailBoxTest extends CDbTestCase
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
         $resultData = MailBoxService::getForwardMessageData($randomFirstEmail);
 
-        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'random email case');
-        $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'random email case');
+        $fwdSubject = CommunicationTheme::model()->findByAttributes([
+            'character_id' => null,
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
+            'text'         => $randomFirstEmail->subject_obj->text,
+            'mail_prefix'  => 'fwd',
+        ]);
+
+        $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'M8 subject tetx');
+        $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'M8 parentSubjectId');
+        $this->assertEquals($resultData['subjectId'], $fwdSubject->id, 'M8 subjectId');
         // random email case }
 
         // case 2, M61 {      

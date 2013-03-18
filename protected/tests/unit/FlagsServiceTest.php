@@ -68,7 +68,7 @@ class FlagServiceTest extends CDbTestCase
         // RE: RE:
         $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
             'code' => 55, 'character_id' => $receiverId,  // 55?
-            'mail_prefix' => 'rere', 'theme_usage' => 'mail_outbox'
+            'mail_prefix' => 'rere', 'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ])->primaryKey;
 
         $mail = MailBoxService::sendMessagePro($msgParams);
