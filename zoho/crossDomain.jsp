@@ -278,6 +278,41 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     return true;
     }
 
+    function handleRequest(rurl,_141,_142,_143,_144,nvp,_146,_147){
+    console.log('handleRequest!!!');
+    var _148="";
+    if(document.cellform){
+    _148=document.cellform.actionMode.value.toUpperCase();
+    }
+    var _149=document.cellform.afterRTC.value;
+    if(!(_149)&&document.cellform===_142&&_148!="COPYFORMAT"&&_148!="CALLBACK"){
+    exitFormatPainter();
+    }
+    if(!_146&&rurl.indexOf("version.do")==-1&&_148!="COPYTOCLIP"){
+    if(_147!="false"){
+    if(isCellRange()){
+    loadon();
+    }else{
+    if(_148=="COPYPASTE"||_148=="CUTPASTE"||_148=="COPYPASTETEXTAREA"){
+    loadon();
+    }
+    }
+    }
+    noOfUpdateRequestInProgress++;
+    }
+    rurl+=((rurl.indexOf("?")+1)?"&":"?")+"randomNo="+Math.random();
+    if(window.XMLHttpRequest){
+    return handleNS(rurl,_141,_142,_143,_144,nvp,_146);
+    }
+    if(!navigator.__ice_version&&window.ActiveXObject){
+    return handleIE(rurl,_141,_142,_143,_144,nvp,_146);
+    }
+    if(document.createElement&&document.childNodes){
+    return handleOthers(rurl,_141);
+    }
+    return false;
+    }
+
     $(window).load(function() {
         //console.log('body: ', $('body').html()); //(an empty string)
         //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
