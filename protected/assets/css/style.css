@@ -987,6 +987,7 @@ html[lang=ru] .product section table th{
 /* --------------- registration ---------*/
 .inner-registration .content{
 	width:955px;
+	overflow:visible;
 }
 .registration{
 	padding-top:43px;
@@ -1000,19 +1001,25 @@ html[lang=ru] .product section table th{
 	text-align:center;
 }
 .registration .form{
+	background-color:#fdfbc6;
 	background-repeat:no-repeat;
-	background-position:0 0;
+	background-position:381px 9px;
+	box-shadow:0 0 0 9px rgba(255,255,255,0.2);
+	-webkit-border-radius:12px;
+	-moz-border-radius:12px;
+	border-radius:12px;
 	width:456px;
-	height:383px;
-	padding:9px;
+	min-height:383px;
 }
 .registration .form.form-account-personal{
 	background-image:url("../img/bg-registration-personal.png");
 	float:left;
+	margin-left:9px;
 }
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corparate.png");
 	float:right;
+	margin-right:9px;
 }
 .registration .form h1{
 	font:2.571em 'ProximaNova-Bold';
@@ -1038,6 +1045,7 @@ html[lang=ru] .product section table th{
 .registration .form .row{
 	line-height:26px;
 	margin:0 20px 9px 38px;
+	position:relative;
 }
 .registration .form .row label{
 	display:inline-block;
@@ -1092,6 +1100,52 @@ html[lang=ru] .product section table th{
 	text-indent:35px;
 	margin-left:60px;
 }
+.registration .form .row .errorMessage{
+	background: #e36969;
+    background: -moz-linear-gradient(top, #d64141, #e36969);
+    background: -webkit-gradient(linear, left top, left bottom,color-stop(0%,#d64141), color-stop(100%,#e36969));
+    background: -webkit-linear-gradient(top, #d64141, #e36969);
+    background: -o-linear-gradient(top, #d64141, #e36969);
+    background: -ms-linear-gradient(top, #d64141, #e36969);
+    background: linear-gradient(top, #d64141, #e36969);
+    -moz-box-shadow:0 0 6px rgba(0,0,0,0.57);
+    -webkit-box-shadow:0 0 6px rgba(0,0,0,0.57);
+    box-shadow:0 0 6px rgba(0,0,0,0.57);
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+    font:0.729em "ProximaNova-Regular";
+    color:#fff;
+    line-height:26px;
+    text-align:center;
+    width:166px;
+    position:absolute;
+    top:-29px;
+    left:59px;
+}
+.registration .form .row .errorMessage:last-child{
+	left:229px;
+}
+.registration .form .row .errorMessage:after{
+	content:'';
+	border-top:16px solid #e26969;
+	border-left:16px solid transparent;
+	position:absolute;
+	top:26px;
+	left:52px;
+	width:0;
+	height:0;
+}
+.registration .form .row .errorMessage:after{
+	content:'';
+	border-top:16px solid #e26969;
+	border-right:16px solid transparent;
+	position:absolute;
+	top:26px;
+	left:70px;
+	width:0;
+	height:0;
+}
 .note{
 	font:1.071em "ProximaNova-Bold";
 	color:#fff;
@@ -1109,15 +1163,18 @@ html[lang=ru] .product section table th{
 		margin-bottom:15px;
 	}
 	.registration .form{
+		background-position:305px 7px;
+		box-shadow:0 0 0 7px rgba(255,255,255,0.2);
 		width:366px;
-		height:309px;
-		padding:7px;
+		min-height:309px;
 	}
 	.registration .form.form-account-personal{
 		background-image:url("../img/bg-registration-personal-min.png");
+		margin-left:7px;
 	}
 	.registration .form.form-account-corporate{
 		background-image:url("../img/bg-registration-corparate-min.png");
+		margin-right:7px;
 	}
 	.registration .form h1{
 		font-size:1.715em;
@@ -1170,12 +1227,165 @@ html[lang=ru] .product section table th{
 		text-indent:29px;
 		margin-left:47px;
 	}
+	.registration .form .row .errorMessage{
+	    -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
+	    -webkit-box-shadow:0 0 5px rgba(0,0,0,0.57);
+	    box-shadow:0 0 5px rgba(0,0,0,0.57);
+	    font-size:0.583em;
+	    line-height:20px;
+	    text-align:center;
+	    width:133px;
+	    position:absolute;
+	    top:-23px;
+	    left:46px;
+	}
+	.registration .form .row .errorMessage:last-child{
+		left:183px;
+	}
+	.registration .form .row .errorMessage:after{
+		border-top:13px solid #e26969;
+		border-left:13px solid transparent;
+		top:20px;
+		left:41px;
+	}
+	.registration .form .row .errorMessage:after{
+		border-top:13px solid #e26969;
+		border-right:13px solid transparent;
+		top:20px;
+		left:70px;
+	}
 	.note{
 		font-size:0.858em;
 		margin-top:26px;
 	}
 }
 /* --------------- /registration ---------*/
+
+/* --------------- register by link ---------*/
+.register-by-link-wrap{
+	background:rgba(0,0,0,0.5);
+	position:absolute;
+	top:-97px;
+	left:0;
+	z-index:2;
+	overflow:hidden;
+}
+.register-by-link{
+	background:url("../img/bg-register-by-link.png") no-repeat 0 0;
+	width:797px;
+	height:501px;
+	margin:246px auto 0;
+	overflow:hidden;
+}
+.register-by-link-desc{
+	font:1.786em "ProximaNova-Regular";
+	color:#626250;
+	text-align:center;
+	margin:154px 0 33px;
+}
+.register-by-link .row{
+	line-height:29px;
+	margin:0 32px 6px;
+}
+.register-by-link .row.mb{
+	margin-bottom:30px;
+}
+.register-by-link .row label{
+	display:inline-block;
+	font:0.834em "ProximaNova-Bold";
+	color:#555545;
+	width:146px;
+	vertical-align:middle;
+}
+.register-by-link .row input[type=text],.register-by-link .row input[type=password]{
+	background:#fff;
+	-moz-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    -webkit-box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+    box-shadow:5px 5px 8px rgba(0,0,0,0.16) inset;
+	border:1px solid rgba(0,0,0,0.58);
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	font:0.834em 'ProximaNova-Regular';
+	line-height:1;
+	color:#146672;
+	width:147px;
+	height:12px;
+	padding:8px 9px 7px;
+	outline:none;
+	vertical-align:top;
+}
+.register-by-link .row .sbHolder{
+	width:336px;
+	vertical-align:middle;
+}
+.register-by-link .row input[type=submit]{
+	background:#146672 url("../img/icon-btn-register-by-link.png") no-repeat 12px center;
+	border:none;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	border-radius:3px;
+	width:222px;
+	height:46px;
+	font:1.191em "ProximaNova-Bold";
+	color:#fff;
+	text-align:left;
+	text-indent:35px;
+	margin:0 10px 0 150px;
+}
+.register-by-link .row .cancel{
+	border-bottom:1px dotted #555545;
+	font:0.834em 'ProximaNova-Regular';
+	color:#555545;
+	text-decoration:none;
+	text-shadow:0 1px 0 rgba(255,255,255,0.75);
+}
+.register-by-link .row .cancel:hover{
+	border-color:transparent;
+}
+@media screen and (max-width: 1280px){
+	.register-by-link{
+		background:url("../img/bg-register-by-link-min.png") no-repeat 0 0;
+		width:639px;
+		height:403px;
+		margin-top:196px;
+	}
+	.register-by-link-desc{
+		font-size:1.429em;
+		margin:122px 0 27px;
+	}
+	.register-by-link .row{
+		line-height:24px;
+		margin:0 27px 4px;
+	}
+	.register-by-link .row.mb{
+		margin-bottom:22px;
+	}
+	.register-by-link .row label{
+		font-size:0.667em;
+		width:118px;
+	}
+	.register-by-link .row input[type=text],.register-by-link .row input[type=password]{
+		font-size:0.667em;
+		width:114px;
+		padding:4px 8px;
+	}
+	.register-by-link .row .sbHolder{
+		width:267px;
+	}
+	.register-by-link .row input[type=submit]{
+		background:#146672 url("../img/icon-btn-register-by-link-min.png") no-repeat 12px center;
+		width:176px;
+		height:37px;
+		font-size:0.953em;
+		text-indent:29px;
+		margin:0 10px 0 122px;
+	}
+	.register-by-link .row .cancel{
+		font-size:0.667em;
+	}
+}
+/* --------------- /register by link ---------*/
 
 /* --------------- footer ---------*/
 .footer{
@@ -1289,13 +1499,16 @@ html[lang=ru] .product section table th{
 	z-index:5;
 }
 .login-form{
-    background:url("../img/bg-sign-in.png") no-repeat 0 0;
+    background:#146672;
+    box-shadow:0 0 0 8px rgba(255,255,255,0.2);
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
     width:235px;
-    height:256px;
     padding:9px 34px;
     margin-left:46px;
     position: absolute;
-    top:89px;
+    top:96px;
     left: 50%;
     z-index: 10;
 }
@@ -1307,10 +1520,8 @@ html[lang=ru] .product section table th{
 .login-form div.login{
 	margin-bottom:15px;
 }
-.login-form div.login label{
-	float:left;
-}
 .login-form div.login a{
+	margin-bottom:3px;
 	float:right;
 }
 .login-form div.password{
@@ -1326,6 +1537,7 @@ html[lang=ru] .product section table th{
 	display:block;
 	font:0.834em 'ProximaNova-Regular';
 	color:#fff;
+	line-height:14px;
 	padding:0;
 	margin:0;
 	margin-bottom:4px;
@@ -1371,7 +1583,6 @@ html[lang=ru] .product section table th{
 }
 .login-form div.remember label{
 	display:inline-block;
-	vertical-align:middle;
 }
 .login-form div .niceCheck{
 	width: 14px;
@@ -1397,11 +1608,9 @@ html[lang=ru] .product section table th{
 }
 @media screen and (max-width: 1280px){
 	.login-form{
-	    background:url("../img/bg-sign-in-min.png") no-repeat 0 0;
 	    width:184px;
-	    height:206px;
 	    padding:7px 30px;
-	    top:69px;
+	    top:75px;
 	    margin-left:33px;
 	}
 	.login-form h6{
@@ -1423,6 +1632,7 @@ html[lang=ru] .product section table th{
 	}
 	.login-form div label{
 		font-size:0.666em;
+		line-height:11px;
 		margin-bottom:4px;
 	}
 	.login-form div input[type=text],.login-form div input[type=password]{
