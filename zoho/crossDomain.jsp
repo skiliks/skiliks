@@ -1,3 +1,4 @@
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script>
 function autoSave() {
     var button = window.parent.document.getElementById('savefile');
