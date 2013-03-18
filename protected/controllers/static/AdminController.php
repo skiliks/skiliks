@@ -9,7 +9,7 @@ class AdminController extends AjaxController
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
 
-        assert($simulation);
+        assert($simulation !== null);
 
         $this->layout = 'admin';
         $logTableList = new LogTableList($simulation);

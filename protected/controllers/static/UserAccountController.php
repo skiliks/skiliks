@@ -386,7 +386,7 @@ class UserAccountController extends YumController
             'Пройдите по ссылке чтобы начать симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                $invite->invited_user_id ? '/office' : '/accept-invite/' . $invite->code
+                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/office' : '/accept-invite/' . $invite->code)
             ),
             $invite->signature
         ];
@@ -395,7 +395,7 @@ class UserAccountController extends YumController
             'from'    => Yum::module('registration')->registrationEmail,
             'to'      => $invite->email,
             'subject' => 'Приглашение пройти симуляцию на Skiliks.com',
-            'body'    => implode("\n", $body)
+            'body'    => implode("<br />", $body)
         ];
 
         $invite->sent_time = time();
@@ -571,17 +571,20 @@ class UserAccountController extends YumController
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $valid = $invite->validate(['firstname', 'lastname', 'email']);
-
-            // Fixme: remove this shit
-            $invite->message = <<<MSG
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-Aenean varius augue ac purus consectetur sed tristique massa tincidunt.
-Praesent eu urna lectus. Proin auctor, lorem sed malesuada sodales, mi nibh blandit ligula, vel vehicula tellus arcu nec felis.
-Etiam cursus laoreet arcu non placerat. Curabitur congue, neque id eleifend aliquet, tellus lacus facilisis ante, vel sollicitudin nulla neque quis diam.
-Vivamus feugiat magna vitae nisl dapibus fermentum. Sed id mi diam, a scelerisque nisl. Etiam ut purus in tortor euismod iaculis at at libero.
-Aenean dapibus est ac ipsum commodo pulvinar. Fusce accumsan volutpat tristique.
-Curabitur posuere sagittis turpis, id ultrices leo cursus nec. Aenean sem enim, ultrices at fringilla vitae, vulputate id sapien.
+            $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+            $position_label = Yii::t('site',$invite->position->label);
+            if ($profile) {
+                $invite->message = <<<MSG
+Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.
 MSG;
+            } else {
+                $invite->message = <<<MSG
+Работодатель заинтересован в вашей кандидатуре на позицию $position_label. Для кандидата на данную позицию обязательным условием
+является прохождение ассессмента для определениям уровня менеджерских навыков. Для этого вам необходимо пройти по ссылке,
+зарегистрироваться и запустить ассессмент.
+MSG;
+            }
+
             $invite->signature = 'Best regards';
         }
 
