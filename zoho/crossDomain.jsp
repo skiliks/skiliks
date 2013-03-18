@@ -254,11 +254,17 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log($('#msgBannerPanel'));
+    console.log($('#editorDIV'));
 
-    $('#msgBannerPanel').unbind();
-    $('#msgBannerPanel').bind(function(event){
-        console.log(event.type);
+    $('#editorDIV').unbind();
+    $('#editorDIV').bind('DOMNodeInserted DOMNodeRemoved', function(event){
+        if (event.type == 'DOMNodeInserted') {
+            //alert('Content added! Current content:' + '\n\n' + this.innerHTML);
+            console.log($('#msgBannerPanel'));
+        } else {
+            //alert('Content removed! Current content:' + '\n\n' + this.innerHTML);
+            console.log($('#msgBannerPanel'));
+        }
     });
 // new code }
 </script>
