@@ -7,7 +7,7 @@ function autoSave() {
 
 setInterval(autoSave, 5*60*1000);
 
-console.log('save file name: ', window.parent.document.getElementById('savefile').text());
+console.log('save file name: ', window.parent.document.getElementById('savefile').innerText);
 
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
