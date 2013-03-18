@@ -120,6 +120,137 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log("bannerMessage: ", document.getElementById("bannerMessage"))
+    console.log("bannerMessage: ", document.getElementById("msgBannerPanel"));
+
+    function handleServerError(_1409,msg,_140b,_140c){
+    console.log('handleServerError!!!');
+    var _140d="";
+    var _140e="";
+    var _140f="";
+    if(typeof msg=="undefined"){
+    msg="";
+    }
+    message("","none");
+    if(msg==showErrorPanelMsg){
+    msg=jsMsg["ErrorPanel.MainContent"]+" ";
+    if(lastSavedTime!=null&&DOCUMENT_ID!="doc_id"&&ALLOW_TO_WRITE){
+    var _1410=returnTimeElaspsedinString(new Date(),lastSavedTime);
+    if(_1410.unit.indexOf("second")!=-1){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinSeconds"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="minutes"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinMinutes"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="hours"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinHours"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="days"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinDays"],new Array(_1410.count));
+    }
+    }
+    }
+    }
+    _140d="<b>"+_140d+"</b>";
+    }else{
+    }
+    if(DOCUMENT_ID!="doc_id"){
+    if(jsREMOTE_SAVE_VIEW){
+    _140e="<br>"+replaceParams(jsMsg["ErrorPanel.AdviseToBackupandReloadwithLink"],new Array("<a onclick='javascript:loadRemoteDocument();' href='#'>","</a>"));
+    }else{
+    if(INTERNAL_VIEW){
+    _140e="<br>"+jsMsg["ErrorPanel.AdviseToBackupandReloadwithoutLink"];
+    }else{
+    if(jsPUBLIC_VIEW||jsGUEST_VIEW||jsTHROWAWAY_VIEW){
+    _140e="<br>"+jsMsg["ErrorPanel.AdviseToBackupandReloadwithoutLink"];
+    }else{
+    if(ALLOW_TO_WRITE){
+    _140e="<br>"+replaceParams(jsMsg["ErrorPanel.AdviseToBackupandReloadwithLink"],new Array("<a onclick='javascript:loadDocument(\""+DOCUMENT_ID+"\");' href='#'>","</a>"));
+    }else{
+    _140e="<br>"+replaceParams(jsMsg["ErrorPanel.AdviseToBackupandReloadwithLink"],new Array("<a onclick='javascript:loadDocument(\""+DOCUMENT_ID+"\");' href='#'>","</a>"));
+    }
+    }
+    }
+    }
+    }else{
+    if(!jsNEW_DOC_VIEW){
+    _140e="<br>"+jsMsg["ErrorPanel.AdviseToBackupandReloadwithoutLink"];
+    }else{
+    _140e="<br>"+jsMsg["ErrorPanel.CreateNewDocumentandTryAgain"];
+    }
+    }
+    }else{
+    if(msg=="ConnectionLost"){
+    msg=replaceParams(jsMsg["ErrorPanel.ServerConnectionLost"],"","");
+    if(lastSavedTime!=null&&DOCUMENT_ID!="doc_id"&&ALLOW_TO_WRITE){
+    var _1410=returnTimeElaspsedinString(new Date(),lastSavedTime);
+    if(_1410.unit.indexOf("second")!=-1){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinSeconds"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="minutes"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinMinutes"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="hours"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinHours"],new Array(_1410.count));
+    }else{
+    if(_1410.unit=="days"){
+    _140d=replaceParams(jsMsg["ErrorPanel.LastSavedInfo.LastSavedTimeinDays"],new Array(_1410.count));
+    }
+    }
+    }
+    }
+    if((jsNEW_DOC_VIEW||jsSHARE_VIEW||jsOPEN_DOC_VIEW)&&(DOCUMENT_ID&&DOCUMENT_ID!=""&&DOCUMENT_ID!="doc_id")){
+    _140f=replaceParams(jsMsg["ErrorPanel.reopen"],new Array("<a onclick='javascript:loadDocument(\""+DOCUMENT_ID+"\", \"\", \"\", \"fcl\");' href='#'>","</a>"));
+    }else{
+    _140f=replaceParams(jsMsg["ErrorPanel.reopen"],new Array("",""));
+    }
+    _140d=_140d+" "+_140f;
+    }else{
+    if((jsNEW_DOC_VIEW||jsSHARE_VIEW||jsOPEN_DOC_VIEW)&&(DOCUMENT_ID&&DOCUMENT_ID!=""&&DOCUMENT_ID!="doc_id")){
+    msg=replaceParams(jsMsg["ErrorPanel.ConnectionLost"],new Array("<a onclick='javascript:loadDocument(\""+DOCUMENT_ID+"\", \"\", \"\", \"fcl\");' href='#'>","</a>"));
+    }else{
+    msg=replaceParams(jsMsg["ErrorPanel.ConnectionLost"],new Array("",""));
+    }
+    }
+    }
+    }
+    msg=msg+_140d+_140e;
+    if(msg!=""){
+    btn_disabled();
+    if(typeof _1409=="undefined"){
+    _1409="ERROR";
+    }
+    showBannerMessage(_1409,msg);
+    }
+    if(_140b){
+    READ_WRITE=false;
+    }
+    ALLOW_TO_WRITE=false;
+    if(_1409=="ERROR"){
+    isErrorDoc=true;
+    if(document.getElementById("menutabs")){
+    errorDocMenutab();
+    }
+    var _1411=getObj("addSheetBtn");
+    if(_1411){
+    _1411.style.visibility="hidden";
+    }
+    if(ole){
+    ole.setObjectProperties("button",{permissions:{isDraggable:false,isResizable:false,isEditable:false}});
+    }
+    if(COLLAB_ID!=""&&COLLAB_ID!="null"){
+    Collaboration.quit(COLLAB_ID);
+    var _1412=COLLAB_ID;
+    resetRTCvariables();
+    if(jsSHARE_VIEW){
+    COLLAB_ID=_1412;
+    }
+    }
+    }
+    if(typeof _140c!="undefined"){
+    allowSheetSwitch=_140c;
+    }else{
+    allowSheetSwitch=false;
+    }
+    }
 // new code }
 </script>
