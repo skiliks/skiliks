@@ -259,6 +259,8 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
         //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
         //console.log($('#main'));
 
+        console.log('1: ', $('#msgBannerPanel'));
+
         $('body').unbind();
         $('body').bind(function(event){
         if (event.type == 'DOMNodeInserted') {
