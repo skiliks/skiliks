@@ -30,7 +30,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 }
 
 // new code to handle 500 Zoho {
-    console.log('errorSK 1 up, ', errorAlert);
+
     function errorAlert(_1225,_1226,_1227,_1228){
     alert('1');
     if(showErrorPanelMsg==_1226||_1228=="error"){
@@ -48,9 +48,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
     }
-    console.log('errorSK 2 up, ', errorAlert);
 
-    console.log('errorSK 1-1 up, ', showBannerMessage);
     function showBannerMessage(_1416,msg,_1418,_1419,_141a){
     alert('2');
     if(typeof _1418!="undefined"){
@@ -103,7 +101,6 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     _141a();
     }
     }
-    console.log('errorSK 1-2 up, ', showBannerMessage);
 
     function showConnectionLostError(_1420){
     alert('3');
@@ -122,5 +119,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
     }
+
+    console.log("bannerMessage: ", getObj("bannerMessage").innerHTML)
 // new code }
 </script>
