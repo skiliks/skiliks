@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: vad
- * Date: 03.03.13
- * Time: 22:29
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тест по флагу F4.
+ * Сase 1. Запускаем S9, не отвечаем на звонок производственника. Дожидаемся злую Денежную, убеждаемся что F1=1
+ * Case 2. Запускаем S9, отвечаем на звонок производственника. Убеждаемся что F1=0
  */
 class F1_SK1403_Test extends SeleniumTestHelper
 {
@@ -45,7 +47,6 @@ class F1_SK1403_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Василий, вопрос в чем')])");
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[1]");
-
         $this->assertFalse($this->verify_flag('F1','1'));
     }
 }
