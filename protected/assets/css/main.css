@@ -1194,7 +1194,8 @@ section.mail nav ul li{
 }
 .readed-email-text {
     background-color: white;
-    margin-top: 99px;
+    padding-top: 99px !important;
+    box-sizing: border-box;
 }
 /*.previouse-message-text {
     height: 250px;
@@ -1331,6 +1332,9 @@ section.mail>header nav ul li.active label:hover{
 }
 .mail-window .actions li a.SAVE_TO_DRAFTS{
 	background-position:center -276px;
+}
+.mail-window .actions li a.RESTORE{
+	background-position:center -316px;
 }
 .mail-window .actions li a.SEND_DRAFT_EMAIL,
 .mail-window .actions li a.SEND_EMAIL{
@@ -1642,6 +1646,10 @@ table.ml-title th span{
 .ml tr.active td{
 	background-position:0 0;
 	color:#fff;
+}
+
+#MailClient_ReadEmail_Content {
+    height: 100%;
 }
 
 .ml-scroll {

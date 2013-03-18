@@ -25,7 +25,7 @@ class LogTest extends CDbTestCase
             'code' => 5,
             'character_id' => $character->primaryKey,
             'mail_prefix' => 're',
-            'theme_usage' => 'mail_outbox'
+            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ])->primaryKey;
 
         $copies = [
@@ -72,7 +72,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes([
             'code' => 6,
             'character_id' => $character->primaryKey,
-            'theme_usage' => 'mail_outbox',
+            'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
             'mail_prefix' => 're'])->primaryKey;
         $sendMailOptions->setLetterType('new');
 
@@ -401,7 +401,7 @@ class LogTest extends CDbTestCase
         $options->subject_id = CommunicationTheme::model()->findByAttributes([
             'code' => 12,
             'character_id' => $krutko->id,
-            'theme_usage' => 'mail_outbox'
+            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ])->id;
         $options->setRecipientsArray($krutko->id);
         $options->senderId = Character::HERO_ID;
@@ -469,7 +469,7 @@ class LogTest extends CDbTestCase
             'code' => 38,
             'character_id' => Character::model()->findByAttributes(['code'=>20])->primaryKey,
             'mail_prefix' => 're',
-            'theme_usage' => 'mail_outbox'
+            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ]);
 
         $options = new SendMailOptions();

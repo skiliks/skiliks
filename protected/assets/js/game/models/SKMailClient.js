@@ -67,6 +67,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             aliasButtonSaveDraft:'SAVE_TO_DRAFTS',
 
             // @var string
+            aliasButtonRestore:'RESTORE',
+
+            // @var string
             aliasButtonAddToPlan:'ADD_TO_PLAN',
 
             // @var string
@@ -86,7 +89,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 'REPLY_EMAIL',
                 'REPLY_ALL_EMAIL',
                 'FORWARD_EMAIL',
-                'ADD_TO_PLAN'
+                'ADD_TO_PLAN',
+                'RESTORE'
             ],
 
             iconsForWriteEmailScreenArray:[

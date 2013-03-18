@@ -14,6 +14,12 @@
  */
 class CommunicationTheme extends CActiveRecord
 {
+    const USAGE_OUTBOX = 'mail_outbox';
+
+    const USAGE_OUTBOX_OLD = 'mail_outbox_old';
+
+    const USAGE_INBOX = 'mail_inbox';
+
      /**
      * @var integer
      */

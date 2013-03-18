@@ -64,6 +64,7 @@ class UserAccountCorporate extends CActiveRecord
 		return array(
 			array('user_id'         , 'required'),
 			array('corporate_email' , 'required'),
+			array('corporate_email' , 'unique'),
             array('corporate_email' , 'CEmailValidator'),
             array('corporate_email' , 'isCorporateEmail'),
 			array('industry_id'     , 'numerical', 'integerOnly'=>true),
