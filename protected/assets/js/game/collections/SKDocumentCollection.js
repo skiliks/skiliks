@@ -21,7 +21,7 @@ define(["game/models/SKDocument"], function () {
          */
         initialize: function() {
             var me = this;
-            window.addEventListener("*", me.handlePostMessage(), false);
+            window.addEventListener("*", me.handlePostMessage, false);
         },
 
         /**
@@ -31,7 +31,7 @@ define(["game/models/SKDocument"], function () {
          */
         handlePostMessage: function(event) {
             console.log('handlePostMessage');
-            if (event.origin !== "*") {
+            if (undefined != typeof event && event.origin !== "*") {
                 console.log(event);
             }
         },
