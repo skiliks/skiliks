@@ -102,7 +102,7 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
          */
         toggle: function (name, subname, params) {
             // protect against 2 open phone windows at the same time
-            if (0 < this.where({name: 'phone'}).length) {
+            if (name === 'phone') {
                 this.closeAllPhoneInstances();
             }
 
