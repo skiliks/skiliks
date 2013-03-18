@@ -35,7 +35,9 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     $(window.parent.window).load(function() {
     console.log('+');
         window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
-        console.log('2');
+
+        window.parent.postMessage('Zoho:500', '*');
+
         if(typeof _1418!="undefined"){
         if(_1418){
         window.parent.getObj("bannerCloseBtn").style.display="";
