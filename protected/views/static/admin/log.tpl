@@ -21,7 +21,7 @@
 
 &nbsp; &nbsp; &nbsp;
 
-<a href="/simulation">Start new simulation</a>
+<a href="/simulation/developer">Start new simulation</a>
 
 {foreach $log_tables as $log_table}
     <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
@@ -66,6 +66,23 @@
         </thead>
         {foreach $simulation->getAssessmentSumByScale() as $typeScale => $assessmentPoint}
             <tr class="points-sum-scale-type-{HeroBehaviour::getTypeScaleName($typeScale)}">
+                <td>{HeroBehaviour::getTypeScaleName($typeScale)}</td>
+                <td>{$assessmentPoint}</td>
+            </tr>
+        {/foreach}
+    </table>
+
+    <h1 id="simulation-matrix-points">Assesments from dialod & mail matrix</h1>
+
+    <table class="table table-striped mail-log">
+        <thead>
+        <tr>
+            <th>Шкала</th>
+            <th>Оценка</th>
+        </tr>
+        </thead>
+        {foreach $simulation->getAssessmentPointsByScale() as $typeScale => $assessmentPoint}
+            <tr class="matrix-points-sum-scale-type-{HeroBehaviour::getTypeScaleName($typeScale)}">
                 <td>{HeroBehaviour::getTypeScaleName($typeScale)}</td>
                 <td>{$assessmentPoint}</td>
             </tr>

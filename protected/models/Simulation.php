@@ -196,6 +196,56 @@ class Simulation extends CActiveRecord
             $result[$typeScale] += $assessmentPoint->value;
         }
 
+        // round to make precession predictable for selenium tests
+        foreach ($result as $key => $value) {
+            $result[$key] = round($result[$key], 3);
+        }
+
+        return $result;
+    }
+
+    public function getAssessmentPointsByScale()
+    {
+        $result = [
+            HeroBehaviour::TYPE_POSITIVE => 0,
+            HeroBehaviour::TYPE_NEGATIVE => 0,
+            HeroBehaviour::TYPE_PERSONAL => 0,
+        ];
+
+        // count heroBehavour "1" & "0" {
+
+        $ones = [];
+        $count = [];
+        $points = [];
+
+        foreach ($this->assessment_points as $assessmentPoint) {
+            // save used heroBehavours
+            $points[$assessmentPoint->point->code] = $assessmentPoint->point;
+
+            // count "1"
+            if (false == isset($ones[$assessmentPoint->point->code])) {
+                $ones[$assessmentPoint->point->code] = 0;
+            }
+            $ones[$assessmentPoint->point->code] += $assessmentPoint->value;
+
+            // count total
+            if (false == isset($count[$assessmentPoint->point->code])) {
+                $count[$assessmentPoint->point->code] = 0;
+            }
+            $count[$assessmentPoint->point->code]++;
+        }
+        // count heroBehavour "1" & "0" }
+
+        // calculate mark by scale
+        foreach ($points as $point) {
+            $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;
+        }
+
+        // round to make precession predictable for selenium tests
+        foreach ($result as $key => $value) {
+            $result[$key] = round($result[$key], 3);
+        }
+
         return $result;
     }
 
