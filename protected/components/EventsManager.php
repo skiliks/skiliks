@@ -15,39 +15,44 @@ class EventsManager {
      * @return array
      * @throws Exception
      */
-    public static function startEvent($simulation, $eventCode, $clearEvents, $clearAssessment, $delay) {
+    public static function startEvent($simulation, $eventCode, $clearEvents, $clearAssessment, $delay)
+    {
+        if ('MS' == substr($eventCode, 0, 2)) {
+            LibSendMs::sendMsByCode($simulation, $eventCode);
+            return ['result' => 2];
+        }
 
-            $event = EventSample::model()->byCode($eventCode)->find();
-            if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
-            
-            // если надо очищаем очерель событий для текущей симуляции
-            if ($clearEvents) {
-                EventTrigger::model()->deleteAll("sim_id={$simulation->id}");
-            }
-            
-            // если надо очищаем оценки  для текущей симуляции
-            if ($clearAssessment) {
-                AssessmentPoint::model()->deleteAll("sim_id={$simulation->id}");
-            }
+        $event = EventSample::model()->byCode($eventCode)->find();
+        if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
 
-            $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);
+        // если надо очищаем очерель событий для текущей симуляции
+        if ($clearEvents) {
+            EventTrigger::model()->deleteAll("sim_id={$simulation->id}");
+        }
 
-            $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
-            if ($eventsTriggers) {
-                $eventsTriggers->trigger_time = $gameTime;
-                $eventsTriggers->save(); // обновляем существующее событие в очереди
-            }
-            else {
-                
-                // Добавляем событие
-                $eventsTriggers = new EventTrigger();
-                $eventsTriggers->sim_id = $simulation->id;
-                $eventsTriggers->event_id = $event->id;
-                $eventsTriggers->trigger_time = $gameTime;
-                $eventsTriggers->insert();
-            }
-            
-            return ['result' => 1];
+        // если надо очищаем оценки  для текущей симуляции
+        if ($clearAssessment) {
+            AssessmentPoint::model()->deleteAll("sim_id={$simulation->id}");
+        }
+
+        $gameTime = GameTime::addMinutesTime($simulation->getGameTime(), $delay);
+
+        $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
+        if ($eventsTriggers) {
+            $eventsTriggers->trigger_time = $gameTime;
+            $eventsTriggers->save(); // обновляем существующее событие в очереди
+        }
+        else {
+
+            // Добавляем событие
+            $eventsTriggers = new EventTrigger();
+            $eventsTriggers->sim_id = $simulation->id;
+            $eventsTriggers->event_id = $event->id;
+            $eventsTriggers->trigger_time = $gameTime;
+            $eventsTriggers->insert();
+        }
+
+        return ['result' => 1];
     }
 
     /**
