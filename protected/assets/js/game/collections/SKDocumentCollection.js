@@ -20,7 +20,8 @@ define(["game/models/SKDocument"], function () {
          * @return void
          */
         initialize: function() {
-            window.addEventListener("*", this.handlePostMessage, false);
+            var me = this;
+            window.addEventListener("*", me.handlePostMessage(), false);
         },
 
         /**
