@@ -37,4 +37,30 @@ if(documentArgsInJson)
 document.write(content);
 document.close();
 }
+
+// new code {
+$(function(){
+    function errorAlert(_1225,_1226,_1227,_1228) {
+        console.log('errorSK');
+        if(showErrorPanelMsg == _1226 || _1228 == "error") {
+            if( _1225 != null && _1225 != "") {
+                _1225 = jsTitleMsg.Error + " " + _1225 + ": ";
+            }
+
+            handleServerError("ERROR",_1225+_1226,true);
+
+        } else {
+            if(_1227 == "true") {
+                showBannerMessage(_1228.toUpperCase(), _1226);
+            } else {
+                if(cookieEnabled) {
+                    handleServerError("ERROR",jsMsg["ErrorPanel.MainContent"]+" "+jsTitleMsg.KindlyReopenFileAndTryAgain,true);
+                }
+            }
+        }
+    }
+
+    setTimeout('errorAlert("error text","ShowErrorPanel","true","error")', 1000);
+});
+// new code }
 </script>
