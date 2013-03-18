@@ -43,7 +43,7 @@ if(window.attachEvent) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        _1225 = " Error. " + _1225 + ": ";
+                        _1225 = jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     handleServerError("ERROR", _1225 + _1226, true);
@@ -53,12 +53,12 @@ if(window.attachEvent) {
                         showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            handleServerError("ERROR",'',true);
+                            handleServerError("ERROR", jsMsg["ErrorPanel.MainContent"] + " " + jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
         };
         window.onload = newOnLoad;
     } else {
@@ -67,7 +67,7 @@ if(window.attachEvent) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        _1225 = " Error. " + _1225 + ": ";
+                        _1225 = jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     handleServerError("ERROR", _1225 + _1226, true);
@@ -76,12 +76,12 @@ if(window.attachEvent) {
                         showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            handleServerError("ERROR",'',true);
+                            handleServerError("ERROR", jsMsg["ErrorPanel.MainContent"] + " " + jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
         };
     }
 }
