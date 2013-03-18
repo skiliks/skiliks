@@ -22,7 +22,7 @@ define(["game/models/SKDocument"], function () {
         initialize: function() {
             var me = this;
             console.log('window: ', window);
-            window.addEventListener("http://live.skiliks.com", me.handlePostMessage(), false);
+            window.addEventListener(" ", me.handlePostMessage(), false);
         },
 
         /**
@@ -33,7 +33,9 @@ define(["game/models/SKDocument"], function () {
         handlePostMessage: function(event) {
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
-                console.log(event);
+                console.log('event!');
+                console.log('event', event.origin);
+                return;
             }
         },
 
