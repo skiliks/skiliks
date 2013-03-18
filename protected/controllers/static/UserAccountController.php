@@ -370,6 +370,43 @@ class UserAccountController extends YumController
     }
 
     /**
+     * @param Invite $invite
+     * @return bool
+     * @throws CException
+     */
+    public function sendInviteEmail($invite)
+    {
+        if (empty($invite->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send invite email. Wrong invite object.'));
+        }
+
+        $body = [
+            'Уважаемый ' . $invite->getFullname(),
+            $invite->message,
+            'Пройдите по ссылке чтобы начать симуляцию',
+            sprintf(
+                '<a href="%1$s" target="_blank">%1$s</a>',
+                $invite->invited_user_id ? '/office' : '/accept-invite/' . $invite->code
+            ),
+            $invite->signature
+        ];
+
+        $mail = [
+            'from'    => Yum::module('registration')->registrationEmail,
+            'to'      => $invite->email,
+            'subject' => 'Приглашение пройти симуляцию на Skiliks.com',
+            'body'    => implode("\n", $body)
+        ];
+
+        $invite->sent_time = time();
+        $invite->save();
+
+        $sent = YumMailer::send($mail);
+
+        return $sent;
+    }
+
+    /**
      * @param string $email, corporate email address
      *
      * http://skiliks.loc/registration/confirm-corporate-email?email=ss@3e.com
@@ -564,12 +601,14 @@ MSG;
 
             if ($invite->validate()) {
                 $invite->save();
+                $this->sendInviteEmail($invite);
+
                 $this->redirect('/');
             }
         }
 
         $positions = [];
-        foreach (Position::model()->findAllByAttributes(['language' => $lang]) as $position) {
+        foreach (Position::model()->findAll() as $position) {
             $positions[$position->id] = $position->label;
         }
 
@@ -579,6 +618,104 @@ MSG;
             'positions' => $positions,
             'valid' => $valid
         ]);
+    }
+
+    public function actionAcceptInvite($code)
+    {
+        $invite = Invite::model()->findByCode($code);
+        if (empty($invite)) {
+            $this->redirect('/');
+        }
+
+        $this->user = new YumUser('registration');
+        $profile = new YumProfile('registration');
+        $account = new UserAccountPersonal();
+        $lang = substr(Yii::app()->language, 0, 2);
+        $error = null;
+
+        $YumUser    = Yii::app()->request->getParam('YumUser');
+        $YumProfile = Yii::app()->request->getParam('YumProfile');
+        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
+
+        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
+        {
+            $this->user->attributes = $YumUser;
+            $profile->attributes = $YumProfile;
+            $account->attributes = $UserAccount;
+
+            $profile->email = $invite->email;
+            $this->user->setUserNameFromEmail($profile->email);
+
+            // Protect from "Wrong username" message - we need "Wrong email", from Profile form
+            if (null == $this->user->username) {
+                $this->user->username = 'DefaultName';
+            }
+
+            $userValid = $this->user->validate();
+            $profileValid = $profile->validate();
+
+            if ($userValid && $profileValid) {
+                $result = $this->user->register($this->user->username, $this->user->password, $profile);
+
+                if (false !== $result) {
+                    $account->user_id = $this->user->id;
+                    $account->save();
+
+                    $invite->status = Invite::STATUS_ACCEPTED;
+                    $invite->save();
+
+                    YumUser::activate($profile->email, $this->user->getActivationUrl());
+
+                    // TODO: Change redirection point
+                    $this->redirect('/registration/account-type/added');
+                } else {
+                    $this->user->password = '';
+                    $this->user->password_again = '';
+
+                    echo 'Can`t register.';
+                }
+            }
+        }
+
+        $industries = [];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = $industry->label;
+        }
+
+        $positions = [];
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = $position->label;
+        }
+
+        $this->render(
+            'registrationByLink',
+            [
+                'invite' => $invite,
+                'user' => $this->user,
+                'profile' => $profile,
+                'account' => $account,
+                'industries' => $industries,
+                'positions' => $positions,
+                'error' => $error
+            ]
+        );
+    }
+
+    public function actionDeclineInvite($code)
+    {
+        $invite = Invite::model()->findByCode($code);
+        if (empty($invite)) {
+            $this->redirect('/');
+        }
+
+        $reason = Yii::app()->request->getParam('reason');
+        $reasonDesc = Yii::app()->request->getParam('reason-desc');
+
+        $invite->status = Invite::STATUS_DECLINED;
+        $invite->save();
+
+        // TODO: Change redirection point
+        $this->redirect('/');
     }
 }
 

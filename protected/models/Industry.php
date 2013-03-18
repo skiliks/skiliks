@@ -17,7 +17,7 @@ class Industry extends CActiveRecord
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Iindustry the static model class
+	 * @return Industry the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

@@ -43,6 +43,12 @@
     <?php endif; ?>
 
     <a href="/simulation/promo">Начать симуляцию в режиме promo</a>
+
+    <?php if ($this->user->getAccount() instanceof UserAccountCorporate): ?>
+    <a href="/dashboard">
+        <?php echo Yii::t('site', 'Dashboard') ?>
+    </a>
+    <?php endif; ?>
 </nav>
 <br>
 <br>

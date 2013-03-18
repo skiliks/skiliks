@@ -11,7 +11,34 @@
     .dashboard .sbHolder {
         width: 334px;
     }
+
+    .invites-list {
+        width: 600px;
+        background-color: #fdfbc6;
+    }
+
+    .invites-list th, .invites-list td {
+        padding: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .invites-list th.sort-asc:after {
+        content: '\2191';
+        padding-left: 10px;
+    }
+
+    .invites-list th.sort-desc:after {
+        content: '\2193';
+        padding-left: 10px;
+    }
 </style>
+
+<?php
+$cs = Yii::app()->clientScript;
+$assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+?>
 
 <section class="dashboard">
     <h2>Dashboard</h2>
@@ -99,19 +126,69 @@
     $dataProvider = new CActiveDataProvider('Invite', [
         'criteria' => [
             'condition' => 'inviting_user_id = :myId',
-            'order' => 'id DESC',
+            'order' => 'sent_time',
             'params' => ['myId' => $user->id]
         ],
         'pagination' => [
-            'pageSize' => 20
+            'pageSize' => 5,
+            'pageVar' => 'page'
         ]
     ]);
-
-    $this->widget('zii.widgets.grid.CGridView', array(
-        'dataProvider' => $dataProvider,
-        'columns' => ['invited_user_id', 'position_id', 'status', 'sent_time']
-    ));
-
     ?>
 
+    <?php if ($dataProvider->getItemCount() > 0): ?>
+    <table class="invites-list">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Status</th>
+                <th>Date / time</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($dataProvider->getData() as $invite): ?>
+            <tr>
+                <td><?php echo $invite->getFullname(); ?></td>
+                <td><?php echo $invite->position->label; ?></td>
+                <td><?php echo $invite->getStatusText(); ?></td>
+                <td><?php echo $invite->getSentTime()->format('j/m/y G\h i\m'); ?></td>
+                <td>-</td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+    <?php
+        $this->widget('CLinkPager', array(
+            'pages' => $dataProvider->getPagination(),
+            'header' => false,
+            'prevPageLabel' => 'Prev',
+            'nextPageLabel' => 'Next'
+        ));
+    ?>
+
+    <?php endif; ?>
+
 </section>
+
+<script type="text/javascript">
+    $.tablesorter.addParser({
+        id: 'customDate',
+        is: function (s) {
+            return /\d{1,2}\/\d{1,2}\/\d{1,4} \d{1,2}h \d{1,2}m/.test(s);
+        },
+        format: function (s) {
+            s = s.match(/(\d+)\/(\d+)\/(\d+) (\d+)h (\d+)m/);
+            return $.tablesorter.formatFloat(new Date('20'. s[3], s[2] - 1, s[1], s[4], s[5], 0).getTime());
+        },
+        type: 'numeric'
+    });
+
+    $('.invites-list').tablesorter({
+        cssAsc: 'sort-asc',
+        cssDesc: 'sort-desc',
+        sortList: [[3, 1]]
+    });
+</script>

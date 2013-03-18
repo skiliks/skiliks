@@ -172,7 +172,11 @@ return array(
                 'userAccount/<action:\w+>'      => 'static/userAccount/<action>',
                 'registration/<action:\w+>'      => 'static/userAccount/<action>',
 
-                'dashboard' => 'static/userAccount/dashboard',
+                'dashboard'                => 'static/userAccount/dashboard',
+
+                'send-invite' => 'static/userAccount/sendInvite',
+                'accept-invite/<code:\w+>' => 'static/userAccount/acceptInvite',
+                'decline-invite/<code:\w+>' => 'static/userAccount/declineInvite',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
