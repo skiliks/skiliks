@@ -848,12 +848,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag) {
                 var mailClient = this;
 
-                var checkValue = -1;
+                var checkValue = 1;
                 if ('add' === action || 'add_fwd' === action) {
-                    checkValue = 1;
+                    checkValue = 0;
                 }
                 // display warning only if user add extra recipients
-                if (checkValue <= recipientIds.length &&  this.isNotEmptySubject()) {
+                if (checkValue === recipientIds.length &&  this.isNotEmptySubject()) {
                     if(action !== 'add_fwd' && action !== 'delete_fwd') {
                     this.message_window = new SKDialogView({
                         'message':'Если вы измените список адресатов, то поменяются доступные Вам темы письма, очистится список доступных фраз и тескт письма.',
@@ -885,10 +885,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                     return false;
                 } else {
-                    mailClient.reloadSubjects(recipientIds, parent_subject);
+                    /*mailClient.reloadSubjects(recipientIds, parent_subject);
                     if(action !== 'add_fwd' && action !== 'delete_fwd') {
                         $("#mailEmulatorNewLetterText").html('');
-                    }
+                    }*/
                     return true;
                 }
             },
@@ -900,7 +900,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             reloadSubjects:function (recipientIds, subject) {
                 if(recipientIds.length <= 0) {
-                    $("#MailClient_NewLetterSubject option[value!='0']").remove();
+                    //$("#MailClient_NewLetterSubject option[value!='0']").remove();//Todo:Заменить
+                    SKApp.simulation.mailClient.availableSubjects = [];
                     return;
                 }
                 this.messageForNewEmail = '';
@@ -1268,8 +1269,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @return {Boolean}
              */
             isNotEmptySubject:function(){
-                return $("#MailClient_NewLetterSubject select option:selected").val() !== "" &&
-                    $("#MailClient_NewLetterSubject select option:selected").val() !== "0";
+                return $("#MailClient_NewLetterSubject").data('ddslick').selectedData !== null &&
+                    $("#MailClient_NewLetterSubject").data('ddslick').selectedData.value !== 0;
             }
         });
     return SKMailClient;

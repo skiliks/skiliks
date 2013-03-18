@@ -1133,7 +1133,7 @@ define([
              */
             renderWriteCustomNewEmailScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
-
+                this.mailClient.availableSubjects = [];
                 var mailClientView = this;
 
                 if (0 === this.mailClient.defaultRecipients.length) {
@@ -1198,11 +1198,14 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        //SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                     },
                     afterAdd: function (tag) {
-                        $("#mailEmulatorNewLetterText").html('');
-                        SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        if($("#MailClient_RecipientsList li.tagItem").get().length == 1){
+                            $("#mailEmulatorNewLetterText").html('');
+                            SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        }
+
                     },
                     onDelete: function (tag) {
                         var me = this;
