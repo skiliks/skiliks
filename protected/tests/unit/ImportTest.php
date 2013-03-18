@@ -48,8 +48,8 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(292, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
             $this->assertEquals(87, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
             $this->assertEquals(20, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
-            $this->assertEquals(20, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
-            $this->assertEquals(10, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
+            $this->assertEquals(38, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
+            $this->assertEquals(19, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
             $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
             
             // Dialogs
