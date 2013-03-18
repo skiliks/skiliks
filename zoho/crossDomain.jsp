@@ -255,5 +255,10 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
 
     console.log($('#msgBannerPanel'));
+
+    $('#msgBannerPanel').unbind();
+    $('#msgBannerPanel').bind(function(event){
+        console.log(event.type);
+    });
 // new code }
 </script>
