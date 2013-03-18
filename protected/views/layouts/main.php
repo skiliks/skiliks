@@ -65,11 +65,11 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <?php if (!Yii::app()->user->id) : ?>
                 <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/user/auth" method="post">
-                        <input type="hidden" name="returnUrl" value="<?= $_SERVER['REQUEST_URI'] ?>"/>
+                        <input type="hidden" name="returnUrl" value="/static/site/index"/>
 						<h6>Sign in</h6>
 						
                         <div class="login">
-                            <a href="#">Forget your password?</a>
+                            <a href="#">Forgot your password?</a>
                             <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
                         </div>
                         <div class="password">
