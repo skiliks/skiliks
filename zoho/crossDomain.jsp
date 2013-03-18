@@ -58,7 +58,7 @@ if(window.attachEvent) {
                     }
                 }
             };
-            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel")', 30*1000);
         };
         window.onload = newOnLoad;
     } else {
@@ -81,7 +81,7 @@ if(window.attachEvent) {
                     }
                 }
             };
-            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel")', 30*1000);
         };
     }
 }
