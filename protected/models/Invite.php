@@ -28,6 +28,14 @@ class Invite extends CActiveRecord
     const STATUS_PENDING   = 0;
     const STATUS_ACCEPTED  = 1;
     const STATUS_COMPLETED = 2;
+    const STATUS_DECLINED = 3;
+
+    protected static $statusText = [
+        self::STATUS_PENDING => 'Pending',
+        self::STATUS_ACCEPTED => 'Accepted',
+        self::STATUS_COMPLETED => 'Completed',
+        self::STATUS_DECLINED => 'Declined'
+    ];
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -132,8 +140,38 @@ class Invite extends CActiveRecord
 		));
 	}
 
+    /**
+     * @param string $code
+     * @return Invite|null
+     */
+    public function findByCode($code)
+    {
+        return $this->findByAttributes([
+            'code' => $code
+        ]);
+    }
+
+    /**
+     * @return string
+     */
     public function getFullname()
     {
         return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusText()
+    {
+        return self::$statusText[$this->status];
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getSentTime()
+    {
+        return new DateTime('@' . (int)$this->sent_time);
     }
 }
