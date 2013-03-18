@@ -2701,6 +2701,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-screen{
 	width:202px;
 	height:328px;
+	overflow:hidden;
 }
 .phone-main-menu{
 	list-style:none;
@@ -3184,9 +3185,10 @@ section.main-screen{
 ul.main-screen-stat{
 	list-style:none;
 	float:left;
-	/*margin:10px 0 0 29px;*/
 	overflow:hidden;
-        height: 22px;
+	height: 22px;
+	position:relative;
+	z-index:9999;
 }
 ul.main-screen-stat li{
 	background:url("../img/main-screen/bd-status.png") no-repeat left center;
@@ -3214,6 +3216,8 @@ ul.main-screen-stat li img{
 	list-style:none;
 	width:88px;
 	margin:29px 18px 0 0;
+	position:relative;
+	z-index:9999;
 }
 .main-screen-icons ul li{
 	background-repeat:no-repeat;
@@ -3253,6 +3257,9 @@ ul.main-screen-stat li img{
 }
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
+}
+.main-screen-icons ul li.only-active:hover{
+	background-color:transparent;
 }
 .main-screen-icons ul li a{
 	display:block;
