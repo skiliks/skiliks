@@ -307,7 +307,7 @@ a:focus, a:active {
 .container>header .language{
 	position:absolute;
 	top:18px;
-	right:126px;
+	right:0;
 }
 .container>header .language a{
 	color:#fff;
@@ -319,7 +319,7 @@ a:focus, a:active {
 .container>header nav{
 	position:absolute;
 	top:60px;
-	right:126px;
+	right:0;
 }
 .container>header nav a{
 	display:block;
@@ -343,14 +343,14 @@ a:focus, a:active {
 }
 @media screen and (max-width: 1280px){
 	.container>header{
-		width:925px;
+		width:765px;
 		height:58px;
 		padding-top:38px;
 	}
 	.container>header h1{
 		background:url("../img/logo-header-min.png") no-repeat 0 0;
-		width:215px;
-		height:57px;
+		width:178px;
+		height:47px;
 	}
 	.container>header .coming-soon{
 		background:url("../img/icon-coming-soon-min.png") no-repeat 0 0;
@@ -363,11 +363,9 @@ a:focus, a:active {
 	.container>header .language{
 		font-size:0.692em;
 		top:11px;
-		right:186px;
 	}
 	.container>header nav{
 		top:48px;
-		right:186px;
 	}
 	.container>header nav a{
 		font-size:0.858em;
@@ -1120,7 +1118,7 @@ html[lang=ru] .product section table th{
     text-align:center;
     width:166px;
     position:absolute;
-    top:-29px;
+    bottom:31px;
     left:59px;
 }
 .registration .form .row .errorMessage:last-child{
@@ -1131,7 +1129,7 @@ html[lang=ru] .product section table th{
 	border-top:16px solid #e26969;
 	border-left:16px solid transparent;
 	position:absolute;
-	top:26px;
+	bottom:-16px;
 	left:52px;
 	width:0;
 	height:0;
@@ -1141,7 +1139,7 @@ html[lang=ru] .product section table th{
 	border-top:16px solid #e26969;
 	border-right:16px solid transparent;
 	position:absolute;
-	top:26px;
+	bottom:-16px;
 	left:70px;
 	width:0;
 	height:0;
@@ -1236,7 +1234,7 @@ html[lang=ru] .product section table th{
 	    text-align:center;
 	    width:133px;
 	    position:absolute;
-	    top:-23px;
+	    bottom:25px;
 	    left:46px;
 	}
 	.registration .form .row .errorMessage:last-child{
@@ -1245,13 +1243,13 @@ html[lang=ru] .product section table th{
 	.registration .form .row .errorMessage:after{
 		border-top:13px solid #e26969;
 		border-left:13px solid transparent;
-		top:20px;
+		bottom:-13px;
 		left:41px;
 	}
 	.registration .form .row .errorMessage:after{
 		border-top:13px solid #e26969;
 		border-right:13px solid transparent;
-		top:20px;
+		bottom:-13px;
 		left:70px;
 	}
 	.note{
