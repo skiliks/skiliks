@@ -36,7 +36,9 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     console.log('+');
         window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
 
-        window.parent.parent.postMessage('Zoho:500', '*');
+        console.log('window.parent.parent:', window.parent.parent);
+
+        window.parent.parent.postMessage('Zoho:500', 'http://live.skiliks.com');
         console.log('postMessage send => ');
 
         if(typeof _1418!="undefined"){

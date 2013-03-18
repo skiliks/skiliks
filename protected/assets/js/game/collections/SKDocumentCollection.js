@@ -21,7 +21,7 @@ define(["game/models/SKDocument"], function () {
          */
         initialize: function() {
             var me = this;
-            window.addEventListener("*", me.handlePostMessage, false);
+            window.addEventListener("http://live.skiliks.com", me.handlePostMessage, false);
         },
 
         /**
