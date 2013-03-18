@@ -267,7 +267,7 @@ define([
                 var me = this;
                 this.$el.html(_.template(icon_panel, {}));
                 me.updateMailCounter();
-                me.updatePlanCounter();
+                this.listenTo(SKApp.simulation, 'start', this.updateMailCounter);
             },
 
             /**
