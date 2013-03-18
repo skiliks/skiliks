@@ -1045,6 +1045,7 @@ define([
 
                 var updateFolderRender = function () {
                     me.mailClient.setActiveEmail(undefined);
+                    me.isSortingNotApplied = true;
                     var inboxEmails = me.mailClient.getInboxFolder().emails;
 
                     for (var i in inboxEmails) {
