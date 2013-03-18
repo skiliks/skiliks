@@ -65,6 +65,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <?php if (!Yii::app()->user->id) : ?>
                 <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
                     <form class="login-form" action="/user/auth" method="post">
+                        <input type="hidden" name="returnUrl" value="<?= $_SERVER['REQUEST_URI'] ?>"/>
 						<h6>Sign in</h6>
 						
                         <div class="login">
@@ -72,7 +73,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                             <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
                         </div>
                         <div class="password">
-                            <input type="password" name="password" placeholder="Enter password" />
+                            <input type="password" name="YumUserLogin[password]" placeholder="Enter password" />
                         </div>
                         <div class="remember">
                             <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
