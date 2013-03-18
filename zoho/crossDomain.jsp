@@ -32,27 +32,61 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 // new code {
 
-function errorAlert(_1225, _1226, _1227, _1228) {
-    console.log('errorSK');
-    if("ShowErrorPanel" == _1226 || _1228 == "error") {
-        if( _1225 != null && _1225 != "") {
-            _1225 = " Error. " + _1225 + ": ";
-        }
+if(window.attachEvent) {
+    window.attachEvent('onload', yourFunctionName);
+} else {
+    if(window.onload) {
+        var currentOnLoad = window.onload;
+        var newOnLoad = function() {
+            currentOnLoad();
+            function errorAlert(_1225, _1226, _1227, _1228) {
+                console.log('errorSK 1');
+                if("ShowErrorPanel" == _1226 || _1228 == "error") {
+                    if( _1225 != null && _1225 != "") {
+                        _1225 = " Error. " + _1225 + ": ";
+                    }
 
-        handleServerError("ERROR", _1225 + _1226, true);
+                    handleServerError("ERROR", _1225 + _1226, true);
 
+                 } else {
+                    if(_1227 == "true") {
+                        showBannerMessage(_1228.toUpperCase(), _1226);
+                    } else {
+                        if(cookieEnabled) {
+                            handleServerError("ERROR",'',true);
+                        }
+                    }
+                }
+            };
+            setTimeout('errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+        };
+        window.onload = newOnLoad;
     } else {
-        if(_1227 == "true") {
-            showBannerMessage(_1228.toUpperCase(), _1226);
-        } else {
-            if(cookieEnabled) {
-                handleServerError("ERROR",'',true);
-            }
-        }
+        window.onload = function() {
+            function errorAlert(_1225, _1226, _1227, _1228) {
+                console.log('errorSK 2');
+                if("ShowErrorPanel" == _1226 || _1228 == "error") {
+                    if( _1225 != null && _1225 != "") {
+                        _1225 = " Error. " + _1225 + ": ";
+                    }
+
+                    handleServerError("ERROR", _1225 + _1226, true);
+                } else {
+                    if(_1227 == "true") {
+                        showBannerMessage(_1228.toUpperCase(), _1226);
+                    } else {
+                        if(cookieEnabled) {
+                            handleServerError("ERROR",'',true);
+                        }
+                    }
+                }
+            };
+            setTimeout('errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+        };
     }
 }
 
-setTimeout('errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
+
 
 // new code }
 </script>
