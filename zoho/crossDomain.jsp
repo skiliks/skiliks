@@ -52,7 +52,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
     console.log('window.parent.showBannerMessage: ', window.parent.showBannerMessage);
 
-    window.parent.showBannerMessage(_1416,msg,_1418,_1419,_141a){
+    window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
     alert('2');
     if(typeof _1418!="undefined"){
     if(_1418){
