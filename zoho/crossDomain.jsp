@@ -38,7 +38,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
         console.log('window.parent.parent:', window.parent.parent);
 
-        window.parent.parent.postMessage('Zoho:500', 'http://live.skiliks.com');
+        window.parent.parent.postMessage('Zoho_500', 'http://live.skiliks.com');
         console.log('postMessage send => ');
 
         if(typeof _1418!="undefined"){
