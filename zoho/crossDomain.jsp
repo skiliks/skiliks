@@ -31,7 +31,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 }
 
 // new code {
-
+/*
 if(window.attachEvent) {
     window.attachEvent('onload', yourFunctionName);
 } else {
@@ -43,7 +43,7 @@ if(window.attachEvent) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        //_1225 = window.jsTitleMsg.Error+" "+_1225+": ";
+                        _1225 = window.jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     window.handleServerError("ERROR", _1225 + _1226, true);
@@ -68,7 +68,7 @@ if(window.attachEvent) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        //_1225 = window.jsTitleMsg.Error+" "+_1225+": ";
+                        _1225 = window.jsTitleMsg.Error+" "+_1225+": ";
                     }
 
                     window.handleServerError("ERROR", _1225 + _1226, true);
@@ -88,7 +88,7 @@ if(window.attachEvent) {
     }
 }
 
-
+*/
 
 // new code }
 </script>
