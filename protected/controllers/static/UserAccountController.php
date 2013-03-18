@@ -228,7 +228,9 @@ class UserAccountController extends YumController
 
                     $this->user->refresh();
 
-                    $this->sendCorporationEmailVerification($this->user);
+                    if (false === (bool)$accountCorporate->is_corporate_email_verified) {
+                        $this->sendCorporationEmailVerification($this->user);
+                    }
 
                     $this->redirect(['registration/account-type/added']);
                 }
