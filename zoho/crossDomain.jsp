@@ -32,27 +32,27 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 // new code {
 
-function errorAlert(_1225,_1226,_1227,_1228) {
+function errorAlert(_1225, _1226, _1227, _1228) {
     console.log('errorSK');
     if("ShowErrorPanel" == _1226 || _1228 == "error") {
         if( _1225 != null && _1225 != "") {
-            _1225 = jsTitleMsg.Error + " " + _1225 + ": ";
+            _1225 = " Error. " + _1225 + ": ";
         }
 
-        handleServerError("ERROR",_1225+_1226,true);
+        handleServerError("ERROR", _1225 + _1226, true);
 
     } else {
         if(_1227 == "true") {
             showBannerMessage(_1228.toUpperCase(), _1226);
         } else {
             if(cookieEnabled) {
-                handleServerError("ERROR",jsMsg["ErrorPanel.MainContent"]+" "+jsTitleMsg.KindlyReopenFileAndTryAgain,true);
+                handleServerError("ERROR",'',true);
             }
         }
     }
 }
 
-setTimeout('errorAlert("error text","ShowErrorPanel","true","error")', 1000);
+setTimeout('errorAlert("Internal error", "ShowErrorPanel", "true", "error")', 15*1000);
 
 // new code }
 </script>
