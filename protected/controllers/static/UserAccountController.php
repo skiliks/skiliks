@@ -243,13 +243,13 @@ class UserAccountController extends YumController
         }
 
         $industries = [];
-        foreach (Industry::model()->findAllByAttributes(['language' => $lang]) as $industry) {
-            $industries[$industry->id] = $industry->label;
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
         $positions = [];
-        foreach (Position::model()->findAllByAttributes(['language' => $lang]) as $position) {
-            $positions[$position->id] = $position->label;
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = Yii::t('site', $position->label);
         }
 
         // clean up validation errors if not POST request
