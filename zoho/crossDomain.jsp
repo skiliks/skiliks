@@ -254,10 +254,11 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log($('#editorDIV'));
+    console.log('hid_imp_doc: ', $('#hid_imp_doc'));
+    console.log($('#main'));
 
-    $('#editorDIV').unbind();
-    $('#editorDIV').bind('DOMNodeInserted DOMNodeRemoved', function(event){
+    $('#main').unbind();
+    $('#main').bind('DOMNodeInserted DOMNodeRemoved', function(event){
         if (event.type == 'DOMNodeInserted') {
             //alert('Content added! Current content:' + '\n\n' + this.innerHTML);
             console.log($('#msgBannerPanel'));
