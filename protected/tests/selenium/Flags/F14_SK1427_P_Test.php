@@ -139,16 +139,13 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         // в 15:50 запускается ET12.1
         $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         // через 10 минут звонок ET12.3
         $this->transfer_time(10);
 
         $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
-
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");
     }
@@ -196,21 +193,20 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         // в 15:50 запускается ET12.1
         $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
 
         // запускается ET12.2
-
+        sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас перешлю.')])");
 
         // через 10 минут звонок ET12.3
         $this->transfer_time(10);
 
-        $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['reply']);
 
+        $this->optimal_click("css=li.icon-active.phone a");
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
+        sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Ваша встреча переносится с 16.00 на 18.00.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Как же так! Он же сам настаивал!')])");
     }
@@ -258,11 +254,10 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         // в 15:50 запускается ET12.1
         $this->optimal_click("css=li.icon-active.phone a");
-        $this->waitForVisible(Yii::app()->params['test_mappings']['phone']['no_reply']);
-        $this->click(Yii::app()->params['test_mappings']['phone']['no_reply']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
 
         $this->transfer_time(10);
-
+        sleep(5);
         // запускается E12.6
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович сказал, что презентация не готова')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Знаете, это мой аналитик делала.')])");
