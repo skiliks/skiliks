@@ -32,7 +32,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 // new code to handle 500 Zoho {
 
-    $(window).load(function() {
+    $(window.parent.window).load(function() {
     console.log('+');
         window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
         console.log('2');
