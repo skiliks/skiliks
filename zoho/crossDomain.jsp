@@ -283,7 +283,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
         //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
         //console.log($('#main'));
 
-        console.log('1: ', $('#msgBannerPanel'));
+        console.log('1: ', handleRequest);
 
     function handleRequest(rurl,_141,_142,_143,_144,nvp,_146,_147){
     console.log('handleRequest!!!');
@@ -319,6 +319,8 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     return false;
     }
+
+    console.log('2: ', handleRequest);
 
         $('body').unbind();
         $('body').bind(function(event){
