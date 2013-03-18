@@ -31,7 +31,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 }
 
 // new code {
-/*
+
 if(window.attachEvent) {
     window.attachEvent('onload', yourFunctionName);
 } else {
@@ -39,6 +39,7 @@ if(window.attachEvent) {
         var currentOnLoad = window.onload;
         var newOnLoad = function() {
             currentOnLoad();
+            document.domain = "zoho.skiliks.com";
             window.errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
@@ -59,12 +60,13 @@ if(window.attachEvent) {
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
+            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
         };
         window.onload = newOnLoad;
     } else {
         window.onload = function() {
-                window.errorAlert = function(_1225, _1226, _1227, _1228) {
+            document.domain = "zoho.skiliks.com";
+            window.errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
@@ -83,12 +85,12 @@ if(window.attachEvent) {
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
+            //setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
         };
     }
 }
 
-*/
+
 
 // new code }
 </script>
