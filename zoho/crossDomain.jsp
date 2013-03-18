@@ -254,7 +254,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    $(window).load({
+    $(window).load(funcion() {
         //console.log('body: ', $('body').html()); //(an empty string)
         //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
         //console.log($('#main'));
