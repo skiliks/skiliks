@@ -32,7 +32,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 // new code to handle 500 Zoho {
     console.log('errorSK 1 up, ', errorAlert);
     function errorAlert(_1225,_1226,_1227,_1228){
-    console.log('we hack it 1!');
+    alert('1');
     if(showErrorPanelMsg==_1226||_1228=="error"){
     if(_1225!=null&&_1225!=""){
     _1225=jsTitleMsg.Error+" "+_1225+": ";
@@ -52,7 +52,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
     console.log('errorSK 1-1 up, ', showBannerMessage);
     function showBannerMessage(_1416,msg,_1418,_1419,_141a){
-    console.log('we hack it 2!');
+    alert('2');
     if(typeof _1418!="undefined"){
     if(_1418){
     getObj("bannerCloseBtn").style.display="";
@@ -104,5 +104,23 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
     console.log('errorSK 1-2 up, ', showBannerMessage);
+
+    function showConnectionLostError(_1420){
+    alert('3');
+    if(COLLAB_ID&&COLLAB_ID!=""){
+    var msg;
+    if((jsNEW_DOC_VIEW||jsSHARE_VIEW||jsOPEN_DOC_VIEW)&&(DOCUMENT_ID&&DOCUMENT_ID!=""&&DOCUMENT_ID!="doc_id")){
+    msg=replaceParams(jsMsg["ErrorPanel.ConnectionLost"],new Array("<a onclick='javascript:loadDocument(\""+DOCUMENT_ID+"\", \"\", \"\", \"fsm\");' href='#'>","</a>"));
+    }else{
+    msg=replaceParams(jsMsg["ErrorPanel.ConnectionLost"],new Array("",""));
+    }
+    isRegistered=false;
+    if(_1420){
+    handleServerError("ERROR",msg,true,false);
+    }else{
+    handleServerError("ERROR","ConnectionLost",true,false);
+    }
+    }
+    }
 // new code }
 </script>
