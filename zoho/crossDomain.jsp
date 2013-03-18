@@ -50,30 +50,30 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log('window.parent.showBannerMessage: ', window.parent.showBannerMessage);
+    //console.log('window.parent.showBannerMessage: ', window.parent.showBannerMessage);
 
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
     alert('2');
     if(typeof _1418!="undefined"){
     if(_1418){
-    getObj("bannerCloseBtn").style.display="";
+    window.parent.getObj("bannerCloseBtn").style.display="";
     }else{
-    getObj("bannerCloseBtn").style.display="none";
+    window.parent.getObj("bannerCloseBtn").style.display="none";
     }
     }else{
     if(_1416=="WARNING"||_1416=="INFO"){
-    getObj("bannerCloseBtn").style.display="";
+    window.parent.getObj("bannerCloseBtn").style.display="";
     }else{
-    getObj("bannerCloseBtn").style.display="none";
+    window.parent.getObj("bannerCloseBtn").style.display="none";
     }
     }
-    var _141b=getObj("msgBannerPanel");
+    var _141b=window.parent.getObj("msgBannerPanel");
     _141b.style.height="100%";
-    getObj("bannerMessage").innerHTML=msg;
-    var _141c=getObj("msgBanner");
-    var _141d=getObj("bannerErrorIcon");
-    var _141e=getObj("bannerWarningIcon");
-    var _141f=getObj("bannerInfoIcon");
+    window.parent.getObj("bannerMessage").innerHTML=msg;
+    var _141c=window.parent.getObj("msgBanner");
+    var _141d=window.parent.getObj("bannerErrorIcon");
+    var _141e=window.parent.getObj("bannerWarningIcon");
+    var _141f=window.parent.getObj("bannerInfoIcon");
     _141d.style.display="none";
     _141e.style.display="none";
     _141f.style.display="none";
@@ -93,12 +93,12 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     if(_141b.style.display=="none"){
     if(typeof _1419=="undefined"||_1419>0){
-    blindDown("msgBannerPanel",openErrorPanelCallBack,_1419);
+    window.parent.blindDown("msgBannerPanel",openErrorPanelCallBack,_1419);
     }else{
     _141b.style.display="";
     }
     }else{
-    fadeIn(_141c.id,50);
+    window.parent.fadeIn(_141c.id,50);
     }
     if(typeof _141a!="undefined"){
     _141a();
