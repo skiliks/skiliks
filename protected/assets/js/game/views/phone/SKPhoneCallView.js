@@ -105,7 +105,6 @@ define([
          * @param dialogId
          */
         runReply: function(dialogId) {
-            var dialogId = dialogId;
             var me = this;
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 me.options.model_instance.setLastDialog(dialogId);
