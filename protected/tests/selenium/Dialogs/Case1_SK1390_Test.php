@@ -1,12 +1,13 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: vad
- * Date: 27.02.13
- * Time: 16:51
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
  */
-
+/**
+ * Тест на диалоги, Case 1.
+ * Пошагово запускаем диалоги из /Users/Tony/Dropbox/projectx - development/1. Documentation/1.1 Scenario/1.1.1 Оценка/Тесты/Расчет оценки_тест3_final.xls
+ * После чего в Simulation points сверяем суммы оценок поведений positive, negative & personal по mail matrix и all dialogs
+ */
 class Case1_SK1390_Test extends SeleniumTestHelper
 {
     protected function setUp()
@@ -18,7 +19,6 @@ class Case1_SK1390_Test extends SeleniumTestHelper
 
     public function testSK1390()
     {
-        $this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('ET1.1');
@@ -39,23 +39,10 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
 
-        sleep(5);
-        #TODO: сделать без привязки к таблице
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("id=assessment-results")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
-        $this->assertText("//table[4]/tbody/tr[6]/td[4]","0.666667");
-        $this->assertText("//table[4]/tbody/tr[17]/td[4]","1");
-        $this->assertText("//table[4]/tbody/tr[14]/td[4]","1");
-        $this->assertText("//table[4]/tbody/tr[8]/td[4]","2");
-        $this->assertText("//table[4]/tbody/tr[9]/td[4]","2");
-        $this->assertText("//table[4]/tbody/tr[16]/td[4]","1");
-        $this->assertText("//table[4]/tbody/tr[20]/td[4]","1");
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.667");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"0");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"4");
     }
 }
