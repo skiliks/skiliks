@@ -352,6 +352,7 @@ define([
              * @param e
              */
             doNewMailStart: function (e) {
+                this.$('.mail').removeClass('create-mail');
                 SKApp.simulation.mailClient.once('init_completed', function () {
                     this.view.once('render_finished', function () {
                         this.renderWriteCustomNewEmailScreen();
