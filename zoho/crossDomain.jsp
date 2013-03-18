@@ -252,5 +252,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     allowSheetSwitch=false;
     }
     }
+
+    console.log($('#msgBannerPanel'));
 // new code }
 </script>
