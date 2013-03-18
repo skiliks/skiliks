@@ -53,7 +53,8 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
     }
-    };
+    }
+    }
 
 if(window.attachEvent) {
     window.attachEvent('onload', yourFunctionName);
