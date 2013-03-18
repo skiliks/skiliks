@@ -46,19 +46,19 @@ if(window.attachEvent) {
                         _1225 = jsTitleMsg.Error+" "+_1225+": ";
                     }
 
-                    handleServerError("ERROR", _1225 + _1226, true);
+                    window.handleServerError("ERROR", _1225 + _1226, true);
 
                  } else {
                     if(_1227 == "true") {
-                        showBannerMessage(_1228.toUpperCase(), _1226);
+                        window.showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            handleServerError("ERROR", jsMsg["ErrorPanel.MainContent"] + " " + jsTitleMsg.KindlyReopenFileAndTryAgain, true);
+                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"] + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel")', 30*1000);
+            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
         };
         window.onload = newOnLoad;
     } else {
@@ -67,21 +67,21 @@ if(window.attachEvent) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
-                        _1225 = jsTitleMsg.Error+" "+_1225+": ";
+                        _1225 = window.jsTitleMsg.Error+" "+_1225+": ";
                     }
 
-                    handleServerError("ERROR", _1225 + _1226, true);
+                    window.handleServerError("ERROR", _1225 + _1226, true);
                 } else {
                     if(_1227 == "true") {
-                        showBannerMessage(_1228.toUpperCase(), _1226);
+                        window.showBannerMessage(_1228.toUpperCase(), _1226);
                     } else {
                         if(cookieEnabled) {
-                            handleServerError("ERROR", jsMsg["ErrorPanel.MainContent"] + " " + jsTitleMsg.KindlyReopenFileAndTryAgain, true);
+                            window.handleServerError("ERROR", window.jsMsg["ErrorPanel.MainContent"] + " " + window.jsTitleMsg.KindlyReopenFileAndTryAgain, true);
                         }
                     }
                 }
             };
-            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel")', 30*1000);
+            setTimeout('window.errorAlert("Internal error", "ShowErrorPanel", true)', 15*1000);
         };
     }
 }
