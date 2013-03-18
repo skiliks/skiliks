@@ -1,4 +1,14 @@
 <?php
+/**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тест по флагу F12.
+ * Сase 1. Запускаем ET3.2, не пускаем клиента
+ * Убеждаемся что F12=1. Дожидаемся злую Денежную,
+ * Case 2. Запускаем ET3.2, пускаем клиента, кликаем на первую реплику. Убеждаемся что F12=0
+ */
 class F12_SK1412_Test extends SeleniumTestHelper
 {
     protected function setUp()

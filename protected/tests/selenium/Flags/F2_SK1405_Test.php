@@ -1,4 +1,14 @@
 <?php
+/**
+ * \addtogroup Selenium
+ * @{
+ */
+/**
+ * Тест по флагу F2.
+ * Сase 1. Запускаем S11, не отвечаем на звонок производственника.
+ * Убеждаемся что F2=1. Дожидаемся злую Денежную,
+ * Case 2. Запускаем S11, отвечаем на звонок. Убеждаемся что F2=0
+ */
 class F2_SK1405_Test extends SeleniumTestHelper
 {
     protected function setUp()
