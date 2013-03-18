@@ -260,7 +260,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
         //console.log($('#main'));
 
         $('body').unbind();
-        $('body').bind('DOMNodeInserted DOMNodeRemoved', function(event){
+        $('body').bind(function(event){
         if (event.type == 'DOMNodeInserted') {
         //alert('Content added! Current content:' + '\n\n' + this.innerHTML);
             console.log($('#msgBannerPanel'));
