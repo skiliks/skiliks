@@ -27,6 +27,16 @@ class SeleniumTestHelper extends CWebTestCase
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
+                if ($this->isVisible("xpath=(//*[contains(text(),'Office for')])")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }
+
+        $this->optimal_click("xpath=//header/nav/a[4]");
+
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])")) break;
             } catch (Exception $e) {}
             sleep(1);
