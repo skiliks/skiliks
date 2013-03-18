@@ -31,7 +31,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 // new code to handle 500 Zoho {
 // can`t replicate 500
-/*
+
 if(window.attachEvent) {
     window.attachEvent('onload', yourFunctionName);
 } else {
@@ -87,6 +87,6 @@ if(window.attachEvent) {
         };
     }
 }
-*/
+
 // new code }
 </script>
