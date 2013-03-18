@@ -39,7 +39,8 @@ if(window.attachEvent) {
         var currentOnLoad = window.onload;
         var newOnLoad = function() {
             currentOnLoad();
-            window.errorAlert = function(_1225, _1226, _1227, _1228) {
+            console.log('errorSK 1 up, ', errorAlert);
+            errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 1');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
@@ -64,7 +65,8 @@ if(window.attachEvent) {
         window.onload = newOnLoad;
     } else {
         window.onload = function() {
-            window.errorAlert = function(_1225, _1226, _1227, _1228) {
+            console.log('errorSK 2 up, ', errorAlert);
+            errorAlert = function(_1225, _1226, _1227, _1228) {
                 console.log('errorSK 2');
                 if("ShowErrorPanel" == _1226 || _1228 == "error") {
                     if( _1225 != null && _1225 != "") {
