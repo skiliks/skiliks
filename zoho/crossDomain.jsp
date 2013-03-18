@@ -255,6 +255,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
 
     $(function(){
+        console.log('body: ', $('body'));
         console.log('hid_imp_doc: ', $('#hid_imp_doc'));
         console.log($('#main'));
 
