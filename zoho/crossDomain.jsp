@@ -7,7 +7,7 @@ function autoSave() {
 
 setInterval(autoSave, 5*60*1000);
 
-console.log('save file name: ', window.parent.document.getElementById('savefile').innerText);
+console.log('save file element: ', window.parent.document.getElementById('savefile'));
 
 var userAgent = navigator.userAgent;
 var isOperaBrowser = (userAgent.indexOf("Opera")!=-1) ? true : false;
@@ -34,7 +34,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 function errorAlert(_1225,_1226,_1227,_1228) {
     console.log('errorSK');
-    if(showErrorPanelMsg == _1226 || _1228 == "error") {
+    if("ShowErrorPanel" == _1226 || _1228 == "error") {
         if( _1225 != null && _1225 != "") {
             _1225 = jsTitleMsg.Error + " " + _1225 + ": ";
         }
