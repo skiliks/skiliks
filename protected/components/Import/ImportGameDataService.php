@@ -816,6 +816,7 @@ class ImportGameDataService
                     $wrongTheme->constructor_number = 'B1';
                     $wrongTheme->character_id = $character->primaryKey;
                     $wrongTheme->import_id = $this->import_id;
+                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
                     $wrongTheme->save();
                 }
 
@@ -863,10 +864,43 @@ class ImportGameDataService
                     $wrongTheme->constructor_number = 'B1';
                     $wrongTheme->character_id = $character->primaryKey;
                     $wrongTheme->import_id = $this->import_id;
+                    $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
                     $wrongTheme->save();
                 }
                 // add re for all themes without fwd }
             }
+
+            // add wrong forwards for each character, except 'R' {
+            foreach ($charactersList as $character) {
+                if (!MailPrefix::model()->findByPk(sprintf('fwd%s', $communicationTheme->mail_prefix))) {
+                    throw new Exception('MailPrefix ' . 'fwd' . $communicationTheme->mail_prefix . ' not found.');
+                }
+                $goodTheme = CommunicationTheme::model()->findByAttributes([
+                    'code' => $communicationTheme->code,
+                    'character_id' => $character->primaryKey,
+                    'mail_prefix' => sprintf('fwd%s', $communicationTheme->mail_prefix),
+                    'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
+                ]);
+                if ($goodTheme !== null) {
+                    $goodTheme->import_id = $this->import_id;
+                    $goodTheme->save();
+                    continue;
+                }
+
+                $wrongTheme = new CommunicationTheme();
+                $wrongTheme->mail = 1;
+                $wrongTheme->mail_prefix = sprintf('fwd%s', $communicationTheme->mail_prefix);
+                assert($wrongTheme->mail_prefix !== null);
+                $wrongTheme->wr = 'W';
+                $wrongTheme->code = $communicationTheme->code;
+                $wrongTheme->text = $communicationTheme->text;
+                $wrongTheme->constructor_number = 'B1';
+                $wrongTheme->character_id = $character->primaryKey;
+                $wrongTheme->import_id = $this->import_id;
+                $wrongTheme->theme_usage = CommunicationTheme::USAGE_OUTBOX;
+                $wrongTheme->save();
+            }
+            // add wrong forwards for each character, except 'R' }
         }
 
         // remove all old, unused characterMailThemes after import {
