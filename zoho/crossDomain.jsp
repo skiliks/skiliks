@@ -75,7 +75,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
         }
         if(_141b.style.display=="none"){
         if(typeof _1419=="undefined"||_1419>0){
-        window.parent.blindDown("msgBannerPanel",openErrorPanelCallBack,_1419);
+        window.parent.blindDown("msgBannerPanel", window.parent.openErrorPanelCallBack,_1419);
         }else{
         _141b.style.display="";
         }
