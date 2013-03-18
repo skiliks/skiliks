@@ -36,7 +36,8 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     console.log('+');
         window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
 
-        window.parent.postMessage('Zoho:500', '*');
+        window.parent.parent.postMessage('Zoho:500', '*');
+        console.log('postMessage send => ');
 
         if(typeof _1418!="undefined"){
         if(_1418){
