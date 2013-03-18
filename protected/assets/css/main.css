@@ -1194,8 +1194,11 @@ section.mail nav ul li{
 }
 .readed-email-text {
     background-color: white;
-    margin-top: 99px;
+    margin-top: 96px;
     box-sizing: border-box;
+}
+.previouse-message-text .readed-email-text {
+    height: 168px !important;
 }
 /*.previouse-message-text {
     height: 250px;
