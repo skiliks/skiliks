@@ -254,6 +254,30 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
+    function handleRequest1(rurl,_17e4,_17e5){
+    console.log('handleRequest1!!!');
+    var _17e6=this;
+    var _17e7=new getXmlhttp();
+    _17e7.onreadystatechange=function(){
+    if(_17e7.readyState==4&&_17e7.status<300){
+    var _17e8=_17e7.responseText;
+    try{
+    _17e6.callback(_17e8);
+    }
+    catch(e){
+    openSheet(_17e8);
+    }
+    }
+    };
+    if(_17e5){
+    handleForm(_17e7,rurl,_17e5);
+    }else{
+    _17e7.open("GET",rurl,true);
+    _17e7.send(null);
+    }
+    return true;
+    }
+
     $(window).load(function() {
         //console.log('body: ', $('body').html()); //(an empty string)
         //console.log('hid_imp_doc: ', $('#hid_imp_doc'));
