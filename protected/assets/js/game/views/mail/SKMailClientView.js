@@ -62,6 +62,8 @@ define([
 
             mailClientReadEmailContentBoxId: 'MailClient_ReadEmail_Content',
 
+            currentRecipients : [],
+
             // used to indicate is jQuery table sorter applied
             // .tablesorter increase internal array avery bind,
             // but hasn`t internal method to check is it binded to element or not
@@ -1198,16 +1200,22 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        //SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        if(this.currentRecipients !== undefined && this.currentRecipients.indexOf(tag) === 0 && this.currentRecipients.length !== 1) {
+                            SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        }
+
                     },
                     afterAdd: function (tag) {
-                        if($("#MailClient_RecipientsList li.tagItem").get().length == 1){
+                        if($("#MailClient_RecipientsList li.tagItem").get().length == 1) {
                             $("#mailEmulatorNewLetterText").html('');
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }
 
                     },
                     onDelete: function (tag) {
+                        this.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
+                            return $(this).text();
+                        }).get();
                         var me = this;
                         var del = SKApp.simulation.mailClient.reloadSubjectsWithWarning(
                             mailClientView.getCurrentEmailRecipientIds(),
@@ -1216,7 +1224,11 @@ define([
                             function () {
                                 $("#MailClient_RecipientsList")[0].removeTag(me);
                             },
-                            me
+                            me,
+                            function(){
+                                SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                                mailClientView.updateSubjectsList();
+                            }
                         );
                         return del;
                     }

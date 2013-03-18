@@ -845,7 +845,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param action
              * @param {undefined|SKMailSubject} parent_subject
              */
-            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag) {
+            reloadSubjectsWithWarning:function (recipientIds, action, parent_subject, callback, el_tag, updateSubject) {
                 var mailClient = this;
 
                 var checkValue = 1;
@@ -868,6 +868,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                                         callback();
                                     }else if('delete'){
                                         $("#MailClient_RecipientsList")[0].removeTag(el_tag);
+                                        if(typeof updateSubject === 'function'){
+                                            updateSubject();
+                                        }
                                     }
                                 }
                             },
