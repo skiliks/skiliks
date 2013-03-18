@@ -120,6 +120,6 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
     }
     }
 
-    console.log("bannerMessage: ", getObj("bannerMessage").innerHTML)
+    console.log("bannerMessage: ", document.getElementById("bannerMessage"))
 // new code }
 </script>
