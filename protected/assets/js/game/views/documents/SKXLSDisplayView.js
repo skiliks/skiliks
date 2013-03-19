@@ -44,13 +44,14 @@ define([
          */
         handlePostMessage: function(event) {
             var me = this;
-            console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
-                console.log('zoho-500');
-                var doc = me.options.model_instance.get('document');
+            var doc = me.options.model_instance.get('document');
 
+            console.log('handlePostMessage', $(doc.combibeIframeId()));
+
+            if (undefined != typeof event && event.origin !== "*" && 0 != $(doc.combibeIframeId()).length) {
+                console.log('zoho-500');
                 me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
+                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд.',
                     'buttons': [
                         {
                             'value': 'Подтвердить',
