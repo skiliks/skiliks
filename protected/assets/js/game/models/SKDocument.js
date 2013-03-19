@@ -8,6 +8,7 @@ define([], function () {
      * @augments Backbone.Model
      */
     var _excel_cache = {};
+
     /**
      * @class SKDocument
      * @augments Backbone.Model
