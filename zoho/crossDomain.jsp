@@ -96,6 +96,8 @@ $(window.parent.window).load(function()
             _141a();
         }
     }
+
+    setTimeout(function() { window.parent.showBannerMessage('ERROR', 'The server has encountered a problem. We are sorry! Kindly reopen the file and try again.'); }, 3*1000);
 });
 // new code }
 </script>
