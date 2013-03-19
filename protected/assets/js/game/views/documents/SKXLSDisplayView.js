@@ -48,12 +48,9 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
 
-            console.log(doc.get('id'), SKApp.simulation.documents.zoho_500, SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')));
-
             if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
                 SKApp.simulation.documents.zoho_500.push(doc.get('id'));
             } else {
-                console.log('break;');
                 return;
             }
 
@@ -64,16 +61,16 @@ define([
                         {
                             'value': 'Конешно!',
                             'onclick': function () {
-                                console.log('accept', me);
-
-                                console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
-                                console.log(SKApp.simulation.documents);
+//                                console.log('accept', me);
+//
+//                                console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
+//                                console.log(SKApp.simulation.documents);
 
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.fetch();
 
-                                console.log(SKApp.simulation.documents);
-                                console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
+//                                console.log(SKApp.simulation.documents);
+//                                console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
 
                                 me.doWindowClose();
                                 $(doc.combibeIframeId()).remove();

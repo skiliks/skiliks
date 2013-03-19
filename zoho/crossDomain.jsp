@@ -36,6 +36,7 @@ $(window.parent.window).load(function()
 {
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
+        console.log(_1416,msg,_1418,_1419,_141a);
         window.parent.parent.postMessage('Zoho_500', 'http://live.skiliks.com');
 
         if(typeof _1418!="undefined") {
