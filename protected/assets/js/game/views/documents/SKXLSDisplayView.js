@@ -16,21 +16,14 @@ define([
      */
     SKXLSDisplayView = SKWindowView.extend({
 
-        /**
-         *
-         */
         title:'Мои документы',
 
-        /**
-         *
-         */
         dimensions: {},
 
         /**
          * @method
          * @param doc
          * @param el
-         * @return void
          */
         displayZohoIframe:function (doc, el) {
             var me = this;
@@ -48,9 +41,8 @@ define([
         },
 
         /**
-         * @method renderContent
+         * @method
          * @param el
-         * @return void
          */
         renderContent:function (el) {
             var me = this;
@@ -69,15 +61,8 @@ define([
             }
         },
 
-
-        /**
-         * @method reloadDocumentViaZoho500
-         * @return void
-         */
         reloadDocumentViaZoho500: function() {
-            if (false === SKApp.simulation.documents.excelErrorHappened) {
-                return;
-            }
+
 
             var me = this;
             var doc = this.options.model_instance.get('document');
@@ -117,18 +102,16 @@ define([
         },
 
         /**
-         * @method doStartDrag
+         * @method
          * @param el
-         * @return void
          */
         doStartDrag: function (el) {
             // this.hideZohoIframe();
         },
 
         /**
-         * @method doEndDrag
+         * @method
          * @param el
-         * @return void
          */
         doEndDrag: function (el) {
             var doc = this.options.model_instance.get('document');
@@ -136,8 +119,7 @@ define([
         },
 
         /**
-         * @method hideZohoIframe
-         * @return void
+         * @method
          */
         hideZohoIframe:function () {
             var doc = this.options.model_instance.get('document');
@@ -146,7 +128,6 @@ define([
 
         /**
          * @method
-         * @return void
          */
         remove:function () {
             var me = this;
