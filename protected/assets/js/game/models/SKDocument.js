@@ -4,15 +4,25 @@ var SKDocument;
 define([], function () {
     "use strict";
     /**
+     * Call by SKDocument._excel_cache - works like "singleton"
+     * @todo: move to SKDocumentCollection
      * @class SKDocument
      * @augments Backbone.Model
      */
     var _excel_cache = {};
+
     /**
      * @class SKDocument
      * @augments Backbone.Model
      */
     SKDocument = Backbone.Model.extend({
+
+        /**
+         * @type boolean
+         * @default false
+         */
+        isHasZoho500: false,
+
         /**
          * Constructor
          * @method initialize
@@ -32,6 +42,15 @@ define([], function () {
                     me.set('excel_url', _excel_cache[this.get('id')]);
                 }
             }
+        },
+
+        combibeIframeId: function () {
+            return '#excel-preload-' + this.id;
         }
+    },
+    {
+        _excel_cache: _excel_cache
     });
+
+
 });

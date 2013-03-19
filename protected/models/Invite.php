@@ -115,7 +115,7 @@ class Invite extends CActiveRecord
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
+	public function search($ownerId = null)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
@@ -123,7 +123,7 @@ class Invite extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('inviting_user_id',$this->inviting_user_id,true);
+		$criteria->compare('inviting_user_id',$ownerId ?: $this->inviting_user_id,true);
 		$criteria->compare('invited_user_id',$this->invited_user_id,true);
 		$criteria->compare('firstname',$this->firstname,true);
 		$criteria->compare('lastname',$this->lastname,true);
@@ -135,9 +135,33 @@ class Invite extends CActiveRecord
 		$criteria->compare('status',$this->status,true);
 		$criteria->compare('sent_time',$this->sent_time,true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+        $criteria->mergeWith([
+            'join' => 'LEFT JOIN position ON position.id = position_id'
+        ]);
+
+		return new CActiveDataProvider($this, [
+			'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'sent_time',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'name' => [
+                        'asc' => 'CONCAT(firstname, lastname)',
+                        'desc' => 'CONCAT(firstname, lastname) DESC'
+                    ],
+                    /*'position_id' => [
+                        'asc' => 'position.label',
+                        'desc' => 'position.label DESC'
+                    ],*/
+                    'status',
+                    'sent_time'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 5,
+                'pageVar' => 'page'
+            ]
+		]);
 	}
 
     /**
