@@ -22,7 +22,14 @@ define(["game/models/SKDocument"], function () {
         initialize: function() {
             var me = this;
             console.log('window: ', window);
-            window.addEventListener(" ", me.handlePostMessage(), false);
+            //window.addEventListener(" ", me.handlePostMessage(), false);
+
+            if (window.addEventListener){
+                window.addEventListener("message", me.handlePostMessage,false);
+            } else {
+                window.attachEvent("onmessage", me.handlePostMessage);
+            }
+
         },
 
         /**
@@ -33,6 +40,8 @@ define(["game/models/SKDocument"], function () {
         handlePostMessage: function(event) {
             console.log('handlePostMessage');
             console.log('event!');
+
+
             /*if (undefined != typeof event && event.origin !== "*") {
                 console.log('event!');
                 console.log('event', event.origin);
