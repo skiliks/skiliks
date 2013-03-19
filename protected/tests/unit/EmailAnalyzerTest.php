@@ -327,5 +327,32 @@ class EmailAnalyzerTest extends CDbTestCase
         
         $this->assertEquals($result->value, 0);
     }
+
+    /*
+     * в ответ на письма можно что-то предпринять в период менее 2 мин
+     * (ответное письмо или другое действие)
+     * сразу после прочтения соответствующего письма
+     */
+    public function test_3323_reply_2min()
+    {
+        //$this->markTestSkipped();
+
+        // init simulation
+        /*$user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $point = HeroBehaviour::model()->findByAttributes([
+            'code' => '3313'
+        ]);
+
+        SimulationService::saveEmailsAnalyze($simulation->id);
+
+        $result = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'point_id' => $point->id,
+        ]);
+
+        $this->assertEquals($result->value, 0);*/
+    }
 }
 
