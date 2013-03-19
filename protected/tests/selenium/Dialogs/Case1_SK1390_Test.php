@@ -20,7 +20,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
     public function testSK1390()
     {
         $this->start_simulation();
-
+        sleep(2);
         $this->run_event('ET1.1');
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);

@@ -21,7 +21,7 @@ class Case2_SK1395_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(2);
         $this->run_event('E1');
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
