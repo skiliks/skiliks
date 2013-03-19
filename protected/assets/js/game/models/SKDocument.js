@@ -16,6 +16,7 @@ define([], function () {
      * @augments Backbone.Model
      */
     SKDocument = Backbone.Model.extend({
+
         /**
          * Constructor
          * @method initialize
