@@ -36,7 +36,7 @@ define([
             var me = this;
             var doc = this.options.model_instance.get('document');
 
-            doc.isHasZoho500 = true;
+            //doc.isHasZoho500 = true;
 
             me.message_window = new SKDialogView({
                 'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
@@ -46,7 +46,7 @@ define([
                         'onclick': function () {
                             console.log('accept');
 
-                            doc.isHasZoho500 = false;
+                            //doc.isHasZoho500 = false;
 
                             SKDocument._excel_cache[doc.get('id')] = {};
 
