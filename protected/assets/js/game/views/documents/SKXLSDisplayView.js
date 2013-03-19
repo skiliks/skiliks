@@ -44,9 +44,7 @@ define([
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('zoho-500');
-                console.log('zoho500PopUp');
-                var me = this;
-                var doc = this.options.model_instance.get('document');
+                //var doc = me.options.model_instance.get('document');
 
                 //doc.isHasZoho500 = true;
 
@@ -60,7 +58,8 @@ define([
 
                                 //doc.isHasZoho500 = false;
 
-                                SKDocument._excel_cache[doc.get('id')] = {};
+                                //SKDocument._excel_cache[doc.get('id')] = {};
+                                SKDocument._excel_cache = {};
 
                                 console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
                                 console.log(SKApp.simulation.documents);
