@@ -25,14 +25,14 @@ define([
         * @method initialize
         */
         initialize: function () {
-            window.SKWindowView.prototype.initialize.call(this);
-
             var me = this;
             if (window.addEventListener){
-                window.addEventListener("message", function(){ me.handlePostMessage },false);
+                window.addEventListener("message", function(){ me.handlePostMessage() },false);
             } else {
-                window.attachEvent("onmessage", function(){ me.handlePostMessage });
+                window.attachEvent("onmessage", function(){ me.handlePostMessage() });
             }
+
+            window.SKWindowView.prototype.initialize.call(this);
         },
 
         /**
