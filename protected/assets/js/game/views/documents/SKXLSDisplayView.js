@@ -20,21 +20,20 @@ define([
 
         dimensions: {},
 
-        zoho500callback: function(event){
-            var me = this;
-            me.handlePostMessage(event)
-        },
-
         /*
         * Constructor
         * @method initialize
         */
         initialize: function () {
             var me = this;
+            this.zoho500callback = function(event){
+                me.handlePostMessage(event)
+            }
+
             if (window.addEventListener){
-                window.addEventListener("message", me.zoho500callback,false);
+                window.addEventListener("message", this.zoho500callback, false);
             } else {
-                window.attachEvent("onmessage", me.zoho500callback);
+                window.attachEvent("onmessage", this.zoho500callback);
             }
 
             window.SKWindowView.prototype.initialize.call(this);
