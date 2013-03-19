@@ -39,7 +39,7 @@
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'registration-by-link-form'
         )); ?>
-
+        <?= $form->error($this->user, 'username'); ?>
         <div class="row">
             <?php echo $form->labelEx($profile, 'Name'); ?>
             <?php echo $form->textField($profile, 'firstname', ['placeholder' => 'Имя']); ?>
