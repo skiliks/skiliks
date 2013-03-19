@@ -901,8 +901,8 @@ class YumUser extends YumActiveRecord
         throw new CHttpException(200, 'Неправильное имя пользователя или пароль.');
         }
 
-        //Yii::app()->user->login($identity, $duration);
-        Yii::app()->session['uid'] = $this->id;
+        Yii::app()->user->login($identity, $duration);
+        //Yii::app()->session['uid'] = $this->id;
     }
 
     public function isAnonymous() {
