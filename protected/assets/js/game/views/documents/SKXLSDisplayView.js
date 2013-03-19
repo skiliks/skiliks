@@ -23,11 +23,11 @@ define([
         /**
          * @method initialize
          */
-        initialize: function() {
-            var me = this;
-            console.log('set listener');
-            // me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp);
-        },
+//        initialize: function() {
+//            var me = this;
+//            console.log('set listener');
+//            // me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp);
+//        },
 
         /**
          * @method zoho500PopUp
