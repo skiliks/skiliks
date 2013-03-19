@@ -21,6 +21,51 @@ define([
         dimensions: {},
 
         /**
+         * @method initialize
+         */
+        initialize: function() {
+            var me = this;
+            console.log('set listeber');
+            me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp());
+        },
+
+        /**
+         * @method zoho500PopUp
+         */
+        zoho500PopUp: function() {
+            var me = this;
+            me.message_window = new SKDialogView({
+                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
+                'buttons': [
+                    {
+                        'value': 'Подтвердить',
+                        'onclick': function () {
+                              console.log('accept');
+//                            SKDocument._excel_cache = {};
+//                            console.log(SKApp.simulation.documents);
+//                            SKApp.simulation.documents.fetch();
+//                            console.log(SKApp.simulation.documents);
+//
+//                            SKApp.simulation.documents.excelErrorHappened = false;
+//
+//                            me.doWindowClose();
+//
+//                            console.log('accept - 2');
+                            delete me.message_window;
+                        }
+                    },
+                    {
+                        'value': 'Отмена',
+                        'onclick': function () {
+                            console.log('decline');
+                            delete me.message_window;
+                        }
+                    }
+                ]
+            });
+        },
+
+        /**
          * @method
          * @param doc
          * @param el
@@ -36,8 +81,6 @@ define([
                 'top':      el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position': 'absolute'
             });
-
-            me.listenTo(SKApp.simulation.documents,'zoho-500', me.reloadDocumentViaZoho500());
         },
 
         /**
