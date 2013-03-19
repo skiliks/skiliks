@@ -15,26 +15,18 @@ define(["game/models/SKDocument"], function () {
         model: SKDocument,
 
         /**
-         * @property excelErrorHappened
-         * @type boolean
-         * @default false
-         */
-        excelErrorHappened: false,
-
-        /**
          * Constructor
          * @method initialize
          * @return void
          */
         initialize: function() {
             var me = this;
-//            if (window.addEventListener){
-//                window.addEventListener("message", me.handlePostMessage,false);
-//            } else {
-//                window.attachEvent("onmessage", me.handlePostMessage);
-//            }
+            if (window.addEventListener){
+                window.addEventListener("message", me.handlePostMessage,false);
+            } else {
+                window.attachEvent("onmessage", me.handlePostMessage);
+            }
 
-            console.log('SKApp.simulation.documents.excelErrorHappened init :', this.excelErrorHappened);
         },
 
         /**
@@ -43,16 +35,9 @@ define(["game/models/SKDocument"], function () {
          * @return void
          */
         handlePostMessage: function(event) {
-            var me = this;
-
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('event', event);
-                me.excelErrorHappened = true;
-
-                console.log('SKApp.simulation.documents.excelErrorHappened PM :', SKApp.simulation.documents.excelErrorHappened);
-
-                me.trigger('zoho-500');
             }
         },
 
