@@ -67,6 +67,7 @@ define([
                                 console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
 
                                 me.doWindowClose();
+                                $(doc.combibeIframeId()).remove();
                                 me.remove();
 
                                 delete me.message_window;
@@ -91,7 +92,7 @@ define([
          */
         displayZohoIframe:function (doc, el) {
             var me = this;
-            $('#excel-preload-' + doc.id).show().css({
+            $(doc.combibeIframeId()).show().css({
                 'background-color': '#fff',
                 'zIndex':   parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
                 'width':    el.width() - 4,
@@ -144,7 +145,7 @@ define([
          */
         hideZohoIframe:function () {
             var doc = this.options.model_instance.get('document');
-            $('#excel-preload-' + doc.id).css({'left':'-4000px','position':'absolute'});
+            $(doc.combibeIframeId()).css({'left':'-4000px','position':'absolute'});
         },
 
         /**
