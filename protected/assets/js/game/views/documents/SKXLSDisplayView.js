@@ -69,9 +69,9 @@ define([
 
             console.log('SKApp.simulation.documents.excelErrorHappened 1 :', SKApp.simulation.documents.excelErrorHappened);
 
-            if (false === SKApp.simulation.documents.excelErrorHappened) {
-                return;
-            }
+//            if (false === SKApp.simulation.documents.excelErrorHappened) {
+//                return;
+//            }
 
             console.log('reloadDocumentViaZoho500');
 
