@@ -27,8 +27,10 @@ define([
         initialize: function () {
             var me = this;
             if (window.addEventListener){
+                window.removeEventListener("message", function(event){ me.handlePostMessage(event) },false);
                 window.addEventListener("message", function(event){ me.handlePostMessage(event) },false);
             } else {
+                window.detachEvent("onmessage", function(event){ me.handlePostMessage(event) });
                 window.attachEvent("onmessage", function(event){ me.handlePostMessage(event) });
             }
 
@@ -46,8 +48,6 @@ define([
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('zoho-500');
                 var doc = me.options.model_instance.get('document');
-
-                //doc.isHasZoho500 = true;
 
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
