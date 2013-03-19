@@ -81,7 +81,7 @@ define([
                             SKApp.simulation.documents.fetch();
                             me.excelErrorHappened = false;
 
-                            me.close();
+                            me.remove();
 
                             delete me.message_window;
                         }
