@@ -565,7 +565,7 @@ class UserAccountController extends YumController
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||
-            false === $this->user->account_corporate->is_corporate_email_verified
+            empty($this->user->account_corporate->is_corporate_email_verified)
         ) {
             $this->redirect('/');
         }
