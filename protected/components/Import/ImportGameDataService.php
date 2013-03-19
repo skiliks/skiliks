@@ -936,7 +936,7 @@ class ImportGameDataService
             // Список дел в to-do-list
             $name = $this->getCellValue($sheet, 'Список дел в to-do-list', $i);
             // Жесткая
-            $startTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Жесткая', $i), 'hh:mm:ss');
+            $startTime = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Fixed time', $i), 'hh:mm:ss');
             ;
 
             // Категория
@@ -953,7 +953,7 @@ class ImportGameDataService
             $task->title = $name;
             $task->start_time = $startTime;
             $task->duration = $duration;
-            if ($startTime !== null) {
+            if ($this->getCellValue($sheet, 'Task time limit type', $i) === 'can\'t be moved') {
                 $task->type = 2;
             } else {
                 $task->type = 1;
