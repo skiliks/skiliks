@@ -25,14 +25,14 @@ define([
          */
         zoho500PopUp: function() {
             console.log('zoho500PopUp');
-//            var me = this;
-//            me.message_window = new SKDialogView({
-//                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
-//                'buttons': [
-//                    {
-//                        'value': 'Подтвердить',
-//                        'onclick': function () {
-//                              console.log('accept');
+            var me = this;
+            me.message_window = new SKDialogView({
+                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
+                'buttons': [
+                    {
+                        'value': 'Подтвердить',
+                        'onclick': function () {
+                            console.log('accept');
 
 //                            SKDocument._excel_cache = {};
 //                            console.log(SKApp.simulation.documents);
@@ -40,23 +40,21 @@ define([
 //                            console.log(SKApp.simulation.documents);
 //
 //                            SKApp.simulation.documents.excelErrorHappened = false;
-//
-//                            me.doWindowClose();
-//
-//                            console.log('accept - 2');
 
-//                            delete me.message_window;
-//                        }
-//                    },
-//                    {
-//                        'value': 'Отмена',
-//                        'onclick': function () {
-//                            console.log('decline');
-//                            delete me.message_window;
-//                        }
-//                    }
-//                ]
-//            });
+                            me.doWindowClose();
+
+                            delete me.message_window;
+                        }
+                    },
+                    {
+                        'value': 'Отмена',
+                        'onclick': function () {
+                            console.log('decline');
+                            delete me.message_window;
+                        }
+                    }
+                ]
+            });
         },
 
         /**
