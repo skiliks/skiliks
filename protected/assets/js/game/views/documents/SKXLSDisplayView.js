@@ -44,14 +44,16 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
 
-            console.log(doc.id, SKApp.simulation.documents.zoho_500, SKApp.simulation.documents.zoho_500.indexOf(doc.id));
+            console.log(doc.get('id'), SKApp.simulation.documents.zoho_500, SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')));
 
-            if (SKApp.simulation.documents.zoho_500.indexOf(doc.id) < 1) {
-                SKApp.simulation.documents.zoho_500.push(doc.id);
+            if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 1) {
+                SKApp.simulation.documents.zoho_500.push(doc.get('id'));
+            } else {
+                console.cog('break;');
+                return;
             }
 
-            var noOtherWarnings = (0 == $('#messageSystemMessageDiv').length);
-            if (undefined != typeof event && event.origin !== "*" && noOtherWarnings) {
+            if (undefined != typeof event && event.origin !== "*") {
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
