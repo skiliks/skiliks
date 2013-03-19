@@ -26,7 +26,7 @@ define([
         initialize: function() {
             var me = this;
             console.log('set listener');
-            me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp);
+            // me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp);
         },
 
         /**
