@@ -27,9 +27,9 @@ define([
         initialize: function () {
             var me = this;
             if (window.addEventListener){
-                window.addEventListener("message", function(){ me.handlePostMessage },false);
+                window.addEventListener("message", function(event){ me.handlePostMessage(event) },false);
             } else {
-                window.attachEvent("onmessage", function(){ me.handlePostMessage });
+                window.attachEvent("onmessage", function(event){ me.handlePostMessage(event) });
             }
 
             window.SKWindowView.prototype.initialize.call(this);
