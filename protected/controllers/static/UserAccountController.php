@@ -564,6 +564,12 @@ class UserAccountController extends YumController
     {
         $this->checkUser();
 
+        if (false === $this->user->isCorporate() ||
+            false === $this->user->account_corporate->is_corporate_email_verified
+        ) {
+            $this->redirect('/');
+        }
+
         $lang = substr(Yii::app()->language, 0, 2);
         $invite = new Invite();
         $valid = false;
