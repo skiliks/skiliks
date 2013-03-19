@@ -38,6 +38,8 @@ class Simulation extends CActiveRecord
     const TYPE_FULL = 1;
     const TYPE_LITE = 2;
 
+    public $id;
+
     /** ------------------------------------------------------------------------------------------------------------ **/
 
     public static function formatDateForMissedCalls($time, $date = self::SIMULATION_DAY_DATE)
