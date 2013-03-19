@@ -46,10 +46,8 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
 
-            console.log('handlePostMessage', $(doc.combibeIframeId()));
-
-            if (undefined != typeof event && event.origin !== "*" && 0 != $(doc.combibeIframeId()).length) {
-                console.log('zoho-500');
+            var noOtherWarnings = (0 == $('#messageSystemMessageDiv').length);
+            if (undefined != typeof event && event.origin !== "*" && noOtherWarnings) {
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд.',
                     'buttons': [
