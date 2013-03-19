@@ -55,7 +55,7 @@ define(["game/models/SKDocument"], function () {
                         {
                             'value': 'Подтвердить',
                             'onclick': function () {
-                                SKApp.simulation.documents = new SKDocumentCollection();
+                                SKApp.simulation.documents.fetch();
                                 me.excelErrorHappened = false;
 
                                 delete me.message_window;
