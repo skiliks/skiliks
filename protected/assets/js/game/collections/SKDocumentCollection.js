@@ -15,6 +15,13 @@ define(["game/models/SKDocument"], function () {
         model: SKDocument,
 
         /**
+         * @property excelErrorHappened
+         * @type boolean
+         * @default false
+         */
+        excelErrorHappened: false,
+
+        /**
          * Constructor
          * @method initialize
          * @return void
@@ -38,15 +45,19 @@ define(["game/models/SKDocument"], function () {
             var me = this;
 
             console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
+            if ((undefined != typeof event && event.origin !== "*") || true === me.excelErrorHappened) {
                 console.log('event', event);
+                me.excelErrorHappened = true;
+
                 me.message_window = new SKDialogView({
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
                     'buttons': [
                         {
                             'value': 'Подтвердить',
                             'onclick': function () {
-                                SKApp.user.simulation.documents = new SKDocumentCollection();
+                                SKApp.simulation.documents = new SKDocumentCollection();
+                                me.excelErrorHappened = false;
+
                                 delete me.message_window;
                             }
                         },
