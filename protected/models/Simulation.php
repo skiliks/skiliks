@@ -238,7 +238,11 @@ class Simulation extends CActiveRecord
 
         // calculate mark by scale
         foreach ($points as $point) {
-            $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;
+            if (HeroBehaviour::TYPE_NEGATIVE == $point->type_scale) {
+                $result[$point->type_scale] += $ones[$point->code]*$point->scale;
+            } else {
+                $result[$point->type_scale] += ($ones[$point->code]/$count[$point->code])*$point->scale;
+            }
         }
 
         // round to make precession predictable for selenium tests
