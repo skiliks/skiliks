@@ -57,22 +57,16 @@ define([
                             'onclick': function () {
                                 console.log('accept', me);
 
-                                //doc.isHasZoho500 = false;
-
-
-
                                 console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
                                 console.log(SKApp.simulation.documents);
 
-                                //SKDocument._excel_cache = {};
-
-                                SKDocument._excel_cache[doc.get('id')] = {};
+                                delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.fetch();
 
                                 console.log(SKApp.simulation.documents);
                                 console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
 
-                                //me.doWindowClose();
+                                me.doWindowClose();
 
                                 delete me.message_window;
                             }
