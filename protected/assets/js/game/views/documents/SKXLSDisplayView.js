@@ -33,45 +33,45 @@ define([
          */
         zoho500PopUp: function() {
             console.log('zoho500PopUp');
-            var me = this;
-            var doc = this.options.model_instance.get('document');
-
-            //doc.isHasZoho500 = true;
-
-            me.message_window = new SKDialogView({
-                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
-                'buttons': [
-                    {
-                        'value': 'Подтвердить',
-                        'onclick': function () {
-                            console.log('accept');
-
-                            //doc.isHasZoho500 = false;
-
-                            SKDocument._excel_cache[doc.get('id')] = {};
-
-                            console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
-                            console.log(SKApp.simulation.documents);
-
-                            SKApp.simulation.documents.fetch();
-
-                            console.log(SKApp.simulation.documents);
-                            console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
-
-                            me.doWindowClose();
-
-                            delete me.message_window;
-                        }
-                    },
-                    {
-                        'value': 'Отмена',
-                        'onclick': function () {
-                            console.log('decline');
-                            delete me.message_window;
-                        }
-                    }
-                ]
-            });
+//            var me = this;
+//            var doc = this.options.model_instance.get('document');
+//
+//            //doc.isHasZoho500 = true;
+//
+//            me.message_window = new SKDialogView({
+//                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
+//                'buttons': [
+//                    {
+//                        'value': 'Подтвердить',
+//                        'onclick': function () {
+//                            console.log('accept');
+//
+//                            //doc.isHasZoho500 = false;
+//
+//                            SKDocument._excel_cache[doc.get('id')] = {};
+//
+//                            console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
+//                            console.log(SKApp.simulation.documents);
+//
+//                            SKApp.simulation.documents.fetch();
+//
+//                            console.log(SKApp.simulation.documents);
+//                            console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
+//
+//                            me.doWindowClose();
+//
+//                            delete me.message_window;
+//                        }
+//                    },
+//                    {
+//                        'value': 'Отмена',
+//                        'onclick': function () {
+//                            console.log('decline');
+//                            delete me.message_window;
+//                        }
+//                    }
+//                ]
+//            });
         },
 
         /**
