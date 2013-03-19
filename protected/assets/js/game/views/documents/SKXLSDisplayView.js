@@ -35,6 +35,18 @@ define([
         },
 
         /**
+         * @method handlePostMessage
+         * @param postMessage event
+         * @return void
+         */
+        handlePostMessage: function(event) {
+            console.log('handlePostMessage');
+            if (undefined != typeof event && event.origin !== "*") {
+                console.log('zoho-500');
+            }
+        },
+
+        /**
          * @method zoho500PopUp
          */
         zoho500PopUp: function() {
