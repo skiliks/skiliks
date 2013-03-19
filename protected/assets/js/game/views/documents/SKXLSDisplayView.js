@@ -35,20 +35,6 @@ define([
         },
 
         /**
-         * @method handlePostMessage
-         * @param postMessage event
-         * @return void
-         */
-        handlePostMessage: function(event) {
-            var me = this;
-            console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
-                console.log('zoho-500');
-                me.zoho500PopUp();
-            }
-        },
-
-        /**
          * @method zoho500PopUp
          */
         zoho500PopUp: function() {
@@ -95,6 +81,20 @@ define([
         },
 
         /**
+         * @method handlePostMessage
+         * @param postMessage event
+         * @return void
+         */
+        handlePostMessage: function(event) {
+            var me = this;
+            console.log('handlePostMessage');
+            if (undefined != typeof event && event.origin !== "*") {
+                console.log('zoho-500');
+                me.zoho500PopUp();
+            }
+        },
+
+        /**
          * @method
          * @param doc
          * @param el
@@ -122,11 +122,6 @@ define([
 
             el.html( _.template(document_xls_template, {}) );
 
-//            console.log('set listener');
-//            me.listenTo(SKApp.simulation, 'zoho-500', function(){
-//                me.zoho500PopUp();
-//            });
-
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
             });
@@ -135,10 +130,6 @@ define([
             setTimeout(function() {
                 me.displayZohoIframe(doc, el);
             }, 0);
-
-//            if (doc.isHasZoho500) {
-//                this.zoho500PopUp();
-//            }
         },
 
         /**
