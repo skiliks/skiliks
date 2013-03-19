@@ -103,9 +103,9 @@ define([
             el.html( _.template(document_xls_template, {}) );
 
             console.log('set listener');
-            me.listenTo(SKApp.simulation, 'zoho-500', function(){
-                me.zoho500PopUp();
-            });
+//            me.listenTo(SKApp.simulation, 'zoho-500', function(){
+//                me.zoho500PopUp();
+//            });
 
 //            me.listenTo(this.options.model_instance, 'change:zindex', function () {
 //                console.log('listenTo - catch!')
