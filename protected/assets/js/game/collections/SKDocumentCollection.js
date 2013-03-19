@@ -15,34 +15,6 @@ define(["game/models/SKDocument"], function () {
         model: SKDocument,
 
         /**
-         * Constructor
-         * @method initialize
-         * @return void
-         */
-        initialize: function() {
-//            var me = this;
-//            if (window.addEventListener){
-//                window.addEventListener("message", me.handlePostMessage,false);
-//            } else {
-//                window.attachEvent("onmessage", me.handlePostMessage);
-//            }
-
-        },
-
-        /**
-         * @method handlePostMessage
-         * @param postMessage event
-         * @return void
-         */
-        handlePostMessage: function(event) {
-//            console.log('handlePostMessage');
-//            if (undefined != typeof event && event.origin !== "*") {
-//                console.log('zoho-500');
-//                //SKApp.simulation.trigger('zoho-500');
-//            }
-        },
-
-        /**
          * @method sync
          * @param method
          * @param collection
