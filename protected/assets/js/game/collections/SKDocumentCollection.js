@@ -33,7 +33,6 @@ define(["game/models/SKDocument"], function () {
             } else {
                 window.attachEvent("onmessage", me.handlePostMessage);
             }
-
         },
 
         /**
@@ -49,26 +48,7 @@ define(["game/models/SKDocument"], function () {
                 console.log('event', event);
                 me.excelErrorHappened = true;
 
-                me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
-                    'buttons': [
-                        {
-                            'value': 'Подтвердить',
-                            'onclick': function () {
-                                SKApp.simulation.documents.fetch();
-                                me.excelErrorHappened = false;
-
-                                delete me.message_window;
-                            }
-                        },
-                        {
-                            'value': 'Отмена',
-                            'onclick': function () {
-                                delete me.message_window;
-                            }
-                        }
-                    ]
-                });
+                me.trigger('zoho-500');
             }
         },
 

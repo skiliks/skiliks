@@ -36,6 +36,8 @@ define([
                 'top':      el.parents('.sim-window')[0].offsetTop + el[0].offsetTop,
                 'position': 'absolute'
             });
+
+            me.listenTo(SKApp.simulation.documents,'zoho-500', me.reloadDocumentViaZoho500());
         },
 
         /**
