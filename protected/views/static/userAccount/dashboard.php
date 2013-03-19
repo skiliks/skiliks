@@ -37,8 +37,19 @@
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 ?>
+<script type="text/javascript">
+    $(function() {
+        $( ".message_window" ).dialog({
+            modal: true,
+            width: 550
+
+        });
+    });
+</script>
 
 <section class="dashboard">
     <h2>Dashboard</h2>
@@ -70,13 +81,6 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
             <?php echo $form->error($invite, 'position_id'); ?>
         </div>
 
-        <div class="row wide">
-            <label>Letter</label>
-            <select>
-                <option>WTF???</option>
-            </select>
-        </div>
-
         <div class="row buttons">
             <?php echo CHtml::submitButton('Send invite', ['name' => 'prevalidate']); ?>
         </div>
@@ -85,11 +89,11 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
     </div>
 
     <?php if (!empty($valid)): ?>
-    <div class="form">
+    <div class="form message_window" title="Введите текст письма">
         <h3>Message</h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
-            'id' => 'send-invite-message-form'
+            'id' => 'send-invite-message-form',
         )); ?>
 
         <?php echo $form->hiddenField($invite, 'firstname'); ?>
@@ -104,7 +108,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'message'); ?>
-            <?php echo $form->textArea($invite, 'message'); ?>
+            <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
 
