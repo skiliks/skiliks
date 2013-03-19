@@ -42,6 +42,10 @@ define([], function () {
                     me.set('excel_url', _excel_cache[this.get('id')]);
                 }
             }
+        },
+
+        combibeIframeId: function () {
+            return '#excel-preload-' + this.id;
         }
     },
     {
