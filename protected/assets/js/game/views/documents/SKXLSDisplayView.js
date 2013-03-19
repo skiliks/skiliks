@@ -27,10 +27,8 @@ define([
         initialize: function () {
             var me = this;
             if (window.addEventListener){
-                window.removeEventListener("message", function(event){ me.handlePostMessage(event) },false);
                 window.addEventListener("message", function(event){ me.handlePostMessage(event) },false);
             } else {
-                window.detachEvent("onmessage", function(event){ me.handlePostMessage(event) });
                 window.attachEvent("onmessage", function(event){ me.handlePostMessage(event) });
             }
 
@@ -45,6 +43,12 @@ define([
         handlePostMessage: function(event) {
             var me = this;
             var doc = me.options.model_instance.get('document');
+
+            console.log(doc.id, SKapp.simulation.documents.zoho_500, SKapp.simulation.documents.zoho_500.indexOf(doc.id));
+
+            if (SKapp.simulation.documents.zoho_500.indexOf(doc.id) < 1) {
+                SKapp.simulation.documents.zoho_500[] = doc.id;
+            }
 
             var noOtherWarnings = (0 == $('#messageSystemMessageDiv').length);
             if (undefined != typeof event && event.origin !== "*" && noOtherWarnings) {
