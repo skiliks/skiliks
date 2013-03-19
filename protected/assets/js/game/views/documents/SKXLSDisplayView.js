@@ -34,6 +34,10 @@ define([
         zoho500PopUp: function() {
             console.log('zoho500PopUp');
             var me = this;
+            var doc = this.options.model_instance.get('document');
+
+            doc.isHasZoho500 = true;
+
             me.message_window = new SKDialogView({
                 'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
                 'buttons': [
@@ -42,12 +46,17 @@ define([
                         'onclick': function () {
                             console.log('accept');
 
-//                            SKDocument._excel_cache = {};
-//                            console.log(SKApp.simulation.documents);
-//                            SKApp.simulation.documents.fetch();
-//                            console.log(SKApp.simulation.documents);
-//
-//                            SKApp.simulation.documents.excelErrorHappened = false;
+                            doc.isHasZoho500 = false;
+
+                            SKDocument._excel_cache[doc.get('id')] = {};
+
+                            console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
+                            console.log(SKApp.simulation.documents);
+
+                            SKApp.simulation.documents.fetch();
+
+                            console.log(SKApp.simulation.documents);
+                            console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
 
                             me.doWindowClose();
 
@@ -101,10 +110,12 @@ define([
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
             });
-            setTimeout(function() {
-                me.displayZohoIframe(doc, el);
-            }, 0);
 
+            me.displayZohoIframe(doc, el);
+
+            if (doc.isHasZoho500) {
+                this.zoho500PopUp();
+            }
         },
 
         /**
