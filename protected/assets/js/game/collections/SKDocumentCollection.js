@@ -28,11 +28,11 @@ define(["game/models/SKDocument"], function () {
          */
         initialize: function() {
             var me = this;
-            if (window.addEventListener){
-                window.addEventListener("message", me.handlePostMessage,false);
-            } else {
-                window.attachEvent("onmessage", me.handlePostMessage);
-            }
+//            if (window.addEventListener){
+//                window.addEventListener("message", me.handlePostMessage,false);
+//            } else {
+//                window.attachEvent("onmessage", me.handlePostMessage);
+//            }
 
             console.log('SKApp.simulation.documents.excelErrorHappened init :', this.excelErrorHappened);
         },
