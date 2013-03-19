@@ -33,6 +33,8 @@ define(["game/models/SKDocument"], function () {
             } else {
                 window.attachEvent("onmessage", me.handlePostMessage);
             }
+
+            console.log('SKApp.simulation.documents.excelErrorHappened init :', SKApp.simulation.documents.excelErrorHappened);
         },
 
         /**
@@ -47,6 +49,8 @@ define(["game/models/SKDocument"], function () {
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('event', event);
                 me.excelErrorHappened = true;
+
+                console.log('SKApp.simulation.documents.excelErrorHappened PM :', SKApp.simulation.documents.excelErrorHappened);
 
                 me.trigger('zoho-500');
             }
