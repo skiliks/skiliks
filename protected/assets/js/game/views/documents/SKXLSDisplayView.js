@@ -24,9 +24,15 @@ define([
         * Constructor
         * @method initialize
         */
-//        initialize: function () {
-//            window.SKWindowView.prototype.initialize.call(this);
-//        },
+        initialize: function () {
+            var me = this;
+            if (window.addEventListener){
+                window.addEventListener("message", me.handlePostMessage,false);
+            } else {
+                window.attachEvent("onmessage", me.handlePostMessage);
+            }
+            window.SKWindowView.prototype.initialize.call(this);
+        },
 
         /**
          * @method zoho500PopUp
@@ -111,6 +117,7 @@ define([
                 me.displayZohoIframe(doc, el);
             });
 
+            // run me.displayZohoIframe after code done
             setTimeout(function() {
                 me.displayZohoIframe(doc, el);
             }, 0);
