@@ -53,14 +53,12 @@ define([
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
             });
-            setTimeout(function() {
-                me.displayZohoIframe(doc, el);
 
-                if (true == SKApp.simulation.documents.excelErrorHappened) {
-                    me.reloadDocumentViaZoho500();
-                }
-            }, 0);
+            me.displayZohoIframe(doc, el);
 
+            if (true === SKApp.simulation.documents.excelErrorHappened) {
+                me.reloadDocumentViaZoho500();
+            }
         },
 
         reloadDocumentViaZoho500: function() {
@@ -81,7 +79,7 @@ define([
                             console.log(SKApp.simulation.documents);
                             SKApp.simulation.documents.fetch();
                             console.log(SKApp.simulation.documents);
-                            
+
                             SKApp.simulation.documents.excelErrorHappened = false;
 
                             me.doWindowClose();
