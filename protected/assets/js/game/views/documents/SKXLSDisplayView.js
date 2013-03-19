@@ -44,10 +44,10 @@ define([
             var me = this;
             var doc = me.options.model_instance.get('document');
 
-            console.log(doc.id, SKapp.simulation.documents.zoho_500, SKapp.simulation.documents.zoho_500.indexOf(doc.id));
+            console.log(doc.id, SKapp.simulation.documents.zoho_500, SKApp.simulation.documents.zoho_500.indexOf(doc.id));
 
-            if (SKapp.simulation.documents.zoho_500.indexOf(doc.id) < 1) {
-                SKapp.simulation.documents.zoho_500.push(doc.id);
+            if (SKApp.simulation.documents.zoho_500.indexOf(doc.id) < 1) {
+                SKApp.simulation.documents.zoho_500.push(doc.id);
             }
 
             var noOtherWarnings = (0 == $('#messageSystemMessageDiv').length);
