@@ -34,7 +34,7 @@ define(["game/models/SKDocument"], function () {
                 window.attachEvent("onmessage", me.handlePostMessage);
             }
 
-            console.log('SKApp.simulation.documents.excelErrorHappened init :', SKApp.simulation.documents.excelErrorHappened);
+            console.log('SKApp.simulation.documents.excelErrorHappened init :', this.excelErrorHappened);
         },
 
         /**
