@@ -53,8 +53,39 @@ define([
             });
             setTimeout(function() {
                 me.displayZohoIframe(doc, el);
+
+                if (true == SKApp.simulation.documents.excelErrorHappened) {
+                    me.reloadDocumentViaZoho500();
+                }
             }, 0);
 
+        },
+
+        reloadDocumentViaZoho500: function() {
+            var me = this;
+            var doc = this.options.model_instance.get('document');
+
+            me.message_window = new SKDialogView({
+                'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ.',
+                'buttons': [
+                    {
+                        'value': 'Подтвердить',
+                        'onclick': function () {
+                            doc._excel_cache = {};
+                            SKApp.simulation.documents.fetch();
+                            me.excelErrorHappened = false;
+
+                            delete me.message_window;
+                        }
+                    },
+                    {
+                        'value': 'Отмена',
+                        'onclick': function () {
+                            delete me.message_window;
+                        }
+                    }
+                ]
+            });
         },
 
         /**
