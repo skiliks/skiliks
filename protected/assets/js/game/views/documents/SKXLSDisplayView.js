@@ -49,7 +49,7 @@ define([
             if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
                 SKApp.simulation.documents.zoho_500.push(doc.get('id'));
             } else {
-                console.cog('break;');
+                console.log('break;');
                 return;
             }
 
@@ -74,6 +74,10 @@ define([
                                 me.doWindowClose();
                                 $(doc.combibeIframeId()).remove();
                                 me.remove();
+
+                                // clean array of not handled zoho 500 {
+                                delete SKApp.simulation.documents.zoho_500[doc.get('id')];
+                                // clean array of not handled zoho 500 }
 
                                 delete me.message_window;
                             }
