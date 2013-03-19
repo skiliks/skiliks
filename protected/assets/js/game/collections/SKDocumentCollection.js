@@ -20,12 +20,12 @@ define(["game/models/SKDocument"], function () {
          * @return void
          */
         initialize: function() {
-            var me = this;
-            if (window.addEventListener){
-                window.addEventListener("message", me.handlePostMessage,false);
-            } else {
-                window.attachEvent("onmessage", me.handlePostMessage);
-            }
+//            var me = this;
+//            if (window.addEventListener){
+//                window.addEventListener("message", me.handlePostMessage,false);
+//            } else {
+//                window.attachEvent("onmessage", me.handlePostMessage);
+//            }
 
         },
 
@@ -35,11 +35,11 @@ define(["game/models/SKDocument"], function () {
          * @return void
          */
         handlePostMessage: function(event) {
-            console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
-                console.log('zoho-500');
-                //SKApp.simulation.trigger('zoho-500');
-            }
+//            console.log('handlePostMessage');
+//            if (undefined != typeof event && event.origin !== "*") {
+//                console.log('zoho-500');
+//                //SKApp.simulation.trigger('zoho-500');
+//            }
         },
 
         /**
