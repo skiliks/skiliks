@@ -29,9 +29,9 @@ define([
 
             var me = this;
             if (window.addEventListener){
-                window.addEventListener("message", me.handlePostMessage,false);
+                window.addEventListener("message", function(){ me.handlePostMessage },false);
             } else {
-                window.attachEvent("onmessage", me.handlePostMessage);
+                window.attachEvent("onmessage", function(){ me.handlePostMessage });
             }
         },
 
