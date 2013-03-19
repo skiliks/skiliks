@@ -113,9 +113,9 @@ define([
 
             me.displayZohoIframe(doc, el);
 
-            if (doc.isHasZoho500) {
-                this.zoho500PopUp();
-            }
+//            if (doc.isHasZoho500) {
+//                this.zoho500PopUp();
+//            }
         },
 
         /**
