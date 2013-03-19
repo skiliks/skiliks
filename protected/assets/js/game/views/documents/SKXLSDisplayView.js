@@ -65,6 +65,10 @@ define([
             var me = this;
             var doc = this.options.model_instance.get('document');
 
+            if (false === SKApp.simulation.documents.excelErrorHappened) {
+                return;
+            }
+
             console.log('reloadDocumentViaZoho500');
 
             me.message_window = new SKDialogView({
