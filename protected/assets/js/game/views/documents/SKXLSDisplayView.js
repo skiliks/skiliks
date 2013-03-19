@@ -80,7 +80,8 @@ define([
                                 me.remove();
 
                                 // clean array of not handled zoho 500 {
-                                delete SKApp.simulation.documents.zoho_500[doc.get('id')];
+                                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')
+                                delete SKApp.simulation.documents.zoho_500[i];
                                 // clean array of not handled zoho 500 }
 
                                 delete me.message_window;
