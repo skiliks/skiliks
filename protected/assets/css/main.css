@@ -1787,6 +1787,7 @@ table.ml-title th span{
 }
 .mail-view.new .mail-view-header.min{
 	height:6px;
+    width: 100%;
 }
 .mail-view.new .mail-view-header table{
 	border-spacing:7px 5px;
