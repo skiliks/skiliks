@@ -42,11 +42,11 @@ define(["game/models/SKDocument"], function () {
             console.log('event!');
 
 
-            /*if (undefined != typeof event && event.origin !== "*") {
+            if (undefined != typeof event && event.origin !== "*") {
                 console.log('event!');
                 console.log('event', event.origin);
                 return;
-            }*/
+            }
         },
 
         /**
