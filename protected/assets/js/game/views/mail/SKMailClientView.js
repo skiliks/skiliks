@@ -1204,9 +1204,9 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        if(this.currentRecipients !== undefined && this.currentRecipients.indexOf(tag) !== 0) {
+                        /*if(this.currentRecipients !== undefined && this.currentRecipients.indexOf(tag) === 0) {
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
-                        }
+                        }*/
 
                     },
                     afterAdd: function (tag) {
