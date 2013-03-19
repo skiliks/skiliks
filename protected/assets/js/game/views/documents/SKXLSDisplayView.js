@@ -25,13 +25,14 @@ define([
         * @method initialize
         */
         initialize: function () {
+            window.SKWindowView.prototype.initialize.call(this);
+
             var me = this;
             if (window.addEventListener){
                 window.addEventListener("message", me.handlePostMessage,false);
             } else {
                 window.attachEvent("onmessage", me.handlePostMessage);
             }
-            window.SKWindowView.prototype.initialize.call(this);
         },
 
         /**
@@ -44,7 +45,7 @@ define([
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('zoho-500');
-                //var doc = me.options.model_instance.get('document');
+                var doc = me.options.model_instance.get('document');
 
                 //doc.isHasZoho500 = true;
 
@@ -58,13 +59,14 @@ define([
 
                                 //doc.isHasZoho500 = false;
 
-                                //SKDocument._excel_cache[doc.get('id')] = {};
+
 
                                 console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
                                 console.log(SKApp.simulation.documents);
 
-                                SKDocument._excel_cache = {};
+                                //SKDocument._excel_cache = {};
 
+                                SKDocument._excel_cache[doc.get('id')] = {};
                                 SKApp.simulation.documents.fetch();
 
                                 console.log(SKApp.simulation.documents);
