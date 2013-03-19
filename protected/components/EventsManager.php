@@ -94,7 +94,7 @@ class EventsManager {
         try {
             self::processLogs($simulation, $logs);
 
-            $simType  = $simulation->type; // определим тип симуляции
+            $simMode  = $simulation->mode; // определим тип симуляции
             $gameTime = $simulation->getGameTime();
 
             // обработка задач {
@@ -168,7 +168,7 @@ class EventsManager {
             $dialogs = Replica::model()
                 ->byCode($eventCode)
                 ->byStepNumber(1)
-                ->byDemo($simType)
+                ->byDemo($simMode)
                 ->findAll();
 
             $data = array();

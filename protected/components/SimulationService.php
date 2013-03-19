@@ -397,10 +397,9 @@ class SimulationService
         // Создаем новую симуляцию
         $simulation = new Simulation();
         $simulation->user_id = $userId;
-        $simulation->status = 1;
         $simulation->start = GameTime::setNowDateTime();
-        $simulation->difficulty = 1;
-        $simulation->type = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
+        $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
+        $simulation->type = Simulation::TYPE_FULL;
         $simulation->insert();
         $profiler->render('3: ');
 

@@ -15,30 +15,11 @@ define(["game/models/SKDocument"], function () {
         model: SKDocument,
 
         /**
-         * Constructor
-         * @method initialize
-         * @return void
+         * @property model
+         * @type SKDocument
+         * @default SKDocument
          */
-        initialize: function() {
-            var me = this;
-            console.log('window: ', window);
-            window.addEventListener(" ", me.handlePostMessage(), false);
-        },
-
-        /**
-         * @method handlePostMessage
-         * @param postMessage event
-         * @return void
-         */
-        handlePostMessage: function(event) {
-            console.log('handlePostMessage');
-            console.log('event!');
-            /*if (undefined != typeof event && event.origin !== "*") {
-                console.log('event!');
-                console.log('event', event.origin);
-                return;
-            }*/
-        },
+        zoho_500: [],
 
         /**
          * @method sync
