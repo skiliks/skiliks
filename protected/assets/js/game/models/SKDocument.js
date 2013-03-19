@@ -18,6 +18,12 @@ define([], function () {
     SKDocument = Backbone.Model.extend({
 
         /**
+         * @type boolean
+         * @default false
+         */
+        isHasZoho500: false,
+
+        /**
          * Constructor
          * @method initialize
          */
