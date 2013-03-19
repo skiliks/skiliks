@@ -102,7 +102,7 @@ $(window.parent.window).load(function()
             'ERROR',
             'The server has encountered a problem. We are sorry! Kindly reopen the file and try again.');
             },
-        15*1000);
+        30*1000);
 });
 // new code }
 </script>
