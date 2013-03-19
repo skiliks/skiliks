@@ -20,6 +20,11 @@ define([
 
         dimensions: {},
 
+        zoho500callback: function(event){
+            var me = this;
+            me.handlePostMessage(event)
+        },
+
         /*
         * Constructor
         * @method initialize
@@ -27,9 +32,9 @@ define([
         initialize: function () {
             var me = this;
             if (window.addEventListener){
-                window.addEventListener("message", function(event){ me.handlePostMessage(event) },false);
+                window.addEventListener("message", me.zoho500callback,false);
             } else {
-                window.attachEvent("onmessage", function(event){ me.handlePostMessage(event) });
+                window.attachEvent("onmessage", me.zoho500callback);
             }
 
             window.SKWindowView.prototype.initialize.call(this);
@@ -156,6 +161,14 @@ define([
         remove:function () {
             var me = this;
             this.hideZohoIframe();
+
+            var me = this;
+            if (window.removeEventListener){
+                window.removeEventListener("message", me.zoho500callback,false);
+            } else {
+                window.detachEvent("onmessage", me.zoho500callback);
+            }
+
             SKWindowView.prototype.remove.call(this);
         }
     });
