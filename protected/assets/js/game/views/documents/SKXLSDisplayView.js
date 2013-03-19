@@ -21,15 +21,6 @@ define([
         dimensions: {},
 
         /**
-         * @method initialize
-         */
-        initialize: function() {
-//            var me = this;
-//            console.log('set listener');
-//            // me.listenTo(SKApp.simulation.documents, 'zoho-500', me.zoho500PopUp);
-        },
-
-        /**
          * @method zoho500PopUp
          */
         zoho500PopUp: function() {
@@ -95,6 +86,11 @@ define([
             var doc = this.options.model_instance.get('document');
 
             el.html( _.template(document_xls_template, {}) );
+
+            console.log('set listener');
+            me.listenTo(SKApp.simulation.documents, 'zoho-500', function(){
+                me.zoho500PopUp();
+            });
 
             me.listenTo(this.options.model_instance, 'change:zindex', function () {
                 me.displayZohoIframe(doc, el);
