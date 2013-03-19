@@ -3,7 +3,13 @@
 /**
  * Модель симуляции.
  *
- * @property int difficulty
+ * @property int id
+ * @property int user_id
+ * @property string start
+ * @property string end
+ * @property int mode
+ * @property int type
+ *
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_aggregated
  * @property LogWindow[] log_windows
@@ -28,44 +34,9 @@ class Simulation extends CActiveRecord
 
     const MODE_PROMO_LABEL     = 'promo';
     const MODE_DEVELOPER_LABEL = 'developer';
-    
-    /**
-     * @var integer
-     */
-    public $id;
 
-    /**
-     * character.id
-     * @var integer
-     */
-    public $user_id;
-
-    /**
-     * @var integer
-     */
-    public $status;
-
-    /**
-     * real time, Unix age seconds
-     * @var integer
-     */
-    public $start;
-
-    /**
-     * real time, Unix age seconds
-     * @var integer
-     */
-    public $end;
-
-    /**
-     * @var integer
-     */
-    public $difficulty;
-
-    /**
-     * @var integer
-     */
-    public $type; // 1 - promotion mode (for users), 2 - develop mode (to debug)
+    const TYPE_FULL = 1;
+    const TYPE_LITE = 2;
 
     /** ------------------------------------------------------------------------------------------------------------ **/
 
@@ -434,7 +405,7 @@ class Simulation extends CActiveRecord
      * @return boolean
      */
     public function isDevelopMode() {
-        return self::MODE_DEVELOPER_ID == $this->type;
+        return self::MODE_DEVELOPER_ID == $this->mode;
     }
 }
 
