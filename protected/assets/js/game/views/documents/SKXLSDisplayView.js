@@ -56,6 +56,8 @@ define([
 
             me.displayZohoIframe(doc, el);
 
+            console.log('SKApp.simulation.documents.excelErrorHappened 4 :', SKApp.simulation.documents.excelErrorHappened);
+
             if (true === SKApp.simulation.documents.excelErrorHappened) {
                 me.reloadDocumentViaZoho500();
             }
@@ -64,6 +66,8 @@ define([
         reloadDocumentViaZoho500: function() {
             var me = this;
             var doc = this.options.model_instance.get('document');
+
+            console.log('SKApp.simulation.documents.excelErrorHappened 1 :', SKApp.simulation.documents.excelErrorHappened);
 
             if (false === SKApp.simulation.documents.excelErrorHappened) {
                 return;
@@ -79,12 +83,16 @@ define([
                         'onclick': function () {
                             console.log('accept');
 
+                            console.log('SKDocument._excel_cache: ', SKDocument._excel_cache);
+
                             //SKDocument._excel_cache = {};
                             //console.log(SKApp.simulation.documents);
                             //SKApp.simulation.documents.fetch();
                             //console.log(SKApp.simulation.documents);
 
                             SKApp.simulation.documents.excelErrorHappened = false;
+
+                            console.log('SKApp.simulation.documents.excelErrorHappened 2 :', SKApp.simulation.documents.excelErrorHappened);
 
                             me.doWindowClose();
 
@@ -95,6 +103,9 @@ define([
                     {
                         'value': 'Отмена',
                         'onclick': function () {
+
+                            console.log('SKApp.simulation.documents.excelErrorHappened 3 :', SKApp.simulation.documents.excelErrorHappened);
+
                             console.log('decline');
                             delete me.message_window;
                         }
