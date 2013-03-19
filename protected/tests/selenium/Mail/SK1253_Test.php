@@ -4,8 +4,10 @@
  * @{
  */
 /**
- * Тест пишет новое письмо двум адресатам, потом удаляет первого и проверяет
- * корректность соотвествия оставшегося адресата и доступных тем.
+ * Окрываем почтовый клиент, открываем окно написания нового письма
+ * Добавляем первого адресата (Трудякин), добавляем второго адресата (Крутько)
+ * Выбираем тему письма для Трудякина. Удаляем его из адресатов, соглашаемся на очистку формы в поп-апе
+ * Выбираем тему для оставшейся Крутько, убеждаемся что темы для Трудякина не отображаются
  */
 class SK1253_Test extends SeleniumTestHelper
 {
@@ -16,16 +18,9 @@ class SK1253_Test extends SeleniumTestHelper
         parent::setUp();
     }
 
-    /**
-     * Тестирует задачу SKILIKS-1253.
-     *
-     * 1. Пишет письмо Трудякину
-     * 2. Делает что-то еще
-     * 3. bla bla bla
-     */
     public function testSK1253()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -43,7 +38,6 @@ class SK1253_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['del_recipient']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['button_to_continue']);
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        //после изменений с почтой сейчас есть здесь поп-ап, которого не должно быть...
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
