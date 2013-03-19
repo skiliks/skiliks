@@ -127,53 +127,23 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CC
     <?php endif; ?>
 
     <?php
-    $dataProvider = new CActiveDataProvider('Invite', [
-        'criteria' => [
-            'condition' => 'inviting_user_id = :myId',
-            'order' => 'sent_time',
-            'params' => ['myId' => $user->id]
-        ],
-        'pagination' => [
-            'pageSize' => 5,
-            'pageVar' => 'page'
-        ]
-    ]);
+        $this->widget('zii.widgets.grid.CGridView', [
+            'dataProvider' => Invite::model()->search($user->id), //$dataProvider,
+            'summaryText' => '',
+            'pager' => [
+                'header' => false,
+                'prevPageLabel' => 'Prev',
+                'nextPageLabel' => 'Next'
+            ],
+            'columns' => [
+                ['header' => 'Name', 'name' => 'name', 'value' => '$data->getFullname()'],
+                ['header' => 'Position', 'name' => 'position_id', 'value' => '$data->position->label'],
+                ['header' => 'Status', 'name' => 'status', 'value' => '$data->getStatusText()'],
+                ['header' => 'Date / time', 'name' => 'sent_time', 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+                ['header' => 'Score', 'value' => '"-"']
+            ]
+        ]);
     ?>
-
-    <?php if ($dataProvider->getItemCount() > 0): ?>
-    <table class="invites-list">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Status</th>
-                <th>Date / time</th>
-                <th>Score</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($dataProvider->getData() as $invite): ?>
-            <tr>
-                <td><?php echo $invite->getFullname(); ?></td>
-                <td><?php echo $invite->position->label; ?></td>
-                <td><?php echo $invite->getStatusText(); ?></td>
-                <td><?php echo $invite->getSentTime()->format('j/m/y G\h i\m'); ?></td>
-                <td>-</td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <?php
-        $this->widget('CLinkPager', array(
-            'pages' => $dataProvider->getPagination(),
-            'header' => false,
-            'prevPageLabel' => 'Prev',
-            'nextPageLabel' => 'Next'
-        ));
-    ?>
-
-    <?php endif; ?>
 
 </section>
 
