@@ -3245,33 +3245,24 @@ ul.main-screen-stat li img{
 }
 .main-screen-icons ul li.messenger{
 	background-image:url("../img/main-screen/icon-messanger.png");
-	z-index:6;
 }
 .main-screen-icons ul li.plan{
 	background-image:url("../img/main-screen/icon-plan.png");
-	z-index:5;
 }
 .main-screen-icons ul li.phone{
 	background-image:url("../img/main-screen/icon-phone.png");
-	z-index:4;
 }
 .main-screen-icons ul li.mail{
 	background-image:url("../img/main-screen/icon-mail.png");
-	z-index:3;
 }
-.main-screen-icons ul li.door{
+.main-screen-icons ul li.door,.main-screen-icons ul .ui-effects-wrapper li.door{
 	background-image:url("../img/main-screen/icon-door.png");
-	z-index:2;
 }
 .main-screen-icons ul li.documents{
 	background-image:url("../img/main-screen/icon-documents.png");
-	z-index:1;
 }
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
-}
-.main-screen-icons ul li.only-active:hover{
-	background-color:transparent;
 }
 .main-screen-icons ul li a{
 	display:block;
