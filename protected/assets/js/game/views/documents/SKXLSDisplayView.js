@@ -84,7 +84,7 @@ define([
                             //SKApp.simulation.documents.fetch();
                             //console.log(SKApp.simulation.documents);
 
-                            //SKApp.simulation.documents.excelErrorHappened = false;
+                            SKApp.simulation.documents.excelErrorHappened = false;
 
                             me.doWindowClose();
 
