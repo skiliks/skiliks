@@ -47,16 +47,16 @@ define([
             console.log(doc.id, SKapp.simulation.documents.zoho_500, SKapp.simulation.documents.zoho_500.indexOf(doc.id));
 
             if (SKapp.simulation.documents.zoho_500.indexOf(doc.id) < 1) {
-                SKapp.simulation.documents.zoho_500[] = doc.id;
+                SKapp.simulation.documents.zoho_500.push(doc.id);
             }
 
             var noOtherWarnings = (0 == $('#messageSystemMessageDiv').length);
             if (undefined != typeof event && event.origin !== "*" && noOtherWarnings) {
                 me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд.',
+                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                         {
-                            'value': 'Подтвердить',
+                            'value': 'Конешно!',
                             'onclick': function () {
                                 console.log('accept', me);
 
@@ -73,13 +73,6 @@ define([
                                 $(doc.combibeIframeId()).remove();
                                 me.remove();
 
-                                delete me.message_window;
-                            }
-                        },
-                        {
-                            'value': 'Отмена',
-                            'onclick': function () {
-                                console.log('decline');
                                 delete me.message_window;
                             }
                         }
