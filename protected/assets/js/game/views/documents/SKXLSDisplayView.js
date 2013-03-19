@@ -78,12 +78,16 @@ define([
                             console.log('accept');
 
                             SKDocument._excel_cache = {};
+                            console.log(SKApp.simulation.documents);
                             SKApp.simulation.documents.fetch();
-                            me.excelErrorHappened = false;
+                            console.log(SKApp.simulation.documents);
+                            
+                            SKApp.simulation.documents.excelErrorHappened = false;
 
                             me.doWindowClose();
 
                             delete me.message_window;
+                            console.log('accept - 2');
                         }
                     },
                     {
