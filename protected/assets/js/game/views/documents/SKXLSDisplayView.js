@@ -46,7 +46,7 @@ define([
 
             console.log(doc.get('id'), SKApp.simulation.documents.zoho_500, SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')));
 
-            if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 1) {
+            if (SKApp.simulation.documents.zoho_500.indexOf(doc.get('id')) < 0) {
                 SKApp.simulation.documents.zoho_500.push(doc.get('id'));
             } else {
                 console.cog('break;');
