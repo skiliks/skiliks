@@ -44,11 +44,10 @@ define(["game/models/SKDocument"], function () {
             var me = this;
 
             console.log('handlePostMessage');
-            if (undefined != typeof event && event.origin !== "*") {
+            if ((undefined != typeof event && event.origin !== "*") || true === me.excelErrorHappened) {
                 console.log('event', event);
                 me.excelErrorHappened = true;
 
-                // to display pop-up when 500 happened crash
                 me.trigger('zoho-500');
             }
         },
