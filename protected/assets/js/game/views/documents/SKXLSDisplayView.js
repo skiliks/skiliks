@@ -107,10 +107,10 @@ define([
                 me.zoho500PopUp();
             });
 
-            me.listenTo(this.options.model_instance, 'change:zindex', function () {
-                console.log('listenTo - catch!')
-                //me.displayZohoIframe(doc, el);
-            });
+//            me.listenTo(this.options.model_instance, 'change:zindex', function () {
+//                console.log('listenTo - catch!')
+//                me.displayZohoIframe(doc, el);
+//            });
 
             me.displayZohoIframe(doc, el);
 
