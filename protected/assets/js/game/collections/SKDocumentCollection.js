@@ -35,6 +35,7 @@ define(["game/models/SKDocument"], function () {
          * @return void
          */
         handlePostMessage: function(event) {
+            var me = this;
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('zoho-500');

@@ -20,6 +20,14 @@ define([
 
         dimensions: {},
 
+        /*
+        * Constructor
+        * @method initialize
+        */
+//        initialize: function () {
+//            window.SKWindowView.prototype.initialize.call(this);
+//        },
+
         /**
          * @method zoho500PopUp
          */
