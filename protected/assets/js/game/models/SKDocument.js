@@ -4,6 +4,8 @@ var SKDocument;
 define([], function () {
     "use strict";
     /**
+     * Call by SKDocument._excel_cache - works like "singleton"
+     * @todo: move to SKDocumentCollection
      * @class SKDocument
      * @augments Backbone.Model
      */
@@ -34,5 +36,10 @@ define([], function () {
                 }
             }
         }
+    },
+    {
+        _excel_cache: _excel_cache
     });
+
+
 });
