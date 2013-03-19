@@ -667,8 +667,7 @@ MSG;
                     $invite->status = Invite::STATUS_ACCEPTED;
                     $invite->save();
 
-                    $activation_result = YumUser::activate($profile->email, $this->user->getActivationUrl());
-                    assert($activation_result);
+                    $activation_result = YumUser::activate($profile->email, $this->user->activationKey);
                     $this->user->authenticate($YumUser['password']);
                     // TODO: Change redirection point
                     $this->redirect('/registration/account-type/added');
