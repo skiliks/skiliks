@@ -67,6 +67,7 @@ define([
                                 console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
 
                                 me.doWindowClose();
+                                me.remove();
 
                                 delete me.message_window;
                             }
