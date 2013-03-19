@@ -77,7 +77,7 @@ define([
                         'onclick': function () {
                             console.log('accept');
 
-                            SLDocument._excel_cache = {};
+                            SKDocument._excel_cache = {};
                             SKApp.simulation.documents.fetch();
                             me.excelErrorHappened = false;
 
