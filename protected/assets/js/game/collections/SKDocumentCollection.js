@@ -46,7 +46,7 @@ define(["game/models/SKDocument"], function () {
                         {
                             'value': 'Подтвердить',
                             'onclick': function () {
-                                AKApp.user.simulation.documents = new SKDocumentCollection();
+                                SKApp.user.simulation.documents = new SKDocumentCollection();
                                 delete me.message_window;
                             }
                         },
