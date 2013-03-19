@@ -38,7 +38,7 @@ define(["game/models/SKDocument"], function () {
             console.log('handlePostMessage');
             if (undefined != typeof event && event.origin !== "*") {
                 console.log('zoho-500');
-                this.trigger('zoho-500');
+                SKApp.simulation.trigger('zoho-500');
             }
         },
 
