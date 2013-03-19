@@ -44,7 +44,7 @@ define(["game/models/SKDocument"], function () {
             var me = this;
 
             console.log('handlePostMessage');
-            if ((undefined != typeof event && event.origin !== "*") || true === me.excelErrorHappened) {
+            if (undefined != typeof event && event.origin !== "*") {
                 console.log('event', event);
                 me.excelErrorHappened = true;
 

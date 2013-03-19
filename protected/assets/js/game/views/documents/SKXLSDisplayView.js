@@ -37,7 +37,7 @@ define([
                 'position': 'absolute'
             });
 
-            me.listenTo(SKApp.simulation.documents,'zoho-500', me.reloadDocumentViaZoho500());
+            me.listenTo(SKApp.simulation.documents, 'zoho-500', me.reloadDocumentViaZoho500());
         },
 
         /**
@@ -62,8 +62,6 @@ define([
         },
 
         reloadDocumentViaZoho500: function() {
-
-
             var me = this;
             var doc = this.options.model_instance.get('document');
 
@@ -77,17 +75,17 @@ define([
                         'onclick': function () {
                             console.log('accept');
 
-                            SKDocument._excel_cache = {};
-                            console.log(SKApp.simulation.documents);
-                            SKApp.simulation.documents.fetch();
-                            console.log(SKApp.simulation.documents);
+                            //SKDocument._excel_cache = {};
+                            //console.log(SKApp.simulation.documents);
+                            //SKApp.simulation.documents.fetch();
+                            //console.log(SKApp.simulation.documents);
 
-                            SKApp.simulation.documents.excelErrorHappened = false;
+                            //SKApp.simulation.documents.excelErrorHappened = false;
 
                             me.doWindowClose();
 
                             delete me.message_window;
-                            console.log('accept - 2');
+                            //console.log('accept - 2');
                         }
                     },
                     {
