@@ -50,7 +50,7 @@ return [
 
     'phone' => [
         'contacts_list' => "//div[@id='phoneMainScreen']/ul/li[1]",
-        'missed_calls' => "//div[@id='phoneMainScreen']/ul/li[1]",
+        'missed_calls' => "css=li.phone_get_history > p",
         'reply' => "//a[@id='phone_reply']",
         'no_reply' => "//a[@id='phone_no_reply']"
     ],
