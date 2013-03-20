@@ -21,7 +21,6 @@ class F30_SK1429_Tests extends SeleniumTestHelper
     {
     //$this->markTestIncomplete();
     $this->start_simulation();
-
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
     $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
