@@ -66,7 +66,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--header end-->
 
             <?php if (!Yii::app()->user->id) : ?>
-                <div class="sign-in-box message_window" style="display: none;">
+                <div class="sign-in-box message_window">
                     <form class="login-form" action="/user/auth" method="post">
                         <input type="hidden" name="returnUrl" value="/static/site/index"/>
 
