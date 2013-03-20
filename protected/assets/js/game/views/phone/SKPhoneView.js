@@ -56,8 +56,7 @@ define([
             var me = this;
             contacts.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
-                me.$('.phone-screen').mCustomScrollbar("destroy");
-                me.$('.phone-screen').mCustomScrollbar();
+                //me.$('.phone-screen').mCustomScrollbar();
             });
         },
 
