@@ -27,6 +27,19 @@ return [
         'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])"
     ],
 
+    'mail_main' => [
+        'new_email' => "css=mail-window .actions li a.NEW_EMAIL",
+        'reply_email' => "css=mail-window .actions li a.REPLY_EMAIL",
+        'reply_all_email' => "css=mail-window .actions li a.REPLY_ALL_EMAIL",
+        'forward_email' => "css=mail-window .actions li a.FORWARD_EMAIL",
+        'add_to_plan' => "css=mail-window .actions li a.ADD_TO_PLAN",
+        'delete' => "css=mail-window .actions li a.MOVE_TO_TRASH",
+        'save' => "css=mail-window .actions li a.SAVE_TO_DRAFTS",
+        'inbox' => "xpath=//*[@id='FOLDER_INBOX']/label",
+        'draft' => "xpath=//*[@id='FOLDER_DRAFTS']/label",
+        'outbox' => "xpath=//*[@id='FOLDER_SENDED']/label",
+        'trash' => "xpath=//*[@id='FOLDER_TRASH']/label"
+    ],
 
     'todo' => [
         '' => '',

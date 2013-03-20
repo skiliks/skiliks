@@ -311,5 +311,42 @@ class SeleniumTestHelper extends CWebTestCase
 
         return $same_number;
     }
+
+    /**
+     *
+     */
+    public function mail_open ($mail_theme)
+    {
+        $is_here=false;
+        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
+        $b = "]/td[2]";
+        $count = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a;
+            $result .= (string)$count;
+            $result .= $b;
+            if ($this->isVisible($result))
+            {
+                $this->mouseOver($result);
+                if (($this->getText($result))==$mail_theme)
+                {
+                    $is_here = true;
+                    $this->optimal_click($result);
+                    break;
+                }
+                else
+                {
+                    $count++;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return $is_here;
+    }
 }
 
