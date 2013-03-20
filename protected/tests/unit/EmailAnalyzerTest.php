@@ -335,24 +335,10 @@ class EmailAnalyzerTest extends CDbTestCase
      */
     public function test_3323_reply_2min()
     {
-        //$this->markTestSkipped();
-
-        // init simulation
-        /*$user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-        $point = HeroBehaviour::model()->findByAttributes([
-            'code' => '3313'
-        ]);
 
-        SimulationService::saveEmailsAnalyze($simulation->id);
-
-        $result = AssessmentCalculation::model()->findByAttributes([
-            'sim_id'   => $simulation->id,
-            'point_id' => $point->id,
-        ]);
-
-        $this->assertEquals($result->value, 0);*/
     }
 }
 
