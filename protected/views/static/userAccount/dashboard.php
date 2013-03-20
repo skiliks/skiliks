@@ -64,7 +64,10 @@
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 ?>
 <script type="text/javascript">
     $(function() {
@@ -117,7 +120,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
     </div>
 
     <?php if (!empty($valid)): ?>
-    <div class="form message_window" title="Введите текст письма">
+    <div class="form form-invite-message message_window" title="Введите текст письма">
         <h3>Message</h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
