@@ -38,7 +38,7 @@
     }
 
     .items td, .items th {
-        border: 1px solid #444;
+        border: 1px solid #146672;
         padding: 5px 15px;
     }
 
@@ -59,6 +59,48 @@
     #invite-form .row {
         margin: 5px 0 5px 0 ;
     }
+    .invites-limit {
+        background: none repeat scroll 0 0 #146672;
+        border-radius: 3px;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+        color: #fff;
+        display: block;
+        margin: 15px 0 15px 10px;
+        padding: 5px 15px;
+        width: 300px;
+    }
+
+    .small-invites-limit {
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.8);
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .yiiPager li {
+        display: inline-block;
+        padding: 2px 7px;
+    }
+
+    .yiiPager li a{
+        color: #146672;
+    }
+
+    .yiiPager li.selected a{
+        color: #000;
+        cursor: default;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .errorMessage {
+        background-color: #FFE0E1;
+        border-radius: 5px;
+        color: #cd0a0a;
+        display: block;
+        margin: 0 0 5px 0;
+        padding: 2px 7px;
+        width: 535px;
+    }
 </style>
 
 <?php
@@ -75,7 +117,7 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 550
+            width: 680
 
         });
         $( ".message_window").dialog('open');
@@ -83,26 +125,28 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 </script>
 
 <section class="dashboard">
-    <h2>Dashboard</h2>
+    <h2><?php echo Yii::t('site', 'Dashboard') ?></h2>
 
     <div class="form">
-        <h3>Invite People</h3>
+        <h3><?php echo Yii::t('site', 'Invitations') ?></h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'invite-form'
         )); ?>
 
+        <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+
         <div class="row">
-            <?php echo $form->labelEx($invite, 'Name'); ?>
-            <?php echo $form->textField($invite, 'firstname', ['placeholder' => 'First name']); ?>
-            <?php echo $form->textField($invite, 'lastname', ['placeholder' => 'Last Name']); ?>
+            <?php echo $form->labelEx($invite, 'full_name'); ?>
+            <?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?>
+            <?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?>
             <?php echo $form->error($invite, 'firstname'); ?>
             <?php echo $form->error($invite, 'lastname'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'email'); ?>
-            <?php echo $form->textField($invite, 'email', ['placeholder' => 'Enter Email address']); ?>
+            <?php echo $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?>
             <?php echo $form->error($invite, 'email'); ?>
         </div>
 
@@ -113,11 +157,17 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Send invite', ['name' => 'prevalidate']); ?>
+            <?php echo CHtml::submitButton('Отправить приглашение', ['name' => 'prevalidate']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
+
+    <?php if (Yii::app()->user->data()->isCorporate()) : ?>
+        <div class="invites-limit <?php echo (Yii::app()->user->data()->countInvitesToGive() < 10) ? 'small-invites-limit' : ''; ?>">
+            У Вас осталось: <?php echo Yii::app()->user->data()->getAccount()->invites_limit?> приглашений
+        </div>
+    <?php endif ?>
 
     <?php if (!empty($valid)): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
@@ -150,7 +200,7 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Send', ['name' => 'send']); ?>
+            <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
@@ -159,19 +209,21 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
     <?php
         $this->widget('zii.widgets.grid.CGridView', [
-            'dataProvider' => Invite::model()->search($user->id), //$dataProvider,
+            'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
             'summaryText' => '',
             'pager' => [
-                'header' => false,
-                'prevPageLabel' => 'Prev',
-                'nextPageLabel' => 'Next'
+                'header'        => false,
+                'firstPageLabel' => '<< начало',
+                'prevPageLabel' => '< назад',
+                'nextPageLabel' => 'далее >',
+                'lastPageLabel' => 'конец >>',
             ],
             'columns' => [
-                ['header' => 'Name',        'name' => 'name',        'value' => '$data->getFullname()'],
-                ['header' => 'Position',    'name' => 'position_id', 'value' => '$data->position->label'],
-                ['header' => 'Status',      'name' => 'status',      'value' => '$data->getStatusText()'],
-                ['header' => 'Date / time', 'name' => 'sent_time',   'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-                ['header' => 'Score',       'value' => '"-"']
+                ['header' => Yii::t('site', 'Full name'),   'name' => 'name',        'value' => '$data->getFullname()'],
+                ['header' => Yii::t('site', 'Position'),    'name' => 'position_id', 'value' => '$data->position->label'],
+                ['header' => Yii::t('site', 'Status'),      'name' => 'status',      'value' => '$data->getStatusText()'],
+                ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time',   'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+                ['header' => Yii::t('site', 'Score'),       'value' => '"-"']
             ]
         ]);
     ?>

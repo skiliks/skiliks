@@ -560,8 +560,14 @@ class UserAccountController extends YumController
         ]);
     }
 
+    /**
+     *
+     */
     public function actionDashboard()
     {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||
@@ -579,20 +585,17 @@ class UserAccountController extends YumController
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $position_label = Yii::t('site',$invite->position->label);
             if ($profile) {
-                $invite->message = <<<MSG
-Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.
-MSG;
+                $invite->message = 'Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.';
             } else {
-                $invite->message = <<<MSG
-Работодатель заинтересован в вашей кандидатуре на позицию $position_label. Для кандидата на данную позицию обязательным условием
-является прохождение ассессмента для определениям уровня менеджерских навыков. Для этого вам необходимо пройти по ссылке,
-зарегистрироваться и запустить ассессмент.
-MSG;
+                $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $position_label. Для кандидата на данную позицию обязательным условием \n"
+                    ."является прохождение ассессмента для определениям уровня менеджерских навыков. Для этого вам необходимо пройти по ссылке, \n"
+                    ."зарегистрироваться и запустить ассессмент.";
             }
 
             $invite->signature = 'Best regards';
         }
 
+        // handle send invitation
         if (null !== Yii::app()->request->getParam('send')) {
 
             $invite->attributes = Yii::app()->request->getParam('Invite');
@@ -608,27 +611,38 @@ MSG;
                 $invite->invited_user_id = $profile->user->id;
             }
 
-            if ($invite->validate()) {
+            // send invitation
+            if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->save();
                 $this->sendInviteEmail($invite);
 
+                // decline corporate user invites_limit
+                $this->user->getAccount()->invites_limit--;
+                $this->user->getAccount()->save();
+                $this->user->refresh();
+
                 $this->redirect('/dashboard');
+            } elseif ($this->user->getAccount()->invites_limit < 0 ) {
+                $invite->addError('invitations', Yii::t('site', 'You has no available invites!'));
             }
         }
 
         $positions = [];
         foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = $position->label;
+            $positions[$position->id] = Yii::t('site', $position->label);
         }
 
         $this->render('dashboard', [
-            'user' => $this->user,
+            //'user' => $this->user,
             'invite' => $invite,
             'positions' => $positions,
             'valid' => $valid
         ]);
     }
 
+    /**
+     * @param $code
+     */
     public function actionAcceptInvite($code)
     {
         $invite = Invite::model()->findByCode($code);
@@ -687,24 +701,24 @@ MSG;
 
         $industries = [];
         foreach (Industry::model()->findAll() as $industry) {
-            $industries[$industry->id] = $industry->label;
+            $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
         $positions = [];
         foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = $position->label;
+            $positions[$position->id] = Yii::t('site', $position->label);
         }
 
         $this->render(
             'registrationByLink',
             [
-                'invite' => $invite,
-                'user' => $this->user,
-                'profile' => $profile,
-                'account' => $account,
+                'invite'     => $invite,
+                'user'       => $this->user,
+                'profile'    => $profile,
+                'account'    => $account,
                 'industries' => $industries,
-                'positions' => $positions,
-                'error' => $error
+                'positions'  => $positions,
+                'error'      => $error
             ]
         );
     }

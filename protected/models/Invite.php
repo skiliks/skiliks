@@ -96,18 +96,19 @@ class Invite extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'inviting_user_id' => 'Inviting User',
-			'invited_user_id' => 'Invited User',
-			'firstname' => 'Firstname',
-			'lastname' => 'Lastname',
-			'email' => 'Email',
-			'message' => 'Message',
-			'signature' => 'Signature',
-			'code' => 'Code',
-			'position_id' => 'Position',
-			'status' => 'Status',
-			'sent_time' => 'Sent Time',
+			'id'                => 'ID',
+			'inviting_user_id' => Yii::t('site', 'Inviting User'),
+			'invited_user_id'  => Yii::t('site', 'Invited User'),
+			'firstname'        => Yii::t('site', 'Firstname'),
+			'lastname'         => Yii::t('site', 'Lastname'),
+			'email'            => Yii::t('site', 'Email'),
+			'message'          => Yii::t('site', 'Message'),
+			'signature'        => Yii::t('site', 'Signature'),
+			'code'             => Yii::t('site', 'Code'),
+			'position_id'      => Yii::t('site', 'Position'),
+			'status'           => Yii::t('site', 'Status'),
+			'sent_time'        => Yii::t('site', 'Sent Time'),
+			'full_name'        => Yii::t('site', 'Full name'),
 		);
 	}
 
@@ -158,7 +159,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 20,
                 'pageVar' => 'page'
             ]
 		]);
