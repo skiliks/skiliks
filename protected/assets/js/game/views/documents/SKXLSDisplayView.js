@@ -29,6 +29,7 @@ define([
         initialize: function () {
             var me = this;
             var doc = this.options.model_instance.get('document');
+
             if(undefined == typeof doc.get('excel_url') || 0 == $(doc.combineIframeId()).length) {
                 me.message_window = new SKDialogView({
                     'message': 'Excel-документ ещё не загружен. <br/> Попробуйте открыть этот документ через 10 секунд. <br/> Всё должно быть ОК!',
