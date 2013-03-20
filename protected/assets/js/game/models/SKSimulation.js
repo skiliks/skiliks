@@ -197,7 +197,7 @@ define([
              *
              * @method getNewEvents
              */
-            'getNewEvents':function () {
+            'getNewEvents':function (cb) {
                 var me = this;
                 var logs = this.windowLog.getAndClear();
                 SKApp.server.api('events/getState', {
@@ -211,6 +211,9 @@ define([
 
                     if (data.result === 1 && data.events !== undefined) {
                         me.parseNewEvents(data.events);
+                    }
+                    if (cb !== undefined) {
+                        cb();
                     }
                 });
             },
@@ -252,8 +255,9 @@ define([
                      * Срабатывает, когда симуляция уже запущена
                      * @event start
                      */
-                    me.trigger('start');
-
+                    me.getNewEvents(function () {
+                        me.trigger('start');
+                    });
                     me._startTimer();
                 });
             },
