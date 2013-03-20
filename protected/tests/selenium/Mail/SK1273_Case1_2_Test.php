@@ -21,7 +21,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * 1.
      */
     public function testSK1273_Case1() {
-        // $this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
         $this->run_event('MS30');
