@@ -44,7 +44,7 @@ define([], function () {
             }
         },
 
-        combibeIframeId: function () {
+        combineIframeId: function () {
             return '#excel-preload-' + this.id;
         }
     },

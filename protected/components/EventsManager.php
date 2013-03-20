@@ -18,7 +18,7 @@ class EventsManager {
     public static function startEvent($simulation, $eventCode, $clearEvents, $clearAssessment, $delay)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
-            LibSendMs::sendMsByCode($simulation, $eventCode);
+            LibSendMs::sendMsByCode($simulation, $eventCode, 10);
             return ['result' => 2];
         }
 

@@ -20,12 +20,38 @@ define([
 
         dimensions: {},
 
+        isRender: true,
+
         /*
         * Constructor
         * @method initialize
         */
         initialize: function () {
             var me = this;
+            var doc = this.options.model_instance.get('document');
+
+            console.log(typeof doc.get('excel_url'), $(doc.combineIframeId()).length)
+            console.log(undefined == typeof doc.get('excel_url'), 0 == $(doc.combineIframeId()).length)
+
+            if(undefined == typeof doc.get('excel_url') || 0 == $(doc.combineIframeId()).length) {
+                console.log('1');
+                me.message_window = new SKDialogView({
+                    'message': 'Excel-документ ещё не загружен. <br/> Попробуйте открыть этот документ через 10 секунд. <br/> Всё должно быть ОК!',
+                    'buttons': [
+                        {
+                            'value': 'Продолжить работу',
+                            'onclick': function () {
+                                delete me.message_window;
+                            }
+                        }
+                    ]
+                });
+                me.isRender = false;
+            } else {
+                console.log('2');
+                me.isRender = true;
+            }
+
             this.zoho500callback = function(event){
                 me.handlePostMessage(event)
             }
@@ -37,6 +63,8 @@ define([
             }
 
             window.SKWindowView.prototype.initialize.call(this);
+
+            return true;
         },
 
         /**
@@ -61,19 +89,11 @@ define([
                         {
                             'value': 'Конешно!',
                             'onclick': function () {
-//                                console.log('accept', me);
-//
-//                                console.log('SKDocument._excel_cache 1: ', SKDocument._excel_cache);
-//                                console.log(SKApp.simulation.documents);
-
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.fetch();
 
-//                                console.log(SKApp.simulation.documents);
-//                                console.log('SKDocument._excel_cache 2: ', SKDocument._excel_cache);
-
                                 me.doWindowClose();
-                                $(doc.combibeIframeId()).remove();
+                                $(doc.combineIframeId()).remove();
                                 me.remove();
 
                                 // clean array of not handled zoho 500 {
@@ -95,8 +115,12 @@ define([
          * @param el
          */
         displayZohoIframe:function (doc, el) {
+            if (false == this.isRender) {
+                return;
+            }
+
             var me = this;
-            $(doc.combibeIframeId()).show().css({
+            $(doc.combineIframeId()).show().css({
                 'background-color': '#fff',
                 'zIndex':   parseInt(el.parents('.sim-window').css('zIndex'),10) + 1,
                 'width':    el.width() - 4,
@@ -112,6 +136,10 @@ define([
          * @param el
          */
         renderContent:function (el) {
+            if (false == this.isRender) {
+                return;
+            }
+
             var me = this;
             var doc = this.options.model_instance.get('document');
 
@@ -149,7 +177,7 @@ define([
          */
         hideZohoIframe:function () {
             var doc = this.options.model_instance.get('document');
-            $(doc.combibeIframeId()).css({'left':'-4000px','position':'absolute'});
+            $(doc.combineIframeId()).css({'left':'-4000px','position':'absolute'});
         },
 
         /**
