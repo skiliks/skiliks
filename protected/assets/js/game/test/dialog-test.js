@@ -33,7 +33,7 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
 
-                window.SKApp = new SKApplication({'simulationStartTime':'9:00', "skiliksSpeedFactor":8 });
+                window.SKApp = new SKApplication({'start':'9:00', "skiliksSpeedFactor":8 });
                 SKApp.user = {};
                 this.timeout = 1000;
             });
