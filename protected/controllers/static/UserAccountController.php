@@ -592,7 +592,7 @@ class UserAccountController extends YumController
                     ."зарегистрироваться и запустить ассессмент.";
             }
 
-            $invite->signature = 'Best regards';
+            $invite->signature = Yii::t('site', 'Best regards');
         }
 
         // handle send invitation
@@ -614,7 +614,7 @@ class UserAccountController extends YumController
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->save();
-                $this->sendInviteEmail($invite);
+                // $this->sendInviteEmail($invite);
 
                 // decline corporate user invites_limit
                 $this->user->getAccount()->invites_limit--;

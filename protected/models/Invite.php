@@ -103,12 +103,15 @@ class Invite extends CActiveRecord
 			'lastname'         => Yii::t('site', 'Lastname'),
 			'email'            => Yii::t('site', 'Email'),
 			'message'          => Yii::t('site', 'Message'),
+			'message text'     => Yii::t('site', 'Message text'),
 			'signature'        => Yii::t('site', 'Signature'),
 			'code'             => Yii::t('site', 'Code'),
 			'position_id'      => Yii::t('site', 'Position'),
 			'status'           => Yii::t('site', 'Status'),
 			'sent_time'        => Yii::t('site', 'Sent Time'),
 			'full_name'        => Yii::t('site', 'Full name'),
+			'To'               => Yii::t('site', 'To'),
+            'signature'        => Yii::t('site', 'Signature'),
 		);
 	}
 

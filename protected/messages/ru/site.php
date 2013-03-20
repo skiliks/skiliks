@@ -146,4 +146,9 @@ return array(
     'Score' => 'Результат',
     'Date / time' => 'Дата отправки приглашения',
     'You has no available invites!' => 'У Вас закончились приглашения!',
+    'Message' => 'Сообщение',
+    'Message text' => 'Текст письма',
+    'To' => 'Кому',
+    'Signature' => 'Подпись',
+    'Best regards' => 'С уважением!',
 );
