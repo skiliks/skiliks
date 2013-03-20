@@ -36,7 +36,6 @@ $(window.parent.window).load(function()
 {
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
-        console.log(_1416,msg,_1418,_1419,_141a);
         window.parent.parent.postMessage('Zoho_500', 'http://live.skiliks.com');
 
         if(typeof _1418!="undefined") {
@@ -97,12 +96,14 @@ $(window.parent.window).load(function()
         }
     }
 
+/*   Code to emulate Zoho 500 error in future
     setTimeout(function() {
         window.parent.showBannerMessage(
             'ERROR',
             'The server has encountered a problem. We are sorry! Kindly reopen the file and try again.');
             },
         30*1000);
+    */
 });
 // new code }
 </script>
