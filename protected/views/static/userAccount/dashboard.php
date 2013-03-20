@@ -64,10 +64,7 @@
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 ?>
 <script type="text/javascript">
     $(function() {
