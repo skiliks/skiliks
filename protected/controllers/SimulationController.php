@@ -18,10 +18,13 @@ class SimulationController extends AjaxController
      */
     public function actionStart()
     {
-        // тип симуляции 1 - promo, 2 - dev
-        $simulationType = Yii::app()->request->getParam('stype');
+        // Режим симуляции: promo, dev
+        $mode = Yii::app()->request->getParam('mode');
+        // Тип симуляции 1 - full, 2 - lite
+        $type = Yii::app()->request->getParam('type');
+
         $user = YumUser::model()->findByPk(Yii::app()->user->getId());
-        $simulation = SimulationService::simulationStart($simulationType, $user);
+        $simulation = SimulationService::simulationStart($mode, $user, $type);
 
         if (null === $simulation) {
             $this->sendJSON(
