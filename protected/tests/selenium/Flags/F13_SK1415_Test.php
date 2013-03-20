@@ -31,9 +31,8 @@ class F13_SK1415_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
-        $this->run_event('E1.3');
         sleep(5);
+        $this->run_event('E1.3');
         $this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
 
@@ -82,7 +81,6 @@ class F13_SK1415_Test extends SeleniumTestHelper
         $this->start_simulation();
         sleep(5);
         $this->run_event('E1.3');
-
         $this->optimal_click("xpath=(//*[contains(text(),' Сергей, привет! Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл, ты посмотри')])");
 

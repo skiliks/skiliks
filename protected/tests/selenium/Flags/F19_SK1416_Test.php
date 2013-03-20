@@ -28,7 +28,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('E3');
@@ -56,7 +56,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('E3');
@@ -85,7 +85,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('T2');
