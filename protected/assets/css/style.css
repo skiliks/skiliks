@@ -1494,14 +1494,12 @@ html[lang=ru] .product section table th{
 	position:absolute;
 	top:0;
 	left:0;
-	z-index:5;
 }
 .login-form{
     background:#146672;
     width:235px;
     left: 50%;
     padding: 0 7px;
-    z-index: 10;
 }
 .login-form h6{
 	font:1.667em 'ProximaNova-Bold';
