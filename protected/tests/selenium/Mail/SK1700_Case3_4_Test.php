@@ -23,11 +23,11 @@ class SK1700_Case3_4_Test extends SeleniumTestHelper
     public function testSK1700_Case3() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(1);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "11");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
-
+        sleep(2);
         $this->assertTrue($this->incoming_counter(2));
         $this->optimal_click("css=li.icon-active.mail a");
 

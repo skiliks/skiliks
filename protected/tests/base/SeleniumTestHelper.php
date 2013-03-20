@@ -204,6 +204,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function verify_flag ($num_flag, $ver_value)
     {
+        $this->isVisible(Yii::app()->params['test_mappings']['flags'][$num_flag]);
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
