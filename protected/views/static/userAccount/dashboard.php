@@ -37,12 +37,12 @@
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 ?>
 <script type="text/javascript">
     $(function() {
+
+        // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
             width: 550
