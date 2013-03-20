@@ -52,13 +52,34 @@
         margin: 7px 0px 10px 30px;
     }
 
+    #send-invite-message-form label,
     #invite-form label {
         width: 150px;
     }
 
+    #send-invite-message-form label {
+        display: inline-block;
+        padding: 3px 0 0 0;
+        vertical-align: top;
+    }
+
+    #send-invite-message-form .row,
     #invite-form .row {
         margin: 5px 0 5px 0 ;
     }
+
+    #send-invite-message-form textarea,
+    #send-invite-message-form input {
+        display: inline-block;
+        width: 550px;
+    }
+
+    #send-invite-message-form .buttons input {
+        display: block;
+        margin: 0 auto;
+        width: 450px;
+    }
+
     .invites-limit {
         background: none repeat scroll 0 0 #146672;
         border-radius: 3px;
@@ -117,7 +138,7 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 680
+            width: 780
 
         });
         $( ".message_window").dialog('open');
@@ -171,7 +192,6 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
     <?php if (!empty($valid)): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
-        <h3>Message</h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
@@ -187,17 +207,26 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
 
+        <br/>
+        <br/>
+
         <div class="row">
-            <?php echo $form->labelEx($invite, 'message'); ?>
+            <?php echo $form->labelEx($invite, 'message text'); ?>
             <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
+
+        <br/>
+        <br/>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'signature'); ?>
             <?php echo $form->textField($invite, 'signature'); ?>
             <?php echo $form->error($invite, 'signature'); ?>
         </div>
+
+        <br/>
+        <br/>
 
         <div class="row buttons">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
