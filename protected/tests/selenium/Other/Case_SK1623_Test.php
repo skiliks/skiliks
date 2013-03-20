@@ -29,7 +29,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         $this->optimal_click("css=li.icon-active.phone a");
 
-        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Не ответить')])"));
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(5);
@@ -54,7 +54,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         $this->optimal_click("css=li.icon-active.phone a");
 
-        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Не ответить')])"));
+        $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         sleep(5);
