@@ -77,7 +77,7 @@ define([
                 this.handleEvents();
                 this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('simulationEndTime'))) {
+                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('end'))) {
                         me.stop();
                     }
 
@@ -139,7 +139,7 @@ define([
              */
             'getGameSeconds':function () {
                 var current_time_string = new Date();
-                var game_start_time = timeStringToMinutes(this.get('app').get('simulationStartTime')) * 60;
+                var game_start_time = timeStringToMinutes(this.get('app').get('start')) * 60;
                 return game_start_time +
                     Math.floor((current_time_string - this.start_time) / 1000 * this.get('app').get('skiliksSpeedFactor')) +
                     this.skipped_minutes * 60;
@@ -231,7 +231,7 @@ define([
                     throw 'Simulation already started';
                 }
                 me.start_time = new Date();
-                SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
+                SKApp.server.api('simulation/start', {'mode':this.get('mode'), 'type':this.get('type')}, function (data) {
 
                     if (data.result === 0) {
                         window.location = '/';
@@ -320,7 +320,7 @@ define([
              * @returns {boolean}
              */
             'isDebug':function () {
-                return this.get('stype') === 'developer';
+                return this.get('mode') === 'developer';
             },
 
             /**

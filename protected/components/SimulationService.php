@@ -369,11 +369,12 @@ class SimulationService
     /**
      * @param $simulationMode
      * @param YumUser $user
+     * @param int $type
      * @throws Exception
      * @internal param $simulationType
      * @return Simulation
      */
-    public static function simulationStart($simulationMode, $user)
+    public static function simulationStart($simulationMode, $user, $type = Simulation::TYPE_LITE)
     {
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();
@@ -392,6 +393,11 @@ class SimulationService
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
+
+        // TODO: Change checking logic
+        if ($type != Simulation::TYPE_LITE) {
+            throw new Exception('У вас нет прав для старта этой симуляции');
+        }
         $profiler->render('2: ');
 
         // Создаем новую симуляцию
@@ -399,7 +405,7 @@ class SimulationService
         $simulation->user_id = $userId;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->type = Simulation::TYPE_FULL;
+        $simulation->type = $type;
         $simulation->insert();
         $profiler->render('3: ');
 
@@ -492,7 +498,7 @@ class SimulationService
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
-        $start_time = explode(':', Yii::app()->params['public']['simulationStartTime']);
+        $start_time = explode(':', Yii::app()->params['simulation'][$simulation->getTypeLabel()]['start']);
         $clockH = round($unixtimeMins / 60);
         $clockM = $unixtimeMins - ($clockH * 60);
         $clockH = $clockH + $start_time[0];

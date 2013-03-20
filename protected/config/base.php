@@ -134,10 +134,6 @@ return array(
                 'admin/<action:\w+>'     => 'static/admin/<action>',
                 'Admin/Log'              => 'static/Admin/Log',
 
-                'site/'                   => 'static/userAccount/office',
-                'site/'                   => 'static/userAccount/office',
-                'site/<mode:\w+>'         => 'static/site/site',
-                'site/logout'             => 'static/site/logout',
                 'office'                  => 'static/userAccount/office',
                 'logout'                  => 'static/site/logout',
                 'simulation'              => 'static/site/site',
@@ -203,9 +199,17 @@ return array(
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor' => 8,
-            'simulationStartTime' => '9:45',
-            'simulationEndTime' => '18:00',
             'storageURL' => 'http://storage.skiliks.com/v1/'
+        ],
+        'simulation' => [
+            'lite' => [
+                'start' => '9:45',
+                'end' => '12:45',
+            ],
+            'full' => [
+                'start' => '9:45',
+                'end' => '18:00',
+            ]
         ],
         'zoho' => array(
             'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
