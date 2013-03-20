@@ -92,10 +92,16 @@ class EventsManager {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
-            self::processLogs($simulation, $logs);
-
-            $simMode  = $simulation->mode; // определим тип симуляции
+            $simMode  = $simulation->mode;
+            $simType  = $simulation->type;
             $gameTime = $simulation->getGameTime();
+            $endTime = Yii::app()->params['simulation'][$simulation->getTypeLabel()]['end'];
+
+            if (GameTime::timeToSeconds($gameTime) > GameTime::timeToSeconds($endTime)) {
+                throw new CHttpException(200, 'Время истекло', 4);
+            }
+
+            self::processLogs($simulation, $logs);
 
             // обработка задач {
             $task = false;
