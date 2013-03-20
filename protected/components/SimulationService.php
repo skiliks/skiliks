@@ -395,7 +395,9 @@ class SimulationService
         }
 
         // TODO: Change checking logic
-        if ($type != Simulation::TYPE_LITE) {
+        if ($type == Simulation::TYPE_FULL
+            && false == $user->can(UserService::CAN_START_FULL_SIMULATION)
+        ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
         $profiler->render('2: ');

@@ -42,11 +42,9 @@ class SiteController extends AjaxController
     /**
      *
      */
-    public function actionSite($mode)
+    public function actionSite($mode, $type = Simulation::TYPE_LITE)
     {
         $user = Yii::app()->user->data();
-        // TODO: Set correct simulation type
-        $type = Simulation::TYPE_LITE;
 
         if (null === $user) {
             $this->redirect('/');
