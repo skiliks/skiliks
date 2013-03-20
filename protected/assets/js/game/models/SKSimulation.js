@@ -254,14 +254,7 @@ define([
                      */
                     me.trigger('start');
 
-                    me.events_timer = setInterval(function () {
-                        me.getNewEvents();
-                        /**
-                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
-                         * @event tick
-                         */
-                        me.trigger('tick');
-                    }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+                    me._startTimer();
                 });
             },
 
@@ -276,7 +269,7 @@ define([
              */
             'stop':function () {
                 var me = this;
-                clearInterval(this.events_timer);
+                me._stopTimer();
 
                 this.window_set.deactivateActiveWindow();
 
@@ -292,6 +285,40 @@ define([
                     }
 
                     me.trigger('stop');
+                });
+            },
+
+            /**
+             * Ставит симуляцию на паузу, останавливает таймер, скрывает интерфейс
+             *
+             * @method startPause
+             * @async
+             */
+            startPause: function() {
+                var me = this;
+
+                me._stopTimer();
+                me.trigger('pause:start');
+
+                SKApp.server.api('simulation/startPause', {}, function () {
+
+                });
+            },
+
+            /**
+             * Возобновляет установленную на паузу симуляцию
+             *
+             * @method stopPause
+             * @async
+             */
+            stopPause: function() {
+                var me = this;
+
+                me._startTimer();
+                me.trigger('pause:stop');
+
+                SKApp.server.api('simulation/stopPause', {}, function () {
+
                 });
             },
 
@@ -313,6 +340,34 @@ define([
                         parseInt(hour, 10) * 60 + parseInt(minute, 10) - me.getGameMinutes() + me.skipped_minutes;
                     me.trigger('tick');
                 });
+            },
+
+            /**
+             * @method isDebug
+             * @protected
+             */
+            _startTimer: function() {
+                var me = this;
+
+                if (me.events_timer) {
+                    me._stopTimer();
+                }
+
+                me.events_timer = setInterval(function () {
+                    me.getNewEvents();
+                    /**
+                     * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                     * @event tick
+                     */
+                    me.trigger('tick');
+                }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+            },
+
+            _stopTimer: function() {
+                if (this.events_timer) {
+                    clearInterval(this.events_timer);
+                    delete this.events_timer;
+                }
             },
 
             /**
