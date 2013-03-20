@@ -19,10 +19,10 @@ class SeleniumTestHelper extends CWebTestCase
         $this->windowMaximize();
         $this->open('/');
         $this->optimal_click("xpath=//header/nav/a[4]");
-        $this->waitForVisible("xpath=//div[1]/form/div[1]/input");
-        $this->type("xpath=//div[1]/form/div[1]/input", "tatiana@skiliks.com");
-        $this->type("xpath=//div[1]/form/div[2]/input", "123123");
-        $this->optimal_click("xpath=//div[1]/form/div[5]/input");
+        $this->waitForVisible("css=.login>input");
+        $this->type("css=.login>input", "tatiana@skiliks.com");
+        $this->type("css=.password>input", "123123");
+        $this->optimal_click("css=.submit>input");
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");

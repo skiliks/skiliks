@@ -116,7 +116,32 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "23");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->assertTrue($this->incoming_counter(28));
+        $this->assertTrue($this->incoming_counter(27));
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+
+        $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
+        $this->assertTrue($this->mail_comes("вакцинация!"));
+
+        $this->mail_open("вакцинация!");
+
+        $this->mouseOver(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
+        $this->click(Yii::app()->params['test_mappings']['mail_main']['forward_email']);
+
+        $this->waitForTextPresent("Fwd: вакцинация!");
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
+        $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
+        sleep(5);
+        $this->waitForVisible("xpath=(//*[contains(text(),'новое письмо')])");
+
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
+        $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
+        $this->assertTrue($this->mail_comes("Fwd: вакцинация!"));
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
