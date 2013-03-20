@@ -26,6 +26,17 @@ class InitBaseUsersCommand
             $actionSrartDevMode->save();
         }
 
+        $actionFullSim = YumAction::model()->findByAttributes([
+            'title' => 'run_full_simulation'
+        ]);
+
+        if (null === $actionFullSim) {
+            $actionFullSim = new YumAction();
+            $actionFullSim->title   = 'run_full_simulation';
+            $actionFullSim->comment = 'Is user can start full simulation.';
+            $actionFullSim->save();
+        }
+
         $users = Yii::app()->params['initial_data']['users'];
         foreach ($users as $user) {
             echo "\n user {$user['username']}:";
@@ -71,30 +82,33 @@ class InitBaseUsersCommand
             }
             // activate user }
 
-            $permissionSrartDevMode = YumPermission::model()->findByAttributes([
-                'type'         => 'user',
-                'principal_id' => $yumUser->id,
-                'action'       => $actionSrartDevMode->id
-            ]);
+            $actions = YumAction::model()->findAll();
+            foreach ($actions as $action) {
+                $permission = YumPermission::model()->findByAttributes([
+                    'type'         => 'user',
+                    'principal_id' => $yumUser->id,
+                    'action'       => $action->id
+                ]);
 
-            if (isset($user['is_admin']) && 1 == $user['is_admin']) {
-                if (null === $permissionSrartDevMode) {
-                    $permissionSrartDevMode = new YumPermission();
-                    $permissionSrartDevMode->principal_id   = $yumUser->id;
-                    $permissionSrartDevMode->subordinate_id = $yumUser->id;
-                    $permissionSrartDevMode->type           = 'user';
-                    $permissionSrartDevMode->action         = $actionSrartDevMode->id;
-                    $permissionSrartDevMode->template       = true;
-                    $permissionSrartDevMode->save();
+                if (isset($user['is_admin']) && 1 == $user['is_admin']) {
+                    if (null === $permission) {
+                        $permission = new YumPermission();
+                        $permission->principal_id   = $yumUser->id;
+                        $permission->subordinate_id = $yumUser->id;
+                        $permission->type           = 'user';
+                        $permission->action         = $action->id;
+                        $permission->template       = true;
+                        $permission->save();
 
-                    echo " => permission to start sim in dev mode granted";
-                }
-            } else {
-                // remove uesr permission to SrartDevMode
-                if (null !== $permissionSrartDevMode) {
-                    $permissionSrartDevMode->delete();
+                        echo " => permission '{$action->title}' granted";
+                    }
+                } else {
+                    // remove user permission
+                    if (null !== $permission) {
+                        $permission->delete();
 
-                    echo " => permission to start sim in dev mode removed";
+                        echo " => permission '{$action->title}' removed";
+                    }
                 }
             }
         }
