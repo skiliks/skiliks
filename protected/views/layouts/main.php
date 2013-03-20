@@ -13,7 +13,7 @@ $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');;
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 
@@ -128,31 +128,36 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <script type="text/javascript">
             	$(function () {
 			        var h=$('.container').height();
-	            	$('.sign-in-box').css('height',h+'px');
-
-                    // @link: http://jqueryui.com/dialog/
-                    $(".message_window").dialog({
-                        closeOnEscape: true,
-                        dialogClass: 'sing-in-pop-up',
-                        minHeight: 220,
-                        modal: true,
-                        position: {
-                            my: "right top",
-                            at: "right bottom",
-                            of: $('#top header')
-                        },
-                        resizable: false,
-                        title: 'Sign in',
-                        width: 275
-                    });
-                    $(".message_window").dialog("close");
+	            	$('.sign-in-box').css('height',h+'px')
 			    });
+                // show/hide sign-in box
+                $('.sign-in-link').click(function(event){
+                    event.preventDefault();
+                    $(".message_window").dialog('open');
+                });
             </script>
         <?php endif; ?>
 
         <script type="text/javascript">
         	$(function () {
 		        $("select").selectbox();
+
+                // @link: http://jqueryui.com/dialog/
+                $(".message_window").dialog({
+                    closeOnEscape: true,
+                    dialogClass: 'sing-in-pop-up',
+                    minHeight: 220,
+                    modal: true,
+                    position: {
+                        my: "right top",
+                        at: "right bottom",
+                        of: $('#top header')
+                    },
+                    resizable: false,
+                    title: 'Sign in',
+                    width: 275
+                });
+                $(".message_window").dialog("close");
 		    });
         </script>
 
