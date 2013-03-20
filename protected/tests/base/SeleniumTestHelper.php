@@ -62,9 +62,10 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function run_event($event)
     {
-        sleep(2);
+        sleep(3);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
+        sleep(2);
     }
 
     /**

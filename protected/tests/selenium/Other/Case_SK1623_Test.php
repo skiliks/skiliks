@@ -22,7 +22,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(2);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->run_event('ET12.1');
@@ -43,7 +43,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(2);
         $this->assertTrue($this->verify_flag('F14','0'));
 
         $this->optimal_click("xpath=//div/div[4]/form[1]/fieldset/table[1]/thead/tr/th[6]/a");

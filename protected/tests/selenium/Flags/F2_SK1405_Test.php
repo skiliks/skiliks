@@ -22,7 +22,6 @@ class F2_SK1405_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
         $this->run_event('S11');
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
@@ -39,7 +38,6 @@ class F2_SK1405_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
         $this->run_event('S11');
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
