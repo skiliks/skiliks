@@ -29,9 +29,27 @@ class SK1253_Test extends SeleniumTestHelper
         $this->waitForElementPresent(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['trudyakin']);
+        //lol
+        $this->assertTextPresent("Срочно жду бюджет логистики");
+        $this->assertTextPresent("Квартальный план");
+        $this->assertTextPresent("форма по задаче от логистики - ГОТОВО");
+        $this->assertTextPresent("Задача отдела логистики: уточнения");
+        $this->assertTextPresent("Обсуждение сроков отчетности");
+        $this->assertTextPresent("Беседа с консультантами");
+        $this->assertTextPresent("Прочее");
+
 	    $this->optimal_click(Yii::app()->params['test_mappings']['mail']['add_recipient']);
         $this->mouseOver("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
         $this->optimal_click("//ul[contains(@class,'ui-autocomplete')]/li[15]/a");
+        //lol
+        $this->assertTextPresent("Срочно жду бюджет логистики");
+        $this->assertTextPresent("Квартальный план");
+        $this->assertTextPresent("форма по задаче от логистики - ГОТОВО");
+        $this->assertTextPresent("Задача отдела логистики: уточнения");
+        $this->assertTextPresent("Обсуждение сроков отчетности");
+        $this->assertTextPresent("Беседа с консультантами");
+        $this->assertTextPresent("Прочее");
+
         $this->waitForVisible("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->click("xpath=(//*[contains(text(),'Срочно жду бюджет логистики')])");
