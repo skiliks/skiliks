@@ -146,13 +146,13 @@ class Invite extends CActiveRecord
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
-                        'asc' => 'CONCAT(firstname, lastname)',
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
                         'desc' => 'CONCAT(firstname, lastname) DESC'
                     ],
-                    /*'position_id' => [
-                        'asc' => 'position.label',
+                    'position_id' => [
+                        'asc'  => 'position.label',
                         'desc' => 'position.label DESC'
-                    ],*/
+                    ],
                     'status',
                     'sent_time'
                 ],
