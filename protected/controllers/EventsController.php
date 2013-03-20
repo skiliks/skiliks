@@ -45,7 +45,8 @@ class EventsController extends AjaxController
                 Yii::app()->request->getParam('eventCode'),
                 Yii::app()->request->getParam('clearEvents', false),
                 Yii::app()->request->getParam('clearAssessment', false),
-                Yii::app()->request->getParam('delay', 0)
+                Yii::app()->request->getParam('delay', 0),
+                Yii::app()->request->getParam('gameTime', null)
             )
         );
     }

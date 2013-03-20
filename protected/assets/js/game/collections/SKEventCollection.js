@@ -150,7 +150,8 @@ define(["game/models/SKEvent"], function () {
                     eventCode: code,
                     delay: delay,
                     clearEvents: clear_events,
-                    clearAssessment: clear_assessment
+                    clearAssessment: clear_assessment,
+                    gameTime: SKApp.simulation.getGameSeconds()
                 }, callback);
             },
 
