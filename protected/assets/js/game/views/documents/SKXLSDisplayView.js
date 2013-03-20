@@ -29,12 +29,7 @@ define([
         initialize: function () {
             var me = this;
             var doc = this.options.model_instance.get('document');
-
-            console.log(typeof doc.get('excel_url'), $(doc.combineIframeId()).length)
-            console.log(undefined == typeof doc.get('excel_url'), 0 == $(doc.combineIframeId()).length)
-
             if(undefined == typeof doc.get('excel_url') || 0 == $(doc.combineIframeId()).length) {
-                console.log('1');
                 me.message_window = new SKDialogView({
                     'message': 'Excel-документ ещё не загружен. <br/> Попробуйте открыть этот документ через 10 секунд. <br/> Всё должно быть ОК!',
                     'buttons': [
@@ -48,7 +43,6 @@ define([
                 });
                 me.isRender = false;
             } else {
-                console.log('2');
                 me.isRender = true;
             }
 
