@@ -896,6 +896,7 @@ class LogHelper
         $durationByWindowUid = [];
         $durationByMailCode = [];
         foreach ($data as $activityAction) {
+            assert($activityAction instanceof LogActivityAction);
             $w_id = $activityAction->window_uid;
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $durationByWindowUid[$w_id] = (isset($durationByWindowUid[$w_id]))
@@ -914,6 +915,7 @@ class LogHelper
         $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
         foreach ($data as $activityAction) {
+            $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $legAction = $activityAction->activityAction->getAction();
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
@@ -942,7 +944,7 @@ class LogHelper
                 $id = $activityAction->window_uid;
 
                 if (NULL === $mail_code) {
-                    if ($activityAction->activityAction->getAction() instanceof Window && in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions) ||
+                    if (($activityAction->activityAction->getAction() instanceof Window && in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions)) ||
                         self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
                         $actionDurationInGameSeconds = TimeTools::TimeToSeconds($diff_time);
                     } else {
@@ -962,7 +964,7 @@ class LogHelper
                     $actionDurationInGameSeconds < $limit )
                 {
                     // prolong previous activity :
-                    $aggregatedActivity->end_time = $activityAction['end_time'];
+                    $aggregatedActivity->end_time = $activityAction->end_time;
                     $aggregatedActivity->updateDuration();
                 } else {
                     // activity and, save it
