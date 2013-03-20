@@ -6,7 +6,7 @@
 /**
  * Тесты на тестирование флага F4 (для SK1273)
  */
-class SK1273_Case1_2_Test extends SeleniumTestHelper
+class SK1273_Case3_4_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -20,7 +20,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      *
      * 1.
      */
-    public function testSK1273_Case1() {
+    public function testSK1273_Case3() {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
@@ -109,7 +109,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
 
 
 
-    public function testSK1273_Case2() {
+    public function testSK1273_Case4() {
         //$this->markTestIncomplete();
         $this->start_simulation();
 
