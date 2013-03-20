@@ -23,7 +23,6 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
     public function testSK1273_Case1() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
         $this->run_event('MS30');
         $this->assertTrue($this->incoming_counter(1));
         $this->optimal_click("css=li.icon-active.mail a");
@@ -103,6 +102,21 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Fwd: Re: Re: Re: Срочно жду бюджет логистики"));
+
+        $this->click("css=input.btn.btn-simulation-stop");
+    }
+
+
+
+    public function testSK1273_Case2() {
+        //$this->markTestIncomplete();
+        $this->start_simulation();
+
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "23");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
+        $this->assertTrue($this->incoming_counter(28));
 
         $this->click("css=input.btn.btn-simulation-stop");
     }
