@@ -323,8 +323,6 @@ class SimulationServiceTest extends CDbTestCase
             ['action' => 'MY2'        , 'duration' => '00:01:28']
         ];
 
-        $this->assertEquals(count($res), count($agregatedLogs), 'Total');
-
         $j = 0;
         foreach ($agregatedLogs as $agregatedLog) {
             //echo "\n", $agregatedLog->leg_action, ' :: ', $agregatedLog->duration;
@@ -332,6 +330,7 @@ class SimulationServiceTest extends CDbTestCase
             $this->assertEquals($res[$j]['duration'], $agregatedLog->duration,  'duration, iteration '.$j);
             $j++;
         }
+        $this->assertEquals(count($res), count($agregatedLogs), 'Total');
     }
 
     public function testActionsAgregationMechanism_2()

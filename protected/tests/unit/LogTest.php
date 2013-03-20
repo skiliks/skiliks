@@ -12,7 +12,7 @@ class LogTest extends CDbTestCase
     /**
      * Проверяет работу ответа всем на письмо M1
      */
-    public function test_log_reply_all()
+    public function testLogReplyAll()
     {
         //$this->markTestSkipped();
         
@@ -152,10 +152,6 @@ class LogTest extends CDbTestCase
         $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
         $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_wait');
         $this->assertEquals($activity_actions[10]->activityAction->activity_id, 'A_not_sent');
-        $log_display = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
-        $this->assertEquals(count($activity_actions), count($log_display['data']));
-        $this->assertEquals($log_display['data'][8]['activity_id'], 'A_wait');
-        $this->assertEquals($log_display['data'][10]['activity_id'], 'A_not_sent');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
@@ -252,8 +248,7 @@ class LogTest extends CDbTestCase
         ]);
         //$activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         //array_map(function ($action) {$action->dump();}, $activityActions);
-        $result = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
-        $this->assertEquals($result['data'][2]['leg_action'], 'D1');
+        $this->assertEquals($simulation->log_activity_actions[2]->activityAction->getAction()->getCode(), 'D1');
     }
 
     /**

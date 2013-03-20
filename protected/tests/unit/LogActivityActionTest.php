@@ -48,73 +48,63 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
                 'leg_action' => 'main screen',
-                'mail_id' => '',
-                'dialog_code' => NULL,
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => 'main screen',
-                'category' => '5',
-                'is_keep_last_category' => '0',
+                'window' => 1,
                 'start_time' => '09:00:00',
                 'end_time' => '11:02:15',
-                'diff_time' => '02:02:15',
                 'activity_id' => 'A_wait',
+                'window_uid' => 1
             ),
             1 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'ET1.1',
-                'mail_id' => '',
-                'dialog_code' => 'ET1.1',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '1',
-                'is_keep_last_category' => '0',
+                'window' => 24,
                 'start_time' => '11:02:15',
                 'end_time' => '11:14:53',
-                'diff_time' => '00:12:38',
                 'activity_id' => 'AE1',
+                'window_uid' => 2
             ),
             2 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E1',
-                'mail_id' => '',
-                'dialog_code' => 'E1',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '1',
-                'is_keep_last_category' => '0',
+                'window' => 1,
                 'start_time' => '11:14:53',
                 'end_time' => '12:13:12',
-                'diff_time' => '00:58:19',
                 'activity_id' => 'AE1',
+                'window_uid' => 4
             ),
             3 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
+                'window' => 1,
                 'leg_action' => 'main screen',
-                'mail_id' => '',
-                'dialog_code' => NULL,
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => 'main screen',
-                'category' => '5',
-                'is_keep_last_category' => '0',
                 'start_time' => '12:13:12',
                 'end_time' => '12:13:22',
-                'diff_time' => '00:00:10',
                 'activity_id' => 'A_wait',
+                'window_uid' => 5
+
             ));
 
         SimulationService::simulationStop($simulation);
-        $res = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
-        $this->assertEquals($st, $res['data']);
+        $activityActions = $simulation->log_activity_actions;
+        $data = [];
+        foreach ($activityActions as $activityAction) {
+            $data[] = [
+                'sim_id' => $activityAction->sim_id,
+                'leg_type' => $activityAction->activityAction->leg_type,
+                'leg_action' => $activityAction->activityAction->getAction()->getCode(),
+                'window' => $activityAction->window,
+                'start_time' => $activityAction->start_time,
+                'end_time' => $activityAction->end_time,
+                'activity_id' => $activityAction->activityAction->activity->primaryKey,
+                'window_uid' => $activityAction->window_uid
+            ];
+        }
+        $this->assertEquals($st, $data);
     }
 
     /*
@@ -180,23 +170,26 @@ class LogActivityActionTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $res2 = LogHelper::getLegActionsDetail(LogHelper::RETURN_DATA, $simulation);
+        $activityActions = $simulation->log_activity_actions;
+        $data = [];
+        foreach ($activityActions as $activityAction) {
+            $data[] = [
+                'sim_id' => $activityAction->sim_id,
+                'leg_type' => $activityAction->activityAction->leg_type,
+                'leg_action' => $activityAction->activityAction->getAction()->getCode(),
+                'start_time' => $activityAction->start_time,
+                'end_time' => $activityAction->end_time,
+                'activity_id' => $activityAction->activityAction->activity->primaryKey,
+            ];
+        }
         $tmp = array(
             0 =>
             array(
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
                 'leg_action' => 'main screen',
-                'mail_id' => '',
-                'dialog_code' => NULL,
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => 'main screen',
-                'category' => '5',
-                'is_keep_last_category' => '0',
                 'start_time' => '09:00:00',
                 'end_time' => '12:02:19',
-                'diff_time' => '03:02:19',
                 'activity_id' => 'A_wait',
             ),
             1 =>
@@ -204,16 +197,8 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'ET2.1',
-                'mail_id' => '',
-                'dialog_code' => 'ET2.1',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '1',
-                'is_keep_last_category' => '0',
                 'start_time' => '12:02:19',
                 'end_time' => '12:02:50',
-                'diff_time' => '00:00:31',
                 'activity_id' => 'AE2a',
             ),
             2 =>
@@ -221,16 +206,8 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E2',
-                'mail_id' => '',
-                'dialog_code' => 'E2',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '1',
-                'is_keep_last_category' => '0',
                 'start_time' => '12:02:50',
                 'end_time' => '12:03:24',
-                'diff_time' => '00:00:34',
                 'activity_id' => 'AE2a',
             ),
             3 =>
@@ -238,16 +215,8 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E2',
-                'mail_id' => '',
-                'dialog_code' => 'E2',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '1',
-                'is_keep_last_category' => '0',
                 'start_time' => '12:03:24',
                 'end_time' => '12:06:12',
-                'diff_time' => '00:02:48',
                 'activity_id' => 'AE2a',
             ),
             4 =>
@@ -255,16 +224,8 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'System_dial_leg',
                 'leg_action' => 'E2.4',
-                'mail_id' => '',
-                'dialog_code' => 'E2.4',
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => NULL,
-                'category' => '2',
-                'is_keep_last_category' => NULL,
                 'start_time' => '12:06:12',
                 'end_time' => '12:09:25',
-                'diff_time' => '00:03:13',
                 'activity_id' => 'AE2b',
             ),
             5 =>
@@ -272,20 +233,13 @@ class LogActivityActionTest extends CDbTestCase
                 'sim_id' => $simulation->id,
                 'leg_type' => 'Window',
                 'leg_action' => 'main screen',
-                'mail_id' => '',
-                'dialog_code' => NULL,
-                'mail_code' => NULL,
-                'doc_code' => NULL,
-                'subtype' => 'main screen',
-                'category' => '5',
-                'is_keep_last_category' => '0',
                 'start_time' => '12:09:25',
                 'end_time' => '12:20:44',
-                'diff_time' => '00:11:19',
                 'activity_id' => 'A_wait',
             ),
         );
-        $this->assertEquals($tmp, $res2['data']);
+        $this->assertEquals($tmp, $data);
+
     }
 
     /**
