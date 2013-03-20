@@ -84,7 +84,6 @@ define([
              * @param window
              */
             setupWindowEvents: function (window) {
-                console.log('xxx');
                 var window_full_name = (window.get('name') + '/' + window.get('subname'));
                 if (this.window_views[window_full_name]) {
                     var WindowClass = this.window_views[window_full_name];
@@ -93,8 +92,6 @@ define([
                     this.windows.push(view);
                 }
                 if (window.get('name') === 'documents' && window.get('subname') === 'documentsFiles') {
-                    console.log('documentsFiles');
-
                     var file = window.get('document').get('name');
                     var document_view;
                     if (file.match(/\.xlsx$/) || file.match(/\.xls$/)) {
@@ -107,7 +104,6 @@ define([
                         SKApp.simulation.window_set.remove(
                             SKApp.simulation.window_set.where({subname: 'documentsFiles'})
                         );
-                        console.log('SKApp.simulation.window_set: ', SKApp.simulation.window_set);
                     } else {
                         document_view.render();
                     }
