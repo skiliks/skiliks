@@ -241,7 +241,7 @@ define([
                         })]);
                 //clock = sinon.useFakeTimers();
                 //this.timeout = 10000;
-                window.SKApp = new SKApplication({'simulationStartTime':'9:00', "skiliksSpeedFactor":8 });
+                window.SKApp = new SKApplication({'start':'9:00', "skiliksSpeedFactor":8 });
                 SKApp.user = {};
                 this.timeout = 1000;
             });
