@@ -31,7 +31,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-
+        /*
         $this->optimal_click("xpath=//header/nav/a[4]");
 
         for ($second = 0; ; $second++) {
@@ -43,6 +43,9 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
+        */
+
+        $this->open('/simulation/developer?type=1'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");

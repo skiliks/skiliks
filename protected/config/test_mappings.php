@@ -24,7 +24,8 @@ return [
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'popup' => "",
-        'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])"
+        'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])",
+        'close' => "css=.btn-close button"
     ],
 
     'mail_main' => [
@@ -38,7 +39,8 @@ return [
         'inbox' => "xpath=//*[@id='FOLDER_INBOX']/label",
         'draft' => "xpath=//*[@id='FOLDER_DRAFTS']/label",
         'outbox' => "xpath=//*[@id='FOLDER_SENDED']/label",
-        'trash' => "xpath=//*[@id='FOLDER_TRASH']/label"
+        'trash' => "xpath=//*[@id='FOLDER_TRASH']/label",
+        'close' => "css=.btn-close button"
     ],
 
     'todo' => [
