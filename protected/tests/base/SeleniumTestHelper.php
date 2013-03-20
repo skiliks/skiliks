@@ -62,10 +62,10 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function run_event($event)
     {
-        sleep(3);
+        sleep(5);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
-        sleep(2);
+        sleep(5);
     }
 
     /**
@@ -204,8 +204,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function verify_flag ($num_flag, $ver_value)
     {
-        sleep(3);
-        $this->isVisible(Yii::app()->params['test_mappings']['flags'][$num_flag]);
+        sleep(5);
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
