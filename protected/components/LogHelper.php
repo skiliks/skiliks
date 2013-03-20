@@ -831,12 +831,18 @@ class LogHelper
      * Медот сделан чтоб упростить почтение (понимание что он делает) условного оператора в combineLogActivityAgregated
      * теперь название говорит само за себя и комментарий там не нужен
      *
-     * @param mixed array$activityAction
-     * @param string $previouseGroupId
+     * @param LogActivityAction $activityAction
+     * @param $durationByMailCode
+     * @param $limit
+     * @internal param string $previouseGroupId
      * @return bool
      */
     public static function isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit) {
-        $code = $activityAction['coincidence_mail_code'];
+        $action = $activityAction->activityAction->getAction();
+        if (! $action instanceof MailTemplate) {
+            return false;
+        }
+        $code = $action->getCode();
 
         // email read more than $limit seconds on total, can break any other activity during aggregation
         if (NULL !== $code && $durationByMailCode[$code] < $limit) {
@@ -857,7 +863,7 @@ class LogHelper
         $aggregatedActivity = NULL;
 
         if (null === $data) {
-            $data = self::getLegActionsDetail(self::RETURN_DATA, $simulation, false);
+            $data = $simulation->log_activity_actions;
         }
 
         // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
@@ -889,52 +895,61 @@ class LogHelper
         // collect time by window id {
         $durationByWindowUid = [];
         $durationByMailCode = [];
-        foreach ($data['data'] as $activityAction) {
-            $w_id = $activityAction['window_uid'];
+        foreach ($data as $activityAction) {
+            $w_id = $activityAction->window_uid;
+            $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $durationByWindowUid[$w_id] = (isset($durationByWindowUid[$w_id]))
-                ? $durationByWindowUid[$w_id] + TimeTools::TimeToSeconds($activityAction['diff_time'])
-                : TimeTools::TimeToSeconds($activityAction['diff_time']);
+                ? $durationByWindowUid[$w_id] + TimeTools::TimeToSeconds($diff_time)
+                : TimeTools::TimeToSeconds($diff_time);
 
-            $m_code = $activityAction['coincidence_mail_code'];
-            $durationByMailCode[$m_code]= (isset($durationByMailCode[$m_code]))
-                ? $durationByMailCode[$m_code] + TimeTools::TimeToSeconds($activityAction['diff_time'])
-                : TimeTools::TimeToSeconds($activityAction['diff_time']);
+            if ($activityAction->activityAction->getAction() instanceof MailTemplate) {
+                $m_code = $activityAction->activityAction->getAction()->getCode();
+                $durationByMailCode[$m_code]= (isset($durationByMailCode[$m_code]))
+                    ? $durationByMailCode[$m_code] + TimeTools::TimeToSeconds($diff_time)
+                    : TimeTools::TimeToSeconds($diff_time);
+            }
         }
         // collect time by window id }
 
         $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
-        foreach ($data['data'] as $activityAction) {
+        foreach ($data as $activityAction) {
+            $legAction = $activityAction->activityAction->getAction();
             if (NULL === $aggregatedActivity) {
                 // init new aggregatedActivity at first iteration
+                $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
                 $aggregatedActivity = new LogActivityActionAgregated();
 
                 $aggregatedActivity->sim_id =                $simulation->id;
-                $aggregatedActivity->leg_type =              $activityAction['leg_type'];
-                $aggregatedActivity->leg_action =            $activityAction['leg_action'];
-                $aggregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                $aggregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
-                $aggregatedActivity->category =              $activityAction['category_id'];
-                $aggregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                $aggregatedActivity->start_time =            $activityAction['start_time'];
-                $aggregatedActivity->end_time =              $activityAction['end_time'];
-                $aggregatedActivity->duration =              $activityAction['diff_time'];
+                $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;
+                $aggregatedActivity->leg_action =            $legAction->getCode();
+                $aggregatedActivity->activityAction =        $activityAction->activityAction;
+                $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
+                $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
+                $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
+                $aggregatedActivity->start_time =            $activityAction->start_time;
+                $aggregatedActivity->end_time =              $activityAction->end_time;
+                $aggregatedActivity->duration =              $diff_time;
             } else {
 
                 // see @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
                 // Особенности логики, пункт 1 {
-                $mail_code = $activityAction['coincidence_mail_code'];
-                $id = $activityAction['window_uid'];
+                if ($activityAction->activityAction->getAction() instanceof MailTemplate) {
+                    $mail_code = $activityAction->activityAction->getAction()->getCode();
+                } else {
+                    $mail_code = null;
+                }
+                $id = $activityAction->window_uid;
 
                 if (NULL === $mail_code) {
-                    if (in_array($activityAction['leg_action'], $mainWindowLegActions) ||
+                    if ($activityAction->activityAction->getAction() instanceof Window && in_array($activityAction->activityAction->getAction()->getCode(), $mainWindowLegActions) ||
                         self::isCanBeEasyConcatenated($activityAction, $durationByMailCode, $limit)) {
-                        $actionDurationInGameSeconds = TimeTools::TimeToSeconds($activityAction['diff_time']);
+                        $actionDurationInGameSeconds = TimeTools::TimeToSeconds($diff_time);
                     } else {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     }
                 } else {
-                    if (MailBox::FOLDER_OUTBOX_ID == $activityAction['group_id']) {
+                    if ($activityAction->activityAction->getAction() instanceof MailTemplate && MailBox::FOLDER_OUTBOX_ID == $activityAction->activityAction->getAction()->group_id) {
                         $actionDurationInGameSeconds = $durationByWindowUid[$id];
                     } else {
                         $actionDurationInGameSeconds = $durationByMailCode[$mail_code];
@@ -943,7 +958,7 @@ class LogHelper
 
                 // Особенности логики, пункт 1 }
 
-                if ($aggregatedActivity->leg_action == $activityAction['leg_action'] ||
+                if ($aggregatedActivity->leg_action == ($legAction ? $legAction->getCode() : null) ||
                     $actionDurationInGameSeconds < $limit )
                 {
                     // prolong previous activity :
@@ -957,19 +972,19 @@ class LogHelper
                     $aggregatedActivity = new LogActivityActionAgregated();
 
                     $aggregatedActivity->sim_id =                $simulation->id;
-                    $aggregatedActivity->leg_type =              $activityAction['leg_type'];
-                    $aggregatedActivity->leg_action =            $activityAction['leg_action'];
-                    $aggregatedActivity->activityAction =        ActivityAction::model()->findByPk($activityAction['activity_action_id']);
-                    $aggregatedActivity->activity_action_id =    $activityAction['activity_action_id'];
-                    $aggregatedActivity->category =              $activityAction['category_id'];
-                    $aggregatedActivity->is_keep_last_category = $activityAction['is_keep_last_category'];
-                    $aggregatedActivity->start_time =            $activityAction['start_time'];
-                    $aggregatedActivity->end_time =              $activityAction['end_time'];
-                    $aggregatedActivity->duration =              $activityAction['diff_time'];
+                    $aggregatedActivity->leg_type =              $activityAction->activityAction->leg_type;
+                    if ($legAction) {
+                        $aggregatedActivity->leg_action =            $legAction->getCode();
+                    }
+                    $aggregatedActivity->activityAction =        $activityAction->activityAction;
+                    $aggregatedActivity->activity_action_id =    $activityAction->activity_action_id;
+                    $aggregatedActivity->category =              $activityAction->activityAction->activity->category_id;
+                    $aggregatedActivity->is_keep_last_category = $activityAction->activityAction->is_keep_last_category;
+                    $aggregatedActivity->start_time =            $activityAction->start_time;
+                    $aggregatedActivity->end_time =              $activityAction->end_time;
+                    $aggregatedActivity->duration =              $diff_time;
                 }
             }
-
-            $previousGroupId = $activityAction['group_id'];
         }
 
         if (NULL !== $aggregatedActivity) {
