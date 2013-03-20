@@ -2714,7 +2714,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	width:202px;
 	height:328px;
 	overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .phone-main-menu{
 	list-style:none;
