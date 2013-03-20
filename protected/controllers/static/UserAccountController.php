@@ -570,7 +570,6 @@ class UserAccountController extends YumController
             $this->redirect('/');
         }
 
-        $lang = substr(Yii::app()->language, 0, 2);
         $invite = new Invite();
         $valid = false;
 
@@ -595,6 +594,7 @@ MSG;
         }
 
         if (null !== Yii::app()->request->getParam('send')) {
+
             $invite->attributes = Yii::app()->request->getParam('Invite');
 
             $invite->code = uniqid(md5(mt_rand()));
@@ -612,7 +612,7 @@ MSG;
                 $invite->save();
                 $this->sendInviteEmail($invite);
 
-                $this->redirect('/');
+                $this->redirect('/dashboard');
             }
         }
 
@@ -639,7 +639,6 @@ MSG;
         $this->user = new YumUser('registration');
         $profile = new YumProfile('registration');
         $account = new UserAccountPersonal();
-        $lang = substr(Yii::app()->language, 0, 2);
         $error = null;
 
         $YumUser    = Yii::app()->request->getParam('YumUser');

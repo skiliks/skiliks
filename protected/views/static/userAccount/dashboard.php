@@ -32,12 +32,42 @@
         content: '\2193';
         padding-left: 10px;
     }
+
+    .items {
+        margin: 10px 0;
+    }
+
+    .items td, .items th {
+        border: 1px solid #444;
+        padding: 5px 15px;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin: 15px 0px 10px 0px;
+    }
+
+    h3 {
+        font-size: 15px;
+        margin: 7px 0px 10px 30px;
+    }
+
+    #invite-form label {
+        width: 150px;
+    }
+
+    #invite-form .row {
+        margin: 5px 0 5px 0 ;
+    }
 </style>
 
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 ?>
 <script type="text/javascript">
     $(function() {
@@ -48,6 +78,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
             width: 550
 
         });
+        $( ".message_window").dialog('open');
     });
 </script>
 
@@ -136,11 +167,11 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
                 'nextPageLabel' => 'Next'
             ],
             'columns' => [
-                ['header' => 'Name', 'name' => 'name', 'value' => '$data->getFullname()'],
-                ['header' => 'Position', 'name' => 'position_id', 'value' => '$data->position->label'],
-                ['header' => 'Status', 'name' => 'status', 'value' => '$data->getStatusText()'],
-                ['header' => 'Date / time', 'name' => 'sent_time', 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-                ['header' => 'Score', 'value' => '"-"']
+                ['header' => 'Name',        'name' => 'name',        'value' => '$data->getFullname()'],
+                ['header' => 'Position',    'name' => 'position_id', 'value' => '$data->position->label'],
+                ['header' => 'Status',      'name' => 'status',      'value' => '$data->getStatusText()'],
+                ['header' => 'Date / time', 'name' => 'sent_time',   'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+                ['header' => 'Score',       'value' => '"-"']
             ]
         ]);
     ?>
@@ -164,5 +195,5 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
         cssAsc: 'sort-asc',
         cssDesc: 'sort-desc',
         sortList: [[3, 1]]
-    });
+        });
 </script>
