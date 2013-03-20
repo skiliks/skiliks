@@ -2713,7 +2713,8 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-screen{
 	width:202px;
 	height:328px;
-	overflow:hidden;
+	overflow: hidden;
+    overflow-y: scroll;
 }
 .phone-main-menu{
 	list-style:none;
