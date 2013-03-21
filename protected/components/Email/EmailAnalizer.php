@@ -368,11 +368,11 @@ class EmailAnalizer
         foreach ($this->userInboxEmails as $mailId => $emailData) {
             
             if (true === $emailData->isNeedToActInTwoMinutes()) {
-                var_dump('+');
+
                 $possibleRightActions++;
 
                 if ($emailData->isAnsweredByMinutes($delta)) {
-                    var_dump('>');
+
                     $doneRightActions++;
                 }
             }
