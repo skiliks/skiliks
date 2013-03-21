@@ -2697,6 +2697,9 @@ section.phone>header .btn-window li button.btn-cl{
 section.phone>header .btn-window li button.btn-cl:hover{
 	background-position:0 -20px;
 }
+.phone-call header .btn-window li:last-child{
+	display:none;
+}
 .phone-bl{
 	background:url("../img/phone/bg-phone.png") no-repeat;
 	width:202px;
@@ -2713,8 +2716,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-screen{
 	width:202px;
 	height:328px;
-	overflow: hidden;
-    overflow-y: auto;
+	overflow:hidden;
 }
 .phone-main-menu{
 	list-style:none;
