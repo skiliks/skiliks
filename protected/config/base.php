@@ -44,9 +44,11 @@ return array(
         'application.components.Mail.*',*/
         'application.extensions.*',
         'application.extensions.PHPExcel.*',
+        'application.extensions.phpmailer.*',
         'application.vendors.*',
 
         'application.modules.user.models.*',
+        'application.modules.user.components.*',
         'application.modules.avatar.models.*',
         //application.modules.friendship.models.*',
         //'application.modules.membership.models.*',
@@ -228,7 +230,8 @@ return array(
 
         ),
         'cron' => [
-            'CleanUsers'=> 604800
+            'CleanUsers'=> 604800,
+            'InviteExpired'=> 604800
         ],
         'initial_data' => [
             'users' => [
