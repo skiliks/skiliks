@@ -28,7 +28,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('E3');
@@ -56,7 +56,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('E3');
@@ -85,7 +85,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
         $this->run_event('T2');
@@ -112,7 +112,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
 
         $this->assertTrue($this->verify_flag('F19','1'));
@@ -142,7 +142,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->optimal_click("xpath=//div[4]/form[1]/fieldset/table[1]/thead/tr/th[10]/a");
 
         $this->assertTrue($this->verify_flag('F19','1'));
