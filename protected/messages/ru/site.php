@@ -168,4 +168,8 @@ return array(
     'Remember me' => 'Запомнить меня',
     'Enter login' => 'Введите логин',
     'Enter password' => 'Введите пароль',
+    'Pending' => 'в ожидании',
+    'Accepted' => 'подтверждён',
+    'Completed' => 'завершен',
+    'Declined' => 'отвергнут',
 );

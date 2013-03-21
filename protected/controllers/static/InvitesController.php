@@ -35,6 +35,13 @@ class InvitesController extends YumController
             $this->redirect('/');
         }
 
+        if (false == $invite->isPending()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить подтвердённое приглашение!"
+            ));
+            $this->redirect('/dashboard');
+        }
+
         $firstname = $invite->firstname;
         $lastname  = $invite->lastname;
 
@@ -87,6 +94,41 @@ class InvitesController extends YumController
             $invite->firstname,
             $invite->lastname,
             $invite->getExpiredDate()
+        ));
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     * @param string $status, Invite::STATUS_XXX
+     */
+    public function actionSetStatusForAllInvites($status)
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        // protect against real user-cheater
+        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/');
+        }
+
+        $invitations = Invite::model()->findAllByAttributes([
+            'inviting_user_id' => $user->id
+        ]);
+
+        foreach ($invitations as $invitation) {
+            $invitation->status = (int)Invite::$statusId[$status];
+            $invitation->update(['status']);
+        }
+
+        Yii::app()->user->setFlash('success', sprintf(
+            "Все приглашения теперь в статусе %s!",
+            Yii::t('site', $status)
         ));
 
         $this->redirect('/dashboard');
