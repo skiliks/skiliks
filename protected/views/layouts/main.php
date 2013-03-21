@@ -38,17 +38,19 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
     <?php } else {?>
     <body class="inner">
     <?php } ?>
-    	
+
 		<div class="container<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?> main-page<?php } ?><?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?> team-page<?php } ?>" id="top">
 			
 			<!--header-->
 			<header>
 				<h1><a href="/">Skiliks</a></h1>
 				
-				<p class="coming-soon">Coming soon</p>
+				<p class="coming-soon"><?php echo Yii::t('site', 'Coming soon') ?></p>
 
 				<div class="language">
-                    <a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a>
+                    <?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'team', 'product'])): ?>
+                        <a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a>
+                    <?php endif ?>
                 </div>
 
 				<nav>
@@ -56,26 +58,31 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="/team" <?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'About Us') ?></a>
 					<a href="/product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
                     <?php if (Yii::app()->user->isGuest) : ?>
-                        <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
+                        <?php if ('ru' == Yii::app()->language): ?>
+                            <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
+                        <?php endif ?>
                     <?php else: ?>
-                        <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo Yii::app()->user->data()->profile->email ?></a>
-                        <a href="/user/user/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <?php if ('ru' == Yii::app()->language): ?>
+                            <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo Yii::app()->user->data()->profile->email ?></a>
+                            <a href="/user/user/logout"><?php echo Yii::t('site', 'Log out') ?></a>
+                        <?php endif ?>
                     <?php endif; ?>
 				</nav>
 			</header>
 			<!--header end-->
 
             <?php if (!Yii::app()->user->id) : ?>
+                <!-- sing in { -->
                 <div class="sign-in-box message_window">
                     <form class="login-form" action="/user/auth" method="post">
                         <input type="hidden" name="returnUrl" value="/static/site/index"/>
 
                         <div class="login">
-                            <a href="#">Forgot your password?</a>
-                            <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
+                            <a href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
+                            <input type="text" name="YumUserLogin[username]" placeholder="<?php echo Yii::t('site', 'Enter login') ?>" />
                         </div>
                         <div class="password">
-                            <input type="password" name="YumUserLogin[password]" placeholder="Enter password" />
+                            <input type="password" name="YumUserLogin[password]" placeholder="<?php echo Yii::t('site', 'Enter password') ?>" />
                         </div>
                         <div class="remember">
                             <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
@@ -90,6 +97,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <?php endif; ?>
                     </form>
                 </div>
+                <!-- } sing in -->
             <?php endif; ?>
 
 			<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>
@@ -140,6 +148,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
         <script type="text/javascript">
         	$(function () {
+                // @link http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
 		        $("select").selectbox();
 
                 // @link: http://jqueryui.com/dialog/
@@ -154,7 +163,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         of: $('#top header')
                     },
                     resizable: false,
-                    title: 'Sign in',
+                    title: '<?php echo Yii::t('site', 'Sign in') ?>',
                     width: 275
                 });
                 $(".sign-in-box").dialog("close");
