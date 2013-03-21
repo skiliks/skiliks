@@ -3,8 +3,8 @@ function testSimulation(email, password, server, cb, fail_cb) {
     _.templateSettings.evaluate = /<@(.+?)@>/g;
     SKConfig = {
         "skiliksSpeedFactor":8,
-        "simulationStartTime":"9:00",
-        "simulationEndTime":"18:00",
+        "start":"9:00",
+        "end":"18:00",
         "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
         "assetsUrl":"\/assets\/3259e654"
     };

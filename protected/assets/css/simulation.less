@@ -97,9 +97,6 @@
     ul li.only-active.icon-active a:hover {
       cursor: pointer;
     }
-    ul li.only-active.icon-active:hover {
-      background-position: 0 -140px;
-    }
 
     .only-active.icon-active {
       filter: none;
@@ -117,6 +114,11 @@
     animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
     animation-duration: 1s;
     animation-name: blinker;
+
+    &.paused {
+      -webkit-animation-iteration-count: 0;
+      animation-iteration-count: 0;
+    }
   }
 
   .char-reply {

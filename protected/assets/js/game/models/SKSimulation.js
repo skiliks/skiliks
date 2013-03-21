@@ -77,7 +77,7 @@ define([
                 this.handleEvents();
                 this.on('tick', function () {
                 //noinspection JSUnresolvedVariable
-                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('simulationEndTime'))) {
+                    if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('end'))) {
                         me.stop();
                     }
 
@@ -139,7 +139,7 @@ define([
              */
             'getGameSeconds':function () {
                 var current_time_string = new Date();
-                var game_start_time = timeStringToMinutes(this.get('app').get('simulationStartTime')) * 60;
+                var game_start_time = timeStringToMinutes(this.get('app').get('start')) * 60;
                 return game_start_time +
                     Math.floor((current_time_string - this.start_time) / 1000 * this.get('app').get('skiliksSpeedFactor')) +
                     this.skipped_minutes * 60;
@@ -197,7 +197,7 @@ define([
              *
              * @method getNewEvents
              */
-            'getNewEvents':function () {
+            'getNewEvents':function (cb) {
                 var me = this;
                 var logs = this.windowLog.getAndClear();
                 SKApp.server.api('events/getState', {
@@ -211,6 +211,9 @@ define([
 
                     if (data.result === 1 && data.events !== undefined) {
                         me.parseNewEvents(data.events);
+                    }
+                    if (cb !== undefined) {
+                        cb();
                     }
                 });
             },
@@ -231,7 +234,7 @@ define([
                     throw 'Simulation already started';
                 }
                 me.start_time = new Date();
-                SKApp.server.api('simulation/start', {'stype':this.get('stype')}, function (data) {
+                SKApp.server.api('simulation/start', {'mode':this.get('mode'), 'type':this.get('type')}, function (data) {
 
                     if (data.result === 0) {
                         window.location = '/';
@@ -252,16 +255,10 @@ define([
                      * Срабатывает, когда симуляция уже запущена
                      * @event start
                      */
-                    me.trigger('start');
-
-                    me.events_timer = setInterval(function () {
-                        me.getNewEvents();
-                        /**
-                         * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
-                         * @event tick
-                         */
-                        me.trigger('tick');
-                    }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+                    me.getNewEvents(function () {
+                        me.trigger('start');
+                    });
+                    me._startTimer();
                 });
             },
 
@@ -276,7 +273,7 @@ define([
              */
             'stop':function () {
                 var me = this;
-                clearInterval(this.events_timer);
+                me._stopTimer();
 
                 this.window_set.deactivateActiveWindow();
 
@@ -292,6 +289,40 @@ define([
                     }
 
                     me.trigger('stop');
+                });
+            },
+
+            /**
+             * Ставит симуляцию на паузу, останавливает таймер, скрывает интерфейс
+             *
+             * @method startPause
+             * @async
+             */
+            startPause: function() {
+                var me = this;
+
+                me._stopTimer();
+                me.trigger('pause:start');
+
+                SKApp.server.api('simulation/startPause', {}, function () {
+
+                });
+            },
+
+            /**
+             * Возобновляет установленную на паузу симуляцию
+             *
+             * @method stopPause
+             * @async
+             */
+            stopPause: function() {
+                var me = this;
+
+                me._startTimer();
+                me.trigger('pause:stop');
+
+                SKApp.server.api('simulation/stopPause', {}, function () {
+
                 });
             },
 
@@ -317,10 +348,38 @@ define([
 
             /**
              * @method isDebug
+             * @protected
+             */
+            _startTimer: function() {
+                var me = this;
+
+                if (me.events_timer) {
+                    me._stopTimer();
+                }
+
+                me.events_timer = setInterval(function () {
+                    me.getNewEvents();
+                    /**
+                     * Срабатывает каждую игровую минуту. Во время этого события запрашивается список событий
+                     * @event tick
+                     */
+                    me.trigger('tick');
+                }, 60000 / me.get('app').get('skiliksSpeedFactor'));
+            },
+
+            _stopTimer: function() {
+                if (this.events_timer) {
+                    clearInterval(this.events_timer);
+                    delete this.events_timer;
+                }
+            },
+
+            /**
+             * @method isDebug
              * @returns {boolean}
              */
             'isDebug':function () {
-                return this.get('stype') === 'developer';
+                return this.get('mode') === 'developer';
             },
 
             /**

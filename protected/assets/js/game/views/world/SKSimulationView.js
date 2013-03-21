@@ -63,6 +63,7 @@ define([
                 var me = this;
                 var simulation = this.simulation = SKApp.simulation;
                 this.listenTo(simulation, 'tick', this.updateTime);
+                this.listenTo(simulation, 'pause:start pause:stop', this.pauseTime);
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation.documents, 'reset', function () {
                     var timeout = 0;
@@ -99,7 +100,14 @@ define([
                     } else {
                         document_view = new SKPDFDisplayView({model_instance: window});
                     }
-                    document_view.render();
+
+                    if (false === document_view.isRender) {
+                        SKApp.simulation.window_set.remove(
+                            SKApp.simulation.window_set.where({subname: 'documentsFiles'})
+                        );
+                    } else {
+                        document_view.render();
+                    }
                 }
             },
 
@@ -150,6 +158,10 @@ define([
                 var parts = this.simulation.getGameTime().split(':');
                 this.$('.time .hour').text(parts[0]);
                 this.$('.time .minute').text(parts[1]);
+            },
+
+            pauseTime: function() {
+                this.$('.time .delimiter').toggleClass('paused');
             },
 
             /**

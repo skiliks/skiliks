@@ -21,13 +21,11 @@ class F1_SK1403_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
         $this->run_event('S9');
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[1]");
-
         $this->assertTrue($this->verify_flag('F1','1'));
 
         $hours = $this->transfer_time(9);
@@ -40,7 +38,6 @@ class F1_SK1403_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
         $this->run_event('S9');
         $this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);

@@ -89,7 +89,7 @@ define(["game/models/SKEvent"], function () {
             'getUnreadMailCount': function (cb) {
                 SKApp.server.api('mail/getInboxUnreadCount', {}, function (data) {
                     if (parseInt(data.result) === 1) {
-                        var counter = data.unreaded;
+                        var counter = parseInt(data.unreaded);
                         cb(counter);
                     }
                 });
@@ -150,7 +150,8 @@ define(["game/models/SKEvent"], function () {
                     eventCode: code,
                     delay: delay,
                     clearEvents: clear_events,
-                    clearAssessment: clear_assessment
+                    clearAssessment: clear_assessment,
+                    gameTime: SKApp.simulation.getGameSeconds()
                 }, callback);
             },
 

@@ -42,7 +42,7 @@ class SiteController extends AjaxController
     /**
      *
      */
-    public function actionSite($mode)
+    public function actionSite($mode, $type = Simulation::TYPE_LITE)
     {
         $user = Yii::app()->user->data();
 
@@ -64,9 +64,12 @@ class SiteController extends AjaxController
         $cs = Yii::app()->clientScript;
 
         $assetsUrl = $this->getAssetsUrl();
-        $config = Yii::app()->params['public'];
-        $config['assetsUrl'] = $assetsUrl;
-        $config['simulationType'] = $mode;
+
+        $config = array_merge(
+            Yii::app()->params['public'],
+            Yii::app()->params['simulation'][Simulation::$typeLabel[$type]],
+            ['assetsUrl' => $assetsUrl, 'mode' => $mode, 'type' => $type]
+        );
 
         $cs->registerCssFile($assetsUrl . "/js/jquery/jquery-ui.css");
         $cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap.css");

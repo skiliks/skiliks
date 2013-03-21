@@ -11,6 +11,9 @@ $assetsUrl = $this->getAssetsUrl();
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');;
 $cs->registerCssFile($assetsUrl . "/css/style.css");
 ?>
 
@@ -63,11 +66,10 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			<!--header end-->
 
             <?php if (!Yii::app()->user->id) : ?>
-                <div class="sign-in-box" style="display: <?php echo (0 == count($this->signInErrors)) ? 'none' : 'block'; ?>;">
+                <div class="sign-in-box message_window">
                     <form class="login-form" action="/user/auth" method="post">
                         <input type="hidden" name="returnUrl" value="/static/site/index"/>
-						<h6>Sign in</h6>
-						
+
                         <div class="login">
                             <a href="#">Forgot your password?</a>
                             <input type="text" name="YumUserLogin[username]" placeholder="Enter login" />
@@ -131,14 +133,33 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
-                    $('.sign-in-box').toggle();
+                    $(".sign-in-box").dialog('open');
                 });
             </script>
         <?php endif; ?>
+
         <script type="text/javascript">
         	$(function () {
 		        $("select").selectbox();
+
+                // @link: http://jqueryui.com/dialog/
+                $(".sign-in-box").dialog({
+                    closeOnEscape: true,
+                    dialogClass: 'sing-in-pop-up',
+                    minHeight: 220,
+                    modal: true,
+                    position: {
+                        my: "right top",
+                        at: "right bottom",
+                        of: $('#top header')
+                    },
+                    resizable: false,
+                    title: 'Sign in',
+                    width: 275
+                });
+                $(".sign-in-box").dialog("close");
 		    });
         </script>
+
 	</body>
 </html>

@@ -10,6 +10,7 @@
 class UserService {
 
     const CAN_START_SIMULATION_IN_DEV_MODE = 'start_dev_mode';
+    const CAN_START_FULL_SIMULATION = 'run_full_simulation';
 
     /**
      * Получить список режимов запуска симуляции доступных пользователю: {promo, developer}

@@ -38,6 +38,11 @@ class Simulation extends CActiveRecord
     const TYPE_FULL = 1;
     const TYPE_LITE = 2;
 
+    public static $typeLabel = [
+        self::TYPE_FULL => 'full',
+        self::TYPE_LITE => 'lite'
+    ];
+
     public $id;
 
     /** ------------------------------------------------------------------------------------------------------------ **/
@@ -104,7 +109,7 @@ class Simulation extends CActiveRecord
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start);
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
-        $startTime = explode(':', Yii::app()->params['public']['simulationStartTime']);
+        $startTime = explode(':', Yii::app()->params['simulation'][$this->getTypeLabel()]['start']);
         $unixtimeMins = round($variance / 60) + $startTime[0] * 60 + $startTime[1];
         return gmdate('H:i:s', $unixtimeMins * 60);
     }
@@ -408,6 +413,14 @@ class Simulation extends CActiveRecord
      */
     public function isDevelopMode() {
         return self::MODE_DEVELOPER_ID == $this->mode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypeLabel()
+    {
+        return self::$typeLabel[$this->type];
     }
 }
 

@@ -15,10 +15,10 @@ class EventsManager {
      * @return array
      * @throws Exception
      */
-    public static function startEvent($simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0)
+    public static function startEvent($simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0, $gameTime = null)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
-            LibSendMs::sendMsByCode($simulation, $eventCode);
+            LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, rand(1000,9999) + rand(100,999), 2);
             return ['result' => 2];
         }
 
@@ -92,10 +92,16 @@ class EventsManager {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
-            self::processLogs($simulation, $logs);
-
-            $simMode  = $simulation->mode; // определим тип симуляции
+            $simMode  = $simulation->mode;
+            $simType  = $simulation->type;
             $gameTime = $simulation->getGameTime();
+            $endTime = Yii::app()->params['simulation'][$simulation->getTypeLabel()]['end'];
+
+            if (GameTime::timeToSeconds($gameTime) > GameTime::timeToSeconds($endTime)) {
+                throw new CHttpException(200, 'Время истекло', 4);
+            }
+
+            self::processLogs($simulation, $logs);
 
             // обработка задач {
             $task = false;

@@ -10,8 +10,8 @@ var spec = describe('window manager', function (run) {
             before(function () {
                 var SKConfig = {
                     "skiliksSpeedFactor":8,
-                    "simulationStartTime":"9:00",
-                    "simulationEndTime":"18:00",
+                    "start":"9:00",
+                    "end":"18:00",
                     "storageURL":"http:\/\/storage.skiliks.com\/v1\/",
                     "assetsUrl":"\/assets\/3259e654"
                 };
