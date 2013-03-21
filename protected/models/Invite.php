@@ -70,7 +70,7 @@ class Invite extends CActiveRecord
      */
     public function isPending()
     {
-        return (self::STATUS_PENDING === $this->status);
+        return (self::$statusId[STATUS_PENDING] == $this->status);
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
