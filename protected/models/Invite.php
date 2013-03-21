@@ -64,7 +64,8 @@ class Invite extends CActiveRecord
      */
     public function getExpiredDate()
     {
-        return Yii::t('site', date('F', ($this->sent_time + self::EXPIRED_TIME))).date(' d, Y', ($this->sent_time + self::EXPIRED_TIME));
+        $time = $this->sent_time + self::EXPIRED_TIME;
+        return Yii::t('site', date('F', $time)).date(' d, Y', $time);
     }
 
     /**

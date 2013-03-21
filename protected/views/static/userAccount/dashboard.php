@@ -196,6 +196,8 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
     <?php if (!empty($valid)): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
 
+
+
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
         )); ?>
@@ -207,6 +209,8 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
+            <?php echo $invite->email ?> <br/><br/>
+            <label></label>
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
 
@@ -271,9 +275,9 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
                 ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
                 ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
                 ['header' => Yii::t('site', 'Score')                                , 'value' => '"-"'],
-                ['header' => ''                                                     , 'value' => '"<a href=\"invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
+                ['header' => ''                                                     , 'value' => '"<a href=\"/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
                 ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->position_id\" title=\"$data->firstname, $data->lastname\">исправить</a>"', 'type' => 'html'],
-                ['header' => ''                                                     , 'value' => '"<a href=\"invite/resend/$data->id\">отправить <br/>ещё раз</a>"' , 'type' => 'html'],
+                ['header' => ''                                                     , 'value' => '"<a href=\"/invite/resend/$data->id\">отправить <br/>ещё раз</a>"' , 'type' => 'html'],
             ]
         ]);
     ?>
