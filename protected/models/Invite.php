@@ -28,14 +28,37 @@ class Invite extends CActiveRecord
     const STATUS_PENDING   = 0;
     const STATUS_ACCEPTED  = 1;
     const STATUS_COMPLETED = 2;
-    const STATUS_DECLINED = 3;
+    const STATUS_DECLINED  = 3;
 
     protected static $statusText = [
-        self::STATUS_PENDING => 'Pending',
-        self::STATUS_ACCEPTED => 'Accepted',
+        self::STATUS_PENDING   => 'Pending',
+        self::STATUS_ACCEPTED  => 'Accepted',
         self::STATUS_COMPLETED => 'Completed',
-        self::STATUS_DECLINED => 'Declined'
+        self::STATUS_DECLINED  => 'Declined'
     ];
+
+    const EXPIRED_TIME = 604800; // 7days
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
+    /**
+     *
+     */
+    public function markAsSendToday()
+    {
+        $this->sent_time = time();
+        $this->status = self::STATUS_PENDING;
+    }
+
+    /**
+     *
+     */
+    public function getExpiredDate()
+    {
+        return Yii::t('site', date('F', ($this->sent_time + self::EXPIRED_TIME))).date(' d, Y', ($this->sent_time + self::EXPIRED_TIME));
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
 
 	/**
 	 * Returns the static model of the specified AR class.

@@ -398,7 +398,7 @@ class UserAccountController extends YumController
             'body'    => implode("<br />", $body)
         ];
 
-        $invite->sent_time = time();
+        $invite->markAsSendToday();
         $invite->save();
 
         $sent = YumMailer::send($mail);
@@ -565,7 +565,6 @@ class UserAccountController extends YumController
      */
     public function actionDashboard()
     {
-        // this page currently will be just RU
         Yii::app()->language = 'ru';
 
         $this->checkUser();
@@ -596,7 +595,7 @@ class UserAccountController extends YumController
             $invite->signature = Yii::t('site', 'Best regards');
         }
 
-        // handle send invitation
+        // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
 
             $invite->attributes = Yii::app()->request->getParam('Invite');
@@ -627,6 +626,33 @@ class UserAccountController extends YumController
                 $invite->addError('invitations', Yii::t('site', 'You has no available invites!'));
             }
         }
+        // handle send invitation }
+
+        // handle edit invite invitation {
+        $inviteToEdit = new Invite();
+        if (null !== Yii::app()->request->getParam('edit-invite')) {
+            $inviteData = Yii::app()->request->getParam('Invite');
+
+            $inviteToEdit = Invite::model()->findByPk($inviteData['id']);
+
+            if (null === $invite) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    "Неправильные данные!"
+                ));
+            } else {
+                $inviteToEdit->firstname = $inviteData['firstname'];
+                $inviteToEdit->lastname = $inviteData['lastname'];
+                $inviteToEdit->position_id = $inviteData['position_id'];
+                // send invitation
+                if ($inviteToEdit->validate()) {
+                    $inviteToEdit->save();
+                    $inviteToEdit->refresh();
+
+                    $this->redirect('/dashboard');
+                }
+            }
+        }
+        // handle edit invite invitation }
 
         $positions = [];
         foreach (Position::model()->findAll() as $position) {
@@ -635,9 +661,10 @@ class UserAccountController extends YumController
 
         $this->render('dashboard', [
             //'user' => $this->user,
-            'invite' => $invite,
-            'positions' => $positions,
-            'valid' => $valid
+            'invite'       => $invite,
+            'inviteToEdit' => $inviteToEdit,
+            'positions'    => $positions,
+            'valid'        => $valid
         ]);
     }
 
@@ -724,6 +751,9 @@ class UserAccountController extends YumController
         );
     }
 
+    /**
+     * @param $code
+     */
     public function actionDeclineInvite($code)
     {
         $invite = Invite::model()->findByCode($code);
