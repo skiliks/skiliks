@@ -9,8 +9,9 @@
 
 class CleanUsersCommand extends CConsoleCommand
 {
-    public function actionIndex($timeAge = 604800) // 7 days
+    public function actionIndex() // 7 days
     {
+        $timeAge = Yii::app()->params['cron']['CleanUsers'];
         Yum::module()->trulyDelete = true;
         $oldUsers = YumUser::model()->findAll(
             'createtime + :age < UNIX_TIMESTAMP() AND status = :status',

@@ -29,12 +29,14 @@ class Invite extends CActiveRecord
     const STATUS_ACCEPTED  = 1;
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED = 3;
+    const STATUS_EXPIRED = 4;
 
     protected static $statusText = [
         self::STATUS_PENDING => 'Pending',
         self::STATUS_ACCEPTED => 'Accepted',
         self::STATUS_COMPLETED => 'Completed',
-        self::STATUS_DECLINED => 'Declined'
+        self::STATUS_DECLINED => 'Declined',
+        self::STATUS_EXPIRED => 'Expired'
     ];
 
 	/**
@@ -69,7 +71,7 @@ class Invite extends CActiveRecord
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
             array('email', 'email'),
-            array('inviting_user_id, email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
+            array('email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

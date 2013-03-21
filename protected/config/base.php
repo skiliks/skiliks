@@ -223,6 +223,9 @@ return array(
             'extExcel'            => 'xls'
 
         ),
+        'cron' => [
+            'CleanUsers'=> 604800
+        ],
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
