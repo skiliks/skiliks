@@ -89,17 +89,13 @@
         <br>
 
 <a href="/admin/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
-
-        <br>
-        <br>
-        <br>
-
 <a href="/admin/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
         <br>
         <br>
         <br>
 
+<a href="/invite/add-10">Добавить себе 10 приглашений в корп. аккаунт</a>
 <a href="/admin">Старая "админка" - отображение таблиц с логами</a>
 
     </nav>

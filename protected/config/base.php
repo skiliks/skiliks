@@ -173,7 +173,8 @@ return array(
                 'dashboard'                    => 'static/userAccount/dashboard',
                 'invite/remove/<inviteId:\w+>' => 'static/invites/remove',
                 'invite/resend/<inviteId:\w+>' => 'static/invites/reSend',
-                'invite/set/<status:\w+>'      => 'static/invites/setStatusForAllInvites',
+                'invite/setinvite/set/<status:\w+>'      => 'static/invites/setStatusForAllInvites',
+                'invite/add-10'                => 'static/invites/increaseInvites',
 
                 'send-invite' => 'static/userAccount/sendInvite',
                 'accept-invite/<code:\w+>' => 'static/userAccount/acceptInvite',
