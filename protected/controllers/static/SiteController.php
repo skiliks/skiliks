@@ -11,6 +11,11 @@ class SiteController extends AjaxController
      */
     public function actionIndex()
     {
+        // this page currently will be just RU
+        if (null === Yii::app()->request->getParam('_lang')) {
+            Yii::app()->language = 'ru';
+        }
+
         $this->render('index', [
             'assetsUrl' => $this->getAssetsUrl()
         ]);

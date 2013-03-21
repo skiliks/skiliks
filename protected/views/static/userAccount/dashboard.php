@@ -1,3 +1,12 @@
+<?php
+$cs = Yii::app()->clientScript;
+$assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
+?>
+
 <style>
     .dashboard .form label {
         color: #555545;
@@ -38,6 +47,7 @@
     }
 
     .items td, .items th {
+        background: #e8f7f7;
         border: 1px solid #146672;
         padding: 5px 15px;
     }
@@ -122,28 +132,21 @@
         padding: 2px 7px;
         width: 535px;
     }
+
+    .flash {
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8);
+        background-color: #E8F7F7;
+        border-radius: 5px;
+        margin: 10px;
+        opacity: 0.5;
+        padding: 10px 15px;
+        width: 850px;
+    }
 </style>
 
-<?php
-$cs = Yii::app()->clientScript;
-$assetsUrl = $this->getAssetsUrl();
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
-$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
-
-$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
-?>
-<script type="text/javascript">
-    $(function() {
-
-        // @link: http://jqueryui.com/dialog/
-        $( ".message_window" ).dialog({
-            modal: true,
-            width: 780
-
-        });
-        $( ".message_window").dialog('open');
-    });
-</script>
+<?php foreach(Yii::app()->user->getFlashes() as $key => $message) : ?>
+    <div class="flash flash-'<?php echo $key ?>"><?php echo $message ?></div>
+<?php endforeach ?>
 
 <section class="dashboard">
     <h2><?php echo Yii::t('site', 'Dashboard') ?></h2>
@@ -236,6 +239,21 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
     </div>
     <?php endif; ?>
 
+    <?php // edit invite pop-up form { ?>
+    <?php $this->renderPartial('../partials/edit-invite-pop-up-form', [
+        'invite'    => $inviteToEdit,
+        'positions' => $positions,
+    ]) ?>
+    <?php if (0 < count($inviteToEdit->getErrors())): ?>
+        <script type="text/javascript">
+            $(function(){
+                $( ".form-invite-message-editor").dialog('open');
+            });
+        </script>
+    <?php endif; ?>
+
+    <?php // edit invite pop-up form } ?>
+
     <?php
         $this->widget('zii.widgets.grid.CGridView', [
             'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
@@ -248,11 +266,14 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
                 'lastPageLabel' => 'конец >>',
             ],
             'columns' => [
-                ['header' => Yii::t('site', 'Full name'),   'name' => 'name',        'value' => '$data->getFullname()'],
-                ['header' => Yii::t('site', 'Position'),    'name' => 'position_id', 'value' => '$data->position->label'],
-                ['header' => Yii::t('site', 'Status'),      'name' => 'status',      'value' => '$data->getStatusText()'],
-                ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time',   'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-                ['header' => Yii::t('site', 'Score'),       'value' => '"-"']
+                ['header' => Yii::t('site', 'Full name')  , 'name' => 'name'        , 'value' => '$data->getFullname()'],
+                ['header' => Yii::t('site', 'Position')   , 'name' => 'position_id' , 'value' => 'Yii::t("site", $data->position->label)'],
+                ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
+                ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+                ['header' => Yii::t('site', 'Score')                                , 'value' => '"-"'],
+                ['header' => ''                                                     , 'value' => '"<a href=\"invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
+                ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->position_id\" title=\"$data->firstname, $data->lastname\">исправить</a>"', 'type' => 'html'],
+                ['header' => ''                                                     , 'value' => '"<a href=\"invite/resend/$data->id\">отправить <br/>ещё раз</a>"' , 'type' => 'html'],
             ]
         ]);
     ?>
@@ -260,6 +281,17 @@ $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 </section>
 
 <script type="text/javascript">
+    $(function() {
+        // @link: http://jqueryui.com/dialog/
+        $( ".message_window" ).dialog({
+            modal: true,
+            width: 780
+
+        });
+
+        $( ".message_window").dialog('open');
+    });
+
     $.tablesorter.addParser({
         id: 'customDate',
         is: function (s) {
