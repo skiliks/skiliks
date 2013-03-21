@@ -358,8 +358,9 @@ class EmailAnalizer
      * 
      * @return mixed array
      */
-    public function check_3323($delta = 24)
+    public function check_3323() //24*60
     {
+        $delta = 2 * (int)Yii::app()->params['public']['skiliksSpeedFactor'] * 60;
         $possibleRightActions = 0;
         $doneRightActions = 0;
         
@@ -367,9 +368,11 @@ class EmailAnalizer
         foreach ($this->userInboxEmails as $mailId => $emailData) {
             
             if (true === $emailData->isNeedToActInTwoMinutes()) {
+                var_dump('+');
                 $possibleRightActions++;
 
                 if ($emailData->isAnsweredByMinutes($delta)) {
+                    var_dump('>');
                     $doneRightActions++;
                 }
             }

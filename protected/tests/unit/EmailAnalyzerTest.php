@@ -335,10 +335,96 @@ class EmailAnalyzerTest extends CDbTestCase
      */
     public function test_3323_reply_2min()
     {
+        //good M47
+        $code_3323 = HeroBehaviour::model()->findByAttributes(['code'=>3323]);
+
+  /*      $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
+        EventsManager::startEvent($simulation, 'M47');
+        $mail_event = EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, [
+            [1, 1, 'deactivated', 35120, 'window_uid'=>20],
+            [10, 11, 'activated', 35120, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+        ]);
+        MailBoxService::markReaded($mail_event['events'][0]['id']);
+        EventsManager::getState($simulation, [
+            [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+            [1, 1, 'activated', 35180, 'window_uid'=>20]
+        ]);
+        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+        LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
+        $this->assertEquals('2', $point->value);
+
+        //good M71
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
+        EventsManager::startEvent($simulation, 'M71');
+        $mail_event = EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, [
+            [1, 1, 'deactivated', 35120, 'window_uid'=>20],
+            [10, 11, 'activated', 35120, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+        ]);
+        MailBoxService::markReaded($mail_event['events'][0]['id']);
+        EventsManager::getState($simulation, [
+            [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+            [1, 1, 'activated', 35180, 'window_uid'=>20]
+        ]);
+        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+        LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
+        $this->assertEquals('2', $point->value);
+*/
+        //good M47 and M71
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
+        EventsManager::startEvent($simulation, 'M47');
+        $mail_event = EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, [
+            [1, 1, 'deactivated', 35120, 'window_uid'=>20],
+            [10, 11, 'activated', 35120, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+        ]);
+        MailBoxService::markReaded($mail_event['events'][0]['id']);
+        EventsManager::getState($simulation, [
+            [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+            [1, 1, 'activated', 35180, 'window_uid'=>20]
+        ]);
+        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+        LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
+        $this->assertEquals('0', $point->value);
+
+        //good M71
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
+        EventsManager::startEvent($simulation, 'M71');
+        $mail_event = EventsManager::getState($simulation, []);
+        EventsManager::getState($simulation, [
+            [1, 1, 'deactivated', 35120, 'window_uid'=>20],
+            [10, 11, 'activated', 35120, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+        ]);
+        MailBoxService::markReaded($mail_event['events'][0]['id']);
+        EventsManager::getState($simulation, [
+            [10, 11, 'deactivated', 35180, ['mailId' => $mail_event['events'][0]['id']], 'window_uid'=>30],
+            [1, 1, 'activated', 35180, 'window_uid'=>20]
+        ]);
+        //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
+        LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
+        SimulationService::saveEmailsAnalyze($simulation->id);
+        $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
+        $this->assertEquals('0', $point->value);
 
 
-    }
+}
+
+
 }
 
