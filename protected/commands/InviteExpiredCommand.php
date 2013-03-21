@@ -11,6 +11,7 @@ class InviteExpiredCommand extends CConsoleCommand
 {
     public function actionIndex() // 7 days
     {
-        Invite::model()->findAll("status = ".Invite::STATUS_PENDING." AND sent_time");//TODO:in progress
+        $time = time() - Yii::app()->params['cron']['InviteExpired'];
+        $invates = Invite::model()->findAll("status = ".Invite::STATUS_PENDING." AND sent_time <= ".$time);
     }
 }
