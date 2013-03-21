@@ -100,6 +100,7 @@ class InvitesController extends YumController
     }
 
     /**
+     * Cheat
      * @param string $status, Invite::STATUS_XXX
      */
     public function actionSetStatusForAllInvites($status)
@@ -112,8 +113,14 @@ class InvitesController extends YumController
             $this->redirect('/');
         }
 
+        $user = $user->data();  //YumWebUser -> YumUser
+
         // protect against real user-cheater
         if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/');
+        }
+
+        if (false == $user->isCorporate()) {
             $this->redirect('/');
         }
 
@@ -130,6 +137,38 @@ class InvitesController extends YumController
             "Все приглашения теперь в статусе %s!",
             Yii::t('site', $status)
         ));
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     * Cheat
+     */
+    public function actionIncreaseInvites()
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        // protect against real user-cheater
+        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/');
+        }
+
+        if (false == $user->isCorporate()) {
+            $this->redirect('/');
+        }
+
+        $user->getAccount()->invites_limit += 10;
+        $user->getAccount()->save();
+
+        Yii::app()->user->setFlash('success', "Вам добавлено 10 приглашений!");
 
         $this->redirect('/dashboard');
     }
