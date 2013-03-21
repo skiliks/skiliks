@@ -16,9 +16,10 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
     }
 
     /**
-     * testSK1413_N_Case1() тестирует задачу SKILIKS-1273
+     * testSK1273_Case1() по задаче SKILIKS-1273
      *
-     * 1.
+     * тест на отправку сообщений со сложными префиксами для правильных писем (тех, которые есть в сценарие) :
+     * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
     public function testSK1273_Case1() {
         //$this->markTestIncomplete();
@@ -108,7 +109,12 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
     }
 
 
-
+    /**
+     * testSK1273_Case2() по задаче SKILIKS-1273
+     *
+     * тест на отправку сообщений со сложными префиксами для писем, которых нет в сценарие
+     * (кому-угодно можно переслать сообщение)
+     */
     public function testSK1273_Case2() {
         //$this->markTestIncomplete();
         $this->start_simulation();
