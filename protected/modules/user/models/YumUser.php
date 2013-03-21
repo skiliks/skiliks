@@ -60,6 +60,18 @@ class YumUser extends YumActiveRecord
     }
 
     /**
+     * @return integer | null
+     */
+    public function countInvitesToGive()
+    {
+        if ($this->isCorporate()) {
+            return $this->getAccount()->invites_limit;
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * @return UserAccountPersonal|UserAccountCorporate|null
      */
     public function getAccount()

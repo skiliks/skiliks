@@ -45,11 +45,11 @@ class ImportTest extends CDbTestCase
             // CommunicationTheme
             $this->assertEquals(47, CommunicationTheme::model()->countByAttributes(['character_id' => null]), 'Character');
             $this->assertEquals(3, CommunicationTheme::model()->countByAttributes(['phone' => 1]), 'Phones');
-            $this->assertEquals(292, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
-            $this->assertEquals(87, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
-            $this->assertEquals(20, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
-            $this->assertEquals(38, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
-            $this->assertEquals(19, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
+            $this->assertEquals(204, CommunicationTheme::model()->countByAttributes(['mail' => 1]), 'Mail');
+            $this->assertEquals(62, CommunicationTheme::model()->countByAttributes(['text' => '!проблема с сервером!']));
+            $this->assertEquals(11, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdfwd']), 'fwdfwd');
+            $this->assertEquals(20, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrere']), 'fwdrere');
+            $this->assertEquals(10, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'fwdrerere']), 'fwdrerere');
             $this->assertEquals(9, CommunicationTheme::model()->countByAttributes(['mail_prefix' => 'rererere']), 'rererere');
             
             // Dialogs

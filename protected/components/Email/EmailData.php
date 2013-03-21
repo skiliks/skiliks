@@ -63,9 +63,10 @@ class EmailData
      */
     public function isAnsweredByMinutes($delta) 
     {
+
         $isRepliedInTime = ($this->getAnsweredAt() - $this->getFirstOpenedAtInMinutes()) <= $delta;
         
-        return ($this->getIsReplied() && $isRepliedInTime);
+        return ($this->letterIsTheAnswer() && $isRepliedInTime);
     }
     
     // ----------
@@ -154,7 +155,8 @@ class EmailData
     public function getFirstOpenedAtInMinutes() {
         $time = explode(':', $this->firstOpenedAt);
         if (3 == count($time)) {
-            return $time[0]*60 + $time[1];
+            $res = $time[0]*60*60 + $time[1]*60 + $time[2];
+            return $res;
         } else {
             return null;
         }
@@ -195,7 +197,15 @@ class EmailData
      * @return string, format 'hh:ii:ss'
      */
     public function getAnsweredAt() {
-         return ((int)date("H", strtotime($this->answeredAt)))*60 + ((int) date("i", strtotime($this->answeredAt)));
+
+        $date = new DateTime($this->answeredAt);
+        $time = explode(':',$date->format('H:i:s'));
+        if (3 == count($time)) {
+            $res = $time[0]*60*60 + $time[1]*60 + $time[2];
+            return $res;
+        } else {
+            throw new Exception("bad format");
+        }
     }
     
     /**
@@ -243,6 +253,15 @@ class EmailData
         $this->rightPlanedTaskId = $id;
         
         return $this;
+    }
+
+    public function letterIsTheAnswer() {
+        $answer = MailBox::model()->findByAttributes(['message_id'=>$this->email->id]);
+        if($answer === null){
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 

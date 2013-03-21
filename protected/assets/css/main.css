@@ -2697,6 +2697,9 @@ section.phone>header .btn-window li button.btn-cl{
 section.phone>header .btn-window li button.btn-cl:hover{
 	background-position:0 -20px;
 }
+.phone-call header .btn-window li:last-child{
+	display:none;
+}
 .phone-bl{
 	background:url("../img/phone/bg-phone.png") no-repeat;
 	width:202px;
@@ -2713,8 +2716,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-screen{
 	width:202px;
 	height:328px;
-	overflow: hidden;
-    overflow-y: auto;
+	overflow:hidden;
 }
 .phone-main-menu{
 	list-style:none;
@@ -2904,6 +2906,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list{
 	list-style:none;
 	width:176px;
+	overflow:hidden;
 	margin:0 0 0 10px;
 }
 .phone-contact-list li{
@@ -3264,6 +3267,10 @@ ul.main-screen-stat li img{
 }
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
+}
+.canvas .main-screen-icons .only-active:hover,.canvas .main-screen-icons .icon-button-disabled {
+	filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+	-webkit-gradient:none;
 }
 .main-screen-icons ul li a{
 	display:block;
