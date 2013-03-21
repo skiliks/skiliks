@@ -204,7 +204,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function verify_flag ($num_flag, $ver_value)
     {
-        sleep(5);
+        //sleep(5);
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
