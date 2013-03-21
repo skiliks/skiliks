@@ -39,6 +39,44 @@ class Invite extends CActiveRecord
         self::STATUS_EXPIRED => 'Expired'
     ];
 
+    public static $statusId = [
+        'Pending'   => self::STATUS_PENDING,
+        'Accepted'  => self::STATUS_ACCEPTED,
+        'Completed' => self::STATUS_COMPLETED,
+        'Declined'  => self::STATUS_DECLINED,
+    ];
+
+    const EXPIRED_TIME = 604800; // 7days
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
+    /**
+     *
+     */
+    public function markAsSendToday()
+    {
+        $this->sent_time = time();
+        $this->status = self::STATUS_PENDING;
+    }
+
+    /**
+     *
+     */
+    public function getExpiredDate()
+    {
+        return Yii::t('site', date('F', ($this->sent_time + self::EXPIRED_TIME))).date(' d, Y', ($this->sent_time + self::EXPIRED_TIME));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return (self::STATUS_PENDING == $this->status);
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -71,7 +109,7 @@ class Invite extends CActiveRecord
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
             array('email', 'email'),
-            array('email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
+            array('inviting_user_id, email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
