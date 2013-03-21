@@ -2904,6 +2904,7 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-contact-list{
 	list-style:none;
 	width:176px;
+	overflow:hidden;
 	margin:0 0 0 10px;
 }
 .phone-contact-list li{
@@ -3264,6 +3265,10 @@ ul.main-screen-stat li img{
 }
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
+}
+.canvas .main-screen-icons .only-active:hover,.canvas .main-screen-icons .icon-button-disabled {
+	filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+	-webkit-gradient:none;
 }
 .main-screen-icons ul li a{
 	display:block;
