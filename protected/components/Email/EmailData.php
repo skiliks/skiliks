@@ -63,7 +63,7 @@ class EmailData
      */
     public function isAnsweredByMinutes($delta) 
     {
-        var_dump($this->getAnsweredAt(), $this->getFirstOpenedAtInMinutes(),$delta);
+
         $isRepliedInTime = ($this->getAnsweredAt() - $this->getFirstOpenedAtInMinutes()) <= $delta;
         
         return ($this->letterIsTheAnswer() && $isRepliedInTime);
