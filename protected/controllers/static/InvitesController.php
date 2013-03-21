@@ -87,7 +87,7 @@ class InvitesController extends YumController
         }
 
         $invite->markAsSendToday();
-        $invite->save();
+        $invite->update(['sent_time']);
 
         Yii::app()->user->setFlash('success', sprintf(
             "Приглашение для %s %s отсрочено до %s!",
