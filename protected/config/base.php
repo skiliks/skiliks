@@ -170,9 +170,10 @@ return array(
                 'userAccount/<action:\w+>'      => 'static/userAccount/<action>',
                 'registration/<action:\w+>'      => 'static/userAccount/<action>',
 
-                'dashboard'                     => 'static/userAccount/dashboard',
+                'dashboard'                    => 'static/userAccount/dashboard',
                 'invite/remove/<inviteId:\w+>' => 'static/invites/remove',
                 'invite/resend/<inviteId:\w+>' => 'static/invites/reSend',
+                'invite/set/<status:\w+>'      => 'static/invites/setStatusForAllInvites',
 
                 'send-invite' => 'static/userAccount/sendInvite',
                 'accept-invite/<code:\w+>' => 'static/userAccount/acceptInvite',

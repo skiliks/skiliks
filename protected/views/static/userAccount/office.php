@@ -78,6 +78,16 @@
         <br>
         <br>
 
+    <a>Сменить статусы приглашений:</a>
+    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_PENDING]   ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_PENDING]) ?></a>
+    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_ACCEPTED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_ACCEPTED]) ?></a>
+    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_COMPLETED] ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_COMPLETED]) ?></a>
+    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_DECLINED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_DECLINED]) ?></a>
+
+        <br>
+        <br>
+        <br>
+
 <a href="/admin/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
 
         <br>

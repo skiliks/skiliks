@@ -30,11 +30,18 @@ class Invite extends CActiveRecord
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED  = 3;
 
-    protected static $statusText = [
+    public static $statusText = [
         self::STATUS_PENDING   => 'Pending',
         self::STATUS_ACCEPTED  => 'Accepted',
         self::STATUS_COMPLETED => 'Completed',
         self::STATUS_DECLINED  => 'Declined'
+    ];
+
+    public static $statusId = [
+        'Pending'   => self::STATUS_PENDING,
+        'Accepted'  => self::STATUS_ACCEPTED,
+        'Completed' => self::STATUS_COMPLETED,
+        'Declined'  => self::STATUS_DECLINED,
     ];
 
     const EXPIRED_TIME = 604800; // 7days
@@ -56,6 +63,14 @@ class Invite extends CActiveRecord
     public function getExpiredDate()
     {
         return Yii::t('site', date('F', ($this->sent_time + self::EXPIRED_TIME))).date(' d, Y', ($this->sent_time + self::EXPIRED_TIME));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPending()
+    {
+        return (self::STATUS_PENDING === $this->status);
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
