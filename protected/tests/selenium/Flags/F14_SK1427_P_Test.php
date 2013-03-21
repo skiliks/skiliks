@@ -31,7 +31,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
         // tests to checking the actions before F14 = 1
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
 
@@ -70,7 +70,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
 
@@ -112,7 +112,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
 
@@ -167,7 +167,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
 
@@ -227,7 +227,7 @@ class F14_SK1427_P_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(2);
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertText("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]","0");
 
