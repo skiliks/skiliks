@@ -57,6 +57,28 @@ class SimulationController extends AjaxController
     }
 
     /**
+     * Установка симуляции на паузу
+     */
+    public function actionStartPause()
+    {
+        SimulationService::pause(
+            $this->getSimulationEntity()
+        );
+        $this->sendJSON(['result' => 1]);
+    }
+
+    /**
+     * Возобновление симуляции
+     */
+    public function actionStopPause()
+    {
+        SimulationService::resume(
+            $this->getSimulationEntity()
+        );
+        $this->sendJSON(['result' => 1]);
+    }
+
+    /**
      * Get user's score
      */
     public function actionGetPoint()
