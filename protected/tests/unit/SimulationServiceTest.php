@@ -29,6 +29,26 @@ class SimulationServiceTest extends CDbTestCase
     }
 
     /**
+     * Проверяет что после установки симуляции на паузу и последующего возобновления
+     * время не изменяется
+     */
+    public function testSimulationPause()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user);
+        $awaiting = 2; //sec
+
+        $before = $simulation->getGameTime();
+        SimulationService::pause($simulation);
+        sleep($awaiting);
+        SimulationService::resume($simulation);
+        $after = $simulation->getGameTime();
+
+        $this->assertEquals($before, $after);
+        $this->assertEquals($awaiting, $simulation->skipped);
+    }
+
+    /**
      * Проверяет правильность оценивания игрока по за поведение 1122 
      * (оценивание обычным способом, лог писем пуст) 
      * оценка = максимальный_балл * (количество_правильных_проявления / количество_проявления_по_поведения_в_целом)
