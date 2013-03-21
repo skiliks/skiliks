@@ -104,20 +104,35 @@
     }
   }
 
-  .time .delimiter {
-    -webkit-animation-name: blinker;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
-    -webkit-animation-duration: 1s;
-    -webkit-animation-name: blinker;
-    animation-iteration-count: infinite;
-    animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
-    animation-duration: 1s;
-    animation-name: blinker;
+  .time  {
+    cursor: pointer;
+
+    .delimiter {
+      -webkit-animation-name: blinker;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
+      -webkit-animation-duration: 1s;
+      -webkit-animation-name: blinker;
+      animation-iteration-count: infinite;
+      animation-timing-function: cubic-bezier(1.0, 0, 0, 1.0);
+      animation-duration: 1s;
+      animation-name: blinker;
+    }
+
+    &:after {
+      content: '||';
+      padding-left: 8px;
+    }
 
     &.paused {
-      -webkit-animation-iteration-count: 0;
-      animation-iteration-count: 0;
+      .delimiter {
+        -webkit-animation-iteration-count: 0;
+        animation-iteration-count: 0;
+      }
+
+      &:after {
+        content: '\25BA';
+      }
     }
   }
 
@@ -214,9 +229,48 @@
     margin-right: 0;
   }
 
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    z-index: 10000;
+
+    .resume {
+      display: block;
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      top: 50%;
+      left: 50%;
+      margin: -50px 0 0 -50px;
+      font-size: 120px;
+      line-height: 100px;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        color: #888;
+      }
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '\25BA';
+      }
+    }
+  }
 }
 
 .simulation-controls {
   width: 980px;
   margin: auto;
+}
+
+.hidden {
+  display: none;
 }

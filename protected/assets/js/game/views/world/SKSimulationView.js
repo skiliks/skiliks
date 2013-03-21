@@ -34,7 +34,8 @@ define([
             'events':          {
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
-                'click .btn-toggle-dialods-sound': 'doToggleDialogSound'
+                'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
+                'click .time, .overlay .resume': 'doTogglePause'
             },
             'window_views':    {
                 'plan/plan':               SKDayPlanView,
@@ -63,7 +64,6 @@ define([
                 var me = this;
                 var simulation = this.simulation = SKApp.simulation;
                 this.listenTo(simulation, 'tick', this.updateTime);
-                this.listenTo(simulation, 'pause:start pause:stop', this.pauseTime);
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation.documents, 'reset', function () {
                     var timeout = 0;
@@ -160,10 +160,6 @@ define([
                 this.$('.time .minute').text(parts[1]);
             },
 
-            pauseTime: function() {
-                this.$('.time .delimiter').toggleClass('paused');
-            },
-
             /**
              * @method
              */
@@ -183,6 +179,18 @@ define([
                     SKApp.simulation.config.isMuteVideo = false;
                     this.$('.btn-toggle-dialods-sound i').addClass('icon-volume-up');
                     this.$('.btn-toggle-dialods-sound i').removeClass('icon-volume-off');
+                }
+            },
+
+            doTogglePause: function() {
+                var paused = this.$('.time').hasClass('paused');
+
+                this.$('.time').toggleClass('paused');
+                this.$('.canvas .overlay').toggleClass('hidden');
+                if (paused) {
+                    SKApp.simulation.stopPause();
+                } else {
+                    SKApp.simulation.startPause();
                 }
             }
         });
