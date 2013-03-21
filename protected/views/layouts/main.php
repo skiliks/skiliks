@@ -133,7 +133,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 // show/hide sign-in box
                 $('.sign-in-link').click(function(event){
                     event.preventDefault();
-                    $(".message_window").dialog('open');
+                    $(".sign-in-box").dialog('open');
                 });
             </script>
         <?php endif; ?>
@@ -143,7 +143,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 		        $("select").selectbox();
 
                 // @link: http://jqueryui.com/dialog/
-                $(".message_window").dialog({
+                $(".sign-in-box").dialog({
                     closeOnEscape: true,
                     dialogClass: 'sing-in-pop-up',
                     minHeight: 220,
@@ -157,7 +157,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                     title: 'Sign in',
                     width: 275
                 });
-                $(".message_window").dialog("close");
+                $(".sign-in-box").dialog("close");
 		    });
         </script>
 

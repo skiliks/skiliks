@@ -20,7 +20,7 @@ define([
         el:null,
 
         countMaxView: 1,
-
+        addClass: "phone-call",
         windowClass: "phoneMainDiv",
 
         windowID: '',

@@ -15,7 +15,7 @@ class EventsManager {
      * @return array
      * @throws Exception
      */
-    public static function startEvent($simulation, $eventCode, $clearEvents, $clearAssessment, $delay, $gameTime = null)
+    public static function startEvent($simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0, $gameTime = null)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
             LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, rand(1000,9999) + rand(100,999), 2);

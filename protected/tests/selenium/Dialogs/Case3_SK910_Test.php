@@ -19,7 +19,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
 
     public function testSK910()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E2.4');
@@ -41,16 +41,18 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
 
         $this->run_event('MS27');
+        sleep(3);
         $this->run_event('MS48');
+        sleep(3);
         $this->run_event('MS68');
+        sleep(3);
         $this->run_event('MS70');
+        sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.5");
-
-
     }
 }

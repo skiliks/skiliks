@@ -32,12 +32,105 @@
         content: '\2193';
         padding-left: 10px;
     }
+
+    .items {
+        margin: 10px 0;
+    }
+
+    .items td, .items th {
+        border: 1px solid #146672;
+        padding: 5px 15px;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin: 15px 0px 10px 0px;
+    }
+
+    h3 {
+        font-size: 15px;
+        margin: 7px 0px 10px 30px;
+    }
+
+    #send-invite-message-form label,
+    #invite-form label {
+        width: 150px;
+    }
+
+    #send-invite-message-form label {
+        display: inline-block;
+        padding: 3px 0 0 0;
+        vertical-align: top;
+    }
+
+    #send-invite-message-form .row,
+    #invite-form .row {
+        margin: 5px 0 5px 0 ;
+    }
+
+    #send-invite-message-form textarea,
+    #send-invite-message-form input {
+        display: inline-block;
+        width: 550px;
+    }
+
+    #send-invite-message-form .buttons input {
+        display: block;
+        margin: 0 auto;
+        width: 450px;
+    }
+
+    .invites-limit {
+        background: none repeat scroll 0 0 #146672;
+        border-radius: 3px;
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.2);
+        color: #fff;
+        display: block;
+        margin: 15px 0 15px 10px;
+        padding: 5px 15px;
+        width: 300px;
+    }
+
+    .small-invites-limit {
+        box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.8);
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .yiiPager li {
+        display: inline-block;
+        padding: 2px 7px;
+    }
+
+    .yiiPager li a{
+        color: #146672;
+    }
+
+    .yiiPager li.selected a{
+        color: #000;
+        cursor: default;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .errorMessage {
+        background-color: #FFE0E1;
+        border-radius: 5px;
+        color: #cd0a0a;
+        display: block;
+        margin: 0 0 5px 0;
+        padding: 2px 7px;
+        width: 535px;
+    }
 </style>
 
 <?php
 $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
+
+$cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');
 ?>
 <script type="text/javascript">
     $(function() {
@@ -45,33 +138,36 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
         // @link: http://jqueryui.com/dialog/
         $( ".message_window" ).dialog({
             modal: true,
-            width: 550
+            width: 780
 
         });
+        $( ".message_window").dialog('open');
     });
 </script>
 
 <section class="dashboard">
-    <h2>Dashboard</h2>
+    <h2><?php echo Yii::t('site', 'Dashboard') ?></h2>
 
     <div class="form">
-        <h3>Invite People</h3>
+        <h3><?php echo Yii::t('site', 'Invitations') ?></h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'invite-form'
         )); ?>
 
+        <?php echo $form->error($invite, 'invitations'); // You has no available invites! ?>
+
         <div class="row">
-            <?php echo $form->labelEx($invite, 'Name'); ?>
-            <?php echo $form->textField($invite, 'firstname', ['placeholder' => 'First name']); ?>
-            <?php echo $form->textField($invite, 'lastname', ['placeholder' => 'Last Name']); ?>
+            <?php echo $form->labelEx($invite, 'full_name'); ?>
+            <?php echo $form->textField($invite, 'firstname', ['placeholder' => Yii::t('site','First name')]); ?>
+            <?php echo $form->textField($invite, 'lastname', ['placeholder'  => Yii::t('site','Last Name')]); ?>
             <?php echo $form->error($invite, 'firstname'); ?>
             <?php echo $form->error($invite, 'lastname'); ?>
         </div>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'email'); ?>
-            <?php echo $form->textField($invite, 'email', ['placeholder' => 'Enter Email address']); ?>
+            <?php echo $form->textField($invite, 'email', ['placeholder' => Yii::t('site','Enter Email address')]); ?>
             <?php echo $form->error($invite, 'email'); ?>
         </div>
 
@@ -82,15 +178,20 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
         </div>
 
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Send invite', ['name' => 'prevalidate']); ?>
+            <?php echo CHtml::submitButton('Отправить приглашение', ['name' => 'prevalidate']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
 
+    <?php if (Yii::app()->user->data()->isCorporate()) : ?>
+        <div class="invites-limit <?php echo (Yii::app()->user->data()->countInvitesToGive() < 10) ? 'small-invites-limit' : ''; ?>">
+            У Вас осталось: <?php echo Yii::app()->user->data()->getAccount()->invites_limit?> приглашений
+        </div>
+    <?php endif ?>
+
     <?php if (!empty($valid)): ?>
-    <div class="form message_window" title="Введите текст письма">
-        <h3>Message</h3>
+    <div class="form form-invite-message message_window" title="Введите текст письма">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
@@ -106,11 +207,17 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
 
+        <br/>
+        <br/>
+
         <div class="row">
-            <?php echo $form->labelEx($invite, 'message'); ?>
+            <?php echo $form->labelEx($invite, 'message text'); ?>
             <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
+
+        <br/>
+        <br/>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'signature'); ?>
@@ -118,8 +225,11 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
             <?php echo $form->error($invite, 'signature'); ?>
         </div>
 
+        <br/>
+        <br/>
+
         <div class="row buttons">
-            <?php echo CHtml::submitButton('Send', ['name' => 'send']); ?>
+            <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
 
         <?php $this->endWidget(); ?>
@@ -128,19 +238,21 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
 
     <?php
         $this->widget('zii.widgets.grid.CGridView', [
-            'dataProvider' => Invite::model()->search($user->id), //$dataProvider,
+            'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
             'summaryText' => '',
             'pager' => [
-                'header' => false,
-                'prevPageLabel' => 'Prev',
-                'nextPageLabel' => 'Next'
+                'header'        => false,
+                'firstPageLabel' => '<< начало',
+                'prevPageLabel' => '< назад',
+                'nextPageLabel' => 'далее >',
+                'lastPageLabel' => 'конец >>',
             ],
             'columns' => [
-                ['header' => 'Name', 'name' => 'name', 'value' => '$data->getFullname()'],
-                ['header' => 'Position', 'name' => 'position_id', 'value' => '$data->position->label'],
-                ['header' => 'Status', 'name' => 'status', 'value' => '$data->getStatusText()'],
-                ['header' => 'Date / time', 'name' => 'sent_time', 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
-                ['header' => 'Score', 'value' => '"-"']
+                ['header' => Yii::t('site', 'Full name'),   'name' => 'name',        'value' => '$data->getFullname()'],
+                ['header' => Yii::t('site', 'Position'),    'name' => 'position_id', 'value' => '$data->position->label'],
+                ['header' => Yii::t('site', 'Status'),      'name' => 'status',      'value' => '$data->getStatusText()'],
+                ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time',   'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+                ['header' => Yii::t('site', 'Score'),       'value' => '"-"']
             ]
         ]);
     ?>
@@ -164,5 +276,5 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClient
         cssAsc: 'sort-asc',
         cssDesc: 'sort-desc',
         sortList: [[3, 1]]
-    });
+        });
 </script>

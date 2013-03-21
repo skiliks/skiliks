@@ -29,7 +29,7 @@ class Case_SK1471_Test extends SeleniumTestHelper
 
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "12");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "00");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
