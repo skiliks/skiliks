@@ -644,11 +644,9 @@ class UserAccountController extends YumController
                 $inviteToEdit->lastname = $inviteData['lastname'];
                 $inviteToEdit->position_id = $inviteData['position_id'];
                 // send invitation
-                if ($inviteToEdit->validate()) {
-                    $inviteToEdit->save();
+                if ($inviteToEdit->validate(['firstname', 'lastname', 'position_id'])) {
+                    $inviteToEdit->update(['firstname', 'lastname', 'position_id']);
                     $inviteToEdit->refresh();
-
-                    $this->redirect('/dashboard');
                 }
             }
         }
