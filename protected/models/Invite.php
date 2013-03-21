@@ -31,7 +31,7 @@ class Invite extends CActiveRecord
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
 
-    protected static $statusText = [
+    public static $statusText = [
         self::STATUS_PENDING => 'Pending',
         self::STATUS_ACCEPTED => 'Accepted',
         self::STATUS_COMPLETED => 'Completed',
