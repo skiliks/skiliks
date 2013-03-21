@@ -89,7 +89,7 @@ define([
                 this.dayplan_tasks = new SKDayTaskCollection();
                 this.documents = new SKDocumentCollection();
                 this.windowLog = new SKWindowLog();
-                this.skipped_minutes = 0;
+                this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
                 this.window_set = new SKWindowSet([], {events:this.events});
 
@@ -141,8 +141,9 @@ define([
                 var current_time_string = new Date();
                 var game_start_time = timeStringToMinutes(this.get('app').get('start')) * 60;
                 return game_start_time +
-                    Math.floor((current_time_string - this.start_time) / 1000 * this.get('app').get('skiliksSpeedFactor')) +
-                    this.skipped_minutes * 60;
+                    Math.floor(
+                        ((current_time_string - this.start_time) / 1000 + this.skipped_seconds) * this.get('app').get('skiliksSpeedFactor')
+                    );
             },
 
             /**
@@ -302,6 +303,7 @@ define([
                 var me = this;
 
                 me._stopTimer();
+                me.paused_time = new Date();
                 me.trigger('pause:start');
 
                 SKApp.server.api('simulation/startPause', {}, function () {
@@ -319,6 +321,8 @@ define([
                 var me = this;
 
                 me._startTimer();
+                me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                delete me.paused_time;
                 me.trigger('pause:stop');
 
                 SKApp.server.api('simulation/stopPause', {}, function () {
@@ -340,8 +344,9 @@ define([
                     'hour':hour,
                     'min':minute
                 }, function () {
-                    me.skipped_minutes =
-                        parseInt(hour, 10) * 60 + parseInt(minute, 10) - me.getGameMinutes() + me.skipped_minutes;
+                    me.skipped_seconds +=
+                        (parseInt(hour, 10) * 3600 + parseInt(minute, 10) * 60 - me.getGameSeconds()) /
+                        me.get('app').get('skiliksSpeedFactor');
                     me.trigger('tick');
                 });
             },

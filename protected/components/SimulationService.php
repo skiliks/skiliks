@@ -481,6 +481,30 @@ class SimulationService
         $simulation->checkLogs();
     }
 
+    /**
+     * @param Simulation $simulation
+     */
+    public static function pause($simulation)
+    {
+        if (empty($simulation->paused)) {
+            $simulation->paused = GameTime::setNowDateTime();
+            $simulation->save();
+        }
+    }
+
+    /**
+     * @param Simulation $simulation
+     */
+    public static function resume($simulation)
+    {
+        if (!empty($simulation->paused)) {
+            $skipped = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($simulation->paused);
+            $simulation->skipped = $simulation->skipped + $skipped;
+            $simulation->paused = null;
+            $simulation->save();
+        }
+    }
+
 
     /**
      * WTF! This crazy code not change internal sim time? but change sim start value

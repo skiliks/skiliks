@@ -93,7 +93,6 @@ class EventsManager {
         $gameTime = 0;
         try {
             $simMode  = $simulation->mode;
-            $simType  = $simulation->type;
             $gameTime = $simulation->getGameTime();
             $endTime = Yii::app()->params['simulation'][$simulation->getTypeLabel()]['end'];
 
