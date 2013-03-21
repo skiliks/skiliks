@@ -69,6 +69,7 @@ class Invite extends CActiveRecord
 			array('email, signature', 'length', 'max'=>255),
 			array('code', 'length', 'max'=>50),
             array('email', 'email'),
+            array('inviting_user_id, email', 'uniqueEmail', 'message' => "Вы уже отправили инвайт на {value}"),
 			array('message', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -201,5 +202,15 @@ class Invite extends CActiveRecord
     public function getSentTime()
     {
         return new DateTime('@' . (int)$this->sent_time);
+    }
+
+    public function uniqueEmail($attribute, $params)
+    {
+        if(null !== self::model()->findByAttributes(['email' => $this->email, 'inviting_user_id' => $this->inviting_user_id])){
+
+                $this->addError('email','Вы уже отправили инвайт на '.$this->email);
+
+        }
+
     }
 }

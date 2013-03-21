@@ -581,6 +581,7 @@ class UserAccountController extends YumController
 
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
+            $invite->inviting_user_id = $this->user->id;
             $valid = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $position_label = Yii::t('site',$invite->position->label);
