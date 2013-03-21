@@ -134,7 +134,7 @@ define(
                             JSON.stringify({"result":1,"unreaded":"4"})
                         ]
                     );
-                    this.config = {'simulationStartTime': '9:00', 'skiliksSpeedFactor': 8};
+                    this.config = {'start': '9:00', 'skiliksSpeedFactor': 8};
                     window.SKApp = new SKApplication(this.config);
                     this.timeout = 1000;
                 });

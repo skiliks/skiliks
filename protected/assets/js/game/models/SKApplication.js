@@ -24,7 +24,7 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
                  */
                 this.server = new SKServer();
 
-                this.simulation = new SKSimulation({'app': this, 'stype': this.get('simulationType')});
+                this.simulation = new SKSimulation({'app': this, 'mode': this.get('mode'), 'type': this.get('type')});
             },
 
             /**

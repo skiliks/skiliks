@@ -317,6 +317,15 @@ class EmailAnalyzerTest extends CDbTestCase
         $point = HeroBehaviour::model()->findByAttributes([
             'code' => '3313'
         ]);
+
+        $mails = MailBox::model()->findAllByAttributes([
+            'sim_id' => $simulation->id
+        ]);
+
+        foreach ($mails as $mail) {
+            $mail->readed = 0;
+            $mail->save();
+        }
         
         SimulationService::saveEmailsAnalyze($simulation->id);
         

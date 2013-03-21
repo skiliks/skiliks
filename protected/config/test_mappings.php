@@ -24,9 +24,24 @@ return [
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
         'popup' => "",
-        'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])"
+        'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])",
+        'close' => "css=.btn-close button"
     ],
 
+    'mail_main' => [
+        'new_email' => "css=a.NEW_EMAIL",
+        'reply_email' => "css=a.REPLY_EMAIL",
+        'reply_all_email' => "css=a.REPLY_ALL_EMAIL",
+        'forward_email' => "css=a.FORWARD_EMAIL",
+        'add_to_plan' => "css=a.ADD_TO_PLAN",
+        'delete' => "css=a.MOVE_TO_TRASH",
+        'save' => "css=a.SAVE_TO_DRAFTS",
+        'inbox' => "xpath=//*[@id='FOLDER_INBOX']/label",
+        'draft' => "xpath=//*[@id='FOLDER_DRAFTS']/label",
+        'outbox' => "xpath=//*[@id='FOLDER_SENDED']/label",
+        'trash' => "xpath=//*[@id='FOLDER_TRASH']/label",
+        'close' => "css=.btn-close button"
+    ],
 
     'todo' => [
         '' => '',
@@ -35,7 +50,7 @@ return [
 
     'phone' => [
         'contacts_list' => "//div[@id='phoneMainScreen']/ul/li[1]",
-        'missed_calls' => "//div[@id='phoneMainScreen']/ul/li[1]",
+        'missed_calls' => "css=li.phone_get_history > p",
         'reply' => "//a[@id='phone_reply']",
         'no_reply' => "//a[@id='phone_no_reply']"
     ],

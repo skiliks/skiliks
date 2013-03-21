@@ -19,11 +19,11 @@ class Case_SK1471_Test extends SeleniumTestHelper
      * test_SK1471_Case() тестирует задачу SKILIKS-1471
      *
      * 1. Устанавливаем время на 12:00
-     * 2. Проверяем, что количество входящих писем на даный момент = 10
+     * 2. Проверяем, что количество входящих писем на даный момент = 6
      * 3. Устанавливаем время на 16:00
-     * 4. Проверяем, что количество входящих  писем на даный момент = 23
+     * 4. Проверяем, что количество входящих  писем на даный момент = 19
      * 5. Устанавливаем время на 17:50
-     * 6. Проверяем, что количество входящих писем на даный момент = 32
+     * 6. Проверяем, что количество входящих писем на даный момент = 28
      */
     public function test_SK1471_Case() {
 
@@ -34,21 +34,21 @@ class Case_SK1471_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "00");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->assertTrue($this->incoming_counter(10));
+        $this->assertTrue($this->incoming_counter(6));
 
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "16");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "00");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->assertTrue($this->incoming_counter(23));
+        $this->assertTrue($this->incoming_counter(19));
 
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "17");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "50");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->assertTrue($this->incoming_counter(32));
+        $this->assertTrue($this->incoming_counter(28));
 
         $this->click("css=input.btn.btn-simulation-stop");
     }

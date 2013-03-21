@@ -19,10 +19,10 @@ class SeleniumTestHelper extends CWebTestCase
         $this->windowMaximize();
         $this->open('/');
         $this->optimal_click("xpath=//header/nav/a[4]");
-        $this->waitForVisible("xpath=//div[1]/form/div[1]/input");
-        $this->type("xpath=//div[1]/form/div[1]/input", "tatiana@skiliks.com");
-        $this->type("xpath=//div[1]/form/div[2]/input", "123123");
-        $this->optimal_click("xpath=//div[1]/form/div[5]/input");
+        $this->waitForVisible("css=.login>input");
+        $this->type("css=.login>input", "asd@skiliks.com");
+        $this->type("css=.password>input", "123123");
+        $this->optimal_click("css=.submit>input");
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -31,7 +31,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-
+        /*
         $this->optimal_click("xpath=//header/nav/a[4]");
 
         for ($second = 0; ; $second++) {
@@ -43,6 +43,9 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
+        */
+
+        $this->open('/simulation/developer?type=1'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -59,9 +62,10 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function run_event($event)
     {
-        sleep(2);
+        sleep(5);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
+        sleep(5);
     }
 
     /**
@@ -200,6 +204,7 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function verify_flag ($num_flag, $ver_value)
     {
+        sleep(5);
         $was_changed=false;
         $current_value='0';
         for ($second = 0; ; $second++) {
@@ -310,6 +315,43 @@ class SeleniumTestHelper extends CWebTestCase
         }
 
         return $same_number;
+    }
+
+    /**
+     *
+     */
+    public function mail_open ($mail_theme)
+    {
+        $is_here=false;
+        $a = "xpath=//*[@id='mlTitle']/tbody/tr[";
+        $b = "]/td[2]";
+        $count = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a;
+            $result .= (string)$count;
+            $result .= $b;
+            if ($this->isVisible($result))
+            {
+                $this->mouseOver($result);
+                if (($this->getText($result))==$mail_theme)
+                {
+                    $is_here = true;
+                    $this->optimal_click($result);
+                    break;
+                }
+                else
+                {
+                    $count++;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+        return $is_here;
     }
 }
 

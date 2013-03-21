@@ -96,18 +96,22 @@ class Invite extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'inviting_user_id' => 'Inviting User',
-			'invited_user_id' => 'Invited User',
-			'firstname' => 'Firstname',
-			'lastname' => 'Lastname',
-			'email' => 'Email',
-			'message' => 'Message',
-			'signature' => 'Signature',
-			'code' => 'Code',
-			'position_id' => 'Position',
-			'status' => 'Status',
-			'sent_time' => 'Sent Time',
+			'id'                => 'ID',
+			'inviting_user_id' => Yii::t('site', 'Inviting User'),
+			'invited_user_id'  => Yii::t('site', 'Invited User'),
+			'firstname'        => Yii::t('site', 'Firstname'),
+			'lastname'         => Yii::t('site', 'Lastname'),
+			'email'            => Yii::t('site', 'Email'),
+			'message'          => Yii::t('site', 'Message'),
+			'message text'     => Yii::t('site', 'Message text'),
+			'signature'        => Yii::t('site', 'Signature'),
+			'code'             => Yii::t('site', 'Code'),
+			'position_id'      => Yii::t('site', 'Position'),
+			'status'           => Yii::t('site', 'Status'),
+			'sent_time'        => Yii::t('site', 'Sent Time'),
+			'full_name'        => Yii::t('site', 'Full name'),
+			'To'               => Yii::t('site', 'To'),
+            'signature'        => Yii::t('site', 'Signature'),
 		);
 	}
 
@@ -146,19 +150,19 @@ class Invite extends CActiveRecord
                 'sortVar' => 'sort',
                 'attributes' => [
                     'name' => [
-                        'asc' => 'CONCAT(firstname, lastname)',
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
                         'desc' => 'CONCAT(firstname, lastname) DESC'
                     ],
-                    /*'position_id' => [
-                        'asc' => 'position.label',
+                    'position_id' => [
+                        'asc'  => 'position.label',
                         'desc' => 'position.label DESC'
-                    ],*/
+                    ],
                     'status',
                     'sent_time'
                 ],
             ],
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 20,
                 'pageVar' => 'page'
             ]
 		]);

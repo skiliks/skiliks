@@ -274,13 +274,14 @@ class FlagServiceTest extends CDbTestCase
         /** @var $timed_good_email MailBox */
         $timed_good_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
-            'code'   => 'M8'
+            'code'   => 'M31'
         ]);
         /** @var $timed_bad_email MailBox */
         $timed_bad_email = MailBox::model()->findByAttributes([
             'sim_id' => $simulation->id,
             'code'   => 'M9'
         ]);
+
         $this->assertEquals('inbox', $timed_good_email->getGroupName());
         $this->assertNull($timed_bad_email);
     }
