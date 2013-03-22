@@ -89,8 +89,8 @@
         <br>
         <br>
 
-<a href="/admin/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
-<a href="/admin/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
+<a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
+<a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
         <br>
         <br>

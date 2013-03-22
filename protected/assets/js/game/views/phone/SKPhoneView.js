@@ -60,7 +60,7 @@ define([
             var me = this;
             contacts.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
-                //me.$('.phone-screen').mCustomScrollbar();
+                me.$('.phone-list-contacts').mCustomScrollbar();
             });
         },
 
@@ -73,10 +73,15 @@ define([
             
             history.readHistory();
             history.trigger('reset'); // to refresh counter
-            
             var me = this;
+
+            me.$('.phone-list-call-history').mCustomScrollbar();
+
             history.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_history, {history:history, types:['in','out','miss']});
+                setTimeout(function(){
+                    me.$('.phone-list-call-history').mCustomScrollbar();
+                }, 500);
             });
         },
 
