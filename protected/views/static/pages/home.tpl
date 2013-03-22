@@ -15,7 +15,7 @@
 
                     {if (false === $userSubscribed) }
                         <!-- FORM { -->
-                        <form action="subscription/add" id="subscribe-form">
+                        <form action="static/pages/addUserSubscription" id="subscribe-form">
                             <div>
                                 <input type="text"
                                        id = "user-email-value"

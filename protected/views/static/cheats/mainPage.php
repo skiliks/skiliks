@@ -98,6 +98,12 @@
 <a href="/invite/add-10">Добавить себе 10 приглашений в корп. аккаунт</a>
 <a href="/admin">Старая "админка" - отображение таблиц с логами</a>
 
+        <br>
+        <br>
+        <br>
+
+<a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
+
     </nav>
 
 <?php endif ?>

@@ -76,14 +76,14 @@
 
         <div class="row buttons">
             <?php echo CHtml::submitButton('Register'); ?>
-            <a href="/decline-invite/<?php echo $invite->code; ?>" class="decline-invite">Decline</a>
+            <a href="/dashboard/decline-invite/<?php echo $invite->code; ?>" class="decline-invite">Decline</a>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
 
     <div class="decline-form-box hidden">
-        <form class="decline-form" action="/decline-invite/<?php echo $invite->code; ?>" method="POST">
+        <form class="decline-form" action="/dashboard/decline-invite/<?php echo $invite->code; ?>" method="POST">
             <h3>Пожалуйста укажите причину отказа</h3>
 
             <div class="row">
