@@ -47,11 +47,13 @@ $this->widget('zii.widgets.grid.CGridView', [
         $('.items td a').hide();
 
         // append pop-up sub-menu
-        $('.items tr').each(function(){
-            $(this).find('td:eq(0)').html(
-                '<a class="invites-smallmenu-switcher">меню</a> &nbsp;  &nbsp; <div class="invites-smallmenu-item" ></div>'
-            );
-        });
+            if (2 < $('.items tr').length) { //fix for empty list
+            $('.items tr').each(function(){
+                $(this).find('td:eq(0)').html(
+                    '<a class="invites-smallmenu-switcher">меню</a> &nbsp;  &nbsp; <div class="invites-smallmenu-item" ></div>'
+                );
+            });
+        }
 
         $('.invites-smallmenu-switcher').each(function(){
             // move links from last 3 TD to pop-up sub-menu
