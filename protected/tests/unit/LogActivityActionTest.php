@@ -310,7 +310,7 @@ class LogActivityActionTest extends CDbTestCase
             $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS55'])->primaryKey;
             $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey;
             $options->setRecipientsArray(Character::model()->findByAttributes(['code' => 39])->primaryKey);
-            $options->senderId = Character::HERO_ID;
+            $options->senderId = Character::model()->findByAttributes(['code'=>Character::HERO_ID]);
             $options->time = '11:00:00';
             $options->setLetterType('new');
             $options->groupId = MailBox::FOLDER_OUTBOX_ID;
