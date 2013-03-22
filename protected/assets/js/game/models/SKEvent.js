@@ -115,7 +115,7 @@ define([], function () {
             replicas.forEach(function (replica) {
                 img_src = img_src || replica.sound;
             });
-            if (!img_src.match(/\.png$/)) {
+            if (!img_src.match(/\.jpeg$/)) {
                 img_src = undefined;
             }
             return img_src ? SKApp.get('storageURL') + '/dialog_images/' + img_src : undefined;
