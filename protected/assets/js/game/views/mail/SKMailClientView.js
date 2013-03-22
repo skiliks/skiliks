@@ -180,7 +180,7 @@ define([
                 if ($(event.currentTarget).hasClass('min')) {
                     // maximize {
                     $(event.currentTarget).removeClass('min');
-                    $(event.currentTarget).removeClass('max');
+                    $(event.currentTarget).addClass('max');
 
                     $('.mail-view-header').addClass('min');
                     $('.mail-new-text').addClass('max');
@@ -189,7 +189,7 @@ define([
                 } else {
                     // minimize {
                     $(event.currentTarget).removeClass('max');
-                    $(event.currentTarget).removeClass('min');
+                    $(event.currentTarget).addClass('min');
 
                     $('.mail-view-header').removeClass('min');
                     $('.mail-new-text').removeClass('max');
