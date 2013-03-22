@@ -21,7 +21,7 @@
 
 &nbsp; &nbsp; &nbsp;
 
-<a href="/simulation/developer">Start new simulation</a>
+<a href="/simulation/developer/1">Start new simulation (dev,full)</a>
 
 {foreach $log_tables as $log_table}
     <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>

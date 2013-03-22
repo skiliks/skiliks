@@ -5,7 +5,7 @@
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
-class UserAccountController extends YumController
+class UserAuthController extends YumController
 {
     /**
      * @var YumUser
