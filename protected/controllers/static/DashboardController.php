@@ -41,7 +41,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $position_label = Yii::t('site', (string)$invite->position->label);
             if ($profile) {
-                $invite->message = 'Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.';
+                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.";
             } else {
                 $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $position_label Для кандидата на данную позицию обязательным условием \n"
                     ."является прохождение ассессмента для определениям уровня менеджерских навыков. Для этого вам необходимо пройти по ссылке, \n"
