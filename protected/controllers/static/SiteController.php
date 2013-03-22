@@ -118,6 +118,14 @@ class SiteController extends AjaxController
     {
         $this->returnErrorMessage(Yii::app()->errorHandler->error);
     }
+
+    /**
+     *
+     */
+    public function actionRunSimulationOrChooseAccount()
+    {
+        $this->render('runSimulationOrChooseAccount');
+    }
 }
 
 

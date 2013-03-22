@@ -78,9 +78,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
+                Yii::app()->user->setFlash('success', 'Приглашение успешно выслано');
+
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 0 ) {
-                $invite->addError('invitations', Yii::t('site', 'You has no available invites!'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             }
         }
         // handle send invitation }
@@ -269,8 +271,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionAcceptInvite($code)
     {
+        Yii::app()->language = 'ru';
+
         $invite = Invite::model()->findByCode($code);
         if (empty($invite)) {
+            Yii::app()->user->setFlash('site', 'Код неверный');
             $this->redirect('/');
         }
 
