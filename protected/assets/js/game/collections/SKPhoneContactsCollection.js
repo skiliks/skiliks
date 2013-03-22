@@ -1,6 +1,6 @@
 /*global SKApp, Backbone, _, SKTodoTask */
 var SKPhoneContactsCollection;
-(function () {
+define(['game/models/SKPhoneContact'], function (SKPhoneContact) {
     "use strict";
     /**
      * @class SKPhoneContactsCollection
@@ -39,4 +39,4 @@ var SKPhoneContactsCollection;
     });
 
     return SKPhoneContactsCollection;
-})();
+});

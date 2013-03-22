@@ -3,6 +3,8 @@
 var SKPhoneView;
 
 define([
+    "game/collections/SKPhoneContactsCollection",
+
     "text!game/jst/phone/phone_contacts.jst",
     "text!game/jst/phone/phone_history.jst",
     "text!game/jst/phone/phone_menu.jst",
@@ -11,6 +13,8 @@ define([
 
     "game/views/SKWindowView"
 ], function (
+        SKPhoneContactsCollection,
+
         phone_contacts,
         phone_history,
         phone_menu,

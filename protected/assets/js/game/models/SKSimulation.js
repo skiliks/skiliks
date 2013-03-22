@@ -320,13 +320,11 @@ define([
             stopPause: function() {
                 var me = this;
 
-                me._startTimer();
-                me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
-                delete me.paused_time;
-                me.trigger('pause:stop');
-
                 SKApp.server.api('simulation/stopPause', {}, function () {
-
+                    me._startTimer();
+                    me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                    delete me.paused_time;
+                    me.trigger('pause:stop');
                 });
             },
 
