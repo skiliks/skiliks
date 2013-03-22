@@ -131,39 +131,42 @@ return array(
             'showScriptName' => false,
 
             'rules' => array(
-                '/'              => 'static/pages/index',
-                'static/'         => 'static/pages/index',
-                'static/team/'    => 'static/pages/team',
-                'static/product/' => 'static/pages/product',
-
                 'admin'                  => 'static/admin/',
                 'admin/<action:\w+>'     => 'static/admin/<action>',
                 'Admin/Log'              => 'static/Admin/Log',
 
-                'logout'                  => 'static/userAccount/logout',
+                'logout'                  => 'static/userAuth/logout',
+                'logout/<_lang:\w+>'                  => 'static/userAuth/logout',
 
                 'simulation/start'        => 'simulation/start',
                 'simulation/stop'         => 'simulation/stop',
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
-                'simulation/<mode:\w+>'   => 'static/site/simulation',
 
-                'registration'                         => 'static/userAccount/registration',
+                'simulation/<mode:\w+>/<type:\w+>'   => 'static/site/simulation',
 
-                'registration/choose-account-type'     => 'static/userAccount/chooseAccountType',
+                'registration'                         => 'static/userAuth/registration',
+                'registration/<_lang:\w+>'                         => 'static/userAuth/registration',
 
-                'results'                   =>'static/userAccount/Results',
-                'simulation/results'        =>'static/userAccount/Results', // just to handle JS 'Sim stop'
-                'site/results'              =>'static/userAccount/Results',
+                'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
+                'registration/choose-account-type/<_lang:\w+>'     => 'static/userAuth/chooseAccountType',
+
+                'results'                   =>'static/userAuth/Results',
+                'results/<_lang:\w+>'                   =>'static/userAuth/Results',
+                'simulation/results'        =>'static/userAuth/Results', // just to handle JS 'Sim stop'
+                'simulation/results/<_lang:\w+>'        =>'static/userAuth/Results', // just to handle JS 'Sim stop'
+                'site/results'              =>'static/userAuth/Results',
+                'site/results/<_lang:\w+>'              =>'static/userAuth/Results',
 
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
+                'site/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
 
-                'userAccount/<action:\w+>'    => 'static/userAccount/<action>',
-                'registration/<action:\w+>'   => 'static/userAccount/<action>',
+                'userAuth/<action:\w+>'    => 'static/userAuth/<action>',
+                'registration/<action:\w+>'   => 'static/userAuth/<action>',
 
-                'cheats/'          => 'static/cheats/mainPage',
+                'cheats'          => 'static/cheats/mainPage',
                 'cheats/cleanUpAccount'          => 'static/cheats/cleanUpAccount',
                 'cheats/setinvites/<status:\w+>' => 'static/cheats/setStatusForAllInvites',
 
@@ -188,8 +191,32 @@ return array(
                 'simulations/corporate'        => 'static/simulations/corporate',
                 'simulations/personal'         => 'static/simulations/personal',
 
+                'dashboard/<_lang:\w+>'          => 'static/dashboard/index',
+                'dashboard/corporate/<_lang:\w+>' => 'static/dashboard/corporate',
+                'dashboard/personal/<_lang:\w+>'  => 'static/dashboard/personal',
+
+                'profile/<_lang:\w+>'          => 'static/profile/index',
+                'profile/corporate/<_lang:\w+>' => 'static/profile/corporate',
+                'profile/personal/<_lang:\w+>'  => 'static/profile/personal',
+
+                'statistic/<_lang:\w+>'          => 'static/statistic/index',
+                'statistic/corporate/<_lang:\w+>' => 'static/statistic/corporate',
+                'statistic/personal/<_lang:\w+>'  => 'static/statistic/personal',
+
+                'notifications/<_lang:\w+>'          => 'static/notifications/index',
+                'notifications/corporate/<_lang:\w+>' => 'static/notifications/corporate',
+                'notifications/personal/<_lang:\w+>'  => 'static/notifications/personal',
+
+                'simulations/<_lang:\w+>'                 => 'static/simulations/index',
+                'simulations/details/<id:\w+>/<_lang:\w+>' => 'static/simulations/details',
+                'simulations/corporate/<_lang:\w+>'        => 'static/simulations/corporate',
+                'simulations/persona/<_lang:\w+>l'         => 'static/simulations/personal',
+
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
+
+                'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
+                'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
                 'invite/add-10'                => 'static/invites/increaseInvites',
 
@@ -200,6 +227,20 @@ return array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+
+                '<controller:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>/<_lang:\w+>' => '<controller>/<action>',
+
+                '/'               => 'static/pages/index',
+                'static/'         => 'static/pages/index',
+                'static/team/'    => 'static/pages/team',
+                'static/product/' => 'static/pages/product',
+
+                '/<_lang:\w+>'               => 'static/pages/index',
+                'static/<_lang:\w+>'         => 'static/pages/index',
+                'static/team/<_lang:\w+>'    => 'static/pages/team',
+                'static/product/<_lang:\w+>' => 'static/pages/product',
             ),
         ),
         'excel'=>array(
