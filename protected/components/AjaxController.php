@@ -245,6 +245,11 @@ class AjaxController extends CController
 
         $user = $user->data();  //YumWebUser -> YumUser
 
+        if ($user->isActive()) {
+            Yii::app()->user->setFlash('error', 'Ваш профиль не активирован.');
+            $this->redirect('/');
+        }
+
         if (null === Yii::app()->user->data()->getAccount()) {
             $this->redirect('registration/choose-account-type');
         }
@@ -257,7 +262,8 @@ class AjaxController extends CController
             $this->forward($this->getBaseViewPath().'/personal');
         }
 
-        // just tyo be sure - handle strange case
+        // just to be sure - handle strange case
+        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 }
