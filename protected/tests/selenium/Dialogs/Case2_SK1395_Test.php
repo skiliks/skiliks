@@ -22,21 +22,21 @@ class Case2_SK1395_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
-        $this->run_event('E1');
-        $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])");
+        $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, за три часа управлюсь')])");
 
-        $this->run_event('E8.3');
-        $this->optimal_click("xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день.')])");
+        $this->run_event('E8.3',"xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день.')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Нет, прости, Мирон. Сегодня просто сумасшедший день.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Семен, а у тебя наверняка в бюджете статейка есть на непредвиденные расходы')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сейчас вернусь и напишу служебку. Спасибо за информацию! ')])");
 
-        $this->run_event('E12.1');
-        $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
+        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, буду в 18.00')])");
 
-        $this->run_event('E12.4');
-        $this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
+        $this->run_event('E12.4',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);

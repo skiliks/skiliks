@@ -23,8 +23,8 @@ class F12_SK1412_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('ET3.2');
-        $this->optimal_click("css=li.icon-active.door a");
+        $this->run_event('ET3.2',"css=li.icon-active.door a",'click');
+        //$this->optimal_click("css=li.icon-active.door a");
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[1]/tbody/tr/td[4]");
@@ -42,8 +42,8 @@ class F12_SK1412_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('ET3.2');
-        $this->optimal_click("css=li.icon-active.door a");
+        $this->run_event('ET3.2',"css=li.icon-active.door a",'click');
+        //$this->optimal_click("css=li.icon-active.door a");
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
         $this->optimal_click("xpath=(//*[contains(text(),'Сделал, прямо перед тобой отправил')])");
 
