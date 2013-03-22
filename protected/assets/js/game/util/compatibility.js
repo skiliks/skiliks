@@ -3,7 +3,7 @@
  *
  * TODO: Add depending on jQuery
  */
-define([], function() {
+define(['game/views/SKDialogView'], function(DialogView) {
     "use strict";
 
     var checkers = {
@@ -31,18 +31,16 @@ define([], function() {
         },
         speed: function(cfg) {
             var start = new Date(),
-                result = false;
+                result = true;
 
             $.ajax({
                 url: cfg.dummyFilePath,
                 cache: false,
                 async: false,
-                timeout: 10000,
-                success: function() {
-                    if (new Date() - start > 8000) {
-                        console.log('Popup');
-                    } else {
-                        result = true;
+                timeout: 8000,
+                error: function() {
+                    if (confirm('Ваш интернет - говно!') === false) {
+                        history.back();
                     }
                 }
             });

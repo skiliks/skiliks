@@ -65,7 +65,7 @@
     {/if}
 
 </head>
-<body class="body">
-<div id="excel-cache" style="display: none; visibility: hidden;"></div>
+<body class="body loading">
+    <div id="excel-cache" style="display: none; visibility: hidden;"></div>
 </body>
 </html>

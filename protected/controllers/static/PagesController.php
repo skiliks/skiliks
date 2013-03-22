@@ -62,4 +62,26 @@ class PagesController extends AjaxController
         $this->sendJSON($result);
         die;
     }
+
+    /**
+     *
+     */
+    public function actionBadBrowser()
+    {
+        $this->render('badBrowser', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => true,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionOldBrowser()
+    {
+        $this->render('oldBrowser', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => true,
+        ]);
+    }
 }
