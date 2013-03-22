@@ -93,13 +93,15 @@ class UserModule extends CWebModule {
 
 	private $_urls=array(
 			'login'=>array('//user/user'),
-			'return'=>array('//user/user/index'),
+			//'return'=>array('//user/user/index'),
+			'return'=>array('/'),// Skiliks
 			'firstVisit'=>array('//user/privacy/update'),
 			'delete'=>array('//user/user/delete'),
 			// Page to go after admin logs in
 			'returnAdmin'=>false,
 			// Page to go to after logout
-			'returnLogout'=>array('//user/user/login'));
+			'returnLogout'=>array('//user/user/login')
+    );
 
 	private $_views = array(
 			'login' => '/user/login',
