@@ -143,6 +143,9 @@ return array(
                 'subscription/add'       => 'static/pages/addUserSubscription',
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
 
+                'static/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
+                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
+
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
                 'admin'                  => 'static/admin/',
@@ -175,9 +178,6 @@ return array(
                 'simulation/results/<_lang:\w+>'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
                 'site/results'              =>'static/userAuth/results',
                 'site/results/<_lang:\w+>'              =>'static/userAuth/results',
-
-                'static/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
-                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
 
                 'userAuth/<action:\w+>'    => 'static/userAuth/<action>',
                 'registration/<action:\w+>'   => 'static/userAuth/<action>',
