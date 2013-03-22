@@ -486,6 +486,10 @@ class SimulationService
      */
     public static function pause($simulation)
     {
+        if ($simulation->type != Simulation::TYPE_LITE) {
+            throw new Exception('Pause feature is not available in non-lite simulation');
+        }
+
         if (empty($simulation->paused)) {
             $simulation->paused = GameTime::setNowDateTime();
             $simulation->save();
