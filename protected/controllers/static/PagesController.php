@@ -23,8 +23,6 @@ class PagesController extends AjaxController
      */
     public function actionTeam()
     {
-        var_dump(Yii::app()->language);
-
         $user_id = Yii::app()->session['uid'];
         $this->user = YumUser::model()->findByPk($user_id);
 

@@ -830,9 +830,6 @@ class GameContentAnalyzer
      */
     public function getDialogTitle($event)
     {
-        if (false == isset($this->dialogs[$event->code])) {
-            //var_dump($event->code); die;
-        }
         return $this->dialogs[$event->code]->title;
     }
 

@@ -2683,7 +2683,6 @@ class PHPExcel_Calculation {
 			//	Find out if we're currently at the beginning of a number, variable, cell reference, function, parenthesis or operand
 			$isOperandOrFunction = preg_match($regexpMatchString, substr($formula, $index), $match);
 //			echo '$isOperandOrFunction is '.(($isOperandOrFunction) ? 'True' : 'False').'<br />';
-//			var_dump($match);
 
 			if ($opCharacter == '-' && !$expectingOperator) {				//	Is it a negation instead of a minus?
 //				echo 'Element is a Negation operator<br />';
@@ -2762,7 +2761,6 @@ class PHPExcel_Calculation {
 						}
 					} elseif ($expectedArgumentCount != '*') {
 						$isOperandOrFunction = preg_match('/(\d*)([-+,])(\d*)/',$expectedArgumentCount,$argMatch);
-//						print_r($argMatch);
 //						echo '<br />';
 						switch ($argMatch[2]) {
 							case '+' :
