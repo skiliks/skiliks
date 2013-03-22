@@ -58,7 +58,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
             <!-- sing in { -->
             <?php $this->renderPartial('//layouts/_sing_in') ?>
 
-			<?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'site/comingSoonSuccess'])): ?>
+			<?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'static/comingSoonSuccess'])): ?>
                 <p class="heroes-comment right"><?php echo Yii::t('site', '&quot;Remarkably comprehensive<br />&nbsp;and deep assessment of<br />&nbsp;&nbsp;&nbsp;skills - now I know what<br />&nbsp;&nbsp;I can expect from<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcomers&quot;') ?></p>
                 <p class="heroes-comment left"><?php echo Yii::t('site', '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;') ?></p>
             <?php endif; ?>
