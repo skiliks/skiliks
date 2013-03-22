@@ -57,7 +57,7 @@ class UserAuthController extends YumController
             if ($existProfile && !$existProfile->user->isActive()) {
                 $error = sprintf(
                     Yii::t('site',  'Email already exists, but not activated. <a href="%s?email=%s">Send activation again</a>'),
-                    $this->createUrl('static/userAccount/resendActivation'),
+                    $this->createUrl('static/userAuth/resendActivation'),
                     $profile->email
                 );
             } else {
@@ -502,6 +502,7 @@ class UserAuthController extends YumController
 
         // user must specify account to see simulation results
         if (false == $this->user->isHasAccount()) {
+            Yii::app()->user->setFlash('success', 'Чтоб посмотреть результаты симуляции вы должны выбрать тип своего аккаунта.');
             $this->redirect(['registration/choose-account-type']);
         }
 

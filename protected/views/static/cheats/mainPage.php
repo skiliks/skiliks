@@ -102,6 +102,18 @@
         <br>
         <br>
         <br>
+        <hr>
+Свободные приглашения:
+<br/><br>
+<?php $invites = Invite::model()->findAllByAttributes(['status' => 0], ['limit'=>'5']); ?>
+<?php foreach ($invites as $invite) : ?>
+    <a href="/dashboard/accept-invite/<?php echo $invite->code ?>"?>Приглашение</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach ?>
+        <br>
+        <br>
+        <hr>
+        <br>
+        <br>
 
 <a href="/static/cheats/listOfsubscriptions">Список подписавшихся на рассылку</a>
 
