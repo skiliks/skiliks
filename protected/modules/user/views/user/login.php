@@ -52,7 +52,7 @@ if(isset($_GET['action']))
 	
 	<div class="row">
 	<p class="hint">
-	<?php
+	<?php /*
 	if(Yum::hasModule('registration') && Yum::module('registration')->enableRegistration)
 	echo CHtml::link(Yum::t("Registration"),
 			Yum::module('registration')->registrationUrl);
@@ -64,7 +64,7 @@ if(isset($_GET['action']))
 			&& Yum::module('registration')->enableRecovery) 
 	echo CHtml::link(Yum::t("Lost password?"),
 			Yum::module('registration')->recoveryUrl);
-	?>
+	*/ ?>
 </p>
 	</div>
 
