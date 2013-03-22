@@ -136,6 +136,11 @@ return array(
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
 
+                'static/team/<_lang:\w+>'    => 'static/pages/team',
+                'static/product/<_lang:\w+>' => 'static/pages/product',
+
+                'static/<_lang:\w+>'         => 'static/pages/index',
+
                 'admin'                  => 'static/admin/',
                 'admin/<action:\w+>'     => 'static/admin/<action>',
                 'Admin/Log'              => 'static/Admin/Log',
@@ -238,9 +243,6 @@ return array(
                 '<controller:\w+>/<action:\w+>/<_lang:\w+>' => '<controller>/<action>',
 
                 '/<_lang:\w+>'               => 'static/pages/index',
-                'static/<_lang:\w+>'         => 'static/pages/index',
-                'static/team/<_lang:\w+>'    => 'static/pages/team',
-                'static/product/<_lang:\w+>' => 'static/pages/product',
             ),
         ),
         'excel'=>array(

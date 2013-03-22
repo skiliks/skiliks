@@ -189,7 +189,7 @@ class UserAuthController extends YumController
      */
     public function actionChooseAccountType()
     {
-        $lang = substr(Yii::app()->language, 0, 2);
+        $lang = Yii::app()->language = 'ru';
 
         $this->checkUser();
 
