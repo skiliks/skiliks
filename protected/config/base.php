@@ -149,6 +149,7 @@ return array(
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
                 'admin/'                  => 'static/admin/',
+                'admin/displayLog/<simulation\w+>' => 'static/admin/displayLog',
                 'cheat/dialogsAnalyzer'   => 'static/admin/dialogsAnalyzer',
                 'cheat/uploadDialogsToAnalyzer'   => 'static/admin/uploadDialogsToAnalyzer',
                 'Admin/Log'              => 'static/Admin/Log',
