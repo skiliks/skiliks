@@ -20,7 +20,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->open('/ru');
         $this->optimal_click("xpath=//header/nav/a[4]");
         $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "asd@skiliks.com");
+        $this->type("css=.login>input", "tatiana@skiliks.com");
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
 
