@@ -1534,7 +1534,7 @@ define([
              * @param phrase
              */
             removePhraseFromEmail: function (phrase) {
-                $("#mailEmulatorNewLetterText li[data-uid=" + phrase.uid + "]").remove();
+                this.$("#mailEmulatorNewLetterText li[data-uid=" + phrase.uid + "]").remove();
             },
 
             /**
@@ -1542,12 +1542,12 @@ define([
              * @return SKAttachment | undefined
              */
             getCurrentEmailAttachment: function () {
-                var selectedAttachmentLabel = $('.dd-selected label').text();
+                var selectedAttachmentLabel = this.$('#MailClient_NewLetterAttachment .dd-selected label').text();
                 var attachments = this.mailClient.availableAttachments;
 
                 if (undefined !== selectedAttachmentLabel && null !== selectedAttachmentLabel) {
                     for (var i in attachments) {
-                        if (selectedAttachmentLabel == attachments[i].label) {
+                        if (selectedAttachmentLabel === attachments[i].label) {
                             return attachments[i];
                         }
                     }
