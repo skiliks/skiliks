@@ -62,5 +62,6 @@ class PagesController extends AjaxController
         $result = UserService::addUserSubscription($email);
 
         $this->sendJSON($result);
+        die;
     }
 }

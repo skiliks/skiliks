@@ -92,7 +92,9 @@ body.inner-registration{
 .container{
 	min-height:100%;
 }
-.container.main-page{
+
+.action-controller-comingSoonSuccess-static-pages .container,
+.action-controller-index-static-pages .container{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
 }
 .inner-registration .container{
@@ -100,7 +102,8 @@ body.inner-registration{
 	height:966px;
 }
 @media screen and (max-width: 1280px){
-	.container.main-page{
+    .action-controller-comingSoonSuccess-static-pages .container,
+    .action-controller-index-static-pages .container{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
 	}
 }
@@ -129,7 +132,9 @@ a:focus, a:active {
 	position:relative;
 	padding-bottom:287px;
 }
-.main-page .content{
+
+.action-controller-comingSoonSuccess-static-pages .container .content,
+.action-controller-index-static-pages .container .content{
 	height:1157px;
 }
 @media screen and (max-width: 1280px){
@@ -137,7 +142,9 @@ a:focus, a:active {
 		width:925px;
 		padding-bottom:310px;
 	}
-	.main-page .content{
+
+    .action-controller-comingSoonSuccess-static-pages .container .content,
+    .action-controller-index-static-pages .container .content{
 		height:1117px;
 	}
 }

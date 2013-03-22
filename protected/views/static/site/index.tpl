@@ -82,7 +82,7 @@
                             if ('undefined' !== typeof response.result || 'undefined' !== typeof response.message) {
                                 if (1 === response.result) {
                                     // redirect to success page
-                                    window.location.href = '/site/comingSoonSuccess';
+                                    window.location.href = '/static/comingSoonSuccess';
                                 } else {
                                     // invalid email
                                     displayError(response.message);

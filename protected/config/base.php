@@ -140,6 +140,9 @@ return array(
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
 
+                'subscription/add'       => 'static/pages/addUserSubscription',
+                'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
+
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
                 'admin'                  => 'static/admin/',
@@ -173,9 +176,8 @@ return array(
                 'site/results'              =>'static/userAuth/results',
                 'site/results/<_lang:\w+>'              =>'static/userAuth/results',
 
-                'subscription/add'       => 'static/subscription/add',
-                'site/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
-                'site/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
+                'static/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
+                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
 
                 'userAuth/<action:\w+>'    => 'static/userAuth/<action>',
                 'registration/<action:\w+>'   => 'static/userAuth/<action>',
