@@ -45,7 +45,7 @@ define([
             it("Simple dialog start test", function () {
                 var simulation = SKApp.simulation;
                 simulation.start();
-
+                server.respond();
                 expect(simulation.events.length).toBe(0);
                 var simulation_event_add_spy = sinon.spy();
                 // this code copied from SKSimulationView.addSimulationEvents() {
