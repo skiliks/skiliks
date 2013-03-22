@@ -18,7 +18,7 @@
     <?php endif ?>
 <?php else: ?>
     <?php if ('ru' == Yii::app()->language): ?>
-        <a href="/user/user/logout">
+        <a href="/logout">
             <?php echo Yii::t('site', 'Log out') ?> <?php echo Yii::app()->user->data()->profile->email ?>
         </a>
     <?php endif ?>

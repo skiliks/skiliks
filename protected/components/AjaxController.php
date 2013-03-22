@@ -245,6 +245,10 @@ class AjaxController extends CController
 
         $user = $user->data();  //YumWebUser -> YumUser
 
+        if (null === Yii::app()->user->data()->getAccount()) {
+            $this->redirect('registration/choose-account-type');
+        }
+
         if ($user->isCorporate()) {
             $this->forward($this->getBaseViewPath().'/corporate');
         }
