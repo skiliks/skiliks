@@ -152,12 +152,12 @@ return array(
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/choose-account-type/<_lang:\w+>'     => 'static/userAuth/chooseAccountType',
 
-                'results'                   =>'static/userAuth/Results',
-                'results/<_lang:\w+>'                   =>'static/userAuth/Results',
-                'simulation/results'        =>'static/userAuth/Results', // just to handle JS 'Sim stop'
-                'simulation/results/<_lang:\w+>'        =>'static/userAuth/Results', // just to handle JS 'Sim stop'
-                'site/results'              =>'static/userAuth/Results',
-                'site/results/<_lang:\w+>'              =>'static/userAuth/Results',
+                'results'                   =>'static/userAuth/results',
+                'results/<_lang:\w+>'                   =>'static/userAuth/results',
+                'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
+                'simulation/results/<_lang:\w+>'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
+                'site/results'              =>'static/userAuth/results',
+                'site/results/<_lang:\w+>'              =>'static/userAuth/results',
 
                 'subscription/add'       => 'static/subscription/add',
                 'site/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
