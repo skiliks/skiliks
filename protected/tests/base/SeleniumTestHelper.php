@@ -54,6 +54,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
+        sleep(10);
     }
 
     /**
@@ -66,7 +67,6 @@ class SeleniumTestHelper extends CWebTestCase
     // если еще что-то надо, то можно дописать в switch
     public function run_event($event, $next_event, $after)
     {
-        sleep(5);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
@@ -83,7 +83,7 @@ class SeleniumTestHelper extends CWebTestCase
                         default:
                             break;
                     }
-                    break;
+                    //break;
                 }
             } catch (Exception $e) {}
             sleep(1);
