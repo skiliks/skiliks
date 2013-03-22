@@ -1,11 +1,4 @@
 <?php
-/*$t = sprintf(
-    '<span class=\"invites-smallmenu-switcher\" rel=\"\">***</span><div id=\"invites-smallmenu-\">%s%s%s</div>',
-    '<a href=\"/invite/remove/\">удалить</a>',
-    '<a class=\"edit-invite\" href=\"\" title=\"$\">исправить</a>',
-    '<a href=\"/invite/resend/\">отправить <br/>ещё раз</a>'
-);*/
-
 $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Invite::model()->search(Yii::app()->user->data()->id), //$dataProvider,
     'summaryText' => '',
@@ -23,9 +16,9 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => '"-"'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
         ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->position_id\" title=\"$data->firstname, $data->lastname\">исправить</a>"', 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/invite/resend/$data->id\">отправить ещё раз</a>"' , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">отправить ещё раз</a>"' , 'type' => 'html'],
     ]
 ]);
 ?>

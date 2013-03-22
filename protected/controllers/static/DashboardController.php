@@ -104,6 +104,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 if ($inviteToEdit->validate(['firstname', 'lastname', 'position_id'])) {
                     $inviteToEdit->update(['firstname', 'lastname', 'position_id']);
                     $inviteToEdit->refresh();
+
+                    Yii::app()->user->setFlash('success', sprintf(
+                        'Приглашение для %s %s успешно сохранено.',
+                        $inviteToEdit->firstname,
+                        $inviteToEdit->lastname
+                    ));
                 }
             }
         }
@@ -166,5 +172,198 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $sent = YumMailer::send($mail);
 
         return $sent;
+    }
+
+    /**
+     * @param integer $inviteId
+     */
+    public function actionRemoveInvite($inviteId)
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $invite = Invite::model()->findByPk($inviteId);
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        // you can`t delete other (corporate) user invite
+        if ($user->id !== $invite->inviting_user_id) {
+            $this->redirect('/');
+        }
+
+        if (false === $user->isCorporate()) {
+            $this->redirect('/');
+        }
+
+        if (false == $invite->isPending()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя удалить подтвердённое приглашение!"
+            ));
+            $this->redirect('/dashboard');
+        }
+
+        $firstname = $invite->firstname;
+        $lastname  = $invite->lastname;
+
+        $invite->delete();
+
+        $user->getAccount()->invites_limit++;
+        $user->getAccount()->save();
+        $user->getAccount()->refresh();
+
+        Yii::app()->user->setFlash('success', sprintf(
+            "Приглашение для %s %s удалено!",
+            $firstname,
+            $lastname
+        ));
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     * @param integer $inviteId
+     */
+    public function actionReSendInvite($inviteId)
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $invite = Invite::model()->findByPk($inviteId);
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        // you can`t delete other (corporate) user invite
+        if ($user->id !== $invite->inviting_user_id) {
+            $this->redirect('/');
+        }
+
+        if (false === $user->isCorporate()) {
+            $this->redirect('/');
+        }
+
+        $invite->markAsSendToday();
+        $invite->update(['sent_time']);
+
+        Yii::app()->user->setFlash('success', sprintf(
+            "Приглашение для %s %s отсрочено до %s!",
+            $invite->firstname,
+            $invite->lastname,
+            $invite->getExpiredDate()
+        ));
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     * @param $code
+     */
+    public function actionAcceptInvite($code)
+    {
+        $invite = Invite::model()->findByCode($code);
+        if (empty($invite)) {
+            $this->redirect('/');
+        }
+
+        $this->user = new YumUser('registration');
+        $profile = new YumProfile('registration');
+        $account = new UserAccountPersonal();
+        $error = null;
+
+        $YumUser    = Yii::app()->request->getParam('YumUser');
+        $YumProfile = Yii::app()->request->getParam('YumProfile');
+        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
+
+        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
+        {
+            $this->user->attributes = $YumUser;
+            $profile->attributes = $YumProfile;
+            $account->attributes = $UserAccount;
+
+            $profile->email = $invite->email;
+            $this->user->setUserNameFromEmail($profile->email);
+
+            // Protect from "Wrong username" message - we need "Wrong email", from Profile form
+            if (null == $this->user->username) {
+                $this->user->username = 'DefaultName';
+            }
+
+            $userValid = $this->user->validate();
+            $profileValid = $profile->validate();
+
+            if ($userValid && $profileValid) {
+                $result = $this->user->register($this->user->username, $this->user->password, $profile);
+
+                if (false !== $result) {
+                    $account->user_id = $this->user->id;
+                    $account->save();
+
+                    $invite->status = Invite::STATUS_ACCEPTED;
+                    $invite->save();
+
+                    $activation_result = YumUser::activate($profile->email, $this->user->activationKey);
+                    $this->user->authenticate($YumUser['password']);
+                    // TODO: Change redirection point
+                    $this->redirect('/registration/account-type/added');
+                } else {
+                    $this->user->password = '';
+                    $this->user->password_again = '';
+
+                    echo 'Can`t register.';
+                }
+            }
+        }
+
+        $industries = [];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = Yii::t('site', $industry->label);
+        }
+
+        $positions = [];
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = Yii::t('site', $position->label);
+        }
+
+        $this->render(
+            'registrationByLink',
+            [
+                'invite'     => $invite,
+                'user'       => $this->user,
+                'profile'    => $profile,
+                'account'    => $account,
+                'industries' => $industries,
+                'positions'  => $positions,
+                'error'      => $error
+            ]
+        );
+    }
+
+    /**
+     * @param $code
+     */
+    public function actionDeclineInvite($code)
+    {
+        $invite = Invite::model()->findByCode($code);
+        if (empty($invite)) {
+            $this->redirect('/');
+        }
+
+        $reason = Yii::app()->request->getParam('reason');
+        $reasonDesc = Yii::app()->request->getParam('reason-desc');
+
+        $invite->status = Invite::STATUS_DECLINED;
+        $invite->save();
+
+        // TODO: Change redirection point
+        $this->redirect('/');
     }
 }

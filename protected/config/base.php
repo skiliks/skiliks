@@ -188,14 +188,14 @@ return array(
                 'simulations/corporate'        => 'static/simulations/corporate',
                 'simulations/personal'         => 'static/simulations/personal',
 
-                'invite/remove/<inviteId:\w+>' => 'static/invites/remove',
-                'invite/resend/<inviteId:\w+>' => 'static/invites/reSend',
+                'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
+                'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
 
                 'invite/add-10'                => 'static/invites/increaseInvites',
 
-                'send-invite' => 'static/userAccount/sendInvite',
-                'accept-invite/<code:\w+>' => 'static/userAccount/acceptInvite',
-                'decline-invite/<code:\w+>' => 'static/userAccount/declineInvite',
+                'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
+                'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',
+                'dashboard/decline-invite/<code:\w+>' => 'static/dashboard/declineInvite',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

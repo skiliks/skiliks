@@ -50,4 +50,15 @@ class PagesController extends AjaxController
             'userSubscribed' => true,
         ]);
     }
+
+    /**
+     *
+     */
+    public function actionAddUserSubscription()
+    {
+        $email = Yii::app()->request->getParam('email', false);
+        $result = UserService::addUserSubscription($email);
+
+        $this->sendJSON($result);
+    }
 }
