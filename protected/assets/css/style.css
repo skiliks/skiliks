@@ -96,7 +96,7 @@ body.inner-registration{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
 }
 .inner-registration .container{
-	min-height:auto;
+	min-height: auto;
 	height:966px;
 }
 @media screen and (max-width: 1280px){
@@ -127,7 +127,7 @@ a:focus, a:active {
 	margin:0 auto;
 	overflow:hidden;
 	position:relative;
-	padding-bottom:317px;
+	padding-bottom:287px;
 }
 .main-page .content{
 	height:1157px;
@@ -275,7 +275,7 @@ a:focus, a:active {
 /* --------------- header ---------*/
 .container>header{
 	width:948px;
-	height:58px;
+	height:88px;
 	margin:0 auto;
 	padding-top:39px;
 	position:relative;
@@ -321,7 +321,16 @@ a:focus, a:active {
 	top:60px;
 	right:0;
 }
-.container>header nav a{
+#simulation-details{
+    float: right;
+}
+.container>header nav#account-links{
+    position:absolute;
+    top:100px;
+    right:0;
+}
+#simulation-details label,
+.container>header nav a {
 	display:block;
 	background:rgba(20,102,114,0.4);
 	-webkit-border-radius:3px;
@@ -335,10 +344,14 @@ a:focus, a:active {
 	margin-left:9px;
 	padding:0 8px;
 }
-.container>header nav a:first-child{
+.container>header nav a:first-child,
+#simulation-details label:first-child {
 	margin-left:0;
 }
-.container>header nav a.active,.container>header nav a:hover{
+.container>header nav a.active,
+.container>header nav a:hover,
+#simulation-details label.active,
+#simulation-details label:hover{
 	background:rgba(20,102,114,1);
 }
 @media screen and (max-width: 1280px){
@@ -411,7 +424,6 @@ a:focus, a:active {
 /* --------------- features ---------*/
 .features{
 	width:789px;
-	margin-top:31px;
 	overflow:hidden;
 }
 .features h2{
@@ -1604,7 +1616,14 @@ html[lang=ru] .product section table th{
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-.sing-in-pop-up .ui-dialog-title{
+.action-controller-personal-static-simulations .ui-dialog-titlebar,
+.action-controller-corporate-static-dashboard .ui-dialog-titlebar,
+.action-controller-corporate-static-simulations .ui-dialog-titlebar {
+    border: 0px;
+    background: transparent;
+}
+
+.sing-in-pop-up .ui-dialog-title {
     color: #FFFFFF;
     font: 1.667em 'ProximaNova-Bold';
     margin: 7px 0 0 7px;
@@ -1683,3 +1702,144 @@ html[lang=ru] .product section table th{
 	}
 }
 /* --------------- /sign in box ---------*/
+
+/* --- vertical iu-tabs --- */
+
+.ui-tabs-vertical { width: 55em; }
+.ui-tabs-vertical .ui-tabs-nav { padding: .2em .1em .2em .2em; float: left; width: 12em; }
+.ui-tabs-vertical .ui-tabs-nav li { clear: left; width: 100%; border-bottom-width: 1px !important; border-right-width: 0 !important; margin: 0 -1px .2em 0; }
+.ui-tabs-vertical .ui-tabs-nav li a { display:block; }
+.ui-tabs-vertical .ui-tabs-nav li.ui-tabs-active { padding-bottom: 0; padding-right: .1em; border-right-width: 1px; border-right-width: 1px; }
+.ui-tabs-vertical .ui-tabs-panel { padding: 1em; float: right; width: 40em;}
+
+h1 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 34px;
+    margin: 0 0 7px 0;
+}
+
+h2 {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+    margin: 0 0 7px 0;
+}
+
+#invite-people-box {
+    height: 300px;
+    float: left;
+    margin: 0 0 0 10px;
+    width: 280px;
+}
+
+#simulations-counter-box {
+    height: 200px;
+    float: left;
+    margin: 30px 0 0 10px;
+    width: 280px;
+}
+#corporate-invitations-list-box {
+    height: 600px;
+    float: right;
+    margin: 0 10px 0 0 ;
+    width: 580px;
+}
+
+.nice-border {
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+    padding: 15px 0 0 15px;
+}
+
+.backgroud-bue-bordered {
+    border-radius: 8px 8px 8px 8px;
+    background-color: #66A7B0;
+    padding: 15px 0 0 15px;
+}
+
+.backgroud-rich-blue {
+    background-color: #146672;
+}
+
+.backgroud-light-blue {
+    background-color: #f0fdff;
+}
+
+.backgroud-light-yellow {
+    background-color: #fbfbc6;
+}
+
+.sbHolder {
+    width: 200px;
+}
+
+.action-controller-corporate-static-dashboard .invites-smallmenu-item {
+    background-color: #989779;
+    border-radius: 7px;
+    display: none;
+    margin: -12px 0 0 -7px;
+    padding: 12px;
+    position: absolute;
+    width: 150px;
+}
+
+.action-controller-corporate-static-dashboard .invites-smallmenu-item a {
+    color: #fff;
+    display: block;
+    padding: 0 0 3px 0;
+    text-decoration: none;
+    width: 150px;
+}
+
+.action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover {
+    color: #000;
+}
+
+.action-controller-corporate-static-dashboard .items th,
+.action-controller-corporate-static-dashboard .items td {
+    height: 25px;
+    padding: 1px 7px;
+}
+
+.flash {
+    border-radius: 6px;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
+    color: #146672;
+    font-weight: bold;
+    margin: 15px 15px;
+    padding: 5px 15px;
+}
+
+.flash-error {
+    color: #cf1919;
+}
+
+#dashboard-skills-box {
+    height: 300px;
+    float: left;
+    margin: 0 0 0 10px;
+    width: 280px;
+}
+
+#job-recomendations-box {
+    height: 300px;
+    float: left;
+    margin: 30px 0 0 10px;
+    width: 280px;
+}
+
+#companies-you-follow-box {
+    height: 200px;
+    float: left;
+    margin: 30px 0 0 10px;
+    width: 280px;
+}
+#private-invitations-list-box {
+    height: 600px;
+    float: right;
+    margin: 0 10px 0 0 ;
+    width: 580px;
+}

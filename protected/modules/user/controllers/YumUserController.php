@@ -86,6 +86,8 @@ class YumUserController extends YumController {
 		// is still generated
 		if(Yii::app()->user->isGuest && Yii::app()->request->isAjaxRequest)
 			return false;
+
+        $this->layout = false;
 		$this->redirect(array('/user/auth'));
 	}
 

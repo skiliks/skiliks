@@ -14,18 +14,18 @@
 <br>
 <br>
 <br>
-<?php if ($this->user->isHasAccount()): ?>
-    Тип Вашего аккаунта "<?php echo $this->user->getAccountType() ?>".
+<?php if (Yii::app()->user->data()->isHasAccount()): ?>
+    Тип Вашего аккаунта "<?php echo Yii::app()->user->data()->getAccountType() ?>".
 <?php else: ?>
     У Вас не выбран тип аккаунта.
 <?php endif; ?>
 
-<?php if ($this->user->getAccount() instanceof UserAccountCorporate): ?>
+<?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <br>
     <br>
     <strong>Корпоративный e-mail: </strong>
-        <?php echo $this->user->getAccount()->corporate_email?>
-        <?php if ($this->user->getAccount()->is_corporate_email_verified): ?>
+        <?php echo Yii::app()->user->data()->getAccount()->corporate_email?>
+        <?php if (Yii::app()->user->data()->getAccount()->is_corporate_email_verified): ?>
             (верифицирован)
         <?php else: ?>
             (не верифицирован)
@@ -36,7 +36,7 @@
 <br>
 <br>
 <nav>
-    <?php if (false === $this->user->isHasAccount()): ?>
+    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
         <a href="/registration/choose-account-type">
             <?php echo Yii::t('site', 'Choose account type') ?>
         </a>
@@ -44,7 +44,7 @@
 
     <a href="/simulation/promo">Начать симуляцию в режиме promo</a>
 
-    <?php if ($this->user->getAccount() instanceof UserAccountCorporate): ?>
+    <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <a href="/dashboard">
         <?php echo Yii::t('site', 'Dashboard') ?>
     </a>
@@ -54,19 +54,19 @@
 <br>
 <br>
 <br>
-<?php if ($user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
+<?php if (Yii::app()->user->data()->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)): ?>
     Вы имеет доступ к опциям режима разработчика:
 
     <br><br>
 
     <nav>
 
-    <?php if (false === $this->user->isHasAccount()): ?>
+    <?php if (false === Yii::app()->user->data()->isHasAccount()): ?>
         <a href="/registration/choose-account-type">
             <?php echo Yii::t('site', 'Choose account type') ?>
         </a>
     <?php else: ?>
-        <a href="/registration/cleanUpAccount">
+        <a href="/cheats/cleanUpAccount">
             <?php echo Yii::t('site', 'Reset account type') ?>
         </a>
     <?php endif; ?>
@@ -79,10 +79,10 @@
         <br>
 
     <a>Сменить статусы приглашений:</a>
-    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_PENDING]   ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_PENDING]) ?></a>
-    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_ACCEPTED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_ACCEPTED]) ?></a>
-    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_COMPLETED] ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_COMPLETED]) ?></a>
-    <a href="/invite/set/<?php echo Invite:: $statusText[Invite::STATUS_DECLINED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_DECLINED]) ?></a>
+    <a href="/cheats/setinvites/<?php echo Invite:: $statusText[Invite::STATUS_PENDING]   ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_PENDING]) ?></a>
+    <a href="/cheats/setinvites/<?php echo Invite:: $statusText[Invite::STATUS_ACCEPTED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_ACCEPTED]) ?></a>
+    <a href="/cheats/setinvites/<?php echo Invite:: $statusText[Invite::STATUS_COMPLETED] ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_COMPLETED]) ?></a>
+    <a href="/cheats/setinvites/<?php echo Invite:: $statusText[Invite::STATUS_DECLINED]  ?>"><?php echo Yii::t('site', Invite:: $statusText[Invite::STATUS_DECLINED]) ?></a>
 
         <br>
         <br>
@@ -108,3 +108,5 @@
 
     </header>
     </div>
+
+<div style="float: none; clear: both; height: 100px;"></div>
