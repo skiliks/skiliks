@@ -14,6 +14,7 @@
         <?php echo Yii::t('site', 'Profile') ?>
     </a>
 
+    <?php /*
     <a href="/statistic" class="<?php if (Yii::app()->request->getPathInfo() == 'statistic') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Statistic') ?>
     </a>
@@ -21,6 +22,7 @@
     <a href="/notifications" class="<?php if (Yii::app()->request->getPathInfo() == 'notifications') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Notifications') ?>
     </a>
+    */ ?>
 
     <a href="/simulations" class="<?php if (Yii::app()->request->getPathInfo() == 'simulations') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Simulations'); ?>
@@ -39,6 +41,7 @@
         <?php echo Yii::t('site', 'Profile') ?>
     </a>
 
+    <?php /*
     <a href="/statistic" class="<?php if (Yii::app()->request->getPathInfo() == 'statistic') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Statistic') ?>
     </a>
@@ -46,6 +49,7 @@
     <a href="/notifications" class="<?php if (Yii::app()->request->getPathInfo() == 'notifications') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Notifications') ?>
     </a>
+    */?>
 
     <a href="/simulations" class="<?php if (Yii::app()->request->getPathInfo() == 'simulations') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Simulations'); ?>
