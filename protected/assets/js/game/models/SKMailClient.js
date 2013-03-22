@@ -2,7 +2,9 @@
 
 var SKMailClient;
 
-define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function () {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function (
+    SKMailFolder, SKMailSubject, SKCharacter, SKMailPhrase
+    ) {
     "use strict";
     /**
      * @class SKMailClient
@@ -1078,14 +1080,15 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     {},
                     function (response) {
                         if (undefined !== response.data) {
-                            for (var i in response.data) {
+                            SKApp.simulation.mailClient.availableAttachments = [];
+                            response.data.forEach(function (attachment_data) {
 
                                 var attach = new SKAttachment();
-                                attach.fileMySqlId = response.data[i].id;
-                                attach.label = response.data[i].name;
+                                attach.fileMySqlId = attachment_data.id;
+                                attach.label = attachment_data.name;
 
                                 SKApp.simulation.mailClient.availableAttachments.push(attach);
-                            }
+                            });
                             cb();
                         }
                     }

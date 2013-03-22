@@ -1,7 +1,7 @@
 /* 
  * 
  */
-(function() {
+define(function() {
     "use strict";
     /**
      * @class SKMailPhrase
@@ -27,4 +27,5 @@
             this.uid = (new Date()).getTime() + '_' + Math.floor(Math.random()*100000);
         }
     });
-})();
+    return window.SKMailPhrase;
+});
