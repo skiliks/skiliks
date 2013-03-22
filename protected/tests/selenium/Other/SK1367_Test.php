@@ -26,8 +26,8 @@ class SK1367_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $this->run_event('ET1.1');
-        $this->optimal_click("css=li.icon-active.phone a");
+        $this->run_event('ET1.1',"css=li.icon-active.phone a",'click');
+        //$this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         sleep(1);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['phone']);

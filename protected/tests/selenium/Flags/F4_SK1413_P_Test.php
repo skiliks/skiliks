@@ -32,18 +32,18 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E1.3');
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
-        $this->run_event('ET1.3.1');
+        $this->run_event('ET1.3.1',"xpath=(//*[contains(text(),'октября')])",'-');
 
-        $hours = $this->transfer_time(0);
+        $this->transfer_time(0);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -79,9 +79,9 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E1.3');
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
@@ -90,9 +90,9 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
-        $this->run_event('ET1.3.1');
+        $this->run_event('ET1.3.1',"xpath=(//*[contains(text(),'октября')])",'-');
 
-        $hours = $this->transfer_time(0);
+        $this->transfer_time(0);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -130,18 +130,18 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E1.3');
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я тебе сейчас перешлю файл')])");
 
         $this->optimal_click(Yii::app()->params['test_mappings']['send_message_quickly']['MS22']);
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
-        $this->run_event('ET1.3.2');
+        $this->run_event('ET1.3.2',"xpath=(//*[contains(text(),'октября')])",'-');
 
-        $hours = $this->transfer_time(0);
+        $this->transfer_time(0);
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -179,9 +179,9 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E1.3');
+        $this->run_event('E1.3',"xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])",'click');
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'Ты не мог бы мне помочь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тебе же все равно рано или')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я знаю, что ты справишься')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Однако тебе все-таки')])");
@@ -190,7 +190,7 @@ class F4_SK1413_P_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F4','1'));
 
-        $this->run_event('ET1.3.2');
+        $this->run_event('ET1.3.2',"xpath=(//*[contains(text(),'октября')])",'-');
 
         $hours = $this->transfer_time(0);
 

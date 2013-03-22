@@ -31,9 +31,9 @@ class F19_SK1416_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('E3');
+        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])");
+        //$this->waitForVisible("xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Спасибо тебе, значит, через две недели')])");
 
@@ -59,9 +59,9 @@ class F19_SK1416_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('E3');
+        $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])");
+        //$this->waitForVisible("xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может,')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот и стимул все вовремя')])");
@@ -88,9 +88,9 @@ class F19_SK1416_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F19','0'));
 
-        $this->run_event('T2');
+        $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');
 
-        $this->waitForVisible("xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])");
+        //$this->waitForVisible("xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Иван, привет! Это Федоров.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Послушай, Иван, а мы можем встретиться, ')])");
         $this->waitForVisible("xpath=(//*[contains(text(),'Ну прямо гора с плеч! Я сегодня в')])");
@@ -117,7 +117,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F19','1'));
 
-        $this->run_event('E3');
+        $this->run_event('E3',"xpath=(//*[contains(text(),'октября')])",'-');
 
         $this->transfer_time(8);
 
@@ -147,7 +147,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F19','1'));
 
-        $this->run_event('T2');
+        $this->run_event('T2',"xpath=(//*[contains(text(),'октября')])",'-');
 
         $this->transfer_time(8);
 
