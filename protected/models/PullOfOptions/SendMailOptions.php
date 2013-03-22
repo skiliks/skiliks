@@ -6,7 +6,7 @@
 class SendMailOptions
 {
     public $simulation = NULL;
-    public $senderId   = Character::HERO_ID;
+    public $senderId;
 
     public $groupId    = MailBox::FOLDER_OUTBOX_ID;
     /**
@@ -28,6 +28,12 @@ class SendMailOptions
     private $recipients  = array();
 
     const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
+
+    public function __construct()
+    {
+        $this->senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID]);
+
+    }
      
      /**
       * @return bool
