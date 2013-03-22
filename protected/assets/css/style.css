@@ -1094,9 +1094,10 @@ html[lang=ru] .product section table th{
 	line-height:1;
 }
 .registration .form .row.wide input[type=text]{
-	width:316px;
+	width:291px;
 }
 .registration .form .row input[type=submit]{
+	display:block;
 	background:#146672 url("../img/icon-registration-submit.png") no-repeat 17px center;
 	border:none;
 	-webkit-border-radius:3px;
