@@ -99,6 +99,15 @@ class SimulationController extends AjaxController
      */
     public function actionChangeTime()
     {
+        $user = $this->getSimulationEntity()->user;
+
+        // protect against real user-cheater
+        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            return [
+                'result' => 0
+            ];
+        }
+
         try {
             $newHours = (int)Yii::app()->request->getParam('hour', 0);
             $newMinutes = (int)Yii::app()->request->getParam('min', 0);

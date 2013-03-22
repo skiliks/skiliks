@@ -154,7 +154,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             'Пройдите по ссылке чтобы начать симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/office' : '/accept-invite/' . $invite->code)
+                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/profile' : '/accept-invite/' . $invite->code)
             ),
             $invite->signature
         ];
