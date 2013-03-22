@@ -1157,24 +1157,25 @@ define([
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
 
-                var attachmentsListHtml = [];
-
-                attachmentsListHtml.push({
-                    text: "без вложения.",
-                    value: 0,
-                    selected: 1,
-                    imageSrc: ""
-                });
                 this.updateSubjectsList();
                 // add attachments list {
                 this.mailClient.uploadAttachmentsList(function () {
-                    for (var i in mailClientView.mailClient.availableAttachments) {
+                    var attachmentsListHtml = [];
+
+                    attachmentsListHtml.push({
+                        text: "без вложения.",
+                        value: 0,
+                        selected: 1,
+                        imageSrc: ""
+                    });
+
+                    mailClientView.mailClient.availableAttachments.forEach(function (attachment) {
                         attachmentsListHtml.push({
-                            text: mailClientView.mailClient.availableAttachments[i].label,
-                            value: mailClientView.mailClient.availableAttachments[i].fileId,
-                            imageSrc: mailClientView.mailClient.availableAttachments[i].getIconImagePath()
+                            text: attachment.label,
+                            value: attachment.fileId,
+                            imageSrc: attachment.getIconImagePath()
                         });
-                    }
+                    });
                     mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                         data: attachmentsListHtml,
                         width: '100%',
@@ -1687,24 +1688,25 @@ define([
                 this.renderIcons(this.mailClient.iconsForWriteEmailScreenArray);
 
 
-                var attachmentsListHtml = [];
-
-                attachmentsListHtml.push({
-                    text: "без вложения.",
-                    value: 0,
-                    selected: 1,
-                    imageSrc: ""
-                });
 
                 // add attachments list {
                 this.mailClient.uploadAttachmentsList(function () {
-                    for (var i in mailClientView.mailClient.availableAttachments) {
+                    var attachmentsListHtml = [];
+
+                    attachmentsListHtml.push({
+                        text: "без вложения.",
+                        value: 0,
+                        selected: 1,
+                        imageSrc: ""
+                    });
+
+                    mailClientView.mailClient.availableAttachments.forEach(function (attachment) {
                         attachmentsListHtml.push({
-                            text: mailClientView.mailClient.availableAttachments[i].label,
-                            value: mailClientView.mailClient.availableAttachments[i].fileId,
-                            imageSrc: mailClientView.mailClient.availableAttachments[i].getIconImagePath()
+                            text: attachment.label,
+                            value: attachment.fileId,
+                            imageSrc: attachment.getIconImagePath()
                         });
-                    };
+                    });
 
                     mailClientView.$("#MailClient_NewLetterAttachment div.list").ddslick({
                         data: attachmentsListHtml,

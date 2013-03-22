@@ -1,6 +1,6 @@
 /*global Backbone
  */
-(function() {
+define([], function() {
     "use strict";
     /**
      * @class SKMailFolder
@@ -86,4 +86,5 @@
             return result;
         }
     });
-})();
+    return window.SKMailFolder;
+});
