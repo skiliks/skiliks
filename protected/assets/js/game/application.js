@@ -6,10 +6,10 @@
 require(['game/util/compatibility'], function(compatibility) {
     "use strict";
 
-    if (compatibility.check(window.gameConfig)) {
-        _.templateSettings.interpolate = /<@=(.+?)@>/g;
-        _.templateSettings.evaluate = /<@(.+?)@>/g;
+    _.templateSettings.interpolate = /<@=(.+?)@>/g;
+    _.templateSettings.evaluate = /<@(.+?)@>/g;
 
+    if (compatibility.check(window.gameConfig)) {
         require(
             [
                 'game/views/world/SKApplicationView',

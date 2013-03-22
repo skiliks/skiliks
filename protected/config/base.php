@@ -156,6 +156,9 @@ return array(
 
                 'logout'                  => 'static/userAuth/logout',
 
+                'bad-browser' => 'static/pages/badBrowser',
+                'old-browser' => 'static/pages/oldBrowser',
+
                 'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
 
                 'simulation/start'        => 'simulation/start',
