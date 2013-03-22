@@ -169,7 +169,10 @@ class UserAuthController extends YumController
 
         $this->checkUser();
 
-        $message = Yii::t('site', 'Your account successfully updated to "%s".');
+        $message = sprintf(
+            Yii::t('site', 'Your account successfully updated to "%s".'),
+            $this->user->getAccountType()
+        );
 
 
        if ($this->user->isCorporate() && false == (bool)$this->user->getAccount()->is_corporate_email_verified) {
@@ -179,7 +182,7 @@ class UserAuthController extends YumController
 
         Yii::app()->user->setFlash( 'success', $message );
 
-        $this->render('accountTypeSavesSuccessfully', [
+        $this->render('emptyPage', [
             'user' => $this->user
         ]);
     }

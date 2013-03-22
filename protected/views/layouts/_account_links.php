@@ -1,4 +1,8 @@
 
+<?php if ('ru' != Yii::app()->language): ?>
+    <?php return; ?>
+<?php endif ?>
+
 <!-- Corporate: -->
 <?php if (null !== Yii::app()->user && Yii::app()->user->data()->isCorporate()) : ?>
 

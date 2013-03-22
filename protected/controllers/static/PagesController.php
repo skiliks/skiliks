@@ -8,7 +8,7 @@ class PagesController extends AjaxController
     public function actionIndex()
     {
         // this page currently will be just RU
-        if (null === Yii::app()->request->getParam('_lang')) {
+        if (null === Yii::app()->request->getParam('_lang') && null === Yii::app()->language) {
             Yii::app()->language = 'ru';
         }
 
@@ -23,6 +23,8 @@ class PagesController extends AjaxController
      */
     public function actionTeam()
     {
+        var_dump(Yii::app()->language);
+
         $user_id = Yii::app()->session['uid'];
         $this->user = YumUser::model()->findByPk($user_id);
 
