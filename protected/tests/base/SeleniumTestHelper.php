@@ -17,7 +17,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('/');
+        $this->open('/ru');
         $this->optimal_click("xpath=//header/nav/a[4]");
         $this->waitForVisible("css=.login>input");
         $this->type("css=.login>input", "asd@skiliks.com");
@@ -27,7 +27,7 @@ class SeleniumTestHelper extends CWebTestCase
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'Office for')])")) break;
+                if ($this->isVisible("xpath=(//*[contains(text(),'Cheats')])")) break;
             } catch (Exception $e) {}
             sleep(1);
         }
@@ -45,7 +45,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
         */
 
-        $this->open('/simulation/developer?type=1'); // для full simulation
+        $this->open('/simulation/developer/1'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
