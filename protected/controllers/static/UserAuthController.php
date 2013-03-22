@@ -18,7 +18,9 @@ class UserAuthController extends YumController
      */
     public function actionLogout()
     {
-        Yii::app()->session['uid'] = null;
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
 
         $this->redirect('/');
     }

@@ -123,7 +123,7 @@ class CheatsController extends AjaxController
             echo "<br>Corporate accoutn removed.<br>";
         }
 
-        echo "<br><br><a href='/office'>Вернуться на страницу аккаунта.</a><br><br>Done!<br>";
+        echo "<br><br><a href='/cheats'>Вернуться на страницу аккаунта.</a><br><br>Done!<br>";
 
         die;
     }
