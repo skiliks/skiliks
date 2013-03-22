@@ -347,7 +347,7 @@ class EmailAnalyzerTest extends CDbTestCase
         //good M47
         $code_3323 = HeroBehaviour::model()->findByAttributes(['code'=>3323]);
 
-  /*      $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
         EventsManager::startEvent($simulation, 'M47');
@@ -387,7 +387,7 @@ class EmailAnalyzerTest extends CDbTestCase
         SimulationService::saveEmailsAnalyze($simulation->id);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
         $this->assertEquals('2', $point->value);
-*/
+
         //good M47 and M71
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
