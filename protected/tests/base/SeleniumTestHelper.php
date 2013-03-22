@@ -54,7 +54,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        sleep(15);
+        sleep(10);
     }
 
     /**
