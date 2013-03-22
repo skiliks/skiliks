@@ -109,7 +109,7 @@ body.loading {
   }
 
   .time  {
-    cursor: pointer;
+
 
     .delimiter {
       -webkit-animation-name: blinker;
@@ -123,9 +123,15 @@ body.loading {
       animation-name: blinker;
     }
 
-    &:after {
-      content: '||';
-      padding-left: 8px;
+
+
+    .pause-control {
+      cursor: pointer;
+
+      &:after {
+        content: '||';
+        padding-left: 8px;
+      }
     }
 
     &.paused {
@@ -134,7 +140,7 @@ body.loading {
         animation-iteration-count: 0;
       }
 
-      &:after {
+      .pause-control:after {
         content: '\25BA';
       }
     }
