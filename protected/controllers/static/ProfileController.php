@@ -197,7 +197,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
         $user = Yii::app()->user;
         if (null === $user->id) {
-            Yii::app()->uawr->setFlash('error', 'Вы не авторизированы.');
+            Yii::app()->user->setFlash('error', 'Вы не авторизированы.');
             $this->redirect('/');
         }
 
