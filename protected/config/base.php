@@ -131,6 +131,11 @@ return array(
             'showScriptName' => false,
 
             'rules' => array(
+                '/'               => 'static/pages/index',
+                'static/'         => 'static/pages/index',
+                'static/team/'    => 'static/pages/team',
+                'static/product/' => 'static/pages/product',
+
                 'admin'                  => 'static/admin/',
                 'admin/<action:\w+>'     => 'static/admin/<action>',
                 'Admin/Log'              => 'static/Admin/Log',
@@ -231,11 +236,6 @@ return array(
                 '<controller:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<_lang:\w+>' => '<controller>/<action>',
-
-                '/'               => 'static/pages/index',
-                'static/'         => 'static/pages/index',
-                'static/team/'    => 'static/pages/team',
-                'static/product/' => 'static/pages/product',
 
                 '/<_lang:\w+>'               => 'static/pages/index',
                 'static/<_lang:\w+>'         => 'static/pages/index',
