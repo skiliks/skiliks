@@ -43,6 +43,7 @@
 
         });
         $( ".form-invite-message-editor").dialog('close');
+        $( ".form-invite-message-editor").parent().addClass('nice-border');
 
         $('.edit-invite').click(function(event){
             event.preventDefault();

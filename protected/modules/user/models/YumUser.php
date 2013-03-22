@@ -105,6 +105,40 @@ class YumUser extends YumActiveRecord
         $this->username = preg_replace("/[^a-zA-Z0-9]+/", "", $email);
     }
 
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->status == YumUser::STATUS_ACTIVE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAnonymous() {
+
+        if(!$this->isCorporate() AND !$this->isPersonal()){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersonal() {
+        return UserAccountPersonal::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCorporate() {
+        return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
+    }
+
     // ------------------------------------------------------------------------------------------------------------
 
     public function behaviors()
@@ -172,10 +206,6 @@ class YumUser extends YumActiveRecord
         }
     }
 
-    public function isActive()
-    {
-        return $this->status == YumUser::STATUS_ACTIVE;
-    }
 
     // This function tries to generate a as human-readable password as possible
     public static function generatePassword()
@@ -915,22 +945,5 @@ class YumUser extends YumActiveRecord
 
         Yii::app()->user->login($identity, $duration);
         //Yii::app()->session['uid'] = $this->id;
-    }
-
-    public function isAnonymous() {
-
-        if(!$this->isCorporate() AND !$this->isPersonal()){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public function isPersonal() {
-        return UserAccountPersonal::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
-    }
-
-    public function isCorporate() {
-        return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
     }
 }

@@ -151,6 +151,7 @@ return array(
     'To' => 'Кому',
     'Signature' => 'Подпись',
     'Best regards' => 'С уважением!',
+
     'January' => 'Январь',
     'February' => 'Февраль',
     'March' => 'Март',
@@ -163,13 +164,26 @@ return array(
     'October' => 'Октябрь',
     'November' => 'Ноябрь',
     'December' => 'Декабрь',
+
     'Sign in' => 'Вход',
     'Forgot your password?' => 'Забыли пароль?',
     'Remember me' => 'Запомнить меня',
     'Enter login' => 'Введите логин',
     'Enter password' => 'Введите пароль',
+
     'Pending' => 'в ожидании',
     'Accepted' => 'подтверждён',
     'Completed' => 'завершен',
     'Declined' => 'отвергнут',
+
+    'Profile' => 'Профиль',
+    'Statistic' => 'Статистика',
+    'Notifications' => 'Уведомления',
+    'Simulations' => 'Симуляции',
+
+    'Main' => 'Общая',
+    'Productivity' => 'Продуктивность',
+    'Time management' => 'Управление временем',
+    'Managerial skills' => 'Управленческие навыки',
+    'Personal qualities' => 'Личные качества',
 );

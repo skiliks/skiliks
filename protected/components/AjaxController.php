@@ -223,12 +223,38 @@ class AjaxController extends CController
 
     public function checkUser()
     {
-        $user_id = Yii::app()->user->id;
-        $this->user = YumUser::model()->findByPk($user_id);
-
+        $this->user = Yii::app()->user;
         if (null === $this->user) {
-            $this->redirect(['registration/error/sign-in-or-register']);
+            $this->redirect('/');
         }
+        $this->user = $this->user->data();
+    }
+
+    /**
+     * Base user verification
+     */
+    public function accountPagesBase()
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        if ($user->isCorporate()) {
+            $this->forward($this->getBaseViewPath().'/corporate');
+        }
+
+        if ($user->isPersonal()) {
+            $this->forward($this->getBaseViewPath().'/personal');
+        }
+
+        // just tyo be sure - handle strange case
+        $this->redirect('/');
     }
 }
 

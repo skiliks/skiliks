@@ -12,6 +12,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 
 $cs->registerCssFile($assetsUrl . '/js/jquery/jquery-ui.css');;
 $cs->registerCssFile($assetsUrl . "/css/style.css");
@@ -29,17 +30,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 		<![endif]-->
     </head>
     
-    <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>
-   	<body>
-    <?php } else if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>
-    <body class="inner-team">
-    <?php } else if ($_SERVER['REQUEST_URI'] == '/registration/choose-account-type' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=en' || $_SERVER['REQUEST_URI'] == '/registration/choose-account-type?_lang=ru') {?>
-	<body class="inner-registration">
-    <?php } else {?>
-    <body class="inner">
-    <?php } ?>
+    <body class="<?php echo StaticSiteTools::getBodyClass(Yii::app()->request) ?>">
 
-		<div class="container<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?> main-page<?php } ?><?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?> team-page<?php } ?>" id="top">
+		<div class="<?php echo StaticSiteTools::getContainerClass(Yii::app()->request) ?>" id="top">
 			
 			<!--header-->
 			<header>
@@ -47,68 +40,46 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				
 				<p class="coming-soon"><?php echo Yii::t('site', 'Coming soon') ?></p>
 
-				<div class="language">
-                    <?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'team', 'product'])): ?>
-                        <a href="?_lang=<?php echo Yii::t('site', 'ru')?>"><?php echo Yii::t('site', 'Русский') ?></a>
-                    <?php endif ?>
-                </div>
+                <?php $this->renderPartial('//layouts/_language_switcher') ?>
 
-				<nav>
-					<a href="/"  <?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Home') ?></a>
-					<a href="/team" <?php if ($_SERVER['REQUEST_URI'] == '/team' || $_SERVER['REQUEST_URI'] == '/team?_lang=en' || $_SERVER['REQUEST_URI'] == '/team?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'About Us') ?></a>
-					<a href="/product" <?php if ($_SERVER['REQUEST_URI'] == '/product' || $_SERVER['REQUEST_URI'] == '/product?_lang=en' || $_SERVER['REQUEST_URI'] == '/product?_lang=ru') {?>class="active"<?php } ?>><?php echo Yii::t('site', 'Product') ?></a>
-                    <?php if (Yii::app()->user->isGuest) : ?>
-                        <?php if ('ru' == Yii::app()->language): ?>
-                            <a href="" class="sign-in-link"><?php echo Yii::t('site', 'Sign in') ?></a>
-                        <?php endif ?>
-                    <?php else: ?>
-                        <?php if ('ru' == Yii::app()->language): ?>
-                            <a href="/office"><?php echo Yii::t('site', 'Office for') ?> <?php echo Yii::app()->user->data()->profile->email ?></a>
-                            <a href="/user/user/logout"><?php echo Yii::t('site', 'Log out') ?></a>
-                        <?php endif ?>
-                    <?php endif; ?>
+				<nav id="static-page-links">
+                    <?php $this->renderPartial('//layouts/_static_pages_links') ?>
+				</nav>
+
+                <br/>
+                <br/>
+
+				<nav id="account-links">
+                    <?php $this->renderPartial('//layouts/_account_links') ?>
 				</nav>
 			</header>
 			<!--header end-->
 
-            <?php if (!Yii::app()->user->id) : ?>
-                <!-- sing in { -->
-                <div class="sign-in-box message_window">
-                    <form class="login-form" action="/user/auth" method="post">
-                        <input type="hidden" name="returnUrl" value="/static/site/index"/>
+            <!-- sing in { -->
+            <?php $this->renderPartial('//layouts/_sing_in') ?>
 
-                        <div class="login">
-                            <a href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
-                            <input type="text" name="YumUserLogin[username]" placeholder="<?php echo Yii::t('site', 'Enter login') ?>" />
-                        </div>
-                        <div class="password">
-                            <input type="password" name="YumUserLogin[password]" placeholder="<?php echo Yii::t('site', 'Enter password') ?>" />
-                        </div>
-                        <div class="remember">
-                            <input type="checkbox" name="remember_me" value="remeber" class="niceCheck" id="ch1" /> <label for="ch1"><?php echo Yii::t('site', 'Remember me') ?></label>
-                        </div>
-                        <div class="errors">
-                        </div>
-                        <div class="submit">
-                            <input type="submit" value="<?php echo Yii::t('site', 'Sign in') ?>">
-                        </div>
-                        <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
-                            <a href="/registration"><?php echo Yii::t('site', 'Registration') ?></a>
-                        <?php endif; ?>
-                    </form>
-                </div>
-                <!-- } sing in -->
+			<?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'site/comingSoonSuccess'])): ?>
+                <p class="heroes-comment right"><?php echo Yii::t('site', '&quot;Remarkably comprehensive<br />&nbsp;and deep assessment of<br />&nbsp;&nbsp;&nbsp;skills - now I know what<br />&nbsp;&nbsp;I can expect from<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcomers&quot;') ?></p>
+                <p class="heroes-comment left"><?php echo Yii::t('site', '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;') ?></p>
             <?php endif; ?>
-
-			<?php if ($_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/?_lang=en' || $_SERVER['REQUEST_URI'] == '/?_lang=ru') {?>
-			<p class="heroes-comment right"><?php echo Yii::t('site', '&quot;Remarkably comprehensive<br />&nbsp;and deep assessment of<br />&nbsp;&nbsp;&nbsp;skills - now I know what<br />&nbsp;&nbsp;I can expect from<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;newcomers&quot;') ?></p>
-			<p class="heroes-comment left"><?php echo Yii::t('site', '&quot;It&lsquo;s a real game with<br />&nbsp;great challenge and high<br />&nbsp;&nbsp;&nbsp;&nbsp;immersion - I haven&lsquo;t even<br />&nbsp;&nbsp;noticed how the time<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passed by&quot;') ?></p>
-			<?php } ?>
 
 			<!--content-->
 			<div class="content">
 
-			<?php echo $content; ?>
+                <!-- flash-messages { -->
+                <?php $flashes = Yii::app()->user->getFlashes(); ?>
+                <?php if (0 < count($flashes)): ?>
+                    <div class="flash nice-border backgroud-light-blue">
+                        <?php foreach($flashes as $key => $message) : ?>
+                             <div class="flash-<?php echo $key ?>">
+                                 <?php echo $message ?>
+                             </div>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif; ?>
+                <!-- flash-messages } -->
+
+			    <?php echo $content; ?>
 
 			</div>
 			<!--content end-->
@@ -131,44 +102,5 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 			</footer>
 		</div>
 		<!--footer end-->
-
-        <?php if (null === $this->user || null === $this->user->id || 0 != count($this->signInErrors)) : ?>
-            <script type="text/javascript">
-            	$(function () {
-			        var h=$('.container').height();
-	            	$('.sign-in-box').css('height',h+'px')
-			    });
-                // show/hide sign-in box
-                $('.sign-in-link').click(function(event){
-                    event.preventDefault();
-                    $(".sign-in-box").dialog('open');
-                });
-            </script>
-        <?php endif; ?>
-
-        <script type="text/javascript">
-        	$(function () {
-                // @link http://www.bulgaria-web-developers.com/projects/javascript/selectbox/
-		        $("select").selectbox();
-
-                // @link: http://jqueryui.com/dialog/
-                $(".sign-in-box").dialog({
-                    closeOnEscape: true,
-                    dialogClass: 'sing-in-pop-up',
-                    minHeight: 220,
-                    modal: true,
-                    position: {
-                        my: "right top",
-                        at: "right bottom",
-                        of: $('#top header')
-                    },
-                    resizable: false,
-                    title: '<?php echo Yii::t('site', 'Sign in') ?>',
-                    width: 275
-                });
-                $(".sign-in-box").dialog("close");
-		    });
-        </script>
-
 	</body>
 </html>

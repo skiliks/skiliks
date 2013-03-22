@@ -168,18 +168,18 @@ class Invite extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
-		$criteria->compare('inviting_user_id',$ownerId ?: $this->inviting_user_id,true);
-		$criteria->compare('invited_user_id',$this->invited_user_id,true);
-		$criteria->compare('firstname',$this->firstname,true);
-		$criteria->compare('lastname',$this->lastname,true);
-		$criteria->compare('email',$this->email,true);
-		$criteria->compare('message',$this->message,true);
-		$criteria->compare('signature',$this->signature,true);
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('position_id',$this->position_id,true);
-		$criteria->compare('status',$this->status,true);
-		$criteria->compare('sent_time',$this->sent_time,true);
+		$criteria->compare('id', $this->id);
+		$criteria->compare('inviting_user_id', $ownerId ?: $this->inviting_user_id, true);
+		$criteria->compare('invited_user_id', $this->invited_user_id, true);
+		$criteria->compare('firstname', $this->firstname, true);
+		$criteria->compare('lastname', $this->lastname, true);
+		$criteria->compare('email', $this->email, true);
+		$criteria->compare('message', $this->message, true);
+		$criteria->compare('signature', $this->signature, true);
+		$criteria->compare('code', $this->code, true);
+		$criteria->compare('position_id', $this->position_id, true);
+		$criteria->compare('status', $this->status, true);
+		$criteria->compare('sent_time', $this->sent_time, true);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN position ON position.id = position_id'
@@ -209,6 +209,59 @@ class Invite extends CActiveRecord
             ]
 		]);
 	}
+
+    /**
+     * Retrieves a list of models based on the current search/filter conditions.
+     * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
+     */
+    public function searchByInvitedUserEmail($invitedUserEmail = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+        
+        $criteria->compare('id', $this->id);
+        $criteria->compare('inviting_user_id', $this->inviting_user_id, true);
+        $criteria->compare('invited_user_id', $this->invited_user_id, true);
+        $criteria->compare('firstname', $this->firstname, true);
+        $criteria->compare('lastname', $this->lastname, true);
+        $criteria->compare('email', $invitedUserEmail ?: $this->email, true);
+        $criteria->compare('message', $this->message, true);
+        $criteria->compare('signature', $this->signature, true);
+        $criteria->compare('code', $this->code, true);
+        $criteria->compare('position_id', $this->position_id, true);
+        $criteria->compare('status', $this->status, true);
+        $criteria->compare('sent_time', $this->sent_time, true);
+
+        $criteria->mergeWith([
+            'join' => 'LEFT JOIN position ON position.id = position_id'
+        ]);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'sent_time',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'name' => [
+                        'asc'  => 'CONCAT(firstname, lastname) ASC',
+                        'desc' => 'CONCAT(firstname, lastname) DESC'
+                    ],
+                    'position_id' => [
+                        'asc'  => 'position.label',
+                        'desc' => 'position.label DESC'
+                    ],
+                    'status',
+                    'sent_time'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+                'pageVar' => 'page'
+            ]
+        ]);
+    }
 
     /**
      * @param string $code

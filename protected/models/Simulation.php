@@ -137,7 +137,7 @@ class Simulation extends CActiveRecord
     public function relations()
     {
         return [
-            'user'                            => [self::BELONGS_TO, 'Users', 'user_id'],
+            'user'                            => [self::BELONGS_TO, 'YumUser', 'user_id'],
             'events_triggers'                 => [self::HAS_MANY, 'EventTrigger', 'sim_id'],
             'log_windows'                     => [self::HAS_MANY, 'LogWindow', 'sim_id', 'order' => 'start_time, end_time'],
             'log_mail'                        => [self::HAS_MANY, 'LogMail', 'sim_id', 'order' => 'start_time, end_time'],
@@ -423,6 +423,32 @@ class Simulation extends CActiveRecord
     public function getTypeLabel()
     {
         return self::$typeLabel[$this->type];
+    }
+
+    public function search($userId = null)
+    {
+        // Warning: Please modify the following code to remove attributes that
+        // should not be searched.
+
+        $criteria=new CDbCriteria;
+
+        $criteria->compare('id',$this->id);
+        $criteria->compare('user_id', $userId ?: $this->user_id, true);
+
+        return new CActiveDataProvider($this, [
+            'criteria' => $criteria,
+            'sort' => [
+                'defaultOrder' => 'id',
+                'sortVar' => 'sort',
+                'attributes' => [
+                    'id'
+                ],
+            ],
+            'pagination' => [
+                'pageSize' => 20,
+                'pageVar' => 'page'
+            ]
+        ]);
     }
 }
 

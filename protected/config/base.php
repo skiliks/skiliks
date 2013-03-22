@@ -131,51 +131,66 @@ return array(
             'showScriptName' => false,
 
             'rules' => array(
-                '/'                       => 'static/site/index',
+                '/'              => 'static/pages/index',
+                'static/'         => 'static/pages/index',
+                'static/team/'    => 'static/pages/team',
+                'static/product/' => 'static/pages/product',
+
                 'admin'                  => 'static/admin/',
                 'admin/<action:\w+>'     => 'static/admin/<action>',
                 'Admin/Log'              => 'static/Admin/Log',
 
-                'office'                  => 'static/userAccount/office',
-                'logout'                  => 'static/site/logout',
-                'simulation'              => 'static/site/site',
+                'logout'                  => 'static/userAccount/logout',
+
                 'simulation/start'        => 'simulation/start',
                 'simulation/stop'         => 'simulation/stop',
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
-                'simulation/<mode:\w+>'   => 'static/site/site',
-
-                'team'                    => 'static/page/team',
-                'product'                 => 'static/product',
+                'simulation/<mode:\w+>'   => 'static/site/simulation',
 
                 'registration'                         => 'static/userAccount/registration',
-                'registration/confirm-corporate-email' => 'static/userAccount/confirmCorporateEmail',
+
                 'registration/choose-account-type'     => 'static/userAccount/chooseAccountType',
-
-                'registration/confirm-corporate-email-success' => 'static/userAccount/confirmCorporateEmailSuccess',
-                'registration/please-confirm-corporate-email'   => 'static/userAccount/pleaseConfirmCorporateEmail',
-
-                'registration/error'                     => 'static/userAccount/errorDuringRegistration',
-                'registration/error/sign-in-or-register' => 'static/userAccount/errorSingInOrRegister',
-                'registration/error/has-account'         => 'static/userAccount/errorYouHasAlreadyChooseAccount',
-                'registration/error/active'              => 'static/userAccount/errorYourAccountNotActive',
-                'registration/account-type/added'        => 'static/userAccount/accountTypeSavesSuccessfully',
 
                 'results'                   =>'static/userAccount/Results',
                 'simulation/results'        =>'static/userAccount/Results', // just to handle JS 'Sim stop'
                 'site/results'              =>'static/userAccount/Results',
 
                 'subscription/add'       => 'static/subscription/add',
-                'site/comingSoonSuccess' => 'static/site/comingSoonSuccess',
+                'site/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
 
-                'userAccount/<action:\w+>'      => 'static/userAccount/<action>',
-                'registration/<action:\w+>'      => 'static/userAccount/<action>',
+                'userAccount/<action:\w+>'    => 'static/userAccount/<action>',
+                'registration/<action:\w+>'   => 'static/userAccount/<action>',
 
-                'dashboard'                    => 'static/userAccount/dashboard',
+                'cheats/'          => 'static/cheats/mainPage',
+                'cheats/cleanUpAccount'          => 'static/cheats/cleanUpAccount',
+                'cheats/setinvites/<status:\w+>' => 'static/cheats/setStatusForAllInvites',
+
+                'dashboard/'          => 'static/dashboard/index',
+                'dashboard/corporate' => 'static/dashboard/corporate',
+                'dashboard/personal'  => 'static/dashboard/personal',
+
+                'profile/'          => 'static/profile/index',
+                'profile/corporate' => 'static/profile/corporate',
+                'profile/personal'  => 'static/profile/personal',
+
+                'statistic/'          => 'static/statistic/index',
+                'statistic/corporate' => 'static/statistic/corporate',
+                'statistic/personal'  => 'static/statistic/personal',
+
+                'notifications/'          => 'static/notifications/index',
+                'notifications/corporate' => 'static/notifications/corporate',
+                'notifications/personal'  => 'static/notifications/personal',
+
+                'simulations/'                 => 'static/simulations/index',
+                'simulations/details/<id:\w+>' => 'static/simulations/details',
+                'simulations/corporate'        => 'static/simulations/corporate',
+                'simulations/personal'         => 'static/simulations/personal',
+
                 'invite/remove/<inviteId:\w+>' => 'static/invites/remove',
                 'invite/resend/<inviteId:\w+>' => 'static/invites/reSend',
-                'invite/setinvite/set/<status:\w+>'      => 'static/invites/setStatusForAllInvites',
+
                 'invite/add-10'                => 'static/invites/increaseInvites',
 
                 'send-invite' => 'static/userAccount/sendInvite',

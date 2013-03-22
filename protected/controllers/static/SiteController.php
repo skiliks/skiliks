@@ -11,43 +11,13 @@ class SiteController extends AjaxController
      */
     public function actionIndex()
     {
-        // this page currently will be just RU
-        if (null === Yii::app()->request->getParam('_lang')) {
-            Yii::app()->language = 'ru';
-        }
-
-        $this->render('index', [
-            'assetsUrl' => $this->getAssetsUrl()
-        ]);
+        $this->forward('static/page/index');
     }
 
     /**
      *
      */
-    public function actionLogout()
-    {
-        Yii::app()->session['uid'] = null;
-
-        $this->redirect('/');
-    }
-
-    /**
-     *
-     */
-    public function actionComingSoonSuccess()
-    {
-        $cs = Yii::app()->clientScript;
-        $assetsUrl = $this->getAssetsUrl();
-        $this->layout = false;
-        $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
-        $cs->registerCssFile($assetsUrl . "/css/style.css");
-        $this->render('comming-soon-success', ['assetsUrl' => $assetsUrl]);
-    }
-
-    /**
-     *
-     */
-    public function actionSite($mode, $type = Simulation::TYPE_LITE)
+    public function actionSimulation($mode, $type = Simulation::TYPE_LITE)
     {
         $user = Yii::app()->user->data();
 
