@@ -54,7 +54,7 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        sleep(10);
+        sleep(15);
     }
 
     /**
@@ -78,12 +78,14 @@ class SeleniumTestHelper extends CWebTestCase
                     // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
                     switch ($after) {
                         case 'click':
-                            $this->click($next_event);
-                            break;
+                            {
+                                $this->click($next_event);
+                                break;
+                            }
                         default:
                             break;
                     }
-                    //break;
+                    break;
                 }
             } catch (Exception $e) {}
             sleep(1);
