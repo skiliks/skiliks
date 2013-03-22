@@ -160,8 +160,6 @@ define(
                     simulation.start();
                     server.respond();
                     expect(simulation.window_set.length).toBe(1);
-                    SKApp.simulation.getNewEvents();
-                    server.respond();
                     expect(simulation.events.length).toBe(1);
                     var event = simulation.events.at(0);
                     expect(event.getTypeSlug()).toBe('visit');

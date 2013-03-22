@@ -31,7 +31,7 @@ class SendMailOptions
 
     public function __construct()
     {
-        $this->senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID]);
+        $this->senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
 
     }
      
