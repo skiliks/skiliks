@@ -245,11 +245,6 @@ class AjaxController extends CController
 
         $user = $user->data();  //YumWebUser -> YumUser
 
-        if ($user->isActive()) {
-            Yii::app()->user->setFlash('error', 'Ваш профиль не активирован.');
-            $this->redirect('/');
-        }
-
         if (null === Yii::app()->user->data()->getAccount()) {
             $this->redirect('registration/choose-account-type');
         }
