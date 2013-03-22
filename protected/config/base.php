@@ -133,11 +133,12 @@ return array(
             'rules' => array(
                 '/'               => 'static/pages/index',
                 'static/'         => 'static/pages/index',
-                'static/team/'    => 'static/pages/team',
-                'static/product/' => 'static/pages/product',
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
+
+                'static/team/'    => 'static/pages/team',
+                'static/product/' => 'static/pages/product',
 
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
@@ -161,6 +162,9 @@ return array(
 
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/choose-account-type/<_lang:\w+>'     => 'static/userAuth/chooseAccountType',
+
+                'registration/account-type/added'        => 'static/userAuth/accountTypeSavesSuccessfully',
+                'registration/account-type/added/<_lang:\w+>'        => 'static/userAuth/accountTypeSavesSuccessfully',
 
                 'results'                   =>'static/userAuth/results',
                 'results/<_lang:\w+>'                   =>'static/userAuth/results',
