@@ -5,10 +5,10 @@ class PagesController extends AjaxController
     public $user;
     public $signInErrors = [];
 
-    public function actionIndex()
+    public function actionIndex($_lang = null)
     {
         // this page currently will be just RU
-        if (null === Yii::app()->request->getParam('_lang') && null === Yii::app()->language) {
+        if (null === Yii::app()->request->getParam('_lang') && null === $_lang) {
             Yii::app()->language = 'ru';
         }
 
