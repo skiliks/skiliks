@@ -4,6 +4,7 @@ var SKPhoneView;
 
 define([
     "game/collections/SKPhoneContactsCollection",
+    "game/collections/SKPhoneThemeCollection",
 
     "text!game/jst/phone/phone_contacts.jst",
     "text!game/jst/phone/phone_history.jst",
@@ -14,6 +15,7 @@ define([
     "game/views/SKWindowView"
 ], function (
         SKPhoneContactsCollection,
+        SKPhoneThemeCollection,
 
         phone_contacts,
         phone_history,
@@ -106,9 +108,8 @@ define([
          */
         getThemes: function(event){
             event.preventDefault();
-
             var el = $('#phoneCallThemesDiv');
-            if(el.length == 0) {
+            if(el.length === 0) {
                 this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 2px; width: 354px; overflow: hidden; overflow-y: scroll;"></div>');
             }
 

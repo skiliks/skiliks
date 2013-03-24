@@ -179,10 +179,10 @@ define([
                         me.events.trigger('dialog:end');
                         return;
                     }
-                    var event_model = new SKEvent({
-                        type:event.eventType,
-                        data:event.data
-                    });
+                    var event_params = event;
+                    event_params.type = event_params.eventType;
+                    delete event_params.result;
+                    var event_model = new SKEvent(event_params);
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);

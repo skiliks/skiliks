@@ -1,7 +1,7 @@
 /*global Backbone:false, console, SKApp, session, SKPhoneTheme */
 var SKPhoneThemeCollection;
 
-(function () {
+define(["game/models/SKPhoneTheme"], function (SKPhoneTheme) {
     "use strict";
     /**
      * @class SKPhoneThemeCollection
@@ -63,4 +63,4 @@ var SKPhoneThemeCollection;
     });
 
     return SKPhoneThemeCollection;
-})();
+});
