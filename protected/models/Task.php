@@ -52,7 +52,7 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title, duration, type, import_id', 'required'),
+			//array('title, duration, type, import_id', 'required'), TODO:Нужно посмотреть почему валиться
 			array('duration, type, sim_id, category', 'numerical', 'integerOnly'=>true),
 			array('title', 'length', 'max'=>200),
 			array('code, start_type', 'length', 'max'=>5),
