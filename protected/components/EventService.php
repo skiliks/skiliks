@@ -83,50 +83,24 @@ class EventService
      * Обработка связанных сущностей типа почты, плана...
      * @param $eventCode
      * @param Simulation $simulation
+     * @param bool $fantasticResult
      * @throws Exception
      * @return array
      */
-    public static function processLinkedEntities($eventCode, $simulation)
+    public static function processLinkedEntities($eventCode, $simulation, $fantasticResult = false)
     {
         // анализ писем
         $code = false;
         $type = false;
         
-        if (preg_match_all("/MY(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'MY'; // Message Yesterday
-        }
-        
-        if (preg_match_all("/M(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'M'; // входящие письма
-        }
-        
-        if (preg_match_all("/MSY(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'MSY'; // входящие письма
-        }
-        
-        if (preg_match_all("/MS(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'MS'; // входящие письма
-        }
-        
-        if (preg_match_all("/D(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'D'; // документ
-        }
-        
-        if (preg_match_all("/P(\d+)/", $eventCode, $matches)) {
-            $code= $eventCode;
-            $type = 'P'; // задача в плане
-        }
-        
         if (preg_match_all("/^T$/", $eventCode, $matches)) {
             $code= $eventCode;
             $type = 'T'; // окончательная реплика
+        } else if (preg_match_all("/([A-Z]+)(\d+)/", $eventCode, $matches)) {
+            $code = $eventCode;
+            $type = $matches[1][0]; // Message Yesterday
         }
-        
+
         if (!$code) return false; // у нас нет связанных сущностей
         
         $result = false;
@@ -166,18 +140,30 @@ class EventService
         
         if ($type == 'MS') {
             // если исходящее письмо не отправлено  (кодировка MS - Message Sent) - то должно открыться окно написания нового письма
-            return array('result' => 1, 'eventType' => $type);
+            $data = ['result' => 1, 'eventType' => $type];
+            if ($fantasticResult) {
+                $data['fantastic'] = true;
+                /** @var $mailTemplate MailTemplate */
+                $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $code]);
+                $data['mailFields'] = [
+                    'receiver_id' => $mailTemplate->receiver_id,
+                    'subjectId' => $mailTemplate->subject_id,
+                    'subject' => $mailTemplate->subject_obj->text,
+                    'phrases' => [
+                        'message' => $mailTemplate->message
+                    ]
+                ];
+            }
+            return $data;
         }
         
         if ($type == 'D') {
             // определить документ по коду
             $documentTemplate = DocumentTemplate::model()->byCode($code)->find();
-            if (!$documentTemplate) return false;
             $templateId = $documentTemplate->id;
             
             $document = MyDocument::model()->byTemplateId($templateId)->bySimulation($simulation->id)->find();
-            if (!$document) return false;
-            
+
             return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);
         }
         

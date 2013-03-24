@@ -1,4 +1,4 @@
-/*global console, Backbone, SKWindow, SKDialogWindow, _*/
+/*global console, Backbone, SKWindow, SKDialogWindow, SKApp, _*/
 define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], function () {
     "use strict";
     /**
@@ -47,13 +47,31 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                 this.toggle('visitor', 'visitorEntrance', {sim_event: event});
             }, this);
             options.events.on('event:immediate-visit', function (event) {
-                var win = this.open('visitor', 'visitorTalk', {sim_event: event});
+                this.open('visitor', 'visitorTalk', {sim_event: event});
                 event.setStatus('in progress');
             }, this);
             options.events.on('event:immediate-phone', function (event) {
-                var win = this.open('phone', 'phoneTalk', {sim_event: event});
+                this.open('phone', 'phoneTalk', {sim_event: event});
                 event.setStatus('in progress');
             }, this);
+            options.events.on('event:mail-send', function (event) {
+                if (event.get('fantastic')) {
+                    SKApp.simulation.mailClient.once('init_completed', function () {
+                        this.view.once('render_finished', function () {
+                            var me = this;
+                            this.renderWriteEmailScreen();
+                            this.fillMessageWindow(event.get('mailFields'));
+                            setTimeout(function () {
+                                me.doSendEmail();
+                            }, 3000);
+                        });
+                    });
+                }
+                SKApp.simulation.window_set.open(
+                    'mailEmulator',
+                    SKApp.simulation.mailClient.getActiveSubscreenName()
+                );
+            });
             this.on('add', function (win) {
                 var zIndex = -1;
                 this.each(function (window) {

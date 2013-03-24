@@ -131,6 +131,8 @@ define([
                     me.updateInboxFolderCounter(unreaded);
                 });
 
+                this.listenTo(this.mailClient, 'mail:sent', this.onMailSent);
+
                 // close with conditions action {
                 this.options.model_instance.on('pre_close', function () {
                     me.options.model_instance.prevent_close = !me.isCanBeClosed();
@@ -1211,8 +1213,8 @@ define([
 
                     },
                     afterAdd: function (tag) {
-                        if($("#MailClient_RecipientsList li.tagItem").get().length == 1) {
-                            $("#mailEmulatorNewLetterText").html('');
+                        if(this.$("#MailClient_RecipientsList li.tagItem").get().length == 1) {
+                            this.$("#mailEmulatorNewLetterText").html('');
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }
 
@@ -1652,18 +1654,9 @@ define([
              * @method
              */
             doSendEmail: function () {
-                var me = this;
                 var emailToSave = this.generateNewEmailObject();
 
-                this.mailClient.sendNewCustomEmail(emailToSave, function () {
-                    me.updateFolderLabels();
-                    me.renderActiveFolder();
-
-                    me.mailClient.setWindowsLog(
-                        'mailMain',
-                        me.mailClient.getActiveEmailId()
-                    );
-                });
+                this.mailClient.sendNewCustomEmail(emailToSave);
             },
 
             /**
@@ -1811,91 +1804,88 @@ define([
              * @param response
              * @returns {boolean}
              */
-            doUpdateScreenFromReplyEmailData: function (response) {
-                if (1 == response.result) {
-                    if (null == response.subjectId) {
-                        this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
-                        this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
-                        return  false;
-                    }
+            fillMessageWindow: function (response) {
+                if (null === response.subjectId) {
+                    this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
+                    this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
+                    return  false;
+                }
 
-                    this.mailClient.messageForNewEmail = response.phrases.message;
+                this.mailClient.messageForNewEmail = response.phrases.message;
 
-                    this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
+                this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
 
-                    var subject = new SKMailSubject();
-                    subject.text = response.subject;
-                    subject.mySqlId = response.subjectId;
-                    subject.characterSubjectId = response.subjectId;
-                    this.parentSubject = subject;
-                    this.renderSingleSubject(subject);
+                var subject = new SKMailSubject();
+                subject.text = response.subject;
+                subject.mySqlId = response.subjectId;
+                subject.characterSubjectId = response.subjectId;
+                this.parentSubject = subject;
+                this.renderSingleSubject(subject);
 
-                    this.renderPreviousMessage(response.phrases.previouseMessage);
+                this.renderPreviousMessage(response.phrases.previouseMessage);
 
-                    this.renderTXT();
+                this.renderTXT();
 
-                    // even if there is one recipient,but it must be an array
-                    var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
-                        .getFormatedForMailToName()];
+                // even if there is one recipient,but it must be an array
+                var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
+                    .getFormatedForMailToName()];
 
-                    this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
-                    // set recipients
-                    this.$("#MailClient_RecipientsList").tagHandler({
-                        className: 'tagHandler recipients-list-widget',
-                        assignedTags: recipient,
-                        availableTags: recipient,
-                        allowAdd: false,
-                        allowEdit: false
-                    });
+                this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
+                // set recipients
+                this.$("#MailClient_RecipientsList").tagHandler({
+                    className: 'tagHandler recipients-list-widget',
+                    assignedTags: recipient,
+                    availableTags: recipient,
+                    allowAdd: false,
+                    allowEdit: false
+                });
 
-                    this.$('#MailClient_RecipientsList').focus();
-                    this.$('#MailClient_RecipientsList').blur();
+                this.$('#MailClient_RecipientsList').focus();
+                this.$('#MailClient_RecipientsList').blur();
 
-                    // add IDs to lists of recipients and copies - to simplify testing
-                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
+                // add IDs to lists of recipients and copies - to simplify testing
+                this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(0)').find('a'));
 
-                    // add copies if they exests {
-                    var copies = [];
-                    if (undefined !== response.copiesIds) {
-                        var ids = response.copiesIds.split(',');
-                        for (var i in ids) {
-                            if (0 < parseInt(ids[i])) {
-                                copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
-                                    .getFormatedForMailToName());
-                            }
+                // add copies if they exests {
+                var copies = [];
+                if (undefined !== response.copiesIds) {
+                    var ids = response.copiesIds.split(',');
+                    for (var i in ids) {
+                        if (0 < parseInt(ids[i])) {
+                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
+                                .getFormatedForMailToName());
                         }
                     }
-
-                    $("#MailClient_CopiesList").tagHandler({
-                        className: 'tagHandler copy-list-widget',
-                        assignedTags: copies,
-                        availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
-                        autocomplete: true
-                    });
-
-                    this.$('#MailClient_CopiesList').focus();
-                    this.$('#MailClient_CopiesList').blur();
-
-                    // add IDs to lists of recipients and copies - to simplify testing
-                    this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
-
-                    // prevent custom text input
-                    this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
-                    this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
-                    // add copies if they exests }
-
-                    // add phrases {
-                    SKApp.simulation.mailClient
-                        .setRegularAvailablePhrases(response.phrases.data);
-
-                    SKApp.simulation.mailClient
-                        .setAdditionalAvailablePhrases(response.phrases.addData);
-
-                    this.renderPhrases();
-                    // add phrases }
-                } else {
-                    throw "Can`t initialize responce email. View. #1";
                 }
+
+                $("#MailClient_CopiesList").tagHandler({
+                    className: 'tagHandler copy-list-widget',
+                    assignedTags: copies,
+                    availableTags: SKApp.simulation.mailClient.getFormatedCharacterList(),
+                    autocomplete: true
+                });
+
+                this.$('#MailClient_CopiesList').focus();
+                this.$('#MailClient_CopiesList').blur();
+
+                // add IDs to lists of recipients and copies - to simplify testing
+                this.updateIdsForCharacterlist($('ul.ui-autocomplete:eq(1)').find('a'));
+
+                // prevent custom text input
+                this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
+                this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
+                // add copies if they exests }
+
+                // add phrases {
+                SKApp.simulation.mailClient
+                    .setRegularAvailablePhrases(response.phrases.data);
+
+                SKApp.simulation.mailClient
+                    .setAdditionalAvailablePhrases(response.phrases.addData);
+
+                this.renderPhrases();
+                // add phrases }
+
             },
 
             /**
@@ -2029,7 +2019,7 @@ define([
                 }
                 // so we get JSON from it }
 
-                if (false !== this.doUpdateScreenFromReplyEmailData(response)) {
+                if (false !== this.fillMessageWindow(response)) {
                     this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
                     this.mailClient.setWindowsLog('mailNew');
                 }
@@ -2050,7 +2040,7 @@ define([
                 }
                 // so we get JSON from it }
 
-                if (false !== this.doUpdateScreenFromReplyEmailData(response)) {
+                if (false !== this.fillMessageWindow(response)) {
                     this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
                     this.mailClient.setWindowsLog('mailNew');
                 }
@@ -2122,6 +2112,15 @@ define([
                         });
                     });
 
+            },
+            onMailSent: function () {
+                this.updateFolderLabels();
+                this.renderActiveFolder();
+
+                this.mailClient.setWindowsLog(
+                    'mailMain',
+                    this.mailClient.getActiveEmailId()
+                );
             }
         });
 

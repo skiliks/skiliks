@@ -27,21 +27,34 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
      */
     public function testProcessLinkedEntities()
     {
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
-        $result = EventService::processLinkedEntities('T2', $simulation);
-        $this->assertEquals($result, false);
-        $result = EventService::processLinkedEntities('P5', $simulation);
-        $this->assertEquals($result['eventType'], 'P');
-        $this->assertEquals(Task::model()->findByPk($result['id'])->code, 'P5');
-        $result = EventService::processLinkedEntities('MS33', $simulation);
-        $this->assertEquals($result['eventType'], 'MS');
-        $result = EventService::processLinkedEntities('MY1', $simulation);
-        $this->assertEquals($result['eventType'], 'MY');
-        $this->assertEquals(MailBox::model()->findByPk($result['id'])->code, 'MY1');
-        $result = EventService::processLinkedEntities('M10', $simulation);
-        $this->assertEquals($result['eventType'], 'M');
-        $this->assertEquals(MailBox::model()->findByPk($result['id'])->code, 'M10');
+        $transaction = Yii::app()->db->beginTransaction();
+        try {
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $simulation = SimulationService::simulationStart(1, $user);
+            $result = EventService::processLinkedEntities('T', $simulation);
+            $this->assertEquals($result, [
+                'result' => 1,
+                'eventType' => 1
+            ]);
+            $result = EventService::processLinkedEntities(Replica::model()->findByAttributes(['next_event_code' =>'P5'])->next_event_code, $simulation);
+            $this->assertEquals('P', $result['eventType']);
+            $this->assertEquals(Task::model()->findByPk($result['id'])->code, 'P5');
+            $MS27Replica = Replica::model()->findByAttributes(['next_event_code' => 'MS27']);
+            $MS29Replica = Replica::model()->findByAttributes(['next_event_code' => 'MS29']);
+            $result = EventService::processLinkedEntities($MS27Replica->next_event_code, $simulation);
+            $this->assertEquals('MS', $result['eventType']);
+            $result = EventService::processLinkedEntities($MS29Replica->next_event_code, $simulation, true);
+            $this->assertArrayHasKey('fantastic', $result);
+            $this->assertEquals(MailTemplate::model()->findByAttributes(['code' => 'MS29'])->subject_id, $result['mailFields']['subject_id']);
+            $this->assertEquals('MS', $result['eventType']);
+            $result = EventService::processLinkedEntities('M11', $simulation);
+            $this->assertEquals($result['eventType'], 'M');
+            $this->assertEquals(MailBox::model()->findByPk($result['id'])->code, 'M11');
+            $transaction->rollback();
+        } catch (Exception $e) {
+            $transaction->rollback();
+            throw $e;
+        }
 
     }
 
