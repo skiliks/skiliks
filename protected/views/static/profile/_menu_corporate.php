@@ -1,4 +1,4 @@
-<ul>
+<ul class="profile-menu">
     <li><a href="/profile/corporate/personal-data" class="isset($active['personal-data']){ echo 'active'; }">
         Личные данные
     </a></li>
