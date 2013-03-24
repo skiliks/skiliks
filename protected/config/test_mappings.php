@@ -23,9 +23,12 @@ return [
         'add_recipient' => "//input[@type='text']",
         'del_recipient' => "css=li.tagItem",
         'button_to_continue' => "//div[@class='mail-popup']//td[1]/div['Продолжить']",
-        'popup' => "",
         'send' => "xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])",
-        'close' => "css=.btn-close button"
+        'close' => "css=.btn-close button",
+        'plan' => "link=запланировать",
+        'popup_save' => "//table[@class='mail-popup-btn']/tbody/tr/td[3]/div[@class='mail-popup-button']/div",
+        'popup_unsave' => "//table[@class='mail-popup-btn']/tbody/tr/td[1]/div[@class='mail-popup-button']/div",
+        'popup_cancel' => "//table[@class='mail-popup-btn']/tbody/tr/td[2]/div[@class='mail-popup-button']/div",
     ],
 
     'mail_main' => [
