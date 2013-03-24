@@ -1851,3 +1851,11 @@ h2 {
     margin: 0 10px 0 0 ;
     width: 580px;
 }
+
+ul.profile-menu {
+    float: left;
+    width: 200px;
+}
+ul.profile-menu li {
+    line-height: 26px;
+}
