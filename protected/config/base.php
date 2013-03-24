@@ -32,6 +32,7 @@ return array(
         'application.components.Tools.*',
         'application.components.Excel.*',
         'application.components.Email.*',
+        'application.components.Plan.*',
         'application.components.Assessment.*',
         'application.components.Import.*',
         'application.components.Base.*',
@@ -64,7 +65,7 @@ return array(
     'modules'=>array(
         'gii'=>array(
             'class'    =>'system.gii.GiiModule',
-            'password' =>'in-es-an-oyp-em',
+            'password' =>'skiliks531',
             // 'ipFilters'=>array(…список IP…),
             // 'newFileMode'=>0666,
             // 'newDirMode'=>0777,

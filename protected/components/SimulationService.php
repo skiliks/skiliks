@@ -475,7 +475,8 @@ class SimulationService
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
-
+        $plan = new PlanAnalizer($simulation->id);
+        $plan->run();
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
         $simulation->checkLogs();
