@@ -47,7 +47,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         $('.items td a').hide();
 
         // append pop-up sub-menu
-            if (2 < $('.items tr').length) { //fix for empty list
+        if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
             $('.items tr').each(function(){
                 $(this).find('td:eq(0)').html(
                     '<a class="invites-smallmenu-switcher">меню</a> &nbsp;  &nbsp; <div class="invites-smallmenu-item" ></div>'

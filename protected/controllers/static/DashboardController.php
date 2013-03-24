@@ -171,7 +171,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite->markAsSendToday();
         $invite->save();
 
+        try {
         $sent = YumMailer::send($mail);
+        } catch (phpmailerException $e) {
+            // happens at my local PC only, Slavka
+            $sent = null;
+        }
 
         return $sent;
     }
