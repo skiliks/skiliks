@@ -2,9 +2,7 @@
 
 var SKMailClient;
 
-define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function (
-    SKMailFolder, SKMailSubject, SKCharacter, SKMailPhrase
-    ) {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function () {
     "use strict";
     /**
      * @class SKMailClient
@@ -518,18 +516,21 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @param cb
              */
             getSendedFolderEmails:function (cb) {
+                var MailClientModel = this;
                 SKApp.server.api(
                     'mail/getMessages',
                     {
-                        folderId:SKApp.simulation.mailClient.codeFolderSended,
-                        order:-1,
-                        order_type:0
+                        folderId:   MailClientModel.codeFolderSended,
+                        order:      -1,
+                        order_type: 0
                     },
                     function (responce) {
-                        SKApp.simulation.mailClient.updateSendedFolderEmails(responce.messages);
+                        MailClientModel.updateSendedFolderEmails(responce.messages);
                         if (undefined != cb) {
                             cb();
                         }
+                        MailClientModel.trigger('mail:sent');
+                        console.log('4');
                     }
                 );
             },
@@ -1080,15 +1081,14 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     {},
                     function (response) {
                         if (undefined !== response.data) {
-                            SKApp.simulation.mailClient.availableAttachments = [];
-                            response.data.forEach(function (attachment_data) {
+                            for (var i in response.data) {
 
                                 var attach = new SKAttachment();
-                                attach.fileMySqlId = attachment_data.id;
-                                attach.label = attachment_data.name;
+                                attach.fileMySqlId = response.data[i].id;
+                                attach.label = response.data[i].name;
 
                                 SKApp.simulation.mailClient.availableAttachments.push(attach);
-                            });
+                            }
                             cb();
                         }
                     }
@@ -1162,11 +1162,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @returns {boolean}
              */
             sendNewCustomEmail:function (emailToSave, callback) {
+                console.log('1');
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
                 }
-
+                console.log('2');
                 SKApp.server.api(
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
@@ -1175,6 +1176,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
+                            console.log('3');
                             me.getSendedFolderEmails(callback); // callback is usually 'render active folder'
                         } else {
                             me.message_window =

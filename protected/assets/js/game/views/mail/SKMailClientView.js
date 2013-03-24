@@ -714,7 +714,12 @@ define([
              * @method
              */
             renderActiveFolder: function () {
-                this.doRenderFolder(this.mailClient.getActiveFolder().alias);
+                console.log('10');
+                var mailClientView = this;
+
+                console.log(this, mailClientView);
+
+                mailClientView.doRenderFolder(mailClientView.mailClient.getActiveFolder().alias);
             },
 
             /**
@@ -1210,17 +1215,16 @@ define([
                         /*if(this.currentRecipients !== undefined && this.currentRecipients.indexOf(tag) === 0) {
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }*/
-
                     },
                     afterAdd: function (tag) {
-                        if(this.$("#MailClient_RecipientsList li.tagItem").get().length == 1) {
-                            this.$("#mailEmulatorNewLetterText").html('');
+                        if(mailClientView.$("#MailClient_RecipientsList li.tagItem").get().length == 1) {
+                            mailClientView.$("#mailEmulatorNewLetterText").html('');
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
                         }
 
                     },
                     onDelete: function (tag) {
-                        this.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
+                        mailClientView.currentRecipients = $("#MailClient_RecipientsList li.tagItem").map(function() {
                             return $(this).text();
                         }).get();
                         var me = this;
@@ -1411,10 +1415,9 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectId: function () {
-                // removeAttr - for reply, replyAll, forward cases
-                //this.$("#MailClient_NewLetterSubject").ddslick('disable');
-
-                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
+                console.log('value: ', this.$("#MailClient_NewLetterSubject input.dd-selected-value"));
+                console.log('value: ', this.$("#MailClient_NewLetterSubject input.dd-selected-value").val());
+                return this.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
             },
 
             /**
@@ -1422,7 +1425,9 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectText: function () {
-                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.text;
+                console.log('text: ', this.$("#MailClient_NewLetterSubject label.dd-selected-text"));
+                console.log('text: ', this.$("#MailClient_NewLetterSubject label.dd-selected-text").text());
+                return this.$("#MailClient_NewLetterSubject label.dd-selected-text").text();
             },
 
             /**
@@ -1655,6 +1660,7 @@ define([
              */
             doSendEmail: function () {
                 var emailToSave = this.generateNewEmailObject();
+                var mailClientView = this;
 
                 this.mailClient.sendNewCustomEmail(emailToSave);
             },
