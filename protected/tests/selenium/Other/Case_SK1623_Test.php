@@ -25,9 +25,9 @@ class Case_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->run_event('ET12.1');
+        $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
-        $this->optimal_click("css=li.icon-active.phone a");
+        //$this->optimal_click("css=li.icon-active.phone a");
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
@@ -50,9 +50,9 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        $this->run_event('ET12.1');
+        $this->run_event('ET12.1',"css=li.icon-active.phone a",'click');
 
-        $this->optimal_click("css=li.icon-active.phone a");
+        //$this->optimal_click("css=li.icon-active.phone a");
 
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'отклонить')])"));
 
@@ -74,7 +74,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        $this->run_event('ET12.2');
+        $this->run_event('ET12.2',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
@@ -89,7 +89,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->run_event('ET12.2');
+        $this->run_event('ET12.2',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));

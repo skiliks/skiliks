@@ -81,7 +81,6 @@
         $( ".message_window" ).dialog({
             modal: true,
             width: 820
-
         });
 
         $( ".message_window").parent().addClass('nice-border');

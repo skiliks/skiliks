@@ -1788,6 +1788,7 @@ table.ml-title th span{
 .mail-view.new .mail-view-header.min{
 	height:6px;
     width: 100%;
+    padding-right: 165px;
 }
 .mail-view.new .mail-view-header table{
 	border-spacing:7px 5px;
@@ -2717,7 +2718,6 @@ section.phone>header .btn-window li button.btn-cl:hover{
 	width:202px;
 	height:328px;
 	overflow:hidden;
-	overflow-y:auto;
 }
 .phone-main-menu{
 	list-style:none;

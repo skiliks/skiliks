@@ -50,10 +50,6 @@ class StaticSiteTools
 
         $result = 'container';
 
-        if ($request->getPathInfo() == '') {
-            $result .= ' main-page';
-        }
-
         if ($request->getPathInfo() == 'site/comingSoonSuccess') {
             $result .= ' main-page';
         }

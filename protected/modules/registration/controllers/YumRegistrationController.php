@@ -136,6 +136,7 @@ class YumRegistrationController extends YumController {
 	 * (more than once)
 	 */
 	public function actionActivation($email, $key) {
+        Yii::app()->language = 'ru'; // Skiliks
 		// If already logged in, we dont activate anymore
 		if (!Yii::app()->user->isGuest) {
 			Yum::setFlash('You are already logged in, please log out to activate your account');

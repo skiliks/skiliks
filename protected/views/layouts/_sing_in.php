@@ -1,5 +1,5 @@
 <?php if (!Yii::app()->user->id) : ?>
-    <div class="sign-in-box message_window">
+    <div class="sign-in-box message_window" style="display: none;">
         <form class="login-form" action="/user/auth" method="post">
             <input type="hidden" name="returnUrl" value="/dashboard"/>
 

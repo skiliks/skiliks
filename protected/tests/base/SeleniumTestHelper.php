@@ -17,17 +17,17 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('/');
+        $this->open('/ru');
         $this->optimal_click("xpath=//header/nav/a[4]");
         $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "asd@skiliks.com");
+        $this->type("css=.login>input", "tatiana@skiliks.com");
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
             try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'Office for')])")) break;
+                if ($this->isVisible("xpath=(//*[contains(text(),'Cheats')])")) break;
             } catch (Exception $e) {}
             sleep(1);
         }
@@ -45,7 +45,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
         */
 
-        $this->open('/simulation/developer?type=1'); // для full simulation
+        $this->open('/simulation/developer/1'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -54,18 +54,43 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
+        // hren'
+        sleep(10);
     }
 
     /**
-     * run_event - это метод для запуска события по его Event_code.
+     * run_event - это метод для запуска события по его event_code.
      * Пример использования - тест F1_SK1403_Test.php , строка 23
      */
-    public function run_event($event)
+    // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
+    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то каку-ю херню можно написать. Оно расспознает тпока только click
+    // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
+    // если еще что-то надо, то можно дописать в switch
+    public function run_event($event, $next_event, $after)
     {
-        sleep(5);
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
-        sleep(5);
+
+        for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible($next_event))
+                {
+                    // switch чтобы была возможность расширить дополнительными действиями (кроме клика), а default - если никакие действия не нужны
+                    switch ($after) {
+                        case 'click':
+                            {
+                                $this->click($next_event);
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                    break;
+                }
+            } catch (Exception $e) {}
+            sleep(1);
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 /*global Backbone:false, console, SKApp, session */
 
-(function () {
+define([], function () {
     "use strict";
     /**
      * @class SKPhoneTheme
@@ -9,4 +9,5 @@
     window.SKPhoneTheme = Backbone.Model.extend({
         idAttribute: 'themeId'
     });
-})();
+    return window.SKPhoneTheme;
+});

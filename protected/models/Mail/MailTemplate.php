@@ -7,6 +7,7 @@
  *
  * @property string type_of_importance
  * @property string import_id
+ * @property CommunicationTheme subject_obj
  * @property ActivityParent[] termination_parent_actions
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

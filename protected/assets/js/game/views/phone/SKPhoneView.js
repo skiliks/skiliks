@@ -3,6 +3,9 @@
 var SKPhoneView;
 
 define([
+    "game/collections/SKPhoneContactsCollection",
+    "game/collections/SKPhoneThemeCollection",
+
     "text!game/jst/phone/phone_contacts.jst",
     "text!game/jst/phone/phone_history.jst",
     "text!game/jst/phone/phone_menu.jst",
@@ -11,6 +14,9 @@ define([
 
     "game/views/SKWindowView"
 ], function (
+        SKPhoneContactsCollection,
+        SKPhoneThemeCollection,
+
         phone_contacts,
         phone_history,
         phone_menu,
@@ -56,7 +62,7 @@ define([
             var me = this;
             contacts.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
-                //me.$('.phone-screen').mCustomScrollbar();
+                me.$('.phone-list-contacts').mCustomScrollbar();
             });
         },
 
@@ -69,10 +75,15 @@ define([
             
             history.readHistory();
             history.trigger('reset'); // to refresh counter
-            
             var me = this;
+
+            me.$('.phone-list-call-history').mCustomScrollbar();
+
             history.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_history, {history:history, types:['in','out','miss']});
+                setTimeout(function(){
+                    me.$('.phone-list-call-history').mCustomScrollbar();
+                }, 500);
             });
         },
 
@@ -97,9 +108,8 @@ define([
          */
         getThemes: function(event){
             event.preventDefault();
-
             var el = $('#phoneCallThemesDiv');
-            if(el.length == 0) {
+            if(el.length === 0) {
                 this.$el.append('<div id="phoneCallThemesDiv" class="mail-new-drop" style="position: absolute; z-index: 58; top: 50px; left: 2px; width: 354px; overflow: hidden; overflow-y: scroll;"></div>');
             }
 

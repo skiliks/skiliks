@@ -30,8 +30,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
     public function testSK1338() {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $this->run_event('E1.2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
 
         $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
@@ -76,8 +76,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-        $this->run_event('E1.2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Пусть спрашивает')])");
 
@@ -123,8 +123,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
-        $this->run_event('E1.2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
@@ -211,15 +211,15 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
     public function testSK1411()
     {
         $this->start_simulation();
-        $this->run_event('E1.2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
+        $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
 
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertTrue($this->verify_flag('F3','1'));
 
-        $this->run_event('E2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович!')])");
+        $this->run_event('E2', "xpath=(//*[contains(text(),'Конечно, Валерий Семенович!')])", 'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Конечно, Валерий Семенович!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, прямо сейчас проконтролирую, как идет подготовка')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, пожалуйста, вышли прямо сейчас все, что есть по презентации для Босса')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Вот это да! Ладно, отложи пока сводный бюджет и займись презентаций')])");

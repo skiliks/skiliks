@@ -31,17 +31,17 @@ class DialogService
 
         $gameTime = $simulation->getGameTime();
         $simType = $simulation->type; // определим тип симуляции
-        $currentDialog = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
+        $currentReplica = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
-        EventService::deleteByCode($currentDialog->code, $simulation);
+        EventService::deleteByCode($currentReplica->code, $simulation);
         // set flag 1, @1229
-        if (NULL !== $currentDialog->flag_to_switch) {
-            FlagsService::setFlag($simulation, $currentDialog->flag_to_switch, 1);
+        if (NULL !== $currentReplica->flag_to_switch) {
+            FlagsService::setFlag($simulation, $currentReplica->flag_to_switch, 1);
         }
 
         // проверим а можно ли выполнять это событие (тип события - диалог), проверим событие на флаги
 
-        if (false == FlagsService::isAllowToStartDialog($simulation, $currentDialog->code)) {
+        if (false == FlagsService::isAllowToStartDialog($simulation, $currentReplica->code)) {
             // событие не проходит по флагам -  не пускаем его
             return [
                 'result' => 1,
@@ -54,12 +54,12 @@ class DialogService
         $phone->setHistory(
                 $simId,
                 $time,
-                $currentDialog->to_character,
+                $currentReplica->to_character,
                 Character::model()->findByAttributes(['code' => Character::HERO_ID]),
-                $currentDialog->dialog_subtype,
-                $currentDialog->step_number,
-                $currentDialog->replica_number,
-                $currentDialog->code
+                $currentReplica->dialog_subtype,
+                $currentReplica->step_number,
+                $currentReplica->replica_number,
+                $currentReplica->code
         );
         ############################################################
 
@@ -78,45 +78,45 @@ class DialogService
         ## new code
         $data = [];
 
-        if ($currentDialog->next_event_code != '' && $currentDialog->next_event_code != '-') {
+        if ($currentReplica->next_event_code != '' && $currentReplica->next_event_code != '-') {
             // смотрим а не является ли следующее событие у нас диалогом
             // if next event has delay it can`t statr immediatly
-            $dialog = Replica::model()->byCode($currentDialog->next_event_code)
+            $dialog = Replica::model()->byCode($currentReplica->next_event_code)
                 ->byStepNumber(1)
                 ->find('', array('order' => 'replica_number'));
             $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
 
             // isDialog() Wrong!!!
-            $isDialog = EventService::isDialog($currentDialog->next_event_code);
+            $isDialog = EventService::isDialog($currentReplica->next_event_code);
 
             if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
                  // сразу же отдадим реплики по этому событию - моментально
-                $dialogs = Replica::model()->byCodeAndStepNumber($currentDialog->next_event_code, 1)->byDemo($simType)->findAll();
+                $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->next_event_code, 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
                     $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                 }
             }
             else {
                 // запуск следующего события
-                $res = EventService::processLinkedEntities($currentDialog->next_event_code, $simulation);
+                $res = EventService::processLinkedEntities($currentReplica->next_event_code, $simulation, $currentReplica->fantastic_result);
                 if ($res) {
                     // убьем такое событие чтобы оно не произошло позже
-                    EventService::deleteByCode($currentDialog->next_event_code, $simulation);
+                    EventService::deleteByCode($currentReplica->next_event_code, $simulation);
 
                     $result['events'][] = $res;
                 }
                 else {
                     // нет особых правил для этого события - запускаем его
-                    EventService::addByCode($currentDialog->next_event_code, $simulation, $gameTime);
+                    EventService::addByCode($currentReplica->next_event_code, $simulation, $gameTime);
                 }
             }
         }
         else {
             // пробуем загрузить реплики
-            if ($currentDialog->is_final_replica != 1) {
+            if ($currentReplica->is_final_replica != 1) {
                 // если нет, то нам надо продолжить диалог
                 // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                $dialogs = Replica::model()->byCodeAndStepNumber($currentDialog->code, $currentDialog->step_number + 1)->byDemo($simType)->findAll();
+                $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->code, $currentReplica->step_number + 1)->byDemo($simType)->findAll();
                 foreach($dialogs as $dialog) {
                     $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                 }

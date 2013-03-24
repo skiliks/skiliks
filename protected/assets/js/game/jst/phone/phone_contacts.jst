@@ -1,23 +1,25 @@
-<ul class="phone-contact-list">
-    <@ contacts.each(function(model) { @>
-    <li id="contactLi_<@=model.get('code')@>" class="contact-li">
-        <table>
-            <tr>
-                <td class="hover-hide phone-contact-list-img"><img
-                        src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>.png" alt=""/></td>
-                <td class="hover-show phone-contact-list-img"><img alt=""
-                                                                   src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>-1.png">
-                </td>
-                <td>
-                    <p class="phone-contact-list-f0"><@=model.get('name')@></p>
+<div class="phone-list-contacts" style="position:relative; height:100%; overflow:hidden; max-width:100%;">
+    <ul class="phone-contact-list">
+        <@ contacts.each(function(model) { @>
+        <li id="contactLi_<@=model.get('code')@>" class="contact-li">
+            <table>
+                <tr>
+                    <td class="hover-hide phone-contact-list-img"><img
+                            src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>.png" alt=""/></td>
+                    <td class="hover-show phone-contact-list-img"><img alt=""
+                                                                       src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>-1.png">
+                    </td>
+                    <td>
+                        <p class="phone-contact-list-f0"><@=model.get('name')@></p>
 
-                    <p class="phone-contact-list-f1"><@=model.get('title')@></p>
+                        <p class="phone-contact-list-f1"><@=model.get('title')@></p>
 
-                    <p class="hover-show phone-contact-list-f1"><@=model.get('phone')@></p>
-                    <a class="hover-show phone_get_themes phone-call-btn" data-contact-id="<@=model.get('code')@>">Позвонить</a>
-                </td>
-            </tr>
-        </table>
-    </li>
-    <@ }) @>
-</ul>
+                        <p class="hover-show phone-contact-list-f1"><@=model.get('phone')@></p>
+                        <a class="hover-show phone_get_themes phone-call-btn" data-contact-id="<@=model.get('code')@>">Позвонить</a>
+                    </td>
+                </tr>
+            </table>
+        </li>
+        <@ }) @>
+    </ul>
+</div>

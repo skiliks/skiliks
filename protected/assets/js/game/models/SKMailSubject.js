@@ -1,7 +1,7 @@
 /* 
  * 
  */
-(function() {
+define([], function() {
     "use strict";
     /**
      * @class SKMailSubject
@@ -34,4 +34,5 @@
             return this.text;
         }
     });
-})();
+    return window.SKMailSubject;
+});

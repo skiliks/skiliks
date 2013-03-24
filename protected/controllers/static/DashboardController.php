@@ -41,10 +41,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $position_label = Yii::t('site', (string)$invite->position->label);
             if ($profile) {
-                $invite->message = 'Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти ассессмент на позицию $position_label.';
+                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $position_label.";
             } else {
                 $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $position_label Для кандидата на данную позицию обязательным условием \n"
-                    ."является прохождение ассессмента для определениям уровня менеджерских навыков. Для этого вам необходимо пройти по ссылке, \n"
+                    ."является прохождение оценивания для определениям уровня менеджерских навыков. Для этого вам необходимо перейти по ссылке, \n"
                     ."зарегистрироваться и запустить ассессмент.";
             }
 
@@ -78,9 +78,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $this->user->getAccount()->save();
                 $this->user->refresh();
 
+                Yii::app()->user->setFlash('success', 'Приглашение успешно выслано');
+
                 $this->redirect('/dashboard');
             } elseif ($this->user->getAccount()->invites_limit < 0 ) {
-                $invite->addError('invitations', Yii::t('site', 'You has no available invites!'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             }
         }
         // handle send invitation }
@@ -154,7 +156,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             'Пройдите по ссылке чтобы начать симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/profile' : '/accept-invite/' . $invite->code)
+                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
             ),
             $invite->signature
         ];
@@ -269,8 +271,11 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionAcceptInvite($code)
     {
+        Yii::app()->language = 'ru';
+
         $invite = Invite::model()->findByCode($code);
         if (empty($invite)) {
+            Yii::app()->user->setFlash('site', 'Код неверный');
             $this->redirect('/');
         }
 

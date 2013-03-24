@@ -22,16 +22,16 @@ class Case3_SK910_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E2.4');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])");
+        $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
 
-        $this->run_event('E12.1');
-        $this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
+        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
 
-        $this->run_event('E12.5');
-        $this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
+        $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])");
 
         $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Да, доволен')])");
@@ -40,13 +40,13 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
 
-        $this->run_event('MS27');
+        $this->run_event('MS27',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(3);
-        $this->run_event('MS48');
+        $this->run_event('MS48',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(3);
-        $this->run_event('MS68');
+        $this->run_event('MS68',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(3);
-        $this->run_event('MS70');
+        $this->run_event('MS70',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(3);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);

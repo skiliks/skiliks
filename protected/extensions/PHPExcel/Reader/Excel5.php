@@ -940,7 +940,7 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 			// treat OBJ records
 			foreach ($this->_objs as $n => $obj) {
 //				echo '<hr /><b>Object</b> reference is ',$n,'<br />';
-//				var_dump($obj);
+
 //				echo '<br />';
 
 				// the first shape container never has a corresponding OBJ record, hence $n + 1
@@ -978,13 +978,12 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 						$cellNote = $this->_cellNotes[$obj['idObjID']];
 
 //						echo '_cellNotes[',$obj['idObjID'],']: ';
-//						var_dump($cellNote);
 //						echo '<br />';
 //
 						if (isset($this->_textObjects[$obj['idObjID']])) {
 							$textObject = $this->_textObjects[$obj['idObjID']];
 //							echo '_textObject: ';
-//							var_dump($textObject);
+
 //							echo '<br />';
 //
 							$this->_cellNotes[$obj['idObjID']]['objTextData'] = $textObject;
@@ -1056,7 +1055,6 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 			if (!empty($this->_cellNotes)) {
 				foreach($this->_cellNotes as $note => $noteDetails) {
 //					echo '<b>Cell annotation ',$note,'</b><br />';
-//					var_dump($noteDetails);
 //					echo '<br />';
 					$cellAddress = str_replace('$','',$noteDetails['cellRef']);
 					$this->_phpSheet->getComment( $cellAddress )
@@ -1626,7 +1624,6 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 			 );
 
 //		echo '<b>_readTextObject()</b><br />';
-//		var_dump($this->_textObjects[$this->textObjRef]);
 //		echo '<br />';
 	}
 
@@ -4094,7 +4091,6 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 		$this->textObjRef = $idObjID;
 
 //		echo '<b>_readObj()</b><br />';
-//		var_dump(end($this->_objs));
 //		echo '<br />';
 	}
 
@@ -4866,22 +4862,18 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 			// 1. BITMAPCOREHEADER
 			// offset: 0; size: 4; bcSize, Specifies the number of bytes required by the structure
 			$bcSize = self::_GetInt4d($iData, 0);
-//			var_dump($bcSize);
 
 			// offset: 4; size: 2; bcWidth, specifies the width of the bitmap, in pixels
 			$bcWidth = self::_GetInt2d($iData, 4);
-//			var_dump($bcWidth);
 
 			// offset: 6; size: 2; bcHeight, specifies the height of the bitmap, in pixels.
 			$bcHeight = self::_GetInt2d($iData, 6);
-//			var_dump($bcHeight);
 			$ih = imagecreatetruecolor($bcWidth, $bcHeight);
 
 			// offset: 8; size: 2; bcPlanes, specifies the number of planes for the target device. This value must be 1
 
 			// offset: 10; size: 2; bcBitCount specifies the number of bits-per-pixel. This value must be 1, 4, 8, or 24
 			$bcBitCount = self::_GetInt2d($iData, 10);
-//			var_dump($bcBitCount);
 
 			$rgbString = substr($iData, 12);
 			$rgbTriples = array();
@@ -5063,9 +5055,6 @@ class PHPExcel_Reader_Excel5 implements PHPExcel_Reader_IReader
 		while (strlen($formulaData) > 0 and $token = $this->_getNextToken($formulaData, $baseCell)) {
 			$tokens[] = $token;
 			$formulaData = substr($formulaData, $token['size']);
-
-			// for debug: dump the token
-			//var_dump($token);
 		}
 
 		$formulaString = $this->_createFormulaFromTokens($tokens, $additionalData);

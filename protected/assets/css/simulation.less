@@ -16,6 +16,10 @@
   }
 }
 
+body.loading {
+  background: url(../img/design/ajax-loader.gif) 50% 50% no-repeat;
+}
+
 .canvas {
   position: relative;
   width: 100%;
@@ -105,7 +109,7 @@
   }
 
   .time  {
-    cursor: pointer;
+
 
     .delimiter {
       -webkit-animation-name: blinker;
@@ -119,9 +123,15 @@
       animation-name: blinker;
     }
 
-    &:after {
-      content: '||';
-      padding-left: 8px;
+
+
+    .pause-control {
+      cursor: pointer;
+
+      &:after {
+        content: '||';
+        padding-left: 8px;
+      }
     }
 
     &.paused {
@@ -130,7 +140,7 @@
         animation-iteration-count: 0;
       }
 
-      &:after {
+      .pause-control:after {
         content: '\25BA';
       }
     }
