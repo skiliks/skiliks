@@ -31,10 +31,9 @@
 </style>
 
 <section class="registration-by-link">
-    <h2>Sign up to start simulation</h2>
+    <h1>Пожалуйста зарегистрируйтесь, чтобы перейти к тестированию</h1>
 
     <div class="form">
-        <h3>Пожалуйста зарегистрируйтесь, чтобы перейти к тестированию</h3>
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'registration-by-link-form'

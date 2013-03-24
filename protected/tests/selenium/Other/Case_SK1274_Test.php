@@ -30,9 +30,9 @@ class Case_SK1274_Test extends SeleniumTestHelper
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "57");
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
-        $this->run_event('E3');
+        $this->run_event('E3',"xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])",'click');
 
-        $this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])");
+        //$this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])");
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет? Я от него устал')])");
         sleep(10);

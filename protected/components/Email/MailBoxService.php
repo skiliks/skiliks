@@ -1064,9 +1064,6 @@ class MailBoxService
         $characterThemeId = null;
         // it is extremly important to find proper  Fwd: in database
 
-//        var_dump($messageToForward->subject_obj->getPrefixForForward(), $messageToForward->subject_obj->text, CommunicationTheme::USAGE_OUTBOX);
-//        die;
-
         $forwardSubject = CommunicationTheme::model()->findByAttributes([
             'mail_prefix'  => $messageToForward->subject_obj->getPrefixForForward(),
             'text'         => $messageToForward->subject_obj->text,

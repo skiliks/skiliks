@@ -35,7 +35,7 @@ define([
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
-                'click .time, .overlay .resume': 'doTogglePause'
+                'click .pause-control, .overlay .resume': 'doTogglePause'
             },
             'window_views':    {
                 'plan/plan':               SKDayPlanView,

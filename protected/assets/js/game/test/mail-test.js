@@ -1,4 +1,5 @@
-/*global buster, sinon, describe, before, after, require */
+/*global buster, sinon, describe, before, after, require, spec, _, it */
+
 buster.spec.expose();
 
 
@@ -7,9 +8,8 @@ define([
     "game/models/SKSimulation",
     "game/views/mail/SKMailClientView",
     "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKMailClientView, SKWindow) {
-
-    spec = describe('mail client', function (run) {
-        "use strict";
+    "use strict";
+    buster.spec = describe('mail client', function (run) {
         var inbox = {"result": 1, "messages": {
             "996241": {
                 "id": "996241",
@@ -91,7 +91,22 @@ define([
 
                 server.respondWith("POST", "/index.php/myDocuments/getList",
                     [200, { "Content-Type": "application/json" },
-                        JSON.stringify({result: 1})]);
+                        JSON.stringify({
+                            "result":1,"data":[
+                                {
+                                    "id":"5546",
+                                    "name":"byudzhet_proizvodstva_01_itog.xlsx",
+                                    "srcFile":"byudzhet_proizvodstva_01_itog.xlsx",
+                                    "mime":"application\/vnd.ms-excel"
+                                },{
+                                    "id":"5549",
+                                    "name":"kvartalnyj_plan_01_Q4.pptx",
+                                    "srcFile":"kvartalnyj_plan_01_Q4.pdf",
+                                    "mime":"application\/pdf"
+                                }
+                            ]
+                        })
+                    ]);
 
                 server.respondWith("POST", "/index.php/mail/getReceivers",
                     [200, { "Content-Type": "application/json" },
@@ -360,6 +375,74 @@ define([
                 // check is email send
                 expect(server.requests[server.requests.length - 2].url).toBe('/index.php/mail/sendMessage');
                 server.respond();
+
+                // check response
+                expect(server.responses[server.responses.length - 1].response[2])
+                    .toBe('{"result":1,"mailId":"1245"}');
+
+                // check that mail main screen opened after mail send
+                expect(mailView.$el.find('#MailClient_IncomeFolder_List').length).toBe(1);
+            });
+            it("can create and send new letter with attachment", function () {
+                var simulation = SKApp.simulation;
+                simulation.start();
+                var mail_window = new SKWindow({name: 'mailEmulator', subname: 'mailMain'});
+                mail_window.open();
+
+                var mailView = new SKMailClientView({model_instance: mail_window});
+
+                mailView.render();
+                server.respond();
+
+                mailView.$el.find('.NEW_EMAIL').click();
+                $('body').append(mailView.$el);
+
+                server.respond();
+
+                expect(mailView.$('.SEND_EMAIL').length, 1);
+
+                mailView.$el.find('ul.ui-autocomplete:eq(0) a[data-character-id=1]').click();
+
+                // check recipients
+                expect(SKApp.simulation.mailClient.defaultRecipients.length).toBe(2);
+
+                server.respond();
+
+                mailView.mailClient.reloadSubjects([1]);
+
+                $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
+
+                //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
+
+                // check subjects
+                expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
+
+                //mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').focus();
+                mailView.$("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
+
+                mailView.doUpdateMailPhrasesList();
+                server.respond();
+
+                // check than phrases not empty
+                expect(mailView.$('#mailEmulatorNewLetterTextVariants li').length)
+                    .toBe(3);
+
+                server.respond();
+
+                mailView.$("#MailClient_NewLetterAttachment div.list").ddslick('select', {'index': 1 });
+
+                // check phrases
+                expect(SKApp.simulation.mailClient.availablePhrases.length).toBe(3);
+
+                mailView.$el.find('.SEND_EMAIL').click();
+
+                // one server.respond response on all request from front on requests query
+                server.respond();
+
+                // check is email send
+                expect(server.requests[server.requests.length - 2].url).toBe('/index.php/mail/sendMessage');
+                server.respond();
+                expect(server.requests[server.requests.length - 2].requestBody).toMatch('fileId=5546');
 
                 // check response
                 expect(server.responses[server.responses.length - 1].response[2])

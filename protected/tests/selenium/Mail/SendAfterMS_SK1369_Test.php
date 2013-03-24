@@ -22,8 +22,8 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        $this->run_event('E1.2');
-        $this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа')])");
+        $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])",'click');
+        //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Теперь слушай сюда')])");
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("link=отправить");
@@ -31,8 +31,8 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
         $this->optimal_click("css=div.mail-popup-button > div");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
-        $this->run_event('M70');
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->run_event('M70',Yii::app()->params['test_mappings']['icons']['mail'],'click');
+        //$this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['mail_main']['new_email']);
         $this->assertElementPresent(Yii::app()->params['test_mappings']['mail_main']['new_email']);
     }

@@ -134,20 +134,33 @@ return array(
             'rules' => array(
                 '/'               => 'static/pages/index',
                 'static/'         => 'static/pages/index',
-                'static/team/'    => 'static/pages/team',
-                'static/product/' => 'static/pages/product',
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
 
+                'static/team/'    => 'static/pages/team',
+                'static/product/' => 'static/pages/product',
+
+                'subscription/add'       => 'static/pages/addUserSubscription',
+                'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
+
+                'static/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
+                'static/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
+
                 'static/<_lang:\w+>'         => 'static/pages/index',
 
-                'admin'                  => 'static/admin/',
-                'admin/<action:\w+>'     => 'static/admin/<action>',
+                'admin/'                  => 'static/admin/',
+                'admin/displayLog/<simulation\w+>' => 'static/admin/displayLog',
+                'cheat/dialogsAnalyzer'   => 'static/admin/dialogsAnalyzer',
+                'cheat/uploadDialogsToAnalyzer'   => 'static/admin/uploadDialogsToAnalyzer',
                 'Admin/Log'              => 'static/Admin/Log',
 
                 'logout'                  => 'static/userAuth/logout',
-                'logout/<_lang:\w+>'                  => 'static/userAuth/logout',
+
+                'bad-browser' => 'static/pages/badBrowser',
+                'old-browser' => 'static/pages/oldBrowser',
+
+                'profile/without-account' => 'static/site/runSimulationOrChooseAccount',
 
                 'simulation/start'        => 'simulation/start',
                 'simulation/stop'         => 'simulation/stop',
@@ -158,21 +171,12 @@ return array(
                 'simulation/<mode:\w+>/<type:\w+>'   => 'static/site/simulation',
 
                 'registration'                         => 'static/userAuth/registration',
-                'registration/<_lang:\w+>'                         => 'static/userAuth/registration',
-
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
-                'registration/choose-account-type/<_lang:\w+>'     => 'static/userAuth/chooseAccountType',
+                'registration/account-type/added'        => 'static/userAuth/accountTypeSavesSuccessfully',
 
                 'results'                   =>'static/userAuth/results',
-                'results/<_lang:\w+>'                   =>'static/userAuth/results',
                 'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
-                'simulation/results/<_lang:\w+>'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
                 'site/results'              =>'static/userAuth/results',
-                'site/results/<_lang:\w+>'              =>'static/userAuth/results',
-
-                'subscription/add'       => 'static/subscription/add',
-                'site/comingSoonSuccess' => 'static/pages/comingSoonSuccess',
-                'site/comingSoonSuccess/<_lang:\w+>' => 'static/pages/comingSoonSuccess',
 
                 'userAuth/<action:\w+>'    => 'static/userAuth/<action>',
                 'registration/<action:\w+>'   => 'static/userAuth/<action>',
@@ -185,9 +189,18 @@ return array(
                 'dashboard/corporate' => 'static/dashboard/corporate',
                 'dashboard/personal'  => 'static/dashboard/personal',
 
+                'profile/personal/personal-data/'  => 'static/profile/personalPersonalData',
+                'profile/corporate/personal-data/' => 'static/profile/corporatePersonalData',
+                'profile/corporate/password/' => 'static/profile/corporatePassword',
+                'profile/personal/password/'  => 'static/profile/personalPassword',
+                'profile/corporate/company-info/' => 'static/profile/corporateCompanyInfo',
+                'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
+                'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
+                'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
+
                 'profile/'          => 'static/profile/index',
-                'profile/corporate' => 'static/profile/corporate',
-                'profile/personal'  => 'static/profile/personal',
+                'profile/corporate' => 'static/profile/index',
+                'profile/personal'  => 'static/profile/index',
 
                 'statistic/'          => 'static/statistic/index',
                 'statistic/corporate' => 'static/statistic/corporate',
@@ -202,34 +215,13 @@ return array(
                 'simulations/corporate'        => 'static/simulations/corporate',
                 'simulations/personal'         => 'static/simulations/personal',
 
-                'dashboard/<_lang:\w+>'          => 'static/dashboard/index',
-                'dashboard/corporate/<_lang:\w+>' => 'static/dashboard/corporate',
-                'dashboard/personal/<_lang:\w+>'  => 'static/dashboard/personal',
-
-                'profile/<_lang:\w+>'          => 'static/profile/index',
-                'profile/corporate/<_lang:\w+>' => 'static/profile/corporate',
-                'profile/personal/<_lang:\w+>'  => 'static/profile/personal',
-
-                'statistic/<_lang:\w+>'          => 'static/statistic/index',
-                'statistic/corporate/<_lang:\w+>' => 'static/statistic/corporate',
-                'statistic/personal/<_lang:\w+>'  => 'static/statistic/personal',
-
-                'notifications/<_lang:\w+>'          => 'static/notifications/index',
-                'notifications/corporate/<_lang:\w+>' => 'static/notifications/corporate',
-                'notifications/personal/<_lang:\w+>'  => 'static/notifications/personal',
-
-                'simulations/<_lang:\w+>'                 => 'static/simulations/index',
-                'simulations/details/<id:\w+>/<_lang:\w+>' => 'static/simulations/details',
-                'simulations/corporate/<_lang:\w+>'        => 'static/simulations/corporate',
-                'simulations/persona/<_lang:\w+>l'         => 'static/simulations/personal',
-
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
 
                 'dashboard/invite/remove/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>/<_lang:\w+>' => 'static/dashboard/reSendInvite',
 
-                'invite/add-10'                => 'static/invites/increaseInvites',
+                'invite/add-10'                => 'static/cheats/increaseInvites',
 
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
                 'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',

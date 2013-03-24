@@ -3,6 +3,9 @@
         <ul class="main-screen-stat">
             <li class="time">
                 <span class="hour"></span><span class="delimiter">:</span><span class="minute"></span>
+                <@ if(SKApp.get('type') == 2) { @>
+                <span class="pause-control"></span>
+                <@ } @>
             </li>
             <li>4 октября, четверг</li>
             <li><img src="<@=SKApp.get('assetsUrl')@>/img/main-screen/icon-bat-full.png" alt=""/></li>

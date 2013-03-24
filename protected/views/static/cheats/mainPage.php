@@ -89,8 +89,8 @@
         <br>
         <br>
 
-<a href="/admin/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
-<a href="/admin/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
+<a href="/cheat/dialogsAnalyzer">Открыть анализатор диалогов БД</a>
+<a href="/cheat/uploadDialogsToAnalyzer">Открыть анализатор диалогов произвольного ексел-файла</a>
 
         <br>
         <br>
@@ -100,6 +100,18 @@
 <a href="/admin">Старая "админка" - отображение таблиц с логами</a>
 
         <br>
+        <br>
+        <br>
+        <hr>
+Свободные приглашения:
+<br/><br>
+<?php $invites = Invite::model()->findAllByAttributes(['status' => 0], ['limit'=>'5']); ?>
+<?php foreach ($invites as $invite) : ?>
+    <a href="/dashboard/accept-invite/<?php echo $invite->code ?>"?>Приглашение</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<?php endforeach ?>
+        <br>
+        <br>
+        <hr>
         <br>
         <br>
 

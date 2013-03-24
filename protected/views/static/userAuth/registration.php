@@ -57,6 +57,8 @@
 
 </div><!-- form -->
 
+<div style="float: none; clear: both; height: 100px; width: 100%;"></div>
+
 <script type="text/javascript">
     $('#pass-switcher').click(function(event){
         // show * or password letters switcher {

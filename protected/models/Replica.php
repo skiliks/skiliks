@@ -8,6 +8,7 @@
  * @property Character from_character
  * @property Character to_character
  * @property ActivityParent[] termination_parent_actions
+ * @property boolean fantastic_result
  *
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */

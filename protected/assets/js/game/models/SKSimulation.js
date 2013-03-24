@@ -179,10 +179,10 @@ define([
                         me.events.trigger('dialog:end');
                         return;
                     }
-                    var event_model = new SKEvent({
-                        type:event.eventType,
-                        data:event.data
-                    });
+                    var event_params = event;
+                    event_params.type = event_params.eventType;
+                    delete event_params.result;
+                    var event_model = new SKEvent(event_params);
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
@@ -320,13 +320,11 @@ define([
             stopPause: function() {
                 var me = this;
 
-                me._startTimer();
-                me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
-                delete me.paused_time;
-                me.trigger('pause:stop');
-
                 SKApp.server.api('simulation/stopPause', {}, function () {
-
+                    me._startTimer();
+                    me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
+                    delete me.paused_time;
+                    me.trigger('pause:stop');
                 });
             },
 

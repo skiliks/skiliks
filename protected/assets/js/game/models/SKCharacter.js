@@ -41,4 +41,5 @@ define([], function() {
             return this.name + ' <' + this.email + '>, ';
         }
     });
+    return window.SKCharacter;
 });

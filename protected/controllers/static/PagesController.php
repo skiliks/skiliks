@@ -5,10 +5,10 @@ class PagesController extends AjaxController
     public $user;
     public $signInErrors = [];
 
-    public function actionIndex()
+    public function actionIndex($_lang = null)
     {
         // this page currently will be just RU
-        if (null === Yii::app()->request->getParam('_lang')) {
+        if (null === Yii::app()->request->getParam('_lang') && null === $_lang) {
             Yii::app()->language = 'ru';
         }
 
@@ -60,5 +60,28 @@ class PagesController extends AjaxController
         $result = UserService::addUserSubscription($email);
 
         $this->sendJSON($result);
+        die;
+    }
+
+    /**
+     *
+     */
+    public function actionBadBrowser()
+    {
+        $this->render('badBrowser', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => true,
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionOldBrowser()
+    {
+        $this->render('oldBrowser', [
+            'assetsUrl'      => $this->getAssetsUrl(),
+            'userSubscribed' => true,
+        ]);
     }
 }

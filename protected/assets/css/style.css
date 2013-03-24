@@ -92,7 +92,9 @@ body.inner-registration{
 .container{
 	min-height:100%;
 }
-.container.main-page{
+
+.action-controller-comingSoonSuccess-static-pages .container,
+.action-controller-index-static-pages .container{
 	background:url("../img/bg-heroes.png") no-repeat center 2px;
 }
 .inner-registration .container{
@@ -100,7 +102,8 @@ body.inner-registration{
 	height:966px;
 }
 @media screen and (max-width: 1280px){
-	.container.main-page{
+    .action-controller-comingSoonSuccess-static-pages .container,
+    .action-controller-index-static-pages .container{
 		background:url("../img/bg-heroes-min.png") no-repeat center 2px;
 	}
 }
@@ -129,7 +132,9 @@ a:focus, a:active {
 	position:relative;
 	padding-bottom:287px;
 }
-.main-page .content{
+
+.action-controller-comingSoonSuccess-static-pages .container .content,
+.action-controller-index-static-pages .container .content{
 	height:1157px;
 }
 @media screen and (max-width: 1280px){
@@ -137,7 +142,9 @@ a:focus, a:active {
 		width:925px;
 		padding-bottom:310px;
 	}
-	.main-page .content{
+
+    .action-controller-comingSoonSuccess-static-pages .container .content,
+    .action-controller-index-static-pages .container .content{
 		height:1117px;
 	}
 }
@@ -1062,7 +1069,7 @@ html[lang=ru] .product section table th{
 	font:0.834em "ProximaNova-Bold";
 	color:#555545;
 	line-height:1;
-	width:85px;
+	width:101px;
 	margin-right:-5px;
 	vertical-align:middle;
 }
@@ -1078,14 +1085,14 @@ html[lang=ru] .product section table th{
 	font:0.834em 'ProximaNova-Regular';
 	line-height:1;
 	color:#146672;
-	width:133px;
+	width:125px;
 	height:12px;
 	padding:7px 9px;
 	outline:none;
 	vertical-align:top;
 }
 .registration .form .row .sbHolder{
-	width:309px;
+	width:292px;
 }
 .registration .form .row.wide{
 	margin-bottom:16px;
@@ -1094,9 +1101,10 @@ html[lang=ru] .product section table th{
 	line-height:1;
 }
 .registration .form .row.wide input[type=text]{
-	width:316px;
+	width:274px;
 }
 .registration .form .row input[type=submit]{
+	display:block;
 	background:#146672 url("../img/icon-registration-submit.png") no-repeat 17px center;
 	border:none;
 	-webkit-border-radius:3px;
@@ -1108,7 +1116,7 @@ html[lang=ru] .product section table th{
 	color:#fff;
 	text-align:left;
 	text-indent:35px;
-	margin-left:85px;
+	margin-left:100px;
 }
 .registration .form .row .errorMessage{
 	background: #e36969;
@@ -1207,18 +1215,18 @@ html[lang=ru] .product section table th{
 	}
 	.registration .form .row label{
 		font-size:0.667em;
-		width:60px;
+		width:70px;
 		margin-right:-3px;
 		vertical-align:middle;
 	}
 	.registration .form .row input[type=text]{
 		font-size:0.667em;
-		width:105px;
+		width:100px;
 		height:9px;
 		padding:6px 8px;
 	}
 	.registration .form .row .sbHolder{
-		width:249px;
+		width:238px;
 	}
 	.registration .form .row.wide{
 		margin-bottom:16px;
@@ -1227,7 +1235,7 @@ html[lang=ru] .product section table th{
 		line-height:1;
 	}
 	.registration .form .row.wide input[type=text]{
-		width:254px;
+		width:222px;
 	}
 	.registration .form .row input[type=submit]{
 		background:#146672 url("../img/icon-registration-submit-min.png") no-repeat 13px center;
@@ -1235,7 +1243,7 @@ html[lang=ru] .product section table th{
 		height:37px;
 		font-size:0.858em;
 		text-indent:29px;
-		margin-left:60px;
+		margin-left:71px;
 	}
 	.registration .form .row .errorMessage{
 	    -moz-box-shadow:0 0 5px rgba(0,0,0,0.57);
