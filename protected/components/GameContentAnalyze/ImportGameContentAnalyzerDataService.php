@@ -402,21 +402,21 @@ class ImportGameContentAnalyzerDataService
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
 
             // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
-            $replica_excel_id = $this->getCellValue($sheet, 'id записи', $i);
-            if (NULL == $replica_excel_id) {
+            $replicaExcelId = $this->getCellValue($sheet, 'id записи', $i);
+            if (NULL == $replicaExcelId) {
                 continue;
             }
 
             $replica = new Replica(); // Создаем событие
-            $replica->excel_id = $replica_excel_id;
+            $replica->excel_id = $replicaExcelId;
 
             // a lot of dialog properties: {
             $replica->code         = $this->getCellValue($sheet, 'Event_code', $i);
             $replica->event_result = 7; // ничего
-            $from_character_code   = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
-            $replica->ch_from      = $from_character_code;
-            $to_character_code     = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
-            $replica->ch_to        = $to_character_code;
+            $fromCharacterCode   = $this->getCellValue($sheet, 'Персонаж-ОТ (код)', $i);
+            $replica->ch_from      = $fromCharacterCode;
+            $toCharacterCode     = $this->getCellValue($sheet, 'Персонаж-КОМУ (код)', $i);
+            $replica->ch_to        = $toCharacterCode;
 
             $subtypeAlias = $this->getCellValue($sheet, 'Тип интерфейса диалога', $i);
             if (!isset($subtypes[$subtypeAlias])) {
@@ -434,6 +434,7 @@ class ImportGameContentAnalyzerDataService
             $replica->step_number     = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $replica->replica_number  = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $replica->delay           = $this->getCellValue($sheet, 'Задержка, мин', $i);
+            $replica->fantastic_result = $this->getCellValue($sheet, 'Отправка письма фант образом', $i) ?: $this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i);
 
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
@@ -447,7 +448,7 @@ class ImportGameContentAnalyzerDataService
             $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
 
             $sound          = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
-            $replica->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
+            $replica->sound = ($sound == 'нет' || $sound == '-') ? NULL : $sound;
 
             $isFinal                   = $this->getCellValue($sheet, 'Конечная реплика (да/нет)', $i);
             $replica->is_final_replica = ('да' === $isFinal) ? true : false;
