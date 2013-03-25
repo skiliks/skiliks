@@ -136,7 +136,38 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateCompanyInfo()
     {
-        $this->render('company_info_corporate', []);
+        $this->checkUser();
+
+        $account = $this->user->account_corporate;
+
+        if (null !== Yii::app()->request->getParam('save')) {
+            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+            $account->ownership_type       = $UserAccountCorporate['ownership_type'];
+            $account->company_name         = $UserAccountCorporate['company_name'];
+            $account->industry_id          = $UserAccountCorporate['industry_id'];
+            $account->company_size_id      = $UserAccountCorporate['company_size_id'];
+            $account->company_description  = $UserAccountCorporate['company_description'];
+
+            if ($account->validate()) {
+                $account->save();
+            }
+        }
+
+        $industries = [];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = $industry->label;
+        }
+
+        $sizes = [];
+        foreach (CompanySize::model()->findAll() as $size) {
+            $sizes[$size->id] = $size->label;
+        }
+
+        $this->render('company_info_corporate', [
+            'account' => $account,
+            'industries' => $industries,
+            'sizes' => $sizes
+        ]);
     }
 
     /**
