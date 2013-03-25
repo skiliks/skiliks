@@ -38,7 +38,7 @@
 
     <div class="row">
         <?php echo $form->labelEx($account     , 'company_size_id'); ?>
-        <?php echo $form->dropDownList($account, 'company_size_id', $sizes); ?>
+        <?php echo $form->dropDownList($account, 'company_size_id', $sizes, ['prompt' => 'Количество сотрудников']); ?>
         <?php echo $form->error($account       , 'company_size_id'); ?>
     </div>
 
