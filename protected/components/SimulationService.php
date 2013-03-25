@@ -543,23 +543,4 @@ class SimulationService
         $simulation->save();
     }
 
-    public static function sendInviteExpired($email){
-
-
-        if (!isset($email)) {
-            throw new CException(Yum::t('Email is not set when trying to send Registration Email'));
-        }
-
-        $body = "Здравствуйте! Ваш инвайт уже не действителен";
-
-        $mail = array(
-            'from' => Yum::module('registration')->registrationEmail,
-            'to' => $email,
-            'subject' => "Skiliks",
-            'body' => $body,
-        );
-        $sent = YumMailer::send($mail);
-
-        return $sent;
-    }
 }
