@@ -1854,6 +1854,7 @@ h2 {
 
 ul.profile-menu {
     float: left;
+    min-height: 300px;
     width: 200px;
 }
 ul.profile-menu li {

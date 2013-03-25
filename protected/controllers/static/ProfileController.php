@@ -130,7 +130,40 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateVacancies()
     {
-        $this->render('vacancies_corporate', []);
+        $vacancy = new Vacancy();
+
+        // handle add vacancy {
+        if (null !== Yii::app()->request->getParam('add')) {
+
+            $vacancy->attributes = Yii::app()->request->getParam('Vacancy');
+            $vacancy->user_id
+                = Yii::app()->user->data()->id;
+
+            if ($vacancy->validate()) {
+                $vacancy->save();
+
+                Yii::app()->user->setFlash('success', 'Вакансия успешно добавлена');
+
+                $this->redirect('/profile/corporate/vacancies/');
+            }
+        }
+        // handle send invitation }
+
+        $specializations = [];
+        if (null != $vacancy->professional_specialization_id) {
+            $specializations = StaticSiteTools::formatValuesArrayLite(
+                'ProfessionalSpecialization',
+                'id',
+                'label',
+                " professional_occupation_id = {$vacancy->professional_occupation_id} ",
+                'Выбирите род деятельности'
+            );
+        }
+
+        $this->render('vacancies_corporate', [
+            'vacancy'         => $vacancy,
+            'specializations' => $specializations,
+        ]);
     }
 
     /**
@@ -220,5 +253,19 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         // just to be sure - handle strange case
         Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
+    }
+
+    /* --- */
+
+    public function actionGetSpecialization()
+    {
+        $vacancy = Yii::app()->request->getParam('Vacancy');
+
+        $this->sendJSON(StaticSiteTools::formatValuesArrayLite(
+            'ProfessionalSpecialization',
+            'id',
+            'label',
+            " professional_occupation_id = {$vacancy['professional_occupation_id']} ")
+        );
     }
 }

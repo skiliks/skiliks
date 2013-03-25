@@ -198,6 +198,8 @@ return array(
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
 
+                'profile/getSpecialization' => 'static/profile/getSpecialization',
+
                 'profile/'          => 'static/profile/index',
                 'profile/corporate' => 'static/profile/index',
                 'profile/personal'  => 'static/profile/index',
@@ -226,6 +228,10 @@ return array(
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
                 'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<code:\w+>' => 'static/dashboard/declineInvite',
+
+                'gii'=>'gii',
+                'gii/<controller:\w+>'=>'gii/<controller>',
+                'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
 
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
