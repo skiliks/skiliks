@@ -1882,4 +1882,5 @@ ul.profile-menu li {
     z-index: 100;
     top: 10px;*/
     display: none;
+    width:750px;
 }
