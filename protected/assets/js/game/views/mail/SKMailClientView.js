@@ -132,7 +132,7 @@ define([
                 });
 
                 this.listenTo(this.mailClient, 'mail:sent', this.onMailSent);
-
+                this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
                 // close with conditions action {
                 this.options.model_instance.on('pre_close', function () {
                     me.options.model_instance.prevent_close = !me.isCanBeClosed();
@@ -1457,10 +1457,14 @@ define([
                     });
                 });
 
-                $("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
-                $("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
+                this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
+                this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
                 this.$('#mailEmulatorNewLetterText').sortable();
-
+                if (phrases.length) {
+                    this.$('.mail-tags-bl').show();
+                } else {
+                    this.$('.mail-tags-bl').hide();
+                }
 
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
@@ -2127,6 +2131,20 @@ define([
                     'mailMain',
                     this.mailClient.getActiveEmailId()
                 );
+            },
+            onMailFantasticSend: function (email) {
+                var me = this;
+                this.once('render_finished', function () {
+                    me.renderWriteEmailScreen();
+                    me.fillMessageWindow(email);
+                    setTimeout(function () {
+                        me.doSendEmail();
+                        setTimeout(function () {
+                            me.options.model_instance.close();
+                        }, 3000);
+                    }, 3000);
+                });
+
             }
         });
 
