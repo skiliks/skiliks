@@ -283,7 +283,14 @@ class DashboardController extends AjaxController implements AccountPageControlle
             Yii::app()->user->setFlash('site', 'Код неверный');
             $this->redirect('/');
         }
-
+        if((int)$invite->status === Invite::STATUS_EXPIRED){
+            $this->render('error',
+                [
+                    'errorMessage' => 'У симуляции истек срок давности'
+                ]
+            );
+            return;
+        }
         $this->user = new YumUser('registration');
         $profile = new YumProfile('registration');
         $account = new UserAccountPersonal();
