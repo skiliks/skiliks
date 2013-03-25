@@ -257,7 +257,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 'id',
                 'label',
                 " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                'Выбирите род деятельности'
+                'Выберите род деятельности'
             );
         }
 
