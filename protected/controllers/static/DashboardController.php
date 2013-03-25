@@ -32,12 +32,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $invite = new Invite();
-        $valid = false;
+        $validPrevalidate = false;
 
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
             $invite->owner_id = $this->user->id;
-            $valid = $invite->validate(['firstname', 'lastname', 'email']);
+            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
@@ -53,7 +53,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
-
             $invite->attributes = Yii::app()->request->getParam('Invite');
 
             $invite->code = uniqid(md5(mt_rand()));
@@ -136,10 +135,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
-            'invite'       => $invite,
-            'inviteToEdit' => $inviteToEdit,
-            'vacancies'    => $vacancies,
-            'valid'        => $valid
+            'invite'             => $invite,
+            'inviteToEdit'       => $inviteToEdit,
+            'vacancies'          => $vacancies,
+            'validPrevalidate'   => $validPrevalidate,
         ]);
     }
 

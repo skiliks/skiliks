@@ -45,6 +45,10 @@
         $( ".form-invite-message-editor").dialog('close');
         $( ".form-invite-message-editor").parent().addClass('nice-border');
 
+        <?php if (0 < count($invite->getErrors())): ?>
+            $( ".form-invite-message-editor").dialog('open');
+        <?php endif; ?>
+
         $('.edit-invite').click(function(event){
             event.preventDefault();
 
@@ -63,4 +67,5 @@
             $( ".form-invite-message-editor").dialog('open');
         });
     });
+
 </script>

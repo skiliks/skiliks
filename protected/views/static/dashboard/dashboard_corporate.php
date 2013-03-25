@@ -27,7 +27,7 @@
 </section>
 
 
-<?php if (!empty($valid)): ?>
+<?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
@@ -73,7 +73,7 @@
 
         <?php $this->endWidget(); ?>
     </div>
-<?php endif; ?>
+
 
 <script type="text/javascript">
     $(function() {
@@ -87,3 +87,4 @@
         $( ".message_window").dialog('open');
     });
 </script>
+<?php endif; ?>
