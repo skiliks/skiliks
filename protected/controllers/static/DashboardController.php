@@ -36,14 +36,14 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
-            $invite->inviting_user_id = $this->user->id;
+            $invite->owner_id = $this->user->id;
             $valid = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
-            $position_label = Yii::t('site', (string)$invite->position->label);
+            $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
-                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $position_label.";
+                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $vacancy_label.";
             } else {
-                $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $position_label Для кандидата на данную позицию обязательным условием \n"
+                $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $vacancy_label Для кандидата на данную позицию обязательным условием \n"
                     ."является прохождение оценивания для определениям уровня менеджерских навыков. Для этого вам необходимо перейти по ссылке, \n"
                     ."зарегистрироваться и запустить ассессмент.";
             }
@@ -57,14 +57,14 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $invite->attributes = Yii::app()->request->getParam('Invite');
 
             $invite->code = uniqid(md5(mt_rand()));
-            $invite->inviting_user_id = $this->user->id;
+            $invite->owner_id = $this->user->id;
 
             // What happens if user is registered, but not activated??
             $profile = YumProfile::model()->findByAttributes([
                 'email' => $invite->email
             ]);
             if ($profile) {
-                $invite->invited_user_id = $profile->user->id;
+                $invite->receiver_id = $profile->user->id;
             }
 
             // send invitation
@@ -101,10 +101,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
             } else {
                 $inviteToEdit->firstname = $inviteData['firstname'];
                 $inviteToEdit->lastname = $inviteData['lastname'];
-                $inviteToEdit->position_id = $inviteData['position_id'];
+                $inviteToEdit->vacancy_id = $inviteData['vacancy_id'];
                 // send invitation
-                if ($inviteToEdit->validate(['firstname', 'lastname', 'position_id'])) {
-                    $inviteToEdit->update(['firstname', 'lastname', 'position_id']);
+                if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
+                    $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
 
                     Yii::app()->user->setFlash('success', sprintf(
@@ -117,16 +117,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
         // handle edit invite invitation }
 
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = Yii::t('site', $position->label);
+        $vacancies = [];
+        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        foreach ($vacancyList as $vacancy) {
+            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }
 
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
             'invite'       => $invite,
             'inviteToEdit' => $inviteToEdit,
-            'positions'    => $positions,
+            'vacancies'    => $vacancies,
             'valid'        => $valid
         ]);
     }
@@ -156,7 +157,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             'Пройдите по ссылке чтобы начать симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
+                Yii::app()->createAbsoluteUrl($invite->receiver_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
             ),
             $invite->signature
         ];
@@ -199,7 +200,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->inviting_user_id) {
+        if ($user->id !== $invite->owner_id) {
             $this->redirect('/');
         }
 
@@ -250,7 +251,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->inviting_user_id) {
+        if ($user->id !== $invite->owner_id) {
             $this->redirect('/');
         }
 
@@ -345,9 +346,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = Yii::t('site', $position->label);
+        $statuses = [];
+        foreach (ProfessionalStatus::model()->findAll() as $status) {
+            $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
         $this->render(
@@ -358,7 +359,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 'profile'    => $profile,
                 'account'    => $account,
                 'industries' => $industries,
-                'positions'  => $positions,
+                'statuses'   => $statuses,
                 'error'      => $error
             ]
         );

@@ -1,21 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "positions".
+ * This is the model class for table "position".
  *
- * The followings are the available columns in table 'positions':
+ * The followings are the available columns in table 'position':
  * @property integer $id
+ * @property string $language
  * @property string $label
  *
  * The followings are the available model relations:
- * @property UserAccountCorporate[] $userAccountCorporates
+ * @property UserAccountPersonal[] $userAccountPersonals
  */
-class Position extends CActiveRecord
+class ProfessionalStatus extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return Position the static model class
+	 * @return ProfessionalStatus the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -27,7 +28,7 @@ class Position extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'positions';
+		return 'professional_statuses';
 	}
 
 	/**
@@ -38,11 +39,12 @@ class Position extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('label', 'required'),
-			array('label', 'length', 'max'=>120),
+			array('id'      , 'numerical', 'integerOnly'=>true),
+			array('language', 'length'   , 'max'=>3),
+			array('label'   , 'length'   , 'max'=>120),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, label', 'safe', 'on'=>'search'),
+			array('id, language, label', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -53,9 +55,7 @@ class Position extends CActiveRecord
 	{
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
-		return array(
-			'userAccountCorporates' => array(self::HAS_MANY, 'UserAccountCorporate', 'position_id'),
-		);
+		return array();
 	}
 
 	/**
@@ -64,8 +64,8 @@ class Position extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'label' => 'Label',
+			'id'       => 'ID',
+			'label'    => 'Label',
 		);
 	}
 

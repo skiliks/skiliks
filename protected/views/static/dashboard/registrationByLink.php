@@ -54,9 +54,9 @@
         </div>
 
         <div class="row wide">
-            <?php echo $form->labelEx($account, 'position_id'); ?>
-            <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
-            <?php echo $form->error($account, 'position_id'); ?>
+            <?php echo $form->labelEx($account, 'professional_status_id'); ?>
+            <?php echo $form->dropDownList($account, 'professional_status_id', $statuses); ?>
+            <?php echo $form->error($account, 'professional_status_id'); ?>
         </div>
 
         <div class="row">

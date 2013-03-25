@@ -108,4 +108,13 @@ class Vacancy extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function byUser($userId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => 'user_id = :userId',
+            'params' => ['userId' => $userId]
+        ));
+        return $this;
+    }
 }
