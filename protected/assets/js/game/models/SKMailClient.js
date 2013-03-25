@@ -1176,8 +1176,12 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});
-                            console.log('3');
-                            me.getSendedFolderEmails(callback); // callback is usually 'render active folder'
+                            me.getSendedFolderEmails(function () {
+                                if (callback !== undefined) {
+                                    callback();
+                                }
+                                me.trigger('mail:sent');
+                            }); // callback is usually 'render active folder'
                         } else {
                             me.message_window =
                                 me.message_window || new SKDialogView({
@@ -1281,6 +1285,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     }
                 );
                 return true;
+            },
+
+            /**
+             * Отправляет письмо "фантастическим образом" — открывается почтовый клиент с написанным письмом и письмо отправляется
+             * @param email
+             * @method
+             */
+            'sendFantasticMail': function (email) {
+                /**
+                 * @param {SKEmail} email
+                 * @event mail:fantastic-send
+                 */
+                this.trigger('mail:fantastic-send', email);
             },
 
             /**

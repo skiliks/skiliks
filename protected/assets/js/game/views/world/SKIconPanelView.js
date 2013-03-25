@@ -86,8 +86,10 @@ define([
              * @method onMailEvent
              */
             onMailSendEvent: function (event) {
-                this.$('.mail').addClass('create-mail');
-                this.startAnimation('.mail');
+                if (!event.get('fantastic')) {
+                    this.$('.mail').addClass('create-mail');
+                    this.startAnimation('.mail');
+                }
             },
 
             /**
