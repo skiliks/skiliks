@@ -17,6 +17,9 @@ class AjaxController extends CController
     
     public $is_test = false;
 
+    /**
+     * @var YumUser
+     */
     public $user;
     public $signInErrors = [];
 
