@@ -467,7 +467,7 @@ class SimulationService
 
         SimulationService::setFinishedAssessmentRules($simulation->id);
 
-        DayPlanService::copyPlanToLog($simulation, 18 * 60); // 18-00 copy
+        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
