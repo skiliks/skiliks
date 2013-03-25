@@ -198,7 +198,9 @@ return array(
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
 
-                'profile/getSpecialization' => 'static/profile/getSpecialization',
+                'profile/getSpecialization'       => 'static/profile/getSpecialization',
+                'profile/corporate/vacancy/<id:\w+>/remove' => 'static/profile/removeVacancy',
+                'profile/corporate/vacancy/<id:\w+>/edit' => 'static/profile/corporateVacancies',
 
                 'profile/'          => 'static/profile/index',
                 'profile/corporate' => 'static/profile/index',
@@ -241,7 +243,7 @@ return array(
                 '<controller:\w+>/<action:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<_lang:\w+>' => '<controller>/<action>',
 
-                '/<_lang:\w+>'               => 'static/pages/index',
+                '/<_lang:(ru|en)>'               => 'static/pages/index',
             ),
         ),
         'excel'=>array(

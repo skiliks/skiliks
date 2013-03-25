@@ -162,7 +162,18 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateVacancies()
     {
+        Yii::app()->language = 'ru';
+
         $vacancy = new Vacancy();
+
+        if (null !== Yii::app()->request->getParam('id')) {
+            $vacancy = Vacancy::model()->findByPk(Yii::app()->request->getParam('id'));
+
+            if (null === $vacancy) {
+                $vacancy = new Vacancy();
+                Yii::app()->user->setFlash('success', 'Выбранной вами вакансии не существует.');
+            }
+        }
 
         // handle add vacancy {
         if (null !== Yii::app()->request->getParam('add')) {
@@ -299,5 +310,27 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             'label',
             " professional_occupation_id = {$vacancy['professional_occupation_id']} ")
         );
+    }
+
+    public function actionRemoveVacancy($id)
+    {
+        $vacancy = Vacancy::model()->findByPk($id);
+
+        if ($vacancy->user_id != Yii::app()->user->data()->id) {
+            Yii::app()->user->setFlash('error', 'У вас нет прав для удаления этой вакансии');
+            $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
+        }
+
+//        $counter = Invite::model()->countByAttributes(['vacancy_id' => $vacancy->id]);
+//        if (0 < $counter) {
+//            Yii::app()->user->setFlash('error', 'Вы не можете удалить вакансию с которой уже связвны приглашения.');
+//            $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
+//        }
+
+        $vacancy->delete();
+
+        Yii::app()->user->setFlash('error', sprintf('Вакансия %s удалена.', $vacancy->label));
+
+        $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
     }
 }
