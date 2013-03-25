@@ -18,7 +18,7 @@ $(document).ready(function(){
         event.stopPropagation();
     });*/
     $('a.feedback').click(function(){
-        $('#JotFormIFrame').dialog();
+        $('#JotFormIFrame').dialog({ width: 750});
         return false;
     });
 
