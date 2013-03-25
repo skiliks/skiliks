@@ -161,6 +161,21 @@ class MailTemplate extends CActiveRecord implements IGameAction
         return $this;
     }
 
+    /**
+     * returns parent template
+     * @return MailTemplate
+     */
+    public function getParent()
+    {
+        $subject = $this->subject_obj;
+        if (! $subject->mail_prefix) {
+            return null;
+        }
+        $newPrefix = preg_replace('/^(re|fwd)/', '', $subject->mail_prefix) ? : null;
+        $parentTheme = CommunicationTheme::model()->findByAttributes(['code' => $subject->code, 'mail_prefix' => $newPrefix]);
+        return MailTemplate::model()->findByAttributes(['subject_id' => $parentTheme->primaryKey]);
+    }
+
     public function relations()
     {
         return [
