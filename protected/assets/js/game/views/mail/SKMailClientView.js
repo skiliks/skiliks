@@ -1212,9 +1212,14 @@ define([
                         return add;
                     },
                     afterDelete: function (tag) {
-                        /*if(this.currentRecipients !== undefined && this.currentRecipients.indexOf(tag) === 0) {
+                        var subject = mailClientView.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
+                        var curRec = mailClientView.currentRecipients;
+                        if(curRec !== undefined && curRec.indexOf(tag) === 0 && curRec.length === 1 && subject === "") {
                             SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
-                        }*/
+                            mailClientView.updateSubjectsList();
+                        }else if(curRec !== undefined && curRec.indexOf(tag) === 0 && subject === ""){
+                            SKApp.simulation.mailClient.reloadSubjects(mailClientView.getCurrentEmailRecipientIds());
+                        }
                     },
                     afterAdd: function (tag) {
                         if(mailClientView.$("#MailClient_RecipientsList li.tagItem").get().length == 1) {
