@@ -25,6 +25,7 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Теперь слушай сюда')])");
+        sleep(5);
         $this->optimal_click("css=li.icon-active.mail a");
         $this->waitForVisible("link=отправить");
         $this->assertElementPresent("link=отправить");

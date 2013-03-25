@@ -36,7 +36,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->write_mail_active();
+        $this->write_email();
+
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
         $this->optimal_click($krutko);
@@ -83,7 +84,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->write_mail_active();
+        $this->write_email();
+
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
         $this->optimal_click($krutko);
@@ -131,7 +133,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->write_mail_active();
+        $this->write_email();
+
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
         $this->optimal_click($krutko);
@@ -170,9 +173,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-        $this->optimal_click("xpath=//*[contains(text(),'новое письмо')]");
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
+        $this->write_email();
 
         $this->waitForVisible($krutko);
         $this->mouseOver($krutko);
@@ -188,7 +189,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
 
-
+        sleep(5);
         $this->assertFalse($this->verify_flag('F3','1'));
 
         $this->click("xpath=(//*[contains(text(),'13:00')])");
@@ -214,7 +215,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
-
+        sleep(5);
         $this->waitForVisible("xpath=//div[1]/div[2]/div/div/div[4]/form[1]/fieldset/table[2]/tbody/tr/td[5]");
         $this->assertTrue($this->verify_flag('F3','1'));
 
