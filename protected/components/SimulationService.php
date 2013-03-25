@@ -461,6 +461,9 @@ class SimulationService
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalyze($simulation->id);
 
+        $plan = new PlanAnalizer($simulation->id);
+        $plan->run();
+
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"
         // see Assessment scheme_v5.pdf
         SimulationService::saveAggregatedPoints($simulation->id);
@@ -475,8 +478,7 @@ class SimulationService
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
-        $plan = new PlanAnalizer($simulation->id);
-        $plan->run();
+
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
         $simulation->checkLogs();
