@@ -195,4 +195,6 @@ return array(
     'Vacancy label' => 'Название вакансии',
     'Vacancy' => 'Вакансия',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
+    'Tariffs' => 'Тарифы',
+    'Contacts' => 'Контакты',
 );
