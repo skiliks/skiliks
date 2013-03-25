@@ -60,4 +60,28 @@ class StaticSiteTools
 
         return $result;
     }
+
+    /**
+     * This is very simple method, it doesn`t allow to use custom criteria, multiple $labelColumns and $idColumns
+     * If it will be necessary - I add formatValuesArrayPro
+     *
+     * @param string $model, model class ame, like 'Invitation'
+     * @param string $labelColumn
+     * @param string $idColumn
+     * @param string $conditions, like ' where sim_id = 25 '
+     */
+    public static function formatValuesArrayLite($model, $idColumn = 'id', $labelColumn = 'label', $conditions = '', $emptyValue = false)
+    {
+        $result = [];
+
+        if (false !== $emptyValue) {
+            $result[-1] = $emptyValue;
+        }
+
+        foreach ($model::model()->findAll($conditions) as $item) {
+            $result[$item->{$idColumn}] = $item->{$labelColumn};
+        }
+
+        return $result;
+    }
 }

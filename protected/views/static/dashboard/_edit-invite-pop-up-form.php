@@ -24,12 +24,12 @@
         <?php echo $form->error($invite       , 'position_id'); ?>
     </div>
 
-    <br/>
-    <br/>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Сохранить правки', ['name' => 'edit-invite']); ?>
     </div>
+
+
 
     <?php $this->endWidget(); ?>
 </div>

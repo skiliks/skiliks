@@ -10,9 +10,20 @@ class m130324_223136_add_vacancies extends CDbMigration
         ]);
 
         $this->createTable('professional_specialization', [
-            'id'    => 'pk',
-            'label' => 'VARCHAR(120) NOT NULL',
+            'id'                         => 'pk',
+            'professional_occupation_id' => 'INT',
+            'label'                      => 'VARCHAR(120) NOT NULL',
         ]);
+
+        $this->addForeignKey(
+            'professional_specialization_fk_professional_occupation',
+            'professional_specialization',
+            'professional_occupation_id',
+            'professional_occupation',
+            'id',
+            'SET NULL',
+            'CASCADE'
+        );
 
         $this->createTable('vacancy', [
             'id'                             => 'pk',
@@ -46,6 +57,11 @@ class m130324_223136_add_vacancies extends CDbMigration
 
 	public function down()
 	{
-		echo "m130324_223136_add_vacancies does not support migration down.\n";
+        $this->dropForeignKey('vacancy_fk_professional_occupation', 'vacancy');
+        $this->dropForeignKey('vacancy_fk_professional_occupation', 'vacancy');
+
+        $this->dropTable('vacancy');
+		$this->dropTable('professional_occupation');
+		$this->dropTable('professional_specialization');
 	}
 }
