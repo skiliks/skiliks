@@ -144,7 +144,7 @@ return array(
     'Enter Email address' => 'Введите e-mail',
     'Status' => 'Статус',
     'Score' => 'Результат',
-    'Date / time' => 'Дата отправки приглашения',
+    'Date / time' => 'Дата',
     'You has no available invites!' => 'У Вас закончились приглашения!',
     'Message' => 'Сообщение',
     'Message text' => 'Текст письма',

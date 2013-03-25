@@ -76,6 +76,50 @@ class Invite extends CActiveRecord
         return (self::STATUS_PENDING == $this->status);
     }
 
+    /**
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->firstname . ' ' . $this->lastname;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStatusText()
+    {
+        return self::$statusText[$this->status];
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getSentTime()
+    {
+        return new DateTime('@' . (int)$this->sent_time);
+    }
+
+    public function uniqueEmail($attribute, $params)
+    {
+        if(null !== self::model()->findByAttributes(['email' => $this->email, 'owner_id' => $this->owner_id])){
+
+            $this->addError('email','Вы уже отправили инвайт на '.$this->email);
+
+        }
+
+    }
+
+    public function inviteExpired() {
+
+        $this->status = Invite::STATUS_EXPIRED;
+        $this->update();
+        $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
+        $user->invites_limit = $user->invites_limit + 1;
+        $user->update();
+
+    }
+
     /* ------------------------------------------------------------------------------------------------------------ */
 
 	/**
@@ -126,8 +170,8 @@ class Invite extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'receiverUser' => array(self::BELONGS_TO, 'User', 'receiver_id'),
-			'ownerUser' => array(self::BELONGS_TO, 'User', 'owner_id'),
+			'receiverUser' => array(self::BELONGS_TO, 'YumUser', 'receiver_id'),
+			'ownerUser' => array(self::BELONGS_TO, 'YumUser', 'owner_id'),
 			'vacancy' => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id')
 		);
 	}
@@ -271,49 +315,5 @@ class Invite extends CActiveRecord
         return $this->findByAttributes([
             'code' => $code
         ]);
-    }
-
-    /**
-     * @return string
-     */
-    public function getFullname()
-    {
-        return $this->firstname . ' ' . $this->lastname;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStatusText()
-    {
-        return self::$statusText[$this->status];
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getSentTime()
-    {
-        return new DateTime('@' . (int)$this->sent_time);
-    }
-
-    public function uniqueEmail($attribute, $params)
-    {
-        if(null !== self::model()->findByAttributes(['email' => $this->email, 'owner_id' => $this->owner_id])){
-
-                $this->addError('email','Вы уже отправили инвайт на '.$this->email);
-
-        }
-
-    }
-
-    public function inviteExpired() {
-
-        $this->status = Invite::STATUS_EXPIRED;
-        $this->update();
-        $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
-        $user->invites_limit = $user->invites_limit + 1;
-        $user->update();
-
     }
 }
