@@ -66,7 +66,4 @@ $this->widget('zii.widgets.grid.CGridView', [
         ]) ?>
 
     <?php // java-script: ?>
-        <?php if (0 < count($inviteToEdit->getErrors())): ?>
-            $( ".form-invite-message-editor").dialog('open');
-        <?php endif; ?>
 <?php // edit invite pop-up form } ?>
