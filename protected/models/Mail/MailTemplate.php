@@ -9,6 +9,7 @@
  * @property string import_id
  * @property CommunicationTheme subject_obj
  * @property ActivityParent[] termination_parent_actions
+ * @property MailAttachmentTemplate[] attachments
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTemplate extends CActiveRecord implements IGameAction

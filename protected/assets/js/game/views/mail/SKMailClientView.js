@@ -1814,6 +1814,7 @@ define([
              * @returns {boolean}
              */
             fillMessageWindow: function (response) {
+                var me = this;
                 if (null === response.subjectId) {
                     this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
@@ -1861,7 +1862,7 @@ define([
                     var ids = response.copiesIds.split(',');
                     for (var i in ids) {
                         if (0 < parseInt(ids[i])) {
-                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
+                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i],10))
                                 .getFormatedForMailToName());
                         }
                     }
@@ -1884,6 +1885,17 @@ define([
                 this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
                 this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
                 // add copies if they exests }
+
+                // set attachment
+                if (response.attachmentId) {
+                    this.mailClient.uploadAttachmentsList(function () {
+                        var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
+                                return attachment.fileMySqlId;
+                            }), response.attachmentId
+                        );
+                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex});
+                    });
+                }
 
                 // add phrases {
                 SKApp.simulation.mailClient
