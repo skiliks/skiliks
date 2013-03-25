@@ -1860,3 +1860,8 @@ ul.profile-menu {
 ul.profile-menu li {
     line-height: 26px;
 }
+
+
+.action-controller-corporateVacancies-static-profile .grid-view table.items {
+    width: 700px;
+}
