@@ -12,6 +12,7 @@ $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
+$cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 
@@ -99,7 +100,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="product"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012</p>
+				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>
 			</footer>
 		</div>
 		<!--footer end-->
