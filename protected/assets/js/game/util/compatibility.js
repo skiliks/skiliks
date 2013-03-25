@@ -31,22 +31,25 @@ define(['game/views/SKDialogView'], function(DialogView) {
         },
         speed: function(cfg) {
             var start = new Date(),
-                result = true;
+                callback = function() {
+                    // TODO: Make translation
+                    if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы') === false) {
+                        history.back();
+                    }
+                };
 
             $.ajax({
                 url: cfg.dummyFilePath,
                 cache: false,
                 async: false,
-                timeout: 8000,
-                error: function() {
-                    // TODO: Make translation
-                    if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы') === false) {
-                        history.back();
-                    }
-                }
+                error: callback
             });
 
-            return result;
+            if (new Date() - start > 8000) {
+                callback();
+            }
+
+            return true;
         }
     };
 
