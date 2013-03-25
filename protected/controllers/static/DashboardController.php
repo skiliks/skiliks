@@ -204,25 +204,20 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user = Yii::app()->user;
         if (null === $user) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Авторизируйтесь"
+            ));
             $this->redirect('/');
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->owner_id) {
-            $this->redirect('/');
-        }
-
-        if (false === $user->isCorporate()) {
-            $this->redirect('/');
-        }
-
-        if (false == $invite->isPending()) {
+        if ($user->id !== $invite->owner_id && $user->id !== $invite->receiver_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить подтвердённое приглашение!"
+                "Нельзя удалить чужое приглашение!"
             ));
-            $this->redirect('/dashboard');
+            $this->redirect('/');
         }
 
         $firstname = $invite->firstname;
@@ -255,6 +250,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user = Yii::app()->user;
         if (null === $user) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Авторизируйтесь"
+            ));
             $this->redirect('/');
         }
 
@@ -262,10 +260,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         // you can`t delete other (corporate) user invite
         if ($user->id !== $invite->owner_id) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя продлить чужое приглашение!"
+            ));
             $this->redirect('/');
         }
 
         if (false === $user->isCorporate()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Только корпоративный пользователь пожет продлить приглашение!"
+            ));
             $this->redirect('/');
         }
 
