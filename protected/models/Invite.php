@@ -315,7 +315,6 @@ class Invite extends CActiveRecord
         $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->inviting_user_id]);
         $user->invites_limit = $user->invites_limit + 1;
         $user->update();
-        SimulationService::sendInviteExpired($this->email);
 
     }
 }
