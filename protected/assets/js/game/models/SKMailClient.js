@@ -2,7 +2,9 @@
 
 var SKMailClient;
 
-define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function () {
+define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKCharacter", "game/models/SKMailPhrase" ], function (
+    SKMailFolder, SKMailSubject, SKCharacter, SKMailPhrase
+) {
     "use strict";
     /**
      * @class SKMailClient
@@ -448,12 +450,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             getDataForInitialScreen:function () {
                 var me = this;
-
                 // mark INCOME folders as active
                 this.folders[this.aliasFolderInbox].isActive = true;
                 var folder_to_load = 4;
                 var onSent = function () {
-                    folder_to_load--;
+                    folder_to_load -= 1;
                     if (folder_to_load === 0) {
                         me.trigger('init_completed');
                     }
