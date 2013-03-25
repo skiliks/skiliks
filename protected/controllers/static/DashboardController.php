@@ -123,6 +123,15 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
         }
 
+        if (0 == count($vacancies)) {
+            Yii::app()->user->setFlash('error', sprintf(
+                '<center>
+У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
+                Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.
+                 </center>'
+            ));
+        }
+
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
             'invite'       => $invite,
