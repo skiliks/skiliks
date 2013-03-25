@@ -193,5 +193,6 @@ return array(
     'Professional occupation' => 'Проффесиональная область',
     'Specialization' => 'Специализация',
     'Vacancy label' => 'Название вакансии',
+    'Vacancy' => 'Вакансия',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
 );
