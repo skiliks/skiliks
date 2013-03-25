@@ -31,19 +31,6 @@ class SeleniumTestHelper extends CWebTestCase
             } catch (Exception $e) {}
             sleep(1);
         }
-        /*
-        $this->optimal_click("xpath=//header/nav/a[4]");
-
-        for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
-            try {
-                if ($this->isVisible("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])")) break;
-            } catch (Exception $e) {}
-            sleep(1);
-        }
-
-        $this->optimal_click("xpath=(//*[contains(text(),'Начать симуляцию в режиме developer')])");
-        */
 
         $this->open('/simulation/developer/1'); // для full simulation
 
@@ -63,7 +50,7 @@ class SeleniumTestHelper extends CWebTestCase
      * Пример использования - тест F1_SK1403_Test.php , строка 23
      */
     // next_event - это локатор следующего события(звонок телефона или приход письма), которого мы ожидаем и должны что-то с ним сделать после
-    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то каку-ю херню можно написать. Оно расспознает тпока только click
+    // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то какую-то херню можно написать. Оно расспознает пока только click
     // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
     // если еще что-то надо, то можно дописать в switch
     public function run_event($event, $next_event, $after)
@@ -293,7 +280,7 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
     /**
-     * incoming_counter - это метод для проверки, что количество писем = .
+     * incoming_counter - это метод для проверки, что количество писем = count.
      * count - количество писем, которые мы ожидаем увидеть во "входящих" на момент указанного времени (время устанавливаем перед вызовом этого метода).
      * Возвращаем true, если количество ожидаемых писем и реальных входящих совпадают
      * возвращаем false, если нет
@@ -377,6 +364,13 @@ class SeleniumTestHelper extends CWebTestCase
             }
         }
         return $is_here;
+    }
+
+    public function write_email ()
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
+        $this->optimal_click("xpath=//*[contains(text(),'новое письмо')]");
+        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
     }
 }
 
