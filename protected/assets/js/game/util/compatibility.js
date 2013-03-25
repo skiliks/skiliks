@@ -39,7 +39,8 @@ define(['game/views/SKDialogView'], function(DialogView) {
                 async: false,
                 timeout: 8000,
                 error: function() {
-                    if (confirm('Ваш интернет - говно!') === false) {
+                    // TODO: Make translation
+                    if (confirm('Ваша скорость интернета ниже допустимой. Мы не гарантируем комфортной работы') === false) {
                         history.back();
                     }
                 }
