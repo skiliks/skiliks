@@ -461,6 +461,8 @@ class SimulationService
         // make attestation 'work with emails' 
         SimulationService::saveEmailsAnalyze($simulation->id);
 
+        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
+
         $plan = new PlanAnalizer($simulation->id);
         $plan->run();
 
@@ -469,8 +471,6 @@ class SimulationService
         SimulationService::saveAggregatedPoints($simulation->id);
 
         SimulationService::setFinishedAssessmentRules($simulation->id);
-
-        DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
