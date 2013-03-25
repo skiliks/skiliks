@@ -52,7 +52,39 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporatePersonalData()
     {
-        $this->render('personal_data_corporate', []);
+        $this->checkUser();
+
+        $profile = $this->user->profile;
+        $account = $this->user->account_corporate;
+
+        if (null !== Yii::app()->request->getParam('save')) {
+            $YumProfile = Yii::app()->request->getParam('YumProfile');
+            $profile->firstname = $YumProfile['firstname'];
+            $profile->lastname  = $YumProfile['lastname'];
+
+            $isProfileValid     = $profile->validate(['firstname', 'lastname']);
+
+            $UserAccountCorporate = Yii::app()->request->getParam('UserAccountCorporate');
+            $account->position_id = $UserAccountCorporate['position_id'];
+
+            $isAccountValid = $account->validate();
+
+            if ($isProfileValid && $isAccountValid) {
+                $profile->save();
+                $account->save();
+            }
+        }
+
+        $positions = [];
+        foreach (Position::model()->findAll() as $position) {
+            $positions[$position->id] = $position->label;
+        }
+
+        $this->render('personal_data_corporate', [
+            'profile'   => $profile,
+            'account'   => $account,
+            'positions' => $positions
+        ]);
     }
 
     /**
@@ -234,18 +266,18 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $this->redirect('/');
         }
 
-        $user = $user->data();  //YumWebUser -> YumUser
+        $this->user = $user->data();  //YumWebUser -> YumUser
 
-        if (null === Yii::app()->user->data()->getAccount()) {
+        if (null === $this->user->getAccount()) {
             $this->redirect('registration/choose-account-type');
         }
 
-        if ($user->isCorporate()) {
+        if ($this->user->isCorporate()) {
             // path to controller action (not URL)
             $this->forward('/static/profile/corporate'.$this->getBaseViewPath());
         }
 
-        if ($user->isPersonal()) {
+        if ($this->user->isPersonal()) {
             // path to controller action (not URL)
             $this->forward('/static/profile/personal'.$this->getBaseViewPath());
         }

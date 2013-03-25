@@ -8,7 +8,7 @@
     <div id="invite-people-box" class="nice-border backgroud-rich-blue">
         <?php $this->renderPartial('_invite_people_box', [
             'invite'    => $invite,
-            'positions' => $positions,
+            'vacancies' => $vacancies,
         ]) ?>
     </div>
 
@@ -16,7 +16,7 @@
     <div id="corporate-invitations-list-box" class="nice-border backgroud-light-yellow">
         <?php $this->renderPartial('_corporate_invitations_list_box', [
             'inviteToEdit'    => $inviteToEdit,
-            'positions' => $positions,
+            'vacancies' => $vacancies,
         ]) ?>
     </div>
 
@@ -37,7 +37,7 @@
         <?php echo $form->hiddenField($invite, 'firstname'); ?>
         <?php echo $form->hiddenField($invite, 'lastname'); ?>
         <?php echo $form->hiddenField($invite, 'email'); ?>
-        <?php echo $form->hiddenField($invite, 'position_id'); ?>
+        <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>

@@ -57,7 +57,7 @@ class CheatsController extends AjaxController
         }
 
         $invitations = Invite::model()->findAllByAttributes([
-            'inviting_user_id' => $user->id
+            'owner_id' => $user->id
         ]);
 
         foreach ($invitations as $invitation) {
