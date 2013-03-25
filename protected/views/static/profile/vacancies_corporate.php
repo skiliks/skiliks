@@ -24,7 +24,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
         ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->link'],
         ['header' => ''                                        , 'value' => '"<a href=\"/profile/corporate/vacancy/$data->id/edit\">редактировать</a>"'                   , 'type' => 'html'],
-        ['header' => ''                                        , 'value' => '"<a href=\"/profile/corporate/vacancy/$data->id/remove\">удалить</a>"' , 'type' => 'html'],
+        ['header' => ''                                        , 'value' => '"<a class=\"delete-vacancy-link\" href=\"/profile/corporate/vacancy/$data->id/remove\">удалить</a>"' , 'type' => 'html'],
     ]
 ]);
 ?>
@@ -36,7 +36,9 @@ $this->widget('zii.widgets.grid.CGridView', [
 
 <?PHP // ADD FORM: ?>
 
-<a class="vacancy-add-form-switcher" style="<?php echo (null === $vacancy->id) ? '' : 'display: none;'?> ;" >Добавить</a>
+<?php $isDisplayForm = (null === $vacancy->id && 0 == count($vacancy->getErrors())) ?>
+
+<a class="vacancy-add-form-switcher" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
 <?php if (null !== $vacancy->id): ?>
     <a href="/profile/corporate/vacancies/">Вернутсья к форме добавления вакансий</a>
@@ -45,7 +47,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     <h2>Редактирование вакансии "<?php echo $vacancy->label ?>"</h2>
 <?php endif ?>
 
-<div class="form form-vacancy" style="<?php echo (null === $vacancy->id) ? 'display: none;' : ''?> ;">
+<div class="form form-vacancy" style="<?php echo ($isDisplayForm) ? 'display: none;' : ''?> ;">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'add-vacancy-form',
@@ -61,7 +63,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                 'id',
                 'label',
                 '',
-                'Выбирите род деятельности'
+                'Выберите род деятельности'
             ),
             [
                 'ajax' => [
@@ -135,6 +137,16 @@ $this->widget('zii.widgets.grid.CGridView', [
             event.preventDefault();
             $(".form-vacancy").show();
             $(".vacancy-add-form-switcher").hide();
+        });
+
+        $('a.delete-vacancy-link').click(function(event) {
+            console.log($(this).parent().parent());
+            if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(0)').text() + "\"?")) {
+                // link go ahead to delete URL
+            } else {
+                event.preventDefault();
+            }
+
         });
     })
 </script>
