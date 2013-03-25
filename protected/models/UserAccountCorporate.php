@@ -94,9 +94,11 @@ class UserAccountCorporate extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'user_id'          => Yii::t('site', 'User'),
-			'corporate_email'  => Yii::t('site', 'Corporate email'),
-			'industry_id'      => Yii::t('site', 'Industry'),
+			'user_id'             => Yii::t('site', 'User'),
+			'corporate_email'     => Yii::t('site', 'Corporate email'),
+			'industry_id'         => Yii::t('site', 'Industry'),
+			'company_size_id'     => Yii::t('site', 'Company Size'),
+			'company_description' => Yii::t('site', 'Company description'),
 		);
 	}
 
