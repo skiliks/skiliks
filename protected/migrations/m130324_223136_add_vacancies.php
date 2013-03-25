@@ -57,8 +57,7 @@ class m130324_223136_add_vacancies extends CDbMigration
 
 	public function down()
 	{
-        $this->dropForeignKey('vacancy_fk_professional_occupation', 'vacancy');
-        $this->dropForeignKey('vacancy_fk_professional_occupation', 'vacancy');
+        //$this->dropForeignKey('vacancy_fk_professional_occupation', 'vacancy');
 
         $this->dropTable('vacancy');
 		$this->dropTable('professional_occupation');
