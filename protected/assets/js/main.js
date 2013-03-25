@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    $('a.feedback').click(function(){
+    /*$('a.feedback').click(function(){
 
         if($('#JotFormIFrame').length === 0) {
             $('#top.container').append('<iframe id="JotFormIFrame" onload="window.parent.scrollTo(0,0)" allowtransparency="true" src="http://form.jotformeu.com/form/30835043655352" frameborder="0" style="width:100%; height:513px; border:none;" scrolling="no"></iframe>');
@@ -16,6 +16,10 @@ $(document).ready(function(){
         if ($(event.target).closest("#JotFormIFrame").length) return;
         $("#JotFormIFrame").hide("slow");
         event.stopPropagation();
+    });*/
+    $('a.feedback').click(function(){
+        $('#JotFormIFrame').dialog();
+        return false;
     });
 
 });
