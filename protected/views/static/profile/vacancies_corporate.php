@@ -5,6 +5,8 @@
 
 <?php // LIST: ?>
 
+<h2>Вакансии</h2>
+
 <?php
 $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Vacancy::model()->search(Yii::app()->user->data()->id), //$dataProvider,
@@ -21,8 +23,8 @@ $this->widget('zii.widgets.grid.CGridView', [
     'columns' => [
         ['header' => Yii::t('site', 'Name'), 'name' => 'label' , 'value' => '$data->label'],
         ['header' => Yii::t('site', 'Link'), 'name' => 'link'  , 'value' => '$data->link'],
-        ['header' => ''                                        , 'value' => '"<a class=\"edit-invite\">исправить</a>"', 'type' => 'html'],
-        ['header' => ''                                        , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
+        ['header' => ''                                        , 'value' => '"<a href=\"/profile/corporate/vacancy/$data->id/edit\">редактировать</a>"'                   , 'type' => 'html'],
+        ['header' => ''                                        , 'value' => '"<a href=\"/profile/corporate/vacancy/$data->id/remove\">удалить</a>"' , 'type' => 'html'],
     ]
 ]);
 ?>
@@ -30,9 +32,20 @@ $this->widget('zii.widgets.grid.CGridView', [
 <br/>
 <br/>
 
+<hr/>
+
 <?PHP // ADD FORM: ?>
 
-<div class="form form-vacancy">
+<a class="vacancy-add-form-switcher" style="<?php echo (null === $vacancy->id) ? '' : 'display: none;'?> ;" >Добавить</a>
+
+<?php if (null !== $vacancy->id): ?>
+    <a href="/profile/corporate/vacancies/">Вернутсья к форме добавления вакансий</a>
+    <br/>
+    <br/>
+    <h2>Редактирование вакансии "<?php echo $vacancy->label ?>"</h2>
+<?php endif ?>
+
+<div class="form form-vacancy" style="<?php echo (null === $vacancy->id) ? 'display: none;' : ''?> ;">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'add-vacancy-form',
@@ -87,7 +100,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     <br/>
 
     <div class="row">
-        <?php echo $form->labelEx($vacancy , 'label'); ?>
+        <?php echo $form->labelEx($vacancy  , 'label'); ?>
         <?php echo $form->textField($vacancy, 'label'); ?>
         <?php echo $form->error($vacancy    , 'label'); ?>
     </div>
@@ -105,7 +118,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     <br/>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Сохранить', ['name' => 'add']); ?>
+        <?php echo CHtml::submitButton('Сохранить изменения', ['name' => 'add']); ?>
     </div>
 
     <br/>
@@ -115,3 +128,13 @@ $this->widget('zii.widgets.grid.CGridView', [
 
     <?php $this->endWidget(); ?>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $(".vacancy-add-form-switcher").click(function(event) {
+            event.preventDefault();
+            $(".form-vacancy").show();
+            $(".vacancy-add-form-switcher").hide();
+        });
+    })
+</script>

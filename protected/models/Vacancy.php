@@ -76,12 +76,12 @@ class Vacancy extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id'                             => 'ID',
-			'professional_occupation_id'     => 'Professional Occupation',
-			'professional_specialization_id' => 'Professional Specialization',
-			'label'                          => 'Name',
-			'link'                           => 'Link',
-			'import_id'                      => 'Import',
+			'id'                             => Yii::t('site', 'ID'),
+			'professional_occupation_id'     => Yii::t('site', 'Professional occupation'),
+			'professional_specialization_id' => Yii::t('site', 'Specialization'),
+			'label'                          => Yii::t('site', 'Vacancy label'),
+			'link'                           => Yii::t('site', 'Link to vacancy description'),
+			'import_id'                      => Yii::t('site', 'Import'),
 		);
 	}
 
@@ -104,9 +104,13 @@ class Vacancy extends CActiveRecord
 		$criteria->compare('import_id',$this->import_id,true);
 		$criteria->compare('user_id', $userId ?: $this->user_id,true);
 
-		return new CActiveDataProvider($this, array(
-			'criteria'=>$criteria,
-		));
+		return new CActiveDataProvider($this, [
+			'criteria'   => $criteria,
+            'pagination' => [
+                'pageSize' => 5,
+                'pageVar'  => 'page'
+            ]
+		]);
 	}
 
     public function byUser($userId)

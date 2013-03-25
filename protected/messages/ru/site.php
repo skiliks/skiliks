@@ -190,4 +190,8 @@ return array(
     'The user is already activated' => 'Пользователь уже активарован',
     'Profile found, but no associated user. Possible database inconsistency. Please contact the System administrator with this error message, thank you' => 'С Вашим профилем не проассоциирован ни олин пользователь. Обратитесь к администрации сайта чтобы решить эту проблему.',
     'Your account has been activated' => 'Ваш аккаунт успешно активарован',
+    'Professional occupation' => 'Проффесиональная область',
+    'Specialization' => 'Специализация',
+    'Vacancy label' => 'Название вакансии',
+    'Link to vacancy description' => 'Ссылка на описание вакансии',
 );

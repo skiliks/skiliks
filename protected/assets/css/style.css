@@ -1854,14 +1854,23 @@ h2 {
 
 ul.profile-menu {
     float: left;
-    min-height: 300px;
+    min-height: 500px;
     width: 200px;
 }
 ul.profile-menu li {
     line-height: 26px;
 }
 
-
 .action-controller-corporateVacancies-static-profile .grid-view table.items {
     width: 700px;
+}
+
+#add-vacancy-form label {
+    display: inline-block;
+    width: 200px;
+}
+
+#add-vacancy-form input,
+#add-vacancy-form .sbHolder {
+    width: 400px;
 }
