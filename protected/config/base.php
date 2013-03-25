@@ -137,9 +137,13 @@ return array(
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
+                'static/contacts/<_lang:\w+>' => 'static/pages/contacts',
+                'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
+                'static/contacts/' => 'static/pages/contacts',
+                'static/tariffs/' => 'static/pages/tariffs',
 
                 'subscription/add'       => 'static/pages/addUserSubscription',
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
@@ -184,6 +188,7 @@ return array(
                 'cheats'          => 'static/cheats/mainPage',
                 'cheats/cleanUpAccount'          => 'static/cheats/cleanUpAccount',
                 'cheats/setinvites/<status:\w+>' => 'static/cheats/setStatusForAllInvites',
+                'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',

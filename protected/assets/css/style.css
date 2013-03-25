@@ -1875,6 +1875,36 @@ ul.profile-menu li {
     width: 400px;
 }
 
+.small-invites-limit {
+    color: #A33B4E;
+    font-weight: bold;
+}
+
+.action-controller-corporateTariff-static-profile label {
+    display: inline-block;
+    width: 200px;
+}
+
+.action-controller-corporateTariff-static-profile .value {
+    display: inline-block;
+    width: 200px;
+}
+
+.action-controller-corporateTariff-static-profile .action {
+    display: inline-block;
+    width: 200px;
+}
+
+.tariff-box {
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    width: 225px;
+}
+
+.tariff-box .benefits {
+    height: 70px;
+}
 #JotFormIFrame{
     /*position: absolute;
     background-color: #ffffff;

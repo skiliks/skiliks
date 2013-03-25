@@ -102,6 +102,7 @@
         <br>
         <br>
         <br>
+
         <hr>
 Свободные приглашения:
 <br/><br>
@@ -111,7 +112,25 @@
 <?php endforeach ?>
         <br>
         <br>
+
         <hr>
+
+        <br>
+
+Смена тарифа:
+        <br/><br>
+
+        <a href="/static/cheats/set-tariff/">Очистить поле тариф</a>
+        <a href="/static/cheats/set-tariff/Пробный">Пробный</a>
+        <a href="/static/cheats/set-tariff/Малый">Малый</a>
+        <a href="/static/cheats/set-tariff/Профессиональный">Профессиональный</a>
+        <a href="/static/cheats/set-tariff/Бизнес">Бизнес</a>
+
+        <br>
+        <br>
+
+        <hr>
+
         <br>
         <br>
 
