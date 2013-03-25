@@ -6,7 +6,7 @@
  * The followings are the available columns in table 'user_account_personal':
  * @property string $user_id
  * @property integer $industry_id
- * @property integer $position_id
+ * @property integer $professional_status_id
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -42,11 +42,11 @@ class UserAccountPersonal extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id'                 , 'required'),
-			array('industry_id, position_id', 'numerical', 'integerOnly'=>true),
+			array('industry_id, professional_status_id', 'numerical', 'integerOnly'=>true),
 			array('user_id'                 , 'length'   , 'max'=>10),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('user_id, industry_id, position_id', 'safe', 'on'=>'search'),
+			array('user_id, industry_id, professional_status_id', 'safe', 'on'=>'search'),
 		);
 	}
 
