@@ -1,56 +1,56 @@
+<h2 class="thetitle">Вы можете <span>Бесплатно</span> пройти пробную версию </h2>
 
-<br/>
-<br/>
-<br/>
-<br/>
-
-<div class="form">
+<div class="form registrationform">
+    <div class="transparent-boder">
+        <div class="radiusthree registermessage">
+            <h3>Пробный тест</h3>
+            <div class="testtime"><strong>45</strong> Минут</div>
+            <ul>
+                <li>Частичная оценка навыков бесплатно</li>
+                <li>Погружение в игровую среду для понимания, как работает симуляция</li>
+                <li>Опыт прохождения теста</li>
+            </ul>
+        </div>
+    </div>
 
 <?php $form = $this->beginWidget('CActiveForm', array(
 	'id'                   => 'yum-user-registration-form',
 	'enableAjaxValidation' => false,
 )); ?>
 
-    <?php if (!empty($error)): ?>
-    <div class="row errorMessage">
-        <?php echo $error; ?>
-    </div>
-    <?php endif; ?>
 
-    <br/>
-    <div class="row">
-        <?php echo $form->labelEx($profile  , 'email'); ?>
-        <?php echo $form->textField($profile, 'email'); ?>
-        <?php echo $form->error($profile    , 'email'); ?>
-    </div>
+    <div class="transparent-boder">
+        <div class="row">
+            <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('Введите Ваш email')]); ?>
+            <?php echo $form->error($profile    , 'email'); ?>
+        </div>
 
-    <br/>
 
-    <div class="row">
-		<?php echo $form->labelEx($user      , 'password'); ?>
-		<?php echo $form->passwordField($user, 'password'); ?>
-		<?php echo $form->error($user        , 'password'); ?>
-	</div>
+        <div class="row">
+            <?php echo $form->passwordField($user, 'password', ['placeholder' => $profile->getAttributeLabel('Введите пароль')]); ?>
+            <?php echo $form->error($user        , 'password'); ?>
+        </div>
 
-    <br/>
 
-    <div class="row">
-        <?php echo $form->labelEx($user      , 'password_again'); ?>
-        <?php echo $form->passwordField($user, 'password_again'); ?>
-        <?php echo $form->error($user        , 'password_again'); ?>
-    </div>
+        <div class="row">
+            <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $profile->getAttributeLabel('Подтвердите пароль')]); ?>
+            <?php echo $form->error($user        , 'password_again'); ?>
+        </div>
 
-    <br/>
-        <a id="pass-switcher"><?php echo Yii::t('site', 'Show passwords') ?></a>
-    <br/>
-    <br/>
 
-    <p class="note"><?php echo Yii::t('site', 'Fields with * are required.') ?></p>
+    <!--<a id="pass-switcher"><?php echo Yii::t('site', 'Show passwords') ?></a>
 
-    <br/>
+    <p class="note"><?php echo Yii::t('site', 'Fields with * are required.') ?></p>-->
 
-    <div class="row buttons">
-        <?php echo CHtml::submitButton(Yii::t('site', 'Submit')); ?>
+        <div class="row">
+            <?php echo CHtml::submitButton(Yii::t('site', 'Начать')); ?>
+        </div>
+
+        <?php if (!empty($error)): ?>
+            <div class="errorlongMessage">
+                <?php echo $error; ?>
+            </div>
+        <?php endif; ?>
     </div>
 
 <?php $this->endWidget(); ?>
