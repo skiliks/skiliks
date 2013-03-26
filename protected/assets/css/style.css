@@ -1968,13 +1968,28 @@ h2 {
 /* ********************** DASHBOARD ********************** */
 .dashboard aside {
     float:left;
-    width: 300px;
+    width: 304px;
+}
+.narrow-contnt {
+    float: right;
+}
+.dashboard aside h2 {
+    font-size: 1.8em;
+}
+.dashboard .thetitle {
+    font-size: 2.2em;
 }
 #dashboard-skills-box {
     margin: 0 0 0 10px;
-    padding:28px 10px 18px 32px;
 }
-
+.sideblock {
+    padding:20px 10px 20px 16px;
+}
+#dashboard-skills-box>p {
+    color:#fff;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
 #job-recomendations-box {
     margin: 30px 0 0 10px;
 }
@@ -1996,7 +2011,94 @@ ul.profile-menu {
 ul.profile-menu li {
     line-height: 26px;
 }
-.rating {
+.ratingwrap {
+    background: rgba(240, 253, 255, 0.2);
     display: inline-block;
+    line-height: 17px;
+    margin:0px 4px;
+    padding:5px 7px 0px 7px;
 }
+.ratebg {
+    background: url("../img/ratestars.png") no-repeat 0px 0px;
+    width: 98px;
+}
+.ratebg, .rating {
+    display: inline-block;
+    height: 17px;
+}
+.rating {
+    background: url("../img/ratestars.png") no-repeat 0px -17px;
+}
+.link-go {
+    background: url("../img/icon-arrow.png") no-repeat 0px 4px;
+    display: inline-block;
+    height: 12px;
+    width: 8px;
+}
+.blue-btn, .light-btn {
+    border-radius: 3px 3px 3px 3px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    padding: 0px 12px 0px 18px;
+    text-decoration: none;
+}
+.light-btn {
+    background: url("../img/btn-lightbg.png") no-repeat 0 0;
+}
+.blue-btn {
+    background: url("../img/btn-lightbg.png") no-repeat left bottom;
+}
+.light-btn, .light-btn:visited {
+    color: #3c3c32;
+}
+.blue-btn, .blue-btn:visited {
+    color: #fff;
+}
+.light-btn:hover {
+    color: #fff;
+    background-position: left bottom;
+}
+.light-btn+.light-btn {
+    margin-left: 10px;
+}
+.backgroud-bue-bordered h2 {
+    color: #3d4041;
+}
+.nodesign-list li {
+    list-style-type: none;
+    padding: 0px 0px 6px 3px;
+}
+.sideblock .nodesign-list a, .sideblock .nodesign-list a:visited {
+    color:#3d4041;
+    display: inline-block;
+    text-decoration: none;
+}
+/* TABLE */
+#private-invitations-list-box .grid-view table.items, .items {
+    background: #fff;
+    border:none;
+    width: 100%;
+}
+#private-invitations-list-box .grid-view .items th, .items th {
+    background: #146672;
+    border:none;
+    font-size: 0.9em;
+    font-weight: normal;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+.items th, .items th a {
+    color: white;
+    text-decoration: none;
+}
+#private-invitations-list-box .grid-view .items th a,.items th a  {
+    background: url("../img/arrow-down.png") no-repeat right 50%;
+    font-weight: normal;
+    display:block;
+    padding-right: 12px;
+}
+/* /TABLE */
 /* ********************** /DASHBOARD ********************** */
