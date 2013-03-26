@@ -31,33 +31,6 @@ class m130325_143256_company_sizes extends CDbMigration
 
         $this->addColumn('user_account_corporate', 'ownership_type', 'VARCHAR(50) DEFAULT NULL');
         $this->addColumn('user_account_corporate', 'company_name', 'VARCHAR(255) DEFAULT NULL');
-        $this->addCocreateTable('company_sizes', [
-            'id' => 'pk',
-            'label' => 'VARCHAR(120)'
-        ]);
-
-        $this->insert('company_sizes', ['label' => 'менее 10 человек']);
-        $this->insert('company_sizes', ['label' => '10-50 человек']);
-        $this->insert('company_sizes', ['label' => '50-100 человек']);
-        $this->insert('company_sizes', ['label' => '100-500 человек']);
-        $this->insert('company_sizes', ['label' => '500-1000 человек']);
-        $this->insert('company_sizes', ['label' => '1000-5000 человек']);
-        $this->insert('company_sizes', ['label' => '5000-10000 человек']);
-        $this->insert('company_sizes', ['label' => 'более 10000 человек']);
-
-        $this->addColumn('user_account_corporate', 'company_size_id', 'int');
-        $this->addForeignKey(
-            'fk_user_account_corporate_company_size_id',
-            'user_account_corporate',
-            'company_size_id',
-            'company_sizes',
-            'id',
-            'SET NULL',
-            'CASCADE'
-        );
-
-        $this->addColumn('user_account_corporate', 'ownership_type', 'VARCHAR(50) DEFAULT NULL');
-        $this->addColumn('user_account_corporate', 'company_name', 'VARCHAR(255) DEFAULT NULL');
         $this->addColumn('user_account_corporate', 'company_description', 'text');
 
         $this->delete('industry');

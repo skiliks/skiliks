@@ -380,5 +380,18 @@ class SeleniumTestHelper extends CWebTestCase
         $this->mouseOver("xpath=(//*[contains(text(), '$filename')])");
         $this->click("xpath=(//*[contains(text(), '$filename')])");
     }
+
+    public function miracle_send_email ()
+    {
+        /*for ($second = 0; ; $second++) {
+            if ($second >= 60) $this->fail("timeout");
+            try {
+                if ($this->isVisible("css=.display-lock")) break;
+            } catch (Exception $e) {}
+            sleep(1);
+        }*/
+        // когда Андрей починит отправку письма убрать слип и раскомментить код сверху.
+        sleep(20);
+    }
 }
 

@@ -5,5 +5,5 @@
 
     <li><a href="/profile/personal/password" class="isset($active['password']){ echo 'active'; }">
             Пароль
-        </a></li>
+    </a></li>
 </ul>
