@@ -55,7 +55,7 @@ $this->widget('zii.widgets.grid.CGridView', [
 
             // make links (now they in pop-up sub-menu) visible
             $('.items td a').show();
-            $('.items td a').css({display: 'block'});
+
         });
 
         // setup sub-menu switcher behaviour
