@@ -34,20 +34,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
 
-        $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
+        $this->miracle_send_email ();
 
-        $this->write_email();
-
-        $this->waitForVisible($krutko);
-        $this->mouseOver($krutko);
-        $this->optimal_click($krutko);
-
-        $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
-        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
-
-        $this->addAttach('Сводный бюджет_02_v23');;
-        $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
-        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
         $this->assertTrue($this->verify_flag('F3','1'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
@@ -79,7 +67,9 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'А мне что делать')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Пусть спрашивает')])");
 
-        $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
+        $this->miracle_send_email ();
+
+        /*$krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
         $this->write_email();
 
@@ -92,7 +82,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $this->addAttach('Сводный бюджет_02_v23');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
-        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
+        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");*/
         $this->assertTrue($this->verify_flag('F3','1'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
@@ -125,7 +115,9 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Ты же у нас такая талантливая и умная!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'А ты будешь выполнять только одну задачу')])");
 
-        $krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
+        $this->miracle_send_email ();
+
+        /*$krutko=Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
 
         $this->write_email();
 
@@ -138,7 +130,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $this->addAttach('Сводный бюджет_02_v23');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
-        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
+        $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");*/
         $this->assertTrue($this->verify_flag('F3','1'));
 
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
