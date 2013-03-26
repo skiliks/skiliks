@@ -68,7 +68,7 @@ class m130325_143256_company_sizes extends CDbMigration
         $this->dropColumn('user_account_corporate', 'company_size_id');
         $this->dropColumn('user_account_corporate', 'ownership_type');
         $this->dropColumn('user_account_corporate', 'company_name');
-        //$this->dropColumn('user_account_corporate', 'company_description');
+        $this->dropColumn('user_account_corporate', 'company_description');
 
         $this->dropTable('company_sizes');
 	}
