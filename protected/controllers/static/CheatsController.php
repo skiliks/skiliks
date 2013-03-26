@@ -57,7 +57,7 @@ class CheatsController extends AjaxController
         }
 
         $invitations = Invite::model()->findAllByAttributes([
-            'inviting_user_id' => $user->id
+            'owner_id' => $user->id
         ]);
 
         foreach ($invitations as $invitation) {
@@ -144,5 +144,53 @@ class CheatsController extends AjaxController
         }
 
         die;
+    }
+
+    /**
+     * Cheat
+     */
+    public function actionChooseTariff($label)
+    {
+        // this page currently will be just RU
+        Yii::app()->language = 'ru';
+
+        $user = Yii::app()->user;
+        if (null === $user) {
+            $this->redirect('/');
+        }
+
+        $user = $user->data();  //YumWebUser -> YumUser
+
+        // protect against real user-cheater
+        if (false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)) {
+            $this->redirect('/');
+        }
+
+        if (false == $user->isCorporate()) {
+            $this->redirect('/');
+        }
+
+        $tariff = Tariff::model()->findByAttributes(['label' => $label]);
+
+        if (null == $tariff) {
+            Yii::app()->user->setFlash('success', "Ваш тарифный план анулирован.");
+
+            $user->getAccount()->tariff_id = null;
+            $user->getAccount()->tariff_activated_at = null;
+            $user->getAccount()->tariff_expired_at = null;
+            $user->getAccount()->save();
+
+            $this->redirect('/profile/corporate/tariff');
+        }
+
+        $user->getAccount()->tariff_id = $tariff->id;
+        $user->getAccount()->tariff_activated_at = date('Y-m-d H:i:s');
+        $user->getAccount()->tariff_expired_at = date('Y-').(date('m')+1).date('-d H:i:s');
+        $user->getAccount()->invites_limit += $tariff->simulations_amount;
+        $user->getAccount()->save();
+
+        Yii::app()->user->setFlash('success', sprintf('Вам активирован тарифный план "%s"!', $label));
+
+        $this->redirect('/profile/corporate/tariff');
     }
 }

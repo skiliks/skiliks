@@ -65,8 +65,9 @@ define([
                 var simulation = this.simulation = SKApp.simulation;
                 this.listenTo(simulation, 'tick', this.updateTime);
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
+                this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
+                this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
                 this.listenTo(simulation.documents, 'reset', function () {
-                    var timeout = 0;
                     simulation.documents.each(function (doc) {
                         me.listenTo(doc, 'change:excel_url', function () {
                             me.preloadZoho(doc);
@@ -192,6 +193,13 @@ define([
                 } else {
                     SKApp.simulation.startPause();
                 }
+            },
+            doStartInputLock: function () {
+                this.locking_element = this.make('div',{'class': 'display-lock'});
+                this.$el.append(this.locking_element);
+            },
+            doStopInputLock: function () {
+                $(this.locking_element).remove();
             }
         });
 

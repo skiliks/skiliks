@@ -8,7 +8,7 @@
     <div id="invite-people-box" class="nice-border backgroud-rich-blue">
         <?php $this->renderPartial('_invite_people_box', [
             'invite'    => $invite,
-            'positions' => $positions,
+            'vacancies' => $vacancies,
         ]) ?>
     </div>
 
@@ -16,7 +16,7 @@
     <div id="corporate-invitations-list-box" class="nice-border backgroud-light-yellow">
         <?php $this->renderPartial('_corporate_invitations_list_box', [
             'inviteToEdit'    => $inviteToEdit,
-            'positions' => $positions,
+            'vacancies' => $vacancies,
         ]) ?>
     </div>
 
@@ -27,7 +27,7 @@
 </section>
 
 
-<?php if (!empty($valid)): ?>
+<?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
@@ -37,7 +37,7 @@
         <?php echo $form->hiddenField($invite, 'firstname'); ?>
         <?php echo $form->hiddenField($invite, 'lastname'); ?>
         <?php echo $form->hiddenField($invite, 'email'); ?>
-        <?php echo $form->hiddenField($invite, 'position_id'); ?>
+        <?php echo $form->hiddenField($invite, 'vacancy_id'); ?>
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
@@ -73,7 +73,7 @@
 
         <?php $this->endWidget(); ?>
     </div>
-<?php endif; ?>
+
 
 <script type="text/javascript">
     $(function() {
@@ -87,3 +87,4 @@
         $( ".message_window").dialog('open');
     });
 </script>
+<?php endif; ?>

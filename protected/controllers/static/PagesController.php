@@ -43,6 +43,32 @@ class PagesController extends AjaxController
     /**
      *
      */
+    public function actionContacts()
+    {
+        $user_id = Yii::app()->session['uid'];
+        $user = YumUser::model()->findByPk($user_id);
+
+        $this->render('contacts');
+    }
+
+
+    /**
+     *
+     */
+    public function actionTariffs()
+    {
+        $user_id = Yii::app()->session['uid'];
+        $user = YumUser::model()->findByPk($user_id);
+
+        $this->render('tariffs', [
+            'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD'])
+        ]);
+    }
+
+
+    /**
+     *
+     */
     public function actionComingSoonSuccess()
     {
         $this->render('home', [

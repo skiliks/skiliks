@@ -112,23 +112,14 @@ class EventService
                 //  - то в списке писем должно быть выделено именно это письмо
                 return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
             }
-        }
-        
-        if ($type == 'M') {
+        } else if ($type == 'M') {
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
             $mailModel = MailBoxService::copyMessageFromTemplateByCode($simulation, $code);
-            if (!$mailModel) {
-                throw new Exception("cant copy mail by code $code");
-            }
-            
-            if ($mailModel) {
-                $mailModel->group_id = 1; //входящие
-                $mailModel->save();
-                return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
-            }
-        }
-        
-        if ($type == 'MSY') {
+
+            $mailModel->group_id = 1; //входящие
+            $mailModel->save();
+            return array('result' => 1, 'id' => $mailModel->id, 'fantastic' => !!$fantasticResult, 'eventType' => $type);
+        } else if ($type == 'MSY') {
             // отдать письмо по коду
             $mailModel = MailBox::model()->byCode($code)->find();
             if ($mailModel) {
@@ -136,28 +127,33 @@ class EventService
                 //  - то в списке писем должно быть выделено именно это письмо
                 return array('result' => 1, 'id' => $mailModel->id, 'eventType' => $type);
             }
-        }
-        
-        if ($type == 'MS') {
+        } else if ($type == 'MS') {
             // если исходящее письмо не отправлено  (кодировка MS - Message Sent) - то должно открыться окно написания нового письма
             $data = ['result' => 1, 'eventType' => $type];
             if ($fantasticResult) {
                 $data['fantastic'] = true;
                 /** @var $mailTemplate MailTemplate */
                 $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $code]);
+                if ($mailTemplate->attachments) {
+                    $fileTemplate = $mailTemplate->attachments[0]->file;
+                    $attachmentId = MyDocument::model()->findByAttributes(['template_id' => $fileTemplate->primaryKey, 'sim_id' => $simulation->primaryKey])->primaryKey;
+                } else {
+                    $attachmentId = null;
+                }
+                $parentTemplate = $mailTemplate->getParent();
                 $data['mailFields'] = [
                     'receiver_id' => $mailTemplate->receiver_id,
                     'subjectId' => $mailTemplate->subject_id,
+                    'attachmentId' =>  $attachmentId,
                     'subject' => $mailTemplate->subject_obj->text,
                     'phrases' => [
-                        'message' => $mailTemplate->message
+                        'message' => $mailTemplate->message,
+                        'previouseMessage' => $parentTemplate ? $parentTemplate->message : ''
                     ]
                 ];
             }
             return $data;
-        }
-        
-        if ($type == 'D') {
+        } else if ($type == 'D') {
             // определить документ по коду
             $documentTemplate = DocumentTemplate::model()->byCode($code)->find();
             $templateId = $documentTemplate->id;
@@ -165,9 +161,7 @@ class EventService
             $document = MyDocument::model()->byTemplateId($templateId)->bySimulation($simulation->id)->find();
 
             return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);
-        }
-        
-        if ($type == 'P') {
+        } else if ($type == 'P') {
             $task = Task::model()->findByAttributes(['code' => $code]);
 
             // Example of how not to do:
@@ -178,9 +172,7 @@ class EventService
             TodoService::add($simulation, $task);
             
             return array('result' => 1, 'eventType' => $type, 'id' => $task->id);
-        }
-        
-        if ($type == 'T') {
+        } else if ($type == 'T') {
             return array('result' => 1, 'eventType' => 1);
         }
         

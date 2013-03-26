@@ -18,18 +18,18 @@
     <br/>
 
     <div class="row">
-        <?php echo $form->labelEx($invite     , 'position_id'); ?>
-        <?php echo $form->dropDownList($invite, 'position_id', $positions); ?>
+        <?php echo $form->labelEx($invite     , 'vacancy_id'); ?>
+        <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <br/><br/>
-        <?php echo $form->error($invite       , 'position_id'); ?>
+        <?php echo $form->error($invite       , 'vacancy_id'); ?>
     </div>
 
-    <br/>
-    <br/>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Сохранить правки', ['name' => 'edit-invite']); ?>
     </div>
+
+
 
     <?php $this->endWidget(); ?>
 </div>
@@ -45,22 +45,27 @@
         $( ".form-invite-message-editor").dialog('close');
         $( ".form-invite-message-editor").parent().addClass('nice-border');
 
+        <?php if (0 < count($invite->getErrors())): ?>
+            $( ".form-invite-message-editor").dialog('open');
+        <?php endif; ?>
+
         $('.edit-invite').click(function(event){
             event.preventDefault();
 
-            // invite id, position id, firtsname, lastname
+            // invite id, vacancy id, firtsname, lastname
             var data = $(this).attr('href').split('&&');
             var names = $(this).attr('title').split(', ');
 
             $('#edit-invite-form input#Invite_id').val(data[0]);
             $('#edit-invite-form input#Invite_firstname').val(names[0]);
             $('#edit-invite-form input#Invite_lastname').val(names[1]);
-            $('#edit-invite-form select#Invite_position_id [value=' + data[1] + ']').attr("selected", "selected");
+            $('#edit-invite-form select#Invite_vacancy_id [value=' + data[1] + ']').attr("selected", "selected");
 
-            $('#edit-invite-form select#Invite_position_id').selectbox('detach');
-            $('#edit-invite-form select#Invite_position_id').selectbox('attach');
+            $('#edit-invite-form select#Invite_vacancy_id').selectbox('detach');
+            $('#edit-invite-form select#Invite_vacancy_id').selectbox('attach');
 
             $( ".form-invite-message-editor").dialog('open');
         });
     });
+
 </script>

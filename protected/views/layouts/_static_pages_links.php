@@ -10,6 +10,16 @@
     <?php echo Yii::t('site', 'Product') ?>
 </a>
 
+<?php if ('ru' === Yii::app()->language): ?>
+    <a href="/static/tariffs" <?php if (Yii::app()->request->getPathInfo() == '/static/tariffs') { echo "active"; } ?>">
+        <?php echo Yii::t('site', 'Tariffs') ?>
+    </a>
+
+    <a href="/static/contacts" <?php if (Yii::app()->request->getPathInfo() == '/static/contacts') { echo "active"; } ?>">
+        <?php echo Yii::t('site', 'Contacts') ?>
+    </a>
+<?php endif ?>
+
 <?php if (Yii::app()->user->isGuest) : ?>
     <?php if ('ru' == Yii::app()->language): ?>
         <a href="" class="sign-in-link">

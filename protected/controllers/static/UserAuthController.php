@@ -287,9 +287,9 @@ class UserAuthController extends YumController
             $industries[$industry->id] = Yii::t('site', $industry->label);
         }
 
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = Yii::t('site', $position->label);
+        $statuses = [];
+        foreach (ProfessionalStatus::model()->findAll() as $status) {
+            $statuses[$status->id] = Yii::t('site', $status->label);
         }
 
         // clean up validation errors if not POST request
@@ -303,7 +303,7 @@ class UserAuthController extends YumController
                 'accountPersonal'      => $accountPersonal,
                 'accountCorporate'     => $accountCorporate,
                 'industries'           => $industries,
-                'positions'            => $positions,
+                'statuses'             => $statuses,
                 'profile'              => $profile,
                 'isPersonalSubmitted'  => (null !== Yii::app()->request->getParam('personal')),
                 'isCorporateSubmitted' => (null !== Yii::app()->request->getParam('corporate')),
