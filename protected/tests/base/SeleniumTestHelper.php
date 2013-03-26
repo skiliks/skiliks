@@ -18,7 +18,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
         $this->open('/');
-        $this->optimal_click("xpath=//header/nav/a[4]");
+        $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
         $this->type("css=.login>input", "tatiana@skiliks.com");
         $this->type("css=.password>input", "123123");
