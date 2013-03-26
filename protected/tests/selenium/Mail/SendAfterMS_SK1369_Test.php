@@ -20,7 +20,8 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
 
     public function testSK1369()
     {
-        //$this->markTestIncomplete();
+        // TODO: после введения методики фантастической отсылки MS писем тест кейс не актуален
+        $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])",'click');
         //$this->optimal_click("xpath=(//*[contains(text(),'Марина, есть срочная работа')])");
