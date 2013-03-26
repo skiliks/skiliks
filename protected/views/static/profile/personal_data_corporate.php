@@ -7,7 +7,7 @@
     }
     .row {
         clear: both;
-        height: 30px;
+        margin: 10px 0;
     }
     label {
         float: left;
@@ -36,14 +36,12 @@
         'id' => 'account-corporate-personal-form'
     )); ?>
 
-    <?php echo $form->errorSummary($profile); ?>
-    <?php echo $form->errorSummary($account); ?>
-
     <div class="row">
         <?php echo $form->labelEx($profile, 'Name'); ?>
-        <?php echo $form->hiddenField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
-        <?php echo $form->hiddenField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
-        <span class="editable"><?php echo $profile->firstname . ' ' . $profile->lastname; ?></span>
+        <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
+        <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
+        <?php echo $form->error($profile, 'firstname'); ?>
+        <?php echo $form->error($profile, 'lastname'); ?>
     </div>
 
     <div class="row">
@@ -65,7 +63,7 @@
 </div>
 
 <script type="text/javascript">
-$('.editable').editable(function(value) {
+/*$('.editable').editable(function(value) {
     var names = value.split(/\s+/).slice(0, 2);
 
     $('#profile_firstname').val(names[0]);
@@ -75,5 +73,5 @@ $('.editable').editable(function(value) {
 }, {
     width: 200,
     onblur: 'submit'
-});
+});*/
 </script>
