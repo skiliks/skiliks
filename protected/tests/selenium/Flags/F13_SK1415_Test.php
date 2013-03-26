@@ -39,7 +39,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F13','0'));
 
-        $this->run_event('ET1.3.1',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET1.3.1');
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -86,7 +86,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F13','0'));
 
-        $this->run_event('ET1.3.2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET1.3.2');
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
@@ -133,7 +133,7 @@ class F13_SK1415_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F13','0'));
 
-        $this->run_event('E1.3.3',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('E1.3.3');
 
         if ($this->is_it_done("css=li.icon-active.phone a"))
         {
