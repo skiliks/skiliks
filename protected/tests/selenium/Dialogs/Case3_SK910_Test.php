@@ -47,8 +47,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->run_event('MS68',"xpath=(//*[contains(text(),'октября')])",'-');
         sleep(3);
         $this->run_event('MS70',"xpath=(//*[contains(text(),'октября')])",'-');
-        sleep(3);
-
+        sleep(10);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
