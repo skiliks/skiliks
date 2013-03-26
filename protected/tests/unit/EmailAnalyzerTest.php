@@ -433,6 +433,59 @@ class EmailAnalyzerTest extends CDbTestCase
 
 
 }
+    /*
+     * Не читает спам
+     */
+    public function test_3325_true() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        EventsManager::startEvent($simulation, 'M60');
+        EventsManager::getState($simulation, []);
+
+        $point = HeroBehaviour::model()->findByAttributes([
+            'code' => '3325'
+        ]);
+
+        SimulationService::saveEmailsAnalyze($simulation->id);
+
+        $result = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'point_id' => $point->id,
+        ]);
+
+        $this->assertEquals('0.00', $result->value);
+    }
+
+    /*
+     * Читает спам
+     */
+    public function test_3325_false() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        EventsManager::startEvent($simulation, 'M60');
+        $mail_event = EventsManager::getState($simulation, []);
+
+        $spam = MailBox::model()->findByAttributes(['sim_id'=>$simulation->id, 'id'=>$mail_event['events'][0]['id']]);
+        $spam->readed = 1;
+        $spam->update();
+
+        $point = HeroBehaviour::model()->findByAttributes([
+            'code' => '3325'
+        ]);
+
+        SimulationService::saveEmailsAnalyze($simulation->id);
+
+        $result = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'point_id' => $point->id,
+        ]);
+
+        $this->assertEquals('-0.20', $result->value);
+    }
 
 
 }
