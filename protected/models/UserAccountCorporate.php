@@ -85,6 +85,7 @@ class UserAccountCorporate extends CActiveRecord
 		return array(
 			'user'     => array(self::BELONGS_TO, 'YumUser' , 'user_id'),
 			'industry' => array(self::BELONGS_TO, 'Industry', 'industry_id'),
+			'tariff' => array(self::BELONGS_TO, 'Tariff', 'tariff_id'),
 		);
 	}
 

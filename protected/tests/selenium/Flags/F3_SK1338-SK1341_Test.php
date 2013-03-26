@@ -45,10 +45,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
-        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
+        $this->addAttach('Сводный бюджет_02_v23');;
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
         $this->assertTrue($this->verify_flag('F3','1'));
@@ -93,10 +90,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
-        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
+        $this->addAttach('Сводный бюджет_02_v23');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
         $this->assertTrue($this->verify_flag('F3','1'));
@@ -142,10 +136,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
-        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
+        $this->addAttach('Сводный бюджет_02_v23');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
         $this->assertTrue($this->verify_flag('F3','1'));
@@ -182,10 +173,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет: файл')])");
 
-        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->mouseOver("xpath=(//*[contains(text(),'Сводный бюджет')])");
-        $this->click("xpath=(//*[contains(text(),'Сводный бюджет_02_v23')])");
+        $this->addAttach('Сводный бюджет_02_v23');
         $this->waitForVisible("xpath=(//a[contains(text(),'отправить')])");
         $this->click("xpath=(//*[@id='mailEmulatorReceivedButton']/a[contains(text(),'отправить')])");
 

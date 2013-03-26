@@ -163,6 +163,8 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateCompanyInfo()
     {
+        Yii::app()->language = 'ru';
+
         $this->checkUser();
 
         $account = $this->user->account_corporate;
@@ -176,6 +178,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $account->company_description  = $UserAccountCorporate['company_description'];
 
             if ($account->validate()) {
+                Yii::app()->user->setFlash('success', 'Данные сохранены.');
                 $account->save();
             }
         }
@@ -257,7 +260,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 'id',
                 'label',
                 " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                'Выбирите род деятельности'
+                'Выберите род деятельности'
             );
         }
 

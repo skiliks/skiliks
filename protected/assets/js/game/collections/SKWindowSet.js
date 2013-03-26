@@ -55,12 +55,21 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                 event.setStatus('in progress');
             }, this);
             options.events.on('event:mail-send', function (event) {
+                console.log('event:mail-send');
                 if (event.get('fantastic')) {
-                    SKApp.simulation.window_set.open(
+                    var simulation = SKApp.simulation;
+                    simulation.startInputLock();
+                    simulation.window_set.open(
                         'mailEmulator',
-                        SKApp.simulation.mailClient.getActiveSubscreenName()
+                        simulation.mailClient.getActiveSubscreenName()
                     );
-                    SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
+                    simulation.mailClient.view.on('render_finished', function () {
+                        SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
+                    });
+                    simulation.mailClient.on('mail:fantastic-send:complete', function () {
+                        SKApp.simulation.stopInputLock();
+                    });
+
 
                 }
             });
