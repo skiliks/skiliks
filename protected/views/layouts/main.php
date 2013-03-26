@@ -11,6 +11,8 @@ $assetsUrl = $this->getAssetsUrl();
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.7.2.min.js');
 $cs->registerScriptFile($assetsUrl . '/js/niceCheckbox.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery.selectbox-0.2.js');
+$cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.jeditable.js');
+$cs->registerScriptFile($assetsUrl . '/js/main.js');
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-ui-1.8.24.custom.js', CClientScript::POS_BEGIN);
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery.tablesorter.js', CClientScript::POS_BEGIN);
 
@@ -80,8 +82,9 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 <!-- flash-messages } -->
 
 			    <?php echo $content; ?>
-
-			</div>
+                <iframe id="JotFormIFrame" onload="window.parent.scrollTo(0,0)" allowtransparency="true" src="http://form.jotformeu.com/form/30835043655352" frameborder="0" style="width:750px; height:513px; border:none;" scrolling="no"></iframe>
+                <script type="text/javascript">window.handleIFrameMessage = function(e) {var args = e.data.split(":");var iframe = document.getElementById("JotFormIFrame");if (!iframe)return;switch (args[0]) {case "scrollIntoView":iframe.scrollIntoView();break;case "setHeight":iframe.style.height = args[1] + "px";break;}};if (window.addEventListener) {window.addEventListener("message", handleIFrameMessage, false);} else if (window.attachEvent) {window.attachEvent("onmessage", handleIFrameMessage);}</script>
+            </div>
 			<!--content end-->
 		</div>
 
@@ -98,7 +101,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="product"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012</p>
+				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>
 			</footer>
 		</div>
 		<!--footer end-->

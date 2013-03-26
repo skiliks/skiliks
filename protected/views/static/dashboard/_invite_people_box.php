@@ -23,9 +23,9 @@
     </div>
 
     <div class="row wide">
-        <?php echo $form->labelEx($invite, 'position_id'); ?>
-        <?php echo $form->dropDownList($invite, 'position_id', $positions); ?>
-        <?php echo $form->error($invite, 'position_id'); ?>
+        <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
+        <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
+        <?php echo $form->error($invite, 'vacancy_id'); ?>
     </div>
 
     <div class="row buttons">

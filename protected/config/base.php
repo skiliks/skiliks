@@ -137,9 +137,13 @@ return array(
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
+                'static/contacts/<_lang:\w+>' => 'static/pages/contacts',
+                'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
+                'static/contacts/' => 'static/pages/contacts',
+                'static/tariffs/' => 'static/pages/tariffs',
 
                 'subscription/add'       => 'static/pages/addUserSubscription',
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
@@ -184,6 +188,7 @@ return array(
                 'cheats'          => 'static/cheats/mainPage',
                 'cheats/cleanUpAccount'          => 'static/cheats/cleanUpAccount',
                 'cheats/setinvites/<status:\w+>' => 'static/cheats/setStatusForAllInvites',
+                'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
 
                 'dashboard/'          => 'static/dashboard/index',
                 'dashboard/corporate' => 'static/dashboard/corporate',
@@ -197,6 +202,10 @@ return array(
                 'profile/corporate/vacancies/'  => 'static/profile/corporateVacancies',
                 'profile/corporate/tariff/'  => 'static/profile/corporateTariff',
                 'profile/corporate/payment-method/'  => 'static/profile/corporatePaymentMethod',
+
+                'profile/getSpecialization'       => 'static/profile/getSpecialization',
+                'profile/corporate/vacancy/<id:\w+>/remove' => 'static/profile/removeVacancy',
+                'profile/corporate/vacancy/<id:\w+>/edit' => 'static/profile/corporateVacancies',
 
                 'profile/'          => 'static/profile/index',
                 'profile/corporate' => 'static/profile/index',
@@ -227,6 +236,10 @@ return array(
                 'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',
                 'dashboard/decline-invite/<code:\w+>' => 'static/dashboard/declineInvite',
 
+                'gii'=>'gii',
+                'gii/<controller:\w+>'=>'gii/<controller>',
+                'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
+
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
@@ -235,7 +248,7 @@ return array(
                 '<controller:\w+>/<action:\w+>/<id:\d+>/<_lang:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<_lang:\w+>' => '<controller>/<action>',
 
-                '/<_lang:\w+>'               => 'static/pages/index',
+                '/<_lang:(ru|en)>'               => 'static/pages/index',
             ),
         ),
         'excel'=>array(

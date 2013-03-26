@@ -32,18 +32,18 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         $invite = new Invite();
-        $valid = false;
+        $validPrevalidate = false;
 
         if (null !== Yii::app()->request->getParam('prevalidate')) {
             $invite->attributes = Yii::app()->request->getParam('Invite');
-            $invite->inviting_user_id = $this->user->id;
-            $valid = $invite->validate(['firstname', 'lastname', 'email']);
+            $invite->owner_id = $this->user->id;
+            $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
-            $position_label = Yii::t('site', (string)$invite->position->label);
+            $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
-                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $position_label.";
+                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $vacancy_label.";
             } else {
-                $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $position_label Для кандидата на данную позицию обязательным условием \n"
+                $invite->message = "Работодатель заинтересован в вашей кандидатуре на позицию $vacancy_label Для кандидата на данную позицию обязательным условием \n"
                     ."является прохождение оценивания для определениям уровня менеджерских навыков. Для этого вам необходимо перейти по ссылке, \n"
                     ."зарегистрироваться и запустить ассессмент.";
             }
@@ -53,18 +53,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         // handle send invitation {
         if (null !== Yii::app()->request->getParam('send')) {
-
             $invite->attributes = Yii::app()->request->getParam('Invite');
 
             $invite->code = uniqid(md5(mt_rand()));
-            $invite->inviting_user_id = $this->user->id;
+            $invite->owner_id = $this->user->id;
 
             // What happens if user is registered, but not activated??
             $profile = YumProfile::model()->findByAttributes([
                 'email' => $invite->email
             ]);
             if ($profile) {
-                $invite->invited_user_id = $profile->user->id;
+                $invite->receiver_id = $profile->user->id;
             }
 
             // send invitation
@@ -81,8 +80,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 Yii::app()->user->setFlash('success', 'Приглашение успешно выслано');
 
                 $this->redirect('/dashboard');
-            } elseif ($this->user->getAccount()->invites_limit < 0 ) {
+            } elseif ($this->user->getAccount()->invites_limit < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
+            } else {
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизветсная ошибка.'));
             }
         }
         // handle send invitation }
@@ -101,10 +102,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
             } else {
                 $inviteToEdit->firstname = $inviteData['firstname'];
                 $inviteToEdit->lastname = $inviteData['lastname'];
-                $inviteToEdit->position_id = $inviteData['position_id'];
+                $inviteToEdit->vacancy_id = $inviteData['vacancy_id'];
                 // send invitation
-                if ($inviteToEdit->validate(['firstname', 'lastname', 'position_id'])) {
-                    $inviteToEdit->update(['firstname', 'lastname', 'position_id']);
+                if ($inviteToEdit->validate(['firstname', 'lastname', 'vacancy_id'])) {
+                    $inviteToEdit->update(['firstname', 'lastname', 'vacancy_id']);
                     $inviteToEdit->refresh();
 
                     Yii::app()->user->setFlash('success', sprintf(
@@ -117,17 +118,27 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
         // handle edit invite invitation }
 
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = Yii::t('site', $position->label);
+        $vacancies = [];
+        $vacancyList = Vacancy::model()->byUser($this->user->id)->findAll();
+        foreach ($vacancyList as $vacancy) {
+            $vacancies[$vacancy->id] = Yii::t('site', $vacancy->label);
+        }
+
+        if (0 == count($vacancies)) {
+            Yii::app()->user->setFlash('error', sprintf(
+                '<center>
+У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
+                Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.
+                 </center>'
+            ));
         }
 
         $this->render('dashboard_corporate', [
             //'user' => $this->user,
-            'invite'       => $invite,
-            'inviteToEdit' => $inviteToEdit,
-            'positions'    => $positions,
-            'valid'        => $valid
+            'invite'             => $invite,
+            'inviteToEdit'       => $inviteToEdit,
+            'vacancies'          => $vacancies,
+            'validPrevalidate'   => $validPrevalidate,
         ]);
     }
 
@@ -156,7 +167,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             'Пройдите по ссылке чтобы начать симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->invited_user_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
+                Yii::app()->createAbsoluteUrl($invite->receiver_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
             ),
             $invite->signature
         ];
@@ -193,25 +204,20 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user = Yii::app()->user;
         if (null === $user) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Авторизируйтесь"
+            ));
             $this->redirect('/');
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->inviting_user_id) {
-            $this->redirect('/');
-        }
-
-        if (false === $user->isCorporate()) {
-            $this->redirect('/');
-        }
-
-        if (false == $invite->isPending()) {
+        if ($user->id !== $invite->owner_id && $user->id !== $invite->receiver_id) {
             Yii::app()->user->setFlash('success', sprintf(
-                "Нельзя удалить подтвердённое приглашение!"
+                "Нельзя удалить чужое приглашение!"
             ));
-            $this->redirect('/dashboard');
+            $this->redirect('/');
         }
 
         $firstname = $invite->firstname;
@@ -244,17 +250,26 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user = Yii::app()->user;
         if (null === $user) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Авторизируйтесь"
+            ));
             $this->redirect('/');
         }
 
         $user = $user->data();  //YumWebUser -> YumUser
 
         // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->inviting_user_id) {
+        if ($user->id !== $invite->owner_id) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Нельзя продлить чужое приглашение!"
+            ));
             $this->redirect('/');
         }
 
         if (false === $user->isCorporate()) {
+            Yii::app()->user->setFlash('success', sprintf(
+                "Только корпоративный пользователь пожет продлить приглашение!"
+            ));
             $this->redirect('/');
         }
 
@@ -279,89 +294,27 @@ class DashboardController extends AjaxController implements AccountPageControlle
         Yii::app()->language = 'ru';
 
         $invite = Invite::model()->findByCode($code);
-        if (empty($invite)) {
-            Yii::app()->user->setFlash('site', 'Код неверный');
+        if (null == $invite) {
+            Yii::app()->user->setFlash('error', 'Код неверный');
             $this->redirect('/');
         }
+
         if((int)$invite->status === Invite::STATUS_EXPIRED){
-            $this->render('error',
-                [
-                    'errorMessage' => 'У симуляции истек срок давности'
-                ]
-            );
-            return;
-        }
-        $this->user = new YumUser('registration');
-        $profile = new YumProfile('registration');
-        $account = new UserAccountPersonal();
-        $error = null;
-
-        $YumUser    = Yii::app()->request->getParam('YumUser');
-        $YumProfile = Yii::app()->request->getParam('YumProfile');
-        $UserAccount = Yii::app()->request->getParam('UserAccountPersonal');
-
-        if(null !== $YumUser && null !== $YumProfile && null !== $UserAccount)
-        {
-            $this->user->attributes = $YumUser;
-            $profile->attributes = $YumProfile;
-            $account->attributes = $UserAccount;
-
-            $profile->email = $invite->email;
-            $this->user->setUserNameFromEmail($profile->email);
-
-            // Protect from "Wrong username" message - we need "Wrong email", from Profile form
-            if (null == $this->user->username) {
-                $this->user->username = 'DefaultName';
-            }
-
-            $userValid = $this->user->validate();
-            $profileValid = $profile->validate();
-
-            if ($userValid && $profileValid) {
-                $result = $this->user->register($this->user->username, $this->user->password, $profile);
-
-                if (false !== $result) {
-                    $account->user_id = $this->user->id;
-                    $account->save();
-
-                    $invite->status = Invite::STATUS_ACCEPTED;
-                    $invite->save();
-
-                    $activation_result = YumUser::activate($profile->email, $this->user->activationKey);
-                    $this->user->authenticate($YumUser['password']);
-                    // TODO: Change redirection point
-                    $this->redirect('/registration/account-type/added');
-                } else {
-                    $this->user->password = '';
-                    $this->user->password_again = '';
-
-                    echo 'Can`t register.';
-                }
-            }
+            Yii::app()->user->setFlash('error', 'У симуляции истек срок давности');
+            $this->redirect('/');
         }
 
-        $industries = [];
-        foreach (Industry::model()->findAll() as $industry) {
-            $industries[$industry->id] = Yii::t('site', $industry->label);
+        $this->checkUser();
+
+        if (Yii::app()->user->data()->id !== $invite->receiverUser->id) {
+            Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляци.');
+            $this->redirect('/profile');
         }
 
-        $positions = [];
-        foreach (Position::model()->findAll() as $position) {
-            $positions[$position->id] = Yii::t('site', $position->label);
-        }
+        $invite->status = Invite::STATUS_ACCEPTED;
+        $invite->save(false, ['status']);
 
-        $this->render(
-            'registrationByLink',
-            [
-                'invite'     => $invite,
-                'user'       => $this->user,
-                'profile'    => $profile,
-                'account'    => $account,
-                'industries' => $industries,
-                'positions'  => $positions,
-                'error'      => $error
-            ]
-        );
+        $this->redirect('/simulation/promo/1'); // promo/full
     }
 
     /**
@@ -380,7 +333,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $invite->status = Invite::STATUS_DECLINED;
         $invite->save();
 
-        // TODO: Change redirection point
-        $this->redirect('/');
+        $this->redirect('/dashboard');
     }
 }

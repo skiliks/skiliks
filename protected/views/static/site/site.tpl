@@ -23,9 +23,10 @@
     <link  type="text/css" rel="stylesheet" href="{$assetsUrl}/js/elfinder-2.0-rc1/css/theme.css" />
     <link  type="text/css" rel="stylesheet" href="{$assetsUrl}/css/tag-handler.css" />
     <link  type="text/css" rel="stylesheet" href="{$assetsUrl}/css/main.css" />
-    
+
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/simulation.less" />
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/plan.less" />
+    <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/mail.less" />
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/documents.less" />
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/ddSlick.css" />
 

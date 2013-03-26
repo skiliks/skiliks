@@ -329,6 +329,20 @@ define([
             },
 
             /**
+             * Начинает блокировать все действия пользователя
+             */
+            startInputLock: function () {
+                this.trigger('input-lock:start');
+            },
+
+            /**
+             * Прекращает блокировать все действия пользователя
+             */
+            stopInputLock: function () {
+                this.trigger('input-lock:stop');
+            },
+
+            /**
              * Обновляет время в симуляции и вызывает событие tick по завершению
              *
              * @method setTime

@@ -81,10 +81,7 @@ class SK1593_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
         $this->optimal_click("xpath=(//*[contains(text(),'Презентация на выставку')])");
         //аттач
-        $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
-        $this->waitForVisible("xpath=(//*[contains(text(),'Презентация_ ГД_01')])");
-        $this->mouseOver("xpath=(//*[contains(text(),'Презентация_ ГД_01')])");
-        $this->click("xpath=(//*[contains(text(),'Презентация_ ГД_01')])");
+        $this->addAttach('Презентация_ ГД_01');
 
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);

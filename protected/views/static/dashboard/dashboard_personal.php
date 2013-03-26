@@ -11,7 +11,7 @@
         <!-- dashboard-skills-box -->
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue">
             <?php $this->renderPartial('_dashboard_skills_box', []) ?>
-            <p>Core management <span>60%</span></p>
+            <p>Core management <span class="rating">60%</span><a href="#" class="link-go">Go</a></p>
         </div>
 
         <!-- companies-you-follow-box -->
