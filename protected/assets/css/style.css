@@ -433,11 +433,18 @@ a:focus, a:active {
 	width:789px;
 	overflow:hidden;
 }
-.features h2{
+.features h2, .thetitle {
 	font:2.619em "ProximaNova-Bold";
 	color:#fff;
 	line-height:1.182em;
 	text-shadow:rgba(0,0,0,0.14) 0 0 8px;
+}
+.thetitle {
+    font:2.87em "ProximaNova-Bold";
+    margin-bottom: 20px;
+}
+.thetitle span {
+    text-transform: uppercase;
 }
 .features .video{
 	background:url("../img/img-video.png") no-repeat 0 0;
@@ -484,7 +491,7 @@ a:focus, a:active {
 	position:relative;
 	margin-right:7px;
 }
-.features form div input[type=text]{
+.features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password] {
 	background:#fff;
 	border:1px solid #3e5259;
 	-webkit-border-radius:5px;
@@ -500,7 +507,23 @@ a:focus, a:active {
     padding:14px 16px 14px 17px;
     outline:none;
 }
-.features form div input[type=text]:focus{
+.registrationform input[type=text], .registrationform input[type=password] {
+    font-size:1.14em;
+}
+.features form div input[type=submit]  {
+    background:#146672 url("../img/icon-btn-notify.png") no-repeat 17px 13px;
+    border:none;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    font:1.214em "ProximaNova-Bold";
+    color:#fff;
+    text-align:left;
+    height:46px;
+    vertical-align:top;
+    padding:0 16px 0 42px;
+}
+.features form div input[type=text]:focus, .registrationform input[type=text]:focus, .registrationform input[type=password]:focus{
 	border-color:#23bfd5;
 	-webkit-border-radius:5px;
 	-moz-border-radius:5px;
@@ -509,19 +532,134 @@ a:focus, a:active {
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset, 0 0 3px #23bfd5;
 	box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset, 0 0 3px #23bfd5;
 }
-.features form div input[type=submit]{
-	background:#146672 url("../img/icon-btn-notify.png") no-repeat 17px 13px;
-	border:none;
-	-webkit-border-radius:4px;
-	-moz-border-radius:4px;
-	border-radius:4px;
-	font:1.214em "ProximaNova-Bold";
-	color:#fff;
-	text-align:left;
-	height:46px;
-	vertical-align:top;
-	padding:0 16px 0 42px;
+/* ************************* REGISTRATION ************************* */
+.registrationform {
+    margin: 0 auto;
+    width: 900px;
 }
+.registrationform input[type=text], .registrationform input[type=password] {
+    color:#146672;
+    height:24px;
+}
+.registrationform input[type=text] {
+    width:226px;
+}
+.registrationform input[type=password] {
+    width:166px;
+}
+.registrationform .errorMessage {
+    margin-top: 6px;
+    width:200px;
+}
+.errorlongMessage {
+    clear:both;
+    padding-top:10px;
+}
+.registrationform input[type=text]:focus, .registrationform input[type=password]:focus {
+    border-width:3px;
+    height:20px;
+}
+.registrationform input[type=text]:focus {
+    width:222px;
+}
+.registrationform input[type=password]:focus {
+    width:162px;
+}
+
+.registrationform input[type=submit] {
+    background:#146672 url("../img/icon-circlarow.png") no-repeat 38px 16px;
+    border:none;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    font-size:1.7em;
+    color:#fff;
+    text-align:left;
+    height:54px;
+    vertical-align:top;
+    padding:0 16px 0 66px;
+    width: 184px;
+}
+.registrationform .row {
+   float:left;
+   margin-left: 11px;
+}
+.registrationform .row:first-child {
+    margin-left:0px;
+}
+.transparent-boder {
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    padding: 10px;
+}
+.registrationform .transparent-boder:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.yellowbg {
+    background: #fdfbc6;
+}
+.radiusthree {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.registrationform .transparent-boder:first-child {
+    margin-bottom:30px;
+}
+.registrationform h3 {
+    color: #555545;
+    font: 2.4em "ProximaNova-Bold";
+    margin:8px 0px 7px;
+}
+.registrationform ul {
+    width:550px;
+}
+.registrationform li {
+    color: #555545;
+    font-size:1.5em;
+    line-height:100%;
+    list-style-type: none;
+    margin-bottom: 8px;
+}
+.registermessage {
+    background: #fdfbc6 url("../img/icon-checklarge.png") no-repeat 30px 28px;
+    padding:20px 0px 30px 185px;
+}
+.testtime {
+    background: url("../img/tziferblat.png") no-repeat;
+    color: #146672;
+    float: right;
+    font-family: "ProximaNova-Bold";
+    height: 82px;
+    margin:-54px 20px 0px 0px;
+    padding: 17px 16px 10px;
+    text-align: center;
+    width:50px;
+}
+.testtime strong {
+    color: #146672;
+    font: 2.6em "ProximaNova-Bold";
+    line-height: 90%;
+}
+.registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder {
+    color:#146672;
+}
+.registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder {
+    color:#146672;
+}
+.registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder {
+    color:#146672;
+}
+.registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder {
+    color:#146672;
+}
+/* ************************* /REGISTRATION ************************* */
 html[lang=ru] .features form div input[type=text]{
 	width:153px;
 }
@@ -558,9 +696,12 @@ html[lang=ru] .features form div input[type=submit]{
 		width:738px;
 		margin-top:27px;
 	}
-	.features h2{
+	.features h2 {
 		font-size:2.538em;
 	}
+    .thetitle {
+        font-size:2.77em;
+    }
 	.features .video{
 		background-image:url("../img/img-video-min.png");
 		width:375px;
@@ -595,7 +736,7 @@ html[lang=ru] .features form div input[type=submit]{
 		width:195px;
 	    padding:14px 5px 13px;
 	}
-	.features form div input[type=submit]{
+	.features form div input[type=submit] {
 		background-image:url("../img/icon-btn-notify-min.png");
 		background-position:13px 15px;
 		font-size:0.929em;
@@ -1824,26 +1965,22 @@ h2 {
 .flash-error {
     color: #cf1919;
 }
-
+/* ********************** DASHBOARD ********************** */
+.dashboard aside {
+    float:left;
+    width: 300px;
+}
 #dashboard-skills-box {
-    height: 300px;
-    float: left;
     margin: 0 0 0 10px;
-    width: 280px;
+    padding:28px 10px 18px 32px;
 }
 
 #job-recomendations-box {
-    height: 300px;
-    float: left;
     margin: 30px 0 0 10px;
-    width: 280px;
 }
 
 #companies-you-follow-box {
-    height: 200px;
-    float: left;
     margin: 30px 0 0 10px;
-    width: 280px;
 }
 #private-invitations-list-box {
     height: 600px;
@@ -1859,3 +1996,4 @@ ul.profile-menu {
 ul.profile-menu li {
     line-height: 26px;
 }
+/* ********************** /DASHBOARD ********************** */
