@@ -107,6 +107,7 @@ define([
                 this.listenTo(this.mailClient, 'init_completed', function () {
                     me.doRenderFolder(me.mailClient.aliasFolderInbox, true, true);
                     me.trigger('render_finished');
+                    me.render_finished = true;
                 });
 
                 // render character subjects list
@@ -289,7 +290,6 @@ define([
                     id: this.mailClientScreenID,
                     contentBlockId: this.mailClientContentBlockId
                 });
-
                 // append to <body>
                 el.html(mailClientWindowBasicHtml);
                 this.mailClient.getDataForInitialScreen();

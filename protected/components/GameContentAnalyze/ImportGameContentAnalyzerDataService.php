@@ -434,7 +434,10 @@ class ImportGameContentAnalyzerDataService
             $replica->step_number     = $this->getCellValue($sheet, '№ шага в диалоге', $i);
             $replica->replica_number  = $this->getCellValue($sheet, '№ реплики в диалоге', $i);
             $replica->delay           = $this->getCellValue($sheet, 'Задержка, мин', $i);
-            $replica->fantastic_result = $this->getCellValue($sheet, 'Отправка письма фант образом', $i) ?: $this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i);
+            $replica->fantastic_result = $this->getCellValue($sheet, 'Отправка письма фант образом', $i);
+            if ($this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i)) {
+                $replica->fantastic_result = 1;
+            };
 
             $flagCode = $this->getCellValue($sheet, 'Переключение флагов 1', $i);
             if ($flagCode !== '') {
