@@ -137,7 +137,7 @@ define([
                 this.options.model_instance.on('pre_close', function () {
                     me.options.model_instance.prevent_close = !me.isCanBeClosed();
 
-                    if (false == me.isCanBeClosed()) {
+                    if (false === me.isCanBeClosed()) {
                         var mailClient = me.mailClient;
                         var mailClientView = me;
 
@@ -714,11 +714,7 @@ define([
              * @method
              */
             renderActiveFolder: function () {
-                console.log('10');
                 var mailClientView = this;
-
-                console.log(this, mailClientView);
-
                 mailClientView.doRenderFolder(mailClientView.mailClient.getActiveFolder().alias);
             },
 
@@ -1430,8 +1426,6 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectText: function () {
-                console.log('text: ', this.$("#MailClient_NewLetterSubject label.dd-selected-text"));
-                console.log('text: ', this.$("#MailClient_NewLetterSubject label.dd-selected-text").text());
                 return this.$("#MailClient_NewLetterSubject label.dd-selected-text").text();
             },
 
@@ -1820,6 +1814,7 @@ define([
              * @returns {boolean}
              */
             fillMessageWindow: function (response) {
+                var me = this;
                 if (null === response.subjectId) {
                     this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
@@ -1867,7 +1862,7 @@ define([
                     var ids = response.copiesIds.split(',');
                     for (var i in ids) {
                         if (0 < parseInt(ids[i])) {
-                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i]))
+                            copies.push(SKApp.simulation.mailClient.getRecipientByMySqlId(parseInt(ids[i],10))
                                 .getFormatedForMailToName());
                         }
                     }
@@ -1890,6 +1885,17 @@ define([
                 this.$("#MailClient_RecipientsList input").attr('readonly', 'readonly');
                 this.$("#MailClient_CopiesList input").attr('readonly', 'readonly');
                 // add copies if they exests }
+
+                // set attachment
+                if (response.attachmentId) {
+                    this.mailClient.uploadAttachmentsList(function () {
+                        var attachmentIndex = _.indexOf(me.mailClient.availableAttachments.map(function (attachment) {
+                                return attachment.fileMySqlId;
+                            }), response.attachmentId
+                        );
+                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex});
+                    });
+                }
 
                 // add phrases {
                 SKApp.simulation.mailClient
@@ -2139,16 +2145,24 @@ define([
             },
             onMailFantasticSend: function (email) {
                 var me = this;
-                this.once('render_finished', function () {
-                    me.renderWriteEmailScreen();
-                    me.fillMessageWindow(email);
+                me.renderWriteEmailScreen();
+                me.fillMessageWindow(email);
+                var cursor = this.make('div', {'class': 'cursor'});
+                this.$el.append(cursor);
+                $(cursor)
+                    .css('top', '500px')
+                    .css('left', '500px')
+                    .animate({
+                    'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
+                    'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
+                }, 5000, function (){
+                    me.doSendEmail();
                     setTimeout(function () {
-                        me.doSendEmail();
-                        setTimeout(function () {
-                            me.options.model_instance.close();
-                        }, 3000);
+                        me.options.model_instance.close();
+                        me.mailClient.trigger('mail:fantastic-send:complete');
                     }, 3000);
                 });
+
 
             }
         });

@@ -15,14 +15,18 @@
     </div>
 
     <!-- companies-you-follow-box -->
+    <?php /*
     <div id="companies-you-follow-box" class="backgroud-bue-bordered">
-        <?php $this->renderPartial('_companies_you_follow_box', []) ?>
+        <?php // $this->renderPartial('_companies_you_follow_box', []) ?>
     </div>
+    */?>
 
     <!-- job-recomendations-box -->
+    <?php /*
     <div id="job-recomendations-box" class="backgroud-bue-bordered">
         <?php $this->renderPartial('_job_recomendations_box', []) ?>
     </div>
+    */ ?>
 </section>
 
 
