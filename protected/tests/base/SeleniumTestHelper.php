@@ -25,11 +25,12 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click("css=.submit>input");
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 600) $this->fail("timeout");
             try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'Cheats')])")) break;
             } catch (Exception $e) {}
-            sleep(1);
+            // sleep 100ms
+            usleep(100000);
         }
 
         $this->open('/simulation/developer/1'); // для full simulation
