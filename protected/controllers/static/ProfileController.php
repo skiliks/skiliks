@@ -97,13 +97,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         $this->accountPagesBase();
     }
 
-    /**
-     *
-     */
-    public function actionPersonalPassword()
-    {
-        $this->render('password_personal', []);
-    }
 
     /**
      *
@@ -136,6 +129,41 @@ class ProfileController extends AjaxController implements AccountPageControllerI
         }
 
         $this->render('password_corporate', [
+            'passwordForm' => $passwordForm
+        ]);
+    }
+
+    /**
+     *
+     */
+    public function actionPersonalPassword()
+    {
+        $this->checkUser();
+
+        $passwordForm = new YumUserChangePassword;
+        $passwordForm->scenario = 'user_request';
+        $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
+
+        if (null !== $YumUserChangePassword) {
+            $passwordForm->attributes = $YumUserChangePassword;
+            $passwordForm->validate();
+
+            if (!YumEncrypt::validate_password($passwordForm->currentPassword, $this->user->password, $this->user->salt)) {
+                $passwordForm->addError('currentPassword', Yii::t('site', 'Your current password is not correct'));
+            }
+
+            if (!$passwordForm->hasErrors()) {
+                if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
+                    Yii::app()->user->setFlash('info', 'The new password has been saved');
+                } else {
+                    Yii::app()->user->setFlash('error', 'There was an error saving the password');
+                }
+
+                $this->redirect(Yum::module()->returnUrl);
+            }
+        }
+
+        $this->render('password_personal', [
             'passwordForm' => $passwordForm
         ]);
     }
