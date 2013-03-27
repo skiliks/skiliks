@@ -60,6 +60,8 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 } else {
                     $account->addError('birthday', Yii::t('site', 'Incorrect birthday value'));
                 }
+            } else {
+                $account->birthday = null;
             }
 
             $account->attributes = $UserAccountPersonal;
