@@ -480,7 +480,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     {
                         folderId:me.codeFolderInbox,
                         order:'time',
-                        order_type:0
+                        order_type:1
                     },
                     function (responce) {
                         me.updateInboxFolderEmails(responce.messages);
@@ -500,8 +500,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/getMessages',
                     {
                         folderId:SKApp.simulation.mailClient.codeFolderDrafts,
-                        order:2,
-                        order_type:0
+                        order:'time',
+                        order_type:1
                     },
                     function (responce) {
                         SKApp.simulation.mailClient.updateDraftsFolderEmails(responce.messages);
@@ -522,8 +522,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/getMessages',
                     {
                         folderId:   MailClientModel.codeFolderSended,
-                        order:      -1,
-                        order_type: 0
+                        order:      'time',
+                        order_type: 1
                     },
                     function (responce) {
                         MailClientModel.updateSendedFolderEmails(responce.messages);
@@ -544,8 +544,8 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/getMessages',
                     {
                         folderId:SKApp.simulation.mailClient.codeFolderTrash,
-                        order:-1,
-                        order_type:0
+                        order:'time',
+                        order_type:1
                     },
                     function (responce) {
                         SKApp.simulation.mailClient.updateTrashFolderEmails(responce.messages);
