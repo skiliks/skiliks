@@ -1,4 +1,5 @@
 <?php
+//123
 return CMap::mergeArray(
     require(dirname(__FILE__) . '/base.php'),
     array('components' => array(
