@@ -97,7 +97,8 @@
 	            <?php echo $form->error($profile    , 'lastname'); ?>
 	        <?php endif; ?>
 	    </div>
-	
+
+
 	    <div class="row">
 	        <?php echo $form->labelEx($accountCorporate     , 'industry_id'); ?>
 	        <?php echo $form->dropDownList($accountCorporate, 'industry_id', $industries); ?>
