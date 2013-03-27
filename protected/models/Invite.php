@@ -135,9 +135,9 @@ class Invite extends CActiveRecord
     {
         if (in_array($this->status, [self::STATUS_PENDING])) {
             return sprintf(
-                '<a href=\'/dashboard/accept-invite/%s\'>%s</a>',
+                '<a class=\'blue-btn\' href=\'/dashboard/accept-invite/%s\'>%s</a>',
                 $this->id,
-                Yii::t('site', 'принять')
+                Yii::t('site', 'Принять')
             );
             return ;
         }
@@ -154,7 +154,7 @@ class Invite extends CActiveRecord
             return sprintf(
                 '<a class=\'decline-link\' title=\'%1$s\' href=\'/dashboard/decline-invite/%1$s\'>%2$s</a>',
                 $this->id,
-                Yii::t('site', 'отклонить')
+                Yii::t('site', 'Отклонить')
             );
         }
 
@@ -172,6 +172,19 @@ class Invite extends CActiveRecord
                 $this->id,
                 Yii::t('site', 'удалить')
             );
+        }
+
+        return null;
+    }
+
+    public function getSimulationResultsTag()
+    {
+        if (in_array($this->status, [self::STATUS_PENDING])) {
+            return (string)$this->getAcceptActionTag().' или '.$this->getDeclineActionTag();
+        }
+
+        if (in_array($this->status, [self::STATUS_COMPLETED])) {
+            return '80%';
         }
 
         return null;
@@ -362,7 +375,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 20,
+                'pageSize' => 1,
                 'pageVar' => 'page'
             ]
         ]);
