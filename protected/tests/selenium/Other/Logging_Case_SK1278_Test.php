@@ -25,9 +25,10 @@ class Logging_Case_SK1278_Test extends SeleniumTestHelper
         $s= array('main screen','mail main','mail main','mail new','plan','mail new');
         $TH = array($s, $m);
 
+        /*
         $m1 = array('MY1','','');
         $s1= array('mail main','mail new','mail new');
-        $TH1 = array($s1, $m1);
+        $TH1 = array($s1, $m1);*/
 
         $this->write_email();
 
@@ -53,8 +54,8 @@ class Logging_Case_SK1278_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
         sleep(20);
-        $this->Universal($TH);
-        $this->Mail_log($TH1);
+        //$this->Universal($TH);
+        //$this->Mail_log($TH1);
         $this->Leg_actions_detail();
         $this->Leg_actions_aggregated();
 
