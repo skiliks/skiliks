@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * @param float $max_negative_value
+ * @param string $code
+ * @param string $title
+ * @param string $import_id
  *
  * @author slavka
  */
@@ -37,19 +41,5 @@ class LearningGoal extends CActiveRecord
     {
             return 'learning_goal';
     }
-    
-    /**
-     * Выборка цели по коду.
-     * @param string $code
-     * @return HeroBehaviour
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '$code'"
-        ));
-        return $this;
-    }
-
 }
 
