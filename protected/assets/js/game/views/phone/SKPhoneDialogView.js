@@ -116,16 +116,19 @@ define([
         doSelectReplica:function (e) {
             var me = this;
             e.preventDefault();
-            var event = this.options.model_instance.get('sim_event');
-            var dialog_id = $(e.currentTarget).attr('data-id');
-            var is_final = $(e.currentTarget).attr('data-is-final');
-            event.selectReplica(dialog_id, function () {
-                me.options.model_instance.setLastDialog(dialog_id);
-                /* TODO refactor */
-                if (is_final) {
-                    me.options.model_instance.close();
-                }
-            });
+            if("true" !== $(e.currentTarget).attr('data-disabled')) {
+                $(e.currentTarget).attr('data-disabled', 'true');
+                var event = this.options.model_instance.get('sim_event');
+                var dialog_id = $(e.currentTarget).attr('data-id');
+                var is_final = $(e.currentTarget).attr('data-is-final');
+                event.selectReplica(dialog_id, function () {
+                    me.options.model_instance.setLastDialog(dialog_id);
+                    /* TODO refactor */
+                    if (is_final) {
+                        me.options.model_instance.close();
+                    }
+                });
+            }
         }
     });
 
