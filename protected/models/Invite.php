@@ -17,11 +17,13 @@
  * @property string $status
  * @property string $sent_time
  * @property string $fullname
+ * @property integer $simulation_id
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
  * @property YumUser $receiverUser
  * @property Vacancy $vacancy
+ * @property Simulation $simulation
  */
 class Invite extends CActiveRecord
 {
@@ -30,11 +32,13 @@ class Invite extends CActiveRecord
     const STATUS_COMPLETED = 2;
     const STATUS_DECLINED = 3;
     const STATUS_EXPIRED = 4;
+    const STATUS_STARTED = 5;
 
     public static $statusText = [
         self::STATUS_PENDING => 'Pending',
         self::STATUS_ACCEPTED => 'Accepted',
-        self::STATUS_COMPLETED => 'Completed',
+        self::STATUS_COMPLETED => 'Completed', // after sim start
+        self::STATUS_STARTED => 'Started', // after sim start
         self::STATUS_DECLINED => 'Declined',
         self::STATUS_EXPIRED => 'Expired'
     ];
@@ -44,6 +48,8 @@ class Invite extends CActiveRecord
         'Accepted'  => self::STATUS_ACCEPTED,
         'Completed' => self::STATUS_COMPLETED,
         'Declined'  => self::STATUS_DECLINED,
+        'Expired'  => self::STATUS_EXPIRED,
+        'Started'  => self::STATUS_STARTED,
     ];
 
     const EXPIRED_TIME = 604800; // 7days
@@ -107,17 +113,68 @@ class Invite extends CActiveRecord
             $this->addError('email','Вы уже отправили инвайт на '.$this->email);
 
         }
-
     }
 
-    public function inviteExpired() {
-
+    /**
+     *
+     */
+    public function inviteExpired()
+    {
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
+
         $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
         $user->invites_limit = $user->invites_limit + 1;
         $user->update();
+    }
 
+    /**
+     * @return null|string
+     */
+    public function getAcceptActionTag()
+    {
+        if (in_array($this->status, [self::STATUS_PENDING])) {
+            return sprintf(
+                '<a href=\'/dashboard/accept-invite/%s\'>%s</a>',
+                $this->id,
+                Yii::t('site', 'принять')
+            );
+            return ;
+        }
+
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDeclineActionTag()
+    {
+        if (in_array($this->status, [self::STATUS_PENDING])) {
+            return sprintf(
+                '<a class=\'decline-link\' title=\'%1$s\' href=\'/dashboard/decline-invite/%1$s\'>%2$s</a>',
+                $this->id,
+                Yii::t('site', 'отклонить')
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSoftRemoveActionTag()
+    {
+        if (in_array($this->status, [self::STATUS_PENDING])) {
+            return sprintf(
+                '<a href=\'dashboard/invite/remove/%s/soft\'>%s</a>',
+                $this->id,
+                Yii::t('site', 'удалить')
+            );
+        }
+
+        return null;
     }
 
     /* ------------------------------------------------------------------------------------------------------------ */
@@ -172,7 +229,8 @@ class Invite extends CActiveRecord
 		return array(
 			'receiverUser' => array(self::BELONGS_TO, 'YumUser', 'receiver_id'),
 			'ownerUser' => array(self::BELONGS_TO, 'YumUser', 'owner_id'),
-			'vacancy' => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id')
+			'vacancy' => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id'),
+			'simulation' => array(self::BELONGS_TO, 'Simulation', 'simulation_id'),
 		);
 	}
 
@@ -257,10 +315,14 @@ class Invite extends CActiveRecord
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
      */
-    public function searchByInvitedUserEmail($invitedUserEmail = null)
+    public function searchByInvitedUserEmail($invitedUserEmail = null, $status = null)
     {
         // Warning: Please modify the following code to remove attributes that
         // should not be searched.
+
+        if (null === $status) {
+            $status = self::$statusId;
+        }
 
         $criteria=new CDbCriteria;
         
@@ -274,7 +336,7 @@ class Invite extends CActiveRecord
         $criteria->compare('signature', $this->signature, true);
         $criteria->compare('code', $this->code, true);
         $criteria->compare('vacancy_id', $this->vacancy_id, true);
-        $criteria->compare('status', $this->status, true);
+        $criteria->compare('status', $status, true);
         $criteria->compare('sent_time', $this->sent_time, true);
 
         $criteria->mergeWith([

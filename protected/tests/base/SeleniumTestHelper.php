@@ -25,11 +25,12 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click("css=.submit>input");
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 600) $this->fail("timeout");
             try {
                 if ($this->isVisible("xpath=(//*[contains(text(),'Cheats')])")) break;
             } catch (Exception $e) {}
-            sleep(1);
+            // sleep 100ms
+            usleep(100000);
         }
 
         $this->open('/simulation/developer/1'); // для full simulation
@@ -53,7 +54,7 @@ class SeleniumTestHelper extends CWebTestCase
     // after - если надо что-то с этим локатором сделать после, то сюда пишем click, а если нет - то какую-то херню можно написать. Оно расспознает пока только click
     // запустили event = ET1.1 -> next_event = css=li.icon-active.phone a (звонок телефона) -> after = click (мы кликаем по иконке телефона)
     // если еще что-то надо, то можно дописать в switch
-    public function run_event($event, $next_event, $after)
+    public function run_event($event, $next_event="xpath=(//*[contains(text(),'октября')])", $after='-')
     {
         $this->type(Yii::app()->params['test_mappings']['dev']['event_input'], "$event");
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
@@ -393,5 +394,6 @@ class SeleniumTestHelper extends CWebTestCase
         // когда Андрей починит отправку письма убрать слип и раскомментить код сверху.
         sleep(20);
     }
+
 }
 

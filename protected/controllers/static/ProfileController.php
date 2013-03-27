@@ -44,7 +44,54 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionPersonalPersonalData()
     {
-        $this->render('personal_data_personal', []);
+        $this->checkUser();
+
+        $account = $this->user->account_personal;
+        $profile = $this->user->profile;
+
+        if (null !== Yii::app()->request->getParam('save')) {
+            $UserAccountPersonal = Yii::app()->request->getParam('UserAccountPersonal');
+            $YumProfile = Yii::app()->request->getParam('YumProfile');
+            $birthday = Yii::app()->request->getParam('birthday');
+
+            if (!empty($birthday['day']) || !empty($birthday['month']) || !empty($birthday['year'])) {
+                if (checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
+                    $account->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
+                } else {
+                    $account->addError('birthday', Yii::t('site', 'Incorrect birthday value'));
+                }
+            }
+
+            $account->attributes = $UserAccountPersonal;
+            $profile->firstname = $YumProfile['firstname'];
+            $profile->lastname  = $YumProfile['lastname'];
+
+            $isAccountValid = $account->validate(null, false);
+            $isProfileValid = $profile->validate(['firstname', 'lastname']);
+
+            if ($isProfileValid && $isAccountValid) {
+                $profile->save();
+                $account->save();
+            }
+        }
+
+        $statuses = [];
+        foreach (ProfessionalStatus::model()->findAll() as $status) {
+            $statuses[$status->id] = $status->label;
+        }
+
+        $industries = [];
+        foreach (Industry::model()->findAll() as $industry) {
+            $industries[$industry->id] = $industry->label;
+        }
+
+
+        $this->render('personal_data_personal', [
+            'account' => $account,
+            'profile' => $profile,
+            'statuses' => $statuses,
+            'industries' => $industries
+        ]);
     }
 
     /**
@@ -288,7 +335,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 'id',
                 'label',
                 " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                'Выберите род деятельности'
+                false
             );
         }
 

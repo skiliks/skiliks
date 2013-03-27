@@ -601,7 +601,6 @@ define([
          * @param e
          */
         doPlannerBookQuarterPlan:function(e) {
-            console.log("doPlannerBookQuarterPlan");
             if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
                 var tab = $('.is-active-plan-tab');
                 tab.css('cursor', 'pointer');
@@ -620,7 +619,6 @@ define([
          * @param e
          */
         doPlannerBookDayPlan:function(e) {
-            console.log("doPlannerBookDayPlan");
             if(!$(e.currentTarget).hasClass('is-active-plan-tab')){
                 var tab = $('.is-active-plan-tab');
                 tab.css('cursor', 'pointer');

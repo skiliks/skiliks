@@ -25,7 +25,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(10);
-        $this->run_event('MS30',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('MS30');
         $this->assertTrue($this->incoming_counter(1));
         $this->optimal_click("css=li.icon-active.mail a");
 

@@ -117,7 +117,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F20','1'));
 
-        $this->run_event('E3',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('E3');
 
         $this->transfer_time(8);
 
@@ -147,7 +147,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F20','1'));
 
-        $this->run_event('T2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('T2');
 
         $this->transfer_time(8);
 

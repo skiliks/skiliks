@@ -147,7 +147,7 @@ class F19_SK1416_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F19','1'));
 
-        $this->run_event('T2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('T2');
 
         $this->transfer_time(8);
 

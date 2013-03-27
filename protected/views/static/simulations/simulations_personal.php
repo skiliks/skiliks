@@ -1,11 +1,16 @@
 
 <h1><?php echo Yii::t('site', 'Simulations') ?></h1>
 
-Персональная
+Вам доступны к прохождению (accepted only invites):
+<br/>
+<br/>
 
 <?php
 $this->widget('zii.widgets.grid.CGridView', [
-    'dataProvider' => Simulation::model()->search(Yii::app()->user->data()->id), //$dataProvider,
+    'dataProvider' => Invite::model()->searchByInvitedUserEmail(
+        Yii::app()->user->data()->profile->email,
+        Invite::STATUS_ACCEPTED
+    ), //$dataProvider,
     'summaryText' => '',
     'pager' => [
         'header'        => false,
@@ -15,8 +20,12 @@ $this->widget('zii.widgets.grid.CGridView', [
         'lastPageLabel' => 'конец >>',
     ],
     'columns' => [
-        ['header' => Yii::t('site', 'Id'), 'value' => '$data->id'],
-        ['header' => ''                  , 'value' => '"<a class=\"view-simulation-details-pop-up\" href=\"/simulations/details/$data->id\">Подробно</a>"' , 'type' => 'html'],
+        ['header' => Yii::t('site', 'Company')    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type.$data->ownerUser->getAccount()->company_name)'],
+        ['header' => Yii::t('site', 'Professional occupation')   , 'value' => 'Yii::t("site", $data->vacancy->professionalOccupation->label)'],
+        ['header' => Yii::t('site', 'Specialization')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
+        ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
+        ['header' => Yii::t('site', 'Score')                                , 'value' => ''],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/2/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);
 ?>

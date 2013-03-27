@@ -164,11 +164,12 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $body = [
             'Уважаемый ' . $invite->getFullname(),
             $invite->message,
-            'Пройдите по ссылке чтобы начать симуляцию',
+            'Пройдите по ссылке чтобы одобрить приглашение пройти симуляцию',
             sprintf(
                 '<a href="%1$s" target="_blank">%1$s</a>',
-                Yii::app()->createAbsoluteUrl($invite->receiver_id ? '/profile' : '/dashboard/accept-invite/' . $invite->code)
+                Yii::app()->createAbsoluteUrl($invite->receiver_id ? '/dashboard' : '/registration/by-link/' . $invite->code)
             ),
+            'Приглашние утратит силу через неделю.',
             $invite->signature
         ];
 
@@ -212,8 +213,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $user = $user->data();  //YumWebUser -> YumUser
 
-        // you can`t delete other (corporate) user invite
-        if ($user->id !== $invite->owner_id && $user->id !== $invite->receiver_id) {
+        // owner only can delete his invite
+        if ($user->id !== $invite->owner_id) {
             Yii::app()->user->setFlash('success', sprintf(
                 "Нельзя удалить чужое приглашение!"
             ));
@@ -289,13 +290,13 @@ class DashboardController extends AjaxController implements AccountPageControlle
     /**
      * @param $code
      */
-    public function actionAcceptInvite($code)
+    public function actionAcceptInvite($id)
     {
         Yii::app()->language = 'ru';
 
-        $invite = Invite::model()->findByCode($code);
+        $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
-            Yii::app()->user->setFlash('error', 'Код неверный');
+            Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
             $this->redirect('/');
         }
 
@@ -307,32 +308,137 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $this->checkUser();
 
         if (Yii::app()->user->data()->id !== $invite->receiverUser->id) {
-            Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляци.');
+            Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляцию.');
             $this->redirect('/profile');
         }
 
         $invite->status = Invite::STATUS_ACCEPTED;
         $invite->save(false, ['status']);
 
-        $this->redirect('/simulation/promo/1'); // promo/full
+        Yii::app()->user->setFlash('success', sprintf(
+            'Приглашение от %s %s принято.',
+            $invite->ownerUser->getAccount()->ownership_type,
+            $invite->ownerUser->getAccount()->company_name
+        ));
+
+        $this->redirect('/dashboard'); // promo/full
     }
 
     /**
-     * @param $code
+     *
+     * @param string $code
      */
-    public function actionDeclineInvite($code)
+    public function actionSoftRemoveInvite($id)
     {
-        $invite = Invite::model()->findByCode($code);
-        if (empty($invite)) {
+        $invite = Invite::model()->findByPk($id);
+
+        if (null === $invite) {
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            $this->redirect('/dashboard');
+        }
+
+        if (Yii::app()->user->data()->id !== $invite->receiver_id &&
+            Yii::app()->user->data()->id !== $invite->owner_id) {
+
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            $this->redirect('/dashboard');
+        }
+
+        $invite->status = Invite::STATUS_DECLINED;
+        $invite->update(false, ['status']);
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Приглашение от %s %s отклонено.',
+            $invite->ownerUser->getAccount()->ownership_type,
+            $invite->ownerUser->getAccount()->company_name
+        ));
+
+        $this->redirect('/dashboard');
+    }
+
+    /**
+     *
+     * @param string $code
+     */
+    public function actionDeclineInvite($id)
+    {
+        $declineExplanation = new DeclineExplanation();
+        $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
+
+        if (null === $declineExplanation->invite) {
+            Yii::app()->user->setFlash('success', 'Выбранного к отмене приглашения не существует.');
+            $this->redirect('/dashboard');
+        }
+
+        if (Yii::app()->user->data()->id !== $declineExplanation->invite->receiver_id &&
+            Yii::app()->user->data()->id !== $declineExplanation->invite->owner_id) {
+
+            Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
+            $this->redirect('/dashboard');
+        }
+
+        $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
+        $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
+        $declineExplanation->vacancy_label = $declineExplanation->invite->vacancy->label;
+        $declineExplanation->created_at = date('Y-m-d H:i:s');
+        $declineExplanation->save();
+
+        $declineExplanation->invite->status = Invite::STATUS_DECLINED;
+        $declineExplanation->invite->update(false, ['status']);
+
+        Yii::app()->user->setFlash('success', sprintf(
+            'Приглашение от %s %s отклонено.',
+            $declineExplanation->invite->ownerUser->getAccount()->ownership_type,
+            $declineExplanation->invite->ownerUser->getAccount()->company_name
+        ));
+
+        // for unregistered user - redirect to homepage
+        if (null === Yii::app()->user->data()->id) {
             $this->redirect('/');
         }
 
-        $reason = Yii::app()->request->getParam('reason');
-        $reasonDesc = Yii::app()->request->getParam('reason-desc');
-
-        $invite->status = Invite::STATUS_DECLINED;
-        $invite->save();
-
         $this->redirect('/dashboard');
+    }
+
+    /**
+     *
+     */
+    public function actionValidateDeclineExplanation()
+    {
+        Yii::app()->language = 'ru';
+
+        $declineExplanation = new DeclineExplanation();
+
+        $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
+        $isValid = false;
+
+        // no object - no validation -> this is request to render form at first
+        if (null !== Yii::app()->request->getParam('DeclineExplanation')) {
+            $isValid = $declineExplanation->validate(['reason_id', 'description']);
+        }
+
+        $this->layout = false;
+
+        $html = $this->render(
+            'decline_explanation_form',
+            [
+                'declineExplanation' => $declineExplanation,
+                'reasons'            => StaticSiteTools::formatValuesArrayLite(
+                    'DeclineReason',
+                    'id',
+                    'label',
+                    '',
+                    false,
+                    ' ORDER BY sort_order DESC'
+                ),
+                'action' => '/dashboard/decline-invite/'.(int)$declineExplanation->invite_id
+            ],
+            true
+        );
+
+        $this->sendJSON([
+            'isValid' => $isValid,
+            'html'    => $html,
+         ]);
     }
 }

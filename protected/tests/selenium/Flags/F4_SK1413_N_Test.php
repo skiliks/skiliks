@@ -42,7 +42,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F4','0'));
 
-        $this->run_event('ET1.3.1',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET1.3.1');
 
         $this->transfer_time(10);
 
@@ -81,7 +81,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F4','0'));
 
-        $this->run_event('ET1.3.2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET1.3.2');
 
         $this->transfer_time(10);
 
@@ -120,7 +120,7 @@ class F4_SK1413_N_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F4','0'));
 
-        $this->run_event('ET1.3.3',"xpath=(//*[contains(text(),'')])",'-октября');
+        $this->run_event('ET1.3.3');
 
         $this->transfer_time(10);
 

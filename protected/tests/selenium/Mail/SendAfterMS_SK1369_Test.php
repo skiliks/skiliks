@@ -21,6 +21,7 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
     public function testSK1369()
     {
         // TODO: после введения методики фантастической отсылки MS писем тест кейс не актуален
+
         $this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])",'click');
@@ -28,11 +29,6 @@ class SendAfterMS_SK1369_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Теперь слушай сюда')])");
         sleep(5);
         $this->optimal_click("css=li.icon-active.mail a");
-        $this->waitForVisible("link=отправить");
-        $this->assertElementPresent("link=отправить");
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
-        $this->optimal_click("css=div.mail-popup-button > div");
-        $this->optimal_click(Yii::app()->params['test_mappings']['mail']['close']);
         $this->run_event('M70',Yii::app()->params['test_mappings']['icons']['mail'],'click');
         //$this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->waitForVisible(Yii::app()->params['test_mappings']['mail_main']['new_email']);

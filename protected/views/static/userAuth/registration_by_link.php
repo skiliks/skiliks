@@ -1,3 +1,4 @@
+<?php /* ?>
 <style>
     .registration-by-link .form label {
         color: #555545;
@@ -29,6 +30,7 @@
         display: none;
     }
 </style>
+<?php */ ?>
 
 <section class="registration-by-link">
     <h1>Пожалуйста зарегистрируйтесь, чтобы перейти к тестированию</h1>
@@ -75,12 +77,17 @@
 
         <div class="row buttons">
             <?php echo CHtml::submitButton('Register'); ?>
-            <a href="/dashboard/decline-invite/<?php echo $invite->code; ?>" class="decline-invite">Decline</a>
+
+            <br/>
+            <br/>
+            <br/>
+
+            <a class="decline-link">Decline</a>
         </div>
 
         <?php $this->endWidget(); ?>
     </div>
-
+    <?php /* ?>
     <div class="decline-form-box hidden">
         <form class="decline-form" action="/dashboard/decline-invite/<?php echo $invite->code; ?>" method="POST">
             <h3>Пожалуйста укажите причину отказа</h3>
@@ -111,10 +118,16 @@
             </div>
         </form>
     </div>
+    <?php */ ?>
 </section>
 
+<!-- decline-form { -->
+<div id="invite-decline-form"></div>
+<!-- decline-form } -->
+
+
 <script type="text/javascript">
-    $('.decline-invite').click(function() {
+    /*$('.decline-invite').click(function() {
         var href = $(this).attr('href');
 
         $('.decline-form-box').removeClass('hidden');
@@ -124,5 +137,34 @@
 
     $('.decline-form .back').click(function() {
         $('.decline-form-box').addClass('hidden');
-    });
+    });*/
+$(function(){
+    // decline dialog {
+    $.ajax({
+        url: '/dashboard/decline-invite/validation',
+        type: 'POST',
+        success: function(data) {
+            $('#invite-decline-form').html(data.html);
+
+            $('#invite-decline-form').dialog({
+                width: 500,
+                modal: true
+            });
+
+            $('#invite-decline-form').parent().addClass('nice-border');
+            $('#invite-decline-form').parent().addClass('backgroud-rich-blue');
+
+            $('#invite-decline-form').dialog('close');
+
+            $('.decline-link').click(function(event){
+                event.preventDefault();
+                $('#invite-decline-form input#DeclineExplanation_invite_id').val('<?php echo $invite->id ?>');
+
+                $('#invite-decline-form')
+                $('#invite-decline-form').dialog('open');
+            });
+        }
+    })
+    // decline dialog }
+})
 </script>
