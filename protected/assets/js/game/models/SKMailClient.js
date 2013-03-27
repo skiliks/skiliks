@@ -479,7 +479,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/getMessages',
                     {
                         folderId:me.codeFolderInbox,
-                        order:1,
+                        order:'time',
                         order_type:0
                     },
                     function (responce) {

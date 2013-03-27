@@ -311,21 +311,7 @@ define([
                 }
 
                 this.mailClient.setActiveEmail(email);
-
-                // update active email in amails list {
-                if (folderAlias === this.mailClient.aliasFolderInbox) {
-                    this.updateInboxListView();
-                }
-                if (folderAlias === this.mailClient.aliasFolderSended) {
-                    this.updateSendListView();
-                }
-                if (folderAlias === this.mailClient.aliasFolderDrafts) {
-                    this.updateDraftsListView();
-                }
-                if (folderAlias === this.mailClient.aliasFolderTrash) {
-                    this.updateTrashListView();
-                }
-                // update active email in amails list }
+                this.highlightActiveEmail(email);
 
                 if ('undefined' !== typeof email.text &&
                     'undefined' !== typeof email.attachment) {
@@ -346,6 +332,18 @@ define([
                     me.mailClientInboxFolderEmailPreviewId,
                     '100%'
                 );
+            },
+
+            /**
+             * @method
+             */
+            highlightActiveEmail: function(email) {
+                var activeClass = ' mail-emulator-received-list-string-selected active ';
+
+                this.$('#' + this.mailClientIncomeFolderListId + ' .email-list-line')
+                    .removeClass(activeClass)
+                    .filter('[data-email-id=' + email.mySqlId + ']')
+                    .addClass(activeClass);
             },
 
             /**
@@ -476,13 +474,6 @@ define([
                 var incomingEmails = this.mailClient.folders[this.mailClient.aliasFolderInbox].emails; // to make code shorter
 
                 _.values(incomingEmails).forEach(function (incomingEmail) {
-                    // check is email active
-                    var isActiveCssClass = '';
-                    if (parseInt(incomingEmail.mySqlId, 10) === parseInt(me.mailClient.activeEmail.mySqlId, 10)) {
-                        // why 2 CSS classes? - this is works
-                        isActiveCssClass = ' mail-emulator-received-list-string-selected active ';
-                    }
-
                     // generate HTML by template
                     emailsList += _.template(mail_client_income_line_template, {
 
@@ -492,8 +483,7 @@ define([
                         sendedAt: incomingEmail.sendedAt,
                         isHasAttachment: incomingEmail.getIsHasAttachment(),
                         isHasAttachmentCss: incomingEmail.getIsHasAttachmentCss(),
-                        isReadedCssClass: incomingEmail.getIsReadedCssClass(),
-                        isActiveCssClass: isActiveCssClass
+                        isReadedCssClass: incomingEmail.getIsReadedCssClass()
                     });
 
                 });

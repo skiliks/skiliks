@@ -55,7 +55,7 @@ class MailBoxService
 
         $orderField = false;
         if ($order == 'sender') $orderField = 'sender_id';
-        //if ($order == 'time') $orderField = 'receiving_date'; TODO:Могут быть проблемы из-за того что уже нет столбца receiving_date в mail_template
+        if ($order == 'time') $orderField = 'sent_at';
 
         $orderType = (isset($params['orderType'])) ? $params['orderType'] : false;
         if ($orderType == 0) $orderType = 'ASC';
