@@ -79,7 +79,7 @@ define([
                 e.preventDefault();
                 if("true" !== $(e.currentTarget).attr('data-disabled')) {
                     $('#dialogControllerAnswers li').each(function(index, element) {
-                        $(element).children().children().attr('data-disabled', 'true');
+                        $(element).find('a').attr('data-disabled', 'true');
                     });
                     var dialog_id = $(e.currentTarget).attr('data-id');
                     var is_final = $(e.currentTarget).attr('data-is-final');
