@@ -316,8 +316,8 @@ return array(
                 ['username' => 'pernifin'  , 'email' => 'pernifin@skiliks.com','password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'kirill'    , 'email' => 'kirill@skiliks.com'  ,'password' => 'wu-wod-bo-slyub','is_admin' => 1],
                 ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'ahmed'     , 'email' => 'ahmed@zoho.com'      ,'password' => 'zohozoho'       ,'is_admin' => 1]
-                ['username' => 'r.kilimov' , 'email' => 'r.kilimov@gmail.com' ,'password' => 'r.kilimov'      ,'is_admin' => 1]
+                ['username' => 'ahmed'     , 'email' => 'ahmed@zoho.com'      ,'password' => 'zohozoho'       ,'is_admin' => 1],
+                ['username' => 'r.kilimov' , 'email' => 'r.kilimov@gmail.com' ,'password' => 'r.kilimov'      ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
