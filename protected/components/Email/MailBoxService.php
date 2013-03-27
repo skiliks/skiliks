@@ -405,8 +405,8 @@ class MailBoxService
         // копируем само письмо
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type)
-            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type
+            (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, letter_type)
+            select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, ''
             from mail_template
             where mail_template.code = '{$code}'";
 
@@ -494,8 +494,8 @@ class MailBoxService
         
         $connection = Yii::app()->db;
         $sql = "insert into mail_box
-            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type)
-            select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type
+            (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type)
+            select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, ''
             from mail_template  where group_id IN (1,3) ";
         $profiler->render('r2: ');
 

@@ -39,6 +39,7 @@ class EventService
             if (!$eventTime) $eventTime = $event->trigger_time;
             
             // проверим а есть ли такой триггер
+            /** @var $eventsTriggers EventTrigger */
             $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             if ($eventsTriggers) {
                 $eventsTriggers->trigger_time = $eventTime; 
