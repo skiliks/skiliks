@@ -11,7 +11,10 @@
  * @property int type
  * @property string paused
  * @property int skipped
- *
+ * @property string managerial_skills
+ * @property string managerial_productivity
+ * @property string time_management_effectiveness
+ * @property string overall_manager_rating
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_aggregated
  * @property LogWindow[] log_windows
