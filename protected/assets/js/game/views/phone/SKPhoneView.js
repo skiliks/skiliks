@@ -36,7 +36,8 @@ define([
             'click .phone_get_menu':     'getMenu',
             'click .phone_get_themes':   'getThemes',
             'click .phone_call':         'callToContact',
-            'click .phone_call_back':    'callbackContact'
+            'click .phone_call_back':    'callbackContact',
+            'click .themes_close':       'closeThemes'
         }, SKWindowView.prototype.events),
 
         dimensions: {
@@ -181,6 +182,10 @@ define([
 
             });
 
+        },
+
+        closeThemes: function() {
+            this.$el.find('#phoneCallThemesDiv').remove();
         }
     });
 
