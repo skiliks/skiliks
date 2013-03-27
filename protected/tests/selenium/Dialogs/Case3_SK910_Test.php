@@ -20,13 +20,24 @@ class Case3_SK910_Test extends SeleniumTestHelper
     public function testSK910()
     {
         //TODO: сейчас здесь выдает 500, т.к. есть баг (который возникает при быстрых кликах по диалогу)
-        $this->markTestIncomplete();
+
+        // здесь будут совсем другие значения для юниверсал лог
+        /*$m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone');
+        $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk');
+        $TH = array($s, $m);*/
+
+
+        $m1 = array('MS27','MS48','MS68','MS70');
+        $s1= array('mail new','mail new','mail new','mail new');
+        $TH1 = array($s1, $m1);
+
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
-        $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
+        /*$this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
-
-        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
+        */
+        /*$this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
 
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
@@ -37,6 +48,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
+        */
 
         $this->run_event('MS27');
         sleep(5);
@@ -46,10 +58,17 @@ class Case3_SK910_Test extends SeleniumTestHelper
         sleep(5);
         $this->run_event('MS70');
         sleep(50);
+
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
+
+        //$this->Universal($TH); // здесь у нас пока что закомментирована часть с диалогами, поэтому проверки на юниверсал лог пока не делаем
+        $this->Mail_log($TH1);
+        $this->Leg_actions_detail();
+        $this->Leg_actions_aggregated();
+
+        /*$this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.5");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.5");*/
     }
 }

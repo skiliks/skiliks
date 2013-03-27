@@ -109,6 +109,18 @@ return [
         'admm_personal' => "//table[2]/tbody/tr[3]/td[2]"
     ],
 
+    'log' => [
+        'universal' => "xpath=//div[1]/div[1]/div/ul/li[1]/a",
+        'mail_log' => "xpath=//div[1]/div[1]/div/ul/li[6]/a",
+        'leg_actions_detail' => "xpath=//div[1]/div[1]/div/ul/li[9]/a",
+        'leg_actions_aggregated' => 'xpath=//div[1]/div[1]/div/ul/li[10]/a',
+        'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
+        'admm_positive' => "//div[2]/table[2]/tbody/tr/td[2]",
+        'admm_negative' => "//table[2]/tbody/tr[2]/td[2]",
+        'admm_personal' => "//table[2]/tbody/tr[3]/td[2]"
+
+    ],
+
 
     'other' => [
         '' => '',
