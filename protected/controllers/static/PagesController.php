@@ -7,10 +7,7 @@ class PagesController extends AjaxController
 
     public function actionIndex($_lang = null)
     {
-        // this page currently will be just RU
-        if (null === Yii::app()->request->getParam('_lang') && null === $_lang) {
-            Yii::app()->language = 'ru';
-        }
+        $this->defineLanguage($_lang);
 
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
@@ -21,10 +18,9 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionTeam()
+    public function actionTeam($_lang = null)
     {
-        $user_id = Yii::app()->session['uid'];
-        $this->user = YumUser::model()->findByPk($user_id);
+        $this->defineLanguage($_lang);
 
         $this->render('team');
     }
@@ -32,10 +28,9 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionProduct()
+    public function actionProduct($_lang = null)
     {
-        $user_id = Yii::app()->session['uid'];
-        $user = YumUser::model()->findByPk($user_id);
+        $this->defineLanguage($_lang);
 
         $this->render('product');
     }
@@ -43,10 +38,9 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionContacts()
+    public function actionContacts($_lang = null)
     {
-        $user_id = Yii::app()->session['uid'];
-        $user = YumUser::model()->findByPk($user_id);
+        $this->defineLanguage($_lang);
 
         $this->render('contacts');
     }
@@ -55,22 +49,22 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionTariffs()
+    public function actionTariffs($_lang = null)
     {
-        $user_id = Yii::app()->session['uid'];
-        $user = YumUser::model()->findByPk($user_id);
+        $this->defineLanguage($_lang);
 
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD'])
         ]);
     }
 
-
     /**
      *
      */
-    public function actionComingSoonSuccess()
+    public function actionComingSoonSuccess($_lang = null)
     {
+        $this->defineLanguage($_lang);
+
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -82,6 +76,8 @@ class PagesController extends AjaxController
      */
     public function actionAddUserSubscription()
     {
+        $this->defineLanguage($_lang);
+
         $email = Yii::app()->request->getParam('email', false);
         $result = UserService::addUserSubscription($email);
 
@@ -92,8 +88,10 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionBadBrowser()
+    public function actionBadBrowser($_lang = null)
     {
+        $this->defineLanguage($_lang);
+
         $this->render('badBrowser', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -103,8 +101,10 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionOldBrowser()
+    public function actionOldBrowser($_lang = null)
     {
+        $this->defineLanguage($_lang);
+
         $this->render('oldBrowser', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -112,7 +112,7 @@ class PagesController extends AjaxController
     }
 
     /**
-     *
+     * Simulation is RU only
      */
     public function actionLegacyAndTerms($mode, $type, $invite_id)
     {
