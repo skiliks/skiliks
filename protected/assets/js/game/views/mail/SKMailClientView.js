@@ -1416,8 +1416,6 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectId: function () {
-                console.log('value: ', this.$("#MailClient_NewLetterSubject input.dd-selected-value"));
-                console.log('value: ', this.$("#MailClient_NewLetterSubject input.dd-selected-value").val());
                 return this.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
             },
 

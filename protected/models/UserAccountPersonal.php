@@ -7,6 +7,8 @@
  * @property string $user_id
  * @property integer $industry_id
  * @property integer $professional_status_id
+ * @property string $birthday
+ * @property string $location
  *
  * The followings are the available model relations:
  * @property YumUser $user
@@ -44,6 +46,7 @@ class UserAccountPersonal extends CActiveRecord
 			array('user_id'                 , 'required'),
 			array('industry_id, professional_status_id', 'numerical', 'integerOnly'=>true),
 			array('user_id'                 , 'length'   , 'max'=>10),
+			array('birthday'                 , 'date'   , 'format'=>'yyyy-MM-dd'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('user_id, industry_id, professional_status_id', 'safe', 'on'=>'search'),
@@ -73,6 +76,8 @@ class UserAccountPersonal extends CActiveRecord
 			'user_id'     => Yii::t('site', 'User'),
 			'industry_id' => Yii::t('site', 'Industry'),
 			'professional_status_id' => Yii::t('site', 'Professional status'),
+			'birthday' => Yii::t('site', 'Birthday'),
+			'location' => Yii::t('site', 'Location'),
 		);
 	}
 
@@ -95,4 +100,12 @@ class UserAccountPersonal extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+
+    /**
+     * @return DateTime|null
+     */
+    public function getBirthdayDate()
+    {
+        return DateTime::createFromFormat('Y-m-d', $this->birthday) ?: null;
+    }
 }

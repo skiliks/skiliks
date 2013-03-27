@@ -36,10 +36,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $this->miracle_send_email ();
 
-        $this->assertTrue($this->verify_flag('F3','1'));
-
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
-
+        $this->assertTrue($this->verify_flag('F3','1'));
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
 
         $this->assertTrue($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));

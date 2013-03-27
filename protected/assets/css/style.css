@@ -1168,13 +1168,14 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
-	width:456px;
-	min-height:383px;
+	width:452px;
+    padding-bottom:20px;
+    /* min-height:383px; */
 }
 .registration .form.form-account-personal{
-	background-image:url("../img/bg-registration-personal.png");
-	float:left;
-	margin-left:9px;
+    background-image:url("../img/bg-registration-personal.png");
+    float:left;
+    margin-left:9px;
 }
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corparate.png");
@@ -1185,6 +1186,7 @@ html[lang=ru] .product section table th{
 	font:2.571em 'ProximaNova-Bold';
 	color:#555545;
 	margin:21px 0 12px 57px;
+    min-height:88px;
 }
 .registration .form>ul{
 	list-style:none;
@@ -1767,6 +1769,13 @@ html[lang=ru] .product section table th{
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
+.action-controller-registerByLink-static-userAuth  .ui-widget-content,
+.action-controller-personal-static-dashboard .ui-widget-content {
+    background: #146672;
+}
+
+.action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
+.action-controller-personal-static-dashboard .ui-dialog-titlebar,
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
 .action-controller-corporate-static-simulations .ui-dialog-titlebar {
@@ -2199,6 +2208,7 @@ ul.profile-menu li {
     -moz-border-radius: 0px 0px 5px;
     border-radius: 0px 0px 5px;
 }
+
 .items th, .items th a {
     color: white;
     text-decoration: none;
@@ -2254,3 +2264,40 @@ ul.profile-menu li {
     background: #5698a2 url("../img/search-icon.png") no-repeat 50% 50%;
 }
 /* *********************************** *********** /DASHBOARD ********************************* ************* */
+/* ********************** /DASHBOARD ********************** */
+
+
+.tariff-box .benefits {
+    height: 70px;
+}
+#JotFormIFrame {
+    /*position: absolute;
+    background-color: #ffffff;
+    margin-top: 100px;
+    z-index: 100;
+    top: 10px;*/
+    display: none;
+    width:750px;
+}
+
+.container > header nav a.has-notification {
+    margin-right: 10px;
+    padding-right: 15px;
+}
+
+.not-started-simulations {
+    background-color:  #cf1919;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+    left: 5px;
+    line-height: 20px;
+    margin-right: -20px;
+    position: relative;
+    text-align: center;
+    top: -10px;
+    width: 20px;
+}
+

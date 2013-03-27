@@ -531,7 +531,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             cb();
                         }
                         MailClientModel.trigger('mail:sent');
-                        console.log('4');
                     }
                 );
             },
@@ -1163,12 +1162,10 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @returns {boolean}
              */
             sendNewCustomEmail:function (emailToSave, callback) {
-                console.log('1');
                 var me = this;
                 if (false === this.validationDialogResult(emailToSave)) {
                     return false;
                 }
-                console.log('2');
                 SKApp.server.api(
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),

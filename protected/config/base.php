@@ -171,12 +171,15 @@ return array(
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
+                'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
-                'simulation/<mode:\w+>/<type:\w+>'   => 'static/site/simulation',
+                'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>'=> 'static/site/simulation',
+                'simulation/<mode:\w+>/<type:\w+>'=> 'static/site/simulation',
 
                 'registration'                         => 'static/userAuth/registration',
+                'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
-                'registration/account-type/added'        => 'static/userAuth/accountTypeSavesSuccessfully',
+                'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
 
                 'results'                   =>'static/userAuth/results',
                 'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
@@ -224,6 +227,7 @@ return array(
                 'simulations/corporate'        => 'static/simulations/corporate',
                 'simulations/personal'         => 'static/simulations/personal',
 
+                'dashboard/invite/remove/<id:\d+>/soft' => 'static/dashboard/softRemoveInvite',
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
 
@@ -232,9 +236,10 @@ return array(
 
                 'invite/add-10'                => 'static/cheats/increaseInvites',
 
+                'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
-                'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',
-                'dashboard/decline-invite/<code:\w+>' => 'static/dashboard/declineInvite',
+                'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
+                'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',
@@ -300,18 +305,19 @@ return array(
         'initial_data' => [
             'users' => [
                 /* is_admin = 1 -- user will be admin */
-                ['username' => 'gugu'    , 'email' => 'gugu@skiliks.com'    ,'password' => 'gfhjkm'         ,'is_admin' => 1],
-                ['username' => 'slavka'  , 'email' => 'slavka@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'asd'     , 'email' => 'asd@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'vad'     , 'email' => 'vad@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'listepo' , 'email' => 'ivan@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'tony'    , 'email' => 'tony@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'leah'    , 'email' => 'leah@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'masha'   , 'email' => 'masha@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'pernifin', 'email' => 'pernifin@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'kirill'  , 'email' => 'kirill@skiliks.com'  ,'password' => 'wu-wod-bo-slyub','is_admin' => 1],
-                ['username' => 'tatiana' , 'email' => 'tatiana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
-                ['username' => 'ahmed'   , 'email' => 'ahmed@zoho.com'      ,'password' => 'zohozoho'       ,'is_admin' => 1]
+                ['username' => 'gugu'      , 'email' => 'gugu@skiliks.com'    ,'password' => 'gfhjkm'         ,'is_admin' => 1],
+                ['username' => 'slavka'    , 'email' => 'slavka@skiliks.com'  ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'asd'       , 'email' => 'asd@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'vad'       , 'email' => 'vad@skiliks.com'     ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'listepo'   , 'email' => 'ivan@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'tony'      , 'email' => 'tony@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'leah'      , 'email' => 'leah@skiliks.com'    ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'masha'     , 'email' => 'masha@skiliks.com'   ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'pernifin'  , 'email' => 'pernifin@skiliks.com','password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'kirill'    , 'email' => 'kirill@skiliks.com'  ,'password' => 'wu-wod-bo-slyub','is_admin' => 1],
+                ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
+                ['username' => 'ahmed'     , 'email' => 'ahmed@zoho.com'      ,'password' => 'zohozoho'       ,'is_admin' => 1],
+                ['username' => 'rkilimov' , 'email' => 'r.kilimov@gmail.com' ,'password' => 'r.kilimov'      ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),

@@ -69,8 +69,9 @@ class StaticSiteTools
      * @param string $labelColumn
      * @param string $idColumn
      * @param string $conditions, like ' where sim_id = 25 '
+     * @param string $params, like ' sort_order DESC '
      */
-    public static function formatValuesArrayLite($model, $idColumn = 'id', $labelColumn = 'label', $conditions = '', $emptyValue = false)
+    public static function formatValuesArrayLite($model, $idColumn = 'id', $labelColumn = 'label', $conditions = '', $emptyValue = false, $params = [])
     {
         $result = [];
 
@@ -78,7 +79,7 @@ class StaticSiteTools
             $result[-1] = $emptyValue;
         }
 
-        foreach ($model::model()->findAll($conditions) as $item) {
+        foreach ($model::model()->findAll($conditions, $params) as $item) {
             $result[$item->{$idColumn}] = $item->{$labelColumn};
         }
 

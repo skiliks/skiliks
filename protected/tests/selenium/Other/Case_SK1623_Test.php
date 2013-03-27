@@ -74,7 +74,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
 
         $this->assertTrue($this->verify_flag('F14','1'));
 
-        $this->run_event('ET12.2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET12.2');
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));
@@ -89,7 +89,7 @@ class Case_SK1623_Test extends SeleniumTestHelper
         sleep(5);
         $this->assertTrue($this->verify_flag('F14','0'));
 
-        $this->run_event('ET12.2',"xpath=(//*[contains(text(),'октября')])",'-');
+        $this->run_event('ET12.2');
         sleep(5);
         $this->waitForVisible("xpath=(//*[contains(text(),'Валерий Семенович просит прямо сейчас')])");
         $this->assertTrue($this->isVisible("xpath=(//*[contains(text(),'Нет у меня никакой презентации')])"));

@@ -71,7 +71,6 @@ $this->widget('zii.widgets.grid.CGridView', [
                     'dataType' =>'json',
                     'url'      => $this->createUrl('profile/getSpecialization'),
                     'success'  =>' function(data) {
-                        console.log(data);
                         $("select#Vacancy_professional_specialization_id option").remove();
                         for (var id in data) {
                             $("select#Vacancy_professional_specialization_id").append(
@@ -140,7 +139,6 @@ $this->widget('zii.widgets.grid.CGridView', [
         });
 
         $('a.delete-vacancy-link').click(function(event) {
-            console.log($(this).parent().parent());
             if (confirm("Вы желаете удалить вакансию \"" + $(this).parent().parent().find('td:eq(0)').text() + "\"?")) {
                 // link go ahead to delete URL
             } else {
