@@ -602,16 +602,6 @@ class SimulationService
             } elseif (0.5 < $real_k) {
                 $k[$learningGoalCode] = 0;
             }
-
-
-            echo sprintf(
-                "'%s' (%s / %s)  %s -> %s \n",
-                $learningGoalCode,
-                $sumValue,
-                $learningGoals[$learningGoalCode]->max_negative_value,
-                $real_k,
-                $k[$learningGoalCode]
-            );
         }
         // calculate coefficients }
 
@@ -620,11 +610,6 @@ class SimulationService
             if (isset($k[$assessment->point->learning_goal_code]) &&
                 $assessment->point->type_scale == HeroBehaviour::TYPE_POSITIVE
             ) {
-//                echo sprintf(
-//                    "%s %s \n",
-//                    $assessment->point->learning_goal_code,
-//                    $k[$assessment->point->learning_goal_code]
-//                );
                 $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_code];
                 $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
                 $assessment->save();
