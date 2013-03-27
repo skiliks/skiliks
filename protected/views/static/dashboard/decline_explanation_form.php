@@ -12,7 +12,7 @@
         Пожалуйста, укажите причину отказа
     </h2>
 
-    <div class="row">
+    <div class="row form-decline-explanation-reason-row">
         <?php echo $form->labelEx($declineExplanation        , 'reason_id'); ?>
         <?php echo $form->RadioButtonList($declineExplanation, 'reason_id', $reasons); ?>
         <?php echo $form->error($declineExplanation          , 'reason_id'); ?>
@@ -21,7 +21,7 @@
     <br/>
     <br/>
 
-    <div class="row">
+    <div class="row form-decline-explanation-description-row" style="display: none;">
         <?php echo $form->labelEx($declineExplanation  , 'description'); ?>
         <?php echo $form->textArea($declineExplanation, 'description'); ?>
         <?php echo $form->error($declineExplanation    , 'description'); ?>
@@ -47,6 +47,16 @@
     $('.chancel-decline').click(function(event){
         event.preventDefault();
         $('#invite-decline-form').dialog('close');
+    });
+
+    $('.form-decline-explanation-reason-row input').click(function(){
+        console.log($(this).val(), '<?php echo $reasonOtherId ?>');
+        if ($(this).val() == '<?php echo $reasonOtherId ?>') {
+            $('.form-decline-explanation-description-row').show();
+        } else {
+            $('.form-decline-explanation-description-row textarea').text('');
+            $('.form-decline-explanation-description-row').hide();
+        }
     });
 
     $('.confirm-decline').click(function(event){

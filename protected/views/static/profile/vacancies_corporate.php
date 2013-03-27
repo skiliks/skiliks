@@ -41,7 +41,7 @@ $this->widget('zii.widgets.grid.CGridView', [
 <a class="vacancy-add-form-switcher" style="<?php echo ($isDisplayForm) ? '' : 'display: none;'?> ;" >Добавить</a>
 
 <?php if (null !== $vacancy->id): ?>
-    <a href="/profile/corporate/vacancies/">Вернутсья к форме добавления вакансий</a>
+    <a href="/profile/corporate/vacancies/">Вернуться к форме добавления вакансий</a>
     <br/>
     <br/>
     <h2>Редактирование вакансии "<?php echo $vacancy->label ?>"</h2>
