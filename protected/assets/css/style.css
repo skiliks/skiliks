@@ -1166,13 +1166,14 @@ html[lang=ru] .product section table th{
 	-webkit-border-radius:12px;
 	-moz-border-radius:12px;
 	border-radius:12px;
-	width:456px;
-	min-height:383px;
+	width:452px;
+    padding-bottom:20px;
+    /* min-height:383px; */
 }
 .registration .form.form-account-personal{
-	background-image:url("../img/bg-registration-personal.png");
-	float:left;
-	margin-left:9px;
+    background-image:url("../img/bg-registration-personal.png");
+    float:left;
+    margin-left:9px;
 }
 .registration .form.form-account-corporate{
 	background-image:url("../img/bg-registration-corparate.png");
@@ -1183,6 +1184,7 @@ html[lang=ru] .product section table th{
 	font:2.571em 'ProximaNova-Bold';
 	color:#555545;
 	margin:21px 0 12px 57px;
+    min-height:88px;
 }
 .registration .form>ul{
 	list-style:none;
