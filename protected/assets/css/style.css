@@ -1151,7 +1151,7 @@ html[lang=ru] .product section table th{
 }
 .registration{
 	padding-top:43px;
-	overflow:hidden;
+/*	overflow:hidden; */
 }
 .registration h2{
 	font:2.798em "ProximaNova-Bold";
