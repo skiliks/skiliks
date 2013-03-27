@@ -118,7 +118,7 @@ define([
             e.preventDefault();
             if("true" !== $(e.currentTarget).attr('data-disabled')) {
                 $('#phoneAnswers li').each(function(index, element) {
-                    $(element).children().children().attr('data-disabled', 'true');
+                    $(element).find('a').attr('data-disabled', 'true');
                 });
                 var event = this.options.model_instance.get('sim_event');
                 var dialog_id = $(e.currentTarget).attr('data-id');
