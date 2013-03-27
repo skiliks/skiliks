@@ -77,14 +77,18 @@ define([
             'doSelectReplica':function (e) {
                 var me = this;
                 e.preventDefault();
-                var dialog_id = $(e.currentTarget).attr('data-id');
-                var is_final = $(e.currentTarget).attr('data-is-final');
-                me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
-                    me.options.model_instance.setLastDialog(dialog_id);
-                    if (is_final) {
-                        me.options.model_instance.close();
-                    }
-                });
+                if("true" !== $(e.currentTarget).attr('data-disabled')) {
+                    $(e.currentTarget).attr('data-disabled', 'true');
+                    var dialog_id = $(e.currentTarget).attr('data-id');
+                    var is_final = $(e.currentTarget).attr('data-is-final');
+                    me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
+                        me.options.model_instance.setLastDialog(dialog_id);
+                        if (is_final) {
+                            me.options.model_instance.close();
+                        }
+                    });
+                }
+
             }
         });
     return SKImmediateVisitView;
