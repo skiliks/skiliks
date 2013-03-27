@@ -482,6 +482,8 @@ class SimulationService
         $simulation->end = GameTime::setNowDateTime();
         $simulation->save();
         $simulation->checkLogs();
+
+        self::applyReductionFactors($simulation);
     }
 
     /**
@@ -543,4 +545,91 @@ class SimulationService
         $simulation->save();
     }
 
+    /**
+     * @wiki: https://maprofi.atlassian.net/wiki/pages/editpage.action?pageId=11174012
+     * @param Simulation $simulation
+     */
+    public static function applyReductionFactors(Simulation $simulation)
+    {
+        // we will clculate K based om MAX negative value for learning goals
+        $learningGoalsForUpdate = LearningGoal::model()->findAll(' max_negative_value IS NOT NULL ');
+
+        // to access goals by code
+        $learningGoals = [];
+
+        // init "0" sum for learning goals, find ids of negative behaviours {
+        $learningGoalsForUpdateCodes = [];
+        $sum = [];  // learningGoalsForUpdateNegativeScaleSum
+        foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
+            $learningGoals[$learningGoalForUpdate->code] = $learningGoalForUpdate;
+
+            $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
+            $sum[$learningGoalForUpdate->code] = 0;
+        }
+
+        $negativeHeroBehaviours = HeroBehaviour::model()->findAll(sprintf(
+            'learning_goal_code IN (%s) AND type_scale = %s',
+            implode(',', $learningGoalsForUpdateCodes),
+            HeroBehaviour::TYPE_NEGATIVE
+        ));
+
+        $heroBehavioursForUpdateCodes = [];
+        foreach ($negativeHeroBehaviours as $heroBehaviour) {
+            $heroBehavioursForUpdateCodes[] = $heroBehaviour->code;
+        }
+        // init "0" sum for learning goals, find ids of negative behaviours }
+
+        // calculate total negative sun for learning goals {
+        foreach ($simulation->assessment_aggregated as $assessment) {
+            if (in_array($assessment->point->code, $heroBehavioursForUpdateCodes) &&
+                isset($sum[$assessment->point->learning_goal_code])) {
+
+                $sum[$assessment->point->learning_goal_code] += $assessment->value;
+            }
+        }
+        // calculate total negative sun for learning goals }
+
+        // calculate coefficients {
+        foreach ($sum as $learningGoalCode => $sumValue) {
+            $real_k = $sumValue/$learningGoals[$learningGoalCode]->max_negative_value;
+
+            $k[$learningGoalCode] = 1;
+
+            if ($real_k <= 0.1) {
+                $k[$learningGoalCode] = 1;
+            } elseif (0.1 < $real_k && $real_k <= 0.5) {
+                $k[$learningGoalCode] = 0.5;
+            } elseif (0.5 < $real_k) {
+                $k[$learningGoalCode] = 0;
+            }
+
+
+            echo sprintf(
+                "'%s' (%s / %s)  %s -> %s \n",
+                $learningGoalCode,
+                $sumValue,
+                $learningGoals[$learningGoalCode]->max_negative_value,
+                $real_k,
+                $k[$learningGoalCode]
+            );
+        }
+        // calculate coefficients }
+
+        // update assessment on positive scale {
+        foreach ($simulation->assessment_aggregated as $assessment) {
+            if (isset($k[$assessment->point->learning_goal_code]) &&
+                $assessment->point->type_scale == HeroBehaviour::TYPE_POSITIVE
+            ) {
+//                echo sprintf(
+//                    "%s %s \n",
+//                    $assessment->point->learning_goal_code,
+//                    $k[$assessment->point->learning_goal_code]
+//                );
+                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_code];
+                $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
+                $assessment->save();
+            }
+        }
+        // update assessment on positive scale }
+    }
 }

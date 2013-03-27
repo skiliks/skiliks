@@ -1,6 +1,9 @@
 <?php
 /**
  * @property HeroBehaviour point
+ * @property float coefficient_for_fixed_value
+ * @property float fixed_value
+ *
  * @author slavka
  */
 class AssessmentAggregated extends CActiveRecord
@@ -17,7 +20,7 @@ class AssessmentAggregated extends CActiveRecord
     public $sim_id;    
     
     /**
-     * characters_points_title.id
+     * heroBehaviour.id
      * @var integer
      */
     public $point_id;
