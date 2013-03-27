@@ -46,10 +46,11 @@ class UserAccountPersonal extends CActiveRecord
 			array('user_id'                 , 'required'),
 			array('industry_id, professional_status_id', 'numerical', 'integerOnly'=>true),
 			array('user_id'                 , 'length'   , 'max'=>10),
-			array('birthday'                 , 'date'   , 'format'=>'yyyy-MM-dd'),
+			array('location'                 , 'length'   , 'max'=>255),
+			array('birthday'                 , 'date'   , 'format'=>'yyyy-M-d'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('user_id, industry_id, professional_status_id', 'safe', 'on'=>'search'),
+			array('user_id, industry_id, professional_status_id,birthday,location', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -95,6 +96,8 @@ class UserAccountPersonal extends CActiveRecord
 		$criteria->compare('user_id',$this->user_id,true);
 		$criteria->compare('industry_id',$this->industry_id);
 		$criteria->compare('professional_status_id',$this->professional_status);
+		$criteria->compare('birthday',$this->birthday);
+		$criteria->compare('location',$this->location);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
