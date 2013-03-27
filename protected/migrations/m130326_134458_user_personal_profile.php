@@ -4,8 +4,8 @@ class m130326_134458_user_personal_profile extends CDbMigration
 {
 	public function up()
 	{
-        //$this->addColumn('user_account_personal', 'birthday', 'date');
-        //$this->addColumn('user_account_personal', 'location', 'VARCHAR(255)');
+        $this->addColumn('user_account_personal', 'birthday', 'date');
+        $this->addColumn('user_account_personal', 'location', 'VARCHAR(255)');
 
         $this->delete('professional_statuses');
 
