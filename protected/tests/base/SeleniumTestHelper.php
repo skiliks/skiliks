@@ -372,6 +372,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click("xpath=//*[contains(text(),'новое письмо')]");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
+
     }
 
     public function addAttach($filename)
