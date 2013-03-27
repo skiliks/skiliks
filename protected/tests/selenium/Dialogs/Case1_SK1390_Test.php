@@ -20,8 +20,8 @@ class Case1_SK1390_Test extends SeleniumTestHelper
     public function testSK1390()
     {
 
-        $m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone');
-        $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk');
+        $m = array('main screen','phone','main screen','phone', 'main screen','phone', 'main screen','phone', 'main screen','phone','main screen');
+        $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk','main screen');
         $TH = array($s, $m);
 
 
@@ -41,13 +41,16 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Валерий Семенович,  так в прошлый раз нам пришлось презентацию за день делать!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Непременно, сейчас запланирую время на проверку')])");
-
+        sleep(5); // не убирать sleep это для проверки работы юриверсал лога!!!
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
         $this->Universal($TH);
+        sleep(5);
         $this->Leg_actions_detail();
+        sleep(5);
         $this->Leg_actions_aggregated();
+        sleep(5);
 
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.667");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"0");
