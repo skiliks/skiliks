@@ -395,5 +395,153 @@ class SeleniumTestHelper extends CWebTestCase
         sleep(20);
     }
 
+    public function Universal ($array_of_values)
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['log']['universal']);
+        $this->assertTrue($this->time_values("xpath=//div[1]/table[1]/tbody/tr[", "]/td[4]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[3]" ));
+        $this->assertTrue($this->active_windows($array_of_values, "xpath=//div[1]/table[1]/tbody/tr[", "]/td[1]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[2]"));
+    }
+
+    public function Mail_log ($array_of_values)
+    {
+        // проверить, что все нужные письма есть
+        // и что их виндов правильный
+        $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
+        $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[1]/table[6]/tbody/tr[", "]/td[3]", "xpath=//div[1]/table[6]/tbody/tr[", "]/td[4]" ));
+    }
+
+    public function Leg_actions_detail()
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_detail']);
+        $this->assertTrue($this->time_values("xpath=//div[1]/table[9]/tbody/tr[", "]/td[2]", "xpath=//div[1]/table[9]/tbody/tr[", "]/td[1]" ));
+    }
+
+    public function Leg_actions_aggregated()
+    {
+        $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_aggregated']);
+        $this->assertTrue($this->time_values("xpath=//div[1]/table[10]/tbody/tr[", "]/td[9]", "xpath=//div[1]/table[10]/tbody/tr[", "]/td[8]" ));
+    }
+
+
+    protected function time_values ($a1, $b1, $a2, $b2)
+    {
+        $count = 1;
+        $i = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a1;
+            $result .= (string)$count;
+            $result .= $b1;
+
+            $result2 = "";
+            $result2 .= $a2;
+            $result2 .= (string)($count+1);
+            $result2 .= $b2;
+
+            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
+            {
+                $first_time = trim($this->getText($result));
+                $second_time = trim($this->getText($result2));
+
+                $parsed_time_1 = explode(":", $first_time);
+                $parsed_time_2 = explode(":", $second_time);
+
+                $time1_in_sec = $parsed_time_1[0]*3600+$parsed_time_1[1]*60+$parsed_time_1[2];
+                $time2_in_sec = $parsed_time_2[0]*3600+$parsed_time_2[1]*60+$parsed_time_2[2];
+
+                if (($time2_in_sec>=$time1_in_sec)&&(($time2_in_sec-$time1_in_sec)<=2))
+                {
+                    $count++;
+                }
+                else
+                {
+                    break;
+                }
+                $i++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return $i==$count;
+    }
+
+    protected function difference_of_time ($a1, $b1, $a2, $b2)
+    {
+        $count = 1;
+        $i = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a1;
+            $result .= (string)$count;
+            $result .= $b1;
+
+            $result2 = "";
+            $result2 .= $a2;
+            $result2 .= (string)$count;
+            $result2 .= $b2;
+
+            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
+            {
+                $first_time = trim($this->getText($result));
+                $second_time = trim($this->getText($result2));
+
+                $parsed_time_1 = explode(":", $first_time);
+                $parsed_time_2 = explode(":", $second_time);
+
+                $time1_in_sec = $parsed_time_1[0]*3600+$parsed_time_1[1]*60+$parsed_time_1[2];
+                $time2_in_sec = $parsed_time_2[0]*3600+$parsed_time_2[1]*60+$parsed_time_2[2];
+
+                $time_differ[$count] = $time2_in_sec - $time1_in_sec;
+                $count++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return $time_differ;
+    }
+
+    protected function active_windows($array_of_values, $a1, $b1, $a2, $b2 )
+    {
+        $match = 1;
+        $i=1;
+        while (true)
+        {
+            $result = "";
+            $result .= $a1;
+            $result .= (string)$i;
+            $result .= $b1;
+
+            $result2 = "";
+            $result2 .= $a2;
+            $result2 .= (string)$i;
+            $result2 .= $b2;
+
+            if (($this->isElementPresent($result)==true)&&($this->isElementPresent($result2)==true))
+            {
+                if ($array_of_values[1][($i-1)]==trim($this->getText($result)))
+                {
+                    if ($array_of_values[0][($i-1)]==trim($this->getText($result2)))
+                    {
+                        $match++;
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+            $i++;
+        }
+        return $i==$match;
+    }
+
+
+
 }
 
