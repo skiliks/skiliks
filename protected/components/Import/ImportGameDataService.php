@@ -123,9 +123,9 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $learningGoal = LearningGoal::model()
-                ->byCode($this->getCellValue($sheet, 'Номер цели обучения', $i))
-                ->find();
+            $learningGoal = LearningGoal::model()->findByAttributes([
+                'code' => $this->getCellValue($sheet, 'Номер цели обучения', $i)
+            ]);
 
             // create entity if not exists {
             if (null === $learningGoal) {
