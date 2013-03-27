@@ -335,13 +335,8 @@ class ProfileController extends AjaxController implements AccountPageControllerI
                 'id',
                 'label',
                 " professional_occupation_id = {$vacancy->professional_occupation_id} ",
-                'Выберите род деятельности'
+                false
             );
-
-            // if list consist of 'Выберите род деятельности' only
-            if (1 == count ($specializations)) {
-                $specializations = [];
-            }
         }
 
         $this->render('vacancies_corporate', [
