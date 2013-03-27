@@ -15,6 +15,9 @@
     .small input[type="text"] {
         width: 50px;
     }
+    .sbHolder {
+        width: 350px;
+    }
 </style>
 
 <h1><?php echo Yii::t('site', 'Profile') ?></h1>
