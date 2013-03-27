@@ -160,6 +160,49 @@ class ImportGameDataService
         );
     }
 
+    /**
+     * @return mixed array
+     */
+    public function importLearningGoalsMaxNegativeValue()
+    {
+        echo __METHOD__ . "\n";
+
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Max_fail_rate');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        LearningGoal::model()->updateAll(['max_negative_value' => null]);
+
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
+                continue;
+            }
+
+            // try to find exists entity
+            $learningGoal = LearningGoal::model()->findByAttributes(
+                ['code' => $this->getCellValue($sheet, 'Номер цели обучения', $i)]
+            );
+
+            $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_fail_rate', $i);
+
+            // save
+            $learningGoal->save();
+
+            $importedRows++;
+
+        }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'imported_learning_goals_max_negative-value' => $importedRows,
+            'errors' => false,
+        );
+    }
+
     public function importMailConstructor()
     {
         echo __METHOD__ . "\n";
@@ -2041,6 +2084,7 @@ class ImportGameDataService
         try {
             $result['characters'] = $this->importCharacters();
             $result['learning_goals'] = $this->importLearningGoals();
+            $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
             $result['characters_points_titles'] = $this->importHeroBehaviours();
             $result['flags'] = $this->importFlags();
             $result['replicas'] = $this->importDialogReplicas();
