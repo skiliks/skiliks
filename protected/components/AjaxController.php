@@ -270,6 +270,16 @@ class AjaxController extends CController
         Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
+
+    /**
+     * For static pages only! Profile is RU in release 1.
+     */
+    public function defineLanguage($_lang)
+    {
+        if (null === Yii::app()->request->getParam('_lang') && null === $_lang) {
+            Yii::app()->setLanguage('ru');
+        }
+    }
 }
 
 
