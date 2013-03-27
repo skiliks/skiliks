@@ -27,7 +27,7 @@
 
             <ul class="phone-reply-h" id="phoneAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
-                <li><p><a class="replica-select"
+                <li><p><a class="replica-select" data-disabled="false"
                     <@if (replica.is_final_replica === "1") { @>
                     data-is-final="true"
                     <@ } @>
