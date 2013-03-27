@@ -1245,7 +1245,7 @@ html[lang=ru] .product section table th{
 	width:292px;
 }
 .registration .form .row.wide{
-	margin-bottom:16px;
+/*	margin-bottom:16px; */
 }
 .registration .form .row.wide label{
 	line-height:1;
