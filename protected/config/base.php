@@ -318,6 +318,7 @@ return array(
                 ['username' => 'tatiana'   , 'email' => 'tatiana@skiliks.com' ,'password' => '123123'         ,'is_admin' => 1],
                 ['username' => 'ahmed'     , 'email' => 'ahmed@zoho.com'      ,'password' => 'zohozoho'       ,'is_admin' => 1],
                 ['username' => 'rkilimov' , 'email' => 'r.kilimov@gmail.com' ,'password' => 'r.kilimov'      ,'is_admin' => 1],
+                ['username' => 'svetlana' , 'email' => 'svetlana@skiliks.com' ,'password' => '123123'      ,'is_admin' => 1],
             ]
         ],
         'test_mappings' => require(dirname(__FILE__) . '/test_mappings.php'),
