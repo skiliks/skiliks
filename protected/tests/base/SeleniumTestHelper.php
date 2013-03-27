@@ -404,8 +404,6 @@ class SeleniumTestHelper extends CWebTestCase
 
     public function Mail_log ($array_of_values)
     {
-        // проверить, что все нужные письма есть
-        // и что их виндов правильный
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
         $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[1]/table[6]/tbody/tr[", "]/td[3]", "xpath=//div[1]/table[6]/tbody/tr[", "]/td[4]" ));
     }
