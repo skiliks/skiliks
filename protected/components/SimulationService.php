@@ -612,8 +612,10 @@ class SimulationService
             ) {
                 $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_code];
                 $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
-                $assessment->save();
+            } else {
+                $assessment->fixed_value = $assessment->value;
             }
+            $assessment->save();
         }
         // update assessment on positive scale }
     }
