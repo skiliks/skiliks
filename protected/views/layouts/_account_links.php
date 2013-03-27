@@ -51,8 +51,17 @@
     </a>
     */?>
 
-    <a href="/simulations" class="<?php if (Yii::app()->request->getPathInfo() == 'simulations') { echo "active"; } ?>">
+    <?php $count = Invite::model()->countByAttributes(['receiver_id' => Yii::app()->user->data()->id, 'status' => Invite::STATUS_ACCEPTED]); ?>
+
+    <a href="/simulations"
+       class="<?php if (Yii::app()->request->getPathInfo() == 'simulations') { echo "active"; } ?> <?php echo (0 < $count) ? 'has-notification' : ''; ?>">
         <?php echo Yii::t('site', 'Simulations'); ?>
+
+        <?php if (0 < $count) : ?>
+          <span class="not-started-simulations">
+            <?php echo $count ?>
+        </span>
+        <?php endif ?>
     </a>
 
 <?php endif ?>

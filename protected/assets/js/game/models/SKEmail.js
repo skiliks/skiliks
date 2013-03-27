@@ -81,8 +81,7 @@ define([] ,function() {
          */
         isSubjectValid: function() {
             // keep not strong compartion in non strong way!
-            console.log('this.subject: ', this.subject);
-            return (undefined !== this.subject && 
+            return (undefined !== this.subject &&
                 undefined !== this.subject.characterSubjectId && 
                 '0' !== this.subject.characterSubjectId && 
                 0 !== this.subject.characterSubjectId && 

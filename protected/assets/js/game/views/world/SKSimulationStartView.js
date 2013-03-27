@@ -53,7 +53,6 @@ define([
                     mode = 1;
                 }
             }
-            console.log('**: ',  $(event.target).attr('data-sim-id'), window.mode, mode);
 
             var simulation = SKApp.user.startSimulation(mode);
             var simulation_view = this.simulation_view = new SKSimulationView();
