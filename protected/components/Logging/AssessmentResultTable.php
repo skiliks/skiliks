@@ -38,7 +38,7 @@ class AssessmentResultTable extends LogTable
             $assessmentPoint->point->code,
             $assessmentPoint->point->title,
             $assessmentPoint->point->getTypeScaleTitle(),
-            $assessmentPoint->value,
+            $assessmentPoint->fixed_value,
         ];
     }
 
