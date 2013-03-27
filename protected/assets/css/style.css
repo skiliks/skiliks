@@ -1204,18 +1204,23 @@ html[lang=ru] .product section table th{
 .registration .form>ul li:first-child{
 	margin-top:0;
 }
+.registration .form form {
+    min-height:160px;
+}
 .registration .form .row{
 	line-height:26px;
 	margin:0 20px 9px 38px;
 	position:relative;
+}
+.registration .form .row.buttons {
+    margin-bottom:0px;
 }
 .registration .form .row label{
 	display:inline-block;
 	font:0.834em "ProximaNova-Bold";
 	color:#555545;
 	line-height:1;
-	width:101px;
-	margin-right:-5px;
+	width:95px;
 	vertical-align:middle;
 }
 .registration .form .row input[type=text]{
