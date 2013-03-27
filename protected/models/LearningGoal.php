@@ -1,10 +1,13 @@
 <?php
 
 /**
- * @param float $max_negative_value
- * @param string $code
- * @param string $title
- * @param string $import_id
+ * @property float $max_negative_value
+ * @property string $code
+ * @property string $title
+ * @property string $import_id
+ * @property string $learning_area_code
+ *
+ * @property LearningArea $learningArea
  *
  * @author slavka
  */
@@ -40,6 +43,18 @@ class LearningGoal extends CActiveRecord
     public function tableName()
     {
             return 'learning_goal';
+    }
+
+    /**
+     * @return array relational rules.
+     */
+    public function relations()
+    {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
+        return array(
+            'learningArea' => array(self::BELONGS_TO, 'LearningArea', 'learning_area_code'),
+        );
     }
 }
 

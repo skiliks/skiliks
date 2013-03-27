@@ -103,6 +103,60 @@ class ImportGameDataService
         );
     }
 
+    public function importLearningAreas()
+    {
+        echo __METHOD__ . "\n";
+
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Forma_1');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Номер области обучения', $i)) {
+                continue;
+            }
+
+            // try to find exists entity
+            $learningArea = LearningArea::model()->findByAttributes([
+                'code' => $this->getCellValue($sheet, 'Номер области обучения', $i)
+            ]);
+
+            // create entity if not exists {
+            if (null === $learningArea) {
+                $learningArea = new LearningArea();
+                $learningArea->code = $this->getCellValue($sheet, 'Номер области обучения', $i);
+            }
+            // create entity if not exists }
+
+            // update data {
+            $learningArea->title = $this->getCellValue($sheet, 'Наименование области обучения', $i);
+            $learningArea->import_id = $this->import_id;
+
+            // save
+            $learningArea->save();
+
+            $importedRows++;
+
+        }
+
+        // delete old unused data {
+        LearningArea::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        echo __METHOD__ . " end \n";
+
+        return array(
+            'imported_learning_areas' => $importedRows,
+            'errors' => false,
+        );
+    }
+
     /**
      * @return mixed array
      */
@@ -136,6 +190,7 @@ class ImportGameDataService
 
             // update data {
             $learningGoal->title = $this->getCellValue($sheet, 'Наименование цели обучения', $i);
+            $learningGoal->learning_area_code = $this->getCellValue($sheet, 'Номер области обучения', $i) ?: null;
             $learningGoal->import_id = $this->import_id;
 
             // save
@@ -2083,6 +2138,7 @@ class ImportGameDataService
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $result['characters'] = $this->importCharacters();
+            $result['learning_areas'] = $this->importLearningAreas();
             $result['learning_goals'] = $this->importLearningGoals();
             $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
             $result['characters_points_titles'] = $this->importHeroBehaviours();
