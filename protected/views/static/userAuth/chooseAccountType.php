@@ -28,11 +28,11 @@
 	
 	    <div class="row">
 	        <?php echo $form->labelEx($profile  , 'Name'); ?>
-	        <?php echo $form->textField($profile, 'firstname'); ?>
+	        <?php echo $form->textField($profile, 'firstname',['placeholder' => 'First name']); ?>
 	        <?php if ($isPersonalSubmitted): ?>
 	            <?php echo $form->error($profile    , 'firstname'); ?>
 	        <?php endif; ?>
-	        <?php echo $form->textField($profile, 'lastname'); ?>
+	        <?php echo $form->textField($profile, 'lastname',['placeholder' => 'Last name']); ?>
 	        <?php if ($isPersonalSubmitted): ?>
 	            <?php echo $form->error($profile    , 'lastname'); ?>
 	        <?php endif; ?>
@@ -88,11 +88,11 @@
 	
 	    <div class="row">
 	        <?php echo $form->labelEx($profile  , 'Name'); ?>
-	        <?php echo $form->textField($profile, 'firstname'); ?>
+	        <?php echo $form->textField($profile, 'firstname',['placeholder' => 'First name']); ?>
 	        <?php if ($isCorporateSubmitted): ?>
 	            <?php echo $form->error($profile    , 'firstname'); ?>
 	        <?php endif; ?>
-	        <?php echo $form->textField($profile, 'lastname'); ?>
+	        <?php echo $form->textField($profile, 'lastname',['placeholder' => 'Last name']); ?>
 	        <?php if ($isCorporateSubmitted): ?>
 	            <?php echo $form->error($profile    , 'lastname'); ?>
 	        <?php endif; ?>
@@ -109,7 +109,7 @@
                 <?php echo $form->hiddenField($accountCorporate, 'corporate_email'); ?>
             <?php else: ?>
                 <?php echo $form->labelEx($accountCorporate  , 'corporate_email'); ?>
-                <?php echo $form->textField($accountCorporate, 'corporate_email'); ?>
+                <?php echo $form->textField($accountCorporate, 'corporate_email',['placeholder' => 'Email@']); ?>
                 <?php echo $form->error($accountCorporate    , 'corporate_email'); ?>
             <?php endif ?>
 	    </div>
