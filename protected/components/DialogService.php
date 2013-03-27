@@ -79,37 +79,8 @@ class DialogService
         $data = [];
 
         if ($currentReplica->next_event_code != '' && $currentReplica->next_event_code != '-') {
-            // смотрим а не является ли следующее событие у нас диалогом
-            // if next event has delay it can`t statr immediatly
-            $dialog = Replica::model()->byCode($currentReplica->next_event_code)
-                ->byStepNumber(1)
-                ->find('', array('order' => 'replica_number'));
-            $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
+            list($dialog, $data, $result) = $this->processNextReplica($currentReplica, $simType, $data, $simulation, $result, $gameTime);
 
-            // isDialog() Wrong!!!
-            $isDialog = EventService::isDialog($currentReplica->next_event_code);
-
-            if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
-                 // сразу же отдадим реплики по этому событию - моментально
-                $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->next_event_code, 1)->byDemo($simType)->findAll();
-                foreach($dialogs as $dialog) {
-                    $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
-                }
-            }
-            else {
-                // запуск следующего события
-                $res = EventService::processLinkedEntities($currentReplica->next_event_code, $simulation, $currentReplica->fantastic_result);
-                if ($res) {
-                    // убьем такое событие чтобы оно не произошло позже
-                    EventService::deleteByCode($currentReplica->next_event_code, $simulation);
-
-                    $result['events'][] = $res;
-                }
-                else {
-                    // нет особых правил для этого события - запускаем его
-                    EventService::addByCode($currentReplica->next_event_code, $simulation, $gameTime);
-                }
-            }
         }
         else {
             // пробуем загрузить реплики
@@ -125,83 +96,13 @@ class DialogService
 
         ###################
         // теперь подчистим список
-        $resultList = $data;
-        $defaultDialogs = [];
-        $flag = [];
-        foreach ($data as $dialogId => $dialog) {
-            // @1229
-            if (false == FlagsService::isAllowToStartDialog($simulation, $dialog['code'])) {
-                // событие не проходит по флагам -  не пускаем его
-                unset($resultList[$dialogId]);
-                continue;
-            }
-
-            $flagInfo = FlagsService::checkRule($dialog['code'], $simulation, $dialog['step_number'], $dialog['replica_number'], $dialogId);
-
-            if ($flagInfo['ruleExists'] === true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId']==0) {
-                break;  // нечего чистиить все выполняется, for current dialog replic
-            }
-
-            if ($flagInfo['ruleExists']===true) {  // у нас есть такое правило
-                if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']>0) {
-                    // правило не выполняется для определнной записи - убьем ее
-                    if (isset($resultList[ $flagInfo['recId'] ])) unset($resultList[ $flagInfo['recId'] ]);
-                    continue;
-                }
-                else {
-                    $flag[$dialogId] = $dialog;
-                    // правило выполняется но нужно удалить ненужную реплику
-                    foreach($resultList as $key=>$val) {
-                        if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
-                            unset($resultList[$key]);
-                            break;
-                        }
-                    }
-                }
-
-                if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId']==0) {
-                    //у нас не выполняется все событие полностью
-                    $resultList = array();
-                    break;
-                }
-            } elseif ($dialog['replica_number'] != 0) {
-                $defaultDialogs[$dialogId] = $dialog;
-            }
-        }
-
-        foreach( $flag as $flag_replicaId => $flag_replica ) {
-            foreach( $resultList as $replicaId => $replica ){
-                if( $flag_replica['replica_number'] === $replica['replica_number']
-                    AND $flag_replica['step_number'] === $replica['step_number']
-                        AND $flag_replicaId !== $replicaId ) {
-                    unset($resultList[$replicaId]);
-                    unset($flag[$flag_replicaId]);
-                }
-            }
-        }
+        $resultList = $this->clearReplicasByFlags($dialogId, $data, $simulation);
         // Если есть видимые реплики, зависящие от флагов, то все не зависящие удаляем (кроме нулевой)
         /*if (isset($ruleDependentExists)) {
             $resultList = array_diff_key($resultList, $defaultDialogs);
         }*/
 
-        $data = [];
-        // а теперь пройдемся по тем кто выжил и позапускаем события
-
-        foreach($resultList as $index=>$dialog) {
-            // Если у нас реплика к герою
-            if ($dialog['replica_number'] == 0) {
-                // События типа диалог мы не создаем
-                // isDialog() Wrong!!!
-                if (!EventService::isDialog($dialog['next_event_code'])) {
-                    // создадим событие
-                    if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-')
-                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime);
-                }
-            }
-            unset($resultList[$index]['replica_number']);
-            unset($resultList[$index]['next_event_code']);
-            $data[] = $resultList[$index];
-        }
+        $data = $this->runEventsFromReplicas($resultList, $simulation, $gameTime);
 
         ###################
         if (isset($data[0]['ch_from'])) {
@@ -237,7 +138,151 @@ class DialogService
         return $result;
 
     }
-    
+
+    /**
+     * @param $dialogId
+     * @param $data
+     * @param $simulation
+     * @return array
+     */
+    public function clearReplicasByFlags($dialogId, $data, $simulation)
+    {
+        $resultList = $data;
+        $defaultDialogs = [];
+        $flag = [];
+        foreach ($data as $dialogId => $dialog) {
+            // @1229
+            if (false == FlagsService::isAllowToStartDialog($simulation, $dialog['code'])) {
+                // событие не проходит по флагам -  не пускаем его
+                unset($resultList[$dialogId]);
+                continue;
+            }
+
+            $flagInfo = FlagsService::checkRule($dialog['code'], $simulation, $dialog['step_number'], $dialog['replica_number'], $dialogId);
+
+            if ($flagInfo['ruleExists'] === true && $flagInfo['compareResult'] === true && (int)$flagInfo['recId'] == 0) {
+                break; // нечего чистиить все выполняется, for current dialog replic
+            }
+
+            if ($flagInfo['ruleExists'] === true) { // у нас есть такое правило
+                if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] > 0) {
+                    // правило не выполняется для определнной записи - убьем ее
+                    if (isset($resultList[$flagInfo['recId']])) unset($resultList[$flagInfo['recId']]);
+                    continue;
+                } else {
+                    $flag[$dialogId] = $dialog;
+                    // правило выполняется но нужно удалить ненужную реплику
+                    foreach ($resultList as $key => $val) {
+                        if ($key != $flagInfo['recId'] && $val['replica_number'] == $dialog['replica_number']) {
+                            unset($resultList[$key]);
+                            break;
+                        }
+                    }
+                }
+
+                if ($flagInfo['compareResult'] === false && (int)$flagInfo['recId'] == 0) {
+                    //у нас не выполняется все событие полностью
+                    $resultList = array();
+                    break;
+                }
+            } elseif ($dialog['replica_number'] != 0) {
+                $defaultDialogs[$dialogId] = $dialog;
+            }
+        }
+
+        foreach ($flag as $flag_replicaId => $flag_replica) {
+            foreach ($resultList as $replicaId => $replica) {
+                if ($flag_replica['replica_number'] === $replica['replica_number']
+                    AND $flag_replica['step_number'] === $replica['step_number']
+                        AND $flag_replicaId !== $replicaId
+                ) {
+                    unset($resultList[$replicaId]);
+                    unset($flag[$flag_replicaId]);
+                }
+            }
+        }
+        return $resultList;
+    }
+
+    /**
+     * @param $currentReplica
+     * @param $simType
+     * @param $data
+     * @param $simulation
+     * @param $result
+     * @param $gameTime
+     * @return array
+     */
+    public function processNextReplica($currentReplica, $simType, $data, $simulation, $result, $gameTime)
+    {
+// смотрим а не является ли следующее событие у нас диалогом
+        // if next event has delay it can`t statr immediatly
+        $dialog = Replica::model()->byCode($currentReplica->next_event_code)
+            ->byStepNumber(1)
+            ->find('', array('order' => 'replica_number'));
+        $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
+
+        // isDialog() Wrong!!!
+        $isDialog = EventService::isDialog($currentReplica->next_event_code);
+
+        if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
+            // сразу же отдадим реплики по этому событию - моментально
+            $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->next_event_code, 1)->byDemo($simType)->findAll();
+            foreach ($dialogs as $dialog) {
+                $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
+            }
+            return array($dialog, $data, $result);
+        } else {
+            // запуск следующего события
+            $res = EventService::processLinkedEntities($currentReplica->next_event_code, $simulation, $currentReplica->fantastic_result);
+            if ($res) {
+                // убьем такое событие чтобы оно не произошло позже
+                EventService::deleteByCode($currentReplica->next_event_code, $simulation);
+
+                $result['events'][] = $res;
+                return array($dialog, $data, $result);
+            } else {
+                // нет особых правил для этого события - запускаем его
+                EventService::addByCode($currentReplica->next_event_code, $simulation, $gameTime);
+                return array($dialog, $data, $result);
+            }
+        }
+    }
+
+    /**
+     * @param $resultList
+     * @param $simulation
+     * @param $gameTime
+     * @return array
+     */
+    private function runEventsFromReplicas($resultList, $simulation, $gameTime)
+    {
+        $data = [];
+        // а теперь пройдемся по тем кто выжил и позапускаем события
+
+        foreach ($resultList as $index => $dialog) {
+            // Если у нас реплика к герою
+            if ($dialog['replica_number'] == 0) {
+                // События типа диалог мы не создаем
+                // isDialog() Wrong!!!
+                if (!EventService::isDialog($dialog['next_event_code'])) {
+                    $replica = Replica::model()->findByPk($dialog['id']);
+                    if (NULL !== $replica->flag_to_switch) {
+                        FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
+                    }
+                    // создадим событие
+                    if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-') {
+                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime);
+                    }
+                }
+            }
+            unset($resultList[$index]['replica_number']);
+            unset($resultList[$index]['next_event_code']);
+            $data[] = $resultList[$index];
+        }
+        return $data;
+    }
+
     public function parsePlanCode($code) {
         preg_match_all("/P(\d+)/", $code, $matches);
         if (!isset($matches[1])) return false;

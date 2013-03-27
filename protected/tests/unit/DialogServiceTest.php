@@ -10,7 +10,7 @@
 class DialogServiceTest extends PHPUnit_Framework_TestCase
 {
 
-    public function test_dialog_get()
+    public function testDialogGet()
     {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
@@ -36,5 +36,7 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase
         );
 
     }
+
+
 
 }

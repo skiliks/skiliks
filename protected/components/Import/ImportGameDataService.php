@@ -1500,7 +1500,7 @@ class ImportGameDataService
             $dialog->start_by       = $this->getCellValue($sheet, 'Тип запуска', $i);
             $dialog->delay          = $this->getCellValue($sheet, 'Задержка, мин', $i);
             $dialog->category       = $this->getCellValue($sheet, 'Категория события', $i);
-            $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss');
+            $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') || null;
             $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
             $dialog->import_id      = $this->import_id;
 

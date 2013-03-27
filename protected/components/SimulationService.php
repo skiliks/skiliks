@@ -264,7 +264,7 @@ class SimulationService
 
         $add = '';
         foreach ($tasks as $task) {
-            $sql .= $add . "({$simulation->id}, '00:00:00', {$task->id})";
+            $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
             $add = ',';
         }
         $sql .= ";";
