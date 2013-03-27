@@ -22,7 +22,7 @@ class F12_SK1412_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->run_event('ET3.2',"css=li.icon-active.door a",'click');
         //$this->optimal_click("css=li.icon-active.door a");
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['deny']);
@@ -41,7 +41,7 @@ class F12_SK1412_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-
+        sleep(5);
         $this->run_event('ET3.2',"css=li.icon-active.door a",'click');
         //$this->optimal_click("css=li.icon-active.door a");
         $this->optimal_click(Yii::app()->params['test_mappings']['visit']['allow']);
