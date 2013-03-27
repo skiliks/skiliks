@@ -371,7 +371,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
         }
 
         if (Yii::app()->user->data()->id !== $declineExplanation->invite->receiver_id &&
-            Yii::app()->user->data()->id !== $declineExplanation->invite->owner_id) {
+            Yii::app()->user->data()->id !== $declineExplanation->invite->owner_id &&
+            null !== $declineExplanation->invite->receiver_id) {
 
             Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
             $this->redirect('/dashboard');
@@ -412,8 +413,18 @@ class DashboardController extends AjaxController implements AccountPageControlle
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
         $isValid = false;
 
+        $reasonOther = DeclineReason::model()->findByAttributes(['alias' => 'other']);
+
         // no object - no validation -> this is request to render form at first
         if (null !== Yii::app()->request->getParam('DeclineExplanation')) {
+            // fill 'description' from 'reason->label' {
+            if (null !== $reasonOther) {
+                if ($declineExplanation->reason_id != $reasonOther->id) {
+                    $declineExplanation->description = $reasonOther->label;
+                }
+            }
+            // fill 'description' from 'reason->label' }
+
             $isValid = $declineExplanation->validate(['reason_id', 'description']);
         }
 
@@ -431,7 +442,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
                     false,
                     ' ORDER BY sort_order DESC'
                 ),
-                'action' => '/dashboard/decline-invite/'.(int)$declineExplanation->invite_id
+                'action' => '/dashboard/decline-invite/'.(int)$declineExplanation->invite_id,
+                'reasonOtherId' => (null === $reasonOther) ? '' : $reasonOther->id,
             ],
             true
         );
