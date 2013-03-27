@@ -25,18 +25,6 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $asses->value = 34.50;
         $asses->save();
 
-        $asses = new AssessmentAggregated();
-        $asses->point_id = 1;
-        $asses->sim_id = $simulation->id;
-        $asses->value = 34.50;
-        $asses->save();
-
-        $asses = new AssessmentAggregated();
-        $asses->point_id = 1;
-        $asses->sim_id = $simulation->id;
-        $asses->value = 34.50;
-        $asses->save();
-
         $evaluation = new Evaluation($simulation->id);
         $evaluation->checkManagerialSkills();
 
