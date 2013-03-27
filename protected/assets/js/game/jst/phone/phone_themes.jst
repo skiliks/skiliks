@@ -1,6 +1,6 @@
     <ul>
+    <li class="themes_close">Закрыть список тем</li>
         <@ themes.each(function(model) { @>
         <li class="phone_call" data-theme-id="<@=model.get('themeId')@>" data-contact-id="<@=contactId@>"><@=model.get('themeTitle')@></li>
         <@ }) @>
-        <li class="themes_close">Отмена</li>
     </ul>

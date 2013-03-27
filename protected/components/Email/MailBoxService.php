@@ -176,7 +176,7 @@ class MailBoxService
             array_multisort($receivers, $orderFlag, $list);
         }
 
-        return $list;
+        return array_values($list);
     }
 
     /**

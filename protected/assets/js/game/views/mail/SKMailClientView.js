@@ -310,21 +310,8 @@ define([
                     throw 'Try to render unexistent email ' + emailId + '.';
                 }
 
-                this.mailClient.setActiveEmail(email);
                 this.highlightActiveEmail(email);
-
-                if ('undefined' !== typeof email.text &&
-                    'undefined' !== typeof email.attachment) {
-                    // if YES - just render it
-                    this.renderEmailPreviewScreen(
-                        email,
-                        this.mailClientInboxFolderEmailPreviewId,
-                        '100%'
-                    );
-
-                    return;
-                }
-                // do we have full data for current email ? }
+                this.mailClient.setActiveEmail(email);
 
                 // render preview
                 me.renderEmailPreviewScreen(
@@ -338,12 +325,17 @@ define([
              * @method
              */
             highlightActiveEmail: function(email) {
-                var activeClass = ' mail-emulator-received-list-string-selected active ';
+                var activeClass = ' mail-emulator-received-list-string-selected active',
+                    row;
 
-                this.$('#' + this.mailClientIncomeFolderListId + ' .email-list-line')
+                row = this.$('#' + this.mailClientIncomeFolderListId + ' .email-list-line')
                     .removeClass(activeClass)
                     .filter('[data-email-id=' + email.mySqlId + ']')
                     .addClass(activeClass);
+
+                if (!email.is_readed) {
+                    row.removeClass(email.getIsReadedCssClass());
+                }
             },
 
             /**
@@ -505,13 +497,6 @@ define([
                 var trashEmails = this.mailClient.folders[this.mailClient.aliasFolderTrash].emails; // to make code shorter
 
                 for (var key in trashEmails) {
-                    // check is email active
-                    var isActiveCssClass = '';
-                    if (trashEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
-                        // why 2 CSS classes? - this is works
-                        isActiveCssClass = ' mail-emulator-received-list-string-selected active ';
-                    }
-
                     // generate HTML by template
                     emailsList += _.template(trash_email_line, {
 
@@ -521,8 +506,7 @@ define([
                         sendedAt: trashEmails[key].sendedAt,
                         isHasAttachment: trashEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: trashEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true,
-                        isActiveCssClass: isActiveCssClass
+                        isReadedCssClass: true
                     });
                 }
 
@@ -543,13 +527,6 @@ define([
                 var sendedEmails = this.mailClient.folders[this.mailClient.aliasFolderSended].emails; // to make code shorter
 
                 for (var key in sendedEmails) {
-                    // check is email active
-                    var isActiveCssClass = '';
-                    if (sendedEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
-                        // why 2 CSS classes? - this is works
-                        isActiveCssClass = ' mail-emulator-received-list-string-selected active ';
-                    }
-
                     // generate HTML by template
                     emailsList += _.template(send_mail_line, {
 
@@ -559,8 +536,7 @@ define([
                         sendedAt: sendedEmails[key].sendedAt,
                         isHasAttachment: sendedEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: sendedEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true,
-                        isActiveCssClass: isActiveCssClass
+                        isReadedCssClass: true
                     });
                 }
 
@@ -581,13 +557,6 @@ define([
                 var draftEmails = this.mailClient.folders[this.mailClient.aliasFolderDrafts].emails; // to make code shorter
 
                 for (var key in draftEmails) {
-                    // check is email active
-                    var isActiveCssClass = '';
-                    if (draftEmails[key].mySqlId == this.mailClient.activeEmail.mySqlId) {
-                        // why 2 CSS classes? - this is works
-                        isActiveCssClass = ' mail-emulator-received-list-string-selected active ';
-                    }
-
                     // generate HTML by template
                     emailsList += _.template(send_mail_line, {
 
@@ -597,8 +566,7 @@ define([
                         sendedAt: draftEmails[key].sendedAt,
                         isHasAttachment: draftEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: draftEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true,
-                        isActiveCssClass: isActiveCssClass
+                        isReadedCssClass: true
                     });
                 }
 

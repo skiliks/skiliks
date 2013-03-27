@@ -325,47 +325,43 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var me = this;
                 this.folders[folderAlias].emails = [];
 
-                for (var id in emailsData) {
-                    if (emailsData.hasOwnProperty(id)) {
+                _.forEach(emailsData, function(emailData) {
+                    var subject = new SKMailSubject();
+                    subject.text = emailData.subject;
 
-                        var subject = new SKMailSubject();
-                        var emailData = emailsData[id];
-                        subject.text = emailData.subject;
+                    var email               = new SKEmail();
+                    email.mySqlId           = emailData.id;
+                    email.text              = emailData.text;
+                    email.is_readed         = (1 === parseInt(emailData.readed, 10));
+                    email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
+                    email.sendedAt          = emailData.sentAt;
+                    email.subject           = subject;
+                    email.setSenderEmailAndNameStrings(emailData.sender);
 
-                        var email               = new SKEmail();
-                        email.mySqlId           = emailData.id;
-                        email.text              = emailData.text;
-                        email.is_readed         = (1 === parseInt(emailData.readed, 10));
-                        email.is_has_attachment = (1 === parseInt(emailData.attachments, 10));
-                        email.sendedAt          = emailData.sentAt;
-                        email.subject           = subject;
-                        email.setSenderEmailAndNameStrings(emailData.sender);
+                    var attachment = new SKAttachment();
+                    attachment.label       = emailData.attachmentName;
+                    attachment.fileMySqlId = emailData.attachmentFileId;
 
-                        var attachment = new SKAttachment();
-                        attachment.label       = emailData.attachmentName;
-                        attachment.fileMySqlId = emailData.attachmentFileId;
+                    email.attachment = attachment;
 
-                        email.attachment = attachment;
-
-                        var recipiens = emailData.receiver.split(',');
-                        for (var i in recipiens) {                            
-                            email.addRecipientEmailAndNameStrings(recipiens[i]);
-                        }
-
-                        if (emailData.copy !== undefined) {
-                            var copies = emailData.copy.split(',');
-                            for (var i in copies) {
-                                email.addCopyEmailAndNameStrings(copies[i]);
-                            }
-                        }
-
-                        if (undefined !== emailData.reply) {
-                            email.previouseEmailText = emailData.reply;
-                        }
-
-                        this.folders[folderAlias].emails.push(email);
+                    var recipiens = emailData.receiver.split(',');
+                    for (var i in recipiens) {
+                        email.addRecipientEmailAndNameStrings(recipiens[i]);
                     }
-                }
+
+                    if (emailData.copy !== undefined) {
+                        var copies = emailData.copy.split(',');
+                        for (var i in copies) {
+                            email.addCopyEmailAndNameStrings(copies[i]);
+                        }
+                    }
+
+                    if (undefined !== emailData.reply) {
+                        email.previouseEmailText = emailData.reply;
+                    }
+
+                    me.folders[folderAlias].emails.push(email);
+                });
             },
 
             /**
