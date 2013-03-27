@@ -30,7 +30,7 @@ class Evaluation {
         $value = 0;
         if(null !== $assessment_aggregated) {
             foreach($assessment_aggregated as $assessment) {
-                $value += $assessment->value;
+                $value += $assessment->fixed_value;
             }
         }
         $simulation = Simulation::model()->findByAttributes(['id'=>$this->simId]);
