@@ -1,6 +1,9 @@
 <?php
 $this->widget('zii.widgets.grid.CGridView', [
-    'dataProvider' => Invite::model()->searchByInvitedUserEmail(Yii::app()->user->data()->profile->email), //$dataProvider,
+    'dataProvider' => Invite::model()->searchByInvitedUserEmail(
+        Yii::app()->user->data()->profile->email,
+        [Invite::STATUS_PENDING, Invite::STATUS_COMPLETED]
+    ), //$dataProvider,
     'summaryText' => '',
     'pager' => [
         'header'        => false,
@@ -17,12 +20,16 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => ''],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/accept-invite/$data->code\">принять</a>"' , 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/decline-invite/$data->code\">отказать</a>"', 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '$data->getAcceptActionTag()'  , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '$data->getDeclineActionTag()', 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '$data->getSoftRemoveActionTag()'    , 'type' => 'html'],
     ]
 ]);
 ?>
+
+<!-- decline-form { -->
+<div id="invite-decline-form"></div>
+<!-- decline-form } -->
 
 <script type="text/javascript">
     $(function(){
@@ -62,5 +69,33 @@ $this->widget('zii.widgets.grid.CGridView', [
         $('.invites-smallmenu-switcher').click(function(){
             $(this).next().toggle();
         });
-    });
+
+        // decline dialog {
+        $.ajax({
+            url: '/dashboard/decline-invite/validation',
+            type: 'POST',
+            success: function(data) {
+                $('#invite-decline-form').html(data.html);
+
+                $('#invite-decline-form').dialog({
+                    width: 500,
+                    modal: true
+                });
+
+                $('#invite-decline-form').parent().addClass('nice-border');
+                $('#invite-decline-form').parent().addClass('backgroud-rich-blue');
+
+                $('#invite-decline-form').dialog('close');
+
+                $('.decline-link').click(function(event){
+                    event.preventDefault();
+                    $('#invite-decline-form input#DeclineExplanation_invite_id').val($(this).attr('title'));
+
+                    $('#invite-decline-form')
+                    $('#invite-decline-form').dialog('open');
+                });
+            }
+        })
+        // decline dialog }
+     });
 </script>

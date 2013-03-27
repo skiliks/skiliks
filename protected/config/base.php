@@ -171,12 +171,14 @@ return array(
                 'simulation/changeTime'   => 'simulation/changeTime',
                 'simulation/startPause'   => 'simulation/startPause',
                 'simulation/stopPause'    => 'simulation/stopPause',
+                'simulation/legacy/<mode:\w+>/<type:\w+>/<invite_id:\d+>' => 'static/pages/legacyAndTerms',
 
-                'simulation/<mode:\w+>/<type:\w+>'   => 'static/site/simulation',
+                'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>'=> 'static/site/simulation',
 
                 'registration'                         => 'static/userAuth/registration',
+                'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
-                'registration/account-type/added'        => 'static/userAuth/accountTypeSavesSuccessfully',
+                'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
 
                 'results'                   =>'static/userAuth/results',
                 'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
@@ -224,6 +226,7 @@ return array(
                 'simulations/corporate'        => 'static/simulations/corporate',
                 'simulations/personal'         => 'static/simulations/personal',
 
+                'dashboard/invite/remove/<id:\d+>/soft' => 'static/dashboard/softRemoveInvite',
                 'dashboard/invite/remove/<inviteId:\w+>' => 'static/dashboard/removeInvite',
                 'dashboard/invite/resend/<inviteId:\w+>' => 'static/dashboard/reSendInvite',
 
@@ -232,9 +235,10 @@ return array(
 
                 'invite/add-10'                => 'static/cheats/increaseInvites',
 
+                'dashboard/decline-invite/validation' => 'static/dashboard/validateDeclineExplanation',
                 'dashboard/send-invite'               => 'static/dashboard/sendInviteEmail',
-                'dashboard/accept-invite/<code:\w+>'  => 'static/dashboard/acceptInvite',
-                'dashboard/decline-invite/<code:\w+>' => 'static/dashboard/declineInvite',
+                'dashboard/accept-invite/<id:\w+>'  => 'static/dashboard/acceptInvite',
+                'dashboard/decline-invite/<id:\w+>' => 'static/dashboard/declineInvite',
 
                 'gii'=>'gii',
                 'gii/<controller:\w+>'=>'gii/<controller>',

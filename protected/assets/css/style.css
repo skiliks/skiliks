@@ -1765,6 +1765,13 @@ html[lang=ru] .product section table th{
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
+.action-controller-registerByLink-static-userAuth  .ui-widget-content,
+.action-controller-personal-static-dashboard .ui-widget-content {
+    background: #146672;
+}
+
+.action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
+.action-controller-personal-static-dashboard .ui-dialog-titlebar,
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
 .action-controller-corporate-static-dashboard .ui-dialog-titlebar,
 .action-controller-corporate-static-simulations .ui-dialog-titlebar {
@@ -2090,6 +2097,7 @@ ul.profile-menu li {
     text-align: center;
     vertical-align: middle;
 }
+
 .items th, .items th a {
     color: white;
     text-decoration: none;
@@ -2102,3 +2110,39 @@ ul.profile-menu li {
 }
 /* /TABLE */
 /* ********************** /DASHBOARD ********************** */
+
+
+.tariff-box .benefits {
+    height: 70px;
+}
+#JotFormIFrame {
+    /*position: absolute;
+    background-color: #ffffff;
+    margin-top: 100px;
+    z-index: 100;
+    top: 10px;*/
+    display: none;
+    width:750px;
+}
+
+.container > header nav a.has-notification {
+    margin-right: 10px;
+    padding-right: 15px;
+}
+
+.not-started-simulations {
+    background-color:  #cf1919;
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    height: 20px;
+    left: 5px;
+    line-height: 20px;
+    margin-right: -20px;
+    position: relative;
+    text-align: center;
+    top: -10px;
+    width: 20px;
+}
+

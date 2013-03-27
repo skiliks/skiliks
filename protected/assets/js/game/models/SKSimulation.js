@@ -235,7 +235,11 @@ define([
                     throw 'Simulation already started';
                 }
                 me.start_time = new Date();
-                SKApp.server.api('simulation/start', {'mode':this.get('mode'), 'type':this.get('type')}, function (data) {
+                SKApp.server.api('simulation/start', {
+                    'mode':this.get('mode'),
+                    'type':this.get('type'),
+                    'invite_id': SKApp.get('invite_id')
+                }, function (data) {
 
                     if (data.result === 0) {
                         window.location = '/';

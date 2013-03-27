@@ -17,7 +17,7 @@ class SiteController extends AjaxController
     /**
      *
      */
-    public function actionSimulation($mode, $type = Simulation::TYPE_LITE)
+    public function actionSimulation($mode, $type = Simulation::TYPE_LITE, $invite_id = null)
     {
         $user = Yii::app()->user->data();
 
@@ -36,6 +36,26 @@ class SiteController extends AjaxController
             $this->redirect('/');
         }
 
+        // check invite if it setted {
+        if (null !== $invite_id) {
+            $invite = Invite::model()->findByPk($invite_id);
+
+            if (null == $invite) {
+                Yii:app()->user->setFlash('error', 'Выбирите приглашение по которому Вы хотите начать симуляцию. <br/>Похоже, что вы пытаетесь начать симуляцию не указав приглашение -  это запрещено.');
+                $this->redirect('/simulations');
+            }
+
+            if (null !== $invite->simulation_id) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Вы уже прошли (начали) симуляцию по приглашению от %s %s.',
+                    $invite->ownerUser->getAccount()->ownership_type,
+                    $invite->ownerUser->getAccount()->company_name
+                ));
+                $this->redirect('/simulations');
+            }
+        }
+        // check invite if it setted }
+
         $assetsUrl = $this->getAssetsUrl();
         $config = array_merge(
             Yii::app()->params['public'],
@@ -46,7 +66,8 @@ class SiteController extends AjaxController
                 'type' => $type,
                 'badBrowserUrl' => '/bad-browser',
                 'oldBrowserUrl' => '/old-browser',
-                'dummyFilePath' => $assetsUrl . '/img/kotik.jpg'
+                'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',
+                'invite_id'     => $invite_id,
             ]
         );
 

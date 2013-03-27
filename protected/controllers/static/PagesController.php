@@ -110,4 +110,64 @@ class PagesController extends AjaxController
             'userSubscribed' => true,
         ]);
     }
+
+    /**
+     *
+     */
+    public function actionLegacyAndTerms($mode, $type, $invite_id)
+    {
+        Yii::app()->setLanguage('ru');
+
+        $invite = Invite::model()->findByPk($invite_id);
+
+        if ($invite->status == Invite::STATUS_PENDING) {
+
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашение от %s %s ещё не одобрено Вами.',
+                $invite->ownerUser->getAccount()->ownership_type,
+                $invite->ownerUser->getAccount()->company_name
+            ));
+
+            $this->redirect('/simulations');
+        }
+
+        if ($invite->status == Invite::STATUS_COMPLETED || $invite->status == Invite::STATUS_STARTED) {
+
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашение от %s %s уже использовано для запуска симуляции.',
+                $invite->ownerUser->getAccount()->ownership_type,
+                $invite->ownerUser->getAccount()->company_name
+            ));
+
+            $this->redirect('/simulations');
+        }
+
+        if ($invite->status == Invite::STATUS_DECLINED) {
+
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашение от %s %s было отклонено.',
+                $invite->ownerUser->getAccount()->ownership_type,
+                $invite->ownerUser->getAccount()->company_name
+            ));
+
+            $this->redirect('/simulations');
+        }
+
+        if ($invite->status == Invite::STATUS_EXPIRED) {
+
+            Yii::app()->user->setFlash('success', sprintf(
+                'Приглашение от %s %s просрочено.',
+                $invite->ownerUser->getAccount()->ownership_type,
+                $invite->ownerUser->getAccount()->company_name
+            ));
+
+            $this->redirect('/simulations');
+        }
+
+        $this->render('legacy_and_terms', [
+            'mode'      => $mode,
+            'type'      => $type,
+            'invite_id' => $invite_id,
+        ]);
+    }
 }
