@@ -78,7 +78,9 @@ define([
                 var me = this;
                 e.preventDefault();
                 if("true" !== $(e.currentTarget).attr('data-disabled')) {
-                    $(e.currentTarget).attr('data-disabled', 'true');
+                    $('#dialogControllerAnswers li').each(function(index, element) {
+                        $(element).children().children().attr('data-disabled', 'true');
+                    });
                     var dialog_id = $(e.currentTarget).attr('data-id');
                     var is_final = $(e.currentTarget).attr('data-is-final');
                     me.options.model_instance.get('sim_event').selectReplica(dialog_id, function () {
