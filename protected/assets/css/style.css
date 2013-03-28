@@ -587,19 +587,29 @@ a:focus, a:active {
     width:162px;
 }
 
-.registrationform input[type=submit] {
+.registrationform input[type=submit], .bigbtnsubmt {
     background:#146672 url("../img/icon-circlarow.png") no-repeat 38px 16px;
     border:none;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
+    display: inline-block;
     font-size:1.7em;
     color:#fff;
     text-align:left;
     height:54px;
     vertical-align:top;
+}
+.registrationform input[type=submit] {
     padding:0 16px 0 66px;
     width: 184px;
+}
+.bigbtnsubmt, .bigbtnsubmt:link, .bigbtnsubmt:visited {
+    color:#fff;
+    line-height:54px;
+    padding:0 40px 0 66px;
+    text-decoration: none;
+    width: auto;
 }
 .registrationform .row {
    float:left;
@@ -615,7 +625,7 @@ a:focus, a:active {
     border-radius: 8px;
     padding: 10px;
 }
-.transparent-boder:after, .dashboard:after {
+.transparent-boder:after, .dashboard:after, .registerpads:after {
     content: ".";
     display: block;
     height: 0;
@@ -639,6 +649,7 @@ a:focus, a:active {
     margin:8px 0px 7px;
 }
 .registrationform ul {
+    float: left;
     width:550px;
 }
 .registrationform li {
@@ -648,9 +659,29 @@ a:focus, a:active {
     list-style-type: none;
     margin-bottom: 8px;
 }
-.registermessage {
-    background: #fdfbc6 url("../img/icon-checklarge.png") no-repeat 30px 28px;
-    padding:20px 0px 30px 185px;
+.icon-check {
+    background:url("../img/icon-checklarge.png") no-repeat;
+}
+.icon-mail {
+    background:url("../img/iconmaillarge.png") no-repeat;
+}
+.icon-choose {
+    background:url("../img/icon-choose.png") no-repeat;
+    color: #555545;
+    font: 1.2em "ProximaNova-Bold";
+    line-height: 123px;
+    text-indent: 37px;
+    text-decoration: none;
+}
+.registerpads {
+    padding:20px 0px 30px 30px; /* padding:20px 0px 30px 185px; */
+}
+.regicon {
+    display: block;
+    float: left;
+    height:133px;
+    margin: 8px 22px 0px 0px;
+    width: 133px;
 }
 .testtime {
     background: url("../img/tziferblat.png") no-repeat;
@@ -679,6 +710,12 @@ a:focus, a:active {
 }
 .registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder {
     color:#146672;
+}
+.text-center {
+    text-align: center;
+}
+.longercontent {
+    width: 900px;
 }
 /* ************************* /REGISTRATION ************************* */
 html[lang=ru] .features form div input[type=text]{
@@ -2154,6 +2191,9 @@ ul.profile-menu li {
 }
 .whitelink, .whitelink:visited {
     color: #fff;
+}
+.nodecorlink {
+    text-decoration: none;
 }
 #companies-you-follow-box .noticeblock {
     margin-left:10px;
