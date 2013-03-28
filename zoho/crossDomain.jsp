@@ -34,7 +34,10 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 $(window.parent.window).load(function()
 {
-    window.parent.parent.postMessage('DocumentLoaded', 'http://skiliks.loc');
+    window.postMessage('DocumentLoaded 1', 'http://skiliks.loc');
+    window.parent.postMessage('DocumentLoaded 2', 'http://skiliks.loc');
+    window.parent.parent.postMessage('DocumentLoaded 3', 'http://skiliks.loc');
+    window.parent.parent.parent.postMessage('DocumentLoaded 4', 'http://skiliks.loc');
 
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
