@@ -102,6 +102,7 @@ define([
                             console.log(SKDocument._excel_cache[i]);
                             console.log(substring == SKDocument._excel_cache[i]);
                             console.log(substring == SKDocument._excel_cache[i].toString());
+                            console.log(substring.indexOf(SKDocument._excel_cache[i].toString()));
 
                             if (substring == SKDocument._excel_cache[i].toString()) {
                                 console.log('doc id: ', i);
