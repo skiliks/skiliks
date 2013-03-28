@@ -4,7 +4,7 @@
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
-                <a class="regicon icon-check"></a>
+                <a class="regicon icon-check" href="/simulation/promo/2"></a>
                 <h3>Пробный тест</h3>
                 <div class="testtime"><strong>45</strong> Минут</div>
                 <ul>
