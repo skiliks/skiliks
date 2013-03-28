@@ -1679,3 +1679,10 @@ tr.email-list-separator {
     top: 10px;
     left: 400px;
 }
+
+.dd-selected label {
+    margin-bottom:0px;
+}
+#MailClient_NewLetterAttachment .dd-select a.dd-selected {
+    line-height:26px;
+}
