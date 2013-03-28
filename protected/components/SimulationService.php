@@ -570,11 +570,10 @@ class SimulationService
             $sum[$learningGoalForUpdate->code] = 0;
         }
 
-        $negativeHeroBehaviours = HeroBehaviour::model()->findAll(sprintf(
-            'learning_goal_code IN (%s) AND type_scale = %s',
-            implode(',', $learningGoalsForUpdateCodes),
-            HeroBehaviour::TYPE_NEGATIVE
-        ));
+        $negativeHeroBehavioursCriteria = new CDbCriteria();
+        $negativeHeroBehavioursCriteria->addInCondition('learning_goal_code', $learningGoalsForUpdateCodes);
+        $negativeHeroBehavioursCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
+        $negativeHeroBehaviours = HeroBehaviour::model()->findAll($negativeHeroBehavioursCriteria);
 
         $heroBehavioursForUpdateCodes = [];
         foreach ($negativeHeroBehaviours as $heroBehaviour) {
@@ -582,7 +581,7 @@ class SimulationService
         }
         // init "0" sum for learning goals, find ids of negative behaviours }
 
-        // calculate total negative sun for learning goals {
+        // calculate total negative sum for learning goals {
         foreach ($simulation->assessment_aggregated as $assessment) {
             if (in_array($assessment->point->code, $heroBehavioursForUpdateCodes) &&
                 isset($sum[$assessment->point->learning_goal_code])) {
@@ -590,19 +589,19 @@ class SimulationService
                 $sum[$assessment->point->learning_goal_code] += $assessment->value;
             }
         }
-        // calculate total negative sun for learning goals }
+        // calculate total negative sum for learning goals }
 
         // calculate coefficients {
         foreach ($sum as $learningGoalCode => $sumValue) {
-            $real_k = $sumValue/$learningGoals[$learningGoalCode]->max_negative_value;
+            $realK = $sumValue/$learningGoals[$learningGoalCode]->max_negative_value;
 
             $k[$learningGoalCode] = 1;
 
-            if ($real_k <= 0.1) {
+            if ($realK <= 0.1) {
                 $k[$learningGoalCode] = 1;
-            } elseif (0.1 < $real_k && $real_k <= 0.5) {
+            } elseif (0.1 < $realK && $realK <= 0.5) {
                 $k[$learningGoalCode] = 0.5;
-            } elseif (0.5 < $real_k) {
+            } elseif (0.5 < $realK) {
                 $k[$learningGoalCode] = 0;
             }
         }
