@@ -90,8 +90,13 @@ define([
 
                 this.postMessageCallback = function(event){
                     console.log('event.data: ', event.data);
-                    if ('DocumentLoaded' == event.data) {
-                        me.trigger('excel-document-loaded');
+                    if (-1 != event.data.indexOf('DocumentLoaded')) {
+                        console.log(event.data.substring(15));
+                        for (var i in SKDocument._excel_cache) {
+                            if (event.data.substring(15) == SKDocument._excel_cache[i]) {
+                                console.log('doc id: ', i);
+                            }
+                        }
                     }
                 }
 
