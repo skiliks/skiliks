@@ -2,7 +2,7 @@
 
 <?php
     $this->renderPartial('//global_partials/_simulation_stars', [
-        'value'         => '65%',
+        'value'         => $value,
         'label'         => 'COre Managament',
         'isDisplayLink' => true,
     ])

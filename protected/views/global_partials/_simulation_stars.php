@@ -6,8 +6,8 @@
 
 <p>Менеджмент
     <span class="ratingwrap radiusthree">
-        <span class="ratebg"><span class="rating" style="width: 80%"></span></span>
-        <sup>80%</sup>
+        <span class="ratebg"><span class="rating" style="width: <?php echo $value; ?>%"></span></span>
+        <sup><?php echo $value; ?>%</sup>
     </span>
     <a href="#" class="link-go"></a>
 </p>
