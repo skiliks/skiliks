@@ -2532,3 +2532,6 @@ ul.profile-menu li {
     top: -10px;
     width: 20px;
 }
+.view-simulation-details-pop-up{
+    cursor: pointer;
+}
