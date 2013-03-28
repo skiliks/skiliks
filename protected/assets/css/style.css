@@ -2450,10 +2450,3 @@ ul.profile-menu li {
     top: -10px;
     width: 20px;
 }
-
-.dd-selected label {
-    margin-bottom:0px;
-}
-#MailClient_NewLetterAttachment .dd-select a.dd-selected {
-    line-height:26px;
-}
