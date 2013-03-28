@@ -1998,7 +1998,7 @@ h2 {
 }
 /* ********************** DASHBOARD ********************** */
 .wideblock {
-    width: 590px;
+    width: 598px;
 }
 .dashboard aside {
     float:left;
@@ -2054,7 +2054,7 @@ ul.profile-menu li {
     display: inline-block;
     line-height: 22px;
     margin:0px 4px;
-    padding:5px 6px 0px 6px;
+    padding:5px 3px 0px 4px;
 }
 .ratebg {
     background: url("../img/ratestars.png") no-repeat 0px 0px;
@@ -2066,6 +2066,11 @@ ul.profile-menu li {
 }
 .rating {
     background: url("../img/ratestars.png") no-repeat 0px -17px;
+}
+.skillstitle {
+    display: inline-block;
+    font-size: 0.8em;
+    width: 116px;
 }
 .link-go {
     background: url("../img/icon-btn-notify.png") no-repeat 0px 0px;
@@ -2196,6 +2201,9 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view {
     padding: 0px;
 }
+#private-invitations-list-box .grid-view .summary {
+    margin: 0px;
+}
 #private-invitations-list-box .grid-view table.items, .items {
     background: none;
     border:none;
@@ -2211,7 +2219,7 @@ ul.profile-menu li {
     text-align: center;
     vertical-align: middle;
 }
-#private-invitations-list-box .grid-view .statuscell {
+#private-invitations-list-box .grid-view tr td:last-child {
     width:180px;
 }
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
@@ -2302,7 +2310,7 @@ ul.profile-menu li {
 .pager a:hover, .pager .pager-active {
     color: #146672;
 }
-.pager .pager-more {
+.pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
     background: #6caab3;
     display: inline-block;
     font-size: 0.9em;
