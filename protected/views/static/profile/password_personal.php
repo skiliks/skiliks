@@ -1,5 +1,5 @@
 
-<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h1>
+<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 
 <div class="transparent-boder profilewrap">
 <?php $this->renderPartial('_menu_personal', ['active' => ['password' => true]]) ?>
@@ -11,7 +11,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo Yii::t('site', 'Установите новый пароль или <a href="#">восстановите</a> текущий'); ?>
+            <?php echo Yii::t('site', 'Установите новый пароль или <a href="/recovery">восстановите</a> текущий'); ?>
         </div>
 
         <div class="row">

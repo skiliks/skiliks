@@ -488,6 +488,44 @@ class UserAuthController extends YumController
     }
 
     /**
+     * @param YumUser $user
+     *
+     * @return bool
+     *
+     * @throws CException
+     */
+    public function sendPasswordRecoveryEmail($user)
+    {
+        if (!isset($user->profile->email)) {
+            throw new CException(Yum::t('Email is not set when trying to send Recovery Email'));
+        }
+
+        $recoveryUrl = $this->createAbsoluteUrl(
+            $this->createUrl('static/userAuth/recovery'),
+            [
+                'key' => $user->activationKey,
+                'email' => $user->profile->email
+            ]
+        );
+
+        $body = strtr(
+            Yii::t('site', 'You have requested a new password. Please use this URL to continue: {recovery_url}'),
+            ['{recovery_url}' => $recoveryUrl]
+        );
+
+        $mail = [
+            'from' => Yum::module('registration')->recoveryEmail,
+            'to' => $user->profile->email,
+            'subject' => Yii::t('site', 'You requested a new password'),
+            'body' => $body
+        ];
+
+        $sent = YumMailer::send($mail);
+
+        return $sent;
+    }
+
+    /**
      * @param string $email, corporate email address
      *
      * http://skiliks.loc/registration/confirm-corporate-email?email=ss@3e.com
@@ -632,6 +670,68 @@ class UserAuthController extends YumController
         ]);
     }
 
+    public function actionRecovery($email = null, $key = null)
+    {
+        $recoveryForm = new YumPasswordRecoveryForm;
+        $passwordForm = new YumUserChangePassword;
+
+        $YumPasswordRecoveryForm = Yii::app()->request->getParam('YumPasswordRecoveryForm');
+        $YumUserChangePassword = Yii::app()->request->getParam('YumUserChangePassword');
+
+        if (null !== $email && null !== $key && null !== $YumUserChangePassword) {
+            $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
+                $user = $profile->user;
+                $passwordForm->attributes = $YumUserChangePassword;
+
+                if ($passwordForm->validate()) {
+                    $user->activationKey = 1;
+                    $user->setPassword($passwordForm->password, $user->salt);
+
+                    Yii::app()->user->setFlash('notice', 'Your new password has been saved.');
+                    if (Yum::module('registration')->loginAfterSuccessfulRecovery) {
+                        $login = new YumUserIdentity($user->username, false);
+                        $login->authenticate(true);
+                        Yii::app()->user->login($login);
+                    }
+
+                    $this->redirect('/');
+                }
+            }
+        }
+
+        if (null !== $email && null !== $key) {
+            $profile = YumProfile::model()->findByAttributes(['email' => $email]);
+            if ($profile && $profile->user->status > 0 && $profile->user->activationKey == $key) {
+                $this->render('setPassword', [
+                    'passwordForm' => $passwordForm
+                ]);
+
+                Yii::app()->end();
+            }
+        }
+
+        if (null !== $YumPasswordRecoveryForm) {
+            $recoveryForm->attributes = $YumPasswordRecoveryForm;
+
+            if ($recoveryForm->validate() && $recoveryForm->user instanceof YumUser && $recoveryForm->user->status > 0) {
+                $user = $recoveryForm->user;
+                $user->generateActivationKey();
+                $result = $this->sendPasswordRecoveryEmail($user);
+
+                if ($result) {
+                    Yii::app()->user->setFlash('notice', 'Instructions have been sent to you. Please check your email.');
+                    $this->redirect('/');
+                } else {
+                    Yii::app()->user->setFlash('error', 'There was an error sending recovery email');
+                }
+            }
+        }
+
+        $this->render('recovery', [
+            'recoveryForm' => $recoveryForm
+        ]);
+    }
 
 }
 

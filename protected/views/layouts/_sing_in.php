@@ -4,7 +4,7 @@
             <input type="hidden" name="returnUrl" value="/dashboard"/>
 
             <div class="login">
-                <a href="#"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
+                <a href="/recovery"><?php echo Yii::t('site', 'Forgot your password?') ?></a>
                 <input type="text" name="YumUserLogin[username]" placeholder="<?php echo Yii::t('site', 'Enter login') ?>" />
             </div>
             <div class="password">

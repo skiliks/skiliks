@@ -183,6 +183,8 @@ return array(
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
 
+                '/recovery' => 'static/userAuth/recovery',
+
                 'results'                   =>'static/userAuth/results',
                 'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
                 'site/results'              =>'static/userAuth/results',

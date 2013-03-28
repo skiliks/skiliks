@@ -203,7 +203,7 @@ class ProfileController extends AjaxController implements AccountPageControllerI
 
             if (!$passwordForm->hasErrors()) {
                 if ($this->user->setPassword($passwordForm->password, $this->user->salt)) {
-                    Yii::app()->user->setFlash('info', 'The new password has been saved');
+                    Yii::app()->user->setFlash('notice', 'The new password has been saved');
                 } else {
                     Yii::app()->user->setFlash('error', 'There was an error saving the password');
                 }

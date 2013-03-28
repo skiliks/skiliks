@@ -19,7 +19,7 @@ class RegistrationModule extends CWebModule {
 
 	public $registrationEmail='support@skiliks.com';
     public $adminEmail = 'support@skiliks.com';
-	public $recoveryEmail='restore@website.com';
+	public $recoveryEmail='support@skiliks.com';
 
 	// Which roles should be assigned automatically to a registered user 
 	public $defaultRoles = array();
