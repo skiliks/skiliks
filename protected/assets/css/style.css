@@ -2310,7 +2310,7 @@ ul.profile-menu li {
 .pager {
     padding: 25px 0px;
 }
-.pager ul.yiiPager .page a, .pager ul.yiiPager .page a:visited {
+.pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
     color:#fff;
     font-size: 1em;
@@ -2320,6 +2320,10 @@ ul.profile-menu li {
 }
 .pager a:hover, .pager .pager-active {
     color: #146672;
+}
+.pager ul.yiiPager .selected a {
+    background: none;
+    color:#fff;
 }
 .pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
     background: #146672;
