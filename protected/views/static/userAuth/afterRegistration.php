@@ -1,4 +1,4 @@
-<h2 class="thetitle text-center"><?php echo Yii::t('site', 'Please check your inbox folder, for activation email.') ?></h2>
+<h2 class="thetitle text-center">На указанный Вами email отправлено письмо</h2>
 <div class="form registrationform">
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
