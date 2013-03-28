@@ -19,4 +19,4 @@
 			'{here}' => CHtml::link(Yum::t('here'), Yum::module()->loginUrl
 				))); ?> </p>
 
-<div class="text-center longercontent"><a href="/dashboard/" class="bigbtnsubmt">Далее</a></div>
+<div class="text-center longercontent"><a href="/profile/" class="bigbtnsubmt">Далее</a></div>
