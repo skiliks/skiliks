@@ -2313,7 +2313,6 @@ ul.profile-menu li {
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
     color:#fff;
-    font-size: 1em;
     margin: 0px 3px;
     padding: 0px;
     text-decoration: none;
@@ -2321,9 +2320,12 @@ ul.profile-menu li {
 .pager a:hover, .pager .pager-active {
     color: #146672;
 }
-.pager ul.yiiPager .selected a {
-    background: none;
+.pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link {
     color:#fff;
+    font-size: 1em;
+}
+.pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited {
+    background: none;
 }
 .pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
     background: #146672;
