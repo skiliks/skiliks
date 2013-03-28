@@ -104,6 +104,12 @@ define([
                             console.log(substring == SKDocument._excel_cache[i].toString());
                             console.log(substring.indexOf(SKDocument._excel_cache[i].toString()));
 
+                            console.log('***');
+                            console.log(substring.indexOf('?d0c='));
+                            console.log(substring.substring(substring.indexOf('?d0c=')+4));
+                            console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
+                            console.log(substring.substring(substring.indexOf('?d0c=')+4) == event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
+
                             if (substring == SKDocument._excel_cache[i].toString()) {
                                 console.log('doc id: ', i);
                             }
