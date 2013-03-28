@@ -2319,12 +2319,10 @@ ul.profile-menu li {
     margin-left: 5px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
-    width:80px;
+    width:86px;
 }
-#private-invitations-list-box .grid-view tr td:nth-child(2) {
-    width:80px;
-}
-#private-invitations-list-box .grid-view tr td:nth-child(3) {
+#private-invitations-list-box .grid-view tr td:nth-child(2),
+#private-invitations-list-box .grid-view tr td:nth-child(3){
     width:80px;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(4) {
