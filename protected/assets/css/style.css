@@ -2264,12 +2264,9 @@ ul.profile-menu li {
     border-bottom: 1px solid #0e4750;
     font-size: 0.9em;
     font-weight: normal;
-    padding: 12px 8px;
+    padding: 12px 6px;
     text-align: center;
     vertical-align: middle;
-}
-#private-invitations-list-box .grid-view tr td:last-child {
-    width:180px;
 }
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
     -webkit-border-radius: 5px 0px 0px;
@@ -2305,7 +2302,7 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view .items td, .items td {
     background: #fefeec;
     border:none;
-    padding: 8px ;
+    padding: 8px 6px;
     vertical-align: middle;
 }
 #private-invitations-list-box .grid-view .items tr:nth-child(odd) td, .items tr:nth-child(odd) td {
@@ -2320,6 +2317,12 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
     color:#29313d;
     margin-left: 5px;
+}
+#private-invitations-list-box .grid-view tr td:last-child {
+    width:180px;
+}
+#private-invitations-list-box .grid-view tr td:nth-child(4) {
+    width:180px;
 }
 .invites-smallmenu-switcher {
     color:#232323;
