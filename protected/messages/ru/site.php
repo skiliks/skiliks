@@ -200,5 +200,7 @@ return array(
     'Professional status' => 'Профессиональный статус',
     'Birthday' => 'Дата рождения',
     'Location' => 'Расположение',
-    'Your current password' => 'Текущий пароль'
+    'Your current password' => 'Текущий пароль',
+    'New password' => 'Новый пароль',
+    'Retype your new password' => 'Повторите пароль',
 );
