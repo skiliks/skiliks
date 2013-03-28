@@ -3,7 +3,7 @@
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
-                <a class="regicon icon-choose">Выбрать</a>
+                <a class="regicon icon-choose" href="/simulation/promo/2">Выбрать</a>
                 <h3>Пробный тест</h3>
                 <div class="testtime"><strong>45</strong> Минут</div>
                 <ul>
