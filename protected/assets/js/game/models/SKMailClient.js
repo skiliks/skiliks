@@ -769,6 +769,9 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @returns {*}
              */
             getRecipientByMySqlId:function (id) {
+                if (id === undefined || id === null) {
+                    throw 'id argument for getRecipientByMySqlId is not defined';
+                }
                 for (var i in this.defaultRecipients) {
                     // keep non strict!
                     if (id == this.defaultRecipients[i].mySqlId) {
