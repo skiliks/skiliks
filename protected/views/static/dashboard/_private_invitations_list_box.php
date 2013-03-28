@@ -11,8 +11,8 @@
         'pager' => [
             'header'        => false,
             'firstPageLabel' => '<< начало',
-            'prevPageLabel' => '< назад',
-            'nextPageLabel' => 'далее >',
+            'prevPageLabel' => 'назад',
+            'nextPageLabel' => 'далее',
             'lastPageLabel' => 'конец >>',
         ],
         'columns' => [

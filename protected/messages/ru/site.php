@@ -193,6 +193,8 @@ return array(
     'Professional occupation' => 'Професcиональная область',
     'Specialization' => 'Специализация',
     'Vacancy label' => 'Название вакансии',
+    'Assessment' => 'Оценка',
+    'Company' => 'Компания',
     'Vacancy' => 'Вакансия',
     'Link to vacancy description' => 'Ссылка на описание вакансии',
     'Tariffs' => 'Тарифы',
