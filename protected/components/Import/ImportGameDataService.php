@@ -2052,7 +2052,7 @@ class ImportGameDataService
         $this->setColumnNumbersByNames($sheet);
 
         $types = [
-            'id_записи' => 'dialog_id',
+            'id_записи' => 'replica_id',
             'outbox' => 'mail_id',
             'inbox' => 'mail_id'
         ];
