@@ -2332,12 +2332,12 @@ ul.profile-menu li {
     background: #146672;
     border: none;
     display: inline-block;
-    font-size: 0.9em;
+    font-size: 16px;
     line-height: 30px;
     margin: 0px 20px;
     padding: 0px 10px;
 }
-.pager .yiiPager .hidden a {
+.pager ul.yiiPager .hidden a {
     background: #6caab3 !important;
 
 }
