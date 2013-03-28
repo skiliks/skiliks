@@ -240,7 +240,7 @@
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 212px 16px;
+    background: url("../img/menuarrows.png") no-repeat 212px -32px;
     display: block;
     font-size: 1.1em;
     padding: 12px 20px 12px 12px;
@@ -250,7 +250,7 @@
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 212px -32px;
+    background-position: 212px 16px;
 }
 .profileform {
     float: right;
