@@ -29,7 +29,7 @@ class ImportGameDataService
 
         // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
-        $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_to_discISAM;
+        $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_in_memory;
     }
 
     public function setFilename($name)
