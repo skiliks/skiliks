@@ -1,15 +1,18 @@
-<h2 class="thetitle">Вы можете <span>Бесплатно</span> пройти пробную версию </h2>
+<h2 class="thetitle text-center">Вы можете <span>Бесплатно</span> пройти пробную версию </h2>
 
 <div class="form registrationform">
     <div class="transparent-boder">
-        <div class="radiusthree registermessage">
-            <h3>Пробный тест</h3>
-            <div class="testtime"><strong>45</strong> Минут</div>
-            <ul>
-                <li>Частичная оценка навыков бесплатно</li>
-                <li>Погружение в игровую среду для понимания, как работает симуляция</li>
-                <li>Опыт прохождения теста</li>
-            </ul>
+        <div class="radiusthree yellowbg">
+            <div class="registermessage registerpads">
+                <a class="regicon icon-check"></a>
+                <h3>Пробный тест</h3>
+                <div class="testtime"><strong>45</strong> Минут</div>
+                <ul>
+                    <li>Частичная оценка навыков бесплатно</li>
+                    <li>Погружение в игровую среду для понимания, как работает симуляция</li>
+                    <li>Опыт прохождения теста</li>
+                </ul>
+            </div>
         </div>
     </div>
 
