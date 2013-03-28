@@ -17,7 +17,7 @@
     <dd>{$simulation.primaryKey}</dd>
 </dl>
 
-<a href="/static/admin/saveLog?simulation={$simulation->primaryKey}">Save log as XLS</a>
+<a href="/static/admin/saveLog/{$simulation->primaryKey}">Save log as XLS</a>
 
 &nbsp; &nbsp; &nbsp;
 
