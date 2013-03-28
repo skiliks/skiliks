@@ -4,10 +4,10 @@
         <li id="contactLi_<@=model.get('code')@>" class="contact-li">
             <table>
                 <tr>
-                    <td class="hover-hide phone-contact-list-img"><img
-                            src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>.png" alt=""/></td>
-                    <td class="hover-show phone-contact-list-img"><img alt=""
-                                                                       src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>-1.png">
+                    <td class="hover-hide phone-contact-list-img">
+                        <img width="54px" height="54px" class="phone_contacts" src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>.png" alt=""/></td>
+                    <td class="hover-show phone-contact-list-img">
+                        <img width="74px" height="114px" class="phone_contacts" alt="" src="<@=assetsUrl@>/img/phone/icon-ch<@=model.get('code')@>-1.png">
                     </td>
                     <td>
                         <p class="phone-contact-list-f0"><@=model.get('name')@></p>
@@ -21,5 +21,6 @@
             </table>
         </li>
         <@ }) @>
+        <li style="height:30px"></li>
     </ul>
 </div>
