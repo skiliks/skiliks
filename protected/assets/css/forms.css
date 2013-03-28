@@ -249,7 +249,7 @@
 .profile-menu a, .profile-menu a:link, .profile-menu a:visited {
     color: #555742;
 }
-.profile-menu a:hover {
+.profile-menu a:hover, .profile-menu li.active a {
     background-position: 212px -32px;
 }
 .profileform {
@@ -330,5 +330,8 @@
 .rowup span {
     display: block;
     padding-top:4px;
+}
+.lbluelink, .lbluelink:link, .lbluelink:visited {
+    color:#1190a2;
 }
 /************************************ /PERSONAL PROFILE *******************************************/
