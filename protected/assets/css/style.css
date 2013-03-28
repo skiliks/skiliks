@@ -2369,7 +2369,8 @@ ul.profile-menu li {
     padding: 0px;
     text-decoration: none;
 }
-.pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link {
+.pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link,
+.pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link {
     color:#fff;
     font-weight:normal;
     font-size: 14px;
