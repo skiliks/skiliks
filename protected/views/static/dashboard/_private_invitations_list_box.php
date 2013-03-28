@@ -20,7 +20,7 @@
             ['header' => Yii::t('site', Yii::t('site', 'Vacancy'))    , 'value' => 'Yii::t("site", $data->vacancy->label)'],
             ['header' => Yii::t('site', Yii::t('site', 'Assessment')) , 'value' => '"Core managament"'],
             ['header' => Yii::t('site', Yii::t('site', 'Date / time')), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G:i")'],
-            ['header' => Yii::t('site', Yii::t('site', 'Score')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],
+            ['header' => Yii::t('site', Yii::t('site', 'Status')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],
         ]
     ]);
     ?>
