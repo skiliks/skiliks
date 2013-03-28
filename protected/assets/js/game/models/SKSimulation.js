@@ -87,6 +87,19 @@ define([
                     }
                 });
                 this.dayplan_tasks = new SKDayTaskCollection();
+
+                this.postMessageCallback = function(event){
+                    console.log('event 3: ', event);
+                }
+
+                if (window.addEventListener){
+                    console.log('1->')
+                    window.addEventListener("message", this.postMessageCallback, false);
+                } else {
+                    console.log('2->')
+                    window.attachEvent("onmessage", this.postMessageCallback);
+                }
+
                 this.documents = new SKDocumentCollection();
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
