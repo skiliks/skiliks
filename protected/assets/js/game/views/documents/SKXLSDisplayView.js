@@ -48,7 +48,6 @@ define([
             }
 
             this.zoho500callback = function(event){
-                console.log('event 2: ', event);
                 me.handlePostMessage(event)
             }
 
