@@ -68,6 +68,9 @@ define([
          * @return void
          */
         handlePostMessage: function(event) {
+
+            console.log('event: ', event);
+
             var me = this;
             var doc = me.options.model_instance.get('document');
 
