@@ -35,7 +35,7 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 $(window.parent.window).load(function()
 {
     console.log('L');
-    window.parent.parent.postMessage('DocumentLoaded4', 'http://live.skiliks.com');
+    window.parent.parent.postMessage('DocumentLoaded-'+window.location.href, 'http://live.skiliks.com');
 
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){

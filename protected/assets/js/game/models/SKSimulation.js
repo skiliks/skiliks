@@ -89,14 +89,14 @@ define([
                 this.dayplan_tasks = new SKDayTaskCollection();
 
                 this.postMessageCallback = function(event){
-                    console.log('event 3: ', event);
+                    if ('DocumentLoaded' == event.data) {
+                        me.trigger('excel-document-loaded');
+                    }
                 }
 
                 if (window.addEventListener){
-                    console.log('1->')
                     window.addEventListener("message", this.postMessageCallback, false);
                 } else {
-                    console.log('2->')
                     window.attachEvent("onmessage", this.postMessageCallback);
                 }
 
