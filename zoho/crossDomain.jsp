@@ -34,6 +34,8 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 
 $(window.parent.window).load(function()
 {
+    console.log('I am ready!');
+
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
         window.parent.parent.postMessage('Zoho_500', 'http://live.skiliks.com');

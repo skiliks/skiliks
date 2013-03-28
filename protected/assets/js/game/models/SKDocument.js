@@ -46,7 +46,9 @@ define([], function () {
                         'id': decodeURIComponent(this.get('id'))
                     }, function (data) {
                         me.set('excel_url', data.excelDocumentUrl);
-                        me.set('isInitialized', true);
+
+                        //me.set('isInitialized', true);
+
                         me.trigger('document:excel_uploaded');
                         _excel_cache[me.get('id')] = data.excelDocumentUrl;
                     });
