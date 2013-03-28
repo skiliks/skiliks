@@ -38,7 +38,7 @@ class F30_SK1429_Tests extends SeleniumTestHelper
 
     $this->optimal_click("css=li.icon-active.mail a");
     $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
-    $this->optimal_click("//table[@id='mlTitle']/tbody/tr[5]/td[2]");
+    sleep(2);
     $this->verifyTextPresent("Привет, Алексей! Проверяю. Как будет готов - перешлю. \nУдачи, Трудякин");
     }
 }
