@@ -252,6 +252,9 @@
 .profile-menu a:hover, .profile-menu li.active a {
     background-position: 212px 16px;
 }
+.profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
+    color: #245057;
+}
 .profileform {
     float: right;
     padding: 26px;
@@ -282,7 +285,9 @@
     width: 350px;
 }
 #UserAccountCorporate_company_description {
-    width: 350px;
+    height: 100px;
+    padding: 5px;
+    width: 392px;
 }
 .profileform {
     background: #f3ffff;
@@ -301,7 +306,7 @@
 .cposwrap {
     margin:17px 0px 10px 0px;
 }
-#profile_firstname, #profile_lastname, #UserAccountCorporate_ownership_type, #UserAccountCorporate_company_name {
+#profile_firstname, #profile_lastname, #UserAccountCorporate_company_name {
     width:158px;
 }
 .profileform input[type=submit] {
@@ -334,5 +339,26 @@
 }
 .lbluelink, .lbluelink:link, .lbluelink:visited {
     color:#1190a2;
+}
+.blueplaceholder input[type="text"]::-webkit-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type="text"]::-moz-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type="text"]:-ms-input-placeholder {
+    color:#1d7885;
+}
+.blueplaceholder input[type="text"]:-moz-placeholder {
+    color:#1d7885;
+}
+#UserAccountCorporate_ownership_type {
+    width:120px;
+}
+#UserAccountCorporate_company_name {
+    width:250px;
+}
+#account-corporate-company-info-form .sbHolder {
+    width:204px;
 }
 /************************************ /PERSONAL PROFILE *******************************************/
