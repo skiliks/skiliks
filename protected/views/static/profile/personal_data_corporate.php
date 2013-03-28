@@ -1,18 +1,5 @@
 <?php $assetsUrl = $this->getAssetsUrl(); ?>
 <style>
-    .form {
-        margin: 20px 0 0 30px;
-        float: left;
-        width: 700px;
-    }
-    .row {
-        clear: both;
-        margin: 10px 0;
-    }
-    label {
-        float: left;
-        width: 200px;
-    }
     .editable {
         cursor: pointer;
     }
@@ -26,42 +13,43 @@
     }
 </style>
 
-<h1><?php echo Yii::t('site', 'Profile') ?></h1>
+<h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
+<div class="transparent-boder profilewrap">
 
 <?php $this->renderPartial('_menu_corporate', ['active' => ['personal-data' => true]]) ?>
 
-<div class="form">
+    <div class="form profileform radiusthree">
 
-    <?php $form = $this->beginWidget('CActiveForm', array(
-        'id' => 'account-corporate-personal-form'
-    )); ?>
+        <?php $form = $this->beginWidget('CActiveForm', array(
+            'id' => 'account-corporate-personal-form'
+        )); ?>
 
-    <div class="row">
-        <?php echo $form->labelEx($profile, 'Name'); ?>
-        <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
-        <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
-        <?php echo $form->error($profile, 'firstname'); ?>
-        <?php echo $form->error($profile, 'lastname'); ?>
+        <div class="row">
+            <?php echo $form->labelEx($profile, 'Name'); ?>
+            <?php echo $form->textField($profile, 'firstname', ['id' => 'profile_firstname']); ?>
+            <?php echo $form->textField($profile, 'lastname', ['id' => 'profile_lastname']); ?>
+            <?php echo $form->error($profile, 'firstname'); ?>
+            <?php echo $form->error($profile, 'lastname'); ?>
+        </div>
+
+        <div class="row">
+            <?php echo $form->labelEx($account  , 'corporate_email'); ?>
+            <span class="value"><?php echo $account->corporate_email; ?></span>
+        </div>
+
+        <div class="row cposwrap">
+            <?php echo $form->labelEx($account     , 'position_id'); ?>
+            <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
+            <?php echo $form->error($account       , 'position_id'); ?>
+        </div>
+
+        <div class="row buttons">
+            <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
+        </div>
+
+        <?php $this->endWidget(); ?>
     </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($account  , 'corporate_email'); ?>
-        <span class="value"><?php echo $account->corporate_email; ?></span>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($account     , 'position_id'); ?>
-        <?php echo $form->dropDownList($account, 'position_id', $positions); ?>
-        <?php echo $form->error($account       , 'position_id'); ?>
-    </div>
-
-    <div class="row buttons">
-        <?php echo CHtml::submitButton(Yii::t('site', 'Сохранить изменения'), ['name' => 'save']); ?>
-    </div>
-
-    <?php $this->endWidget(); ?>
 </div>
-
 <script type="text/javascript">
 /*$('.editable').editable(function(value) {
     var names = value.split(/\s+/).slice(0, 2);

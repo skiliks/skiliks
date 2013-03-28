@@ -1,9 +1,9 @@
 <ul class="profile-menu">
-    <li><a href="/profile/personal/personal-data" class="isset($active['personal-data']){ echo 'active'; }">
+    <li class="<?php if (isset($active['personal-data'])){ echo 'active'; } ?>"><a href="/profile/personal/personal-data">
             Личные данные
         </a></li>
 
-    <li><a href="/profile/personal/password" class="isset($active['password']){ echo 'active'; }">
+    <li class="<?php if (isset($active['password'])){ echo 'active'; }?>"><a href="/profile/personal/password">
             Пароль
     </a></li>
 </ul>
