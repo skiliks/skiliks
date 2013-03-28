@@ -110,7 +110,7 @@ define([
                             //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
                             //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
                             console.log(substring.substring(substring.indexOf('?doc=')+4) == event.data.substring(15).substring(event.data.substring(15).indexOf('?doc=')+4));
-                            console.log(substring.substring(1) == event.data.substring(15).substring(1));
+                            console.log(substring.substring(0) == event.data.substring(15).substring(0));
 
                             if (substring == SKDocument._excel_cache[i].toString()) {
                                 console.log('doc id: ', i);
