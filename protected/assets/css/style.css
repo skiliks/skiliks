@@ -2317,12 +2317,13 @@ ul.profile-menu li {
     padding: 0px;
     text-decoration: none;
 }
-.pager a:hover, .pager .pager-active {
+.pager a:hover, .pager .pager-active, .pager ul.yiiPager .selected a {
     color: #146672;
 }
-.pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link {
+.pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link {
     color:#fff;
-    font-size: 1em;
+    font-weight:normal;
+    font-size: 16px;
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited {
     background: none;
@@ -2337,7 +2338,7 @@ ul.profile-menu li {
     padding: 0px 10px;
 }
 .pager .yiiPager .hidden a {
-    background: #6caab3;
+    background: #6caab3 !important;
 
 }
 .pager .pmore-active:hover {
