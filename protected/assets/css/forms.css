@@ -299,7 +299,7 @@
     margin-left: 10px;
 }
 .cposwrap {
-    margin:10px 0px 10px 0px;
+    margin:17px 0px 10px 0px;
 }
 #profile_firstname, #profile_lastname, #UserAccountCorporate_ownership_type, #UserAccountCorporate_company_name {
     width:158px;
@@ -324,12 +324,13 @@
     color:#036675;
     width:340px;
 }
+.value {
+    display: inline-block;
+    padding-top:6px;
+    font-family: "ProximaNova-Bold";
+}
 .rowup {
     margin-top: -10px;
-}
-.rowup span {
-    display: block;
-    padding-top:4px;
 }
 .lbluelink, .lbluelink:link, .lbluelink:visited {
     color:#1190a2;
