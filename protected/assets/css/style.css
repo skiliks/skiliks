@@ -2360,6 +2360,9 @@ ul.profile-menu li {
 .pager {
     padding: 25px 0px;
 }
+#private-invitations-list-box .grid-view .pager {
+    text-align: center;
+}
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
     color:#fff;
