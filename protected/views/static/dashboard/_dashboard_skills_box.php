@@ -1,4 +1,4 @@
-<h2>Навыки</h2>
+<h2>Мои навыки</h2>
 
 <?php
     $this->renderPartial('//global_partials/_simulation_stars', [
