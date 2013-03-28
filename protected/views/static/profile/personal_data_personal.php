@@ -18,7 +18,7 @@
             <?php echo $form->error($profile, 'lastname'); ?>
         </div>
 
-        <div class="row">
+        <div class="row rowup">
             <?php echo $form->labelEx($profile  , 'Email'); ?>
             <span class="value"><?php echo $profile->email; ?></span>
         </div>
@@ -35,7 +35,7 @@
             <?php echo $form->error($account       , 'industry_id'); ?>
         </div>
 
-        <div class="row small">
+        <div class="row small blueinputtext">
             <?php echo $form->labelEx($account, 'birthday'); ?>
             <?php echo CHtml::textField('birthday[day]',   $account->birthday ? $account->getBirthdayDate()->format('j') : ''); ?>
             <?php echo CHtml::textField('birthday[month]', $account->birthday ? $account->getBirthdayDate()->format('m') : ''); ?>
