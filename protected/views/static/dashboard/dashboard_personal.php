@@ -16,7 +16,7 @@
     </div>
 
     <aside>
-        <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Dashboard') ?></h2>
+        <h2 class="thetitle bigtitle">Личный кабинет</h2>
         <!-- dashboard-skills-box -->
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue sideblock">
 
@@ -24,7 +24,7 @@
 
         </div>
 
-        <div class="sidefeedback"><a href="#" class="light-btn">Send feedback</a></div>
+        <div class="sidefeedback"><a href="#" class="light-btn">Обратная связь</a></div>
 
         <!-- companies-you-follow-box -->
         <?php /* not in release 1
