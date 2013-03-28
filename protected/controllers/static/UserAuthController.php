@@ -310,6 +310,7 @@ class UserAuthController extends YumController
         $YumProfile = Yii::app()->request->getParam('YumProfile');
         $profile->firstname = $YumProfile['firstname'];
         $profile->lastname  = $YumProfile['lastname'];
+        $profile->timestamp = gmdate("Y-m-d H:i:s");
 
         $accountCorporate = new UserAccountCorporate;
         $accountCorporate->user_id = $this->user->id;

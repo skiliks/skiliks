@@ -197,4 +197,7 @@ return array(
     'Link to vacancy description' => 'Ссылка на описание вакансии',
     'Tariffs' => 'Тарифы',
     'Contacts' => 'Контакты',
+    'Professional status' => 'Профессиональный статус',
+    'Birthday' => 'Дата рождения',
+    'Location' => 'Расположение',
 );
