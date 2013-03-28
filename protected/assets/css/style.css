@@ -455,6 +455,9 @@ a:focus, a:active {
     font:2.87em "ProximaNova-Bold";
     margin-bottom: 20px;
 }
+.bigtitle {
+    font-size: 3.4em;
+}
 .thetitle span {
     text-transform: uppercase;
 }
@@ -2013,6 +2016,12 @@ h2 {
 .dashboard .thetitle {
     font-size: 2.2em;
 }
+.dashboard .bigtitle {
+    font-size: 2.7em;
+}
+.dashboard .narrow-contnt {
+    margin-top: 7px;
+}
 .dashboard aside .thetitle {
     margin-left: 3px;
 }
@@ -2301,25 +2310,29 @@ ul.profile-menu li {
 .pager {
     padding: 25px 0px;
 }
-.pager a {
+.pager ul.yiiPager .page a, .pager ul.yiiPager .page a:visited {
+    border: none;
     color:#fff;
     font-size: 1em;
     margin: 0px 3px;
+    padding: 0px;
     text-decoration: none;
 }
 .pager a:hover, .pager .pager-active {
     color: #146672;
 }
 .pager .pager-more, .pager ul.yiiPager .previous a, .pager ul.yiiPager .next a {
-    background: #6caab3;
+    background: #146672;
+    border: none;
     display: inline-block;
     font-size: 0.9em;
     line-height: 30px;
     margin: 0px 20px;
     padding: 0px 10px;
 }
-.pager .pmore-active {
-    background: #146672;
+.pager .yiiPager .hidden a {
+    background: #6caab3;
+
 }
 .pager .pmore-active:hover {
     color:#6caab3;

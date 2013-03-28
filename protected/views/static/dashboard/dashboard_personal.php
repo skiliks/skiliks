@@ -16,7 +16,7 @@
     </div>
 
     <aside>
-        <h2 class="thetitle"><?php echo Yii::t('site', 'Dashboard') ?></h2>
+        <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Dashboard') ?></h2>
         <!-- dashboard-skills-box -->
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue sideblock">
 
