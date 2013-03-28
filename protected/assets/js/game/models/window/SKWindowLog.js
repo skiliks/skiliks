@@ -22,17 +22,19 @@ define(["game/models/window/SKWindow"],function () {
         'activate': function (window) {
             var time = SKApp.simulation.getGameSeconds();
             if (isNaN(window.window_uid)) {
-                throw 'window.window_uid is NAN!';
+                throw 'window.window_uid is NaN!';
             }
 
-            this.log.push({
-                0: window.getWindowId(),
-                1: window.getSubwindowId(),
-                2: 'activated',
-                3: time,
-                4: window.get('params'),
+            var log_raw_data = {
+                0:            window.getWindowId(),
+                1:            window.getSubwindowId(),
+                2:            'activated',
+                3:            time,
+                4:            window.get('params'),
                 'window_uid': window.window_uid
-            });
+            };
+            //console.log(log_raw_data);
+            this.log.push(log_raw_data);
         },
 
         /**
@@ -46,14 +48,16 @@ define(["game/models/window/SKWindow"],function () {
                 throw 'window.window_uid is NAN!';
             }
 
-            this.log.push({
-                0: window.getWindowId(),
-                1: window.getSubwindowId(),
-                2: 'deactivated',
-                3: time,
-                4: window.get('params'),
+            var log_raw_data = {
+                0:            window.getWindowId(),
+                1:            window.getSubwindowId(),
+                2:            'deactivated',
+                3:            time,
+                4:            window.get('params'),
                 'window_uid': window.window_uid
-            });
+            };
+            //console.log(log_raw_data);
+            this.log.push(log_raw_data);
         },
 
         /**

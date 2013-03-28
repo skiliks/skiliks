@@ -681,7 +681,6 @@ define([
              */
             renderInboxFolder: function () {
                 this.unhideFoldersBlock();
-
                 // set HTML skeleton {
                 var skeleton = _.template(income_folder_skeleton_template, {
                     listId: this.mailClientIncomeFolderListId,
@@ -1106,7 +1105,6 @@ define([
                 if (0 === this.mailClient.defaultRecipients.length) {
                     this.mailClient.updateRecipientsList();
                 }
-
                 // get template
                 var htmlSceleton = _.template(mail_client_new_email_template, {});
 
@@ -1771,6 +1769,7 @@ define([
              * @returns {boolean}
              */
             fillMessageWindow: function (response) {
+                console.log('fill message window');
                 var me = this;
                 if (null === response.subjectId) {
                     this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
@@ -2103,6 +2102,7 @@ define([
             },
             onMailFantasticSend: function (email) {
                 var me = this;
+                this.renderWriteCustomNewEmailScreen();
                 me.fillMessageWindow(email);
                 var cursor = this.make('div', {'class': 'cursor'});
                 this.$el.append(cursor);
