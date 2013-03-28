@@ -18,13 +18,7 @@ return CMap::mergeArray(
                 array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning, info, trace, log, debug',
-                ),
-                array(
-                    'class' => 'CFileLogRoute',
-                    'levels' => 'error, warning, info, trace, log, debug',
-                    'categories'=>'system.db.*',
-                    'logFile' => 'sql.log'
-                ),
+                )
 
             ),
         ),
