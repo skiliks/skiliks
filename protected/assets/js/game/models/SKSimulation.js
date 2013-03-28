@@ -109,7 +109,7 @@ define([
                             //console.log(substring.substring(substring.indexOf('?doc=')+4));
                             //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
                             //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
-                            console.log(substring.substring(substring.indexOf('?doc=')+4) == event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
+                            console.log(substring.substring(substring.indexOf('?doc=')+4) == event.data.substring(15).substring(event.data.substring(15).indexOf('?doc=')+4));
                             console.log(substring.substring(1) == event.data.substring(15).substring(1));
 
                             if (substring == SKDocument._excel_cache[i].toString()) {
