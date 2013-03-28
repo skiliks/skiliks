@@ -43,7 +43,7 @@
             <?php echo $form->error($account, 'birthday'); ?>
         </div>
 
-        <div class="row">
+        <div class="row blueinputtext">
             <?php echo $form->labelEx($account, 'location'); ?>
             <?php echo $form->textField($account, 'location'); ?>
             <?php echo $form->error($account, 'location'); ?>
