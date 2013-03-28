@@ -604,7 +604,7 @@ class ImportGameDataService
             $emailTemplateEntity->message = $message;
             $emailTemplateEntity->sent_at = $sendingDate . ' ' . $sendingTime;
             $emailTemplateEntity->type = $type;
-            $emailTemplateEntity->type_of_importance = $typeOfImportance;
+            $emailTemplateEntity->type_of_importance = $typeOfImportance ?: 'none';
             $emailTemplateEntity->import_id = $this->import_id;
             $emailTemplateEntity->flag_to_switch = (NULL == $flag) ? NULL : $flag;
 
@@ -886,6 +886,7 @@ class ImportGameDataService
             $communicationTheme->import_id = $this->import_id;
 
             $communicationTheme->save();
+            unset($communicationTheme);
         }
 
         foreach (CommunicationTheme::model()->findAllByAttributes(['import_id' => $this->import_id]) as $communicationTheme) {
@@ -1051,7 +1052,8 @@ class ImportGameDataService
             }
 
             $task->title = $name;
-            $task->start_time = $startTime;
+            // bug in the content. remove code after 29.04.2012
+            $task->start_time = preg_replace('/;/', ':', $startTime) ?: null;
             $task->duration = $duration;
             if ($this->getCellValue($sheet, 'Task time limit type', $i) === 'can\'t be moved') {
                 $task->type = 2;
@@ -1201,7 +1203,7 @@ class ImportGameDataService
 
             $event->on_ignore_result = 7;
             $event->on_hold_logic = 1;
-            $event->trigger_time = $sendingTime;
+            $event->trigger_time = $sendingTime ?: null;
             $event->import_id = $this->import_id;
             $event->save();
         }
@@ -1500,7 +1502,7 @@ class ImportGameDataService
             $dialog->start_by       = $this->getCellValue($sheet, 'Тип запуска', $i);
             $dialog->delay          = $this->getCellValue($sheet, 'Задержка, мин', $i);
             $dialog->category       = $this->getCellValue($sheet, 'Категория события', $i);
-            $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') || null;
+            $dialog->start_time     = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') ?: null;
             $dialog->is_use_in_demo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? true : false;
             $dialog->import_id      = $this->import_id;
 
@@ -1679,7 +1681,7 @@ class ImportGameDataService
             $event->title = $this->getCellValue($sheet, 'Наименование события', $i);
             $event->on_ignore_result = 7; // ничего
             $event->on_hold_logic = 1; // ничего
-            $event->trigger_time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss');
+            $event->trigger_time = PHPExcel_Style_NumberFormat::toFormattedString($this->getCellValue($sheet, 'Начало, время', $i), 'hh:mm:ss') ?: null;
             $event->import_id = $this->import_id;
 
             if ($event->validate()) {
@@ -1714,6 +1716,8 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             $planCode = $this->getCellValue($sheet, 'Plan_code', $i);
+            if ($planCode === null)
+                continue;
             $event = EventSample::model()->byCode($planCode)->find();
             if (!$event) {
                 $event = new EventSample(); // Создаем событие
@@ -2134,31 +2138,9 @@ class ImportGameDataService
      */
     public function importAll()
     {
-        $result = [];
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $result['characters'] = $this->importCharacters();
-            $result['learning_areas'] = $this->importLearningAreas();
-            $result['learning_goals'] = $this->importLearningGoals();
-            $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
-            $result['characters_points_titles'] = $this->importHeroBehaviours();
-            $result['flags'] = $this->importFlags();
-            $result['replicas'] = $this->importDialogReplicas();
-            $result['dialogs'] = $this->importDialogs();
-            $result['my_documents'] = $this->importMyDocuments();
-            $result['character_points'] = $this->importDialogPoints();
-            $result['constructor'] = $this->importMailConstructor();
-            $result['email_subjects'] = $this->importEmailSubjects();
-            $result['emails'] = $this->importEmails();
-            $result['mail_attaches'] = $this->importMailAttaches();
-            $result['mail_events'] = $this->importMailEvents();
-            $result['tasks'] = $this->importTasks();
-            $result['mail_tasks'] = $this->importMailTasks();
-            $result['event_samples'] = $this->importEventSamples();
-            $result['activity'] = $this->importActivity();
-            $result['activity_parent_ending'] = $this->importActivityParentEnding();
-            $result['flag_rules'] = $this->importFlagsRules();
-            $result['performance_rules'] = $this->importPerformanceRules();
+            $result = $this->importWithoutTransaction();
 
             $transaction->commit();
 
@@ -2166,6 +2148,38 @@ class ImportGameDataService
             $transaction->rollback();
             throw $e;
         }
+        return $result;
+    }
+
+    /**
+     * @param $result
+     * @return mixed
+     */
+    public function importWithoutTransaction()
+    {
+        $result = [];
+        $result['characters'] = $this->importCharacters();
+        $result['learning_areas'] = $this->importLearningAreas();
+        $result['learning_goals'] = $this->importLearningGoals();
+        $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
+        $result['characters_points_titles'] = $this->importHeroBehaviours();
+        $result['flags'] = $this->importFlags();
+        $result['replicas'] = $this->importDialogReplicas();
+        $result['dialogs'] = $this->importDialogs();
+        $result['my_documents'] = $this->importMyDocuments();
+        $result['character_points'] = $this->importDialogPoints();
+        $result['constructor'] = $this->importMailConstructor();
+        $result['email_subjects'] = $this->importEmailSubjects();
+        $result['emails'] = $this->importEmails();
+        $result['mail_attaches'] = $this->importMailAttaches();
+        $result['mail_events'] = $this->importMailEvents();
+        $result['tasks'] = $this->importTasks();
+        $result['mail_tasks'] = $this->importMailTasks();
+        $result['event_samples'] = $this->importEventSamples();
+        $result['activity'] = $this->importActivity();
+        $result['activity_parent_ending'] = $this->importActivityParentEnding();
+        $result['flag_rules'] = $this->importFlagsRules();
+        $result['performance_rules'] = $this->importPerformanceRules();
         return $result;
     }
 
