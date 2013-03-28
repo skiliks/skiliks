@@ -32,18 +32,18 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
         $this->assertEquals('50.00', $sim->managerial_skills);
 
-        $asses = new SimulationAssessmentRule();
-        $asses->assessment_rule_id = 1;
+        $asses = new PerformancePoint();
+        $asses->performance_rule_id = 1;
         $asses->sim_id = $simulation->id;
         $asses->save();
 
-        $asses = new SimulationAssessmentRule();
-        $asses->assessment_rule_id = 2;
+        $asses = new PerformancePoint();
+        $asses->performance_rule_id = 2;
         $asses->sim_id = $simulation->id;
         $asses->save();
 
-        $asses = new SimulationAssessmentRule();
-        $asses->assessment_rule_id = 3;
+        $asses = new PerformancePoint();
+        $asses->performance_rule_id = 3;
         $asses->sim_id = $simulation->id;
         $asses->save();
 

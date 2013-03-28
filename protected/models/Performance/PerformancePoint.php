@@ -1,22 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "simulation_assessment_rules".
+ * This is the model class for table "performance_point".
  *
- * The followings are the available columns in table 'simulation_assessment_rules':
+ * The followings are the available columns in table 'performance_point':
  * @property integer $id
  * @property integer $sim_id
- * @property integer $assessment_rule_id
+ * @property integer $performance_rule_id
  *
  * The followings are the available model relations:
- * @property AssessmentRule $assessmentRule
+ * @property PerformanceRule $performanceRule
  */
-class SimulationAssessmentRule extends CActiveRecord
+class PerformancePoint extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return SimulationAssessmentRule the static model class
+	 * @return PerformancePoint the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -28,7 +28,7 @@ class SimulationAssessmentRule extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'simulation_assessment_rules';
+		return 'performance_point';
 	}
 
 	/**
@@ -39,11 +39,11 @@ class SimulationAssessmentRule extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, assessment_rule_id', 'required'),
-			array('sim_id, assessment_rule_id', 'numerical', 'integerOnly'=>true),
+			array('sim_id, performance_rule_id', 'required'),
+			array('sim_id, performance_rule_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, sim_id, assessment_rule_id', 'safe', 'on'=>'search'),
+			array('id, sim_id, performance_rule_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -55,7 +55,7 @@ class SimulationAssessmentRule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'assessmentRule' => array(self::BELONGS_TO, 'AssessmentRule', 'assessment_rule_id'),
+			'performanceRule' => array(self::BELONGS_TO, 'PerformanceRule', 'performance_rule_id'),
 		);
 	}
 
@@ -67,7 +67,7 @@ class SimulationAssessmentRule extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'sim_id' => 'Sim',
-			'assessment_rule_id' => 'Assessment Rule',
+			'performance_rule_id' => 'Performance Rule',
 		);
 	}
 
@@ -84,7 +84,7 @@ class SimulationAssessmentRule extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('assessment_rule_id',$this->assessment_rule_id);
+		$criteria->compare('performance_rule_id',$this->performance_rule_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
