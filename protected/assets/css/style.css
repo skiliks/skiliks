@@ -2429,6 +2429,7 @@ ul.profile-menu li {
     background-position: 20px 16px;
     font: 1.3em "ProximaNova-Bold";
     line-height: 54px;
+    margin-top: 10px;
     padding: 0px 14px 0px 48px;
 }
 .profileform textarea {
