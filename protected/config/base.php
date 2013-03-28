@@ -14,6 +14,7 @@ return array(
         'application.models.PullOfOptions.*',
         'application.models.Exceptions.*',
         'application.models.Logs.*',
+        'application.models.Performance.*',
         'application.models.Simulation.*',
         'application.models.Mail.*',
         'application.models.Activities.*',

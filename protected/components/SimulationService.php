@@ -275,30 +275,30 @@ class SimulationService
     }
 
     /**
-     * Fills executed assessment rules according to user actions
+     * Fills executed performance rules according to user actions
      * @param int $simId
      */
-    public static function setFinishedAssessmentRules($simId)
+    public static function setFinishedPerformanceRules($simId)
     {
-        $allRules = AssessmentRule::model()->findAll();
+        $allRules = PerformanceRule::model()->findAll();
         $done = [];
 
-        /** @var $rule AssessmentRule */
+        /** @var $rule PerformanceRule */
         foreach ($allRules as $rule) {
             if (isset($done[$rule->id])) {
                 continue;
             }
 
-            $conditions = $rule->assessmentRuleConditions;
+            $conditions = $rule->performanceRuleConditions;
             foreach ($conditions as $condition) {
                 $satisfies = false;
-                if ($condition->dialog_id) {
-                    /** @var Replica $dialog */
-                    $dialog = Replica::model()->findByPk($condition->dialog_id);
+                if ($condition->replica_id) {
+                    /** @var Replica $replica */
+                    $replica = Replica::model()->findByPk($condition->replica_id);
 
                     $satisfies = LogDialog::model()
                         ->bySimulationId($simId)
-                        ->byLastReplicaId($dialog->excel_id)
+                        ->byLastReplicaId($replica->excel_id)
                         ->exists();
 
                 } elseif ($condition->mail_id) {
@@ -324,10 +324,10 @@ class SimulationService
             }
 
             if (!empty($satisfies)) {
-                $sar = new SimulationAssessmentRule();
-                $sar->sim_id = $simId;
-                $sar->assessment_rule_id = $rule->id;
-                $sar->save();
+                $point = new PerformancePoint();
+                $point->sim_id = $simId;
+                $point->performance_rule_id = $rule->id;
+                $point->save();
 
                 $done[$rule->id] = $rule->value;
             }
@@ -470,7 +470,7 @@ class SimulationService
         // see Assessment scheme_v5.pdf
         SimulationService::saveAggregatedPoints($simulation->id);
 
-        SimulationService::setFinishedAssessmentRules($simulation->id);
+        SimulationService::setFinishedPerformanceRules($simulation->id);
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();

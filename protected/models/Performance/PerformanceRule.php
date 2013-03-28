@@ -1,24 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "assessment_rules".
+ * This is the model class for table "performance_rule".
  *
- * The followings are the available columns in table 'assessment_rules':
+ * The followings are the available columns in table 'performance_rule':
  * @property integer $id
  * @property string $activity_id
  * @property string $operation
  * @property integer $value
  *
  * The followings are the available model relations:
- * @property AssessmentRuleCondition[] $assessmentRuleConditions
+ * @property PerformanceRuleCondition[] $performanceRuleConditions
  * @property Activity $activity
  */
-class AssessmentRule extends CActiveRecord
+class PerformanceRule extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return AssessmentRule the static model class
+	 * @return PerformanceRule the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -30,7 +30,7 @@ class AssessmentRule extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'assessment_rules';
+		return 'performance_rule';
 	}
 
 	/**
@@ -59,7 +59,7 @@ class AssessmentRule extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'assessmentRuleConditions' => array(self::HAS_MANY, 'AssessmentRuleCondition', 'assessment_rule_id'),
+			'performanceRuleConditions' => array(self::HAS_MANY, 'PerformanceRuleCondition', 'performance_rule_id'),
 			'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
 		);
 	}
