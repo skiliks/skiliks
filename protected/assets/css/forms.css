@@ -284,6 +284,9 @@
     height:23px;
     width: 350px;
 }
+#UserAccountPersonal_location {
+    width: 350px;
+}
 #UserAccountCorporate_company_description {
     height: 100px;
     padding: 5px;
