@@ -20,7 +20,7 @@
         <!-- dashboard-skills-box -->
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue sideblock">
 
-            <?php $this->renderPartial('_dashboard_skills_box', ['value'=>$value]) ?>
+            <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
 
         </div>
 

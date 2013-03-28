@@ -11,7 +11,7 @@
     </ul>
 
     <div id="tab-main">
-        <?php $this->renderPartial('_tab_main', []) ?>
+        <?php $this->renderPartial('_tab_main', ['simulation'=>$simulation]) ?>
     </div>
 
     <div id="tab-productivity">

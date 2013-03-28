@@ -33,7 +33,7 @@ $this->widget('zii.widgets.grid.CGridView', [
 <div id="simulation-details-pop-up"></div>
 
 <script type="text/javascript">
-    $(function(){
+    /*$(function(){
        $('#simulation-details-pop-up').dialog({
            modal: true,
            width: 940,
@@ -51,7 +51,7 @@ $this->widget('zii.widgets.grid.CGridView', [
                 }
             });
         });
-    });
+    });*/
 </script>
 
 <div style="height: 100px; width: 100%; float: none; clear: both;"></div>
