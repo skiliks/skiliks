@@ -1,7 +1,6 @@
 <h1 class="thetitle">Полученные приглашения</h1>
 
 <div id="private-invitations-list-box" class="transparent-boder wideblock">
-    <p>&nbsp;</p>
     <?php
     $this->widget('zii.widgets.grid.CGridView', [
         'dataProvider' => Invite::model()->searchByInvitedUserEmail(

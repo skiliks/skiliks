@@ -2038,7 +2038,7 @@ class ImportGameDataService
         );
     }
 
-    public function importAssessmentRules()
+    public function importPerformanceRules()
     {
         echo __METHOD__ . "\n";
 
@@ -2068,9 +2068,9 @@ class ImportGameDataService
                 break;
             }
 
-            $rule = AssessmentRule::model()->findByPk($ruleId);
+            $rule = PerformanceRule::model()->findByPk($ruleId);
             if (empty($rule)) {
-                $rule = new AssessmentRule();
+                $rule = new PerformanceRule();
                 $rule->id = $ruleId;
             }
 
@@ -2091,16 +2091,16 @@ class ImportGameDataService
             }
 
             if (isset($entity)) {
-                $condition = AssessmentRuleCondition::model()->findByAttributes([
-                    'assessment_rule_id' => $rule->id,
+                $condition = PerformanceRuleCondition::model()->findByAttributes([
+                    'performance_rule_id' => $rule->id,
                     $types[$type] => $entity->id
                 ]);
 
                 if (empty($condition)) {
-                    $condition = new AssessmentRuleCondition();
+                    $condition = new PerformanceRuleCondition();
                 }
 
-                $condition->assessment_rule_id = $rule->id;
+                $condition->performance_rule_id = $rule->id;
                 $condition->{$types[$type]} = $entity->id;
                 $condition->import_id = $this->import_id;
 
@@ -2110,11 +2110,11 @@ class ImportGameDataService
         }
 
         // delete old unused data {
-        AssessmentRuleCondition::model()->deleteAll(
+        PerformanceRuleCondition::model()->deleteAll(
             'import_id <> :import_id',
             array('import_id' => $this->import_id)
         );
-        AssessmentRule::model()->deleteAll(
+        PerformanceRule::model()->deleteAll(
             'import_id <> :import_id',
             array('import_id' => $this->import_id)
         );
@@ -2123,8 +2123,8 @@ class ImportGameDataService
         echo __METHOD__ . " end \n";
 
         return array(
-            'assessment_rules' => $rules,
-            'assessment_rule_conditions' => $conditions,
+            'performance_rules' => $rules,
+            'performance_rule_conditions' => $conditions,
             'errors' => false,
         );
     }
@@ -2158,7 +2158,7 @@ class ImportGameDataService
             $result['activity'] = $this->importActivity();
             $result['activity_parent_ending'] = $this->importActivityParentEnding();
             $result['flag_rules'] = $this->importFlagsRules();
-            $result['assessment_rules'] = $this->importAssessmentRules();
+            $result['performance_rules'] = $this->importPerformanceRules();
 
             $transaction->commit();
 

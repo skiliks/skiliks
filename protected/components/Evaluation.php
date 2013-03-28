@@ -41,11 +41,11 @@ class Evaluation {
 
     public function checkManagerialProductivity() {
 
-        $assessment_rule = SimulationAssessmentRule::model()->findAllByAttributes(['sim_id' => $this->simId]);
+        $points = PerformancePoint::model()->findAllByAttributes(['sim_id' => $this->simId]);
         $value = 0;
-        if(null !== $assessment_rule) {
-            foreach($assessment_rule as $assessment) {
-                $value += $assessment->assessmentRule->value;
+        if(null !== $points) {
+            foreach($points as $point) {
+                $value += $point->performanceRule->value;
             }
         }
         $simulation = Simulation::model()->findByAttributes(['id'=>$this->simId]);

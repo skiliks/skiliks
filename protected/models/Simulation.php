@@ -15,6 +15,7 @@
  * @property string managerial_productivity
  * @property string time_management_effectiveness
  * @property string overall_manager_rating
+ *
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_aggregated
  * @property LogWindow[] log_windows
@@ -27,6 +28,7 @@
  * @property LogDocument[] log_documents
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
+ * @property PerformancePoint[] performance_points
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
@@ -153,7 +155,7 @@ class Simulation extends CActiveRecord
             'universal_log'                   => [self::HAS_MANY, 'UniversalLog', 'sim_id', 'order' => 'start_time, end_time'],
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
-            'simulation_assessment_rules'     => [self::HAS_MANY, 'SimulationAssessmentRule', 'sim_id'],
+            'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
             'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
             'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
             'simulation_excel_points'          => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
@@ -234,12 +236,6 @@ class Simulation extends CActiveRecord
         }
 
         return $result;
-    }
-
-    public function getAssessmentRules()
-    {
-        $assessmentRules = $this->simulation_assessment_rules;
-        return $assessmentRules;
     }
 
 

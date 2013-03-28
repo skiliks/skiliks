@@ -136,7 +136,7 @@ return array(
     'Linear manager' => 'Менеджер',
     'Analytics department manager' => 'Начальник отдела аналитики',
     'Full name' => 'Ф.И.О.',
-    'Dashboard' => 'Панель управления',
+    'Dashboard' => 'Личный кабинет',
     'My profile' => 'Мой профиль',
     'Invitations' => 'Приглашения',
     'First name' => 'Имя',
@@ -176,7 +176,7 @@ return array(
     'Completed' => 'завершен',
     'Declined' => 'отвергнут',
 
-    'Profile' => 'Профиль',
+    'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',
     'Notifications' => 'Уведомления',
     'Simulations' => 'Симуляции',
@@ -197,4 +197,7 @@ return array(
     'Link to vacancy description' => 'Ссылка на описание вакансии',
     'Tariffs' => 'Тарифы',
     'Contacts' => 'Контакты',
+    'Professional status' => 'Профессиональный статус',
+    'Birthday' => 'Дата рождения',
+    'Location' => 'Расположение',
 );
