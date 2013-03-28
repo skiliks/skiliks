@@ -1107,7 +1107,7 @@ class SimulationServiceTest extends CDbTestCase
         $this->assertTrue($is_3333_scored, '3326 not scored!');
     }
 
-    public function testSimulationAssessmentRules()
+    public function testSimulationPerformanceRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
@@ -1161,9 +1161,9 @@ class SimulationServiceTest extends CDbTestCase
 
         SimulationService::simulationStop($simulation);
 
-        $executedRules = SimulationAssessmentRule::model()->bySimId($simulation->id)->findAll();
+        $executedRules = PerformancePoint::model()->bySimId($simulation->id)->findAll();
         $list = array_map(function($rule) {
-            return $rule->assessment_rule_id;
+            return $rule->performance_rule_id;
         }, $executedRules);
         sort($list);
 

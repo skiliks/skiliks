@@ -4,7 +4,7 @@
     $label = (isset($label)) ? 'Менеджмент' : '--' ;
 ?>
 
-<p>Менеджмент
+<p><span class="skillstitle">Базовый менеджмент</span>
     <span class="ratingwrap radiusthree">
         <span class="ratebg"><span class="rating" style="width: <?php echo $value; ?>%"></span></span>
         <sup><?php echo $value; ?>%</sup>

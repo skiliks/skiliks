@@ -17,7 +17,7 @@
     <dd>{$simulation.primaryKey}</dd>
 </dl>
 
-<a href="/static/admin/saveLog?simulation={$simulation->primaryKey}">Save log as XLS</a>
+<a href="/static/admin/saveLog/{$simulation->primaryKey}">Save log as XLS</a>
 
 &nbsp; &nbsp; &nbsp;
 
@@ -99,12 +99,12 @@
         </tr>
         </thead>
         {$sum = 0}
-        {foreach $simulation->getAssessmentRules() as $id => $rule}
+        {foreach $simulation->performance_points as $id => $point}
             <tr>
-                <td>{$rule->assessmentRule->activity_id}</td>
-                <td>{$rule->assessmentRule->value}</td>
+                <td>{$point->performanceRule->activity_id}</td>
+                <td>{$point->performanceRule->value}</td>
             </tr>
-            {$sum = $sum + $rule->assessmentRule->value}
+            {$sum = $sum + $point->performanceRule->value}
         {/foreach}
         <tr class="assessment-rules-sum">
             <td>Итого</td>
