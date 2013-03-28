@@ -32,12 +32,9 @@ define(["game/models/SKDocument"], function () {
 
             if ('read' === method) {
                 SKApp.server.api('myDocuments/getList', {}, function (data) {
-                    //console.log('1');
-                    //alert('1*');
                     options.success(data.data);
-                    //console.log('2');
 
-                    //me.waitForDocumentsInitialization();
+                    me.waitForDocumentsInitialization();
                 });
             }
         },
@@ -48,17 +45,15 @@ define(["game/models/SKDocument"], function () {
             var isDocumentsInitialized = true;
 
             for (var key in this.models) {
-                console.log(this.models[key].get('isInitialized'));
-                if (false == this.models[key].get('isInitialized')) {
+                console.log(this.models[key]);
+                if (false == this.models[key].isInitialized) {
                     isDocumentsInitialized = false;
-                    //alert('false!');
                 }
             }
 
             if (true == isDocumentsInitialized) {
                 this.trigger('documents-initialized');
-                //console.log('documents-initialized!');
-                //alert('documents-initialized!');
+                console.log('documents-initialized!');
             }
 
             return isDocumentsInitialized;
@@ -67,10 +62,10 @@ define(["game/models/SKDocument"], function () {
         waitForDocumentsInitialization: function() {
             var me = this;
 
-            //console.log('waitForDocumentsInitialization RUN ... ');
+            console.log('waitForDocumentsInitialization RUN ... 2 ');
 
-            if (false == me.waitForDocumentsInitialization()) {
-                setTimeout(me.waitForDocumentsInitialization(), 2000);
+            if (false == me.isDocumentsInitialized()) {
+                // setTimeout(me.waitForDocumentsInitialization(), 1000);
             }
         }
     });
