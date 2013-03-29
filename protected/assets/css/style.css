@@ -1925,11 +1925,14 @@ ul.profile-menu li {
     padding: 0px 12px 0px 18px;
     text-decoration: none;
 }
-.light-btn, .blue-btn:hover {
+.light-btn  {
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
 .blue-btn {
-    background: url("../img/btn-lightbg.png") no-repeat left bottom;
+    background: url("../img/btn-lightbg.png") no-repeat left top;
+}
+.blue-btn:hover {
+    background-position: left bottom;
 }
 .blue-btn, .blue-btn:visited {
     color: #fff;
