@@ -2124,7 +2124,7 @@ ul.profile-menu li {
     width:96px;
 }
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:176px;
+    width:180px;
 }
 .invites-smallmenu-switcher {
     color:#232323;
@@ -2156,7 +2156,7 @@ ul.profile-menu li {
     position: relative;
 }
 #private-invitations-list-box .grid-view .pager {
-    bottom: -50px;
+    bottom: -65px;
     margin: 0px;
     text-align: center;
     padding-top: 25px;
@@ -2174,7 +2174,6 @@ ul.profile-menu li {
 .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link,
 .pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link {
     color:#fff;
-    font-weight:normal;
     font-size: 14px;
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited {
