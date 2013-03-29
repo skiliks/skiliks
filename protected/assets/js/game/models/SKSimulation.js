@@ -92,8 +92,10 @@ define([
                     if (-1 != event.data.indexOf('DocumentLoaded')) {
 
                         console.log($('iframe[src="' + event.data.substring(15) + '"]'));
+                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
 
                         $('iframe').each(function(){
+                            console.log($(this));
                             console.log('src: ', $(this).attr('src'));
                             console.log(event.data.substring(15));
                             console.log($(this).attr('src') == event.data.substring(15));
