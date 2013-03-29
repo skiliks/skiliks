@@ -2118,7 +2118,7 @@ ul.profile-menu li {
     margin-left: 3px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
-    width:80px;
+    width:70px;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
