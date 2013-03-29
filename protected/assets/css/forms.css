@@ -250,7 +250,7 @@
 .profile-menu a {
     background: url("../img/menuarrows.png") no-repeat 212px -32px;
     display: block;
-    font-size: 17px;
+    font-size: 18px;
     padding: 12px 20px 12px 12px;
     text-decoration: none;
 }
@@ -279,7 +279,7 @@
     width: 170px;
 }
 #account-corporate-password-form  label {
-    font-size: 14em;
+    font-size: 14px;
     width: 150px;
 }
 .profileform  .small input[type="text"] {
