@@ -26,7 +26,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $asses->fixed_value = -11;
         $asses->save();
 
-        $evaluation = new Evaluation($simulation->id);
+        $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialSkills();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
@@ -47,13 +47,13 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $asses->sim_id = $simulation->id;
         $asses->save();
 
-        $evaluation = new Evaluation($simulation->id);
+        $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialProductivity();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
         $this->assertEquals('3.00', $sim->managerial_productivity);
 
-        $evaluation = new Evaluation($simulation->id);
+        $evaluation = new Evaluation($simulation);
         $evaluation->checkOverallManagerRating();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
         $this->assertEquals('25.90', $sim->overall_manager_rating);
