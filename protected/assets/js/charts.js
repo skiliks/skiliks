@@ -44,7 +44,7 @@
         $chart.append($value)
             .css('width', 0)
             .appendTo(container)
-            .animate({width: $(container).width()}, 1000, function() {
+            .animate({width: /*$(container).width()*/'100%'}, 1000, function() {
                 me.setValue(value);
             });
     }
@@ -100,6 +100,9 @@
                     $(this).css('transform', 'rotate(' + now + 'deg)');
                 }
             });
+        },
+        refresh: function() {
+            this.setValue(this.value);
         }
     });
 
@@ -115,6 +118,9 @@
                     easing: 'easeOutSine',
                     duration: me.options.duration || 2000
                 });
+        },
+        refresh: function() {
+            this.setValue(this.value);
         }
     });
 
@@ -134,6 +140,9 @@
                 easing: 'easeOutQuint',
                 duration: me.options.duration || 2000
             });
+        },
+        refresh: function() {
+            this.setValue(this.value);
         }
     });
 
