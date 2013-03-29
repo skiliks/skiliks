@@ -2059,6 +2059,9 @@ ul.profile-menu li {
     text-align: left;
     vertical-align: middle;
 }
+#private-invitations-list-box td, #private-invitations-list-box td a {
+    font-family: "ProximaNova-Bold";;
+}
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
     -webkit-border-radius: 5px 0px 0px;
     -moz-border-radius: 5px 0px 0px;
@@ -2118,10 +2121,10 @@ ul.profile-menu li {
     width:80px;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(4) {
-    width:90px;
+    width:96px;
 }
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:180px;
+    width:170px;
 }
 .invites-smallmenu-switcher {
     color:#232323;
