@@ -91,6 +91,8 @@ define([
                 this.postMessageCallback = function(event){
                     if (-1 != event.data.indexOf('DocumentLoaded')) {
 
+                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
+
                         $('iframe').each(function(){
                             console.log('src: ', $(this).attr('src'));
                             console.log(event.data.substring(15));
