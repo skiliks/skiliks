@@ -96,31 +96,31 @@ define([
                             var substring = event.data.substring(38).toString();
                             //console.log(substring);
                             //console.log(substring.substring(15));
-                            console.log(SKDocument._excel_cache[i].substring(38));
+                            //console.log(SKDocument._excel_cache[i].substring(38));
                             //console.log(SKDocument._excel_cache[i].substring(38));
                             //console.log(substring.substring(15).toString() == SKDocument._excel_cache[i].substring(38).toString());
-//                            console.log(substring.substring(15).toString().valueOf());
-//                            console.log(SKDocument._excel_cache[i].substring(38).toString().valueOf());
-//                            console.log(substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf());
+                            console.log(substring.substring(15).toString().valueOf());
+                            console.log(SKDocument._excel_cache[i].substring(38).toString().valueOf());
+                            console.log(substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf());
 //                            console.log(_.isEqual(
 //                                substring.substring(15).toString().valueOf(),
 //                                SKDocument._excel_cache[i].substring(38).toString().valueOf()
 //                            ));
 
-                            var e1 = substring.substring(15).toString().valueOf();
-                            var e2 = SKDocument._excel_cache[i].substring(38).toString().valueOf();
-
-                            var s1 = '';
-                            var s2 = '';
-
-                            //var isEqual = false;
-
-                            for (var i = 0; i < e1.length; ++i)
-                            {
-                                s1 += e1.charCodeAt(i);
-
-                                console.log(e1[i], e2[i], e1.charCodeAt(i), e2.charCodeAt(i), e1.charCodeAt(i) == e2.charCodeAt(i));
-                            }
+//                            var e1 = substring.substring(15).toString().valueOf();
+//                            var e2 = SKDocument._excel_cache[i].substring(38).toString().valueOf();
+//
+//                            var s1 = '';
+//                            var s2 = '';
+//
+//                            //var isEqual = false;
+//
+//                            for (var i = 0; i < e1.length; ++i)
+//                            {
+//                                s1 += e1.charCodeAt(i);
+//
+//                                console.log(e1[i], e2[i], e1.charCodeAt(i), e2.charCodeAt(i), e1.charCodeAt(i) == e2.charCodeAt(i));
+//                            }
 
                             //console.log('isEqual: ', isEqual);
 //
