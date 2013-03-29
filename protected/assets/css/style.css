@@ -1926,6 +1926,7 @@ ul.profile-menu li {
     text-decoration: none;
 }
 .light-btn  {
+    font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
 .blue-btn {
