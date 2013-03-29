@@ -176,6 +176,7 @@ a:focus, a:active {
 }
 .sbSelector{
 	display: block;
+    height: 22px;
 	line-height: 22px;
 	outline: none;
 	overflow: hidden;
