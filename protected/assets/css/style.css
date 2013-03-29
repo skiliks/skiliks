@@ -207,7 +207,8 @@ a:focus, a:active {
 	width: 19px;
 }
 .sbToggleOpen{
-	background: url("../img/bg-select-toggle.png") no-repeat 0 -24px;
+	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
+    height: 23px;
 }
 .sbOptions{
 	background: #fff;
