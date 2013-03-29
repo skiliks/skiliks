@@ -262,6 +262,7 @@
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
+    font-size: 18px;
 }
 .profileform {
     float: right;
