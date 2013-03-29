@@ -99,13 +99,33 @@ define([
                             //console.log(SKDocument._excel_cache[i]);
                             //console.log(SKDocument._excel_cache[i].substring(38));
                             //console.log(substring.substring(15).toString() == SKDocument._excel_cache[i].substring(38).toString());
-                            console.log(substring.substring(15).toString().valueOf());
-                            console.log(SKDocument._excel_cache[i].substring(38).toString().valueOf());
-                            console.log(substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf());
-                            console.log(_.isEqual(
-                                substring.substring(15).toString().valueOf(),
-                                SKDocument._excel_cache[i].substring(38).toString().valueOf()
-                            ));
+//                            console.log(substring.substring(15).toString().valueOf());
+//                            console.log(SKDocument._excel_cache[i].substring(38).toString().valueOf());
+//                            console.log(substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf());
+//                            console.log(_.isEqual(
+//                                substring.substring(15).toString().valueOf(),
+//                                SKDocument._excel_cache[i].substring(38).toString().valueOf()
+//                            ));
+
+                            var e1 = substring.substring(15).toString().valueOf();
+                            var e2 = SKDocument._excel_cache[i].substring(38).toString().valueOf();
+
+                            var s1 = '';
+                            var s2 = '';
+
+                            for (var i = 0; i < e1.length; ++i)
+                            {
+                                s1 += e1.charCodeAt(i);
+                            }
+
+                            for (var i = 0; i < e2.length; ++i)
+                            {
+                                s2 += e2.charCodeAt(i);
+                            }
+
+                            console.log(s1);
+                            console.log(s1);
+                            console.log(s1 == s2);
 
                             if (substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf()) {
                                 console.log('doc id: ', i);
