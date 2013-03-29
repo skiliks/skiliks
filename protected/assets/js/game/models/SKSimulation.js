@@ -113,16 +113,16 @@ define([
                             var s1 = '';
                             var s2 = '';
 
-                            var isEqual = false;
+                            //var isEqual = false;
 
                             for (var i = 0; i < e1.length; ++i)
                             {
                                 s1 += e1.charCodeAt(i);
 
-                                isEqual = console.log(e1.charCodeAt(i) == e2.charCodeAt(i));
+                                console.log(e1.charCodeAt(i), e2.charCodeAt(i), e1.charCodeAt(i) == e2.charCodeAt(i));
                             }
 
-                            console.log('isEqual: ', isEqual);
+                            //console.log('isEqual: ', isEqual);
 //
 //                            for (var i = 0; i < e2.length; ++i)
 //                            {
