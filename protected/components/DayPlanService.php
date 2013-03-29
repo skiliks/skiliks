@@ -339,7 +339,19 @@ class DayPlanService
         foreach (DayPlanAfterVacation::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
             $log = new DayPlanLog();
             $log->uid           = $simulation->user_id;
-            $log->day           = 3;
+            $log->day           = DayPlanLog::AFTER_VACATION;
+            $log->task_id       = $dayPlanItem->task_id;
+            $log->sim_id        = $simulation->id;
+            $log->todo_count    = $todoCount;
+            $log->snapshot_time = $snapShotTime;
+            $log->save();
+        }
+
+        // copy 'Сделать' list to DayPlanLog
+        foreach (Todo::model()->bySimulation($simulation->id)->findAll() as $dayPlanItem) {
+            $log = new DayPlanLog();
+            $log->uid           = $simulation->user_id;
+            $log->day           = DayPlanLog::TODO;
             $log->task_id       = $dayPlanItem->task_id;
             $log->sim_id        = $simulation->id;
             $log->todo_count    = $todoCount;
