@@ -1866,7 +1866,7 @@ h2 {
     padding-bottom: 20px;
     vertical-align: middle;
 }
-#dashboard-skills-box>p>sup {
+#dashboard-skills-box sup {
     font-size: 0.8em;
 }
 #job-recomendations-box {
