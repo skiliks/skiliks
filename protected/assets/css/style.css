@@ -2247,3 +2247,99 @@ ul.profile-menu li {
 .view-simulation-details-pop-up{
     cursor: pointer;
 }
+
+.chart-gauge {
+    position: relative;
+    width: 315px;
+    height: 135px;
+    background: url(../img/charts/gauge.png) no-repeat center bottom;
+}
+.chart-gauge:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    bottom: -5px;
+    left: 50%;
+    margin-left: -17px;
+    background: url(../img/charts/bullet.png) no-repeat;
+}
+.chart-gauge .pointer {
+    position: absolute;
+    z-index: 1;
+    width: 105px;
+    height: 20px;
+    bottom: 7px;
+    left: 57px;
+    background: url(../img/charts/pointer.png) no-repeat;
+
+    -webkit-transform-origin: 98px 11px;
+    -moz-transform-origin: 98px 11px;
+    -ms-transform-origin: 98px 11px;
+    transform-origin: 98px 11px;
+}
+.chart-gauge .chart-value {
+    position: absolute;
+    font-size: 14px;
+    font-weight: bold;
+    left: 10px;
+    bottom: 12px;
+}
+
+.chart-bar {
+    overflow: hidden;
+    height: 32px;
+    border-radius: 5px;
+    background-color: #b5d4d7;
+}
+.chart-bar .chart-value {
+    display: block;
+    overflow: hidden;
+    padding-right: 10px;
+    width: 0;
+    background-color: #146672;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 32px;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.chart-bullet {
+    position: relative;
+    height: 18px;
+    border-radius: 6px;
+    border-top: 1px solid #39656b;
+    background-color: #bcbcbc;
+}
+.chart-bullet .chart-value {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 6px;
+
+    background: -webkit-linear-gradient(top, #127988, #164651);
+    background: -moz-linear-gradient(top, #127988, #164651);
+    background: -ms-linear-gradient(top, #127988, #164651);
+    background: linear-gradient(top, #127988, #164651);
+}
+.chart-bullet .bullet {
+    content: '';
+    position: absolute;
+    left: -17px;
+    top: -6px;
+    width: 34px;
+    height: 34px;
+    background: url(../img/charts/bullet.png) no-repeat;
+}

@@ -170,4 +170,9 @@ class PagesController extends AjaxController
             'invite_id' => $invite_id,
         ]);
     }
+
+    public function actionCharts()
+    {
+        $this->render('charts');
+    }
 }
