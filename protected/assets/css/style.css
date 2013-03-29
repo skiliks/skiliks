@@ -2117,6 +2117,10 @@ ul.profile-menu li {
     color:#29313d;
     margin-left: 3px;
 }
+#private-invitations-list-box .grid-view tr td {
+    text-overflow:clip;
+    overflow: hidden;
+}
 #private-invitations-list-box .grid-view tr td:first-child {
     width:70px;
 }
