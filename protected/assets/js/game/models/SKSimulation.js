@@ -119,7 +119,7 @@ define([
                             {
                                 s1 += e1.charCodeAt(i);
 
-                                console.log(e1.charCodeAt(i), e2.charCodeAt(i), e1.charCodeAt(i) == e2.charCodeAt(i));
+                                console.log(e1[i], e2[i], e1.charCodeAt(i), e2.charCodeAt(i), e1.charCodeAt(i) == e2.charCodeAt(i));
                             }
 
                             //console.log('isEqual: ', isEqual);
