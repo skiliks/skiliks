@@ -2107,11 +2107,11 @@ ul.profile-menu li {
     border-top:1px solid #fff;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child .blue-btn, .items td:last-child .blue-btn {
-    margin-right: 5px;
+    margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
     color:#29313d;
-    margin-left: 5px;
+    margin-left: 3px;
 }
 #private-invitations-list-box .grid-view tr td:first-child {
     width:86px;
