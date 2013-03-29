@@ -91,17 +91,21 @@ define([
                 this.postMessageCallback = function(event){
                     if (-1 != event.data.indexOf('DocumentLoaded')) {
 
-                        for (var i in SKDocument._excel_cache) {
-
-                            var substring = event.data.substring(15);
-                            console.log(substring.constructor);
-                            console.log(SKDocument._excel_cache[i].constructor);
-                            console.log(substring.constructor == SKDocument._excel_cache[i].constructor);
-
-                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(38)) {
-                                console.log('doc id: ', i);
-                            }
-                        }
+                        $('iframe').each(function(){
+                            console.log('src: ', $(this).attr('src'));
+                            console.log($(this).attr('src') == event.data.substring(15))''
+                        })
+//                        {
+//
+//                            var substring = event.data.substring(15);
+//                            console.log(substring.constructor);
+//                            console.log(SKDocument._excel_cache[i].constructor);
+//                            console.log(substring.constructor == SKDocument._excel_cache[i].constructor);
+//
+//                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(38)) {
+//                                console.log('doc id: ', i);
+//                            }
+//                        }
                     }
                 }
 
