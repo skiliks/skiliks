@@ -1891,7 +1891,7 @@ ul.profile-menu li {
     background: rgba(240, 253, 255, 0.2);
     display: inline-block;
     line-height: 22px;
-    margin:0px 3px;
+    margin:0px 3px 0px 1px;
     padding:5px 3px 0px 4px;
 }
 .ratebg {
