@@ -64,7 +64,7 @@ class PlanAnalizer {
 
         $duration = 0;
         foreach($this->tasks as $plan){
-            if((int)$plan->task->type === Task::NO_BLOCK AND
+            if((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK AND
                 (int)$plan->day === DayPlanLog::TODAY AND
                     (int)$plan->snapshot_time === DayPlanLog::ON_11_00) {
                 $duration += (int)$plan->task->duration;
@@ -83,6 +83,7 @@ class PlanAnalizer {
         }else{
             throw new Exception("No case");
         }
+
 
         $assessment_calculation = new AssessmentCalculation();
         $assessment_calculation->point_id = $behaviour->id;
@@ -132,7 +133,7 @@ class PlanAnalizer {
 
         $duration = 0;
         foreach($this->tasks as $plan){
-            if((int)$plan->task->type === Task::NO_BLOCK AND
+            if((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK AND
                 (int)$plan->day === DayPlanLog::TOMORROW AND
                     (int)$plan->snapshot_time === DayPlanLog::ON_18_00) {
                 $duration += (int)$plan->task->duration;
@@ -196,7 +197,7 @@ class PlanAnalizer {
 
         $count = 0;
         foreach($this->tasks as $plan){
-            if((int)$plan->task->type === Task::NO_BLOCK AND (int)$plan->snapshot_time === DayPlanLog::ON_11_00 AND (int)$plan->day === DayPlanLog::TODAY OR (int)$plan->day === DayPlanLog::TOMORROW) {
+            if((int)$plan->task->is_cant_be_moved == Task::NO_BLOCK AND (int)$plan->snapshot_time === DayPlanLog::ON_11_00 AND (int)$plan->day === DayPlanLog::TODAY OR (int)$plan->day === DayPlanLog::TOMORROW) {
                 $count++;
             }
         }

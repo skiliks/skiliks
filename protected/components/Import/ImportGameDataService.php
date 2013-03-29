@@ -1053,18 +1053,20 @@ class ImportGameDataService
                 $task = new Task();
                 $task->code = $code;
             }
-
             $task->title = $name;
             // bug in the content. remove code after 29.04.2012
             $task->start_time = preg_replace('/;/', ':', $startTime) ?: null;
             $task->duration = $duration;
             if ($this->getCellValue($sheet, 'Task time limit type', $i) === 'can\'t be moved') {
-                $task->type = 2;
+                $task->is_cant_be_moved = 1;
             } else {
-                $task->type = 1;
+                $task->is_cant_be_moved = 0;
             }
             $task->start_type = $startType;
             $task->category = $category;
+            $task->time_limit_type = $this->getCellValue($sheet, 'Task time limit type', $i);
+            $task->fixed_day = $this->getCellValue($sheet, 'Fixed date', $i);
+
             $task->import_id = $this->import_id;
             $task->save();
         }
@@ -2225,7 +2227,7 @@ class ImportGameDataService
             }
 
             // we run, immediatly after flag was switched, email without trigger time only
-            if ('00:00:00' == $emailEvent->trigger_time) {
+            if ('00:00:00' == $emailEvent->trigger_time || null == $emailEvent->trigger_time) {
 
                 // try to find exists entity {
                 $mailFlag = FlagRunMail::model()->findByAttributes([
