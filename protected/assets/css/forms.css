@@ -248,7 +248,7 @@
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 222px -32px;
+    background: url("../img/menuarrows.png") no-repeat 240px -32px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -258,7 +258,7 @@
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 222px 16px;
+    background-position: 240px 16px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
