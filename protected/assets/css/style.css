@@ -2060,7 +2060,7 @@ ul.profile-menu li {
     vertical-align: middle;
 }
 #private-invitations-list-box td, #private-invitations-list-box td a {
-    font-family: "ProximaNova-Bold";;
+    font-family: "ProximaNova-Bold";
 }
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
     -webkit-border-radius: 5px 0px 0px;
