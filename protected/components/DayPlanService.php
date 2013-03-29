@@ -24,7 +24,7 @@ class DayPlanService
             $tasks[$task->id] = array(
                 'title'    => $task->title,
                 'duration' => $task->duration,
-                'type'     => $task->type
+                'type'     => $task->is_cant_be_moved
             );
         }
         
@@ -316,7 +316,7 @@ class DayPlanService
     /**
      * @param Simulation $simulation
      * @param integer $minutes
-     * @param integer $snapShotTime, 1 - at 11:00, 2 - when simStop
+     * @param timestamp $snapShotTime
      */
     public static function copyPlanToLog($simulation, $minutes, $snapShotTime = 1)
     {
