@@ -36,9 +36,8 @@ $(window.parent.window).load(function()
 {
     console.log('L');
 
-    console.log(window.parent.frames[0].document);
-    console.log($(window.parent.frames[0].document));
-    console.log($(window.parent.frames[0].document).find('iframe'));
+    console.log($(window.frames[0].document));
+    console.log($(window.frames[0].document).find('iframe'));
    // window.parent.parent.postMessage('DocumentLoaded-' + window.parent.location.href, 'http://live.skiliks.com');
     window.parent.parent.postMessage('DocumentLoaded-' + $(window.parent.frames[0].document).find('iframe').attr('id'), 'http://live.skiliks.com');
 
