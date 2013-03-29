@@ -2120,7 +2120,8 @@ ul.profile-menu li {
 }
 
 #private-invitations-list-box .grid-view tr td:first-child {
-    width:80px;
+    max-width:76px;
+    width:76px;
     text-overflow:clip;
     overflow: hidden;
 }
@@ -2128,8 +2129,8 @@ ul.profile-menu li {
 #private-invitations-list-box .grid-view tr td:nth-child(3){
     max-width: 80px;
     width:80px;
-    text-overflow:clip !important;
-    overflow: hidden !important;
+    text-overflow:clip;
+    overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(4) {
     width:100px;
