@@ -1931,16 +1931,13 @@ ul.profile-menu li {
 .blue-btn {
     background: url("../img/btn-lightbg.png") no-repeat left top;
 }
-.blue-btn:hover {
-    background-position: left bottom;
-}
 .blue-btn, .blue-btn:visited {
-    color: #fff;
-}
-.light-btn, .light-btn:visited, .blue-btn:hover {
     color: #3c3c32;
 }
-.light-btn:hover {
+.light-btn, .light-btn:visited {
+    color: #3c3c32;
+}
+.light-btn:hover, .blue-btn:hover {
     color: #fff;
     background-position: left bottom;
 }
