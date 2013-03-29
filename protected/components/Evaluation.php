@@ -4,9 +4,9 @@ class Evaluation {
 
     protected $simId;
 
-    public function __construct($simId) {
+    public function __construct($simulation) {
 
-        $this->simId = $simId;
+        $this->simId = $simulation->id;
 
 
 

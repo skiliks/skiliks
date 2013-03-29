@@ -484,7 +484,7 @@ class SimulationService
         $simulation->checkLogs();
 
         self::applyReductionFactors($simulation);
-        $evaluation = new Evaluation($simulation->id);
+        $evaluation = new Evaluation($simulation);
         $evaluation->run();
 
     }
