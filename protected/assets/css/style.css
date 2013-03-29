@@ -1946,6 +1946,7 @@ ul.profile-menu li {
 }
 .decline-link:hover {
     color:#146672 !important;
+    text-decoration: underline;
 }
 .backgroud-bue-bordered h2 {
     color: #3d4041;
