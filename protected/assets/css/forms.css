@@ -154,6 +154,14 @@
 .icon-check {
     background:url("../img/icon-checklarge.png") no-repeat;
 }
+.icon-chooce {
+    background:url("../img/icon-chooce.png") no-repeat left bottom;
+    text-decoration:none;
+    color:#555545 !important;
+    font-weight:bold;
+    text-indent:35px;
+    line-height:140px;
+}
 .icon-mail {
     background:url("../img/iconmaillarge.png") no-repeat;
 }
