@@ -24,6 +24,10 @@ class DayPlanLog extends CActiveRecord
 
     const TOMORROW = 2;
 
+    const AFTER_VACATION = 3;
+
+    const TODO = 4;
+
     const ON_11_00 = 1;
 
     const ON_18_00 = 2;
