@@ -21,6 +21,7 @@
         <div id="dashboard-skills-box" class="nice-border backgroud-rich-blue sideblock">
 
             <?php $this->renderPartial('_dashboard_skills_box', ['simulation'=>$simulation]) ?>
+            <a href="#" class="link-go"></a>
 
         </div>
 
