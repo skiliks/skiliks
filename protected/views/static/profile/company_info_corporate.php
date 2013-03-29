@@ -15,7 +15,7 @@
             <?php echo $form->textField($account, 'company_name', ['placeholder' => 'Название']); ?>
         </div>
 
-        <div class="row">
+        <div class="row rowindustry">
             <?php echo $form->labelEx($account     , 'industry_id'); ?>
             <?php echo $form->dropDownList($account, 'industry_id', $industries); ?>
             <?php echo $form->error($account       , 'industry_id'); ?>

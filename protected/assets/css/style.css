@@ -1866,7 +1866,7 @@ h2 {
     padding-bottom: 20px;
     vertical-align: middle;
 }
-#dashboard-skills-box>p>sup {
+#dashboard-skills-box sup {
     font-size: 0.8em;
 }
 #job-recomendations-box {
@@ -1891,7 +1891,7 @@ ul.profile-menu li {
     background: rgba(240, 253, 255, 0.2);
     display: inline-block;
     line-height: 22px;
-    margin:0px 4px;
+    margin:0px 1px 0px 0px;
     padding:5px 3px 0px 4px;
 }
 .ratebg {
@@ -1908,7 +1908,7 @@ ul.profile-menu li {
 .skillstitle {
     display: inline-block;
     font-size: 0.8em;
-    width: 116px;
+    width: 114px;
 }
 .link-go {
     background: url("../img/icon-btn-notify.png") no-repeat 0px 0px;
@@ -1925,24 +1925,29 @@ ul.profile-menu li {
     padding: 0px 12px 0px 18px;
     text-decoration: none;
 }
-.light-btn, .blue-btn:hover {
+.light-btn  {
+    font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
 .blue-btn {
-    background: url("../img/btn-lightbg.png") no-repeat left bottom;
+    background: url("../img/btn-lightbg.png") no-repeat left top;
 }
 .blue-btn, .blue-btn:visited {
-    color: #fff;
-}
-.light-btn, .light-btn:visited, .blue-btn:hover {
     color: #3c3c32;
 }
-.light-btn:hover {
+.light-btn, .light-btn:visited {
+    color: #3c3c32;
+}
+.light-btn:hover, .blue-btn:hover {
     color: #fff;
     background-position: left bottom;
 }
 .light-btn+.light-btn {
     margin-left: 10px;
+}
+.decline-link:hover {
+    color:#146672 !important;
+    text-decoration: underline;
 }
 .backgroud-bue-bordered h2 {
     color: #3d4041;
@@ -2051,14 +2056,16 @@ ul.profile-menu li {
     width: 100%;
 }
 #private-invitations-list-box .grid-view .items th, .items th {
-    background: #146672;
+    background:#146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border:none;
     border-bottom: 1px solid #0e4750;
-    font-size: 0.9em;
-    font-weight: normal;
+    font:1em "ProximaNova-Bold";
     padding: 12px 6px;
-    text-align: center;
+    text-align: left;
     vertical-align: middle;
+}
+#private-invitations-list-box td, #private-invitations-list-box td a {
+    font-family: "ProximaNova-Bold";
 }
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
     -webkit-border-radius: 5px 0px 0px;
@@ -2066,6 +2073,7 @@ ul.profile-menu li {
     border-radius: 5px 0px 0px;
 }
 #private-invitations-list-box .grid-view .items th:last-child, .items th:last-child {
+    background-image: none;
     -webkit-border-radius: 0px 5px 0px 0px;
     -moz-border-radius: 0px 5px 0px 0px;
     border-radius: 0px 5px 0px 0px;
@@ -2104,24 +2112,29 @@ ul.profile-menu li {
     border-top:1px solid #fff;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child .blue-btn, .items td:last-child .blue-btn {
-    margin-right: 5px;
+    margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
     color:#29313d;
-    margin-left: 5px;
+    margin-left: 3px;
 }
+
 #private-invitations-list-box .grid-view tr td:first-child {
-    width:86px;
+    width:80px;
+    text-overflow:clip;
+    overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
     width:80px;
+    text-overflow:clip;
+    overflow: hidden !important;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(4) {
-    width:90px;
+    width:100px;
 }
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:180px;
+    width:184px;
 }
 .invites-smallmenu-switcher {
     color:#232323;
@@ -2149,14 +2162,21 @@ ul.profile-menu li {
 .searchform input[type="submit"]:hover {
     background: #5698a2 url("../img/search-icon.png") no-repeat 50% 50%;
 }
+#private-invitations-list-box .grid-view {
+    position: relative;
+}
 #private-invitations-list-box .grid-view .pager {
+    bottom: -65px;
     margin: 0px;
     text-align: center;
     padding-top: 25px;
+    position: absolute;
+    width:598px;
 }
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
     color:#fff;
+    font-family:"ProximaNova-Bold";
     margin: 0px 3px;
     padding: 0px;
     text-decoration: none;
@@ -2164,7 +2184,6 @@ ul.profile-menu li {
 .pager ul.yiiPager  a:visited, .pager ul.yiiPager .hidden a, .pager ul.yiiPager .page a:link,
 .pager ul.yiiPager .next a:visited, .pager ul.yiiPager .next a:link {
     color:#fff;
-    font-weight:normal;
     font-size: 14px;
 }
 .pager ul.yiiPager .selected a, .pager ul.yiiPager  a:visited {

@@ -996,7 +996,7 @@ class MailBoxService
         $task->title = $mailTask->name;
         $task->duration = $mailTask->duration;
         $task->category = $mailTask->category;
-        $task->type = '';
+        $task->is_cant_be_moved = 0;
         $task->save();
 
         $task->id = $task->id;
