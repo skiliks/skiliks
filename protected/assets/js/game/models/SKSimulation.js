@@ -96,7 +96,7 @@ define([
                             var substring = event.data.substring(15).toString();
                             console.log(substring.substring(0) == SKDocument._excel_cache[i].substring(0));
 
-                            if (substring == SKDocument._excel_cache[i].toString()) {
+                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(15)) {
                                 console.log('doc id: ', i);
                             }
                         }
