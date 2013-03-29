@@ -37,7 +37,7 @@ $(window.parent.window).load(function()
     console.log('L');
 
     console.log($(window.parent.frames[0].document).find('iframe'));
-    console.log($(window.parent.frames[0].attr('id'));
+    console.log($(window.parent.frames[0].attr('id')));
    // window.parent.parent.postMessage('DocumentLoaded-' + window.parent.location.href, 'http://live.skiliks.com');
     window.parent.parent.postMessage('DocumentLoaded-' + $(window.parent.frames[0]).attr('id'), 'http://live.skiliks.com');
 
