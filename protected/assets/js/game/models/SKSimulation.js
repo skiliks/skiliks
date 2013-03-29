@@ -88,18 +88,19 @@ define([
                 });
                 this.dayplan_tasks = new SKDayTaskCollection();
 
-                this.postMessageCallback = function(event){
+                this.postMessageCallback = function(event) {
+                    console.log(event.data);
                     if (-1 != event.data.indexOf('DocumentLoaded')) {
-
-                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
-                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
-
-                        $('iframe').each(function(){
-                            console.log($(this));
-                            console.log('src: ', $(this).attr('src'));
-                            console.log(event.data.substring(15));
-                            console.log($(this).attr('src') == event.data.substring(15));
-                        })
+//
+//                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
+//                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
+//
+//                        $('iframe').each(function(){
+//                            console.log($(this));
+//                            console.log('src: ', $(this).attr('src'));
+//                            console.log(event.data.substring(15));
+//                            console.log($(this).attr('src') == event.data.substring(15));
+//                        })
 //                        {
 //
 //                            var substring = event.data.substring(15);

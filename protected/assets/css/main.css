@@ -1654,6 +1654,9 @@ tr.email-list-separator {
 
 #mailEmulatorMainScreen .tagInputField {
     cursor: text;
+    height:auto;
+    margin:0px;
+    padding:0px;
 }
 
 .mail-window .btn-close {

@@ -35,7 +35,11 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 $(window.parent.window).load(function()
 {
     console.log('L');
-    window.parent.parent.postMessage('DocumentLoaded-'+window.parent.location.href, 'http://live.skiliks.com');
+
+    console.log(window.parent.frames[0].id);
+   // console.log($(window.parent.frames[0].attr('id')));
+   // window.parent.parent.postMessage('DocumentLoaded-' + window.parent.location.href, 'http://live.skiliks.com');
+    window.parent.parent.postMessage('DocumentLoaded-' + window.parent.frames[0].id, 'http://live.skiliks.com');
 
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
