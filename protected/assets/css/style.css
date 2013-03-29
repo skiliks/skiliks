@@ -1854,11 +1854,12 @@ h2 {
 .dashboard aside .thetitle {
     margin-left: 3px;
 }
-#dashboard-skills-box {
-    margin: 0 0 0 10px;
-}
 .sideblock {
     padding:16px 6px 20px 12px;
+}
+#dashboard-skills-box {
+    margin: 0 0 0 10px;
+    padding-bottom: 0px;
 }
 #dashboard-skills-box>p {
     color:#fff;
