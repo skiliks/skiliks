@@ -102,6 +102,10 @@ define([
                             console.log(substring.substring(15).toString().valueOf());
                             console.log(SKDocument._excel_cache[i].substring(38).toString().valueOf());
                             console.log(substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf());
+                            console.log(_.isEqual(
+                                substring.substring(15).toString().valueOf(),
+                                SKDocument._excel_cache[i].substring(38).toString().valueOf()
+                            ));
 
                             if (substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf()) {
                                 console.log('doc id: ', i);
