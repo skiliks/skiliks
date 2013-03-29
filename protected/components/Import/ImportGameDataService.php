@@ -338,7 +338,7 @@ class ImportGameDataService
      */
     public function importHeroBehaviours()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
@@ -385,7 +385,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_character_point_titles' => $importedRows,
@@ -1022,7 +1022,7 @@ class ImportGameDataService
 
     public function importTasks()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('to-do-list');
@@ -1070,7 +1070,7 @@ class ImportGameDataService
         }
         Task::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'status' => true,
@@ -1083,7 +1083,7 @@ class ImportGameDataService
      */
     public function importMailTasks()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('M-T');
@@ -1139,7 +1139,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_documents' => $importedRows,
@@ -1275,7 +1275,7 @@ class ImportGameDataService
      */
     public function importMyDocuments()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Documents');
@@ -1341,7 +1341,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_documents' => $importedRows,
@@ -1998,7 +1998,7 @@ class ImportGameDataService
 
     public function importActivityParentEnding()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Parent_ending');
@@ -2050,7 +2050,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'updated_activityActions' => $updatedRows,
@@ -2060,7 +2060,7 @@ class ImportGameDataService
 
     public function importPerformanceRules()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $reader = $this->getReader();
 
@@ -2140,7 +2140,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'performance_rules' => $rules,
