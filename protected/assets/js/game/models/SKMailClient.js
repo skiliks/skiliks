@@ -1299,6 +1299,19 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             },
 
             /**
+             * Открывает письмо "фантастическим образом" — открывается почтовый клиент открытым письмом
+             * @param email
+             * @method
+             */
+            'openFantasticMail': function (email) {
+                /**
+                 * @param {SKEmail} email
+                 * @event mail:fantastic-send
+                 */
+                this.trigger('mail:fantastic-open', email);
+            },
+
+            /**
              * @method
              */
             openWindow: function () {

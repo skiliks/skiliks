@@ -48,7 +48,7 @@ define([
             }
 
             this.zoho500callback = function(event){
-                me.handlePostMessage(event)
+                me.handlePostMessage(event);
             }
 
             if (window.addEventListener){
@@ -85,7 +85,7 @@ define([
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                         {
-                            'value': 'Конешно!',
+                            'value': 'Конечно!',
                             'onclick': function () {
                                 delete SKDocument._excel_cache[doc.get('id')];
                                 SKApp.simulation.documents.fetch();

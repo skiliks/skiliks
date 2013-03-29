@@ -160,7 +160,7 @@ class EventsManager {
                         $eventTime = $trigger->trigger_time;
                     }
 
-                    $res = EventService::processLinkedEntities($event->code, $simulation);
+                    $res = EventService::processLinkedEntities($event->code, $simulation, $trigger->force_run);
                     if ($res) {
                         $result['events'][] = $res;
                     }
