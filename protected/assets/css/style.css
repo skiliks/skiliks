@@ -2156,11 +2156,12 @@ ul.profile-menu li {
     position: relative;
 }
 #private-invitations-list-box .grid-view .pager {
-    bottom: -20px;
+    bottom: -50px;
     margin: 0px;
     text-align: center;
     padding-top: 25px;
     position: absolute;
+    width:598px;
 }
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
