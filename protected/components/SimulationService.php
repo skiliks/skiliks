@@ -15,7 +15,7 @@ class SimulationService
     public static function saveEmailsAnalyze($simId)
     {
         // init emails in analyzer
-        $emailAnalyzer = new EmailAnalizer($simId);
+        $emailAnalyzer = new EmailAnalyzer($simId);
 
         // 3322_3324 {
         // 3322 - add to plan right tasks
