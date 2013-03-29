@@ -36,7 +36,7 @@ $(window.parent.window).load(function()
 {
     console.log('L');
    // window.parent.parent.postMessage('DocumentLoaded-' + window.parent.location.href, 'http://live.skiliks.com');
-    window.parent.parent.postMessage('DocumentLoaded-' + $(window.parent).find('iframe').attr('id'), 'http://live.skiliks.com');
+    window.parent.parent.postMessage('DocumentLoaded-' + $(window.parent.frames[0].document).find('iframe').attr('id'), 'http://live.skiliks.com');
 
     //send postMessage
     window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
