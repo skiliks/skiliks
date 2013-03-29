@@ -4,7 +4,7 @@
  *
  * @author slavka
  */
-class EmailAnalizer 
+class EmailAnalyzer
 {
     /**
      * @var array of EmailData, indexed of MySQL email.template_id

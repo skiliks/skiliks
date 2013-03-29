@@ -1850,7 +1850,8 @@ define([
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
-                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex});
+                        console.log('index: ' + attachmentIndex);
+                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
 
