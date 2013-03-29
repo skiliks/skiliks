@@ -99,6 +99,8 @@ define([
                             console.log(SKDocument._excel_cache[i]);
                             console.log(SKDocument._excel_cache[i].substring(38));
                             console.log(substring.substring(15).toString() == SKDocument._excel_cache[i].substring(38).toString());
+                            console.log(typeof substring.substring(15).toString());
+                            console.log(typeof SKDocument._excel_cache[i].substring(38).toString());
 
                             if (substring.substring(15).toString() == SKDocument._excel_cache[i].substring(38).toString()) {
                                 console.log('doc id: ', i);
