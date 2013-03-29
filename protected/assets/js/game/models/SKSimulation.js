@@ -93,7 +93,7 @@ define([
 
                         $('iframe').each(function(){
                             console.log('src: ', $(this).attr('src'));
-                            console.log($(this).attr('src') == event.data.substring(15))''
+                            console.log($(this).attr('src') == event.data.substring(15));
                         })
 //                        {
 //
