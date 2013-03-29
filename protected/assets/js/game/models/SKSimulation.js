@@ -116,6 +116,8 @@ define([
                             for (var i = 0; i < e1.length; ++i)
                             {
                                 s1 += e1.charCodeAt(i);
+
+                                console.log(e1.charCodeAt(i) == e2.charCodeAt(i));
                             }
 
                             for (var i = 0; i < e2.length; ++i)
