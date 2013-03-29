@@ -372,4 +372,8 @@
 #account-corporate-company-info-form .sbHolder {
     width:240px;
 }
+#UserAccountCorporate_industry_id .sbSelector {
+    height: 23px;
+    text-overflow: ellipsis;
+}
 /************************************ /PERSONAL PROFILE *******************************************/
