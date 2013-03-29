@@ -54,7 +54,6 @@ class PlanAnalyzer {
             'order' => ' day, date ',
         ]);
 
-
         $this->tasksOn11 = (null === $this->tasksOn11) ? []  : $this->tasksOn11;
         $this->tasksOn18 = (null === $this->tasksOn18) ? []  : $this->tasksOn18;
     }
@@ -240,9 +239,12 @@ class PlanAnalyzer {
         $assessment_calculation->save();
     }
 
-    public function check_214b1()
+    /**
+     *
+     */
+    public function check_214b0_214b4($code, $category)
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b1']);
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => $code]);
 
         $wrongActions = [];
         $rightActions = [];
@@ -250,12 +252,17 @@ class PlanAnalyzer {
         foreach ($this->tasksOn11 as $taskLogItem) {
             $data = [];
 
-            if (0 == $taskLogItem->task->category) {
+            if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
+
+                //echo $code, " :: ", $taskLogItem->task->code, "\n";
+
                 $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem);
                 if (0 < count($data)) {
                     $wrongActions[] = $taskLogItem;
                 } elseif (0 == count($data)) {
-                    $rightActions[] = $taskLogItem;
+                    if ($this->canAddPlusOneBy214b($taskLogItem)) {
+                        $rightActions[] = $taskLogItem;
+                    }
                 }
             }
         }
@@ -278,15 +285,18 @@ class PlanAnalyzer {
             $assessment->save();
         }
 
-        $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
-        var_dump($rate);
+        if (0 == (count($rightActions) +  count($wrongActions))) {
+            $rate = 0;
+        } else {
+            $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
+        }
         $value = $behaviour->scale * $rate;
 
-        $assessmentAggregated           = new AssessmentCalculation();
-        $assessmentAggregated->sim_id   = $this->simulation->id;
-        $assessmentAggregated->point_id = $behaviour->id;
-        $assessmentAggregated->value    = $value;
-        $assessmentAggregated->save();
+        $assessmentCalculation           = new AssessmentCalculation();
+        $assessmentCalculation->sim_id   = $this->simulation->id;
+        $assessmentCalculation->point_id = $behaviour->id;
+        $assessmentCalculation->value    = $value;
+        $assessmentCalculation->save();
     }
 
     /**
@@ -296,13 +306,11 @@ class PlanAnalyzer {
      * @param DayPlanLog $taskToCompare
      * @return bool
      */
-    public function isComparable($task, $taskToCompare)
+    public function isComparable($taskLogItem, $taskLogItemToCompare)
     {
         return (
-            null !== $task->date &&
-            '00:00:00' !== $task->date &&
-            null !== $taskToCompare->date &&
-            '00:00:00' !== $taskToCompare->date
+            null !== $taskLogItemToCompare->date &&
+            '00:00:00' !== $taskLogItemToCompare->date
         );
     }
 
@@ -314,16 +322,47 @@ class PlanAnalyzer {
     {
         $result = [];
 
+        $usedTaskCodes = [];
+
         foreach ($taskLogs as $taskLogItem) {
             if ($taskLogItem->task->code == $mainTaskLogItem->task->code) {
                 break;
             }
 
-            if ($mainTaskLogItem->task->category < $taskLogItem->task->category) {
+            if ($mainTaskLogItem->task->category < $taskLogItem->task->category &&
+                $this->isComparable($mainTaskLogItem, $taskLogItem) &&
+                false == in_array($taskLogItem->task->code, $usedTaskCodes)) {
+
+                $usedTaskCodes[] = $taskLogItem->task->code;
                 $result[] = $mainTaskLogItem;
             }
         }
 
         return $result;
+    }
+
+    public function canAddPlusOneBy214b($mainTaskLogItem)
+    {
+        $result = true;
+
+        if (DayPlanLog::AFTER_VACATION == $mainTaskLogItem->day || DayPlanLog::TODO == $mainTaskLogItem->day ) {
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    public function canBeAssessedBy214b($mainTaskLogItem, $category)
+    {
+        return (
+            $category == $mainTaskLogItem->task->category &&
+            (
+                in_array($mainTaskLogItem->task->time_limit_type, ['no', 'urgent']) ||
+                (
+                    'yes' == $mainTaskLogItem->task->time_limit_type &&
+                    2 < $mainTaskLogItem->task->category
+                )
+            )
+        );
     }
 }

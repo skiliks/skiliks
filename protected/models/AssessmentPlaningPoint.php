@@ -44,7 +44,7 @@ class AssessmentPlaningPoint extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('sim_id, hero_behaviour_id, task_id, type_scale, value', 'required'),
+			array('sim_id, hero_behaviour_id, task_id, value', 'required'),
 			array('sim_id, hero_behaviour_id, task_id, type_scale', 'numerical', 'integerOnly'=>true),
 			array('value', 'length', 'max'=>6),
 			// The following rule is used by search().

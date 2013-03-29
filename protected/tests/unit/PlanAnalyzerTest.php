@@ -319,41 +319,176 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('0.00', $point->value);
     }
 
+    /**
+     *
+     */
     public function test_check_214b_case1()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-        $this->addToPlan($simulation, 'P6', '10:15', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P6',   '10:15', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P012', '10:45', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P3', '11:45', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P3',   '11:45', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P015', '12:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P04', '13:15', DayPlanLog::TODAY);
-        $this->addToPlan($simulation, 'P06', '13:45', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P04',  '13:15', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P06',  '13:45', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P018', '15:15', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P016', '17:00', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P011', '09:30', DayPlanLog::TOMORROW);
         $this->addToPlan($simulation, 'P019', '10:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P07', '11:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P05', '12:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P08', '13:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P09', '16:45', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P03', '17:15', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P01', '18:00', DayPlanLog::TOMORROW);
-        $this->addToPlan($simulation, 'P02', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P010', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P12', '13:45', DayPlanLog::AFTER_VACATION);
-        $this->addToPlan($simulation, 'P013', '9:00', DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P07',  '11:15', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P05',  '12:45', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P08',  '13:45', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P09',  '16:45', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P03',  '17:15', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P01',  '18:00', DayPlanLog::TOMORROW);
+        $this->addToPlan($simulation, 'P02',  '',      DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P12',  '',      DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P010', '',      DayPlanLog::AFTER_VACATION);
+        $this->addToPlan($simulation, 'P013', '',      DayPlanLog::AFTER_VACATION);
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
         $analyzer = new PlanAnalyzer($simulation);
-        $analyzer->check_214b1();
+        $analyzer->check_214b0_214b4('214b0', 0);
+        $analyzer->check_214b0_214b4('214b1', 1);
+        $analyzer->check_214b0_214b4('214b2', 2);
+        $analyzer->check_214b0_214b4('214b3', 3);
+        $analyzer->check_214b0_214b4('214b4', 4);
+
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals('0.00', $point->value, '214b0');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214b0 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(1, $points, '214b0 : 0');
+        unset($points);
+
+        // --- //
 
         $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b1']);
-        $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
-        $this->assertEquals('0.00', $point->value);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals('0.00', $point->value, '214b1');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214b1 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(1, $points, '214b1 : 0');
+        unset($points);
+
+        // --- //
+
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b2']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals('0.00', $point->value, '214b2');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214b2 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(4, $points, '214b2 : 0');
+        unset($points);
+
+        // --- //
+
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b3']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals(round($behaviour->scale * 0.57, 2), $point->value, '214b3');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(4, $points, '214b3 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(3, $points, '214b3 : 0');
+        unset($points);
+
+        // --- //
+
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b4']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals($behaviour->scale, $point->value, '214b4');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(3, $points, '214b4 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(0, $points, '214b4 : 0');
+        unset($points);
+
+        // --- //
+
+        // --- //
     }
 
     public function test_check_214b_case_my()
@@ -386,10 +521,10 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
         $analyzer = new PlanAnalyzer($simulation);
-        $analyzer->check_214b1();
+        $analyzer->check_214b0_214b4('214b0', 0);
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b1']);
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
-        $this->assertEquals('2.50', $point->value);
+        $this->assertEquals($behaviour->scale, $point->value);
     }
 }
