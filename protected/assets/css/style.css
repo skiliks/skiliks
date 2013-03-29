@@ -2124,7 +2124,7 @@ ul.profile-menu li {
     width:96px;
 }
 #private-invitations-list-box .grid-view tr td:last-child {
-    width:170px;
+    width:176px;
 }
 .invites-smallmenu-switcher {
     color:#232323;
@@ -2152,14 +2152,20 @@ ul.profile-menu li {
 .searchform input[type="submit"]:hover {
     background: #5698a2 url("../img/search-icon.png") no-repeat 50% 50%;
 }
+#private-invitations-list-box .grid-view {
+    position: relative;
+}
 #private-invitations-list-box .grid-view .pager {
+    bottom: -20px;
     margin: 0px;
     text-align: center;
     padding-top: 25px;
+    position: absolute;
 }
 .pager ul.yiiPager .page a, .pager ul.yiiPager .page a:link, .pager ul.yiiPager .page a:visited {
     border: none;
     color:#fff;
+    font-family:"ProximaNova-Bold";
     margin: 0px 3px;
     padding: 0px;
     text-decoration: none;
