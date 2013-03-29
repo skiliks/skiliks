@@ -225,7 +225,7 @@
     display: none;
 }
 .profilewrap ul.profile-menu {
-    width: 250px;
+    width: 256px;
 }
 .profile-menu li {
     background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
@@ -248,7 +248,7 @@
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 230px -95px;
+    background: url("../img/menuarrows.png") no-repeat 230px -105px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -266,7 +266,7 @@
 .profileform {
     float: right;
     padding: 26px;
-    width: 608px;
+    width: 604px;
 }
 .profileform  .row {
     clear: both;
