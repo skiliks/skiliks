@@ -29,7 +29,7 @@ class ImportGameDataService
 
         // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
-        $this->cache_method = PHPExcel_CachedObjectStorageFactory::cache_in_memory;
+        $this->cache_method = null;
     }
 
     public function setFilename($name)
@@ -50,7 +50,7 @@ class ImportGameDataService
      */
     public function importCharacters()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Faces_new');
@@ -95,7 +95,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_characters' => $importedRows,
@@ -105,7 +105,7 @@ class ImportGameDataService
 
     public function importLearningAreas()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
@@ -149,7 +149,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_learning_areas' => $importedRows,
@@ -162,7 +162,7 @@ class ImportGameDataService
      */
     public function importLearningGoals()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
@@ -207,7 +207,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_learning_goals' => $importedRows,
@@ -220,7 +220,7 @@ class ImportGameDataService
      */
     public function importLearningGoalsMaxNegativeValue()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Max_fail_rate');
@@ -250,7 +250,7 @@ class ImportGameDataService
 
         }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_learning_goals_max_negative-value' => $importedRows,
@@ -260,7 +260,7 @@ class ImportGameDataService
 
     public function importMailConstructor()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Constructor');
@@ -272,10 +272,14 @@ class ImportGameDataService
         $endCol = PHPExcel_Cell::columnIndexFromString($sheet->getHighestDataColumn());
         for ($col = 0; $col < $endCol; $col++) {
             $constructorCode = $sheet->getCellByColumnAndRow($col, 1)->getValue();
+            if ($constructorCode === null) {
+                continue;
+            }
             $constructor = MailConstructor::model()->findByAttributes(['code' => $constructorCode]);
             if ($constructor === null) {
                 $constructor = new MailConstructor();
             }
+
             $constructor->code = $constructorCode;
             $constructor->import_id = $this->import_id;
             $constructor->save();
@@ -326,7 +330,7 @@ class ImportGameDataService
         // delete old unused data }
 
 
-        echo __METHOD__ . " end\n";
+        $this->logEnd();
         return ['ok' => 1];
     }
     /**
@@ -391,8 +395,7 @@ class ImportGameDataService
 
     public function importEmails()
     {
-        echo __METHOD__ . "\n";
-
+        $this->logStart();
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Mail');
         $this->columnNoByName = [];
@@ -778,7 +781,7 @@ class ImportGameDataService
         MailTemplate::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         CommunicationTheme::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'status' => true,
@@ -795,7 +798,7 @@ class ImportGameDataService
      */
     public function importEmailSubjects()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         // load sheet {
         $excel = $this->getExcel();
@@ -1009,7 +1012,7 @@ class ImportGameDataService
 
         $html .= "Email from characters import finished! <br/>";
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'status' => true,
@@ -1351,7 +1354,7 @@ class ImportGameDataService
      */
     public function importDialogReplicas()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         // load sheet {
         $excel = $this->getExcel();
@@ -1446,7 +1449,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_dialog_replics' => $importedRows,
@@ -1459,7 +1462,7 @@ class ImportGameDataService
      */
     public function importDialogs()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
@@ -1537,7 +1540,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_dialogs' => $importedRows,
@@ -1550,7 +1553,7 @@ class ImportGameDataService
      */
     public function importDialogPoints()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
@@ -1571,16 +1574,17 @@ class ImportGameDataService
 
         for ($i = $sheet->getRowIterator(3); $i->valid(); $i->next()) {
             // in the bottom of excel sheet we have a couple of check sum, that aren`t replics sure.
-            if (NULL == $this->getCellValue($sheet, 'id записи', $i)) {
+            $excelId = $this->getCellValue($sheet, 'id записи', $i);
+            if (NULL == $excelId) {
                 continue;
             }
 
             $dialog = Replica::model()
-                ->byExcelId($this->getCellValue($sheet, 'id записи', $i))
+                ->byExcelId($excelId)
                 ->find();
 
             if (NULL === $dialog) {
-                throw new Exception('Try to use unexisi in DB dialog, with ExcelId ' . $this->getCellValue($sheet, 'id записи', $i));
+                throw new Exception('Try to use unexisi in DB dialog, with ExcelId ' . $excelId);
             }
 
             foreach ($points as $point) {
@@ -1617,7 +1621,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_characters_points' => $importedRows,
@@ -1644,7 +1648,7 @@ class ImportGameDataService
      */
     public function importEventSamples()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('ALL DIALOGUES(E+T+RS+RV)');
@@ -1736,7 +1740,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_documents' => $importedRows,
@@ -1754,12 +1758,24 @@ class ImportGameDataService
         return uniqid();
     }
 
+    private function logStart() {
+        $callers=debug_backtrace();
+        echo $callers[1]['function'] ." " . date('H:i:s') . "\n";
+    }
+
+    private function logEnd() {
+        $callers=debug_backtrace();
+        echo '/' . $callers[1]['function']. " " . date('H:i:s') . "\n";
+    }
+
     /**
      * @return PHPExcel_Reader_Excel2003XML
      */
     private function getReader()
     {
-        PHPExcel_Settings::setCacheStorageMethod($this->cache_method);
+        if ($this->cache_method) {
+            PHPExcel_Settings::setCacheStorageMethod($this->cache_method);
+        }
 
         if (!isset($this->reader)) {
             $this->reader = PHPExcel_IOFactory::createReader('Excel2007');
@@ -1824,7 +1840,7 @@ class ImportGameDataService
      */
     public function importActivity()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $activity_types = array(
             'Documents_leg' => 'document_id',
@@ -1971,7 +1987,7 @@ class ImportGameDataService
         Activity::model()->deleteAll('import_id<>:import_id', array('import_id' => $this->import_id));
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'activity_actions' => $activity_actions,
