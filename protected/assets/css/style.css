@@ -2051,13 +2051,12 @@ ul.profile-menu li {
     width: 100%;
 }
 #private-invitations-list-box .grid-view .items th, .items th {
-    background: #146672;
+    background:#146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border:none;
     border-bottom: 1px solid #0e4750;
-    font-size: 0.9em;
-    font-weight: normal;
+    font:1em "ProximaNova-Bold";
     padding: 12px 6px;
-    text-align: center;
+    text-align: left;
     vertical-align: middle;
 }
 #private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
@@ -2066,6 +2065,7 @@ ul.profile-menu li {
     border-radius: 5px 0px 0px;
 }
 #private-invitations-list-box .grid-view .items th:last-child, .items th:last-child {
+    background-image: none;
     -webkit-border-radius: 0px 5px 0px 0px;
     -moz-border-radius: 0px 5px 0px 0px;
     border-radius: 0px 5px 0px 0px;
