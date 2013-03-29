@@ -19,7 +19,6 @@ class Case5_SK1791_Test extends SeleniumTestHelper
 
     public function testSK1791()
     {
-        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
         $this->run_event('E1.2',"xpath=(//*[contains(text(),'Марина, есть срочная работа')])", 'click');
@@ -49,7 +48,7 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Марина, что с тобой? Возьми себя в руки!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Прекрасно, сообщи в отдел персонала о своем решении')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Тогда уж и я скажу все, что думаю')])");
-
+        $this->fail('ololo');
         $this->run_event('E8.5',"xpath=(//*[contains(text(),'Сергей, нужна помощь! Возьми ручку и записывай')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Так, отложи в сторону своих логистов')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Уйдешь, когда работу закончишь')])");

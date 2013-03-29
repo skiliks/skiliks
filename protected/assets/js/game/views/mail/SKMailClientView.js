@@ -2102,23 +2102,26 @@ define([
             },
             onMailFantasticSend: function (email) {
                 var me = this;
-                this.renderWriteCustomNewEmailScreen();
-                me.fillMessageWindow(email);
-                var cursor = this.make('div', {'class': 'cursor'});
-                this.$el.append(cursor);
-                $(cursor)
-                    .css('top', '500px')
-                    .css('left', '500px')
-                    .animate({
-                        'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
-                        'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
-                    }, 5000, function (){
-                        me.doSendEmail();
-                        setTimeout(function () {
-                            me.options.model_instance.close();
-                            me.mailClient.trigger('mail:fantastic-send:complete');
-                        }, 3000);
-                    });
+                setTimeout(function () {
+                    me.renderWriteCustomNewEmailScreen();
+
+                    me.fillMessageWindow(email);
+                    var cursor = me.make('div', {'class': 'cursor'});
+                    me.$el.append(cursor);
+                    $(cursor)
+                        .css('top', '500px')
+                        .css('left', '500px')
+                        .animate({
+                            'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
+                            'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
+                        }, 5000, function (){
+                            me.doSendEmail();
+                            setTimeout(function () {
+                                me.options.model_instance.close();
+                                me.mailClient.trigger('mail:fantastic-send:complete');
+                            }, 3000);
+                        });
+                },0);
             }
         });
 
