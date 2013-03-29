@@ -146,6 +146,8 @@ return array(
                 'static/contacts/' => 'static/pages/contacts',
                 'static/tariffs/' => 'static/pages/tariffs',
 
+                'static/charts' => 'static/pages/charts',
+
                 'subscription/add'       => 'static/pages/addUserSubscription',
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only
 
