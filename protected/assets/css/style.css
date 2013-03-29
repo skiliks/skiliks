@@ -2118,16 +2118,17 @@ ul.profile-menu li {
     color:#29313d;
     margin-left: 3px;
 }
-#private-invitations-list-box .grid-view tr td {
-    text-overflow:clip;
-    overflow: hidden;
-}
+
 #private-invitations-list-box .grid-view tr td:first-child {
     width:70px;
+    text-overflow:clip;
+    overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(2),
 #private-invitations-list-box .grid-view tr td:nth-child(3){
     width:80px;
+    text-overflow:clip;
+    overflow: hidden;
 }
 #private-invitations-list-box .grid-view tr td:nth-child(4) {
     width:100px;
