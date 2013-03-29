@@ -1428,7 +1428,9 @@ class ImportGameDataService
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $replica->demo = $isUseInDemo;
             $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
-            $replica->fantastic_result       = $this->getCellValue($sheet, 'Отправка письма фант образом', $i);
+            $replica->fantastic_result       =
+                $this->getCellValue($sheet, 'Отправка письма фант образом', $i) ?:
+                $this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i);
 
             $sound = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
             $replica->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;

@@ -134,6 +134,7 @@ define([
 
                 this.listenTo(this.mailClient, 'mail:sent', this.onMailSent);
                 this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
+                this.listenTo(this.mailClient, 'mail:fantastic-open', this.onMailFantasticOpen);
                 // close with conditions action {
                 this.options.model_instance.on('pre_close', function () {
                     me.options.model_instance.prevent_close = !me.isCanBeClosed();
@@ -2123,6 +2124,27 @@ define([
                             }, 3000);
                         });
                 },0);
+            },
+            onMailFantasticOpen: function () {
+                var me = this;
+                if (this.$('.save-attachment-icon')) {
+                    this.$('.save-attachment-icon').click();
+                    setTimeout(function () {
+                        $('.mail-popup-button').click();
+                        var docId = me.$('.save-attachment-icon').attr('data-document-id');
+                        var document = SKApp.simulation.documents.where({id: docId})[0];
+                        var window = new SKDocumentsWindow({
+                            subname: 'documentsFiles',
+                            document: document,
+                            fileId: docId
+                        });
+                        window.open();
+                        me.mailClient.trigger('mail:fantastic-open:complete');
+                    }, 3000);
+                } else {
+                    // did not tested it
+                    this.$('.mail-emulator-received-list-string-selected').click();
+                }
             }
         });
 
