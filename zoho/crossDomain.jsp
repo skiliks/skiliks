@@ -35,6 +35,9 @@ function _writeDynamicIframe(content, windowArgsInJson, documentArgsInJson) {
 $(window.parent.window).load(function()
 {
     console.log('L');
+    console.log(window.parent.frames);
+    console.log(window.parent.frames[0].contentWindow.document);
+    console.log(window.parent.frames[0].document);
    // window.parent.parent.postMessage('DocumentLoaded-' + window.parent.location.href, 'http://live.skiliks.com');
     window.parent.parent.postMessage('DocumentLoaded-' + $(window.parent.frames[0].document).find('iframe').attr('id'), 'http://live.skiliks.com');
 
