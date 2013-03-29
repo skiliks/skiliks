@@ -94,11 +94,13 @@ define([
                         for (var i in SKDocument._excel_cache) {
 
                             var substring = event.data.substring(38).toString();
-                            console.log(substring.substring(38));
+                            console.log(substring);
+                            console.log(substring.substring(15));
+                            console.log(SKDocument._excel_cache[i]);
                             console.log(SKDocument._excel_cache[i].substring(38));
-                            console.log(substring.substring(38) == SKDocument._excel_cache[i].substring(38));
+                            console.log(substring.substring(15) == SKDocument._excel_cache[i].substring(38));
 
-                            if (substring.substring(38) == SKDocument._excel_cache[i].substring(38)) {
+                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(38)) {
                                 console.log('doc id: ', i);
                             }
                         }
