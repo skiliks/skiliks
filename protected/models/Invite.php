@@ -375,7 +375,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 5,
                 'pageVar' => 'page'
             ]
         ]);
