@@ -113,21 +113,25 @@ define([
                             var s1 = '';
                             var s2 = '';
 
+                            var isEqual = false;
+
                             for (var i = 0; i < e1.length; ++i)
                             {
                                 s1 += e1.charCodeAt(i);
 
-                                console.log(e1.charCodeAt(i) == e2.charCodeAt(i));
+                                isEqual = console.log(e1.charCodeAt(i) == e2.charCodeAt(i));
                             }
 
-                            for (var i = 0; i < e2.length; ++i)
-                            {
-                                s2 += e2.charCodeAt(i);
-                            }
-
-                            console.log(s1);
-                            console.log(s1);
-                            console.log(s1 == s2);
+                            console.log('isEqual: ', isEqual);
+//
+//                            for (var i = 0; i < e2.length; ++i)
+//                            {
+//                                s2 += e2.charCodeAt(i);
+//                            }
+//
+//                            console.log(s1);
+//                            console.log(s1);
+//                            console.log(s1 == s2);
 
                             if (substring.substring(15).toString().valueOf() == SKDocument._excel_cache[i].substring(38).toString().valueOf()) {
                                 console.log('doc id: ', i);
