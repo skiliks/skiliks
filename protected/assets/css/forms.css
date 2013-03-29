@@ -304,6 +304,7 @@
     background: #f3ffff;
 }
 .profileform input[type=text], .profileform input[type=password] {
+    color:#2d7b91;
     height: 24px;
     line-height: 24px;
     padding: 3px 4px;
@@ -337,7 +338,7 @@
     -moz-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
-    color:#036675;
+    color:#2d7b91;
     width:340px;
 }
 .value {
