@@ -89,30 +89,16 @@ define([
                 this.dayplan_tasks = new SKDayTaskCollection();
 
                 this.postMessageCallback = function(event){
-                    console.log('event.data: ', event.data);
                     if (-1 != event.data.indexOf('DocumentLoaded')) {
-
-                        console.log(event.data.substring(15));
-                        console.log(SKDocument._excel_cache);
 
                         for (var i in SKDocument._excel_cache) {
 
-                            var substring = event.data.substring(15).toString();
-                            console.log(substring);
-                            console.log(SKDocument._excel_cache[i]);
-                            console.log(substring == SKDocument._excel_cache[i]);
-                            console.log(substring == SKDocument._excel_cache[i].toString());
-                            console.log(substring.indexOf(SKDocument._excel_cache[i].toString()));
+                            var substring = event.data.substring(15);
+                            console.log(substring.constructor);
+                            console.log(SKDocument._excel_cache[i].constructor);
+                            console.log(substring.constructor == SKDocument._excel_cache[i].constructor);
 
-                            console.log('***');
-                            console.log(substring.indexOf('?d0c='));
-                            //console.log(substring.substring(substring.indexOf('?doc=')+4));
-                            //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
-                            //console.log(event.data.substring(15).substring(event.data.substring(15).indexOf('?d0c=')+4));
-                            console.log(substring.substring(substring.indexOf('?doc=')+4) == event.data.substring(15).substring(event.data.substring(15).indexOf('?doc=')+4));
-                            console.log(substring.substring(0) == event.data.substring(15).substring(0));
-
-                            if (substring == SKDocument._excel_cache[i].toString()) {
+                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(38)) {
                                 console.log('doc id: ', i);
                             }
                         }
