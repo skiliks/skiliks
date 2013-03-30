@@ -51,12 +51,12 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $evaluation->checkManagerialProductivity();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('3.00', $sim->managerial_productivity);
+        $this->assertEquals('13.00', $sim->managerial_productivity); // 3.00
 
         $evaluation = new Evaluation($simulation->id);
         $evaluation->checkOverallManagerRating();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('25.90', $sim->overall_manager_rating);
+        $this->assertEquals('28.90', $sim->overall_manager_rating); // 25.90
 
     }
 
