@@ -1910,6 +1910,7 @@ ul.profile-menu li {
     display: inline-block;
     font-size: 14px;
     margin-right: 5px;
+    padding-top: 3px;
     width: 100px;
 }
 .link-go {
