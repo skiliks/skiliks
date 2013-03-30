@@ -2116,8 +2116,9 @@ ul.profile-menu li {
     margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
-    color:#29313d;
+    color:#2d7b91;
     margin-left: 3px;
+    text-decoration: none;
 }
 
 #private-invitations-list-box .grid-view tr td:first-child {
