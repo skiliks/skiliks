@@ -1908,8 +1908,9 @@ ul.profile-menu li {
 }
 .skillstitle {
     display: inline-block;
-    font-size: 0.8em;
-    width: 114px;
+    font-size: 14px;
+    margin-right: 5px;
+    width: 100px;
 }
 .link-go {
     background: url("../img/icon-btn-notify.png") no-repeat 0px 0px;
