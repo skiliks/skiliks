@@ -348,7 +348,7 @@ class SimulationService
             ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
             ->byTriggerTimeGreaterThanZero()
-            ->findAll();
+            ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
 
         $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
 
@@ -407,6 +407,7 @@ class SimulationService
         $simulation->user_id = $userId;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => ($type === Simulation::TYPE_LITE ? 'lite' : 'scenario')])->primaryKey;
         $simulation->type = $type;
         $simulation->insert();
         $profiler->render('3: ');

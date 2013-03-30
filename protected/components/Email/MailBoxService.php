@@ -248,21 +248,24 @@ class MailBoxService
     }
 
     /**
+     * @param Simulation $simulation
      * @param integer $id, CommunicationTheme.id
      * @return array
      */
-    public static function getMailPhrases($id = NULL)
+    public static function getMailPhrases(Simulation $simulation, $id = NULL)
     {
         $phrases = array();
 
         if (NULL !== $id) {
             // получить код набора фраз
+            /** @var $communicationTheme CommunicationTheme */
             $communicationTheme = CommunicationTheme::model()->byId($id)->find();
             // Если у нас прописан какой-то конструктор
             if ($communicationTheme) {
                 $constructorNumber = $communicationTheme->constructor_number;
+                $constructor = $communicationTheme->game_type->getConstructor(['code' => $constructorNumber]);
                 // получить фразы по коду
-                $phrases = MailPhrase::model()->byCode($constructorNumber)->findAll();
+                $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
                 $list = array();
                 foreach ($phrases as $model) {
@@ -274,7 +277,8 @@ class MailBoxService
 
         // конструтор не прописан - вернем дефолтовый
         if (count($phrases) == 0) {
-            $phrases = MailPhrase::model()->byCode('B1')->findAll();           
+            $constructor = $simulation->game_type->getConstructor(['code' => 'B1']);
+            $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
         };
 
         $list = array();
@@ -287,11 +291,13 @@ class MailBoxService
     }
 
     /**
+     * @param Simulation $simulation
      * @return array [',' , '.' , ':' ...]
      */
-    public static function getSigns()
+    public static function getSigns($simulation)
     {
-        $phrases = MailPhrase::model()->byCode('SYS')->findAll();
+        $constructor = $simulation->game_type->getConstructor(['code' => 'SYS']);
+        $phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
 
         $list = array();
         foreach ($phrases as $model) {
@@ -707,7 +713,7 @@ class MailBoxService
      *
      * @return mixed array
      */
-    public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId)
+    public static function getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
     {
         $data = array();
         $addData = array();
@@ -719,8 +725,8 @@ class MailBoxService
         }
 
         if ((int)$characterThemeId == 0) {
-            $data = self::getMailPhrases();
-            $addData = self::getSigns();
+            $data = self::getMailPhrases($simulation);
+            $addData = self::getSigns($simulation);
         }
 
         $characterTheme = CommunicationTheme::model()->findByPk($characterThemeId);
@@ -732,8 +738,8 @@ class MailBoxService
             $mailTemplate = MailTemplate::model()->byCode($characterTheme->letter_number)->find();
             $message = $mailTemplate->message;
         } else {
-            $data = self::getMailPhrases($characterThemeId);
-            $addData = self::getSigns();
+            $data = self::getMailPhrases($simulation, $characterThemeId);
+            $addData = self::getSigns($simulation);
         }
 
         return array(
@@ -782,6 +788,7 @@ class MailBoxService
         }
 
         $sendEmail->sim_id = $sendMailOptions->simulation->id;
+        $sendEmail->letter_type = '';
 
         $sendEmail->insert();
 
@@ -795,6 +802,7 @@ class MailBoxService
             foreach ($receivers as $receiverId) {
                 $model = new MailCopy();
                 $model->mail_id = $sendEmail->id;
+
                 $model->receiver_id = $receiverId;
                 $model->insert();
             }
@@ -906,9 +914,9 @@ class MailBoxService
         // init default responce
         $result = array(
                'message'          => '',
-            'data'             => self::getMailPhrases(),
+            'data'             => self::getMailPhrases($messageToReply->simulation),
             'previouseMessage' => $messageToReply->message,
-            'addData'          => self::getSigns()
+            'addData'          => self::getSigns($messageToReply->simulation)
         );
 
         if ($characterThemeModel) {
@@ -997,6 +1005,8 @@ class MailBoxService
         $task->duration = $mailTask->duration;
         $task->category = $mailTask->category;
         $task->is_cant_be_moved = 0;
+        $task->scenario_id = $simulation->game_type->primaryKey;
+        $task->import_id = '';
         $task->save();
 
         $task->id = $task->id;
@@ -1088,15 +1098,15 @@ class MailBoxService
             if ($forwardSubject->constructor_number === 'TXT') {
                 $result['text'] = $forwardSubject->getMailTemplate()->message;
             } else {
-                $result['phrases']['data'] = MailBoxService::getMailPhrases($forwardSubject->id);
+                $result['phrases']['data'] = MailBoxService::getMailPhrases($messageToForward->simulation, $forwardSubject->id);
                 $result['subjectId'] = $forwardSubject->id;
             }
         }
 
         if (!isset($result['phrases']) && !isset($result['text'])) {
-            $result['phrases']['data'] = MailBoxService::getMailPhrases();
+            $result['phrases']['data'] = MailBoxService::getMailPhrases($messageToForward->simulation);
         } // берем дефолтные
-        $result['phrases']['addData'] = MailBoxService::getSigns();
+        $result['phrases']['addData'] = MailBoxService::getSigns($messageToForward->simulation);
 
 
         $result['result']    = 1;

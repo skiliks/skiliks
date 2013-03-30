@@ -8,19 +8,17 @@
  *
  * php
  */
-class ImportCommand
+class ImportCommand extends CConsoleCommand
 {
-    public function init() {}
-
-    public function run($args)
+    public function actionIndex($method = 'All', $scenario)
     {
         ini_set('memory_limit', '500M');
-        $method = isset($args[0]) ? $args[0] : 'All';
 
         echo "\nStart 'Import $method'. \n";
 
-        $import = new ImportGameDataService();
+        $import = new ImportGameDataService($scenario);
         $import->{'import' . $method}();
+
 
         echo "\n'Import $method' complete. \n";
     }

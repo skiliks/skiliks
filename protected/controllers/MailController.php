@@ -81,12 +81,13 @@ class MailController extends AjaxController
      */
     public function actionGetPhrases()
     {
+        $simulation = $this->getSimulationEntity();
         $characterThemeId = (int) Yii::app()->request->getParam('id', 0);
         $forwardLetterCharacterThemesId = (int) Yii::app()->request->getParam('forwardLetterCharacterThemesId', 0);
          
         return $this->sendJSON(array_merge(
             array('result' => 1), 
-            MailBoxService::getPhrases($characterThemeId, $forwardLetterCharacterThemesId)
+            MailBoxService::getPhrases($characterThemeId, $forwardLetterCharacterThemesId, $simulation)
         ));
     }
 
