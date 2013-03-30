@@ -7,6 +7,7 @@
  * @property MailTemplate letter
  * @property string constructor_number
  * @property string import_id
+ * @property Scenario game_type
  * @property mixed|null mail_prefix
  * @property string theme_usage, used to filter MSY themes from new mail themes list
  *
@@ -317,10 +318,9 @@ class CommunicationTheme extends CActiveRecord
 
     public function relations()
     {
-        return [];
-        /*return array(
-            'letter' => array(self::BELONGS_TO, 'MailTemplate', 'letter_number')
-        );*/
+        return array(
+            'game_type' => array(self::BELONGS_TO, 'Scenario', 'scenario_id')
+        );
     }
 }
 

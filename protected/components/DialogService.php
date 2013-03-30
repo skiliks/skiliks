@@ -13,6 +13,7 @@ class DialogService
      assert($time !== NULL);
      assert($time !== false);
 
+        /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simId);
      
         if ($dialogId == 0) {
@@ -55,7 +56,7 @@ class DialogService
                 $simId,
                 $time,
                 $currentReplica->to_character,
-                Character::model()->findByAttributes(['code' => Character::HERO_ID]),
+                $simulation->game_type->getCharacter(['code' => Character::HERO_ID]),
                 $currentReplica->dialog_subtype,
                 $currentReplica->step_number,
                 $currentReplica->replica_number,
@@ -87,7 +88,7 @@ class DialogService
             if ($currentReplica->is_final_replica != 1) {
                 // если нет, то нам надо продолжить диалог
                 // делаем выборку из диалогов, где code =code,  step_number = (текущий step_number + 1)
-                $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->code, $currentReplica->step_number + 1)->byDemo($simType)->findAll();
+                $dialogs = $simulation->game_type->getReplicas(['code' => $currentReplica->code, 'step_number' => $currentReplica->step_number + 1]);
                 foreach($dialogs as $dialog) {
                     $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
                 }
@@ -107,7 +108,7 @@ class DialogService
         ###################
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Character::model()->findByAttributes(['code' => $characterId]);
+            $character = $simulation->game_type->getCharacter(['code' => $characterId]);
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;
@@ -116,7 +117,7 @@ class DialogService
 
         if (isset($data[0]['ch_to'])) {
             $characterId = $data[0]['ch_to'];
-            $character = Character::model()->findByAttributes(['code' => $characterId]);
+            $character = $simulation->game_type->getCharacter(['code' => $characterId]);
             if ($character) {
                 $data[0]['remote_title'] = $character->title;
                 $data[0]['remote_name'] = $character->fio;
@@ -208,7 +209,7 @@ class DialogService
      * @param $currentReplica
      * @param $simType
      * @param $data
-     * @param $simulation
+     * @param Simulation $simulation
      * @param $result
      * @param $gameTime
      * @return array
@@ -217,9 +218,7 @@ class DialogService
     {
 // смотрим а не является ли следующее событие у нас диалогом
         // if next event has delay it can`t statr immediatly
-        $dialog = Replica::model()->byCode($currentReplica->next_event_code)
-            ->byStepNumber(1)
-            ->find('', array('order' => 'replica_number'));
+        $dialog = $simulation->game_type->getReplica(['code' => $currentReplica->next_event_code, 'step_number' => 1], ['order' => 'replica_number']);
         $dialog = (is_array($dialog)) ? reset($dialog) : $dialog;
 
         // isDialog() Wrong!!!
@@ -227,7 +226,7 @@ class DialogService
 
         if (null !== $dialog && ($isDialog || false === $dialog->isEvent()) && empty($dialog->delay)) {
             // сразу же отдадим реплики по этому событию - моментально
-            $dialogs = Replica::model()->byCodeAndStepNumber($currentReplica->next_event_code, 1)->byDemo($simType)->findAll();
+            $dialogs = $simulation->game_type->getReplicas(['code' => $currentReplica->next_event_code, 'step_number' => 1]);
             foreach ($dialogs as $dialog) {
                 $data[$dialog->excel_id] = DialogService::dialogToArray($dialog);
             }
@@ -298,40 +297,12 @@ class DialogService
      * @return Replica
      */
     public static function get($dialogId) {
-        $dialog = Replica::model()->byId($dialogId)->find();
+        $dialog = Replica::model()->findByPk($dialogId);
         if (!$dialog) throw new Exception("Не могу загрузить модель диалога id : $dialogId", 7);
         return $dialog;    
     }
     
-    /**
-     * Загрузить диалог по коду
-     * @param string $code
-     * @return Replica
-     */
-    public static function getByCode($code) {
-        $dialog = Replica::model()->byCode($code)->find();
-        if (!$dialog) throw new Exception("Не могу загрузить модель диалога code : $code", 701);
-        return $dialog;    
-    }
 
-    /**
-     * @param string $code
-     * @return array|bool|CActiveRecord|mixed|null
-     */
-    public static function getFirstReplicaByCode($code) {
-        $dialog = Replica::model()->byCode($code)->byStepNumber(1)->byReplicaNumber(0)->find();
-        if (!$dialog) return false; //throw new Exception("Не могу загрузить модель диалога code : $code", 701);
-        return $dialog;    
-    }
-    
-    /**
-     * Проверяет есть ли событие с таким кодом
-     * @param type $code 
-     */
-    public static function existByCode($code) {
-        return (bool)self::getByCode($code);
-    }
-    
     /**
      * Переводит диалог в массив
      * @param Dialogs $dialog
@@ -341,9 +312,7 @@ class DialogService
         return array(
             'id'                => $dialog->id,
             'ch_from'           => $dialog->from_character->code,
-            'ch_from_state'     => $dialog->ch_from_state,
             'ch_to'             => $dialog->to_character->code,
-            'ch_to_state'       => $dialog->ch_to_state,
             'dialog_subtype'    => $dialog->dialog_subtype,
             'text'              => $dialog->text,
             'sound'             => $dialog->sound,
@@ -356,55 +325,6 @@ class DialogService
         );
     }
     
-    /**
-     * @return mixed array
-     */
-    public static function getDialogsListForAdminka()
-    {
-        $dialogs = array();
-        
-        $characters = array();
-        foreach (Character::model()->findAll() as $character) {
-            $characters[$character->id] = $character;
-        }
-
-        $dialogSubtypes = array();
-        foreach (DialogSubtype::model()->findAll() as $dialogSubtype) {
-            $dialogSubtypes[$dialogSubtype->id] = $dialogSubtype;
-        }
-        
-        $events = array();
-        foreach (EventSample::model()->findAll() as $event) {
-            $events[$event->id] = $event;
-        }
-        
-        $codes = array();
-        foreach (Replica::model()->findAll() as $dialog) {
-            $codes[] = $dialog->code;
-            $dialogs[] = array(
-                'id'    => $dialog->id,
-                'cell'  => array(
-                    $dialog->id, 
-                    $dialog->code, 
-                    $characters[$dialog->ch_from]->title,
-                    '-',
-                    $characters[$dialog->ch_to]->title,
-                    '-',
-                    $dialogSubtypes[$dialog->dialog_subtype]->title,
-                    $dialog->text,
-                    $dialog->delay,
-                    (7 == $dialog->event_result) ? "нет результата" : $dialog->event_result,
-                    $dialog->step_number,
-                    $dialog->replica_number,
-                    (isset($events[$dialog->next_event])) ? $events[$dialog->next_event]->code : '-',
-                    0,
-                    (1 == $dialog->is_final_replica) ? "да" : "нет",
-                )
-            );
-        }
-        
-        return $dialogs;
-    }
 }
 
 

@@ -26,7 +26,7 @@ class EventService
         if ($event) {
             // попробуем вытащить delay из диалога
             if ($eventTime) {
-                $dialog = DialogService::getFirstReplicaByCode($code);
+                $dialog = $simulation->game_type->getReplica(['code' => $code]);
 
                 if ($dialog) {
                     if ($dialog->delay > 0) { //TODO:Проблемное место
@@ -64,8 +64,11 @@ class EventService
      */
     public static function deleteByCode($code, $simulation)
     {
-        $event = EventSample::model()->byCode($code)->find();
+        $event = $simulation->game_type->getEventSample(['code' => $code]);
+
         if (!$event) {
+            // да, давайте скроем все наши ошибки от отладки и будем чинить баги вечно
+            // todo: разобраться с этим после релиза
             return false;
         } // нет у нас такого события
         

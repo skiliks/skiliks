@@ -42,7 +42,10 @@ class InitDBCommand extends CConsoleCommand
         $this->runMigrationTool();
 
         // Import
-        $import = new ImportGameDataService();
+        $import = new ImportGameDataService('lite');
+        $import->importAll();
+
+        $import = new ImportGameDataService('scenario');
         $import->importAll();
 
         // init users

@@ -7,22 +7,23 @@ class EventsManager {
     }
 
     /**
-     * @param $simulation
+     * @param \Simulation $simulation
      * @param $eventCode
-     * @param $clearEvents
-     * @param $clearAssessment
-     * @param $delay
-     * @return array
+     * @param bool $clearEvents
+     * @param bool $clearAssessment
+     * @param int $delay
+     * @param null $gameTime
      * @throws Exception
+     * @return array
      */
-    public static function startEvent($simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0, $gameTime = null)
+    public static function startEvent(Simulation $simulation, $eventCode, $clearEvents=false, $clearAssessment=false, $delay=0, $gameTime = null)
     {
         if ('MS' == substr($eventCode, 0, 2)) {
             LibSendMs::sendMsByCode($simulation, $eventCode, $gameTime, 1, 1, rand(1000,9999) + rand(100,999), 2);
             return ['result' => 2];
         }
 
-        $event = EventSample::model()->byCode($eventCode)->find();
+        $event = $simulation->game_type->getEventSample(['code' => $eventCode]);
         if (!$event) throw new Exception('Не могу определить событие по коду : '.  $eventCode);
 
         // если надо очищаем очерель событий для текущей симуляции
@@ -63,7 +64,7 @@ class EventsManager {
      */
     public static function waitEvent($simulation, $eventCode, $eventTime)
     {
-        $event = EventSample::model()->byCode($eventCode)->find();
+        $event = $simulation->game_type->getEventSample(['code' => $eventCode]);
         $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
 
         if (!$eventsTriggers) {
@@ -92,7 +93,6 @@ class EventsManager {
         $simId = $simulation->id;
         $gameTime = 0;
         try {
-            $simMode  = $simulation->mode;
             $gameTime = $simulation->getGameTime();
             $endTime = Yii::app()->params['simulation'][$simulation->getTypeLabel()]['end'];
 
@@ -170,11 +170,10 @@ class EventsManager {
             }
 
             // У нас одно событие           
-            $dialogs = Replica::model()
-                ->byCode($eventCode)
-                ->byStepNumber(1)
-                ->byDemo($simMode)
-                ->findAll();
+            $dialogs = $simulation->game_type->getReplicas([
+                'code' => $eventCode,
+                'step_number' => 1
+            ]);
 
             $data = array();
             foreach($dialogs as $dialog) {
@@ -257,7 +256,7 @@ class EventsManager {
             
             if (isset($data[0]['ch_from'])) {
                 $characterId = $data[0]['ch_from'];
-                $character = Character::model()->findByAttributes(['code' => $characterId]);
+                $character = $simulation->game_type->getCharacter(['code' => $characterId]);
                 if ($character) {
                     $data[0]['title'] = $character->title;
                     $data[0]['name'] = $character->fio;
@@ -266,7 +265,7 @@ class EventsManager {
 
             if (isset($data[0]['ch_to'])) {
                 $characterId = $data[0]['ch_to'];
-                $character = Character::model()->findByAttributes(['code' => $characterId]);
+                $character = $simulation->game_type->getCharacter(['code' => $characterId]);
                 if ($character) {
                     $data[0]['remote_title'] = $character->title;
                     $data[0]['remote_name'] = $character->fio;
@@ -333,18 +332,16 @@ class EventsManager {
             foreach ($originalNotFilteregLogs as $data) {
                 if (isset($data[4]) && isset($data[4]['lastDialogId'])) {
                     if (false === in_array($data[4]['lastDialogId'], $updatedDialogs)) {
-                        /** @var Dialogs $currentDialog */
-                        $currentDialog = Replica::model()->findByPk($data[4]['lastDialogId']);
+                        $currentDialog = $simulation->game_type->getReplica(['id' => $data[4]['lastDialogId']]);
                         $updatedDialogs[] = $data[4]['lastDialogId'];
 
                         if (null !== $currentDialog && $currentDialog->isPhoneCall() && $currentDialog->replica_number != 0) {
                             // update Phone call dialog last_id
-                            /** @var $callDialog Dialogs */
-                            $callDialog = Replica::model()
-                                ->byCode($currentDialog->code)
-                                ->byStepNumber(1)
-                                ->byReplicaNumber(0)
-                                ->find();
+                            $callDialog = $simulation->game_type->getReplica([
+                                'code' => $currentDialog->code,
+                                'step_number' => 1,
+                                'replica_number' => 0
+                            ]);
 
                             if (null !== $callDialog) {
                                 $logRecord = LogDialog::model()

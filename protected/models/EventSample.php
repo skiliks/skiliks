@@ -93,19 +93,7 @@ class EventSample extends CActiveRecord
         ));
         return $this;
     }
-    
-    /**
-     * Выбрать события по коду
-     * @param string $code
-     * @return EventSample 
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code='$code'"
-        ));
-        return $this;
-    }
+
     
     /**
      * @return EventSample 

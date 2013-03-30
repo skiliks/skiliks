@@ -259,11 +259,13 @@ class LogActivityActionTest extends CDbTestCase
             $activity->name = "Name1";
             $activity->category_id = "2_min";
             $activity->numeric_id = 10000;
+            $activity->import_id = '1234';
             $activity->type = "Activity";
             $activity->save();
             $activityAction = new ActivityAction();
             $activityAction->activity_id = "WINPA";
             $activityAction->window_id = 3;
+            $activity->import_id = '1234';
             $activityAction->leg_type = "Window";
             $activityAction->save();
             $db = Activity::model()->findByAttributes(['id' => 'WINPA']);
