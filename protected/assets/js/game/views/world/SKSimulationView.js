@@ -18,7 +18,8 @@ define([
     "game/views/dialogs/SKVisitView",
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
-    "game/views/world/SKIconPanelView"
+    "game/views/world/SKIconPanelView",
+    "game/views/world/SKWebBrowserView"
 ], function (simulation_template) {
     "use strict";
     /**
@@ -45,9 +46,8 @@ define([
                 'phone/phoneTalk':         SKPhoneDialogView,
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
-                'visitor/visitorTalk':     SKImmediateVisitView
-
-
+                'visitor/visitorTalk':     SKImmediateVisitView,
+                'browser/browserMain':     SKWebBrowserView
             },
             /**
              * Массив окон, которые открыты в симуляции
@@ -67,6 +67,7 @@ define([
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
+
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {
                         me.listenTo(doc, 'change:excel_url', function () {
@@ -74,10 +75,15 @@ define([
                         });
                     });
                 });
+
                 this.listenTo(simulation.documents, 'add', function (doc) {
                     me.listenTo(doc, 'document:excel_uploaded', function () {
                         me.preloadZoho(doc);
                     });
+                });
+
+                this.listenTo(simulation, 'start', function () {
+                    $('#sim-id').text(simulation.id);
                 });
             },
 
@@ -144,9 +150,10 @@ define([
                 this.undelegateEvents();
                 this.delegateEvents();
 
-                if (undefined !== SKApp.simulation.id) {
-                    this.$('#sim-id').text(SKApp.simulation.id);
+                if (undefined !== SKApp.simulation) {
+                    this.$('#sim-id').text(SKApp.simulation.get('id'));
                 }
+
                 if (undefined !== SKApp.get('skiliksSpeedFactor')) {
                     this.$('#speed-factor').text(SKApp.get('skiliksSpeedFactor'));
                 }

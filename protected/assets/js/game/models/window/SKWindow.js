@@ -9,7 +9,8 @@ define([], function () {
             'mailEmulator':10,
             'phone':20,
             'visitor':30,
-            'documents':40
+            'documents':40,
+            'browser': 50
     };
     var screensSub = {
         'mainScreen':1,
@@ -24,7 +25,8 @@ define([], function () {
             'visitorEntrance':31,
             'visitorTalk':32,
             'documents':41,
-            'documentsFiles':42
+            'documentsFiles':42,
+            'browserMain': 51
     };
     /**
      * Окно, открывается, закрывается, ведет за собой логи

@@ -17,7 +17,7 @@ class AssessmentPlaningPointsTable extends LogTable
 
     public function getTitle()
     {
-        return 'AssessmentPlaning - points';
+        return 'Assessment planing - points';
     }
 
     public function getHeaders()

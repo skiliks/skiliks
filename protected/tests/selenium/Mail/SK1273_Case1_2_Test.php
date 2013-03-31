@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Тесты на тестирование флага F4 (для SK1273)
+ * Тесты на отправку сообщений со сложными префиксами re, rere, rerere, rererere, fwdrerere (для SK1273)
  */
 class SK1273_Case1_2_Test extends SeleniumTestHelper
 {
@@ -22,9 +22,9 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
      */
     public function testSK1273_Case1() {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
-        sleep(10);
+        sleep(30);
         $this->run_event('MS30');
         $this->assertTrue($this->incoming_counter(1));
         $this->optimal_click("css=li.icon-active.mail a");
@@ -50,9 +50,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Срочно жду бюджет логистики"));
-
-        $this->click("css=.btn-close button");
-
+        $this->optimal_click("css=.btn-close button");
         $this->assertTrue($this->incoming_counter(1));
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
@@ -72,8 +70,8 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Re: Срочно жду бюджет логистики"));
-
-        $this->click("css=.btn-close button");
+        sleep(2);
+        $this->optimal_click("css=.btn-close button");
 
         if ($this->is_it_done("css=li.icon-active.mail a"))
         {
@@ -113,7 +111,7 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
      * testSK1273_Case2() по задаче SKILIKS-1273
      *
      * тест на отправку сообщений со сложными префиксами для писем, которых нет в сценарие
-     * (кому-угодно можно переслать сообщение)
+     * (тест на то, что любое письмо можно кому-угодно переслать)
      */
     public function testSK1273_Case2() {
         //$this->markTestIncomplete();

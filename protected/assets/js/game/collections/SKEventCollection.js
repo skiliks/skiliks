@@ -1,7 +1,7 @@
 /*global SKEventCollection:true, SKEvent, Backbone, _, SKApp*/
 var SKEventCollection;
 
-define(["game/models/SKEvent"], function () {
+define(["game/models/SKEvent", "game/views/ClippyDialog"], function () {
     "use strict";
     /**
      * Список событий данной симуляции.
@@ -52,6 +52,36 @@ define(["game/models/SKEvent"], function () {
                 var me = this;
                 // Block phone when visit/call going
                 this.on('event:phone event:immediate-phone event:visit event:immediate-visit', this.handleBlocking);
+
+                this.on('add', function(event) {
+
+                    var text = '';
+
+                    if ('M' == event.get('type') ||'MS' == event.get('type')) {
+                        text = 'Свежая почта!';
+                    }
+
+                    if ('D' == event.get('type')) {
+                        text = 'Документик пришел...';
+                    }
+
+                    if ('P' == event.get('type')) {
+                        text = 'Ой, сколько у тебя планов! :)';
+                    }
+
+                    if (2 == event.get('type')) {
+                        text = 'Кто-то хочеш твоего внимания! :P';
+                    }
+
+                    if (1 == event.get('type')) {
+                        text = 'Звоночек!';
+                    }
+
+                    var d = new Date();
+                    if (1 == d.getDay()) {
+                        new ClippyDialog(text);
+                    }
+                });
             },
 
             /**

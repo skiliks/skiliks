@@ -34,12 +34,12 @@ class Case3_SK910_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
 
-        /*$this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
+        $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Отлично, одной проблемой меньше. Жду в 15.30')])");
-        */
-        /*$this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
 
+        $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
+        $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
+        // отут треба глянути, тому що з послідовністю фраз якась фігня
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
 
         $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
@@ -48,27 +48,27 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Это наши корпоративные цвета')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы вместе с сотрудниками. Они готовили – я проверял.')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошего вам выступления, Валерий Семенович!')])");
-        */
+        sleep(10);
 
         $this->run_event('MS27');
-        sleep(5);
+        sleep(2);
         $this->run_event('MS48');
-        sleep(5);
+        sleep(2);
         $this->run_event('MS68');
-        sleep(5);
+        sleep(2);
         $this->run_event('MS70');
-        sleep(50);
+        sleep(2);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
-        //$this->Universal($TH); // здесь у нас пока что закомментирована часть с диалогами, поэтому проверки на юниверсал лог пока не делаем
-        $this->Mail_log($TH1);
+        //$this->Universal($TH);
+/*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
-        $this->Leg_actions_aggregated();
+        $this->Leg_actions_aggregated();*/
 
-        /*$this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.5");*/
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"7");
     }
 }

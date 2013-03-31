@@ -36,6 +36,10 @@ class Case6_SK1792_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Так причина все-таки во мне')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Ну вот видишь…')])");
 
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
+        $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");
+        $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
+
         $this->run_event('T7.1',"xpath=(//*[contains(text(),'Я по поводу задания от логистов')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'Ну кто же так делает? Что же ты молчишь?')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Мы же говорили, что в письмах людям выше тебя статусом')])");
@@ -44,8 +48,10 @@ class Case6_SK1792_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
+        sleep(10);
+
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"11.667");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-10");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"7.386");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"5.636");
     }
 }

@@ -1560,23 +1560,23 @@ ul.main-screen-stat li img{
 	vertical-align:middle;
 }
 .main-screen-icons ul{
-	list-style:none;
-	width:88px;
-	margin:29px 18px 0 0;
-	position:relative;
-	z-index:9999;
+    list-style:none;
+    width:88px;
+    margin:29px 18px 0 0;
+    position:relative;
+    z-index:9999;
 }
 .main-screen-icons ul li{
-	background-repeat:no-repeat;
-	background-position:5px 5px;
-	-webkit-border-radius:14px;
-	-moz-border-radius:14px;
-	border-radius:14px;
-	width:78px;
-	height:78px;
-	position:relative;
-	padding:5px;
-	margin-bottom:5px;
+    background-repeat:no-repeat;
+    background-position:5px 5px;
+    -webkit-border-radius:14px;
+    -moz-border-radius:14px;
+    border-radius:14px;
+    width:78px;
+    height:78px;
+    position:relative;
+    padding:5px;
+    margin-bottom:5px;
 }
 .main-screen-icons ul li.messenger{
 	background-image:url("../img/main-screen/icon-messanger.png");
@@ -1596,6 +1596,9 @@ ul.main-screen-stat li img{
 .main-screen-icons ul li.documents{
 	background-image:url("../img/main-screen/icon-documents.png");
 }
+.main-screen-icons ul li.browser{
+	background-image:url("../img/main-screen/icon-browser.png");
+}
 .main-screen-icons ul li:hover{
 	background-color:#f89622;
 }
@@ -1604,29 +1607,33 @@ ul.main-screen-stat li img{
 	-webkit-gradient:none;
 }
 .main-screen-icons ul li a{
-	display:block;
-	-webkit-border-radius:12px;
-	-moz-border-radius:12px;
-	border-radius:12px;
-	-moz-box-shadow:3px 3px 4px rgba(0,0,0,0.53);
+    display:block;
+    -webkit-border-radius:12px;
+    -moz-border-radius:12px;
+    border-radius:12px;
+    -moz-box-shadow:3px 3px 4px rgba(0,0,0,0.53);
     -webkit-box-shadow:3px 3px 4px rgba(0,0,0,0.53);
     box-shadow:3px 3px 4px rgba(0,0,0,0.53);
-	width:78px;
-	height:78px;
-	position:relative;
+    width:78px;
+    height:78px;
+    position:relative;
 }
 .main-screen-icons ul li a span{
-	background:url("../img/main-screen/bg-new.png") no-repeat 0 0;
-	width:30px;
-	height:31px;
-	font:17px 'orbi_sansregular';
-	color:#fff;
-	text-align:center;
-	position:absolute;
-	line-height:30px;
-	text-shadow:rgba(0,0,0,0.2) 1px 1px 0;
-	top:-8px;
-	right:-7px;
+    background:url("../img/main-screen/bg-new.png") no-repeat 0 0;
+    width:30px;
+    height:31px;
+    font:17px 'orbi_sansregular';
+    color:#fff;
+    text-align:center;
+    position:absolute;
+    line-height:30px;
+    text-shadow:rgba(0,0,0,0.2) 1px 1px 0;
+    top:-8px;
+    right:-7px;
+}
+
+.browser {
+    display: none;
 }
 
 /*----/phone/----*/
@@ -1690,4 +1697,68 @@ tr.email-list-separator {
 }
 #MailClient_NewLetterAttachment .dd-select a.dd-selected {
     line-height:26px;
+}
+
+.windows-die-blue-screen {
+    background-image: url('../img/errors/blue-screen.png');
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-color: #0001BA;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+}
+
+.matrix-has-you {
+    background-image: url('../img/errors/matrix.png');
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    background-color: black;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+
+.browser-screen {
+    background-color: #fff;
+    border: 2px solid #000;
+    border-width: 0 2px 2px 2px;
+    width: 996px;
+}
+
+#browser-content {
+    background-color: #fff;
+    border: 0;
+    height: 500px;
+    margin: 5px 10px 0 10px;
+    width: 980px;
+}
+
+.browser-links {
+    background-color: #bbb;
+    padding: 0 10px;
+    width: 976px;
+}
+
+.browser-links li {
+    color: blue;
+    display: inline-block;
+    padding: 3px 10px;
+    text-decoration: underline;
+}
+
+.clippy {
+    background: url('../img/clippy.gif');
+    float: left;
+    height: 155px;
+    margin-top: 300px;
+    margin-left: 50px;
+    width: 207px;
+}
+
+.clippy span {
+    margin: 10px 15px;
+    display: inline-block;
 }

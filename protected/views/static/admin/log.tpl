@@ -11,11 +11,11 @@
     </div>
 </div>
 
-<h1 id="simulation-info">Simulation</h1>
-<dl>
-    <dt>Id</dt>
-    <dd>{$simulation.primaryKey}</dd>
-</dl>
+<h1 id="simulation-info">Simulation: # {$simulation.primaryKey}</h1>
+
+<br/>
+
+&nbsp; &nbsp; &nbsp;
 
 <a href="/static/admin/saveLog/{$simulation->primaryKey}">Save log as XLS</a>
 
@@ -23,8 +23,13 @@
 
 <a href="/simulation/developer/1">Start new simulation (dev,full)</a>
 
+<br/>
+<br/>
+
 {foreach $log_tables as $log_table}
-    <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
+    <h1 id="{$log_table->getId()}">
+        {$log_table->getTitle()}
+    </h1>
     <table class="table table-striped {$log_table->getId()}">
         <thead>
         <tr>

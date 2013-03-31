@@ -2,8 +2,6 @@
 /**
  * Шаблон документов. Потом нужные документы отсюда копируются в рамках симуляции 
  * в таблицу my_documents
- *
- * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class DocumentTemplate extends CActiveRecord implements IGameAction
 {
@@ -122,7 +120,7 @@ class DocumentTemplate extends CActiveRecord implements IGameAction
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
-        $path = sprintf("%s/../../%s/%s",
+        $path = sprintf("%s/../../../%s/%s",
             __DIR__,
             $zohoConfigs['xlsTemplatesDirPath'],
             $this->srcFile

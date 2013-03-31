@@ -231,7 +231,7 @@ class ImportGameDataService
         $this->logStart();
 
         $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Max_fail_rate');
+        $sheet = $excel->getSheetByName('Max_rate');
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -244,17 +244,23 @@ class ImportGameDataService
                 continue;
             }
 
-            // try to find exists entity
-            $learningGoal = LearningGoal::model()->findByAttributes(
-                ['code' => $this->getCellValue($sheet, 'Номер цели обучения', $i)]
-            );
+            //
+            // @todo: add 'success_rate' in sprint S9
+            //
 
-            $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_fail_rate', $i);
+            if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
+                // try to find exists entity
+                $learningGoal = LearningGoal::model()->findByAttributes(
+                    ['code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i)]
+                );
 
-            // save
-            $learningGoal->save();
+                $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
 
-            $importedRows++;
+                // save
+                $learningGoal->save();
+
+                $importedRows++;
+            }
 
         }
 
@@ -1089,7 +1095,7 @@ class ImportGameDataService
             $task->start_type = $startType;
             $task->category = $category;
             $task->time_limit_type = $this->getCellValue($sheet, 'Task time limit type', $i);
-            $task->fixed_day = $this->getCellValue($sheet, 'Fixed date', $i);
+            $task->fixed_day = $this->getCellValue($sheet, 'Fixed day', $i);
 
             $task->import_id = $this->import_id;
             $task->scenario_id = $this->scenario->primaryKey;
@@ -2122,6 +2128,12 @@ class ImportGameDataService
             }
 
             $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+
+            // @todo: ignore 'formula_x' before investigation in S9
+            if (-1 < strpos($rule->activity_id, 'formula')) {
+                continue;
+            }
+
             $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
             $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
             $rule->import_id = $this->import_id;
