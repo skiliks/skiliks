@@ -26,7 +26,7 @@ class DayPlanLogTable extends LogTable
     {
         return [
             'Графа плана', 'Время логирования состояния плана', 'Код задачи', 'Наименование задачи', 'Категория задачи',
-            'Время, на которое стоит в плане', 'Сделана ли задача', 'Кол-во задач в "Сделать"'
+            'Время, на которое стоит в плане', 'Сделана ли задача', 'Кол-во задач в "Сделать"', 'Time limit type', 'Fixed day',
         ];
     }
 
@@ -38,13 +38,15 @@ class DayPlanLogTable extends LogTable
     {
         return [
             'день ' . $row->day,
-            ($row->snapshot_time == 1 ? '11:00' : '18:00'),
+            ($row->snapshot_time == \DayPlanLog::ON_11_00 ? '11:00' : '18:00'),
             $row->task->code,
             $row->task->title,
             $row->task->category,
             $row->date,
             'нет',
-            $row->todo_count
+            $row->todo_count,
+            $row->task->time_limit_type,
+            $row->task->fixed_day,
         ];
     }
 

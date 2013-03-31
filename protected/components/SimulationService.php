@@ -15,7 +15,7 @@ class SimulationService
     public static function saveEmailsAnalyze($simId)
     {
         // init emails in analyzer
-        $emailAnalyzer = new EmailAnalizer($simId);
+        $emailAnalyzer = new EmailAnalyzer($simId);
 
         // 3322_3324 {
         // 3322 - add to plan right tasks
@@ -463,7 +463,7 @@ class SimulationService
 
         DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 
-        $plan = new PlanAnalizer($simulation->id);
+        $plan = new PlanAnalyzer($simulation);
         $plan->run();
 
         // Save score for "1. Оценка ALL_DIAL"+"8. Оценка Mail Matrix"

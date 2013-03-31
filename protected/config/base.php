@@ -11,21 +11,16 @@ return array(
         'application.models.*',
         'application.models.Flags.*',
         'application.models.Assessment.*',
-        'application.models.PullOfOptions.*',
         'application.models.Exceptions.*',
         'application.models.Logs.*',
         'application.models.Performance.*',
         'application.models.Simulation.*',
         'application.models.Mail.*',
         'application.models.Activities.*',
-        /*'application.models.Character.*',
-        'application.models.DayPlan.*',
-        'application.models.Replica.*',
-        'application.models.Events.*',
-        'application.models.Excel*',
-        'application.models.FlagsRules.*',
-        'application.models.MyDocuments.*',
-        */
+        'application.models.UserAccounts.*',
+        'application.models.Planner.*',
+        'application.models.Documents.*',
+        'application.models.GameEvents.*',
         'application.models.Interfaces.*',
 
         'application.components.*',
@@ -145,6 +140,8 @@ return array(
                 'static/product/' => 'static/pages/product',
                 'static/contacts/' => 'static/pages/contacts',
                 'static/tariffs/' => 'static/pages/tariffs',
+
+                'static/charts' => 'static/pages/charts',
 
                 'subscription/add'       => 'static/pages/addUserSubscription',
                 'static/pages/addUserSubscription' => 'static/pages/addUserSubscription', // strange, but works in this way only

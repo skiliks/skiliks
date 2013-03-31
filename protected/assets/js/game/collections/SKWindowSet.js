@@ -58,11 +58,12 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                 if (event.get('fantastic')) {
                     var simulation = SKApp.simulation;
                     simulation.startInputLock();
-                    simulation.window_set.open(
-                        'mailEmulator',
-                        simulation.mailClient.getActiveSubscreenName()
-                    );
-                    if (!simulation.mailClient.view.render_finished) {
+
+                    if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+                        simulation.window_set.open(
+                            'mailEmulator',
+                            simulation.mailClient.getActiveSubscreenName()
+                        );
                         simulation.mailClient.view.on('render_finished', function () {
                             SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
                         });
@@ -70,6 +71,29 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
                         SKApp.simulation.mailClient.sendFantasticMail(event.get('mailFields'));
                     }
                     simulation.mailClient.on('mail:fantastic-send:complete', function () {
+                        SKApp.simulation.stopInputLock();
+                    });
+
+
+                }
+            });
+            options.events.on('event:mail', function (event) {
+                if (event.get('fantastic')) {
+                    var simulation = SKApp.simulation;
+                    simulation.startInputLock();
+
+                    if (!simulation.mailClient.view || !simulation.mailClient.view.render_finished) {
+                        simulation.window_set.open(
+                            'mailEmulator',
+                            simulation.mailClient.getActiveSubscreenName()
+                        );
+                        simulation.mailClient.view.on('render_finished', function () {
+                            SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
+                        });
+                    } else {
+                        SKApp.simulation.mailClient.openFantasticMail(event.get('mailFields'));
+                    }
+                    simulation.mailClient.on('mail:fantastic-open:complete', function () {
                         SKApp.simulation.stopInputLock();
                     });
 

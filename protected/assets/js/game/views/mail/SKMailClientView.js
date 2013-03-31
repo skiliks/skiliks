@@ -134,6 +134,7 @@ define([
 
                 this.listenTo(this.mailClient, 'mail:sent', this.onMailSent);
                 this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
+                this.listenTo(this.mailClient, 'mail:fantastic-open', this.onMailFantasticOpen);
                 // close with conditions action {
                 this.options.model_instance.on('pre_close', function () {
                     me.options.model_instance.prevent_close = !me.isCanBeClosed();
@@ -1850,7 +1851,8 @@ define([
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
-                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex});
+                        console.log('index: ' + attachmentIndex);
+                        me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
 
@@ -2102,23 +2104,47 @@ define([
             },
             onMailFantasticSend: function (email) {
                 var me = this;
-                this.renderWriteCustomNewEmailScreen();
-                me.fillMessageWindow(email);
-                var cursor = this.make('div', {'class': 'cursor'});
-                this.$el.append(cursor);
-                $(cursor)
-                    .css('top', '500px')
-                    .css('left', '500px')
-                    .animate({
-                        'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
-                        'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
-                    }, 5000, function (){
-                        me.doSendEmail();
-                        setTimeout(function () {
-                            me.options.model_instance.close();
-                            me.mailClient.trigger('mail:fantastic-send:complete');
-                        }, 3000);
-                    });
+                setTimeout(function () {
+                    me.renderWriteCustomNewEmailScreen();
+
+                    me.fillMessageWindow(email);
+                    var cursor = me.make('div', {'class': 'cursor'});
+                    me.$el.append(cursor);
+                    $(cursor)
+                        .css('top', '500px')
+                        .css('left', '500px')
+                        .animate({
+                            'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
+                            'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
+                        }, 5000, function (){
+                            me.doSendEmail();
+                            setTimeout(function () {
+                                me.options.model_instance.close();
+                                me.mailClient.trigger('mail:fantastic-send:complete');
+                            }, 3000);
+                        });
+                },0);
+            },
+            onMailFantasticOpen: function () {
+                var me = this;
+                if (this.$('.save-attachment-icon')) {
+                    this.$('.save-attachment-icon').click();
+                    setTimeout(function () {
+                        $('.mail-popup-button').click();
+                        var docId = me.$('.save-attachment-icon').attr('data-document-id');
+                        var document = SKApp.simulation.documents.where({id: docId})[0];
+                        var window = new SKDocumentsWindow({
+                            subname: 'documentsFiles',
+                            document: document,
+                            fileId: docId
+                        });
+                        window.open();
+                        me.mailClient.trigger('mail:fantastic-open:complete');
+                    }, 3000);
+                } else {
+                    // did not tested it
+                    this.$('.mail-emulator-received-list-string-selected').click();
+                }
             }
         });
 

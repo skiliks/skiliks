@@ -16,7 +16,7 @@ class EventService
      * @param bool $eventTime
      * @return bool
      */
-    public static function addByCode($code, $simulation, $eventTime = false)
+    public static function addByCode($code, $simulation, $eventTime = false, $force_run = false)
     {
         if ( ($code == '') || ($code == '-') ) return false;
         if ($code == 'T') return false; // финальная реплика
@@ -42,7 +42,8 @@ class EventService
             /** @var $eventsTriggers EventTrigger */
             $eventsTriggers = EventTrigger::model()->bySimIdAndEventId($simulation->id, $event->id)->find();
             if ($eventsTriggers) {
-                $eventsTriggers->trigger_time = $eventTime; 
+                $eventsTriggers->trigger_time = $eventTime;
+                $eventsTriggers->force_run = $force_run;
                 $eventsTriggers->save();
                 return true;
             }
@@ -50,7 +51,8 @@ class EventService
             $eventsTriggers = new EventTrigger();
             $eventsTriggers->sim_id         = $simulation->id;
             $eventsTriggers->event_id       = $event->id;
-            $eventsTriggers->trigger_time   = $eventTime; 
+            $eventsTriggers->trigger_time   = $eventTime;
+            $eventsTriggers->force_run = $force_run;
             $eventsTriggers->save();
         }
     }

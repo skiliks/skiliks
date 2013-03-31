@@ -11,23 +11,23 @@
     </ul>
 
     <div id="tab-main">
-        <?php $this->renderPartial('_tab_main', ['simulation'=>$simulation]) ?>
+        <?php $this->renderPartial('partials/tab_main', ['simulation'=>$simulation]) ?>
     </div>
 
     <div id="tab-productivity">
-        <?php $this->renderPartial('_tab_productivity', []) ?>
+        <?php $this->renderPartial('partials/tab_productivity', []) ?>
     </div>
 
     <div id="tab-time-management">
-        <?php $this->renderPartial('_tab_time_management', []) ?>
+        <?php $this->renderPartial('partials/tab_time_management', []) ?>
     </div>
 
     <div id="tab-managerial-skills">
-        <?php $this->renderPartial('_tab_managerial_skills', []) ?>
+        <?php $this->renderPartial('partials/tab_managerial_skills', []) ?>
     </div>
 
     <div id="tab-personal-qualities">
-        <?php $this->renderPartial('_tab_personal_skills', []) ?>
+        <?php $this->renderPartial('partials/tab_personal_skills', []) ?>
     </div>
 </div>
 
