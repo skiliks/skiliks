@@ -30,7 +30,7 @@
     <h1 id="{$log_table->getId()}">
         {$log_table->getTitle()}
     </h1>
-    <table class="table table-striped {$log_table->getId()}" style="display: {$log_table->getIsOpenWhenLoad()};">
+    <table class="table table-striped {$log_table->getId()}">
         <thead>
         <tr>
             {foreach $log_table->getHeaders() as $header}
@@ -52,18 +52,6 @@
             </tr>
         {/foreach}
     </table>
-
-    <script type="text/javascript">
-        $(".selenium-tests-additional-tables-switcher").click(function() {
-            $(".selenium-tests-additional-tables").toggle();
-        });
-
-        $(function(){
-            $('#{$log_table->getId()}').click(function(){
-                $('.{$log_table->getId()}').toggle();
-            });
-        });
-    </script>
 {/foreach}
 
 <a class="btn btn-primary selenium-tests-additional-tables-switcher"><i class="icon icon-list icon-white"></i> Дополнительные таблицы для Selenium тестов (показать/скрыть)</a>

@@ -63,15 +63,6 @@ define([
             var me = this;
             contacts.on('reset', function () {
                 me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
-                /*debugger;
-                var loaded_images = 0;
-                var max_images = me.$('img.phone_contacts').length;
-                me.$('img.phone_contacts').load(function() {
-                    loaded_images++;
-                    if(loaded_images === max_images){
-                        me.$('.phone-list-contacts').mCustomScrollbar();
-                    }
-                });*/
                 me.$('.phone-list-contacts').mCustomScrollbar();
             });
         },

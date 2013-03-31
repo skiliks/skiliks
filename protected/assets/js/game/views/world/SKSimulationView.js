@@ -18,7 +18,8 @@ define([
     "game/views/dialogs/SKVisitView",
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
-    "game/views/world/SKIconPanelView"
+    "game/views/world/SKIconPanelView",
+    "game/views/world/SKWebBrowserView"
 ], function (simulation_template) {
     "use strict";
     /**
@@ -45,9 +46,8 @@ define([
                 'phone/phoneTalk':         SKPhoneDialogView,
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
-                'visitor/visitorTalk':     SKImmediateVisitView
-
-
+                'visitor/visitorTalk':     SKImmediateVisitView,
+                'browser/browserMain':     SKWebBrowserView
             },
             /**
              * Массив окон, которые открыты в симуляции
