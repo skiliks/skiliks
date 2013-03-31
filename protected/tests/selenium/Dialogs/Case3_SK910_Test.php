@@ -62,10 +62,10 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
-         //$this->Universal($TH); // здесь у нас пока что закомментирована часть с диалогами, поэтому проверки на юниверсал лог пока не делаем
-        $this->Mail_log($TH1);
+        //$this->Universal($TH); // здесь у нас пока что закомментирована часть с диалогами, поэтому проверки на юниверсал лог пока не делаем
+/*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
-        $this->Leg_actions_aggregated();
+        $this->Leg_actions_aggregated();*/
 
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");
