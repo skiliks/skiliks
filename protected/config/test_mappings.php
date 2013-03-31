@@ -104,9 +104,9 @@ return [
         'event_create' => "css=input.btn.btn-primary",
         'show_logs' => "//input[@class='btn btn-simulation-stop-logs']",
         'sim_points' => "link=Дополнительные таблицы для Selenium тестов (показать/скрыть)",
-        'admm_positive' => "//div[2]/table[2]/tbody/tr/td[2]",
-        'admm_negative' => "//table[2]/tbody/tr[2]/td[2]",
-        'admm_personal' => "//table[2]/tbody/tr[3]/td[2]"
+        'admm_positive' => "//tr[@class='matrix-points-sum-scale-type-positive']/td[2]",
+        'admm_negative' => "//tr[@class='matrix-points-sum-scale-type-negative']/td[2]",
+        'admm_personal' => "//tr[@class='matrix-points-sum-scale-type-personal']/td[2]"
     ],
 
     'log' => [

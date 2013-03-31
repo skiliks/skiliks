@@ -78,7 +78,7 @@ define([], function() {
             var result = 0;
             
             for (var i in this.emails) {
-                if (false === this.emails[i].isReaded()) {
+                if (false === this.emails[i].isRead()) {
                     result++;
                 }
             }
@@ -86,5 +86,6 @@ define([], function() {
             return result;
         }
     });
+
     return window.SKMailFolder;
 });

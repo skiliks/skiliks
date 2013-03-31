@@ -1854,11 +1854,12 @@ h2 {
 .dashboard aside .thetitle {
     margin-left: 3px;
 }
-#dashboard-skills-box {
-    margin: 0 0 0 10px;
-}
 .sideblock {
     padding:16px 6px 20px 12px;
+}
+#dashboard-skills-box {
+    margin: 0 0 0 10px;
+    padding-bottom: 0px;
 }
 #dashboard-skills-box>p {
     color:#fff;
@@ -1907,8 +1908,10 @@ ul.profile-menu li {
 }
 .skillstitle {
     display: inline-block;
-    font-size: 0.8em;
-    width: 114px;
+    font-size: 14px;
+    margin-right: 5px;
+    margin-top: 5px;
+    width: 100px;
 }
 .link-go {
     background: url("../img/icon-btn-notify.png") no-repeat 0px 0px;
@@ -2115,8 +2118,9 @@ ul.profile-menu li {
     margin-right: 3px;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child a:last-child, .items td:last-child a:last-child {
-    color:#29313d;
+    color:#2d7b91;
     margin-left: 3px;
+    text-decoration: none;
 }
 
 #private-invitations-list-box .grid-view tr td:first-child {

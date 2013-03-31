@@ -9,31 +9,41 @@ define([], function() {
      * @augments Backbone.Model
      */
     SKAttachment = Backbone.Model.extend({
-        // @var string, 'D1', 'D2'
+        /**
+         * @property code
+         * @type string, 'D1', 'D2'
+         * @default undefined
+         */
         code: undefined,
 
-        // @var string,
+        /**
+         * @property label
+         * @type string
+         * @default undefined
+         */
         label: undefined,
 
-        // @var myDocument
-        document: undefined,
-        
-        // @var integer
+        /**
+         * @property fileMySqlId
+         * @type integer
+         * @default undefined
+         */
         fileMySqlId: undefined,
 
         /**
-         * @method
+         * this is temporary version
+         * when myDocument will be ready
+         * code must det titles from this objects
+         *
+         * @method getFileName
          * @return string
          */
         getFileName: function() {
-            // this is temporary version
-            // when myDocument will be ready
-            // code must det titles from this objects
             return this.title;
         },
 
         /**
-         * @method
+         * @method getIconImagePath
          * @returns {string}
          */
         getIconImagePath: function() {

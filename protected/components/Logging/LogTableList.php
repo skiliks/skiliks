@@ -43,6 +43,7 @@ namespace application\components\Logging {
                 new WindowLogTable($simulation->log_windows),
                 new DayPlanLogTable($simulation->log_day_plan),
                 new AssessmentPointsTable($simulation->assessment_points),
+                new AssessmentPlaningPointsTable($simulation->assessment_planing_points),
                 new AssessmentCalculationTable($simulation->assessment_calculation),
                 new AssessmentResultTable($simulation->assessment_aggregated),
                 new MailLogTable($simulation->log_mail),

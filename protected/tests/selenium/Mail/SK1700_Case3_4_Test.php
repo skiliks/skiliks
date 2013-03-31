@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Тесты на тестирование флага F4 (для SK1700)
+ * Тесты на отправку сообщений со сложными префиксами re, rere, rerere, rererere, fwdrerere (для SK1700)
  */
 class SK1700_Case3_4_Test extends SeleniumTestHelper
 {
@@ -57,10 +57,11 @@ class SK1700_Case3_4_Test extends SeleniumTestHelper
     /**
      * testSK1273_Case4() по задаче SKILIKS-1273
      *
-     * тест на отправку сообщений со сложными префиксами для правильных писем (тех, которые есть в сценарие) :
-     * re, rere, rerere, rererere, fwdrerere (MS30, M31, MS32, M33)
+     * тест на отправку сообщений со сложными префиксами для правильных писем
+     * (проверка правильности работы с "коллективными" письмами)
+     *
      */
-    public function testSK1273_Case4() {
+    public function testSK1700_Case4() {
         //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);

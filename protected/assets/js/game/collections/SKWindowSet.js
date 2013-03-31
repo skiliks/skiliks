@@ -1,5 +1,8 @@
 /*global console, Backbone, SKWindow, SKDialogWindow, SKApp, _*/
-define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], function () {
+define([
+    "game/models/window/SKWindow",
+    "game/models/window/SKDialogWindow"
+], function () {
     "use strict";
     /**
      * Оконный менеджер, содержит в себе все окна
@@ -147,12 +150,14 @@ define(["game/models/window/SKWindow", "game/models/window/SKDialogWindow"], fun
          * @return void
          */
         toggle: function (name, subname, params) {
+            console.log('toggle!');
             // protect against 2 open phone windows at the same time
             if (name === 'phone') {
                 this.closeAllPhoneInstances();
             }
 
             var windows = this.where({name: name, subname: subname});
+
             if (windows.length !== 0) {
                 if ((this.at(this.length - 1).id === subname)) { // If this is top window
                     windows[0].close();

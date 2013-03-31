@@ -69,11 +69,25 @@ class PlanAnalyzer {
 
     public function run()
     {
+        // 214a
         $this->check_214a1();
         $this->check_214a3();
         $this->check_214a4();
         $this->check_214a5();
         $this->check_214a8();
+
+        // 214b
+        $this->check_214b0_214b4('214b0', 0);
+        $this->check_214b0_214b4('214b1', 1);
+        $this->check_214b0_214b4('214b2', 2);
+        $this->check_214b0_214b4('214b3', 3);
+        $this->check_214b0_214b4('214b4', 4);
+
+        $this->check_214b5_6_8('214b5', 0);
+        $this->check_214b5_6_8('214b6', 1);
+        $this->check_214b5_6_8('214b8', 2);
+
+        $this->check_214b9();
     }
 
     /*
@@ -240,7 +254,10 @@ class PlanAnalyzer {
     }
 
     /**
+     * Assessment according 11:00 planned tasks log only
      *
+     * @param $code
+     * @param $category
      */
     public function check_214b0_214b4($code, $category)
     {
@@ -249,21 +266,158 @@ class PlanAnalyzer {
         $wrongActions = [];
         $rightActions = [];
 
+        $usedTaskCodes = [];
+
         foreach ($this->tasksOn11 as $taskLogItem) {
             $data = [];
 
             if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
 
-                //echo $code, " :: ", $taskLogItem->task->code, "\n";
-
-                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem);
+                $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
                 if (0 < count($data)) {
                     $wrongActions[] = $taskLogItem;
+
+                    $usedTaskCodes[] = $data[0]->task->code;
                 } elseif (0 == count($data)) {
                     if ($this->canAddPlusOneBy214b($taskLogItem)) {
                         $rightActions[] = $taskLogItem;
                     }
                 }
+            }
+        }
+
+        foreach ($rightActions as $rightAction) {
+            $assessment                    = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id = $behaviour->id;
+            $assessment->sim_id            = $this->simulation->id;
+            $assessment->task_id           = $rightAction->task->id;
+            $assessment->value             = 1;
+            $assessment->save();
+        }
+
+        foreach ($wrongActions as $wrongAction) {
+            $assessment                    = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id = $behaviour->id;
+            $assessment->sim_id            = $this->simulation->id;
+            $assessment->task_id           = $wrongAction->task->id;
+            $assessment->value             = 0;
+            $assessment->save();
+        }
+
+        if (0 == (count($rightActions) +  count($wrongActions))) {
+            $rate = 0;
+        } else {
+            $rate = count($rightActions) / (count($rightActions) +  count($wrongActions));
+        }
+        $value = $behaviour->scale * $rate;
+
+        $assessmentCalculation           = new AssessmentCalculation();
+        $assessmentCalculation->sim_id   = $this->simulation->id;
+        $assessmentCalculation->point_id = $behaviour->id;
+        $assessmentCalculation->value    = round($value, 2);
+        $assessmentCalculation->save();
+    }
+
+    /**
+     * Assessment according 11:00 planned tasks log only
+     *
+     * @param string $code
+     * @param int $category
+     * @param array $categories
+     */
+    public function check_214b5_6_8($code = '214b5', $category = 0, $wrongCategoryIds = [4,5])
+    {
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => $code]);
+
+        $wrongActions = [];
+
+        $isStartAssessment = false;
+
+        // from less time to day-1 9:00
+        foreach (array_reverse($this->tasksOn11) as $taskLogItem) {
+
+            if (false == $isStartAssessment && $category == $taskLogItem->task->category
+            ) {
+                $isStartAssessment = true;
+            }
+
+            if (in_array($taskLogItem->day, [DayPlanLog::AFTER_VACATION, DayPlanLog::TODO])) {
+                continue;
+            }
+
+            if ($isStartAssessment &&
+                in_array($taskLogItem->task->category, $wrongCategoryIds)
+            ) {
+                $wrongActions[] = $taskLogItem;
+            }
+        }
+
+        foreach ($wrongActions as $wrongAction) {
+            $assessment                    = new AssessmentPlaningPoint();
+            $assessment->hero_behaviour_id = $behaviour->id;
+            $assessment->sim_id            = $this->simulation->id;
+            $assessment->task_id           = $wrongAction->task->id;
+            $assessment->value             = 1;
+            $assessment->save();
+        }
+
+        $assessmentCalculation           = new AssessmentCalculation();
+        $assessmentCalculation->sim_id   = $this->simulation->id;
+        $assessmentCalculation->point_id = $behaviour->id;
+        $assessmentCalculation->value    = $behaviour->scale * count($wrongActions);
+        $assessmentCalculation->save();
+    }
+
+    /**
+     * Assessment according 11:00 planned tasks log only
+     *
+     * @param string $code
+     * @param int $category
+     * @param array $categories
+     */
+    public function check_214b9()
+    {
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => '214b9']);
+
+        $wrongActions = [];
+        $rightActions = [];
+
+        // from less time to day-1 9:00
+        foreach (array_reverse($this->tasksOn11) as $taskLogItem) {
+
+            if ('yes' !== $taskLogItem->task->time_limit_type
+            ) {
+                continue;
+            }
+
+            if (DayPlanLog::AFTER_VACATION == $taskLogItem->day ||
+                DayPlanLog::TODO == $taskLogItem->day
+            ) {
+                continue;
+            }
+
+            if (2 < $taskLogItem->task->category ) {
+                continue;
+            }
+
+            $dayId = null;
+            if ('today' == $taskLogItem->task->fixed_day) {
+                $dayId = 1;
+            } elseif ('tomorrow' == $taskLogItem->task->fixed_day) {
+                $dayId = 2;
+            } else {
+                continue;
+            }
+
+            if (
+                $taskLogItem->day == $dayId &&
+                $taskLogItem->date == $taskLogItem->task->start_time
+            ) {
+                //var_dump($taskLogItem->task->code);
+                $rightActions[] = $taskLogItem;
+            } else {
+                var_dump($taskLogItem->task->code);
+                $wrongActions[] = $taskLogItem;
             }
         }
 
@@ -318,13 +472,17 @@ class PlanAnalyzer {
      * @param array of DayPlanLog $tasks
      * @param DayPlanLog $task
      */
-    public function findLessImportantTaskLogsBefore($taskLogs, $mainTaskLogItem)
+    public function findLessImportantTaskLogsBefore($taskLogs, $mainTaskLogItem, $usedTaskCodes)
     {
         $result = [];
 
-        $usedTaskCodes = [];
+        // $usedTaskCodes = [];
 
         foreach ($taskLogs as $taskLogItem) {
+            if ('can\'t be moved' == $taskLogItem->task->time_limit_type) {
+                continue;
+            }
+
             if ($taskLogItem->task->code == $mainTaskLogItem->task->code) {
                 break;
             }
@@ -333,8 +491,8 @@ class PlanAnalyzer {
                 $this->isComparable($mainTaskLogItem, $taskLogItem) &&
                 false == in_array($taskLogItem->task->code, $usedTaskCodes)) {
 
-                $usedTaskCodes[] = $taskLogItem->task->code;
-                $result[] = $mainTaskLogItem;
+                //$usedTaskCodes[] = $taskLogItem->task->code;
+                $result[] = $taskLogItem;
             }
         }
 
@@ -354,14 +512,18 @@ class PlanAnalyzer {
 
     public function canBeAssessedBy214b($mainTaskLogItem, $category)
     {
+        $isLowPriorityFixedDateTask = (
+            'yes' == $mainTaskLogItem->task->time_limit_type &&
+            2 < $mainTaskLogItem->task->category
+        );
+
+        $isNotFixedOrUrgentTask = in_array($mainTaskLogItem->task->time_limit_type, ['no', 'urgent']);
+
         return (
             $category == $mainTaskLogItem->task->category &&
             (
-                in_array($mainTaskLogItem->task->time_limit_type, ['no', 'urgent']) ||
-                (
-                    'yes' == $mainTaskLogItem->task->time_limit_type &&
-                    2 < $mainTaskLogItem->task->category
-                )
+                $isNotFixedOrUrgentTask ||
+                $isLowPriorityFixedDateTask
             )
         );
     }

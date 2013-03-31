@@ -55,6 +55,3 @@ class AssessmentResultTable extends LogTable
         );
     }
 }
-/**
- * @}
- */

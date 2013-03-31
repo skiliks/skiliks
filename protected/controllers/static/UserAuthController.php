@@ -41,7 +41,7 @@ class UserAuthController extends YumController
         {
             $this->user->attributes = $YumUser;
             $profile->attributes    = $YumProfile;
-
+            $this->user->is_check = (int)$YumUser['is_check'];
             $this->user->setUserNameFromEmail($profile->email);
             $profile->updateFirstNameFromEmail();
 
@@ -584,10 +584,23 @@ class UserAuthController extends YumController
      * (more than once)
      */
     public function actionActivation($email, $key) {
-        // If already logged in, we dont activate anymore
-        if (!Yii::app()->user->isGuest) {
-            Yum::setFlash('You are already logged in, please log out to activate your account');
-            $this->redirect(Yii::app()->user->returnUrl);
+
+        Yii::app()->language = 'ru'; // Skiliks
+        $YumUser    = Yii::app()->request->getParam('YumUser');
+        $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
+        if(null !== $YumUser) {
+            $user = YumUser::model()->findByAttributes(['id'=>$YumProfile->user_id]);
+            $user->is_check = $YumUser['is_check'];
+            $user->update();
+
+            if((int)$YumUser['is_check'] === YumUser::CHECK){
+                $this->redirect(['/simulation/promo/2'], false);
+            }else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
+                $this->redirect(['/profile/without-account'], false);
+            }else{
+                throw new Exception("Bug");
+            }
+
         }
 
         // If everything is set properly, let the model handle the Validation
@@ -602,7 +615,7 @@ class UserAuthController extends YumController
                 Yii::app()->user->login($login);
             }
 
-            $this->render(Yum::module('registration')->activationSuccessView);
+            $this->render(Yum::module('registration')->activationSuccessView, ['user'=>$YumProfile->user]);
         }
         else
             $this->render(Yum::module('registration')->activationFailureView, array(

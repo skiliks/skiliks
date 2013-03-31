@@ -8,9 +8,11 @@
     -moz-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
-    color:#036675;
     line-height:1;
     outline:none;
+}
+.features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password], .inputtext {
+    color:#036675;
 }
 .features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password] {
     font:0.953em "ProximaNova-Regular";
@@ -225,7 +227,7 @@
     display: none;
 }
 .profilewrap ul.profile-menu {
-    width: 238px;
+    width: 256px;
 }
 .profile-menu li {
     background: #fdfcc6 url("../img/menutopbg.png") repeat-x top;
@@ -248,7 +250,7 @@
     border-radius: 0px 0px 3px 3px;
 }
 .profile-menu a {
-    background: url("../img/menuarrows.png") no-repeat 212px -32px;
+    background: url("../img/menuarrows.png") no-repeat 230px -66px;
     display: block;
     font-size: 18px;
     padding: 12px 20px 12px 12px;
@@ -258,7 +260,7 @@
     color: #555742;
 }
 .profile-menu a:hover, .profile-menu li.active a {
-    background-position: 212px 16px;
+    background-position: 230px 16px;
 }
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
@@ -266,7 +268,7 @@
 .profileform {
     float: right;
     padding: 26px;
-    width: 620px;
+    width: 604px;
 }
 .profileform  .row {
     clear: both;
@@ -274,12 +276,12 @@
 }
 .profileform  label {
     float: left;
-    font-size: 1.1em;
+    font-size: 16px;
     padding: 6px 10px 0px 0px;
     width: 170px;
 }
 #account-corporate-password-form  label {
-    font-size: 1em;
+    font-size: 16px;
     width: 150px;
 }
 .profileform  .small input[type="text"] {
@@ -304,6 +306,7 @@
     background: #f3ffff;
 }
 .profileform input[type=text], .profileform input[type=password] {
+    color:#1d7885;
     height: 24px;
     line-height: 24px;
     padding: 3px 4px;
@@ -337,7 +340,7 @@
     -moz-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
-    color:#036675;
+    color:#1d7885;
     width:340px;
 }
 .value {
