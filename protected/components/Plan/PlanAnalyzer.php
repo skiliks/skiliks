@@ -69,11 +69,25 @@ class PlanAnalyzer {
 
     public function run()
     {
+        // 214a
         $this->check_214a1();
         $this->check_214a3();
         $this->check_214a4();
         $this->check_214a5();
         $this->check_214a8();
+
+        // 214b
+        $this->check_214b0_214b4('214b0', 0);
+        $this->check_214b0_214b4('214b1', 1);
+        $this->check_214b0_214b4('214b2', 2);
+        $this->check_214b0_214b4('214b3', 3);
+        $this->check_214b0_214b4('214b4', 4);
+
+        $this->check_214b5_6_8('214b5', 0);
+        $this->check_214b5_6_8('214b6', 1);
+        $this->check_214b5_6_8('214b8', 2);
+
+        $this->check_214b9();
     }
 
     /*
@@ -465,6 +479,10 @@ class PlanAnalyzer {
         // $usedTaskCodes = [];
 
         foreach ($taskLogs as $taskLogItem) {
+            if ('can\'t be moved' == $taskLogItem->task->time_limit_type) {
+                continue;
+            }
+
             if ($taskLogItem->task->code == $mainTaskLogItem->task->code) {
                 break;
             }

@@ -126,10 +126,8 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         if (0 == count($vacancies)) {
             Yii::app()->user->setFlash('error', sprintf(
-                '<center>
-У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
-                Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.
-                 </center>'
+                'У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
+                Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.'
             ));
         }
 
