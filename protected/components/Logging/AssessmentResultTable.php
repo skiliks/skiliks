@@ -25,7 +25,7 @@ class AssessmentResultTable extends LogTable
 
     public function getHeaders()
     {
-        return ['Номер поведения', 'Point Title', 'Тип поведения', 'Оценка по поведению'];
+        return ['Номер поведения', 'Point Title', 'Тип поведения', 'Assessment group', 'Оценка по поведению'];
     }
 
     /**
@@ -37,7 +37,8 @@ class AssessmentResultTable extends LogTable
         return [
             $assessmentPoint->point->code,
             $assessmentPoint->point->title,
-            $assessmentPoint->point->getTypeScaleTitle(),
+            $assessmentPoint->point->type->value,
+            $assessmentPoint->point->group->name,
             $assessmentPoint->fixed_value,
         ];
     }
