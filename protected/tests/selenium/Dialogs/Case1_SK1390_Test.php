@@ -24,8 +24,8 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $s = array('main screen','phone call','main screen','phone talk', 'main screen','phone call', 'main screen','phone call', 'main screen','phone talk','main screen');
         $TH = array($s, $m);
 
-
-        //$this->start_simulation();
+        //$this->markTestIncomplete();
+        $this->start_simulation();
         sleep(2);
         $this->run_event('ET1.1', "css=li.icon-active.phone a", 'click');
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
