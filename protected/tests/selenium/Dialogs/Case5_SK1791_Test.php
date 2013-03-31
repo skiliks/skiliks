@@ -86,7 +86,7 @@ class Case5_SK1791_Test extends SeleniumTestHelper
         sleep(10);
         //$this->Mail_log($Mail_log);
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.5");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-33");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-32");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"6.571");
     }
 }
