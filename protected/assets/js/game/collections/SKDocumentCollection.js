@@ -45,7 +45,6 @@ define(["game/models/SKDocument"], function () {
             var isDocumentsInitialized = true;
 
             for (var key in this.models) {
-                console.log(this.models[key]);
                 if (false == this.models[key].isInitialized) {
                     isDocumentsInitialized = false;
                 }
@@ -53,7 +52,6 @@ define(["game/models/SKDocument"], function () {
 
             if (true == isDocumentsInitialized) {
                 this.trigger('documents-initialized');
-                console.log('documents-initialized!');
             }
 
             return isDocumentsInitialized;
@@ -61,8 +59,6 @@ define(["game/models/SKDocument"], function () {
 
         waitForDocumentsInitialization: function() {
             var me = this;
-
-            console.log('waitForDocumentsInitialization RUN ... 2 ');
 
             if (false == me.isDocumentsInitialized()) {
                 // setTimeout(me.waitForDocumentsInitialization(), 1000);
