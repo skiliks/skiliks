@@ -352,6 +352,13 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet);
 
+        $assessment_group = AssessmentGroup::model()->findAll();
+
+        $groups = [];
+        foreach($assessment_group as $group){
+            $groups[$group->id] = $group->name;
+        }
+
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
             if (NULL === $this->getCellValue($sheet, 'Номер требуемого поведения', $i)) {
@@ -371,6 +378,11 @@ class ImportGameDataService
             // create entity if not exists }
 
             // update data {
+
+            $group_id = array_search($this->getCellValue($sheet, 'Assessment group', $i), $groups);
+            if(false !== $group_id){
+                $charactersPointsTitle->group_id = $group_id;
+            }
             $charactersPointsTitle->title = $this->getCellValue($sheet, 'Наименование требуемого поведения', $i);
             $charactersPointsTitle->learning_goal_code = $this->getCellValue($sheet, 'Номер цели обучения', $i);
             $charactersPointsTitle->scale = $this->getCellValue($sheet, 'Единая шкала', $i); // Makr
@@ -2194,6 +2206,7 @@ class ImportGameDataService
         $result['learning_areas'] = $this->importLearningAreas();
         $result['learning_goals'] = $this->importLearningGoals();
         $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
+        $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters_points_titles'] = $this->importHeroBehaviours();
         $result['flags'] = $this->importFlags();
         $result['replicas'] = $this->importDialogReplicas();
@@ -2369,6 +2382,62 @@ class ImportGameDataService
             'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
             'errors' => false,
         ];
+    }
+
+    public function importAssessmentGroup() {
+        $this->logStart();
+
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Forma_1');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $importedRows = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            if (NULL === $this->getCellValue($sheet, 'Assessment group', $i)) {
+                continue;
+            }
+
+            // try to find exists entity
+            $assessment_group = AssessmentGroup::model()->findByAttributes(['name'=>$this->getCellValue($sheet, 'Assessment group', $i)]);
+
+            // create entity if not exists {
+            if (null === $assessment_group) {
+                $group = $this->getCellValue($sheet, 'Assessment group', $i);
+                if( strlen($group) <= 255 ){
+                    $assessment_group = new AssessmentGroup();
+                    $assessment_group->name = $group;
+                }else{
+                    throw new Exception("Mysql VARCHAR 255 !== ${group} ".strlen($group));
+                }
+
+            }
+            // create entity if not exists }
+
+            // update data {
+            $assessment_group->import_id = $this->import_id;
+
+            // save
+            $assessment_group->save();
+
+            $importedRows++;
+
+        }
+
+        // delete old unused data {
+        AssessmentGroup::model()->deleteAll(
+            'import_id<>:import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'imported_assessment_group' => $importedRows,
+            'errors' => false,
+        );
     }
 }
 

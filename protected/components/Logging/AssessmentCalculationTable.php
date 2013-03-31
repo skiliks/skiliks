@@ -29,7 +29,7 @@ class AssessmentCalculationTable extends LogTable
             'Наименование поведения',
             'Тип поведения',
             'Вес поведения',
-            'Тип оценки',
+            'Assessment group',
             'Значение',
         ];
     }
@@ -54,24 +54,18 @@ class AssessmentCalculationTable extends LogTable
      */
     protected function getRow($row)
     {
-        if ($row->point->learning_goal_code == 331 or $row->point->learning_goal_code == 332) {
-            $assessmentType = '3. Оценка Mail Inbox';
-        } else if ($row->point->learning_goal_code == 333) {
-            $assessmentType = '4. Оценка Mail Outbox';
-        } else {
-            $assessmentType = '-';
-        }
 
-        return [
-            $row->point->learning_goal->code,
-            $row->point->learning_goal->title,
-            $row->point->code,
-            $row->point->title,
-            $row->point->type_scale,
-            $row->point->scale,
-            $assessmentType,
-            $row->value
-        ];
+            return [
+                $row->point->learning_goal->code,
+                $row->point->learning_goal->title,
+                $row->point->code,
+                $row->point->title,
+                $row->point->type->value,
+                $row->point->scale,
+                $row->point->group->name,
+                $row->value
+            ];
+
     }
 }
 /**
