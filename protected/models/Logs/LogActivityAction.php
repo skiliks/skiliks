@@ -132,7 +132,7 @@ class LogActivityAction extends CActiveRecord
         return sprintf("%-9s %-9s %-15s %-10s",
             $this->start_time,
             $this->end_time !== null ? $this->end_time : '—',
-            $this->activityAction->activity_id,
+            $this->activityAction->activity->code,
             $this->activityAction->mail !== null ? $this->activityAction->mail->code : '—'
         );
     }

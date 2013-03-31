@@ -10,16 +10,18 @@ class MyDocumentsService
 
     /**
      * Копируем все документы для симуляции пользователя
-     * @param type $simId 
+     * @param Simulation $simulation
      */
-    public static function init($simulation)
+    public static function init(Simulation $simulation)
     {
         $sql = "insert into my_documents (sim_id, fileName, template_id, hidden)
-            select :simId, fileName, id, hidden from my_documents_template where type='start'";
+            select :simId, fileName, id, hidden from my_documents_template where type='start' AND scenario_id=:scenario_id";
 
         $connection = Yii::app()->db;
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simulation->id, PDO::PARAM_INT);
+        $scenarioId = $simulation->game_type->getPrimaryKey();
+        $command->bindParam(":scenario_id", $scenarioId, PDO::PARAM_INT);
         $command->execute();
     }
 

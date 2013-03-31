@@ -308,11 +308,8 @@ class CommunicationTheme extends CActiveRecord
      * @return MailTemplate | NULL
      */
     public function getMailTemplate() {
-        return MailTemplate::model()->find([
-            'condition' => 'code = :code',
-            'params'    => [
-                'code' => $this->letter_number
-            ]
+        return $this->simulation->game_type->getMailTemplate([
+            'code' => $this->letter_number
         ]);
     }
 

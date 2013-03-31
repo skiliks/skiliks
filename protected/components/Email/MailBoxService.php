@@ -10,22 +10,18 @@ class MailBoxService
     /**
      * Загрузка персонажей
      *
-     * @param array $ids
+     * @param $simulation
      *
      * @return array
      */
-    public static function getCharacters($ids = array())
+    public static function getCharacters(Simulation $simulation)
     {
         $resultCharacters = array();
 
-        $query = Character::model();
-        if (0 < count($ids)) {
-            $query->byIds($ids);
-        }
-        $charactersCollection = $query->findAll();
+        $charactersCollection = $simulation->game_type->getCharacters([]);
 
         foreach ($charactersCollection as $character) {
-            $resultCharacters[$character->id] = $character->fio . ' <' . $character->email . '>';
+            $resultCharacters[$character->code] = $character->fio . ' <' . $character->email . '>';
         }
 
         return $resultCharacters;
@@ -47,6 +43,7 @@ class MailBoxService
     {
         $folderId   = $params['folderId'];
         $simId      = $params['simId'];
+        $simulation = Simulation::model()->findByPk($simId);
 
         $order = (isset($params['order'])) ? $params['order'] : false;
         if ($order == -1) {
@@ -71,7 +68,7 @@ class MailBoxService
         $users = array();
         $list = array();
         $mailIds = array();
-        $characters = self::getCharacters();
+        $characters = self::getCharacters($simulation);
         foreach ($messages as $message) {
             $mailIds[] = (int)$message->id;
             $senderId = (int)$message->sender_id;
@@ -93,11 +90,11 @@ class MailBoxService
             $receiversCollection = [];
 
             if (count($receivers) == 0) {
-                $receiversCollection[] = $characters[$receiverId];
+                $receiversCollection[] = $characters[$simulation->game_type->getCharacter(['id' => $receiverId])->code];
             }
 
             foreach ($receivers as $receiver) {
-                $receiversCollection[] = $characters[$receiver->receiver_id];
+                $receiversCollection[] = $characters[$receiver->receiver->code];
             }
             // загрузим ка получателей }
 
@@ -116,7 +113,7 @@ class MailBoxService
                 'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
-                'sender'      => $characters[$senderId],
+                'sender'      => $characters[Character::model()->findByPk($senderId)->code],
                 'receiver'    => implode(',', $receiversCollection),
                 'copy'        => implode(',', $copiesCollection),
                 'readed'      => $readed,
@@ -208,7 +205,7 @@ class MailBoxService
         $message_id = $email->message_id;
 
         // Получим всех персонажей
-        $characters = self::getCharacters();
+        $characters = self::getCharacters($email->simulation);
 
         // загрузим ка получателей
         $receivers = MailRecipient::model()->byMailId($id)->findAll();
@@ -314,11 +311,12 @@ class MailBoxService
      */
     public static function buildMessage($mailId)
     {
+        /** @var $mail MailBox */
         $mail = MailBox::model()->findByPk($mailId);
         $characterTheme = $mail->subject_obj;
         if ($characterTheme && $characterTheme->constructor_number == 'TXT') {
             // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
-            $mailTemplate = MailTemplate::model()->byCode($characterTheme->letter_number)->find();
+            $mailTemplate = $mail->simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
             return $mailTemplate->message;
         }
 
@@ -396,6 +394,7 @@ class MailBoxService
      * Копирование сообщения из шаблонов писем в текущую симуляцию по коду
      * @param Simulation $simulation
      * @param type $code
+     * @return bool|\CActiveRecord
      */
     public static function copyMessageFromTemplateByCode($simulation, $code)
     {
@@ -405,7 +404,7 @@ class MailBoxService
 
 
         // проверим есть ли такоо сообщение вообще
-        $mail = MailTemplate::model()->byCode($code)->find();
+        $mail = $simulation->game_type->getMailTemplate(['code' => $code]);
         if (!$mail) return false; // нечего копировать
 
         // копируем само письмо
@@ -414,10 +413,13 @@ class MailBoxService
             (sim_id, template_id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, letter_type)
             select :simId, id, group_id, sender_id, sent_at, receiver_id, message, subject_id, code, type, ''
             from mail_template
-            where mail_template.code = '{$code}'";
+            where mail_template.code = :code AND scenario_id = :scenario_id";
 
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simulation->id, PDO::PARAM_INT);
+        $command->bindParam(":code", $code);
+        $scenarioId = $simulation->game_type->primaryKey;
+        $command->bindParam(":scenario_id", $scenarioId);
         $command->execute();
 
         $mailModel = MailBox::model()->byCode($code)->bySimulation($simulation->id)->find();
@@ -494,6 +496,7 @@ class MailBoxService
      */
     public static function initMailBoxEmails($simId)
     {
+        $simulation = Simulation::model()->findByPk($simId);
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();    
         $profiler->render('r1: ');
@@ -502,11 +505,13 @@ class MailBoxService
         $sql = "insert into mail_box
             (sim_id, template_id, group_id, sender_id, receiver_id, message, readed, subject_id, code, sent_at, type, letter_type)
             select :simId, id, group_id, sender_id, receiver_id, message, 1, subject_id, code, sent_at, type, ''
-            from mail_template  where group_id IN (1,3) ";
+            from mail_template  where group_id IN (1,3) AND scenario_id=:scenario_id";
         $profiler->render('r2: ');
 
         $command = $connection->createCommand($sql);
         $command->bindParam(":simId", $simId, PDO::PARAM_INT);
+        $scenarioId = $simulation->game_type->getPrimaryKey();
+        $command->bindParam(":scenario_id", $scenarioId, PDO::PARAM_INT);
         $command->execute();
 
         $profiler->render('r3: ');
@@ -735,7 +740,7 @@ class MailBoxService
             'TXT' === $characterTheme->constructor_number
         ) {
             // MailTemplate indexed by MySQL id insteda of out code, so $characterTheme->letter relation doesn`t work
-            $mailTemplate = MailTemplate::model()->byCode($characterTheme->letter_number)->find();
+            $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $characterTheme->letter_number]);
             $message = $mailTemplate->message;
         } else {
             $data = self::getMailPhrases($simulation, $characterThemeId);
@@ -765,7 +770,7 @@ class MailBoxService
             $repliedEmail->update();
         }
 
-        assert($sendMailOptions->messageId !== null); // wtf ?
+        assert($sendMailOptions->messageId !== null); // wtf ? ну а хули, пусть будет
 
         $letterType = $sendMailOptions->getLetterType();
 
@@ -863,7 +868,7 @@ class MailBoxService
     public static function saveDraft($sendMailOptions)
     {
         $sendMailOptions->groupId   = MailBox::FOLDER_DRAFTS_ID;
-        $sendMailOptions->senderId  = Character::HERO_ID;
+        $sendMailOptions->senderId  = $sendMailOptions->simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
 
         $message = self::sendMessagePro($sendMailOptions);
 
@@ -949,7 +954,7 @@ class MailBoxService
 
         foreach ($collection as $model) {
             // exclude our hero from copies
-            if (Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey !== $model->receiver_id) {
+            if ($messageToReply->simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey !== $model->receiver_id) {
                 $copiesIds[] = $model->receiver_id;
             }
         }

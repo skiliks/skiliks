@@ -6,7 +6,7 @@ class m130330_000405_unique_keys_p1 extends CDbMigration
 	{
         $this->dropForeignKey('fk_learning_goal_learning_area_code', 'learning_goal');
         $this->dropColumn('learning_goal', 'learning_area_code');
-        $this->addColumn('learning_goal', 'learning_area_code', 'int NOT NULL');
+        $this->addColumn('learning_goal', 'learning_area_code', 'int');
         $this->dropIndex('PRIMARY', 'learning_area');
         $this->addColumn('learning_area', 'id', 'pk');
         $this->addForeignKey('learning_goal_area', 'learning_goal', 'learning_area_code', 'learning_area', 'id', 'CASCADE', 'CASCADE');

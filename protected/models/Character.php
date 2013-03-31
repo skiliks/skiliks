@@ -52,6 +52,8 @@ class Character extends CActiveRecord
     
     /* ----------------------------- */
 
+
+
     /**
      * List of Contacts fot main hero phone
      * @return mixed array
@@ -62,16 +64,25 @@ class Character extends CActiveRecord
         
         $list = [];
         foreach($characters as $character) {
-            $list[] = [
-                'id'    => $character->id,
-                'code'    => $character->code,
-                'name'  => $character->fio,
-                'title' => $character->title,
-                'phone' => $character->phone
-            ];
+            $list[] = $character->getClientAttributes();
         }
         
         return $list;
+    }
+
+    /**
+     * @internal param $character
+     * @return array
+     */
+    public function getClientAttributes()
+    {
+        return [
+            'id'    => $this->id,
+            'code'  => $this->code,
+            'name'  => $this->fio,
+            'title' => $this->title,
+            'phone' => $this->phone
+        ];
     }
 
     /* ----------------------------- */

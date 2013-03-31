@@ -10,6 +10,7 @@
  * @property CommunicationTheme subject_obj
  * @property ActivityParent[] termination_parent_actions
  * @property MailAttachmentTemplate[] attachments
+ * @property Scenario game_type
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailTemplate extends CActiveRecord implements IGameAction
@@ -101,19 +102,6 @@ class MailTemplate extends CActiveRecord implements IGameAction
     }
     
     /**
-     * Выбрать письмо с заданным кодом
-     * @param string $code
-     * @return MailTemplate 
-     */
-    public function byCode($code)
-    {
-        $this->getDbCriteria()->mergeWith(array(
-            'condition' => "code = '{$code}'"
-        ));
-        return $this;
-    }
-    
-    /**
      * @param string $ids
      * @return \MailTemplate
      */
@@ -173,7 +161,7 @@ class MailTemplate extends CActiveRecord implements IGameAction
         }
         $newPrefix = preg_replace('/^(re|fwd)/', '', $subject->mail_prefix) ? : null;
         $parentTheme = CommunicationTheme::model()->findByAttributes(['code' => $subject->code, 'mail_prefix' => $newPrefix]);
-        return MailTemplate::model()->findByAttributes(['subject_id' => $parentTheme->primaryKey]);
+        return $this->game_type->getMailTemplate(['subject_id' => $parentTheme->primaryKey]);
     }
 
     public function relations()
@@ -181,7 +169,8 @@ class MailTemplate extends CActiveRecord implements IGameAction
         return [
             'termination_parent_actions' => [self::HAS_MANY, 'ActivityParent', 'mail_id'],
             'subject_obj'                => [self::BELONGS_TO, 'CommunicationTheme', 'subject_id'],
-            'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id']
+            'attachments'                => [self::HAS_MANY, 'MailAttachmentTemplate', 'mail_id'],
+            'game_type'                  => [self::BELONGS_TO, 'Scenario', 'scenario_id']
         ];
     }
 }

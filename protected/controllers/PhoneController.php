@@ -13,9 +13,15 @@ class PhoneController extends AjaxController{
      */
     public function actionGetContacts() 
     {
+        $simulation = $this->getSimulationEntity();
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('code != 1');
+        $characters = $simulation->game_type->getCharacters($criteria);
         $this->sendJSON(array(
             'result' => 1,
-            'data'   => Character::model()->getContactsList()
+            'data'   => array_map(function ($i) {
+                return $i->getClientAttributes();
+            }, $characters)
         ));
     }
     
@@ -24,9 +30,10 @@ class PhoneController extends AjaxController{
      */
     public function actionGetThemes() 
     {
+        $simulation = $this->getSimulationEntity();
         $this->sendJSON(array(
             'result' => 1,
-            'data'   => PhoneService::getThemes((int)Yii::app()->request->getParam('id', 0))
+            'data'   => PhoneService::getThemes((int)Yii::app()->request->getParam('id', 0), $simulation)
         ));
     }
     

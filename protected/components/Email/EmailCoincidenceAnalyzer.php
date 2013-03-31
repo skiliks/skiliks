@@ -60,11 +60,13 @@ class EmailCoincidenceAnalyzer
             return $result;
         }
 
-        foreach (MailTemplate::model()
-                ->byMS()
-                ->byReceiverId($this->userEmail->receiver_id)
-                ->bySubjectId($this->userEmail->subject_id)
-                ->findAll() as $mailTemplate) {
+        foreach ($this->userEmail->simulation->game_type->getMailTemplates([
+                'receiver_id' => $this->userEmail->receiver_id,
+                'subject_id' => $this->userEmail->subject_id
+            ]) as $mailTemplate) {
+            if (!preg_match('/MS\d+/',$mailTemplate->code)) {
+                continue;
+            }
             // mailRecipientId{
             $mailRecipientId = array($mailTemplate->receiver_id);
             foreach (MailTemplateRecipient::model()->byMailId($mailTemplate->id)->findAll() as $recipient) {

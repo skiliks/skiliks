@@ -100,7 +100,7 @@ class LogActivityActionTest extends CDbTestCase
                 'window' => $activityAction->window,
                 'start_time' => $activityAction->start_time,
                 'end_time' => $activityAction->end_time,
-                'activity_id' => $activityAction->activityAction->activity->primaryKey,
+                'activity_id' => $activityAction->activityAction->activity->code,
                 'window_uid' => $activityAction->window_uid
             ];
         }
@@ -179,7 +179,7 @@ class LogActivityActionTest extends CDbTestCase
                 'leg_action' => $activityAction->activityAction->getAction()->getCode(),
                 'start_time' => $activityAction->start_time,
                 'end_time' => $activityAction->end_time,
-                'activity_id' => $activityAction->activityAction->activity->primaryKey,
+                'activity_id' => $activityAction->activityAction->activity->code,
             ];
         }
         $tmp = array(
@@ -252,8 +252,10 @@ class LogActivityActionTest extends CDbTestCase
 
         $transaction = Yii::app()->db->beginTransaction();
         try {
+            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
             $activity = new Activity();
-            $activity->id = "WINPA";
+            $activity->code = "WINPA";
             $activity->parent = 'WIN';
             $activity->grandparent = "WINALL";
             $activity->name = "Name1";
@@ -261,20 +263,20 @@ class LogActivityActionTest extends CDbTestCase
             $activity->numeric_id = 10000;
             $activity->import_id = '1234';
             $activity->type = "Activity";
+            $activity->scenario_id = $simulation->game_type->getPrimaryKey();
             $activity->save();
             $activityAction = new ActivityAction();
-            $activityAction->activity_id = "WINPA";
+            $activityAction->activity_id = $activity->getPrimaryKey();
             $activityAction->window_id = 3;
-            $activity->import_id = '1234';
             $activityAction->leg_type = "Window";
+            $activityAction->import_id = '1234';
+            $activityAction->scenario_id = $simulation->game_type->getPrimaryKey();
             $activityAction->save();
-            $db = Activity::model()->findByAttributes(['id' => 'WINPA']);
+            $db = Activity::model()->findByAttributes(['code' => 'WINPA']);
             $this->assertNotNull($db);
-            $db2 = ActivityAction::model()->findByAttributes(['activity_id' => 'WINPA']);
+            $db2 = ActivityAction::model()->findByAttributes(['activity_id' => $activity->getPrimaryKey(), 'scenario_id' => $simulation->game_type->getPrimaryKey()]);
             $this->assertNotNull($db2);
 
-            $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
             $logs = [
                 [3, 3, 'activated', 37526, 'window_uid' => 130],
                 [3, 3, 'deactivated', 37548, 'window_uid' => 130]
@@ -284,7 +286,7 @@ class LogActivityActionTest extends CDbTestCase
             $logAction = LogActivityAction::model()->findByAttributes(['sim_id' => $simulation->id, 'window' => 3, 'window_uid' => 130]);
             $this->assertEquals($activityAction->id, $logAction->activity_action_id);
             $resActivity = ActivityAction::model()->findByAttributes(['id' => $logAction->activity_action_id]);
-            $this->assertEquals('WINPA', $resActivity->activity_id);
+            $this->assertEquals('WINPA', $resActivity->activity->code);
 
             SimulationService::simulationStop($simulation);
 
@@ -322,8 +324,8 @@ class LogActivityActionTest extends CDbTestCase
             $message2 = MailBoxService::sendMessagePro($options);
             $message3 = MailBoxService::sendMessagePro($options);
 
-            $first_dialog = Replica::model()->findByAttributes(['excel_id' => 516]);
-            $last_dialog = Replica::model()->findByAttributes(['excel_id' => 523]);
+            $firstDialog = Replica::model()->findByAttributes(['excel_id' => 516]);
+            $lastDialog = Replica::model()->findByAttributes(['excel_id' => 523]);
 
             $logs = [
                 [1, 1, 'activated', 32400, 'window_uid' => 1],
@@ -340,8 +342,8 @@ class LogActivityActionTest extends CDbTestCase
                 [10, 11, 'deactivated', 32760, 'window_uid' => 6],
                 [10, 13, 'activated', 32760, 'window_uid' => 7], # Send mail
                 [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $message3->primaryKey]],
-                [20, 23, 'activated', 32820, ['dialogId' => $first_dialog->primaryKey], 'window_uid' => 1], # Send mail
-                [20, 23, 'deactivated', 32880, ['dialogId' => $first_dialog->primaryKey, 'lastDialogId' => $last_dialog->primaryKey], 'window_uid' => 8], # Send mail
+                [20, 23, 'activated', 32820, ['dialogId' => $firstDialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'deactivated', 32880, ['dialogId' => $firstDialog->primaryKey, 'lastDialogId' => $lastDialog->primaryKey], 'window_uid' => 8], # Send mail
 
             ];
 
@@ -355,9 +357,9 @@ class LogActivityActionTest extends CDbTestCase
 
             // Test for insert
             $this->assertCount(2, $simulation->completed_parent_activities);
-            $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TMY3');
-            $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_already_used');
-            $this->assertEquals('T2', $activity_actions[7]->activityAction->activity_id);
+            $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TMY3');
+            $this->assertEquals($activity_actions[4]->activityAction->activity->code, 'A_already_used');
+            $this->assertEquals('T2', $activity_actions[7]->activityAction->activity->code);
             $transaction->rollback();
         } catch (CException $e) {
             $transaction->rollback();

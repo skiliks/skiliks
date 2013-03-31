@@ -172,7 +172,7 @@ class SimulationService
         }
 
         // add Point object
-        foreach (HeroBehaviour::model()->findAll() as $point) {
+        foreach ($simulation->game_type->getHeroBehavours([]) as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -244,12 +244,13 @@ class SimulationService
 
     /**
      * must be called at once, when simulation starts
-     * @param integer $simulationId
+     * @param Simulation $simulation
+     * @internal param int $simulationId
      */
-    public static function fillTodo($simulation)
+    public static function fillTodo(Simulation $simulation)
     {
         // add P17 - презентация ген. директору
-        $task = Task::model()->byStartType('start')->find(" code = 'P017' ");
+        $task = $simulation->game_type->getTask(['start_type'=> 'start', "code" => 'P017']);
         $sql = "INSERT INTO day_plan (sim_id, date, day, task_id) VALUES
         ({$simulation->id}, '16:00:00',1, {$task->id});
         ";
@@ -259,11 +260,13 @@ class SimulationService
         $command->execute();
 
         // прочие задачи
-        $tasks = Task::model()->byStartType('start')->findAll(" code != 'P017' ");
+        $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
         $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
 
         $add = '';
         foreach ($tasks as $task) {
+            if ($task->code === 'P017')
+                continue;
             $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
             $add = ',';
         }
@@ -280,7 +283,9 @@ class SimulationService
      */
     public static function setFinishedPerformanceRules($simId)
     {
-        $allRules = PerformanceRule::model()->findAll();
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
+        $allRules = $simulation->game_type->getPerformanceRules([]);
         $done = [];
 
         /** @var $rule PerformanceRule */
@@ -407,7 +412,7 @@ class SimulationService
         $simulation->user_id = $userId;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => ($type === Simulation::TYPE_LITE ? 'lite' : 'scenario')])->primaryKey;
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => ($type == Simulation::TYPE_LITE ? 'lite' : 'scenario')])->primaryKey;
         $simulation->type = $type;
         $simulation->insert();
         $profiler->render('3: ');

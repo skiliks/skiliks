@@ -20,9 +20,9 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
+        $simulation = SimulationService::simulationStart(1, $user, Simulation::TYPE_FULL);
 
-        $character = Character::model()->findByAttributes(['code' => 9]);
+        $character = $simulation->game_type->getCharacter(['code' => 9]);
 
         $options = new SendMailOptions();
         $options->phrases = '';
@@ -31,8 +31,8 @@ class MailBoxTest extends CDbTestCase
             Character::model()->findByAttributes(['code' => 11])->primaryKey,
             Character::model()->findByAttributes(['code' => 12])->primaryKey,
         ]);
-        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
-        $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
+        $options->subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $options->setRecipientsArray($character->primaryKey);
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
@@ -253,19 +253,23 @@ class MailBoxTest extends CDbTestCase
      *    правильных фраз
      */
     public function testGetPhrases()
-    {      
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
         //$this->markTestSkipped();
         
-        $ch = Character::model()->findByAttributes(['fio'=>'Денежная Р.Р.']);
-        $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
-        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R1']);
+        $ch = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
+        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id, 'text'=>'Сводный бюджет', 'letter_number'=>'MS35']);
+        $this->assertNotNull($theme);
+        $constructor = MailConstructor::model()->findByAttributes(['code' => 'R1', 'scenario_id' => $simulation->game_type->getPrimaryKey()]);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['constructor_id' => $constructor->getPrimaryKey()]);
         $data= [];
         
         foreach($mail_phrases as $phrase){
             $data[$phrase->id] = $phrase->name;
         }
         
-        $phrases = MailBoxService::getPhrases($theme->id, 0);
+        $phrases = MailBoxService::getPhrases($theme->id, 0, $simulation);
         $this->assertNotEmpty($data);
         $this->assertEquals($data, $phrases['data']);
         $this->assertEquals(count($data), count($phrases['data']));
@@ -280,7 +284,9 @@ class MailBoxTest extends CDbTestCase
      */
     public function testPunctuationSignsExist()
     {
-        $allSings = MailBoxService::getSigns();
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $allSings = MailBoxService::getSigns($simulation);
         $this->assertCount(6, $allSings);
     }
 
@@ -292,17 +298,19 @@ class MailBoxTest extends CDbTestCase
     public function testGetPhrasesFWD()
     {
         //$this->markTestSkipped();
-
-        $ch = Character::model()->findByAttributes(['fio'=>'Трутнев С.']);
-        $theme = CommunicationTheme::model()->findByAttributes(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
-        $mail_phrases = MailPhrase::model()->findAllByAttributes(['code'=>'R6']);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $ch = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
+        $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
+        $constructor = $simulation->game_type->getConstructor(['code' => 'R6']);
+        $mail_phrases = MailPhrase::model()->findAllByAttributes(['constructor_id'=>$constructor->getPrimaryKey()]);
         $data= [];
 
         foreach($mail_phrases as $phrase){
             $data[$phrase->id] = $phrase->name;
         }
 
-        $phrases = MailBoxService::getPhrases(0, $theme->id);
+        $phrases = MailBoxService::getPhrases(0, $theme->id, $simulation);
 
         $this->assertEquals($data, $phrases['data']);
         $this->assertEquals(count($data), count($phrases['data']));
@@ -322,17 +330,19 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
 
         // init conts
         // get all replics that change score for behaviour '4124'
-        $replicsFor_4124 = Replica::model()->findAll('excel_id IN (332, 336)');
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('excel_id', [332, 336]);
+        $replicsFor_4124 = $simulation->game_type->getReplicas($criteria);
 
         $count_0 = 0;
         $count_1 = 0;
 
         // get 4124
-        $pointFor_4124 = HeroBehaviour::model()->find('code = :code', ['code' => '4124']);
+        $pointFor_4124 = $simulation->game_type->getHeroBehavour(['code' => '4124']);
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {
@@ -357,14 +367,12 @@ class MailBoxTest extends CDbTestCase
 
         // init MS emails:
         // MS27 {
-        $subject = CommunicationTheme::model()->find(
-            'text = :text AND letter_number = :letter_number',[
-            'text'          => '!проблема с сервером!',
-            'letter_number' => 'MS27'
-        ]);
+        $subject = $simulation->game_type->getCommunicationTheme(
+            ['text' => '!проблема с сервером!', 'letter_number' => 'MS27']
+        );
 
         $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray('3'); // Трутнев
+        $sendMailOptions->setRecipientsArray($simulation->game_type->getCharacter(['code' =>'3'])->getPrimaryKey()); // Трутнев
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $emailFromSysadmin->id;
         $sendMailOptions->time       = '09:01';
