@@ -71,7 +71,7 @@ class MailController extends AjaxController
     {
         $this->sendJSON(array(
             'result' => 1,
-            'data'   => MailBoxService::getCharacters()
+            'data'   => MailBoxService::getCharacters($this->getSimulationEntity())
         ));
     }
 
@@ -291,7 +291,7 @@ class MailController extends AjaxController
         $messageToReply = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
 
-        $characters = MailBoxService::getCharacters();
+        $characters = MailBoxService::getCharacters($this->getSimulationEntity());
         $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
 
         $this->sendJSON(array(
@@ -311,7 +311,7 @@ class MailController extends AjaxController
         $messageToReply = MailBox::model()
             ->findByPk(Yii::app()->request->getParam('id', 0));
          
-        $characters = MailBoxService::getCharacters();
+        $characters = MailBoxService::getCharacters($this->getSimulationEntity());
         $subjectEntity = MailBoxService::getSubjectForRepryEmail($messageToReply);
         list($copiesIds, $copies) = MailBoxService::getCopiesArrayForReplyAll($messageToReply);
 

@@ -84,7 +84,14 @@ class MailRecipient extends CActiveRecord
         $criteria->addNotInCondition('id', explode(',', $ids));
         $this->getDbCriteria()->mergeWith($criteria);
         return $this;
-    }  
+    }
+
+    public function relations()
+    {
+        return [
+            'receiver' => [self::BELONGS_TO, 'Character', 'receiver_id'],
+        ];
+    }
 }
 
 

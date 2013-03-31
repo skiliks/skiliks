@@ -13,15 +13,15 @@ class AssessmentPointsTest extends CDbTestCase
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
         $logs = [];
-        $template = MailTemplate::model()->byCode('MS20')->find();
+        $template = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
 
         $message = LibSendMs::sendMs($simulation, 'MS20');
         $this->appendNewMessage($logs, $message);
         $mgr->processLogs($simulation, $logs);
-
+        $this->assertNotNull($template);
         $points = AssessmentPoint::model()->countByAttributes([
             'sim_id' => $simulation->id,
-            'mail_id' => $template->id
+            'mail_id' => $template->getPrimaryKey()
         ]);
 
         // Send again

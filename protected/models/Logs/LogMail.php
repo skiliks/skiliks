@@ -124,7 +124,7 @@ class LogMail extends CActiveRecord
     {
         /** @var $template MailTemplate|null */
         if ($this->full_coincidence !== null && $this->full_coincidence !== '-') {
-            $template = MailTemplate::model()->findByAttributes(['code' => $this->full_coincidence]);
+            $template = $this->simulation->game_type->getMailTemplate(['code' => $this->full_coincidence]);
         } else {
             $template = (null !== $this->mail) ? $this->mail->template : null;
         };
@@ -150,7 +150,7 @@ class LogMail extends CActiveRecord
             ]);
 
             if (empty($exists)) {
-                $mailPoints = MailPoint::model()->byMailId($template->id)->findAll();
+                $mailPoints = $this->simulation->game_type->getMailPoints(['mail_id' => $template->id]);
                 /** @var MailPoint[] $mailPoints */
                 foreach ($mailPoints as $mailPoint) {
                     $assessmentPoint = new AssessmentPoint();
@@ -166,14 +166,16 @@ class LogMail extends CActiveRecord
             // If mail is incorrect MS or not sent
             if ($this->mail !== null) {
                 if ($this->mail->isSended()) {
+                    $activity = $this->simulation->game_type->getActivity(['code' => 'A_incorrect_sent']);
                     $activity_action = ActivityAction::model()->findByPriority(
-                        ['activity_id' => 'A_incorrect_send' ],
+                        ['activity_id' => $activity->getPrimaryKey() ],
                         NULL,
                         $this->simulation
                     );
                 } else {
+                    $activity = $this->simulation->game_type->getActivity(['code' => 'A_not_sent']);
                     $activity_action = ActivityAction::model()->findByPriority([
-                        'activity_id' => 'A_not_sent'
+                        'activity_id' => $activity->getPrimaryKey()
                     ], NULL, $this->simulation);
                 }
             }

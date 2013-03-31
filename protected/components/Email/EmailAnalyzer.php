@@ -3,6 +3,7 @@
 /**
  *
  * @author slavka
+ * @property Simulation $simulation
  */
 class EmailAnalyzer
 {
@@ -97,10 +98,14 @@ class EmailAnalyzer
     
     public $reply_all = array();
 
+
     public function __construct($simId) 
     {
         $this->simId = $simId;
-        
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($this->simId);
+        $this->simulation = $simulation;
+
         /**
          * Get mail folder ids
          */
@@ -125,7 +130,7 @@ class EmailAnalyzer
         
         
         // get mail templates
-        foreach(MailTemplate::model()->findAll() as $mailTemplate) {
+        foreach($this->simulation->game_type->getMailTemplates([]) as $mailTemplate) {
             $this->mailTemplate[$mailTemplate->code] = $mailTemplate;
             if($mailTemplate->type_of_importance === "reply_all") {
                 $this->template_reply_all[] = $mailTemplate->code;
@@ -134,19 +139,19 @@ class EmailAnalyzer
         unset($mailTemplate);        
         
         // populate with right Mail_tasks
-        foreach(MailTask::model()->byWrongRight('R')->findAll() as $mailTask) {
+        foreach($simulation->game_type->getMailTasks(['wr' =>'R']) as $mailTask) {
             $this->rightMailTasks[$mailTask->code] = $mailTask;
         }
         unset($mailTask);
         
         // populate with wrong Mail_tasks
-        foreach(MailTask::model()->byWrongRight('W')->findAll() as $mailTask) {
+        foreach($simulation->game_type->getMailTasks(['wr' =>'W']) as $mailTask) {
             $this->wrongMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
         
         // populate with neutral Mail_tasks
-        foreach(MailTask::model()->byWrongRight('N')->findAll() as $mailTask) {
+        foreach($simulation->game_type->getMailTasks(['wr' =>'N']) as $mailTask) {
             $this->neutralMailTasks[$mailTask->id] = $mailTask;
         }
         unset($mailTask);
@@ -232,7 +237,7 @@ class EmailAnalyzer
         /**
          * Get character points
          */        
-        foreach (HeroBehaviour::model()->findAll() as $point) {
+        foreach ( $this->simulation->game_type->getHeroBehavours([]) as $point) {
             $this->points[$point->id] = $point;
         }
         unset($point);
@@ -240,7 +245,7 @@ class EmailAnalyzer
         /**
          * Get mail points
          */        
-        foreach (MailPoint::model()->findAll() as $point) {
+        foreach ($this->simulation->game_type->getMailPoints([]) as $point) {
             $this->mailPoints[$point->id] = $point;
         }
         unset($point);
@@ -305,10 +310,12 @@ class EmailAnalyzer
                     $wrongActions++;
                 }
             }
-        } 
-        
-        $behave_3322 = HeroBehaviour::model()->byCode('3322')->positive()->find();
-        $behave_3324 = HeroBehaviour::model()->byCode('3324')->negative()->find();
+        }
+
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($this->simId);
+        $behave_3322 = $simulation->game_type->getHeroBehavour(['code' => '3322', 'type_scale' => 1]);
+        $behave_3324 = $simulation->game_type->getHeroBehavour(['code' => '3324', 'type_scale' => 2]);
         
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
 
@@ -343,7 +350,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3325 = HeroBehaviour::model()->byCode('3325')->negative()->find();
+        $behave_3325 = $this->simulation->game_type->getHeroBehavour(['code' => '3325', 'type_scale' => 2]);
         
         return array(
             'negative' => $wrongActions * $behave_3325->scale,
@@ -378,7 +385,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3323 = HeroBehaviour::model()->byCode('3323')->positive()->find();
+        $behave_3323 = $this->simulation->game_type->getHeroBehavour(['code' => '3323', 'type_scale' => 1]);
          
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
@@ -445,7 +452,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3333 = HeroBehaviour::model()->byCode('3333')->positive()->find();
+        $behave_3333 = $this->simulation->game_type->getHeroBehavour(['code' => '3333', 'type_scale' => 1]);
         
         return array(
             'positive' => ($wrongActions == 0) ? $behave_3333->scale : 0,
@@ -469,7 +476,7 @@ class EmailAnalyzer
         $limitToGet2points = $configs['limitToGet2points'];
 
         $rightMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
-        $behave_3326 = HeroBehaviour::model()->byCode('3326')->positive()->find();
+        $behave_3326 = $this->simulation->game_type->getHeroBehavour(['code' => '3326', 'type_scale' => 1]);
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only

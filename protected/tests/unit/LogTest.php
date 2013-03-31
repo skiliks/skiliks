@@ -19,9 +19,9 @@ class LogTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);        
 
-        $character = Character::model()->findByAttributes(['code' => 9]);
+        $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $subject_id = CommunicationTheme::model()->findByAttributes([
+        $subject_id = $simulation->game_type->getCommunicationTheme([
             'code' => 5,
             'character_id' => $character->primaryKey,
             'mail_prefix' => 're',
@@ -29,18 +29,18 @@ class LogTest extends CDbTestCase
         ])->primaryKey;
 
         $copies = [
-            Character::model()->findByAttributes(['code' => 2])->primaryKey,
-            Character::model()->findByAttributes(['code' => 11])->primaryKey,
-            Character::model()->findByAttributes(['code' => 12])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
 
         $options = new SendMailOptions();
         $options->phrases = '';
         $options->copies = implode(',', $copies);
-        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS40'])->primaryKey;
+        $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
         $options->subject_id = $subject_id;
         $options->setRecipientsArray($character->primaryKey);
-        $options->senderId = Character::HERO_ID;
+        $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
         $options->time = '11:00:00';
         $options->setLetterType('new');
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -51,7 +51,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
+        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS40']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -64,12 +64,12 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes([
+        $sendMailOptions->subject_id    = $simulation->game_type->getCommunicationTheme([
             'code' => 6,
             'character_id' => $character->primaryKey,
             'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
@@ -81,12 +81,12 @@ class LogTest extends CDbTestCase
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
+        $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = implode(',', $copies);
         $sendMailOptions->phrases    = null;
         $sendMailOptions->fileId     = 0;
-        $sendMailOptions->subject_id    = CommunicationTheme::model()->findByAttributes([
+        $sendMailOptions->subject_id    = $simulation->game_type->getCommunicationTheme([
             'code' => 8,
             'character_id' => $character->primaryKey,
             'mail_prefix' => 'fwd'])->primaryKey;
@@ -121,6 +121,7 @@ class LogTest extends CDbTestCase
         SimulationService::simulationStop($simulation);
 
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        /** @var $activity_actions LogActivityAction[] */
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
 
         /** @var $mail_logs LogMail[] */
@@ -141,17 +142,17 @@ class LogTest extends CDbTestCase
 
         $this->assertEquals($mail_logs[0]->full_coincidence, 'MS40');
         $this->assertEquals($mail_logs[2]->part1_coincidence, 'MS52');
-//        foreach ($activity_actions as $log) {
-//            $log->dump();
-//        }
+        foreach ($activity_actions as $log) {
+            $log->dump();
+        }
         $this->assertEquals(count($activity_actions), 13);
 
 //        echo "\n";
 
 
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM1');
-        $this->assertEquals($activity_actions[8]->activityAction->activity_id, 'A_wait');
-        $this->assertEquals($activity_actions[10]->activityAction->activity_id, 'A_not_sent');
+        $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TM1');
+        $this->assertEquals($activity_actions[8]->activityAction->activity->code, 'A_incorrect_sent');
+        $this->assertEquals($activity_actions[10]->activityAction->activity->code, 'A_not_sent');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
@@ -261,13 +262,13 @@ class LogTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
-        $character = Character::model()->findByAttributes(['code' => 9]);
+        $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $subject_id = CommunicationTheme::model()->findByAttributes(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
+        $subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $copies = [
-            Character::model()->findByAttributes(['code' => 2])->primaryKey,
-            Character::model()->findByAttributes(['code' => 11])->primaryKey,
-            Character::model()->findByAttributes(['code' => 12])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
         $sendMailOptions = new SendMailOptions();
         $sendMailOptions->setRecipientsArray($character->primaryKey);
@@ -316,25 +317,18 @@ class LogTest extends CDbTestCase
         MailBoxService::sendDraft($simulation, $draft_message2);
 
         SimulationService::simulationStop($simulation);
-        $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
+        LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         /** @var $mail_logs LogMail[] */
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $this->assertEquals(4, count($mail_logs));
-//        foreach ($activity_actions as $log) {
-//            printf("%s\t%8s\t%10s\t%10s\t%10s\n",
-//                $log->start_time,
-//                $log->end_time !== null ? $log->end_time : '(empty)',
-//                $log->activityAction->leg_type,
-//                $log->activityAction->activity_id,
-//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-//            );
-//            /*$this->assertNotNull($log->end_time);*/
-//        }
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'A_not_sent');
-        $this->assertEquals($activity_actions[4]->activityAction->activity_id, 'A_not_sent');
-        $this->assertEquals($activity_actions[6]->activityAction->activity_id, 'A_not_sent');
-        $this->assertEquals($activity_actions[7]->activityAction->activity_id, 'A_not_sent');
+        //foreach ($activity_actions as $log) {
+            //$log->dump();
+        //}
+        $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'A_not_sent');
+        $this->assertEquals('A_incorrect_sent', $activity_actions[4]->activityAction->activity->code);
+        $this->assertEquals('A_not_sent', $activity_actions[6]->activityAction->activity->code);
+        $this->assertEquals('A_incorrect_sent', $activity_actions[7]->activityAction->activity->code);
 
     }
 
@@ -437,7 +431,7 @@ class LogTest extends CDbTestCase
 //            );
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
-        $this->assertEquals($activity_actions[2]->activityAction->activity_id, 'TM8');
+        $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TM8');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $log_start_time = new DateTime($log->start_time);
@@ -543,9 +537,9 @@ class LogTest extends CDbTestCase
 
         $this->assertEquals(count($activityActions), 10);
         array_map(function ($a) {$a->dump(); }, $activityActions);
-        $this->assertEquals('TM73', $activityActions[2]->activityAction->activity_id);
-        $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity_id);
-        $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity_id);
+        $this->assertEquals('TM73', $activityActions[2]->activityAction->activity->code);
+        $this->assertEquals('A_already_used', $activityActions[6]->activityAction->activity->code);
+        $this->assertEquals('A_already_used', $activityActions[8]->activityAction->activity->code);
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
             $logStartTime = new DateTime($log->start_time);
@@ -592,7 +586,7 @@ class LogTest extends CDbTestCase
             'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
             'params'    => [
                 'window_id'    => $mainMainWindow->id,
-                'activity_id'  => 'A_wait'
+                'activity_id'  => $simulation->game_type->getActivity(['code' => 'A_wait'])->getPrimaryKey()
             ]
         ]);
         
@@ -600,7 +594,7 @@ class LogTest extends CDbTestCase
             'condition' => ' window_id = :window_id AND activity_id = :activity_id ',
             'params'    => [
                 'window_id'    => $planPlanWindow->id,
-                'activity_id'  => 'T1.1'
+                'activity_id'  => $simulation->game_type->getActivity(['code' => 'T1.1'])->getPrimaryKey()
             ]
         ]);
         

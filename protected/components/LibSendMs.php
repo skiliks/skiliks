@@ -58,7 +58,7 @@ class LibSendMs
      */
     public static function sendNotMs($simulation)
     {
-        $randomSubjectForCharacter40 = CommunicationTheme::model()->findByAttributes([
+        $randomSubjectForCharacter40 = $simulation->game_type->getCommunicationTheme([
             'character_id' => 32
         ]);
 
@@ -83,7 +83,7 @@ class LibSendMs
      */
     public static function sendMs($simulation, $messageCode, $isDraft = false, $letterType = '')
     {
-        $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $messageCode]);
+        $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $messageCode]);
         /** @var $subject CommunicationTheme */
         $subject = $mailTemplate->subject_obj;
 
@@ -96,7 +96,7 @@ class LibSendMs
         ]);
 
         foreach ($recipients as $recipient) {
-            $recipientsString .= ','.$recipient->id;
+            $recipientsString .= ','.$recipient->receiver_id;
         }
         // collect recipient ids string }
 

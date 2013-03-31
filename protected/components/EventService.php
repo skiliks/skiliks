@@ -22,7 +22,7 @@ class EventService
         if ($code == 'T') return false; // финальная реплика
         
         // проверить есть ли событие по такому коду и если есть то создать его
-        $event = EventSample::model()->byCode($code)->find();
+        $event = $simulation->game_type->getEventSample(['code' => $code]);
         if ($event) {
             // попробуем вытащить delay из диалога
             if ($eventTime) {

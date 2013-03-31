@@ -15,6 +15,7 @@
  * @property mixed sim_id
  * @property MailTemplate template
  * @property mixed letter_type
+ * @property Simulation simulation
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class MailBox extends CActiveRecord
@@ -229,7 +230,8 @@ class MailBox extends CActiveRecord
     public function relations() {
         return array(
             'subject_obj' => array(self::BELONGS_TO, 'CommunicationTheme', 'subject_id'),
-            'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id')
+            'template'    => array(self::BELONGS_TO, 'MailTemplate', 'template_id'),
+            'simulation'    => array(self::BELONGS_TO, 'Simulation', 'sim_id'),
         );
     }
 

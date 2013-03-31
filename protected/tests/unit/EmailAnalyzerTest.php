@@ -112,7 +112,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email->readed = 1;
         $email->save();
         $email->refresh();
-        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
+        $emailTask = $simulation->game_type->getMailTask(['code' => 'M3', 'wr' => 'R']);
         MailBoxService::addMailTaskToPlanner($simulation, $email, $emailTask);
         
         $mailPlanWindow = Window::model()->find('subtype = \'mail plan\'');
@@ -140,7 +140,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
         
         $this->assertEquals($result_3322->value, $point_3322->scale, '3322 1');
-        $this->assertEquals($result_3324->value, 0, '3324 1');
+        $this->assertEquals(0, $result_3324->value, '3324 1');
     }
 
     /**
@@ -154,17 +154,18 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
-        $point_3322 = HeroBehaviour::model()->findByAttributes([
+        $point_3322 = $simulation->game_type->getHeroBehavour([
             'code' => '3322'
         ]);
         
-        $point_3324 = HeroBehaviour::model()->findByAttributes([
+        $point_3324 = $simulation->game_type->getHeroBehavour([
             'code' => '3324'
         ]);
 
         // move all not received emails to inbox
         $emailTemplates = MailTemplate::model()->findAll(
-            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' "
+            " code NOT LIKE 'MY%' AND code NOT LIKE 'MS%' AND scenario_id=:scenario_id",
+            ['scenario_id' => $simulation->game_type->getPrimaryKey()]
         );
 
         foreach ($emailTemplates as $emailTemplate) {
@@ -172,9 +173,7 @@ class EmailAnalyzerTest extends CDbTestCase
         }
         // move all not received emails to inbox }
         
-        $email = MailBox::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
-        $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'R']);
-        
+
         SimulationService::saveEmailsAnalyze($simulation->id);
         
         $result_3322 = AssessmentCalculation::model()->findByAttributes([
@@ -187,8 +186,8 @@ class EmailAnalyzerTest extends CDbTestCase
             'point_id' => $point_3324->id,
         ]);
         
-        $this->assertEquals($result_3322->value, 0, '3322 3');
-        $this->assertEquals($result_3324->value, 0, '3324 3');
+        $this->assertEquals(0, $result_3322->value, '3322 3');
+        $this->assertEquals(0, $result_3324->value, '3324 3');
     }
 
     /**
