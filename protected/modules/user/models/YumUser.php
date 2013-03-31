@@ -35,6 +35,8 @@ class YumUser extends YumActiveRecord
     const STATUS_BANNED = -1;
     const STATUS_REMOVED = -2;
 
+    const CHECK = 1;
+    const NOT_CHECK = 0;
     const ACCOUNT_TYPE_PERSONAL  = 'Personal';
     const ACCOUNT_TYPE_CORPORATE = 'Corporate';
 
@@ -44,6 +46,7 @@ class YumUser extends YumActiveRecord
     public $salt;
     public $activationKey;
     public $password_changed = false;
+    public $is_check = 1;
 
     // ------------------------------------------------------------------------------------------------------------
 
