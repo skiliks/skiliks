@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Тесты на тестирование флага F3 (для SK1338, SK1339, SK1340, SK1341, SK1411)
+ * Тесты для флага F3 (для SK1338, SK1339, SK1340, SK1341, SK1411)
  */
 class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 {

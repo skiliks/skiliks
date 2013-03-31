@@ -23,7 +23,6 @@ class F2_SK1405_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('S11', "css=li.icon-active.phone a", 'click');
-        //$this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['no_reply']);
         $this->assertTrue($this->verify_flag('F2','1'));
 
@@ -38,7 +37,6 @@ class F2_SK1405_Test extends SeleniumTestHelper
         //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('S11', "css=li.icon-active.phone a", 'click');
-        //$this->optimal_click("css=li.icon-active.phone a");
         $this->optimal_click(Yii::app()->params['test_mappings']['phone']['reply']);
         $this->optimal_click("xpath=(//*[contains(text(),'Раиса Романовна, файл готовил не я')])");
         $this->assertFalse($this->verify_flag('F2','1'));
