@@ -54,6 +54,6 @@ class Case1_SK1390_Test extends SeleniumTestHelper
 
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.667");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"0");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"4");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"3.5");
     }
 }

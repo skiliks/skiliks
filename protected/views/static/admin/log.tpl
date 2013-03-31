@@ -11,11 +11,11 @@
     </div>
 </div>
 
-<h1 id="simulation-info">Simulation</h1>
-<dl>
-    <dt>Id</dt>
-    <dd>{$simulation.primaryKey}</dd>
-</dl>
+<h1 id="simulation-info">Simulation: # {$simulation.primaryKey}</h1>
+
+<br/>
+
+&nbsp; &nbsp; &nbsp;
 
 <a href="/static/admin/saveLog/{$simulation->primaryKey}">Save log as XLS</a>
 
@@ -23,9 +23,14 @@
 
 <a href="/simulation/developer/1">Start new simulation (dev,full)</a>
 
+<br/>
+<br/>
+
 {foreach $log_tables as $log_table}
-    <h1 id="{$log_table->getId()}">{$log_table->getTitle()}</h1>
-    <table class="table table-striped {$log_table->getId()}">
+    <h1 id="{$log_table->getId()}">
+        {$log_table->getTitle()}
+    </h1>
+    <table class="table table-striped {$log_table->getId()}" style="display: {$log_table->getIsOpenWhenLoad()};">
         <thead>
         <tr>
             {foreach $log_table->getHeaders() as $header}
@@ -47,6 +52,18 @@
             </tr>
         {/foreach}
     </table>
+
+    <script type="text/javascript">
+        $(".selenium-tests-additional-tables-switcher").click(function() {
+            $(".selenium-tests-additional-tables").toggle();
+        });
+
+        $(function(){
+            $('#{$log_table->getId()}').click(function(){
+                $('.{$log_table->getId()}').toggle();
+            });
+        });
+    </script>
 {/foreach}
 
 <a class="btn btn-primary selenium-tests-additional-tables-switcher"><i class="icon icon-list icon-white"></i> Дополнительные таблицы для Selenium тестов (показать/скрыть)</a>

@@ -9,20 +9,37 @@ define([], function() {
      * @augments Backbone.Model
      */
     SKAttachment = Backbone.Model.extend({
-        // @var string, 'D1', 'D2'
+        /**
+         * @property code
+         * @type string, 'D1', 'D2'
+         * @default undefined
+         */
         code: undefined,
 
-        // @var string,
+        /**
+         * @property label
+         * @type string
+         * @default undefined
+         */
         label: undefined,
 
-        // @var myDocument
-        document: undefined,
-        
-        // @var integer
+        /**
+         * PHP myDocument
+         * @property document
+         * @type string
+         * @default undefined
+         */
+        // document: undefined,
+
+        /**
+         * @property fileMySqlId
+         * @type integer
+         * @default undefined
+         */
         fileMySqlId: undefined,
 
         /**
-         * @method
+         * @method getFileName
          * @return string
          */
         getFileName: function() {
@@ -33,7 +50,7 @@ define([], function() {
         },
 
         /**
-         * @method
+         * @method getIconImagePath
          * @returns {string}
          */
         getIconImagePath: function() {

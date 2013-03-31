@@ -920,4 +920,63 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
         $this->assertEquals($behaviour->scale, $point->value);
     }
+
+    public function test_check_214b_case_nothing_was_planing()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $this->addToPlan($simulation, 'P6', '',   DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P012', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P3', '',   DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P015', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P04', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P06', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P018', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P017', '16:00', DayPlanLog::TODAY);
+        $this->addToPlan($simulation, 'P016', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P011', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P019', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P07', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P05', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P08', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P09', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P03', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P01', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P02', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P010', '', DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P12', '',  DayPlanLog::TODO);
+        $this->addToPlan($simulation, 'P013', '',  DayPlanLog::TODO);
+
+        DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
+
+        $analyzer = new PlanAnalyzer($simulation);
+        $analyzer->check_214b0_214b4('214b0', 0);
+
+        // -- 214b0 //
+
+        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        $point = AssessmentCalculation::model()->findByAttributes([
+            'sim_id'=>$simulation->id,
+            'point_id'=>$behaviour->id
+        ]);
+        $this->assertEquals(0, $point->value, '214b0');
+        unset($point);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 1,
+        ]);
+        $this->assertEquals(0, $points, '214b0 : 1');
+        unset($points);
+
+        $points = AssessmentPlaningPoint::model()->countByAttributes([
+            'sim_id'            => $simulation->id,
+            'hero_behaviour_id' => $behaviour->id,
+            'value'             => 0,
+        ]);
+        $this->assertEquals(0, $points, '214b0 : 0');
+        unset($points);
+    }
 }

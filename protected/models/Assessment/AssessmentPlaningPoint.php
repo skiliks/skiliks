@@ -61,7 +61,7 @@ class AssessmentPlaningPoint extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'task' => array(self::BELONGS_TO, 'Tasks', 'task_id'),
+			'task' => array(self::BELONGS_TO, 'Task', 'task_id'),
 			'heroBehaviour' => array(self::BELONGS_TO, 'HeroBehaviour', 'hero_behaviour_id'),
 			'simulation' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
 		);
