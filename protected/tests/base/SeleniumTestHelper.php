@@ -60,7 +60,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 600) $this->fail("timeout");
             try {
                 if ($this->isVisible($next_event))
                 {
@@ -77,7 +77,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
     }
 
@@ -190,7 +190,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $was_done = false;
         for ($second = 0; ; $second++) {
-            if ($second >= 60)
+            if ($second >= 600)
             {
                 $was_done = false;
                 break;
@@ -202,7 +202,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
         return $was_done;
     }
@@ -222,7 +222,7 @@ class SeleniumTestHelper extends CWebTestCase
         $current_value='0';
         for ($second = 0; ; $second++) {
 
-            if ($second >= 60)
+            if ($second >= 600)
             {
                 $was_changed = false;
                 break;
@@ -235,7 +235,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
         return $was_changed;
     }
@@ -296,7 +296,7 @@ class SeleniumTestHelper extends CWebTestCase
         if ($this->isVisible("css=li.icon-active.mail a"))
         {
             for ($second = 0; ; $second++) {
-                if ($second >= 60)
+                if ($second >= 600)
                 {
                     $was_changed = false;
                     break;
@@ -308,7 +308,7 @@ class SeleniumTestHelper extends CWebTestCase
                         break;
                     }
                 } catch (Exception $e) {}
-                sleep(1);
+                usleep(100000);
             }
         }
         else
