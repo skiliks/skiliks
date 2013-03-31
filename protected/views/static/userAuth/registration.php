@@ -4,7 +4,7 @@
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
-                <a class="regicon icon-check" href="/simulation/promo/2"></a>
+                <a class="regicon icon-check" id="registration_check" href="/simulation/promo/2"><span style="display: none"><?php echo Yii::t('site', 'Выбрать');?></span></a>
                 <h3>Пробный тест</h3>
                 <div class="testtime"><strong>45</strong> Минут</div>
                 <ul>
@@ -38,6 +38,10 @@
         <div class="row">
             <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $profile->getAttributeLabel('Подтвердите пароль')]); ?>
             <?php echo $form->error($user        , 'password_again'); ?>
+        </div>
+
+        <div class="row" style="display: none">
+            <?php echo $form->hiddenField($user, 'is_check', ['class' => 'registration_is_check']); ?>
         </div>
 
 
