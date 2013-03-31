@@ -8,12 +8,14 @@
  * @property string $title
  * @property string $start_time
  * @property integer $duration
- * @property integer $type
+ * @property integer $is_cant_be_moved
  * @property integer $sim_id
  * @property string $code
  * @property string $start_type
  * @property integer $category
  * @property string $import_id
+ * @property string $time_limit_type - null, "yes" - task must be planned in time, "no" - task planned time is no matter, "can't be moved"
+ * @property string $fixed_day - null or day in what task must be planned
  *
  * The followings are the available model relations:
  * @property DayPlan[] $dayPlans
@@ -24,8 +26,8 @@
  */
 class Task extends CActiveRecord
 {
-    const NO_BLOCK = 1;
-    const BLOCK = 2;
+    const NO_BLOCK = 0;
+    const BLOCK = 1;
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -52,15 +54,15 @@ class Task extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			//array('title, duration, type, import_id', 'required'), TODO:Нужно посмотреть почему валиться
-			array('duration, type, sim_id, category', 'numerical', 'integerOnly'=>true),
+			//array('title, duration, is_cant_be_moved, import_id', 'required'), TODO:Нужно посмотреть почему валиться
+			array('duration, is_cant_be_moved, sim_id, category', 'numerical', 'integerOnly' => true),
 			array('title', 'length', 'max'=>200),
 			array('code, start_type', 'length', 'max'=>5),
 			array('import_id', 'length', 'max'=>14),
 			array('start_time', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, start_time, duration, type, sim_id, code, start_type, category, import_id', 'safe', 'on'=>'search'),
+			array('id, title, start_time, duration, is_cant_be_moved, sim_id, code, start_type, category, import_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -90,7 +92,7 @@ class Task extends CActiveRecord
 			'title' => 'Title',
 			'start_time' => 'Start Time',
 			'duration' => 'Duration',
-			'type' => 'Type',
+			'is_cant_be_moved' => 'Type',
 			'sim_id' => 'Sim',
 			'code' => 'Code',
 			'start_type' => 'Start Type',
@@ -114,7 +116,7 @@ class Task extends CActiveRecord
 		$criteria->compare('title',$this->title,true);
 		$criteria->compare('start_time',$this->start_time,true);
 		$criteria->compare('duration',$this->duration);
-		$criteria->compare('type',$this->type);
+		$criteria->compare('is_cant_be_moved',$this->is_cant_be_moved);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('code',$this->code,true);
 		$criteria->compare('start_type',$this->start_type,true);

@@ -228,6 +228,7 @@ define([], function () {
                         me.complete();
                     }
                     SKApp.simulation.parseNewEvents(data.events);
+                    SKApp.simulation.getNewEvents();
                 }
             });
         },

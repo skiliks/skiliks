@@ -223,7 +223,7 @@ class ImportGameDataService
         $this->logStart();
 
         $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Max_fail_rate');
+        $sheet = $excel->getSheetByName('Max_rate');
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -236,17 +236,23 @@ class ImportGameDataService
                 continue;
             }
 
-            // try to find exists entity
-            $learningGoal = LearningGoal::model()->findByAttributes(
-                ['code' => $this->getCellValue($sheet, 'Номер цели обучения', $i)]
-            );
+            //
+            // @todo: add 'success_rate' in sprint S9
+            //
 
-            $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_fail_rate', $i);
+            if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
+                // try to find exists entity
+                $learningGoal = LearningGoal::model()->findByAttributes(
+                    ['code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i)]
+                );
 
-            // save
-            $learningGoal->save();
+                $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
 
-            $importedRows++;
+                // save
+                $learningGoal->save();
+
+                $importedRows++;
+            }
 
         }
 
@@ -338,7 +344,7 @@ class ImportGameDataService
      */
     public function importHeroBehaviours()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
@@ -385,7 +391,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_character_point_titles' => $importedRows,
@@ -1022,7 +1028,7 @@ class ImportGameDataService
 
     public function importTasks()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('to-do-list');
@@ -1053,24 +1059,26 @@ class ImportGameDataService
                 $task = new Task();
                 $task->code = $code;
             }
-
             $task->title = $name;
             // bug in the content. remove code after 29.04.2012
             $task->start_time = preg_replace('/;/', ':', $startTime) ?: null;
             $task->duration = $duration;
             if ($this->getCellValue($sheet, 'Task time limit type', $i) === 'can\'t be moved') {
-                $task->type = 2;
+                $task->is_cant_be_moved = 1;
             } else {
-                $task->type = 1;
+                $task->is_cant_be_moved = 0;
             }
             $task->start_type = $startType;
             $task->category = $category;
+            $task->time_limit_type = $this->getCellValue($sheet, 'Task time limit type', $i);
+            $task->fixed_day = $this->getCellValue($sheet, 'Fixed day', $i);
+
             $task->import_id = $this->import_id;
             $task->save();
         }
         Task::model()->deleteAll('import_id<>:import_id OR import_id IS NULL', array('import_id' => $this->import_id));
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'status' => true,
@@ -1083,7 +1091,7 @@ class ImportGameDataService
      */
     public function importMailTasks()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('M-T');
@@ -1139,7 +1147,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_documents' => $importedRows,
@@ -1275,7 +1283,7 @@ class ImportGameDataService
      */
     public function importMyDocuments()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Documents');
@@ -1341,7 +1349,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'imported_documents' => $importedRows,
@@ -1426,7 +1434,9 @@ class ImportGameDataService
             $isUseInDemo = ('да' == $this->getCellValue($sheet, 'Использовать в DEMO', $i)) ? 1 : 0;
             $replica->demo = $isUseInDemo;
             $replica->type_of_init = $this->getCellValue($sheet, 'Тип запуска', $i);
-            $replica->fantastic_result       = $this->getCellValue($sheet, 'Отправка письма фант образом', $i);
+            $replica->fantastic_result       =
+                $this->getCellValue($sheet, 'Отправка письма фант образом', $i) ?:
+                $this->getCellValue($sheet, 'Открытие полученного письма фант образом', $i);
 
             $sound = $this->getCellValue($sheet, 'Имя звук/видео файла', $i);
             $replica->sound = ($sound == 'нет' || $sound == '-') ? $file = NULL : $sound;
@@ -1998,7 +2008,7 @@ class ImportGameDataService
 
     public function importActivityParentEnding()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Parent_ending');
@@ -2050,7 +2060,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'updated_activityActions' => $updatedRows,
@@ -2060,7 +2070,7 @@ class ImportGameDataService
 
     public function importPerformanceRules()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
 
         $reader = $this->getReader();
 
@@ -2095,6 +2105,12 @@ class ImportGameDataService
             }
 
             $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
+
+            // @todo: ignore 'formula_x' before investigation in S9
+            if (-1 < strpos($rule->activity_id, 'formula')) {
+                continue;
+            }
+
             $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
             $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
             $rule->import_id = $this->import_id;
@@ -2140,7 +2156,7 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
 
         return array(
             'performance_rules' => $rules,
@@ -2225,7 +2241,7 @@ class ImportGameDataService
             }
 
             // we run, immediatly after flag was switched, email without trigger time only
-            if ('00:00:00' == $emailEvent->trigger_time) {
+            if ('00:00:00' == $emailEvent->trigger_time || null == $emailEvent->trigger_time) {
 
                 // try to find exists entity {
                 $mailFlag = FlagRunMail::model()->findByAttributes([

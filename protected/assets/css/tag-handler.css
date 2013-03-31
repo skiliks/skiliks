@@ -10,8 +10,8 @@
     border-radius: 0;
     box-shadow: 0;
     overflow: hidden;
-    min-height: 30px;
-    line-height: 30px;
+    min-height: 32px;
+    line-height: 32px;
     cursor: text;
     font-family: arial, helvetica, sans-serif;
     /*padding: 0px 5px;*/
@@ -23,7 +23,7 @@
     display: block;
     float: left;
     font-size: 12px;
-    margin: 5px 5px 5px 0;
+    margin: 5px 0px 5px 5px;
     white-space: nowrap;
 }
 .tagHandler ul.tagHandlerContainer li.tagItem {

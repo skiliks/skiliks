@@ -9,6 +9,7 @@
  * @property int sim_id
  * @property mixed event_id
  * @property mixed trigger_time
+ * @property bool force_run
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  */
 class EventTrigger extends CActiveRecord

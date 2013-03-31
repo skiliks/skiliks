@@ -266,13 +266,14 @@ class DialogService
                 // События типа диалог мы не создаем
                 // isDialog() Wrong!!!
                 if (!EventService::isDialog($dialog['next_event_code'])) {
+                    /** @var $replica Replica */
                     $replica = Replica::model()->findByPk($dialog['id']);
                     if (NULL !== $replica->flag_to_switch) {
                         FlagsService::setFlag($simulation, $replica->flag_to_switch, 1);
                     }
                     // создадим событие
                     if ($dialog['next_event_code'] != '' && $dialog['next_event_code'] != '-') {
-                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime);
+                        EventService::addByCode($dialog['next_event_code'], $simulation, $gameTime, $replica->fantastic_result);
                     }
                 }
             }

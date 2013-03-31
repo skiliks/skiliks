@@ -21,8 +21,7 @@ class ImportTest extends CDbTestCase
         ini_set('memory_limit', '500M');
         $transaction = Yii::app()->db->beginTransaction();
         try {
-            $import = new ImportGameDataService();
-            $import->importWithoutTransaction();
+            (new ImportGameDataService())->importWithoutTransaction();
 
             // events
             $this->assertNotNull(EventSample::model()->findByAttributes([
@@ -50,10 +49,12 @@ class ImportTest extends CDbTestCase
             $this->assertEquals(821, Replica::model()->count());
             $this->assertNotNull(Replica::model()->findByAttributes(['code' => 'S12.3']));
 
+            $this->assertGreaterThan(0, FlagRunMail::model()->count());
+
             $this->assertEquals(11, FlagBlockReplica::model()->count(), 'block replica');
             $this->assertEquals(10, FlagBlockDialog::model()->count(), 'block replica');
             $this->assertEquals(21, Flag::model()->count(), 'flags');
-            $this->assertEquals(0, FlagRunMail::model()->count(), 'run mail');
+
             $this->assertEquals(5, FlagBlockMail::model()->count(), 'block mail');
 
             // end.
