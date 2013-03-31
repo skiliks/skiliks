@@ -6,6 +6,7 @@ var SKSimulation;
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
+    "game/views/BlueScreenDialog",
 
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
@@ -75,8 +76,17 @@ define([
                  */
                 this.phone_history = new SKPhoneHistoryCollection();
                 this.handleEvents();
+
+                this.set('isBlueScreenHappened', false);
+
                 this.on('tick', function () {
-                //noinspection JSUnresolvedVariable
+                    var d = new Date();
+                    if (false == me.get('isBlueScreenHappened') && d.getHours() < 12 && Math.random() < 0.05) {
+                        var dieScreen = new BlueScreenDialog();
+                        this.set('isBlueScreenHappened', true);
+                    }
+
+                    //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('end'))) {
                         me.stop();
                     }
@@ -136,6 +146,8 @@ define([
                     }, function () {
                     });
                 });
+
+
             },
 
             /**

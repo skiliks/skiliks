@@ -54,12 +54,4 @@ class AssessmentResultTable extends LogTable
             $assessmentPoint[0]
         );
     }
-
-    /**
-     * @return string
-     */
-    public function getIsOpenWhenLoad()
-    {
-        return 'block';
-    }
 }

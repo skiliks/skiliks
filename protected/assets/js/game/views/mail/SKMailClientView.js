@@ -335,7 +335,7 @@ define([
                     .addClass(activeClass);
 
                 if (!email.is_readed) {
-                    row.removeClass(email.getIsReadedCssClass());
+                    row.removeClass(email.getIsReadCssClass());
                 }
             },
 
@@ -476,7 +476,7 @@ define([
                         sendedAt: incomingEmail.sendedAt,
                         isHasAttachment: incomingEmail.getIsHasAttachment(),
                         isHasAttachmentCss: incomingEmail.getIsHasAttachmentCss(),
-                        isReadedCssClass: incomingEmail.getIsReadedCssClass()
+                        isReadCssClass: incomingEmail.getIsReadCssClass()
                     });
 
                 });
@@ -507,7 +507,7 @@ define([
                         sendedAt: trashEmails[key].sendedAt,
                         isHasAttachment: trashEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: trashEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true
+                        isReadCssClass: true
                     });
                 }
 
@@ -532,12 +532,12 @@ define([
                     emailsList += _.template(send_mail_line, {
 
                         emailMySqlId: sendedEmails[key].mySqlId,
-                        recipientName: sendedEmails[key].getFormatedRecipientsString(),
+                        recipientName: sendedEmails[key].getFormattedRecipientsString(),
                         subject: sendedEmails[key].subject.text,
                         sendedAt: sendedEmails[key].sendedAt,
                         isHasAttachment: sendedEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: sendedEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true
+                        isReadCssClass: true
                     });
                 }
 
@@ -562,12 +562,12 @@ define([
                     emailsList += _.template(send_mail_line, {
 
                         emailMySqlId: draftEmails[key].mySqlId,
-                        recipientName: draftEmails[key].getFormatedRecipientsString(),
+                        recipientName: draftEmails[key].getFormattedRecipientsString(),
                         subject: draftEmails[key].subject.text,
                         sendedAt: draftEmails[key].sendedAt,
                         isHasAttachment: draftEmails[key].getIsHasAttachment(),
                         isHasAttachmentCss: draftEmails[key].getIsHasAttachmentCss(),
-                        isReadedCssClass: true
+                        isReadCssClass: true
                     });
                 }
 
@@ -818,7 +818,7 @@ define([
                     text: email.text,
                     sendedAt: email.sendedAt,
                     isHasAttachmentCss: email.getIsHasAttachmentCss(),
-                    isReadedCssClass: email.getIsReadedCssClass(),
+                    isReadCssClass: email.getIsReadCssClass(),
                     attachmentFileName: attachmentLabel,
                     attachmentId: attachmentId,
                     height: height

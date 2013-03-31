@@ -10,73 +10,144 @@ define([] ,function() {
      * @augments Backbone.Model
      */
     SKEmail = Backbone.Model.extend({
-        // @var integer, MySQL id
-
+        /**
+         * @property mySqlId
+         * @type integer
+         * @default undefined
+         */
         mySqlId: undefined,
         
-        // @var string, 'M1', 'MS2'
+        /**
+         * @property code
+         * @type string, 'M1', 'MS2'
+         * @default undefined
+         */
         code: undefined,
 
-        // @var string, 
+        /**
+         * @property constructorCode
+         * @type string, 'R1', 'B1'
+         * @default undefined
+         */
         constructorCode: undefined,
 
-        // @var string, 
+        /**
+         * @property text
+         * @type string, 'M1', 'MS2'
+         * @default undefined
+         */
         text: undefined,
 
-        // @var string, 
+        /**
+         * @property previouseEmailText
+         * @type string, 'M1', 'MS2'
+         * @default undefined
+         */
         previouseEmailText: undefined,
 
-        // @var instance of SkMAilSubject, 
+        /**
+         * @property subject
+         * @type SkMAilSubject
+         * @default undefined
+         */
         subject: undefined,
 
-        // @var array of SkCharacter
+        /**
+         * @property recipients
+         * @type array of SKCharacter
+         * @default undefined
+         */
         recipients: [],
-        
-        // @var array of SkCharacter
+
+        /**
+         * @property copyTo
+         * @type array of SKCharacter
+         * @default undefined
+         */
         copyTo: [],
         
-        // @var array of SkAttachment
+        /**
+         * @property attachment
+         * @type array of SKAttachment
+         * @default undefined
+         */
         attachment: undefined,
         
-        // @var array of SkMailPhrases
+        /**
+         * @property phrases
+         * @type array of SKMailPhrases
+         * @default undefined
+         */
         phrases: [],
         
-        // @var bool, use markReaded(), markUnreaded(), isReaded()
+        /**
+         * Used in markReaded(), markUnreaded(), isReaded()
+         *
+         * @property is_readed
+         * @type a bool
+         * @default undefined
+         */
         is_readed: false,
-        
-        // @var bool
+
+        /**
+         * @property is_has_attachment
+         * @type a bool
+         * @default undefined
+         */
         is_has_attachment: false,        
         
         // @var string, 
         sendedAt: undefined,
         
-        // @var SKMailCharacter
-        // we need sender id fron server:
-        // use instead of senderNameString, after refactiring will be complete
+        /**
+         * @property sender
+         * @type array of SKMailCharacter
+         * @default undefined
+         */
         sender: undefined,
         
-        // @var string,
-        // @todo: replace with link to SKCharacter
+        /**
+         * @todo: replace with link to SKCharacter
+         * @property senderNameString
+         * @type string
+         * @default an empty string
+         */
         senderNameString: '',
-        
-        // @var string,
-        // @todo: replace with link to SKCharacter
+
+        /**
+         * @todo: replace with link to SKCharacter
+         * @property senderEmailString
+         * @type string
+         * @default an empty string
+         */
         senderEmailString: '',
-        
-        // @var string, 
-        // @todo: replace with link to SKCharacter
+
+        /**
+         * @todo: replace with link to SKCharacter
+         * @property recipientNameString
+         * @type string
+         * @default an empty string
+         */
         recipientNameString: '',
-        
-        // @var string, 
-        // @todo: replace with link to SKCharacter
+
+        /**
+         * @todo: replace with link to SKCharacter
+         * @property recipientEmailString
+         * @type string
+         * @default an empty string
+         */
         recipientEmailString: '',
-        
-        // @var string, 
-        // @todo: replace with links to SKCharacters
+
+        /**
+         * @todo: replace with link to SKCharacter
+         * @property copyToString
+         * @type string
+         * @default an empty string
+         */
         copyToString: '',
 
         /**
-         * @method
+         * @method isSubjectValid
          * @returns {boolean}
          */
         isSubjectValid: function() {
@@ -89,21 +160,10 @@ define([] ,function() {
                 undefined !== this.subject.text );
         },
 
-        /**
-         * @method
-         * @param fullMinutes
-         */
-        setSendedAtFromTodayMinutes: function(fullMinutes) {
-            var hours = (Math.floor(fullMinutes/60));
-            var minutes = (fullMinutes - hours*60);
-            if (minutes < 10) {
-                minutes = '0' + minutes;
-            }
-            this.sendedAt = '10.03.2012 ' + hours + ':' + minutes;
-        },
 
         /**
-         * @method
+         * @method updateStatusPropertiesAccordingObjects: function() {
+         * @return void
          */
         updateStatusPropertiesAccordingObjects: function() {
             if (undefined !== this.attachment) {
@@ -112,8 +172,9 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method setSenderEmailAndNameStrings
          * @param string
+         * @return void
          */
         setSenderEmailAndNameStrings: function(string) {
             var senders = string.split(',');
@@ -125,8 +186,9 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method setRecipientEmailAndNameStrings
          * @param string
+         * @return void
          */
         setRecipientEmailAndNameStrings: function(string) {
             var recipients = string.split(',');
@@ -139,8 +201,9 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method addSenderEmailAndNameStrings
          * @param string
+         * @return void
          */
         addSenderEmailAndNameStrings: function(string) {
             var separator = '';
@@ -157,8 +220,9 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method addRecipientEmailAndNameStrings
          * @param string
+         * @return void
          */
         addRecipientEmailAndNameStrings: function(string) {
             var separator = '';
@@ -175,8 +239,9 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method addCopyEmailAndNameStrings
          * @param string
+         * @return void
          */
         addCopyEmailAndNameStrings: function(string) {
             var separator = '';
@@ -187,29 +252,15 @@ define([] ,function() {
         },
 
         /**
-         * @method
-         */
-        markReaded: function() {
-            this.is_readed = 1;
-        },
-
-        /**
-         * @method
-         */
-        markUnreaded: function() {
-            this.is_readed = 0;
-        },
-
-        /**
-         * @method
+         * @method isRead
          * @returns {boolean}
          */
-        isReaded: function() {
+        isRead: function() {
             return this.is_readed == 1;
         },
         
         /**
-         * @method
+         * @method getSubjectText
          * @return string
          */
         getSubjectText: function() {
@@ -217,10 +268,10 @@ define([] ,function() {
         },
         
         /**
-         * @method
+         * @method getIsReadCssClass
          * @return string, CSS style
          */
-        getIsReadedCssClass: function() {
+        getIsReadCssClass: function() {
             if (true == this.is_readed) {
                 return '';
             } else {
@@ -229,7 +280,7 @@ define([] ,function() {
         },
         
         /**
-         * @method
+         * @method getIsHasAttachment
          * @return string, CSS style
          */
         getIsHasAttachment: function() {
@@ -241,7 +292,7 @@ define([] ,function() {
         },
         
         /**
-         * @method
+         * @method getIsHasAttachmentCss
          * @return string, CSS style
          */
         getIsHasAttachmentCss: function() {
@@ -253,7 +304,7 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method isValid
          * @returns {boolean}
          */
         isValid: function() {
@@ -266,8 +317,8 @@ define([] ,function() {
         },
 
         /**
-         * @method
-         * @returns {*}
+         * @method getAttachmentId
+         * @returns {an empty string|integer}
          */
         getAttachmentId: function() {
             if ('undefined' === typeof this.attachment) {
@@ -278,7 +329,7 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method getRecipientIdsString
          * @returns {string}
          */
         getRecipientIdsString: function() {
@@ -291,13 +342,13 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method getFormattedRecipientsString
          * @returns {string}
          */
-        getFormatedRecipientsString: function() {
+        getFormattedRecipientsString: function() {
             var string = '';
             for (var i in this.recipients) {
-                string += this.recipients[i].getFormated_2_ForMailToName();
+                string += this.recipients[i].getFormattedRecipientLabel();
             }
             
             if ('' == string) {
@@ -308,24 +359,7 @@ define([] ,function() {
         },
 
         /**
-         * @method
-         * @returns {string}
-         */
-        getFormatedCopyToString: function() {
-            var string = '';
-            for (var i in this.copyTo) {
-                string += this.copyTo[i].getFormated_2_ForMailToName();
-            }
-            
-            if ('' == string) {
-                string = this.copyToNameString;
-            }
-            
-            return string;
-        },
-
-        /**
-         * @method
+         * @method getCopyToIdsString: function() {
          * @returns {string}
          */
         getCopyToIdsString: function() {
@@ -338,7 +372,7 @@ define([] ,function() {
         },
 
         /**
-         * @method
+         * @method getPhrasesIdsString
          * @returns {string}
          */
         getPhrasesIdsString: function() {
@@ -350,5 +384,6 @@ define([] ,function() {
             return string;
         }
     });
+
     return SKEmail;
 });

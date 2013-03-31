@@ -79,12 +79,4 @@ abstract class LogTable
         }
         return $result;
     }
-
-    /**
-     * @return string, 'none' || 'block' - CSS {display: xxx;}
-     */
-    public function getIsOpenWhenLoad()
-    {
-        return 'none';
-    }
 }
