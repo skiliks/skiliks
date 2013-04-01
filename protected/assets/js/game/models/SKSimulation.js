@@ -367,15 +367,17 @@ define([
              * @method startPause
              * @async
              */
-            startPause: function() {
+            startPause: function(callback) {
                 var me = this;
 
                 me._stopTimer();
                 me.paused_time = new Date();
                 me.trigger('pause:start');
 
-                SKApp.server.api('simulation/startPause', {}, function () {
-
+                SKApp.server.api('simulation/startPause', {}, function (responce) {
+                    if (typeof callback === 'function') {
+                        callback(responce);
+                    }
                 });
             },
 
@@ -385,14 +387,18 @@ define([
              * @method stopPause
              * @async
              */
-            stopPause: function() {
+            stopPause: function(callback) {
                 var me = this;
 
-                SKApp.server.api('simulation/stopPause', {}, function () {
+                SKApp.server.api('simulation/stopPause', {}, function (responce) {
                     me._startTimer();
                     me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
                     delete me.paused_time;
                     me.trigger('pause:stop');
+
+                    if (typeof callback === 'function') {
+                        callback(responce);
+                    }
                 });
             },
 

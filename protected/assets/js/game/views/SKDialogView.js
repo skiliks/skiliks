@@ -63,9 +63,11 @@ define([
          * @method
          */
         'render': function () {
-            
-            // must be first to get Z-index under dialog HTML block
-            this.renderPreventClickElement();
+
+            if (this.options.modal !== false) {
+                // must be first to get Z-index under dialog HTML block
+                this.renderPreventClickElement();
+            }
             
             this.$el = $(_.template(dialog_template, {
                 title: this.options.message,
@@ -110,6 +112,11 @@ define([
             if (undefined !== this.preventOtherClicksElement) {
                 this.preventOtherClicksElement.remove();
             }
+        },
+
+        remove: function() {
+            this.cleanUpDOM();
+            return Backbone.View.prototype.remove.call(this);
         }
     });
     return SKDialogView;
