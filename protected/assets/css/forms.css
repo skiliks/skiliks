@@ -227,8 +227,9 @@
 /* ************************* /REGISTRATION ************************* */
 
 /************************************ PERSONAL PROFILE *******************************************/
-#account-personal-personal-form span.required, #account-corporate-password-form span.required, span.required {
-    display: none;
+#account-personal-personal-form span.required, #account-corporate-password-form span.required,
+span.required {
+    display: none !important;
 }
 .profilewrap ul.profile-menu {
     width: 256px;
