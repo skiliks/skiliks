@@ -108,10 +108,12 @@ class Invite extends CActiveRecord
 
     public function uniqueEmail($attribute, $params)
     {
-        if(null !== self::model()->findByAttributes(['email' => $this->email, 'owner_id' => $this->owner_id])){
-
+        if(null !== self::model()->findByAttributes([
+            'email'    => $this->email,
+            'owner_id' => $this->owner_id,
+            'status'   => [self::STATUS_PENDING, self::STATUS_ACCEPTED, self::STATUS_EXPIRED]
+        ])){
             $this->addError('email','Вы уже отправили инвайт на '.$this->email);
-
         }
     }
 
