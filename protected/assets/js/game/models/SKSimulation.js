@@ -107,7 +107,10 @@ define([
                             if(url === event.data.url){
                                 var docs = SKApp.simulation.documents.where({id:id.toString()});
                                 docs[0].set('isInitialized', true);
-                                if(SKApp.simulation.documents.length === SKApp.simulation.documents.where({'isInitialized':true}).length){
+                                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
+                                console.log(SKApp.simulation.documents.where({'isInitialized':true}).length);
+                                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true}).length){
+                                    console.log("delete block");
                                     $('.zoho-load-start').remove();
                                 }
                             }
