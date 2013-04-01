@@ -173,9 +173,10 @@ return array(
     'Enter password' => 'Введите пароль',
 
     'Pending' => 'в ожидании',
-    'Accepted' => 'подтверждён',
-    'Completed' => 'завершен',
-    'Declined' => 'отвергнут',
+    'Accepted' => 'подтверждено',
+    'Completed' => 'завершено',
+    'Declined' => 'отвергнуто',
+    'Started'  => 'начато',
 
     'Profile' => 'Мой профиль',
     'Statistic' => 'Статистика',
