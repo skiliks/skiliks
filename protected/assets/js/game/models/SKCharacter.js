@@ -8,23 +8,37 @@ define([], function() {
      * @augments Backbone.Model
      */
     window.SKCharacter = Backbone.Model.extend({
-        // @var integer, MySQL id
+
+        /**
+         * @property mySqlId
+         * @type integer
+         * @default undefined
+         */
         mySqlId: undefined,
-        
-        // @var integer, ExcelId
+
+        /**
+         * @property excelId
+         * @type integer
+         * @default undefined
+         */
         excelId: undefined,
 
-        // @var string, 
+        /**
+         * @property name
+         * @type string
+         * @default undefined
+         */
         name: undefined,
 
-        // @var string, 
+        /**
+         * @property email
+         * @type string
+         * @default undefined
+         */
         email: undefined,
 
-        // @var string, 
-        phoneNo: undefined,
-        
         /**
-         * @method
+         * @method getFormatedForMailToName
          * @return string
          */
         getFormatedForMailToName: function() {
@@ -32,12 +46,10 @@ define([], function() {
         },
         
         /**
-         *
-         * @todo rename
-         * @method
+         * @method getFormattedRecipientLabel
          * @return string
          */
-        getFormated_2_ForMailToName: function() {
+        getFormattedRecipientLabel: function() {
             return this.name + ' <' + this.email + '>, ';
         }
     });

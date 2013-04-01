@@ -3,11 +3,12 @@
 var SKDocument;
 define([], function () {
     "use strict";
+
     /**
      * Call by SKDocument._excel_cache - works like "singleton"
-     * @todo: move to SKDocumentCollection
-     * @class SKDocument
-     * @augments Backbone.Model
+     * @parameter _excel_cache
+     * @type array of string
+     * @default []
      */
     var _excel_cache = {};
 
@@ -18,6 +19,7 @@ define([], function () {
     SKDocument = Backbone.Model.extend({
 
         /**
+         * @property isHasZoho500
          * @type boolean
          * @default false
          */
@@ -28,6 +30,7 @@ define([], function () {
          * 1. Zoho excel is initialized if we have iframe URL
          * 2. Other docs is initialized already after initialization
          *
+         * @property isInitialized
          * @type boolean
          * @default false
          */
@@ -36,6 +39,7 @@ define([], function () {
         /**
          * Constructor
          * @method initialize
+         * @return void
          */
         initialize: function () {
             var me = this;
@@ -60,11 +64,20 @@ define([], function () {
             me.set('isInitialized', true);
         },
 
+        /**
+         * @method combineIframeId
+         * @return {string}
+         */
         combineIframeId: function () {
             return '#excel-preload-' + this.id;
         }
     },
     {
+        /**
+         * @parameter _excel_cache
+         * @type array of string
+         * @default []
+         */
         _excel_cache: _excel_cache
     });
 

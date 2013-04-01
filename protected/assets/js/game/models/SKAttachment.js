@@ -24,14 +24,6 @@ define([], function() {
         label: undefined,
 
         /**
-         * PHP myDocument
-         * @property document
-         * @type string
-         * @default undefined
-         */
-        // document: undefined,
-
-        /**
          * @property fileMySqlId
          * @type integer
          * @default undefined
@@ -39,13 +31,14 @@ define([], function() {
         fileMySqlId: undefined,
 
         /**
+         * this is temporary version
+         * when myDocument will be ready
+         * code must det titles from this objects
+         *
          * @method getFileName
          * @return string
          */
         getFileName: function() {
-            // this is temporary version
-            // when myDocument will be ready
-            // code must det titles from this objects
             return this.title;
         },
 

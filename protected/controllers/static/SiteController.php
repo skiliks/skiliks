@@ -19,6 +19,8 @@ class SiteController extends AjaxController
      */
     public function actionSimulation($mode, $type = Simulation::TYPE_LITE, $invite_id = null)
     {
+        header('X-Frame-Options: GOFORIT');
+
         $user = Yii::app()->user->data();
 
         if (null === $user) {

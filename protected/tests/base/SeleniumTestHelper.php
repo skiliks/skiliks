@@ -60,7 +60,7 @@ class SeleniumTestHelper extends CWebTestCase
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['event_create']);
 
         for ($second = 0; ; $second++) {
-            if ($second >= 60) $this->fail("timeout");
+            if ($second >= 600) $this->fail("timeout");
             try {
                 if ($this->isVisible($next_event))
                 {
@@ -77,7 +77,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
     }
 
@@ -190,7 +190,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $was_done = false;
         for ($second = 0; ; $second++) {
-            if ($second >= 60)
+            if ($second >= 600)
             {
                 $was_done = false;
                 break;
@@ -202,7 +202,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
         return $was_done;
     }
@@ -222,7 +222,7 @@ class SeleniumTestHelper extends CWebTestCase
         $current_value='0';
         for ($second = 0; ; $second++) {
 
-            if ($second >= 60)
+            if ($second >= 600)
             {
                 $was_changed = false;
                 break;
@@ -235,7 +235,7 @@ class SeleniumTestHelper extends CWebTestCase
                     break;
                 }
             } catch (Exception $e) {}
-            sleep(1);
+            usleep(100000);
         }
         return $was_changed;
     }
@@ -296,7 +296,7 @@ class SeleniumTestHelper extends CWebTestCase
         if ($this->isVisible("css=li.icon-active.mail a"))
         {
             for ($second = 0; ; $second++) {
-                if ($second >= 60)
+                if ($second >= 600)
                 {
                     $was_changed = false;
                     break;
@@ -308,7 +308,7 @@ class SeleniumTestHelper extends CWebTestCase
                         break;
                     }
                 } catch (Exception $e) {}
-                sleep(1);
+                usleep(100000);
             }
         }
         else
@@ -367,6 +367,9 @@ class SeleniumTestHelper extends CWebTestCase
         return $is_here;
     }
 
+    /**
+     *
+     */
     public function write_email ()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
@@ -375,6 +378,9 @@ class SeleniumTestHelper extends CWebTestCase
 
     }
 
+    /**
+     *
+     */
     public function addAttach($filename)
     {
         $this->click("xpath=//*[@id='MailClient_NewLetterAttachment']/div/div/a");
@@ -383,6 +389,9 @@ class SeleniumTestHelper extends CWebTestCase
         $this->click("xpath=(//*[contains(text(), '$filename')])");
     }
 
+    /**
+     *
+     */
     public function miracle_send_email ()
     {
         /*for ($second = 0; ; $second++) {
@@ -396,6 +405,9 @@ class SeleniumTestHelper extends CWebTestCase
         sleep(20);
     }
 
+    /**
+     *
+     */
     public function Universal ($array_of_values)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['universal']);
@@ -403,18 +415,27 @@ class SeleniumTestHelper extends CWebTestCase
         $this->assertTrue($this->active_windows($array_of_values, "xpath=//div[1]/table[1]/tbody/tr[", "]/td[1]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[2]"));
     }
 
+    /**
+     *
+     */
     public function Mail_log ($array_of_values)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
         $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[1]/table[6]/tbody/tr[", "]/td[3]", "xpath=//div[1]/table[6]/tbody/tr[", "]/td[4]" ));
     }
 
+    /**
+     *
+     */
     public function Leg_actions_detail()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_detail']);
         $this->assertTrue($this->time_values("xpath=//div[1]/table[9]/tbody/tr[", "]/td[2]", "xpath=//div[1]/table[9]/tbody/tr[", "]/td[1]" ));
     }
 
+    /**
+     *
+     */
     public function Leg_actions_aggregated()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_aggregated']);
@@ -422,6 +443,9 @@ class SeleniumTestHelper extends CWebTestCase
     }
 
 
+    /**
+     *
+     */
     protected function time_values ($a1, $b1, $a2, $b2)
     {
         $count = 1;
@@ -467,6 +491,9 @@ class SeleniumTestHelper extends CWebTestCase
         return $i==$count;
     }
 
+    /**
+     *
+     */
     protected function difference_of_time ($a1, $b1, $a2, $b2)
     {
         $count = 1;
@@ -505,6 +532,9 @@ class SeleniumTestHelper extends CWebTestCase
         return $time_differ;
     }
 
+    /**
+     *
+     */
     protected function active_windows($array_of_values, $a1, $b1, $a2, $b2 )
     {
         $match = 1;
@@ -539,8 +569,5 @@ class SeleniumTestHelper extends CWebTestCase
         }
         return $i==$match;
     }
-
-
-
 }
 
