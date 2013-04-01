@@ -113,7 +113,7 @@ return array(
     'Something went wrong please try to %s register again %s.' => 'Что-то пошло не так, пробуйте %s зарегистироваться %s ещё раз.',
     'Password' => 'Пароль',
     'Password again' => 'Пароль ещё раз',
-    'Email' => 'Электропочта',
+    'Email' => 'Email',
     'Show passwords' => 'Показать пароли',
     'Username' => 'Имя пользователя',
     '{attribute} is too short (min. {num} characters).' => '{attribute} слишком короткий (должен быть {num} символов и более).',

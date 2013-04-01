@@ -28,7 +28,7 @@
                 <?php if (null === Yii::app()->user->data()->getAccount()->tariff) : ?>
                     не указано
                 <?php else : ?>
-                    <?php echo date('d M, Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?>
+                    <?php echo date('d.m.Y', strtotime(Yii::app()->user->data()->getAccount()->tariff_expired_at)) ?>
                 <?php endif ?>
             </div>
             <div class="action">

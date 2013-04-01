@@ -1746,16 +1746,18 @@ h2 {
 }
 
 #invite-people-box {
-    height: 300px;
-    float: left;
     margin: 0 0 0 10px;
     width: 280px;
+    /*height: 300px;
+    float: left;
+    */
 }
 
 #simulations-counter-box {
-    height: 200px;
-    float: left;
+    /*height: 200px;
+    float: left;*/
     margin: 30px 0 0 10px;
+    padding-bottom: 20px;
     width: 280px;
 }
 #corporate-invitations-list-box {
@@ -1846,6 +1848,7 @@ h2 {
 }
 .dashboard aside h2 {
     font: 1.8em "ProximaNova-Bold";
+    line-height: 120%;
 }
 .dashboard .thetitle {
     font-size: 2.2em;
@@ -1860,7 +1863,7 @@ h2 {
     margin-left: 3px;
 }
 .sideblock {
-    padding:16px 6px 20px 12px;
+    padding:13px 6px 20px 12px;
 }
 #dashboard-skills-box {
     margin: 0 0 0 10px;
@@ -1924,7 +1927,7 @@ ul.profile-menu li {
     height: 18px;
     width: 18px;
 }
-.blue-btn, .light-btn, .vacancy-add-form-switcher {
+.blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
     border-radius: 3px 3px 3px 3px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     display: inline-block;
@@ -1933,7 +1936,7 @@ ul.profile-menu li {
     padding: 0px 12px 0px 18px;
     text-decoration: none;
 }
-.light-btn  {
+.light-btn, .invite-people-form input[type="submit"]  {
     font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
@@ -1948,7 +1951,7 @@ ul.profile-menu li {
 .light-btn, .light-btn:visited {
     color: #3c3c32;
 }
-.light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover {
+.light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
     color: #fff;
     background-position: left bottom;
 }
@@ -2295,7 +2298,7 @@ ul.profile-menu li {
     padding-right: 10px;
 }
 .tarifform .value {
-    width:115px;
+    min-width:115px;
 }
 .profileform .rowpad30, .rowpad30 {
     padding-bottom: 30px;
@@ -2304,7 +2307,7 @@ ul.profile-menu li {
     color:#245057;
     font-size: 20px;
 }
-.tarifform .expire-date {
+.tarifform .expire-date, .tarifform small {
     color: #959595;
     font-family: "ProximaNova-Regular";
     font-size: 12px;
