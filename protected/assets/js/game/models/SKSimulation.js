@@ -185,9 +185,9 @@ define([
 
             'onAddDocument' : function(){
                 console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                console.log(SKDocument._excel_cache.length);
+                console.log(Object.keys(SKDocument._excel_cache).length);
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
-                    SKDocument._excel_cache.length) {
+                    Object.keys(SKDocument._excel_cache).length) {
                     $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
                 }
             },
