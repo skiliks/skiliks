@@ -17,7 +17,7 @@
         ],
         'columns' => [
             ['header' => Yii::t('site', Yii::t('site', 'Компания'))    , 'value' => 'Yii::t("site", $data->ownerUser->getAccount()->ownership_type." ".$data->ownerUser->getAccount()->company_name)'],
-            ['header' => Yii::t('site', Yii::t('site', 'Вакансия'))    , 'value' => 'Yii::t("site", $data->vacancy->label)'],
+            ['header' => Yii::t('site', Yii::t('site', 'Вакансия')), 'name' =>'vacancy_id', 'value' => 'Yii::t("site", $data->vacancy->label)'],
             ['header' => Yii::t('site', Yii::t('site', 'Оценка')) , 'value' => '"Базовый менеджмент"'],
             ['header' => Yii::t('site', Yii::t('site', 'Дата / Время')), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G:i")'],
             ['header' => Yii::t('site', Yii::t('site', 'Статус')) , 'value' => '$data->getSimulationResultsTag()', 'type' => 'html'],

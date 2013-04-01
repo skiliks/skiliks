@@ -81,10 +81,10 @@ define([
 
                 this.on('tick', function () {
                     var d = new Date();
-                    if (false == me.get('isBlueScreenHappened') && d.getHours() < 12 && Math.random() < 0.05) {
+                    /*if (false == me.get('isBlueScreenHappened') && d.getHours() < 12 && Math.random() < 0.05) {
                         var dieScreen = new BlueScreenDialog();
                         this.set('isBlueScreenHappened', true);
-                    }
+                    }*/
 
                     //noinspection JSUnresolvedVariable
                     if (me.getGameMinutes() >= timeStringToMinutes(SKApp.get('end'))) {
@@ -100,7 +100,25 @@ define([
 
                 this.postMessageCallback = function(event) {
                     console.log(event.data);
-                    if (-1 != event.data.indexOf('DocumentLoaded')) {
+                    if ('DocumentLoaded' == event.data.type) {
+
+                        $.each(SKDocument._excel_cache, function(id, url){
+                            console.log("Zoho");
+                            console.log(event.data.url);
+                            console.log(typeof event.data.url);
+                            var zoho_str = "";
+                            $.each(event.data.url, function(i, el){ zoho_str += el.charCodeAt(); });
+                            console.log(zoho_str);
+                            console.log(event.data.url.length);
+                            console.log(url);
+                            console.log(typeof url);
+                            console.log(url.length);
+                            var me_str = "";
+                            $.each(url, function(i, el){ me_str += el.charCodeAt(); });
+                            console.log(me_str);
+                        });
+
+
 //
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
@@ -349,15 +367,17 @@ define([
              * @method startPause
              * @async
              */
-            startPause: function() {
+            startPause: function(callback) {
                 var me = this;
 
                 me._stopTimer();
                 me.paused_time = new Date();
                 me.trigger('pause:start');
 
-                SKApp.server.api('simulation/startPause', {}, function () {
-
+                SKApp.server.api('simulation/startPause', {}, function (responce) {
+                    if (typeof callback === 'function') {
+                        callback(responce);
+                    }
                 });
             },
 
@@ -367,14 +387,18 @@ define([
              * @method stopPause
              * @async
              */
-            stopPause: function() {
+            stopPause: function(callback) {
                 var me = this;
 
-                SKApp.server.api('simulation/stopPause', {}, function () {
+                SKApp.server.api('simulation/stopPause', {}, function (responce) {
                     me._startTimer();
                     me.skipped_seconds -= (new Date() - me.paused_time) / 1000;
                     delete me.paused_time;
                     me.trigger('pause:stop');
+
+                    if (typeof callback === 'function') {
+                        callback(responce);
+                    }
                 });
             },
 

@@ -1,5 +1,5 @@
 .features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password], .inputtext,
-.profileform input[type=text], .profileform input[type=password] {
+.profileform input[type=text], .profileform input[type=password], .sideform input[type=text], .sideform input[type=password]  {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -119,7 +119,7 @@
     border-radius: 8px;
     padding: 10px;
 }
-.transparent-boder:after, .dashboard:after, .registerpads:after {
+.transparent-boder:after, .dashboard:after, .registerpads:after, .tarifform .row:after {
     content: ".";
     display: block;
     height: 0;
@@ -201,16 +201,20 @@
     font: 2.6em "ProximaNova-Bold";
     line-height: 90%;
 }
-.registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder {
+.registrationform input[type="text"]::-webkit-input-placeholder, .registrationform input[type="password"]::-webkit-input-placeholder,
+.darkblueplacehld input[type="text"]::-webkit-input-placeholder {
      color:#146672;
  }
-.registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder {
+.registrationform input[type="text"]::-moz-placeholder, .registrationform input[type="password"]::-moz-placeholder,
+.darkblueplacehld input[type="text"]::-moz-placeholder {
     color:#146672;
 }
-.registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder {
+.registrationform input[type="text"]:-ms-input-placeholder, .registrationform input[type="password"]:-ms-input-placeholder,
+.darkblueplacehld input[type="text"]::-moz-placeholder {
     color:#146672;
 }
-.registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder {
+.registrationform input[type="text"]:-moz-placeholder, .registrationform input[type="password"]:-moz-placeholder,
+.darkblueplacehld input[type="text"]::-moz-placeholder {
     color:#146672;
 }
 
@@ -223,8 +227,9 @@
 /* ************************* /REGISTRATION ************************* */
 
 /************************************ PERSONAL PROFILE *******************************************/
-#account-personal-personal-form span.required, #account-corporate-password-form span.required {
-    display: none;
+#account-personal-personal-form span.required, #account-corporate-password-form span.required,
+span.required {
+    display: none !important;
 }
 .profilewrap ul.profile-menu {
     width: 256px;
@@ -265,9 +270,15 @@
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
 }
+.profile-menu .mnotactive a, .profile-menu .mnotactive a:link, .profile-menu .mnotactive a:visited {
+    color:#979d98;
+}
 .profileform {
     float: right;
     padding: 26px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
     width: 604px;
 }
 .profileform  .row {
@@ -375,8 +386,89 @@
 #account-corporate-company-info-form .sbHolder {
     width:240px;
 }
-.rowindustry .sbSelector {
+.rowindustry .sbSelector, .shortSelector .sbSelector {
     text-overflow: ellipsis;
     width:95%;
 }
 /************************************ /PERSONAL PROFILE *******************************************/
+
+/************************************ CORPORATE PROFILE *******************************************/
+.invite-people-form h2 {
+    margin-bottom: 12px;
+}
+.sideform label {
+    color:#fff;
+    display: inline-block;
+    padding-right: 6px;
+    width:60px;
+}
+.sideform input[type="text"] {
+    color: #146672;
+    height: 26px;
+    padding: 2px 4px;
+}
+.invite-people-form input[type="submit"] {
+    border: none;
+    margin:8px 0px 0px 72px;
+}
+#Invite_firstname {
+    width:76px;
+}
+#Invite_lastname {
+    width:100px;
+}
+#Invite_email {
+    width:190px;
+}
+.sideform .row {
+    padding-bottom: 8px;
+}
+.invite-people-form .sbHolder {
+    width:180px;
+}
+.brightblock {
+    background: #51c1d2;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color:#fff;
+    display: inline-block;
+    font:19px "ProximaNova-Bold";
+    min-width: 18px;
+    text-align: center;
+    text-decoration: none;
+    padding: 5px 7px 4px;
+}
+.brightblock:link, .brightblock:visited, .brightblock:hover {
+    color:#fff;
+}
+#simulations-counter-box .brightblock {
+    margin-left: 10px;
+}
+#simulations-counter-box strong {
+    color:#3d4041;
+    font:17px "ProximaNova-Bold";
+}
+#simulations-counter-box div {
+    padding-bottom: 6px;
+}
+#simulations-counter-box .greenbtn {
+    margin-top: 14px;
+}
+.greenbtn, .greenbtn:visited {
+    background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    color:#fff;
+    display: inline-block;
+    font:14px "ProximaNova-Bold";
+    height: 31px;
+    line-height: 31px;
+    padding: 0px 12px 0px 24px;
+    text-decoration: none;
+}
+.greenbtn:hover {
+    background-color: #bd2929;
+}
+/************************************ /CORPORATE PROFILE *******************************************/

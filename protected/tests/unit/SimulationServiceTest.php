@@ -1252,5 +1252,56 @@ class SimulationServiceTest extends CDbTestCase
 
         $this->assertEquals(0, array_sum($delta));
     }
+
+    public function testStressRules()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $eventsManager = new EventsManager();
+
+        // Action for rule id 2
+        $first = Replica::model()->byExcelId(4)->find();
+        $last = Replica::model()->byExcelId(11)->find();
+        $dialogLog = [
+            [1, 1, 'activated', 32400, 'window_uid' => 1],
+            [1, 1, 'deactivated', 32401, 'window_uid' => 1],
+            [20, 23, 'activated', 32401, ['dialogId' => $first->id], 'window_uid' => 2],
+            [20, 23, 'deactivated', 32460, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 2],
+            [1, 1, 'activated', 32460, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $dialogLog);
+        // end rule 2
+
+        // Action for rule id 1
+        $first = Replica::model()->byExcelId(516)->find();
+        $last = Replica::model()->byExcelId(523)->find();
+        $dialogLog = [
+            [1, 1, 'deactivated', 32501, 'window_uid' => 1],
+            [20, 23, 'activated', 32501, ['dialogId' => $first->id], 'window_uid' => 2],
+            [20, 23, 'deactivated', 32560, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 2],
+            [1, 1, 'activated', 32560, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $dialogLog);
+        // end rule 1
+
+        // Actions for rule id 15
+        LibSendMs::sendMsByCode($simulation, 'MS20', 32600);
+        // End rule 15
+
+        $windowLog = [
+            [1, 1, 'deactivated', 35000, 'window_uid' => 1]
+        ];
+        $eventsManager->processLogs($simulation, $windowLog);
+
+        SimulationService::simulationStop($simulation);
+
+        $executedRules = StressPoint::model()->bySimId($simulation->id)->findAll();
+        $list = array_map(function($rule) {
+            return $rule->stress_rule_id;
+        }, $executedRules);
+        sort($list);
+
+        $this->assertEquals([1, 2, 15], $list);
+    }
 }
 

@@ -131,7 +131,7 @@ a:focus, a:active {
 	margin:0 auto;
 	overflow:hidden;
 	position:relative;
-	padding-bottom:287px;
+	padding-bottom:317px;
 }
 
 .action-controller-comingSoonSuccess-static-pages .container .content,
@@ -457,6 +457,11 @@ a:focus, a:active {
 .thetitle {
     font:2.87em "ProximaNova-Bold";
     margin-bottom: 20px;
+}
+.midtitle {
+    color:#3d4041;
+    font: 28px "ProximaNova-Bold";
+    margin-bottom: 30px;
 }
 .bigtitle {
     font-size: 3.4em;
@@ -1741,16 +1746,18 @@ h2 {
 }
 
 #invite-people-box {
-    height: 300px;
-    float: left;
     margin: 0 0 0 10px;
     width: 280px;
+    /*height: 300px;
+    float: left;
+    */
 }
 
 #simulations-counter-box {
-    height: 200px;
-    float: left;
+    /*height: 200px;
+    float: left;*/
     margin: 30px 0 0 10px;
+    padding-bottom: 20px;
     width: 280px;
 }
 #corporate-invitations-list-box {
@@ -1840,7 +1847,8 @@ h2 {
     float: right;
 }
 .dashboard aside h2 {
-    font-size: 1.8em;
+    font: 1.8em "ProximaNova-Bold";
+    line-height: 120%;
 }
 .dashboard .thetitle {
     font-size: 2.2em;
@@ -1855,7 +1863,7 @@ h2 {
     margin-left: 3px;
 }
 .sideblock {
-    padding:16px 6px 20px 12px;
+    padding:13px 6px 20px 12px;
 }
 #dashboard-skills-box {
     margin: 0 0 0 10px;
@@ -1919,7 +1927,7 @@ ul.profile-menu li {
     height: 18px;
     width: 18px;
 }
-.blue-btn, .light-btn {
+.blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
     border-radius: 3px 3px 3px 3px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
     display: inline-block;
@@ -1928,20 +1936,22 @@ ul.profile-menu li {
     padding: 0px 12px 0px 18px;
     text-decoration: none;
 }
-.light-btn  {
+.light-btn, .invite-people-form input[type="submit"]  {
     font-family:"ProximaNova-Bold";
     background: url("../img/btn-lightbg.png") no-repeat 0 0;
 }
-.blue-btn {
+.blue-btn, .vacancy-add-form-switcher {
     background: url("../img/btn-lightbg.png") no-repeat left top;
+    cursor: pointer;
 }
-.blue-btn, .blue-btn:visited {
+.blue-btn, .blue-btn:visited, .vacancy-add-form-switcher, .vacancy-add-form-switcher:visited {
     color: #3c3c32;
+    font-family:"ProximaNova-Bold";
 }
 .light-btn, .light-btn:visited {
     color: #3c3c32;
 }
-.light-btn:hover, .blue-btn:hover {
+.light-btn:hover, .blue-btn:hover, .vacancy-add-form-switcher:hover, .invite-people-form input[type="submit"]:hover {
     color: #fff;
     background-position: left bottom;
 }
@@ -2047,10 +2057,10 @@ ul.profile-menu li {
     margin:32px 0px 0px 10px;
 }
 /* ************************ TABLE ************************  */
-#private-invitations-list-box .grid-view {
+.grid-view {
     padding: 0px;
 }
-#private-invitations-list-box .grid-view .summary {
+.grid-view .summary {
     margin: 0px;
 }
 #private-invitations-list-box .grid-view table.items, .items {
@@ -2215,7 +2225,130 @@ ul.profile-menu li {
     color:#6caab3;
 }
 /* *********************************** *********** /DASHBOARD ********************************* ************* */
+/* *********************************** VACANCY *********************************** */
+.vacancy-list {
+    margin-bottom: 10px;
+    margin-top: -4px;
+}
+.vacancy-list .grid-view table.items {
+    max-width:610px;
+    overflow: hidden;
+    width: auto;
+}
+.vacancy-list .grid-view table.items, .vacancy-list .grid-view table.items tr.odd,
+.vacancy-list .grid-view table.items tr.even,
+.vacancy-list .items tr:nth-child(odd) td, .vacancy-list .items tr:nth-child(even) td    {
+    background: none;
+    border: none;
+}
+.vacancy-list .grid-view table.items td:first-child, .vacancy-list .grid-view tr td:nth-child(2) {
+    max-width:250px;
+    text-overflow:clip;
+    overflow: hidden;
+}
+.vacancy-list .grid-view table.items td {
+    padding: 0px 5px 20px 0px;
+}
+.vacancy-list .grid-view tr td:first-child {
+    color: #3c3c32;
+    font: 16px "ProximaNova-Bold";
+    padding-right: 30px;
+}
+.vacancy-list .grid-view tr td:nth-child(2) {
+    color:#3c3c32;
+    font-size: 16px;
+    padding-left: 10px;
+    text-overflow:clip;
+    overflow: hidden;
+}
+.edit-vacancy-link {
+    background:url("../img/vacancy-edit.png") no-repeat left top;
+    height: 16px;
+    margin-left: 10px;
+    width: 13px;
+}
+.delete-vacancy-link {
+    background:url("../img/vacancy-delete.png") no-repeat left top;
+    height: 12px;
+    width: 12px;
+}
+.edit-vacancy-link, .delete-vacancy-link {
+    display: block;
+    text-indent: -900000px;
+}
+.edit-vacancy-link:hover, .delete-vacancy-link:hover {
+    background-position: left bottom;
+}
+.profileform .form-vacancy .sbHolder {
+    width:360px;
+}
+.form-vacancy input[type="text"] {
+    width:352px;
+}
+#add-vacancy-form .blue-btn {
+    margin-bottom: 22px;
+}
+/* *********************************** /VACANCY *********************************** */
+/* ***********************************  TARIFFS *********************************** */
+.tarifform .row label {
+    width:190px;
+}
+.tarifform .value, .tarifform .action {
+    float: left;
+    padding-right: 10px;
+}
+.tarifform .value {
+    min-width:115px;
+}
+.profileform .rowpad30, .rowpad30 {
+    padding-bottom: 30px;
+}
+.tarifform .value, .simulations-counter {
+    color:#245057;
+    font-size: 20px;
+}
+.tarifform .expire-date, .tarifform small {
+    color: #959595;
+    font-family: "ProximaNova-Regular";
+    font-size: 12px;
+    line-height:110%;
+}
+/* ***********************************  /TARIFFS *********************************** */
 /* ********************** /DASHBOARD ********************** */
+
+/* ********************** ERRORS ********************** */
+.errorblock {
+    margin-left: 200px;
+    text-align: center;
+    width:560px;
+}
+.errorblock a {
+    color:#2d7b91;
+    text-decoration: none;
+}
+.errorblock .radiusthree {
+    padding: 30px;
+    position: relative;
+}
+.errorblock p {
+    font-size:18px;
+    line-height: 140%;
+}
+.errorblock p+p {
+    margin-top: 20px;
+}
+.popupclose {
+    background:url("../img/popupclose.png") no-repeat left top;
+    height:17px;
+    position: absolute;
+    top:10px;
+    right:10px;
+    width:17px;
+}
+.popupclose:hover {
+    background-position: left bottom;
+}
+/* ********************** /ERRORS ********************** */
 
 .tariff-box .benefits {
     height: 70px;

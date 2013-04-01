@@ -1,26 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "performance_rule_conditions".
+ * This is the model class for table "stress_point".
  *
- * The followings are the available columns in table 'performance_rule_conditions':
+ * The followings are the available columns in table 'stress_point':
  * @property integer $id
- * @property integer $performance_rule_id
- * @property integer $replica_id
- * @property integer $mail_id
- * @property integer $excel_formula_id
+ * @property integer $sim_id
+ * @property integer $stress_rule_id
  *
  * The followings are the available model relations:
- * @property MailTemplate $mail
- * @property PerformanceRule $performanceRule
- * @property Replica $replica
+ * @property StressRule $stressRule
+ * @property Simulation $sim
  */
-class PerformanceRuleCondition extends CActiveRecord
+class StressPoint extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return PerformanceRuleCondition the static model class
+	 * @return StressPoint the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -32,7 +29,7 @@ class PerformanceRuleCondition extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'performance_rule_condition';
+		return 'stress_point';
 	}
 
 	/**
@@ -43,11 +40,11 @@ class PerformanceRuleCondition extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('performance_rule_id', 'required'),
-			array('performance_rule_id, replica_id, mail_id', 'numerical', 'integerOnly'=>true),
+			array('sim_id, stress_rule_id', 'required'),
+			array('sim_id, stress_rule_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, performance_rule_id, replica_id, mail_id', 'safe', 'on'=>'search'),
+			array('id, sim_id, stress_rule_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,9 +56,8 @@ class PerformanceRuleCondition extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'mail'           => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
-			'performanceRule' => array(self::BELONGS_TO, 'PerformanceRule', 'performance_rule_id'),
-			'replica'         => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+			'stressRule' => array(self::BELONGS_TO, 'StressRule', 'stress_rule_id'),
+			'sim' => array(self::BELONGS_TO, 'Simulations', 'sim_id'),
 		);
 	}
 
@@ -72,9 +68,8 @@ class PerformanceRuleCondition extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'performance_rule_id' => 'Performance Rule',
-			'replica_id' => 'Replica',
-			'mail_id' => 'Mail',
+			'sim_id' => 'Sim',
+			'stress_rule_id' => 'Stress Rule',
 		);
 	}
 
@@ -90,12 +85,19 @@ class PerformanceRuleCondition extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('performance_rule_id',$this->performance_rule_id);
-		$criteria->compare('replica_id',$this->replica_id);
-		$criteria->compare('mail_id',$this->mail_id);
+		$criteria->compare('sim_id',$this->sim_id);
+		$criteria->compare('stress_rule_id',$this->stress_rule_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
+
+    public function bySimId($simId)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "sim_id = '{$simId}'"
+        ));
+        return $this;
+    }
 }

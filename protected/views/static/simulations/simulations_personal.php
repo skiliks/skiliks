@@ -25,7 +25,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Specialization')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => ''],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/2/$data->id\">Начать</a>"'  , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/$data->simulation_type/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);
 ?>

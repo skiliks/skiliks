@@ -102,7 +102,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				</nav>
 
 				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>
-			</footer>
+                <?php $this->renderPartial('//layouts/addthis') ?>
+            </footer>
 		</div>
 		<!--footer end-->
         <div style="display: none" class="feedback_dialog">

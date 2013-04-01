@@ -330,7 +330,6 @@ define([
              * @param e
              */
             doBrowserToggle: function (e) {
-                console.log(e);
                 e.preventDefault();
                 SKApp.simulation.window_set.toggle('browser', 'browserMain');
             },

@@ -313,6 +313,10 @@ class Invite extends CActiveRecord
                         'asc'  => 'vacancy.label',
                         'desc' => 'vacancy.label DESC'
                     ],
+                    'owner_id' => [
+                        'asc'  => 'vacancy.label',
+                        'desc' => 'vacancy.label DESC'
+                    ],
                     'status',
                     'sent_time'
                 ],
@@ -375,7 +379,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 1,
+                'pageSize' => 5,
                 'pageVar' => 'page'
             ]
         ]);
