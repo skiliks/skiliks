@@ -64,38 +64,39 @@ class AssessmentPointsTest extends CDbTestCase
             $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
 
             // init empty SUMs
-            $sum[$learningGoalForUpdate->code] = 0;
+            $sum[$learningGoalForUpdate->id] = 0;
 
             // init coefficients - I pretty sure we will have 3 first items :)
-            $learningGoalCoefficient[$learningGoalForUpdate->code] = $arr[$i];
+            $learningGoalCoefficient[$learningGoalForUpdate->id] = $arr[$i];
 
             // init empty COUNTERs
-            $countBehavioursInGoals[$learningGoalForUpdate->code] = 0;
+            $countBehavioursInGoals[$learningGoalForUpdate->id] = 0;
 
             // save learning goal to quick access by code
-            $learningGoals[$learningGoalForUpdate->code] = $learningGoalForUpdate;
+            $learningGoals[$learningGoalForUpdate->id] = $learningGoalForUpdate;
         }
 
         // protection
         $this->assertNotEmpty($learningGoalsForUpdate);
 
         // get positive and negative behaviours to init assessments in future {
-        $heroBehavioursNegative = HeroBehaviour::model()->findAll(sprintf(
-            'learning_goal_code IN (%s) AND type_scale = %s',
-            implode(',', $learningGoalsForUpdateCodes),
-            HeroBehaviour::TYPE_NEGATIVE
-        ));
+        $learningGoalCriteria = new CDbCriteria();
+        $learningGoalCriteria->addInCondition('code', $learningGoalsForUpdateCodes);
+        $learningGoalsUpdate = $simulation->game_type->getLearningGoals($learningGoalCriteria);
+        $negativeCriteria = new CDbCriteria();
+        $negativeCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->getPrimaryKey();}, $learningGoalsUpdate));
+        $negativeCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
+        $heroBehavioursNegative = $simulation->game_type->getHeroBehavours($negativeCriteria);
+        $positiveCriteria = new CDbCriteria();
+        $positiveCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->getPrimaryKey();}, $learningGoalsUpdate));
+        $positiveCriteria->compare('type_scale', HeroBehaviour::TYPE_POSITIVE);
+        $heroBehavioursPositive = $simulation->game_type->getHeroBehavours($positiveCriteria);
 
-        $heroBehavioursPositive = HeroBehaviour::model()->findAll(sprintf(
-            'learning_goal_code IN (%s) AND type_scale = %s',
-            implode(',', $learningGoalsForUpdateCodes),
-            HeroBehaviour::TYPE_POSITIVE
-        ));
         // get positive and negative behaviours to init assessments in future }
 
         // we need this value to set right negative assessment value
         foreach ($heroBehavioursNegative as $heroBehaviour) {
-            $countBehavioursInGoals[$heroBehaviour->learning_goal_code]++;
+            $countBehavioursInGoals[$heroBehaviour->learning_goal_id]++;
         }
 
         // save negative assessments for target learning goals:
@@ -104,12 +105,12 @@ class AssessmentPointsTest extends CDbTestCase
             $assessmentAggregated->sim_id = $simulation->id;
             $assessmentAggregated->point_id = $heroBehaviour->id;
             $assessmentAggregated->value =
-                ($learningGoalCoefficient[$heroBehaviour->learning_goal_code]
-                * $learningGoals[$heroBehaviour->learning_goal_code]->max_negative_value)
-                / $countBehavioursInGoals[$heroBehaviour->learning_goal_code];
+                ($learningGoalCoefficient[$heroBehaviour->learning_goal_id]
+                * $learningGoals[$heroBehaviour->learning_goal_id]->max_negative_value)
+                / $countBehavioursInGoals[$heroBehaviour->learning_goal_id];
             $assessmentAggregated->save(false);
 
-            $sum[$heroBehaviour->learning_goal_code] += $assessmentAggregated->value;
+            $sum[$heroBehaviour->learning_goal_id] += $assessmentAggregated->value;
         }
 
         // save some positive assessments:
@@ -120,7 +121,7 @@ class AssessmentPointsTest extends CDbTestCase
             $assessmentAggregated->value = $heroBehaviour->scale;
             $assessmentAggregated->save(false);
 
-            $sum[$heroBehaviour->learning_goal_code] += $assessmentAggregated->value;
+            $sum[$heroBehaviour->learning_goal_id] += $assessmentAggregated->value;
         }
 
         // RUN REAL CODE!!! :)
@@ -135,10 +136,10 @@ class AssessmentPointsTest extends CDbTestCase
 
         $this->assertNotEmpty($realAssessments);
         foreach ($realAssessments as $realAssessment) {
-            $code = $realAssessment->point->learning_goal_code;
+            $learningGoalId = $realAssessment->point->learning_goal_id;
             if (HeroBehaviour::TYPE_POSITIVE == $realAssessment->point->type_scale) {
                 $this->assertEquals(
-                    abs(1 - $learningGoalCoefficient[$code]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
+                    abs(1 - $learningGoalCoefficient[$learningGoalId]), // 100% of fails => 0 points, 70% => 0.3, 25% => 0.75 etc. see SKILIKS-
                     $realAssessment->coefficient_for_fixed_value, 'Error in '.$realAssessment->point->code
                 );
             }

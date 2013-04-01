@@ -561,7 +561,9 @@ class SimulationService
     public static function applyReductionFactors(Simulation $simulation)
     {
         // we will clculate K based om MAX negative value for learning goals
-        $learningGoalsForUpdate = LearningGoal::model()->findAll(' max_negative_value IS NOT NULL ');
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('max_negative_value IS NOT NULL');
+        $learningGoalsForUpdate = $simulation->game_type->getLearningGoals($criteria);
 
         // to access goals by code
         $learningGoals = [];
@@ -570,14 +572,17 @@ class SimulationService
         $learningGoalsForUpdateCodes = [];
         $sum = [];  // learningGoalsForUpdateNegativeScaleSum
         foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
-            $learningGoals[$learningGoalForUpdate->code] = $learningGoalForUpdate;
+            $learningGoals[$learningGoalForUpdate->getPrimaryKey()] = $learningGoalForUpdate;
 
             $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
-            $sum[$learningGoalForUpdate->code] = 0;
+            $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
         }
 
+        $negativeLearningGoalCriteria = new CDbCriteria();
+        $negativeLearningGoalCriteria->addInCondition('code', $learningGoalsForUpdateCodes);
+        $learningGoalsForUpdateIds = $simulation->game_type->getLearningGoals($negativeLearningGoalCriteria);
         $negativeHeroBehavioursCriteria = new CDbCriteria();
-        $negativeHeroBehavioursCriteria->addInCondition('learning_goal_code', $learningGoalsForUpdateCodes);
+        $negativeHeroBehavioursCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->id;}, $learningGoalsForUpdateIds));
         $negativeHeroBehavioursCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
         $negativeHeroBehaviours = HeroBehaviour::model()->findAll($negativeHeroBehavioursCriteria);
 
@@ -590,35 +595,35 @@ class SimulationService
         // calculate total negative sum for learning goals {
         foreach ($simulation->assessment_aggregated as $assessment) {
             if (in_array($assessment->point->code, $heroBehavioursForUpdateCodes) &&
-                isset($sum[$assessment->point->learning_goal_code])) {
+                isset($sum[$assessment->point->learning_goal_id])) {
 
-                $sum[$assessment->point->learning_goal_code] += $assessment->value;
+                $sum[$assessment->point->learning_goal_id] += $assessment->value;
             }
         }
         // calculate total negative sum for learning goals }
 
         // calculate coefficients {
-        foreach ($sum as $learningGoalCode => $sumValue) {
-            $realK = $sumValue/$learningGoals[$learningGoalCode]->max_negative_value;
+        foreach ($sum as $learningGoalId => $sumValue) {
+            $realK = $sumValue/$learningGoals[$learningGoalId]->max_negative_value;
 
-            $k[$learningGoalCode] = 1;
+            $k[$learningGoalId] = 1;
 
             if ($realK <= 0.1) {
-                $k[$learningGoalCode] = 1;
+                $k[$learningGoalId] = 1;
             } elseif (0.1 < $realK && $realK <= 0.5) {
-                $k[$learningGoalCode] = 0.5;
+                $k[$learningGoalId] = 0.5;
             } elseif (0.5 < $realK) {
-                $k[$learningGoalCode] = 0;
+                $k[$learningGoalId] = 0;
             }
         }
         // calculate coefficients }
 
         // update assessment on positive scale {
         foreach ($simulation->assessment_aggregated as $assessment) {
-            if (isset($k[$assessment->point->learning_goal_code]) &&
+            if (isset($k[$assessment->point->learning_goal_id]) &&
                 $assessment->point->type_scale == HeroBehaviour::TYPE_POSITIVE
             ) {
-                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_code];
+                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_id];
                 $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
             } else {
                 $assessment->fixed_value = $assessment->value;

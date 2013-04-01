@@ -277,8 +277,15 @@ class Scenario extends CActiveRecord
 
     public function getHeroBehavours($array)
     {
-        $array['scenario_id'] = $this->getPrimaryKey();
-        return HeroBehaviour::model()->findAllByAttributes($array);
+        if (is_array($array)) {
+            $data['scenario_id'] = $this->id;
+            return HeroBehaviour::model()->findAllByAttributes($data);
+        } else if ($array instanceof CDbCriteria) {
+            $array->compare('scenario_id', $this->id);
+            return HeroBehaviour::model()->findAll($array);
+        } else {
+            assert(false);
+        }
     }
 
     public function getHeroBehaviour($array)
@@ -340,5 +347,31 @@ class Scenario extends CActiveRecord
     {
         $array['scenario_id'] = $this->id;
         return MailPoint::model()->findByAttributes($array);
+    }
+
+    public function getLearningGoals($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return LearningGoal::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return LearningGoal::model()->findAll($data);
+        } else {
+            assert(false);
+        }
+    }
+
+    public function getLearningGoal($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return LearningGoal::model()->findByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return LearningGoal::model()->find($data);
+        } else {
+            assert(false);
+        }
     }
 }

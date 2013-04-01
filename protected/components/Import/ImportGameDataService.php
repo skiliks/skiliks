@@ -388,7 +388,7 @@ class ImportGameDataService
 
             // update data {
             $charactersPointsTitle->title = $this->getCellValue($sheet, 'Наименование требуемого поведения', $i);
-            $charactersPointsTitle->learning_goal_code = $this->getCellValue($sheet, 'Номер цели обучения', $i);
+            $charactersPointsTitle->learning_goal_id = $this->scenario->getLearningGoal(['code' => $this->getCellValue($sheet, 'Номер цели обучения', $i)])->getPrimaryKey();
             $charactersPointsTitle->scale = $this->getCellValue($sheet, 'Единая шкала', $i); // Makr
             $charactersPointsTitle->type_scale = HeroBehaviour::getScaleId($this->getCellValue($sheet, 'Тип шкалы', $i));
             $charactersPointsTitle->import_id = $this->import_id;
