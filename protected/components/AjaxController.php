@@ -24,6 +24,39 @@ class AjaxController extends CController
     public $signInErrors = [];
 
     /**
+     * @param CAction $action
+     * @return bool
+     */
+    protected function beforeAction($action)
+    {
+        $allowed = Yii::app()->params['allowedLanguages'];
+        $pageId = $action->getController()->getRoute();
+        $request = Yii::app()->request;
+
+        if ($request->getParam('_lang')) {
+            $lang = $request->getParam('_lang');
+        } elseif (isset($request->cookies['_lang'])) {
+            $lang = $request->cookies['_lang']->value;
+        } elseif ($request->getPreferredLanguage()) {
+            $lang = substr($request->getPreferredLanguage(), 0, 2);
+        }
+
+        if (empty($lang) || empty($allowed[$lang]) || !in_array($pageId, $allowed[$lang])) {
+            $lang = Yii::app()->getLanguage();
+        }
+
+        Yii::app()->setLanguage($lang);
+
+        if (empty($request->cookies['_lang']) || $request->cookies['_lang'] !== $lang) {
+            $cookie = new CHttpCookie('_lang', $lang);
+            $cookie->expire = time() + 86400 * 365;
+            Yii::app()->request->cookies['_lang'] = $cookie;
+        }
+
+        return true;
+    }
+
+    /**
      * 
      * @param integer $status, 2xx, 3xx, 4xx, 5xx
      * @param string $body
@@ -49,24 +82,6 @@ class AjaxController extends CController
     protected function sendJSON($data, $status = 200)
     {
         $this->_sendResponse($status, CJSON::encode($data));
-    }
-    
-    /**
-     * 
-     */
-    public function init()
-    {
-        parent::init();
-        $app = Yii::app();
-        if (in_array(Yii::app()->request->getParam('_lang'), ['en', 'ru']))
-        {
-            $app->language = Yii::app()->request->getParam('_lang');
-            $app->session['_lang'] = $app->language;
-        }
-        else if (isset($app->session['_lang']))
-        {
-            $app->language = $app->session['_lang'];
-        }
     }
     
     /**
@@ -237,9 +252,6 @@ class AjaxController extends CController
      */
     public function accountPagesBase()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');
@@ -268,16 +280,6 @@ class AjaxController extends CController
         // just to be sure - handle strange case
         Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
-    }
-
-    /**
-     * For static pages only! Profile is RU in release 1.
-     */
-    public function defineLanguage($_lang)
-    {
-        if (null === Yii::app()->request->getParam('_lang') && null === $_lang) {
-            Yii::app()->setLanguage('ru');
-        }
     }
 }
 

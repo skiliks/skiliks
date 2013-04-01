@@ -113,14 +113,12 @@ class Simulation extends CActiveRecord
      */
     public function getGameTime()
     {
-        if (!$this) throw new Exception('Не могу определить симуляцию');
-
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
         $startTime = explode(':', Yii::app()->params['simulation'][$this->getTypeLabel()]['start']);
-        $unixtimeMins = round($variance / 60) + $startTime[0] * 60 + $startTime[1];
-        return gmdate('H:i:s', $unixtimeMins * 60);
+        $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60;
+        return gmdate('H:i:s', $unixtime);
     }
 
     public function deleteOldTriggers($newHours, $newMinutes)

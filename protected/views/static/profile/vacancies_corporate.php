@@ -67,6 +67,12 @@
                                 );
                             }
 
+                            if (0 == data.length) {
+                                $("select#Vacancy_professional_specialization_id").parent().addClass(\'empty-select\');
+                            } else {
+                                $("select#Vacancy_professional_specialization_id").parent().removeClass(\'empty-select\');
+                            }
+
                             // refresh custom drop-down
                             $("select#Vacancy_professional_specialization_id").selectbox("detach");
                             $("select#Vacancy_professional_specialization_id").selectbox("attach");
@@ -76,7 +82,7 @@
             ); ?>
             <?php echo $form->error($vacancy       , 'professional_occupation_id'); ?>
         </div>
-        <div class="row">
+        <div class="row <?php echo (0 == count($specializations) ? 'empty-select' : '') ?>">
             <?php echo $form->labelEx($vacancy     , 'professional_specialization_id'); ?>
             <?php echo $form->dropDownList($vacancy, 'professional_specialization_id', $specializations); ?>
             <?php echo $form->error($vacancy       , 'professional_specialization_id'); ?>
@@ -95,7 +101,7 @@
         </div>
 
         <?php if (null !== $vacancy->id): ?>
-            <a class="blue-btn" href="/profile/corporate/vacancies/">Добавить</a>
+        <div class="addlinkpads"><a href="/profile/corporate/vacancies/">Вернуться к добавлению вакансий</a></div>
 
             <!--<h2>Редактирование вакансии "<?php /* echo $vacancy->label */ ?>"</h2>-->
         <?php endif ?>

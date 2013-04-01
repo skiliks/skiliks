@@ -98,8 +98,6 @@ class UserAuthController extends YumController
      */
     public function actionRegisterByLink($code)
     {
-        Yii::app()->language = 'ru';
-
         $invite = Invite::model()->findByCode($code);
         if (empty($invite)) {
             Yii::app()->user->setFlash('site', 'Код приглашения неверный.');
@@ -263,9 +261,6 @@ class UserAuthController extends YumController
      */
     public function actionAccountTypeSavesSuccessfully()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         $message = sprintf(
@@ -291,8 +286,6 @@ class UserAuthController extends YumController
      */
     public function actionChooseAccountType()
     {
-        $lang = Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         // only activated user can choose account type
@@ -342,7 +335,11 @@ class UserAuthController extends YumController
                     $permission->action = $action->id;
                     $permission->template = 1;
                     $permission->save();
-                    } catch(CDbException $e) {}
+                    } catch(CDbException $e) {
+                        // duplicated records:
+                        // this possible for developers only,
+                        // when you remove your personal account and choose account type as personal again
+                    }
                     // grands permission to start full simulation }
 
                     $profile->save();
@@ -597,9 +594,9 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
-        Yii::app()->language = 'ru'; // Skiliks
         $YumUser    = Yii::app()->request->getParam('YumUser');
         $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
+
         if(null !== $YumUser) {
             $user = YumUser::model()->findByAttributes(['id'=>$YumProfile->user_id]);
             $user->is_check = $YumUser['is_check'];
@@ -628,10 +625,18 @@ class UserAuthController extends YumController
             }
 
             $this->render(Yum::module('registration')->activationSuccessView, ['user'=>$YumProfile->user]);
+        } else {
+            $this->layout = false;
+            Yii::app()->user->setFlash(
+                (-1 == $status) ? 'error' : 'success',
+                $this->render(
+                    Yum::module('registration')->activationFailureView,
+                    array('error' => $status),
+                    true
+                )
+            );
+            $this->redirect('/');
         }
-        else
-            $this->render(Yum::module('registration')->activationFailureView, array(
-                'error' => $status));
     }
 
     /**

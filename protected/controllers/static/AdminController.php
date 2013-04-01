@@ -5,9 +5,6 @@ class AdminController extends AjaxController
 
     public function actionDisplayLog()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user->id) {
             Yii::app()->user->setFlash('error', 'Вы не авторизированы.');

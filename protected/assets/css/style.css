@@ -171,6 +171,17 @@ a:focus, a:active {
 	color: #fff;
 	vertical-align:middle;
 }
+.empty-select .sbHolder {
+    background: #d6dede; /* Old browsers */
+    background: -moz-linear-gradient(top,  #d6dede 0%, #d1dada 50%, #ccd5d5 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d6dede), color-stop(50%,#d1dada), color-stop(100%,#ccd5d5)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #d6dede 0%,#d1dada 50%,#ccd5d5 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d6dede', endColorstr='#ccd5d5',GradientType=0 ); /* IE6-9 */
+    border: solid 1px #b9c1c1;
+}
 .sbHolder:focus .sbSelector{
 	color: #fff;
 }
@@ -207,6 +218,9 @@ a:focus, a:active {
 	top: 0px;
 	width: 19px;
 }
+.empty-select .sbToggle {
+    background-image: url("../img/emp-select-toggle.png");
+}
 .sbToggleOpen{
 	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
     height: 23px;
@@ -226,6 +240,9 @@ a:focus, a:active {
 	width: 100%;
 	z-index:1;
 	overflow-y: auto;
+}
+.empty-select .sbOptions  {
+    border: none;
 }
 .sbOptions li{
     background: #31a8b9;
@@ -1760,12 +1777,7 @@ h2 {
     padding-bottom: 20px;
     width: 280px;
 }
-#corporate-invitations-list-box {
-    height: 600px;
-    float: right;
-    margin: 0 10px 0 0 ;
-    width: 580px;
-}
+
 
 .nice-border {
     border-radius: 8px 8px 8px 8px;
@@ -1783,6 +1795,7 @@ h2 {
     background-color: #146672;
 }
 
+.ui-dialog .backgroud-light-blue,
 .backgroud-light-blue {
     background-color: #f0fdff;
 }
@@ -1859,6 +1872,9 @@ h2 {
 .dashboard .narrow-contnt {
     margin-top: 7px;
 }
+.corpdashboard .narrow-contnt {
+    margin-top: 0px;
+}
 .dashboard aside .thetitle {
     margin-left: 3px;
 }
@@ -1885,7 +1901,7 @@ h2 {
 #companies-you-follow-box {
     margin: 30px 0 0 10px;
 }
-#private-invitations-list-box {
+#private-invitations-list-box, #corporate-invitations-list-box {
     margin-top:-8px;
 }
 
@@ -2063,12 +2079,14 @@ ul.profile-menu li {
 .grid-view .summary {
     margin: 0px;
 }
-#private-invitations-list-box .grid-view table.items, .items {
+#private-invitations-list-box .grid-view table.items, .items,
+#corporate-invitations-list-box .grid-view table.items {
     background: none;
     border:none;
     width: 100%;
 }
-#private-invitations-list-box .grid-view .items th, .items th {
+#private-invitations-list-box .grid-view .items th, .items th,
+#corporate-invitations-list-box .grid-view .items th {
     background:#146672 url("../img/th-seprtr.png") no-repeat right bottom;
     border:none;
     border-bottom: 1px solid #0e4750;
@@ -2077,26 +2095,31 @@ ul.profile-menu li {
     text-align: left;
     vertical-align: middle;
 }
-#private-invitations-list-box td, #private-invitations-list-box td a {
+#private-invitations-list-box td, #private-invitations-list-box td a,
+#corporate-invitations-list-box td, #corporate-invitations-list-box td a {
     font-family: "ProximaNova-Bold";
 }
-#private-invitations-list-box .grid-view .items th:first-child, .items th:first-child {
+#private-invitations-list-box .grid-view .items th:first-child, .items th:first-child,
+#private-invitations-list-box .grid-view .items th:first-child {
     -webkit-border-radius: 5px 0px 0px;
     -moz-border-radius: 5px 0px 0px;
     border-radius: 5px 0px 0px;
 }
-#private-invitations-list-box .grid-view .items th:last-child, .items th:last-child {
+#private-invitations-list-box .grid-view .items th:last-child, .items th:last-child,
+#corporate-invitations-list-box .grid-view .items th:last-child {
     background-image: none;
     -webkit-border-radius: 0px 5px 0px 0px;
     -moz-border-radius: 0px 5px 0px 0px;
     border-radius: 0px 5px 0px 0px;
 }
-#private-invitations-list-box .grid-view .items tr:last-child td:first-child, .items tr:last-child td:first-child {
+#private-invitations-list-box .grid-view .items tr:last-child td:first-child, .items tr:last-child td:first-child,
+#corporate-invitations-list-box .grid-view .items tr:last-child td:first-child {
     -webkit-border-radius: 0px 0px 0px 5px;
     -moz-border-radius: 0px 0px 0px 5px;
     border-radius: 0px 0px 0px 5px;
 }
-#private-invitations-list-box .grid-view .items tr:last-child td:last-child, .items tr:last-child td:last-child {
+#private-invitations-list-box .grid-view .items tr:last-child td:last-child, .items tr:last-child td:last-child,
+#corporate-invitations-list-box .grid-view .items tr:last-child td:last-child {
     -webkit-border-radius: 0px 0px 5px;
     -moz-border-radius: 0px 0px 5px;
     border-radius: 0px 0px 5px;
@@ -2106,22 +2129,26 @@ ul.profile-menu li {
     color: white;
     text-decoration: none;
 }
-#private-invitations-list-box .grid-view .items th a, .items th a  {
+#private-invitations-list-box .grid-view .items th a, .items th a,
+#corporate-invitations-list-box .grid-view .items th a {
     background: url("../img/arrow-down.png") no-repeat right 50%;
     font-weight: normal;
     display:block;
     padding-right: 12px;
 }
-#private-invitations-list-box .grid-view .items td, .items td {
+#private-invitations-list-box .grid-view .items td, .items td,
+#corporate-invitations-list-box .grid-view .items td {
     background: #fefeec;
     border:none;
     padding: 8px 6px;
     vertical-align: middle;
 }
-#private-invitations-list-box .grid-view .items tr:nth-child(odd) td, .items tr:nth-child(odd) td {
+#private-invitations-list-box .grid-view .items tr:nth-child(odd) td, .items tr:nth-child(odd) td,
+#corporate-invitations-list-box .grid-view .items tr:nth-child(odd) td{
     background: #fdfbc6;
 }
-#private-invitations-list-box .grid-view .items tr:first-child td, .items tr:first-child td {
+#private-invitations-list-box .grid-view .items tr:first-child td, .items tr:first-child td,
+#corporate-invitations-list-box .grid-view .items tr:first-child td{
     border-top:1px solid #fff;
 }
 #private-invitations-list-box .grid-view .items tr td:last-child .blue-btn, .items td:last-child .blue-btn {
@@ -2285,8 +2312,13 @@ ul.profile-menu li {
 .form-vacancy input[type="text"] {
     width:352px;
 }
-#add-vacancy-form .blue-btn {
+#add-vacancy-form .addlinkpads {
     margin-bottom: 22px;
+}
+.addlinkpads a {
+    color:#2e7a94;
+    font-size: 16px;
+    text-decoration: none;
 }
 /* *********************************** /VACANCY *********************************** */
 /* ***********************************  TARIFFS *********************************** */
@@ -2318,7 +2350,7 @@ ul.profile-menu li {
 
 /* ********************** ERRORS ********************** */
 .errorblock {
-    margin-left: 200px;
+    margin-left: 300px;
     text-align: center;
     width:560px;
 }

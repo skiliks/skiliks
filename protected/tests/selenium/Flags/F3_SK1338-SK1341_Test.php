@@ -28,7 +28,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1338() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
         $this->optimal_click("xpath=(//*[contains(text(),'— Закончила? Теперь слушай сюда.')])");
@@ -37,6 +37,8 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
 
         $this->optimal_click(Yii::app()->params['test_mappings']['set_time']['13h']);
         $this->assertTrue($this->verify_flag('F3','1'));
+
+        //каже, що немає на місці Крутько??? що за нах???
         $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['krutko'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[2]");
 
         $this->assertTrue($this->is_it_done("xpath=(//a[contains(text(),'Марина, ну как у')])"));

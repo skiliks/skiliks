@@ -5,8 +5,8 @@ $this->widget('zii.widgets.grid.CGridView', [
     'pager' => [
         'header'        => false,
         'firstPageLabel' => '<< начало',
-        'prevPageLabel' => '< назад',
-        'nextPageLabel' => 'далее >',
+        'prevPageLabel' => 'Назад',
+        'nextPageLabel' => 'Вперед',
         'lastPageLabel' => 'конец >>',
     ],
     'columns' => [

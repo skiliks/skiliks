@@ -101,8 +101,21 @@ define([
                 this.postMessageCallback = function(event) {
                     console.log(event.data);
                     if ('DocumentLoaded' == event.data.type) {
+                    console.log("On dataload");
 
                         $.each(SKDocument._excel_cache, function(id, url){
+                            if(url === event.data.url){
+                                var docs = SKApp.simulation.documents.where({id:id.toString()});
+                                docs[0].set('isInitialized', true);
+                                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
+                                console.log(SKApp.simulation.documents.where({'isInitialized':true}).length);
+                                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true}).length){
+                                    console.log("delete block");
+                                    $('.zoho-load-start').remove();
+                                }
+                            }
+                        });
+                        /*$.each(SKDocument._excel_cache, function(id, url){
                             console.log("Zoho");
                             console.log(event.data.url);
                             console.log(typeof event.data.url);
@@ -116,7 +129,7 @@ define([
                             var me_str = "";
                             $.each(url, function(i, el){ me_str += el.charCodeAt(); });
                             console.log(me_str);
-                        });
+                        });*/
 
 
 //
@@ -144,12 +157,14 @@ define([
                 }
 
                 if (window.addEventListener){
+                    console.log("add listener");
                     window.addEventListener("message", this.postMessageCallback, false);
                 } else {
                     window.attachEvent("onmessage", this.postMessageCallback);
                 }
 
                 this.documents = new SKDocumentCollection();
+                this.documents.bind('reset', this.onAddDocument, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
@@ -166,6 +181,10 @@ define([
                 });
 
 
+            },
+
+            'onAddDocument' : function(){
+                $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
             },
 
             /**
