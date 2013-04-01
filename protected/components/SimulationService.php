@@ -512,6 +512,9 @@ class SimulationService
      */
     public static function simulationStop($simulation, $logs_src = array())
     {
+        // Remove pause if it was set
+        self::resume($simulation);
+
         // данные для логирования
         EventsManager::processLogs($simulation, $logs_src);
 
