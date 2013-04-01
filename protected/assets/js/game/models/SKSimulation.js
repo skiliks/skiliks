@@ -103,7 +103,10 @@ define([
                     if ('DocumentLoaded' == event.data.type) {
 
                         $.each(SKDocument._excel_cache, function(id, url){
-                            console.log(url);
+                            if(url === event.data.url){
+                               console.log(url);
+                               console.log("TRUE");
+                            }
                         });
 
 
