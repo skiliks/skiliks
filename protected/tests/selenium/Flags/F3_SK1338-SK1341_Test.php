@@ -58,7 +58,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1339() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
@@ -105,7 +105,7 @@ class F3_SK1338_1341_SK1411_Test extends SeleniumTestHelper
      * 8. Заканчиваем симуляцию
      */
     public function testSK1340() {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         $krutko = Yii::app()->params['test_mappings']['mail_contacts']['krutko'];
         $this->run_event('E1.2', "xpath=(//*[contains(text(),'Марина, есть срочная работа.')])", 'click');
