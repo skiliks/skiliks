@@ -786,14 +786,12 @@ class MailBoxService
         $sendEmail->sent_at = GameTime::setTimeToday($sendMailOptions->time); //TODO: Время, проверить
         $sendEmail->readed = 0;
 
-        $sendEmail->letter_type = $sendMailOptions->getLetterType();
-
         if ($letterType != 'new') {
             $sendEmail->message_id = $sendMailOptions->messageId;
         }
 
         $sendEmail->sim_id = $sendMailOptions->simulation->id;
-        $sendEmail->letter_type = '';
+        $sendEmail->letter_type = $sendMailOptions->getLetterType() ?: '';
 
         $sendEmail->insert();
 

@@ -33,17 +33,17 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('50.00', $sim->managerial_skills);
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = 1;
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 1])->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = 2;
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 2])->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 
         $asses = new PerformancePoint();
-        $asses->performance_rule_id = 3;
+        $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 3])->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
 

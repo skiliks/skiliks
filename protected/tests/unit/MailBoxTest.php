@@ -342,7 +342,7 @@ class MailBoxTest extends CDbTestCase
         $count_1 = 0;
 
         // get 4124
-        $pointFor_4124 = $simulation->game_type->getHeroBehavour(['code' => '4124']);
+        $pointFor_4124 = $simulation->game_type->getHeroBehaviour(['code' => '4124']);
 
         // init dialog logs
         foreach($replicsFor_4124 as $dialogEntity) {

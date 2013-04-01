@@ -240,10 +240,17 @@ class Scenario extends CActiveRecord
         return CommunicationTheme::model()->findByAttributes($array);
     }
 
-    public function getCommunicationThemes($array)
+    public function getCommunicationThemes($data)
     {
-        $array['scenario_id'] = $this->id;
-        return CommunicationTheme::model()->findAllByAttributes($array);
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return CommunicationTheme::model()->findAllByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->getPrimaryKey());
+            return CommunicationTheme::model()->findAll($data);
+        } else {
+            assert(false);
+        }
     }
 
     public function getTask($array)
@@ -274,7 +281,7 @@ class Scenario extends CActiveRecord
         return HeroBehaviour::model()->findAllByAttributes($array);
     }
 
-    public function getHeroBehavour($array)
+    public function getHeroBehaviour($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
         return HeroBehaviour::model()->findByAttributes($array);

@@ -147,8 +147,8 @@ class PhoneServiceTest extends CDbTestCase
     public function testOnlyUniqueCall()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
-        $character_id = Character::model()->findByAttributes(['fio' => 'Денежная Р.Р.'])->id;
+        $simulation = SimulationService::simulationStart(1, $user, Simulation::TYPE_FULL);
+        $character_id = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.'])->getPrimaryKey();
         $theme_id = CommunicationTheme::model()->findByAttributes(['text' => 'Перенос сроков сдачи сводного бюджета', 'character_id' => $character_id, 'phone' => 1])->id;
         $data = PhoneService::call($simulation, $theme_id, $character_id, '10:00');
 
