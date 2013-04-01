@@ -24,7 +24,7 @@
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
-            <?php echo $invite->email ?> <br/><br/>
+            <?php echo $invite->email ?>
             <label></label>
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
