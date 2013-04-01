@@ -13,7 +13,6 @@ class m130401_111522_add_sim_type_to_invite extends CDbMigration
             $this->insert('permission', [
                 'principal_id'   => $account->user->id,
                 'subordinate_id' => $account->user->id,
-                'principal_id'   => $account->user->id,
                 'type'           => 'user',
                 'action'         => $action->id,
                 'template'       => 1,

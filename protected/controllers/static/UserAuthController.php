@@ -332,6 +332,17 @@ class UserAuthController extends YumController
 
                 if($isUserAccountPersonalValid && $isProfileValid)
                 {
+                    // grands permission to start full simulation {
+                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+                    $permission = new YumPermission();
+                    $permission->principal_id = Yii::app()->user->date()->id;
+                    $permission->subordinate_id = Yii::app()->user->date()->id;
+                    $permission->type = 'user';
+                    $permission->action = $action->id;
+                    $permission->template = 1;
+                    $permission->save();
+                    // grands permission to start full simulation }
+
                     $profile->save();
                     $accountPersonal->save();
                     $this->redirect(['registration/account-type/added']);
