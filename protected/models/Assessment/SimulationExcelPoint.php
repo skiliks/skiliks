@@ -77,6 +77,19 @@ class SimulationExcelPoint extends CActiveRecord
         ));
         return $this;
     }
+
+    /**
+     * Выбрать по заданной формуле
+     * @param int $formulaId
+     * @return SimulationExcelPoint
+     */
+    public function byExistsValue()
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "value != 0"
+        ));
+        return $this;
+    }
 }
 
 

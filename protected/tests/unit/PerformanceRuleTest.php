@@ -53,4 +53,21 @@ class PerformanceRuleTest extends CDbTestCase {
         $this->assertEquals([9,10,11,12, 13], array_map(function ($i) {return $i->performanceRule->id;}, $simulation->performance_points));
     }
 
+    public function testExcel() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $budgetPath = __DIR__ . '/files/D1.xls';
+
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $checkConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
+        $checkConsolidatedBudget->calcPoints($budgetPath);
+
+        SimulationService::setFinishedPerformanceRules($simulation->id);
+
+        $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
+
+        $this->assertNotNull($rule);
+    }
+
 }
