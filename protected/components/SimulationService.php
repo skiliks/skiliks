@@ -276,9 +276,9 @@ class SimulationService
 
     /**
      * Fills executed performance rules according to user actions
-     * @param int $simId
+     * @param Simulation $simulation
      */
-    public static function setFinishedPerformanceRules($simId)
+    public static function setFinishedPerformanceRules($simulation)
     {
         $allRules = PerformanceRule::model()->findAll();
         $done = [];
@@ -297,27 +297,27 @@ class SimulationService
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
                     $satisfies = LogDialog::model()
-                        ->bySimulationId($simId)
+                        ->bySimulationId($simulation->id)
                         ->byLastReplicaId($replica->excel_id)
                         ->exists();
 
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
-                        'sim_id' => $simId,
+                        'sim_id' => $simulation->id,
                         'template_id' => $condition->mail_id
                     ]);
 
                     $satisfies = $mail ?
                         LogMail::model()
-                            ->bySimId($simId)
+                            ->bySimId($simulation->id)
                             ->byMailBoxId($mail->id)
                             ->exists() :
                         false;
                 } elseif ($condition->excel_formula_id) {
 
                     $satisfies = SimulationExcelPoint::model()
-                        ->bySimulation($simId)
+                        ->bySimulation($simulation->id)
                         ->byFormula($condition->excel_formula_id)
                         ->byExistsValue()
                         ->exists();
@@ -334,7 +334,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new PerformancePoint();
-                $point->sim_id = $simId;
+                $point->sim_id = $simulation->id;
                 $point->performance_rule_id = $rule->id;
                 $point->save();
 
@@ -345,9 +345,9 @@ class SimulationService
 
     /**
      * Fills gained stress rules according to user actions
-     * @param int $simId
+     * @param Simulation $simulation
      */
-    public static function setGainedStressRules($simId)
+    public static function setGainedStressRules($simulation)
     {
         $allRules = StressRule::model()->findAll();
         $done = [];
@@ -360,24 +360,21 @@ class SimulationService
 
             $satisfies = false;
             if ($rule->replica_id) {
-                /** @var Replica $replica */
-                $replica = Replica::model()->findByPk($rule->replica_id);
-
-                $satisfies = LogDialog::model()
-                    ->bySimulationId($simId)
-                    ->byLastReplicaId($replica->excel_id)
-                    ->exists();
+                $satisfies = !!LogReplica::model()->findByAttributes([
+                    'sim_id' => $simulation->id,
+                    'replica_id' => $rule->replica_id
+                ]);
 
             } elseif ($rule->mail_id) {
                 /** @var MailBox $mail */
                 $mail = MailBox::model()->findByAttributes([
-                    'sim_id' => $simId,
+                    'sim_id' => $simulation->id,
                     'template_id' => $rule->mail_id
                 ]);
 
                 $satisfies = $mail ?
                     LogMail::model()
-                        ->bySimId($simId)
+                        ->bySimId($simulation->id)
                         ->byMailBoxId($mail->id)
                         ->exists() :
                     false;
@@ -385,7 +382,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new StressPoint();
-                $point->sim_id = $simId;
+                $point->sim_id = $simulation->id;
                 $point->stress_rule_id = $rule->id;
                 $point->save();
 
@@ -538,8 +535,8 @@ class SimulationService
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
 
-        SimulationService::setFinishedPerformanceRules($simulation->id);
-        SimulationService::setGainedStressRules($simulation->id);
+        SimulationService::setFinishedPerformanceRules($simulation);
+        SimulationService::setGainedStressRules($simulation);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
