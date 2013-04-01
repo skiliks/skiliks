@@ -38,11 +38,15 @@ class YumPasswordRecoveryForm extends YumFormModel {
 		// we only want to authenticate when there are no input errors so far
 		if(!$this->hasErrors()) {
 			if (strpos($this->email,"@")) {
-				$profile = YumProfile::model()->findByAttributes(array(
-							'email'=>$this->email));
-				$this->user = $profile 
-					&& $profile->user 
-					&& $profile->user instanceof YumUser ? $profile->user : null;
+				$profile = YumProfile::model()->findByAttributes([
+                    'email' => $this->email
+                ]);
+
+                if ($profile && $profile->user) {
+                    $this->user = $profile->user;
+                } else {
+                    $this->addError('email', Yii::t('site', 'User with this email does not exist'));
+                }
 			}
 		}
 	}
