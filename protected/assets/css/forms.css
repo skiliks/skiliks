@@ -463,7 +463,7 @@ span.required {
 .invite-people-form .errorMessage {
     color: #fff;
 }
-.greenbtn, .greenbtn:link, .greenbtn:visited {
+.greenbtn, .greenbtn:link, .greenbtn:visited, .ui-widget input[type="submit"] {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -491,10 +491,14 @@ span.required {
 }
 .controller-static-dashboard .ui-dialog .ui-dialog-content {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom;
+    padding-bottom: 18px;
 }
 .ui-dialog-title {
     color:#0e4750;
     font: 28px "ProximaNova-Bold";
+}
+.ui-dialog .ui-dialog-titlebar {
+    padding-top: 0px;
 }
 .ui-dialog .ui-dialog-titlebar-close {
     height: 17px;
@@ -509,10 +513,31 @@ span.required {
 }
 #send-invite-message-form  label {
     color:#0e4750;
+    display: block;
     float: left;
     font: 14px "ProximaNova-Regular";
+    padding-right: 10px;
+    width:70px;
 }
-
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+    font: 14px "ProximaNova-Regular";
+}
+.controller-static-dashboard textarea  {
+    height: 120px;
+    width:420px;
+}
+.ui-dialog .row {
+    padding-bottom: 18px;
+}
+.ui-widget input[type="submit"] {
+    background-image: url("../img/icon-arrow.png");
+    border: none;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    margin-left: 80px;
+}
+.ui-widget input[type="submit"]:hover {
+    background: #45a8b6 url("../img/arrowleft.png") no-repeat 12px 11px;
+}
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
 
