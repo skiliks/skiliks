@@ -343,6 +343,57 @@ class SimulationService
         }
     }
 
+    /**
+     * Fills gained stress rules according to user actions
+     * @param int $simId
+     */
+    public static function setGainedStressRules($simId)
+    {
+        $allRules = StressRule::model()->findAll();
+        $done = [];
+
+        /** @var $rule StressRule */
+        foreach ($allRules as $rule) {
+            if (isset($done[$rule->id])) {
+                continue;
+            }
+
+            $satisfies = false;
+            if ($rule->replica_id) {
+                /** @var Replica $replica */
+                $replica = Replica::model()->findByPk($rule->replica_id);
+
+                $satisfies = LogDialog::model()
+                    ->bySimulationId($simId)
+                    ->byLastReplicaId($replica->excel_id)
+                    ->exists();
+
+            } elseif ($rule->mail_id) {
+                /** @var MailBox $mail */
+                $mail = MailBox::model()->findByAttributes([
+                    'sim_id' => $simId,
+                    'template_id' => $rule->mail_id
+                ]);
+
+                $satisfies = $mail ?
+                    LogMail::model()
+                        ->bySimId($simId)
+                        ->byMailBoxId($mail->id)
+                        ->exists() :
+                    false;
+            }
+
+            if (!empty($satisfies)) {
+                $point = new StressPoint();
+                $point->sim_id = $simId;
+                $point->stress_rule_id = $rule->id;
+                $point->save();
+
+                $done[$rule->id] = $rule->value;
+            }
+        }
+    }
+
      /**
      * @param Simulation $simulation
      *
@@ -485,6 +536,7 @@ class SimulationService
         $CheckConsolidatedBudget->calcPoints();
 
         SimulationService::setFinishedPerformanceRules($simulation->id);
+        SimulationService::setGainedStressRules($simulation->id);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly

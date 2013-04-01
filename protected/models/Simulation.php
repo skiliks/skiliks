@@ -29,6 +29,7 @@
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
  * @property PerformancePoint[] performance_points
+ * @property StressPoint[] stress_points
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
