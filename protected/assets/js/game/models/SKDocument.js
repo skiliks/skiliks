@@ -54,7 +54,7 @@ define([], function () {
                         //me.set('isInitialized', true);
 
                         me.trigger('document:excel_uploaded');
-                        _excel_cache[me.get('id')] = data.excelDocumentUrl;
+                        _excel_cache[me.get('id')] = data.excelDocumentUrl.replace('\r', '');
                     });
                 } else {
                     me.set('excel_url', _excel_cache[this.get('id')]);
