@@ -95,7 +95,7 @@ class YumRegistrationController extends YumController {
 				Yum::setFlash('Thank you for your registration. Please check your email.');
 				$this->redirect(Yum::module()->loginUrl);
 			}
-		} 
+		}
 
 		$this->render(Yum::module()->registrationView, array(
 					'form' => $form,
@@ -147,7 +147,6 @@ class YumRegistrationController extends YumController {
 		// and do the Activation
 		$status = YumUser::activate($email, $key);
 
-
 		if($status instanceof YumUser) {
 			if(Yum::module('registration')->loginAfterSuccessfulActivation) {
 				$login = new YumUserIdentity($status->username, false); 
@@ -157,7 +156,7 @@ class YumRegistrationController extends YumController {
 
 			$this->render(Yum::module('registration')->activationSuccessView);
 		}
-		else
+		else {}
 			$this->render(Yum::module('registration')->activationFailureView, array(
 						'error' => $status));
 	}

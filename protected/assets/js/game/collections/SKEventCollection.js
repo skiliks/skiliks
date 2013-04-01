@@ -79,7 +79,7 @@ define(["game/models/SKEvent", "game/views/ClippyDialog"], function () {
 
                     var d = new Date();
                     if (1 == d.getDay()) {
-                        new ClippyDialog(text);
+                        // new ClippyDialog(text);
                     }
                 });
             },
