@@ -107,6 +107,9 @@ define([
                             if(url === event.data.url){
                                 var docs = SKApp.simulation.documents.where({id:id.toString()});
                                 docs[0].set('isInitialized', true);
+                                if(SKApp.simulation.documents.length === SKApp.simulation.documents.where({'isInitialized':true}).length){
+                                    $('.zoho-load-start').remove();
+                                }
                             }
                         });
                         /*$.each(SKDocument._excel_cache, function(id, url){
