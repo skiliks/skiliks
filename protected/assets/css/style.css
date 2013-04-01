@@ -218,6 +218,9 @@ a:focus, a:active {
 	top: 0px;
 	width: 19px;
 }
+.empty-select .sbToggle {
+    background-image: url("../img/emp-select-toggle.png");
+}
 .sbToggleOpen{
 	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
     height: 23px;
