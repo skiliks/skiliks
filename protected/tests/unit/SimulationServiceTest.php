@@ -17,7 +17,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $simulationFlags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
@@ -35,7 +35,7 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationPause()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_LITE);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user);
         $awaiting = 2; //sec
 
         $before = $simulation->getGameTime();
@@ -59,7 +59,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         // init conts
         // get all replics that change score for behaviour '1122'
@@ -130,7 +130,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -236,7 +236,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $time = 32000;
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
@@ -359,13 +359,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         $data = [];
 
-        $activity = $simulation->game_type->getActivity(['code' => 'A_Wait']);
         $action1 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activity->getPrimaryKey(),
+            'activity_id' => 'A_wait',
             'window_id'   => 1
         ]);
 
@@ -378,7 +377,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window_uid = 100;
 
         $action41 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activity->getPrimaryKey(),
+            'activity_id' => 'A_wait',
             'window_id'   => 41
         ]);
 
@@ -392,7 +391,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id = $action41->primaryKey;
 
         $actionTRS6 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'TRS6'])->getPrimaryKey(),
+            'activity_id' => 'TRS6',
             'mail_id'     => NULL
         ]);
 
@@ -412,7 +411,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id           = $action41->primaryKey;
 
         $action21 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'A_wait'])->id,
+            'activity_id' => 'A_wait',
             'window_id'   => 21
         ]);
 
@@ -424,7 +423,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id = $action21->id;
 
         $actionAMY1 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'AMY1'])->id,
+            'activity_id' => 'AMY1',
         ]);
 
         $log = $data[] = new LogActivityAction();
@@ -434,7 +433,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->start_time            = '09:12:50';
         $log->end_time              = '09:13:03';
         $actionTRS6m = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'TRS6'])->id,
+            'activity_id' => 'TRS6',
             'document_id' => NULL
         ]);
 
@@ -456,7 +455,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window_uid = 104;
 
         $actionAMSY10 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'AMSY10'])->id,
+            'activity_id' => 'AMSY10',
         ]);
 
         $log = $data[] = new LogActivityAction();
@@ -469,7 +468,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window_uid = 104;
 
         $actionAU = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'A_already_used'])->id,
+            'activity_id' => 'A_already_used',
             'document_id' => NULL
         ]);
 
@@ -490,23 +489,26 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id    = $action41->id;
         $log->window_uid = 110;
         $actionT321 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $simulation->game_type->getActivity(['code' => 'T3.2.1'])->id,
-            'document_id' => $simulation->game_type->getDocumentTemplate(['code' => 'D1'])->primaryKey
+            'activity_id' => 'T3.2.1',
+            'document_id' => DocumentTemplate::model()->findByAttributes(['code' => 'D1'])->primaryKey
         ]);
 
         $log = $data[] = new LogActivityAction();
         $log->sim_id                = $simulation->id;
-        $log->window                = 42;
+        $log->window             = 42;
         $log->start_time            = '09:16:29';
         $log->end_time              = '09:20:55';
         $log->activity_action_id    = $actionT321->id;
         $log->window_uid = 110;
+
+
 
         LogHelper::combineLogActivityAgregated($simulation, $data);
 
         $agregatedLogs = LogActivityActionAgregated::model()->findAllByAttributes([
             'sim_id' => $simulation->id
         ]);
+
 
         $res = [
             ['action' => 'main screen', 'duration' => '00:08:03'],
@@ -535,7 +537,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS10');
@@ -613,7 +615,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[20] = LibSendMs::sendMs($simulation, 'MS20');
@@ -665,7 +667,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation->id);
@@ -699,7 +701,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -765,7 +767,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -830,7 +832,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -899,7 +901,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
 
@@ -965,7 +967,7 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -1027,7 +1029,7 @@ class SimulationServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // activate mainScreen
         $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
@@ -1040,7 +1042,7 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-        $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
+        $heroBehaviour = HeroBehaviour::model()->findByAttributes(['code' => '3333']);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
@@ -1066,7 +1068,7 @@ class SimulationServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
         // activate mainScreen
         $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
@@ -1108,12 +1110,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationPerformanceRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
-        $first = $simulation->game_type->getReplica(['excel_id' => 516]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 523]);
+        $first = Replica::model()->byExcelId(516)->find();
+        $last = Replica::model()->byExcelId(523)->find();
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -1133,16 +1135,16 @@ class SimulationServiceTest extends CDbTestCase
             [1, 1, 'activated', 32480, 'window_uid' => 1]
         ];
         $eventsManager->processLogs($simulation, $mailLog);
-        LibSendMs::sendMsByCode($simulation, 'MS83', 32500, 1, 1, 1);
+        LibSendMs::sendMsByCode($simulation, 'MS83', 32500);
         // End rule 5
 
         // Actions for rule id 8 (OR operation)
-        LibSendMs::sendMsByCode($simulation, 'MS39', 32600, 1, 1, 1);
+        LibSendMs::sendMsByCode($simulation, 'MS39', 32600);
         // End rule 8
 
         // Alternative action for rule id 8
-        $first = $simulation->game_type->getReplica(['excel_id' => 549]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 560]);
+        $first = Replica::model()->byExcelId(549)->find();
+        $last = Replica::model()->byExcelId(560)->find();
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
             [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
@@ -1165,13 +1167,13 @@ class SimulationServiceTest extends CDbTestCase
         }, $executedRules);
         sort($list);
 
-        $this->assertEquals([31,36, 39], $list);
+        $this->assertEquals([1, 5, 8], $list);
     }
 
     public function testAssessmentAggregation()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $mgr = new EventsManager();
         $scaleTypes = [1 => 'positive', 2 => 'negative', 3 => 'personal'];
 
@@ -1245,7 +1247,7 @@ class SimulationServiceTest extends CDbTestCase
     public function testStressRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $eventsManager = new EventsManager();
         $dialog = new DialogService();
 
@@ -1254,35 +1256,17 @@ class SimulationServiceTest extends CDbTestCase
         ]);
 
         // Action for rule id 2
-        $replica = $simulation->game_type->getReplica(['excel_id' => 11]);
+        $replica = Replica::model()->byExcelId(11)->find();
         $dialog->getDialog($simulation->id, $replica->id, '11:01');
         // end rule 2
 
-        $logs = [
-            [1, 1, 'deactivated', 32500,'window_uid' => 1],
-            [30, 32, 'activated', 32500,['dialogId' => $replica->id ], 'window_uid' => 130],
-            [30, 32, 'deactivated', 32550,['dialogId' => $replica->id ], 'window_uid' => 130],
-            [1, 1, 'activated', 32550, 'window_uid' => 1],
-        ];
-
-        EventsManager::processLogs($simulation, $logs);
-
         // Action for rule id 1
-        $replica = $simulation->game_type->getReplica(['excel_id' => 522]);
+        $replica = Replica::model()->byExcelId(522)->find();
         $dialog->getDialog($simulation->id, $replica->id, '12:02');
         // end rule 1
 
-        $logs = [
-            [1, 1, 'deactivated', 32550,'window_uid' => 1],
-            [30, 32, 'activated', 32550,['dialogId' => $replica->id ], 'window_uid' => 130],
-            [30, 32, 'deactivated', 32600,['dialogId' => $replica->id ], 'window_uid' => 130],
-            [1, 1, 'activated', 32600, 'window_uid' => 1],
-        ];
-
-        EventsManager::processLogs($simulation, $logs);
-
         // Actions for rule id 15
-        LibSendMs::sendMsByCode($simulation, 'MS20', 40000, 1, 1, 1);
+        LibSendMs::sendMsByCode($simulation, 'MS20', 40000);
         // End rule 15
 
         $eventsManager->processLogs($simulation, [
