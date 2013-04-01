@@ -282,8 +282,6 @@ class Invite extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-        var_dump($ownerId, $this->vacancy_id);
-
 		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
