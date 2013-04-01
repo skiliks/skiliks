@@ -268,7 +268,7 @@ class AjaxController extends CController
                 Yii::app()->user->setFlash('error', 'Укажите тип аккаунта.');
                 $this->redirect('profile/without-account');
             } else {
-                Yii::app()->user->setFlash('error', 'Результаты последней пройденноой симкляции.');
+                Yii::app()->user->setFlash('error', 'Результаты последней пройденной симуляции.');
                 $this->redirect('simulation/results');
             }
         }
