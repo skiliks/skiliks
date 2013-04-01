@@ -63,6 +63,20 @@ class PerformanceRuleTest extends CDbTestCase {
         $checkConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $checkConsolidatedBudget->calcPoints($budgetPath);
 
+
+        $ms = MailTemplate::model()->byCode("MS36")->find();
+
+        $mail_box = new MailBox();
+        $mail_box->sim_id = $simulation->id;
+        $mail_box->template_id = $ms->id;
+        $mail_box->save();
+
+        $log_mail = new LogMail();
+        $log_mail->mail_id = null;
+        $log_mail->mail_task_id = null;
+        $log_mail->full_coincidence = "MS36";
+        $log_mail->save();
+
         SimulationService::setFinishedPerformanceRules($simulation->id);
 
         $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
