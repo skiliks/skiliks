@@ -100,8 +100,8 @@ return array(
         'role'         => [],
         'usergroup'    => [],
     ),
-    'sourceLanguage'    =>'en_US',
-    'language'          =>'en_US',
+    'sourceLanguage'    =>'en',
+    'language'          =>'ru',
     'components' => array(
         'preload'=> array('log', 'RSentryException'),
         'assetManager' => [
@@ -275,6 +275,13 @@ return array(
     // using Yii::app()->params['paramName']
     'params' => array(
         'frontendUrl' => 'http://skiliks.loc/',
+        'allowedLanguages' => [
+            'en' => [
+                'static/pages/index',
+                'static/pages/team',
+                'static/pages/product'
+            ]
+        ],
         // This part will be sent to JS
         'public' => [
             'skiliksSpeedFactor' => 8,

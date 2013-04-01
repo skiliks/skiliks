@@ -21,8 +21,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
     public function actionCorporate()
     {
-        Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         if (false === $this->user->isCorporate() ||
@@ -198,9 +196,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionRemoveInvite($inviteId)
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $invite = Invite::model()->findByPk($inviteId);
 
         $user = Yii::app()->user;
@@ -244,9 +239,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionReSendInvite($inviteId)
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $invite = Invite::model()->findByPk($inviteId);
 
         $user = Yii::app()->user;
@@ -292,8 +284,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionAcceptInvite($id)
     {
-        Yii::app()->language = 'ru';
-
         $invite = Invite::model()->findByPk($id);
         if (null == $invite) {
             Yii::app()->user->setFlash('error', 'Приглашения с таким ID не существует.');
@@ -406,8 +396,6 @@ class DashboardController extends AjaxController implements AccountPageControlle
      */
     public function actionValidateDeclineExplanation()
     {
-        Yii::app()->language = 'ru';
-
         $declineExplanation = new DeclineExplanation();
 
         $declineExplanation->attributes = Yii::app()->request->getParam('DeclineExplanation');
