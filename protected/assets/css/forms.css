@@ -119,7 +119,7 @@
     border-radius: 8px;
     padding: 10px;
 }
-.transparent-boder:after, .dashboard:after, .registerpads:after {
+.transparent-boder:after, .dashboard:after, .registerpads:after, .tarifform .row:after {
     content: ".";
     display: block;
     height: 0;
@@ -223,7 +223,7 @@
 /* ************************* /REGISTRATION ************************* */
 
 /************************************ PERSONAL PROFILE *******************************************/
-#account-personal-personal-form span.required, #account-corporate-password-form span.required {
+#account-personal-personal-form span.required, #account-corporate-password-form span.required, span.required {
     display: none;
 }
 .profilewrap ul.profile-menu {
@@ -265,9 +265,15 @@
 .profile-menu .active a, .profile-menu .active a:link, .profile-menu .active a:visited {
     color: #245057;
 }
+.profile-menu .mnotactive a, .profile-menu .mnotactive a:link, .profile-menu .mnotactive a:visited {
+    color:#979d98;
+}
 .profileform {
     float: right;
     padding: 26px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
     width: 604px;
 }
 .profileform  .row {
@@ -375,7 +381,7 @@
 #account-corporate-company-info-form .sbHolder {
     width:240px;
 }
-.rowindustry .sbSelector {
+.rowindustry .sbSelector, .shortSelector .sbSelector {
     text-overflow: ellipsis;
     width:95%;
 }

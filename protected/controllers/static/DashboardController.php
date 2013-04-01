@@ -83,7 +83,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизветсная ошибка.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.'));
             }
         }
         // handle send invitation }

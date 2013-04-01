@@ -1,31 +1,15 @@
 
 <section class="dashboard">
-    <h1><?php echo Yii::t('site', 'Dashboard') ?></h1>
-
-    <br/>
+    <aside>
+     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Dashboard') ?></h2>
 
     <!-- invite-people-box -->
-    <div id="invite-people-box" class="nice-border backgroud-rich-blue">
-        <?php $this->renderPartial('_invite_people_box', [
-            'invite'    => $invite,
-            'vacancies' => $vacancies,
-        ]) ?>
-    </div>
-
-    <!-- corporate-invitations-list-box -->
-    <div id="corporate-invitations-list-box" class="nice-border backgroud-light-yellow">
-        <?php $this->renderPartial('_corporate_invitations_list_box', [
-            'inviteToEdit'    => $inviteToEdit,
-            'vacancies' => $vacancies,
-        ]) ?>
-    </div>
-
-    <!-- simulations-counter-box -->
-    <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
-        <?php $this->renderPartial('_simulations_counter_box', []) ?>
-    </div>
-</section>
-
+        <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
+            <?php $this->renderPartial('_invite_people_box', [
+                'invite'    => $invite,
+                'vacancies' => $vacancies,
+            ]) ?>
+        </div>
 
 <?php if (true === $validPrevalidate): ?>
     <div class="form form-invite-message message_window" title="Введите текст письма">
@@ -88,3 +72,21 @@
     });
 </script>
 <?php endif; ?>
+        <!-- simulations-counter-box -->
+        <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
+            <?php $this->renderPartial('_simulations_counter_box', []) ?>
+        </div>
+    </aside>
+    <div class="narrow-contnt">
+        <!-- corporate-invitations-list-box -->
+        <div id="corporate-invitations-list-box" class="nice-border backgroud-light-yellow">
+            <?php $this->renderPartial('_corporate_invitations_list_box', [
+                'inviteToEdit'    => $inviteToEdit,
+                'vacancies' => $vacancies,
+            ]) ?>
+        </div>
+
+
+    </div>
+
+</section>
