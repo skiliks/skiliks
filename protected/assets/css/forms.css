@@ -455,6 +455,9 @@ span.required {
 #simulations-counter-box .greenbtn {
     margin-top: 14px;
 }
+.invite-people-form .errorMessage {
+    color: #fff;
+}
 .greenbtn, .greenbtn:visited {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
@@ -470,5 +473,8 @@ span.required {
 }
 .greenbtn:hover {
     background-color: #bd2929;
+}
+.ui-dialog {
+
 }
 /************************************ /CORPORATE PROFILE *******************************************/
