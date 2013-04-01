@@ -183,8 +183,9 @@ define([
 
             },
 
-            'onAddDocument' : function(model){
-                console.log(model)
+            'onAddDocument' : function(){
+                console.log(SKApp.simulation.documents)
+                console.log(this)
                 $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
             },
 
