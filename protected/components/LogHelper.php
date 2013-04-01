@@ -177,6 +177,19 @@ class LogHelper
     }
 
     /**
+     * @param Replica $replica
+     * @param Simulation $simulation
+     */
+    public static function setReplicaLog($replica, $simulation) {
+        $log = new LogReplica();
+        $log->sim_id = $simulation->id;
+        $log->replica_id = $replica->id;
+        $log->time = $simulation->getGameTime();
+
+        $log->save();
+    }
+
+    /**
      * Piece of code, which returns mail points
      *
      * @param $return

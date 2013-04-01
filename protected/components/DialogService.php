@@ -70,6 +70,8 @@ class DialogService
             LogHelper::setDialogPoint($dialogId, $simId, $point);
         }
 
+        LogHelper::setReplicaLog($currentReplica, $simulation);
+
         $result = [
             'result' => 1,
             'events' => []
