@@ -114,7 +114,7 @@ define([
                             console.log(typeof url);
                             console.log(url.length);
                             var me_str = "";
-                            $.each(event.data.url, function(i, el){ me_str += el.charCodeAt(); });
+                            $.each(url, function(i, el){ me_str += el.charCodeAt(); });
                             console.log(me_str);
                         });
 
