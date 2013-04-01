@@ -56,31 +56,61 @@ class PhoneService {
             
     }
 
-    public function callBack($simId, $dialog_code) {
-        $simulation = Simulation::model()->findByPk($simId);
+    /**
+     * @param $simId
+     * @param $dialog_code
+     * @return string
+     */
+    public function callBack($simulation, $dialog_code)
+    {
+        $template = EventSample::model()->findByAttributes(['code'=>'S1.2']); //todo:Костыль
 
-       $template = EventSample::model()->findByAttributes(['code'=>'S1.2']);//todo:Костыль
-       $ev = EventTrigger::model()->findByAttributes(['sim_id'=>$simId, 'event_id'=>$template->id]);//todo:Костыль
+        $ev = EventTrigger::model()->findByAttributes([
+            'sim_id'   => $simulation->id,
+            'event_id' => $template->id
+        ]); //todo:Костыль
 
-           $dialog = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
-        if($ev === null and $dialog->next_event_code == 'E1'){ return 'fail'; }//todo:Костыль
-           if(!empty($dialog->next_event_code)) {
-               $event = EventSample::model()->findByAttributes(['code'=>$dialog->next_event_code]);
-               $trigger = EventTrigger::model()->findByAttributes(['event_id' => $event->id, 'sim_id' => $simId]);
-               if($trigger !== null){
-                   EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
-                   $dialog_cancel = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>2]);
-                   $cancel_event = EventSample::model()->findByAttributes(['code'=>$dialog_cancel->next_event_code]);
-                   $cur_event = EventTrigger::model()->findByAttributes(['sim_id' => $simId, 'event_id' => $cancel_event->id]);
-                   if($cur_event !== null){
-                       $cur_event->delete();
-                   }
-                }else{
-                   return 'fail';
+        $dialog = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
+
+        if($ev === null && $dialog->next_event_code == 'E1') {
+            return 'fail1';  //todo:Костыль
+        }
+
+        if (!empty($dialog->next_event_code)) {
+           $event = EventSample::model()->findByAttributes([
+               'code'=>$dialog->next_event_code
+           ]);
+
+           $trigger = EventTrigger::model()->findByAttributes([
+               'event_id' => $event->id,
+               'sim_id'   => $simulation->id
+           ]);
+
+           if ($trigger === null) {
+               return 'fail '.$event->id;
+           } else {
+               EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
+
+               $dialog_cancel = Replica::model()->findByAttributes([
+                   'code'=>$dialog_code,
+                   'replica_number'=>2
+               ]);
+
+               $cancel_event = EventSample::model()->findByAttributes([
+                   'code'=>$dialog_cancel->next_event_code
+               ]);
+
+               $cur_event = EventTrigger::model()->findByAttributes([
+                   'sim_id' => $simulation->id,
+                   'event_id' => $cancel_event->id
+               ]);
+
+               if($cur_event !== null){
+                   $cur_event->delete();
                }
+           }
 
            return 'ok';
-
        } else{
            return 'fail';
        }
