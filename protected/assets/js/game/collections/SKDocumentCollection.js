@@ -32,38 +32,21 @@ define(["game/models/SKDocument"], function () {
 
             if ('read' === method) {
                 SKApp.server.api('myDocuments/getList', {}, function (data) {
-                    console.log(data);
-                    console.log(me);
+                    var cache = me;
                     options.success(data.data);
+                    me.each(function(model) {
+                       var found = cache.where({'id': model.get('id')});
+                       if(1 === found.length){
+                          var isInitialized = found[0].get('isInitialized');
+                          if(true === isInitialized) {
+                              model.set('isInitialized', true);
+                          }else{
+                              model.set('isInitialized', false);
+                          }
+                       }
+                    });
 
-                    me.waitForDocumentsInitialization();
                 });
-            }
-        },
-
-        isDocumentsInitialized: function() {
-            var me = this;
-
-            var isDocumentsInitialized = true;
-
-            for (var key in this.models) {
-                if (false == this.models[key].isInitialized) {
-                    isDocumentsInitialized = false;
-                }
-            }
-
-            if (true == isDocumentsInitialized) {
-                this.trigger('documents-initialized');
-            }
-
-            return isDocumentsInitialized;
-        },
-
-        waitForDocumentsInitialization: function() {
-            var me = this;
-
-            if (false == me.isDocumentsInitialized()) {
-                // setTimeout(me.waitForDocumentsInitialization(), 1000);
             }
         }
     });
