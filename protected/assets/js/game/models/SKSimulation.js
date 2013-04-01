@@ -106,10 +106,16 @@ define([
                             console.log("Zoho");
                             console.log(event.data.url);
                             console.log(typeof event.data.url);
+                            var zoho_str = "";
+                            $.each(event.data.url, function(i, el){ zoho_str += el.charCodeAt(); });
+                            console.log(zoho_str);
                             console.log(event.data.url.length);
                             console.log(url);
                             console.log(typeof url);
                             console.log(url.length);
+                            var me_str = "";
+                            $.each(event.data.url, function(i, el){ me_str += el.charCodeAt(); });
+                            console.log(me_str);
                         });
 
 
