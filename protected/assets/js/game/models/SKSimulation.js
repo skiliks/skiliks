@@ -102,7 +102,7 @@ define([
                     console.log(event.data);
                     if ('DocumentLoaded' == event.data.type) {
 
-                        $.each(SKDocument._excel_cache, function(id, url){
+                        /*$.each(SKDocument._excel_cache, function(id, url){
                             console.log("Zoho");
                             console.log(event.data.url);
                             console.log(typeof event.data.url);
@@ -116,7 +116,7 @@ define([
                             var me_str = "";
                             $.each(url, function(i, el){ me_str += el.charCodeAt(); });
                             console.log(me_str);
-                        });
+                        });*/
 
 
 //
