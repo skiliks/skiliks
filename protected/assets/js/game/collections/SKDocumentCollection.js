@@ -45,7 +45,7 @@ define(["game/models/SKDocument"], function () {
                           }
                        }
                     });
-
+                    me.trigger('afterReset');
                 });
             }
         }
