@@ -1839,7 +1839,7 @@ h2 {
 .flash {
     border-radius: 6px;
     box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);
-    color: #146672;
+    /*color: #146672;*/
     font-weight: bold;
     margin: 15px 15px;
     padding: 5px 15px;
