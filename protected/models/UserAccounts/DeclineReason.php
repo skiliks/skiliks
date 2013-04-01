@@ -86,7 +86,7 @@ class DeclineReason extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('label',$this->label);
 		$criteria->compare('sort_order',$this->sort_order);
 		$criteria->compare('is_display',$this->is_display);
 

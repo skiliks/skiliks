@@ -92,7 +92,7 @@ class Todo extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('task_id',$this->task_id);
-		$criteria->compare('adding_date',$this->adding_date,true);
+		$criteria->compare('adding_date',$this->adding_date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

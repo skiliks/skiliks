@@ -112,14 +112,14 @@ class Tariff extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('label',$this->label);
 		$criteria->compare('is_free',$this->is_free);
-		$criteria->compare('price',$this->price,true);
-		$criteria->compare('safe_amount',$this->safe_amount,true);
-		$criteria->compare('currency',$this->currency,true);
+		$criteria->compare('price',$this->price);
+		$criteria->compare('safe_amount',$this->safe_amount);
+		$criteria->compare('currency',$this->currency);
 		$criteria->compare('simulations_amount',$this->simulations_amount);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('benefits',$this->benefits,true);
+		$criteria->compare('description',$this->description);
+		$criteria->compare('benefits',$this->benefits);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

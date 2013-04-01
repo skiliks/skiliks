@@ -142,10 +142,10 @@ class Activity extends CActiveRecord
 
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id,true);
-        $criteria->compare('parent',$this->parent,true);
-        $criteria->compare('grandparent',$this->grandparent,true);
-        $criteria->compare('name',$this->name,true);
+        $criteria->compare('id',$this->id);
+        $criteria->compare('parent',$this->parent);
+        $criteria->compare('grandparent',$this->grandparent);
+        $criteria->compare('name',$this->name);
         $criteria->compare('category_id',$this->category_id);
 
         return new CActiveDataProvider($this, array(

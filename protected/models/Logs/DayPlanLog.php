@@ -111,8 +111,8 @@ class DayPlanLog extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('uid',$this->uid);
-		$criteria->compare('snapshot_date',$this->snapshot_date,true);
-		$criteria->compare('date',$this->date,true);
+		$criteria->compare('snapshot_date',$this->snapshot_date);
+		$criteria->compare('date',$this->date);
 		$criteria->compare('day',$this->day);
 		$criteria->compare('task_id',$this->task_id);
 		$criteria->compare('snapshot_time',$this->snapshot_time);

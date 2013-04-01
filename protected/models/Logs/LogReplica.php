@@ -89,7 +89,7 @@ class LogReplica extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('replica_id',$this->replica_id);
-		$criteria->compare('time',$this->time,true);
+		$criteria->compare('time',$this->time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

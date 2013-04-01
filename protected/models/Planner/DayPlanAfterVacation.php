@@ -90,7 +90,7 @@ class DayPlanAfterVacation extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('task_id',$this->task_id);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('date',$this->date,true);
+		$criteria->compare('date',$this->date);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

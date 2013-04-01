@@ -77,7 +77,7 @@ class EmailsSub extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('email',$this->email,true);
+		$criteria->compare('email',$this->email);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
