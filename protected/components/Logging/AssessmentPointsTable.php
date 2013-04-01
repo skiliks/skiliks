@@ -46,6 +46,7 @@ class AssessmentPointsTable extends LogTable
      */
     protected function getRow($row)
     {
+        assert($row->point);
         $result = [
             $row->point->learning_goal->code,
             $row->point->learning_goal->title,

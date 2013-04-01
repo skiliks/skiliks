@@ -6,7 +6,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
     public function testBadEvaluation() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
 
         $asses = new AssessmentAggregated();
         $asses->point_id = 1;
