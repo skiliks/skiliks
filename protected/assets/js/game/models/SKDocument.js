@@ -61,7 +61,7 @@ define([], function () {
                 }
             }
 
-            me.set('isInitialized', true);
+            //me.set('isInitialized', true);
         },
 
         /**
