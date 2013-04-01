@@ -221,9 +221,6 @@ a:focus, a:active {
 .empty-select .sbToggle {
     background-image: url("../img/emp-select-toggle.png");
 }
-.empty-select .sbOptions  {
-    border: none;
-}
 .sbToggleOpen{
 	background: url("../img/bg-select-toggle.png") no-repeat 0 -21px;
     height: 23px;
@@ -243,6 +240,9 @@ a:focus, a:active {
 	width: 100%;
 	z-index:1;
 	overflow-y: auto;
+}
+.empty-select .sbOptions  {
+    border: none;
 }
 .sbOptions li{
     background: #31a8b9;
