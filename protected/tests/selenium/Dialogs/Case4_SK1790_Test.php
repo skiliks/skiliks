@@ -84,7 +84,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         //оценка не совпадает
         sleep(10);
 
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"3.292");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.292");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-32");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"4.227");
     }
