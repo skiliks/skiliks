@@ -31,25 +31,29 @@ class SK1593_Test extends SeleniumTestHelper
     {
         $mail_code = array('M11','MS25','M11','','M11');
         $window = array('mail main','mail new','mail main','mail new','mail main');
-        $ms25 = array($mail_code, $window);
-        $this->markTestIncomplete();
+        $ms25 = array($window, $mail_code);
         $this->start_simulation();
         sleep(5);
         $this->run_event('E2.8', "xpath=(//*[contains(text(),'Иди к себе и пришли мне все')])", "click");
+        sleep(30);
         $this->save_send();
+        sleep(30);
         //отправка того же письма без аттача
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['to_whom']);
+        sleep(30);
         $this->waitForVisible(Yii::app()->params['test_mappings']['mail_contacts']['boss']);
         $this->mouseOver(Yii::app()->params['test_mappings']['mail_contacts']['boss']);
+        sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_contacts']['boss']);
         $this->optimal_click("xpath=//*[@id='MailClient_NewLetterSubject']/div/a");
+        sleep(30);
         $this->optimal_click("xpath=(//*[contains(text(),'Презентация на выставку')])");
+        sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['send']);
-        sleep(5);
-
+        sleep(30);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
-        sleep(60);
+        sleep(30);
         $this->Mail_log($ms25);
     }
 
@@ -58,7 +62,7 @@ class SK1593_Test extends SeleniumTestHelper
 
         $mail_code = array('M11','MS83','M11');
         $window = array('mail main','mail new','mail main');
-        $ms83 = array($mail_code, $window);
+        $ms83 = array($window, $mail_code);
         $this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);
@@ -74,7 +78,7 @@ class SK1593_Test extends SeleniumTestHelper
     {
         $mail_code = array('M11','MS84','M11');
         $window = array('mail main','mail new','mail main');
-        $ms84 = array($mail_code, $window);
+        $ms84 = array($window, $mail_code);
         $this->markTestIncomplete();
         $this->start_simulation();
         sleep(5);

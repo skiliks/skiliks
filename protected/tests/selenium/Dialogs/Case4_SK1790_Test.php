@@ -57,7 +57,6 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
 
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Но мы ведь уже договорились, и я успел поменять мой график')])", 'click');
-        $this->optimal_click("xpath=(//*[contains(text(),'Но мы ведь уже договорились, и я успел поменять мой график')])");
 
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_hours'], "10");
         $this->type(Yii::app()->params['test_mappings']['set_time']['set_minutes'], "02");

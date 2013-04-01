@@ -10,10 +10,11 @@
         idAttribute: 'task_id',
 
         /**
+         * @method sync
          *
-         * @param method
-         * @param model
-         * @param options
+         * @param string method, 'update'|delete'|...
+         * @param SKMailTask model
+         * @param mixed array options
          */
         sync: function (method, model, options) {
             if ('update' === method){

@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Тесты на тестирование флага F20 (для SK1417)
+ * Тесты для флага F20 (для SK1417)
  */
 class F20_SK1417_Test extends SeleniumTestHelper
 {

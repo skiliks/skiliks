@@ -1,12 +1,11 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: tania
- * Date: 3/21/13
- * Time: 2:05 PM
- * To change this template use File | Settings | File Templates.
+ * \addtogroup Selenium
+ * @{
  */
-
+/**
+ * Тесты (для SK1274)
+ */
 class Case_SK1274_Test extends SeleniumTestHelper
 {
     protected function setUp()
@@ -17,9 +16,7 @@ class Case_SK1274_Test extends SeleniumTestHelper
     }
 
     /**
-     * test_SK1274_Case() тестирует задачу SKILIKS-1274
-     *
-     * 1.
+     * test_SK1274_Case() тестирует задачу SKILIKS-1274. Проверка задержки для события, которое было отложено из-за невозможности одновремнного запуска
      */
     public function test_SK1274_Case1() {
 
@@ -31,8 +28,6 @@ class Case_SK1274_Test extends SeleniumTestHelper
         $this->click(Yii::app()->params['test_mappings']['set_time']['submit_time']);
 
         $this->run_event('E3',"xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])",'click');
-
-        //$this->optimal_click("xpath=(//*[contains(text(),'Ох, Иван, раз такое дело, может, перенесем')])");
         sleep(10);
         $this->optimal_click("xpath=(//*[contains(text(),'Правда? И у вас бюджет? Я от него устал')])");
         sleep(10);

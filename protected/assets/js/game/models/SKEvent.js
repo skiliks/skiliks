@@ -2,14 +2,16 @@
 define([], function () {
     "use strict";
     /**
-     * @class
+     * @property event_types
+     * @type {Array of String}
+     * @default {Array}
      */
     var event_types = {
         'M':  'mail',
         'MS': 'mail-send',
         'D':  'document',
         'P':  'plan',
-        2:    'event'
+         2:   'event'
     };
 
     /**
@@ -29,8 +31,8 @@ define([], function () {
          * Phone is phone call
          * Visit is visit
          *
-         * @return {'phone'|'immediate-phone'|'immediate-visit'|'visit'}
          * @method getTypeSlug
+         * @return {'phone'|'immediate-phone'|'immediate-visit'|'visit'}
          */
         getTypeSlug: function () {
             if (this.get('type') === 1) {

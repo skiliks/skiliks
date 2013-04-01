@@ -39,7 +39,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
 
         $this->run_event('E12.1',"xpath=(//*[contains(text(),'Может мой аналитик подойти вместо меня?')])",'click');
         $this->optimal_click("xpath=(//*[contains(text(),'В понедельник, скажем в 10.00, будет моя сотрудница Марина Крутько')])");
-
+        // отут треба глянути, тому що з послідовністю фраз якась фігня
         $this->run_event('E12.5',"xpath=(//*[contains(text(),'Действительно, повезло! Уже бегу!')])",'click');
 
         $this->optimal_click("xpath=(//*[contains(text(),'Кхе-кхе…')])");
@@ -62,10 +62,10 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
-         //$this->Universal($TH); // здесь у нас пока что закомментирована часть с диалогами, поэтому проверки на юниверсал лог пока не делаем
-        $this->Mail_log($TH1);
+        //$this->Universal($TH);
+/*      $this->Mail_log($TH1);
         $this->Leg_actions_detail();
-        $this->Leg_actions_aggregated();
+        $this->Leg_actions_aggregated();*/
 
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"8.083");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-7");

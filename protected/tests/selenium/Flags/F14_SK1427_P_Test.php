@@ -4,7 +4,7 @@
  * @{
  */
 /**
- * Тесты на тестирование флага F14 (для SK1427)
+ * Тесты для флага F14 (для SK1427)
  */
 class F14_SK1427_P_Test extends SeleniumTestHelper
 {
