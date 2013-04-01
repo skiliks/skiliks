@@ -101,7 +101,7 @@ define([
                 this.postMessageCallback = function(event) {
                     console.log(event.data);
                     if ('DocumentLoaded' == event.data.type) {
-
+                    console.log("On dataload");
 
                         $.each(SKDocument._excel_cache, function(id, url){
                             if(url === event.data.url){
@@ -151,6 +151,7 @@ define([
                 }
 
                 if (window.addEventListener){
+                    console.log("add listener");
                     window.addEventListener("message", this.postMessageCallback, false);
                 } else {
                     window.attachEvent("onmessage", this.postMessageCallback);
