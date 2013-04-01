@@ -1,26 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "performance_rule_conditions".
+ * This is the model class for table "assessment_group".
  *
- * The followings are the available columns in table 'performance_rule_conditions':
+ * The followings are the available columns in table 'assessment_group':
  * @property integer $id
- * @property integer $performance_rule_id
- * @property integer $replica_id
- * @property integer $mail_id
- * @property integer $excel_formula_id
+ * @property string $name
+ * @property string $import_id
  *
  * The followings are the available model relations:
- * @property MailTemplate $mail
- * @property PerformanceRule $performanceRule
- * @property Replica $replica
+ * @property HeroBehaviour[] $heroBehaviours
  */
-class PerformanceRuleCondition extends CActiveRecord
+class AssessmentGroup extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return PerformanceRuleCondition the static model class
+	 * @return AssessmentGroup the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -32,7 +28,7 @@ class PerformanceRuleCondition extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'performance_rule_condition';
+		return 'assessment_group';
 	}
 
 	/**
@@ -43,11 +39,11 @@ class PerformanceRuleCondition extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('performance_rule_id', 'required'),
-			array('performance_rule_id, replica_id, mail_id', 'numerical', 'integerOnly'=>true),
+			array('name', 'length', 'max'=>255),
+			array('import_id', 'length', 'max'=>14),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, performance_rule_id, replica_id, mail_id', 'safe', 'on'=>'search'),
+			array('id, name, import_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,9 +55,7 @@ class PerformanceRuleCondition extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'mail'           => array(self::BELONGS_TO, 'MailTemplate', 'mail_id'),
-			'performanceRule' => array(self::BELONGS_TO, 'PerformanceRule', 'performance_rule_id'),
-			'replica'         => array(self::BELONGS_TO, 'Replica', 'dialog_id'),
+			//'heroBehaviours' => array(self::HAS_MANY, 'HeroBehaviour', 'group_id'),
 		);
 	}
 
@@ -72,9 +66,8 @@ class PerformanceRuleCondition extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'performance_rule_id' => 'Performance Rule',
-			'replica_id' => 'Replica',
-			'mail_id' => 'Mail',
+			'name' => 'Name',
+			'import_id' => 'Import',
 		);
 	}
 
@@ -90,9 +83,8 @@ class PerformanceRuleCondition extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('performance_rule_id',$this->performance_rule_id);
-		$criteria->compare('replica_id',$this->replica_id);
-		$criteria->compare('mail_id',$this->mail_id);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('import_id',$this->import_id,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

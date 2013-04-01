@@ -29,7 +29,7 @@
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
  * @property PerformancePoint[] performance_points
- * @property Scenario game_type
+ * @property StressPoint[] stress_points
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */
@@ -157,11 +157,11 @@ class Simulation extends CActiveRecord
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
+            'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
             'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
             'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
             'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
-            'simulation_excel_points'          => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
-            'game_type'          => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
+            'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
         ];
     }
 

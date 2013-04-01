@@ -6,7 +6,6 @@
             {foreach $log_tables as $log_table}
                 <li><a href="#{$log_table->getId()}">{$log_table->getTitle()}</a></li>
             {/foreach}
-            <li><a href="#productivity">Productivity</a></li>
         </ul>
     </div>
 </div>
@@ -92,29 +91,6 @@
                 <td>{$assessmentPoint}</td>
             </tr>
         {/foreach}
-    </table>
-
-    <h1 id="productivity">Productivity</h1>
-
-    <table class="table table-striped mail-log">
-        <thead>
-        <tr>
-            <th>Activity ID</th>
-            <th>Scores</th>
-        </tr>
-        </thead>
-        {$sum = 0}
-        {foreach $simulation->performance_points as $id => $point}
-            <tr>
-                <td>{$point->performanceRule->activity_id}</td>
-                <td>{$point->performanceRule->value}</td>
-            </tr>
-            {$sum = $sum + $point->performanceRule->value}
-        {/foreach}
-        <tr class="assessment-rules-sum">
-            <td>Итого</td>
-            <td>{$sum}</td>
-        </tr>
     </table>
 </div>
 

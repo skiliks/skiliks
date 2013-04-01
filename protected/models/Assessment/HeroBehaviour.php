@@ -44,6 +44,8 @@ class HeroBehaviour extends CActiveRecord
      * @var string
      */
     public $learning_goal_code;
+
+    public $group_id;
     
     const TYPE_POSITIVE = 1;
     const TYPE_NEGATIVE = 2;
@@ -191,6 +193,8 @@ class HeroBehaviour extends CActiveRecord
     {
         return [
             'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'learning_goal_code'],
+            'group' => [self::BELONGS_TO, 'AssessmentGroup', 'group_id'],
+            'type' => [self::BELONGS_TO, 'TypeScale', 'type_scale'],
         ];
     }
 }

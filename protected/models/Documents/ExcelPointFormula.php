@@ -28,6 +28,14 @@ class ExcelPointFormula extends CActiveRecord{
     {
             return 'excel_points_formula';
     }
+
+    public function byFormulaID($id)
+    {
+        $this->getDbCriteria()->mergeWith(array(
+            'condition' => "id = '{$id}'"
+        ));
+        return $this;
+    }
 }
 
 

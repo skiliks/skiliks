@@ -19,7 +19,8 @@ define([
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
-    "game/views/world/SKWebBrowserView"
+    "game/views/world/SKWebBrowserView",
+    "game/views/SKDialogView"
 ], function (simulation_template) {
     "use strict";
     /**
@@ -36,7 +37,7 @@ define([
                 'click .btn-simulation-stop':      'doSimulationStop',
                 // TODO: move to SKDebugView
                 'click .btn-toggle-dialods-sound': 'doToggleDialogSound',
-                'click .pause-control, .overlay .resume': 'doTogglePause'
+                'click .pause-control, .paused-screen .resume': 'doTogglePause'
             },
             'window_views':    {
                 'plan/plan':               SKDayPlanView,
@@ -191,13 +192,36 @@ define([
             },
 
             doTogglePause: function() {
-                var paused = this.$('.time').hasClass('paused');
+                var me = this,
+                    paused = me.$('.time').hasClass('paused');
 
-                this.$('.time').toggleClass('paused');
-                this.$('.canvas .overlay').toggleClass('hidden');
+                me.$('.time').toggleClass('paused');
+                me.$('.canvas .paused-screen').toggleClass('hidden');
                 if (paused) {
+                    me.pausedDialog.remove();
+                    delete me.pausedDialog;
                     SKApp.simulation.stopPause();
                 } else {
+                    me.pausedDialog = new SKDialogView({
+                        modal: false,
+                        message: 'Симуляция остановлена',
+                        buttons: [
+                            {
+                                value: 'Вернуться к симуляции',
+                                onclick: function() {
+                                    me.doTogglePause();
+                                }
+                            },
+                            {
+                                value: 'Перейти к результатам',
+                                onclick: function() {
+                                    me.$('.canvas .paused-screen').toggleClass('hidden');
+                                    me.simulation.stop();
+                                }
+                            }
+                        ]
+                    });
+
                     SKApp.simulation.startPause();
                 }
             },

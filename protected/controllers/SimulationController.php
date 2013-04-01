@@ -32,7 +32,7 @@ class SimulationController extends AjaxController
         }
         // check invite if it setted }
 
-        $user = YumUser::model()->findByPk(Yii::app()->user->getId());
+        $user = Yii::app()->user->data();
         $simulation = SimulationService::simulationStart($mode, $user, $type);
 
         if (null === $simulation) {

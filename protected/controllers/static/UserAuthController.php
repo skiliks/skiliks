@@ -332,6 +332,19 @@ class UserAuthController extends YumController
 
                 if($isUserAccountPersonalValid && $isProfileValid)
                 {
+                    // grands permission to start full simulation {
+                    try {
+                    $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
+                    $permission = new YumPermission();
+                    $permission->principal_id = Yii::app()->user->data()->id;
+                    $permission->subordinate_id = Yii::app()->user->data()->id;
+                    $permission->type = 'user';
+                    $permission->action = $action->id;
+                    $permission->template = 1;
+                    $permission->save();
+                    } catch(CDbException $e) {}
+                    // grands permission to start full simulation }
+
                     $profile->save();
                     $accountPersonal->save();
                     $this->redirect(['registration/account-type/added']);
@@ -501,15 +514,14 @@ class UserAuthController extends YumController
         }
 
         $recoveryUrl = $this->createAbsoluteUrl(
-            $this->createUrl('static/userAuth/recovery'),
-            [
+            $this->createUrl('static/userAuth/recovery', [
                 'key' => $user->activationKey,
                 'email' => $user->profile->email
-            ]
+            ])
         );
 
         $body = strtr(
-            Yii::t('site', 'You have requested a new password. Please use this URL to continue: {recovery_url}'),
+            Yii::t('site', 'You have requested a new password. Please use this URL to continue: <a href="{recovery_url}" target="_blank">{recovery_url}</a>'),
             ['{recovery_url}' => $recoveryUrl]
         );
 

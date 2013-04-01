@@ -53,4 +53,74 @@ class PerformanceRuleTest extends CDbTestCase {
         $this->assertEquals([9,10,11,12, 13], array_map(function ($i) {return $i->performanceRule->id;}, $simulation->performance_points));
     }
 
+    public function testExcelTrue() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $this->addExcelPoints($simulation);
+
+        $res = SimulationExcelPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
+
+        $ms = MailTemplate::model()->byCode("MS36")->find();
+
+        $mail_box = new MailBox();
+        $mail_box->group_id = 1;
+        $mail_box->receiver_id = 1;
+        $mail_box->sender_id = 1;
+        $mail_box->subject_id = 10;
+        $mail_box->sim_id = $simulation->id;
+        $mail_box->template_id = $ms->id;
+        $mail_box->code = 'MS36';
+        $mail_box->coincidence_mail_code = 'full';
+        $mail_box->coincidence_type = 'MS36';
+        $mail_box->save();
+
+        $log_mail = new LogMail();
+        $log_mail->mail_id = $mail_box->id;
+        $log_mail->sim_id = $simulation->id;
+        $log_mail->mail_task_id = null;
+        $log_mail->full_coincidence = "MS36";
+        $log_mail->start_time = '11:00:20';
+        $log_mail->end_time = '11:20:30';
+        $log_mail->window = 13;
+        $log_mail->window_uid = '34';
+        $log_mail->save();
+
+        SimulationService::setFinishedPerformanceRules($simulation->id);
+
+        $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
+
+        $this->assertNotNull($rule);
+    }
+
+    public function testExcelFasle(){
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+
+        $this->addExcelPoints($simulation);
+
+        SimulationService::setFinishedPerformanceRules($simulation->id);
+
+        $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
+
+        $this->assertNull($rule);
+    }
+
+    public function addExcelPoints($simulation){
+        /* @var SimulationExcelPoint $point  */
+        for ($i = 1; $i <= 9; $i++) {
+            $point = SimulationExcelPoint::model()->findByAttributes(['sim_id'=>$simulation->id, 'formula_id'=>$i]);
+            if(null === $point){
+                $point = new SimulationExcelPoint();
+            }
+            $point->formula_id = $i;
+            $point->value = '1.00';
+            $point->sim_id = $simulation->id;
+            $point->save();
+        }
+    }
+
 }
