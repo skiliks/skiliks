@@ -405,47 +405,82 @@ class SeleniumTestHelper extends CWebTestCase
         sleep(20);
     }
 
-    /**
-     *
-     */
-    public function Universal ($array_of_values)
+
+    //*****************************************************
+    // БЛОК ДЛЯ РАБОТЫ С ЛОГАМИ ПОСЛЕ ОКОНЧАНИЯ СИМУЛЯЦИИ
+    // пример работы с всевозможными логами можно посмотреть в Others/Logging_Case_SK1278_Test.php
+    // особенно, если выдает ошибку офсета - нужно смотреть пример в этом файле (строки 61-78)
+    //*****************************************************
+
+    // для проверки целосности логов в таблице Universal
+    public function Universal ($array_of_values, $size_of_array)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['universal']);
-        $this->assertTrue($this->time_values("xpath=//div[1]/table[1]/tbody/tr[", "]/td[4]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[3]" ));
-        $this->assertTrue($this->active_windows($array_of_values, "xpath=//div[1]/table[1]/tbody/tr[", "]/td[1]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[2]"));
+        $new_size = $this->size_of_logs("xpath=//div[1]/table[1]/tbody/tr[", "]/td[4]");
+        if ($new_size==$size_of_array)
+        {
+            $a = $this->time_values("xpath=//div[1]/table[1]/tbody/tr[", "]/td[4]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[3]" );
+            $b = $this->active_windows($array_of_values, "xpath=//div[1]/table[1]/tbody/tr[", "]/td[1]", "xpath=//div[1]/table[1]/tbody/tr[", "]/td[2]");
+            if (($a==True)&&($b==True))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
-    /**
-     *
-     */
+    // для проверки целосности логов в таблице Mail_log
     public function Mail_log ($array_of_values)
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['mail_log']);
-        $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[1]/table[6]/tbody/tr[", "]/td[3]", "xpath=//div[1]/table[6]/tbody/tr[", "]/td[4]" ));
+        $this->assertTrue($this->active_windows($array_of_values,"xpath=//div[1]/table[7]/tbody/tr[", "]/td[3]", "xpath=//div[1]/table[7]/tbody/tr[", "]/td[4]" ));
     }
 
-    /**
-     *
-     */
+    // для проверки целосности логов в таблице Leg_actions_detail
     public function Leg_actions_detail()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_detail']);
-        $this->assertTrue($this->time_values("xpath=//div[1]/table[9]/tbody/tr[", "]/td[2]", "xpath=//div[1]/table[9]/tbody/tr[", "]/td[1]" ));
+        $this->assertTrue($this->time_values("xpath=//div[1]/table[10]/tbody/tr[", "]/td[2]", "xpath=//div[1]/table[10]/tbody/tr[", "]/td[1]" ));
     }
 
-    /**
-     *
-     */
+    // для проверки целосности логов в таблице Leg_actions_aggregated
     public function Leg_actions_aggregated()
     {
         $this->optimal_click(Yii::app()->params['test_mappings']['log']['leg_actions_aggregated']);
-        $this->assertTrue($this->time_values("xpath=//div[1]/table[10]/tbody/tr[", "]/td[9]", "xpath=//div[1]/table[10]/tbody/tr[", "]/td[8]" ));
+        $this->assertTrue($this->time_values("xpath=//div[1]/table[11]/tbody/tr[", "]/td[9]", "xpath=//div[1]/table[11]/tbody/tr[", "]/td[8]" ));
     }
 
+    // метод для проверки величины лога (определенной таблицы, у которой первая ячейка передается в локаторах 1 и 2)
+    protected function size_of_logs ($loc1,$loc2)
+    {
+        $i = 1;
+        while (true)
+        {
+            $result = "";
+            $result .= $loc1;
+            $result .= (string)$i;
+            $result .= $loc2;
 
-    /**
-     *
-     */
+            if ($this->isElementPresent($result)==true)
+            {
+                $i++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return ($i-1);
+    }
+
+    // метод для корректного считывания времени из ячеек и перевода в нужный формат
     protected function time_values ($a1, $b1, $a2, $b2)
     {
         $count = 1;
@@ -491,9 +526,7 @@ class SeleniumTestHelper extends CWebTestCase
         return $i==$count;
     }
 
-    /**
-     *
-     */
+    // для проверки разницы между началом действия события до его окончания
     protected function difference_of_time ($a1, $b1, $a2, $b2)
     {
         $count = 1;
@@ -532,9 +565,7 @@ class SeleniumTestHelper extends CWebTestCase
         return $time_differ;
     }
 
-    /**
-     *
-     */
+    // для проверки 2 колонок в определенной таблице с значениями массива, который передан
     protected function active_windows($array_of_values, $a1, $b1, $a2, $b2 )
     {
         $match = 1;
