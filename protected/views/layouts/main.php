@@ -73,7 +73,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                 <!-- flash-messages { -->
                 <?php $flashes = Yii::app()->user->getFlashes(); ?>
                 <?php if (0 < count($flashes)): ?>
-                    <div class="flash nice-border backgroud-light-blue">
+                    <div class="flash">
+                        <a class="popupclose"></a>
                         <?php foreach($flashes as $key => $message) : ?>
                              <div class="flash-<?php echo $key ?>">
                                  <?php echo $message ?>
@@ -81,6 +82,35 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         <?php endforeach ?>
                     </div>
                 <?php endif; ?>
+
+                <?php if (0 < count($flashes)): ?>
+                    <script type="text/javascript">
+                        $('.flash').dialog({
+                            closeOnEscape: true,
+                            dialogClass: 'flash-pop-up',
+                            modal: false,
+                            height: 280,
+                            position: {
+                                my: "right top",
+                                at: "middle bottom",
+                                of: $('#top header')
+                            },
+                            resizable: false,
+                            title: '',
+                            width: 560
+                        });
+                        $('.flash-pop-up .ui-dialog-titlebar').remove();
+                        $('.flash-pop-up').addClass('transparent-boder errorblock');
+                        $('.flash-pop-up div.flash').addClass('radiusthree backgroud-light-blue');
+                        // $('.flash-pop-up').dialog('open');
+
+                        $('.flash .popupclose').click(function() {
+                            console.log('click');
+                            $('.flash').dialog('close');
+                        });
+                    </script>
+                <?php endif; ?>
+
                 <!-- flash-messages } -->
 
 			    <?php echo $content; ?>

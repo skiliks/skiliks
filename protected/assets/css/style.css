@@ -1783,6 +1783,7 @@ h2 {
     background-color: #146672;
 }
 
+.ui-dialog .backgroud-light-blue,
 .backgroud-light-blue {
     background-color: #f0fdff;
 }
@@ -2318,7 +2319,7 @@ ul.profile-menu li {
 
 /* ********************** ERRORS ********************** */
 .errorblock {
-    margin-left: 200px;
+    margin-left: 300px;
     text-align: center;
     width:560px;
 }
