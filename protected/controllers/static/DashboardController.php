@@ -368,6 +368,9 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/dashboard');
         }
 
+        $declineExplanation->invite->ownerUser->getAccount()->invites_limit++;
+        $declineExplanation->invite->ownerUser->getAccount()->save(false);
+
         $declineExplanation->invite_recipient_id = $declineExplanation->invite->receiver_id;
         $declineExplanation->invite_owner_id = $declineExplanation->invite->owner_id;
         $declineExplanation->vacancy_label = $declineExplanation->invite->vacancy->label;
