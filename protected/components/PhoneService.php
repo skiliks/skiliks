@@ -116,7 +116,7 @@ class PhoneService {
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
         $model->from_id     = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
-        $model->to_id       = Character::model()->findByAttributes(['code' => $characterId])->primaryKey; // какому персонажу мы звоним
+        $model->to_id       = $characterId; // какому персонажу мы звоним
         $model->theme_id    = $theme_id;
         $model->insert();
     }
@@ -174,12 +174,12 @@ class PhoneService {
         return $list;
     }
     
-    public static function call($simulation, $themeId, $characterId, $time)
+    public static function call(Simulation $simulation, $themeId, $characterId, $time)
     {
 
             /** @var $communicationTheme CommunicationTheme */
-            $character = Character::model()->findByAttributes(['code' => $characterId]);
-            $communicationTheme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byTheme($themeId)->byPhone()->find();
+            $character = $simulation->game_type->getCharacter(['id' => $characterId]);
+            $communicationTheme = $simulation->game_type->getCommunicationTheme(['character_id' => $character->primaryKey, 'id' => $themeId, 'phone' => 1]);
             if ($communicationTheme) {
                 $eventCode = $communicationTheme->phone_dialog_number;
                 if ($eventCode == '' || $eventCode == 'AUTO') {

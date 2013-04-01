@@ -292,6 +292,7 @@ class PlanAnalyzer {
             $assessment->sim_id            = $this->simulation->id;
             $assessment->task_id           = $rightAction->task->id;
             $assessment->value             = 1;
+            $assessment->type_scale        = 1;
             $assessment->save();
         }
 
@@ -300,6 +301,7 @@ class PlanAnalyzer {
             $assessment->hero_behaviour_id = $behaviour->id;
             $assessment->sim_id            = $this->simulation->id;
             $assessment->task_id           = $wrongAction->task->id;
+            $assessment->type_scale        = 2;
             $assessment->value             = 0;
             $assessment->save();
         }
@@ -358,6 +360,7 @@ class PlanAnalyzer {
             $assessment->sim_id            = $this->simulation->id;
             $assessment->task_id           = $wrongAction->task->id;
             $assessment->value             = 1;
+            $assessment->type_scale        = 2;
             $assessment->save();
         }
 
@@ -427,6 +430,7 @@ class PlanAnalyzer {
             $assessment->sim_id            = $this->simulation->id;
             $assessment->task_id           = $rightAction->task->id;
             $assessment->value             = 1;
+            $assessment->type_scale        = 1;
             $assessment->save();
         }
 
@@ -436,6 +440,7 @@ class PlanAnalyzer {
             $assessment->sim_id            = $this->simulation->id;
             $assessment->task_id           = $wrongAction->task->id;
             $assessment->value             = 0;
+            $assessment->type_scale        = 2;
             $assessment->save();
         }
 

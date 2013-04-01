@@ -154,11 +154,11 @@ class EmailAnalyzerTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
-        $point_3322 = $simulation->game_type->getHeroBehavour([
+        $point_3322 = $simulation->game_type->getHeroBehaviour([
             'code' => '3322'
         ]);
         
-        $point_3324 = $simulation->game_type->getHeroBehavour([
+        $point_3324 = $simulation->game_type->getHeroBehaviour([
             'code' => '3324'
         ]);
 

@@ -69,7 +69,7 @@ class SimulationServiceTest extends CDbTestCase
         $count_1 = 0;
         
         // get 1122
-        $pointFor_1122 = $simulation->game_type->getHeroBehavour(['code' => '1122']);
+        $pointFor_1122 = $simulation->game_type->getHeroBehaviour(['code' => '1122']);
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
@@ -142,7 +142,7 @@ class SimulationServiceTest extends CDbTestCase
         $count_1 = 0;
         
         // get 4124
-        $pointFor_4124 = $simulation->game_type->getHeroBehavour(['code' => '4124']);
+        $pointFor_4124 = $simulation->game_type->getHeroBehaviour(['code' => '4124']);
         
         // init dialog logs
         foreach ($replicasFor_4124 as $dialogEntity) {

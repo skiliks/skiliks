@@ -314,8 +314,8 @@ class EmailAnalyzer
 
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($this->simId);
-        $behave_3322 = $simulation->game_type->getHeroBehavour(['code' => '3322', 'type_scale' => 1]);
-        $behave_3324 = $simulation->game_type->getHeroBehavour(['code' => '3324', 'type_scale' => 2]);
+        $behave_3322 = $simulation->game_type->getHeroBehaviour(['code' => '3322', 'type_scale' => 1]);
+        $behave_3324 = $simulation->game_type->getHeroBehaviour(['code' => '3324', 'type_scale' => 2]);
         
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;
 
@@ -350,7 +350,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3325 = $this->simulation->game_type->getHeroBehavour(['code' => '3325', 'type_scale' => 2]);
+        $behave_3325 = $this->simulation->game_type->getHeroBehaviour(['code' => '3325', 'type_scale' => 2]);
         
         return array(
             'negative' => $wrongActions * $behave_3325->scale,
@@ -385,7 +385,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3323 = $this->simulation->game_type->getHeroBehavour(['code' => '3323', 'type_scale' => 1]);
+        $behave_3323 = $this->simulation->game_type->getHeroBehaviour(['code' => '3323', 'type_scale' => 1]);
          
         $possibleRightActions = (0 === $possibleRightActions) ? 1 : $possibleRightActions;        
         
@@ -418,7 +418,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3313 = HeroBehaviour::model()->byCode('3313')->positive()->find();
+        $behave_3313 = $this->simulation->game_type->getHeroBehaviour(['code'=> 3313, 'type_scale'=>1]);
         
         // grand score for user, if he read more or equal to $limit of not-spam emails only
         $mark = 0;
@@ -452,7 +452,7 @@ class EmailAnalyzer
             }
         } 
         
-        $behave_3333 = $this->simulation->game_type->getHeroBehavour(['code' => '3333', 'type_scale' => 1]);
+        $behave_3333 = $this->simulation->game_type->getHeroBehaviour(['code' => '3333', 'type_scale' => 1]);
         
         return array(
             'positive' => ($wrongActions == 0) ? $behave_3333->scale : 0,
@@ -475,8 +475,11 @@ class EmailAnalyzer
         $limitToGet1points = $configs['limitToGet1points'];
         $limitToGet2points = $configs['limitToGet2points'];
 
-        $rightMsNumber = CommunicationTheme::model()->count(" wr = 'R' and letter_number like 'MS%' ");
-        $behave_3326 = $this->simulation->game_type->getHeroBehavour(['code' => '3326', 'type_scale' => 1]);
+        $criteria = new CDbCriteria();
+        $criteria->compare('wr', 'R');
+        $criteria->addCondition('letter_number like "MS%"');
+        $rightMsNumber = count($this->simulation->game_type->getCommunicationThemes($criteria));
+        $behave_3326 = $this->simulation->game_type->getHeroBehaviour(['code' => '3326', 'type_scale' => 1]);
 
         // gather statistic  {
         $userRightEmailsArray = []; // email with same MSxx must be counted once only
