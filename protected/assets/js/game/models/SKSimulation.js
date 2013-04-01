@@ -102,6 +102,13 @@ define([
                     console.log(event.data);
                     if ('DocumentLoaded' == event.data.type) {
 
+
+                        $.each(SKDocument._excel_cache, function(id, url){
+                            if(url === event.data.url){
+                                var docs = SKApp.simulation.documents.where({id:id.toString()});
+                                docs[0].set('isInitialized', true);
+                            }
+                        });
                         /*$.each(SKDocument._excel_cache, function(id, url){
                             console.log("Zoho");
                             console.log(event.data.url);
