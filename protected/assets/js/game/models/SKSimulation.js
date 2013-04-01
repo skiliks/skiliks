@@ -178,7 +178,7 @@ define([
             },
 
             'onAddDocument' : function(){
-                console.log("ell");
+                $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
             },
 
             /**
