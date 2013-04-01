@@ -150,7 +150,6 @@ define([
          * @return void
          */
         toggle: function (name, subname, params) {
-            console.log('toggle!');
             // protect against 2 open phone windows at the same time
             if (name === 'phone') {
                 this.closeAllPhoneInstances();
