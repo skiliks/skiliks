@@ -1,5 +1,6 @@
 .features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password], .inputtext,
-.profileform input[type=text], .profileform input[type=password], .sideform input[type=text], .sideform input[type=password]  {
+.profileform input[type=text], .profileform input[type=password], .sideform input[type=text], .sideform input[type=password],
+.controller-static-dashboard input[type="text"] {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -310,7 +311,6 @@ span.required {
 }
 #UserAccountCorporate_company_description {
     height: 100px;
-    padding: 5px;
     width: 392px;
 }
 .profileform {
@@ -342,7 +342,7 @@ span.required {
     margin-top: 10px;
     padding: 0px 20px 0px 48px;
 }
-.profileform textarea {
+.profileform textarea, .controller-static-dashboard textarea {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -351,6 +351,9 @@ span.required {
     -moz-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
+    padding: 5px;
+}
+.profileform textarea {
     color:#1d7885;
     width:340px;
 }
@@ -402,10 +405,12 @@ span.required {
     padding-right: 6px;
     width:60px;
 }
-.sideform input[type="text"] {
-    color: #146672;
+.sideform input[type="text"], .controller-static-dashboard input[type="text"] {
     height: 26px;
     padding: 2px 4px;
+}
+.sideform input[type="text"] {
+    color: #146672;
 }
 .invite-people-form input[type="submit"] {
     border: none;
@@ -455,7 +460,10 @@ span.required {
 #simulations-counter-box .greenbtn {
     margin-top: 14px;
 }
-.greenbtn, .greenbtn:visited {
+.invite-people-form .errorMessage {
+    color: #fff;
+}
+.greenbtn, .greenbtn:link, .greenbtn:visited {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -470,5 +478,41 @@ span.required {
 }
 .greenbtn:hover {
     background-color: #bd2929;
+    color:#fff;
 }
+/* **************************** POPUP **************************** */
+.ui-widget-overlay {
+    background: rgba(0, 0, 0, .90);
+}
+.controller-static-dashboard  .ui-dialog {
+    background:url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border:none;
+    width:590px !important;
+}
+.controller-static-dashboard .ui-dialog .ui-dialog-content {
+    background:url("../img/bg-kniga.jpg") no-repeat right bottom;
+}
+.ui-dialog-title {
+    color:#0e4750;
+    font: 28px "ProximaNova-Bold";
+}
+.ui-dialog .ui-dialog-titlebar-close {
+    height: 17px;
+    margin: 0px;
+    padding: 0px;
+    top:10px;
+    right:10px;
+    width:17px;
+}
+.ui-dialog .ui-widget-header .ui-icon, .ui-state-hover .ui-icon, .ui-state-focus .ui-icon  {
+    background:url("../img/popupclose.png") no-repeat left top;
+}
+#send-invite-message-form  label {
+    color:#0e4750;
+    float: left;
+    font: 14px "ProximaNova-Regular";
+}
+
+/* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
+

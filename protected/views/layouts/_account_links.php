@@ -1,5 +1,5 @@
 
-<?php if ('ru' != Yii::app()->language): ?>
+<?php if ('ru' != Yii::app()->getLanguage()): ?>
     <?php return; ?>
 <?php endif ?>
 

@@ -5,10 +5,8 @@ class PagesController extends AjaxController
     public $user;
     public $signInErrors = [];
 
-    public function actionIndex($_lang = null)
+    public function actionIndex()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => false,
@@ -18,30 +16,24 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionTeam($_lang = null)
+    public function actionTeam()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('team');
     }
 
     /**
      *
      */
-    public function actionProduct($_lang = null)
+    public function actionProduct()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('product');
     }
 
     /**
      *
      */
-    public function actionContacts($_lang = null)
+    public function actionContacts()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('contacts');
     }
 
@@ -49,10 +41,8 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionTariffs($_lang = null)
+    public function actionTariffs()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD'])
         ]);
@@ -61,10 +51,8 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionComingSoonSuccess($_lang = null)
+    public function actionComingSoonSuccess()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('home', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -76,8 +64,6 @@ class PagesController extends AjaxController
      */
     public function actionAddUserSubscription()
     {
-        $this->defineLanguage($_lang);
-
         $email = Yii::app()->request->getParam('email', false);
         $result = UserService::addUserSubscription($email);
 
@@ -88,10 +74,8 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionBadBrowser($_lang = null)
+    public function actionBadBrowser()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('badBrowser', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -101,10 +85,8 @@ class PagesController extends AjaxController
     /**
      *
      */
-    public function actionOldBrowser($_lang = null)
+    public function actionOldBrowser()
     {
-        $this->defineLanguage($_lang);
-
         $this->render('oldBrowser', [
             'assetsUrl'      => $this->getAssetsUrl(),
             'userSubscribed' => true,
@@ -116,8 +98,6 @@ class PagesController extends AjaxController
      */
     public function actionLegacyAndTerms($mode, $type, $invite_id)
     {
-        Yii::app()->setLanguage('ru');
-
         $invite = Invite::model()->findByPk($invite_id);
 
         if ($invite->status == Invite::STATUS_PENDING) {

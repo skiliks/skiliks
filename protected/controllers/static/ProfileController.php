@@ -240,8 +240,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateCompanyInfo()
     {
-        Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         $account = $this->user->account_corporate;
@@ -300,8 +298,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function actionCorporateVacancies()
     {
-        Yii::app()->language = 'ru';
-
         $vacancy = new Vacancy();
 
         if (null !== Yii::app()->request->getParam('id')) {
@@ -406,9 +402,6 @@ class ProfileController extends AjaxController implements AccountPageControllerI
      */
     public function accountPagesBase()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user->id) {
             Yii::app()->user->setFlash('error', 'Вы не авторизированы.');

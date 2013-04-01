@@ -69,7 +69,7 @@ class SimulationServiceTest extends CDbTestCase
         $count_1 = 0;
         
         // get 1122
-        $pointFor_1122 = $simulation->game_type->getHeroBehaviour(['code' => '1122']);
+        $pointFor_1122 = HeroBehaviour::model()->find('code = :code', ['code' => '1122']);
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
@@ -130,22 +130,20 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         
         // init conts
         // get all replics that change score for behaviour '4124'
-        $criteria = new CDbCriteria();
-        $criteria->addInCondition('excel_id', [332, 336]);
-        $replicasFor_4124 = $simulation->game_type->getReplicas($criteria);
+        $replicsFor_4124 = Replica::model()->findAll('excel_id IN (332, 336)');
         
         $count_0 = 0;
         $count_1 = 0;
         
         // get 4124
-        $pointFor_4124 = $simulation->game_type->getHeroBehaviour(['code' => '4124']);
+        $pointFor_4124 = HeroBehaviour::model()->find('code = :code', ['code' => '4124']);
         
         // init dialog logs
-        foreach ($replicasFor_4124 as $dialogEntity) {
+        foreach ($replicsFor_4124 as $dialogEntity) {
             $dialogsPoint = ReplicaPoint::model()->find('dialog_id = :dialog_id AND point_id = :point_id',[
                 'dialog_id' => $dialogEntity->id,
                 'point_id'  => $pointFor_4124->id
@@ -160,7 +158,7 @@ class SimulationServiceTest extends CDbTestCase
                 $count_0++;
             }
         }
-        $this->assertEquals(count($replicasFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
+        $this->assertEquals(count($replicsFor_4124), ($count_0 + $count_1), 'Wrong replics add_value values!');
 
         // init MS emails:        
         // MS27 {
@@ -365,9 +363,8 @@ class SimulationServiceTest extends CDbTestCase
 
         $data = [];
 
-        $activity1 = $simulation->game_type->getActivity(['code' => 'A_wait']);
         $action1 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activity1->getPrimaryKey(),
+            'activity_id' => 'A_wait',
             'window_id'   => 1
         ]);
 
@@ -380,7 +377,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window_uid = 100;
 
         $action41 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activity1->getPrimaryKey(),
+            'activity_id' => 'A_wait',
             'window_id'   => 41
         ]);
 
@@ -393,9 +390,8 @@ class SimulationServiceTest extends CDbTestCase
 
         $log->activity_action_id = $action41->primaryKey;
 
-        $activityTRS6 = $simulation->game_type->getActivity(['code' => 'TRS6']);
         $actionTRS6 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityTRS6->getPrimaryKey(),
+            'activity_id' => 'TRS6',
             'mail_id'     => NULL
         ]);
 
@@ -415,7 +411,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id           = $action41->primaryKey;
 
         $action21 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activity1->getPrimaryKey(),
+            'activity_id' => 'A_wait',
             'window_id'   => 21
         ]);
 
@@ -426,9 +422,8 @@ class SimulationServiceTest extends CDbTestCase
         $log->end_time = '09:12:50';
         $log->activity_action_id = $action21->id;
 
-        $activityAMY1 = $simulation->game_type->getActivity(['code' => 'AMY1']);
         $actionAMY1 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityAMY1->getPrimaryKey(),
+            'activity_id' => 'AMY1',
         ]);
 
         $log = $data[] = new LogActivityAction();
@@ -438,7 +433,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->start_time            = '09:12:50';
         $log->end_time              = '09:13:03';
         $actionTRS6m = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityTRS6->getPrimaryKey(),
+            'activity_id' => 'TRS6',
             'document_id' => NULL
         ]);
 
@@ -459,9 +454,8 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id    = $actionAMY1->id;
         $log->window_uid = 104;
 
-        $activityAMSY10 = $simulation->game_type->getActivity(['code' => 'AMSY10']);
         $actionAMSY10 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityAMSY10->getPrimaryKey()
+            'activity_id' => 'AMSY10',
         ]);
 
         $log = $data[] = new LogActivityAction();
@@ -473,9 +467,8 @@ class SimulationServiceTest extends CDbTestCase
         $log->activity_action_id    = $actionAMSY10->id;
         $log->window_uid = 104;
 
-        $activityAU = $simulation->game_type->getActivity(['code' => 'A_already_used']);
         $actionAU = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityAU->getPrimaryKey(),
+            'activity_id' => 'A_already_used',
             'document_id' => NULL
         ]);
 
@@ -495,10 +488,8 @@ class SimulationServiceTest extends CDbTestCase
         $log->end_time              = '09:16:28';
         $log->activity_action_id    = $action41->id;
         $log->window_uid = 110;
-
-        $activityT321 = $simulation->game_type->getActivity(['code' => 'T3.2.1']);
         $actionT321 = ActivityAction::model()->findByAttributes([
-            'activity_id' => $activityT321->getPrimaryKey(),
+            'activity_id' => 'T3.2.1',
             'document_id' => DocumentTemplate::model()->findByAttributes(['code' => 'D1'])->primaryKey
         ]);
 
@@ -1123,8 +1114,8 @@ class SimulationServiceTest extends CDbTestCase
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
-        $first = $simulation->game_type->getReplica(['excel_id' => 516]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 523]);
+        $first = Replica::model()->byExcelId(516)->find();
+        $last = Replica::model()->byExcelId(523)->find();
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -1152,8 +1143,8 @@ class SimulationServiceTest extends CDbTestCase
         // End rule 8
 
         // Alternative action for rule id 8
-        $first = $simulation->game_type->getReplica(['excel_id' => 549]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 560]);
+        $first = Replica::model()->byExcelId(549)->find();
+        $last = Replica::model()->byExcelId(560)->find();
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
             [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
@@ -1256,42 +1247,31 @@ class SimulationServiceTest extends CDbTestCase
     public function testStressRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
         $eventsManager = new EventsManager();
+        $dialog = new DialogService();
+
+        $eventsManager->processLogs($simulation, [
+            [1, 1, 'activated', 32400, 'window_uid' => 1]
+        ]);
 
         // Action for rule id 2
-        $first = $simulation->game_type->getReplica(['excel_id' => 4]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 11]);
-        $dialogLog = [
-            [1, 1, 'activated', 32400, 'window_uid' => 1],
-            [1, 1, 'deactivated', 32401, 'window_uid' => 1],
-            [20, 23, 'activated', 32401, ['dialogId' => $first->id], 'window_uid' => 2],
-            [20, 23, 'deactivated', 32460, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 2],
-            [1, 1, 'activated', 32460, 'window_uid' => 1]
-        ];
-        $eventsManager->processLogs($simulation, $dialogLog);
+        $replica = Replica::model()->byExcelId(11)->find();
+        $dialog->getDialog($simulation->id, $replica->id, '11:01');
         // end rule 2
 
         // Action for rule id 1
-        $first = $simulation->game_type->getReplica(['excel_id' => 516]);
-        $last = $simulation->game_type->getReplica(['excel_id' => 526]);
-        $dialogLog = [
-            [1, 1, 'deactivated', 32501, 'window_uid' => 1],
-            [20, 23, 'activated', 32501, ['dialogId' => $first->id], 'window_uid' => 2],
-            [20, 23, 'deactivated', 32560, ['dialogId' => $first->id, 'lastDialogId' => $last->id], 'window_uid' => 2],
-            [1, 1, 'activated', 32560, 'window_uid' => 1]
-        ];
-        $eventsManager->processLogs($simulation, $dialogLog);
+        $replica = Replica::model()->byExcelId(522)->find();
+        $dialog->getDialog($simulation->id, $replica->id, '12:02');
         // end rule 1
 
         // Actions for rule id 15
-        LibSendMs::sendMsByCode($simulation, 'MS20', 32600);
+        LibSendMs::sendMsByCode($simulation, 'MS20', 40000);
         // End rule 15
 
-        $windowLog = [
-            [1, 1, 'deactivated', 35000, 'window_uid' => 1]
-        ];
-        $eventsManager->processLogs($simulation, $windowLog);
+        $eventsManager->processLogs($simulation, [
+            [1, 1, 'deactivated', 41000, 'window_uid' => 1]
+        ]);
 
         SimulationService::simulationStop($simulation);
 

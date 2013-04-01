@@ -46,9 +46,6 @@ class SimulationsController extends AjaxController implements AccountPageControl
      */
     public function actionDetails($id)
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $simulation = Simulation::model()->findByPk($id);
 
         $this->layout = false;

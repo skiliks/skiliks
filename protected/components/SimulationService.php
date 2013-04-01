@@ -172,7 +172,7 @@ class SimulationService
         }
 
         // add Point object
-        foreach ($simulation->game_type->getHeroBehavours([]) as $point) {
+        foreach (HeroBehaviour::model()->findAll() as $point) {
             if (isset($behaviours[$point->code])) {
                 $behaviours[$point->code]->mark = $point;
             }
@@ -244,13 +244,12 @@ class SimulationService
 
     /**
      * must be called at once, when simulation starts
-     * @param Simulation $simulation
-     * @internal param int $simulationId
+     * @param integer $simulationId
      */
-    public static function fillTodo(Simulation $simulation)
+    public static function fillTodo($simulation)
     {
         // add P17 - презентация ген. директору
-        $task = $simulation->game_type->getTask(['start_type'=> 'start', "code" => 'P017']);
+        $task = Task::model()->byStartType('start')->find(" code = 'P017' ");
         $sql = "INSERT INTO day_plan (sim_id, date, day, task_id) VALUES
         ({$simulation->id}, '16:00:00',1, {$task->id});
         ";
@@ -260,13 +259,11 @@ class SimulationService
         $command->execute();
 
         // прочие задачи
-        $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
+        $tasks = Task::model()->byStartType('start')->findAll(" code != 'P017' ");
         $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
 
         $add = '';
         foreach ($tasks as $task) {
-            if ($task->code === 'P017')
-                continue;
             $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
             $add = ',';
         }
@@ -279,13 +276,11 @@ class SimulationService
 
     /**
      * Fills executed performance rules according to user actions
-     * @param int $simId
+     * @param Simulation $simulation
      */
-    public static function setFinishedPerformanceRules($simId)
+    public static function setFinishedPerformanceRules($simulation)
     {
-        /** @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk($simId);
-        $allRules = $simulation->game_type->getPerformanceRules([]);
+        $allRules = PerformanceRule::model()->findAll();
         $done = [];
 
         /** @var $rule PerformanceRule */
@@ -302,27 +297,27 @@ class SimulationService
                     $replica = Replica::model()->findByPk($condition->replica_id);
 
                     $satisfies = LogDialog::model()
-                        ->bySimulationId($simId)
+                        ->bySimulationId($simulation->id)
                         ->byLastReplicaId($replica->excel_id)
                         ->exists();
 
                 } elseif ($condition->mail_id) {
                     /** @var MailBox $mail */
                     $mail = MailBox::model()->findByAttributes([
-                        'sim_id' => $simId,
+                        'sim_id' => $simulation->id,
                         'template_id' => $condition->mail_id
                     ]);
 
                     $satisfies = $mail ?
                         LogMail::model()
-                            ->bySimId($simId)
+                            ->bySimId($simulation->id)
                             ->byMailBoxId($mail->id)
                             ->exists() :
                         false;
                 } elseif ($condition->excel_formula_id) {
 
                     $satisfies = SimulationExcelPoint::model()
-                        ->bySimulation($simId)
+                        ->bySimulation($simulation->id)
                         ->byFormula($condition->excel_formula_id)
                         ->byExistsValue()
                         ->exists();
@@ -339,7 +334,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new PerformancePoint();
-                $point->sim_id = $simId;
+                $point->sim_id = $simulation->id;
                 $point->performance_rule_id = $rule->id;
                 $point->save();
 
@@ -350,9 +345,9 @@ class SimulationService
 
     /**
      * Fills gained stress rules according to user actions
-     * @param int $simId
+     * @param Simulation $simulation
      */
-    public static function setGainedStressRules($simId)
+    public static function setGainedStressRules($simulation)
     {
         $allRules = StressRule::model()->findAll();
         $done = [];
@@ -365,24 +360,21 @@ class SimulationService
 
             $satisfies = false;
             if ($rule->replica_id) {
-                /** @var Replica $replica */
-                $replica = Replica::model()->findByPk($rule->replica_id);
-
-                $satisfies = LogDialog::model()
-                    ->bySimulationId($simId)
-                    ->byLastReplicaId($replica->excel_id)
-                    ->exists();
+                $satisfies = !!LogReplica::model()->findByAttributes([
+                    'sim_id' => $simulation->id,
+                    'replica_id' => $rule->replica_id
+                ]);
 
             } elseif ($rule->mail_id) {
                 /** @var MailBox $mail */
                 $mail = MailBox::model()->findByAttributes([
-                    'sim_id' => $simId,
+                    'sim_id' => $simulation->id,
                     'template_id' => $rule->mail_id
                 ]);
 
                 $satisfies = $mail ?
                     LogMail::model()
-                        ->bySimId($simId)
+                        ->bySimId($simulation->id)
                         ->byMailBoxId($mail->id)
                         ->exists() :
                     false;
@@ -390,7 +382,7 @@ class SimulationService
 
             if (!empty($satisfies)) {
                 $point = new StressPoint();
-                $point->sim_id = $simId;
+                $point->sim_id = $simulation->id;
                 $point->stress_rule_id = $rule->id;
                 $point->save();
 
@@ -412,8 +404,8 @@ class SimulationService
             ->byNotSentTodayEmailCode()
             ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
-            ->byTriggerTimeGreaterThanZero()
-            ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
+            // ->byTriggerTimeGreaterThanZero()
+            ->findAll();
 
         $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
 
@@ -472,7 +464,6 @@ class SimulationService
         $simulation->user_id = $userId;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => ($type == Simulation::TYPE_LITE ? 'lite' : 'scenario')])->primaryKey;
         $simulation->type = $type;
         $simulation->insert();
         $profiler->render('3: ');
@@ -544,8 +535,8 @@ class SimulationService
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
 
-        SimulationService::setFinishedPerformanceRules($simulation->id);
-        SimulationService::setGainedStressRules($simulation->id);
+        SimulationService::setFinishedPerformanceRules($simulation);
+        SimulationService::setGainedStressRules($simulation);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly
@@ -627,9 +618,7 @@ class SimulationService
     public static function applyReductionFactors(Simulation $simulation)
     {
         // we will clculate K based om MAX negative value for learning goals
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('max_negative_value IS NOT NULL');
-        $learningGoalsForUpdate = $simulation->game_type->getLearningGoals($criteria);
+        $learningGoalsForUpdate = LearningGoal::model()->findAll(' max_negative_value IS NOT NULL ');
 
         // to access goals by code
         $learningGoals = [];
@@ -638,17 +627,14 @@ class SimulationService
         $learningGoalsForUpdateCodes = [];
         $sum = [];  // learningGoalsForUpdateNegativeScaleSum
         foreach ($learningGoalsForUpdate as $learningGoalForUpdate) {
-            $learningGoals[$learningGoalForUpdate->getPrimaryKey()] = $learningGoalForUpdate;
+            $learningGoals[$learningGoalForUpdate->code] = $learningGoalForUpdate;
 
             $learningGoalsForUpdateCodes[] = $learningGoalForUpdate->code;
-            $sum[$learningGoalForUpdate->getPrimaryKey()] = 0;
+            $sum[$learningGoalForUpdate->code] = 0;
         }
 
-        $negativeLearningGoalCriteria = new CDbCriteria();
-        $negativeLearningGoalCriteria->addInCondition('code', $learningGoalsForUpdateCodes);
-        $learningGoalsForUpdateIds = $simulation->game_type->getLearningGoals($negativeLearningGoalCriteria);
         $negativeHeroBehavioursCriteria = new CDbCriteria();
-        $negativeHeroBehavioursCriteria->addInCondition('learning_goal_id', array_map(function ($i) {return $i->id;}, $learningGoalsForUpdateIds));
+        $negativeHeroBehavioursCriteria->addInCondition('learning_goal_code', $learningGoalsForUpdateCodes);
         $negativeHeroBehavioursCriteria->compare('type_scale', HeroBehaviour::TYPE_NEGATIVE);
         $negativeHeroBehaviours = HeroBehaviour::model()->findAll($negativeHeroBehavioursCriteria);
 
@@ -661,35 +647,35 @@ class SimulationService
         // calculate total negative sum for learning goals {
         foreach ($simulation->assessment_aggregated as $assessment) {
             if (in_array($assessment->point->code, $heroBehavioursForUpdateCodes) &&
-                isset($sum[$assessment->point->learning_goal_id])) {
+                isset($sum[$assessment->point->learning_goal_code])) {
 
-                $sum[$assessment->point->learning_goal_id] += $assessment->value;
+                $sum[$assessment->point->learning_goal_code] += $assessment->value;
             }
         }
         // calculate total negative sum for learning goals }
 
         // calculate coefficients {
-        foreach ($sum as $learningGoalId => $sumValue) {
-            $realK = $sumValue/$learningGoals[$learningGoalId]->max_negative_value;
+        foreach ($sum as $learningGoalCode => $sumValue) {
+            $realK = $sumValue/$learningGoals[$learningGoalCode]->max_negative_value;
 
-            $k[$learningGoalId] = 1;
+            $k[$learningGoalCode] = 1;
 
             if ($realK <= 0.1) {
-                $k[$learningGoalId] = 1;
+                $k[$learningGoalCode] = 1;
             } elseif (0.1 < $realK && $realK <= 0.5) {
-                $k[$learningGoalId] = 0.5;
+                $k[$learningGoalCode] = 0.5;
             } elseif (0.5 < $realK) {
-                $k[$learningGoalId] = 0;
+                $k[$learningGoalCode] = 0;
             }
         }
         // calculate coefficients }
 
         // update assessment on positive scale {
         foreach ($simulation->assessment_aggregated as $assessment) {
-            if (isset($k[$assessment->point->learning_goal_id]) &&
+            if (isset($k[$assessment->point->learning_goal_code]) &&
                 $assessment->point->type_scale == HeroBehaviour::TYPE_POSITIVE
             ) {
-                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_id];
+                $assessment->coefficient_for_fixed_value = $k[$assessment->point->learning_goal_code];
                 $assessment->fixed_value = $assessment->coefficient_for_fixed_value * $assessment->value;
             } else {
                 $assessment->fixed_value = $assessment->value;

@@ -45,7 +45,7 @@ class Case1_SK1390_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
 
-        $this->Universal($TH);
+        $this->Universal($TH, sizeof($m));
         sleep(5);
         $this->Leg_actions_detail();
         sleep(5);

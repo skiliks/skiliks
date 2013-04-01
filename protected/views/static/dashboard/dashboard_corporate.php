@@ -1,8 +1,7 @@
 
-<section class="dashboard">
+<section class="dashboard corpdashboard">
+    <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Corporate dashboard') ?></h2>
     <aside>
-     <h2 class="thetitle bigtitle"><?php echo Yii::t('site', 'Dashboard') ?></h2>
-
     <!-- invite-people-box -->
         <div id="invite-people-box" class="nice-border backgroud-rich-blue sideblock">
             <?php $this->renderPartial('_invite_people_box', [
@@ -25,32 +24,21 @@
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
-            <?php echo $invite->email ?> <br/><br/>
+            <?php echo $invite->email ?>
             <label></label>
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
-
-        <br/>
-        <br/>
-
         <div class="row">
             <?php echo $form->labelEx($invite, 'message text'); ?>
             <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
 
-        <br/>
-        <br/>
-
         <div class="row">
             <?php echo $form->labelEx($invite, 'signature'); ?>
             <?php echo $form->textField($invite, 'signature'); ?>
             <?php echo $form->error($invite, 'signature'); ?>
         </div>
-
-        <br/>
-        <br/>
-
         <div class="row buttons">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
@@ -81,7 +69,7 @@
     </aside>
     <div class="narrow-contnt">
         <!-- corporate-invitations-list-box -->
-        <div id="corporate-invitations-list-box" class="nice-border backgroud-light-yellow">
+        <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
                 'vacancies' => $vacancies,
