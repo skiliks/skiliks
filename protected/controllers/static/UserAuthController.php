@@ -501,11 +501,10 @@ class UserAuthController extends YumController
         }
 
         $recoveryUrl = $this->createAbsoluteUrl(
-            $this->createUrl('static/userAuth/recovery'),
-            [
+            $this->createUrl('static/userAuth/recovery', [
                 'key' => $user->activationKey,
                 'email' => $user->profile->email
-            ]
+            ])
         );
 
         $body = strtr(
