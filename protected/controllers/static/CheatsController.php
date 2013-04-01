@@ -12,9 +12,6 @@ class CheatsController extends AjaxController
      */
     public function actionMainPage()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');
@@ -37,9 +34,6 @@ class CheatsController extends AjaxController
      */
     public function actionSetStatusForAllInvites($status)
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');
@@ -78,9 +72,6 @@ class CheatsController extends AjaxController
      */
     public function actionIncreaseInvites()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');
@@ -151,9 +142,6 @@ class CheatsController extends AjaxController
      */
     public function actionChooseTariff($label)
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $user = Yii::app()->user;
         if (null === $user) {
             $this->redirect('/');

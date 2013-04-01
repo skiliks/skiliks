@@ -98,8 +98,6 @@ class UserAuthController extends YumController
      */
     public function actionRegisterByLink($code)
     {
-        Yii::app()->language = 'ru';
-
         $invite = Invite::model()->findByCode($code);
         if (empty($invite)) {
             Yii::app()->user->setFlash('site', 'Код приглашения неверный.');
@@ -263,9 +261,6 @@ class UserAuthController extends YumController
      */
     public function actionAccountTypeSavesSuccessfully()
     {
-        // this page currently will be just RU
-        Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         $message = sprintf(
@@ -291,8 +286,6 @@ class UserAuthController extends YumController
      */
     public function actionChooseAccountType()
     {
-        $lang = Yii::app()->language = 'ru';
-
         $this->checkUser();
 
         // only activated user can choose account type
@@ -601,7 +594,6 @@ class UserAuthController extends YumController
      */
     public function actionActivation($email, $key) {
 
-        Yii::app()->language = 'ru'; // Skiliks
         $YumUser    = Yii::app()->request->getParam('YumUser');
         $YumProfile = YumProfile::model()->findByAttributes(['email'=>$email]);
 
