@@ -314,13 +314,18 @@ class SimulationService
                             ->byMailBoxId($mail->id)
                             ->exists() :
                         false;
+                } elseif ($condition->excel_formula_id) {
+
+
+
+                    $satisfies = SimulationExcelPoint::model()
+                        ->bySimulation($simId)
+                        ->byFormula($condition->excel_formula_id)
+                        ->byExistsValue()
+                        ->exists();
+
                 }
 
-                if ($rule->operation === 'AND' && $satisfies ||
-                    ($rule->operation === 'OR') && !$satisfies
-                ) {
-                    continue;
-                }
             }
 
             if (!empty($satisfies)) {
@@ -470,10 +475,12 @@ class SimulationService
         // see Assessment scheme_v5.pdf
         SimulationService::saveAggregatedPoints($simulation->id);
 
-        SimulationService::setFinishedPerformanceRules($simulation->id);
+
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints();
+
+        SimulationService::setFinishedPerformanceRules($simulation->id);
 
         // @todo: this is trick
         // write all mail outbox/inbox scores to AssessmentAggregate directly

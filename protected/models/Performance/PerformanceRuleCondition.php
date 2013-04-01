@@ -8,6 +8,7 @@
  * @property integer $performance_rule_id
  * @property integer $replica_id
  * @property integer $mail_id
+ * @property integer $excel_formula_id
  *
  * The followings are the available model relations:
  * @property MailTemplate $mail
