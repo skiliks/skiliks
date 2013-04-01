@@ -33,6 +33,7 @@ define(["game/models/SKDocument"], function () {
             if ('read' === method) {
                 SKApp.server.api('myDocuments/getList', {}, function (data) {
                     console.log(data);
+                    console.log(this);
                     options.success(data.data);
 
                     me.waitForDocumentsInitialization();
