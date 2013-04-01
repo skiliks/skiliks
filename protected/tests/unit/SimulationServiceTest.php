@@ -1256,12 +1256,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testStressRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
         $eventsManager = new EventsManager();
 
         // Action for rule id 2
-        $first = Replica::model()->byExcelId(4)->find();
-        $last = Replica::model()->byExcelId(11)->find();
+        $first = $simulation->game_type->getReplica(['excel_id' => 4]);
+        $last = $simulation->game_type->getReplica(['excel_id' => 11]);
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -1273,8 +1273,8 @@ class SimulationServiceTest extends CDbTestCase
         // end rule 2
 
         // Action for rule id 1
-        $first = Replica::model()->byExcelId(516)->find();
-        $last = Replica::model()->byExcelId(523)->find();
+        $first = $simulation->game_type->getReplica(['excel_id' => 516]);
+        $last = $simulation->game_type->getReplica(['excel_id' => 526]);
         $dialogLog = [
             [1, 1, 'deactivated', 32501, 'window_uid' => 1],
             [20, 23, 'activated', 32501, ['dialogId' => $first->id], 'window_uid' => 2],
