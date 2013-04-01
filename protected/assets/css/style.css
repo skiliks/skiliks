@@ -2312,8 +2312,13 @@ ul.profile-menu li {
 .form-vacancy input[type="text"] {
     width:352px;
 }
-#add-vacancy-form .blue-btn {
+#add-vacancy-form .addlinkpads {
     margin-bottom: 22px;
+}
+.addlinkpads a {
+    color:#2e7a94;
+    font-size: 16px;
+    text-decoration: none;
 }
 /* *********************************** /VACANCY *********************************** */
 /* ***********************************  TARIFFS *********************************** */

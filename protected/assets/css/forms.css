@@ -1,5 +1,6 @@
 .features form div input[type=text], .registrationform input[type=text], .registrationform input[type=password], .inputtext,
-.profileform input[type=text], .profileform input[type=password], .sideform input[type=text], .sideform input[type=password]  {
+.profileform input[type=text], .profileform input[type=password], .sideform input[type=text], .sideform input[type=password],
+.controller-static-dashboard input[type="text"] {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -342,7 +343,7 @@ span.required {
     margin-top: 10px;
     padding: 0px 20px 0px 48px;
 }
-.profileform textarea {
+.profileform textarea, .controller-static-dashboard textarea {
     background:#fff;
     border:1px solid #3e5259;
     -webkit-border-radius:5px;
@@ -351,6 +352,8 @@ span.required {
     -moz-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     -webkit-box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
     box-shadow:10px 4px 10px rgba(0,0,0,0.1) inset;
+}
+.profileform textarea {
     color:#1d7885;
     width:340px;
 }
@@ -474,7 +477,15 @@ span.required {
 .greenbtn:hover {
     background-color: #bd2929;
 }
-.ui-dialog {
-
+/* **************************** POPUP **************************** */
+.controller-static-dashboard  .ui-dialog {
+    background:url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    border:none;
+    width:590px !important;
 }
+.controller-static-dashboard .ui-dialog .ui-dialog-content {
+    background:url("../img/bg-kniga.jpg") no-repeat right bottom;
+}
+/* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
+

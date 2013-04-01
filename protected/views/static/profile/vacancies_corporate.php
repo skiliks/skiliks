@@ -101,7 +101,7 @@
         </div>
 
         <?php if (null !== $vacancy->id): ?>
-            <a class="blue-btn" href="/profile/corporate/vacancies/">Добавить</a>
+        <div class="addlinkpads"><a href="/profile/corporate/vacancies/">Вернуться к добавлению вакансий</a></div>
 
             <!--<h2>Редактирование вакансии "<?php /* echo $vacancy->label */ ?>"</h2>-->
         <?php endif ?>

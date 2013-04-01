@@ -28,28 +28,17 @@
             <label></label>
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
-
-        <br/>
-        <br/>
-
         <div class="row">
             <?php echo $form->labelEx($invite, 'message text'); ?>
             <?php echo $form->textArea($invite, 'message', ['rows' => 10, 'cols' => 60]); ?>
             <?php echo $form->error($invite, 'message'); ?>
         </div>
 
-        <br/>
-        <br/>
-
         <div class="row">
             <?php echo $form->labelEx($invite, 'signature'); ?>
             <?php echo $form->textField($invite, 'signature'); ?>
             <?php echo $form->error($invite, 'signature'); ?>
         </div>
-
-        <br/>
-        <br/>
-
         <div class="row buttons">
             <?php echo CHtml::submitButton('Отправить', ['name' => 'send']); ?>
         </div>
