@@ -57,13 +57,13 @@ class PerformanceRuleTest extends CDbTestCase {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
 
         $this->addExcelPoints($simulation);
 
         $res = SimulationExcelPoint::model()->findAllByAttributes(['sim_id'=>$simulation->id]);
 
-        $ms = MailTemplate::model()->byCode("MS36")->find();
+        $ms = $simulation->game_type->getMailTemplate(['code'=>"MS36"]);
 
         $mail_box = new MailBox();
         $mail_box->group_id = 1;
@@ -75,6 +75,7 @@ class PerformanceRuleTest extends CDbTestCase {
         $mail_box->code = 'MS36';
         $mail_box->coincidence_mail_code = 'full';
         $mail_box->coincidence_type = 'MS36';
+        $mail_box->letter_type = '';
         $mail_box->save();
 
         $log_mail = new LogMail();
@@ -90,7 +91,8 @@ class PerformanceRuleTest extends CDbTestCase {
 
         SimulationService::setFinishedPerformanceRules($simulation->id);
 
-        $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
+        $performanceRule = $simulation->game_type->getPerformanceRule(['code' => 40]);
+        $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => $performanceRule->getPrimaryKey()]);
 
         $this->assertNotNull($rule);
     }
