@@ -187,8 +187,12 @@ define([
             'onAddDocument' : function(){
                 console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
                 console.log(Object.keys(SKDocument._excel_cache).length);
-                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
-                    Object.keys(SKDocument._excel_cache).length) {
+                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
+                console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
+
+                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
+                    Object.keys(SKDocument._excel_cache).length) {*/
                     $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
                 }
             },
