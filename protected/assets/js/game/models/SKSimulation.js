@@ -158,7 +158,7 @@ define([
                 }
 
                 this.documents = new SKDocumentCollection();
-                this.documents.bind('add', this.onAddDocument, this);
+                this.documents.bind('reset', this.onAddDocument, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
