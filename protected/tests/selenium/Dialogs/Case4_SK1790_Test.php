@@ -76,7 +76,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Какой план? Я бюджетом занят!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я могу тебе предложить достойную альтернативу – повидайся с моим лучшим аналитиком Мариной Крутько')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сегодня вечером, после шести! ')])");
-        sleep(2);
+        sleep(10);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
