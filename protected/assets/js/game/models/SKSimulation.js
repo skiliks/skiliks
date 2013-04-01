@@ -157,7 +157,7 @@ define([
                 }
 
                 this.documents = new SKDocumentCollection();
-                this.documents.on('add', function(el){
+                this.documents.bind( 'add', function(el){
                     console.log('add doc');
                     console.log(el);
                 });
