@@ -407,7 +407,7 @@ class SimulationService
             ->byNotSentTodayEmailCode()
             ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
-            ->byTriggerTimeGreaterThanZero()
+            // ->byTriggerTimeGreaterThanZero()
             ->findAll();
 
         $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";

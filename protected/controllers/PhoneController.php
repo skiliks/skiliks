@@ -82,11 +82,17 @@ class PhoneController extends AjaxController{
         ));
     }
 
-    public function actionCallBack() {
+    /**
+     *
+     */
+    public function actionCallBack()
+    {
         $phone = new PhoneService();
+        $simulation = $this->getSimulationEntity();
+
         return $this->sendJSON([
             'result' => 1,
-            'data' => $phone->callBack($this->getSimulationId(), Yii::app()->request->getParam('dialog_code', false))
+            'data'   => $phone->callBack($simulation, Yii::app()->request->getParam('dialog_code', false))
         ]);
     }
 }
