@@ -100,7 +100,8 @@ define([
 
                 this.postMessageCallback = function(event) {
                     console.log(event.data);
-                    if (-1 != event.data.indexOf('DocumentLoaded')) {
+                    if ('DocumentLoaded' == event.data.type) {
+                        console.log("Postmessage");
 //
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
