@@ -76,6 +76,8 @@
         <div id="simulations-counter-box" class="nice-border backgroud-light-blue">
             <?php $this->renderPartial('_simulations_counter_box', []) ?>
         </div>
+
+        <div class="sidefeedback"><a href="#" class="light-btn">Обратная связь</a></div>
     </aside>
     <div class="narrow-contnt">
         <!-- corporate-invitations-list-box -->

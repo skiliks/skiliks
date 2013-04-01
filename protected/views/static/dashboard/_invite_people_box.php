@@ -1,4 +1,4 @@
-<div class="form invite-people-form">
+<div class="form invite-people-form sideform darkblueplacehld">
 
     <h2>Отправить приглашение</h2>
 
@@ -29,7 +29,7 @@
     </div>
 
     <div class="row buttons">
-        <?php echo CHtml::submitButton('Отправить приглашение', ['name' => 'prevalidate']); ?>
+        <?php echo CHtml::submitButton('Отправить', ['name' => 'prevalidate']); ?>
     </div>
 
     <?php $this->endWidget(); ?>
