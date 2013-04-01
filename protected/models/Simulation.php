@@ -156,6 +156,7 @@ class Simulation extends CActiveRecord
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
+            'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
             'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
             'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
             'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
