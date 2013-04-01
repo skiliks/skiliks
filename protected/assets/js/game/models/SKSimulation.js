@@ -101,7 +101,12 @@ define([
                 this.postMessageCallback = function(event) {
                     console.log(event.data);
                     if ('DocumentLoaded' == event.data.type) {
-                        console.log("Postmessage");
+
+                        $.each(SKDocument._excel_cache, function(id, url){
+                            console.log(url);
+                        });
+
+
 //
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
 //                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
