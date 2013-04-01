@@ -508,7 +508,7 @@ class UserAuthController extends YumController
         );
 
         $body = strtr(
-            Yii::t('site', 'You have requested a new password. Please use this URL to continue: {recovery_url}'),
+            Yii::t('site', 'You have requested a new password. Please use this URL to continue: <a href="{recovery_url}" target="_blank">{recovery_url}</a>'),
             ['{recovery_url}' => $recoveryUrl]
         );
 
