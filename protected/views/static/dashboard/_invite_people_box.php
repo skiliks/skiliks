@@ -1,6 +1,6 @@
 <div class="form invite-people-form">
 
-    <h2>Пригласить соискателя</h2>
+    <h2>Отправить приглашение</h2>
 
     <?php $form = $this->beginWidget('CActiveForm', array(
         'id' => 'invite-form'

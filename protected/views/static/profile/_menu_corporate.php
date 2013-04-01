@@ -11,7 +11,7 @@
         Информация о компании
     </a></li>
 
-    <li class="<?php if (isset($active['vacancies'])){ echo 'active'; } ?>"><a href="/profile/corporate/vacancies">
+    <li class="<?php if (isset($active['vacancies'])){ echo 'active'; }?>"><a href="/profile/corporate/vacancies">
         Вакансии
     </a></li>
 
@@ -19,7 +19,7 @@
         Тариф
     </a></li>
 
-    <li class="<?php if (isset($active['payment-method'])){ echo 'active'; }?>"><a href="/profile/corporate/payment-method">
-        Метод оплаты
+    <li class="mnotactive <?php if (isset($active['payment-method'])){ echo 'active'; }?>"><a href="/profile/corporate/payment-method">
+           Способ оплаты
     </a></li>
 </ul>
