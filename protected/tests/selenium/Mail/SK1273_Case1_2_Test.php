@@ -50,9 +50,8 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Срочно жду бюджет логистики"));
-        $this->optimal_click("css=.btn-close button");
+
         $this->assertTrue($this->incoming_counter(1));
-        $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['inbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Срочно жду бюджет логистики"));
@@ -70,8 +69,6 @@ class SK1273_Case1_2_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['outbox']);
         $this->waitForVisible("xpath=(//*[contains(text(),'Отчет для Правления')])");
         $this->assertTrue($this->mail_comes("Re: Re: Re: Re: Срочно жду бюджет логистики"));
-        sleep(2);
-        $this->optimal_click("css=.btn-close button");
 
         if ($this->is_it_done("css=li.icon-active.mail a"))
         {
