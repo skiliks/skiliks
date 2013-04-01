@@ -316,14 +316,18 @@ class SimulationService
                         false;
                 } elseif ($condition->excel_formula_id) {
 
-
-
                     $satisfies = SimulationExcelPoint::model()
                         ->bySimulation($simId)
                         ->byFormula($condition->excel_formula_id)
                         ->byExistsValue()
                         ->exists();
 
+                }
+
+                if ($rule->operation === 'AND' && !$satisfies ||
+                    $rule->operation === 'OR' && $satisfies
+                ) {
+                    break;
                 }
 
             }
