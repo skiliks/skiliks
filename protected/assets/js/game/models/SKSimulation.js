@@ -157,6 +157,10 @@ define([
                 }
 
                 this.documents = new SKDocumentCollection();
+                this.documents.on('add', function(el){
+                    console.log('add doc');
+                    console.log(el);
+                });
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
