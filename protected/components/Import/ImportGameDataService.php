@@ -2175,6 +2175,74 @@ class ImportGameDataService
         );
     }
 
+    public function importStressRules()
+    {
+        $this->logStart();
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Stress');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $types = [
+            'id_записи' => 'replica_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $rules = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Stress_rule_id', $i);
+            $type = $this->getCellValue($sheet, 'Stress_type', $i);
+            $code = $this->getCellValue($sheet, 'Stress_code', $i);
+
+            if (empty($ruleId)) {
+                break;
+            }
+
+            if ($type == 'id_записи') {
+                $entity = Replica::model()->byExcelId($code)->find();
+            } elseif ($type == 'outbox' || $type == 'inbox') {
+                $entity = MailTemplate::model()->byCode($code)->find();
+            } else {
+                $entity = null;
+            }
+
+            if (isset($entity)) {
+                $rule = StressRule::model()->findByPk($ruleId);
+                if (empty($rule)) {
+                    $rule = new StressRule();
+                    $rule->id = $ruleId;
+                }
+
+                $rule->{$types[$type]} = $entity->id;
+                $rule->value = $this->getCellValue($sheet, 'Stress_value', $i);
+                $rule->import_id = $this->import_id;
+
+                $rule->save();
+                $rules++;
+            }
+        }
+
+        // delete old unused data {
+        StressRule::model()->deleteAll(
+            'import_id <> :import_id',
+            array('import_id' => $this->import_id)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'stress_rules' => $rules,
+            'errors' => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2223,6 +2291,7 @@ class ImportGameDataService
         $result['activity_parent_ending'] = $this->importActivityParentEnding();
         $result['flag_rules'] = $this->importFlagsRules();
         $result['performance_rules'] = $this->importPerformanceRules();
+        $result['stress_rules'] = $this->importStressRules();
         return $result;
     }
 
