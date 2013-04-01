@@ -254,7 +254,8 @@ class AjaxController extends CController
     public function accountPagesBase()
     {
         $user = Yii::app()->user;
-        if (null === $user) {
+        if (null === $user->id) {
+            Yii::app()->user->setFlash('error', 'Авторизируйтесь.');
             $this->redirect('/');
         }
 
@@ -264,8 +265,10 @@ class AjaxController extends CController
             $simulation = Simulation::model()->findByAttributes(['user_id' => $user->id]);
 
             if (null === $simulation) {
+                Yii::app()->user->setFlash('error', 'Укажите тип аккаунта.');
                 $this->redirect('profile/without-account');
             } else {
+                Yii::app()->user->setFlash('error', 'Результаты последней пройденноой симкляции.');
                 $this->redirect('simulation/results');
             }
         }
@@ -279,7 +282,7 @@ class AjaxController extends CController
         }
 
         // just to be sure - handle strange case
-        Yii::app()->uawr->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
+        Yii::app()->user->setFlash('error', 'Ваш профиль не активирован. Проверте почтовый ящик - там долно быть письма со ссылкой доя активации аккаунта.');
         $this->redirect('/');
     }
 }
