@@ -85,8 +85,8 @@ class ActivityParent extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('import_id',$this->import_id,true);
-		$criteria->compare('parent_code',$this->parent_code,true);
+		$criteria->compare('import_id',$this->import_id);
+		$criteria->compare('parent_code',$this->parent_code);
 		$criteria->compare('dialog_id',$this->dialog_id);
 		$criteria->compare('mail_id',$this->mail_id);
 

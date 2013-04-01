@@ -93,7 +93,7 @@ class ReplicaPoint extends CActiveRecord
         $criteria->compare('dialog_id',$this->dialog_id);
         $criteria->compare('point_id',$this->point_id);
         $criteria->compare('add_value',$this->add_value);
-        $criteria->compare('import_id',$this->import_id,true);
+        $criteria->compare('import_id',$this->import_id);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

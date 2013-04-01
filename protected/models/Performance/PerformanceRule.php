@@ -89,8 +89,8 @@ class PerformanceRule extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('activity_id',$this->activity_id,true);
-		$criteria->compare('operation',$this->operation,true);
+		$criteria->compare('activity_id',$this->activity_id);
+		$criteria->compare('operation',$this->operation);
 		$criteria->compare('value',$this->value);
 
 		return new CActiveDataProvider($this, array(

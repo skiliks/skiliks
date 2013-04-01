@@ -106,8 +106,8 @@ class LogActivityAction extends CActiveRecord
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('activity_action_id',$this->activity_action_id);
 		$criteria->compare('window',$this->window);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('start_time',$this->start_time);
+		$criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

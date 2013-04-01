@@ -83,7 +83,7 @@ class ProfessionalOccupation extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('label',$this->label);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

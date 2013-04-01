@@ -83,8 +83,8 @@ class Window extends CActiveRecord implements IGameAction
         $criteria=new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('type', $this->type, true);
-        $criteria->compare('subtype', $this->subtype, true);
+        $criteria->compare('type', $this->type);
+        $criteria->compare('subtype', $this->subtype);
 
         return new CActiveDataProvider($this, array(
             'criteria'=>$criteria,

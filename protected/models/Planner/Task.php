@@ -113,15 +113,15 @@ class Task extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('start_time',$this->start_time,true);
+		$criteria->compare('title',$this->title);
+		$criteria->compare('start_time',$this->start_time);
 		$criteria->compare('duration',$this->duration);
 		$criteria->compare('is_cant_be_moved',$this->is_cant_be_moved);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('start_type',$this->start_type,true);
+		$criteria->compare('code',$this->code);
+		$criteria->compare('start_type',$this->start_type);
 		$criteria->compare('category',$this->category);
-		$criteria->compare('import_id',$this->import_id,true);
+		$criteria->compare('import_id',$this->import_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

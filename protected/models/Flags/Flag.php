@@ -77,8 +77,8 @@ class Flag extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('description',$this->description,true);
+		$criteria->compare('code',$this->code);
+		$criteria->compare('description',$this->description);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

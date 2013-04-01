@@ -99,10 +99,10 @@ class Vacancy extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('professional_occupation_id',$this->professional_occupation_id);
 		$criteria->compare('professional_specialization_id',$this->professional_specialization_id);
-		$criteria->compare('label',$this->label,true);
-		$criteria->compare('link',$this->link,true);
-		$criteria->compare('import_id',$this->import_id,true);
-		$criteria->compare('user_id', $userId ?: $this->user_id,true);
+		$criteria->compare('label',$this->label);
+		$criteria->compare('link',$this->link);
+		$criteria->compare('import_id',$this->import_id);
+		$criteria->compare('user_id', $userId ?: $this->user_id);
 
 		return new CActiveDataProvider($this, [
 			'criteria'   => $criteria,

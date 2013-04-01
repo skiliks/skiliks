@@ -93,7 +93,7 @@ class UserAccountPersonal extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('industry_id',$this->industry_id);
 		$criteria->compare('professional_status_id',$this->professional_status);
 		$criteria->compare('birthday',$this->birthday);

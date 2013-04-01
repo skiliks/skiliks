@@ -104,8 +104,8 @@ class LogDocument extends CActiveRecord
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
 		$criteria->compare('file_id',$this->file_id);
-		$criteria->compare('start_time',$this->start_time,true);
-		$criteria->compare('end_time',$this->end_time,true);
+		$criteria->compare('start_time',$this->start_time);
+		$criteria->compare('end_time',$this->end_time);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
