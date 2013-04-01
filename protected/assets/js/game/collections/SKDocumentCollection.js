@@ -32,7 +32,7 @@ define(["game/models/SKDocument"], function () {
 
             if ('read' === method) {
                 SKApp.server.api('myDocuments/getList', {}, function (data) {
-                    var cache = me;
+                    var cache = me.clone();
                     options.success(data.data);
                     me.each(function(model) {
                        var found = cache.where({'id': model.get('id')});
