@@ -84,9 +84,11 @@ define([
 
                 delete SKDocument._excel_cache[doc.get('id')];
                 SKApp.simulation.documents.remove(doc);
+                console.log(SKApp.simulation.documents);
+                console.log(doc);
                 SKApp.simulation.documents.fetch();
-
-                $(doc.combineIframeId()).remove();
+                console.log(SKApp.simulation.documents);
+                //$(doc.combineIframeId()).remove();
 
                                 // clean array of not handled zoho 500 {
                 var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
