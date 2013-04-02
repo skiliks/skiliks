@@ -478,7 +478,7 @@ a:focus, a:active {
 .midtitle {
     color:#3d4041;
     font: 28px "ProximaNova-Bold";
-    margin-bottom: 30px;
+    margin-bottom: 22px;
 }
 .bigtitle {
     font-size: 3.4em;
@@ -1855,7 +1855,7 @@ h2 {
 .action-index .flash {
     box-shadow: none;
     font-weight: normal;
-    height:150px;
+    height:150px !important;
     margin: 0px;
 }
 
@@ -2384,6 +2384,7 @@ ul.profile-menu li {
 }
 .popupclose {
     background:url("../img/popupclose.png") no-repeat left top;
+    cursor: pointer;
     height:17px;
     position: absolute;
     top:10px;
