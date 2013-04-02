@@ -72,7 +72,7 @@
         <div id="corporate-invitations-list-box" class="transparent-boder wideblock">
             <?php $this->renderPartial('_corporate_invitations_list_box', [
                 'inviteToEdit'    => $inviteToEdit,
-                'vacancies' => $vacancies,
+                'vacancies'       => $vacancies,
             ]) ?>
         </div>
 

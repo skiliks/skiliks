@@ -84,9 +84,9 @@ class LearningArea extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('code',$this->code,true);
-		$criteria->compare('title',$this->title,true);
-		$criteria->compare('import_id',$this->import_id,true);
+		$criteria->compare('code',$this->code);
+		$criteria->compare('title',$this->title);
+		$criteria->compare('import_id',$this->import_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

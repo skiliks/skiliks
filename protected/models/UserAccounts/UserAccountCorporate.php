@@ -114,7 +114,7 @@ class UserAccountCorporate extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('user_id',$this->user_id,true);
+		$criteria->compare('user_id',$this->user_id);
 		$criteria->compare('industry_id',$this->industry_id);
 
 		return new CActiveDataProvider($this, array(

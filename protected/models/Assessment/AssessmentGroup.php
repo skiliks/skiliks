@@ -83,8 +83,8 @@ class AssessmentGroup extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('import_id',$this->import_id,true);
+		$criteria->compare('name',$this->name);
+		$criteria->compare('import_id',$this->import_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -77,7 +77,7 @@ class TypeScale extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('value',$this->value,true);
+		$criteria->compare('value',$this->value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

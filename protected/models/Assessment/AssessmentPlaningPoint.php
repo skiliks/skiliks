@@ -98,7 +98,7 @@ class AssessmentPlaningPoint extends CActiveRecord
 		$criteria->compare('hero_behaviour_id',$this->hero_behaviour_id);
 		$criteria->compare('task_id',$this->task_id);
 		$criteria->compare('type_scale',$this->type_scale);
-		$criteria->compare('value',$this->value,true);
+		$criteria->compare('value',$this->value);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

@@ -81,7 +81,7 @@ class SimulationCompletedParent extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('parent_code',$this->parent_code,true);
+		$criteria->compare('parent_code',$this->parent_code);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

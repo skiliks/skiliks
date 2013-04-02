@@ -81,7 +81,7 @@ class FreeEmailProvider extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('domain',$this->domain,true);
+		$criteria->compare('domain',$this->domain);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

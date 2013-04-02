@@ -17,10 +17,10 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->deleteAllVisibleCookies();
         $this->windowMaximize();
-        $this->open('/');
+        $this->open('/ru');
         $this->optimal_click("css=.sign-in-link");
         $this->waitForVisible("css=.login>input");
-        $this->type("css=.login>input", "tatiana@skiliks.com");
+        $this->type("css=.login>input", "asd@skiliks.com");
         $this->type("css=.password>input", "123123");
         $this->optimal_click("css=.submit>input");
 
@@ -43,7 +43,7 @@ class SeleniumTestHelper extends CWebTestCase
             sleep(1);
         }
         // hren'
-        sleep(10);
+        sleep(20);
     }
 
     /**

@@ -87,7 +87,7 @@ class ProfessionalSpecialization extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('professional_occupation_id',$this->professional_occupation_id);
-		$criteria->compare('label',$this->label,true);
+		$criteria->compare('label',$this->label);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
