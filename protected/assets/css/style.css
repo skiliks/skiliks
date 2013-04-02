@@ -1848,18 +1848,6 @@ h2 {
 .flash-error {
     color: #cf1919;
 }
-/* ***************************** PEREBIVAEM STILI DLYA POPUPA ERROR ***************************** */
-.action-index .ui-dialog {
-    border:1px solid red;
-}
-.action-index .flash {
-    box-shadow: none;
-    font-weight: normal;
-    height:150px !important;
-    margin: 0px;
-}
-
-/* ***************************** /PEREBIVAEM STILI DLYA POPUPA ERROR ***************************** */
 /* ********************** DASHBOARD ********************** */
 .wideblock {
     width: 598px;
@@ -2381,6 +2369,12 @@ ul.profile-menu li {
 }
 .errorblock p+p, .action-index .errorblock p+p {
     margin-top: 20px;
+}
+.action-index .flash {
+    box-shadow: none;
+    font-weight: normal;
+    height:150px !important;
+    margin: 0px;
 }
 .popupclose {
     background:url("../img/popupclose.png") no-repeat left top;
