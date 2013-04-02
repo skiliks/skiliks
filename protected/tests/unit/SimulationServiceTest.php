@@ -391,8 +391,9 @@ class SimulationServiceTest extends CDbTestCase
 
         $log->activity_action_id = $action41->primaryKey;
 
+        $activityTRS6 = $simulation->game_type->getActivity(['code' => 'TRS6']);
         $actionTRS6 = ActivityAction::model()->findByAttributes([
-            'activity_id' => 'TRS6',
+            'activity_id' => $activityTRS6->getPrimaryKey(),
             'mail_id'     => NULL
         ]);
 

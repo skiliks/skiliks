@@ -192,7 +192,7 @@ class HeroBehaviour extends CActiveRecord
     public function relations()
     {
         return [
-            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'learning_goal_code'],
+            'learning_goal' => [self::BELONGS_TO, 'LearningGoal', 'learning_goal_id'],
             'group' => [self::BELONGS_TO, 'AssessmentGroup', 'group_id'],
             'type' => [self::BELONGS_TO, 'TypeScale', 'type_scale'],
         ];
