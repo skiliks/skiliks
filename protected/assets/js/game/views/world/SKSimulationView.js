@@ -19,7 +19,6 @@ define([
     "game/views/dialogs/SKImmediateVisitView",
     "game/views/world/SKDebugView",
     "game/views/world/SKIconPanelView",
-    "game/views/world/SKWebBrowserView",
     "game/views/SKDialogView"
 ], function (simulation_template) {
     "use strict";
@@ -48,7 +47,6 @@ define([
                 'documents/documents':     SKDocumentsListView,
                 'visitor/visitorEntrance': SKVisitView,
                 'visitor/visitorTalk':     SKImmediateVisitView,
-                'browser/browserMain':     SKWebBrowserView
             },
             /**
              * Массив окон, которые открыты в симуляции

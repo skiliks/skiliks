@@ -31,8 +31,7 @@ define([
                 'click .icons-panel .mail:not(.create-mail) a': 'doMailToggle',
                 'click .icons-panel .documents a': 'doDocumentsToggle',
                 'click .icons-panel .icon-button-disabled a': 'doNothing',
-                'click .icons-panel .only-active:not(.icon-active) a': 'doNothing',
-                'click .icons-panel .browser a': 'doBrowserToggle'
+                'click .icons-panel .only-active:not(.icon-active) a': 'doNothing'
             },
 
             /**
@@ -323,15 +322,6 @@ define([
             doPhoneToggle: function (e) {
                 e.preventDefault();
                 SKApp.simulation.window_set.toggle('phone', 'phoneMain');
-            },
-
-            /**
-             * @method
-             * @param e
-             */
-            doBrowserToggle: function (e) {
-                e.preventDefault();
-                SKApp.simulation.window_set.toggle('browser', 'browserMain');
             },
 
             /**

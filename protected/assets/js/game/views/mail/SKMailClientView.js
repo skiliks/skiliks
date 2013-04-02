@@ -448,10 +448,13 @@ define([
 
                 this.updateFolderLabels();
 
-                mailClientView.mailClient.setWindowsLog(
-                    'mailMain',
-                    mailClientView.mailClient.getActiveEmailId()
-                );
+                // initial render has it's own logging call
+                if (false == isInitialRender) {
+                    mailClientView.mailClient.setWindowsLog(
+                        'mailMain',
+                        mailClientView.mailClient.getActiveEmailId()
+                    );
+                }
             },
 
             /**
@@ -1770,7 +1773,6 @@ define([
              * @returns {boolean}
              */
             fillMessageWindow: function (response) {
-                console.log('fill message window');
                 var me = this;
                 if (null === response.subjectId) {
                     this.doRenderFolder(this.mailClient.aliasFolderInbox, false);
@@ -1851,7 +1853,6 @@ define([
                                 return attachment.fileMySqlId;
                             }), response.attachmentId
                         );
-                        console.log('index: ' + attachmentIndex);
                         me.$("#MailClient_NewLetterAttachment div.list").ddslick("select", {index: attachmentIndex + 1 });
                     });
                 }
@@ -1893,7 +1894,6 @@ define([
              * @param {Object} response API response
              */
             doUpdateScreenFromForwardEmailData: function (response) {
-
                 if (1 == response.result) {
                     if (null == response.subjectId) {
                         this.doRenderFolder(this.mailClient.aliasFolderInbox, false);

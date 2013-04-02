@@ -1316,7 +1316,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             openWindow: function () {
                 this.getDataForInitialScreen();
-                //this.trigger('init_completed');
             },
 
             /**
