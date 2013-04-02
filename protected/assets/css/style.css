@@ -2375,7 +2375,7 @@ ul.profile-menu li {
 }
 .errorblock p, .action-index .errorblock .flash-error p  {
     color: #29313d;
-    font-size:18px;
+    font-size:16px;
     line-height: 140%;
 }
 .errorblock p+p, .action-index .errorblock p+p {
