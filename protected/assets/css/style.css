@@ -2373,7 +2373,7 @@ ul.profile-menu li {
     padding: 30px;
     position: relative;
 }
-.errorblock p, .action-index .errorblock p  {
+.errorblock p, .action-index .errorblock .flash-error p  {
     color: #29313d;
     font-size:18px;
     line-height: 140%;
