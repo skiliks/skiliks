@@ -26,7 +26,6 @@ define([], function () {
             'visitorTalk':32,
             'documents':41,
             'documentsFiles':42,
-            'browserMain': 51
     };
     /**
      * Окно, открывается, закрывается, ведет за собой логи
