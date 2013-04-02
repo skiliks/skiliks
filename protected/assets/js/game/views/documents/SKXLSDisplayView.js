@@ -28,7 +28,7 @@ define([
         */
         initialize: function () {
             var me = this;
-            var doc = this.options.model_instance.get('document');
+            /*var doc = this.options.model_instance.get('document');
 
             if(undefined == typeof doc.get('excel_url') || 0 == $(doc.combineIframeId()).length) {
                 me.message_window = new SKDialogView({
@@ -45,7 +45,7 @@ define([
                 me.isRender = false;
             } else {
                 me.isRender = true;
-            }
+            }*/
 
             this.zoho500callback = function(event){
                 me.handlePostMessage(event);
@@ -81,29 +81,17 @@ define([
             }
 
             if (undefined != typeof event && event.origin !== "*") {
-                me.message_window = new SKDialogView({
-                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
-                    'buttons': [
-                        {
-                            'value': 'Конечно!',
-                            'onclick': function () {
+
                                 delete SKDocument._excel_cache[doc.get('id')];
+                                SKApp.simulation.documents.remove(doc);
                                 SKApp.simulation.documents.fetch();
 
-                                me.doWindowClose();
                                 $(doc.combineIframeId()).remove();
-                                me.remove();
 
                                 // clean array of not handled zoho 500 {
                                 var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
                                 delete SKApp.simulation.documents.zoho_500[i];
-                                // clean array of not handled zoho 500 }
 
-                                delete me.message_window;
-                            }
-                        }
-                    ]
-                });
             }
         },
 
