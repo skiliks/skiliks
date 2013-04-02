@@ -204,11 +204,11 @@ class PhoneService {
         return $list;
     }
     
-    public static function call(Simulation $simulation, $themeId, $characterId, $time)
+    public static function call(Simulation $simulation, $themeId, $characterCode, $time)
     {
 
             /** @var $communicationTheme CommunicationTheme */
-            $character = $simulation->game_type->getCharacter(['id' => $characterId]);
+            $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
             $communicationTheme = $simulation->game_type->getCommunicationTheme(['character_id' => $character->primaryKey, 'id' => $themeId, 'phone' => 1]);
             if ($communicationTheme) {
                 $eventCode = $communicationTheme->phone_dialog_number;
@@ -216,15 +216,15 @@ class PhoneService {
 
                     // выдаем автоответчик
                     $data = array();
-                    $data[] = self::combineReplicaToHero(array('ch_from' => "$characterId"));
+                    $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
 
-                    $character = Character::model()->byId($characterId)->find();
+                    $character = Character::model()->byId($characterCode)->find();
 
                     if ($character) {
                         $data[0]['title'] = $character->title;
                         $data[0]['name'] = $character->fio;
                     }
-                    PhoneService::registerOutgoing($simulation->id, $characterId, $time);
+                    PhoneService::registerOutgoing($simulation->id, $characterCode, $time);
                     return array(
                         'result' => 1,
                         'events' => array(
@@ -258,7 +258,7 @@ class PhoneService {
 
                     } else {
                         $data = self::getReplicaByCode($eventCode, $simulation);
-                        PhoneService::registerOutgoing($simulation->id, $characterId, $time, $themeId);
+                        PhoneService::registerOutgoing($simulation->id, $characterCode, $time, $themeId);
                         return [
                             'result' => 1,
                             'events' => array(
