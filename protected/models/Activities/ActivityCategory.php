@@ -81,7 +81,7 @@ class ActivityCategory extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('code',$this->code,true);
+		$criteria->compare('code',$this->code);
 		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(

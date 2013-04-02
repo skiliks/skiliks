@@ -435,7 +435,7 @@ class Simulation extends CActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id',$this->id);
-        $criteria->compare('user_id', $userId ?: $this->user_id, true);
+        $criteria->compare('user_id', $userId ?: $this->user_id);
 
         return new CActiveDataProvider($this, [
             'criteria' => $criteria,

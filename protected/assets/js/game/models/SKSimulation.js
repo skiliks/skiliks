@@ -108,8 +108,9 @@ define([
                                 var docs = SKApp.simulation.documents.where({id:id.toString()});
                                 docs[0].set('isInitialized', true);
                                 console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                                console.log(SKApp.simulation.documents.where({'isInitialized':true}).length);
-                                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true}).length){
+                                console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
+
+                                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                                     console.log("delete block");
                                     $('.zoho-load-start').remove();
                                 }
@@ -164,7 +165,7 @@ define([
                 }
 
                 this.documents = new SKDocumentCollection();
-                this.documents.bind('reset', this.onAddDocument, this);
+                this.documents.bind('afterReset', this.onAddDocument, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
@@ -184,7 +185,16 @@ define([
             },
 
             'onAddDocument' : function(){
-                $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
+                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
+                console.log(Object.keys(SKDocument._excel_cache).length);
+                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
+                console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
+
+                if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
+                /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
+                    Object.keys(SKDocument._excel_cache).length) {*/
+                    $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
+                }
             },
 
             /**

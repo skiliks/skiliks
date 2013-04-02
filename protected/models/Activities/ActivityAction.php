@@ -252,7 +252,7 @@ class ActivityAction extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('activity_id', $this->activity_id, true);
+        $criteria->compare('activity_id', $this->activity_id);
         $criteria->compare('dialog_id', $this->dialog_id);
         $criteria->compare('mail_id', $this->mail_id);
         $criteria->compare('document_id', $this->document_id);

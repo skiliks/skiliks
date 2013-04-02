@@ -282,20 +282,20 @@ class Invite extends CActiveRecord
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
-		$criteria=new CDbCriteria;
+		$criteria = new CDbCriteria;
 
 		$criteria->compare('id', $this->id);
-		$criteria->compare('owner_id', $ownerId ?: $this->inviting_user_id, true);
-		$criteria->compare('receiver_id', $this->receiver_id, true);
-		$criteria->compare('firstname', $this->firstname, true);
-		$criteria->compare('lastname', $this->lastname, true);
-		$criteria->compare('email', $this->email, true);
-		$criteria->compare('message', $this->message, true);
-		$criteria->compare('signature', $this->signature, true);
-		$criteria->compare('code', $this->code, true);
-		$criteria->compare('vacancy_id', $this->vacancy_id, true);
-		$criteria->compare('status', $this->status, true);
-		$criteria->compare('sent_time', $this->sent_time, true);
+		$criteria->compare('owner_id', $ownerId ?: $this->owner_id);
+		$criteria->compare('receiver_id', $this->receiver_id);
+		$criteria->compare('firstname', $this->firstname);
+		$criteria->compare('lastname', $this->lastname);
+		$criteria->compare('email', $this->email);
+		$criteria->compare('message', $this->message);
+		$criteria->compare('signature', $this->signature);
+		$criteria->compare('code', $this->code);
+		$criteria->compare('vacancy_id', $this->vacancy_id);
+		$criteria->compare('status', $this->status);
+		$criteria->compare('sent_time', $this->sent_time);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
@@ -324,7 +324,7 @@ class Invite extends CActiveRecord
                 ],
             ],
             'pagination' => [
-                'pageSize' => 5,
+                'pageSize' => 20,
                 'pageVar' => 'page'
             ]
 		]);
@@ -346,17 +346,17 @@ class Invite extends CActiveRecord
         $criteria=new CDbCriteria;
         
         $criteria->compare('id', $this->id);
-        $criteria->compare('owner_id', $this->owner_id, true);
-        $criteria->compare('receiver_id', $this->receiver_id, true);
-        $criteria->compare('firstname', $this->firstname, true);
-        $criteria->compare('lastname', $this->lastname, true);
-        $criteria->compare('email', $invitedUserEmail ?: $this->email, true);
-        $criteria->compare('message', $this->message, true);
-        $criteria->compare('signature', $this->signature, true);
-        $criteria->compare('code', $this->code, true);
-        $criteria->compare('vacancy_id', $this->vacancy_id, true);
-        $criteria->compare('status', $status, true);
-        $criteria->compare('sent_time', $this->sent_time, true);
+        $criteria->compare('owner_id', $this->owner_id);
+        $criteria->compare('receiver_id', $this->receiver_id);
+        $criteria->compare('firstname', $this->firstname);
+        $criteria->compare('lastname', $this->lastname);
+        $criteria->compare('email', $invitedUserEmail ?: $this->email);
+        $criteria->compare('message', $this->message);
+        $criteria->compare('signature', $this->signature);
+        $criteria->compare('code', $this->code);
+        $criteria->compare('vacancy_id', $this->vacancy_id);
+        $criteria->compare('status', $status);
+        $criteria->compare('sent_time', $this->sent_time);
 
         $criteria->mergeWith([
             'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'

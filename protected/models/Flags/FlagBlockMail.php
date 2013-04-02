@@ -88,7 +88,7 @@ class FlagBlockMail extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('flag_code',$this->flag_code,true);
+		$criteria->compare('flag_code',$this->flag_code);
 		$criteria->compare('value',$this->value);
 		$criteria->compare('mail_template_id',$this->mail_template_id);
 

@@ -94,7 +94,7 @@ class StressRule extends CActiveRecord
 		$criteria->compare('replica_id',$this->replica_id);
 		$criteria->compare('mail_id',$this->mail_id);
 		$criteria->compare('value',$this->value);
-		$criteria->compare('import_id',$this->import_id,true);
+		$criteria->compare('import_id',$this->import_id);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

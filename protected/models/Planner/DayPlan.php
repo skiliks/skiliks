@@ -91,7 +91,7 @@ class DayPlan extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('sim_id',$this->sim_id);
-		$criteria->compare('date',$this->date,true);
+		$criteria->compare('date',$this->date);
 		$criteria->compare('day',$this->day);
 		$criteria->compare('task_id',$this->task_id);
 

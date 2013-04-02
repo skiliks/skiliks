@@ -76,7 +76,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         $this->optimal_click("xpath=(//*[contains(text(),'Какой план? Я бюджетом занят!')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Я могу тебе предложить достойную альтернативу – повидайся с моим лучшим аналитиком Мариной Крутько')])");
         $this->optimal_click("xpath=(//*[contains(text(),'Хорошо, сегодня вечером, после шести! ')])");
-        sleep(2);
+        sleep(10);
 
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
         $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
@@ -84,8 +84,8 @@ class Case4_SK1790_Test extends SeleniumTestHelper
         //оценка не совпадает
         sleep(10);
 
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"3.292");
-        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-36");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_positive'],"4.292");
+        $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_negative'],"-32");
         $this->assertText(Yii::app()->params['test_mappings']['dev']['admm_personal'],"4.227");
     }
 }

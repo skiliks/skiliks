@@ -102,12 +102,12 @@ class DeclineExplanation extends CActiveRecord
 
 		$criteria->compare('id',$this->id);
 		$criteria->compare('invite_id',$this->invite_id);
-		$criteria->compare('invite_recipient_id',$this->invite_recipient_id,true);
-		$criteria->compare('invite_owner_id',$this->invite_owner_id,true);
+		$criteria->compare('invite_recipient_id',$this->invite_recipient_id);
+		$criteria->compare('invite_owner_id',$this->invite_owner_id);
 		$criteria->compare('vacancy_label',$this->vacancy_label);
 		$criteria->compare('reason_id',$this->reason_id);
-		$criteria->compare('description',$this->description,true);
-		$criteria->compare('created_at',$this->created_at,true);
+		$criteria->compare('description',$this->description);
+		$criteria->compare('created_at',$this->created_at);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

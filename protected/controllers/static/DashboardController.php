@@ -295,6 +295,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $this->redirect('/');
         }
 
+        if((int)$invite->status !== Invite::STATUS_PENDING){
+            Yii::app()->user->setFlash(
+                'error',
+                sprintf(
+                    'Это приглашение уже обработано,<br/> его статус "%s".',
+                    Yii::t('site', Invite::$statusText[$invite->status])
+                )
+            );
+            $this->redirect('/');
+        }
+
         $this->checkUser();
 
         if (Yii::app()->user->data()->id !== $invite->receiverUser->id) {
