@@ -17,7 +17,7 @@ class Logging_Case_SK1278_Test extends SeleniumTestHelper
 
     public function testSK1278()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
 
         // первый предположительный список, который может появится в юниверсал логах
