@@ -19,7 +19,7 @@ class Case4_SK1790_Test extends SeleniumTestHelper
 
     public function testSK1790()
     {
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, помню про бюджет')])", 'click');
