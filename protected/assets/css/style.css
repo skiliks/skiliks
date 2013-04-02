@@ -1848,14 +1848,22 @@ h2 {
 .flash-error {
     color: #cf1919;
 }
+/* ***************************** PEREBIVAEM STILI DLYA POPUPA ERROR ***************************** */
 .action-index .ui-dialog {
     border:1px solid red;
     padding: 0px;
 }
 .action-index .errorblock .radiusthree {
     border:1px solid blue;
-    padding: 0px;
 }
+.action-index .flash {
+    border-radius: 0px;
+    box-shadow: none;
+    font-weight: normal;
+    margin: 0px;
+}
+
+/* ***************************** /PEREBIVAEM STILI DLYA POPUPA ERROR ***************************** */
 /* ********************** DASHBOARD ********************** */
 .wideblock {
     width: 598px;
