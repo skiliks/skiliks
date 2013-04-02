@@ -55,7 +55,7 @@
             width: 820
         });
 
-        $( ".message_window").parent().addClass('nice-border');
+        $( ".message_window").parent().addClass('nice-border cabmessage');
         $( ".message_window").dialog('open');
     });
 </script>
