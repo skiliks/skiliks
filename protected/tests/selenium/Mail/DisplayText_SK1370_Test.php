@@ -11,7 +11,7 @@
  * 4) Проверяем поля в черновике.
  * 5) Отправляем из черновика, проверяем поля во вкладке "Отправленные".
  */
-class DispayText_SK1370_Test extends SeleniumTestHelper
+class DisplayText_SK1370_Test extends SeleniumTestHelper
 {
     protected function setUp()
     {
@@ -22,13 +22,17 @@ class DispayText_SK1370_Test extends SeleniumTestHelper
 
     public function testSK1370()
     {
-        $this->markTestIncomplete();
+        $mail_code = array('MY2','MY1','MY2','MY1','MS21','MY1','MS21','MSY10','MS21');
+        $window = array('mail main','mail main','mail main','mail main','mail new',
+            'mail main','mail main','mail main','mail main');
+        $log = array($window, $mail_code);
+
+        //$this->markTestIncomplete();
         $this->start_simulation();
-        #TODO: избавится от слипа
-        //здесь будет валится, т.к. в Firefox сразу после открытия письмо Крутько не отображается
         sleep(5);
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
+        $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
         $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xlsx");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
@@ -62,11 +66,15 @@ class DispayText_SK1370_Test extends SeleniumTestHelper
 
         $this->optimal_click("link=отправить черновик");
         $this->optimal_click("css=label.icon_SENDED");
-        $this->optimal_click("xpath=(//*[contains(text(),'Сводный бюджет')])");
+        sleep(3);
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[1]/td","Федоров А.В.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[2]/td","Крутько М.");
         $this->assertText("//div[@id='MailClient_IncomeFolder_EmailPreview']/div/table/tbody/tr[4]/td","Сводный бюджет: файл");
 
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['show_logs']);
+        $this->optimal_click(Yii::app()->params['test_mappings']['dev']['sim_points']);
+
+        $this->Mail_log($log);
     }
 
     private function checkFields($from, $to_whom, $theme, $attach)

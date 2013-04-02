@@ -125,8 +125,8 @@ class Invite extends CActiveRecord
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
-        $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
-        $user->invites_limit = $user->invites_limit + 1;
+        $user = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
+        $user->invites_limit = $user->invites_limit++;
         $user->update();
     }
 
@@ -359,7 +359,7 @@ class Invite extends CActiveRecord
         $criteria->compare('sent_time', $this->sent_time);
 
         $criteria->mergeWith([
-            'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id'
+            'join' => 'LEFT JOIN vacancy ON vacancy.id = vacancy_id LEFT JOIN user_account_corporate ON user_account_corporate.user_id = vacancy.user_id'
         ]);
 
         return new CActiveDataProvider($this, [
@@ -375,6 +375,10 @@ class Invite extends CActiveRecord
                     'vacancy_id' => [
                         'asc'  => 'vacancy.label',
                         'desc' => 'vacancy.label DESC'
+                    ],
+                    'company' => [
+                        'asc'  => 'user_account_corporate.company_name',
+                        'desc' => 'user_account_corporate.company_name DESC'
                     ],
                     'status',
                     'sent_time'
