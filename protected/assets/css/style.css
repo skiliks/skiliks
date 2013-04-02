@@ -2375,7 +2375,7 @@ ul.profile-menu li {
 }
 .errorblock p, .action-index .errorblock .flash-error p  {
     color: #29313d;
-    font-size:16px;
+    font: 18px "ProximaNova-Regular";
     line-height: 140%;
 }
 .errorblock p+p, .action-index .errorblock p+p {
