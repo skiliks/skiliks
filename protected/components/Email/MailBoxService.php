@@ -930,7 +930,7 @@ class MailBoxService
                 $result['data']    = [];
                 $result['addData'] = [];
             } else {
-                $result['data'] = self::getMailPhrases($characterThemeId);
+                $result['data'] = self::getMailPhrases($messageToReply->simulation, $characterThemeId);
             }
         }
         // get phrases }
