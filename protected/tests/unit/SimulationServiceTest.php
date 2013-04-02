@@ -363,8 +363,9 @@ class SimulationServiceTest extends CDbTestCase
 
         $data = [];
 
+        $activity = $simulation->game_type->getActivity(['code' => 'A_Wait']);
         $action1 = ActivityAction::model()->findByAttributes([
-            'activity_id' => 'A_wait',
+            'activity_id' => $activity->getPrimaryKey(),
             'window_id'   => 1
         ]);
 
@@ -377,7 +378,7 @@ class SimulationServiceTest extends CDbTestCase
         $log->window_uid = 100;
 
         $action41 = ActivityAction::model()->findByAttributes([
-            'activity_id' => 'A_wait',
+            'activity_id' => $activity->getPrimaryKey(),
             'window_id'   => 41
         ]);
 
