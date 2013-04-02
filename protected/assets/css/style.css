@@ -2359,7 +2359,7 @@ ul.profile-menu li {
     text-decoration: none;
 }
 .errorblock .radiusthree {
-    padding: 22px 30px 26px;
+    padding: 22px 30px 20px;
     position: relative;
 }
 .errorblock p, .action-index .errorblock .flash-error p  {
