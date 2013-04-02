@@ -19,7 +19,7 @@ class Case2_SK1395_Test extends SeleniumTestHelper
 
     public function testSK1395()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
         $this->run_event('E1',"xpath=(//*[contains(text(),'Раиса Романовна, ну что вы так волнуетесь?! Я уже несколько дней')])", 'click');

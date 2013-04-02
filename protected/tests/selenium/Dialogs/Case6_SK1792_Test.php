@@ -19,7 +19,7 @@ class Case6_SK1792_Test extends SeleniumTestHelper
 
     public function testSK1792()
     {
-        //$this->markTestIncomplete();
+        $this->markTestIncomplete();
         $this->start_simulation();
         sleep(2);
         $this->run_event('E1.3.2',"xpath=(//*[contains(text(),'Я тебя для чего тут держу?')])", 'click');
