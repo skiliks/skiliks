@@ -1855,6 +1855,7 @@ h2 {
 .action-index .flash {
     box-shadow: none;
     font-weight: normal;
+    height:150px;
     margin: 0px;
 }
 
@@ -2370,7 +2371,7 @@ ul.profile-menu li {
     text-decoration: none;
 }
 .errorblock .radiusthree {
-    padding: 30px;
+    padding: 22px 30px 30px;
     position: relative;
 }
 .errorblock p, .action-index .errorblock .flash-error p  {
