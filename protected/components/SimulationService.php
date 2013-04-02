@@ -412,14 +412,14 @@ class SimulationService
             ->byNotSentTodayEmailCode()
             ->byNotSentYesterdayEmailCode()
             ->byNotTerminatorCode()
-            ->byTriggerTimeGreaterThanZero()
             ->findAllByAttributes(['scenario_id' => $simulation->game_type->getPrimaryKey()]);
 
         $sql = "INSERT INTO events_triggers (sim_id, event_id, trigger_time) VALUES ";
 
         $add = '';
         foreach ($events as $event) {
-            $sql .= $add . "({$simulation->id}, {$event->id}, '{$event->trigger_time}')";
+            $eventTime = $event->trigger_time ?: '00:00:00';
+            $sql .= $add . "({$simulation->id}, {$event->id}, '$eventTime')";
             $add = ',';
         }
         $sql .= ";";

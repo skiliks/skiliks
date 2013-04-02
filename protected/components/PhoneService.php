@@ -61,23 +61,23 @@ class PhoneService {
      * @param $dialog_code
      * @return string
      */
-    public function callBack($simulation, $dialog_code)
+    public function callBack(Simulation $simulation, $dialog_code)
     {
-        $template = EventSample::model()->findByAttributes(['code'=>'S1.2']); //todo:Костыль
+        $template = $simulation->game_type->getEventSample(['code'=>'S1.2']); //todo:Костыль
 
         $ev = EventTrigger::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'event_id' => $template->id
         ]); //todo:Костыль
 
-        $dialog = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
+        $dialog = $simulation->game_type->getReplica(['code'=>$dialog_code, 'replica_number'=>1]);
 
         if($ev === null && $dialog->next_event_code == 'E1') {
             return 'fail1';  //todo:Костыль
         }
 
         if (!empty($dialog->next_event_code)) {
-           $event = EventSample::model()->findByAttributes([
+           $event = $simulation->game_type->getEventSample([
                'code'=>$dialog->next_event_code
            ]);
 
@@ -91,12 +91,12 @@ class PhoneService {
            } else {
                EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
 
-               $dialog_cancel = Replica::model()->findByAttributes([
+               $dialog_cancel = $simulation->game_type->getReplica([
                    'code'=>$dialog_code,
                    'replica_number'=>2
                ]);
 
-               $cancel_event = EventSample::model()->findByAttributes([
+               $cancel_event = $simulation->game_type->getEventSample([
                    'code'=>$dialog_cancel->next_event_code
                ]);
 
