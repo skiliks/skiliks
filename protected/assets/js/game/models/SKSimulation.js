@@ -194,7 +194,7 @@ define([
                 /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     Object.keys(SKDocument._excel_cache).length) {*/
                     if($(".zoho-load-start") !== undefined){
-                        $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"></div></div>');
+                        $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"><span>подождите идет загрузка</span></div></div>');
                     }
 
                 }
