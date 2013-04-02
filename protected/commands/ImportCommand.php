@@ -12,7 +12,7 @@ class ImportCommand extends CConsoleCommand
 {
     public function actionIndex($method = 'All', $scenario)
     {
-        ini_set('memory_limit', '500M');
+        ini_set('memory_limit', '900M');
 
         echo "\nStart 'Import $method'. \n";
 

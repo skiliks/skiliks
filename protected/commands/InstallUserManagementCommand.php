@@ -11,7 +11,7 @@ class InstallUserManagementCommand
      */
     public function run($args)
     {
-        ini_set('memory_limit', '500M');
+        ini_set('memory_limit', '900M');
 
         echo "\n Start InstallUserManagement \n";
 
