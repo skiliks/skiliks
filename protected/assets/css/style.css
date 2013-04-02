@@ -1852,11 +1852,7 @@ h2 {
 .action-index .ui-dialog {
     border:1px solid red;
 }
-.action-index .errorblock .radiusthree {
-    border:1px solid blue;
-}
 .action-index .flash {
-    border-radius: 0px;
     box-shadow: none;
     font-weight: normal;
     margin: 0px;
