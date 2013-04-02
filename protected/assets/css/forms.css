@@ -463,7 +463,7 @@ span.required {
 .invite-people-form .errorMessage {
     color: #fff;
 }
-.greenbtn, .greenbtn:link, .greenbtn:visited, .ui-widget input[type="submit"] {
+.greenbtn, .greenbtn:link, .greenbtn:visited, .controller-static-dashboard  .ui-widget input[type="submit"] {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
