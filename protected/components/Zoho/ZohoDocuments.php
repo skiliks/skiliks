@@ -68,6 +68,8 @@ class ZohoDocuments
      */
     protected $extention = null;
 
+    protected $srcFilename = null;
+
     /*
      * @param integer $simId
      * @param integer $fileId
@@ -75,7 +77,7 @@ class ZohoDocuments
      * @param string $extention
      * @return ZohoDocuments
      */
-    public function __construct($simId, $fileId, $templateFilename, $extention = 'xls')
+    public function __construct($simId, $fileId, $templateFilename, $extention = 'xls', $fileName=null)
     {
         $zohoConfigs = Yii::app()->params['zoho'];
 
@@ -91,6 +93,7 @@ class ZohoDocuments
         $this->simId = $simId;
         $this->docId = $fileId;
         $this->templateFilename = $templateFilename;
+        $this->srcFilename = $fileName;
         $this->extention = $extention;
 
         /*if (false === $this->checkIsUserFileExists() && $this->templateFilename !== null) {
@@ -241,7 +244,7 @@ class ZohoDocuments
     {
         return array(
             'content' => '@' . $this->getUserFilepath(),
-            'filename' => $this->templateFilename,
+            'filename' => (null === $this->srcFilename) ? $this->templateFilename : $this->templateFilename,
             'id' => $this->simId . '-' . $this->docId,
             'format' => 'xls',
             'saveurl' => $this->saveUrl,
