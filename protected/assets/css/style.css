@@ -1848,6 +1848,10 @@ h2 {
 .flash-error {
     color: #cf1919;
 }
+.action-index .ui-dialog {
+    border:none;
+    padding: 10px;
+}
 /* ********************** DASHBOARD ********************** */
 .wideblock {
     width: 598px;
