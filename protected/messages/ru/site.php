@@ -146,7 +146,7 @@ return array(
     'Status' => 'Статус',
     'Score' => 'Результат',
     'Date / time' => 'Дата',
-    'You has no available invites!' => 'У Вас закончились приглашения!',
+    'You has no available invites!' => '<h3 class=midtitle>У вас не осталось доступных симуляций для отправки приглашений</h3>',
     'Message' => 'Сообщение',
     'Message text' => 'Текст письма',
     'To' => 'Кому',
