@@ -2370,10 +2370,10 @@ ul.profile-menu li {
 .errorblock p+p, .action-index .errorblock p+p {
     margin-top: 20px;
 }
-.action-index .ui-dialog {
+.action-index .ui-dialog, .inner .ui-dialog  {
     border:none;
 }
-.action-index .flash {
+.action-index .flash, .inner .flash {
     box-shadow: none;
     font-weight: normal;
     height:180px !important;
