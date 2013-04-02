@@ -19,6 +19,7 @@ class Case5_SK1791_Test extends SeleniumTestHelper
 
     public function testSK1791()
     {
+        $this->markTestIncomplete();
        /* $mail_code = array ('MY2','MS22','MY2','MY2','MS23','MY2','M11','MS27','M11','MS70','MS23','MS54');
         $window = array ('mail main','mail new','mail main','mail main','mail new','mail main','mail main',
             'mail new','mail main','mail new','mail new','mail new');
