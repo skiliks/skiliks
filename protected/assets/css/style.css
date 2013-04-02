@@ -1849,8 +1849,12 @@ h2 {
     color: #cf1919;
 }
 .action-index .ui-dialog {
-    border:none;
+    border:1px solid red;
     padding: 10px;
+}
+.action-index .errorblock .radiusthree {
+    border:1px solid blue;
+    padding: 0px;
 }
 /* ********************** DASHBOARD ********************** */
 .wideblock {
