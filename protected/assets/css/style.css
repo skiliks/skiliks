@@ -1851,7 +1851,6 @@ h2 {
 /* ***************************** PEREBIVAEM STILI DLYA POPUPA ERROR ***************************** */
 .action-index .ui-dialog {
     border:1px solid red;
-    padding: 0px;
 }
 .action-index .errorblock .radiusthree {
     border:1px solid blue;
@@ -2378,11 +2377,12 @@ ul.profile-menu li {
     padding: 30px;
     position: relative;
 }
-.errorblock p {
+.errorblock p, .action-index .errorblock p  {
+    color: #29313d;
     font-size:18px;
     line-height: 140%;
 }
-.errorblock p+p {
+.errorblock p+p, .action-index .errorblock p+p {
     margin-top: 20px;
 }
 .popupclose {
