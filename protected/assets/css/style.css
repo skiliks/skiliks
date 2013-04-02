@@ -2352,7 +2352,7 @@ ul.profile-menu li {
 .errorblock {
     margin-left: 300px;
     text-align: center;
-    width:580px;
+    width:580px !important;
 }
 .errorblock a {
     color:#2d7b91;
