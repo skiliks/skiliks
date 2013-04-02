@@ -88,7 +88,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
                         $('.flash').dialog({
                             closeOnEscape: true,
                             dialogClass: 'flash-pop-up',
-                            modal: false,
+                            modal: true,
                             height: 280,
                             position: {
                                 my: "right top",
