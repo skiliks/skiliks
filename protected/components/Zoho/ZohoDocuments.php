@@ -244,7 +244,7 @@ class ZohoDocuments
     {
         return array(
             'content' => '@' . $this->getUserFilepath(),
-            'filename' => (null === $this->srcFilename) ? $this->templateFilename : $this->templateFilename,
+            'filename' => (null === $this->srcFilename) ? $this->templateFilename : $this->srcFilename,
             'id' => $this->simId . '-' . $this->docId,
             'format' => 'xls',
             'saveurl' => $this->saveUrl,
