@@ -2359,7 +2359,7 @@ ul.profile-menu li {
     text-decoration: none;
 }
 .errorblock .radiusthree {
-    padding: 22px 30px 30px;
+    padding: 22px 30px 26px;
     position: relative;
 }
 .errorblock p, .action-index .errorblock .flash-error p  {
@@ -2376,7 +2376,7 @@ ul.profile-menu li {
 .action-index .flash {
     box-shadow: none;
     font-weight: normal;
-    height:170px !important;
+    height:176px !important;
     margin: 0px;
 }
 .popupclose {
