@@ -29,7 +29,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(5);
+        sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
 
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
@@ -57,7 +57,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(5);
+        sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
 
         $this->run_event('E3',"xpath=(//*[contains(text(),'Приветствую, это Иван Доброхотов.')])",'-');
@@ -86,7 +86,7 @@ class F20_SK1417_Test extends SeleniumTestHelper
     {
         //$this->markTestIncomplete();
         $this->start_simulation();
-        sleep(5);
+        sleep(10);
         $this->assertTrue($this->verify_flag('F20','0'));
 
         $this->run_event('T2',"xpath=(//*[contains(text(),'Доброхотов! Слушаю!')])",'-');

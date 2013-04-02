@@ -463,7 +463,7 @@ span.required {
 .invite-people-form .errorMessage {
     color: #fff;
 }
-.greenbtn, .greenbtn:link, .greenbtn:visited {
+.greenbtn, .greenbtn:link, .greenbtn:visited, .controller-static-dashboard  .ui-widget input[type="submit"] {
     background:#146672 url("../img/arrowleft.png") no-repeat 12px 11px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -491,12 +491,16 @@ span.required {
 }
 .controller-static-dashboard .ui-dialog .ui-dialog-content {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom;
+    padding-bottom: 18px;
 }
-.ui-dialog-title {
+.controller-static-dashboard .ui-dialog-title {
     color:#0e4750;
     font: 28px "ProximaNova-Bold";
 }
-.ui-dialog .ui-dialog-titlebar-close {
+.controller-static-dashboard .ui-dialog .ui-dialog-titlebar {
+    padding-top: 0px;
+}
+.controller-static-dashboard .ui-dialog .ui-dialog-titlebar-close {
     height: 17px;
     margin: 0px;
     padding: 0px;
@@ -504,15 +508,38 @@ span.required {
     right:10px;
     width:17px;
 }
-.ui-dialog .ui-widget-header .ui-icon, .ui-state-hover .ui-icon, .ui-state-focus .ui-icon  {
+.controller-static-dashboard .ui-dialog .ui-widget-header .ui-icon,
+.controller-static-dashboard .ui-state-hover .ui-icon, .ui-state-focus .ui-icon  {
     background:url("../img/popupclose.png") no-repeat left top;
 }
 #send-invite-message-form  label {
     color:#0e4750;
+    display: block;
     float: left;
     font: 14px "ProximaNova-Regular";
+    padding-right: 10px;
+    width:70px;
 }
-
+.controller-static-dashboard .ui-widget input, .controller-static-dashboard .ui-widget select,
+.controller-static-dashboard .ui-widget textarea, .controller-static-dashboard .ui-widget button {
+    font: 14px "ProximaNova-Regular";
+}
+.controller-static-dashboard textarea  {
+    height: 120px;
+    width:420px;
+}
+.controller-static-dashboard .ui-dialog .row {
+    padding-bottom: 18px;
+}
+.controller-static-dashboard .ui-widget input[type="submit"] {
+    background-image: url("../img/icon-arrow.png");
+    border: none;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    margin-left: 80px;
+}
+.controller-static-dashboard .ui-widget input[type="submit"]:hover {
+    background: #45a8b6 url("../img/arrowleft.png") no-repeat 12px 11px;
+}
 /* **************************** /POPUP **************************** */
 /************************************ /CORPORATE PROFILE *******************************************/
 
