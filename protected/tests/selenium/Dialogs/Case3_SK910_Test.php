@@ -31,7 +31,7 @@ class Case3_SK910_Test extends SeleniumTestHelper
         $s1= array('mail new','mail new','mail new','mail new');
         $TH1 = array($s1, $m1);
 
-        $this->markTestIncomplete();
+        //$this->markTestIncomplete();
         $this->start_simulation();
 
         $this->run_event('E2.4',"xpath=(//*[contains(text(),'Марина, срочно пересылай мне презентацию для Генерального')])",'click');
