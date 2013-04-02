@@ -80,7 +80,7 @@ define([
                 return;
             }
 
-            if (undefined != typeof event && event.origin !== "*") {
+            if (event.data.type == "Zoho_500") {
 
                 delete SKDocument._excel_cache[doc.get('id')];
                 SKApp.simulation.documents.remove(doc);
