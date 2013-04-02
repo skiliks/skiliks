@@ -221,9 +221,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $invite->delete();
 
-        $user->getAccount()->invites_limit++;
-        $user->getAccount()->save();
-        $user->getAccount()->refresh();
+        $user->getAccount()->increaseLimit($invite);
 
         Yii::app()->user->setFlash('success', sprintf(
             "Приглашение для %s %s удалено!",

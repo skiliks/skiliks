@@ -125,8 +125,8 @@ class Invite extends CActiveRecord
         $this->status = Invite::STATUS_EXPIRED;
         $this->update();
 
-        $user = UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->owner_id]);
-        $user->invites_limit = $user->invites_limit + 1;
+        $user = UserAccountCorporate::model()->findByAttributes(['user_id' => $this->owner_id]);
+        $user->invites_limit = $user->invites_limit++;
         $user->update();
     }
 

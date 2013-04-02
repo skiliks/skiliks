@@ -131,4 +131,22 @@ class UserAccountCorporate extends CActiveRecord
             $this->addError($attribute, Yii::t('site', 'This is free e-mail! Type your corporate e-mail.'));
         }
     }
+
+    /**
+     * invite STATUS_PENDING - return invite
+     * invite STATUS_ACCEPTED - invite spent
+     * invite STATUS_COMPLETED - invite spent
+     * invite STATUS_DECLINED - invite already returned while decline
+     * invite STATUS_EXPIRED - invite already returned while mark expired
+     * invite STATUS_STARTED - invite spent
+     *
+     * @param Invite $invite
+     */
+    public function increaseLimit($invite)
+    {
+        if (Invite::STATUS_PENDING == $invite->status) {
+            $this->invites_limit++;
+            $this->save(false, ['invites_limit']);
+        }
+    }
 }
