@@ -1850,7 +1850,7 @@ h2 {
 }
 .action-index .ui-dialog {
     border:1px solid red;
-    padding: 10px;
+    padding: 0px;
 }
 .action-index .errorblock .radiusthree {
     border:1px solid blue;
