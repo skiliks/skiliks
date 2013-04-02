@@ -138,6 +138,7 @@ class SeleniumTestHelper extends CWebTestCase
     {
         $this->waitForVisible($loc);
         $this->click($loc);
+        sleep(3);
     }
 
     /**
