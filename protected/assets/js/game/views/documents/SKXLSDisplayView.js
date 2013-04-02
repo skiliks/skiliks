@@ -82,15 +82,15 @@ define([
 
             if (undefined != typeof event && event.origin !== "*") {
 
-                                delete SKDocument._excel_cache[doc.get('id')];
-                                SKApp.simulation.documents.remove(doc);
-                                SKApp.simulation.documents.fetch();
+                delete SKDocument._excel_cache[doc.get('id')];
+                SKApp.simulation.documents.remove(doc);
+                SKApp.simulation.documents.fetch();
 
-                                $(doc.combineIframeId()).remove();
+                $(doc.combineIframeId()).remove();
 
                                 // clean array of not handled zoho 500 {
-                                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
-                                delete SKApp.simulation.documents.zoho_500[i];
+                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
+                delete SKApp.simulation.documents.zoho_500[i];
 
             }
         },
