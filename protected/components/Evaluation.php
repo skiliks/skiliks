@@ -2,11 +2,11 @@
 
 class Evaluation {
 
-    protected $simulation;
+    public $simulation;
 
     public function __construct($simulation) {
 
-        $this->$simulation = $simulation;
+        $this->simulation = $simulation;
 
 
 
