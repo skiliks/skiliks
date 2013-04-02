@@ -53,12 +53,14 @@
         var me = this,
             $chart = $('<div class="chart-bullet"/>'),
             $bullet = $('<div class="bullet"/>'),
+            $bar = $('<div class="bar"/>'),
             $value = $('<span class="chart-value"/>');
 
         this.options = options = options || {};
         this.el = {
             chart: $chart,
             bullet: $bullet,
+            bar: $bar,
             value: $value
         };
 
@@ -66,7 +68,12 @@
             $chart.addClass(options.class);
         }
 
+        if (options.displayValue) {
+            $chart.addClass('valued');
+        }
+
         $chart.append($bullet)
+            .append($bar)
             .append($value)
             .appendTo(container);
 
@@ -87,17 +94,19 @@
                 bottom = Math.sin(rad) * me.pointerLength + 10;
 
             me.value = value;
-
-            me.el.value.text(value + '%').css({
-                left: left + 'px',
-                bottom: bottom + 'px'
-            });
+            me.el.value.text('');
 
             me.el.arrow.animate({textIndent: deg}, {
                 easing: 'easeOutElasticSoft',
                 duration: me.options.duration || 2000,
                 step: function(now) {
                     $(this).css('transform', 'rotate(' + now + 'deg)');
+                },
+                complete: function() {
+                    me.el.value.text(value + '%').css({
+                        left: left + 'px',
+                        bottom: bottom + 'px'
+                    });
                 }
             });
         },
@@ -112,11 +121,13 @@
 
             me.value = value;
 
-            me.el.value
-                .html('&nbsp; ' + value + '%')
+            me.el.value.html('&nbsp;')
                 .animate({width: value + '%'}, {
                     easing: 'easeOutSine',
-                    duration: me.options.duration || 2000
+                    duration: me.options.duration || 2000,
+                    complete: function() {
+                        $(this).html('&nbsp; ' + value + '%');
+                    }
                 });
         },
         refresh: function() {
@@ -136,9 +147,14 @@
                 easing: 'easeOutQuint',
                 duration: me.options.duration || 2000
             });
-            me.el.value.animate({width: value + '%'}, {
+            me.el.bar.animate({width: value + '%'}, {
                 easing: 'easeOutQuint',
-                duration: me.options.duration || 2000
+                duration: me.options.duration || 2000,
+                complete: function() {
+                    if (me.options.displayValue) {
+                        me.el.value.css('left', left + 'px').text(value + '%');
+                    }
+                }
             });
         },
         refresh: function() {
