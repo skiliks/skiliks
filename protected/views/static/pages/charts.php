@@ -15,6 +15,11 @@
 
     .chart-bullet.small {
         width: 300px;
+        margin: 40px 50px;
+    }
+
+    .bar {
+        clear: both;
     }
 </style>
 
@@ -24,17 +29,13 @@
 
 <script type="text/javascript">
 $(function() {
-    new charts.Gauge('.page', 75, {class: 'inline'});
-    new charts.Gauge('.page', 50, {class: 'inline'});
     new charts.Gauge('.page', 45, {class: 'inline'});
 
-    new charts.Bar('.page', 60);
-    new charts.Bar('.page', 45);
-    new charts.Bar('.page', 50);
-    new charts.Bar('.page', 85);
+    new charts.Bar('.page', 60, {class: 'bar'});
+    new charts.Bar('.page', 5, {class: 'bar'});
+    new charts.Bar('.page', 95, {class: 'bar'});
 
     new charts.Bullet('.page', 50, {class: 'small'});
-    new charts.Bullet('.page', 70, {class: 'small'});
-    new charts.Bullet('.page', 40, {class: 'small'});
+    new charts.Bullet('.page', 70, {class: 'small', displayValue: true});
 });
 </script>

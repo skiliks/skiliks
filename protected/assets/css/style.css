@@ -2505,7 +2505,30 @@ ul.profile-menu li {
     border-top: 1px solid #39656b;
     background-color: #bcbcbc;
 }
-.chart-bullet .chart-value {
+.chart-bullet.valued {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.chart-bullet.valued:before, .chart-bullet.valued:after {
+    content: '0%';
+    position: absolute;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3d4041;
+    left: -30px;
+    width: 30px;
+    text-align: center;
+}
+.chart-bullet.valued:after {
+    content: '100%';
+    left: auto;
+    width: 50px;
+    right: -50px;
+    top: 0;
+}
+.chart-bullet .bar {
     display: block;
     height: 100%;
     width: 0;
@@ -2524,4 +2547,13 @@ ul.profile-menu li {
     width: 34px;
     height: 34px;
     background: url(../img/charts/bullet.png) no-repeat;
+}
+.chart-bullet .chart-value {
+    position: absolute;
+    top: -27px;
+    width: 34px;
+    color: #3d4041;
+    font-size: 22px;
+    font-weight: bold;
+    text-align: center;
 }
