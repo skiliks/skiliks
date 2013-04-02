@@ -42,7 +42,7 @@ $(window.parent.window).load(function()
     window.parent.parent.postMessage({type: 'DocumentLoaded', url:window.parent.location.href} , 'http://live.skiliks.com');
 
     //send postMessage
-  /*  window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
+   window.parent.showBannerMessage = function(_1416,msg,_1418,_1419,_141a){
         window.parent.parent.postMessage({type:'Zoho_500'}, 'http://live.skiliks.com');
 
         if(typeof _1418!="undefined") {
@@ -101,7 +101,7 @@ $(window.parent.window).load(function()
         if(typeof _141a!="undefined") {
             _141a();
         }
-    }*/
+    }
 
 /*   Code to emulate Zoho 500 error in future
     setTimeout(function() {
