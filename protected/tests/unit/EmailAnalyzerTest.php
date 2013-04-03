@@ -438,7 +438,7 @@ class EmailAnalyzerTest extends CDbTestCase
     public function test_3325_true() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         EventsManager::startEvent($simulation, 'M60');
         EventsManager::getState($simulation, []);
@@ -463,7 +463,7 @@ class EmailAnalyzerTest extends CDbTestCase
     public function test_3325_false() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         EventsManager::startEvent($simulation, 'M60');
         $mail_event = EventsManager::getState($simulation, []);
