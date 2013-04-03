@@ -189,102 +189,6 @@ class LogHelper
         $log->save();
     }
 
-    /**
-     * Piece of code, which returns mail points
-     *
-     * @param $return
-     * @param array $params
-     * @return array
-     * @throws Exception
-     */
-    public static function getMailPointsDetail($return, $params = array())
-    {
-        $sim_id = null;
-        if (isset($params['sim_id'])) {
-            $sim_id = $params['sim_id'];
-        }
-
-        $mailQuery = Yii::app()->db->createCommand()
-            ->select(' l.sim_id
-                       , p2.code as p_code
-                       , p2.title AS p_title
-                       , p.code
-                       , p.title
-                       , t.value as type_scale
-                       , p.scale
-                       , mp.add_value
-                       , l.full_coincidence
-                       , l.part1_coincidence
-                       , l.part2_coincidence
-		')
-            ->from('log_mail l')
-            ->join('mail_box m', 'm.id = l.mail_id')
-            ->join('mail_template mt', 'mt.code = m.code') // MS letetrs can has null template_id
-            ->join('mail_points mp', 'mt.id = mp.mail_id') // but we need MS template id to find mail points
-            ->join('hero_behaviour p', 'p.id = mp.point_id')
-            ->join('learning_goal p2', 'p2.code = p.learning_goal_code')
-            ->leftJoin('type_scale t', 'p.type_scale = t.id')
-            ->order('l.id');
-
-        if (null !== $sim_id) {
-            $mailQuery->where(" l.sim_id = {$sim_id} AND m.group_id = 3 ");
-        } else {
-            $mailQuery->where('m.group_id = 3');
-        }
-
-        $data['data'] = $mailQuery->queryAll();
-
-        foreach ($data['data'] as  &$logData) {
-            if ('-' != $logData['full_coincidence']) {
-                $logData['out_mail_code'] = $logData['full_coincidence'];
-            } elseif ('-' != $logData['part1_coincidence']) {
-                $logData['out_mail_code'] = $logData['part1_coincidence'];
-            } elseif ('-' != $logData['part2_coincidence']) {
-                $logData['out_mail_code'] = $logData['part2_coincidence'];
-            } else {
-                $logData['out_mail_code'] = '-';
-            }
-
-            unset(
-                $logData['full_coincidence'],
-                $logData['part1_coincidence'],
-                $logData['part2_coincidence']
-            );
-
-            if ('-' == $logData['out_mail_code']) {
-                unset($logData);
-            }
-        }
-
-        $headers = array(
-            'sim_id' => 'id_симуляции',
-            'p_code' => 'Номер цели обучения',
-            'p_title' => 'Наименование цели обучения',
-            'code' => 'Номер поведения',
-            'title' => 'Наименование поведения',
-            'type_scale' => 'Тип поведения',
-            'scale' => 'Вес поведения',
-            'add_value' => 'Проявление',
-            'out_mail_code' => 'Вызвавшее исходящее письмо ',
-        );
-
-        if (self::RETURN_DATA == $return) {
-            $data['headers'] = $headers;
-            $data['title'] = "Логирование расчета оценки писем - детально";
-            return $data;
-        } elseif (self::RETURN_CSV == $return) {
-            $csv = new ECSVExport($data['data'], true, true, ';');
-            $csv->setHeaders($headers);
-            $content = $csv->toCSVutf8BOM();
-            $filename = 'assesment_mail_detailed.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
-        } else {
-            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
-        }
-
-        return true;
-    }
-
 
     public static function setDocumentsLog($simId, $logs)
     {
@@ -658,7 +562,7 @@ class LogHelper
         return true;
     }
 
-    public static function setWindowsLog($simId, $logs, $isLastLog = false)
+    public static function setWindowsLog($simId, $logs)
     {
         if (!is_array($logs)) return false;
         foreach ($logs as $log) {
@@ -676,8 +580,8 @@ class LogHelper
                 continue;
 
             } elseif (self::ACTION_CLOSE == (string)$log[2] || self::ACTION_DEACTIVATED == (string)$log[2]) {
-                $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId));
-                if (0 == count($windows) && false === $isLastLog) {
+                $windows = LogWindow::model()->findAllByAttributes(array('end_time' => '00:00:00', 'sim_id' => $simId, 'window_uid' => $log['window_uid']));
+                if (0 == count($windows)) {
                     throw(new CException('No active windows. Achtung!' . $simId));
                 }
                 if (1 < count($windows)) {
@@ -740,101 +644,6 @@ class LogHelper
 
                 throw new CException("Ошибка"); //TODO:Описание доделать
             }
-        }
-
-        return true;
-    }
-
-    public static function getDialogs($return, $simulation = null)
-    {
-
-        $command = Yii::app()->db->createCommand()
-            ->select("l.sim_id,
-                    d.code as code,
-                    s.title as category,
-                    if(d.type_of_init != 'flex', 'System_dial', 'Manual_dial') as type_of_init,
-                    l.last_id,
-                    l.start_time,
-                    l.end_time")
-            ->from('log_dialogs l')
-            ->leftJoin('replica d', 'l.dialog_id = d.id')
-            ->leftJoin('dialog_subtypes s', 'd.dialog_subtype = s.id')
-            ->order("l.id");
-        if ($simulation !== null) {
-            $command->where('l.sim_id=:sim_id', ['sim_id' => $simulation->primaryKey]);
-        }
-        $data['data'] = $command->queryAll();
-
-        $data['headers'] = array(
-            'sim_id' => 'id_симуляции',
-            'code' => 'Код события',
-            'category' => 'Категория события',
-            'type_of_init' => 'Категория события',
-            'last_id' => 'Результирующее id_записи',
-            'start_time' => 'Игровое время - start',
-            'end_time' => 'Игровое время - end'
-        );
-
-        if (self::RETURN_DATA == $return) {
-            $data['title'] = "Логирование работы с Документами";
-            return $data;
-        } elseif (self::RETURN_CSV == $return) {
-            $csv = new ECSVExport($data['data'], true, true, ';');
-            $csv->setHeaders($data['headers']);
-            $content = $csv->toCSVutf8BOM();
-            $filename = 'dialogs_log.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
-        } else {
-            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
-        }
-        return true;
-    }
-
-
-    /**
-     * @param string $return
-     *
-     * @return string|boolean
-     *
-     * @throws Exception
-     */
-    public static function getExcelAssessmentDetail($return)
-    {
-        $sql = 'SELECT 
-            ep.sim_id,
-            ep.formula_id,
-            ep.value,
-            f.formula
-            FROM simulations_excel_points AS ep
-            LEFT JOIN excel_points_formula AS f ON f.id = ep.formula_id
-            ORDER BY ep.sim_id DESC;';
-
-        $data['data'] = Yii::app()->db->createCommand($sql)->queryAll();
-
-        foreach ($data['data'] as $key => $line) {
-            // "convert" excel fopmulas to excel string, by adding space before =
-            $data['data'][$key]['formula'] = ' ' . $line['formula'];
-            $data['data'][$key]['value'] = $line['value'];
-        }
-
-        $data['headers'] = array(
-            'sim_id' => 'ID симуляции',
-            'formula_id' => 'ID формулы',
-            'value' => 'Правильный результат?',
-            'formula' => 'Формула'
-        );
-
-        if (self::RETURN_DATA == $return) {
-            $data['title'] = "Логирование Leg_actions - detail";
-            return $data;
-        } elseif (self::RETURN_CSV == $return) {
-            $csv = new ECSVExport($data['data'], true, true, ';');
-            $csv->setHeaders($data['headers']);
-            $content = $csv->toCSVutf8BOM();
-            $filename = 'excel_assesment_detailed_log.csv';
-            Yii::app()->getRequest()->sendFile($filename, $content, "text/csv;charset=utf-8", false);
-        } else {
-            throw new Exception('Не верный параметр $return = ' . $return . ' метода ' . __CLASS__ . '::' . __METHOD__);
         }
 
         return true;

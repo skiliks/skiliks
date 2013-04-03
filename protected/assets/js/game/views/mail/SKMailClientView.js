@@ -136,46 +136,51 @@ define([
                 this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
                 this.listenTo(this.mailClient, 'mail:fantastic-open', this.onMailFantasticOpen);
                 // close with conditions action {
-                this.options.model_instance.on('pre_close', function () {
-                    me.options.model_instance.prevent_close = !me.isCanBeClosed();
-
-                    if (false === me.isCanBeClosed()) {
-                        var mailClient = me.mailClient;
-                        var mailClientView = me;
-
-                        mailClientView.options.model_instance.prevent_close = true;
-
-                        mailClient.message_window = new SKDialogView({
-                            'message': 'Сохранить письмо в черновиках?',
-                            'buttons': [
-                                {
-                                    'value': 'Не сохранять',
-                                    'onclick': function () {
-                                        mailClientView.renderActiveFolder();
-                                    }
-                                },
-                                {
-                                    'value': 'Отмена',
-                                    'onclick': function () {
-                                        delete mailClient.message_window;
-                                    }
-                                },
-                                {
-                                    'value': 'Сохранить',
-                                    'onclick': function () {
-                                        mailClientView.doSaveEmailToDrafts();
-                                    }
-                                }
-                            ]
-                        });
-                    }
-                });
+                this.options.model_instance.on('pre_close', this.onBeforeClose);
                 // close with conditions action }
 
-                // call parrent initialize();
+                // call parent initialize();
                 SKWindowView.prototype.initialize.call(this);
             },
+            /**
+             * Вызывается перед закрытием почтового окна. Предлагает сохранить черновик
+             * @method onBeforeClose
+             */
+            'onBeforeClose': function () {
+                var me = this;
+                me.options.model_instance.prevent_close = !me.isCanBeClosed();
 
+                if (false === me.isCanBeClosed()) {
+                    var mailClient = me.mailClient;
+                    var mailClientView = me;
+
+                    mailClientView.options.model_instance.prevent_close = true;
+
+                    mailClient.message_window = new SKDialogView({
+                        'message': 'Сохранить письмо в черновиках?',
+                        'buttons': [
+                            {
+                                'value': 'Не сохранять',
+                                'onclick': function () {
+                                    mailClientView.renderActiveFolder();
+                                }
+                            },
+                            {
+                                'value': 'Отмена',
+                                'onclick': function () {
+                                    delete mailClient.message_window;
+                                }
+                            },
+                            {
+                                'value': 'Сохранить',
+                                'onclick': function () {
+                                    mailClientView.doSaveEmailToDrafts();
+                                }
+                            }
+                        ]
+                    });
+                }
+            },
             /**
              * @method
              * @param event

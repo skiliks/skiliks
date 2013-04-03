@@ -73,7 +73,7 @@
     <?php endif; ?>
 
     <a href="/simulation/developer/lite">Начать симуляцию (lite) в режиме developer</a>
-    <a href="/simulation/developer/scenario">Начать симуляцию (full) в режиме developer</a>
+    <a href="/simulation/developer/full">Начать симуляцию (full) в режиме developer</a>
 
         <br>
         <br>
