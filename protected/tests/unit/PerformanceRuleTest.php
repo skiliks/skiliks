@@ -27,7 +27,7 @@ class PerformanceRuleTest extends CDbTestCase {
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $logs = [];
         $this->appendDialog($logs, 'T7.1', 571);
@@ -57,7 +57,7 @@ class PerformanceRuleTest extends CDbTestCase {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $this->addExcelPoints($simulation);
 
@@ -100,7 +100,7 @@ class PerformanceRuleTest extends CDbTestCase {
     public function testExcelFasle(){
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $this->addExcelPoints($simulation);
 

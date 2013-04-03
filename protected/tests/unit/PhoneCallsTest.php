@@ -13,7 +13,7 @@ class PhoneServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // init test data {
         $toCharacter = Character::model()->find([
@@ -58,7 +58,7 @@ class PhoneServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // init test data {
         $time = ['09:06', '11:45', '11:50'];
@@ -120,7 +120,7 @@ class PhoneServiceTest extends CDbTestCase
     public function testOutgoingCall()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
         $characterCode = 3; // Трутнев
@@ -147,7 +147,7 @@ class PhoneServiceTest extends CDbTestCase
     public function testOnlyUniqueCall()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         $character_id = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.'])->getPrimaryKey();
         $theme_id = CommunicationTheme::model()->findByAttributes(['text' => 'Перенос сроков сдачи сводного бюджета', 'character_id' => $character_id, 'phone' => 1])->id;
         $data = PhoneService::call($simulation, $theme_id, $character_id, '10:00');
