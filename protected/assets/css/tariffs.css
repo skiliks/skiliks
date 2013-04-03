@@ -1,7 +1,13 @@
 .tariff-box {
-    background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat left top;
+    background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     display: inline-block;
     height:410px;
     margin: 0px 10px;
-    width:210px;
+    width:200px;
+}
+.tariff-box:first-child {
+    margin-left: 0px;
+}
+.tariff-box:last-child {
+    margin-right: 0px;
 }
