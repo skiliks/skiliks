@@ -109,7 +109,9 @@ define([
                                         //SKApp.simulation.trigger('iframeReload', 'hello');
                                         console.log(url);
                                         console.log(id);
-                                        $('#excel-preload-'+id).attr("src", $('#excel-preload-'+id).attr("src"));
+                                        $('#excel-preload-'+id).attr("src", url);
+                                        SKApp.simulation.afterZohoCrash = false;
+                                        $('.zoho-load-start').remove();
                                     }else{
                                         $('.zoho-load-start').remove();
                                     }
