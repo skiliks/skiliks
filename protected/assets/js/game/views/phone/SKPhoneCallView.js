@@ -96,7 +96,12 @@ define([
         reply: function(event) {
             event.preventDefault();
             event.stopPropagation();
-
+            if ($(event.currentTarget).attr('data-disabled')) {
+                return;
+            }
+            this.$('.phone-call-in-btn a').each(function () {
+                $(this).attr('data-disabled', true);
+            });
             this.runReply($(event.currentTarget).attr('data-dialog-id'));
         },
 
