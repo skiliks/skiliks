@@ -326,11 +326,11 @@ return array(
              'excel' => array(
                  'consolidatedBudget' => array(
                      'worksheetNames' => array(
-                        'consolidated' => 'Consolidated budget',
-                        'sales'        => 'Sales',
-                        'production'   => 'Production',
-                        'logistic'     => 'Logistics',
-                        'other'        => 'Misc',
+                        'consolidated' => 'сводный',
+                        'sales'        => 'продажи',
+                        'production'   => 'производство',
+                        'logistic'     => 'логистика',
+                        'other'        => 'прочее',
                      ),
                      'etalons' => array(
                          1 => 876264,
