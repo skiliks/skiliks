@@ -26,6 +26,7 @@ class m130330_004506_mail_constructor_activity_unique extends CDbMigration
         $this->createIndex('activity_action_document_unique', 'activity_action', 'document_id, activity_id, scenario_id');
         $this->dropIndex('activity_action_mail_unique', 'activity_action');
         $this->createIndex('activity_action_mail_unique', 'activity_action', 'mail_id, activity_id, scenario_id');
+        $this->dropForeignKey('fk_flag_run_email_mail_code', 'flag_run_email');
         $this->dropIndex('mail_code_unique', 'mail_template');
         $this->createIndex('mail_code_unique', 'mail_template', 'code, scenario_id');
 	}

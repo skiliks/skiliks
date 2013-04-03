@@ -4,8 +4,8 @@ class m130401_111522_add_sim_type_to_invite extends CDbMigration
 {
 	public function up()
 	{
-        $this->addColumn('invites', 'simulation_type', 'VARCHAR(20) DEFAULT '.Simulation::TYPE_FULL);
-        $this->update('invites', ['simulation_type' => 1]);
+        //$this->addColumn('invites', 'simulation_type', 'VARCHAR(20) DEFAULT '.Simulation::TYPE_FULL);
+        //$this->update('invites', ['simulation_type' => 1]);
 
         $action = YumAction::model()->findByAttributes(['title' => UserService::CAN_START_FULL_SIMULATION]);
 
@@ -23,6 +23,6 @@ class m130401_111522_add_sim_type_to_invite extends CDbMigration
 
 	public function down()
 	{
-        $this->dropColumn('invites', 'simulation_type');
+        //$this->dropColumn('invites', 'simulation_type');
 	}
 }
