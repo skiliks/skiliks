@@ -53,7 +53,7 @@ class InitDBCommand extends CConsoleCommand
         $import = new ImportGameDataService('lite');
         $import->importAll();
 
-        $import = new ImportGameDataService('scenario');
+        $import = new ImportGameDataService('full');
         $import->importAll();
 
         // init users
