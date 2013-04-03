@@ -487,6 +487,75 @@ class ImportGameDataService
         );
     }
 
+    public function importStressRules()
+    {
+        $this->logStart();
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Stress');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $types = [
+            'id_записи' => 'replica_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $rules = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Stress_rule_id', $i);
+            $type = $this->getCellValue($sheet, 'Stress_type', $i);
+            $code = $this->getCellValue($sheet, 'Stress_code', $i);
+
+            if (empty($ruleId)) {
+                break;
+            }
+
+            if ($type == 'id_записи') {
+                $entity = $this->scenario->getReplica(['excel_id' => $code]);
+            } elseif ($type == 'outbox' || $type == 'inbox') {
+                $entity = $this->scenario->getMailTemplate(['code' => $code]);
+            } else {
+                $entity = null;
+            }
+
+            if (isset($entity)) {
+                $rule = $this->scenario->getStressRule(['code' => $ruleId]);
+                if (empty($rule)) {
+                    $rule = new StressRule();
+                    $rule->code = $ruleId;
+                }
+
+                $rule->{$types[$type]} = $entity->id;
+                $rule->value = $this->getCellValue($sheet, 'Stress_value', $i);
+                $rule->scenario_id = $this->scenario->getPrimaryKey();
+                $rule->import_id = $this->import_id;
+
+                $rule->save();
+                $rules++;
+            }
+        }
+
+        // delete old unused data {
+        StressRule::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->getPrimaryKey())
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'stress_rules' => $rules,
+            'errors' => false,
+        );
+    }
+
     public function importEmails()
     {
         $this->logStart();
@@ -2039,9 +2108,9 @@ class ImportGameDataService
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = DocumentTemplate::model()->findAll();
+                    $values = $this->scenario->getDocumentTemplates([]);
                 } else {
-                    $document = DocumentTemplate::model()->findByAttributes(array('code' => $xls_act_value));
+                    $document = $this->scenario->getDocumentTemplate(array('code' => $xls_act_value));
                     assert($document);
                     $values = array($document);
                 }
@@ -2316,6 +2385,7 @@ class ImportGameDataService
         $result['activity_parent_ending'] = $this->importActivityParentEnding();
         $result['flag_rules'] = $this->importFlagsRules();
         $result['performance_rules'] = $this->importPerformanceRules();
+        $result['stress_rules'] = $this->importStressRules();
         return $result;
     }
 

@@ -400,4 +400,23 @@ class Scenario extends CActiveRecord
             assert(false);
         }
     }
+
+    public function getStressRule($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return StressRule::model()->findByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return StressRule::model()->find($data);
+        } else {
+            assert(false);
+        }
+    }
+
+    public function getDocumentTemplates($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return DocumentTemplate::model()->findAllByAttributes($array);
+    }
 }
