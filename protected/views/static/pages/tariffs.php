@@ -3,9 +3,7 @@
 <div>
 <?php foreach ($tariffs as $tariff): ?>
     <div class="tariff-box radiusthree nice-border">
-        <label><?php echo $tariff->label ?></label>
-        <br/>
-        <br/>
+        <label class="tarifname"><?php echo $tariff->label ?></label>
         <div class="price"><?php echo $tariff->getFormattedPrice() ?></div>
         <br/>
         <br/>
