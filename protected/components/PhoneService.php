@@ -296,7 +296,7 @@ class PhoneService {
 
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Character::model()->byId($characterId)->find();
+            $character = $simulation->game_type->getCharacter(['code' => $characterId]);
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;
