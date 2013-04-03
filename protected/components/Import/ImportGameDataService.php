@@ -255,7 +255,7 @@ class ImportGameDataService
             if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
                 // try to find exists entity
                 $learningGoal = LearningGoal::model()->findByAttributes([
-                    'code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i),
+                    'code' => $this->getCellValue($sheet, 'Код объекта', $i),
                     'scenario_id' => $this->scenario->id,
                 ]);
 
@@ -2283,6 +2283,7 @@ class ImportGameDataService
             $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
             $rule->import_id = $this->import_id;
             $rule->scenario_id = $this->scenario->primaryKey;
+            $rule->category_id = $this->getCellValue($sheet, 'Категория', $i);
 
             $rule->save();
             $rules++;
