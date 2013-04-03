@@ -36,9 +36,9 @@ class ZohoDocuments
     /**
      * MyDocument.id
      *
-     * @var integer
+     * @var MyDocument
      */
-    protected $docId = null;
+    protected $document = null;
 
     /**
      * Simulation.id
@@ -91,7 +91,7 @@ class ZohoDocuments
             $this->apiKey
         );
         $this->simId = $simId;
-        $this->docId = $fileId;
+        $this->document = MyDocument::model()->findByPk($fileId);
         $this->templateFilename = $templateFilename;
         $this->srcFilename = $fileName;
         $this->extention = $extention;
@@ -222,7 +222,7 @@ class ZohoDocuments
             '%s/%s/%s.xls',
             $this->templatesDirPath,
             $this->simId,
-            $this->docId
+            $this->document->uuid
         );
     }
 
@@ -246,7 +246,7 @@ class ZohoDocuments
         return array(
             'content' => '@' . $this->getUserFilepath(),
             'filename' => (null === $this->srcFilename) ? $this->templateFilename : $this->srcFilename,
-            'id' => $this->simId . '-' . $this->docId,
+            'id' => $this->simId . '-' . $this->document->getPrimaryKey(),
             'format' => 'xls',
             'saveurl' => $this->saveUrl,
             'mode' => 'normaledit'
