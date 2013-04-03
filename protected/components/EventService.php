@@ -120,8 +120,12 @@ class EventService
             }
         } else if ($type == 'M') {
             // если входящее письмо не пришло (кодировка M) - то указанное письмо должно прийти
+            /** @var $mailModel MailBox */
             $mailModel = MailBoxService::copyMessageFromTemplateByCode($simulation, $code);
-
+            $sentDate = (new DateTime($mailModel->sent_at));
+            if ($sentDate->format('H:i:s') === '00:00:00') {
+                $mailModel->sent_at = $sentDate->format('Y-m-d') . ' ' . $simulation->getGameTime();
+            }
             $mailModel->group_id = 1; //входящие
             $mailModel->save();
             return array('result' => 1, 'id' => $mailModel->id, 'fantastic' => !!$fantasticResult, 'eventType' => $type);

@@ -1128,7 +1128,7 @@ class MailBoxService
      * @param string $flag, like 'F1', 'F2'
      */
     public static function sendEmailsRelatedToFlag($simulation, $flag) {
-        $mailFlags = FlagRunMail::model()->findAllByAttributes([
+        $mailFlags = $simulation->game_type->getFlagsRunMail([
             'flag_code' => $flag
         ]);
 
