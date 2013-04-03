@@ -220,7 +220,7 @@ class PhoneService {
                     $data = array();
                     $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
 
-                    $character = Character::model()->byId($characterCode)->find();
+                    $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 
                     if ($character) {
                         $data[0]['title'] = $character->title;
