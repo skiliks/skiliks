@@ -62,7 +62,7 @@ class LibSendMs
             'character_id' => 32
         ]);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray('32'); // Неизвестная
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';
@@ -100,7 +100,7 @@ class LibSendMs
         }
         // collect recipient ids string }
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($recipientsString);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->time       = '09:01';

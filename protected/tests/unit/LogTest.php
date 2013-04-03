@@ -34,7 +34,7 @@ class LogTest extends CDbTestCase
             $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',', $copies);
         $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
@@ -48,7 +48,7 @@ class LogTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS40']);
@@ -61,7 +61,7 @@ class LogTest extends CDbTestCase
 
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
@@ -78,7 +78,7 @@ class LogTest extends CDbTestCase
 
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
@@ -270,7 +270,7 @@ class LogTest extends CDbTestCase
             $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
             $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
@@ -282,7 +282,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
         
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
@@ -383,7 +383,7 @@ class LogTest extends CDbTestCase
 
         $krutko = Character::model()->findByAttributes(['code' => 4]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
         $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->id;
@@ -461,7 +461,7 @@ class LogTest extends CDbTestCase
             'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
         $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->primaryKey;
@@ -475,7 +475,7 @@ class LogTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
@@ -488,7 +488,7 @@ class LogTest extends CDbTestCase
 
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);

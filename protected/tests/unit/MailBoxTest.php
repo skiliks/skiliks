@@ -24,7 +24,7 @@ class MailBoxTest extends CDbTestCase
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',',[
             Character::model()->findByAttributes(['code' => 2])->primaryKey,
@@ -154,7 +154,7 @@ class MailBoxTest extends CDbTestCase
         
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',',[
             Character::model()->findByAttributes(['code' => 2])->primaryKey,
@@ -371,7 +371,7 @@ class MailBoxTest extends CDbTestCase
             ['text' => '!проблема с сервером!', 'letter_number' => 'MS27']
         );
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($simulation->game_type->getCharacter(['code' =>'3'])->getPrimaryKey()); // Трутнев
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $emailFromSysadmin->id;

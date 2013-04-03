@@ -68,7 +68,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $character = Character::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'id_персонажа', $i), 'scenario_id' => $this->scenario->primaryKey]);
+            $character = $this->scenario->getCharacter(['code' => $this->getCellValue($sheet, 'id_персонажа', $i)]);
 
             // create entity if not exists {
             if (null === $character) {
