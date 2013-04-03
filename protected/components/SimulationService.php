@@ -439,7 +439,7 @@ class SimulationService
      * @internal param $simulationType
      * @return Simulation
      */
-    public static function simulationStart($simulationMode, $user, $type = Scenario::TYPE_LITE)
+    public static function simulationStart($simulationMode, $user, $type)
     {
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();
