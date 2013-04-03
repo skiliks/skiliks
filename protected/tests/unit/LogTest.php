@@ -17,7 +17,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -173,7 +173,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
@@ -229,7 +229,7 @@ class LogTest extends CDbTestCase
     public function testLogDocument()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
         $document  = MyDocument::model()->findByAttributes([
@@ -260,7 +260,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -340,7 +340,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
@@ -378,7 +378,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         
 
         $krutko = Character::model()->findByAttributes(['code' => 4]);
@@ -452,7 +452,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
@@ -562,7 +562,7 @@ class LogTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         
         // init LogActivityActions {
         
@@ -722,7 +722,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $logs = [];
         $logs[0][0] = 1;
