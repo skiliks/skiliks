@@ -2,7 +2,7 @@
 
 <div>
 <?php foreach ($tariffs as $tariff): ?>
-    <div class="tariff-box radiusthree transparent-boder">
+    <div class="tariff-box radiusthree nice-border">
         <label><?php echo $tariff->label ?></label>
         <br/>
         <br/>

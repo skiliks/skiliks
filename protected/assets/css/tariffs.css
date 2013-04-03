@@ -1,5 +1,7 @@
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat left top;
+    display: inline-block;
     height:410px;
+    margin: 0px 10px;
     width:210px;
 }
