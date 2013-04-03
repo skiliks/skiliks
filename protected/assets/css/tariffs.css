@@ -26,19 +26,43 @@ body  .onetariff  {
 }
 .price {
     border-top:1px solid #1c5962;
-    font-size: 26px;
     padding: 15px 0px;
 }
 .tarifname, .price {
     color:#fff;
     text-align: center;
 }
+.price p {
+    background:url("../img/rublicon.png") no-repeat 0px 0px;
+    display: inline-block;
+    font-size: 46px;
+    height: 50px;
+    line-height: 50px;
+    padding: 0px 22px;
+}
+.price span {
+    font-size: 60px;
+}
+.tariff-box .brightblock {
+    font-size:17px;
+    margin-bottom: 20px;
+}
+.tariff-box .lightblock {
+    margin-bottom: 10px;
+}
 .tarifwrap {
+    padding: 0px 5px;
     text-align: center;
 }
 .benefits {
     color:#3d4041;
+    display: table-cell;
+    height: 110px;
     font: 16px "ProximaNova-Bold";
+    vertical-align: middle;
+}
+.benefits p {
+    margin: 10px 0px;
 }
 .tariff-box .light-btn {
     font-size: 17px;
