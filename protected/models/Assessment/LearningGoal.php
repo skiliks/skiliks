@@ -8,6 +8,7 @@
  * @property string $learning_area_code
  *
  * @property LearningArea $learningArea
+ * @property Scenario $scenario_id
  *
  * @author slavka
  */

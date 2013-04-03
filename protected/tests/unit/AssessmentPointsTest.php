@@ -49,7 +49,7 @@ class AssessmentPointsTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-        $learningGoalsForUpdate = LearningGoal::model()->findAll(' max_negative_value IS NOT NULL ');
+        $learningGoalsForUpdate = LearningGoal::model()->findAll(' scenario_id = 2 AND max_negative_value IS NOT NULL ');
 
         $learningGoalsForUpdateCodes = [];
         $sum = []; // $learningGoalsForUpdateNegativeScaleSum

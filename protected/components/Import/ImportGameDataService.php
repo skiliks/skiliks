@@ -236,7 +236,11 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet);
 
-        LearningGoal::model()->updateAll(['max_negative_value' => null]);
+        LearningGoal::model()->updateAll([
+            'max_negative_value' => null,
+        ] ,
+            'scenario_id = '.$this->scenario->id
+        );
 
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -250,9 +254,10 @@ class ImportGameDataService
 
             if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
                 // try to find exists entity
-                $learningGoal = LearningGoal::model()->findByAttributes(
-                    ['code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i)]
-                );
+                $learningGoal = LearningGoal::model()->findByAttributes([
+                    'code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i),
+                    'scenario_id' => $this->scenario->id,
+                ]);
 
                 $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
 
