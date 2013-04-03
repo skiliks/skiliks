@@ -61,23 +61,23 @@ class PhoneService {
      * @param $dialog_code
      * @return string
      */
-    public function callBack($simulation, $dialog_code)
+    public function callBack(Simulation $simulation, $dialog_code)
     {
-        $template = EventSample::model()->findByAttributes(['code'=>'S1.2']); //todo:Костыль
+        $template = $simulation->game_type->getEventSample(['code'=>'S1.2']); //todo:Костыль
 
         $ev = EventTrigger::model()->findByAttributes([
             'sim_id'   => $simulation->id,
             'event_id' => $template->id
         ]); //todo:Костыль
 
-        $dialog = Replica::model()->findByAttributes(['code'=>$dialog_code, 'replica_number'=>1]);
+        $dialog = $simulation->game_type->getReplica(['code'=>$dialog_code, 'replica_number'=>1]);
 
         if($ev === null && $dialog->next_event_code == 'E1') {
             return 'fail1';  //todo:Костыль
         }
 
         if (!empty($dialog->next_event_code)) {
-           $event = EventSample::model()->findByAttributes([
+           $event = $simulation->game_type->getEventSample([
                'code'=>$dialog->next_event_code
            ]);
 
@@ -91,12 +91,12 @@ class PhoneService {
            } else {
                EventsManager::startEvent($simulation, $dialog->next_event_code, 0, 0, 0);
 
-               $dialog_cancel = Replica::model()->findByAttributes([
+               $dialog_cancel = $simulation->game_type->getReplica([
                    'code'=>$dialog_code,
                    'replica_number'=>2
                ]);
 
-               $cancel_event = EventSample::model()->findByAttributes([
+               $cancel_event = $simulation->game_type->getEventSample([
                    'code'=>$dialog_cancel->next_event_code
                ]);
 
@@ -143,9 +143,11 @@ class PhoneService {
 
         $model = new PhoneCall();
         $model->sim_id      = $simId;
+        /** @var $simulation Simulation */
+        $simulation = Simulation::model()->findByPk($simId);
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
-        $model->from_id     = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
         $model->to_id       = $characterId; // какому персонажу мы звоним
         $model->theme_id    = $theme_id;
         $model->insert();
@@ -171,7 +173,7 @@ class PhoneService {
      */
     public static function getMissedCalls($simulation)
     {
-        $charactersList = Character::model()->findAll();
+        $charactersList = $simulation->game_type->getCharacters([]);
         $characters = array();
         foreach($charactersList as $character) {
             $characters[$character->id] = array(
@@ -218,7 +220,7 @@ class PhoneService {
                     $data = array();
                     $data[] = self::combineReplicaToHero(array('ch_from' => "$characterCode"));
 
-                    $character = Character::model()->byId($characterCode)->find();
+                    $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
 
                     if ($character) {
                         $data[0]['title'] = $character->title;
@@ -275,8 +277,8 @@ class PhoneService {
             }
     }
 
-    public static function getReplicaByCode($eventCode, $simulation) {
-        $dialogs = Replica::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+    public static function getReplicaByCode($eventCode, Simulation $simulation) {
+        $dialogs = $simulation->game_type->getReplicas(['code' => $eventCode, 'step_number' => 1]);
 
         $data = array();
         foreach($dialogs as $dialog) {
@@ -286,7 +288,7 @@ class PhoneService {
                 // isDialog() Wrong!!!
                 if (!EventService::isDialog($dialog->next_event_code)) {
                     // создадим событие
-                    EventService::addByCode($dialog->next_event_code, $simulation->id, $simulation->getGameTime());
+                    EventService::addByCode($dialog->next_event_code, $simulation, $simulation->getGameTime());
                 }
             }
             $data[] = DialogService::dialogToArray($dialog);
@@ -294,7 +296,7 @@ class PhoneService {
 
         if (isset($data[0]['ch_from'])) {
             $characterId = $data[0]['ch_from'];
-            $character = Character::model()->byId($characterId)->find();
+            $character = $simulation->game_type->getCharacter(['code' => $characterId]);
             if ($character) {
                 $data[0]['title'] = $character->title;
                 $data[0]['name'] = $character->fio;

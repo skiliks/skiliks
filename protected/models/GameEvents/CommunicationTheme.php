@@ -308,7 +308,7 @@ class CommunicationTheme extends CActiveRecord
      * @return MailTemplate | NULL
      */
     public function getMailTemplate() {
-        return $this->simulation->game_type->getMailTemplate([
+        return $this->game_type->getMailTemplate([
             'code' => $this->letter_number
         ]);
     }

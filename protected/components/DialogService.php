@@ -31,7 +31,6 @@ class DialogService
         }
 
         $gameTime = $simulation->getGameTime();
-        $simType = $simulation->type; // определим тип симуляции
         $currentReplica = DialogService::get($dialogId); // получаем ид текущего диалога, выбираем запись
 
         EventService::deleteByCode($currentReplica->code, $simulation);
@@ -82,7 +81,7 @@ class DialogService
         $data = [];
 
         if ($currentReplica->next_event_code != '' && $currentReplica->next_event_code != '-') {
-            list($dialog, $data, $result) = $this->processNextReplica($currentReplica, $simType, $data, $simulation, $result, $gameTime);
+            list($dialog, $data, $result) = $this->processNextReplica($currentReplica, $data, $simulation, $result, $gameTime);
 
         }
         else {
@@ -209,14 +208,13 @@ class DialogService
 
     /**
      * @param $currentReplica
-     * @param $simType
      * @param $data
      * @param Simulation $simulation
      * @param $result
      * @param $gameTime
      * @return array
      */
-    public function processNextReplica($currentReplica, $simType, $data, $simulation, $result, $gameTime)
+    public function processNextReplica($currentReplica, $data, $simulation, $result, $gameTime)
     {
 // смотрим а не является ли следующее событие у нас диалогом
         // if next event has delay it can`t statr immediatly

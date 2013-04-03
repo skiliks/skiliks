@@ -29,9 +29,9 @@ class SendMailOptions
 
     const REPLY_ALL_FRONTEND_SCREEN_ALIAS = 'SCREEN_WRITE_REPLY_ALL';
 
-    public function __construct()
+    public function __construct(Simulation $simulation)
     {
-        $this->senderId = Character::model()->findByAttributes(['code' => Character::HERO_ID])->primaryKey;
+        $this->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->getPrimaryKey();
 
     }
      

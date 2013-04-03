@@ -101,7 +101,7 @@ class StaticSiteTools
         $cn = new CNumberFormatter($language);
 
         switch ($currencyCode) {
-            case 'RUB': return $cn->format($pattern, $amount, $currencyCode).' руб.';
+            case 'RUB': return $cn->format($pattern, $amount, $currencyCode);
         }
     }
 }

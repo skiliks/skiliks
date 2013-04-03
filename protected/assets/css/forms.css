@@ -367,6 +367,7 @@ span.required {
 }
 .lbluelink, .lbluelink:link, .lbluelink:visited {
     color:#1190a2;
+    text-decoration: none;
 }
 .blueplaceholder input[type="text"]::-webkit-input-placeholder {
     color:#1d7885;
@@ -392,6 +393,9 @@ span.required {
 .rowindustry .sbSelector, .shortSelector .sbSelector {
     text-overflow: ellipsis;
     width:95%;
+}
+.text16, .text16 a {
+    font-size: 16px;
 }
 /************************************ /PERSONAL PROFILE *******************************************/
 
@@ -433,19 +437,27 @@ span.required {
 }
 .brightblock {
     background: #51c1d2;
+    color:#fff;
+    font-size:19px;
+    min-width: 18px;
+}
+.brightblock, .lightblock {
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    color:#fff;
     display: inline-block;
-    font:19px "ProximaNova-Bold";
-    min-width: 18px;
+    font-family: "ProximaNova-Bold";
     text-align: center;
     text-decoration: none;
     padding: 5px 7px 4px;
 }
 .brightblock:link, .brightblock:visited, .brightblock:hover {
     color:#fff;
+}
+.lightblock {
+    background:#fefeec;
+    color:#3d4041;
+    font-size:22px;
 }
 #simulations-counter-box .brightblock {
     margin-left: 10px;

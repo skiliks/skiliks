@@ -1376,7 +1376,7 @@ define([
              * @returns {*}
              */
             getCurentEmailSubjectId: function () {
-                return this.$("#MailClient_NewLetterSubject input.dd-selected-value").val();
+                return this.$("#MailClient_NewLetterSubject").data('ddslick').selectedData.value;
             },
 
             /**

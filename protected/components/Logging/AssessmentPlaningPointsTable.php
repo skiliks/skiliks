@@ -47,7 +47,7 @@ class AssessmentPlaningPointsTable extends LogTable
             $row->heroBehaviour->learning_goal->title,
             $row->heroBehaviour->code,
             $row->heroBehaviour->title,
-            $row->heroBehaviour->type_scale,
+            \HeroBehaviour::getTypeScaleName($row->heroBehaviour->type_scale),
             $row->heroBehaviour->scale,
             $row->value,
             $row->task->code,

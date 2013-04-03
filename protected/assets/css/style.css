@@ -1,4 +1,6 @@
 @import "forms.css";
+@import "tariffs.css";
+
 /* --------------- reset.css --------------- */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
 	margin: 0;
@@ -476,7 +478,7 @@ a:focus, a:active {
     font:2.87em "ProximaNova-Bold";
     margin-bottom: 20px;
 }
-.midtitle {
+.midtitle, .flash-success {
     color:#3d4041;
     font: 28px "ProximaNova-Bold";
     margin-bottom: 22px;
@@ -2354,7 +2356,7 @@ ul.profile-menu li {
 .errorblock {
     margin-left: 300px;
     text-align: center;
-    width:560px;
+    width:580px !important;
 }
 .errorblock a {
     color:#2d7b91;

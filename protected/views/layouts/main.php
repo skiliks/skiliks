@@ -127,8 +127,8 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 				<nav>
 					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
-					<a href="team"><?php echo Yii::t('site', 'About Us') ?></a>
-					<a href="product"><?php echo Yii::t('site', 'Product') ?></a>
+					<a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>
+					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
 				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>

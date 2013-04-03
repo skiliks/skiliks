@@ -82,11 +82,13 @@ class LogDocument extends CActiveRecord
             null,
             $this->simulation
         );
+
         if ($activityAction !== null) {
             $activityAction->appendLog($this);
-        }else{
+        } else {
             throw new CException("The document must have id");//TODO:Проверить
         }
+
         parent::afterSave();
     }
 

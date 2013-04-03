@@ -25,7 +25,15 @@ class AssessmentResultTable extends LogTable
 
     public function getHeaders()
     {
-        return ['Номер поведения', 'Point Title', 'Тип поведения', 'Assessment group', 'Оценка по поведению'];
+        return [
+            'Номер поведения',
+            'Point Title',
+            'Тип поведения',
+            'Assessment group',
+            'Оценка',
+            'Коеффициент',
+            'Исправленная оценка',
+        ];
     }
 
     /**
@@ -39,6 +47,8 @@ class AssessmentResultTable extends LogTable
             $assessmentPoint->point->title,
             $assessmentPoint->point->type->value,
             $assessmentPoint->point->group->name,
+            number_format($assessmentPoint->value, 2),
+            (null == $assessmentPoint->coefficient_for_fixed_value) ? 1 : $assessmentPoint->coefficient_for_fixed_value,
             $assessmentPoint->fixed_value,
         ];
     }
