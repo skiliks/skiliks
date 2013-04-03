@@ -212,17 +212,24 @@ class MailBoxTest extends CDbTestCase
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
             'text'         => $randomFirstEmail->subject_obj->text,
             'mail_prefix'  => 'fwd',
+            'scenario_id' => $simulation->scenario_id,
         ]);
 
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'M8 subject tetx');
         $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'M8 parentSubjectId');
         $this->assertEquals($resultData['subjectId'], $fwdSubject->id, 'M8 subjectId');
 
+        $ITlead = Character::model()->findByAttributes([
+            'scenario_id' => $simulation->scenario_id,
+            'fio'         => 'Железный С.',
+        ]);
+
         $fwdSubject = CommunicationTheme::model()->findAllByAttributes([
-            'character_id' => 2,
+            'character_id' => $ITlead->id,
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
             'text'         => $randomFirstEmail->subject_obj->text,
             'mail_prefix'  => 'fwd',
+            'scenario_id' => $simulation->scenario_id,
         ]);
         $this->assertEquals(1, count($fwdSubject), 'M8 wrong recipient mail subject');
         // random email case }
