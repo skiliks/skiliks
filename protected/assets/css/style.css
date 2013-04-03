@@ -1091,6 +1091,7 @@ html[lang=ru] .product section table th{
 	line-height:1;
 	width:95px;
 	vertical-align:middle;
+    word-wrap: break-word;
 }
 .registration .form .row input[type=text]{
 	background:#fff;
