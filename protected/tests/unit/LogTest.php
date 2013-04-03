@@ -461,7 +461,10 @@ class LogTest extends CDbTestCase
 
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
-            'character_id' => Character::model()->findByAttributes(['code'=>20])->primaryKey,
+            'character_id' => Character::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code' => 20,
+            ])->primaryKey,
             'mail_prefix' => 're',
             'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ]);
@@ -469,9 +472,19 @@ class LogTest extends CDbTestCase
         $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
-        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->primaryKey;
+
+        $options->messageId = MailTemplate::model()->findByAttributes([
+            'code' => 'M8',
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey;
+
         $options->subject_id = $theme->primaryKey;
-        $options->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+
+        $options->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
         $options->setLetterType('new');
@@ -481,9 +494,19 @@ class LogTest extends CDbTestCase
         $message = MailBoxService::sendMessagePro($options);
 
         $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
+
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
+            'code' => 'M74',
+            'scenario_id' => $simulation->scenario_id,
+        ]);
+
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -494,9 +517,19 @@ class LogTest extends CDbTestCase
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
 
         $sendMailOptions = new SendMailOptions($simulation);
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
+
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
+            'code' => 'M74',
+            'scenario_id' => $simulation->scenario_id,
+        ]);
+
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -535,9 +568,7 @@ class LogTest extends CDbTestCase
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-//        foreach ($mail_logs as $log) {
-//            //print_r($log);
-//        }
+
         $this->assertEquals(count($mailLogs), 4);
 
         $this->assertEquals(count($activityActions), 10);
