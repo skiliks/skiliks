@@ -1,15 +1,15 @@
 .onetariff {
     display: inline-block;
-    margin: 0px 10px;
+    margin: 0px 11px;
+    padding: 0px;
+}
+body  .onetariff  {
     padding: 0px;
 }
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     height:410px;
     width:210px;
-}
-body .tariff-box  {
-   padding: 0px;
 }
 .tariff-box:first-child {
     margin-left: 0px;
