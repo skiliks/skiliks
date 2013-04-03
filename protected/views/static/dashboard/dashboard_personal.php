@@ -24,7 +24,7 @@
 
         </div>
 
-        <div class="sidefeedback"><a href="#" class="light-btn">Обратная связь</a></div>
+        <div class="sidefeedback"><a href="#" class="light-btn feedback">Обратная связь</a></div>
 
         <!-- companies-you-follow-box -->
         <?php /* not in release 1
