@@ -37,6 +37,11 @@ $this->widget('zii.widgets.grid.CGridView', [
             });
         }
 
+        // remove last 3 TH
+        $('.items').find('th:eq(8)').remove();
+        $('.items').find('th:eq(7)').remove();
+        $('.items').find('th:eq(6)').remove();
+
         $('.invites-smallmenu-switcher').each(function(){
             // move links from last 3 TD to pop-up sub-menu
             $(this).next().append(
@@ -49,11 +54,6 @@ $this->widget('zii.widgets.grid.CGridView', [
             $(this).parent().parent().find('td:eq(8)').remove();
             $(this).parent().parent().find('td:eq(7)').remove();
             $(this).parent().parent().find('td:eq(6)').remove();
-
-            // remove last 3 TH
-            $('.items').find('th:eq(8)').remove();
-            $('.items').find('th:eq(7)').remove();
-            $('.items').find('th:eq(6)').remove();
 
             // make links (now they in pop-up sub-menu) visible
             $('.items td a').show();
