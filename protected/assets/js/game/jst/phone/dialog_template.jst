@@ -25,7 +25,7 @@
             <p class="phone-reply-ch max"><@=remote_replica.text@></p>
             <@ } @>
 
-            <ul class="phone-reply-h" id="phoneAnswers">
+            <ul class="phone-reply-h <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>" id="phoneAnswers">
                 <@ my_replicas.forEach(function (replica) { @>
                 <li><p><a class="replica-select" data-disabled="false"
                     <@if (replica.is_final_replica === "1") { @>
