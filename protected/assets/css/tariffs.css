@@ -21,7 +21,7 @@ body  .onetariff  {
     border-bottom:1px solid #69a7b0;
     display: block;
     font:20px 'ProximaNova-Bold';
-    padding: 20px 0px 10px;
+    padding: 17px 0px 10px;
     text-align: center;
 }
 .price {
@@ -39,4 +39,7 @@ body  .onetariff  {
 .benefits {
     color:#3d4041;
     font: 16px "ProximaNova-Bold";
+}
+.tariff-box .light-btn {
+    font-size: 17px;
 }
