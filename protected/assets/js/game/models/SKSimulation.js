@@ -106,7 +106,7 @@ define([
                                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                                     console.log("delete block");
                                     if(SKApp.simulation.afterZohoCrash){
-                                        this.trigger('iframeReload', 'hello');
+                                        me.trigger('iframeReload', 'hello');
                                         console.log('afterZohoCrash');
                                     }else{
                                         $('.zoho-load-start').remove();
