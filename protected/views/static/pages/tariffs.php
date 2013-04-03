@@ -7,9 +7,10 @@
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price">
                 <?php if (round($tariff->price / 1000)): ?>
-                    <?php echo round($tariff->price / 1000) ?> т
+                    <?php echo round($tariff->price / 1000) ?>
                 <?php endif ?>
                 <?php echo $tariff->price % 1000 ?></div>
+            <div><?php echo $tariff->getFormattedSafeAmount() ?></div>
         </div>
             <div class="tarifwrap">
                 <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций</div>
