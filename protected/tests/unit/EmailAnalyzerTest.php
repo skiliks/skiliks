@@ -411,7 +411,7 @@ class EmailAnalyzerTest extends CDbTestCase
 
         //good M71
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
         EventsManager::startEvent($simulation, 'M71');
         $mail_event = EventsManager::getState($simulation, []);

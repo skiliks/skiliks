@@ -2407,7 +2407,7 @@ class ImportGameDataService
             }
 
             /** @var $emailEvent EventSample */
-            $emailEvent = EventSample::model()->findByAttributes([
+            $emailEvent = $this->scenario->getEventSample([
                 'code' => $this->getCellValue($sheet, 'Run_code', $i)
             ]);
 
@@ -2419,10 +2419,9 @@ class ImportGameDataService
             if ('00:00:00' == $emailEvent->trigger_time || null == $emailEvent->trigger_time) {
 
                 // try to find exists entity {
-                $mailFlag = FlagRunMail::model()->findByAttributes([
+                $mailFlag = $this->scenario->getFlagRunMail([
                     'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
                     'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
-                    'scenario_id' => $this->scenario->getPrimaryKey()
                 ]);
                 // try to find exists entity }
 
@@ -2442,7 +2441,7 @@ class ImportGameDataService
 
             // Flag blocks mail always {
             $mailTemplate = $this->scenario->getMailTemplate(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
-            $mailFlag = FlagBlockMail::model()->findByAttributes([
+            $mailFlag = $this->scenario->getFlagBlockMail([
                 'mail_template_id' => $mailTemplate->primaryKey,
                 'flag_code'        => $this->getCellValue($sheet, 'Flag_code', $i),
             ]);
@@ -2465,7 +2464,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $flagBlockReplica = FlagBlockReplica::model()->findByAttributes([
+            $flagBlockReplica = $this->scenario->getFlagBlockReplica([
                 'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
                 'replica_id' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
@@ -2496,7 +2495,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $flagBlockDialog = FlagBlockDialog::model()->findByAttributes([
+            $flagBlockDialog = $this->scenario->getFlagBlockDialog([
                 'flag_code'   => $this->getCellValue($sheet, 'Flag_code', $i),
                 'dialog_code' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
