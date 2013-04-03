@@ -312,8 +312,13 @@ class CheckConsolidatedBudget
      */
     public function calcPoints($path=null)
     {
+        /**
+         * @var Simulation
+         */
+        $simulation = Simulation::model()->findByPk($this->simId);
+
         // check document {
-        $documentTemplate = DocumentTemplate::model()->findByAttributes([
+        $documentTemplate = $simulation->game_type->getDocumentTemplate([
             'code' => 'D1'
         ]);
 
