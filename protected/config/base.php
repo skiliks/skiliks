@@ -180,7 +180,8 @@ return array(
                 'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
-
+                'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
+                'registration/confirm-corporate-email-success'=>'static/userAuth/ConfirmCorporateEmailSuccess',
                 '/recovery' => 'static/userAuth/recovery',
 
                 'results'                   =>'static/userAuth/results',

@@ -323,7 +323,7 @@ class CheckConsolidatedBudget
         ]);
 
         if (null === $document) {
-            //throw new Exception("Template not found by template_id {$documentTemplate->id}");
+            throw new Exception("Template not found by template_id {$documentTemplate->id}");
             return false;
         }
 
@@ -333,7 +333,7 @@ class CheckConsolidatedBudget
         $documentPath = $zohoDoc->getUserFilepath();
         
         if (null === $documentPath) {
-            //throw new Exception("Document not found by path {$documentPath}");
+            throw new Exception("Document not found by path {$documentPath}");
             return false;
         }
 
@@ -356,7 +356,7 @@ class CheckConsolidatedBudget
         } catch (Exception $e) {
             $this->resetUserPoints();
             $this->savePoints();
-            
+            throw new Exception("Error objPHPExcel");
             return false;
         }        
         // 'wh' - worksheet
@@ -367,9 +367,9 @@ class CheckConsolidatedBudget
 
 
         if (NULL === $whLogistic || NULL === $whProduction || NULL === $whConsolidated) {
+            throw new Exception("Sheet error");
             $this->resetUserPoints();
             $this->savePoints();
-            throw new Exception("Sheet error");
             Yii::log('no sheet', 'warning');
             return false;
         }

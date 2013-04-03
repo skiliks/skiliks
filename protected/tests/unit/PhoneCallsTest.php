@@ -17,9 +17,9 @@ class PhoneServiceTest extends CDbTestCase
 
         // init test data {
         $toCharacter = Character::model()->find([
-            'condition' => 'id NOT IN (:id)',
+            'condition' => 'id NOT IN (:id) AND scenario_id = '.$simulation->scenario_id,
             'params' => [
-                'id' => Character::HERO_ID
+                'id' => $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey
             ]
         ]);
 
@@ -68,7 +68,7 @@ class PhoneServiceTest extends CDbTestCase
 
         for ($i = 0; $i < 2; $i++) {
             $replicas[$i] = Replica::model()->find([
-                'condition' => " code = :code AND step_number = :sn AND replica_number = :rn  ",
+                'condition' => " code = :code AND step_number = :sn AND replica_number = :rn AND scenario_id = ".$simulation->scenario_id,
                 'params' => [
                     'code' => $dialogCode[$i],
                     'sn' => 1,
@@ -125,8 +125,13 @@ class PhoneServiceTest extends CDbTestCase
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
         $characterCode = 3; // Трутнев
 
-        $character = Character::model()->findByAttributes(['code' => $characterCode]);
-        $theme = CommunicationTheme::model()->byCharacter($character->primaryKey)->byText('Задача отдела логистики: статус')->byPhone()->find();
+        $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
+        $theme = CommunicationTheme::model()->findByAttributes([
+            'scenario_id'  => $simulation->scenario_id,
+            'text'         => 'Задача отдела логистики: статус',
+            'phone'        => 1,
+            'character_id' => $character->primaryKey
+        ]);
 
         $this->assertInstanceOf('CommunicationTheme', $theme);
 
@@ -148,12 +153,21 @@ class PhoneServiceTest extends CDbTestCase
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-        $character_id = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.'])->getPrimaryKey();
-        $theme_id = CommunicationTheme::model()->findByAttributes(['text' => 'Перенос сроков сдачи сводного бюджета', 'character_id' => $character_id, 'phone' => 1])->id;
-        $data = PhoneService::call($simulation, $theme_id, $character_id, '10:00');
+
+        $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
+
+        $theme_id = CommunicationTheme::model()
+            ->findByAttributes([
+                'scenario_id'  => $simulation->scenario_id,
+                'text' => 'Перенос сроков сдачи сводного бюджета',
+                'character_id' => $character->id,
+                'phone' => 1
+            ])->id;
+
+        $data = PhoneService::call($simulation, $theme_id, $character->code, '10:00');
 
         $this->assertNotEquals([], $data['events']);
-        $data = PhoneService::call($simulation, $theme_id, $character_id, '10:10');
+        $data = PhoneService::call($simulation, $theme_id, $character->code, '10:10');
         $this->assertEquals([], $data['events']);
         SimulationService::simulationStop($simulation);
     }

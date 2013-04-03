@@ -211,6 +211,7 @@ class PhoneService {
 
             /** @var $communicationTheme CommunicationTheme */
             $character = $simulation->game_type->getCharacter(['code' => $characterCode]);
+
             $communicationTheme = $simulation->game_type->getCommunicationTheme(['character_id' => $character->primaryKey, 'id' => $themeId, 'phone' => 1]);
             if ($communicationTheme) {
                 $eventCode = $communicationTheme->phone_dialog_number;
