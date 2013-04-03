@@ -428,24 +428,24 @@ class Scenario extends CActiveRecord
     public function getFlagBlockMail($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockMail::model()->findAllByAttributes($array);
+        return FlagBlockMail::model()->findByAttributes($array);
     }
 
     public function getFlagRunMail($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagRunMail::model()->findAllByAttributes($array);
+        return FlagRunMail::model()->findByAttributes($array);
     }
 
     public function getFlagBlockDialog($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockDialog::model()->findAllByAttributes($array);
+        return FlagBlockDialog::model()->findByAttributes($array);
     }
 
     public function getFlagBlockReplica($array)
     {
         $array['scenario_id'] = $this->getPrimaryKey();
-        return FlagBlockReplica::model()->findAllByAttributes($array);
+        return FlagBlockReplica::model()->findByAttributes($array);
     }
 }
