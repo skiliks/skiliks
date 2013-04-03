@@ -5,6 +5,7 @@
     <div class="tariff-box radiusthree nice-border">
         <label class="tarifname"><?php echo $tariff->label ?></label>
         <div class="price"><?php echo $tariff->getFormattedPrice() ?></div>
+        <div class="price"><?php echo $tariff->getFormattedSafeAmount() ?></div>
         <br/>
         <br/>
         <div class="simulations-amount"><?php echo $tariff->simulations_amount ?> симуляций</div>
