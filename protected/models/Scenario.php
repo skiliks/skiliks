@@ -454,4 +454,10 @@ class Scenario extends CActiveRecord
         $array['scenario_id'] = $this->getPrimaryKey();
         return FlagBlockReplica::model()->findAllByAttributes($array);
     }
+
+    public function getFlagsRunMail($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagRunMail::model()->findAllByAttributes($array);
+    }
 }

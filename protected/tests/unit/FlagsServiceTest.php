@@ -39,6 +39,27 @@ class FlagServiceTest extends CDbTestCase
     }
 
     /**
+     * Проверяет то, что письмо после флага приходит с правильным временем
+     */
+    public function testFlagMailTimeSet()
+    {
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_DEVELOPER_LABEL, $user, Scenario::TYPE_FULL);
+
+        LibSendMs::sendMs($simulation, 'MS30');
+        $eventManager = new EventsManager();
+        $result = $eventManager->getState($simulation, []);
+        $this->assertEquals($result['events'][0]['eventType'],'M');
+        $mailManager = new MailBoxService();
+        $mailList = $mailManager->getMessages(['folderId' =>1, 'simId' => $simulation->getPrimaryKey()]);
+        $M31 = array_values(array_filter($mailList, function ($mailItem) {
+            return $mailItem['template'] == 'M31';
+        }))[0];
+        $this->assertEquals('04.10.2012 09:45',$M31['sentAt']);
+
+    }
+
+    /**
      * Тест на установку флага, при отправке правильного письма
      */
     public function testSentMailFlagSet()
