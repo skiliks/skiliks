@@ -136,7 +136,7 @@ define([
                 this.listenTo(this.mailClient, 'mail:fantastic-send', this.onMailFantasticSend);
                 this.listenTo(this.mailClient, 'mail:fantastic-open', this.onMailFantasticOpen);
                 // close with conditions action {
-                this.options.model_instance.on('pre_close', this.onBeforeClose);
+                this.listenTo(this.options.model_instance, 'pre_close', this.onBeforeClose);
                 // close with conditions action }
 
                 // call parent initialize();
