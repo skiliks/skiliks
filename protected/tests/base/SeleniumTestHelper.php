@@ -33,7 +33,7 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
 
-        $this->open('/simulation/developer/1'); // для full simulation
+        $this->open('/simulation/developer/scenario'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
