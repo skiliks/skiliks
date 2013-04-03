@@ -7,6 +7,7 @@
  * @author Sergey Suzdaltsev <sergey.suzdaltsev@gmail.com>
  *
  * @property DocumentTemplate template
+ * @property string $uuid
  */
 class MyDocument extends CActiveRecord
 {
