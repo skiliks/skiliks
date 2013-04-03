@@ -5,7 +5,12 @@
     <div class="nice-border onetariff">
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
-            <div class="price"><?php echo $tariff->getFormattedPrice() ?></div>
+            <div class="price">
+                <?php if (round($tariff->price / 1000)): ?>
+                    <?php echo round($tariff->price / 1000) ?> т
+                <?php endif ?>
+                <?php echo $tariff->price % 1000 ?></div>
+        </div>
             <div class="tarifwrap">
                 <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций</div>
                 <div class="benefits">
