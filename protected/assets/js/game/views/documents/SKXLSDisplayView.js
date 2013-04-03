@@ -85,7 +85,7 @@ define([
                     'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
                     'buttons': [
                     {
-                    'value': 'Конечно!',
+                    'value': 'Перезагрузить',
                     'onclick': function () {
                         delete SKDocument._excel_cache[doc.get('id')];
                         SKApp.simulation.documents.remove(doc);
