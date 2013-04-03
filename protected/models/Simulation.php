@@ -302,11 +302,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     public function checkActivityAggregatedLogs()
@@ -331,11 +327,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 8 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     /**
@@ -396,11 +388,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 8 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     /**
