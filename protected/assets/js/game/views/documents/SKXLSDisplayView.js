@@ -87,10 +87,11 @@ define([
                     {
                     'value': 'Перезагрузить',
                     'onclick': function () {
+                        SKApp.simulation.afterZohoCrash = true;
                         delete SKDocument._excel_cache[doc.get('id')];
                         SKApp.simulation.documents.remove(doc);
                         SKApp.simulation.documents.fetch();
-
+                        t
                         me.doWindowClose();
                         $(doc.combineIframeId()).remove();
                         me.remove();
