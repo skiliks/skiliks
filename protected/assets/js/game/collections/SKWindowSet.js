@@ -152,7 +152,7 @@ define([
         toggle: function (name, subname, params) {
             // protect against 2 open phone windows at the same time
             if (name === 'phone') {
-                this.closeAllPhoneInstances();
+                this.closeAllPhoneInstances(name, subname);
             }
 
             var windows = this.where({name: name, subname: subname});
@@ -251,15 +251,17 @@ define([
         /**
          * We need it to protect against two opened phone windows in same time
          *
+         * Но самоубийство этот метод при этом не делает — если скрывается окно, то его не закрывает
+         *
          * @method closeAllPhoneInstances
          * @returns void
          */
-        closeAllPhoneInstances: function () {
-            for (var i in SKApp.simulation.window_set.models) {
-                if ('phone' == SKApp.simulation.window_set.models[i].get('name')){
-                    SKApp.simulation.window_set.models[i].close();
+        closeAllPhoneInstances: function (name, subname) {
+            SKApp.simulation.window_set.each(function (window) {
+                if ('phone' === window.get('name') && 'phone' === name && window.get('subname') !== subname){
+                    window.close();
                 }
-            }
+            });
         }
 
     });

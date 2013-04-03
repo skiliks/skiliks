@@ -363,7 +363,7 @@ class LogTest extends CDbTestCase
 //            );
 //            /*$this->assertNotNull($log->end_time);*/
 //        }
-        $log_dialogs = LogHelper::getDialogs(LogHelper::RETURN_DATA, $simulation);
+//        $log_dialogs = LogHelper::getDialogs(LogHelper::RETURN_DATA, $simulation);
 //        foreach ($log_dialogs['data'] as $log) {
 //            printf("%s\t%8s\t%5s\t%5d\n",
 //                $log['start_time'],

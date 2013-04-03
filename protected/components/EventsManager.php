@@ -312,11 +312,7 @@ class EventsManager {
         $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
 
         /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
-        try {
-            LogHelper::setWindowsLog($simId, $logs);
-        } catch (CException $e) {
-            // @todo: handle
-        }
+        LogHelper::setWindowsLog($simId, $logs);
 
         LogHelper::setUniversalLog($simulation, $logs);
 

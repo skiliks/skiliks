@@ -60,6 +60,9 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
             event.preventDefault();
             var hours = target.elements.hours.value;
             var minutes = target.elements.minutes.value;
+            if (hours * 60 + minutes <= SKApp.simulation.getGameMinutes()) {
+                alert('Путешествия во времени запрещены!');
+            }
             SKApp.simulation.setTime(hours, minutes);
         },
 
