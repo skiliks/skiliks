@@ -81,18 +81,32 @@ define([
             }
 
             if (event.data.type == "Zoho_500") {
+                 me.message_window = new SKDialogView({
+                    'message': 'Excel выполнил недопустимую операцию. <br/> Необходимо закрыть и заново открыть документ через 10 секунд. <br/> Будет загружена последняя автосохранённая копия.',
+                    'buttons': [
+                    {
+                    'value': 'Конечно!',
+                    'onclick': function () {
+                        delete SKDocument._excel_cache[doc.get('id')];
+                        $(doc.combineIframeId()).remove();
+                        SKApp.simulation.documents.remove(doc);
+                        console.log(SKApp.simulation.documents);
+                        console.log(doc);
+                        SKApp.simulation.documents.fetch();
+                        console.log(SKApp.simulation.documents);
 
-                delete SKDocument._excel_cache[doc.get('id')];
-                SKApp.simulation.documents.remove(doc);
-                console.log(SKApp.simulation.documents);
-                console.log(doc);
-                SKApp.simulation.documents.fetch();
-                console.log(SKApp.simulation.documents);
-                //$(doc.combineIframeId()).remove();
+                        me.remove();
+                        // clean array of not handled zoho 500 {
+                        var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
+                        delete SKApp.simulation.documents.zoho_500[i];
+                        delete me.message_window;
+                 }
+                }
+               ]
+            });
 
-                                // clean array of not handled zoho 500 {
-                var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
-                delete SKApp.simulation.documents.zoho_500[i];
+
+
 
             }
         },
