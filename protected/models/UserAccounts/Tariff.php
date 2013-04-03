@@ -36,7 +36,7 @@ class Tariff extends CActiveRecord
             return 'Бесплатно';
         }
 
-        return  StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency);
+        return  StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#');
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
