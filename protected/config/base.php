@@ -287,16 +287,6 @@ return array(
             'skiliksSpeedFactor' => 8,
             'storageURL' => 'http://storage.skiliks.com/v1/'
         ],
-        'simulation' => [
-            'lite' => [
-                'start' => '9:45',
-                'end' => '12:45',
-            ],
-            'full' => [
-                'start' => '9:45',
-                'end' => '18:00',
-            ]
-        ],
         'zoho' => array(
             'apiKey'              => 'c076746cd578f7e9287ff1234d3faf2f',
             'saveUrl'             => 'http://live.skiliks.com/zoho/saveExcel',

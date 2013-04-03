@@ -17,13 +17,18 @@ class SiteController extends AjaxController
     /**
      *
      */
-    public function actionSimulation($mode, $type = Simulation::TYPE_LITE, $invite_id = null)
+    public function actionSimulation($mode, $type = Scenario::TYPE_LITE, $invite_id = null)
     {
         header('X-Frame-Options: GOFORIT');
 
         $user = Yii::app()->user->data();
 
-        if (null === $user) {
+        /** @var Scenario $scenario */
+        $scenario = Scenario::model()->findByAttributes([
+            'slug' => $type
+        ]);
+
+        if (null === $user || null === $scenario) {
             $this->redirect('/');
         }
 
@@ -61,11 +66,12 @@ class SiteController extends AjaxController
         $assetsUrl = $this->getAssetsUrl();
         $config = array_merge(
             Yii::app()->params['public'],
-            Yii::app()->params['simulation'][Simulation::$typeLabel[$type]],
             [
                 'assetsUrl' => $assetsUrl,
                 'mode' => $mode,
                 'type' => $type,
+                'start' => $scenario->start_time,
+                'end' => $scenario->end_time,
                 'badBrowserUrl' => '/bad-browser',
                 'oldBrowserUrl' => '/old-browser',
                 'dummyFilePath' => $assetsUrl . '/img/kotik.jpg',

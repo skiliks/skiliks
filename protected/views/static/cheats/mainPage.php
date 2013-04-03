@@ -42,8 +42,8 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/promo/2">Начать симуляцию в режиме promo (lite)</a>
-    <a href="/simulation/promo/1">Начать симуляцию в режиме promo (full)</a>
+    <a href="/simulation/promo/lite">Начать симуляцию в режиме promo (lite)</a>
+    <a href="/simulation/promo/scenario">Начать симуляцию в режиме promo (full)</a>
 
     <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <a href="/dashboard">
@@ -72,8 +72,8 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/developer/2">Начать симуляцию (lite) в режиме developer</a>
-    <a href="/simulation/developer/1">Начать симуляцию (full) в режиме developer</a>
+    <a href="/simulation/developer/lite">Начать симуляцию (lite) в режиме developer</a>
+    <a href="/simulation/developer/scenario">Начать симуляцию (full) в режиме developer</a>
 
         <br>
         <br>

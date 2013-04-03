@@ -2354,13 +2354,8 @@ class ImportGameDataService
      */
     public function importWithoutTransaction()
     {
-        $scenario = Scenario::model()->findByAttributes(['slug' => $this->scenario_slug]);
-        if ($scenario === null) {
-            $scenario = new Scenario();
-            $scenario->slug = $this->scenario_slug;
-            $scenario->save();
-        }
-        $this->scenario = $scenario;
+        $this->setScenario();
+
         $result = [];
         $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters'] = $this->importCharacters();
@@ -2549,6 +2544,30 @@ class ImportGameDataService
             'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
             'errors'                      => false,
         ];
+    }
+
+    public function setScenario()
+    {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $this->scenario_slug]);
+        if ($scenario === null) {
+            $scenario = new Scenario();
+        }
+
+        $scenario->slug = $this->scenario_slug;
+        $scenario->filename = basename($this->filename);
+
+        // TODO: Hardcode. Time should be defined in scenario file
+        if ($scenario->slug == Scenario::TYPE_LITE) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '11:05:00';
+        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '18:00:00';
+        }
+
+        $scenario->save();
+
+        $this->scenario = $scenario;
     }
 }
 

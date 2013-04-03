@@ -434,12 +434,12 @@ class SimulationService
     /**
      * @param $simulationMode
      * @param YumUser $user
-     * @param int $type
+     * @param string $type
      * @throws Exception
      * @internal param $simulationType
      * @return Simulation
      */
-    public static function simulationStart($simulationMode, $user, $type = Simulation::TYPE_LITE)
+    public static function simulationStart($simulationMode, $user, $type = Scenario::TYPE_LITE)
     {
         $profiler = new SimpleProfiler(false);
         $profiler->startTimer();
@@ -460,7 +460,7 @@ class SimulationService
         }
 
         // TODO: Change checking logic
-        if ($type == Simulation::TYPE_FULL
+        if ($type == Scenario::TYPE_FULL
             && false == $user->can(UserService::CAN_START_FULL_SIMULATION)
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
@@ -472,8 +472,7 @@ class SimulationService
         $simulation->user_id = $userId;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => ($type == Simulation::TYPE_LITE ? 'lite' : 'scenario')])->primaryKey;
-        $simulation->type = $type;
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $type])->primaryKey;
         $simulation->insert();
         $profiler->render('3: ');
 
@@ -566,7 +565,7 @@ class SimulationService
      */
     public static function pause($simulation)
     {
-        if ($simulation->type != Simulation::TYPE_LITE) {
+        if ($simulation->game_type->slug != Scenario::TYPE_LITE) {
             throw new Exception('Pause feature is not available in non-lite simulation');
         }
 
@@ -608,7 +607,7 @@ class SimulationService
         $variance = $variance * $speedFactor;
 
         $unixtimeMins = round($variance / 60);
-        $start_time = explode(':', Yii::app()->params['simulation'][$simulation->getTypeLabel()]['start']);
+        $start_time = explode(':', $simulation->game_type->start_time);
         $clockH = round($unixtimeMins / 60);
         $clockM = $unixtimeMins - ($clockH * 60);
         $clockH = $clockH + $start_time[0];

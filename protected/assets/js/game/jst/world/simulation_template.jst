@@ -3,7 +3,7 @@
         <ul class="main-screen-stat">
             <li class="time">
                 <span class="hour"></span><span class="delimiter">:</span><span class="minute"></span>
-                <@ if(SKApp.get('type') == 2) { @>
+                <@ if(SKApp.isLite()) { @>
                 <span class="pause-control"></span>
                 <@ } @>
             </li>
