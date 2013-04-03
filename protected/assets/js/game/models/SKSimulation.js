@@ -107,6 +107,7 @@ define([
                                     console.log("delete block");
                                     if(SKApp.simulation.afterZohoCrash){
                                         this.trigger('iframeReload', 'hello');
+                                        console.log('afterZohoCrash');
                                     }else{
                                         $('.zoho-load-start').remove();
                                     }
