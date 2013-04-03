@@ -47,7 +47,7 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
             print_r($result);
             $result = EventService::processLinkedEntities($MS29Replica->next_event_code, $simulation, true);
             $this->assertArrayHasKey('fantastic', $result);
-            $this->assertEquals(MailTemplate::model()->findByAttributes(['code' => 'MS29'])->subject_id, $result['mailFields']['subjectId']);
+            $this->assertEquals(MailTemplate::model()->findByAttributes(['code' => 'MS29', 'scenario_id' => $simulation->scenario_id])->subject_id, $result['mailFields']['subjectId']);
             $this->assertEquals('MS', $result['eventType']);
             $result = EventService::processLinkedEntities('M11', $simulation);
             $this->assertEquals($result['eventType'], 'M');
