@@ -225,8 +225,8 @@ define([], function () {
                 'time':     SKApp.simulation.getGameTime()
             }, function (data) {
                 if (data.result === 1) {
-                    cb();
                     if (me.getStatus() !== 'completed') {
+                        cb();
                         me.complete();
                     }
                     SKApp.simulation.parseNewEvents(data.events);
