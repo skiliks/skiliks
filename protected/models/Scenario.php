@@ -8,6 +8,8 @@
  * @property string $name
  * @property string $filename
  * @property string $slug
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Activity[] $activities
@@ -42,6 +44,9 @@
  */
 class Scenario extends CActiveRecord
 {
+    const TYPE_LITE = 'lite';
+    const TYPE_FULL = 'scenario';
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -71,7 +76,7 @@ class Scenario extends CActiveRecord
 			array('name, filename, slug', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, filename, slug', 'safe', 'on'=>'search'),
+			array('id, name, filename, slug, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
