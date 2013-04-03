@@ -139,7 +139,7 @@ class EventService
             if ($fantasticResult) {
                 $data['fantastic'] = true;
                 /** @var $mailTemplate MailTemplate */
-                $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $code]);
+                $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $code]);
                 if ($mailTemplate->attachments) {
                     $fileTemplate = $mailTemplate->attachments[0]->file;
                     $attachmentId = MyDocument::model()->findByAttributes(['template_id' => $fileTemplate->primaryKey, 'sim_id' => $simulation->primaryKey])->primaryKey;
