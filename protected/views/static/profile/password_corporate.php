@@ -12,7 +12,7 @@
         )); ?>
 
         <div class="row">
-            <?php echo Yii::t('site', 'Установите новый пароль или <a href="/recovery" class="lbluelink">восстановите</a> текущий'); ?>
+            <p class="text16"><?php echo Yii::t('site', 'Установите новый пароль или <a href="/recovery" class="lbluelink">восстановите</a> текущий'); ?></p>
         </div>
 
         <div class="row">
