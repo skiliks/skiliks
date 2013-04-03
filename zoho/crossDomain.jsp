@@ -104,12 +104,12 @@ $(window.parent.window).load(function()
     }
 
 //   Code to emulate Zoho 500 error in future
-    setTimeout(function() {
+    /*setTimeout(function() {
         window.parent.showBannerMessage(
             'ERROR',
             'The server has encountered a problem. We are sorry! Kindly reopen the file and try again.');
             },
-        25*1000);
+        25*1000);*/
 
 });
 // new code }
