@@ -107,7 +107,9 @@ define([
                                     console.log("delete block");
                                     if(SKApp.simulation.afterZohoCrash){
                                         //SKApp.simulation.trigger('iframeReload', 'hello');
+                                        console.log(url);
                                         console.log(id);
+                                        $('#excel-preload-'+id).attr("src", $('#excel-preload-'+id).attr("src"));
                                     }else{
                                         $('.zoho-load-start').remove();
                                     }
