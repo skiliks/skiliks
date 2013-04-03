@@ -22,7 +22,7 @@ class ImportGameDataService
     public function __construct($type)
     {
         $this->scenario_slug = $type;
-        $files = glob(__DIR__ . "/../../../media/$type*.xlsx");
+        $files = glob(__DIR__ . "/../../../media/scenario_$type*.xlsx");
         $files = array_combine($files, array_map("filemtime", $files));
         arsort($files);
 

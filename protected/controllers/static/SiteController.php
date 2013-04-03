@@ -48,7 +48,7 @@ class SiteController extends AjaxController
             $invite = Invite::model()->findByPk($invite_id);
 
             if (null == $invite) {
-                Yii:app()->user->setFlash('error', 'Выбирите приглашение по которому Вы хотите начать симуляцию. <br/>Похоже, что вы пытаетесь начать симуляцию не указав приглашение -  это запрещено.');
+                Yii:app()->user->setFlash('error', 'Выберите приглашение по которому Вы хотите начать симуляцию. <br/>Похоже, что вы пытаетесь начать симуляцию не указав приглашение -  это запрещено.');
                 $this->redirect('/simulations');
             }
 
