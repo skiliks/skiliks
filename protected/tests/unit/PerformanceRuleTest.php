@@ -57,7 +57,7 @@ class PerformanceRuleTest extends CDbTestCase {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $this->addExcelPoints($simulation);
 
