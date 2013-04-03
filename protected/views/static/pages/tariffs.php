@@ -12,7 +12,13 @@
                 <?php echo $tariff->price % 1000 ?></p>
             </div>
             <div class="tarifwrap">
-                <div class="brightblock"><?php echo $tariff->getFormattedSafeAmount() ?></div>
+                <div class="brightblock">
+                    <?php if ($tariff->is_free || ($tariff->safe_amount !== '0.00')): ?>
+                        <?php echo $tariff->getFormattedSafeAmount() ?>
+                    <?php else: ?>
+                        ничего
+                    <?php endif ?>
+                </div>
                 <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций *</div>
                 <div class="benefits">
                     <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
