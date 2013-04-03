@@ -1040,7 +1040,7 @@ class SimulationServiceTest extends CDbTestCase
         SimulationService::saveEmailsAnalyze($simulation->id);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
-        $heroBehaviour = HeroBehaviour::model()->findByAttributes(['code' => '3333']);
+        $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
 
         // check calculation
         $assessments = AssessmentAggregated::model()->findAllInSimulation($simulation);
@@ -1112,8 +1112,8 @@ class SimulationServiceTest extends CDbTestCase
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
-        $first = Replica::model()->byExcelId(516)->find();
-        $last = Replica::model()->byExcelId(523)->find();
+        $first = $simulation->game_type->getReplica(['excel_id' => 516]);
+        $last = $simulation->game_type->getReplica(['excel_id' => 523]);
         $dialogLog = [
             [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32401, 'window_uid' => 1],
@@ -1133,16 +1133,16 @@ class SimulationServiceTest extends CDbTestCase
             [1, 1, 'activated', 32480, 'window_uid' => 1]
         ];
         $eventsManager->processLogs($simulation, $mailLog);
-        LibSendMs::sendMsByCode($simulation, 'MS83', 32500);
+        LibSendMs::sendMsByCode($simulation, 'MS83', 32500, 1, 1, 1);
         // End rule 5
 
         // Actions for rule id 8 (OR operation)
-        LibSendMs::sendMsByCode($simulation, 'MS39', 32600);
+        LibSendMs::sendMsByCode($simulation, 'MS39', 32600, 1, 1, 1);
         // End rule 8
 
         // Alternative action for rule id 8
-        $first = Replica::model()->byExcelId(549)->find();
-        $last = Replica::model()->byExcelId(560)->find();
+        $first = $simulation->game_type->getReplica(['excel_id' => 549]);
+        $last = $simulation->game_type->getReplica(['excel_id' => 560]);
         $dialogLog = [
             [1, 1, 'deactivated', 32610, 'window_uid' => 1],
             [20, 23, 'activated', 32610, ['dialogId' => $first->id], 'window_uid' => 4],
@@ -1165,7 +1165,7 @@ class SimulationServiceTest extends CDbTestCase
         }, $executedRules);
         sort($list);
 
-        $this->assertEquals([1, 5, 8], $list);
+        $this->assertEquals([31,36, 39], $list);
     }
 
     public function testAssessmentAggregation()
@@ -1254,17 +1254,35 @@ class SimulationServiceTest extends CDbTestCase
         ]);
 
         // Action for rule id 2
-        $replica = Replica::model()->byExcelId(11)->find();
+        $replica = $simulation->game_type->getReplica(['excel_id' => 11]);
         $dialog->getDialog($simulation->id, $replica->id, '11:01');
         // end rule 2
 
+        $logs = [
+            [1, 1, 'deactivated', 32500,'window_uid' => 1],
+            [30, 32, 'activated', 32500,['dialogId' => $replica->id ], 'window_uid' => 130],
+            [30, 32, 'deactivated', 32550,['dialogId' => $replica->id ], 'window_uid' => 130],
+            [1, 1, 'activated', 32550, 'window_uid' => 1],
+        ];
+
+        EventsManager::processLogs($simulation, $logs);
+
         // Action for rule id 1
-        $replica = Replica::model()->byExcelId(522)->find();
+        $replica = $simulation->game_type->getReplica(['excel_id' => 522]);
         $dialog->getDialog($simulation->id, $replica->id, '12:02');
         // end rule 1
 
+        $logs = [
+            [1, 1, 'deactivated', 32550,'window_uid' => 1],
+            [30, 32, 'activated', 32550,['dialogId' => $replica->id ], 'window_uid' => 130],
+            [30, 32, 'deactivated', 32600,['dialogId' => $replica->id ], 'window_uid' => 130],
+            [1, 1, 'activated', 32600, 'window_uid' => 1],
+        ];
+
+        EventsManager::processLogs($simulation, $logs);
+
         // Actions for rule id 15
-        LibSendMs::sendMsByCode($simulation, 'MS20', 40000);
+        LibSendMs::sendMsByCode($simulation, 'MS20', 40000, 1, 1, 1);
         // End rule 15
 
         $eventsManager->processLogs($simulation, [

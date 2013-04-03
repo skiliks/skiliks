@@ -366,7 +366,7 @@ class LogActivityActionTest extends CDbTestCase
                 [10, 11, 'deactivated', 32760, 'window_uid' => 6],
                 [10, 13, 'activated', 32760, 'window_uid' => 7], # Send mail
                 [10, 13, 'deactivated', 32820, 'window_uid' => 7, ['mailId' => $message3->primaryKey]],
-                [20, 23, 'activated', 32820, ['dialogId' => $firstDialog->primaryKey], 'window_uid' => 1], # Send mail
+                [20, 23, 'activated', 32820, ['dialogId' => $firstDialog->primaryKey], 'window_uid' => 8], # Send mail
                 [20, 23, 'deactivated', 32880, ['dialogId' => $firstDialog->primaryKey, 'lastDialogId' => $lastDialog->primaryKey], 'window_uid' => 8], # Send mail
 
             ];
