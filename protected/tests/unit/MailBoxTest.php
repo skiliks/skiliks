@@ -20,7 +20,7 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -150,7 +150,7 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         
         $character = Character::model()->findByAttributes(['code' => 9]);
 
@@ -201,7 +201,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
@@ -285,7 +285,7 @@ class MailBoxTest extends CDbTestCase
     public function testPunctuationSignsExist()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
         $allSings = MailBoxService::getSigns($simulation);
         $this->assertCount(6, $allSings);
     }
@@ -395,7 +395,7 @@ class MailBoxTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL));
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 

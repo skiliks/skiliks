@@ -10,7 +10,7 @@ class AssessmentPointsTest extends CDbTestCase
     public function testMailPointUnique()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         $mgr = new EventsManager();
         $logs = [];
         $template = $simulation->game_type->getMailTemplate(['code' => 'MS20']);
@@ -47,7 +47,7 @@ class AssessmentPointsTest extends CDbTestCase
     public function testUpdateAggregatedAssessmentsByNegativeScaleRule()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
 
         $learningGoalsForUpdate = LearningGoal::model()->findAll(' scenario_id = 2 AND max_negative_value IS NOT NULL ');
 

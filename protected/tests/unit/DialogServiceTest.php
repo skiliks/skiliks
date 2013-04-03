@@ -14,7 +14,7 @@ class DialogServiceTest extends PHPUnit_Framework_TestCase
     {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
+        $simulation = SimulationService::simulationStart(simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
         $standard = [
             'result' => 1,
             'events' => []
