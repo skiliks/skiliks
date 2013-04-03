@@ -261,7 +261,7 @@ class PlanAnalyzer {
      */
     public function check_214b0_214b4($code, $category)
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => $code]);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
 
         $wrongActions = [];
         $rightActions = [];
@@ -272,7 +272,6 @@ class PlanAnalyzer {
             $data = [];
 
             if ($this->canBeAssessedBy214b($taskLogItem, $category)) {
-
                 $data = $this->findLessImportantTaskLogsBefore($this->tasksOn11, $taskLogItem, $usedTaskCodes);
                 if (0 < count($data)) {
                     $wrongActions[] = $taskLogItem;
@@ -329,7 +328,7 @@ class PlanAnalyzer {
      */
     public function check_214b5_6_8($code = '214b5', $category = 0, $wrongCategoryIds = [4,5])
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => $code]);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => $code]);
 
         $wrongActions = [];
 
@@ -380,7 +379,7 @@ class PlanAnalyzer {
      */
     public function check_214b9()
     {
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code' => '214b9']);
+        $behaviour = $this->simulation->game_type->getHeroBehaviour(['code' => '214b9']);
 
         $wrongActions = [];
         $rightActions = [];
@@ -416,10 +415,8 @@ class PlanAnalyzer {
                 $taskLogItem->day == $dayId &&
                 $taskLogItem->date == $taskLogItem->task->start_time
             ) {
-                //var_dump($taskLogItem->task->code);
                 $rightActions[] = $taskLogItem;
             } else {
-                var_dump($taskLogItem->task->code);
                 $wrongActions[] = $taskLogItem;
             }
         }

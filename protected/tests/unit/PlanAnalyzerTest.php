@@ -5,8 +5,8 @@
 
 class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
-    protected function addToPlan($simulation, $code, $time, $day){
-        $task = Task::model()->findByAttributes(['code'=>$code]);
+    protected function addToPlan(Simulation $simulation, $code, $time, $day){
+        $task = $simulation->game_type->getTask(['code'=>$code]);
         DayPlanService::addToPlan($simulation, $task->id, $time, $day);
     }
     /*
@@ -365,11 +365,16 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         $analyzer->check_214b9();
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        // -- 214b0 //
+
+
+
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b0']);
         $point = AssessmentCalculation::model()->findByAttributes([
-            'sim_id'=>$simulation->id,
-            'point_id'=>$behaviour->id
+            'sim_id'   =>  $simulation->id,
+            'point_id' => $behaviour->id
         ]);
+
         $this->assertEquals('0.00', $point->value, '214b0');
         unset($point);
 
@@ -389,9 +394,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $points, '214b0 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b1 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b1']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b1']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -415,9 +420,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $points, '214b1 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b2 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b2']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b2']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -441,9 +446,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(4, $points, '214b2 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b3 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b3']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b3']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -467,9 +472,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(3, $points, '214b3 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b4 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b4']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -493,9 +498,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $points, '214b4 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b5 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b5']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b5']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -519,9 +524,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $points, '214b5 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b6 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b6']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b6']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -545,9 +550,9 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(0, $points, '214b6 : 0');
         unset($points);
 
-        // --- //
+        // --- 214b8 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b8']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b8']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -573,7 +578,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b9 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b9']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b9']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -596,8 +601,6 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         ]);
         $this->assertEquals(2, $points, '214b9 : 0');
         unset($points);
-
-        // --- //
     }
 
     /**
@@ -649,7 +652,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b0 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b0']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -675,7 +678,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b1 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b1']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b1']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -701,7 +704,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b2 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b2']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b2']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -727,7 +730,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b3 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b3']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b3']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -753,7 +756,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b4 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b4']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b4']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -779,7 +782,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b5 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b5']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b5']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -805,7 +808,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b6 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b6']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b6']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -831,7 +834,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b8 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b8']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b8']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -857,7 +860,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // --- 214b9 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b9']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b9']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
@@ -916,7 +919,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214b0_214b4('214b0', 0);
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b0']);
         $point = AssessmentCalculation::model()->findByAttributes(['sim_id'=>$simulation->id, 'point_id'=>$behaviour->id]);
         $this->assertEquals($behaviour->scale, $point->value);
     }
@@ -955,7 +958,7 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
 
         // -- 214b0 //
 
-        $behaviour = HeroBehaviour::model()->findByAttributes(['code'=>'214b0']);
+        $behaviour = $simulation->game_type->getHeroBehaviour(['code'=>'214b0']);
         $point = AssessmentCalculation::model()->findByAttributes([
             'sim_id'=>$simulation->id,
             'point_id'=>$behaviour->id
