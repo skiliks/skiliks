@@ -6,20 +6,20 @@
         <div class="tariff-box radiusthree">
             <label class="tarifname"><?php echo $tariff->label ?></label>
             <div class="price">
-                <?php if (round($tariff->price / 1000)): ?>
-                    <?php echo round($tariff->price / 1000) ?>
+                <p><?php if (round($tariff->price / 1000)): ?>
+                    <span><?php echo round($tariff->price / 1000) ?></span>
                 <?php endif ?>
-                <?php echo $tariff->price % 1000 ?></div>
-            <div><?php echo $tariff->getFormattedSafeAmount() ?></div>
-        </div>
+                <?php echo $tariff->price % 1000 ?></p>
+            </div>
             <div class="tarifwrap">
+                <div class="brightblock"><?php echo $tariff->getFormattedSafeAmount() ?></div>
                 <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций</div>
                 <div class="benefits">
                     <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
-                        <?php echo $benefit?> <br/><br/>
+                        <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <div class="subscribe-ti-tariff"><a href="/static/contacts/ru" class="light-btn">Подписаться</a></div>
+                <div class="subscribe-ti-tariff"><a href="/static/contacts/ru" class="light-btn">Выбрать</a></div>
             </div>
         </div>
     </div>
