@@ -226,8 +226,8 @@ define([], function () {
             }, function (data) {
                 if (data.result === 1) {
                     if (me.getStatus() !== 'completed') {
-                        cb();
                         me.complete();
+                        cb();
                     }
                     SKApp.simulation.parseNewEvents(data.events);
                     SKApp.simulation.getNewEvents();
