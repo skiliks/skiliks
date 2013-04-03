@@ -122,7 +122,9 @@ define([
                 if (undefined == data[2]) {
                     // user can`t ignore call
                     callbackFunction = function () {
-                        event.setStatus('in progress');
+                        if (event.getStatus() !== 'in progress') {
+                            event.setStatus('in progress');
+                        }
                     };
                 } else {
                     // user can ignore call
