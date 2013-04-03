@@ -31,8 +31,8 @@ class PlanAnalyzer {
     public function __construct($simulation)
     {
         $this->simulation = $simulation;
-        $this->start_sim_time = $this->toMinutes(Yii::app()->params['simulation']['full']['start']);
-        $this->end_sim_time   = $this->toMinutes(Yii::app()->params['simulation']['full']['end']);
+        $this->start_sim_time = $this->toMinutes($simulation->game_type->start_time);
+        $this->end_sim_time   = $this->toMinutes($simulation->game_type->end_time);
 
         $this->work_time = $this->end_sim_time - $this->start_sim_time;
 

@@ -17,7 +17,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);        
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -34,7 +34,7 @@ class LogTest extends CDbTestCase
             $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',', $copies);
         $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
@@ -48,7 +48,7 @@ class LogTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS40']);
@@ -61,7 +61,7 @@ class LogTest extends CDbTestCase
 
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
@@ -78,7 +78,7 @@ class LogTest extends CDbTestCase
 
         $draft_message2 = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $simulation->game_type->getMailTemplate(['code' => 'MS52']);
@@ -173,7 +173,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
@@ -229,12 +229,18 @@ class LogTest extends CDbTestCase
     public function testLogDocument()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
-        $docTemplate = DocumentTemplate::model()->findByAttributes(['code' => 'D1']);
+        $docTemplate = DocumentTemplate::model()->findByAttributes([
+            'scenario_id' => $simulation->scenario_id,
+            'code'        => 'D1',
+        ]);
+
         $document  = MyDocument::model()->findByAttributes([
             'template_id' => $docTemplate->primaryKey,
-            'sim_id' => $simulation->primaryKey]);
+            'sim_id'      => $simulation->primaryKey,
+        ]);
+
         EventsManager::processLogs($simulation, [
         [1, 1, 'activated', 32400, 'window_uid' => 1],
             [1, 1, 'deactivated', 32460, 'window_uid' => 1],
@@ -247,8 +253,7 @@ class LogTest extends CDbTestCase
             [40, 42, 'activated', 32640, 'window_uid' => 4, ['fileId' => $document->primaryKey]], # Send mail
             [40, 42, 'deactivated', 32700, 'window_uid' => 4, ['fileId' => $document->primaryKey]],
         ]);
-        //$activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-        //array_map(function ($action) {$action->dump();}, $activityActions);
+
         $this->assertEquals($simulation->log_activity_actions[2]->activityAction->getAction()->getCode(), 'D1');
     }
 
@@ -260,7 +265,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -270,7 +275,7 @@ class LogTest extends CDbTestCase
             $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
             $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ];
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS40']);
@@ -282,7 +287,7 @@ class LogTest extends CDbTestCase
         $sendMailOptions->setLetterType('new');
         $draft_message = MailBoxService::saveDraft($sendMailOptions);
         
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($character->primaryKey);
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'MS52']);
@@ -340,7 +345,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
@@ -378,20 +383,30 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
 
-        $krutko = Character::model()->findByAttributes(['code' => 4]);
+        $krutko = Character::model()->findByAttributes([
+            'scenario_id' => $simulation->scenario_id,
+            'code' => 4,
+        ]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
-        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->id;
+
+        $options->messageId = MailTemplate::model()->findByAttributes([
+            'scenario_id' => $simulation->scenario_id,
+            'code'        => 'M8'
+        ])->id;
+
         $options->subject_id = CommunicationTheme::model()->findByAttributes([
             'code' => 12,
             'character_id' => $krutko->id,
-            'theme_usage' => CommunicationTheme::USAGE_OUTBOX
+            'theme_usage' => CommunicationTheme::USAGE_OUTBOX,
+            'scenario_id' => $simulation->scenario_id,
         ])->id;
+
         $options->setRecipientsArray($krutko->id);
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
@@ -416,21 +431,11 @@ class LogTest extends CDbTestCase
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activity_actions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mail_logs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-//        foreach ($mail_logs as $log) {
-//            print_r($log->attributes);
-//        }
+
         $this->assertEquals(count($mail_logs), 1);
 
         $this->assertEquals(count($activity_actions), 4);
-//        foreach ($activity_actions as $log) {
-//            printf("%s\t%8s\t%10s\t%10s\n",
-//                $log->start_time,
-//                $log->end_time !== null ? $log->end_time : '(empty)',
-//                $log->activityAction->activity_id,
-//                $log->activityAction->mail !== null ? $log->activityAction->mail->code : '(empty)'
-//            );
-//            /*$this->assertNotNull($log->end_time);*/
-//        }
+
         $this->assertEquals($activity_actions[2]->activityAction->activity->code, 'TM8');
         $time = new DateTime('9:00:00');
         foreach ($logs as $log) {
@@ -452,21 +457,34 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
-            'character_id' => Character::model()->findByAttributes(['code'=>20])->primaryKey,
+            'character_id' => Character::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code' => 20,
+            ])->primaryKey,
             'mail_prefix' => 're',
             'theme_usage' => CommunicationTheme::USAGE_OUTBOX
         ]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = '';
-        $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'M8'])->primaryKey;
+
+        $options->messageId = MailTemplate::model()->findByAttributes([
+            'code' => 'M8',
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey;
+
         $options->subject_id = $theme->primaryKey;
-        $options->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+
+        $options->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $options->senderId = Character::HERO_ID;
         $options->time = '11:00:00';
         $options->setLetterType('new');
@@ -475,10 +493,20 @@ class LogTest extends CDbTestCase
 
         $message = MailBoxService::sendMessagePro($options);
 
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+        $sendMailOptions = new SendMailOptions($simulation);
+
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
+
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
+            'code' => 'M74',
+            'scenario_id' => $simulation->scenario_id,
+        ]);
+
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -488,10 +516,20 @@ class LogTest extends CDbTestCase
 
         $draftMessage = MailBoxService::saveDraft($sendMailOptions);
 
-        $sendMailOptions = new SendMailOptions();
-        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes(['code' => 20])->primaryKey);
+        $sendMailOptions = new SendMailOptions($simulation);
+
+        $sendMailOptions->setRecipientsArray(Character::model()->findByAttributes([
+            'code' => 20,
+            'scenario_id' => $simulation->scenario_id,
+        ])->primaryKey);
+
         $sendMailOptions->simulation = $simulation;
-        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes(['code' => 'M74']);
+
+        $sendMailOptions->messageId  = MailTemplate::model()->findByAttributes([
+            'code' => 'M74',
+            'scenario_id' => $simulation->scenario_id,
+        ]);
+
         $sendMailOptions->time = '11:00:00';
         $sendMailOptions->copies     = null;
         $sendMailOptions->phrases    = null;
@@ -530,9 +568,7 @@ class LogTest extends CDbTestCase
         $logs = LogWindow::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $activityActions = LogActivityAction::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
         $mailLogs = LogMail::model()->findAllByAttributes(['sim_id' => $simulation->primaryKey]);
-//        foreach ($mail_logs as $log) {
-//            //print_r($log);
-//        }
+
         $this->assertEquals(count($mailLogs), 4);
 
         $this->assertEquals(count($activityActions), 10);
@@ -562,7 +598,7 @@ class LogTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         // init LogActivityActions {
         
@@ -722,7 +758,7 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $logs = [];
         $logs[0][0] = 1;

@@ -14,7 +14,7 @@ class LogActivityActionTest extends CDbTestCase
     public function testActivityActionDetail()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -113,7 +113,7 @@ class LogActivityActionTest extends CDbTestCase
     public function testActivityAction2()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $json = EventsManager::getState($simulation, [
             [1, 1, 'activated', 32400, 'window_uid' => 1]
@@ -253,7 +253,7 @@ class LogActivityActionTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
             $activity = new Activity();
             $activity->code = "WINPA";
             $activity->parent = 'WIN';
@@ -306,15 +306,32 @@ class LogActivityActionTest extends CDbTestCase
         $transaction = Yii::app()->db->beginTransaction();
         try {
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+            $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
-            $options = new SendMailOptions();
+            $options = new SendMailOptions($simulation);
             $options->phrases = '';
             $options->copies = '';
-            $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS55'])->primaryKey;
-            $options->subject_id = CommunicationTheme::model()->findByAttributes(['code' => 71])->primaryKey;
-            $options->setRecipientsArray(Character::model()->findByAttributes(['code' => 39])->primaryKey);
-            $options->senderId = Character::model()->findByAttributes(['code'=>Character::HERO_ID])->primaryKey;
+
+            $options->messageId = MailTemplate::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code'        => 'MS55'
+            ])->primaryKey;
+
+            $options->subject_id = CommunicationTheme::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code' => 71,
+            ])->primaryKey;
+
+            $options->setRecipientsArray(Character::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code' => 39,
+            ])->primaryKey);
+
+            $options->senderId = Character::model()->findByAttributes([
+                'scenario_id' => $simulation->scenario_id,
+                'code'=>Character::HERO_ID,
+            ])->primaryKey;
+
             $options->time = '11:00:00';
             $options->setLetterType('new');
             $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -324,8 +341,15 @@ class LogActivityActionTest extends CDbTestCase
             $message2 = MailBoxService::sendMessagePro($options);
             $message3 = MailBoxService::sendMessagePro($options);
 
-            $firstDialog = Replica::model()->findByAttributes(['excel_id' => 516]);
-            $lastDialog = Replica::model()->findByAttributes(['excel_id' => 523]);
+            $firstDialog = Replica::model()->findByAttributes([
+                'excel_id' => 516,
+                'scenario_id' => $simulation->scenario_id,
+            ]);
+
+            $lastDialog = Replica::model()->findByAttributes([
+                'excel_id' => 523,
+                'scenario_id' => $simulation->scenario_id,
+            ]);
 
             $logs = [
                 [1, 1, 'activated', 32400, 'window_uid' => 1],

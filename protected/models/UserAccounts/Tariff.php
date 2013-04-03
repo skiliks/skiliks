@@ -30,6 +30,15 @@ class Tariff extends CActiveRecord
         return  StaticSiteTools::getI18nCurrency($this->price, $this->currency);
     }
 
+    public function getFormattedSafeAmount()
+    {
+        if ($this->is_free) {
+            return 'Бесплатно';
+        }
+
+        return  StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency);
+    }
+
     /* ----------------------------------------------------------------------------------------------------- */
 
 	/**

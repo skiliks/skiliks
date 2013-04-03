@@ -869,6 +869,7 @@ class LogHelper
      * @param Simulation $simulation
      *
      * Documentation: Создание агрегированного лога для activity
+     * @param LogActivityAction[] $data
      * @link: https://maprofi.atlassian.net/wiki/pages/viewpage.action?pageId=9797774
      */
     public static function combineLogActivityAgregated($simulation, $data = null)
@@ -876,6 +877,7 @@ class LogHelper
         $aggregatedActivity = NULL;
 
         if (null === $data) {
+            /** @var $data LogActivityAction[] */
             $data = $simulation->log_activity_actions;
         }
 
@@ -928,6 +930,7 @@ class LogHelper
         $limit = Yii::app()->params['public']['skiliksSpeedFactor'] * 10; // 10 real seconds
 
         foreach ($data as $activityAction) {
+            /** @var $activityAction LogActivityAction */
             $diff_time = (new DateTime($activityAction->start_time))->diff(new DateTime($activityAction->end_time))->format('%H:%I:%S');
             $legAction = $activityAction->activityAction->getAction();
             if (NULL === $aggregatedActivity) {

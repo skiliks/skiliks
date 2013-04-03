@@ -35,6 +35,10 @@ define(["game/models/SKServer","game/models/SKSimulation"], function (SKServer, 
             'clearUser':function () {
                 this.user.logout();
                 delete this.user;
+            },
+
+            isLite: function() {
+                return this.get('type') === 'lite';
             }
         });
 

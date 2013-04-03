@@ -603,13 +603,13 @@ class UserAuthController extends YumController
             $user->update();
 
             if((int)$YumUser['is_check'] === YumUser::CHECK){
-                $this->redirect(['/simulation/promo/2'], false);
+                $this->redirect(['/simulation/promo/lite'], false);
             }else if((int)$YumUser['is_check'] === YumUser::NOT_CHECK) {
                 $this->redirect(['/profile/without-account'], false);
             }else{
                 throw new Exception("Bug");
             }
-
+            return;
         }
 
         // If everything is set properly, let the model handle the Validation

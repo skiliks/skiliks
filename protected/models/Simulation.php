@@ -15,6 +15,7 @@
  * @property string managerial_productivity
  * @property string time_management_effectiveness
  * @property string overall_manager_rating
+ * @property int scenario_id
  *
  * @property SimulationCompletedParent[] completed_parent_activities
  * @property AssessmentAggregated[] assessment_aggregated
@@ -43,14 +44,6 @@ class Simulation extends CActiveRecord
 
     const MODE_PROMO_LABEL     = 'promo';
     const MODE_DEVELOPER_LABEL = 'developer';
-
-    const TYPE_FULL = 1;
-    const TYPE_LITE = 2;
-
-    public static $typeLabel = [
-        self::TYPE_FULL => 'full',
-        self::TYPE_LITE => 'lite'
-    ];
 
     public $id;
 
@@ -116,8 +109,8 @@ class Simulation extends CActiveRecord
         $variance = GameTime::getUnixDateTime(GameTime::setNowDateTime()) - GameTime::getUnixDateTime($this->start) - $this->skipped;
         $variance = $variance * Yii::app()->params['public']['skiliksSpeedFactor'];
 
-        $startTime = explode(':', Yii::app()->params['simulation'][$this->getTypeLabel()]['start']);
-        $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60;
+        $startTime = explode(':', $this->game_type->start_time);
+        $unixtime = $variance + $startTime[0] * 3600 + $startTime[1] * 60 + $startTime[2];
         return gmdate('H:i:s', $unixtime);
     }
 
@@ -309,11 +302,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     public function checkActivityAggregatedLogs()
@@ -338,11 +327,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     /**
@@ -403,11 +388,7 @@ class Simulation extends CActiveRecord
             }
         }
 
-        if (isset($log, $start)) {
-            if (abs($unixtime - $start - $total) > 2 * Yii::app()->params['public']['skiliksSpeedFactor']) {
-                throw new Exception("Time difference is too big");
-            }
-        }
+
     }
 
     /**
@@ -417,14 +398,6 @@ class Simulation extends CActiveRecord
      */
     public function isDevelopMode() {
         return self::MODE_DEVELOPER_ID == $this->mode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTypeLabel()
-    {
-        return self::$typeLabel[$this->type];
     }
 
     public function search($userId = null)

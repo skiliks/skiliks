@@ -200,7 +200,7 @@ class ActivityAction extends CActiveRecord
      * @param $simulation Simulation
      * @return ActivityAction
      */
-    public function findByPriority($attrs, $legTypes, $simulation)
+    public function findByPriority($attributes, $legTypes, $simulation)
     {
         $criteria = new CDbCriteria();
 
@@ -213,7 +213,7 @@ class ActivityAction extends CActiveRecord
             ]
         ];
 
-        $criteria->addColumnCondition($attrs);
+        $criteria->addColumnCondition($attributes);
 
         if ($legTypes !== null) {
             $criteria->addInCondition('leg_type', $legTypes);
@@ -223,17 +223,26 @@ class ActivityAction extends CActiveRecord
 
         // collect finished parents
         $completedParents = $simulation->completed_parent_activities;
-        $parentIds = array_map(function ($parent) {
-            return $parent->parent_code;
-        }, $completedParents);
+
+        $parentIds = array_map(
+            function ($parent) {
+                return $parent->parent_code;
+            },
+            $completedParents
+        );
+
         // get excluded activities
         $excludedActivitiesCriteria = new CDbCriteria();
         $excludedActivitiesCriteria->addInCondition('parent', $parentIds);
         $excludedActivities = Activity::model()->findAll($excludedActivitiesCriteria);
 
-        $excludedActivityIds = array_map(function ($activity) {
-            return $activity->primaryKey;
-        }, $excludedActivities);
+        $excludedActivityIds = array_map(
+            function ($activity) {
+                return $activity->primaryKey;
+            },
+            $excludedActivities
+        );
+
         $criteria->addNotInCondition('activity_id', $excludedActivityIds);
         $result = $this->find($criteria);
 

@@ -52,7 +52,7 @@ class AssessmentPointsTable extends LogTable
             $row->point->learning_goal->title,
             $row->point->code,
             $row->point->title,
-            $row->point->type_scale,
+            \HeroBehaviour::getTypeScaleName($row->point->type_scale),
             $row->point->scale,
             $row->value
         ];

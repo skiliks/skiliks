@@ -21,7 +21,7 @@ class MailBoxService
         $charactersCollection = $simulation->game_type->getCharacters([]);
 
         foreach ($charactersCollection as $character) {
-            $resultCharacters[$character->code] = $character->fio . ' <' . $character->email . '>';
+            $resultCharacters[$character->id] = $character->fio . ' <' . $character->email . '>';
         }
 
         return $resultCharacters;
@@ -83,18 +83,20 @@ class MailBoxService
 
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
-            if ($folderId == 2 || $folderId == 3) $readed = 1;
+            if ($folderId == 2 || $folderId == 3) {
+                $readed = 1;
+            };
 
             // загрузим ка получателей {
             $receivers = MailRecipient::model()->byMailId($message->id)->findAll();
             $receiversCollection = [];
 
             if (count($receivers) == 0) {
-                $receiversCollection[] = $characters[$simulation->game_type->getCharacter(['id' => $receiverId])->code];
+                $receiversCollection[] = $characters[$simulation->game_type->getCharacter(['id' => $receiverId])->id];
             }
 
             foreach ($receivers as $receiver) {
-                $receiversCollection[] = $characters[$receiver->receiver->code];
+                $receiversCollection[] = $characters[$receiver->receiver->id];
             }
             // загрузим ка получателей }
 
@@ -113,7 +115,7 @@ class MailBoxService
                 'text'        => $message->message ?: self::buildMessage($message->id),
                 'template'    => (NULL !== $message->template) ? $message->template->code : NULL,
                 'sentAt'      => GameTime::getDateTime($message->sent_at),
-                'sender'      => $characters[Character::model()->findByPk($senderId)->code],
+                'sender'      => $characters[$senderId],
                 'receiver'    => implode(',', $receiversCollection),
                 'copy'        => implode(',', $copiesCollection),
                 'readed'      => $readed,
@@ -930,7 +932,7 @@ class MailBoxService
                 $result['data']    = [];
                 $result['addData'] = [];
             } else {
-                $result['data'] = self::getMailPhrases($characterThemeId);
+                $result['data'] = self::getMailPhrases($messageToReply->simulation, $characterThemeId);
             }
         }
         // get phrases }

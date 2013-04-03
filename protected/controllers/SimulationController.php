@@ -20,7 +20,7 @@ class SimulationController extends AjaxController
     {
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
-        // Тип симуляции 1 - full, 2 - lite
+        // Тип симуляции
         $type = Yii::app()->request->getParam('type');
 
         // check invite if it setted {

@@ -8,6 +8,8 @@
  * @property string $name
  * @property string $filename
  * @property string $slug
+ * @property string $start_time
+ * @property string $end_time
  *
  * The followings are the available model relations:
  * @property Activity[] $activities
@@ -42,6 +44,9 @@
  */
 class Scenario extends CActiveRecord
 {
+    const TYPE_LITE = 'lite';
+    const TYPE_FULL = 'scenario';
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -71,7 +76,7 @@ class Scenario extends CActiveRecord
 			array('name, filename, slug', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, name, filename, slug', 'safe', 'on'=>'search'),
+			array('id, name, filename, slug, start_time, end_time', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -399,5 +404,54 @@ class Scenario extends CActiveRecord
         } else {
             assert(false);
         }
+    }
+
+    public function getStressRule($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return StressRule::model()->findByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return StressRule::model()->find($data);
+        } else {
+            assert(false);
+        }
+    }
+
+    public function getDocumentTemplates($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return DocumentTemplate::model()->findAllByAttributes($array);
+    }
+
+    public function getFlagBlockMail($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagBlockMail::model()->findByAttributes($array);
+    }
+
+    public function getFlagRunMail($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagRunMail::model()->findByAttributes($array);
+    }
+
+    public function getFlagBlockDialog($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagBlockDialog::model()->findByAttributes($array);
+    }
+
+    public function getFlagBlockReplica($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagBlockReplica::model()->findByAttributes($array);
+    }
+
+    public function getFlagBlockReplicas($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return FlagBlockReplica::model()->findAllByAttributes($array);
     }
 }

@@ -68,7 +68,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity 
-            $character = Character::model()->findByAttributes(['code' => $this->getCellValue($sheet, 'id_персонажа', $i), 'scenario_id' => $this->scenario->primaryKey]);
+            $character = $this->scenario->getCharacter(['code' => $this->getCellValue($sheet, 'id_персонажа', $i)]);
 
             // create entity if not exists {
             if (null === $character) {
@@ -236,7 +236,11 @@ class ImportGameDataService
 
         $this->setColumnNumbersByNames($sheet);
 
-        LearningGoal::model()->updateAll(['max_negative_value' => null]);
+        LearningGoal::model()->updateAll([
+            'max_negative_value' => null,
+        ] ,
+            'scenario_id = '.$this->scenario->id
+        );
 
         $importedRows = 0;
         for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
@@ -250,9 +254,10 @@ class ImportGameDataService
 
             if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
                 // try to find exists entity
-                $learningGoal = LearningGoal::model()->findByAttributes(
-                    ['code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i)]
-                );
+                $learningGoal = LearningGoal::model()->findByAttributes([
+                    'code' => $this->getCellValue($sheet, 'Номер цели обучения/поведения', $i),
+                    'scenario_id' => $this->scenario->id,
+                ]);
 
                 $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
 
@@ -483,6 +488,75 @@ class ImportGameDataService
 
         return array(
             'imported_assessment_group' => $importedRows,
+            'errors' => false,
+        );
+    }
+
+    public function importStressRules()
+    {
+        $this->logStart();
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Stress');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $types = [
+            'id_записи' => 'replica_id',
+            'outbox' => 'mail_id',
+            'inbox' => 'mail_id'
+        ];
+
+        $rules = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Stress_rule_id', $i);
+            $type = $this->getCellValue($sheet, 'Stress_type', $i);
+            $code = $this->getCellValue($sheet, 'Stress_code', $i);
+
+            if (empty($ruleId)) {
+                break;
+            }
+
+            if ($type == 'id_записи') {
+                $entity = $this->scenario->getReplica(['excel_id' => $code]);
+            } elseif ($type == 'outbox' || $type == 'inbox') {
+                $entity = $this->scenario->getMailTemplate(['code' => $code]);
+            } else {
+                $entity = null;
+            }
+
+            if (isset($entity)) {
+                $rule = $this->scenario->getStressRule(['code' => $ruleId]);
+                if (empty($rule)) {
+                    $rule = new StressRule();
+                    $rule->code = $ruleId;
+                }
+
+                $rule->{$types[$type]} = $entity->id;
+                $rule->value = $this->getCellValue($sheet, 'Stress_value', $i);
+                $rule->scenario_id = $this->scenario->getPrimaryKey();
+                $rule->import_id = $this->import_id;
+
+                $rule->save();
+                $rules++;
+            }
+        }
+
+        // delete old unused data {
+        StressRule::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->getPrimaryKey())
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'stress_rules' => $rules,
             'errors' => false,
         );
     }
@@ -2039,9 +2113,9 @@ class ImportGameDataService
             } else if ($type === 'document_id') {
                 if ($xls_act_value === 'all') {
                     // @todo: not clear yet
-                    $values = DocumentTemplate::model()->findAll();
+                    $values = $this->scenario->getDocumentTemplates([]);
                 } else {
-                    $document = DocumentTemplate::model()->findByAttributes(array('code' => $xls_act_value));
+                    $document = $this->scenario->getDocumentTemplate(array('code' => $xls_act_value));
                     assert($document);
                     $values = array($document);
                 }
@@ -2285,13 +2359,8 @@ class ImportGameDataService
      */
     public function importWithoutTransaction()
     {
-        $scenario = Scenario::model()->findByAttributes(['slug' => $this->scenario_slug]);
-        if ($scenario === null) {
-            $scenario = new Scenario();
-            $scenario->slug = $this->scenario_slug;
-            $scenario->save();
-        }
-        $this->scenario = $scenario;
+        $this->setScenario();
+
         $result = [];
         $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters'] = $this->importCharacters();
@@ -2316,6 +2385,7 @@ class ImportGameDataService
         $result['activity_parent_ending'] = $this->importActivityParentEnding();
         $result['flag_rules'] = $this->importFlagsRules();
         $result['performance_rules'] = $this->importPerformanceRules();
+        $result['stress_rules'] = $this->importStressRules();
         return $result;
     }
 
@@ -2337,7 +2407,7 @@ class ImportGameDataService
             }
 
             /** @var $emailEvent EventSample */
-            $emailEvent = EventSample::model()->findByAttributes([
+            $emailEvent = $this->scenario->getEventSample([
                 'code' => $this->getCellValue($sheet, 'Run_code', $i)
             ]);
 
@@ -2349,10 +2419,9 @@ class ImportGameDataService
             if ('00:00:00' == $emailEvent->trigger_time || null == $emailEvent->trigger_time) {
 
                 // try to find exists entity {
-                $mailFlag = FlagRunMail::model()->findByAttributes([
+                $mailFlag = $this->scenario->getFlagRunMail([
                     'flag_code' => $this->getCellValue($sheet, 'Flag_code', $i),
                     'mail_code' => $this->getCellValue($sheet, 'Run_code', $i),
-                    'scenario_id' => $this->scenario->getPrimaryKey()
                 ]);
                 // try to find exists entity }
 
@@ -2372,7 +2441,7 @@ class ImportGameDataService
 
             // Flag blocks mail always {
             $mailTemplate = $this->scenario->getMailTemplate(['code' => $this->getCellValue($sheet, 'Run_code', $i)]);
-            $mailFlag = FlagBlockMail::model()->findByAttributes([
+            $mailFlag = $this->scenario->getFlagBlockMail([
                 'mail_template_id' => $mailTemplate->primaryKey,
                 'flag_code'        => $this->getCellValue($sheet, 'Flag_code', $i),
             ]);
@@ -2395,7 +2464,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $flagBlockReplica = FlagBlockReplica::model()->findByAttributes([
+            $flagBlockReplica = $this->scenario->getFlagBlockReplica([
                 'flag_code'  => $this->getCellValue($sheet, 'Flag_code', $i),
                 'replica_id' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
@@ -2426,7 +2495,7 @@ class ImportGameDataService
             }
 
             // try to find exists entity {
-            $flagBlockDialog = FlagBlockDialog::model()->findByAttributes([
+            $flagBlockDialog = $this->scenario->getFlagBlockDialog([
                 'flag_code'   => $this->getCellValue($sheet, 'Flag_code', $i),
                 'dialog_code' => $this->getCellValue($sheet, 'Run_code', $i),
             ]);
@@ -2479,6 +2548,30 @@ class ImportGameDataService
             'imported_Flag_block_dialog'  => $importedFlagBlockDialog,
             'errors'                      => false,
         ];
+    }
+
+    public function setScenario()
+    {
+        $scenario = Scenario::model()->findByAttributes(['slug' => $this->scenario_slug]);
+        if ($scenario === null) {
+            $scenario = new Scenario();
+        }
+
+        $scenario->slug = $this->scenario_slug;
+        $scenario->filename = basename($this->filename);
+
+        // TODO: Hardcode. Time should be defined in scenario file
+        if ($scenario->slug == Scenario::TYPE_LITE) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '11:05:00';
+        } elseif ($scenario->slug == Scenario::TYPE_FULL) {
+            $scenario->start_time = '9:45:00';
+            $scenario->end_time = '18:00:00';
+        }
+
+        $scenario->save();
+
+        $this->scenario = $scenario;
     }
 }
 

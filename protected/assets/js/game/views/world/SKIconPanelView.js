@@ -122,7 +122,9 @@ define([
                 if (undefined == data[2]) {
                     // user can`t ignore call
                     callbackFunction = function () {
-                        event.setStatus('in progress');
+                        if (event.getStatus() !== 'in progress') {
+                            event.setStatus('in progress');
+                        }
                     };
                 } else {
                     // user can ignore call
@@ -147,8 +149,15 @@ define([
              * @method onVisitEvent
              */
             onVisitEvent: function (event) {
-                this.$('.door').attr('data-event-id', event.cid);
-                this.startAnimation('.door');
+                var me = this;
+
+                me.$('.door').attr('data-event-id', event.cid);
+                me.doBlockingPhoneIcon();
+                me.startAnimation('.door', function() {
+                    if (event.getStatus() === 'waiting') {
+                        event.setStatus('completed');
+                    }
+                });
             },
 
             /**

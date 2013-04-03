@@ -105,7 +105,17 @@ define([
 
                                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length === SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                                     console.log("delete block");
-                                    $('.zoho-load-start').remove();
+                                    if(SKApp.simulation.afterZohoCrash){
+                                        //SKApp.simulation.trigger('iframeReload', 'hello');
+                                        console.log(url);
+                                        console.log(id);
+                                        $('#excel-preload-'+id).attr("src", url);
+                                        SKApp.simulation.afterZohoCrash = false;
+                                        $('.zoho-load-start').remove();
+                                    }else{
+                                        $('.zoho-load-start').remove();
+                                    }
+
                                 }
                             }
                         });
@@ -159,10 +169,12 @@ define([
 
                 this.documents = new SKDocumentCollection();
                 this.documents.bind('afterReset', this.onAddDocument, this);
+                this.documents.bind('iframeReload', this.onIframeReload, this);
                 this.windowLog = new SKWindowLog();
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
                 this.window_set = new SKWindowSet([], {events:this.events});
+                this.afterZohoCrash = false;
 
                 this.config = [];
                 this.config.isMuteVideo = false;
@@ -191,6 +203,11 @@ define([
                     }
 
                 }
+            },
+
+            'onIframeReload' : function(data) {
+                console.log('onIframeReload');
+                console.log(data);
             },
 
             /**
@@ -275,7 +292,7 @@ define([
                     if (me.events.canAddEvent(event_model)) {
                         me.events.push(event_model);
                         me.events.trigger('event:' + event_model.getTypeSlug(), event_model);
-                    } else {
+                    } else if (event.data[0].code !== 'None' && event.eventTime) {
                         me.events.wait(event.data[0].code, event.eventTime);
                     }
                 });

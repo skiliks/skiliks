@@ -139,7 +139,7 @@ class EventService
             if ($fantasticResult) {
                 $data['fantastic'] = true;
                 /** @var $mailTemplate MailTemplate */
-                $mailTemplate = MailTemplate::model()->findByAttributes(['code' => $code]);
+                $mailTemplate = $simulation->game_type->getMailTemplate(['code' => $code]);
                 if ($mailTemplate->attachments) {
                     $fileTemplate = $mailTemplate->attachments[0]->file;
                     $attachmentId = MyDocument::model()->findByAttributes(['template_id' => $fileTemplate->primaryKey, 'sim_id' => $simulation->primaryKey])->primaryKey;
@@ -161,10 +161,17 @@ class EventService
             return $data;
         } else if ($type == 'D') {
             // определить документ по коду
-            $documentTemplate = DocumentTemplate::model()->byCode($code)->find();
+            $documentTemplate = DocumentTemplate::model()->findByAttributes([
+                'code'        => $code,
+                'scenario_id' => $simulation->scenario_id,
+            ]);
+
             $templateId = $documentTemplate->id;
             
-            $document = MyDocument::model()->byTemplateId($templateId)->bySimulation($simulation->id)->find();
+            $document = MyDocument::model()->findByAttributes([
+                'template_id' => $templateId,
+                'sim_id' => $simulation->id,
+            ]);
 
             return array('result' => 1, 'eventType' => $type, 'data' => ['id' => $document->id]);
         } else if ($type == 'P') {

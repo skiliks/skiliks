@@ -20,21 +20,21 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',',[
-            Character::model()->findByAttributes(['code' => 2])->primaryKey,
-            Character::model()->findByAttributes(['code' => 11])->primaryKey,
-            Character::model()->findByAttributes(['code' => 12])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 2])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 11])->primaryKey,
+            $simulation->game_type->getCharacter(['code' => 12])->primaryKey,
         ]);
         $options->messageId = $simulation->game_type->getMailTemplate(['code' => 'MS40'])->primaryKey;
         $options->subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
         $options->setRecipientsArray($character->primaryKey);
-        $options->senderId = Character::HERO_ID;
+        $options->senderId = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
         $options->time = '11:00:00';
         $options->setLetterType('new');
         $options->groupId = MailBox::FOLDER_OUTBOX_ID;
@@ -150,11 +150,11 @@ class MailBoxTest extends CDbTestCase
         //$this->markTestSkipped();
         
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(1, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $character = Character::model()->findByAttributes(['code' => 9]);
 
-        $options = new SendMailOptions();
+        $options = new SendMailOptions($simulation);
         $options->phrases = '';
         $options->copies = implode(',',[
             Character::model()->findByAttributes(['code' => 2])->primaryKey,
@@ -201,7 +201,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // random email case{
         $randomFirstEmail = MailBoxService::copyMessageFromTemplateByCode($simulation, 'M8');
@@ -212,17 +212,24 @@ class MailBoxTest extends CDbTestCase
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
             'text'         => $randomFirstEmail->subject_obj->text,
             'mail_prefix'  => 'fwd',
+            'scenario_id' => $simulation->scenario_id,
         ]);
 
         $this->assertEquals($resultData['subject'], 'Fwd: '.$randomFirstEmail->subject_obj->text, 'M8 subject tetx');
         $this->assertEquals($resultData['parentSubjectId'], $randomFirstEmail->subject_obj->id, 'M8 parentSubjectId');
         $this->assertEquals($resultData['subjectId'], $fwdSubject->id, 'M8 subjectId');
 
+        $ITlead = Character::model()->findByAttributes([
+            'scenario_id' => $simulation->scenario_id,
+            'fio'         => 'Железный С.',
+        ]);
+
         $fwdSubject = CommunicationTheme::model()->findAllByAttributes([
-            'character_id' => 2,
+            'character_id' => $ITlead->id,
             'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
             'text'         => $randomFirstEmail->subject_obj->text,
             'mail_prefix'  => 'fwd',
+            'scenario_id' => $simulation->scenario_id,
         ]);
         $this->assertEquals(1, count($fwdSubject), 'M8 wrong recipient mail subject');
         // random email case }
@@ -255,7 +262,7 @@ class MailBoxTest extends CDbTestCase
     public function testGetPhrases()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         //$this->markTestSkipped();
         
         $ch = $simulation->game_type->getCharacter(['fio'=>'Денежная Р.Р.']);
@@ -285,7 +292,7 @@ class MailBoxTest extends CDbTestCase
     public function testPunctuationSignsExist()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         $allSings = MailBoxService::getSigns($simulation);
         $this->assertCount(6, $allSings);
     }
@@ -299,7 +306,7 @@ class MailBoxTest extends CDbTestCase
     {
         //$this->markTestSkipped();
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         $ch = $simulation->game_type->getCharacter(['fio'=>'Трутнев С.']);
         $theme = $simulation->game_type->getCommunicationTheme(['character_id'=>$ch->id,'text'=>'форма по задаче от логистики, срочно!', 'letter_number'=>'MS42']);
         $constructor = $simulation->game_type->getConstructor(['code' => 'R6']);
@@ -330,7 +337,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Simulation::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // init conts
         // get all replics that change score for behaviour '4124'
@@ -371,7 +378,7 @@ class MailBoxTest extends CDbTestCase
             ['text' => '!проблема с сервером!', 'letter_number' => 'MS27']
         );
 
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray($simulation->game_type->getCharacter(['code' =>'3'])->getPrimaryKey()); // Трутнев
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = $emailFromSysadmin->id;
@@ -395,7 +402,7 @@ class MailBoxTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         MailBoxService::copyMessageFromTemplateByCode($simulation, 'M75');
 
