@@ -50,7 +50,8 @@ class PerformanceRuleTest extends CDbTestCase {
         array_map(function ($i) {$i->dump();}, $simulation->log_activity_actions);
 
         SimulationService::simulationStop($simulation);
-        $this->assertEquals([9,10,11,12, 13], array_map(function ($i) {return $i->performanceRule->id;}, $simulation->performance_points));
+
+        $this->assertEquals(5, count($simulation->performance_points));
     }
 
     public function testExcelTrue() {
