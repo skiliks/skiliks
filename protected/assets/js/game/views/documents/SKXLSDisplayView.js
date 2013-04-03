@@ -91,9 +91,9 @@ define([
                         delete SKDocument._excel_cache[doc.get('id')];
                         SKApp.simulation.documents.remove(doc);
                         SKApp.simulation.documents.fetch();
-                        t
+
                         me.doWindowClose();
-                        $(doc.combineIframeId()).remove();
+                        //$(doc.combineIframeId()).remove();
                         me.remove();
 
                         // clean array of not handled zoho 500 {
