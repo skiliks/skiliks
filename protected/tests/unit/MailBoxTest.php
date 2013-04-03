@@ -330,7 +330,7 @@ class MailBoxTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULLL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // init conts
         // get all replics that change score for behaviour '4124'
