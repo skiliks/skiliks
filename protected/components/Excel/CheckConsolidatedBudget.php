@@ -57,7 +57,7 @@ class CheckConsolidatedBudget
         
         if (0 === count($simulationsExcelPoints)) {
             foreach (ExcelPointFormula::model()->findAll() as $formula) {
-                $this->userPointsMap[$formula->id] = 0;
+                $this->userPointsMap[$formula->id] = 2;
             }  
         }
     }
