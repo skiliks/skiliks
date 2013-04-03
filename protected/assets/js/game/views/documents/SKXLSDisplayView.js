@@ -88,17 +88,18 @@ define([
                     'value': 'Конечно!',
                     'onclick': function () {
                         delete SKDocument._excel_cache[doc.get('id')];
-                        $(doc.combineIframeId()).remove();
                         SKApp.simulation.documents.remove(doc);
-                        console.log(SKApp.simulation.documents);
-                        console.log(doc);
                         SKApp.simulation.documents.fetch();
-                        console.log(SKApp.simulation.documents);
 
+                        me.doWindowClose();
+                        $(doc.combineIframeId()).remove();
                         me.remove();
+
                         // clean array of not handled zoho 500 {
                         var i = SKApp.simulation.documents.zoho_500.indexOf(doc.get('id'));
                         delete SKApp.simulation.documents.zoho_500[i];
+                        / clean array of not handled zoho 500 }
+
                         delete me.message_window;
                  }
                 }
