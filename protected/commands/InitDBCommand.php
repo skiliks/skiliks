@@ -21,6 +21,13 @@ class InitDBCommand extends CConsoleCommand
 {
     public function actionIndex($database, $forceDelete = false)
     {
+
+        $zoho_path = Yii::app()->getBasePath().DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."documents".DIRECTORY_SEPARATOR."zoho";
+
+        //Clear Zoho xlsx
+        echo "\n Delete zoho files from ".$zoho_path;
+        exec("rm -rf {$zoho_path}".DIRECTORY_SEPARATOR."*");
+
         echo "\n Drop `$database`.";
         // DROP DATABASE
         if ($forceDelete) {
