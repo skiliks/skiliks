@@ -8,10 +8,12 @@
  * @property string $activity_id
  * @property string $operation
  * @property integer $value
+ * @property integer $category_id
  *
  * The followings are the available model relations:
  * @property PerformanceRuleCondition[] $performanceRuleConditions
  * @property Activity $activity
+ * @property ActivityCategory category
  */
 class PerformanceRule extends CActiveRecord
 {
@@ -61,6 +63,7 @@ class PerformanceRule extends CActiveRecord
 		return array(
 			'performanceRuleConditions' => array(self::HAS_MANY, 'PerformanceRuleCondition', 'performance_rule_id'),
 			'activity' => array(self::BELONGS_TO, 'Activity', 'activity_id'),
+            'category' => array(self::BELONGS_TO, 'ActivityCategory', 'category_id'),
 		);
 	}
 
