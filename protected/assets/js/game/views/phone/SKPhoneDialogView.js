@@ -92,6 +92,8 @@ define([
                             me.options.model_instance.close();
                         }
                     });
+                } else if (!SKApp.simulation.isDebug()) {
+                    window_el.find('.phone-reply-h').removeClass('hidden');
                 }
             });
         },
