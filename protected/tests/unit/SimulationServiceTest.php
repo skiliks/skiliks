@@ -35,7 +35,7 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationPause()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_LITE);
         $awaiting = 2; //sec
 
         $before = $simulation->getGameTime();
