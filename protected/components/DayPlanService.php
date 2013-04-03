@@ -279,7 +279,7 @@ class DayPlanService
             self::add($simulation, $taskId, $day, $time);
             
             // Убиваем задачу из todo
-            Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId', 
+            Todo::model()->deleteAll('sim_id = :simId and task_id = :taskId',
                     array(':simId'=>$simulation->id, ':taskId'=>$taskId));
             
             return ['result' => 1];
