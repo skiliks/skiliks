@@ -83,7 +83,9 @@ class MailBoxService
 
             $readed = $message->readed;
             // Для черновиков и исходящих письма всегда прочитаны - fix issue 69
-            if ($folderId == 2 || $folderId == 3) $readed = 1;
+            if ($folderId == 2 || $folderId == 3) {
+                $readed = 1;
+            };
 
             // загрузим ка получателей {
             $receivers = MailRecipient::model()->byMailId($message->id)->findAll();
