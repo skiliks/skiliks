@@ -32,6 +32,7 @@
  * @property PerformancePoint[] performance_points
  * @property StressPoint[] stress_points
  * @property Scenario game_type
+ * @property string uuid
  *
  * @author Sergey Suzdaltsev, мать его <sergey.suzdaltsev@gmail.com>
  */

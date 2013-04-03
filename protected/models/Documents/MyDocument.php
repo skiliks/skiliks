@@ -146,6 +146,19 @@ class MyDocument extends CActiveRecord
         ];
     }
 
+    /**
+     * Creates UUID to every document
+     * @return bool
+     */
+    protected function beforeSave()
+    {
+        if (!$this->uuid) {
+            $this->uuid = new CDbExpression('UUID()');
+        }
+        return parent::beforeSave();
+    }
+
+
 
     // -----------------------------------------------------------------------------------------------------------------
 }

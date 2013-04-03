@@ -14,15 +14,16 @@ class MyDocumentsService
      */
     public static function init(Simulation $simulation)
     {
-        $sql = "insert into my_documents (sim_id, fileName, template_id, hidden)
-            select :simId, fileName, id, hidden from my_documents_template where type='start' AND scenario_id=:scenario_id";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->bindParam(":simId", $simulation->id, PDO::PARAM_INT);
-        $scenarioId = $simulation->game_type->getPrimaryKey();
-        $command->bindParam(":scenario_id", $scenarioId, PDO::PARAM_INT);
-        $command->execute();
+        /** @var $documentTemplates DocumentTemplate[] */
+        $documentTemplates = $simulation->game_type->getDocumentTemplates(['type' => 'start']);
+        foreach ($documentTemplates as $documentTemplate) {
+            $document = new MyDocument();
+            $document->sim_id = $simulation->getPrimaryKey();
+            $document->fileName = $documentTemplate->fileName;
+            $document->template_id = $documentTemplate->getPrimaryKey();
+            $document->hidden = $documentTemplate->hidden;
+            $document->save();
+        }
     }
 
     /**
