@@ -95,6 +95,7 @@ class FlagsService
      * Проверяет выполняются ли правила для данного кода диалога
      *
      * @warning ! code will never use!
+     * @warning this code smells like it dead year ago
      * 
      * @param string $code код события
      * @param $simulation
@@ -103,11 +104,11 @@ class FlagsService
      * @param int $excelId, dialog excel id
      * @return array
      */
-    public static function checkRule($code, $simulation, $stepNumber = 1, $replicaNumber = 0, $excelId = null)
+    public static function checkRule($code, Simulation $simulation, $stepNumber = 1, $replicaNumber = 0, $excelId = null)
     {
         $result = array();
 
-        $rules = FlagBlockReplica::model()->findAllByAttributes([
+        $rules = $simulation->game_type->getFlagBlockReplicas([
             'replica_id' => $excelId
         ]);
 
