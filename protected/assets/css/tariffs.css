@@ -106,4 +106,8 @@ body  .onetariff  {
 .contwrap {
     height: 31px;
     line-height: 31px;
+    vertical-align: baseline;
+}
+.contwrap .feedback  {
+    margin-top: -10px;
 }
