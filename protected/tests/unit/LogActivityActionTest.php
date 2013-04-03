@@ -308,7 +308,7 @@ class LogActivityActionTest extends CDbTestCase
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
             $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user);
 
-            $options = new SendMailOptions();
+            $options = new SendMailOptions($simulation);
             $options->phrases = '';
             $options->copies = '';
             $options->messageId = MailTemplate::model()->findByAttributes(['code' => 'MS55'])->primaryKey;

@@ -100,7 +100,7 @@ class MailController extends AjaxController
         
         // sendMessagePro has a lot of option, and we need to validate it
         // so I agregate them to supply-object SendMailOptions
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(Yii::app()->request->getParam('receivers', ''));
             
         if (false === $sendMailOptions->isValidRecipientsArray()) {
@@ -138,7 +138,7 @@ class MailController extends AjaxController
     {
         $simulation = $this->getSimulationEntity();
         
-        $sendMailOptions = new SendMailOptions();
+        $sendMailOptions = new SendMailOptions($simulation);
         $sendMailOptions->setRecipientsArray(Yii::app()->request->getParam('receivers', ''));
         $sendMailOptions->simulation = $simulation;
         $sendMailOptions->messageId  = Yii::app()->request->getParam('messageId', 0);

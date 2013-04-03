@@ -51,7 +51,7 @@ class FlagServiceTest extends CDbTestCase
         // null prefix
         $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
 
-        $msgParams = new SendMailOptions();
+        $msgParams = new SendMailOptions($simulation);
         $msgParams->simulation = $simulation;
         $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
             'code' => 55, 'character_id' => $receiverId, 'mail_prefix' => null])->primaryKey; // 55?

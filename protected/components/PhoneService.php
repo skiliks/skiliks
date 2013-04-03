@@ -173,7 +173,7 @@ class PhoneService {
      */
     public static function getMissedCalls($simulation)
     {
-        $charactersList = Character::model()->findAll();
+        $charactersList = $simulation->game_type->getCharacters([]);
         $characters = array();
         foreach($charactersList as $character) {
             $characters[$character->id] = array(
