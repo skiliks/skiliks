@@ -475,7 +475,7 @@ a:focus, a:active {
     font:2.87em "ProximaNova-Bold";
     margin-bottom: 20px;
 }
-.midtitle {
+.midtitle, .flash-success {
     color:#3d4041;
     font: 28px "ProximaNova-Bold";
     margin-bottom: 22px;
