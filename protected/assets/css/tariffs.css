@@ -1,6 +1,6 @@
 .onetariff {
     display: inline-block;
-    margin: 0px 11px;
+    margin: 0px 11px 52px 11px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -9,7 +9,7 @@ body  .onetariff  {
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     height:410px;
-    width:200px;
+    width:212px;
 }
 .tariff-box:first-child {
     margin-left: 0px;
@@ -57,13 +57,53 @@ body  .onetariff  {
 .benefits {
     color:#3d4041;
     display: table-cell;
-    height: 110px;
+    height: 112px;
     font: 16px "ProximaNova-Bold";
     vertical-align: middle;
+    width: 210px;
 }
 .benefits p {
-    margin: 10px 0px;
+    margin: 10px auto;
+    text-align: center;
 }
 .tariff-box .light-btn {
     font-size: 17px;
+}
+.tarifswrap .text16 {
+    font-family:"ProximaNova-Bold";
+}
+.tarifswrap strong {
+    color:#fff;
+}
+.socicons, .socicons a {
+    display: inline-block;
+}
+.socicons a {
+    background-position: left top;
+    height:31px;
+    margin: 0px 5px;
+    width: 33px;
+}
+.socicons a:hover {
+    background-position: left bottom;
+}
+.iconfb {
+    background:url("../img/icon-fb.png") no-repeat;
+}
+.icontw {
+    background:url("../img/icon-tw.png") no-repeat;
+}
+.icongplus {
+    background:url("../img/icon-gplus.png") no-repeat;
+}
+.iconin {
+    background:url("../img/icon-in.png") no-repeat;
+}
+.tarifswrap .socicons {
+    margin: 0px 0px 0px 25px;
+    padding: 0px;
+}
+.contwrap {
+    height: 31px;
+    line-height: 31px;
 }

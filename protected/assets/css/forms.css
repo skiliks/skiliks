@@ -222,6 +222,9 @@
 .text-center {
     text-align: center;
 }
+.text-right {
+    text-align: right;
+}
 .longercontent {
     width: 900px;
 }
@@ -458,6 +461,7 @@ span.required {
     background:#fefeec;
     color:#3d4041;
     font-size:22px;
+    padding: 8px;
 }
 #simulations-counter-box .brightblock {
     margin-left: 10px;
