@@ -11,7 +11,7 @@ class FlagServiceTest extends CDbTestCase
 
         /** @var $user Users */
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_DEVELOPER_LABEL, $user, Scenario::TYPE_FULL);
 
         $dialogService = new DialogService();
 
@@ -46,15 +46,22 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_DEVELOPER_LABEL, $user, Scenario::TYPE_FULL);
 
         // null prefix
-        $receiverId = Character::model()->findByAttributes(['code' => '12'])->primaryKey;
+        $receiverId = Character::model()->findByAttributes([
+            'code' => '12',
+            'scenario_id'  => $simulation->scenario_id,
+        ])->primaryKey;
 
         $msgParams = new SendMailOptions($simulation);
         $msgParams->simulation = $simulation;
         $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code' => 55, 'character_id' => $receiverId, 'mail_prefix' => null])->primaryKey; // 55?
+            'code'         => 55,
+            'character_id' => $receiverId,
+            'mail_prefix'  => null,
+            'scenario_id'  => $simulation->scenario_id,
+        ])->primaryKey; // 55?
         $msgParams->setRecipientsArray($receiverId);
         $msgParams->groupId = MailBox::FOLDER_OUTBOX_ID;
         $msgParams->time = '11:00';
@@ -67,8 +74,11 @@ class FlagServiceTest extends CDbTestCase
 
         // RE: RE:
         $msgParams->subject_id = CommunicationTheme::model()->findByAttributes([
-            'code' => 55, 'character_id' => $receiverId,  // 55?
-            'mail_prefix' => 'rere', 'theme_usage' => CommunicationTheme::USAGE_OUTBOX
+            'code'         => 55,
+            'character_id' => $receiverId,  // 55?
+            'mail_prefix'  => 'rere',
+            'theme_usage'  => CommunicationTheme::USAGE_OUTBOX,
+            'scenario_id'  => $simulation->scenario_id,
         ])->primaryKey;
 
         $mail = MailBoxService::sendMessagePro($msgParams);
@@ -90,7 +100,7 @@ class FlagServiceTest extends CDbTestCase
 
         /** @var $user Users */
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         // case 1
 
         EventsManager::startEvent($simulation, 'S2', false, false, 0);
@@ -155,7 +165,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped(); // S
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         FlagsService::setFlag($simulation, 'F4', 0);
 
@@ -185,7 +195,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         FlagsService::setFlag($simulation, 'F14', 0);
 
@@ -208,7 +218,7 @@ class FlagServiceTest extends CDbTestCase
         ////$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // Case 1: block event
         $e = new EventsManager();
@@ -237,7 +247,7 @@ class FlagServiceTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         FlagsService::setFlag($simulation, 'F30', 1);
         FlagsService::setFlag($simulation, 'F16', 1);
@@ -292,7 +302,7 @@ class FlagServiceTest extends CDbTestCase
 
     public function testNewFlagsRules() {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         FlagsService::setFlag($simulation, 'F14', 1);
 
@@ -309,7 +319,7 @@ class FlagServiceTest extends CDbTestCase
 
     public function testNewFlagsRulesByDialogGet() {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         $dialog = new DialogService();
         FlagsService::setFlag($simulation, 'F14', 1);
         $id = Replica::model()->findByAttributes(['code'=>'ET12.1', 'replica_number'=> 1, 'step_number'=> 1])->id;

@@ -47,9 +47,11 @@ class FlagsService
         // display flags for developers only ! :) no chanses for cheatting
         if ($simulation->isDevelopMode()) {
             foreach (SimulationFlag::model()->bySimulation($simulation->id)->findAll() as $flag) {
+
                 $result[$flag->flag] = $flag->value;
             }
-        }        
+        }
+
         return $result;
     }
 

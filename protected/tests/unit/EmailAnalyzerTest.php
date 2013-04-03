@@ -16,7 +16,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // move all not received emails to inbox
         $emailTemplates = MailTemplate::model()->findAll(
@@ -64,7 +64,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         // move all not received emails to inbox
         $emailTemplates = MailTemplate::model()->findAll(
@@ -100,7 +100,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -156,7 +156,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $point_3322 = $simulation->game_type->getHeroBehaviour([
             'code' => '3322'
@@ -203,7 +203,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -272,7 +272,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $point_3322 = HeroBehaviour::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -323,7 +323,7 @@ class EmailAnalyzerTest extends CDbTestCase
         
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
         $point = HeroBehaviour::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -357,7 +357,7 @@ class EmailAnalyzerTest extends CDbTestCase
     public function test_3323_reply_2min()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         //good M47
         $code_3323 = HeroBehaviour::model()->findByAttributes([
@@ -394,7 +394,7 @@ class EmailAnalyzerTest extends CDbTestCase
 
         //good M71
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
         EventsManager::startEvent($simulation, 'M71');
         $mail_event = EventsManager::getState($simulation, []);
@@ -416,7 +416,7 @@ class EmailAnalyzerTest extends CDbTestCase
         //good M47 and M71
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
         EventsManager::startEvent($simulation, 'M47');
         $mail_event = EventsManager::getState($simulation, []);
@@ -437,7 +437,7 @@ class EmailAnalyzerTest extends CDbTestCase
 
         //good M71
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         EventsManager::getState($simulation, [[1, 1, 'activated', 35104, 'window_uid'=>20]]);
         EventsManager::startEvent($simulation, 'M71');
         $mail_event = EventsManager::getState($simulation, []);
@@ -464,7 +464,7 @@ class EmailAnalyzerTest extends CDbTestCase
     public function test_3325_true() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         EventsManager::startEvent($simulation, 'M60');
         EventsManager::getState($simulation, []);
@@ -490,7 +490,7 @@ class EmailAnalyzerTest extends CDbTestCase
     public function test_3325_false() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
         EventsManager::startEvent($simulation, 'M60');
         $mail_event = EventsManager::getState($simulation, []);
