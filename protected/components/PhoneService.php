@@ -317,8 +317,7 @@ class PhoneService {
             'text'              => 'Меня нет на месте. Перезвоните мне в следующий раз',
             'sound'             => '#',
             'duration'          => '5',
-            'step_number'       => '1',
-            'code'              => 'None'
+            'step_number'       => '1'
         );
         
         return array_merge($newData, $data);
