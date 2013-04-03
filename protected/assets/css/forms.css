@@ -367,6 +367,7 @@ span.required {
 }
 .lbluelink, .lbluelink:link, .lbluelink:visited {
     color:#1190a2;
+    text-decoration: none;
 }
 .blueplaceholder input[type="text"]::-webkit-input-placeholder {
     color:#1d7885;
