@@ -184,10 +184,11 @@ class ZohoDocuments
             return 'RESPONSE: Wrong document id!';
         }
 
+        $uuid = MyDocument::model()->findByPk($path[1])->uuid;
+
         $pathToUserFile = sprintf(
-            'documents/zoho/%s/%s.%s',
-            $path[0], // simId
-            $path[1], // documentID,
+            'documents/zoho/%s.%s',
+            $uuid,
             $extention
         );
 
@@ -257,18 +258,14 @@ class ZohoDocuments
     public static function copyExcelFiles($simId) {
 
         $zohoConfigs = Yii::app()->params['zoho'];
-        $documents = Yii::app()->db->createCommand("SELECT d.id, t.srcFile FROM `my_documents` AS d LEFT JOIN `my_documents_template` AS t ON d.template_id = t.id WHERE t.format = 'xlsx' AND d.sim_id = ".$simId)->queryAll();
-        //TODO: Можно на ORM, но так быстрее
-        $path_zoho = __DIR__ . '/../../../'.$zohoConfigs['templatesDirPath'].'/'.$simId;
-
-        if (false === is_dir($path_zoho)) {
-            @mkdir($path_zoho, 0777, true);
-        }
+        // нужно на ORM
+        $documents = MyDocument::model()->with('template')->findAllByAttributes(['sim_id' => $simId]);
+        $path_zoho = __DIR__ . '/../../../'.$zohoConfigs['templatesDirPath'].'/';
 
         foreach($documents as $document){
-            $xls = __DIR__ . '/../../../'.$zohoConfigs['xlsTemplatesDirPath'].'/'.$document['srcFile'];
+            $xls = __DIR__ . '/../../../'.$zohoConfigs['xlsTemplatesDirPath'].'/'.$document->template->srcFile;
             if(file_exists($xls)){
-                copy($xls, $path_zoho.'/'.$document['id'].'.'.$zohoConfigs['extExcel']);
+                copy($xls, $path_zoho.'/'.$document->uuid.'.'.$zohoConfigs['extExcel']);
             }
 
         }
