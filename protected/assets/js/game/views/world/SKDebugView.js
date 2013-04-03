@@ -38,8 +38,12 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
         'doSetTime': function (event) {
             var target = event.currentTarget;
             event.preventDefault();
-            var hour = $(target).attr('data-hour');
-            var minute = $(target).attr('data-minute');
+            var hour = parseInt($(target).attr('data-hour'), 10);
+            var minute = parseInt($(target).attr('data-minute'), 10);
+            if (hour * 60 + minute <= SKApp.simulation.getGameMinutes()) {
+                alert('Путешествия во времени запрещены!');
+                return;
+            }
             SKApp.simulation.setTime(hour, minute);
         },
 
@@ -58,10 +62,11 @@ define(["text!game/jst/simulation/debug.jst"], function (debug_template) {
         'doFormSetTime': function (event) {
             var target = event.currentTarget;
             event.preventDefault();
-            var hours = target.elements.hours.value;
-            var minutes = target.elements.minutes.value;
+            var hours = parseInt(target.elements.hours.value, 10);
+            var minutes = parseInt(target.elements.minutes.value, 10);
             if (hours * 60 + minutes <= SKApp.simulation.getGameMinutes()) {
                 alert('Путешествия во времени запрещены!');
+                return;
             }
             SKApp.simulation.setTime(hours, minutes);
         },
