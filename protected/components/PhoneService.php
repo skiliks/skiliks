@@ -277,8 +277,8 @@ class PhoneService {
             }
     }
 
-    public static function getReplicaByCode($eventCode, $simulation) {
-        $dialogs = Replica::model()->byCode($eventCode)->byStepNumber(1)->findAll();
+    public static function getReplicaByCode($eventCode, Simulation $simulation) {
+        $dialogs = $simulation->game_type->getReplicas(['code' => $eventCode, 'step_number' => 1]);
 
         $data = array();
         foreach($dialogs as $dialog) {
@@ -288,7 +288,7 @@ class PhoneService {
                 // isDialog() Wrong!!!
                 if (!EventService::isDialog($dialog->next_event_code)) {
                     // создадим событие
-                    EventService::addByCode($dialog->next_event_code, $simulation->id, $simulation->getGameTime());
+                    EventService::addByCode($dialog->next_event_code, $simulation, $simulation->getGameTime());
                 }
             }
             $data[] = DialogService::dialogToArray($dialog);
