@@ -625,7 +625,7 @@ class SimulationService
      */
     public static function applyReductionFactors(Simulation $simulation)
     {
-        // we will clculate K based om MAX negative value for learning goals
+        // we will calculate K based om MAX negative value for learning goals
         $criteria = new CDbCriteria();
         $criteria->addCondition('max_negative_value IS NOT NULL');
         $learningGoalsForUpdate = $simulation->game_type->getLearningGoals($criteria);

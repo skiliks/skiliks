@@ -214,7 +214,6 @@ class ActivityAction extends CActiveRecord
         ];
 
         $criteria->addColumnCondition($attributes);
-        $criteria->addColumnCondition(['t.scenario_id' => $simulation->scenario_id]);
 
         if ($legTypes !== null) {
             $criteria->addInCondition('leg_type', $legTypes);
