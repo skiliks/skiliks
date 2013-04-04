@@ -1079,7 +1079,7 @@ class SimulationServiceTest extends CDbTestCase
             35000,  // time
             1,      // windowId
             1,      // subWindowUid
-            null,   // windowUid
+            100,   // windowUid
             10,     // duration
             false,  // isDraft
             MailBox::TYPE_REPLY_ALL  // letter_type
