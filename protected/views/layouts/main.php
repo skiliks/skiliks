@@ -133,12 +133,22 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>
+				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="lightbox-30934004754349">Feedback</a></p>
             </footer>
 		</div>
 		<!--footer end-->
-        <div style="display: none" class="feedback_dialog">
-            <script type="text/javascript" src="http://form.jotformeu.com/jsform/30835043655352"></script>
-        </div>
+
+        <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2591" type="text/javascript">
+            new JotformFeedback({
+                formId:'30934004754349',
+                base:'http://jotformeu.com/',
+                windowTitle:'Обратная связь',
+                background:'#2D8694',
+                fontColor:'#ffffff',
+                type:false,
+                height:500,
+                width:700
+            });
+        </script>
 	</body>
 </html>
