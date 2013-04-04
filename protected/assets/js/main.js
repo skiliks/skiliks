@@ -1,11 +1,5 @@
 $(document).ready(function () {
     "use strict";
-    $('a.feedback').click(function () {
-        $('.feedback_dialog').dialog({ width: 600});
-        console.log($('#30835043655352'));
-        $('.feedback_dialog').append($('#30835043655352'));
-        return false;
-    });
 
     $('.dashboard').append($('<div id="simulation-details-pop-up"></div>'));
     var simulation_popup = $('#simulation-details-pop-up');
