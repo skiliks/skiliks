@@ -1475,10 +1475,12 @@ html[lang=ru] .product section table th{
 .social_networks {
     color:#333333;
     overflow:hidden;
+    width:300px;
+}
+.footer .social_networks {
     position:absolute;
     top:200px;
     left:320px;
-    width:300px;
 }
 .social_networks span {
     display:block;

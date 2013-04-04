@@ -112,9 +112,7 @@ define([
 
                 // render character subjects list
                 this.listenTo(this.mailClient, 'mail:subject_list_in_model_updated', function () {
-
                     me.updateSubjectsList();
-
                     me.mailClient.availablePhrases = [];
                     me.mailClient.availableAdditionalPhrases = [];
                     me.renderPhrases();
@@ -122,7 +120,9 @@ define([
 
                 // render phrases
                 this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
-                    me.renderPhrases();
+                    if ('' !== response.phrases.message && undefined === response.phrases.message) {
+                        me.renderPhrases();
+                    }
                 });
 
                 // update inbox emails counter
@@ -1431,7 +1431,7 @@ define([
                 // some letter has predefine text, update it
                 // if there is no text - this.mailClient.messageForNewEmail is empty string
                 this.mailClient.newEmailUsedPhrases = [];
-                this.renderTXT(this.mailClient.messageForNewEmail);
+                this.renderTXT();
 
                 this.delegateEvents();
             },
@@ -1767,8 +1767,11 @@ define([
              */
             renderTXT: function () {
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
-                    $('#mailEmulatorNewLetterDiv').
+                    this.$('#mailEmulatorNewLetterDiv').
                         html('<br/><br/>' + this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
+                    this.$('.mail-tags-bl').hide();
+                } else {
+                    this.$('.mail-tags-bl').show();
                 }
             },
 
@@ -1863,15 +1866,16 @@ define([
                 }
 
                 // add phrases {
-                SKApp.simulation.mailClient
-                    .setRegularAvailablePhrases(response.phrases.data);
+                if ('' !== response.phrases.message && undefined === response.phrases.message) {
+                    SKApp.simulation.mailClient
+                        .setRegularAvailablePhrases(response.phrases.data);
 
-                SKApp.simulation.mailClient
-                    .setAdditionalAvailablePhrases(response.phrases.addData);
+                    SKApp.simulation.mailClient
+                        .setAdditionalAvailablePhrases(response.phrases.addData);
 
-                this.renderPhrases();
+                    this.renderPhrases();
+                }
                 // add phrases }
-
             },
 
             /**
@@ -2122,7 +2126,9 @@ define([
                             'left': this.$('.SEND_EMAIL').offset().left + this.$('.SEND_EMAIL').width()/2,
                             'top': this.$('.SEND_EMAIL').offset().top + this.$('.SEND_EMAIL').height()/2
                         }, 5000, function (){
+
                             me.doSendEmail();
+
                             setTimeout(function () {
                                 me.options.model_instance.close();
                                 me.mailClient.trigger('mail:fantastic-send:complete');
