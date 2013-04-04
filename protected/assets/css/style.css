@@ -119,7 +119,7 @@ label, input[type="button"], input[type="submit"], button {
 }
 a, a:visited {
 	color: #287fc3;
-	text-decoration: underline;
+	/* text-decoration: underline;*/
 }
 a:hover {
 	color: #287fc3;
@@ -127,7 +127,6 @@ a:hover {
 }
 a:focus, a:active {
 	color: #287fc3;
-	text-decoration: underline;
 }
 .content{
 	width:948px;
