@@ -26,13 +26,13 @@
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="#">Выбрать</a></div>
+                <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30934004754349" href="#">Выбрать</a></div>
             </div>
         </div>
     </div>
 <?php endforeach ?>
     <p class="text-right text16"><sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести</p>
-    <div class="contwrap"><a href="#" class="light-btn feedback">Обратная связь</a>
+    <div class="contwrap"><a href="#" class="light-btn lightbox-30934004754349">Обратная связь</a>
     <span class="social_networks">
 
         <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
