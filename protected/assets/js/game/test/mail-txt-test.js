@@ -126,8 +126,6 @@ define([
                             "mailId": "1245"
                         })]);
 
-                //clock = sinon.useFakeTimers();
-                //this.timeout = 10000;
                 window.SKApp = new SKApplication({'start':'9:00', "skiliksSpeedFactor":8 });
                 this.timeout = 1000;
             });
@@ -168,23 +166,17 @@ define([
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
-                //mailView.$el.find('#MailClient_NewLetterSubject').focus();
-                //mailView.$el.find('#MailClient_NewLetterSubject option:eq(1)').attr("selected","selected");
                 mailView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
 
                 mailView.doUpdateMailPhrasesList();
 
                 server.respond();
 
-                // check is message has been displayed
-                expect(mailView.$el.find('#mailEmulatorNewLetterText').text())
-                    .toBe('Dummy message.');
-
                 // check phrases
                 expect(SKApp.simulation.mailClient.availablePhrases.length).toBe(0);
 
                 // test TXT constructor
-                expect(mailView.$el.find('#mailEmulatorNewLetterText').text()).toBe('Dummy message.');
+                expect(mailView.$el.find('#mailEmulatorNewLetterDiv').text()).toBe('Dummy message.');
 
                 mailView.$el.find('.SEND_EMAIL').click();
 
