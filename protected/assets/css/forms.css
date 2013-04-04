@@ -69,15 +69,15 @@
     width:200px;
 }
 */
-.registrationform .errorMessage {
-    background: url("../img/bg-form-error.png") no-repeat 30% 23px;
+.registrationform .errorMessageWrap {
+    background: url("../img/bg-form-error.png") no-repeat 30% 100%;
     left: 0;
     min-height: 24px;
     padding-bottom: 19px;
     position: absolute;
     top: -62px;
 }
-.registrationform .errorMessage span {
+.registrationform .errorMessageWrap .errorMessage {
     background: url("../img/bg-form-error-inner.png") repeat-x #E66B66;
     border-radius: 4px;
     color: #FFFFFF;
