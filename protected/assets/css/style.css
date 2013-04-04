@@ -1521,7 +1521,7 @@ html[lang=ru] .product section table th{
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.addthis_button_google_plusone {
+.social_networks a.addthis_button_google_plusone_share {
     background-position: -125px 0px;
 }
 .social_networks a.addthis_button_linkedin {
@@ -1540,7 +1540,7 @@ html[lang=ru] .product section table th{
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone:hover {
+.social_networks a.addthis_button_google_plusone_share:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
