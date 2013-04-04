@@ -281,10 +281,10 @@ class SimulationService
      * Fills executed performance rules according to user actions
      * @param Simulation $simulation
      */
-    public static function setFinishedPerformanceRules($simulation)
+    public static function setFinishedPerformanceRules(Simulation $simulation)
     {
         /** @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk($simId);
+        $simulation = Simulation::model()->findByPk($simulation->getPrimaryKey());
         $allRules = $simulation->game_type->getPerformanceRules([]);
         $done = [];
 
@@ -354,7 +354,7 @@ class SimulationService
      */
     public static function setGainedStressRules($simulation)
     {
-        $allRules = StressRule::model()->findAll();
+        $allRules = $simulation->game_type->getStressRules([]);
         $done = [];
 
         /** @var $rule StressRule */
