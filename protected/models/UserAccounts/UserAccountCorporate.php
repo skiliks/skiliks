@@ -7,6 +7,8 @@
  * @property string $user_id
  * @property integer $industry_id
  * @property string $corporate_email
+ * @property string $ownership_type
+ * @property string $company_name
  * @property boolean is_corporate_email_verified
  * @property datetime corporate_email_verified_at
  * @property boolean corporate_email_activation_code
@@ -35,6 +37,18 @@ class UserAccountCorporate extends CActiveRecord
         }
 
         return $this->corporate_email_activation_code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCompanyName()
+    {
+        return sprintf(
+            '%s %s',
+            $this->ownership_type,
+            $this->company_name
+        );
     }
 
     /* ----------------------------------------------------------------------------------------------------- */
