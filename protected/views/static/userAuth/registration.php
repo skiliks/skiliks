@@ -25,19 +25,25 @@
     <div class="transparent-boder">
         <div class="row">
             <?php echo $form->textField($profile, 'email', ['placeholder' => $profile->getAttributeLabel('Введите Ваш email')]); ?>
-            <?php echo $form->error($profile    , 'email'); ?>
+            <span class="errorMessageWrap">
+                <?php echo $form->error($profile    , 'email'); ?>
+            </span>
         </div>
 
 
         <div class="row">
             <?php echo $form->passwordField($user, 'password', ['placeholder' => $profile->getAttributeLabel('Введите пароль')]); ?>
-            <?php echo $form->error($user        , 'password'); ?>
+            <span class="errorMessageWrap">
+                <?php echo $form->error($user        , 'password'); ?>
+            </span>
         </div>
 
 
         <div class="row">
             <?php echo $form->passwordField($user, 'password_again', ['placeholder' => $profile->getAttributeLabel('Подтвердите пароль')]); ?>
-            <?php echo $form->error($user        , 'password_again'); ?>
+            <span class="errorMessageWrap">
+                <?php echo $form->error($user        , 'password_again'); ?>
+            </span>
         </div>
 
         <div class="row" style="display: none">
@@ -86,5 +92,17 @@
             passAgainInput.clone().attr('type','password').insertAfter(passAgainInput).prev().remove();
         }
         // show * or password letters switcher }
+    });
+
+    $(document).ready(function(){
+        var error = $(".errorMessageWrap");
+        for (var i=0; i < error.length; i++) {
+            if ($(error[i]).html().match(/\S+/)) {
+                var inp = $(error[i]).prev("input").width();
+                var top = $(error[i]).height();
+                $(error[i]).css("max-width",inp+35);
+                $(error[i]).css("top",-top);
+            }
+        }
     });
 </script>
