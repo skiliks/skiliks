@@ -33,7 +33,7 @@
 <?php endforeach ?>
     <p class="text-right text16"><sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести</p>
     <div class="contwrap"><a href="#" class="light-btn feedback">Обратная связь!</a>
-    <span class="social_networks">!!
+    <span class="social_networks">
         <?php $this->renderPartial('//layouts/addthis') ?>
     </span>
     </div>
