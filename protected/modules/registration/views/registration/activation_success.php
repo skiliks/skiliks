@@ -3,7 +3,7 @@
     <div class="transparent-boder">
         <div class="radiusthree yellowbg">
             <div class="registermessage registerpads">
-                <a class="regicon <?php if($user->is_check == 1){ echo "icon-check"; }else{ echo "icon-chooce"; } ?>" id="registration_check" href="/simulation/promo/2"><span style="display: <?php if($user->is_check == 1){ echo "none";}else{ echo "block"; }?>"><?php echo Yii::t('site', 'Выбрать');?></a>
+                <a class="regicon <?php if($user->is_check == 1){ echo "icon-check"; }else{ echo "icon-chooce"; } ?>" id="registration_check" href="#"><span style="display: <?php if($user->is_check == 1){ echo "none";}else{ echo "block"; }?>"><?php echo Yii::t('site', 'Выбрать');?></a>
                 <h3>Пробный тест</h3>
                 <div class="testtime"><strong>45</strong> Минут</div>
                 <ul>
