@@ -33,6 +33,8 @@ class ImportGameDataService
         // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = null;
+
+        $this->setScenario();
     }
 
     public function setFilename($name)
@@ -220,60 +222,6 @@ class ImportGameDataService
         return array(
             'imported_learning_goals' => $importedRows,
             'errors'                  => false,
-        );
-    }
-
-    /**
-     * @return mixed array
-     */
-    public function importLearningGoalsMaxNegativeValue()
-    {
-        $this->logStart();
-
-        $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Max_rate');
-        // load sheet }
-
-        $this->setColumnNumbersByNames($sheet);
-
-        LearningGoal::model()->updateAll([
-            'max_negative_value' => null,
-        ] ,
-            'scenario_id = '.$this->scenario->id
-        );
-
-        $importedRows = 0;
-        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
-                continue;
-            }
-
-            //
-            // @todo: add 'success_rate' in sprint S9
-            //
-
-            if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
-                // try to find exists entity
-                $learningGoal = LearningGoal::model()->findByAttributes([
-                    'code' => $this->getCellValue($sheet, 'Код объекта', $i),
-                    'scenario_id' => $this->scenario->id,
-                ]);
-
-                $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
-
-                // save
-                $learningGoal->save();
-
-                $importedRows++;
-            }
-
-        }
-
-        $this->logEnd();
-
-        return array(
-            'imported_learning_goals_max_negative-value' => $importedRows,
-            'errors'                                     => false,
         );
     }
 
@@ -2428,14 +2376,11 @@ class ImportGameDataService
      */
     public function importWithoutTransaction()
     {
-        $this->setScenario();
-
         $result = [];
         $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters'] = $this->importCharacters();
         $result['learning_areas'] = $this->importLearningAreas();
         $result['learning_goals'] = $this->importLearningGoals();
-        $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
         $result['characters_points_titles'] = $this->importHeroBehaviours();
         $result['flags'] = $this->importFlags();
         $result['replicas'] = $this->importDialogReplicas();
