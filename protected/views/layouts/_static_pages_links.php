@@ -1,23 +1,23 @@
-<a href="/"  class="<?php if (in_array(Yii::app()->request->getPathInfo(), ['/', '/static/'])) { echo "active"; } ?>">
+<a href="/"  class="<?php if (in_array(Yii::app()->request->getPathInfo(), ['', 'static/'])) { echo "active"; } ?>">
     <?php echo Yii::t('site', 'Home') ?>
 </a>
 
-<a href="/static/team" <?php if (Yii::app()->request->getPathInfo() == '/static/team') { echo "active"; } ?>">
+<a href="/static/team" class="<?php if (Yii::app()->request->getPathInfo() == 'static/team') { echo "active"; } ?>">
     <?php echo Yii::t('site', 'About Us') ?>
 </a>
 
-<a href="/static/product" <?php if (Yii::app()->request->getPathInfo() == '/static/product') { echo "active"; } ?>">
+<a href="/static/product" class="<?php if (Yii::app()->request->getPathInfo() == 'static/product') { echo "active"; } ?>">
     <?php echo Yii::t('site', 'Product') ?>
 </a>
 
 <?php if ('ru' === Yii::app()->getLanguage()): ?>
     <!-- RU only -->
-    <a href="/static/tariffs" <?php if (Yii::app()->request->getPathInfo() == '/static/tariffs') { echo "active"; } ?>">
+    <a href="/static/tariffs" class="<?php if (Yii::app()->request->getPathInfo() == 'static/tariffs') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Tariffs') ?>
     </a>
 
     <!-- RU only -->
-    <a href="/static/contacts" <?php if (Yii::app()->request->getPathInfo() == '/static/contacts') { echo "active"; } ?>">
+    <a href="/static/contacts" class="<?php if (Yii::app()->request->getPathInfo() == 'static/contacts') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Contacts') ?>
     </a>
 <?php endif ?>

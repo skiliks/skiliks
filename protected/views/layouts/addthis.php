@@ -1,9 +1,9 @@
 <?php
-    $allow = ['/ru', '/en', '/', '/static/team',
-        '/static/team/ru', '/static/team/en', '/static/product',
-        '/static/product/ru', '/static/product/en'];
+    $allow = ['ru', 'en', '', 'static/team',
+        'static/team/ru', 'static/team/en', 'static/product',
+        'static/product/ru', 'static/product/en'];
 ?>
-<?php if(in_array($_SERVER['REQUEST_URI'], $allow)){ ?>
+<?php if(in_array(Yii::app()->request->getPathInfo(), $allow)){ ?>
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
     <a class="addthis_button_preferred_1"></a>
