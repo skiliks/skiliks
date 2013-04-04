@@ -12,7 +12,7 @@ class SyncDocCommand extends CConsoleCommand{
 
         $this->CPrint("Init Documents");
         $scenario = Scenario::model()->findByAttributes(['slug'=>'full']);
-        $my_docs = DocumentTemplate::model()->findAllByAttributes(['format'=>'xlsx', 'scenario_id'=>$scenario->id]);
+        $my_docs = DocumentTemplate::model()->findAllByAttributes(['format'=>'xls', 'scenario_id'=>$scenario->id]);
 
         $src_templates = Yii::app()->getBasePath()."/../documents/src_templates/";
         $templates = Yii::app()->getBasePath()."/../documents/templates/";
@@ -22,7 +22,7 @@ class SyncDocCommand extends CConsoleCommand{
                 $this->CPrint("Найден шаблон {$doc->fileName}");
                 copy($src_templates.$doc->fileName, $templates.$doc->srcFile);
             }else{
-                $this->CPrint("Не найден шаблон {$doc->fileName}");
+                //$this->CPrint("Не найден шаблон {$doc->fileName}");
             }
         }
 
