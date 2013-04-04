@@ -49,7 +49,7 @@ class AssessmentPointsTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
-        $rates = MaxRate::model()->findAll('scenario_id = 2 AND learning_goal_id IS NOT NULL AND type = :type', ['type' => MaxRate::TYPE_FAIL]);
+        $rates = MaxRate::model()->findAll('scenario_id = :scenario_id AND learning_goal_id IS NOT NULL AND type = :type', ['type' => MaxRate::TYPE_FAIL, 'scenario_id' => $simulation->scenario_id]);
         $learningGoalsForUpdate = [];
         $rateValues = [];
         foreach ($rates as $rate) {
