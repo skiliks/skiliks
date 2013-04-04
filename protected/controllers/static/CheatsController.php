@@ -140,7 +140,7 @@ class CheatsController extends AjaxController
     /**
      * Cheat
      */
-    public function actionChooseTariff($label)
+    public function actionChooseTariff($label = null)
     {
         $user = Yii::app()->user;
         if (null === $user) {
