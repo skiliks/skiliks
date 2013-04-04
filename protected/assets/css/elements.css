@@ -1,0 +1,99 @@
+/* /user/auth */
+.action-controller-login-auth #usercontent {
+    margin:0px auto;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+    border-radius: 8px 8px 8px 8px;
+    padding:10px;
+}
+.action-controller-login-auth #usercontent h2{
+    font: 2.619em "ProximaNova-Bold";
+    margin-bottom: 15px;
+    text-shadow: 0 0 7px rgba(0, 0, 0, 0.14);
+    text-align:center;
+}
+.action-controller-login-auth #usercontent .form {
+    background:#F3FFFF;
+    padding:26px;
+    border-radius:3px;
+    font-size:14px;
+    line-height:18px;
+}
+.action-controller-login-auth #usercontent .form p {
+    margin-bottom:10px;
+}
+
+/* social networks */
+.social_networks {
+    color:#333333;
+    overflow:hidden;
+    position:absolute;
+    top:200px;
+    left:320px;
+    width:300px;
+}
+.social_networks span {
+    display:block;
+    float:left;
+    font:bold 14px/31px "Arial"
+}
+.social_networks a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+    margin-left:10px;
+    dispay:block;
+    float:left;
+    overflow:hidden;
+    text-indent:-1000px;
+    padding:0px !important;
+}
+.social_networks a.addthis_button_vk {
+    background-position: 0px 0px;
+}
+.social_networks a.addthis_button_facebook {
+    background-position: -42px 0px;
+}
+.social_networks a.addthis_button_twitter {
+    background-position: -83px 0px;
+    width:33px;
+}
+.social_networks a.addthis_button_google_plusone {
+    background-position: -125px 0px;
+}
+.social_networks a.addthis_button_linkedin {
+    background-position: -166px 0px;
+}
+.social_networks a.addthis_button_vk:hover {
+    background-position: 0px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_facebook:hover {
+    background-position: -42px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_twitter:hover {
+    background-position: -83px 100%;
+    width:33px;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_google_plusone:hover {
+    background-position: -125px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_linkedin:hover {
+    background-position: -166px 100%;
+    opacity: 1 !important;
+}
+.social_networks a span,
+.social_networks a .Bg .ah {
+    background:none !important;
+}
+.action-controller-tariffs-static-pages .social_networks,
+.action-controller-contacts-static-pages .social_networks,
+.controller-static-dashboard .social_networks,
+.controller-static-profile .social_networks,
+.controller-static-simulations .social_networks,
+.controller-static-cheats .social_networks {
+    display:none;
+}
+/* /social networks */
