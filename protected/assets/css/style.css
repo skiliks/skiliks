@@ -142,7 +142,7 @@ a:focus, a:active {
 }
 @media screen and (max-width: 1280px){
 	.content{
-		width:945px; /* width:925px;  */
+        /* width:945px; width:925px;  */
 		padding-bottom:310px;
 	}
 
