@@ -1493,6 +1493,7 @@ html[lang=ru] .product section table th{
     float:left;
     overflow:hidden;
     text-indent:-1000px;
+    padding:0px !important;
 }
 .social_networks a.addthis_button_vk {
     background-position: 0px 0px;
@@ -1509,6 +1510,27 @@ html[lang=ru] .product section table th{
 }
 .social_networks a.addthis_button_linkedin {
     background-position: -166px 0px;
+}
+.social_networks a.addthis_button_vk:hover {
+    background-position: 0px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_facebook:hover {
+    background-position: -42px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_twitter:hover {
+    background-position: -83px 100%;
+    width:33px;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_google_plusone:hover {
+    background-position: -125px 100%;
+    opacity: 1 !important;
+}
+.social_networks a.addthis_button_linkedin:hover {
+    background-position: -166px 100%;
+    opacity: 1 !important;
 }
 .social_networks a span,
 .social_networks a .Bg .ah {
