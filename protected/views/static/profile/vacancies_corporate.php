@@ -2,7 +2,7 @@
 <h2 class="thetitle"><?php echo Yii::t('site', 'Profile') ?></h2>
 
 <div class="transparent-boder profilewrap">
-    <?php $this->renderPartial('_menu_corporate', ['active' => ['vacancy' => true]]) ?>
+    <?php $this->renderPartial('_menu_corporate', ['active' => ['vacancies' => true]]) ?>
 
     <?php // LIST: ?>
     <div class="profileform radiusthree">
