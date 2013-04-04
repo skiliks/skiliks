@@ -552,12 +552,12 @@ span.required {
 .cabmessage .ui-icon-closethick {
     background-position: 0px 0px;
 }
-#send-invite-message-form  label {
+#send-invite-message-form label {
     color:#0e4750;
     display: block;
     float: left;
-    font: 14px "ProximaNova-Regular";
-    padding-right: 10px;
+    font: 14px "ProximaNova-Bold";
+    padding: 8px 10px 0px 0px;
     width:70px;
 }
 .cabmessage input, .cabmessage select,
@@ -566,7 +566,12 @@ span.required {
 }
 .cabmessage textarea  {
     height: 120px;
+}
+.cabmessage textarea, #Invite_fullname {
     width:420px;
+}
+#Invite_signature {
+    width:210px;
 }
 .cabmessage .row {
     padding-bottom: 18px;

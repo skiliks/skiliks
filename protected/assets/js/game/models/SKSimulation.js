@@ -95,7 +95,7 @@ define([
                 this.dayplan_tasks = new SKDayTaskCollection();
 
                 this.postMessageCallback = function(event) {
-                    console.log(event.data);
+                    console.log('event.data: ', event.data);
                     if ('DocumentLoaded' == event.data.type) {
                     console.log("On dataload");
 
@@ -110,8 +110,8 @@ define([
                                     console.log("delete block");
                                     if(SKApp.simulation.afterZohoCrash){
                                         //SKApp.simulation.trigger('iframeReload', 'hello');
-                                        console.log(url);
-                                        console.log(id);
+                                        console.log('excel-url: ', url);
+                                        console.log('excel-id: ', id);
                                         $('#excel-preload-'+id).attr("src", url);
                                         SKApp.simulation.afterZohoCrash = false;
                                         $('.zoho-load-start').remove();
@@ -194,7 +194,7 @@ define([
 
             'onAddDocument' : function(){
                 console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                console.log(Object.keys(SKDocument._excel_cache).length);
+                console.log('excel_cache.length: ', Object.keys(SKDocument._excel_cache).length);
                 console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
                 console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
 
@@ -211,7 +211,7 @@ define([
 
             'onIframeReload' : function(data) {
                 console.log('onIframeReload');
-                console.log(data);
+                console.log('iframe data: ', data);
             },
 
             /**
