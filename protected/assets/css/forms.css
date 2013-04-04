@@ -63,9 +63,27 @@
 .registrationform input[type=password] {
     width:166px;
 }
+/*
 .registrationform .errorMessage {
     margin-top: 6px;
     width:200px;
+}
+*/
+.registrationform .errorMessage {
+    background: url("../img/bg-form-error.png") no-repeat 30% 23px;
+    left: 0;
+    min-height: 24px;
+    padding-bottom: 19px;
+    position: absolute;
+    top: -62px;
+}
+.registrationform .errorMessage span {
+    background: url("../img/bg-form-error-inner.png") repeat-x #E66B66;
+    border-radius: 4px;
+    color: #FFFFFF;
+    display: block;
+    font: 14px/22px "ProximaNova-Regular";
+    padding: 9px 25px;
 }
 .errorlongMessage {
     clear:both;
@@ -109,6 +127,7 @@
 .registrationform .row {
     float:left;
     margin-left: 11px;
+    position:relative;
 }
 .registrationform .row:first-child {
     margin-left:0px;
