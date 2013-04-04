@@ -19,6 +19,7 @@ body  .onetariff  {
 }
 .tarifname {
     border-bottom:1px solid #69a7b0;
+    cursor: ;
     display: block;
     font:20px 'ProximaNova-Bold';
     padding: 17px 0px 10px;
