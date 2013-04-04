@@ -348,6 +348,41 @@ class SimulationService
         }
     }
 
+    public static function calculatePerformanceRate(Simulation $simulation)
+    {
+        $maxRates = MaxRate::model()->findAllByAttributes(
+            [
+                'scenario_id' => $simulation->scenario_id,
+                'type' => MaxRate::TYPE_SUCCESS
+            ],
+            'performance_rule_category_id IS NOT NULL'
+        );
+
+        $categoryRates = [];
+        foreach ($maxRates as $rate) {
+            $categoryRates[$rate->performance_rule_category_id] = $rate->rate;
+        }
+
+        $categories = [];
+        foreach ($simulation->performance_points as $point) {
+            $rule = $point->performanceRule;
+            if (empty($categories[$rule->category_id])) {
+                $categories[$rule->category_id] = 0;
+            }
+            $categories[$rule->category_id] += $rule->value;
+        }
+
+        foreach ($categories as $cid => $value) {
+            $row = new PerformanceAggregated();
+            $row->sim_id = $simulation->id;
+            $row->category_id = $cid;
+            $row->value = $value;
+            $row->percent = round($value / $categoryRates[$cid] * 100);
+
+            $row->save();
+        }
+    }
+
     /**
      * Fills gained stress rules according to user actions
      * @param Simulation $simulation
@@ -541,6 +576,8 @@ class SimulationService
         $CheckConsolidatedBudget->calcPoints();
 
         SimulationService::setFinishedPerformanceRules($simulation);
+        SimulationService::calculatePerformanceRate($simulation);
+
         SimulationService::setGainedStressRules($simulation);
 
         // @todo: this is trick

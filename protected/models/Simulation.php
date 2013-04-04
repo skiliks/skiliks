@@ -30,6 +30,7 @@
  * @property DayPlanLog[] log_day_plan
  * @property SimulationExcelPoint[] simulation_excel_points
  * @property PerformancePoint[] performance_points
+ * @property PerformanceAggregated[] performance_aggregated
  * @property StressPoint[] stress_points
  * @property Scenario game_type
  * @property string uuid
@@ -150,6 +151,7 @@ class Simulation extends CActiveRecord
             'completed_parent_activities'     => [self::HAS_MANY, 'SimulationCompletedParent', 'sim_id'],
             'assessment_aggregated'           => [self::HAS_MANY, 'AssessmentAggregated', 'sim_id', 'with' => 'point', 'order' => 'point.type_scale'],
             'performance_points'              => [self::HAS_MANY, 'PerformancePoint', 'sim_id'],
+            'performance_aggregated'          => [self::HAS_MANY, 'PerformanceAggregated', 'sim_id'],
             'stress_points'                   => [self::HAS_MANY, 'StressPoint', 'sim_id'],
             'assessment_points'               => [self::HAS_MANY, 'AssessmentPoint', 'sim_id'],
             'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
