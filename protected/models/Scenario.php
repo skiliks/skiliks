@@ -460,4 +460,10 @@ class Scenario extends CActiveRecord
         $array['scenario_id'] = $this->getPrimaryKey();
         return FlagRunMail::model()->findAllByAttributes($array);
     }
+
+    public function getStressRules()
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return StressRule::model()->findAllByAttributes($array);
+    }
 }

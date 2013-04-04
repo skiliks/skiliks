@@ -90,7 +90,7 @@ class PerformanceRuleTest extends CDbTestCase {
         $log_mail->window_uid = '34';
         $log_mail->save();
 
-        SimulationService::setFinishedPerformanceRules($simulation->id);
+        SimulationService::setFinishedPerformanceRules($simulation);
 
         $performanceRule = $simulation->game_type->getPerformanceRule(['code' => 40]);
         $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => $performanceRule->getPrimaryKey()]);
@@ -105,7 +105,7 @@ class PerformanceRuleTest extends CDbTestCase {
 
         $this->addExcelPoints($simulation);
 
-        SimulationService::setFinishedPerformanceRules($simulation->id);
+        SimulationService::setFinishedPerformanceRules($simulation);
 
         $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => 40]);
 
