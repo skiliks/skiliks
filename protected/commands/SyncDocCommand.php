@@ -11,7 +11,8 @@ class SyncDocCommand extends CConsoleCommand{
 
 
         $this->CPrint("Init Documents");
-        $my_docs = DocumentTemplate::model()->findAllByAttributes(['format'=>'xlsx']);
+        $scenario = Scenario::model()->findByAttributes(['slug'=>'full']);
+        $my_docs = DocumentTemplate::model()->findAllByAttributes(['format'=>'xlsx', 'scenario_id'=>$scenario->id]);
 
         $src_templates = Yii::app()->getBasePath()."/../documents/src_templates/";
         $templates = Yii::app()->getBasePath()."/../documents/templates/";
