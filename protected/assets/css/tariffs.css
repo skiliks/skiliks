@@ -72,7 +72,7 @@ body  .onetariff  {
 }
 .tarifswrap .text16 {
     font-family:"ProximaNova-Bold";
-    padding-right: 24px;
+    padding-right: 26px;
 }
 .tarifswrap strong {
     color:#fff;
@@ -94,13 +94,13 @@ body  .onetariff  {
 
 .contwrap {
     height: 31px;
-    margin: 10px 0px 0px 24px;
+    margin: 10px 0px 0px 26px;
     position: relative;
 }
 .tarifswrap .social_networks {
     bottom: 0px;
     height: 31px;
-    margin-left: 25px;
+    margin-left: 20px;
     padding: 0px;
     position: absolute;
 }
