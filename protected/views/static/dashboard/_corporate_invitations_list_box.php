@@ -62,7 +62,27 @@ $this->widget('zii.widgets.grid.CGridView', [
 
         // setup sub-menu switcher behaviour
         $('.invites-smallmenu-switcher').click(function(){
-            $(this).next().toggle();
+
+            var isVisible = $(this).next().is(":visible");
+
+            // click must close all other open "small-menu"
+            $('tr.selected-sk .invites-smallmenu-item').hide();
+            $('tr.selected-sk').removeClass('selected-sk');
+
+            // after removeClass('selected-sk') and hide(), function this.toggle() will always shown element,
+            // so I store menu state before I hide all menus and use isVisible to determine show or hide current menu
+            if (isVisible) {
+                var a = $(this).next().hide();
+                $(this).parent().parent().removeClass('selected-sk');
+            } else {
+                var a = $(this).next().toggle();
+                $(this).parent().parent().toggleClass('selected-sk');
+            }
+        });
+
+        $('.invites-smallmenu-item').click(function(){
+            $(this).hide();
+            $(this).parent().parent().removeClass('selected-sk');
         });
     });
 </script>
