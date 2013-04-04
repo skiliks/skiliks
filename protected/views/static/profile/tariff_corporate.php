@@ -32,7 +32,7 @@
                 <?php endif ?>
             </div>
             <div class="action">
-                <a href="/static/contacts/ru" class="blue-btn">Продлить</a>
+                <a class="light-btn feedback" href="#">Продлить</a>
             </div>
         </div>
 
