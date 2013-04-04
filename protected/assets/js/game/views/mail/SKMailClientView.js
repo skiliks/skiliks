@@ -100,6 +100,9 @@ define([
              */
             initialize: function () {
                 var me = this;
+
+                this.isFantasticSend = false; // indicate is email send in fantastic way
+
                 this.mailClient = SKApp.simulation.mailClient;
                 this.mailClient.view = this;
 
@@ -120,9 +123,7 @@ define([
 
                 // render phrases
                 this.listenTo(this.mailClient, 'mail:available_phrases_reloaded', function () {
-                    if ('' !== response.phrases.message && undefined === response.phrases.message) {
-                        me.renderPhrases();
-                    }
+                    me.renderPhrases();
                 });
 
                 // update inbox emails counter
@@ -1399,6 +1400,8 @@ define([
                 var phrases = this.mailClient.availablePhrases;
                 var addPhrases = this.mailClient.availableAdditionalPhrases;
 
+                //if ('' !== response.phrases.message && undefined === response.phrases.message) {
+
                 var mainPhrasesHtml = '';
                 var additionalPhrasesHtml = '';
 
@@ -1419,10 +1422,10 @@ define([
                     });
                 });
 
-                this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
-                this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
-                this.$('#mailEmulatorNewLetterText').sortable();
                 if (phrases.length) {
+                    this.$("#mailEmulatorNewLetterTextVariants").html(mainPhrasesHtml);
+                    this.$("#mailEmulatorNewLetterTextVariantsAdd").html(additionalPhrasesHtml);
+                    this.$('#mailEmulatorNewLetterText').sortable();
                     this.$('.mail-tags-bl').show();
                 } else {
                     this.$('.mail-tags-bl').hide();
@@ -1725,11 +1728,14 @@ define([
                 } else {
                     // standart way
                     mailClient.newEmailSubjectId = mailClientView.getCurentEmailSubjectId();
-                    mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
 
-                        mailClientView.$('#mailEmulatorNewLetterText').html('');
-
-                    });
+                    // all "fantastic" emails has TXT constructor - but this extra request return default B1,
+                    // that is produce phrases render - it is wrong
+                    if (false == mailClientView.isFantasticSend) {
+                        mailClient.getAvailablePhrases(mailClientView.getCurentEmailSubjectId(), function () {
+                            mailClientView.$('#mailEmulatorNewLetterText').html('');
+                        });
+                    }
                 }
             },
 
@@ -1766,9 +1772,11 @@ define([
              * @method
              */
             renderTXT: function () {
+                this.$('#mailEmulatorNewLetterText').
+                    html(this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
+
+                // hide phrases in fantastic way
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
-                    this.$('#mailEmulatorNewLetterDiv').
-                        html('<br/><br/>' + this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
                     this.$('.mail-tags-bl').hide();
                 } else {
                     this.$('.mail-tags-bl').show();
@@ -1872,9 +1880,9 @@ define([
 
                     SKApp.simulation.mailClient
                         .setAdditionalAvailablePhrases(response.phrases.addData);
-
                     this.renderPhrases();
                 }
+
                 // add phrases }
             },
 
@@ -2113,6 +2121,7 @@ define([
             },
             onMailFantasticSend: function (email) {
                 var me = this;
+                me.isFantasticSend = true;
                 setTimeout(function () {
                     me.renderWriteCustomNewEmailScreen();
 
@@ -2131,6 +2140,7 @@ define([
 
                             setTimeout(function () {
                                 me.options.model_instance.close();
+                                me.isFantasticSend = false;
                                 me.mailClient.trigger('mail:fantastic-send:complete');
                             }, 3000);
                         });
