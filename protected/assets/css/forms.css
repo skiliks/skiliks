@@ -75,7 +75,6 @@
     min-height: 24px;
     padding-bottom: 19px;
     position: absolute;
-    top: -62px;
 }
 .registrationform .errorMessageWrap .errorMessage {
     background: url("../img/bg-form-error-inner.png") repeat-x #E66B66;
