@@ -16,9 +16,9 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Status')     , 'name' => 'status'      , 'value' => 'Yii::t("site", $data->getStatusText())'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => '"-"'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">удалить</a>"'                , 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->vacancy_id\" title=\"$data->firstname, $data->lastname\">исправить</a>"', 'type' => 'html'],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">отправить ещё раз</a>"' , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/remove/$data->id\">Удалить</a>"'                , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a class=\"edit-invite\" href=\"$data->id&&$data->vacancy_id\" title=\"$data->firstname, $data->lastname\">Исправить</a>"', 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/dashboard/invite/resend/$data->id\">Отправить ещё раз</a>"' , 'type' => 'html'],
     ]
 ]);
 ?>
@@ -32,7 +32,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
             $('.items tr').each(function(){
                 $(this).find('td:eq(0)').html(
-                    '<a class="invites-smallmenu-switcher">меню</a> &nbsp;  &nbsp; <div class="invites-smallmenu-item" ></div>'
+                    '<a class="invites-smallmenu-switcher"></a><div class="invites-smallmenu-item" ></div><span class="topline"></span>'
                 );
             });
         }

@@ -17,6 +17,14 @@
  */
 class UserAccountPersonal extends CActiveRecord
 {
+
+    public function getTariffLabel()
+    {
+        return null;
+    }
+
+    /* ---------------------------------------------------------------------------------------------------- */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
