@@ -126,11 +126,14 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<div class="logo"><a href="/">Skiliks</a></div>
                 <div class="social_networks">
                     <span>Share:</span>
+                    <!--
                     <a href="javascrpt:void(0);" class="v"></a>
                     <a href="javascrpt:void(0);" class="f"></a>
                     <a href="javascrpt:void(0);" class="t"></a>
                     <a href="javascrpt:void(0);" class="g"></a>
                     <a href="javascrpt:void(0);" class="in"></a>
+                    -->
+                    <?php $this->renderPartial('//layouts/addthis') ?>
                 </div>
 				<nav>
 					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
@@ -139,7 +142,6 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				</nav>
 
 				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="feedback">Feedback</a></p>
-                <?php $this->renderPartial('//layouts/addthis') ?>
             </footer>
 		</div>
 		<!--footer end-->
