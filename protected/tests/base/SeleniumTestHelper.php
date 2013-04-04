@@ -33,7 +33,7 @@ class SeleniumTestHelper extends CWebTestCase
             usleep(100000);
         }
 
-        $this->open('/simulation/developer/scenario'); // для full simulation
+        $this->open('/simulation/developer/full'); // для full simulation
 
         for ($second = 0; ; $second++) {
             if ($second >= 60) $this->fail("timeout");
@@ -136,9 +136,11 @@ class SeleniumTestHelper extends CWebTestCase
      */
     public function optimal_click ($loc)
     {
+
+        sleep(1);
         $this->waitForVisible($loc);
         $this->click($loc);
-        sleep(3);
+        sleep(1);
     }
 
     /**
