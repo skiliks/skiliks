@@ -39,7 +39,7 @@
             <a class="addthis_button_vk"></a>
             <a class="addthis_button_facebook"></a>
             <a class="addthis_button_twitter"></a>
-            <a class="addthis_button_google_plusone"  g:plusone:count="false"></a>
+            <a class="addthis_button_google_plusone_share"  g:plusone:count="false"></a>
             <a class="addthis_button_linkedin"></a>
         </div>
 <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
