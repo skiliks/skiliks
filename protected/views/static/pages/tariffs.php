@@ -13,13 +13,14 @@
             </div>
             <div class="tarifwrap">
                 <div class="brightblock">
-                    <?php if ($tariff->is_free || ($tariff->safe_amount !== '0.00')): ?>
-                        <?php echo $tariff->getFormattedSafeAmount() ?>
+                    <?php if ($tariff->safe_amount !== '0.00'): ?><!-- $tariff->is_free ||  -->
+                        Экономия <?php echo $tariff->getFormattedSafeAmount() ?> р
                     <?php else: ?>
-                        ничего
+                        бесплатно
                     <?php endif ?>
                 </div>
-                <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций *</div>
+                <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций
+                    <?php if ($tariff->safe_amount !== '0.00'): ?>*<?php endif ?></div>
                 <div class="benefits">
                     <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
                         <p><?php echo $benefit?></p>

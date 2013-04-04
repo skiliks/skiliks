@@ -99,15 +99,15 @@ body  .onetariff  {
 .iconin {
     background:url("../img/icon-in.png") no-repeat;
 }
-.tarifswrap .socicons {
-    margin: 0px 0px 0px 25px;
-    padding: 0px;
-}
 .contwrap {
     height: 31px;
-    line-height: 31px;
-    vertical-align: baseline;
+    margin-top: 10px;
+    position: relative;
 }
-.contwrap .feedback  {
-    margin-top: -10px;
+.tarifswrap .socicons {
+    bottom: 0px;
+    height: 31px;
+    margin-left: 25px;
+    padding: 0px;
+    position: absolute;
 }
