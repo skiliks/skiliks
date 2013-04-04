@@ -111,12 +111,6 @@ define([
          */
         runReply: function(dialogId) {
             var me = this;
-            if ($(event.currentTarget).attr('data-disabled')) {
-                return;
-            }
-            this.$('.phone-call-in-btn a').each(function () {
-                $(this).attr('data-disabled', true);
-            });
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 me.options.model_instance.setLastDialog(dialogId);
                 me.options.model_instance.close();
@@ -129,6 +123,13 @@ define([
          */
         noReply: function(event) {
             var dialogId = $(event.currentTarget).attr('data-dialog-id');
+            if ($(event.currentTarget).attr('data-disabled')) {
+                return;
+            }
+            this.$('.phone-call-in-btn a').each(function () {
+                $(this).attr('data-disabled', true);
+            });
+
             var me = this;
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 var phone_history = SKApp.simulation.phone_history;
