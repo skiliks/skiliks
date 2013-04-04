@@ -12,7 +12,7 @@
             <?php else : ?>
                 <label>Выбран тарифный план</label>
                 <div class="value">
-                    <?php echo Yii::app()->user->data()->getAccount()->tariff->label ?>
+                    <?php echo strtolower(Yii::app()->user->data()->getAccount()->getTariffLabel()) ?>
                     <br/>
                     <small class="tarifprice"><?php echo Yii::app()->user->data()->getAccount()->tariff->getFormattedPrice() ?></small>
                 </div>

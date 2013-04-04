@@ -39,6 +39,11 @@ class Tariff extends CActiveRecord
         return  StaticSiteTools::getI18nCurrency($this->safe_amount, $this->currency, 'ru_RU', '#');
     }
 
+    public function getFormattedLabel()
+    {
+        return (null === $this->label) ? 'Не задан' : $this->label;
+    }
+
     /* ----------------------------------------------------------------------------------------------------- */
 
 	/**
