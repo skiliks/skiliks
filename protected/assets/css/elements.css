@@ -17,6 +17,7 @@
     border-radius:3px;
     font-size:14px;
     line-height:18px;
+    overflow:hidden;
 }
 .action-controller-login-auth #usercontent .form p {
     margin-bottom:10px;
@@ -24,73 +25,55 @@
 .action-controller-login-auth #usercontent .form .errorSummary ul {
     color:red;
     list-style-position: inside;
+    margin-left:20px;
 }
 .action-controller-login-auth #usercontent .form .errorSummary ul li {
     margin-bottom:5px;
 }
-/* social networks in footer */
-.social_networks {
-    color:#333333;
-    overflow:hidden;
-    position:absolute;
-    top:200px;
-    left:320px;
-    width:300px;
+.action-controller-login-auth #usercontent .form .row {
+    clear: both;
+    margin:20px 10% 0px;
 }
-.social_networks span {
-    display:block;
+.action-controller-login-auth #usercontent .form .row label {
+    display: block;
+    float: left;
+    line-height: 50px;
+    width:150px;
+}
+.action-controller-login-auth #usercontent .form .row span.required {
+    display:inline !important;
+    color:red;
+}
+.action-controller-login-auth #usercontent .form .row input[type="text"],
+.action-controller-login-auth #usercontent .form .row input[type="password"] {
+    color:#036675;
+    background:white;
+    border: 1px solid #666;
+    border-radius: 5px;
+    padding:15px;
+    width:50%;
+    box-shadow:3px 3px 10px #C0C0C0 inset;
+}
+.action-controller-login-auth #usercontent .form .row.rememberMe {
     float:left;
-    font:bold 14px/31px "Arial"
+    width:257px;
+    margin:0px 0px 0px 10%;
+    overflow: hidden;
 }
-.social_networks a {
-    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
-    width:32px;
-    height:31px;
-    margin-left:10px;
-    dispay:block;
+.action-controller-login-auth #usercontent .form .row.rememberMe label {
+
+}
+.action-controller-login-auth #usercontent .form .row.submit {
+    clear:none;
     float:left;
-    overflow:hidden;
-    text-indent:-1000px;
-    padding:0px !important;
+    margin-top:0px;
 }
-.social_networks a.addthis_button_vk {
-    background-position: 0px 0px;
-}
-.social_networks a.addthis_button_facebook {
-    background-position: -42px 0px;
-}
-.social_networks a.addthis_button_twitter {
-    background-position: -83px 0px;
-    width:33px;
-}
-.social_networks a.addthis_button_google_plusone_share {
-    background-position: -125px 0px;
-}
-.social_networks a.addthis_button_linkedin {
-    background-position: -166px 0px;
-}
-.social_networks a.addthis_button_vk:hover {
-    background-position: 0px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_facebook:hover {
-    background-position: -42px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_twitter:hover {
-    background-position: -83px 100%;
-    width:33px;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_google_plusone_share:hover {
-    background-position: -125px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_linkedin:hover {
-    background-position: -166px 100%;
-    opacity: 1 !important;
-}
-.social_networks a span,
-.social_networks a .Bg .ah {
-    background:none !important;
+.action-controller-login-auth #usercontent .form .row.submit input[type="submit"] {
+    background: url("../img/icon-btn-notify.png") no-repeat 15px 50% #146672;
+    border: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    text-align: left;
+    padding:15px 25px 15px 42px;
+    font:14px "ProximaNova-Bold";
 }
