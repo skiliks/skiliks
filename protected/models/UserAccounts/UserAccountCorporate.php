@@ -14,11 +14,14 @@
  * The followings are the available model relations:
  * @property User $user
  * @property Industry $industry
+ * @property Tariff tariff
  */
 class UserAccountCorporate extends CActiveRecord
 {
-
-    /* ----------------------------------------------------------------------------------------------------- */
+    public function getTariffLabel()
+    {
+        return (null === $this->tariff) ? 'Не задан' : $this->tariff->getFormattedLabel();
+    }
 
     /**
      * @return string
