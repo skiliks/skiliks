@@ -1477,6 +1477,7 @@ html[lang=ru] .product section table th{
     position:absolute;
     top:200px;
     left:320px;
+    width:300px;
 }
 .social_networks span {
     display:block;
@@ -1490,22 +1491,28 @@ html[lang=ru] .product section table th{
     margin-left:10px;
     dispay:block;
     float:left;
+    overflow:hidden;
+    text-indent:-1000px;
 }
-.social_networks a.v {
+.social_networks a.addthis_button_vk {
     background-position: 0px 0px;
 }
-.social_networks a.f {
+.social_networks a.addthis_button_facebook {
     background-position: -42px 0px;
 }
-.social_networks a.t {
+.social_networks a.addthis_button_twitter {
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.g {
+.social_networks a.addthis_button_google_plusone {
     background-position: -125px 0px;
 }
-.social_networks a.in {
+.social_networks a.addthis_button_linkedin {
     background-position: -166px 0px;
+}
+.social_networks a span,
+.social_networks a .Bg .ah {
+    background:none;
 }
 /* /social networks */
 
