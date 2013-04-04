@@ -61,6 +61,8 @@ define([
                     if (my_replicas.length === 0) {
                         event.complete();
                         me.remove();
+                    } else if (!SKApp.simulation.isDebug()) {
+                        el.find('.char-reply').removeClass('hidden');
                     }
                 });
                 var video = el.find('.visit-background');

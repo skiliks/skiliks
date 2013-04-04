@@ -9,7 +9,7 @@
     <div class="visitor-reply"><p class="visitor-replica"><@=remote_replica.text@></p>
         <@ } @>
 
-        <ul class="char-reply" id="dialogControllerAnswers">
+        <ul class="char-reply <@= (SKApp.simulation.isDebug() ? '' : 'hidden') @>" id="dialogControllerAnswers">
             <@ my_replicas.forEach(function (replica) { @>
             <li><p>
                 <a href="" class="replica-select" data-disabled="false" data-id="<@= replica.id @>" <@if (replica.is_final_replica === "1") { @>

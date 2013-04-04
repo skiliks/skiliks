@@ -466,4 +466,10 @@ class Scenario extends CActiveRecord
         $array['scenario_id'] = $this->getPrimaryKey();
         return StressRule::model()->findAllByAttributes($array);
     }
+
+    public function getMaxRate($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return MaxRate::model()->findByAttributes($array);
+    }
 }
