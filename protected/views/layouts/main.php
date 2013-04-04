@@ -124,7 +124,14 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 				<div class="backtotop"><a href="#top"><?php echo Yii::t('site', 'Back to top') ?></a></div>
 
 				<div class="logo"><a href="/">Skiliks</a></div>
-
+                <div class="social_networks">
+                    <span>Share:</span>
+                    <a href="javascrpt:void(0);" class="v"></a>
+                    <a href="javascrpt:void(0);" class="f"></a>
+                    <a href="javascrpt:void(0);" class="t"></a>
+                    <a href="javascrpt:void(0);" class="g"></a>
+                    <a href="javascrpt:void(0);" class="in"></a>
+                </div>
 				<nav>
 					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>
 					<a href="/static/team/"><?php echo Yii::t('site', 'About Us') ?></a>

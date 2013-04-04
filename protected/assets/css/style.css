@@ -1470,10 +1470,50 @@ html[lang=ru] .product section table th{
 	height:inherit;
 	text-indent:-9999px;
 }
+/* social networks */
+.social_networks {
+    color:#333333;
+    overflow:hidden;
+    position:absolute;
+    top:200px;
+    left:350px;
+}
+.social_networks span {
+    display:block;
+    float:left;
+    font:bold 14px/31px "Arial"
+}
+.social_networks a {
+    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
+    width:32px;
+    height:31px;
+    margin-left:10px;
+    dispay:block;
+    float:left;
+}
+.social_networks a.v {
+    background-position: 0px 0px;
+}
+.social_networks a.f {
+    background-position: -42px 0px;
+}
+.social_networks a.t {
+    background-position: -83px 0px;
+    width:33px;
+}
+.social_networks a.g {
+    background-position: -125px 0px;
+}
+.social_networks a.in {
+    background-position: -166px 0px;
+}
+/* /social networks */
+
 .footer footer nav{
 	position:absolute;
 	top:200px;
-	right:123px;
+	/*right:123px;*/
+    right:10px;
 }
 .footer footer nav a{
 	display:block;
