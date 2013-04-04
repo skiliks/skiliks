@@ -15,11 +15,6 @@
     <a href="/static/tariffs" class="<?php if (Yii::app()->request->getPathInfo() == 'static/tariffs') { echo "active"; } ?>">
         <?php echo Yii::t('site', 'Tariffs') ?>
     </a>
-
-    <!-- RU only -->
-    <a href="/static/contacts" class="<?php if (Yii::app()->request->getPathInfo() == 'static/contacts') { echo "active"; } ?>">
-        <?php echo Yii::t('site', 'Contacts') ?>
-    </a>
 <?php endif ?>
 
 <?php if (Yii::app()->user->isGuest) : ?>

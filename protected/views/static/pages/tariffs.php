@@ -19,14 +19,14 @@
                         бесплатно
                     <?php endif ?>
                 </div>
-                <div class="simulations-amount lightblock"><?php echo $tariff->simulations_amount ?> симуляций
+                <div class="simulations-amount lightblock"><?php echo $tariff->getFormattedSimulationsAmount() ?>
                     <?php if ($tariff->safe_amount !== '0.00'): ?>*<?php endif ?></div>
                 <div class="benefits">
                     <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <div class="subscribe-ti-tariff"><a href="/static/contacts/ru" class="light-btn">Выбрать</a></div>
+                <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="#">Выбрать</a></div>
             </div>
         </div>
     </div>
