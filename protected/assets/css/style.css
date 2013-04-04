@@ -1,5 +1,6 @@
 @import "forms.css";
 @import "tariffs.css";
+@import "elements.css";
 
 /* --------------- reset.css --------------- */
 html, body, div, span, h1, h2, h3, h4, h5, h6, p, em, img, strong, sub, sup, b, u, i,  dl, dt, dd, ol, ul, li, fieldset, form, label, table, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {
@@ -1470,74 +1471,6 @@ html[lang=ru] .product section table th{
 	height:inherit;
 	text-indent:-9999px;
 }
-/* social networks */
-.social_networks {
-    color:#333333;
-    overflow:hidden;
-    position:absolute;
-    top:200px;
-    left:320px;
-    width:300px;
-}
-.social_networks span {
-    display:block;
-    float:left;
-    font:bold 14px/31px "Arial"
-}
-.social_networks a {
-    background:url(../img/icons/social_networks.png) -100% -100% no-repeat;
-    width:32px;
-    height:31px;
-    margin-left:10px;
-    dispay:block;
-    float:left;
-    overflow:hidden;
-    text-indent:-1000px;
-    padding:0px !important;
-}
-.social_networks a.addthis_button_vk {
-    background-position: 0px 0px;
-}
-.social_networks a.addthis_button_facebook {
-    background-position: -42px 0px;
-}
-.social_networks a.addthis_button_twitter {
-    background-position: -83px 0px;
-    width:33px;
-}
-.social_networks a.addthis_button_google_plusone {
-    background-position: -125px 0px;
-}
-.social_networks a.addthis_button_linkedin {
-    background-position: -166px 0px;
-}
-.social_networks a.addthis_button_vk:hover {
-    background-position: 0px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_facebook:hover {
-    background-position: -42px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_twitter:hover {
-    background-position: -83px 100%;
-    width:33px;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_google_plusone:hover {
-    background-position: -125px 100%;
-    opacity: 1 !important;
-}
-.social_networks a.addthis_button_linkedin:hover {
-    background-position: -166px 100%;
-    opacity: 1 !important;
-}
-.social_networks a span,
-.social_networks a .Bg .ah {
-    background:none !important;
-}
-/* /social networks */
-
 .footer footer nav{
 	position:absolute;
 	top:200px;
