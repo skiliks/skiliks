@@ -151,6 +151,19 @@ a:focus, a:active {
 		height:1117px;
 	}
 }
+@media screen and (min-width: 1152px){
+    .action-tariffs .content{
+        width:1150px;
+    }
+    .onetariff {
+        margin-bottom: 52px;
+        margin-left: 21px;
+        margin-right: 21px;
+    }
+    .tariff-box {
+        width:242px;
+    }
+}
 /* --------------- /main styles ---------*/
 
 /* --------------- select ---------*/
@@ -1474,6 +1487,9 @@ html[lang=ru] .product section table th{
 .social_networks {
     color:#333333;
     overflow:hidden;
+    width:300px;
+}
+.footer .social_networks {
     position:absolute;
     top:200px;
     left:320px;
