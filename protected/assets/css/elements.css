@@ -21,8 +21,14 @@
 .action-controller-login-auth #usercontent .form p {
     margin-bottom:10px;
 }
-
-/* social networks */
+.action-controller-login-auth #usercontent .form .errorSummary ul {
+    color:red;
+    list-style-position: inside;
+}
+.action-controller-login-auth #usercontent .form .errorSummary ul li {
+    margin-bottom:5px;
+}
+/* social networks in footer */
 .social_networks {
     color:#333333;
     overflow:hidden;
@@ -57,7 +63,7 @@
     background-position: -83px 0px;
     width:33px;
 }
-.social_networks a.addthis_button_google_plusone {
+.social_networks a.addthis_button_google_plusone_share {
     background-position: -125px 0px;
 }
 .social_networks a.addthis_button_linkedin {
@@ -76,7 +82,7 @@
     width:33px;
     opacity: 1 !important;
 }
-.social_networks a.addthis_button_google_plusone:hover {
+.social_networks a.addthis_button_google_plusone_share:hover {
     background-position: -125px 100%;
     opacity: 1 !important;
 }
@@ -88,12 +94,3 @@
 .social_networks a .Bg .ah {
     background:none !important;
 }
-.action-controller-tariffs-static-pages .social_networks,
-.action-controller-contacts-static-pages .social_networks,
-.controller-static-dashboard .social_networks,
-.controller-static-profile .social_networks,
-.controller-static-simulations .social_networks,
-.controller-static-cheats .social_networks {
-    display:none;
-}
-/* /social networks */
