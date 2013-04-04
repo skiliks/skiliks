@@ -16,7 +16,7 @@ define([
      * @augments Backbone.View
      */
     SKPhoneCallView = SKWindowView.extend({
-
+        title: "Телефон",
         el:null,
 
         countMaxView: 1,
