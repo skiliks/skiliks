@@ -11,7 +11,7 @@
         </div>
 
 <?php if (true === $validPrevalidate): ?>
-    <div class="form form-invite-message message_window" title="Введите текст письма">
+    <div class="form form-invite-message message_window" title="Сообщение">
 
         <?php $form = $this->beginWidget('CActiveForm', array(
             'id' => 'send-invite-message-form',
@@ -24,7 +24,7 @@
 
         <div class="row">
             <?php echo $form->labelEx($invite, 'To'); ?>
-            <?php echo $invite->email ?>
+            <?php /* echo $invite->email */ ?>
             <label></label>
             <?php echo $form->textField($invite, 'fullname'); ?>
         </div>
