@@ -137,10 +137,10 @@ class SeleniumTestHelper extends CWebTestCase
     public function optimal_click ($loc)
     {
 
-        sleep(1);
+        sleep (1);
         $this->waitForVisible($loc);
         $this->click($loc);
-        sleep(1);
+        sleep (1);
     }
 
     /**
