@@ -1852,24 +1852,43 @@ h2 {
 }
 
 .action-controller-corporate-static-dashboard .invites-smallmenu-item {
-    background-color: #989779;
-    border-radius: 7px;
+    background: #a5a385; /* Old browsers */
+    background: -moz-linear-gradient(top,  #a5a385 0%, #8a896c 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a5a385), color-stop(100%,#8a896c)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #a5a385 0%,#8a896c 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  #a5a385 0%,#8a896c 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a5a385', endColorstr='#8a896c',GradientType=0 ); /* IE6-9 */
+    border: 1px solid #717059;
+    border-radius: 0px 7px 7px;
     display: none;
-    margin: -12px 0 0 -7px;
-    padding: 12px;
+    margin: -3px 0 0 0px;
+    padding: 15px 20px 15px 22px;
     position: absolute;
-    width: 150px;
+    /*width: 150px;*/
 }
-
-.action-controller-corporate-static-dashboard .invites-smallmenu-item a {
+.topline {
+    background: #a5a385;
+    display: none;
+    position: absolute;
+    height: 2px;
+    margin: 23px 0px 0px -21px;
+    width:20px;
+}
+.selected .topline {
+    display: inline-block;
+}
+.action-controller-corporate-static-dashboard .invites-smallmenu-item a, .invites-smallmenu-item a {
     color: #fff;
-    display: block;
+    display: block !important;
+    font-family: "ProximaNova-Regular" !important;
     padding: 0 0 3px 0;
     text-decoration: none;
-    width: 150px;
+    /*width: 150px;*/
 }
 
-.action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover {
+.action-controller-corporate-static-dashboard .invites-smallmenu-item a:hover, .invites-smallmenu-item a:hover {
     color: #000;
 }
 
@@ -2223,8 +2242,15 @@ ul.profile-menu li {
     width:184px;
 }
 .invites-smallmenu-switcher {
+    background: url("../img/menugear.png") no-repeat left top;
     color:#232323;
+    display: inline-block;
+    height: 24px;
     text-decoration: none;
+    width: 22px;
+}
+.selected .invites-smallmenu-switcher {
+   background-position: right top;
 }
 /* ************************ /TABLE ************************ */
 .searchform {

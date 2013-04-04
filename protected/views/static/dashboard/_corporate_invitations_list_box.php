@@ -32,7 +32,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         if (2 < $('.items tr').length || '' != $('.items tr:eq(1) td:eq(3)').text()) { //fix for empty list
             $('.items tr').each(function(){
                 $(this).find('td:eq(0)').html(
-                    '<a class="invites-smallmenu-switcher">меню</a> &nbsp;  &nbsp; <div class="invites-smallmenu-item" ></div>'
+                    '<a class="invites-smallmenu-switcher"></a><div class="invites-smallmenu-item" ></div><span class="topline"></span>'
                 );
             });
         }
