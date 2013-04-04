@@ -1146,6 +1146,9 @@ section.phone>header .btn-window li button.btn-cl:hover{
 .phone-reply-h li:hover span{
 	background-position:-531px -72px;
 }
+.sim-window.phone-call.ui-draggable {
+    background:none;
+}
 .phone-call{
 	background:url("../img/phone/bg-phone-call.jpg");
 	width:202px;
