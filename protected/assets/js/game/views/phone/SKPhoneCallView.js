@@ -111,6 +111,12 @@ define([
          */
         runReply: function(dialogId) {
             var me = this;
+            if ($(event.currentTarget).attr('data-disabled')) {
+                return;
+            }
+            this.$('.phone-call-in-btn a').each(function () {
+                $(this).attr('data-disabled', true);
+            });
             this.options.model_instance.get('sim_event').selectReplica(dialogId, function () {
                 me.options.model_instance.setLastDialog(dialogId);
                 me.options.model_instance.close();
