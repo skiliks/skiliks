@@ -54,6 +54,13 @@
     width:50%;
     box-shadow:3px 3px 10px #C0C0C0 inset;
 }
+.action-controller-login-auth #usercontent .form .row input[type="text"]:focus,
+.action-controller-login-auth #usercontent .form .row input[type="password"]:focus {
+    border-color:#23BFD5;
+    border-radius: 5px;
+    box-shadow: 3px 3px 10px #C0C0C0 inset, 0 0 3px #23BFD5;
+    outline:none;
+}
 .action-controller-login-auth #usercontent .form .row.rememberMe {
     float:left;
     width:257px;
