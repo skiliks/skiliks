@@ -49,7 +49,13 @@ class AssessmentPointsTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
 
-        $learningGoalsForUpdate = LearningGoal::model()->findAll(' scenario_id = 2 AND max_negative_value IS NOT NULL ');
+        $rates = MaxRate::model()->findAll('scenario_id = 2 AND learning_goal_id IS NOT NULL AND type = :type', ['type' => MaxRate::TYPE_FAIL]);
+        $learningGoalsForUpdate = [];
+        $rateValues = [];
+        foreach ($rates as $rate) {
+            $learningGoalsForUpdate[] = $rate->learningGoal;
+            $rateValues[$rate->learning_goal_id] = $rate->rate;
+        }
 
         $learningGoalsForUpdateCodes = [];
         $sum = []; // $learningGoalsForUpdateNegativeScaleSum
@@ -106,7 +112,7 @@ class AssessmentPointsTest extends CDbTestCase
             $assessmentAggregated->point_id = $heroBehaviour->id;
             $assessmentAggregated->value =
                 ($learningGoalCoefficient[$heroBehaviour->learning_goal_id]
-                * $learningGoals[$heroBehaviour->learning_goal_id]->max_negative_value)
+                * $rateValues[$heroBehaviour->learning_goal_id])
                 / $countBehavioursInGoals[$heroBehaviour->learning_goal_id];
             $assessmentAggregated->save(false);
 
