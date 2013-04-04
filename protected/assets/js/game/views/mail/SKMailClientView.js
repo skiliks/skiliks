@@ -1767,8 +1767,8 @@ define([
              */
             renderTXT: function () {
                 if (undefined !== this.mailClient.messageForNewEmail && '' !== this.mailClient.messageForNewEmail) {
-                    $('#mailEmulatorNewLetterText').
-                        html(this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
+                    $('#mailEmulatorNewLetterDiv').
+                        html('<br/><br/>' + this.mailClient.messageForNewEmail.replace('\n', "<br />", "g").replace('\n\r', "<br />", "g"));
                 }
             },
 

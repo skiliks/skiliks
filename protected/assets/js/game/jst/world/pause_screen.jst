@@ -1,0 +1,22 @@
+<div class="paused-screen zoho-load-start">
+    <div class="overlay"></div>
+
+    <div class="box-loading">
+        <span>Подождите идет загрузка документов Excel.<br/> Это займёт 10-15 секунд.</span>
+        <br/><br/>
+        <a>Close overlay</a>
+    </div>
+
+    <script type='text/javascript'>
+        $(function(){
+            if ('skiliks.com' == window.location.host || 'live.skiliks.com' == window.location.host) {
+                $(".paused-screen a").remove();
+            } else {
+                $(".paused-screen a").click(function(event){
+                    event.preventDefault();
+                    $(".paused-screen").remove();
+                });
+            }
+        });
+    </script>
+</div>

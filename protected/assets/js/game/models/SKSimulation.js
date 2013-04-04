@@ -6,6 +6,7 @@ var SKSimulation;
 define([
     "game/models/SKMailClient",
     "game/views/develop_mode/SKFlagStateView",
+    "text!game/jst/world/pause_screen.jst",
 
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
@@ -17,7 +18,9 @@ define([
     "game/collections/SKWindowSet"
 
 ],function (
-    SKMailClient
+    SKMailClient,
+    SKFlagStateView,
+    pause_screen_template
 ) {
     "use strict";
     function timeStringToMinutes(str) {
@@ -198,8 +201,9 @@ define([
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                 /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     Object.keys(SKDocument._excel_cache).length) {*/
-                    if($(".zoho-load-start") !== undefined){
-                        $('.canvas').append('<div class="paused-screen zoho-load-start"><div class="overlay"><span>подождите идет загрузка</span></div></div>');
+                    if ($(".zoho-load-start") !== undefined) {
+                        var pause_screen = $(_.template(pause_screen_template, {}));
+                        $('.canvas').append(pause_screen_template);
                     }
 
                 }
