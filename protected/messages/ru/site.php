@@ -148,7 +148,7 @@ return array(
     'Date / time' => 'Дата',
     'You has no available invites!' => '<h3 class="midtitle">У вас не осталось доступных симуляций для отправки приглашений</h3><p><a href="/profile/corporate/tariff/">Оформите подписку</a>, чтобы получить возможность отправлять приглашения</p>',
     'Message' => 'Сообщение',
-    'Message text' => 'Текст письма',
+    'Message text' => 'Текст',
     'To' => 'Кому',
     'Signature' => 'Подпись',
     'Best regards' => 'С уважением!',
