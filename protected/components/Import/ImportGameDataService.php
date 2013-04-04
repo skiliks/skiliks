@@ -33,6 +33,8 @@ class ImportGameDataService
         // $this->filename = __DIR__ . '/../../../media/scenario.xlsx';
         $this->import_id = $this->getImportUUID();
         $this->cache_method = null;
+
+        $this->setScenario();
     }
 
     public function setFilename($name)
@@ -220,60 +222,6 @@ class ImportGameDataService
         return array(
             'imported_learning_goals' => $importedRows,
             'errors'                  => false,
-        );
-    }
-
-    /**
-     * @return mixed array
-     */
-    public function importLearningGoalsMaxNegativeValue()
-    {
-        $this->logStart();
-
-        $excel = $this->getExcel();
-        $sheet = $excel->getSheetByName('Max_rate');
-        // load sheet }
-
-        $this->setColumnNumbersByNames($sheet);
-
-        LearningGoal::model()->updateAll([
-            'max_negative_value' => null,
-        ] ,
-            'scenario_id = '.$this->scenario->id
-        );
-
-        $importedRows = 0;
-        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
-            if (NULL === $this->getCellValue($sheet, 'Номер цели обучения', $i)) {
-                continue;
-            }
-
-            //
-            // @todo: add 'success_rate' in sprint S9
-            //
-
-            if ('fail_rate' == $this->getCellValue($sheet, 'Rate_type', $i)) {
-                // try to find exists entity
-                $learningGoal = LearningGoal::model()->findByAttributes([
-                    'code' => $this->getCellValue($sheet, 'Код объекта', $i),
-                    'scenario_id' => $this->scenario->id,
-                ]);
-
-                $learningGoal->max_negative_value = $this->getCellValue($sheet, 'Max_rate', $i);
-
-                // save
-                $learningGoal->save();
-
-                $importedRows++;
-            }
-
-        }
-
-        $this->logEnd();
-
-        return array(
-            'imported_learning_goals_max_negative-value' => $importedRows,
-            'errors'                                     => false,
         );
     }
 
@@ -2336,6 +2284,74 @@ class ImportGameDataService
         );
     }
 
+    public function importMaxRate()
+    {
+        $this->logStart();
+
+        $reader = $this->getReader();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Max_rate');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $types = [
+            'Цель обучения' => 'learning_goal_id',
+            'Требуемое поведение' => 'hero_behaviour_id',
+            'Результативность' => 'performance_rule_category_id'
+        ];
+
+        $rates = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $entityType = $this->getCellValue($sheet, 'Тип объекта, к которому max_rate применяется', $i);
+            $entityCode = $this->getCellValue($sheet, 'Код объекта', $i);
+            $fKey = $types[$entityType];
+
+            if ($fKey == 'learning_goal_id') {
+                $entity = $this->scenario->getLearningGoal(['code' => $entityCode]);
+            } elseif ($fKey == 'hero_behaviour_id') {
+                $entity = $this->scenario->getHeroBehaviour(['code' => $entityCode]);
+            } elseif ($fKey == 'performance_rule_category_id') {
+                $entity = ActivityCategory::model()->findByAttributes(['code' => $entityCode]);
+            } else {
+                $entity = null;
+            }
+
+            if (!empty($entity)) {
+                $rateEntity = $this->scenario->getMaxRate([$types[$entityType] => $entityCode]);
+                if (empty($rateEntity)) {
+                    $rateEntity = new MaxRate();
+                    $rateEntity->$fKey = $entityCode;
+                }
+
+                $rateEntity->$fKey = $entity->primaryKey;
+                $rateEntity->type = $this->getCellValue($sheet, 'Rate_type', $i);
+                $rateEntity->rate = $this->getCellValue($sheet, 'Max_rate', $i);
+                $rateEntity->scenario_id = $this->scenario->primaryKey;
+                $rateEntity->import_id = $this->import_id;
+
+                $rateEntity->save();
+                $rates++;
+            }
+        }
+
+        // delete old unused data {
+        MaxRate::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'max_rates' => $rates,
+            'errors'    => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2360,14 +2376,11 @@ class ImportGameDataService
      */
     public function importWithoutTransaction()
     {
-        $this->setScenario();
-
         $result = [];
         $result['assessment_group'] = $this->importAssessmentGroup();
         $result['characters'] = $this->importCharacters();
         $result['learning_areas'] = $this->importLearningAreas();
         $result['learning_goals'] = $this->importLearningGoals();
-        $result['learning_goals_max_negative_value'] = $this->importLearningGoalsMaxNegativeValue();
         $result['characters_points_titles'] = $this->importHeroBehaviours();
         $result['flags'] = $this->importFlags();
         $result['replicas'] = $this->importDialogReplicas();
@@ -2387,6 +2400,7 @@ class ImportGameDataService
         $result['flag_rules'] = $this->importFlagsRules();
         $result['performance_rules'] = $this->importPerformanceRules();
         $result['stress_rules'] = $this->importStressRules();
+        $result['max_rate'] = $this->importMaxRate();
         return $result;
     }
 

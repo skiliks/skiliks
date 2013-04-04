@@ -44,6 +44,46 @@ class Tariff extends CActiveRecord
         return (null === $this->label) ? 'Не задан' : $this->label;
     }
 
+    /**
+     * @return string
+     */
+    public function getFormattedSimulationsAmount()
+    {
+        if (null == $this->simulations_amount) {
+            return '0 симуляций';
+        }
+
+        if ($this->simulations_amount < 10) {
+            if (in_array($this->simulations_amount, [0,5,6,7,8,9])) {
+                return $this->simulations_amount.' симуляций';
+            }
+
+            if (1 == $this->simulations_amount) {
+                return $this->simulations_amount.' симуляция';
+            }
+
+            if (in_array($this->simulations_amount, [2,3,4])) {
+                return $this->simulations_amount.' симуляции';
+            }
+        } elseif($this->simulations_amount < 20) {
+             return $this->simulations_amount.' симуляций';
+        }else {
+            $value = $this->simulations_amount%10;
+
+            if (in_array($value, [0,5,6,7,8,9])) {
+                return $this->simulations_amount.' симуляций';
+            }
+
+            if (1 == $value) {
+                return $this->simulations_amount.' симуляция';
+            }
+
+            if (in_array($value, [2,3,4])) {
+                return $this->simulations_amount.' симуляции';
+            }
+        }
+    }
+
     /* ----------------------------------------------------------------------------------------------------- */
 
 	/**
