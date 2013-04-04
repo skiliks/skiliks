@@ -624,8 +624,16 @@ class SimulationService
     {
         // we will calculate K based om MAX negative value for learning goals
         $criteria = new CDbCriteria();
-        $criteria->addCondition('max_negative_value IS NOT NULL');
-        $learningGoalsForUpdate = $simulation->game_type->getLearningGoals($criteria);
+        $criteria->addColumnCondition(['type' => MaxRate::TYPE_FAIL]);
+        $criteria->addCondition('learning_goal_id IS NOT NULL');
+        $maxRates = $simulation->game_type->getMaxRates($criteria);
+
+        $learningGoalsForUpdate = [];
+        $rateValues = [];
+        foreach ($maxRates as $rate) {
+            $learningGoalsForUpdate[] = $rate->learningGoal;
+            $rateValues[$rate->learning_goal_id] = $rate->rate;
+        }
 
         // to access goals by code
         $learningGoals = [];
@@ -666,7 +674,7 @@ class SimulationService
 
         // calculate coefficients {
         foreach ($sum as $learningGoalId => $sumValue) {
-            $realK = $sumValue/$learningGoals[$learningGoalId]->max_negative_value;
+            $realK = $sumValue/$rateValues[$learningGoalId];
 
             $k[$learningGoalId] = 1;
 

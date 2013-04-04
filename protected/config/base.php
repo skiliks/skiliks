@@ -134,12 +134,10 @@ return array(
 
                 'static/team/<_lang:\w+>'    => 'static/pages/team',
                 'static/product/<_lang:\w+>' => 'static/pages/product',
-                'static/contacts/<_lang:\w+>' => 'static/pages/contacts',
                 'static/tariffs/<_lang:\w+>' => 'static/pages/tariffs',
 
                 'static/team/'    => 'static/pages/team',
                 'static/product/' => 'static/pages/product',
-                'static/contacts/' => 'static/pages/contacts',
                 'static/tariffs/' => 'static/pages/tariffs',
 
                 'static/charts' => 'static/pages/charts',

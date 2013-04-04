@@ -1,6 +1,6 @@
 .onetariff {
     display: inline-block;
-    margin: 0px 11px 52px 11px;
+    margin: 0px 11px 14px 11px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -19,6 +19,7 @@ body  .onetariff  {
 }
 .tarifname {
     border-bottom:1px solid #69a7b0;
+    cursor: ;
     display: block;
     font:20px 'ProximaNova-Bold';
     padding: 17px 0px 10px;
@@ -71,10 +72,13 @@ body  .onetariff  {
 }
 .tarifswrap .text16 {
     font-family:"ProximaNova-Bold";
+    padding-right: 26px;
 }
 .tarifswrap strong {
     color:#fff;
+    font-weight: normal;
 }
+
 .socicons, .socicons a {
     display: inline-block;
 }
@@ -87,27 +91,19 @@ body  .onetariff  {
 .socicons a:hover {
     background-position: left bottom;
 }
-.iconfb {
-    background:url("../img/icon-fb.png") no-repeat;
-}
-.icontw {
-    background:url("../img/icon-tw.png") no-repeat;
-}
-.icongplus {
-    background:url("../img/icon-gplus.png") no-repeat;
-}
-.iconin {
-    background:url("../img/icon-in.png") no-repeat;
-}
+
 .contwrap {
     height: 31px;
-    margin-top: 10px;
+    margin: 10px 0px 0px 26px;
     position: relative;
 }
-.tarifswrap .socicons {
+.tarifswrap .social_networks {
     bottom: 0px;
     height: 31px;
-    margin-left: 25px;
+    margin-left: 20px;
     padding: 0px;
     position: absolute;
+}
+.tarifswrap  .social_networks a  {
+    margin-left: 10px;
 }
