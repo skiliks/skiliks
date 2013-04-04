@@ -281,7 +281,7 @@ class SimulationService
      * Fills executed performance rules according to user actions
      * @param Simulation $simulation
      */
-    public static function setFinishedPerformanceRules($simulation)
+    public static function setFinishedPerformanceRules(Simulation $simulation)
     {
         /** @var $simulation Simulation */
         $simulation = Simulation::model()->findByPk($simulation->getPrimaryKey());
