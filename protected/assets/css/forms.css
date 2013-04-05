@@ -519,12 +519,12 @@ span.required {
     background: rgba(0, 0, 0, .90);
 }
 .cabmessage {
-    background:url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
+    background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
     width:590px !important;
 }
 .cabmessage .ui-dialog-content {
-    background:url("../img/bg-kniga.jpg") no-repeat right bottom;
+    /*background:url("../img/bg-kniga.jpg") no-repeat right bottom;*/
     padding-bottom: 18px;
 }
 .cabmessage .ui-dialog-title {
