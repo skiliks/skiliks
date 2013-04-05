@@ -10,7 +10,7 @@ class CharacterController extends AjaxController
 	{
         $simulation = $this->getSimulationEntity();
         $characters = $simulation->game_type->getCharacters([]);
-        $characterData = array_map(function (Character $character) { return $character->getAttributes(['title', 'fio', 'email', 'code', 'phone']);}, $characters);
+        $characterData = array_map(function (Character $character) { return $character->getAttributes(['id', 'title', 'fio', 'email', 'code', 'phone']);}, $characters);
 		$this->sendJSON($characterData);
 	}
 

@@ -1085,7 +1085,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             getCharacterById:function (id) {
                 for (var i in this.defaultRecipients) {
                     // keep not strong comparsion
-                    if (this.defaultRecipients[i].mySqlId == id) {
+                    if (this.defaultRecipients[i].get('id') == id) {
                         return this.defaultRecipients[i];
                     }
                 }

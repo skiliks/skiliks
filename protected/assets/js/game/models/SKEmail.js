@@ -335,7 +335,7 @@ define([] ,function() {
         getRecipientIdsString: function() {
             var string = '';
             for (var i in this.recipients) {
-                string += this.recipients[i].mySqlId + ',';
+                string += this.recipients[i].get('id') + ',';
             }
             
             return string;

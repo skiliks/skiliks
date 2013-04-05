@@ -55,26 +55,26 @@ define(["jquery/jquery.cookies"], function () {
                         withCredentials: true
                     }
                 };
-                if (async) {
-                    _.extend(ajaxParams, {
-                        'success':   function (data) {
-                            result = data;
-                            if (typeof cb !== 'undefined') {
-                                cb(data);
-                            }
-                        },
-                        'error':     function (jqXHR, textStatus, errorThrown) {
-                            console.log(url + ' error ' + errorThrown);
-                            /**
-                             * Вызывается, если сервер вернул не 200-й статус
-                             *
-                             * @event server:error
-                             */
-                            me.trigger('server:error');
+                _.extend(ajaxParams, {
+                    'success':   function (data) {
+                        result = data;
+                        if (typeof cb !== 'undefined') {
+                            cb(data);
                         }
-                    });
-                }
+                    },
+                    'error':     function (jqXHR, textStatus, errorThrown) {
+                        console.log(url + ' error ' + errorThrown);
+                        /**
+                         * Вызывается, если сервер вернул не 200-й статус
+                         *
+                         * @event server:error
+                         */
+                        me.trigger('server:error');
+                    }
+                });
                 var result = $.ajax(ajaxParams);
+
+
                 return result;
             }
         });
