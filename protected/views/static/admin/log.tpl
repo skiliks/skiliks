@@ -2,8 +2,11 @@
     .sidebar {
         width: 420px;
     }
-    .affix-bottom {
+    .affix, .affix-bottom {
         position: fixed;
+    }
+    .sidebar li {
+        height: auto;
     }
     .sidebar .active a {
         background-color: #f6f6f6;
