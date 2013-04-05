@@ -1447,7 +1447,7 @@ class ImportGameDataService
             // create entity if not exists }
 
             // update data {
-            $document->fileName = sprintf('%s.%s', $this->getCellValue($sheet, 'Document_name', $i), $this->getCellValue($sheet, 'Document_extension', $i));
+            $document->fileName = $this->getCellValue($sheet, 'Document_filename', $i);
 
             // may be this is hack, but let it be {
             $document->srcFile = StringTools::CyToEn($document->fileName); // cyrilic to latinitsa
