@@ -119,6 +119,7 @@ class MailBoxTest extends CDbTestCase
         // Check for no duplicates in theme list
         $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
+
         $subjects = MailBoxService::getThemes('11', NULL); 
         $id = CommunicationTheme::getCharacterThemeId('11', 0);
         

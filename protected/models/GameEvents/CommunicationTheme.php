@@ -90,6 +90,7 @@ class CommunicationTheme extends CActiveRecord
      * @param $parentSubjectId
      *
      * @return integer || NULL
+     * @deprecated
      */
     public static function getCharacterThemeId($receivers, $parentSubjectId)
     {

@@ -23,20 +23,20 @@ class LogActivityActionTest extends CDbTestCase
         unset($json);
         $json = EventsManager::getState($simulation, [
             [1, 1, 'deactivated', 39735, 'window_uid' => 1],
-            [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId' => 1]]
+            [20, 24, 'activated', 39735, 'window_uid' => 2, ['dialogId' => $simulation->game_type->getReplica(['excel_id' => 1])->getPrimaryKey(), 'lastDialogId' => 1]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = EventsManager::getState($simulation, [
-            [20, 24, 'deactivated', 40493, 'window_uid' => 2, ['dialogId' => 1, 'lastDialogId' => 2]],
+            [20, 24, 'deactivated', 40493, 'window_uid' => 2, ['dialogId' => $simulation->game_type->getReplica(['excel_id' => 1])->getPrimaryKey(), 'lastDialogId' => 2]],
             [1, 1, 'activated', 40493, 'window_uid' => 3],
             [1, 1, 'deactivated', 40493, 'window_uid' => 3],
-            [20, 23, 'activated', 40493, 'window_uid' => 4, ['dialogId' => 4, 'lastDialogId' => 4]]
+            [20, 23, 'activated', 40493, 'window_uid' => 4, ['dialogId' => $simulation->game_type->getReplica(['excel_id' => 4])->getPrimaryKey(), 'lastDialogId' => 4]]
         ]);
         $this->assertEquals(0, $json['result']);
         unset($json);
         $json = EventsManager::getState($simulation, [
-            [20, 23, 'deactivated', 43992, 'window_uid' => 4, ['dialogId' => 4, 'lastDialogId' => 824]],
+            [20, 23, 'deactivated', 43992, 'window_uid' => 4, ['dialogId' => $simulation->game_type->getReplica(['excel_id' => 4])->getPrimaryKey(), 'lastDialogId' => 824]],
             [1, 1, 'activated', 43992, 'window_uid' => 5],
             [1, 1, 'deactivated', 44002, 'window_uid' => 5]
         ]);
@@ -119,12 +119,12 @@ class LogActivityActionTest extends CDbTestCase
             [1, 1, 'activated', 32400, 'window_uid' => 1]
         ]);
         $this->assertEquals(0, $json['result']);
-        $call = Replica::model()->findByAttributes(['excel_id' => 124]);
-        $callReply = Replica::model()->findByAttributes(['excel_id' => 125]);
-        $E2StartReplica = Replica::model()->findByAttributes(['excel_id' => 135]);
-        $E2EndReplica = Replica::model()->findByAttributes(['excel_id' => 142]);
-        $E24StartReplica = Replica::model()->findByAttributes(['excel_id' => 157]);
-        $E24EndReplica = Replica::model()->findByAttributes(['excel_id' => 162]);
+        $call = $simulation->game_type->getReplica(['excel_id' => 124]);
+        $callReply = $simulation->game_type->getReplica(['excel_id' => 125]);
+        $E2StartReplica = $simulation->game_type->getReplica(['excel_id' => 135]);
+        $E2EndReplica = $simulation->game_type->getReplica(['excel_id' => 142]);
+        $E24StartReplica = $simulation->game_type->getReplica(['excel_id' => 157]);
+        $E24EndReplica = $simulation->game_type->getReplica(['excel_id' => 162]);
         unset($json);
         $json = EventsManager::getState($simulation, [
             [1, 1, 'deactivated', 43339, 'window_uid' => 1],

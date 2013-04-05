@@ -309,7 +309,7 @@ class EventsManager {
 
         // to update phone call dialogs lastDialogId
 
-        $logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
+        //$logs = LogHelper::logFilter($logs); //Фильтр нулевых отрезков всегда перед обработкой логов
 
         /** @todo: нужно после беты убрать фильтр логов и сделать нормальное открытие mail preview */
         LogHelper::setWindowsLog($simId, $logs);
