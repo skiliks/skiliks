@@ -1452,7 +1452,6 @@ class ImportGameDataService
             // may be this is hack, but let it be {
             $document->srcFile = StringTools::CyToEn($this->getCellValue($sheet, 'Document_filename', $i)); // cyrilic to latinitsa
             $document->srcFile = str_replace(' ', '_', $document->srcFile);
-            $document->srcFile = str_replace('.xlsx', '.xlsx', $document->srcFile);
             $document->srcFile = str_replace('.docx', '.pdf', $document->srcFile);
             $document->srcFile = str_replace('.pptx', '.pdf', $document->srcFile);
             // may be this is hack, but let it be }
