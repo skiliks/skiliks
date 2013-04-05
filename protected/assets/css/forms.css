@@ -552,8 +552,8 @@ span.required {
     background-position: 0px 0px;
 }
 .cabmessage .ui-widget-content {
-    /*max-height: 200px !important;
-    min-height: 200px !important;*/
+    max-height: 310px !important;
+    min-height: 310px !important;
     height: 310px !important;
     max-width: 560px !important;
     min-width: 560px !important;
