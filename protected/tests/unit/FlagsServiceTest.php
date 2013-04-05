@@ -17,17 +17,17 @@ class FlagServiceTest extends CDbTestCase
 
         $dialogService->getDialog(
             $simulation->id,
-            Replica::model()->byExcelId(35)->find()->id,
+            $simulation->game_type->getReplica(['excel_id' => 35])->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Replica::model()->byExcelId(50)->find()->id,
+            $simulation->game_type->getReplica(['excel_id' => 50])->id,
             '11:00'
         );
         $dialogService->getDialog(
             $simulation->id,
-            Replica::model()->byExcelId(70)->find()->id,
+            $simulation->game_type->getReplica(['excel_id' => 70])->id,
             '11:00'
         );
 
