@@ -27,10 +27,10 @@
 
     <?php
         $cs = Yii::app()->clientScript;
-        $cs->registerLessFile('protected/assets/css/simulation.less');
-        $cs->registerLessFile('protected/assets/css/plan.less');
-        $cs->registerLessFile('protected/assets/css/mail.less');
-        $cs->registerLessFile('protected/assets/css/documents.less');
+        $cs->registerLessFile($assetsUrl . '/css/simulation.less');
+        $cs->registerLessFile($assetsUrl . '/css/plan.less');
+        $cs->registerLessFile($assetsUrl . '/css/mail.less');
+        $cs->registerLessFile($assetsUrl . '/css/documents.less');
     ?>
 
     <script type="text/javascript" src="<?= $assetsUrl; ?>/js/jquery/jquery-1.7.2.min.js"></script>

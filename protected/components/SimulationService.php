@@ -256,6 +256,7 @@ class SimulationService
             $dayplanFixed = new DayPlan();
             $dayplanFixed->date = $task->start_time;
             $dayplanFixed->task_id = $task->getPrimaryKey();
+            $dayplanFixed->sim_id = $simulation->getPrimaryKey();
             $dayplanFixed->day = 1; # FIXME hardcode
             $dayplanFixed->save();
         }
