@@ -546,6 +546,7 @@ class SimulationService
 
     /**
      * @param Simulation $simulation
+     * @param array $logs_src
      */
     public static function simulationStop($simulation, $logs_src = array())
     {

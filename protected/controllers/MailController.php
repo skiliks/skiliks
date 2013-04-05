@@ -64,18 +64,6 @@ class MailController extends AjaxController
     }
 
     /**
-     * Получение списка получателей.
-     * @return type 
-     */
-    public function actionGetReceivers()
-    {
-        $this->sendJSON(array(
-            'result' => 1,
-            'data'   => MailBoxService::getCharacters($this->getSimulationEntity())
-        ));
-    }
-
-    /**
      * 
      * @return type
      */

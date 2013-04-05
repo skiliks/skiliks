@@ -137,9 +137,9 @@ class PhoneService {
     /**
      * Регистрация исходящих вызовов
      * @param int $simId
-     * @param int $characterId 
+     * @param int $characterCode
      */
-    public static function registerOutgoing($simId, $characterId, $time, $theme_id = null) {
+    public static function registerOutgoing($simId, $characterCode, $time, $themeId = null) {
 
         $model = new PhoneCall();
         $model->sim_id      = $simId;
@@ -148,8 +148,8 @@ class PhoneService {
         $model->call_time   = $time;
         $model->call_type   = self::CALL_TYPE_OUTGOING;
         $model->from_id     = $simulation->game_type->getCharacter(['code' => Character::HERO_ID])->primaryKey;
-        $model->to_id       = $characterId; // какому персонажу мы звоним
-        $model->theme_id    = $theme_id;
+        $model->to_id       = $simulation->game_type->getCharacter(['code' => $characterCode])->primaryKey; // какому персонажу мы звоним
+        $model->theme_id    = $themeId;
         $model->insert();
     }
     
@@ -187,12 +187,12 @@ class PhoneService {
         foreach($items as $item) {
             if ($item->call_type == PhoneCall::IN_CALL) {
                 $characterId = $item->from_id;
-            }            
-            if ($item->call_type == PhoneCall::OUT_CALL) {
+            } else if ($item->call_type == PhoneCall::OUT_CALL) {
                 $characterId = $item->to_id;
-            }
-            if ($item->call_type == PhoneCall::MISSED_CALL) {
+            } else  if ($item->call_type == PhoneCall::MISSED_CALL) {
                 $characterId = $item->from_id;
+            } else {
+                throw new Exception('Unknown phone call type');
             }
 
             $list[] = array(

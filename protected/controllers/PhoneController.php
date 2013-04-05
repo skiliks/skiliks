@@ -7,24 +7,6 @@
  */
 class PhoneController extends AjaxController{
     
-
-    /**
-     * Получение списка контактов
-     */
-    public function actionGetContacts() 
-    {
-        $simulation = $this->getSimulationEntity();
-        $criteria = new CDbCriteria();
-        $criteria->addCondition('code != 1');
-        $characters = $simulation->game_type->getCharacters($criteria);
-        $this->sendJSON(array(
-            'result' => 1,
-            'data'   => array_map(function ($i) {
-                return $i->getClientAttributes();
-            }, $characters)
-        ));
-    }
-    
     /**
      * Получение списка тем
      */

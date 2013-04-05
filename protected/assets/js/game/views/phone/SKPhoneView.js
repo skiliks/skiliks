@@ -3,7 +3,6 @@
 var SKPhoneView;
 
 define([
-    "game/collections/SKPhoneContactsCollection",
     "game/collections/SKPhoneThemeCollection",
 
     "text!game/jst/phone/phone_contacts.jst",
@@ -14,7 +13,6 @@ define([
 
     "game/views/SKWindowView"
 ], function (
-        SKPhoneContactsCollection,
         SKPhoneThemeCollection,
 
         phone_contacts,
@@ -58,13 +56,9 @@ define([
          */
         getContacts: function () {
             //$('#'+id+' .phone-screen')
-            var contacts = new SKPhoneContactsCollection();
-            contacts.fetch();
-            var me = this;
-            contacts.on('reset', function () {
-                me.renderTPL('.phone-screen', phone_contacts, {contacts:contacts});
-                me.$('.phone-list-contacts').mCustomScrollbar();
-            });
+            this.renderTPL('.phone-screen', phone_contacts, {'contacts': SKApp.simulation.characters.withoutHero()});
+            this.$('.phone-list-contacts').mCustomScrollbar();
+
         },
 
         /**
