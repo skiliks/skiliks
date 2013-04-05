@@ -16,10 +16,8 @@ require_once(dirname(dirname(__FILE__))."/lib/lessphp/lessc.inc.php");
 
 class YiiLessCClientScript extends CClientScript {
   public $cache = true;
-
-  public $cssPath;
-
-  public function registerLessFile($url, $cssDirUrl, $media='') {
+  
+  public function registerLessFile($url, $media='') {
     $this->hasScripts=true;
     $lessUrl = $url;
     
@@ -48,11 +46,8 @@ class YiiLessCClientScript extends CClientScript {
     } else {
       $lessCompiler->checkedCompile($lessFilePath, $cssFilePath);
     }
-
-    $cssFileAssetPath = $this->cssPath . DIRECTORY_SEPARATOR . $cssFileName;
-    $cssUrl = $cssDirUrl. '/' . $cssFileName;
-
-    copy($cssFilePath, $cssFileAssetPath);
+    
+    $cssUrl = Yii::app()->getAssetManager()->publish($cssFilePath);
     
     $this->cssFiles[$cssUrl]=$media;
     $params=func_get_args();
