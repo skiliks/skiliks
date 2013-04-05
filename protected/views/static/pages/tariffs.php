@@ -26,7 +26,8 @@
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <?php if($tariff->id !== $user->getAccount()->tariff_id){ ?>
+                <?php var_dump($user->id); ?>
+                <?php if(null === $user->id OR $tariff->id !== $user->getAccount()->tariff_id){ ?>
                 <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
                 <?php } ?>
             </div>
@@ -34,7 +35,7 @@
     </div>
 <?php endforeach ?>
     <p class="text-right text16"><sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести</p>
-    <div class="contwrap"><a href="#" class="light-btn feedback">Обратная связь</a>
+    <div class="contwrap"><a class="light-btn feedback">Обратная связь</a>
     <span class="social_networks">
         <?php $this->renderPartial('//layouts/addthis') ?>
     </span>

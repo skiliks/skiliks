@@ -40,13 +40,13 @@ class BehaviourCounter
         } else {
             switch ($this->mark->type_scale) {
                 case 1: // positive
-                    return $this->getValue_PositiveAndPersonal();
+                    return $this->getValuePositive();
                     break;
                 case 2: // negative
                     return -$this->score*$this->mark->scale;
                     break;
                 case 3: // personal
-                    return $this->getValue_PositiveAndPersonal();
+                    return $this->score;
                     break;                    
                 default:
                     return null;
@@ -58,7 +58,7 @@ class BehaviourCounter
     /**
      * @return float || null
      */
-    private function getValue_PositiveAndPersonal() 
+    private function getValuePositive()
     {
         if (0 == $this->total) {
             $total = 1;
