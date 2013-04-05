@@ -32,7 +32,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
         background:'#FFA500',
         fontColor:'#FFFFFF',
         type:false,
-        height:500,
+        height:350,
         width:700
     });
 </script>
