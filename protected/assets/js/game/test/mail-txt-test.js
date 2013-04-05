@@ -64,16 +64,12 @@ define([
                 server.respondWith("POST", "/index.php/myDocuments/getList",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
-
-                server.respondWith("POST", "/index.php/mail/getReceivers",
-                    [200, { "Content-Type":"application/json" },
-                        JSON.stringify({
-                            result:1,
-                            data:{
-                                1: 'bob <bob@skiliks.com>',
-                                2: 'john <john@skiliks.com>'
-                            }
-                        })]);
+                server.respondWith("POST", "/index.php/character/list",
+                    [200, { "Content-Type": "application/json" },
+                        JSON.stringify([
+                            {'id': 1, 'fio': 'bob', email: 'bob@skiliks.com', 'code': 2},
+                            {'id': 2, 'fio': 'john', email: 'john@skiliks.com', 'code': 3}
+                        ])]);
 
                 server.respondWith("POST", "/index.php/mail/getMessages",
                     [200, { "Content-Type":"application/json" },
