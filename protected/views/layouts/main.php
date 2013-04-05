@@ -138,7 +138,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 				<div class="logo"><a href="/">Skiliks</a></div>
 
-                <?php $this->renderPartial('//layouts/addthis') ?>
+                <?php $this->renderPartial('//layouts/addthis', ['force' => false]) ?>
 
 				<nav>
 					<a href="../"><?php echo Yii::t('site', 'Home') ?></a>

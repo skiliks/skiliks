@@ -494,4 +494,19 @@ class Scenario extends CActiveRecord
             return [];
         }
     }
+
+    public function getFlag($data)
+    {
+        if (is_array($data)) {
+            $data['scenario_id'] = $this->id;
+            return Flag::model()->findByAttributes($data);
+        } else if ($data instanceof CDbCriteria) {
+            $data->compare('scenario_id', $this->id);
+            return Flag::model()->find($data);
+        } else {
+            assert(false);
+            return null;
+        }
+    }
+
 }

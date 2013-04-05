@@ -1,9 +1,9 @@
 <?php
     $allow = ['ru', 'en', '', 'static/team',
         'static/team/ru', 'static/team/en', 'static/product',
-        'static/product/ru', 'static/product/en', 'static/tariffs'];
+        'static/product/ru', 'static/product/en'];
 ?>
-<?php if(in_array(Yii::app()->request->getPathInfo(), $allow)){ ?>
+<?php if($force || in_array(Yii::app()->request->getPathInfo(), $allow)){ ?>
 <!-- AddThis Button BEGIN -->
 <div class="social_networks">
     <span>Share:</span>

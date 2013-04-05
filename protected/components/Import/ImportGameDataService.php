@@ -115,6 +115,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -173,6 +176,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -315,6 +321,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -388,6 +397,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Forma_1');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -449,8 +461,11 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Stress');
-        // load sheet }
 
+        // load sheet }
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         $this->setColumnNumbersByNames($sheet);
 
         $types = [
@@ -1274,8 +1289,12 @@ class ImportGameDataService
 
     public function importFlags()
     {
+        $this->logStart();
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
+        if (!$sheet) {
+            return ['error' => 'no sheet'];
+        }
         $this->columnNoByName = [];
         $this->setColumnNumbersByNames($sheet, 1);
         // load sheet }
@@ -1284,7 +1303,7 @@ class ImportGameDataService
             if ($code === null) {
                 continue;
             }
-            $flag = Flag::model()->findByAttributes(['code' => $code]);
+            $flag = $this->scenario->getFlag(['code' => $code]);
             if ($flag === null) {
                 $flag = new Flag();
             }
@@ -1294,8 +1313,9 @@ class ImportGameDataService
             $flag->import_id = $this->import_id;
             $flag->scenario_id = $this->scenario->primaryKey;
             $flag->save();
-            Flag::model()->deleteAll('import_id <> :import_id', ['import_id' => $this->import_id]);
+            Flag::model()->deleteAll('import_id <> :import_id AND scenario_id=:scenario_id', ['import_id' => $this->import_id, 'scenario_id' => $this->scenario->getPrimaryKey()]);
         }
+        $this->logEnd();
         return [
             'status' => true,
             'text'   => sprintf("imported %d flags", Flag::model()->count())
