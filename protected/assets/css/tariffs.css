@@ -1,7 +1,7 @@
 .onetariff {
     /*display: inline-block;*/
     float:left;
-    margin: 0px 11px 52px 11px;
+    margin: 0px 12px 52px 12px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -12,7 +12,7 @@ body  .onetariff  {
     height:410px;
     width:212px;
 }
-.tariff-box .onetariff:first-child {
+.tariff-box>.onetariff {
     margin-left: 0px;
 }
 .tariff-box .onetariff:last-child {
