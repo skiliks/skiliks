@@ -1909,7 +1909,7 @@ h2 {
     color: #fff;
     display: block !important;
     font-family: "ProximaNova-Regular" !important;
-    padding: 0 0 10px 0;
+    padding: 0 0 10px 6px;
     text-decoration: none;
     /*width: 150px;*/
 }
@@ -2213,7 +2213,17 @@ ul.profile-menu li {
     -moz-border-radius: 0px 0px 5px;
     border-radius: 0px 0px 5px;
 }
-
+#corporate-invitations-list-box .grid-view .items th:first-child {
+    background-image: none;
+    padding-right: 0px;
+}
+#corporate-invitations-list-box .grid-view .items tr td:first-child {
+    padding-right: 0px;
+}
+#corporate-invitations-list-box .grid-view .items th:nth-child(2),
+#corporate-invitations-list-box .grid-view .items tr td:nth-child(2) {
+    padding-left: 0px;
+}
 .items th, .items th a {
     color: white;
     text-decoration: none;
@@ -2271,6 +2281,7 @@ ul.profile-menu li {
 .invites-smallmenu-switcher {
     background: url("../img/menugear.png") no-repeat left top;
     color:#232323;
+    cursor:pointer;
     display: inline-block;
     height: 24px;
     text-decoration: none;
