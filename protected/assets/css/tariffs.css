@@ -11,7 +11,7 @@ body  .onetariff  {
     height:410px;
     width:212px;
 }
-.tariff-box .onetariff:first-child {
+.tariff-box>.onetariff {
     margin-left: 0px;
 }
 .tariff-box .onetariff:last-child {
