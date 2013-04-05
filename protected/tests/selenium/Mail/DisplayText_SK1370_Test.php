@@ -33,12 +33,12 @@ class DisplayText_SK1370_Test extends SeleniumTestHelper
         $this->optimal_click(Yii::app()->params['test_mappings']['icons']['mail']);
         sleep(2);
         $this->optimal_click("xpath=(//*[contains(text(),'По ценовой политике')])");
-        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xlsx");
+        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xls");
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['delete']);
         sleep(2);
         $this->optimal_click(Yii::app()->params['test_mappings']['mail_main']['trash']);
         sleep(5);
-        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xlsx");
+        $this->checkFields("Крутько М.", "Федоров А.В.", "По ценовой политике", "Ценовая политика.xls");
 
         //жесть
         $this->optimal_click(Yii::app()->params['test_mappings']['mail']['new_letter']);
