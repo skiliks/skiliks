@@ -1447,10 +1447,10 @@ class ImportGameDataService
             // create entity if not exists }
 
             // update data {
-            $document->fileName = $this->getCellValue($sheet, 'Document_filename', $i);
+            $document->fileName = sprintf('%s.%s', $this->getCellValue($sheet, 'Document_name', $i), $this->getCellValue($sheet, 'Document_extension', $i));
 
             // may be this is hack, but let it be {
-            $document->srcFile = StringTools::CyToEn($document->fileName); // cyrilic to latinitsa
+            $document->srcFile = StringTools::CyToEn($this->getCellValue($sheet, 'Document_filename', $i)); // cyrilic to latinitsa
             $document->srcFile = str_replace(' ', '_', $document->srcFile);
             $document->srcFile = str_replace('.xlsx', '.xlsx', $document->srcFile);
             $document->srcFile = str_replace('.docx', '.pdf', $document->srcFile);
@@ -2386,6 +2386,9 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Weights');
+        if (null === $sheet) {
+            return;
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);

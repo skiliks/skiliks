@@ -386,12 +386,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     function (response) {
                         if (1 == response.result) {
-                            return response;
+                            mailClient.trigger('mail:reply-data', response);
                         } else {
                             throw "Can`t initialize responce email. Model. #1";
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -772,13 +771,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 if (id === undefined || id === null) {
                     throw 'id argument for getRecipientByMySqlId is not defined';
                 }
-                for (var i in this.defaultRecipients) {
-                    // keep non strict!
-                    if (id == this.defaultRecipients[i].get('id')) {
-                        return this.defaultRecipients[i];
+                var result;
+                SKApp.simulation.characters.each(function (recipient) {
+                    if (id === recipient.get('id')) {
+                        result = recipient;
                     }
-                }
-                return undefined;
+                });
+                return result;
             },
 
             /**
@@ -1150,7 +1149,6 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     'mail/sendMessage',
                     this.combineMailDataByEmailObject(emailToSave),
                     function (response) {
-                        // keep non strict compassion
                         if (1 === response.result) {
                             var window = me.getSimulationMailClientWindow();
                             window.set('params', {'mailId': response.messageId});

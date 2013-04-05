@@ -1790,7 +1790,6 @@ define([
                     this.renderNullSubjectIdWarning('Вы не можете ответить на это письмо.');
                     return  false;
                 }
-
                 this.mailClient.messageForNewEmail = response.phrases.message;
 
                 this.renderWriteEmailScreen(this.mailClient.iconsForWriteEmailScreenArray);
@@ -2001,20 +2000,20 @@ define([
              */
             renderReplyScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
-
-                var response = this.mailClient.getDataForReplyToActiveEmail();
-
-                // strange, sometimes responce return to lile JSON but like some response object
-                // so we get JSON from it {
-                if (undefined == response.result && undefined !== response.responseText) {
-                    response = $.parseJSON(response.responseText);
-                }
-                // so we get JSON from it }
-
-                if (false !== this.fillMessageWindow(response)) {
-                    this.mailClient.setActiveScreen(this.mailClient.screenWriteReply);
-                    this.mailClient.setWindowsLog('mailNew');
-                }
+                var me = this;
+                this.mailClient.getDataForReplyToActiveEmail();
+                this.mailClient.on('mail:reply-data', function (response) {
+                    // strange, sometimes responce return to lile JSON but like some response object
+                    // so we get JSON from it {
+                    if (undefined === response.result && undefined !== response.responseText) {
+                        response = $.parseJSON(response.responseText);
+                    }
+                    // so we get JSON from it }
+                    if (false !== me.fillMessageWindow(response)) {
+                        me.mailClient.setActiveScreen(me.mailClient.screenWriteReply);
+                        me.mailClient.setWindowsLog('mailNew');
+                    }
+                });
             },
 
             /**
