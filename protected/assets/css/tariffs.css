@@ -1,7 +1,7 @@
 .onetariff {
     /*display: inline-block;*/
     float:left;
-    margin: 0px 10px 52px 10px;
+    margin: 0px 11px 52px 11px;
     padding: 0px;
 }
 body  .onetariff  {
@@ -10,7 +10,7 @@ body  .onetariff  {
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     height:410px;
-    width:210px;
+    width:212px;
 }
 .tariff-box .onetariff:first-child {
     margin-left: 0px;
@@ -43,7 +43,7 @@ body  .onetariff  {
     padding: 0px 22px;
 }
 .price span {
-    font-size: 60px;
+    font-size: 58px;
 }
 .tariff-box .brightblock {
     font-size:17px;
