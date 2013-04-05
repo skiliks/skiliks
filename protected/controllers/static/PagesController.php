@@ -56,7 +56,7 @@ class PagesController extends AjaxController
         $user = Yii::app()->user;
         /* @var YumUser $user */
         $user = $user->data();  //YumWebUser -> YumUser
-        if($user->isAuth()){
+        if(!$user->isAuth()){
             /*Yii::app()->user->setFlash('error', sprintf(
                 "Нужно войти или зарегистрироваться"
             ));*/
@@ -64,7 +64,10 @@ class PagesController extends AjaxController
         }elseif ($user->isAnonymous()) {
             $this->redirect('/registration/choose-account-type');
         }elseif ($user->isPersonal()) {
-            $this->redirect('/registration/choose-account-type');
+            Yii::app()->user->setFlash('error', sprintf(
+                "Нужно войти или зарегистрироваться как корпоративный пользователь <a href='/logout/registration'>Зарегистрироваться</a>"
+            ));
+            $this->redirect('/dashboard');
         }elseif($user->isCorporate()){
 
             $tariff = Tariff::model()->findByAttributes(['label' => "Lite"]);

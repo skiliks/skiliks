@@ -31,13 +31,19 @@
                     <?php endforeach ?>
                 </div>
                 <?php if(null === $user->id){ ?>
-                    <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                    <?php if($tariff->label === "Lite") {  ?>
+                        <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="/tariffs/lite">Выбрать</a></div>
+                    <?php } ?>
                 <?php } elseif ($user->isCorporate()) { ?>
                     <?php if ($tariff->id !== $user->getAccount()->tariff_id){ ?>
-                        <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                        <?php if($tariff->label === "Lite") {  ?>
+                            <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="/tariffs/lite">Выбрать</a></div>
+                        <?php } ?>
                     <?php } ?>
                 <?php }else{ ?>
-                    <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                    <?php if($tariff->label === "Lite") {  ?>
+                        <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="/tariffs/lite">Выбрать</a></div>
+                    <?php } ?>
                 <?php } ?>
             </div>
         </div>

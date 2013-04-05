@@ -25,6 +25,15 @@ class UserAuthController extends YumController
         $this->redirect('/');
     }
 
+    public function actionLogoutAndRegistration()
+    {
+        if (false === Yii::app()->user->isGuest) {
+            Yii::app()->user->logout();
+        }
+
+        $this->redirect('/registration');
+    }
+
     /**
      * User registration step 1
      */
