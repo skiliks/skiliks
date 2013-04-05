@@ -46,17 +46,16 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 3])->getPrimaryKey();
         $asses->sim_id = $simulation->id;
         $asses->save();
-
+        SimulationService::calculatePerformanceRate($simulation);
         $evaluation = new Evaluation($simulation);
         $evaluation->checkManagerialProductivity();
-
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('13.00', $sim->$sim->getCategoryAssessment('productivity')); // 3.00
+        $this->assertEquals('4.45', $sim->getCategoryAssessment('performance')); // 3.00
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkOverallManagerRating();
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('28.90', $sim->overall_manager_rating); // 25.90
+        $this->assertEquals('26.34', $sim->getCategoryAssessment('overall')); // 25.90
 
     }
 

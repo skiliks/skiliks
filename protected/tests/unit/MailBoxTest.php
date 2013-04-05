@@ -119,11 +119,13 @@ class MailBoxTest extends CDbTestCase
         // Check for no duplicates in theme list
         $this->assertEquals(count($bossSubjects), count(array_unique($bossSubjects)));
         // one recipient case :
-
-        $subjects = MailBoxService::getThemes('11', NULL); 
-        $id = CommunicationTheme::getCharacterThemeId('11', 0);
+        /** @var $scenario Scenario */
+        $scenario = Scenario::model()->findByAttributes(['slug' => Scenario::TYPE_FULL]);
+        $characterId = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
+        $subjects = MailBoxService::getThemes($characterId, NULL);
+        $id = CommunicationTheme::getCharacterThemeId($characterId, 0);
         
-        $this->assertEquals(count($subjects), 3);
+        $this->assertEquals(3, count($subjects));
         $this->assertTrue(in_array('Бюджет производства прошлого года', $subjects));
         $this->assertTrue(in_array('Бюджет производства 02: коррективы', $subjects));
         $this->assertTrue(in_array('Прочее', $subjects));
@@ -131,7 +133,10 @@ class MailBoxTest extends CDbTestCase
         $this->assertNull($id);
         
         // several recipients case :
-        $subjects2 = MailBoxService::getThemes('11,26,24', NULL);
+        $character1 = $scenario->getCharacter(['code' => '11'])->getPrimaryKey();
+        $character2 = $scenario->getCharacter(['code' => '26'])->getPrimaryKey();
+        $character3 = $scenario->getCharacter(['code' => '24'])->getPrimaryKey();
+        $subjects2 = MailBoxService::getThemes(join(',', [$character1, $character2, $character3]), NULL);
         $id2 = CommunicationTheme::getCharacterThemeId('11', 0);
         
         $this->assertEquals(count($subjects2), 3);
@@ -153,7 +158,7 @@ class MailBoxTest extends CDbTestCase
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
         
-        $character = Character::model()->findByAttributes(['code' => 9]);
+        $character = $simulation->game_type->getCharacter(['code' => 9]);
 
         $options = new SendMailOptions($simulation);
         $options->phrases = '';

@@ -42,12 +42,12 @@ class ImportTest extends CDbTestCase
                 'scenario_id' => $fullScenario->id,
             ]), 'Phones');
 
-            $this->assertEquals(11066, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(11061, CommunicationTheme::model()->countByAttributes([
                 'mail' => 1,
                 'scenario_id' => $fullScenario->id,
             ]), 'Mail');
 
-            $this->assertEquals(254, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(257, CommunicationTheme::model()->countByAttributes([
                 'text' => '!проблема с сервером!',
                 'scenario_id' => $fullScenario->id,
             ]));

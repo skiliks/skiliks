@@ -63,13 +63,15 @@ class SimulationServiceTest extends CDbTestCase
         
         // init conts
         // get all replics that change score for behaviour '1122'
-        $replicsFor_1122 = Replica::model()->findAll('excel_id IN (210, 214, 311, 323, 424, 710, 714, 715, 766, 770, 211, 213, 235, 312, 322, 423, 521, 653, 656, 711, 713, 767, 769, 771)');
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('excel_id', [210, 214, 311, 323, 424, 710, 714, 715, 766, 770, 211, 213, 235, 312, 322, 423, 521, 653, 656, 711, 713, 767, 769, 771]);
+        $replicsFor_1122 = $simulation->game_type->getReplicas($criteria);
         
         $count_0 = 0;
         $count_1 = 0;
         
         // get 1122
-        $pointFor_1122 = HeroBehaviour::model()->find('code = :code', ['code' => '1122']);
+        $pointFor_1122 = $simulation->game_type->getHeroBehaviour(['code' => '1122']);
         $this->assertNotNull($pointFor_1122);
         // init logs
         foreach($replicsFor_1122 as $dialogEntity) {
