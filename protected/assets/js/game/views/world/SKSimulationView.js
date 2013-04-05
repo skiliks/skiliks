@@ -66,6 +66,8 @@ define([
                 this.listenTo(simulation.window_set, 'add', this.setupWindowEvents);
                 this.listenTo(simulation, 'input-lock:start', this.doStartInputLock);
                 this.listenTo(simulation, 'input-lock:stop', this.doStopInputLock);
+                this.listenTo(simulation, 'start', this.startExitProtection);
+                this.listenTo(simulation, 'stop', this.stopExitProtection);
 
                 this.listenTo(simulation.documents, 'reset', function () {
                     simulation.documents.each(function (doc) {
@@ -84,6 +86,16 @@ define([
                 this.listenTo(simulation, 'start', function () {
                     $('#sim-id').text(simulation.id);
                 });
+            },
+
+            startExitProtection: function () {
+                $(window).on('beforeunload', function () {
+                    return "Вы действительно хотите прервать симуляцию? Вы не получите оценку и запуск симуляции будет израсходован";
+                });
+            },
+
+            stopExitProtection: function () {
+                $(window).off('beforeunload');
             },
 
             /**
