@@ -88,3 +88,60 @@
 .action-controller-login-auth #usercontent .form .row.submit input[type="submit"]:hover {
     background-color: #0C8FA0;
 }
+
+
+/* отказ от ваканчии в личном кабинете */
+.action-controller-registerByLink-static-userAuth  .ui-widget-content {
+    background: #146672;
+}
+
+.action-controller-personal-static-dashboard .ui-widget-content {
+    background: #F3FFFF;
+    position:relative;
+    padding:0 15px 15px;
+}
+.action-controller-personal-static-dashboard .ui-widget-content .ui-dialog-titlebar {
+    position: absolute;
+    top:8px;
+    right:8px;
+    z-index:2;
+}
+.action-controller-personal-static-dashboard #invite-decline-form {
+    color:red;
+    font-size:10px;
+}
+.action-controller-personal-static-dashboard #invite-decline-form h2{
+    color:#2D7B91;
+    padding:20px 0;
+}
+.action-controller-personal-static-dashboard .form-decline-explanation-reason-row {
+    color:#29313D;
+    font-size:14px;
+    line-height: 20px;
+    margin-bottom: -25px;
+}
+.action-controller-personal-static-dashboard .form-decline-explanation-reason-row label.required{
+    display:block;
+    margin-bottom:10px;
+}
+.action-controller-personal-static-dashboard .form-decline-explanation-reason-row label.required span.required{
+    display:inline !important;
+    color:red;
+}
+.action-controller-personal-static-dashboard .form-decline-explanation-reason-row input[type="radio"] {
+    margin: 0 3px 3px 0;
+    vertical-align: middle;
+}
+.action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]{
+    background: #146672;
+    border: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font: 14px "ProximaNova-Bold";
+    padding: 15px 25px 15px 25px;
+    text-align: left;
+    margin-right:13px;
+}
+.action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]:hover {
+    background:#0C8FA0;
+}
