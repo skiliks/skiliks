@@ -32,7 +32,7 @@ class ImportTest extends CDbTestCase
             ])); 
             
             // CommunicationTheme
-            $this->assertEquals(450, CommunicationTheme::model()->countByAttributes([
+            $this->assertEquals(445, CommunicationTheme::model()->countByAttributes([
                 'character_id' => null,
                 'scenario_id' => $fullScenario->id,
             ]), 'Character');

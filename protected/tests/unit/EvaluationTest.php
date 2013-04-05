@@ -30,7 +30,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $evaluation->checkManagerialSkills();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('50.00', $sim->managerial_skills);
+        $this->assertEquals('50.00', $sim->getCategoryAssessment('management'));
 
         $asses = new PerformancePoint();
         $asses->performance_rule_id = $simulation->game_type->getPerformanceRule(['code' => 1])->getPrimaryKey();
@@ -51,7 +51,7 @@ class EvaluationTest extends PHPUnit_Framework_TestCase {
         $evaluation->checkManagerialProductivity();
 
         $sim = Simulation::model()->findByAttributes(['id'=>$simulation->id]);
-        $this->assertEquals('13.00', $sim->managerial_productivity); // 3.00
+        $this->assertEquals('13.00', $sim->$sim->getCategoryAssessment('productivity')); // 3.00
 
         $evaluation = new Evaluation($simulation);
         $evaluation->checkOverallManagerRating();
