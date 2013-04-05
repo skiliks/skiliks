@@ -32,17 +32,17 @@
                 </div>
                 <?php if(null === $user->id){ ?>
                     <?php if($tariff->label === "Lite") {  ?>
-                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30934004754349" href="/tariffs/lite">Выбрать</a></div>
+                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
                     <?php } ?>
                 <?php } elseif ($user->isCorporate()) { ?>
                     <?php if ($tariff->id !== $user->getAccount()->tariff_id){ ?>
                         <?php if($tariff->label === "Lite") {  ?>
-                            <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30934004754349" href="/tariffs/lite">Выбрать</a></div>
+                            <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
                         <?php } ?>
                     <?php } ?>
                 <?php }else{ ?>
                     <?php if($tariff->label === "Lite") {  ?>
-                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30934004754349" href="/tariffs/lite">Выбрать</a></div>
+                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
                     <?php } ?>
                 <?php } ?>
             </div>
@@ -50,7 +50,7 @@
     </div>
 <?php endforeach ?>
     <p class="text-right text16"><sup>*</sup> <strong>Свяжитесь с нами,</strong> чтобы приобрести</p>
-    <div class="contwrap"><a class="light-btn lightbox-30934004754349">Обратная связь</a>
+    <div class="contwrap"><a class="light-btn lightbox-30835043655352">Обратная связь</a>
     <span class="social_networks">
         <?php $this->renderPartial('//layouts/addthis', ['force' => true]) ?>
     </span>

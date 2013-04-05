@@ -32,7 +32,7 @@
                 <?php endif ?>
             </div>
             <div class="action">
-                <a class="light-btn lightbox-30934004754349" href="#">Продлить</a>
+                <a class="light-btn lightbox-30835043655352" href="#">Продлить</a>
             </div>
         </div>
 
