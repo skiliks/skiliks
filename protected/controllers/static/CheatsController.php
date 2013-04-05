@@ -166,6 +166,7 @@ class CheatsController extends AjaxController
             $user->getAccount()->tariff_id = null;
             $user->getAccount()->tariff_activated_at = null;
             $user->getAccount()->tariff_expired_at = null;
+            $user->getAccount()->invites_limit = 0;
             $user->getAccount()->save();
 
             $this->redirect('/profile/corporate/tariff');
