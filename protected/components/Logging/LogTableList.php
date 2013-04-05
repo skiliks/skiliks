@@ -57,6 +57,7 @@ namespace application\components\Logging {
                 new PerformanceTable($simulation->performance_points),
                 new PerformanceAggregatedTable($simulation->performance_aggregated),
                 new StressTable($simulation->stress_points),
+                new OverallRateTable($simulation->assessment_overall),
 
             ];
         }

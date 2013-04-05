@@ -10,15 +10,14 @@ $cs = Yii::app()->clientScript;
 $assetsUrl = $this->getAssetsUrl();
 $cs->registerScriptFile($assetsUrl . '/js/jquery/jquery-1.8.3.min.js');
 $cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap.css");
+$cs->registerCssFile($assetsUrl . "/js/bootstrap/css/bootstrap-responsive.css");
 $cs->registerScriptFile($assetsUrl . "/js/bootstrap/js/bootstrap.js");
 $cs->registerScriptFile($assetsUrl . "/js/jquery/portamento.js");
 ?>
 <!DOCTYPE html>
 <html>
 <head><title></title></head>
-<body style="padding-top: 40px;" data-spy="scroll" data-target=".navbar">
-<div class="container">
+<body style="padding-top: 40px;">
     <?php echo $content; ?>
-</div>
 </body>
 </html>
