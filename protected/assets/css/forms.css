@@ -521,8 +521,6 @@ span.required {
 .cabmessage {
     background:url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
-    max-width: 590px !important;
-    min-width: 590px !important;
     width:590px !important;
 }
 .cabmessage .ui-dialog-content {
@@ -552,6 +550,11 @@ span.required {
 }
 .cabmessage .ui-icon-closethick {
     background-position: 0px 0px;
+}
+.cabmessage .ui-widget-content {
+    max-width: 590px !important;
+    min-width: 590px !important;
+    width: 590px !important;
 }
 #send-invite-message-form label {
     color:#0e4750;
