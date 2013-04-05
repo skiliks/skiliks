@@ -245,7 +245,7 @@ a:focus, a:active {
 	overflow-y: auto;
 }
 
-.empty-select .sbOptions  {
+.empty-select .sbOptions, .no-border .sbOptions {
     border: none;
 }
 .sbOptions li{
