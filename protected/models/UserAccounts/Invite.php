@@ -56,6 +56,21 @@ class Invite extends CActiveRecord
 
     /* ------------------------------------------------------------------------------------------------------------ */
 
+    public function getReceiverUserName()
+    {
+        if (null !== $this->receiverUser) {
+            return $this->receiverUser->getFormattedName();
+        }
+
+        if (null !== $this->firstname || null !== $this->lastname) {
+            return $this->firstname.' '.$this->lastname;
+        }
+
+        return 'Ваше имя';
+    }
+
+    /* ------------------------------------------------------------------------------------------------------------ */
+
     /**
      *
      */
