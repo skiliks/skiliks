@@ -553,8 +553,8 @@ span.required {
 }
 .cabmessage .ui-widget-content {
     /*max-height: 200px !important;
-    min-height: 200px !important;
-    height: 200px !important;*/
+    min-height: 200px !important;*/
+    height: 300px !important;
     max-width: 560px !important;
     min-width: 560px !important;
     width: 560px !important;
