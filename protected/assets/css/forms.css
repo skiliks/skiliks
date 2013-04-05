@@ -536,15 +536,15 @@ span.required {
     padding-top: 0px;
 }
 .cabmessage .ui-dialog-titlebar-close {
-    height: 17px;
+    height: 19px;
     margin: 0px;
     padding: 0px;
     top:10px;
     right:10px;
-    width:17px;
+    width:19px;
 }
 .cabmessage .ui-widget-header .ui-icon, .cabmessage .ui-state-hover,
-.cabmessage .ui-state-hover .ui-icon, .cabmessage .ui-state-focus .ui-icon,
+.cabmessage .ui-state-focus .ui-icon,
 .cabmessage .ui-icon-closethick {
     background:url("../img/popupclose.png") no-repeat left top !important;
     border: none;
