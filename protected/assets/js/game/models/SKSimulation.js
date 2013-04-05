@@ -369,6 +369,7 @@ define([
                         SKApp.simulation.set('result-url', '/results');
                     }
 
+                    me.trigger('before-stop');
                     me.trigger('stop');
                 });
             },
