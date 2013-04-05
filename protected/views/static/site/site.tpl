@@ -24,6 +24,10 @@
     <link  type="text/css" rel="stylesheet" href="{$assetsUrl}/css/tag-handler.css" />
     <link  type="text/css" rel="stylesheet" href="{$assetsUrl}/css/main.css" />
 
+    <?php
+
+    ?>
+
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/simulation.less" />
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/plan.less" />
     <link  type="text/css" rel="stylesheet/less" href="{$assetsUrl}/css/mail.less" />

@@ -267,6 +267,10 @@ return array(
             'class'=>'application.extensions.smarty.ESmartyViewRenderer',
             'fileExtension' => '.tpl',
         ),
+        'clientScript' => array(
+            'class' => 'ext.yii-less-extension.components.YiiLessCClientScript',
+            'cache' => true
+        ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
 
