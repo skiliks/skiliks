@@ -45,31 +45,36 @@ define(["jquery/jquery.cookies"], function () {
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];
                 }
-                var result = $.ajax({
-                    data:params,
-                    url:url,
-                    type:"POST",
-                    dataType:"json",
-                    async:async,
+                var ajaxParams = {
+                    data:      params,
+                    url:       url,
+                    type:      "POST",
+                    dataType:  "json",
+                    async:     async,
                     xhrFields: {
                         withCredentials: true
-                    },
-                    success:function (data) {
-                        result = data;
-                        if (typeof cb !== 'undefined') {
-                            cb(data);
-                        }
-                    },
-                    error:function (jqXHR, textStatus, errorThrown) {
-                        console.log(url + ' error ' + errorThrown);
-                        /**
-                         * Вызывается, если сервер вернул не 200-й статус
-                         *
-                         * @event server:error
-                         */
-                        me.trigger('server:error');
                     }
-                });
+                };
+                if (async) {
+                    _.extend(ajaxParams, {
+                        'success':   function (data) {
+                            result = data;
+                            if (typeof cb !== 'undefined') {
+                                cb(data);
+                            }
+                        },
+                        'error':     function (jqXHR, textStatus, errorThrown) {
+                            console.log(url + ' error ' + errorThrown);
+                            /**
+                             * Вызывается, если сервер вернул не 200-й статус
+                             *
+                             * @event server:error
+                             */
+                            me.trigger('server:error');
+                        }
+                    });
+                }
+                var result = $.ajax(ajaxParams);
                 return result;
             }
         });

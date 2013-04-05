@@ -774,7 +774,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 }
                 for (var i in this.defaultRecipients) {
                     // keep non strict!
-                    if (id == this.defaultRecipients[i].mySqlId) {
+                    if (id == this.defaultRecipients[i].get('id')) {
                         return this.defaultRecipients[i];
                     }
                 }
@@ -789,7 +789,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
             getRecipientByName:function (name) {
                 for (var i in this.defaultRecipients) {
                     // keep non strict!
-                    if (name == this.defaultRecipients[i].name) {
+                    if (name == this.defaultRecipients[i].get('fio')) {
                         return this.defaultRecipients[i];
                     }
                 }
@@ -807,7 +807,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 for (var j in defaultRecipients) {
                     // get IDs of character by label text comparsion
                     if (name === defaultRecipients[j].getFormatedForMailToName()) {
-                        return defaultRecipients[j].mySqlId;
+                        return defaultRecipients[j].get('id');
                     }
                 }
             },
@@ -817,32 +817,13 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              */
             updateRecipientsList:function (cb) {
                 var me = this;
-                SKApp.server.api(
-                    'mail/getReceivers',
-                    {},
-                    function (response) {
-                        if (undefined !== response.data) {
-                            me.defaultRecipients = [];
-                            for (var i in response.data) {
-                                var string = response.data[i];
 
-                                var character = new SKCharacter();
-                                character.mySqlId = i;
-                                character.excelId = i;
-                                character.name = $.trim(string.substr(0, string.indexOf('<')));
-                                character.email = $.trim(string.substr(string.indexOf('<'), string.length));
-                                character.email = character.email.replace('<', '');
-                                character.email = character.email.replace('>', '');
+                me.defaultRecipients = [];
+                Array.prototype.push.apply(me.defaultRecipients, SKApp.simulation.characters.withoutHero());
+                if (cb !== undefined) {
+                    cb();
+                }
 
-                                me.defaultRecipients.push(character);
-                            }
-                        }
-                        if (cb !== undefined) {
-                            cb();
-                        }
-                    },
-                    false
-                );
             },
 
             /**
@@ -853,7 +834,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                 var list = [];
                 for (var i in this.defaultRecipients) {
                     // non strict "!=" is important!
-                    if ('' != this.defaultRecipients[i].name && '' != this.defaultRecipients[i].email) {
+                    if ('' !== this.defaultRecipients[i].get('fio') && '' !== this.defaultRecipients[i].get('email')) {
                         list.push(this.defaultRecipients[i].getFormatedForMailToName());
                     }
                 }

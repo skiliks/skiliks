@@ -42,7 +42,7 @@ define([], function() {
          * @return string
          */
         getFormatedForMailToName: function() {
-            return this.name;
+            return this.get('fio');
         },
         
         /**
@@ -50,7 +50,7 @@ define([], function() {
          * @return string
          */
         getFormattedRecipientLabel: function() {
-            return this.name + ' <' + this.email + '>, ';
+            return this.get('fio') + ' <' + this.get('email') + '>, ';
         }
     });
     return window.SKCharacter;

@@ -1250,7 +1250,7 @@ define([
                 // items appended to body, so this.$ not works
                 $(elements).each(function () {
                     var character = me.mailClient.getRecipientByName($(this).text());
-                    $(this).attr('data-character-id', character.excelId);
+                    $(this).attr('data-character-id', character.get('code'));
                 });
             },
 

@@ -8,6 +8,7 @@ define([
     "game/views/develop_mode/SKFlagStateView",
     "text!game/jst/world/pause_screen.jst",
 
+    "game/collections/SKCharacterCollection",
     "game/collections/SKEventCollection",
     "game/models/SKEvent",
     "game/collections/SKTodoCollection",
@@ -20,7 +21,8 @@ define([
 ],function (
     SKMailClient,
     SKFlagStateView,
-    pause_screen_template
+    pause_screen_template,
+    SKCharacterCollection
 ) {
     "use strict";
     function timeStringToMinutes(str) {
@@ -93,10 +95,10 @@ define([
                     }
                 });
                 this.dayplan_tasks = new SKDayTaskCollection();
-
+                /* Please, move it to safe place */
                 this.postMessageCallback = function(event) {
                     console.log('event.data: ', event.data);
-                    if ('DocumentLoaded' == event.data.type) {
+                    if ('DocumentLoaded' === event.data.type) {
                     console.log("On dataload");
 
                         $.each(SKDocument._excel_cache, function(id, url){
@@ -122,46 +124,8 @@ define([
                                 }
                             }
                         });
-                        /*$.each(SKDocument._excel_cache, function(id, url){
-                            console.log("Zoho");
-                            console.log(event.data.url);
-                            console.log(typeof event.data.url);
-                            var zoho_str = "";
-                            $.each(event.data.url, function(i, el){ zoho_str += el.charCodeAt(); });
-                            console.log(zoho_str);
-                            console.log(event.data.url.length);
-                            console.log(url);
-                            console.log(typeof url);
-                            console.log(url.length);
-                            var me_str = "";
-                            $.each(url, function(i, el){ me_str += el.charCodeAt(); });
-                            console.log(me_str);
-                        });*/
-
-
-//
-//                        console.log($('iframe[src="' + event.data.substring(15) + '"]'));
-//                        console.log($('iframe[src="' + event.data.substring(15) + '"]').html());
-//
-//                        $('iframe').each(function(){
-//                            console.log($(this));
-//                            console.log('src: ', $(this).attr('src'));
-//                            console.log(event.data.substring(15));
-//                            console.log($(this).attr('src') == event.data.substring(15));
-//                        })
-//                        {
-//
-//                            var substring = event.data.substring(15);
-//                            console.log(substring.constructor);
-//                            console.log(SKDocument._excel_cache[i].constructor);
-//                            console.log(substring.constructor == SKDocument._excel_cache[i].constructor);
-//
-//                            if (substring.substring(15) == SKDocument._excel_cache[i].substring(38)) {
-//                                console.log('doc id: ', i);
-//                            }
-//                        }
                     }
-                }
+                };
 
                 if (window.addEventListener){
                     console.log("add listener");
@@ -177,6 +141,7 @@ define([
                 this.skipped_seconds = 0;
                 this.mailClient = new SKMailClient();
                 this.window_set = new SKWindowSet([], {events:this.events});
+                this.characters = new SKCharacterCollection();
                 this.afterZohoCrash = false;
 
                 this.config = [];
@@ -363,6 +328,7 @@ define([
                     win.open();
                     me.todo_tasks.fetch();
                     me.dayplan_tasks.fetch();
+                    me.characters.fetch();
                     if (!me.isDebug()) {
                         me.documents.fetch();
                     }

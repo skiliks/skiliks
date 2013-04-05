@@ -1,6 +1,6 @@
 <div class="phone-list-contacts" style="position:relative; height:100%; overflow:hidden; max-width:100%;">
     <ul class="phone-contact-list">
-        <@ contacts.each(function(model) { @>
+        <@ _.each(contacts, function(model) { @>
         <li id="contactLi_<@=model.get('code')@>" class="contact-li">
             <table>
                 <tr>
