@@ -128,7 +128,6 @@ define([
                 };
 
                 if (window.addEventListener){
-                    console.log("add listener");
                     window.addEventListener("message", this.postMessageCallback, false);
                 } else {
                     window.attachEvent("onmessage", this.postMessageCallback);
@@ -158,11 +157,6 @@ define([
             },
 
             'onAddDocument' : function(){
-                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                console.log('excel_cache.length: ', Object.keys(SKDocument._excel_cache).length);
-                console.log(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length);
-                console.log(SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length);
-
                 if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !== SKApp.simulation.documents.where({'isInitialized':true, 'mime':"application/vnd.ms-excel"}).length){
                 /*if(SKApp.simulation.documents.where({'mime':"application/vnd.ms-excel"}).length !==
                     Object.keys(SKDocument._excel_cache).length) {*/

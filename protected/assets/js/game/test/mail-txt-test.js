@@ -158,7 +158,7 @@ define([
                 mailView.mailClient.reloadSubjects([1]);
 
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
-
+                server.respond();
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
@@ -172,7 +172,7 @@ define([
                 expect(SKApp.simulation.mailClient.availablePhrases.length).toBe(0);
 
                 // test TXT constructor
-                expect(mailView.$el.find('#mailEmulatorNewLetterDiv').text()).toBe('Dummy message.');
+                expect(mailView.$el.find('#mailEmulatorNewLetterDiv').text().trim()).toBe('Dummy message.');
 
                 mailView.$el.find('.SEND_EMAIL').click();
 

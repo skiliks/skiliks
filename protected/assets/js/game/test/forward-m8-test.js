@@ -118,52 +118,42 @@ define([
                 }
             };
 
-            var receivers = {
-                "result":1,
-                "data":{
-                    "1":"\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412. <fedorov.av@skiliks.com>",
-                    "2":"\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420. <denezhnaya.rr@skiliks.com>",
-                    "3":"\u0422\u0440\u0443\u0442\u043d\u0435\u0432 \u0421. <trutnev.ss@skiliks.com>",
-                    "4":"\u041a\u0440\u0443\u0442\u044c\u043a\u043e \u041c. <krutko.ma@skiliks.com>",
-                    "5":"\u041b\u043e\u0448\u0430\u0434\u043a\u0438\u043d \u041c. <loshadkin.ms@skiliks.com>",
-                    "6":"\u0411\u043e\u0441\u0441 \u0412.\u0421. <boss@skiliks.com>",
-                    "7":"\u0414\u043e\u043b\u0433\u043e\u0432\u0430 \u041d.\u0422. <dolgova.nt@skiliks.com>",
-                    "8":"\u041e\u043b\u0435\u0433 \u0420\u0430\u0437\u0443\u043c\u043d\u044b\u0439 <razumniy.or@skiliks.com>",
-                    "9":"\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c. <skorobey.am@skiliks.com>",
-                    "10":"\u0416\u0435\u043b\u0435\u0437\u043d\u044b\u0439 \u0421. <zhelezniy.so@skiliks.com>",
-                    "11":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440 <bobr.vs@skiliks.com>",
-                    "12":"\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d <trudyakin.ek@skiliks.com>",
-                    "13":"\u041b\u044e\u0434\u043e\u0432\u043a\u0438\u043d\u0430 \u0421. <lyudovkina.sm@skiliks.com>",
-                    "14":"\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0425\u043e\u0437\u0438\u043d <khozin.vk@skiliks.com>",
-                    "15":"\u0422\u043e\u0447\u043d\u044b\u0445 \u0410. <tochnykh.ay@skiliks.com>",
-                    "16":"\u0421\u0435\u043c\u0435\u043d\u043e\u0432\u0430 \u041e. <semenova.oo@skiliks.com>",
-                    "17":"\u0410\u043d\u043d\u0430 \u0416\u0443\u043a\u043e\u0432\u0430 <zhukova.ar@skiliks.com>",
-                    "18":"\u0410\u0434\u0432\u043e\u043a\u0430\u0442\u043e\u0432 \u042e. <advokatov.yv@skiliks.com>",
-                    "19":"\u0424\u0430\u0438\u043d\u0430 \u0413\u043e\u043b\u044c\u0446 <golts.fe@skiliks.com>",
-                    "20":"\u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0412. <kamenskiy.vp@region.skiliks.com>",
-                    "21":"\u0412\u0430\u0441\u0438\u043b\u044c\u0435\u0432 \u0410. <vasiliev.aa@region.skiliks.com>",
-                    "22":"\u042e\u0440\u0438\u0439 \u041c\u044f\u0433\u043a\u043e\u0432 <myagkov.ys@skiliks.com>",
-                    "23":"\u041f\u0435\u0442\u0440\u0430\u0448\u0435\u0432\u0438\u0447 \u0418. <petrashevich.iv@skiliks.com>",
-                    "24":"\u0410\u043d\u0442\u043e\u043d \u0421\u0435\u0440\u043a\u043e\u0432 <serkov.af@skiliks.com>",
-                    "25":"\u0414\u043e\u0431\u0440\u043e\u0445\u043e\u0442\u043e\u0432 \u0418. <dobrokhotov@gmail.com>",
-                    "26":"\u0410\u043d\u0436\u0435\u043b\u0430 \u0411\u043b\u0435\u0441\u043a <blesk@mckinsey.com>",
-                    "27":"\u041b\u044e\u0431\u0438\u043c\u0430\u044f \u0436\u0435\u043d\u0430 <lapochka@gmail.com>",
-                    "28":"\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d <petya1984@gmail.com>",
-                    "29":"\u041e\u043b\u0435\u0433 \u0421\u043a\u043e\u0440\u043a\u0438\u043d <ckorkin@gmail.com>",
-                    "30":"\u0421\u0435\u0440\u0435\u0433\u0430 <serjio@gmail.com>",
-                    "31":"\u0421\u0442\u0435\u043f\u0430\u043d\u043e\u0432 \u0421. <stepanov@lpolet.com>",
-                    "32":"\u041c\u0430\u0440\u0438\u043d\u043a\u0430 <marina_pet@gmail.com>",
-                    "33":"\u041e.\u0418.\u0418\u0432\u0430\u043d\u043e\u0432\u0430 <ivanova@businessanalytycs.com>",
-                    "34":" <>",
-                    "35":" <>",
-                    "36":" <>",
-                    "37":" <>",
-                    "38":" <>",
-                    "39":" <>",
-                    "40":" <>",
-                    "41":"\u0413\u043e\u0440\u0431\u0430\u0442\u044e\u043a \u0415.\u0414. <gorbatyuk@luch.com>"
-                }
-            };
+            var receivers = [
+                {id:1, fio: "\u0424\u0435\u0434\u043e\u0440\u043e\u0432 \u0410.\u0412.", email: "fedorov.av@skiliks.com"},
+                {id:2, fio: "\u0414\u0435\u043d\u0435\u0436\u043d\u0430\u044f \u0420.\u0420.", email: "denezhnaya.rr@skiliks.com"},
+                {id:3, fio: "\u0422\u0440\u0443\u0442\u043d\u0435\u0432 \u0421.", email: "trutnev.ss@skiliks.com"},
+                {id:4, fio: "\u041a\u0440\u0443\u0442\u044c\u043a\u043e \u041c.", email: "krutko.ma@skiliks.com"},
+                {id:5, fio: "\u041b\u043e\u0448\u0430\u0434\u043a\u0438\u043d \u041c.", email: "loshadkin.ms@skiliks.com"},
+                {id:6, fio: "\u0411\u043e\u0441\u0441 \u0412.\u0421.", email: "boss@skiliks.com"},
+                {id:7, fio: "\u0414\u043e\u043b\u0433\u043e\u0432\u0430 \u041d.\u0422.", email: "dolgova.nt@skiliks.com"},
+                {id:8, fio: "\u041e\u043b\u0435\u0433 \u0420\u0430\u0437\u0443\u043c\u043d\u044b\u0439", email: "razumniy.or@skiliks.com"},
+                {id:9, fio: "\u0421\u043a\u043e\u0440\u043e\u0431\u0435\u0439 \u0410.\u041c.", email: "skorobey.am@skiliks.com"},
+                {id:10, fio: "\u0416\u0435\u043b\u0435\u0437\u043d\u044b\u0439 \u0421.", email: "zhelezniy.so@skiliks.com"},
+                {id:11, fio: "\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0411\u043e\u0431\u0440", email: "bobr.vs@skiliks.com"},
+                {id:12, fio: "\u0415\u0433\u043e\u0440 \u0422\u0440\u0443\u0434\u044f\u043a\u0438\u043d", email: "trudyakin.ek@skiliks.com"},
+                {id:13, fio: "\u041b\u044e\u0434\u043e\u0432\u043a\u0438\u043d\u0430 \u0421.", email: "lyudovkina.sm@skiliks.com"},
+                {id:14, fio: "\u0412\u0430\u0441\u0438\u043b\u0438\u0439 \u0425\u043e\u0437\u0438\u043d", email: "khozin.vk@skiliks.com"},
+                {id:15, fio: "\u0422\u043e\u0447\u043d\u044b\u0445 \u0410.", email: "tochnykh.ay@skiliks.com"},
+                {id:16, fio: "\u0421\u0435\u043c\u0435\u043d\u043e\u0432\u0430 \u041e.", email: "semenova.oo@skiliks.com"},
+                {id:17, fio: "\u0410\u043d\u043d\u0430 \u0416\u0443\u043a\u043e\u0432\u0430", email: "zhukova.ar@skiliks.com"},
+                {id:18, fio: "\u0410\u0434\u0432\u043e\u043a\u0430\u0442\u043e\u0432 \u042e.", email: "advokatov.yv@skiliks.com"},
+                {id:19, fio: "\u0424\u0430\u0438\u043d\u0430 \u0413\u043e\u043b\u044c\u0446", email: "golts.fe@skiliks.com"},
+                {id:20, fio: "\u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0438\u0439 \u0412.", email: "kamenskiy.vp@region.skiliks.com"},
+                {id:21, fio: "\u0412\u0430\u0441\u0438\u043b\u044c\u0435\u0432 \u0410.", email: "vasiliev.aa@region.skiliks.com"},
+                {id:22, fio: "\u042e\u0440\u0438\u0439 \u041c\u044f\u0433\u043a\u043e\u0432", email: "myagkov.ys@skiliks.com"},
+                {id:23, fio: "\u041f\u0435\u0442\u0440\u0430\u0448\u0435\u0432\u0438\u0447 \u0418.", email: "petrashevich.iv@skiliks.com"},
+                {id:24, fio: "\u0410\u043d\u0442\u043e\u043d \u0421\u0435\u0440\u043a\u043e\u0432", email: "serkov.af@skiliks.com"},
+                {id:25, fio: "\u0414\u043e\u0431\u0440\u043e\u0445\u043e\u0442\u043e\u0432 \u0418.", email: "dobrokhotov@gmail.com"},
+                {id:26, fio: "\u0410\u043d\u0436\u0435\u043b\u0430 \u0411\u043b\u0435\u0441\u043a", email: "blesk@mckinsey.com"},
+                {id:27, fio: "\u041b\u044e\u0431\u0438\u043c\u0430\u044f \u0436\u0435\u043d\u0430", email: "lapochka@gmail.com"},
+                {id:28, fio: "\u041f\u0435\u0442\u0440 \u041f\u043e\u0433\u043e\u0434\u043a\u0438\u043d", email: "petya1984@gmail.com"},
+                {id:29, fio: "\u041e\u043b\u0435\u0433 \u0421\u043a\u043e\u0440\u043a\u0438\u043d", email: "ckorkin@gmail.com"},
+                {id:30, fio: "\u0421\u0435\u0440\u0435\u0433\u0430", email: "serjio@gmail.com"},
+                {id:31, fio: "\u0421\u0442\u0435\u043f\u0430\u043d\u043e\u0432 \u0421.", email: "stepanov@lpolet.com"},
+                {id:32, fio: "\u041c\u0430\u0440\u0438\u043d\u043a\u0430", email: "marina_pet@gmail.com"},
+                {id:33, fio: "\u041e.\u0418.\u0418\u0432\u0430\u043d\u043e\u0432\u0430", email: "ivanova@businessanalytycs.com"}
+            ];
+
 
             var theme = {
                 "result":1,
@@ -207,7 +197,7 @@ define([
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify({result:1})]);
 
-                server.respondWith("POST", "/index.php/mail/getReceivers",
+                server.respondWith("POST", "/index.php/character/list",
                     [200, { "Content-Type":"application/json" },
                         JSON.stringify(receivers)]);
 
