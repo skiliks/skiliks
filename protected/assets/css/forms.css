@@ -547,6 +547,7 @@ span.required {
 .cabmessage .ui-state-hover .ui-icon, .cabmessage .ui-state-focus .ui-icon,
 .cabmessage .ui-icon-closethick {
     background:url("../img/popupclose.png") no-repeat left top !important;
+    border: none;
     margin: 0px !important;
 }
 .cabmessage .ui-icon-closethick {
