@@ -307,7 +307,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         $this->checkUser();
 
-        if (Yii::app()->user->data()->id !== $invite->receiverUser->id) {
+        if (Yii::app()->user->data()->profile->email !== $invite->email) {
             Yii::app()->user->setFlash('error', 'Вы не можете начать чужую симуляцию.');
             $this->redirect('/profile');
         }
@@ -372,6 +372,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
 
         if (Yii::app()->user->data()->id !== $declineExplanation->invite->receiver_id &&
             Yii::app()->user->data()->id !== $declineExplanation->invite->owner_id &&
+            Yii::app()->user->data()->profile->email !== $declineExplanation->invite->email &&
             null !== $declineExplanation->invite->receiver_id) {
 
             Yii::app()->user->setFlash('success', 'Вы не можете удалить чужое приглашение.');
