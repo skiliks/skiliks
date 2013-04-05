@@ -43,11 +43,11 @@ class SK1367_Test extends SeleniumTestHelper
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
 
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[7]");
         $this->optimal_click("xpath=(//*[contains(text(),'Я по поводу задания от логистов')])");
         $this->optimal_click("xpath=(//*[contains(text(),'двух часов тебе хватит')])");
         sleep(1);
-        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[6]");
+        $this->call_phone(Yii::app()->params['test_mappings']['phone_contacts']['trutnev'], "xpath=//div[@id='phoneCallThemesDiv']/ul/li[7]");
         $this->waitForVisible('css=p.mail-popup-text');
         $this->assertText('css=p.mail-popup-text','Вы уже обсудили этот вопрос!');
         $this->click('css=div.mail-popup-button > div');
