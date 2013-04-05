@@ -552,9 +552,9 @@ span.required {
     background-position: 0px 0px;
 }
 .cabmessage .ui-widget-content {
-    max-width: 590px !important;
-    min-width: 590px !important;
-    width: 590px !important;
+    max-width: 570px !important;
+    min-width: 570px !important;
+    width: 570px !important;
 }
 #send-invite-message-form label {
     color:#0e4750;
