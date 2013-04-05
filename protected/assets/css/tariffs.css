@@ -1,6 +1,3 @@
-.tarifswrap {
-    vertical-align: top;
-}
 .onetariff {
     display: inline-block;
     margin: 0px 10px 52px 10px;
@@ -12,7 +9,7 @@ body  .onetariff  {
 .tariff-box {
     background:#fdfbc6 url("../img/tariffstop.jpg") no-repeat center top;
     height:410px;
-    width:211px;
+    width:210px;
 }
 .tariff-box .onetariff:first-child {
     margin-left: 0px;
