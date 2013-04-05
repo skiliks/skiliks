@@ -1260,18 +1260,15 @@ define([
              */
             getCurrentEmailRecipientIds: function () {
                 var list = [];
-                var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
                 var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
-                for (var i in valuesArray) {
-                    for (var j in defaultRecipients) {
+                SKApp.simulation.characters.each(function (character) {
+                    _.each(valuesArray, function (value) {
                         // get IDs of character by label text comparsion
-                        if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName()) {
-                            list.push(defaultRecipients[j].get('id'));
-                            break;
+                        if ($(value).text() === character.getFormatedForMailToName()) {
+                            list.push(character.get('id'));
                         }
-                    }
-                }
-
+                    });
+                });
                 return list;
             },
 
@@ -1809,6 +1806,7 @@ define([
                 var recipient = [SKApp.simulation.mailClient.getRecipientByMySqlId(response.receiver_id)
                     .getFormatedForMailToName()];
 
+
                 this.$("#MailClient_RecipientsList .tagInput").remove(); // because "allowEdit:false"
                 // set recipients
                 this.$("#MailClient_RecipientsList").tagHandler({
@@ -2001,8 +1999,7 @@ define([
             renderReplyScreen: function () {
                 this.mailClient.newEmailUsedPhrases = [];
                 var me = this;
-                this.mailClient.getDataForReplyToActiveEmail();
-                this.mailClient.on('mail:reply-data', function (response) {
+                this.mailClient.getDataForReplyToActiveEmail(function (response) {
                     // strange, sometimes responce return to lile JSON but like some response object
                     // so we get JSON from it {
                     if (undefined === response.result && undefined !== response.responseText) {
@@ -2020,40 +2017,32 @@ define([
              * @method
              */
             renderReplyAllScreen: function () {
+                var me = this;
                 this.mailClient.newEmailUsedPhrases = [];
 
-                var response = this.mailClient.getDataForReplyAllToActiveEmail();
-
-                // strange, sometimes response return to JSON but like some response object
-                // so we get JSON from it {
-                if (undefined == response.result && undefined !== response.responseText) {
-                    response = $.parseJSON(response.responseText);
-                }
-                // so we get JSON from it }
-
-                if (false !== this.fillMessageWindow(response)) {
-                    this.mailClient.setActiveScreen(this.mailClient.screenWriteReplyAll);
-                    this.mailClient.setWindowsLog('mailNew');
-                }
+                this.mailClient.getDataForReplyAllToActiveEmail(function (response) {
+                    if (false !== me.fillMessageWindow(response)) {
+                        me.mailClient.setActiveScreen(me.mailClient.screenWriteReplyAll);
+                        me.mailClient.setWindowsLog('mailNew');
+                    }
+                });
             },
 
             /**
              * @method
              */
             renderForwardEmailScreen: function () {
+                var me = this;
                 this.mailClient.newEmailUsedPhrases = [];
 
-                var response = this.mailClient.getDataForForwardActiveEmail();
-                // strange, sometimes responce return to lile JSON but like some response object
-                // so we get JSON from it {
-                if (undefined == response.result && undefined !== response.responseText) {
-                    response = $.parseJSON(response.responseText);
-                }
-                // so we get JSON from it }
-                if (false !== this.doUpdateScreenFromForwardEmailData(response)) {
-                    this.mailClient.setActiveScreen(this.mailClient.screenWriteForward);
-                    this.mailClient.setWindowsLog('mailNew');
-                }
+                this.mailClient.getDataForForwardActiveEmail(function (response) {
+                    // so we get JSON from it }
+                    if (false !== me.doUpdateScreenFromForwardEmailData(response)) {
+                        me.mailClient.setActiveScreen(me.mailClient.screenWriteForward);
+                        me.mailClient.setWindowsLog('mailNew');
+                    }
+                });
+
             },
 
             /**

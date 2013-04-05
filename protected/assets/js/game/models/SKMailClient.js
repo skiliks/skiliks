@@ -376,7 +376,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method
              * @return: $.xhr array, Skiliks API responce
              */
-            getDataForReplyToActiveEmail:function () {
+            getDataForReplyToActiveEmail:function (cb) {
                 var mailClient = this;
 
                 return SKApp.server.api(
@@ -386,7 +386,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     function (response) {
                         if (1 == response.result) {
-                            mailClient.trigger('mail:reply-data', response);
+                            cb(response);
                         } else {
                             throw "Can`t initialize responce email. Model. #1";
                         }
@@ -398,7 +398,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method
              * @return: $.xhr array, Skiliks API responce
              */
-            getDataForReplyAllToActiveEmail:function () {
+            getDataForReplyAllToActiveEmail:function (cb) {
                 var mailClient = this;
 
                 return SKApp.server.api(
@@ -408,12 +408,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     function (response) {
                         if (1 === response.result) {
-                            return response;
+                            cb(response);
                         } else {
                             throw "Can`t initialize responce email. Model. #2";
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -421,7 +420,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @method
              * @returns {$.xhr}
              */
-            getDataForForwardActiveEmail:function () {
+            getDataForForwardActiveEmail:function (cb) {
                 var mailClient = this;
 
                 return SKApp.server.api(
@@ -431,12 +430,11 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                     },
                     function (response) {
                         if (1 === response.result) {
-                            return response;
+                            return cb(response);
                         } else {
                             throw "Can`t initialize responce email. Model. #3";
                         }
-                    },
-                    false
+                    }
                 );
             },
 
@@ -768,16 +766,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @returns {*}
              */
             getRecipientByMySqlId:function (id) {
-                if (id === undefined || id === null) {
-                    throw 'id argument for getRecipientByMySqlId is not defined';
-                }
-                var result;
-                SKApp.simulation.characters.each(function (recipient) {
-                    if (id === recipient.get('id')) {
-                        result = recipient;
-                    }
-                });
-                return result;
+                return SKApp.simulation.characters.get(id);
             },
 
             /**
@@ -1081,14 +1070,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
              * @returns {*}
              */
             getCharacterById:function (id) {
-                for (var i in this.defaultRecipients) {
-                    // keep not strong comparsion
-                    if (this.defaultRecipients[i].get('id') == id) {
-                        return this.defaultRecipients[i];
-                    }
-                }
-
-                return undefined;
+                return SKApp.simulation.characters.get(id);
             },
 
             /**

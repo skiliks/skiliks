@@ -243,6 +243,7 @@ define([
                 mailClient.renderReplyAllScreen();
                 server.respond();
 
+                expect(SKApp.simulation.characters.length).toBe(33);
                 var email = mailClient.generateNewEmailObject();
 
                 var validationDialogResult = mailClient.mailClient.validationDialogResult(email);
