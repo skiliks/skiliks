@@ -509,4 +509,10 @@ class Scenario extends CActiveRecord
         }
     }
 
+
+    public function getWeight($array)
+    {
+        $array['scenario_id'] = $this->getPrimaryKey();
+        return Weight::model()->findByAttributes($array);
+    }
 }
