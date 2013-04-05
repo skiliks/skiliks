@@ -576,6 +576,7 @@ span.required {
     height: 120px;
 }
 .cabmessage textarea, #Invite_fullname {
+    max-width: 420px;
     width:420px;
 }
 #Invite_signature {
