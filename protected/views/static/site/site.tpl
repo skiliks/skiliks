@@ -11,10 +11,6 @@
             baseUrl: "{$assetsUrl}/js",
             waitSeconds: 15
         };
-
-        window.onbeforeunload = function () {
-            return "Уйти со стриницы тестирования? - Если вы уйдёте, то тестирование не будет оценено и все ваши старания будут напрасны!";
-        }
     </script>
 
     <title>Skiliks</title>
