@@ -541,20 +541,23 @@ span.required {
     padding: 0px !important;
     top:10px;
     right:10px;
-    width:20px;
+    width:18px;
 }
 .cabmessage .ui-widget-header .ui-icon, .cabmessage .ui-state-hover,
-.cabmessage .ui-state-focus .ui-icon,
-.cabmessage .ui-icon-closethick {
+.cabmessage .ui-state-focus {
     background:url("../img/popupclose.png") no-repeat left top !important;
-    border: none;
+     border: none;
     margin: 0px !important;
 }
-.cabmessage .ui-state-hover .ui-icon {
+.cabmessage .ui-state-hover .ui-icon, .cabmessage .ui-state-focus .ui-icon {
     background: none;
 }
 .cabmessage .ui-icon-closethick {
-    background-position: 0px 0px;
+    background: none;
+}
+.cabmessage .ui-dialog .ui-dialog-titlebar-close span, .cabmessage .ui-icon {
+    height: 18px !important;
+    width: 18px !important;
 }
 .cabmessage .ui-widget-content {
     /*max-height: 310px !important;*/
@@ -580,6 +583,7 @@ span.required {
     height: 120px;
 }
 .cabmessage textarea, #Invite_fullname {
+    margin-top:-5px;
     max-width: 420px;
     width:420px;
 }
