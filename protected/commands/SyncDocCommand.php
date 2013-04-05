@@ -21,7 +21,12 @@ class SyncDocCommand extends CConsoleCommand{
             }
             if(file_exists($src_templates.$doc)) {
                 $this->CPrint("Найден шаблон {$doc}");
-                copy($src_templates.$doc, $templates . StringTools::CyToEn($doc));
+                $dstFile = StringTools::CyToEn($doc);
+                $dstFile = str_replace(' ', '_', $dstFile);
+                $dstFile = str_replace('.docx', '.pdf', $dstFile);
+                $dstFile = str_replace('.pptx', '.pdf', $dstFile);
+
+                copy($src_templates.$doc, $templates . $dstFile);
             }else{
                 $this->CPrint("Не найден шаблон {$doc}");
             }
