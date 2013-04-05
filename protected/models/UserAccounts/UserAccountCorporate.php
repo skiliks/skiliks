@@ -45,6 +45,10 @@ class UserAccountCorporate extends CActiveRecord
      */
     public function getCompanyName()
     {
+        if (null == $this->ownership_type && null == $this->company_name) {
+            return 'Компания';
+        }
+
         return sprintf(
             '%s %s',
             $this->ownership_type,
