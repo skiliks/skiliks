@@ -1,7 +1,7 @@
 <?php
     $allow = ['ru', 'en', '', 'static/team',
         'static/team/ru', 'static/team/en', 'static/product',
-        'static/product/ru', 'static/product/en'];
+        'static/product/ru', 'static/product/en', 'static/tariffs'];
 ?>
 <?php if(in_array(Yii::app()->request->getPathInfo(), $allow)){ ?>
 <!-- AddThis Button BEGIN -->
