@@ -1716,12 +1716,6 @@ html[lang=ru] .product section table th{
     border-radius: 8px 8px 8px 8px;
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
 }
-
-.action-controller-registerByLink-static-userAuth  .ui-widget-content,
-.action-controller-personal-static-dashboard .ui-widget-content {
-    background: #146672;
-}
-
 .action-controller-registerByLink-static-userAuth .ui-dialog-titlebar,
 .action-controller-personal-static-dashboard .ui-dialog-titlebar,
 .action-controller-personal-static-simulations .ui-dialog-titlebar,
