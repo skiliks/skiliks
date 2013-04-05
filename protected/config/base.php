@@ -269,7 +269,8 @@ return array(
         ),
         'clientScript' => array(
             'class' => 'ext.yii-less-extension.components.YiiLessCClientScript',
-            'cache' => true
+            'cache' => true,
+            'cssPath' => realpath(dirname(dirname(__FILE__)) . '/assets/css')
         ),
     ),
     'basePath' => dirname(__FILE__) . '/..',
