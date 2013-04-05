@@ -46,9 +46,6 @@ class PagesController extends AjaxController
         $user = Yii::app()->user;
         $user = $user->data();
 
-
-
-
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
         ]);
@@ -57,27 +54,36 @@ class PagesController extends AjaxController
     public function actionChangeTariff()
     {
         $user = Yii::app()->user;
-        if (null === $user) {
-            $this->redirect('/registration');
-        }
         /* @var YumUser $user */
         $user = $user->data();  //YumWebUser -> YumUser
-        if (false === $user->isCorporate()) {
-            $this->redirect('/');
-        }
-        $tariff = Tariff::model()->findByAttributes(['label' => "Lite"]);
+        if($user->isAuth()){
+            /*Yii::app()->user->setFlash('error', sprintf(
+                "Нужно войти или зарегистрироваться"
+            ));*/
+            $this->redirect('/registration');
+        }elseif ($user->isAnonymous()) {
+            $this->redirect('/registration/choose-account-type');
+        }elseif ($user->isPersonal()) {
+            $this->redirect('/registration/choose-account-type');
+        }elseif($user->isCorporate()){
 
-        if($user->getAccount()->tariff_id == $tariff->id) {
-            $this->redirect('/');
-        } else {
-            $user->getAccount()->tariff_id = $tariff->id;
-            $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
-            $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
-            $user->getAccount()->invites_limit = $tariff->simulations_amount;
-            $user->getAccount()->save();
+            $tariff = Tariff::model()->findByAttributes(['label' => "Lite"]);
+
+            if($user->getAccount()->tariff_id == $tariff->id) {
+                $this->redirect('/dashboard');
+            } else {
+                $user->getAccount()->tariff_id = $tariff->id;
+                $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
+                $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
+                $user->getAccount()->invites_limit = $tariff->simulations_amount;
+                $user->getAccount()->save();
+            }
+
+            $this->redirect("/dashboard");
+        }else{
+            throw new Exception("Fix");
         }
 
-        $this->redirect("/dashboard");
 
 
     }

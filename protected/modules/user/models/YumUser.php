@@ -142,6 +142,17 @@ class YumUser extends YumActiveRecord
         return UserAccountCorporate::model()->findByAttributes(['user_id'=>$this->id]) === null?false:true;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAuth() {
+        if($this->id === null){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     // ------------------------------------------------------------------------------------------------------------
 
     public function behaviors()

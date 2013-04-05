@@ -1,5 +1,9 @@
 <h2 class="thetitle text-center">Тарифные планы: цена подписки в месяц</h2>
-
+<?php
+/* @var $tariffs  Tariff[] */
+/* @var $tariff  Tariff */
+/* @var $user  YumUser */
+?>
 <div class="tarifswrap">
 <?php foreach ($tariffs as $tariff): ?>
     <div class="nice-border onetariff">
@@ -26,9 +30,14 @@
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <?php var_dump($user->id); ?>
-                <?php if(null === $user->id OR $tariff->id !== $user->getAccount()->tariff_id){ ?>
-                <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                <?php if(null === $user->id){ ?>
+                    <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                <?php } elseif ($user->isCorporate()) { ?>
+                    <?php if ($tariff->id !== $user->getAccount()->tariff_id){ ?>
+                        <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                    <?php } ?>
+                <?php }else{ ?>
+                    <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
                 <?php } ?>
             </div>
         </div>
