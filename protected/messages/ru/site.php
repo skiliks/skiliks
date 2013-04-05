@@ -151,7 +151,7 @@ return array(
     'Message text' => 'Текст',
     'To' => 'Кому',
     'Signature' => 'Подпись',
-    'Best regards' => 'С уважением!',
+    'Best regards, %s' => 'С уважением, %s!',
 
     'January' => 'Январь',
     'February' => 'Февраль',

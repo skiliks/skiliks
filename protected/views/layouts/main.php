@@ -24,18 +24,19 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 
 <!DOCTYPE html>
 <html lang="<?php echo Yii::t('site', 'en') ?>">
-    <script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2591" type="text/javascript">
-        new JotformFeedback({
-            formId:'30934004754349',
-            base:'http://jotformeu.com/',
-            windowTitle:'Обратная связь',
-            background:'#2D8694',
-            fontColor:'#ffffff',
-            type:false,
-            height:500,
-            width:700
-        });
-    </script>
+<script src="http://cdn.jotfor.ms/static/feedback2.js?3.1.2616" type="text/javascript">
+    new JotformFeedback({
+        formId:'30835043655352',
+        base:'http://jotformeu.com/',
+        windowTitle:'Feedback',
+        background:'#FFA500',
+        fontColor:'#FFFFFF',
+        type:false,
+        height:500,
+        width:700
+    });
+</script>
+
 
 	<head>
 		<meta charset="utf-8" />
@@ -146,7 +147,7 @@ $cs->registerCssFile($assetsUrl . "/css/style.css");
 					<a href="/static/product/"><?php echo Yii::t('site', 'Product') ?></a>
 				</nav>
 
-				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="lightbox-30934004754349">Feedback</a></p>
+				<p class="copyright">Copyright - Skiliks  - 2012 <a href="#" class="lightbox-30835043655352">Feedback</a></p>
             </footer>
 		</div>
 		<!--footer end-->

@@ -39,15 +39,17 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
             $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
-                $invite->message = "Зайдите пожалуйста в ваш кабинет, работодатель отправил вам приглашение пройти оценивание уровня менеджерских навыков на позицию $vacancy_label.";
+                $invite->message =
+                    Yii::app()->user->data()->getAccount()->getCompanyName()." предлагает Вам пройти тест «Базовый менеджмент» на вакансию $vacancy_label.".
+                    "«Базовый менеджмент» - это деловая симуляция, позволяющая оценить менеджерские навыки в форме увлекательной игры.";
             } else {
-                $invite->message = "Работодатель '".Yii::app()->user->data()->getAccount()->getCompanyName()."' заинтересован в вашей кандидатуре на позицию $vacancy_label.\n"
-                    ."Для дальнейшего общения по поводу трудоустройства соискателя на данную позицию обязательным условием "
-                    ."является прохождение оценивания для определениям уровня менеджерских навыков. \n Чтоб пройти тест перейдите по ссылке, "
-                    ."зарегистрируйтесь и пройдите тест.";
+                $invite->message = "Уважаемый ".$invite->getReceiverUserName()."! \n".
+                    "Работодатель ".Yii::app()->user->data()->getAccount()->getCompanyName()." заинтересован в вашей кандидатуре на позицию $vacancy_label.\n"
+                    ."Для кандидата на данную позицию обязательным условием является прохождение ассессмента для определения уровня менеджерских навыков. \n"
+                    ."Для этого вам необходимо пройти по ссылке, зарегистрироваться и запустить ассессмент.\n ";
             }
 
-            $invite->signature = Yii::t('site', 'Best regards');
+            $invite->signature = sprintf(Yii::t('site', 'Best regards, %s'), $invite->ownerUser->getFormattedName());
         }
 
         // handle send invitation {

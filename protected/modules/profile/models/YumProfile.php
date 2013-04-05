@@ -4,6 +4,8 @@
  * Class YumProfile
  *
  * @param string $email
+ * @param string $lastname
+ * @param string $firstname
  */
 
 class YumProfile extends YumActiveRecord
