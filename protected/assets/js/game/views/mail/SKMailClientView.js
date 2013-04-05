@@ -1262,12 +1262,11 @@ define([
                 var list = [];
                 var defaultRecipients = this.mailClient.defaultRecipients; // just to keep code shorter
                 var valuesArray = this.$("#MailClient_RecipientsList li.tagItem").get();
-
                 for (var i in valuesArray) {
                     for (var j in defaultRecipients) {
                         // get IDs of character by label text comparsion
                         if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName()) {
-                            list.push(defaultRecipients[j].mySqlId);
+                            list.push(defaultRecipients[j].get('id'));
                             break;
                         }
                     }
@@ -1290,7 +1289,7 @@ define([
                     for (var j in defaultRecipients) {
                         // get IDs of character by label text comparsion
                         if ($(valuesArray[i]).text() === defaultRecipients[j].getFormatedForMailToName() && $(valuesArray[i]).text() !== "") {
-                            list.push(defaultRecipients[j].mySqlId);
+                            list.push(defaultRecipients[j].get('id'));
                             break;
                         }
                     }
@@ -1640,10 +1639,6 @@ define([
              */
             renderWriteEmailScreen: function (iconsList) {
                 var mailClientView = this;
-
-                if (0 === this.mailClient.defaultRecipients.length) {
-                    this.mailClient.updateRecipientsList();
-                }
 
                 // get template
                 var htmlSceleton = _.template(mail_client_new_email_template, {});
