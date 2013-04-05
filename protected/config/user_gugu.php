@@ -23,7 +23,7 @@ return CMap::mergeArray(
             ),
         ),
         'request' => array(
-            'baseUrl' => 'http://skiliks.loc',
+            'baseUrl' => '',
         ),
     ),
         'params' => array(
