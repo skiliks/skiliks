@@ -521,6 +521,7 @@ span.required {
 .cabmessage {
     background:url("../img/bg-kniga.jpg") no-repeat right bottom, url("../img/bg-popuplight.jpg") no-repeat center top, url("../img/bg-popuprpt.jpg") repeat left top;
     border:none;
+    min-height: 380px !important;
     width:590px !important;
 }
 .cabmessage .ui-dialog-content {
