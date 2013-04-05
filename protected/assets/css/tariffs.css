@@ -11,10 +11,10 @@ body  .onetariff  {
     height:410px;
     width:212px;
 }
-.tariff-box:first-child {
+.tariff-box .onetariff:first-child {
     margin-left: 0px;
 }
-.tariff-box:last-child {
+.tariff-box .onetariff:last-child {
     margin-right: 0px;
 }
 .tarifname {
