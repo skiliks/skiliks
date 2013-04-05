@@ -2034,6 +2034,7 @@ ul.profile-menu li {
 .blue-btn, .light-btn, .vacancy-add-form-switcher, .invite-people-form input[type="submit"] {
     border-radius: 3px 3px 3px 3px;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.23);
+    cursor: pointer;
     display: inline-block;
     height: 30px;
     line-height: 30px;
