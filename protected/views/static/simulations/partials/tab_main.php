@@ -27,16 +27,16 @@
 </div>
 
 <p>
-    <h2>Managerial Skills <?php echo $simulation->managerial_skills; ?></h2>
+    <h2>Managerial Skills <?php echo $simulation->getCategoryAssessment(AssessmentCategory::MANAGEMENT_SKILLS); ?></h2>
 </p>
 <p>
-    <h2>Productivity <?php echo $simulation->managerial_productivity; ?></h2>
+    <h2>Productivity <?php echo $simulation->getCategoryAssessment(AssessmentCategory::PRODUCTIVITY); ?></h2>
 </p>
 <p>
-    <h2>Time Management Effectiveness <?php echo $simulation->time_management_effectiveness; ?></h2>
+    <h2>Time Management Effectiveness <?php echo $simulation->getCategoryAssessment(AssessmentCategory::TIME_EFFECTIVENESS); ?></h2>
 </p>
 <p>
-    <h2>Overall Manager's Rating <?php echo $simulation->overall_manager_rating; ?></h2>
+    <h2>Overall Manager's Rating <?php echo $simulation->getCategoryAssessment(AssessmentCategory::OVERALL); ?></h2>
 </p>
 <script type="text/javascript">
     $(function() {

@@ -11,10 +11,6 @@
  * @property int type
  * @property string paused
  * @property int skipped
- * @property string managerial_skills
- * @property string managerial_productivity
- * @property string time_management_effectiveness
- * @property string overall_manager_rating
  * @property int scenario_id
  *
  * @property SimulationCompletedParent[] completed_parent_activities
@@ -32,6 +28,7 @@
  * @property PerformancePoint[] performance_points
  * @property PerformanceAggregated[] performance_aggregated
  * @property StressPoint[] stress_points
+ * @property AssessmentOverall[] assessment_overall
  * @property Scenario game_type
  * @property string uuid
  *
@@ -157,6 +154,7 @@ class Simulation extends CActiveRecord
             'assessment_planing_points'       => [self::HAS_MANY, 'AssessmentPlaningPoint', 'sim_id'],
             'assessment_calculation'          => [self::HAS_MANY, 'AssessmentCalculation', 'sim_id'],
             'simulation_excel_points'         => [self::HAS_MANY, 'SimulationExcelPoint', 'sim_id'],
+            'assessment_overall'              => [self::HAS_MANY, 'AssessmentOverall', 'sim_id'],
             'game_type'                       => [self::BELONGS_TO, 'Scenario', 'scenario_id'],
         ];
     }
@@ -435,6 +433,21 @@ class Simulation extends CActiveRecord
             'params' => ['user_id'=>$user->id],
         ));
         return $this->find();
+    }
+
+    /**
+     * @param string $category
+     * @return float|null
+     */
+    public function getCategoryAssessment($category = AssessmentCategory::OVERALL)
+    {
+        foreach ($this->assessment_overall as $rate) {
+            if ($rate->assessment_category_code == $category) {
+                return $rate->value;
+            }
+        }
+
+        return null;
     }
 }
 

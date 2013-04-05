@@ -1,25 +1,26 @@
 <?php
 
 /**
- * This is the model class for table "activity_category".
+ * This is the model class for table "assessment_category".
  *
- * The followings are the available columns in table 'activity_category':
+ * The followings are the available columns in table 'assessment_category':
  * @property string $code
- * @property integer $priority
  *
  * The followings are the available model relations:
- * @property Activity[] $activities
- * @property MaxRate[] $maxRates
- * @property PerformanceAggregated[] $performanceAggregated
- * @property PerformanceRule[] $performanceRules
+ * @property AssessmentOverall[] $assessmentOveralls
  * @property Weight[] $weights
  */
-class ActivityCategory extends CActiveRecord
+class AssessmentCategory extends CActiveRecord
 {
+    const MANAGEMENT_SKILLS  = 'management';
+    const PRODUCTIVITY       = 'performance';
+    const TIME_EFFECTIVENESS = 'time';
+    const OVERALL            = 'overall';
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return ActivityCategory the static model class
+	 * @return AssessmentCategory the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -31,7 +32,7 @@ class ActivityCategory extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'activity_category';
+		return 'assessment_category';
 	}
 
 	/**
@@ -42,12 +43,11 @@ class ActivityCategory extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('code, priority', 'required'),
-			array('priority', 'numerical', 'integerOnly'=>true),
-			array('code', 'length', 'max'=>10),
+			array('code', 'required'),
+			array('code', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('code, priority', 'safe', 'on'=>'search'),
+			array('code', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,11 +59,8 @@ class ActivityCategory extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'activities' => array(self::HAS_MANY, 'Activity', 'category_id'),
-			'maxRates' => array(self::HAS_MANY, 'MaxRate', 'performance_rule_category_id'),
-			'performanceAggregated' => array(self::HAS_MANY, 'PerformanceAggregated', 'category_id'),
-			'performanceRules' => array(self::HAS_MANY, 'PerformanceRule', 'category_id'),
-			'weights' => array(self::HAS_MANY, 'Weight', 'performance_rule_category_id'),
+			'assessmentOveralls' => array(self::HAS_MANY, 'AssessmentOverall', 'assessment_category_code'),
+			'weights' => array(self::HAS_MANY, 'Weight', 'assessment_category_code'),
 		);
 	}
 
@@ -74,7 +71,6 @@ class ActivityCategory extends CActiveRecord
 	{
 		return array(
 			'code' => 'Code',
-			'priority' => 'Priority',
 		);
 	}
 
@@ -90,7 +86,6 @@ class ActivityCategory extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('code',$this->code,true);
-		$criteria->compare('priority',$this->priority);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

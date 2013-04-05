@@ -456,8 +456,6 @@ class ImportGameDataService
     {
         $this->logStart();
 
-        $reader = $this->getReader();
-
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Stress');
@@ -2215,8 +2213,6 @@ class ImportGameDataService
     {
         $this->logStart();
 
-        $reader = $this->getReader();
-
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Result_rules');
@@ -2318,8 +2314,6 @@ class ImportGameDataService
     {
         $this->logStart();
 
-        $reader = $this->getReader();
-
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Max_rate');
@@ -2385,6 +2379,88 @@ class ImportGameDataService
         );
     }
 
+    public function importWeights()
+    {
+        $this->logStart();
+
+        // load sheet {
+        $excel = $this->getExcel();
+        $sheet = $excel->getSheetByName('Weights');
+        // load sheet }
+
+        $this->setColumnNumbersByNames($sheet);
+
+        $managementMapping = [
+            'Управленческие навыки (ИТОГО)' => AssessmentCategory::MANAGEMENT_SKILLS,
+            'Результативность (ИТОГО)' => AssessmentCategory::PRODUCTIVITY,
+            'Эффективность использования времени (ИТОГО)' => AssessmentCategory::TIME_EFFECTIVENESS,
+        ];
+
+        $performanceMapping = [
+            'Результативность (K0)' => '0',
+            'Результативность (K1)' => '1',
+            'Результативность (K2)' => '2',
+            'Результативность (2_min)' => '2_min'
+        ];
+
+        $types = [
+            Weight::RULE_OVERALL_RATE => 'assessment_category_code',
+            Weight::RULE_PERFORMANCE => 'performance_rule_category_id',
+            Weight::RULE_DECISION_MAKING => 'hero_behaviour_id'
+        ];
+
+        $weights = 0;
+        for ($i = $sheet->getRowIterator(2); $i->valid(); $i->next()) {
+            $ruleId = $this->getCellValue($sheet, 'Номер правила для расчета веса', $i);
+            $code = $this->getCellValue($sheet, 'Оценка, к которой применяется вес', $i);
+
+            if (empty($types[$ruleId])) {
+                continue;
+            }
+
+            $fKey = $types[$ruleId];
+            if ($fKey == 'assessment_category_code') {
+                $entity = AssessmentCategory::model()->findByAttributes(['code' => $managementMapping[$code]]);
+            } elseif ($fKey == 'performance_rule_category_id') {
+                $entity = ActivityCategory::model()->findByAttributes(['code' => $performanceMapping[$code]]);
+            } elseif ($fKey == 'hero_behaviour_id') {
+                $entity = $this->scenario->getHeroBehaviour(['code' => $code]);
+            } else {
+                $entity = null;
+            }
+
+            if (!empty($entity)) {
+                $weight = $this->scenario->getWeight([$fKey => $entity->primaryKey]);
+                if (empty($weight)) {
+                    $weight = new Weight();
+                }
+
+                $weight->$fKey = $entity->primaryKey;
+                $weight->rule_id = $ruleId;
+                $weight->value = round($this->getCellValue($sheet, 'Значение веса', $i), 4);
+                $weight->scenario_id = $this->scenario->primaryKey;
+                $weight->import_id = $this->import_id;
+
+                $weight->save();
+                $weights++;
+            }
+        }
+
+        // delete old unused data {
+        Weight::model()->deleteAll(
+            'import_id <> :import_id AND scenario_id = :scenario_id',
+            array('import_id' => $this->import_id, 'scenario_id' => $this->scenario->primaryKey)
+        );
+        // delete old unused data }
+
+        $this->logEnd();
+
+        return array(
+            'weights' => $weights,
+            'errors'    => false,
+        );
+    }
+
     /**
      * Only must to use functions. Has correct import order
      */
@@ -2434,6 +2510,7 @@ class ImportGameDataService
         $result['performance_rules'] = $this->importPerformanceRules();
         $result['stress_rules'] = $this->importStressRules();
         $result['max_rate'] = $this->importMaxRate();
+        $result['weights'] = $this->importWeights();
         return $result;
     }
 
