@@ -250,31 +250,34 @@ class SimulationService
     public static function fillTodo(Simulation $simulation)
     {
         // add P17 - презентация ген. директору
-        $task = $simulation->game_type->getTask(['start_type'=> 'start', "code" => 'P017']);
-        $sql = "INSERT INTO day_plan (sim_id, date, day, task_id) VALUES
-        ({$simulation->id}, '16:00:00',1, {$task->id});
-        ";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->execute();
+        /** @var $tasks Task[] */
+        $tasks = $simulation->game_type->getTasks(['start_type'=> 'start', "time_limit_type" => 'can\'t be moved']);
+        foreach ($tasks as $task) {
+            $dayplanFixed = new DayPlan();
+            $dayplanFixed->date = $task->start_time;
+            $dayplanFixed->task_id = $task->getPrimaryKey();
+            $dayplanFixed->day = 1; # FIXME hardcode
+            $dayplanFixed->save();
+        }
 
         // прочие задачи
         $tasks = $simulation->game_type->getTasks(['start_type' => 'start']);
-        $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
+        if ($tasks) {
+            $sql = "INSERT INTO todo (sim_id, adding_date, task_id) VALUES ";
 
-        $add = '';
-        foreach ($tasks as $task) {
-            if ($task->code === 'P017')
-                continue;
-            $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
-            $add = ',';
+            $add = '';
+            foreach ($tasks as $task) {
+                if ($task->code === 'P017')
+                    continue;
+                $sql .= $add . "({$simulation->id}, NOW(), {$task->id})";
+                $add = ',';
+            }
+            $sql .= ";";
+
+            $connection = Yii::app()->db;
+            $command = $connection->createCommand($sql);
+            $command->execute();
         }
-        $sql .= ";";
-
-        $connection = Yii::app()->db;
-        $command = $connection->createCommand($sql);
-        $command->execute();
     }
 
     /**

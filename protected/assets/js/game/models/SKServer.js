@@ -40,7 +40,7 @@ define(["jquery/jquery.cookies"], function () {
                     async = arguments[3];
                 }
                 if (async === false) {
-                    console.warn('Use of sync ajax request for '+ url +' is very bad practice. Will remove this behavior');
+                    throw ('Use of sync ajax request for '+ url +' does not work anymore');
                 }
                 if (debug_match !== null) {
                     url += '?XDEBUG_SESSION_START=' + debug_match[1];

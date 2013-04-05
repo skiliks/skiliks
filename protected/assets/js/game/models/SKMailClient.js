@@ -934,8 +934,7 @@ define(["game/models/SKMailFolder", "game/models/SKMailSubject","game/models/SKC
                             }
                             me.trigger('mail:subject_list_in_model_updated');
                         }
-                    },
-                    false
+                    }
                 );
             },
 

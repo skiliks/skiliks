@@ -720,7 +720,7 @@ class ImportGameDataService
             }
 
             if ($subjectEntity === null) {
-                throw new Exception('No subject for mail code ' . $code . ', theme id ' . $subject_id);
+                throw new Exception('No subject for mail code ' . $code . ', theme id ' . $subject_id . ' prefix ' . $themePrefix);
             }
             $emailSubjectsIds[] = $subjectEntity->primaryKey;
             // themes update }
@@ -1996,6 +1996,10 @@ class ImportGameDataService
 
         $sheet = $this->getExcel()->getSheetByName('Leg_actions');
 
+        if (null === $sheet) {
+            return ['error' => 'no sheet'];
+        }
+
         // save colums numbers by column titles 
         $this->setColumnNumbersByNames($sheet);
 
@@ -2147,6 +2151,9 @@ class ImportGameDataService
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Parent_ending');
+        if (null === $sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -2213,6 +2220,9 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Result_rules');
+        if (null === $sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -2313,6 +2323,9 @@ class ImportGameDataService
         // load sheet {
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Max_rate');
+        if (null === $sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -2427,10 +2440,14 @@ class ImportGameDataService
 
     public function importFlagsRules()
     {
-        echo __METHOD__ . "\n";
+        $this->logStart();
+
 
         $excel = $this->getExcel();
         $sheet = $excel->getSheetByName('Flags');
+        if (null === $sheet) {
+            return ['error' => 'no sheet'];
+        }
         // load sheet }
 
         $this->setColumnNumbersByNames($sheet);
@@ -2575,7 +2592,8 @@ class ImportGameDataService
         );
         // delete old unused data }
 
-        echo __METHOD__ . " end \n";
+        $this->logEnd();
+
 
         return [
             'imported_Flag_to_run_mail'   => $importedFlagToRunMailRows,
