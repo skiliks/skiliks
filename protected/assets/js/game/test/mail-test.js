@@ -7,7 +7,8 @@ define([
     "game/models/SKApplication",
     "game/models/SKSimulation",
     "game/views/mail/SKMailClientView",
-    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKMailClientView, SKWindow) {
+    "game/collections/SKCharacterCollection",
+    "game/models/window/SKWindow"], function (SKApplication, SKSimulation, SKMailClientView, SKCharacterCollection, SKWindow) {
     "use strict";
     buster.spec = describe('mail client', function (run) {
         var inbox = {"result": 1, "messages": {
@@ -108,15 +109,12 @@ define([
                         })
                     ]);
 
-                server.respondWith("POST", "/index.php/mail/getReceivers",
+                server.respondWith("POST", "/index.php/character/list",
                     [200, { "Content-Type": "application/json" },
-                        JSON.stringify({
-                            result: 1,
-                            data: {
-                                1: 'bob <bob@skiliks.com>',
-                                2: 'john <john@skiliks.com>'
-                            }
-                        })]);
+                        JSON.stringify([
+                                {'id': 1, 'fio': 'bob', email: 'bob@skiliks.com', 'code': 2},
+                                {'id': 2, 'fio': 'john', email: 'john@skiliks.com', 'code': 3}
+                        ])]);
 
                 server.respondWith("POST", "/index.php/mail/getMessages",
                     function (xhr) {
@@ -249,9 +247,10 @@ define([
             });
 
             it("has characters", function () {
-                var client = new SKMailClient();
-                client.updateRecipientsList();
-                expect(client.getFormatedCharacterList()).toEqual(["bob", "john"]);
+                var collection = new SKCharacterCollection();
+                collection.fetch();
+                server.respond();
+                expect(collection.pluck('fio')).toEqual(["bob", "john"]);
             });
 
             it("can save draft and send draft", function () {
@@ -289,7 +288,7 @@ define([
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
                 //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
-
+                server.respond()
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
@@ -348,7 +347,7 @@ define([
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
                 //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
-
+                server.respond();
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
@@ -413,7 +412,7 @@ define([
                 $('#MailClient_RecipientsList').append('<li class="tagItem">bob</li>');
 
                 //console.log($('#MailClient_RecipientsList .tagItem:eq(0)').html());
-
+                server.respond();
                 // check subjects
                 expect(SKApp.simulation.mailClient.availableSubjects.length).toBe(2);
 
