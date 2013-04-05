@@ -80,8 +80,7 @@ body  .onetariff  {
     color:#fff;
     font-weight: normal;
 }
-
-.socicons, .socicons a {
+/*.socicons, .socicons a {
     display: inline-block;
 }
 .socicons a {
@@ -89,7 +88,7 @@ body  .onetariff  {
     height:31px;
     margin: 0px 5px;
     width: 33px;
-}
+}*/
 .socicons a:hover {
     background-position: left bottom;
 }
@@ -108,4 +107,7 @@ body  .onetariff  {
 }
 .tarifswrap  .social_networks a  {
     margin-left: 10px;
+}
+.tarifswrap  .social_networks>span {
+    display: none;
 }
