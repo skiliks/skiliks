@@ -44,14 +44,10 @@ class PagesController extends AjaxController
     public function actionTariffs()
     {
         $user = Yii::app()->user;
-        if (null === $user) {
-            $this->redirect('/registration');
-        }
-        /* @var YumUser $user */
-        $user = $user->data();  //YumWebUser -> YumUser
-        if (false === $user->isCorporate()) {
-            $this->redirect('/');
-        }
+        $user = $user->data();
+
+
+
 
         $this->render('tariffs', [
             'tariffs' => Tariff::model()->findAll('',['order' => 'order ASD']), 'user' => $user
