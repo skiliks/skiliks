@@ -18,5 +18,7 @@ class InviteExpiredCommand extends CConsoleCommand
         foreach($invites as $invite){
             $invite->inviteExpired();
         }
+
+
     }
 }
