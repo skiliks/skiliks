@@ -22,7 +22,7 @@
         <?php echo $form->error($invite, 'email'); ?>
     </div>
 
-    <div class="row wide">
+    <div class="row wide <?php echo (0 == count($vacancies) ? 'empty-select' : '') ?>"">
         <?php echo $form->labelEx($invite, 'vacancy_id'); ?>
         <?php echo $form->dropDownList($invite, 'vacancy_id', $vacancies); ?>
         <?php echo $form->error($invite, 'vacancy_id'); ?>
