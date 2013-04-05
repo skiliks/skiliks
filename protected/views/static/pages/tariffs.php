@@ -26,7 +26,9 @@
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="#">Выбрать</a></div>
+                <?php if($tariff->id !== $user->getAccount()->tariff_id){ ?>
+                <div class="subscribe-ti-tariff"><a class="light-btn feedback" href="<?php if($tariff->label === "Lite"){ echo "/tariffs/lite"; }else{ echo "#"; } ?>">Выбрать</a></div>
+                <?php } ?>
             </div>
         </div>
     </div>
