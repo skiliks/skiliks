@@ -550,6 +550,9 @@ span.required {
     border: none;
     margin: 0px !important;
 }
+.cabmessage .ui-state-hover .ui-icon {
+    background: none;
+}
 .cabmessage .ui-icon-closethick {
     background-position: 0px 0px;
 }
