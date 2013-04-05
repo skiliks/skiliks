@@ -543,7 +543,7 @@ span.required {
     right:10px;
     width:17px;
 }
-.cabmessage .ui-widget-header .ui-icon,
+.cabmessage .ui-widget-header .ui-icon, .cabmessage .ui-state-hover,
 .cabmessage .ui-state-hover .ui-icon, .cabmessage .ui-state-focus .ui-icon,
 .cabmessage .ui-icon-closethick {
     background:url("../img/popupclose.png") no-repeat left top !important;
