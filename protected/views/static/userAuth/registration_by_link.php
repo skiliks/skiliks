@@ -33,7 +33,7 @@
 <?php */ ?>
 
 <section class="registration-by-link">
-    <h1>Пожалуйста зарегистрируйтесь, чтобы перейти к тестированию</h1>
+    <h1>Пожалуйста, зарегистрируйтесь, чтобы перейти к тестированию</h1>
 
     <div class="form">
 
@@ -67,8 +67,6 @@
             <?php echo $form->error($user, 'password'); ?>
         </div>
 
-        <br/>
-
         <div class="row">
             <?php echo $form->labelEx($user, 'password_again'); ?>
             <?php echo $form->passwordField($user, 'password_again'); ?>
@@ -77,10 +75,6 @@
 
         <div class="row buttons">
             <?php echo CHtml::submitButton('Register'); ?>
-
-            <br/>
-            <br/>
-            <br/>
 
             <a class="decline-link">Decline</a>
         </div>
