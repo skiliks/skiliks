@@ -145,3 +145,69 @@
 .action-controller-personal-static-dashboard #invite-decline-form .row.buttons input[type="submit"]:hover {
     background:#0C8FA0;
 }
+
+/* регистрация по ссылке от работодателя */
+section.registration-by-link {
+    padding:0 20px 41px 30px;
+    height:460px;
+    width:746px;
+    margin:0 auto;
+    background:url("../img/bg-register-by-link.png")no-repeat 0 0;
+}
+section.registration-by-link h1 {
+    padding-top:140px;
+    font:normal 25px "ProximaNova-Regular";
+    color:#666666;
+    margin-bottom:25px;
+}
+section.registration-by-link .form {
+    color:#666633;
+    font:14px/34px "ProximaNova-Regular";
+}
+section.registration-by-link .form .row {
+    margin-bottom:8px;
+}
+section.registration-by-link .form .row label {
+    width:190px;
+    display:block;
+    float:left;
+}
+section.registration-by-link .form .row input[type="text"],
+section.registration-by-link .form .row input[type="password"] {
+    background: #FFFFFF;
+    border: 1px solid #3E5259;
+    border-radius:5px;
+    box-shadow: 10px 4px 10px rgba(0, 0, 0, 0.1) inset;
+    outline: none;
+    padding:8px 10px;
+    width:150px;
+    margin-right:10px;
+}
+section.registration-by-link .form .row .sbHolder {
+    width:350px;
+}
+section.registration-by-link .form .row.buttons {
+    padding-left:190px;
+}
+section.registration-by-link .form .row input[type="submit"] {
+    background: url("../img/icon-btn-notify.png") no-repeat 17px 13px #146672;
+    border: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    text-align: left;
+    vertical-align: top;
+    font: 14px "ProximaNova-Bold";
+    height: 46px;
+    padding: 0 16px 0 42px;
+    margin-right:15px;
+}
+section.registration-by-link .form .row a.decline-link {
+    font:14px/46px "ProximaNova-Regular";
+    color:#666633;
+    cursor:pointer;
+    text-decoration:none;
+    border-bottom:1px dotted #663;
+}
+section.registration-by-link .form .row a.decline-link:hover {
+    border-bottom:none;
+}
