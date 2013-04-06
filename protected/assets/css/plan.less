@@ -787,22 +787,22 @@
               line-height:14px;
               text-align:left;
               vertical-align:middle;
-              div{
+              padding-left: 35px;
+              span.number {
+                position:absolute;
+                left:7px;
+              }
+              span.separate{
+                display:block;
+                border-right:1px dotted #b2b2b2;
                 height:100%;
-                padding-left:32px;
-                position:relative;
-                span{
-                  display:block;
-                  border-right:1px dotted #b2b2b2;
-                  width:23px;
-                  height:100%;
-                  font-size:12px;
-                  color:#696969;
-                  text-align:center;
-                  position:absolute;
-                  top:0;
-                  left:0;
-                }
+                position:absolute;
+                top:0;
+                left:26px;
+                padding:0px;
+              }
+              span.text {
+
               }
             }
             td{
@@ -851,7 +851,6 @@
           -webkit-box-shadow:0 0 1px rgba(121,161,192,1);
           -moz-box-shadow:0 0 1px rgba(121,161,192,1);
           box-shadow:0 0 1px rgba(121,161,192,1);
-          cursor:pointer;
 
           &.active{
            // background: #c4dff2;
@@ -863,23 +862,19 @@
             background: linear-gradient(top, #f3a33c, #d48116);
             border-top:1px solid #ffffb5;
             border-bottom:1px solid #9e7849;
-            -webkit-box-shadow:0 0 1px rgba(125,75,12,1);
-            -moz-box-shadow:0 0 1px rgba(125,75,12,1);
             box-shadow:0 0 1px rgba(125,75,12,1);
           }
         }
         .plan-unit.first {
           border-left: 1px solid #81A0B8;
+          border-radius: 2px 0 0 2px;
         }
         .plan-unit.first.active {
           border-left-color:#a97839;
         }
         .plan-unit.last {
           border-right: 1px solid #9BB9D0;
-          width: 75%;
-          -webkit-border-radius:2px;
-          -moz-border-radius:2px;
-          border-radius:2px;
+          border-radius:0 2px 2px 0;
         }
         .plan-unit.last.active {
           border-right-color:#9e7849;
