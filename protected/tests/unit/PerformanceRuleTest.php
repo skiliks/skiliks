@@ -10,6 +10,20 @@
 class PerformanceRuleTest extends CDbTestCase {
     use UnitLoggingTrait;
 
+    public function addExcelPoints($simulation){
+        /* @var SimulationExcelPoint $point  */
+        for ($i = 1; $i <= 9; $i++) {
+            $point = SimulationExcelPoint::model()->findByAttributes(['sim_id'=>$simulation->id, 'formula_id'=>$i]);
+            if(null === $point){
+                $point = new SimulationExcelPoint();
+            }
+            $point->formula_id = $i;
+            $point->value = '1.00';
+            $point->sim_id = $simulation->id;
+            $point->save();
+        }
+    }
+
     /**
         1. Запустить T7.1 - дойти до реплики 571
         2. Через 10 мин ответить на TT7.1.1
@@ -99,6 +113,7 @@ class PerformanceRuleTest extends CDbTestCase {
     }
 
     public function testExcelFasle(){
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
 
         $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
@@ -112,18 +127,46 @@ class PerformanceRuleTest extends CDbTestCase {
         $this->assertNull($rule);
     }
 
-    public function addExcelPoints($simulation){
-        /* @var SimulationExcelPoint $point  */
-        for ($i = 1; $i <= 9; $i++) {
-            $point = SimulationExcelPoint::model()->findByAttributes(['sim_id'=>$simulation->id, 'formula_id'=>$i]);
+    public function testRules() {
+
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+
+        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+
+        $rules = [
+            ['rule_id'=>31, 'formula_id'=>1],
+            ['rule_id'=>32, 'formula_id'=>2],
+            ['rule_id'=>33, 'formula_id'=>3],
+            ['rule_id'=>34, 'formula_id'=>4],
+            ['rule_id'=>35, 'formula_id'=>5],
+            ['rule_id'=>36, 'formula_id'=>6],
+            ['rule_id'=>37, 'formula_id'=>7],
+            ['rule_id'=>38, 'formula_id'=>8],
+            ['rule_id'=>39, 'formula_id'=>9],
+        ];
+
+        foreach($rules as $rule){
+            $point = SimulationExcelPoint::model()->findByAttributes(['sim_id'=>$simulation->id, 'formula_id'=>$rule['formula_id']]);
             if(null === $point){
                 $point = new SimulationExcelPoint();
+                $point->formula_id = $rule['formula_id'];
             }
-            $point->formula_id = $i;
             $point->value = '1.00';
             $point->sim_id = $simulation->id;
             $point->save();
+
+            SimulationService::setFinishedPerformanceRules($simulation);
+
+            $performanceRule = $simulation->game_type->getPerformanceRule(['code' => $rule['rule_id']]);
+            $this->assertNotNull($performanceRule);
+            if(null !== $performanceRule) {
+                $rule = PerformancePoint::model()->findByAttributes(['sim_id' => $simulation->id, 'performance_rule_id' => $performanceRule->getPrimaryKey()]);
+
+                $this->assertNotNull($rule);
+            }
         }
+
+
     }
 
 }
