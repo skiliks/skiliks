@@ -53,7 +53,6 @@ var spec = describe('simulation', function (run) {
                 SKApp.simulation.on('stop', stop_spy);
                 server.respond();
                 timers.tick(9 * 60 * 60 * 1000/8);
-                buster.log(SKApp.simulation.getGameTime());
                 server.respond();
                 assert.calledOnce(stop_spy);
 
