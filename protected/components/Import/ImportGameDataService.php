@@ -2225,7 +2225,8 @@ class ImportGameDataService
         $types = [
             'id_записи' => 'replica_id',
             'outbox'    => 'mail_id',
-            'inbox'     => 'mail_id'
+            'inbox'     => 'mail_id',
+            'excel'     => 'excel_formula_id'
         ];
 
         $rules = 0;
@@ -2247,11 +2248,6 @@ class ImportGameDataService
 
             $rule->activity_id = $this->getCellValue($sheet, 'Activity_code', $i);
 
-            // @todo: ignore 'formula_x' before investigation in S9
-            if (-1 < strpos($rule->activity_id, 'formula')) {
-                continue;
-            }
-
             $rule->operation = $this->getCellValue($sheet, 'Result_operation', $i);
             $rule->value = $this->getCellValue($sheet, 'All_Result_value', $i);
             $rule->import_id = $this->import_id;
@@ -2265,6 +2261,8 @@ class ImportGameDataService
                 $entity = $this->scenario->getReplica(['excel_id' => $code]);
             } elseif ($type == 'outbox' || $type == 'inbox') {
                 $entity = $this->scenario->getMailTemplate(['code' => $code]);
+            } elseif ($type == 'excel') {
+                $entity = ExcelPointFormula::model()->byFormulaID($code)->find();
             } else {
                 $entity = null;
             }
