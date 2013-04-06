@@ -300,7 +300,7 @@ define([
                 mailView.$el.find('.SAVE_TO_DRAFTS').click();
 
                 server.respond();
-                console.log('Email has been saved!');
+                //console.log('Email has been saved!');
 
                 mailView.$el.find('#FOLDER_DRAFTS').click();
                 server.respond();

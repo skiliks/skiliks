@@ -182,7 +182,7 @@ define([
                 // check is email send
                 expect(server.requests[server.requests.length-2].url).toBe('/index.php/mail/sendMessage');
 
-                console.log('Email has been send!');
+                //console.log('Email has been send!');
             });
         });
     });
