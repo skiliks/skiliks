@@ -29,7 +29,7 @@ class SimulationService
             true === $b_3322_3324['3322']['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3322 = new AssessmentCalculation();
-            $emailResultsFor_3322->sim_id = $simId;
+            $emailResultsFor_3322->sim_id = $simulation->id;
             $emailResultsFor_3322->point_id = $b_3322_3324['3322']['obj']->id;
             $emailResultsFor_3322->value = $b_3322_3324['3322']['positive'];
             try {
@@ -45,7 +45,7 @@ class SimulationService
             true === $b_3322_3324['3324']['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3324 = new AssessmentCalculation();
-            $emailResultsFor_3324->sim_id = $simId;
+            $emailResultsFor_3324->sim_id = $simulation->id;
             $emailResultsFor_3324->point_id = $b_3322_3324['3324']['obj']->id;
             $emailResultsFor_3324->value = $b_3322_3324['3324']['negative'];
             try {
@@ -65,7 +65,7 @@ class SimulationService
         ) {
 
             $emailResultsFor_3325 = new AssessmentCalculation();
-            $emailResultsFor_3325->sim_id = $simId;
+            $emailResultsFor_3325->sim_id = $simulation->id;
             $emailResultsFor_3325->point_id = $b_3325['obj']->id;
             $emailResultsFor_3325->value = $b_3325['negative'];
             try {
@@ -84,7 +84,7 @@ class SimulationService
             true === $b_3323['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3323 = new AssessmentCalculation();
-            $emailResultsFor_3323->sim_id = $simId;
+            $emailResultsFor_3323->sim_id = $simulation->id;
             $emailResultsFor_3323->point_id = $b_3323['obj']->id;
             $emailResultsFor_3323->value = $b_3323['positive'];
             try {
@@ -103,7 +103,7 @@ class SimulationService
             true === $b_3313['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3313 = new AssessmentCalculation();
-            $emailResultsFor_3313->sim_id = $simId;
+            $emailResultsFor_3313->sim_id = $simulation->id;
             $emailResultsFor_3313->point_id = $b_3313['obj']->id;
             $emailResultsFor_3313->value = $b_3313['positive'];
             try {
@@ -120,7 +120,7 @@ class SimulationService
             true === $b_3333['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3333 = new AssessmentCalculation();
-            $emailResultsFor_3333->sim_id = $simId;
+            $emailResultsFor_3333->sim_id = $simulation->id;
             $emailResultsFor_3333->point_id = $b_3333['obj']->id;
             $emailResultsFor_3333->value = $b_3333['positive'];
             try {
@@ -137,7 +137,7 @@ class SimulationService
             true === $b_3326['obj'] instanceof HeroBehaviour
         ) {
             $emailResultsFor_3326 = new AssessmentCalculation();
-            $emailResultsFor_3326->sim_id = $simId;
+            $emailResultsFor_3326->sim_id = $simulation->id;
             $emailResultsFor_3326->point_id = $b_3326['obj']->id;
             $emailResultsFor_3326->value = $b_3326['positive'];
             try {
