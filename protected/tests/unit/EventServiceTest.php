@@ -37,11 +37,13 @@ class EventServiceTest extends PHPUnit_Framework_TestCase
         try {
 
             $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-             $invite = new Invite();
+            $invite = new Invite();
             $invite->scenario = new Scenario();
             $invite->receiverUser = $user;
             $invite->scenario->slug = Scenario::TYPE_FULL;
             $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+            $result = EventService::processLinkedEntities('T', $simulation);
 
             $this->assertEquals($result, [
                 'result' => 1,
