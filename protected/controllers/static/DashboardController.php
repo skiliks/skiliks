@@ -37,6 +37,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $invite->owner_id = $this->user->id;
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
+            if (null == $invite->vacancy) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
+                    Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.'
+                ));
+
+                $this->redirect('/dashboard');
+            }
+
             $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
                 $invite->message =
@@ -67,6 +77,10 @@ class DashboardController extends AjaxController implements AccountPageControlle
                 $invite->receiver_id = $profile->user->id;
             }
 
+            $invite->scenario_id = Scenario::model()
+                ->findByAttributes(['slug' => Scenario::TYPE_FULL])
+                ->getPrimaryKey();
+
             // send invitation
             if ($invite->validate() && 0 < $this->user->getAccount()->invites_limit) {
                 $invite->markAsSendToday();
@@ -84,7 +98,7 @@ class DashboardController extends AjaxController implements AccountPageControlle
             } elseif ($this->user->getAccount()->invites_limit < 1 ) {
                 Yii::app()->user->setFlash('error', Yii::t('site', 'You has no available invites!'));
             } else {
-                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.'));
+                Yii::app()->user->setFlash('error', Yii::t('site', 'Неизвестная ошибка.<br/>Приглашение не отправлено.'));
             }
         }
         // handle send invitation }

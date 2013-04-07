@@ -469,80 +469,69 @@ class SimulationService
 
     /**
      * @param $simulationMode
-     * @param YumUser $user
      * @param string $type
+     * @param Invite $invite
      * @throws Exception
      * @internal param $simulationType
      * @return Simulation
      */
-    public static function simulationStart($simulationMode, $user, $type)
+    public static function simulationStart($invite, $simulationMode)
     {
-        $profiler = new SimpleProfiler(false);
-        $profiler->startTimer();
-
-        assert($user);
-        $userId = $user->primaryKey;
-
-        if (null === $userId) {
-            return null;
-        }
-
-        $profiler->render('1: ');
-
         if (Simulation::MODE_DEVELOPER_LABEL == $simulationMode
-            && false == $user->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
+            && false == $invite->receiverUser->can(UserService::CAN_START_SIMULATION_IN_DEV_MODE)
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
 
         // TODO: Change checking logic
-        if ($type == Scenario::TYPE_FULL
-            && false == $user->can(UserService::CAN_START_FULL_SIMULATION)
+        if ($invite->scenario->slug == Scenario::TYPE_FULL
+            && false == $invite->receiverUser->can(UserService::CAN_START_FULL_SIMULATION)
         ) {
             throw new Exception('У вас нет прав для старта этой симуляции');
         }
-        $profiler->render('2: ');
 
         // Создаем новую симуляцию
         $simulation = new Simulation();
-        $simulation->user_id = $userId;
+        $simulation->user_id = $invite->receiverUser->id;
         $simulation->start = GameTime::setNowDateTime();
         $simulation->mode = Simulation::MODE_DEVELOPER_LABEL === $simulationMode ? Simulation::MODE_DEVELOPER_ID : Simulation::MODE_PROMO_ID;
-        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $type])->primaryKey;
-        $simulation->insert();
-        $profiler->render('3: ');
+        $simulation->scenario_id = Scenario::model()->findByAttributes(['slug' => $invite->scenario->slug])->primaryKey;
+        $simulation->save();
 
         // save simulation ID to user session
         Yii::app()->session['simulation'] = $simulation->id;
-        $profiler->render('4: ');
 
         //@todo: increase speed
         SimulationService::initEventTriggers($simulation);
-        $profiler->render('5: '); // 3.10 ~ 3.17
 
         // предустановка задач в todo!
         SimulationService::fillTodo($simulation);
-        $profiler->render('6: ');
 
         // скопируем документы
         MyDocumentsService::init($simulation);
-        $profiler->render('7: ');
 
         // @todo: increase speed
         // Установим дефолтовые значения для mail client
         $mailSettings = new MailSettings();
         $mailSettings->sim_id = $simulation->id;
         $mailSettings->insert();
-        $profiler->render('8: ');
 
         // Copy email templates
         MailBoxService::initMailBoxEmails($simulation->id);
-        $profiler->render('9: '); // 3.51 ~ 4.14
+
         ZohoDocuments::copyExcelFiles($simulation->id);
         // проставим дефолтовые значени флагов для симуляции пользователя
         $flags = Flag::model()->findAll();
         foreach ($flags as $flag) {
             FlagsService::setFlag($simulation, $flag->code, 0);
+        }
+
+        // update invite if it set
+        // in cheat mode invite has no ID
+        if (null !== $invite && null != $invite->id) {
+            $invite->simulation_id = $simulation->id;
+            $invite->status = Invite::STATUS_STARTED;
+            $invite->save(false, ['simulation_id', 'status']);
         }
 
         return $simulation;

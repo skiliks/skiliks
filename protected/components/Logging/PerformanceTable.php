@@ -23,8 +23,9 @@ class PerformanceTable extends LogTable {
 
     protected function getRow($point)
     {
+        /* @var $point PerformanceRule */
         return [
-            $point->performance_rule_id,
+            $point->performanceRule->code,
             $point->performanceRule->value
         ];
     }

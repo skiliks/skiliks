@@ -16,35 +16,28 @@
                 <?php echo $tariff->price % 1000 ?></p>
             </div>
             <div class="tarifwrap">
+
                 <div class="brightblock">
-                    <?php if ($tariff->safe_amount !== '0.00'): ?><!-- $tariff->is_free ||  -->
-                        Экономия <?php echo $tariff->getFormattedSafeAmount() ?> р
-                    <?php else: ?>
-                        бесплатно
-                    <?php endif ?>
+                    <?php echo $tariff->getFormattedSafeAmount('Экономия ') ?>
                 </div>
-                <div class="simulations-amount lightblock"><?php echo $tariff->getFormattedSimulationsAmount() ?>
-                    <?php if ($tariff->safe_amount !== '0.00'): ?>*<?php endif ?></div>
+
+                <div class="simulations-amount lightblock">
+                    <?php echo $tariff->getFormattedSimulationsAmount() ?>
+                </div>
+
                 <div class="benefits">
                     <?php foreach (explode(',', $tariff->benefits) as $benefit) : ?>
                         <p><?php echo $benefit?></p>
                     <?php endforeach ?>
                 </div>
-                <?php if(null === $user->id){ ?>
-                    <?php if($tariff->label === "Lite") {  ?>
-                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
-                    <?php } ?>
-                <?php } elseif ($user->isCorporate()) { ?>
-                    <?php if ($tariff->id !== $user->getAccount()->tariff_id){ ?>
-                        <?php if($tariff->label === "Lite") {  ?>
-                            <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
-                        <?php } ?>
-                    <?php } ?>
-                <?php }else{ ?>
-                    <?php if($tariff->label === "Lite") {  ?>
-                        <div class="subscribe-ti-tariff"><a class="light-btn lightbox-30835043655352" href="/tariffs/lite">Выбрать</a></div>
-                    <?php } ?>
-                <?php } ?>
+
+                <?php if($tariff->isUserCanChooseTariff($user)): ?>
+                     <div class="subscribe-ti-tariff">
+                         <a class="light-btn" href="/tariffs/<?php echo $tariff->slug ?>">
+                             <?php echo $tariff->getFormattedLinkLabel($user) ?>
+                         </a>
+                     </div>
+                <?php endif ?>
             </div>
         </div>
     </div>

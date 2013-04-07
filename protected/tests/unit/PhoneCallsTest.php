@@ -13,7 +13,12 @@ class PhoneServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init test data {
         $toCharacter = Character::model()->find([
@@ -58,7 +63,12 @@ class PhoneServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init test data {
         $time = ['09:06', '11:45', '11:50'];
@@ -120,7 +130,12 @@ class PhoneServiceTest extends CDbTestCase
     public function testOutgoingCall()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $time = sprintf('%02d:%02d', rand(8, 11), rand(0, 59));
         $characterCode = 3; // Трутнев
@@ -152,7 +167,12 @@ class PhoneServiceTest extends CDbTestCase
     public function testOnlyUniqueCall()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $character = $simulation->game_type->getCharacter(['fio' => 'Денежная Р.Р.']);
 

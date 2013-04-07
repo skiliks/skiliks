@@ -266,14 +266,15 @@ define([
                 // check is email valid
                 expect(validationDialogResult).toBe(true);
                 mailClientView.mailClient.reloadSubjects([2,4]);
-                console.log(mailClientView.selectSubjectByValue('1788'));
+                server.respond();
+                //console.log(mailClientView.selectSubjectByValue('1788'));
                 //mailClientView.$el.find("#MailClient_NewLetterSubject").ddslick('select', {'index': 1 });
                 //mailClient.doSendEmail();
                 expect(SKApp.simulation.mailClient.availableSubjects[0].text).toBe('Fwd: !проблема с сервером!');
                 mailClientView.$('.SEND_EMAIL').click();
                 server.respond();
                 server.requests.forEach(function(request){
-                    if(request.url == '/index.php/mail/sendMessage'){
+                    if(request.url === '/index.php/mail/sendMessage'){
                         //console.log(request);
                         expect(request.requestBody).toBe('copies=&fileId=&messageId=4125&phrases=&receivers=2%2C4%2C&subject=1788&time=09%3A00&letterType=forward');
                     }

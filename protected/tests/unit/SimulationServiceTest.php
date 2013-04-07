@@ -17,7 +17,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $simulationFlags = SimulationFlag::model()->findAllByAttributes(['sim_id' => $simulation->id]);
 
@@ -35,7 +40,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationPause()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_LITE);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
         $awaiting = 2; //sec
 
         $before = $simulation->getGameTime();
@@ -59,8 +69,13 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         // init conts
         // get all replics that change score for behaviour '1122'
         $criteria = new CDbCriteria();
@@ -132,8 +147,13 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         // init conts
         // get all replics that change score for behaviour '4124'
         $replicsFor_4124 = Replica::model()->findAll('excel_id IN (332, 336)');
@@ -238,7 +258,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $time = 32000;
         $speedFactor = Yii::app()->params['public']['skiliksSpeedFactor'];
@@ -361,7 +386,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $data = [];
 
@@ -540,7 +570,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS10');
@@ -618,7 +653,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[20] = LibSendMs::sendMs($simulation, 'MS20');
@@ -670,7 +710,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // calculate point total scores
         SimulationService::saveEmailsAnalyze($simulation->id);
@@ -704,7 +749,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -770,7 +820,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -835,7 +890,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -904,7 +964,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
 
@@ -970,7 +1035,12 @@ class SimulationServiceTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // init MS emails:
         $ms[] = LibSendMs::sendMs($simulation, 'MS20');
@@ -1032,7 +1102,12 @@ class SimulationServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // activate mainScreen
         $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
@@ -1071,7 +1146,12 @@ class SimulationServiceTest extends CDbTestCase
     {
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         // activate mainScreen
         $logs[] = [1, 1, 'activated' , 34200, 'window_uid' => 100];
@@ -1113,7 +1193,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testSimulationPerformanceRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
         $eventsManager = new EventsManager();
 
         // Action for rule id 1
@@ -1176,7 +1261,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testAssessmentAggregation()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
         $mgr = new EventsManager();
         $scaleTypes = [1 => 'positive', 2 => 'negative', 3 => 'personal'];
 
@@ -1250,7 +1340,12 @@ class SimulationServiceTest extends CDbTestCase
     public function testStressRules()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_ID, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
         $eventsManager = new EventsManager();
         $dialog = new DialogService();
 
