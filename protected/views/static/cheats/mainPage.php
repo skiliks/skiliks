@@ -42,8 +42,8 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/<?php Simulation::MODE_PROMO_LABEL ?>/<?php Scenario::TYPE_LITE ?>">Начать симуляцию в режиме promo (lite)</a>
-    <a href="/simulation/<?php Simulation::MODE_PROMO_LABEL ?>/<?php Scenario::TYPE_FULL ?>">Начать симуляцию в режиме promo (full)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php Scenario::TYPE_LITE ?>">Начать симуляцию в режиме promo (lite)</a>
+    <a href="/simulation/<?php echo Simulation::MODE_PROMO_LABEL ?>/<?php Scenario::TYPE_FULL ?>">Начать симуляцию в режиме promo (full)</a>
 
     <?php if (Yii::app()->user->data()->getAccount() instanceof UserAccountCorporate): ?>
     <a href="/dashboard">
@@ -72,8 +72,8 @@
         </a>
     <?php endif; ?>
 
-    <a href="/simulation/<?php Simulation::MODE_DEVELOPER_LABEL ?>/<?php Scenario::TYPE_LITE ?>">Начать симуляцию (lite) в режиме developer</a>
-    <a href="/simulation/<?php Simulation::MODE_DEVELOPER_LABEL ?>/<?php Scenario::TYPE_FULL ?>">Начать симуляцию (full) в режиме developer</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php Scenario::TYPE_LITE ?>">Начать симуляцию (lite) в режиме developer</a>
+    <a href="/simulation/<?php echo Simulation::MODE_DEVELOPER_LABEL ?>/<?php Scenario::TYPE_FULL ?>">Начать симуляцию (full) в режиме developer</a>
 
         <br>
         <br>
