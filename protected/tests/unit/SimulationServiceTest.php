@@ -622,7 +622,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -679,7 +679,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -718,7 +718,7 @@ class SimulationServiceTest extends CDbTestCase
 
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -789,7 +789,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -859,7 +859,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -933,7 +933,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -1004,7 +1004,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -1072,7 +1072,7 @@ class SimulationServiceTest extends CDbTestCase
         EventsManager::processLogs($simulation, $logs);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -1117,7 +1117,7 @@ class SimulationServiceTest extends CDbTestCase
         LibSendMs::sendMsByCode($simulation, 'MS60', 35000, 1, 1, 100);
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         $heroBehaviour = $simulation->game_type->getHeroBehaviour(['code' => '3333']);
@@ -1171,7 +1171,7 @@ class SimulationServiceTest extends CDbTestCase
         );
 
         // calculate point total scores
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         SimulationService::copyMailInboxOutboxScoreToAssessmentAggregated($simulation->id);
 
         // check calculation
@@ -1302,7 +1302,7 @@ class SimulationServiceTest extends CDbTestCase
         $mgr->processLogs($simulation, $logs);
 
         // Require this for calculation 331 - 333 behaviors
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
 
         // This calls fill assessment aggregated data
         SimulationService::saveAggregatedPoints($simulation->id);

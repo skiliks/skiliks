@@ -49,7 +49,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code'        => '3313'
         ]);
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -91,7 +91,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3313',
         ]);
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -146,7 +146,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->end_time     = '09:06:00';
         $log->save();
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -198,7 +198,7 @@ class EmailAnalyzerTest extends CDbTestCase
         // move all not received emails to inbox }
         
 
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -272,7 +272,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $log->end_time     = '09:06:00';
         $log->save();
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -327,7 +327,7 @@ class EmailAnalyzerTest extends CDbTestCase
         $email = MailBox::model()->findByAttributes(['code' => 'M3', 'sim_id' => $simulation->id]);
         $emailTask = MailTask::model()->findByAttributes(['code' => 'M3', 'wr' => 'W']);
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result_3322 = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -374,7 +374,7 @@ class EmailAnalyzerTest extends CDbTestCase
             $mail->save();
         }
         
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         
         $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -423,7 +423,7 @@ class EmailAnalyzerTest extends CDbTestCase
         //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
 
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
 
         $point = AssessmentCalculation::model()->findByAttributes([
             'point_id' => $code_3323->id,
@@ -454,7 +454,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
         //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 35240, 10, 11, 20, $mail_event['events'][0]['id']);
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
         $this->assertEquals('2', $point->value);
 
@@ -481,7 +481,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
         //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS46', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
         $this->assertEquals('0', $point->value);
 
@@ -507,7 +507,7 @@ class EmailAnalyzerTest extends CDbTestCase
         ]);
         //LibSendMs::sendMsByCode($simulation, 'MS63', 35240, 10, 11, 20);
         LibSendMs::sendMsByCodeWithParent($simulation, 'MS63', 36540, 10, 11, 20, $mail_event['events'][0]['id']);
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
         $point = AssessmentCalculation::model()->findByAttributes(['point_id'=>$code_3323->id, 'sim_id'=>$simulation->id]);
         $this->assertEquals('0', $point->value);
 
@@ -534,7 +534,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3325',
         ]);
 
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
 
         $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -547,15 +547,14 @@ class EmailAnalyzerTest extends CDbTestCase
     /*
      * Читает спам
      */
-    public function test_3325_false() {
-
+    public function test_3325_false()
+    {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
         $invite = new Invite();
         $invite->scenario = new Scenario();
         $invite->receiverUser = $user;
         $invite->scenario->slug = Scenario::TYPE_FULL;
         $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
-
 
         EventsManager::startEvent($simulation, 'M60');
         $mail_event = EventsManager::getState($simulation, []);
@@ -569,7 +568,7 @@ class EmailAnalyzerTest extends CDbTestCase
             'code' => '3325',
         ]);
 
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
 
         $result = AssessmentCalculation::model()->findByAttributes([
             'sim_id'   => $simulation->id,
@@ -579,6 +578,55 @@ class EmailAnalyzerTest extends CDbTestCase
         $this->assertEquals('-0.20', $result->value);
     }
 
+    public function test_3311_case1()
+    {
+        $this->markTestIncomplete();
 
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
+        $MY1_template = $simulation->game_type->getMailTemplate(['code' =>  'MY1']);
+        $MY1_activity = $simulation->game_type->getActivity(['code' => 'AMY1']);
+        $MY1_activityAction_id = $simulation->game_type->getActivityAction([
+            'mail_id'     =>  $MY1_template->getPrimaryKey(),
+            'leg_type'    => ActivityAction::LEG_TYPE_INBOX,
+            'activity_id' => $MY1_activity->id,
+        ])->getPrimaryKey();
+
+        // бредовый лог {
+        // использовать только для начальной отладки
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '00:01:00';
+        $log->save();
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '00:01:00';
+        $log->save();
+
+        $log = new LogActivityActionAgregated();
+        $log->sim_id = $simulation->id;
+        $log->leg_type = 'Inbox_leg';
+        $log->leg_action = 'MY1';
+        $log->activity_action_id = $MY1_activityAction_id;
+        $log->duration = '01:13:00';
+        $log->save();
+        // бредовый лог }
+
+        $emailAnalyzer = new EmailAnalyzer($simulation);
+
+        var_dump($emailAnalyzer->check_3311());
+    }
 }
 

@@ -48,6 +48,28 @@ class LogActivityActionAgregated extends CActiveRecord
         );
     }
 
+    /**
+     * @return bool
+     */
+    public function isMail()
+    {
+        return (in_array($this->leg_type, ['Inbox_leg', 'Outbox_leg', '']));
+    }
+
+    /**
+     * @return int
+     */
+    public function getDurationInSeconds()
+    {
+        if (null === $this->duration) {
+            return 0;
+        }
+
+        list($hours, $minutes, $seconds) = explode(':', $this->duration);
+
+        return $hours*60*60 + $minutes*60 + $seconds;
+    }
+
     /** ------------------------------------------------------------------------------------------------------------ **/
     
     /**
