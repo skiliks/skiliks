@@ -323,6 +323,12 @@ class Scenario extends CActiveRecord
         return Activity::model()->findByAttributes($array);
     }
 
+    public function getActivityAction($array)
+    {
+        $array['scenario_id'] = $this->id;
+        return ActivityAction::model()->findByAttributes($array);
+    }
+
     public function getPerformanceRule($array)
     {
         $array['scenario_id'] = $this->id;

@@ -12,10 +12,10 @@ class SimulationService
      *
      * @param integer $simId
      */
-    public static function saveEmailsAnalyze($simId)
+    public static function saveEmailsAnalyze($simulation)
     {
         // init emails in analyzer
-        $emailAnalyzer = new EmailAnalyzer($simId);
+        $emailAnalyzer = new EmailAnalyzer($simulation);
 
         // 3322_3324 {
         // 3322 - add to plan right tasks
@@ -553,7 +553,7 @@ class SimulationService
         LogHelper::combineLogActivityAgregated($simulation);
 
         // make attestation 'work with emails' 
-        SimulationService::saveEmailsAnalyze($simulation->id);
+        SimulationService::saveEmailsAnalyze($simulation);
 
         DayPlanService::copyPlanToLog($simulation, 18 * 60, DayPlanLog::ON_18_00); // 18-00 copy
 

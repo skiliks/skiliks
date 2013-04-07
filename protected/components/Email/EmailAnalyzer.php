@@ -99,11 +99,9 @@ class EmailAnalyzer
     public $reply_all = array();
 
 
-    public function __construct($simId) 
+    public function __construct(Simulation $simulation)
     {
-        $this->simId = $simId;
-        /** @var $simulation Simulation */
-        $simulation = Simulation::model()->findByPk($this->simId);
+        $this->simId = $simulation->id;
         $this->simulation = $simulation;
 
         /**
@@ -126,8 +124,7 @@ class EmailAnalyzer
         $this->mailMainWindowId   = (int)$subScreens[LogHelper::MAIL_MAIN];
         $this->mailPlanWindowId   = (int)$subScreens[LogHelper::MAIL_PLAN];
         $this->mailNewWindowId    = (int)$subScreens[LogHelper::MAIL_NEW];
-        $this->mailPreviewindowId = (int)$subScreens[LogHelper::MAIL_PREVIEW];    
-        
+        $this->mailPreviewindowId = (int)$subScreens[LogHelper::MAIL_PREVIEW];
         
         // get mail templates
         foreach($this->simulation->game_type->getMailTemplates([]) as $mailTemplate) {
@@ -536,6 +533,109 @@ class EmailAnalyzer
         return array(
             'positive' => 0,
             'obj'      => $behave_3326,
+        );
+    }
+
+    public function check_3311()
+    {
+        $behave_3311 = $this->simulation->game_type->getHeroBehaviour(['code' => '3311']);
+
+        $countInboxRead =MailBox::model()->countByAttributes([
+            'sim_id'   => $this->simulation->id,
+            'group_id' => MailBox::FOLDER_INBOX_ID,
+            'readed'   => 1,
+        ]);
+
+        $countTrashRead =MailBox::model()->countByAttributes([
+            'sim_id'   => $this->simulation->id,
+            'group_id' => MailBox::FOLDER_TRASH_ID,
+            'readed'   => 1,
+        ]);
+
+        $countOutboxRead =MailBox::model()->countByAttributes([
+            'sim_id'   => $this->simulation->id,
+            'group_id' => MailBox::FOLDER_OUTBOX_ID,
+        ]);
+
+        // проверяем, вдруг пользователь не пользуется почтой?
+//        if (($countInboxRead + $countTrashRead < 6) || ($countOutboxRead < 10)) {
+//            return array(
+//                $behave_3311->getTypeScaleSlug() => 0,
+//                'obj'                            => $behave_3311,
+//            );
+//        }
+
+        $workWithMailTotalDuration = 0; // seconds
+        $mailSessionsTotalAmount = 0;
+        $mailSessionsIsOpen = false;
+        $currentSessionLegAction = false;
+
+        // обработка LogActivityActionAggregated
+        foreach ($this->simulation->log_activity_actions_aggregated as $logItem) {
+            if ($logItem->isMail() || ActivityAction::LEG_TYPE_WINDOW == $logItem->leg_type) {
+                $workWithMailTotalDuration += $logItem->getDurationInSeconds();
+
+                if (false === in_array($logItem->activityAction->activity->category_id, [0,1,2])) {
+                    $mailSessionsTotalAmount++;
+                    $mailSessionsIsOpen = true;
+                    $currentSessionLegAction = $logItem->leg_type;
+                }
+
+                if (true === $mailSessionsIsOpen && $currentSessionLegAction != $logItem->leg_type) {
+                    $mailSessionsIsOpen = false;
+                }
+            }
+        }
+
+        // проверяем что пользователь читал почту более 90 минут - это плохо
+        if (90*60 < $workWithMailTotalDuration) {
+            return array(
+                $behave_3311->getTypeScaleSlug() => 0,
+                'obj'                            => $behave_3311,
+            );
+        }
+
+        // редко читает почту
+        if ($mailSessionsTotalAmount < 2) {
+            return array(
+                $behave_3311->getTypeScaleSlug() => 0,
+                'obj'                            => $behave_3311,
+            );
+        }
+
+        // часто читает почту
+        if (3 < $mailSessionsTotalAmount) {
+            return array(
+                $behave_3311->getTypeScaleSlug() => 0,
+                'obj'                            => $behave_3311,
+            );
+        }
+
+        // часто читает почту
+        if (1 < $mailSessionsTotalAmount && $mailSessionsTotalAmount < 4) {
+            $value = 0;
+
+            if ($workWithMailTotalDuration <= 60*60) {
+                $value = $behave_3311->scale;
+            }
+
+            if (60*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 75*60) {
+                $value = $behave_3311->scale*(2/3);
+            }
+
+            if (75*60 < $workWithMailTotalDuration && $workWithMailTotalDuration <= 90*60) {
+                $value = $behave_3311->scale*(1/3);
+            }
+
+            return array(
+                $behave_3311->getTypeScaleSlug() => $value,
+                'obj'                            => $behave_3311,
+            );
+        }
+
+        return array(
+            $behave_3311->getTypeScaleSlug() => 0,
+            'obj'                            => $behave_3311,
         );
     }
 

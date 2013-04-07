@@ -21,6 +21,12 @@
  */
 class ActivityAction extends CActiveRecord
 {
+    const LEG_TYPE_WINDOW = 'window';
+    const LEG_TYPE_INBOX = 'Inbox_leg';
+    const LEG_TYPE_OUTBOX = 'Outbox_leg';
+    const LEG_TYPE_DOCUMENTS = 'Documents_leg';
+    const LEG_TYPE_MANUAL_DIAL = 'Manual_dial_leg';
+    const LEG_TYPE_SYSTEM_DIAL = 'System_dial_leg';
 
     /**
      * @var bool
