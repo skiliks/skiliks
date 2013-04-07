@@ -37,6 +37,16 @@ class DashboardController extends AjaxController implements AccountPageControlle
             $invite->owner_id = $this->user->id;
             $validPrevalidate = $invite->validate(['firstname', 'lastname', 'email']);
             $profile = YumProfile::model()->findByAttributes(['email' => $invite->email]);
+
+            if (null == $invite->vacancy) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'У вас нет вакансий и поэтому вы не сможете создать приглашение. <br/>
+                    Перейдите на страницу <a href="/profile/corporate/vacancies">вакансии</a> чтоб создать их.'
+                ));
+
+                $this->redirect('/dashboard');
+            }
+
             $vacancy_label = Yii::t('site', (string)$invite->vacancy->label);
             if ($profile) {
                 $invite->message =
