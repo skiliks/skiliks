@@ -18,12 +18,14 @@
  * @property string $sent_time
  * @property string $fullname
  * @property integer $simulation_id
+ * @property integer $scenario_id
  *
  * The followings are the available model relations:
  * @property YumUser $ownerUser
  * @property YumUser $receiverUser
  * @property Vacancy $vacancy
  * @property Simulation $simulation
+ * @property Scenario $scenario
  */
 class Invite extends CActiveRecord
 {
@@ -235,7 +237,7 @@ class Invite extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('owner_id, firstname, lastname, email, status', 'required'),
+			array('owner_id, firstname, lastname, email, status, scenario_id', 'required'),
 			array('owner_id, receiver_id, vacancy_id, status', 'length', 'max'=>10),
 			array('firstname, lastname', 'length', 'max'=>100),
 			array('email, signature', 'length', 'max'=>255),
@@ -258,9 +260,10 @@ class Invite extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'receiverUser' => array(self::BELONGS_TO, 'YumUser', 'receiver_id'),
-			'ownerUser' => array(self::BELONGS_TO, 'YumUser', 'owner_id'),
-			'vacancy' => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id'),
-			'simulation' => array(self::BELONGS_TO, 'Simulation', 'simulation_id'),
+			'ownerUser'    => array(self::BELONGS_TO, 'YumUser', 'owner_id'),
+			'vacancy'      => array(self::BELONGS_TO, 'Vacancy', 'vacancy_id'),
+			'simulation'   => array(self::BELONGS_TO, 'Simulation', 'simulation_id'),
+			'scenario'     => array(self::BELONGS_TO, 'Scenario', 'scenario_id'),
 		);
 	}
 
@@ -310,6 +313,7 @@ class Invite extends CActiveRecord
 		$criteria->compare('code', $this->code);
 		$criteria->compare('vacancy_id', $this->vacancy_id);
 		$criteria->compare('status', $this->status);
+        $criteria->compare('scenario_id', $this->scenario_id);
 		$criteria->compare('sent_time', $this->sent_time);
 
         $criteria->mergeWith([
@@ -370,6 +374,7 @@ class Invite extends CActiveRecord
         $criteria->compare('signature', $this->signature);
         $criteria->compare('code', $this->code);
         $criteria->compare('vacancy_id', $this->vacancy_id);
+        $criteria->compare('scenario_id', $this->scenario_id);
         $criteria->compare('status', $status);
         $criteria->compare('sent_time', $this->sent_time);
 

@@ -17,8 +17,13 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a1_0(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         $analyzer = new PlanAnalyzer($simulation);
         $analyzer->check_214a1();
 
@@ -36,8 +41,13 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a1_33_3(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         //P17 30 min 16:00
         $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
         $this->addToPlan($simulation, 'P02', '11:15', DayPlanLog::TODAY); //30 min
@@ -67,8 +77,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a1_66_7(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
 
@@ -97,8 +111,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a1_100(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY); //90 min
 
@@ -127,8 +145,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a3_0(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         DayPlanService::copyPlanToLog($simulation, '660');
 
@@ -152,8 +174,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a3_1(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         DayPlanService::copyPlanToLog($simulation, '660');
 
@@ -181,8 +207,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a4_0() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P01', '9:00', DayPlanLog::TOMORROW); //90 min
 
@@ -206,8 +236,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a4_100() {
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P01', '9:00', DayPlanLog::TOMORROW); //90 min
         $this->addToPlan($simulation, 'P02', '11:30', DayPlanLog::TOMORROW); //30 min
@@ -235,8 +269,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a5_0(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_18_00);
 
@@ -257,8 +295,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a5_1(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_18_00);
 
@@ -283,8 +325,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a8_1(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         DayPlanService::copyPlanToLog($simulation, '660', DayPlanLog::ON_11_00);
 
@@ -304,8 +350,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214a8_0(){
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        // Bug with several calculations and cache fixes this bug
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P01', '9:45', DayPlanLog::TODAY);
 
@@ -325,7 +375,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214b_case1()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P6',   '10:15', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P012', '10:45', DayPlanLog::TODAY);
@@ -609,7 +664,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214b_case2()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P013', '10:00', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P011', '13:15', DayPlanLog::TODAY);
@@ -890,7 +950,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214b_case_my()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P6', '10:15', DayPlanLog::TODAY);
         $this->addToPlan($simulation, 'P012', '10:45', DayPlanLog::TODAY);
@@ -927,7 +992,12 @@ class PlanAnalyzerTest extends PHPUnit_Framework_TestCase {
     public function test_check_214b_case_nothing_was_planing()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $this->addToPlan($simulation, 'P6', '',   DayPlanLog::TODO);
         $this->addToPlan($simulation, 'P012', '', DayPlanLog::TODO);

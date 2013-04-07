@@ -20,20 +20,21 @@ class SimulationController extends AjaxController
     {
         // Режим симуляции: promo, dev
         $mode = Yii::app()->request->getParam('mode');
-        // Тип симуляции
-        $type = Yii::app()->request->getParam('type');
 
         // check invite if it setted {
         $invite_id = Yii::app()->request->getParam('invite_id');
-        $invite = null;
+        $invite = Invite::model()->findByPk($invite_id);
 
-        if (null !== $invite_id) {
-            $invite = Invite::model()->findByPk($invite_id);
+        if (null == $invite) {
+            $invite = new Invite();
+            $invite->scenario = new Scenario();
+            $invite->receiverUser = Yii::app()->user->data();
+            $invite->scenario->slug = Yii::app()->request->getParam('type');
         }
         // check invite if it setted }
 
         $user = Yii::app()->user->data();
-        $simulation = SimulationService::simulationStart($mode, $user, $type);
+        $simulation = SimulationService::simulationStart($invite, $mode);
 
         if (null === $simulation) {
             $this->sendJSON(
@@ -41,13 +42,6 @@ class SimulationController extends AjaxController
                     'result' => 0,
                 )
             );
-        }
-
-        // update invite if it setted
-        if (null !== $invite) {
-            $invite->simulation_id = $simulation->id;
-            $invite->status = Invite::STATUS_STARTED;
-            $invite->save(false, ['simulation_id', 'status']);
         }
 
         $this->sendJSON(

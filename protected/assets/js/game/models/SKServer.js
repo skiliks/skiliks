@@ -63,7 +63,7 @@ define(["jquery/jquery.cookies"], function () {
                         }
                     },
                     'error':     function (jqXHR, textStatus, errorThrown) {
-                        console.log(url + ' error ' + errorThrown);
+                        //console.log(url + ' error ' + errorThrown);
                         /**
                          * Вызывается, если сервер вернул не 200-й статус
                          *

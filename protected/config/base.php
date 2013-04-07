@@ -174,27 +174,28 @@ return array(
                 'simulation/<mode:\w+>/<type:\w+>/<invite_id:\d+>'=> 'static/site/simulation',
                 'simulation/<mode:\w+>/<type:\w+>'=> 'static/site/simulation',
 
+                'tariffs/<type:\w+>'                   => 'static/pages/ChangeTariff',
                 'registration'                         => 'static/userAuth/registration',
                 'registration/by-link/<code:\w+>'      => 'static/userAuth/registerByLink',
                 'registration/choose-account-type'     => 'static/userAuth/chooseAccountType',
                 'registration/account-type/added'      => 'static/userAuth/accountTypeSavesSuccessfully',
                 'registration/confirm-corporate-email' => 'static/userAuth/ConfirmCorporateEmail',
-                'registration/confirm-corporate-email-success'=>'static/userAuth/ConfirmCorporateEmailSuccess',
-                'logout/registration'=>'static/userAuth/LogoutAndRegistration',
-                '/recovery' => 'static/userAuth/recovery',
 
+                'registration/confirm-corporate-email-success' =>'static/userAuth/ConfirmCorporateEmailSuccess',
+                'logout/registration'                          =>'static/userAuth/LogoutAndRegistration',
+
+                'recovery'                  => 'static/userAuth/recovery',
                 'results'                   =>'static/userAuth/results',
                 'simulation/results'        =>'static/userAuth/results', // just to handle JS 'Sim stop'
                 'site/results'              =>'static/userAuth/results',
 
-                'userAuth/<action:\w+>'    => 'static/userAuth/<action>',
-                'registration/<action:\w+>'   => 'static/userAuth/<action>',
+                'userAuth/<action:\w+>'     => 'static/userAuth/<action>',
+                'registration/<action:\w+>' => 'static/userAuth/<action>',
 
-                'cheats'          => 'static/cheats/mainPage',
-                'cheats/cleanUpAccount'          => 'static/cheats/cleanUpAccount',
-                'cheats/setinvites/<status:\w+>' => 'static/cheats/setStatusForAllInvites',
-                'static/cheats/set-tariff/' => 'static/cheats/chooseTariff',
-                'tariffs/lite' => 'static/pages/ChangeTariff',
+                'cheats'                               => 'static/cheats/mainPage',
+                'cheats/cleanUpAccount'                => 'static/cheats/cleanUpAccount',
+                'cheats/setinvites/<status:\w+>'       => 'static/cheats/setStatusForAllInvites',
+                'static/cheats/set-tariff/'            => 'static/cheats/chooseTariff',
                 'static/cheats/set-tariff/<label:\w+>' => 'static/cheats/chooseTariff',
 
                 'dashboard/'          => 'static/dashboard/index',

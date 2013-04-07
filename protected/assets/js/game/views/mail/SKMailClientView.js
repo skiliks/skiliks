@@ -998,7 +998,7 @@ define([
              * @method
              * @param email
              */
-            doMoveToTrash: function (email) {
+            doMoveToTrash: function (email, cb) {
                 var me = this;
 
                 SKApp.server.api(
@@ -1008,35 +1008,34 @@ define([
                         messageId: email.mySqlId
                     },
                     function () {
-                    },
-                    false
-                );
+                        var updateFolderRender = function () {
+                            me.mailClient.setActiveEmail(undefined);
+                            me.isSortingNotApplied = true;
+                            var inboxEmails = me.mailClient.getInboxFolder().emails;
 
-                var updateFolderRender = function () {
-                    me.mailClient.setActiveEmail(undefined);
-                    me.isSortingNotApplied = true;
-                    var inboxEmails = me.mailClient.getInboxFolder().emails;
+                            for (var i in inboxEmails) {
+                                me.mailClient.setActiveEmail(inboxEmails[i]);
+                                break;
+                            }
 
-                    for (var i in inboxEmails) {
-                        me.mailClient.setActiveEmail(inboxEmails[i]);
-                        break;
+                            // logging:
+                            me.mailClient.setWindowsLog(
+                                'mailMain',
+                                me.mailClient.getActiveEmailId()
+                            );
+
+                            me.updateFolderLabels();
+                            me.renderInboxFolder();
+                        };
+
+                        me.mailClient.getTrashFolderEmails(
+                            me.mailClient.getInboxFolderEmails(
+                                updateFolderRender
+                            )
+                        );
                     }
-
-                    // logging:
-                    me.mailClient.setWindowsLog(
-                        'mailMain',
-                        me.mailClient.getActiveEmailId()
-                    );
-
-                    me.updateFolderLabels();
-                    me.renderInboxFolder();
-                };
-
-                this.mailClient.getTrashFolderEmails(
-                    this.mailClient.getInboxFolderEmails(
-                        updateFolderRender
-                    )
                 );
+
             },
 
             doMoveToInboxByClick: function () {
@@ -1059,33 +1058,32 @@ define([
                         messageId: email.mySqlId
                     },
                     function () {
-                    },
-                    false
-                );
+                        var updateFolderRender = function () {
+                            me.mailClient.setActiveEmail(undefined);
+                            var trashEmails = me.mailClient.getTrashFolder().emails;
+                            for (var i in trashEmails) {
+                                me.mailClient.setActiveEmail(trashEmails[i]);
+                                break;
+                            }
 
-                var updateFolderRender = function () {
-                    me.mailClient.setActiveEmail(undefined);
-                    var trashEmails = me.mailClient.getTrashFolder().emails;
-                    for (var i in trashEmails) {
-                        me.mailClient.setActiveEmail(trashEmails[i]);
-                        break;
+                            // logging:
+                            me.mailClient.setWindowsLog(
+                                'mailMain',
+                                me.mailClient.getActiveEmailId()
+                            );
+
+                            me.updateFolderLabels();
+                            me.renderTrashFolder();
+                        };
+
+                        me.mailClient.getInboxFolderEmails(
+                            me.mailClient.getTrashFolderEmails(
+                                updateFolderRender
+                            )
+                        );
                     }
-
-                    // logging:
-                    me.mailClient.setWindowsLog(
-                        'mailMain',
-                        me.mailClient.getActiveEmailId()
-                    );
-
-                    me.updateFolderLabels();
-                    me.renderTrashFolder();
-                }
-
-                this.mailClient.getInboxFolderEmails(
-                    this.mailClient.getTrashFolderEmails(
-                        updateFolderRender
-                    )
                 );
+
             },
 
             /**

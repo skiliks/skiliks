@@ -15,12 +15,15 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
         /*
          * Проверка оценок по эталону
          */
-
-        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-
         $budgetPath = __DIR__ . '/files/D1.xls';
 
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $user = YumUser::model()->findByAttributes(['username' => 'asd']);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
+
         $checkConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $checkConsolidatedBudget->calcPoints($budgetPath);
 
@@ -42,7 +45,11 @@ class CheckConsolidatedBudgetTest extends CDbTestCase
     public function testFormulaForNew()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_PROMO_LABEL);
 
         $CheckConsolidatedBudget = new CheckConsolidatedBudget($simulation->id);
         $CheckConsolidatedBudget->calcPoints(__DIR__ . '/files/D1_new.xlsx');

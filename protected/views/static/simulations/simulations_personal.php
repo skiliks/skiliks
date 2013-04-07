@@ -10,7 +10,7 @@ $this->widget('zii.widgets.grid.CGridView', [
     'dataProvider' => Invite::model()->searchByInvitedUserEmail(
         Yii::app()->user->data()->profile->email,
         Invite::STATUS_ACCEPTED
-    ), //$dataProvider,
+    ),
     'summaryText' => '',
     'pager' => [
         'header'        => false,
@@ -25,7 +25,7 @@ $this->widget('zii.widgets.grid.CGridView', [
         ['header' => Yii::t('site', 'Specialization')   , 'value' => 'Yii::t("site", $data->vacancy->professionalSpecialization->label)'],
         ['header' => Yii::t('site', 'Date / time'), 'name' => 'sent_time'   , 'value' => '$data->getSentTime()->format("j/m/y G\h i\m")'],
         ['header' => Yii::t('site', 'Score')                                , 'value' => ''],
-        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/full/$data->id\">Начать</a>"'  , 'type' => 'html'],
+        ['header' => ''                                                     , 'value' => '"<a href=\"/simulation/legacy/promo/{$data->scenario->slug}/$data->id\">Начать</a>"'  , 'type' => 'html'],
     ]
 ]);
 ?>

@@ -452,11 +452,14 @@ class ProfileController extends AjaxController implements AccountPageControllerI
             $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
         }
 
-//        $counter = Invite::model()->countByAttributes(['vacancy_id' => $vacancy->id]);
-//        if (0 < $counter) {
-//            Yii::app()->user->setFlash('error', 'Вы не можете удалить вакансию с которой уже связвны приглашения.');
-//            $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
-//        }
+        // @todo: is we will keep storing deleted invites - we must exclude such invites from query
+        $counter = Invite::model()->countByAttributes([
+            'vacancy_id' => $vacancy->id,
+        ]);
+        if (0 < $counter) {
+            Yii::app()->user->setFlash('error', 'Вы не можете удалить вакансию с которой уже связаны приглашения.');
+            $this->redirect($this->createUrl('profile/corporate/vacancies/' ));
+        }
 
         $vacancy->delete();
 

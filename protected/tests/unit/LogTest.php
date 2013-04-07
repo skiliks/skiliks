@@ -15,9 +15,14 @@ class LogTest extends CDbTestCase
     public function testLogReplyAll()
     {
         //$this->markTestSkipped();
-        
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
@@ -173,9 +178,14 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
 
-        
+
+
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 135]);
         EventsManager::processLogs($simulation, [
@@ -229,7 +239,12 @@ class LogTest extends CDbTestCase
     public function testLogDocument()
     {
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $docTemplate = DocumentTemplate::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -265,8 +280,13 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         $character = $simulation->game_type->getCharacter(['code' => 9]);
 
         $subject_id = $simulation->game_type->getCommunicationTheme(['code' => 5, 'character_id' => $character->primaryKey, 'mail_prefix' => 're'])->primaryKey;
@@ -345,8 +365,13 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         $first_dialog = Replica::model()->findByAttributes(['excel_id' => 192]);
         $last_dialog = Replica::model()->findByAttributes(['excel_id' => 200]);
         EventsManager::processLogs($simulation, [
@@ -381,10 +406,15 @@ class LogTest extends CDbTestCase
     public function testLogM8Forward()
     {
         //$this->markTestSkipped();
-        
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
 
         $krutko = Character::model()->findByAttributes([
             'scenario_id' => $simulation->scenario_id,
@@ -455,9 +485,14 @@ class LogTest extends CDbTestCase
     public function testLogActivity()
     {
         //$this->markTestSkipped();
-        
+
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $theme = CommunicationTheme::model()->findByAttributes([
             'code' => 38,
@@ -598,8 +633,13 @@ class LogTest extends CDbTestCase
 
         // init simulation
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
-        
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
+
         // init LogActivityActions {
         
         $mainMainWindow = Window::model()->find([
@@ -758,7 +798,12 @@ class LogTest extends CDbTestCase
         //$this->markTestSkipped();
 
         $user = YumUser::model()->findByAttributes(['username' => 'asd']);
-        $simulation = SimulationService::simulationStart(Simulation::MODE_PROMO_LABEL, $user, Scenario::TYPE_FULL);
+        $invite = new Invite();
+        $invite->scenario = new Scenario();
+        $invite->receiverUser = $user;
+        $invite->scenario->slug = Scenario::TYPE_FULL;
+        $simulation = SimulationService::simulationStart($invite, Simulation::MODE_DEVELOPER_LABEL);
+
 
         $logs = [];
         $logs[0][0] = 1;

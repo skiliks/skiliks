@@ -51,44 +51,94 @@ class PagesController extends AjaxController
         ]);
     }
 
-    public function actionChangeTariff()
+    public function actionChangeTariff($type = null)
     {
-        $user = Yii::app()->user;
-        /* @var YumUser $user */
-        $user = $user->data();  //YumWebUser -> YumUser
-        if(!$user->isAuth()){
-            /*Yii::app()->user->setFlash('error', sprintf(
-                "Нужно войти или зарегистрироваться"
-            ));*/
-            $this->redirect('/registration');
-        }elseif ($user->isAnonymous()) {
-            $this->redirect('/registration/choose-account-type');
-        }elseif ($user->isPersonal()) {
+        $user = Yii::app()->user->data();
+        $type = Yii::app()->request->getParam('type');
+
+        $tariff = Tariff::model()->findByAttributes(['slug' => $type]);
+
+        // is Tariff exist
+        if (null == $tariff) {
             Yii::app()->user->setFlash('error', sprintf(
-                "Нужно войти или зарегистрироваться как корпоративный пользователь <a href='/logout/registration'>Зарегистрироваться</a>"
+                'Тарифа "%s" не существует.',
+                $type
             ));
-            $this->redirect('/dashboard');
-        }elseif($user->isCorporate()){
-
-            $tariff = Tariff::model()->findByAttributes(['label' => "Lite"]);
-
-            if($user->getAccount()->tariff_id == $tariff->id) {
-                $this->redirect('/dashboard');
-            } else {
-                $user->getAccount()->tariff_id = $tariff->id;
-                $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
-                $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
-                $user->getAccount()->invites_limit = $tariff->simulations_amount;
-                $user->getAccount()->save();
-            }
-
-            $this->redirect("/dashboard");
-        }else{
-            throw new Exception("Fix");
+            $this->redirect('/static/tariff');
         }
 
+        // in release 1 - user can use "Lite" plan only
+        if (Tariff::SLUG_LITE != $type) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Тариф "%s" не доступен к выбору. <br/><br/>Используйте форму обтатной связи чтоб всязаться с нами и сменить тарыфный план на интересующий Вас.',
+                $tariff->label
+            ));
+            $this->redirect('/static/tariff');
+        }
 
+        // is user authenticated
+        if (false == $user->isAuth()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Если у Вас уже есть корпоративный аккаунт в нашей системе<br/> - войдите в него. <br/><br/>
+                Если нет - <a href="/registration">зарегистрируйтесь</a>.<br/><br/>
+                Тарифные планы применимы<br/> только для корпоративных аккаунтов. <br/><br/>
+                Пользователи-соискатели могут проходить симуляцию только по приглашениям и демонстрационную версию симуляции.'
+            ));
+            $this->redirect('/registration');
+        }
 
+        // is Anonymous
+        if ($user->isAnonymous()) {
+            Yii::app()->user->setFlash('error', sprintf(
+                'Укажите тип своего аккаунта.<br/><br/>
+                Тарифные планы применимы<br/> только для корпоративных аккаунтов. <br/><br/>
+                Пользователи-соискатели могут проходить симуляцию только по приглашениям и демонстрационную версию симуляции.'
+            ));
+            $this->redirect('/registration/choose-account-type');
+        }
+
+        // is Personal account
+        if ($user->isPersonal()) {
+            Yii::app()->user->setFlash('error', "Тарифные планы применимы только к корпоративным аккаунтам");
+            $this->redirect('/static/tariffs');
+        }
+
+        // is Corporate account
+        if($user->isCorporate()) {
+
+            // prevent cheating
+            if($user->getAccount()->tariff_id == $tariff->id) {
+                Yii::app()->user->setFlash('error', sprintf(
+                    'Для Вашего профиля уже активирован тарифный план "%s".',
+                    $tariff->label
+                ));
+                $this->redirect('/profile/corporate/tariff');
+            }
+
+            // update account tariff {
+            $user->getAccount()->tariff_id = $tariff->id;
+            $user->getAccount()->tariff_activated_at = (new DateTime())->format("Y-m-d H:i:s"); //date('Y-m-d H:i:s');
+            $user->getAccount()->tariff_expired_at = (new DateTime())->modify('+30 days')->format("Y-m-d H:i:s"); //date('Y-').(date('m')+1).date('-d H:i:s');
+            $user->getAccount()->invites_limit = $tariff->simulations_amount;
+            $user->getAccount()->save();
+            // update account tariff }
+
+            if($user->getAccount()->tariff_id == $tariff->id) {
+                Yii::app()->user->setFlash('success', sprintf(
+                    'Тарифный план "%s" активирован для ашего профиля.',
+                    $tariff->label
+                ));
+                $this->redirect('/profile/corporate/tariff');
+            }
+
+            $this->redirect("/profile/corporate/tariff");
+        }
+
+        // other undefined errors
+        Yii::app()->user->setFlash('error', sprintf(
+            "Ошибка системы. Обратитесь в владельцам сайта для уточнения причины."
+        ));
+        $this->redirect('/static/tariff');
     }
 
     /**
